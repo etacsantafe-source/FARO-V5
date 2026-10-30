@@ -1,0 +1,148 @@
+{
+  "schema_version": "cierre-noche-state/v1",
+  "status": "INACTIVE_HANDOFF",
+  "observed_at_utc": "2026-10-30T14:28:45Z",
+  "source_repo": "etacsantafe-source/FARO-V5",
+  "source_branch": "work/cloud-afternoon-pilot-20261030",
+  "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
+  "documentation_branch": "docs/cierre-noche-v1-20261030",
+  "product_authority": {
+    "repo": "etacsantafe-source/FARO",
+    "reference_head": "44f1e6eb77102a71955b4fb113582d209d94ac69",
+    "role": "historical/read-only until authorized cutover"
+  },
+  "authorization": {
+    "active": false,
+    "type": "none",
+    "start_at": null,
+    "expires_at": null,
+    "write_repo": null,
+    "write_branch": null,
+    "scheduled_task_enabled": false
+  },
+  "writer": {
+    "state": "NOT_ACQUIRED",
+    "epoch": null,
+    "lease_id": null,
+    "expected_head": null
+  },
+  "stage": {
+    "id": "S2.A6",
+    "status": "OPEN",
+    "certified_count": 3,
+    "total": 8,
+    "v2_enabled": false,
+    "s3_open": false,
+    "s4_open": false
+  },
+  "criteria": [
+    {
+      "id": 1,
+      "code": "FIVE_OWNERS",
+      "state": "CERTIFIED",
+      "basis": "historical"
+    },
+    {
+      "id": 2,
+      "code": "FBS2_ISOLATED_RESTORE",
+      "state": "CERTIFIED",
+      "basis": "historical"
+    },
+    {
+      "id": 3,
+      "code": "JOURNAL_REPLAY_WAL",
+      "state": "CERTIFIED",
+      "basis": "historical"
+    },
+    {
+      "id": 4,
+      "code": "F1_ANDROID_CHAT_E2E",
+      "state": "IN_PROGRESS",
+      "basis": "20/20 directed JVM CI is not Android E2E certification"
+    },
+    {
+      "id": 5,
+      "code": "F2_ANDROID_ACTIVATION_RECOVERY",
+      "state": "IN_PROGRESS",
+      "basis": "F2 admission/recovery JVM regressions passed; Android E2E outstanding"
+    },
+    {
+      "id": 6,
+      "code": "F3_FIVE_STORE_BACKUP_SAF_CONSENT",
+      "state": "WAIT_HUMAN",
+      "basis": "S2 finish-line consent vs S5 Settings ownership unresolved"
+    },
+    {
+      "id": 7,
+      "code": "F4_INTEGRAL_REGRESSIONS",
+      "state": "PENDING",
+      "basis": "no complete F4 certification"
+    },
+    {
+      "id": 8,
+      "code": "T4_PHYSICAL",
+      "state": "NOT_RUN",
+      "basis": "must be executed with user's device"
+    }
+  ],
+  "evidence": [
+    {
+      "kind": "checkpoint",
+      "path": "docs/CLOUD_PILOT_CYCLE_01_20261030.md",
+      "head": "109cf971eb625b1c091136649337cef8cb0e5391"
+    },
+    {
+      "kind": "checkpoint",
+      "path": "docs/CLOUD_PILOT_CYCLE_02_20261030.md",
+      "head": "03f3cf146b06807324858e824845dc9713db94fa"
+    },
+    {
+      "kind": "github_actions",
+      "run_id": 41062805515,
+      "head": "d43ce4d07bc8a75262cc0017f5307f341fa193de",
+      "conclusion": "success",
+      "directed_tests": "19/19"
+    },
+    {
+      "kind": "github_actions",
+      "run_id": 41071061340,
+      "head": "56781736a4e315453b21c89f64e5984ba98f297d",
+      "conclusion": "success",
+      "directed_tests": "20/20"
+    }
+  ],
+  "in_flight": [],
+  "blockers": [
+    {
+      "id": "F3_S2_S5_CONSENT_OWNER",
+      "kind": "WAIT_HUMAN",
+      "description": "Do not move Settings/S5 design decision autonomously"
+    },
+    {
+      "id": "T4_PHONE",
+      "kind": "WAIT_PHYSICAL",
+      "description": "Only user/team can execute device tests"
+    }
+  ],
+  "hypotheses": [],
+  "next_action": {
+    "mode": "READ_ONLY_UNTIL_NEW_AUTHORIZATION",
+    "criterion": "F1/F2",
+    "step": "Verify latest source HEAD, latest checkpoint and CI status; investigate one missing real Android E2E linkage with scoped reads. Do not write until a fresh user authorization names repo, branch, scope and end time."
+  },
+  "context_recovery": {
+    "load_only": [
+      "docs/cierre-noche/PROTOCOL_V1.md",
+      "docs/cierre-noche/LAST_KNOWN_STATE.json",
+      "docs/CLOUD_PILOT_CYCLE_02_20261030.md"
+    ],
+    "fetch_related_files_on_demand": true,
+    "checkpoint_policy": "after each durable unit; before context exhaustion; near minute 45",
+    "do_not_repeat_attempt_without_new_evidence": true
+  },
+  "integrity": {
+    "note": "This reference state is a snapshot, not a live lease. Always re-read GitHub before work.",
+    "source_snapshot_verified": true,
+    "not_a_pass_certificate": true
+  }
+}
