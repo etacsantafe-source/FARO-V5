@@ -1,0 +1,47 @@
+name: FARO V5 V1.2 F1 directed transport
+
+on:
+  push:
+    branches:
+      - work/cierre-noche-v12-pilot-20261030
+    paths:
+      - "v5/platform/web/**"
+      - ".github/workflows/faro-v5-v12-f1-directed.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-v12-f1-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  f1-provider-transport:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Targeted provider-neutral real transport tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :platform:web:test --tests 'ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest'
+      - name: Exact XML oracle
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          p=Path('v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml')
+          if not p.is_file(): raise SystemExit('F1_TRANSPORT_MISSING_XML')
+          root=ET.parse(p).getroot()
+          got=tuple(int(root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if got!=(6,0,0,0): raise SystemExit(f'F1_TRANSPORT_FAIL_XML {got}')
+          print('FARO_V12_F1_TRANSPORT_XML_PASS 6/6')
+          PY
