@@ -317,4 +317,89 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             }
         }
     }
+    private fun seedHistoryAndLaterTurn(store: ConversationWorkspaceStore) {
+        seed(store)
+        fun append(intent: ConversationTimelineIntent, key: String) {
+            val before = runBlocking { store.readTimeline(chat) }!!
+            assertTrue(runBlocking {
+                store.writeTimeline(ConversationTimelineWriteRequest(
+                    chat, before.authorityToken, before.revision,
+                    IdempotencyKey(key), intent,
+                ))
+            } is ConversationTimelineWriteResult.Saved)
+        }
+        append(ConversationTimelineIntent.StartFaro(ConversationMessage(
+            ConversationMessageId("history-reply"), chat, turn,
+            ConversationMessageRole.FARO, ConversationMessageState.PROCESSING,
+            "", 160L,
+        )), "history-start")
+        append(ConversationTimelineIntent.ResolveFaro(
+            ConversationMessageId("history-reply"), turn,
+            ConversationMessageState.COMPLETED, "Respuesta anterior",
+        ), "history-resolve")
+        append(ConversationTimelineIntent.AcceptUser(ConversationMessage(
+            ConversationMessageId("user-second"), chat, ConversationTurnId("turn-second"),
+            ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
+            "Segunda pregunta", 180L,
+        )), "history-second")
+        append(ConversationTimelineIntent.AcceptUser(ConversationMessage(
+            ConversationMessageId("user-future"), chat, ConversationTurnId("turn-future"),
+            ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
+            "MENSAJE FUTURO", 190L,
+        )), "history-future")
+    }
+
+    private fun secondRequest() = request.copy(
+        userMessageId = ConversationMessageId("user-second"),
+        turnId = ConversationTurnId("turn-second"),
+        faroMessageId = ConversationMessageId("faro-second"),
+        startKey = IdempotencyKey("start-second"),
+        resolveKey = IdempotencyKey("resolve-second"),
+    )
+
+    @Test fun trustedMultiTurnIncludesOnlyEarlierSameChatMessages() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seedHistoryAndLaterTurn(store)
+            val captured = AtomicReference("")
+            val model = ModelGateway { reasoning, _ ->
+                calls.incrementAndGet()
+                captured.set(String(reasoning.input.copyBytes(), StandardCharsets.UTF_8))
+                ReasoningResult.Success(ModelBindingId("fake-local"),
+                    CanonicalPayload.fromEncoded("text/plain",
+                        "Respuesta segunda".toByteArray(StandardCharsets.UTF_8)))
+            }
+            assertEquals(FaroV5AssistantTurnOutcome.COMPLETED,
+                session(store, model = model).run(secondRequest(), NeverCancelled))
+            val input = captured.get()
+            assertTrue(input.contains("USUARIO:\nHola FARO"))
+            assertTrue(input.contains("FARO:\nRespuesta anterior"))
+            assertTrue(input.contains("USUARIO:\nSegunda pregunta"))
+            assertFalse(input.contains("MENSAJE FUTURO"))
+            assertEquals(1, calls.get())
+        }
+    }
+
+    @Test fun deniedHistoricalFragmentsNeverLeaveWorkspace() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seedHistoryAndLaterTurn(store)
+            val captured = AtomicReference("")
+            val model = ModelGateway { reasoning, _ ->
+                calls.incrementAndGet()
+                captured.set(String(reasoning.input.copyBytes(), StandardCharsets.UTF_8))
+                ReasoningResult.Success(ModelBindingId("fake-local"),
+                    CanonicalPayload.fromEncoded("text/plain",
+                        "Respuesta privada".toByteArray(StandardCharsets.UTF_8)))
+            }
+            val reasoning = FaroV5ActiveChatReasoningSession(
+                "gen-f1", store, gate, Supplier { active.get() },
+                BooleanSupplier { true }, model,
+                { it.id == ConversationMessageId("user-second") },
+            )
+            assertEquals(FaroV5AssistantTurnOutcome.COMPLETED,
+                reasoning.run(secondRequest(), NeverCancelled))
+            assertEquals("Segunda pregunta", captured.get())
+            assertEquals(1, calls.get())
+        }
+    }
+
 }

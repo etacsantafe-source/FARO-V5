@@ -91,7 +91,7 @@ jobs:
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5PreSwitchHostAdmissionT2Test.xml': 7,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test.xml': 3,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 1,
-            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test.xml': 11,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test.xml': 13,
           }
           f4_expected = {
             'v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.GenerationSwitchCoordinatorT2Test.xml': 5,
@@ -119,7 +119,7 @@ jobs:
             total_surface += got[0]
             print(f'PASS_SURFACE_XML {p}: {got}')
           print(f'FARO_V5_SURFACE_XML_PASS {total_surface}/{total_surface}')
-          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 31/31')
+          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 33/33')
           for path, tests in f4_expected.items():
             p = Path(path)
             if not p.is_file():

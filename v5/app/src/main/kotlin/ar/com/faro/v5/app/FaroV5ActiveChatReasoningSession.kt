@@ -132,6 +132,10 @@ class FaroV5ActiveChatReasoningSession(
         if (!stillAllowed || !current())
             return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
 
+        // Only earlier, individually authorized fragments enter this model request.
+        val input = boundedAuthorizedInput(initial, user)
+        if (!current() || cancellation.isCancelled())
+            return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
         val result = try {
             gateway.reason(
                 ReasoningRequest(
@@ -141,9 +145,7 @@ class FaroV5ActiveChatReasoningSession(
                     ),
                     profileId = request.profileId,
                     requirements = ModelRequirements(setOf(ModelCapability.TEXT)),
-                    input = CanonicalPayload.fromEncoded(
-                        "text/plain", user.text.toByteArray(StandardCharsets.UTF_8)
-                    ),
+                    input = input,
                 ),
                 cancellation,
             )
@@ -263,6 +265,47 @@ class FaroV5ActiveChatReasoningSession(
         } catch (_: Exception) {
             FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
         }
+    }
+
+    /**
+     * Bounded earlier-turn-only F1 context. A historical fragment is sent
+     * only after a fresh trusted egress check; a later accepted turn never
+     * leaks into a queued earlier request. The current turn is not truncated.
+     */
+    private fun boundedAuthorizedInput(
+        snapshot: ConversationTimelineSnapshot,
+        user: ConversationMessage,
+    ): CanonicalPayload {
+        fun currentOnly() = CanonicalPayload.fromEncoded(
+            "text/plain", user.text.toByteArray(StandardCharsets.UTF_8)
+        )
+        val userIndex = snapshot.messages.indexOfFirst { it.id == user.id }
+        if (userIndex < 0) return currentOnly()
+        val beforeAndCurrent = snapshot.copy(
+            messages = snapshot.messages.take(userIndex + 1)
+        )
+        val window = ConversationTimelinePolicy.contextWindow(beforeAndCurrent)
+        if (window.lastOrNull()?.id != user.id) return currentOnly()
+        val allowed = window.filter { message ->
+            message.id == user.id ||
+                try { trustedEgressAdmission(message) } catch (_: Exception) { false }
+        }
+        if (allowed.size <= 1) return currentOnly()
+        val reversed = mutableListOf<String>()
+        var characters = 0
+        for (message in allowed.asReversed()) {
+            val label = if (message.role == ConversationMessageRole.USER) "USUARIO" else "FARO"
+            val part = label + ":\n" + message.text
+            val added = part.length + if (reversed.isEmpty()) 0 else 2
+            if (characters + added > ConversationTimelinePolicy.MAX_CONTEXT_CHARS) break
+            reversed += part
+            characters += added
+        }
+        if (reversed.size <= 1) return currentOnly()
+        return CanonicalPayload.fromEncoded(
+            "text/plain",
+            reversed.asReversed().joinToString("\n\n").toByteArray(StandardCharsets.UTF_8),
+        )
     }
 
     private fun decodeText(payload: CanonicalPayload): String? {
