@@ -14,29 +14,23 @@ import kotlinx.coroutines.runBlocking
 object FaroV5TrustedAssistantBootstrap {
     @JvmStatic
     fun installIfAuthorized(context: Context, root: FaroV5CompositionRoot) {
-        val store = try {
-            AiControlPreferenceStore(
-                File(context.noBackupFilesDir, FaroV5TrustedModelGatewayFactory.CONTROL_FILENAME),
-                FaroV5TrustedModelGatewayFactory.DEFAULT_PROFILE,
-            )
+        val owner = try {
+            FaroV5TrustedAssistantControlOwner.get(context)
         } catch (_: Exception) { return }
         val components = try {
             FaroV5TrustedModelGatewayFactory(
-                readControl = { runBlocking { store.read() } },
-                secretReader = AndroidKeystoreSecretStore(context),
+                readControl = { runBlocking { owner.read() } },
+                secretReader = owner.secretReader(),
             ).create()
         } catch (_: Exception) { null }
-        if (components == null) {
-            store.close()
-            return
-        }
+        if (components == null) return
         try {
             root.configureTrustedAssistantRuntime(
                 components.gateway, components.profile, components.egressAdmission,
             )
-            // Store remains process-scoped to re-read revocation before every egress.
         } catch (_: Exception) {
-            store.close()
+            // No active graph is modified. A subsequent process start may
+            // load newly approved settings; V2 stays dormant meanwhile.
         }
     }
 }

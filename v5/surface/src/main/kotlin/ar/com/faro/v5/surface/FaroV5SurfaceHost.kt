@@ -22,6 +22,7 @@ object FaroV5SurfaceHost {
         selectionPort: ConversationWorkspaceSelectionPort? = null,
         applyRequestPort: ConversationApplyRequestPort? = null,
         assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
+        onOpenAiSettings: Runnable? = null,
     ) {
         activity.setContent {
             FaroV5Theme {
@@ -33,6 +34,7 @@ object FaroV5SurfaceHost {
                     selectionPort = selectionPort,
                     applyRequestPort = applyRequestPort,
                     assistantTurnPort = assistantTurnPort,
+                    onOpenAiSettings = onOpenAiSettings?.let { launcher -> { launcher.run() } },
                 )
             }
         }

@@ -38,6 +38,7 @@ fun FaroV5AdaptiveShell(
     selectionPort: ConversationWorkspaceSelectionPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
+    onOpenAiSettings: (() -> Unit)? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
@@ -64,6 +65,7 @@ fun FaroV5AdaptiveShell(
         selectionPort = selectionPort,
         applyRequestPort = applyRequestPort,
         assistantTurnPort = assistantTurnPort,
+        onOpenAiSettings = onOpenAiSettings,
         destinationContent = destinationContent,
         )
     }

@@ -196,6 +196,7 @@ fun FaroV5ShellScaffold(
     selectionPort: ConversationWorkspaceSelectionPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
+    onOpenAiSettings: (() -> Unit)? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
@@ -382,6 +383,15 @@ fun FaroV5ShellScaffold(
                                 applyRequestPort = applyRequestPort,
                                 assistantTurnPort = assistantTurnPort,
                             )
+                        } else if (key == FaroV5ShellDestination.AJUSTES &&
+                            onOpenAiSettings != null) {
+                            Column(modifier = Modifier.fillMaxSize().padding(FaroV5Spacing.large)) {
+                                Text("Ajustes", style = MaterialTheme.typography.headlineSmall)
+                                Text("IA remota: consentimiento y clave local protegida.")
+                                TextButton(onClick = onOpenAiSettings) {
+                                    Text("Configurar IA")
+                                }
+                            }
                         } else {
                             destinationContent(key)
                         }
