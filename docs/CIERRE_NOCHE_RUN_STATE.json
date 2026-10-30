@@ -1,22 +1,24 @@
 {
   "schema": "cierre-night-run/v1",
-  "pilot_id": "cierre-20261030-3h",
-  "run_id": "cierre-20261030-1409",
-  "run_number": 3,
-  "state": "CLOSED",
+  "pilot_id": "cierre-20261030-v11-3h",
+  "run_id": "cierre-v11-20261030-A-1510",
+  "run_number": 1,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 3,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1510",
+    "epoch": 4,
+    "lease_expires_at": "2026-10-30T18:39:00Z",
+    "expected_head": "3c000789ccd3618cbd44414d99f101222a42d481"
   },
   "authorization": {
-    "branch": "work/cierre-noche-pilot-20261030",
+    "branch": "work/cierre-noche-v11-pilot-20261030",
     "repo": "etacsantafe-source/FARO-V5",
-    "global_end": "2026-10-30T15:09:00-03:00",
-    "per_run_max_minutes": 50,
-    "stop_new_work_at_minute": 45
+    "global_end": "2026-10-30T18:10:00-03:00",
+    "per_run_max_minutes": 30,
+    "stop_new_work_at_minute": 20,
+    "permit_path": "docs/CIERRE_NOCHE_V11_REPROGRAM_20261030.md",
+    "f3_decision_path": "docs/FARO_V5_F3_S2_S5_DECISION_20261030.md"
   },
   "stage": {
     "id": "S2.A6",
@@ -27,20 +29,20 @@
     "s4_open": false,
     "f1": "IN_PROGRESS",
     "f2": "IN_PROGRESS",
-    "f3": "WAIT_HUMAN",
+    "f3": "IN_PROGRESS",
     "f4": "IN_PROGRESS",
     "t4": "NOT_RUN"
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
   "in_flight_actions": [],
-  "scope": "F1 recovery 29/29 green; F4 independent critical regressions Workspace timeline, model routing, generation switch",
+  "scope": "V1.1 Noche A 15:10–15:40; F1 async host-owned generation, F3 option A approved; CI branch gate repair required",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "READ_ONLY_UNTIL_NEW_EXPLICIT_AUTHORIZATION",
-    "criterion": "F1/F2/F4",
-    "step": "After fresh authorization: implement host-owned asynchronous accepted-turn generation port, trusted egress/context policy, lifecycle and UI binding without activating V2; certify Android E2E and F2 recovery. Preserve F3 WAIT_HUMAN and T4 physical."
+    "mode": "ACTIVE_AUTHORIZED",
+    "criterion": "F1/F3/F4",
+    "step": "Enable directed CI on this branch; implement smallest safe F1 integration and certify. Keep V2 OFF."
   },
   "status": "CLOSED_HANDOFF_CLEAN",
   "code_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
@@ -197,9 +199,9 @@
     "acquired_at": "2026-10-30T12:12:00-03:00",
     "lease_expires_at": "2026-10-30T13:00:00-03:00"
   },
-  "run_started_at": "2026-10-30T17:09:47.928Z",
-  "run_finished_at_utc": "2026-10-30T17:28:26.656Z",
-  "duration_minutes_approx": 19,
+  "run_started_at": "2026-10-30T18:10:19.837Z",
+  "run_finished_at_utc": null,
+  "duration_minutes_approx": null,
   "operational_certification": {
     "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
     "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
@@ -222,7 +224,7 @@
     "F1: Compose sends accepted user turn but no assistant-generation port is bound to the shell. Host-owned asynchronous lifecycle and explicit egress are needed; do not call blocking model from UI coroutine.",
     "F1: bounded multi-turn context and per-fragment egress admission must be integrated; do not forward historical chat blindly.",
     "F2: V2 Android activation/recovery E2E remains uncertified; V1 stays protected and V2 OFF.",
-    "F3: five-store backup SAF consent ownership between S2/S5 requires human decision.",
+    "F3: S2/S5 owner conflict resolved option A; minimal Android SAF UI/consent implementation and full certification still pending.",
     "F4: 36/36 critical JVM regressions are partial, not integral Android certification.",
     "T4: physical device tests NOT_RUN."
   ]
