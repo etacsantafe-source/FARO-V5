@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-3h",
   "run_id": "cierre-20261030-1409",
   "run_number": 3,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACQUIRED",
-    "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run3",
+    "state": "NONE",
+    "owner": null,
     "epoch": 3,
-    "lease_expires_at": "2026-10-30T14:59:00-03:00",
-    "expected_head": "5cf7c0e32da6deb56d1f81406d0a39d4f75f7e4a"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "branch": "work/cierre-noche-pilot-20261030",
@@ -28,26 +28,23 @@
     "f1": "IN_PROGRESS",
     "f2": "IN_PROGRESS",
     "f3": "WAIT_HUMAN",
-    "f4": "PENDING",
+    "f4": "IN_PROGRESS",
     "t4": "NOT_RUN"
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [
-    {
-      "id": 41097591479,
-      "head_sha": "5cf7c0e32da6deb56d1f81406d0a39d4f75f7e4a",
-      "status": "QUEUED",
-      "scope": "F4 critical Workspace 13 + ModelGateway 18 + GenerationSwitch 5, plus F1-F3 29 + Surface 31"
-    }
-  ],
+  "in_flight_actions": [],
   "scope": "F1 recovery 29/29 green; F4 independent critical regressions Workspace timeline, model routing, generation switch",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Verify Actions 41097591479 terminal SHA 5cf7c0e, exact XML F4 36/36 + F1-F3 29/29 + Surface 31/31. Do not queue another gate while active. Close writer by 14:59 -03, global cutoff 15:09 -03.",
-  "status": "RUNNING",
+  "next_action": {
+    "mode": "READ_ONLY_UNTIL_NEW_EXPLICIT_AUTHORIZATION",
+    "criterion": "F1/F2/F4",
+    "step": "After fresh authorization: implement host-owned asynchronous accepted-turn generation port, trusted egress/context policy, lifecycle and UI binding without activating V2; certify Android E2E and F2 recovery. Preserve F3 WAIT_HUMAN and T4 physical."
+  },
+  "status": "CLOSED_HANDOFF_CLEAN",
   "code_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
-  "last_checkpoint_at": "2026-10-30T17:18:08.604Z",
+  "last_checkpoint_at": "2026-10-30T17:28:26.656Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -181,6 +178,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "F1 orphaned PROCESSING trusted recovery; JVM only, Android E2E NOT_RUN"
+    },
+    {
+      "id": 41097591479,
+      "job_id": 124207262122,
+      "head_sha": "5cf7c0e32da6deb56d1f81406d0a39d4f75f7e4a",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "29/29 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Exact XML counts verified by runner and log; not standalone XML artifact; Android E2E NOT_RUN"
     }
   ],
   "writer_history": {
@@ -190,15 +198,15 @@
     "lease_expires_at": "2026-10-30T13:00:00-03:00"
   },
   "run_started_at": "2026-10-30T17:09:47.928Z",
-  "run_finished_at_utc": null,
-  "duration_minutes_approx": 23,
+  "run_finished_at_utc": "2026-10-30T17:28:26.656Z",
+  "duration_minutes_approx": 19,
   "operational_certification": {
-    "fifty_minute_continuity": "NOT_TESTED",
-    "context_cut_recovery": "NOT_TESTED",
+    "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
+    "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
     "writer_cas": "OBSERVED_ON_BRANCH_WRITES",
-    "no_overlap": "OBSERVED_FOR_THIS_CYCLE",
-    "global_cutoff": "NOT_TESTED",
-    "red_investigation": "OBSERVED_ONE_STATIC_FAILURE_WITH_NEW_CAUSE_AND_FIX"
+    "no_overlap": "OBSERVED_RUN3_NO_OVERLAP",
+    "global_cutoff": "NOT_TESTED; closed before 15:09",
+    "red_investigation": "OBSERVED_RUN1_AND_RUN2; RUN3_GREEN"
   },
   "writer_recovery": {
     "previous_owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run2",
@@ -207,5 +215,15 @@
     "ci_terminal": true,
     "no_other_enabled_automations": true,
     "active_actions": 0
-  }
+  },
+  "main_head_verified": "9bae214541f466a62e149853931b96abb8d74ed9",
+  "private_repo_verified": true,
+  "technical_gaps": [
+    "F1: Compose sends accepted user turn but no assistant-generation port is bound to the shell. Host-owned asynchronous lifecycle and explicit egress are needed; do not call blocking model from UI coroutine.",
+    "F1: bounded multi-turn context and per-fragment egress admission must be integrated; do not forward historical chat blindly.",
+    "F2: V2 Android activation/recovery E2E remains uncertified; V1 stays protected and V2 OFF.",
+    "F3: five-store backup SAF consent ownership between S2/S5 requires human decision.",
+    "F4: 36/36 critical JVM regressions are partial, not integral Android certification.",
+    "T4: physical device tests NOT_RUN."
+  ]
 }
