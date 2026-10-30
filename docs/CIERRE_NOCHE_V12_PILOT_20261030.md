@@ -28,3 +28,10 @@ Estado inicial: **AUTHORIZED / PENDING_FIRST_SESSION**. Autorización expresa re
 
 ## Handoff inmediato
 Antes de actuar leer este permiso, estado real de rama V1.2 y sólo los archivos afectados; iniciar prioridad F1 Android trusted bootstrap, pruebas dirigidas por lote funcional, checkpoint pequeño y trazable, no certificaciones falsas.
+
+## Automatizaciones activadas y comprobadas en Tasks
+- A: `6ae50c97f1448191b0174ae023aa7a0d` / DTSTART UTC 2026-10-30 21:40 / HOURLY COUNT=3 / enabled true.
+- B: `6ae50ca4a8e88191a328702124ae5aa6` / DTSTART UTC 2026-10-30 22:10 / HOURLY COUNT=3 / enabled true.
+- Horarios argentinos: A 18:40, 19:40, 20:40; B 19:10, 20:10, 21:10; corte global 21:40 (viernes 30/10/2026).
+- Ambas automations tienen instrucciones para desactivar A/B al cierre y no crear tercera tarea. Comprobar estado vivo en cada sesión. `next_run_time` puede no estar expuesto por la API; deriva el calendario de DTSTART/RRULE, no certifica un arranque efectivo.
+- En la tercera invocación B realizar el informe final con avance, pendientes, Actions, tiempos reales y tiempos no ejecutados, y cerrar tareas. Si el runtime termina antes, usar checkpoint durable, sin afirmar ejecución continuada.
