@@ -53,13 +53,15 @@ jobs:
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :maintenance:test --tests 'ar.com.faro.v5.maintenance.BackupExternalWriteT2Test'
-      - name: Directed F1 reviewed Apply host tests
+      - name: Directed F1 reviewed Apply and F2 pre-switch recovery tests
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :app:testDebugUnitTest \
             --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostAdapterTest' \
-            --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest'
+            --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest' \
+            --tests 'ar.com.faro.v5.app.FaroV5PreSwitchHostAdmissionT2Test' \
+            --tests 'ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test'
       - name: Check exact directed JUnit XML
         run: |
           python3 - <<'PY'
@@ -69,6 +71,8 @@ jobs:
             'v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.BackupExternalWriteT2Test.xml': 4,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ReviewedApplyHostAdapterTest.xml': 3,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest.xml': 2,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5PreSwitchHostAdmissionT2Test.xml': 7,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test.xml': 3,
           }
           for path, tests in expected.items():
             p = Path(path)
@@ -79,5 +83,5 @@ jobs:
             if got != (tests, 0, 0, 0):
               raise SystemExit(f'FAIL_XML {path} {got}, expected {(tests,0,0,0)}')
             print(f'PASS_XML {path}: {got}')
-          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 9/9')
+          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 19/19')
           PY
