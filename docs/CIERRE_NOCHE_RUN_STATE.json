@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v11-3h",
-  "run_id": "cierre-v11-20261030-B-1540",
-  "run_number": 2,
+  "run_id": "cierre-v11-20261030-A-1610",
+  "run_number": 3,
   "state": "ACTIVE",
   "writer": {
     "state": "ACTIVE",
-    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
-    "epoch": 5,
-    "lease_expires_at": "2026-10-30T19:09:00Z",
-    "expected_head": "22ca41949f2303bb93d6bce63ad67d49ec87127b"
+    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
+    "epoch": 6,
+    "lease_expires_at": "2026-10-30T19:39:00Z",
+    "expected_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -33,27 +33,20 @@
     "f4": "IN_PROGRESS",
     "t4": "NOT_RUN"
   },
-  "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
-  "source_head": "a586170687bc6a60cbbc9a1894127731544e92de",
-  "in_flight_actions": [
-    {
-      "id": 41109035846,
-      "head_sha": "22ca41949f2303bb93d6bce63ad67d49ec87127b",
-      "status": "IN_PROGRESS",
-      "conclusion": null
-    }
-  ],
-  "scope": "B1 F1: real Composer Saved -> optional surface dispatch port -> trusted host-owned profile, stable SHA256 reply identity, async generation-owned worker. Integrated Workspace/Apply flow test updated; CI pending. No V2 activation.",
+  "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
+  "source_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
+  "in_flight_actions": [],
+  "scope": "A2 F1/F3: reconcile B expired lease and completed CI, inspect next essential functional gap; no code change yet",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "ACTIVE_WAIT_CI",
+    "mode": "ACTIVE",
     "criterion": "F1",
-    "step": "Verify Actions 41109035846 terminal SHA/XML; if GREEN continue essential host lifecycle integration, if RED diagnose once safely. No second Actions while first pending."
+    "step": "Inspect missing trusted bootstrap/egress integration or F3 SAF UI; implement minimal bounded safe change if CAS lease valid."
   },
   "status": "ACTIVE_WRITER",
-  "code_head": "22ca41949f2303bb93d6bce63ad67d49ec87127b",
-  "last_checkpoint_at": "2026-10-30T18:50:11.710Z",
+  "code_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
+  "last_checkpoint_at": "2026-10-30T19:10:21.873Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -229,7 +222,7 @@
     "lease_expires_at": "2026-10-30T18:39:00Z",
     "released_at": "2026-10-30T18:30:39.906Z"
   },
-  "run_started_at": "2026-10-30T18:40:19.292Z",
+  "run_started_at": "2026-10-30T19:09:26.508Z",
   "operational_certification": {
     "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
     "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
@@ -244,12 +237,14 @@
     "v11_a1_thirty_minute_continuity": "NOT_DEMONSTRATED; closed cleanly after 20.3 min"
   },
   "writer_recovery": {
-    "previous_owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run2",
-    "previous_lease_expired_at": "2026-10-30T13:59:00-03:00",
-    "previous_automation_completed_at": "2026-10-30T13:38:13-03:00",
+    "previous_owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
+    "previous_epoch": 5,
+    "previous_lease_expired_at": "2026-10-30T19:09:00Z",
+    "previous_automation_completed_at": "2026-10-30T19:04:06.694Z",
     "ci_terminal": true,
-    "no_other_enabled_automations": true,
-    "active_actions": 0
+    "active_actions": 0,
+    "head_before_recovery": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
+    "reason": "B session recorded completed and lease expired; no CI queued/running; acquire epoch 6 only with exact branch-head CAS"
   },
   "main_head_verified": "9bae214541f466a62e149853931b96abb8d74ed9",
   "private_repo_verified": true,
