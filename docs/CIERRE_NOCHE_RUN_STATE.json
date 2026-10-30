@@ -9,7 +9,7 @@
     "owner": "NOCHE_A_1",
     "epoch": 9,
     "lease_expires_at": "2026-10-30T19:10:00-03:00",
-    "expected_head": "69c1c1e4407103597d17561b7301447e4c7b221b"
+    "expected_head": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -116,11 +116,11 @@
   ],
   "in_flight_actions": [
     {
-      "id": 41133963832,
-      "head_sha": "570ff81e19e8f2cd51a8687869335beec8926286",
+      "id": 41134824782,
+      "head_sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
       "status": "in_progress",
-      "reason": "Corrected F1 transport 7/7 + bootstrap 4/4 + Android compile",
-      "resume": "Check exact terminal run and XML; do not repeat same SHA blindly"
+      "reason": "Corrected Android F1 bootstrap and provider transport CI",
+      "resume": "Verify terminal and exact XML; do not cancel or repeat identical"
     }
   ],
   "actions_launched_v12": [
@@ -149,8 +149,19 @@
       "id": 41133963832,
       "head_sha": "570ff81e19e8f2cd51a8687869335beec8926286",
       "reason": "Correct F1 prompt bytes + consent guard + reject truncated model replies; targeted 7 transport + 4 bootstrap + Android compile",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED_FAILURE",
       "created_at": "2026-10-30T21:50:27Z",
+      "completed_at": "2026-10-30T21:57:11Z",
+      "wall_seconds": 404,
+      "tests": "transport 7/7 PASS; Android compile INAPPLICABLE_JVM_FIELD; app tests NOT_RUN",
+      "cause": "@JvmField on value-class ModelBindingId in companion; fixed on SHA0903"
+    },
+    {
+      "id": 41134824782,
+      "head_sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
+      "reason": "Fix compiler JvmField value-class annotation; focused transport 7 + bootstrap 4 + Android compile",
+      "status": "IN_PROGRESS",
+      "created_at": "2026-10-30T21:57:51Z",
       "completed_at": null,
       "wall_seconds": null
     }
@@ -173,7 +184,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "Await CI3 #41133963832 on exact SHA570ff81 (transport7/7, Android bootstrap4/4, Android compile). If PASS, keep S2.A6 3/8 and continue Settings/Keystore consent UI and Android E2E in B1. If FAIL, diagnose log without blind retry. A1 must release writer by 19:05–19:08."
+    "step": "No new work after 19:00 A1. Verify CI4 #41134824782 terminal and XML if completed before 19:05. Otherwise WAIT_CI with SHA0903, release writer NONE and let B1 resume. Keep 3/8, V2 OFF, S3/S4 closed, T4 NOT_RUN. Next functional gap is Settings Keystore/consent UI and quarantined Android E2E."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -185,10 +196,10 @@
     "scheduled_start": "2026-10-30T18:40:00-03:00",
     "started_at": "2026-10-30T21:40:05.011Z",
     "deadline": "2026-10-30T19:10:00-03:00",
-    "phase": "F1_CORRECTED_CI_IN_PROGRESS",
-    "last_observed_at": "2026-10-30T21:53:14.502Z"
+    "phase": "F1_CI4_WAIT",
+    "last_observed_at": "2026-10-30T21:58:08.461Z"
   },
-  "code_head": "570ff81e19e8f2cd51a8687869335beec8926286",
+  "code_head": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -204,6 +215,11 @@
       "commit": "570ff81e19e8f2cd51a8687869335beec8926286",
       "kind": "F1 safety correction",
       "result": "Corrected prompt byte encoding (locally reproduced Kotlin type mismatch); guarded Keystore secret read with fresh consent; reject non-stop/wrong-role responses; CI queued behind in-progress CI2"
+    },
+    {
+      "commit": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
+      "kind": "F1 Android bootstrap Kotlin compatibility",
+      "result": "Removed invalid @JvmField annotations from trusted catalog; CI4 directed in progress"
     }
   ],
   "hypotheses": [
@@ -213,7 +229,13 @@
       "status": "CONFIRMED_FIXED_AWAIT_CI",
       "fix_commit": "570ff81e19e8f2cd51a8687869335beec8926286",
       "failed_run": 41133226321
+    },
+    {
+      "issue": "F1 Kotlin value-class JVM field",
+      "observation": "CI3 41133963832 exact compiler INAPPLICABLE_JVM_FIELD at Factory.kt:131; @JvmField cannot annotate ModelBindingId value-class property",
+      "fix_commit": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
+      "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T21:53:14.502Z"
+  "last_checkpoint_at": "2026-10-30T21:58:08.461Z"
 }
