@@ -4,6 +4,7 @@ import ar.com.faro.v5.control.spi.SecretId
 import ar.com.faro.v5.control.spi.SecretReader
 import ar.com.faro.v5.control.spi.SecretValue
 import ar.com.faro.v5.kernel.contracts.*
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 import okhttp3.OkHttpClient
@@ -64,6 +65,29 @@ class OpenAiCompatibleModelBindingTest {
         }.build()
         val result = binding(client, SecretReader { null }).reason(invocation(), NeverCancelled)
         assertEquals(AiFailureKind.AUTH_MISSING, failureKind(result))
+        assertEquals(0, calls.get())
+    }
+
+    @Test
+    fun `revocation during Keystore read prevents a provider request`() {
+        val allowed = AtomicBoolean(true)
+        val calls = AtomicInteger()
+        val client = OkHttpClient.Builder().addInterceptor { chain ->
+            calls.incrementAndGet()
+            reply(chain.request(), 200, "{}")
+        }.build()
+        val binding = OpenAiCompatibleModelBinding(
+            client, ModelBindingId("groq-test"), ApprovedChatEndpoint.GROQ,
+            "test-model", SecretReader {
+                allowed.set(false)
+                SecretValue.copyOf("test-credential-123".encodeToByteArray())
+            }, SecretId("faro-test-secret"), 512,
+            authorizationStillValid = { allowed.get() },
+        )
+        assertEquals(
+            AiFailureKind.POLICY_EGRESS_BLOCKED,
+            failureKind(binding.reason(invocation(), NeverCancelled)),
+        )
         assertEquals(0, calls.get())
     }
 

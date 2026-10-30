@@ -48,6 +48,7 @@ class OpenAiCompatibleModelBinding internal constructor(
     private val secrets: SecretReader,
     private val credentialId: SecretId,
     private val maxOutputTokens: Int,
+    private val authorizationStillValid: () -> Boolean = { true },
 ) : ModelBindingReasoningPort {
     constructor(
         bindingId: ModelBindingId,
@@ -57,6 +58,7 @@ class OpenAiCompatibleModelBinding internal constructor(
         credentialId: SecretId,
         ioPolicy: IoExecutionPolicy,
         maxOutputTokens: Int = 512,
+        authorizationStillValid: () -> Boolean = { true },
     ) : this(
         OkHttpClient.Builder()
             .proxy(Proxy.NO_PROXY)
@@ -67,6 +69,7 @@ class OpenAiCompatibleModelBinding internal constructor(
             .followRedirects(false).followSslRedirects(false)
             .retryOnConnectionFailure(false).build(),
         bindingId, endpoint, model, secrets, credentialId, maxOutputTokens,
+        authorizationStillValid,
     )
 
     init {
@@ -74,11 +77,15 @@ class OpenAiCompatibleModelBinding internal constructor(
         require(maxOutputTokens in 1..4096)
     }
 
+    private fun authorized(): Boolean = try { authorizationStillValid() }
+        catch (_: Exception) { false }
+
     override fun reason(
         invocation: ModelBindingInvocation,
         cancellationSignal: CancellationSignal,
     ): ModelBindingInvocationResult {
         if (cancellationSignal.isCancelled()) return fail(AiFailureKind.CANCELLED)
+        if (!authorized()) return fail(AiFailureKind.POLICY_EGRESS_BLOCKED)
         val fragments = invocation.contextPack.fragments
         // Defense in depth: UNKNOWN, SECRET and RESTRICTED never leave this remote adapter.
         // PRIVATE requires explicit prior approval from the gateway's trusted egress policy.
@@ -133,6 +140,9 @@ class OpenAiCompatibleModelBinding internal constructor(
         }
         return try {
             if (cancellationSignal.isCancelled()) return fail(AiFailureKind.CANCELLED)
+            // The Keystore read may race explicit consent revocation. Check
+            // again before a request can enter the HTTP transport.
+            if (!authorized()) return fail(AiFailureKind.POLICY_EGRESS_BLOCKED)
             val request = Request.Builder().url(endpoint.url)
                 .header("Authorization", "Bearer " + token)
                 .header("Accept", "application/json")
@@ -141,6 +151,7 @@ class OpenAiCompatibleModelBinding internal constructor(
             when (val result = await(call, cancellationSignal)) {
                 is CallResult.Complete -> result.response.use { response ->
                     if (cancellationSignal.isCancelled()) return@use fail(AiFailureKind.CANCELLED)
+                    if (!authorized()) return@use fail(AiFailureKind.POLICY_EGRESS_BLOCKED)
                     if (!response.isSuccessful) return@use httpFailure(response)
                     if (response.header("Content-Type")?.substringBefore(';')
                             ?.trim()?.lowercase() != "application/json")
@@ -151,6 +162,7 @@ class OpenAiCompatibleModelBinding internal constructor(
                 }
                 is CallResult.Error -> ioFailure(result.error)
                 CallResult.Cancelled -> fail(AiFailureKind.CANCELLED)
+                CallResult.Revoked -> fail(AiFailureKind.POLICY_EGRESS_BLOCKED)
             }
         } catch (_: RuntimeException) {
             fail(AiFailureKind.CONNECT, RetryDisposition.RETRYABLE)
@@ -253,6 +265,12 @@ class OpenAiCompatibleModelBinding internal constructor(
             return CallResult.Error(IOException("provider enqueue failed", error))
         }
         while (true) {
+            if (!authorized()) {
+                val prior = outcome.getAndSet(CallResult.Revoked)
+                call.cancel()
+                if (prior is CallResult.Complete) prior.response.close()
+                return CallResult.Revoked
+            }
             if (cancellation.isCancelled() || Thread.currentThread().isInterrupted) {
                 val prior = outcome.getAndSet(CallResult.Cancelled)
                 call.cancel()
@@ -285,6 +303,7 @@ class OpenAiCompatibleModelBinding internal constructor(
         data class Complete(val response: Response) : CallResult
         data class Error(val error: IOException) : CallResult
         data object Cancelled : CallResult
+        data object Revoked : CallResult
     }
 
     companion object {

@@ -90,6 +90,7 @@ class FaroV5TrustedModelGatewayFactory(
             BINDING_ID, ApprovedChatEndpoint.GROQ, "llama-3.3-70b-versatile",
             guardedSecrets, credentialId,
             IoExecutionPolicy(5000, 20000, 25000), 512,
+            authorizationStillValid = liveAuthorized,
         )
         val gateway = ComposedModelGateway(
             policyResolver = policy,
