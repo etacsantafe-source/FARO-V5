@@ -9,7 +9,7 @@
     "owner": "NOCHE_A_1",
     "epoch": 9,
     "lease_expires_at": "2026-10-30T19:10:00-03:00",
-    "expected_head": "1e47a9c387d0169b61035e05e072e514566a1309"
+    "expected_head": "1967506c49218271f207583f87733363add6fbc2"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -114,17 +114,45 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [],
-  "actions_launched_v12": [],
+  "in_flight_actions": [
+    {
+      "id": 41133226321,
+      "head_sha": "1967506c49218271f207583f87733363add6fbc2",
+      "status": "in_progress",
+      "reason": "F1 Android bootstrap targeted compile/test",
+      "resume": "Check terminal status and exact XML; no identical retry"
+    }
+  ],
+  "actions_launched_v12": [
+    {
+      "id": 41132960313,
+      "head_sha": "43016859c3299e5494d1d9b92ef27cd353080ccd",
+      "reason": "F1 real approved HTTPS model transport + six focused JVM tests",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "6/6, failures/errors/skips=0",
+      "created_at": "2026-10-30T21:42:03Z",
+      "completed_at": "2026-10-30T21:45:46Z",
+      "wall_seconds": 223
+    },
+    {
+      "id": 41133226321,
+      "head_sha": "1967506c49218271f207583f87733363add6fbc2",
+      "reason": "F1 trusted Android bootstrap + profile/Keystore/egress policy, compile and four focused tests",
+      "status": "IN_PROGRESS",
+      "created_at": "2026-10-30T21:44:17Z",
+      "completed_at": null,
+      "wall_seconds": null
+    }
+  ],
   "used_time_minutes": {
-    "investigation": 0,
-    "development": 0,
-    "tests": 0,
-    "actions_wall_time": 0,
-    "waiting": 0,
-    "checkpoint_and_communication": 0,
+    "investigation": null,
+    "development": null,
+    "tests": null,
+    "actions_wall_time": 3.716666666666667,
+    "waiting": null,
+    "checkpoint_and_communication": null,
     "non_execution": null,
-    "note": "No runtime measured yet; no invented minutes. Workflow wall time may overlap development and is not GitHub billable minutes."
+    "note": "Run elapsed measured from started_at. Development/research not independently metered; do not fabricate. CI1 223s overlaps other work; CI2 ongoing."
   },
   "blockers": [
     {
@@ -134,18 +162,40 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "On A1, start from trusted Android ComposedModelGateway bootstrap, profile/settings Keystore credentials, egress policy, host chat E2E. Develop functional batch with targeted CI and durable checkpoint."
+    "step": "Check CI 41133226321 terminal exact XML; if compiler red, fix prompt byte encoding and any actual errors; add guarded credential read before dispatch; run one focused corrected CI. Then stage Settings consent/Keystore entry UI and Android E2E, without V2 cutover."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
     "previous_automations": "none enabled at new-pilot preflight",
     "source_v11_actions_in_flight": 0
   },
-  "status": "ACTIVE",
+  "status": "ACTIVE_WAIT_CI",
   "current_run": {
     "scheduled_start": "2026-10-30T18:40:00-03:00",
     "started_at": "2026-10-30T21:40:05.011Z",
     "deadline": "2026-10-30T19:10:00-03:00",
-    "phase": "DEVELOP_F1"
-  }
+    "phase": "F1_ANDROID_BOOTSTRAP_CI",
+    "last_observed_at": "2026-10-30T21:49:04.739Z"
+  },
+  "code_head": "1967506c49218271f207583f87733363add6fbc2",
+  "functional_progress": [
+    {
+      "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
+      "kind": "F1 provider-neutral network adapter",
+      "result": "Fixed approved Groq/OpenAI/Gemini-compatible HTTPS endpoints; SecretReader; bounded JSON; cancellation; typed HTTP failures; CI 6/6 PASS"
+    },
+    {
+      "commit": "1967506c49218271f207583f87733363add6fbc2",
+      "kind": "F1 dormant Android trusted bootstrap",
+      "result": "ComposedModelGateway, AiControlPreferenceStore consent/profile, AndroidKeystoreSecretStore, live egress rechecks; CI in progress, no Android E2E"
+    }
+  ],
+  "hypotheses": [
+    {
+      "issue": "F1 bootstrap prompt byte encoding",
+      "observation": "Static review identified Kotlin concatenation before .toByteArray, likely type mismatch; await exact CI log before correction",
+      "status": "PENDING_CI_DIAGNOSIS"
+    }
+  ],
+  "last_checkpoint_at": "2026-10-30T21:49:04.739Z"
 }
