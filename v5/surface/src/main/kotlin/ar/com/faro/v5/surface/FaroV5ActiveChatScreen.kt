@@ -19,6 +19,8 @@ import ar.com.faro.v5.kernel.contracts.ConversationApplyHostOutcome
 import ar.com.faro.v5.kernel.contracts.ConversationReviewDecision
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewIntent
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewSnapshot
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
+import ar.com.faro.v5.kernel.contracts.ConversationAcceptedUserTurn
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort
 import ar.com.faro.v5.kernel.contracts.ConversationDraftEditorState
 import ar.com.faro.v5.kernel.contracts.ConversationDraftPolicy
@@ -50,14 +52,16 @@ fun FaroV5ActiveChatScreen(
     composerPort: ConversationComposerPort?,
     reviewPort: ConversationReviewPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
+    assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
 ) {
-    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort) {
+    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort) {
         FaroV5ActiveChatScreenSession(
             activeConversationId = activeConversationId,
             timelineReadPort = timelineReadPort,
             composerPort = composerPort,
             reviewPort = reviewPort,
             applyRequestPort = applyRequestPort,
+            assistantTurnPort = assistantTurnPort,
         )
     }
 }
@@ -74,6 +78,7 @@ private fun FaroV5ActiveChatScreenSession(
     composerPort: ConversationComposerPort?,
     reviewPort: ConversationReviewPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
+    assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
 ) {
     val scope = rememberCoroutineScope()
     var editor by remember(activeConversationId, composerPort) {
@@ -290,8 +295,30 @@ private fun FaroV5ActiveChatScreenSession(
                                                     createdAtEpochMillis = System.currentTimeMillis(),
                                                     idempotencyKey = IdempotencyKey(UUID.randomUUID().toString()),
                                                 )
-                                                when (withContext(Dispatchers.IO) { composerPort.sendDraft(request) }) {
+                                                when (val sendResult = withContext(Dispatchers.IO) { composerPort.sendDraft(request) }) {
                                                     is ConversationTimelineWriteResult.Saved -> {
+                                                        // The host may start reasoning only after Workspace
+                                                        // confirms the user turn. Never replay a sent receipt.
+                                                        if (!sendResult.replayed && assistantTurnPort != null) {
+                                                            val accepted = ConversationAcceptedUserTurn(
+                                                                activeConversationId,
+                                                                request.messageId,
+                                                                request.turnId,
+                                                                request.createdAtEpochMillis,
+                                                            )
+                                                            val queued = try {
+                                                                withContext(Dispatchers.IO) {
+                                                                    assistantTurnPort.dispatchAcceptedTurn(accepted) {
+                                                                        // The worker owns execution; a disposed
+                                                                        // chat scope cannot publish stale UI state.
+                                                                        scope.launch { timelineVersion++ }
+                                                                    }
+                                                                }
+                                                            } catch (_: Exception) { false }
+                                                            if (!queued) {
+                                                                message = "Mensaje enviado. La respuesta de FARO no pudo iniciarse."
+                                                            }
+                                                        }
                                                         val cleared = withContext(Dispatchers.IO) {
                                                             composerPort.read(activeConversationId)
                                                         }

@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort
 import ar.com.faro.v5.kernel.contracts.ConversationReviewPort
 import ar.com.faro.v5.kernel.contracts.ConversationApplyRequestPort
@@ -20,6 +21,7 @@ object FaroV5SurfaceHost {
         reviewPort: ConversationReviewPort? = null,
         selectionPort: ConversationWorkspaceSelectionPort? = null,
         applyRequestPort: ConversationApplyRequestPort? = null,
+        assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     ) {
         activity.setContent {
             FaroV5Theme {
@@ -30,6 +32,7 @@ object FaroV5SurfaceHost {
                     reviewPort = reviewPort,
                     selectionPort = selectionPort,
                     applyRequestPort = applyRequestPort,
+                    assistantTurnPort = assistantTurnPort,
                 )
             }
         }

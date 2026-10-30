@@ -9,6 +9,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort
 import ar.com.faro.v5.kernel.contracts.ConversationReviewPort
 import ar.com.faro.v5.kernel.contracts.ConversationApplyRequestPort
@@ -36,6 +37,7 @@ fun FaroV5AdaptiveShell(
     reviewPort: ConversationReviewPort? = null,
     selectionPort: ConversationWorkspaceSelectionPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
+    assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
@@ -49,7 +51,7 @@ fun FaroV5AdaptiveShell(
     // A different Workspace/host generation invalidates all pending drawer
     // selection callbacks. Keep the navigation stack, but dispose the old
     // scaffold's coroutine scope and asynchronous read state.
-    key(workspaceReadPort, timelineReadPort, composerPort, reviewPort, selectionPort, applyRequestPort) {
+    key(workspaceReadPort, timelineReadPort, composerPort, reviewPort, selectionPort, applyRequestPort, assistantTurnPort) {
         FaroV5ShellScaffold(
         drawerMode = drawerMode,
         modifier = modifier,
@@ -61,6 +63,7 @@ fun FaroV5AdaptiveShell(
         reviewPort = reviewPort,
         selectionPort = selectionPort,
         applyRequestPort = applyRequestPort,
+        assistantTurnPort = assistantTurnPort,
         destinationContent = destinationContent,
         )
     }

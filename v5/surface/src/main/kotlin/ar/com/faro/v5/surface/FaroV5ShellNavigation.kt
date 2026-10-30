@@ -50,6 +50,7 @@ import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceEntry
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceProjector
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort
 import ar.com.faro.v5.kernel.contracts.ConversationReviewPort
 import ar.com.faro.v5.kernel.contracts.ConversationApplyRequestPort
@@ -194,6 +195,7 @@ fun FaroV5ShellScaffold(
     reviewPort: ConversationReviewPort? = null,
     selectionPort: ConversationWorkspaceSelectionPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
+    assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
@@ -378,6 +380,7 @@ fun FaroV5ShellScaffold(
                                 composerPort = composerPort,
                                 reviewPort = reviewPort,
                                 applyRequestPort = applyRequestPort,
+                                assistantTurnPort = assistantTurnPort,
                             )
                         } else {
                             destinationContent(key)

@@ -8,6 +8,10 @@ import ar.com.faro.v5.owner.profile.api.*
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.workspace.*
 import java.nio.file.Path
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.BooleanSupplier
 import java.util.function.Supplier
 import kotlin.coroutines.*
@@ -104,7 +108,10 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                 // The same authoritative Workspace turn is consumed by a trusted,
                 // explicitly admitted model seam. No provider credentials, UI
                 // Apply capability or alternate chat database are introduced.
+                val modelCalls = AtomicInteger(0)
                 val model = ModelGateway { reasoning, _ ->
+                    modelCalls.incrementAndGet()
+                    assertEquals(ModelProfileId("test-profile"), reasoning.profileId)
                     assertEquals("Quiero actualizar mi perfil",
                         String(reasoning.input.copyBytes(), Charsets.UTF_8))
                     ReasoningResult.Success(
@@ -117,19 +124,29 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                 val assistant = FaroV5ActiveChatReasoningSession(
                     generation, workspace, gate, pointer, ready, model, { true },
                 )
-                assertEquals(
-                    FaroV5AssistantTurnOutcome.COMPLETED,
-                    assistant.run(
-                        FaroV5AssistantTurnRequest(
-                            chat, ConversationMessageId("flow-message"),
-                            ConversationTurnId("flow-turn"), ConversationMessageId("flow-faro"),
-                            ModelProfileId("test-profile"), 1710000000001L,
-                            IdempotencyKey("flow-start-faro"),
-                            IdempotencyKey("flow-resolve-faro"),
-                        ),
-                        NeverCancelled,
+                val dispatch = FaroV5HostAcceptedTurnDispatchPort(
+                    FaroV5HostAssistantTurnDispatcher(
+                        assistant, Executors.newSingleThreadExecutor(), ready,
                     ),
+                    Supplier { ModelProfileId("test-profile") }, ready,
                 )
+                val accepted = ConversationAcceptedUserTurn(
+                    chat, ConversationMessageId("flow-message"),
+                    ConversationTurnId("flow-turn"), 1710000000000L,
+                )
+                try {
+                    val first = CountDownLatch(1)
+                    assertTrue(dispatch.dispatchAcceptedTurn(accepted) { first.countDown() })
+                    assertTrue(first.await(20, TimeUnit.SECONDS))
+                    // Repeated UI delivery of the same committed receipt never
+                    // triggers a second model call or a second FARO message.
+                    val second = CountDownLatch(1)
+                    assertTrue(dispatch.dispatchAcceptedTurn(accepted) { second.countDown() })
+                    assertTrue(second.await(20, TimeUnit.SECONDS))
+                    assertEquals(1, modelCalls.get())
+                } finally {
+                    dispatch.close()
+                }
 
                 val read = FaroV5ActiveChatReadSession(
                     generation, workspace, workspace, pointer, ready,
