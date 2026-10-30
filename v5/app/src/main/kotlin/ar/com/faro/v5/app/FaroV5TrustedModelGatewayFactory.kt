@@ -125,10 +125,10 @@ class FaroV5TrustedModelGatewayFactory(
         try { readControl() } catch (_: Exception) { null }
 
     companion object {
-        @JvmField val DEFAULT_PROFILE = ModelProfileRef(
+        val DEFAULT_PROFILE = ModelProfileRef(
             ModelProfileId("faro-remote-groq"), ModelProfileVersion(1),
         )
-        @JvmField val BINDING_ID = ModelBindingId("groq-primary")
+        val BINDING_ID = ModelBindingId("groq-primary")
         const val CONTROL_FILENAME = "faro-v5-ai.preferences_pb"
     }
 }
