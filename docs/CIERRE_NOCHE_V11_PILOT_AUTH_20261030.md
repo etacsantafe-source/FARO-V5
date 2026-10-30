@@ -1,5 +1,5 @@
 # FARO V5 — CIERRE Noche V1.1 · piloto autorizado 2026-10-30 (3 h)
-Estado: AUTHORIZED / SCHEDULE_PENDIENTE_DE_VERIFICAR. Esta autorización es exclusiva para este piloto, NO habilita extensiones.
+Estado: AUTHORIZED / SCHEDULE_CREATED_AND_VERIFIED (2026-10-30 14:51 -03). Esta autorización es exclusiva para este piloto, NO habilita extensiones.
 
 ## Alcance, reloj y repositorio
 - Autorización textual del usuario en conversación 2026-10-30: "NUEVO PILOTO CIERRE NOCHE ... hasta 3 horas o completar S2.A6".
@@ -17,3 +17,10 @@ Estado: AUTHORIZED / SCHEDULE_PENDIENTE_DE_VERIFICAR. Esta autorización es excl
 - Antes de cada ciclo leer este permiso y el estado real de GitHub, no asumir que un checkpoint es live.
 - Reportar estado real S2.A6 y criterios congelados 1–8, evidencia, bloqueos F1/F2/F3/F4/T4, writer, HEAD y Actions.
 - Condición de seguridad: si no hay comprobación de exclusividad/tiempo/permiso, READ_ONLY. Autorizar tareas programadas no equivale a garantizar 30 minutos de trabajo continuo.
+
+## Programaciones verificadas por herramienta
+- Noche A (activa): 2026-10-30 15:00, 16:00, 17:00 -03, HOURLY COUNT=3.
+- Noche B (activa): 2026-10-30 15:30, 16:30, 17:30 -03, HOURLY COUNT=3.
+- Informe final (activo, ejecución única READ_ONLY): 2026-10-30 18:10 -03.
+- El cron registra intenciones de invocación, NO acredita ejecución efectiva ni continuidad de 30 minutos; verificar resultados reales en cada checkpoint.
+- Tareas históricas anteriores verificadas desactivadas al preparar el piloto. No reactivar ninguna.
