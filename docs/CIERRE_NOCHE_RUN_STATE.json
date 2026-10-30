@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v12-3h",
-  "run_id": "cierre-v12-20261030-A2-1940",
-  "run_number": 3,
-  "state": "CLOSED",
+  "run_id": "cierre-v12-20261030-B2-2010",
+  "run_number": 4,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 11,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_2",
+    "epoch": 12,
+    "lease_expires_at": "2026-10-30T20:39:00-03:00",
+    "expected_head": "393ecbc5780cf6cf07abf7ab94eebf8478e5a6a9"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -233,16 +233,14 @@
       "android_e2e": "NOT_RUN"
     }
   },
-  "status": "CLOSED_PASS_REVIEW",
+  "status": "ACTIVE_WRITER",
   "current_run": {
-    "scheduled_start": "2026-10-30T19:40:00-03:00",
-    "started_at": "2026-10-30T22:40:13.708Z",
-    "deadline": "2026-10-30T20:10:00-03:00",
-    "phase": "CLOSED",
-    "stop_new_work_at": "2026-10-30T20:00:00-03:00",
-    "finish_work_by": "2026-10-30T20:05:00-03:00",
-    "closed_at": "2026-10-30T22:57:55.790Z",
-    "last_observed_at": "2026-10-30T22:57:55.790Z"
+    "scheduled_start": "2026-10-30T20:10:00-03:00",
+    "started_at": "2026-10-30T20:13:39-03:00",
+    "stop_new_work_at": "2026-10-30T20:33:39-03:00",
+    "finish_work_by": "2026-10-30T20:38:39-03:00",
+    "deadline": "2026-10-30T20:39:00-03:00",
+    "phase": "ACTIVE"
   },
   "code_head": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
   "functional_progress": [
@@ -301,7 +299,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "A2 CLOSED: F1 live consent revocation at HTTP transport and post-provider Workspace resolution; two functional batches, two directed Actions SUCCESS exact SHA/XML; no Android E2E, S2.A6 3/8 unchanged",
+  "scope": "B2 active: F1 Android E2E host/Keystore consent UI; writer acquired with CAS. No certification assumed.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
