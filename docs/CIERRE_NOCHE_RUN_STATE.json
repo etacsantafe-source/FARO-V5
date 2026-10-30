@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v11-3h",
-  "run_id": "cierre-v11-20261030-A-1510",
-  "run_number": 1,
-  "state": "CLOSED",
+  "run_id": "cierre-v11-20261030-B-1540",
+  "run_number": 2,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 4,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
+    "epoch": 5,
+    "lease_expires_at": "2026-10-30T19:09:00Z",
+    "expected_head": "a586170687bc6a60cbbc9a1894127731544e92de"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -34,17 +34,17 @@
     "t4": "NOT_RUN"
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
-  "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
+  "source_head": "a586170687bc6a60cbbc9a1894127731544e92de",
   "in_flight_actions": [],
-  "scope": "F1 host-owned async accepted-turn dispatcher with generation fencing and one in-flight turn; canonical chat timeline read moved off UI thread. F3 owner decision A preserved, no F3 UX implemented.",
+  "scope": "B 15:40 F1 accepted Workspace turn -> host-owned async dispatcher via optional surface port; V2 OFF",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "READ_ONLY_UNTIL_NEXT_SCHEDULED_B",
+    "mode": "ACTIVE_B",
     "criterion": "F1",
-    "step": "B 15:40: fresh permission/HEAD/writer/CI preflight. Next indispensable F1 integration: bind trusted assistant dispatcher AFTER canonical Composer send commit to real Workspace, using stable reply/idempotency, host-owned profile/egress, lifecycle cancellation; add directed integrated test. Existing dispatcher is NOT wired to root/shell, so no user-facing model replies yet. Then F2 and F3 minimal consent+SAF UX. Never enable V2 or S3/S4 without separate certification."
+    "step": "Implement and test minimal accepted-turn dispatch after canonical Composer commit with trusted host profile/egress."
   },
-  "status": "CLOSED_HANDOFF_CLEAN",
+  "status": "ACTIVE_WRITER",
   "code_head": "7e461758ba39c65d149cee3b56e011ab478972db",
   "last_checkpoint_at": "2026-10-30T18:30:39.906Z",
   "hypotheses": [
@@ -222,9 +222,7 @@
     "lease_expires_at": "2026-10-30T18:39:00Z",
     "released_at": "2026-10-30T18:30:39.906Z"
   },
-  "run_started_at": "2026-10-30T18:10:19.837Z",
-  "run_finished_at_utc": "2026-10-30T18:30:39.906Z",
-  "duration_minutes_approx": 20.3,
+  "run_started_at": "2026-10-30T18:40:19.292Z",
   "operational_certification": {
     "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
     "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
