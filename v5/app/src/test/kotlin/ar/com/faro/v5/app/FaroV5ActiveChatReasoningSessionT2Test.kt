@@ -7,6 +7,7 @@ import java.nio.file.Path
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.BooleanSupplier
@@ -125,6 +126,33 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals(FaroV5AssistantTurnOutcome.IN_PROGRESS,
                 session(store, model = switching).run(request, NeverCancelled))
             assertEquals(1, calls.get())
+        }
+    }
+
+    @Test fun consentRevokedDuringProviderResponseNeverCommitsDerivedAssistantText() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val consent = AtomicBoolean(true)
+            val model = ModelGateway { _, _ ->
+                calls.incrementAndGet()
+                consent.set(false)
+                ReasoningResult.Success(
+                    ModelBindingId("fake-local"),
+                    CanonicalPayload.fromEncoded(
+                        "text/plain", "No publicar después de revocación".encodeToByteArray()
+                    ),
+                )
+            }
+            val reasoning = FaroV5ActiveChatReasoningSession(
+                "gen-f1", store, gate, Supplier { active.get() },
+                BooleanSupplier { true }, model, { consent.get() },
+            )
+            assertEquals(FaroV5AssistantTurnOutcome.FAILED,
+                reasoning.run(request, NeverCancelled))
+            assertEquals(1, calls.get())
+            val reply = runBlocking { store.readTimeline(chat) }!!.messages.last()
+            assertEquals(ConversationMessageState.FAILED, reply.state)
+            assertEquals("", reply.text)
         }
     }
 

@@ -50,7 +50,8 @@ jobs:
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :app:compileDebugKotlin :app:compileDebugJavaWithJavac \
             :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest' \
-            --tests 'ar.com.faro.v5.app.FaroV5TrustedAssistantControlOwnerTest'
+            --tests 'ar.com.faro.v5.app.FaroV5TrustedAssistantControlOwnerTest' \
+            --tests 'ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test'
       - name: Exact XML oracle
         run: |
           python3 - <<'PY'
@@ -74,4 +75,10 @@ jobs:
           got3=tuple(int(settings.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
           if got3!=(3,0,0,0): raise SystemExit(f'F1_CONSENT_FAIL_XML {got3}')
           print('FARO_V12_F1_CONSENT_XML_PASS 3/3')
+          e=Path('v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test.xml')
+          if not e.is_file(): raise SystemExit('F1_REASONING_MISSING_XML')
+          reasoning=ET.parse(e).getroot()
+          got4=tuple(int(reasoning.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if got4!=(19,0,0,0): raise SystemExit(f'F1_REASONING_FAIL_XML {got4}')
+          print('FARO_V12_F1_REASONING_XML_PASS 19/19')
           PY

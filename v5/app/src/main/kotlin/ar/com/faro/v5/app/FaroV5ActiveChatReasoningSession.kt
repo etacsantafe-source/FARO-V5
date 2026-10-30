@@ -162,7 +162,14 @@ class FaroV5ActiveChatReasoningSession(
         if (!current() || cancellation.isCancelled())
             return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
 
-        val decoded = if (result is ReasoningResult.Success) decodeText(result.output) else null
+        // Consent may be revoked while the remote provider is processing.
+        // Never publish an answer derived from a now-denied user/history
+        // fragment, even when the provider returned a successful response.
+        val authorizedAfterProvider = try {
+            prepared.messages.all { trustedEgressAdmission(it) }
+        } catch (_: Exception) { false }
+        val decoded = if (authorizedAfterProvider && result is ReasoningResult.Success)
+            decodeText(result.output) else null
         val outcome = when {
             decoded != null -> ConversationMessageState.COMPLETED
             result is ReasoningResult.Failure &&
@@ -187,20 +194,29 @@ class FaroV5ActiveChatReasoningSession(
                         return@withMaterialWrite FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
                     if (reply.state != ConversationMessageState.PROCESSING)
                         return@withMaterialWrite FaroV5AssistantTurnOutcome.ALREADY_RECORDED
+                    // Final fail-closed check before the durable resolution:
+                    // a late revocation must not commit derived model text.
+                    val finalAuthorized = authorizedAfterProvider && try {
+                        prepared.messages.all { trustedEgressAdmission(it) }
+                    } catch (_: Exception) { false }
+                    val committedState = if (finalAuthorized) outcome
+                        else ConversationMessageState.FAILED
+                    val committedAnswer = if (finalAuthorized) answer else ""
                     val write = runBlocking {
                         workspace.writeTimeline(
                             ConversationTimelineWriteRequest(
                                 request.conversationId, latest.authorityToken, latest.revision,
                                 IdempotencyKey(request.resolveKey.value + ":r" + latest.revision),
                                 ConversationTimelineIntent.ResolveFaro(
-                                    request.faroMessageId, request.turnId, outcome, answer,
+                                    request.faroMessageId, request.turnId,
+                                    committedState, committedAnswer,
                                 ),
                             )
                         )
                     }
                     check(current()) { "generation changed during FARO resolution" }
                     when (write) {
-                        is ConversationTimelineWriteResult.Saved -> when (outcome) {
+                        is ConversationTimelineWriteResult.Saved -> when (committedState) {
                             ConversationMessageState.COMPLETED -> FaroV5AssistantTurnOutcome.COMPLETED
                             ConversationMessageState.OFFLINE -> FaroV5AssistantTurnOutcome.OFFLINE
                             else -> FaroV5AssistantTurnOutcome.FAILED
