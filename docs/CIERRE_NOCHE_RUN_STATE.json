@@ -29,25 +29,25 @@
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
   "in_flight_actions": [
     {
-      "id": 41078535853,
-      "head_sha": "fae9b6950f4e180320292aa665b0b7c52cde7012",
-      "status": "IN_PROGRESS",
-      "kind": "F1 chat coroutine lifetime + existing 20 tests"
-    },
-    {
       "id": 41079248284,
       "head_sha": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
+      "status": "IN_PROGRESS",
+      "kind": "F1 shell rebind + off-main Workspace read + surface tests"
+    },
+    {
+      "id": 41079756331,
+      "head_sha": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
       "status": "QUEUED",
-      "kind": "F1 shell host rebind, off-main Workspace read + surface regressions"
+      "kind": "F1 serialized review commands"
     }
   ],
   "scope": "F1 asynchronous chat screen state isolation across conversation switches; Android compile and regression only",
   "hypothesis": "Compose rememberCoroutineScope survives conversation id changes and allows in-flight callbacks from A to overwrite editor state of B; key entire screen session to cancel old composition scope.",
   "tests": "Actions 41078535853 in progress, 41079248284 queued. No PASS claimed.",
-  "next_action": "Reconcile both CI runs by exact SHA, job steps and XML; if second CI fails diagnose new hypothesis. Keep 3/8 and V2 OFF.",
+  "next_action": "Reconcile 41079248284 then 41079756331, terminal exact SHA and XML; keep V2 OFF, S2.A6 3/8. After CI, investigate missing assistant model/Delivery bridge; no provider/egress decisions without established policy.",
   "status": "WAIT_CI",
-  "code_head": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
-  "last_checkpoint_at": "2026-10-30T12:17:00-03:00",
+  "code_head": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
+  "last_checkpoint_at": "2026-10-30T12:21:00-03:00",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -58,6 +58,20 @@
       "issue": "stale Shell selection and main-thread SQLite read",
       "fix_commit": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
       "evidence": "Scaffold scope survived host-port changes; LaunchedEffect readSnapshot() was synchronous on UI thread; key shell and use IO dispatcher"
+    },
+    {
+      "issue": "duplicate Review decisions under double tap",
+      "fix_commit": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
+      "evidence": "Review onConfirm/onDiscard lacked an in-flight guard; UI could mint multiple keys while one decision is pending. Added reviewBusy and Apply interlock."
+    }
+  ],
+  "completed_actions": [
+    {
+      "id": 41078535853,
+      "head_sha": "fae9b6950f4e180320292aa665b0b7c52cde7012",
+      "status": "COMPLETED_SUCCESS",
+      "junit": "20/20, failures=0 errors=0 skipped=0",
+      "scope": "JVM + Android compiler, NOT Android E2E"
     }
   ]
 }
