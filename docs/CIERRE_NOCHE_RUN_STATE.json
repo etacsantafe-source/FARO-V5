@@ -27,10 +27,19 @@
   },
   "base_head": "b575d21d1965dc1e10801a2103ab7643027b8893",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41078535853,
+      "head_sha": "fae9b6950f4e180320292aa665b0b7c52cde7012",
+      "status": "IN_PROGRESS",
+      "kind": "F1 Compose chat lifetime and existing directed CI"
+    }
+  ],
   "scope": "F1 asynchronous chat screen state isolation across conversation switches; Android compile and regression only",
   "hypothesis": "Compose rememberCoroutineScope survives conversation id changes and allows in-flight callbacks from A to overwrite editor state of B; key entire screen session to cancel old composition scope.",
-  "tests": "NOT_RUN",
-  "next_action": "Implement minimal screen lifecycle isolation, enable isolated branch CI, verify exact run SHA and XML.",
-  "status": "IN_PROGRESS"
+  "tests": "GitHub Actions 41078535853 in progress; do not claim PASS",
+  "next_action": "Reconcile Actions 41078535853 terminal SHA, job steps and XML. If FAIL investigate new hypothesis before retry.",
+  "status": "WAIT_CI",
+  "code_head": "fae9b6950f4e180320292aa665b0b7c52cde7012",
+  "last_checkpoint_at": "2026-10-30T12:13:00-03:00"
 }
