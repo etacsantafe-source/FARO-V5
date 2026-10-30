@@ -35,18 +35,26 @@
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41104799269,
+      "head_sha": "a408cea5ffd1e7a7558018f78a19262e66519682",
+      "status": "in_progress",
+      "conclusion": null,
+      "kind": "F1 host-owned async dispatch + CI new branch"
+    }
+  ],
   "scope": "V1.1 Noche A 15:10–15:40; F1 async host-owned generation, F3 option A approved; CI branch gate repair required",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
-  "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
+  "tests": "NEW CI 41104799269 IN_PROGRESS (SHA a408cea5); 11 directed reasoning cases expected, 31/31 directed total, 36/36 critical, 31/31 Surface; NO PASS until terminal XML.",
   "next_action": {
-    "mode": "ACTIVE_AUTHORIZED",
-    "criterion": "F1/F3/F4",
-    "step": "Enable directed CI on this branch; implement smallest safe F1 integration and certify. Keep V2 OFF."
+    "mode": "ACTIVE_WAIT_CI",
+    "criterion": "F1",
+    "step": "Verify run 41104799269 terminal, exact directed XML. On PASS, commit prepared off-UI-thread canonical timeline read fix (blob 7efaa1ba4b2135a06166930e667ff94a9e1bb1f6) with CAS, verify new CI. On FAIL, diagnose once and correct safely; no blind repeat. F3 remains authorized but untested."
   },
   "status": "CLOSED_HANDOFF_CLEAN",
-  "code_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
-  "last_checkpoint_at": "2026-10-30T17:28:26.656Z",
+  "code_head": "a408cea5ffd1e7a7558018f78a19262e66519682",
+  "last_checkpoint_at": "2026-10-30T18:20:01.597Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -221,7 +229,7 @@
   "main_head_verified": "9bae214541f466a62e149853931b96abb8d74ed9",
   "private_repo_verified": true,
   "technical_gaps": [
-    "F1: Compose sends accepted user turn but no assistant-generation port is bound to the shell. Host-owned asynchronous lifecycle and explicit egress are needed; do not call blocking model from UI coroutine.",
+    "F1: Host-owned asynchronous dispatcher implemented in a408cea5 but NOT bound to real shell/gateway; Android E2E remains uncertified.",
     "F1: bounded multi-turn context and per-fragment egress admission must be integrated; do not forward historical chat blindly.",
     "F2: V2 Android activation/recovery E2E remains uncertified; V1 stays protected and V2 OFF.",
     "F3: S2/S5 owner conflict resolved option A; minimal Android SAF UI/consent implementation and full certification still pending.",
