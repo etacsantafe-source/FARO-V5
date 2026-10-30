@@ -133,8 +133,17 @@ class FaroV5ActiveChatReasoningSession(
             return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
 
         // Only earlier, individually authorized fragments enter this model request.
-        val input = boundedAuthorizedInput(initial, user)
+        val prepared = boundedAuthorizedInput(initial, user)
         if (!current() || cancellation.isCancelled())
+            return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
+        // Egress policy can change while the bounded historical context is
+        // assembled. Revalidate every fragment actually selected immediately
+        // before invoking the provider-neutral gateway, including this turn.
+        // Never dispatch a partially revoked context.
+        val dispatchAllowed = try {
+            prepared.messages.all { trustedEgressAdmission(it) }
+        } catch (_: Exception) { false }
+        if (!dispatchAllowed || !current() || cancellation.isCancelled())
             return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
         val result = try {
             gateway.reason(
@@ -145,7 +154,7 @@ class FaroV5ActiveChatReasoningSession(
                     ),
                     profileId = request.profileId,
                     requirements = ModelRequirements(setOf(ModelCapability.TEXT)),
-                    input = input,
+                    input = prepared.input,
                 ),
                 cancellation,
             )
@@ -272,12 +281,20 @@ class FaroV5ActiveChatReasoningSession(
      * only after a fresh trusted egress check; a later accepted turn never
      * leaks into a queued earlier request. The current turn is not truncated.
      */
+    private data class AuthorizedContext(
+        val input: CanonicalPayload,
+        val messages: List<ConversationMessage>,
+    )
+
     private fun boundedAuthorizedInput(
         snapshot: ConversationTimelineSnapshot,
         user: ConversationMessage,
-    ): CanonicalPayload {
-        fun currentOnly() = CanonicalPayload.fromEncoded(
-            "text/plain", user.text.toByteArray(StandardCharsets.UTF_8)
+    ): AuthorizedContext {
+        fun currentOnly() = AuthorizedContext(
+            CanonicalPayload.fromEncoded(
+                "text/plain", user.text.toByteArray(StandardCharsets.UTF_8)
+            ),
+            listOf(user),
         )
         val userIndex = snapshot.messages.indexOfFirst { it.id == user.id }
         if (userIndex < 0) return currentOnly()
@@ -303,6 +320,7 @@ class FaroV5ActiveChatReasoningSession(
         }
         if (allowed.size <= 1) return currentOnly()
         val reversed = mutableListOf<String>()
+        val reversedMessages = mutableListOf<ConversationMessage>()
         var characters = 0
         for (message in allowed.asReversed()) {
             val label = if (message.role == ConversationMessageRole.USER) "USUARIO" else "FARO"
@@ -310,12 +328,16 @@ class FaroV5ActiveChatReasoningSession(
             val added = part.length + if (reversed.isEmpty()) 0 else 2
             if (characters + added > ConversationTimelinePolicy.MAX_CONTEXT_CHARS) break
             reversed += part
+            reversedMessages += message
             characters += added
         }
         if (reversed.size <= 1) return currentOnly()
-        return CanonicalPayload.fromEncoded(
-            "text/plain",
-            reversed.asReversed().joinToString("\n\n").toByteArray(StandardCharsets.UTF_8),
+        return AuthorizedContext(
+            CanonicalPayload.fromEncoded(
+                "text/plain",
+                reversed.asReversed().joinToString("\n\n").toByteArray(StandardCharsets.UTF_8),
+            ),
+            reversedMessages.asReversed().toList(),
         )
     }
 

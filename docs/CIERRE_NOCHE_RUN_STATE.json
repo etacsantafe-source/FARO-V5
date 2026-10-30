@@ -36,17 +36,17 @@
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
   "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
   "in_flight_actions": [],
-  "scope": "B2 F1 provider-neutral ModelGateway integration and Android lifecycle; no CI started yet.",
+  "scope": "B2 F1: revalidate every selected historical/current egress fragment just before ModelGateway dispatch; two targeted revocation tests and exact CI XML.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
   "tests": "CI 41113428119 + 41114483263 SUCCESS exact SHA/XML: directed 33/33, F4 36/36, Surface 31/31; reasoning 13/13; Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "IN_PROGRESS",
+    "mode": "WAIT_CI",
     "criterion": "F1",
-    "step": "Inspect trusted bootstrap binding and implement minimal safe provider-neutral bridge/test; CI directed then checkpoint."
+    "step": "Verify next Actions terminal SHA and 35/35 directed XML; if PASS, consider next safe F1/F2 gap."
   },
   "status": "CLOSED_PASS_REVIEW",
   "code_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "last_checkpoint_at": "2026-10-30T19:45:39.423Z",
+  "last_checkpoint_at": "2026-10-30T19:46:39.320Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -106,6 +106,13 @@
       "fix_commit": "031667d7940bfde17565cf9a900cd496f10618a4",
       "expected_evidence": "CI 41114483263 33/33 directed, 36/36 F4, 31/31 Surface, exact XML",
       "status": "WAIT_CI"
+    },
+    {
+      "issue": "F1 egress revocation after context selection",
+      "attempt_id": "v11-B2-f1-final-admission-01",
+      "hypothesis": "selected historical/current fragments may become disallowed after initial filter but before provider dispatch",
+      "correction": "revalidate all actually included fragments immediately before gateway.reason; fail closed and leave PROCESSING for exclusive recovery",
+      "expected_evidence": "Actions directed 35/35, F4 36/36, Surface 31/31, Android compile and structural, no Android E2E"
     }
   ],
   "completed_actions": [

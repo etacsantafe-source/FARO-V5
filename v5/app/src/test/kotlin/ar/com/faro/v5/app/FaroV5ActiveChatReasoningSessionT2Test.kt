@@ -402,4 +402,51 @@ class FaroV5ActiveChatReasoningSessionT2Test {
         }
     }
 
+
+    @Test fun currentTurnRevokedAfterContextPreparationNeverReachesModel() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val checks = AtomicInteger(0)
+            val reasoning = FaroV5ActiveChatReasoningSession(
+                "gen-f1", store, gate, Supplier { active.get() },
+                BooleanSupplier { true },
+                ModelGateway { _, _ ->
+                    calls.incrementAndGet()
+                    error("revoked current turn must not reach model")
+                },
+                { checks.incrementAndGet() <= 2 },
+            )
+            assertEquals(FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED,
+                reasoning.run(request, NeverCancelled))
+            assertEquals(3, checks.get())
+            assertEquals(0, calls.get())
+            assertEquals(ConversationMessageState.PROCESSING,
+                runBlocking { store.readTimeline(chat) }!!.messages.last().state)
+        }
+    }
+
+    @Test fun historicalTurnRevokedDuringContextPreparationCannotLeakViaModel() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seedHistoryAndLaterTurn(store)
+            val priorChecks = AtomicInteger(0)
+            val reasoning = FaroV5ActiveChatReasoningSession(
+                "gen-f1", store, gate, Supplier { active.get() },
+                BooleanSupplier { true },
+                ModelGateway { _, _ ->
+                    calls.incrementAndGet()
+                    error("revoked historical fragment must not reach model")
+                },
+                { message ->
+                    message.id != userId || priorChecks.incrementAndGet() == 1
+                },
+            )
+            assertEquals(FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED,
+                reasoning.run(secondRequest(), NeverCancelled))
+            assertEquals(2, priorChecks.get())
+            assertEquals(0, calls.get())
+            val reply = runBlocking { store.readTimeline(chat) }!!.messages.last()
+            assertEquals(ConversationMessageState.PROCESSING, reply.state)
+            assertEquals("", reply.text)
+        }
+    }
 }
