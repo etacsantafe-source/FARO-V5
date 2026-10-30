@@ -49,7 +49,8 @@ jobs:
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :app:compileDebugKotlin :app:compileDebugJavaWithJavac \
-            :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest'
+            :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest' \
+            --tests 'ar.com.faro.v5.app.FaroV5TrustedAssistantControlOwnerTest'
       - name: Exact XML oracle
         run: |
           python3 - <<'PY'
@@ -67,4 +68,10 @@ jobs:
           got2=tuple(int(other.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
           if got2!=(4,0,0,0): raise SystemExit(f'F1_BOOTSTRAP_FAIL_XML {got2}')
           print('FARO_V12_F1_BOOTSTRAP_XML_PASS 4/4')
+          z=Path('v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedAssistantControlOwnerTest.xml')
+          if not z.is_file(): raise SystemExit('F1_CONSENT_MISSING_XML')
+          settings=ET.parse(z).getroot()
+          got3=tuple(int(settings.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if got3!=(3,0,0,0): raise SystemExit(f'F1_CONSENT_FAIL_XML {got3}')
+          print('FARO_V12_F1_CONSENT_XML_PASS 3/3')
           PY
