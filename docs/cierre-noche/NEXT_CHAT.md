@@ -7,6 +7,7 @@ Continuar el proyecto FARO V5 usando el protocolo durable del repositorio privad
 - Rama documental: `docs/cierre-noche-v1-20261030`.
 - Contrato: `docs/cierre-noche/PROTOCOL_V1.md`.
 - Índice corto: `docs/cierre-noche/LAST_KNOWN_STATE.json`.
+- Auditoría de preparación y requisitos pendientes: `docs/cierre-noche/VALIDATION_20261030.md` (validación estática PASS; motor de 50 min y recuperación operativa NO CERTIFICADOS).
 - Último checkpoint de producto conocido: rama `work/cloud-afternoon-pilot-20261030`, `docs/CLOUD_PILOT_CYCLE_02_20261030.md`, HEAD de referencia `03f3cf146b06807324858e824845dc9713db94fa` (**revalidar en GitHub**).
 - Evidencia de CI: Actions `41071061340`, 20/20 dirigidas + compilación, NO cierre F1/F2.
 - S2.A6 OPEN 3/8, V2 OFF, F1/F2/F3 abiertos, F4 pendiente, T4 NOT_RUN. El conflicto F3/S5 es humano.
