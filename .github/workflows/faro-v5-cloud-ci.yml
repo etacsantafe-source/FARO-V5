@@ -35,7 +35,9 @@ jobs:
       - name: Install Android 37 compile platform using runner SDK
         run: |
           test -n "$ANDROID_HOME"
-          sdkmanager --install "platforms;android-37" "build-tools;36.0.0"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37" "build-tools;36.0.0"
       - name: Structural, composition and Android compiler gates
         working-directory: v5
         run: |
