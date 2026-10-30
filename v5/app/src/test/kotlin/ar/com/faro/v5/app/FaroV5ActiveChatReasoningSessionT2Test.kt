@@ -147,6 +147,28 @@ class FaroV5ActiveChatReasoningSessionT2Test {
         }
     }
 
+    @Test fun revokedEgressAfterDurableStartNeverCallsModel() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val checks = AtomicInteger(0)
+            val session = FaroV5ActiveChatReasoningSession(
+                "gen-f1", store, gate, Supplier { active.get() },
+                BooleanSupplier { true },
+                ModelGateway { _, _ ->
+                    calls.incrementAndGet()
+                    error("model must not run after consent is revoked")
+                },
+                { checks.incrementAndGet() == 1 },
+            )
+            assertEquals(FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED,
+                session.run(request, NeverCancelled))
+            assertEquals(0, calls.get())
+            assertEquals(2, checks.get())
+            assertEquals(ConversationMessageState.PROCESSING,
+                runBlocking { store.readTimeline(chat) }!!.messages.last().state)
+        }
+    }
+
     @Test fun unknownUserMessageCannotMintFaroReply() {
         ConversationWorkspaceStore(db()).use { store ->
             seed(store)

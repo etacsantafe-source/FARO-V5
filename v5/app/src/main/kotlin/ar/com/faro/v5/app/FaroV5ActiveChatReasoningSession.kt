@@ -81,7 +81,9 @@ class FaroV5ActiveChatReasoningSession(
                 it.state == ConversationMessageState.ACCEPTED
         } ?: return FaroV5AssistantTurnOutcome.INVALID_TURN
         // The UI cannot mint model content or grant egress by passing an input payload.
-        if (!trustedEgressAdmission(user)) return FaroV5AssistantTurnOutcome.NOT_AUTHORIZED
+        val initiallyAllowed = try { trustedEgressAdmission(user) }
+            catch (_: Exception) { false }
+        if (!initiallyAllowed) return FaroV5AssistantTurnOutcome.NOT_AUTHORIZED
         if (cancellation.isCancelled()) return FaroV5AssistantTurnOutcome.STALE
 
         val start = try {
@@ -122,6 +124,12 @@ class FaroV5ActiveChatReasoningSession(
         if (start != null) return start
         // Never hold the material-write admission gate during a remote model call.
         if (!current() || cancellation.isCancelled())
+            return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
+        // Consent may be revoked after the durable PROCESSING write. Never
+        // dispatch a model request using a stale host egress decision.
+        val stillAllowed = try { trustedEgressAdmission(user) }
+            catch (_: Exception) { false }
+        if (!stillAllowed || !current())
             return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
 
         val result = try {
