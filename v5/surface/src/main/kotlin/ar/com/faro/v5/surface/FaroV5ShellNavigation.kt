@@ -223,7 +223,11 @@ fun FaroV5ShellScaffold(
         if (workspaceReadPort != null) {
             workspaceReadState = try {
                 FaroV5WorkspaceReadState.Ready(
-                    ConversationWorkspaceProjector.project(workspaceReadPort.readSnapshot())
+                    ConversationWorkspaceProjector.project(
+                        // SQLite-backed Workspace reads must never block Compose's main thread.
+                        // Cancellation on port replacement prevents stale results reaching UI.
+                        withContext(Dispatchers.IO) { workspaceReadPort.readSnapshot() }
+                    )
                 )
             } catch (cancelled: CancellationException) {
                 throw cancelled

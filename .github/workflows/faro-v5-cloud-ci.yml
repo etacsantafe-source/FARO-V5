@@ -49,6 +49,11 @@ jobs:
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             v5StructuralCheck appCompositionPolicyCheck \
             :surface:compileDebugKotlin :app:compileDebugKotlin :app:compileDebugJavaWithJavac
+      - name: Surface navigation and projection regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :surface:testDebugUnitTest
       - name: Directed F3 backup external-effect tests
         working-directory: v5
         run: |
@@ -86,5 +91,17 @@ jobs:
             if got != (tests, 0, 0, 0):
               raise SystemExit(f'FAIL_XML {path} {got}, expected {(tests,0,0,0)}')
             print(f'PASS_XML {path}: {got}')
+          surface = list(Path('v5/surface/build/test-results/testDebugUnitTest').glob('TEST-*.xml'))
+          if not surface:
+            raise SystemExit('MISSING_SURFACE_XML')
+          total_surface = 0
+          for p in surface:
+            root = ET.parse(p).getroot()
+            got = tuple(int(root.attrib.get(k, '-1')) for k in ('tests', 'failures', 'errors', 'skipped'))
+            if got[0] <= 0 or got[1:] != (0, 0, 0):
+              raise SystemExit(f'FAIL_SURFACE_XML {p}: {got}')
+            total_surface += got[0]
+            print(f'PASS_SURFACE_XML {p}: {got}')
+          print(f'FARO_V5_SURFACE_XML_PASS {total_surface}/{total_surface}')
           print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 20/20')
           PY

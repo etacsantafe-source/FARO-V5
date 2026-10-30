@@ -3,6 +3,7 @@ package ar.com.faro.v5.surface
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
@@ -45,7 +46,11 @@ fun FaroV5AdaptiveShell(
             adaptiveInfo.windowSizeClass.minWidthDp,
         )
 
-    FaroV5ShellScaffold(
+    // A different Workspace/host generation invalidates all pending drawer
+    // selection callbacks. Keep the navigation stack, but dispose the old
+    // scaffold's coroutine scope and asynchronous read state.
+    key(workspaceReadPort, timelineReadPort, composerPort, reviewPort, selectionPort, applyRequestPort) {
+        FaroV5ShellScaffold(
         drawerMode = drawerMode,
         modifier = modifier,
         backStack = backStack,
@@ -57,5 +62,6 @@ fun FaroV5AdaptiveShell(
         selectionPort = selectionPort,
         applyRequestPort = applyRequestPort,
         destinationContent = destinationContent,
-    )
+        )
+    }
 }
