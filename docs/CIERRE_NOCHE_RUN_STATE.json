@@ -35,25 +35,19 @@
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
   "in_flight_actions": [
     {
-      "id": 41087662875,
-      "head_sha": "79a1daae6e90adbed8de82dc258f1d881811042b",
-      "status": "IN_PROGRESS",
-      "scope": "initial production Kotlin compile, legacy directed gate"
-    },
-    {
       "id": 41088193344,
       "head_sha": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
-      "status": "PENDING",
-      "scope": "six new real Workspace + fake ModelGateway F1 tests and exact 26/26 XML"
+      "status": "IN_PROGRESS",
+      "scope": "exact 26/26 directed XML including six F1 model reply cases"
     }
   ],
   "scope": "F1 trusted assistant generation/Delivery start/resolve bridge, no provider credential, V2 OFF",
   "hypothesis": "No generation-scoped host coordinator currently links accepted Workspace user turn to ModelGateway result and durable FARO Start/Resolve; add explicit trusted admission and no-replay handling.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Reconcile CI #41087662875 then #41088193344 exact terminal SHA, compile, XML. First run does NOT include new tests. Fix red only with grounded cause; keep V2 OFF and 3/8.",
+  "next_action": "Wait for Actions 41088193344 terminal exact SHA, inspect XML 26/26; if green add one cross-boundary Composer->FARO reply->Review->Apply JVM test, preserving V2 OFF; if red diagnose fresh cause.",
   "status": "RUNNING",
   "code_head": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
-  "last_checkpoint_at": "2026-10-30T16:15:32.061Z",
+  "last_checkpoint_at": "2026-10-30T16:20:07.147Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -77,6 +71,14 @@
       "hypothesis": "static surface boundary scans source text including comments",
       "correction": "replace comment with provider-neutral Workspace terminology",
       "previous_head": "e6ee3ed59be28750bf055cf600344c81174e2950"
+    },
+    {
+      "issue": "ROJO cross-module test visibility",
+      "attempt_id": "run2-f1-internal-01",
+      "observation": "Actions 41087662875 compileDebugUnitTestKotlin failed on internal WorkspaceStore.create",
+      "hypothesis": "test setup called internal method from app module",
+      "correction": "commit 4b2b3d uses public suspend WorkspaceSelection and Timeline ports; exact 6-case CI queued",
+      "next_evidence": 41088193344
     }
   ],
   "completed_actions": [
@@ -113,6 +115,13 @@
       "errors": 0,
       "failures": 0,
       "skipped": 0
+    },
+    {
+      "id": 41087662875,
+      "job_id": 124172970825,
+      "head_sha": "79a1daae6e90adbed8de82dc258f1d881811042b",
+      "status": "COMPLETED_FAILURE",
+      "cause": "Kotlin compiler INVISIBLE_REFERENCE test line 31: cross-module internal WorkspaceStore.create; production Kotlin compile passed; already corrected on next SHA by public createAndSelect/readTimeline/writeTimeline APIs"
     }
   ],
   "writer_history": {
