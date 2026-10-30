@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.BooleanSupplier
 import java.util.function.Supplier
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -28,18 +29,19 @@ class FaroV5ActiveChatReasoningSessionT2Test {
     )
     private fun db() = root.resolve("workspace.db").toString()
     private fun seed(store: ConversationWorkspaceStore) {
-        assertTrue(store.create(WorkspaceCreateRequest(
-            ConversationWorkspaceEntry(chat, "Chat", 100L), 0L,
-            IdempotencyKey("create-f1"),
-        )) is WorkspaceWriteResult.Committed)
-        val before = store.timelineSnapshot(chat)!!
-        assertTrue(store.saveTimeline(ConversationTimelineWriteRequest(
-            chat, before.authorityToken, before.revision, IdempotencyKey("accept-f1"),
-            ConversationTimelineIntent.AcceptUser(ConversationMessage(
-                userId, chat, turn, ConversationMessageRole.USER,
-                ConversationMessageState.ACCEPTED, "Hola FARO", 150L,
-            )),
-        )) is ConversationTimelineWriteResult.Saved)
+        assertTrue(runBlocking {
+            store.createAndSelect(chat, 100L, IdempotencyKey("create-f1"))
+        } is ConversationSelectionResult.Saved)
+        val before = runBlocking { store.readTimeline(chat) }!!
+        assertTrue(runBlocking {
+            store.writeTimeline(ConversationTimelineWriteRequest(
+                chat, before.authorityToken, before.revision, IdempotencyKey("accept-f1"),
+                ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                    userId, chat, turn, ConversationMessageRole.USER,
+                    ConversationMessageState.ACCEPTED, "Hola FARO", 150L,
+                )),
+            ))
+        } is ConversationTimelineWriteResult.Saved)
     }
     private fun session(
         store: ConversationWorkspaceStore,
@@ -63,7 +65,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals(FaroV5AssistantTurnOutcome.ALREADY_RECORDED,
                 session(store).run(request, NeverCancelled))
             assertEquals(1, calls.get())
-            val messages = store.timelineSnapshot(chat)!!.messages
+            val messages = runBlocking { store.readTimeline(chat) }!!.messages
             assertEquals(listOf(ConversationMessageRole.USER, ConversationMessageRole.FARO),
                 messages.map { it.role })
             assertEquals("Respuesta FARO", messages.last().text)
@@ -81,7 +83,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals(FaroV5AssistantTurnOutcome.NOT_AUTHORIZED,
                 session(store, allowed = false).run(request, NeverCancelled))
             assertEquals(0, calls.get())
-            assertEquals(1, store.timelineSnapshot(chat)!!.messages.size)
+            assertEquals(1, runBlocking { store.readTimeline(chat) }!!.messages.size)
         }
     }
 
@@ -96,7 +98,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             }
             assertEquals(FaroV5AssistantTurnOutcome.OFFLINE,
                 session(store, model = offline).run(request, NeverCancelled))
-            val reply = store.timelineSnapshot(chat)!!.messages.last()
+            val reply = runBlocking { store.readTimeline(chat) }!!.messages.last()
             assertEquals(ConversationMessageState.OFFLINE, reply.state)
             assertEquals("", reply.text)
         }
@@ -115,10 +117,32 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals(FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED,
                 session(store, model = switching).run(request, NeverCancelled))
             assertEquals(ConversationMessageState.PROCESSING,
-                store.timelineSnapshot(chat)!!.messages.last().state)
+                runBlocking { store.readTimeline(chat) }!!.messages.last().state)
             active.set("gen-f1")
             assertEquals(FaroV5AssistantTurnOutcome.IN_PROGRESS,
                 session(store, model = switching).run(request, NeverCancelled))
+            assertEquals(1, calls.get())
+        }
+    }
+
+    @Test fun anotherConversationCanAdvanceGlobalRevisionWhileModelIsRunning() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val interleaved = ModelGateway { _, _ ->
+                calls.incrementAndGet()
+                assertTrue(runBlocking {
+                    store.createAndSelect(
+                        ConversationId("other-chat"), 300L, IdempotencyKey("other-create")
+                    )
+                } is ConversationSelectionResult.Saved)
+                ReasoningResult.Success(ModelBindingId("fake"), CanonicalPayload.fromEncoded(
+                    "text/plain", "Respuesta al chat original".toByteArray(StandardCharsets.UTF_8)
+                ))
+            }
+            assertEquals(FaroV5AssistantTurnOutcome.COMPLETED,
+                session(store, model = interleaved).run(request, NeverCancelled))
+            assertEquals("Respuesta al chat original",
+                runBlocking { store.readTimeline(chat) }!!.messages.last().text)
             assertEquals(1, calls.get())
         }
     }
