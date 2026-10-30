@@ -9,7 +9,7 @@
     "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run3",
     "epoch": 3,
     "lease_expires_at": "2026-10-30T14:59:00-03:00",
-    "expected_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb"
+    "expected_head": "44a2bbb37c3553dfe0f8b8f81513cabd83f7d55e"
   },
   "authorization": {
     "branch": "work/cierre-noche-pilot-20261030",
@@ -33,21 +33,14 @@
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [
-    {
-      "id": 41096575587,
-      "head_sha": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
-      "status": "IN_PROGRESS",
-      "scope": "F1 orphaned PROCESSING exclusive recovery; 29/29 directed + 31/31 surface expected"
-    }
-  ],
-  "scope": "F1 interrupted assistant reply recovery with explicit host-only exclusive admission; no model replay, no V2 activation",
+  "in_flight_actions": [],
+  "scope": "F1 recovery 29/29 green; F4 independent critical regressions Workspace timeline, model routing, generation switch",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Verify Actions #41096575587 terminal and exact SHA 8fabed1; inspect job XML 29/29 directed and Surface. Do not launch new CI while this run is active. If green, record checkpoint and close writer or continue indispensable independent F1/F2/F4 gap.",
+  "next_action": "Await new F4 critical CI (36 exact XML) after workflow push, verify terminal SHA and logs; do not start another Actions while queued/in_progress. If red investigate concrete failure; if green checkpoint and close writer with remaining F1/F2/F3/F4/T4 gaps.",
   "status": "RUNNING",
   "code_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
-  "last_checkpoint_at": "2026-10-30T17:11:25.774Z",
+  "last_checkpoint_at": "2026-10-30T17:17:46.267Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -85,6 +78,12 @@
       "attempt_id": "run3-f1-recovery-01",
       "hypothesis": "explicit trusted exclusive post-restart reconciliation can mark orphan FAILED without second egress",
       "expected_evidence": "one added JVM test with denial, reopen, terminal settlement and no model replay; directed CI 29/29"
+    },
+    {
+      "issue": "F4 critical integration gap",
+      "attempt_id": "run3-f4-critical-01",
+      "hypothesis": "existing Workspace lifecycle, gateway routing and generation switch suites are not included in directed cloud gate; execute 36 exact cases without changing product",
+      "expected_evidence": "F4 critical 36/36 XML, directed 29/29 and Surface 31/31; still not full F4 or Android E2E"
     }
   ],
   "completed_actions": [
@@ -164,6 +163,17 @@
       "errors": 0,
       "skipped": 0,
       "job_id": 124184585567
+    },
+    {
+      "id": 41096575587,
+      "job_id": 124203771710,
+      "head_sha": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "29/29 directed + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "F1 orphaned PROCESSING trusted recovery; JVM only, Android E2E NOT_RUN"
     }
   ],
   "writer_history": {

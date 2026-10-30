@@ -58,7 +58,15 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
-            :maintenance:test --tests 'ar.com.faro.v5.maintenance.BackupExternalWriteT2Test'
+            :maintenance:test --tests 'ar.com.faro.v5.maintenance.BackupExternalWriteT2Test' \
+            --tests 'ar.com.faro.v5.maintenance.GenerationSwitchCoordinatorT2Test'
+      - name: Directed F4 critical Workspace and model routing regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :workspace:test --tests 'ar.com.faro.v5.workspace.ConversationTimelineStoreT2Test'
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :kernel:runtime:test --tests 'ar.com.faro.v5.kernel.runtime.ComposedModelGatewayTest'
       - name: Directed F1 reviewed Apply and F2 pre-switch recovery tests
         working-directory: v5
         run: |
@@ -84,6 +92,11 @@ jobs:
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 1,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test.xml': 9,
           }
+          f4_expected = {
+            'v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.GenerationSwitchCoordinatorT2Test.xml': 5,
+            'v5/workspace/build/test-results/test/TEST-ar.com.faro.v5.workspace.ConversationTimelineStoreT2Test.xml': 13,
+            'v5/kernel/runtime/build/test-results/test/TEST-ar.com.faro.v5.kernel.runtime.ComposedModelGatewayTest.xml': 18,
+          }
           for path, tests in expected.items():
             p = Path(path)
             if not p.is_file():
@@ -106,4 +119,14 @@ jobs:
             print(f'PASS_SURFACE_XML {p}: {got}')
           print(f'FARO_V5_SURFACE_XML_PASS {total_surface}/{total_surface}')
           print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 29/29')
+          for path, tests in f4_expected.items():
+            p = Path(path)
+            if not p.is_file():
+              raise SystemExit(f'MISSING_F4_XML {path}')
+            root = ET.parse(p).getroot()
+            got = tuple(int(root.attrib.get(k, '-1')) for k in ('tests', 'failures', 'errors', 'skipped'))
+            if got != (tests, 0, 0, 0):
+              raise SystemExit(f'FAIL_F4_XML {path} {got}, expected {(tests,0,0,0)}')
+            print(f'PASS_F4_XML {path}: {got}')
+          print('FARO_V5_F4_CRITICAL_XML_PASS 36/36')
           PY
