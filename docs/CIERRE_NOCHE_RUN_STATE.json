@@ -9,7 +9,7 @@
     "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run3",
     "epoch": 3,
     "lease_expires_at": "2026-10-30T14:59:00-03:00",
-    "expected_head": "44a2bbb37c3553dfe0f8b8f81513cabd83f7d55e"
+    "expected_head": "5cf7c0e32da6deb56d1f81406d0a39d4f75f7e4a"
   },
   "authorization": {
     "branch": "work/cierre-noche-pilot-20261030",
@@ -33,14 +33,21 @@
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41097591479,
+      "head_sha": "5cf7c0e32da6deb56d1f81406d0a39d4f75f7e4a",
+      "status": "QUEUED",
+      "scope": "F4 critical Workspace 13 + ModelGateway 18 + GenerationSwitch 5, plus F1-F3 29 + Surface 31"
+    }
+  ],
   "scope": "F1 recovery 29/29 green; F4 independent critical regressions Workspace timeline, model routing, generation switch",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Await new F4 critical CI (36 exact XML) after workflow push, verify terminal SHA and logs; do not start another Actions while queued/in_progress. If red investigate concrete failure; if green checkpoint and close writer with remaining F1/F2/F3/F4/T4 gaps.",
+  "next_action": "Verify Actions 41097591479 terminal SHA 5cf7c0e, exact XML F4 36/36 + F1-F3 29/29 + Surface 31/31. Do not queue another gate while active. Close writer by 14:59 -03, global cutoff 15:09 -03.",
   "status": "RUNNING",
   "code_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
-  "last_checkpoint_at": "2026-10-30T17:17:46.267Z",
+  "last_checkpoint_at": "2026-10-30T17:18:08.604Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
