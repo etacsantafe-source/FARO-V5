@@ -35,25 +35,19 @@
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
   "in_flight_actions": [
     {
-      "id": 41088193344,
-      "head_sha": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
-      "status": "IN_PROGRESS",
-      "scope": "six F1 model reply cases, 26/26 directed XML"
-    },
-    {
       "id": 41089571810,
       "head_sha": "5495a6e4b1e96aadf2888a99dab6904faf9f12d5",
-      "status": "PENDING",
-      "scope": "integrated Composer->Model->Review->Apply plus egress revocation, seven F1 cases, 27/27 XML"
+      "status": "IN_PROGRESS",
+      "scope": "integrated F1 + consent revocation; 27/27 exact XML"
     }
   ],
   "scope": "F1 trusted assistant generation/Delivery start/resolve bridge, no provider credential, V2 OFF",
   "hypothesis": "No generation-scoped host coordinator currently links accepted Workspace user turn to ModelGateway result and durable FARO Start/Resolve; add explicit trusted admission and no-replay handling.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Verify 41088193344 terminal exact SHA and XML 26/26; then 41089571810 exact SHA and XML 27/27. No new CI until these settle. Keep 3/8, V2 OFF; do not infer Android E2E.",
+  "next_action": "Verify Actions #41089571810 terminal SHA 5495a6e4, exact XML 27/27 and Surface 31/31. If green, decide whether any indispensable F1/F2 independent work remains; otherwise close clean with writer NONE. Keep S2.A6 3/8, V2 OFF.",
   "status": "RUNNING",
   "code_head": "5495a6e4b1e96aadf2888a99dab6904faf9f12d5",
-  "last_checkpoint_at": "2026-10-30T16:24:32.806Z",
+  "last_checkpoint_at": "2026-10-30T16:27:18.412Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -134,6 +128,17 @@
       "head_sha": "7b10fc4421c9af3b53512c51376e02277bdc454e",
       "status": "COMPLETED_CANCELLED",
       "cause": "GitHub concurrency group replaces older pending run when a newer pending run is queued; not a code/test failure; superseded by 41089571810"
+    },
+    {
+      "id": 41088193344,
+      "job_id": 124177163724,
+      "head_sha": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "26/26 directed + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Android compile and structural checks pass; no Android E2E"
     }
   ],
   "writer_history": {
