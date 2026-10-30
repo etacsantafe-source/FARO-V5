@@ -9,7 +9,7 @@
     "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
     "epoch": 5,
     "lease_expires_at": "2026-10-30T19:09:00Z",
-    "expected_head": "a586170687bc6a60cbbc9a1894127731544e92de"
+    "expected_head": "22ca41949f2303bb93d6bce63ad67d49ec87127b"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -35,18 +35,25 @@
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "a586170687bc6a60cbbc9a1894127731544e92de",
-  "in_flight_actions": [],
-  "scope": "B 15:40 F1 accepted Workspace turn -> host-owned async dispatcher via optional surface port; V2 OFF",
+  "in_flight_actions": [
+    {
+      "id": 41109035846,
+      "head_sha": "22ca41949f2303bb93d6bce63ad67d49ec87127b",
+      "status": "IN_PROGRESS",
+      "conclusion": null
+    }
+  ],
+  "scope": "B1 F1: real Composer Saved -> optional surface dispatch port -> trusted host-owned profile, stable SHA256 reply identity, async generation-owned worker. Integrated Workspace/Apply flow test updated; CI pending. No V2 activation.",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "ACTIVE_B",
+    "mode": "ACTIVE_WAIT_CI",
     "criterion": "F1",
-    "step": "Implement and test minimal accepted-turn dispatch after canonical Composer commit with trusted host profile/egress."
+    "step": "Verify Actions 41109035846 terminal SHA/XML; if GREEN continue essential host lifecycle integration, if RED diagnose once safely. No second Actions while first pending."
   },
   "status": "ACTIVE_WRITER",
-  "code_head": "7e461758ba39c65d149cee3b56e011ab478972db",
-  "last_checkpoint_at": "2026-10-30T18:30:39.906Z",
+  "code_head": "22ca41949f2303bb93d6bce63ad67d49ec87127b",
+  "last_checkpoint_at": "2026-10-30T18:50:11.710Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
