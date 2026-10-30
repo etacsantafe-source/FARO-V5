@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v11-3h",
   "run_id": "cierre-v11-20261030-B-1740",
   "run_number": 6,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1740",
+    "state": "NONE",
+    "owner": null,
     "epoch": 8,
-    "lease_expires_at": "2026-10-30T18:09:00-03:00",
-    "expected_head": "b030c2fa464a211921015fac47c1e25d37247dc2"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -35,26 +35,18 @@
   },
   "base_head": "2c3550da829f3d64ab06d7fd5645314b4ef6fba1",
   "source_head": "b030c2fa464a211921015fac47c1e25d37247dc2",
-  "in_flight_actions": [
-    {
-      "id": 41125074207,
-      "head_sha": "b030c2fa464a211921015fac47c1e25d37247dc2",
-      "status": "in_progress",
-      "conclusion": null,
-      "tests_expected": "38/38 directed, 36/36 F4, 31/31 Surface; no Android E2E"
-    }
-  ],
-  "scope": "B3 F1: fix bounded context orphan assistant privacy leak under label overhead; add regression and exact CI",
+  "in_flight_actions": [],
+  "scope": "B3 F1: fixed derived assistant reply orphan after labelled 12k budget; 1 targeted JVM regression and exact directed gate. No F1/F2/F3/F4/T4 criterion certified, 3/8 unchanged.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
-  "tests": "B3 F1 orphan-derived reply budget fix @ b030c2fa464a211921015fac47c1e25d37247dc2; Actions 41125074207 IN_PROGRESS; XML NOT VERIFIED; no PASS claimed",
+  "tests": "Actions 41125074207 terminal SUCCESS exact head b030c2fa464a211921015fac47c1e25d37247dc2; XML 38/38 directed (0 failures/errors/skips), 36/36 F4 critical (0/0/0), 31/31 Surface (0/0/0); F1 session 18/18 (0/0/0); Android compile/structural PASS; Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "WAIT_CI",
-    "criterion": "F1",
-    "step": "Verify Actions 41125074207 terminal SHA and exact 38/38, 36/36, 31/31 XML. If PASS, evaluate next functional gap within authorized time; no duplicate run."
+    "mode": "FINAL_REPORT_READ_ONLY",
+    "criterion": "S2.A6",
+    "step": "At 18:20 verify final GitHub HEAD/CI and report. Remaining F1 trusted Android bootstrap ComposedModelGateway/profile/credentials/egress + Android E2E; F2 activation/recovery E2E; F3 minimal consent/SAF UI and RESTORE journal staging; F4 integral Android; T4 physical. No further autonomous writes in this pilot."
   },
-  "status": "ACTIVE",
+  "status": "CLOSED_PASS_REVIEW",
   "code_head": "b030c2fa464a211921015fac47c1e25d37247dc2",
-  "last_checkpoint_at": "2026-10-30T20:41:34.648Z",
+  "last_checkpoint_at": "2026-10-30T20:48:44.256Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -137,7 +129,8 @@
       "correction": "post-budget selected turns must include their USER before retaining FARO; keep selected fragment list identical to emitted context",
       "fix_commit": "b030c2fa464a211921015fac47c1e25d37247dc2",
       "expected_evidence": "Actions 41125074207 exact 38/38 directed including regression, 36/36 critical, 31/31 Surface",
-      "status": "WAIT_CI"
+      "status": "PASS",
+      "evidence": "Actions 41125074207 SUCCESS; exact F1 18/18, directed 38/38, F4 36/36, Surface 31/31 XML"
     }
   ],
   "completed_actions": [
@@ -326,6 +319,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "Exact XML 17/17 F1 reasoning and two typed host port integration tests; Android compile/structural PASS; no Android E2E/T4"
+    },
+    {
+      "id": 41125074207,
+      "job_id": 124301160337,
+      "head_sha": "b030c2fa464a211921015fac47c1e25d37247dc2",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "38/38 directed + 36/36 F4 critical + 31/31 Surface; F1 suite 18/18",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "B3 privacy fix: no derived FARO reply without its user after labelled context budget; Android compiler/structural PASS, no Android E2E/T4"
     }
   ],
   "writer_history": {
