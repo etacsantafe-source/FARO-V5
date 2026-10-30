@@ -116,11 +116,11 @@
   ],
   "in_flight_actions": [
     {
-      "id": 41139970252,
-      "head_sha": "905b4f261874cf3faff91a71ce978cafe8478788",
-      "status": "in_progress",
-      "reason": "F1 consent revocation after Keystore read, live HTTP admission and transport regression 8/8",
-      "resume": "Verify terminal exact SHA and XML transport8/8 bootstrap4/4 consent3/3; no identical repeat"
+      "id": 41140606044,
+      "head_sha": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
+      "status": "IN_PROGRESS",
+      "reason": "F1 post-provider revocation prevents derived reply persistence",
+      "resume": "Verify terminal exact XML transport8/8 bootstrap4/4 consent3/3 reasoning19/19; no repeat identical"
     }
   ],
   "actions_launched_v12": [
@@ -187,9 +187,19 @@
     {
       "id": 41139970252,
       "head_sha": "905b4f261874cf3faff91a71ce978cafe8478788",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED_SUCCESS",
       "reason": "F1 revocation gate at transport before HTTP dispatch and while waiting; one new focused regression",
-      "started_at": "2026-10-30T22:43:20Z"
+      "started_at": "2026-10-30T22:43:20Z",
+      "completed_at": "2026-10-30T22:48:22Z",
+      "wall_seconds": 302,
+      "tests": "Exact XML oracle step PASS transport8/8 bootstrap4/4 consent3/3; Android compile PASS; Android E2E NOT_RUN"
+    },
+    {
+      "id": 41140606044,
+      "head_sha": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
+      "status": "IN_PROGRESS",
+      "reason": "F1 after-provider consent revalidation before Workspace commit, one new 19th reasoning test",
+      "started_at": "2026-10-30T22:49:14Z"
     }
   ],
   "used_time_minutes": {
@@ -211,7 +221,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "Verify CI #41139970252 exact SHA and XML (8/8 transport,4/4 bootstrap,3/3 consent); if RED diagnose actual compiler/log and correct safely; if GREEN continue essential Android integration/recovery, no full suite. V2 OFF."
+    "step": "Verify #41140606044 exact SHA c3d4e9a4... and XML transport8/8 bootstrap4/4 consent3/3 reasoning19/19; if RED diagnose actual failure; if PASS, F1 Android E2E still pending, prioritize Android instrumentation host/Keystore lifecycle without V2 activation. Then F2/F3 functional."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -236,7 +246,7 @@
     "stop_new_work_at": "2026-10-30T20:00:00-03:00",
     "finish_work_by": "2026-10-30T20:05:00-03:00"
   },
-  "code_head": "905b4f261874cf3faff91a71ce978cafe8478788",
+  "code_head": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -262,6 +272,11 @@
       "commit": "905b4f261874cf3faff91a71ce978cafe8478788",
       "kind": "F1 live consent revocation enforced by provider adapter",
       "result": "Trusted factory binds current consent/credential revision to HTTP adapter; adapter rejects post-Keystore revocation before network, cancels pending call on revocation; new deterministic 8th transport test; CI in flight, not certified"
+    },
+    {
+      "commit": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
+      "kind": "F1 post-provider egress revocation before Workspace resolution",
+      "result": "Revalidates all selected context fragments after model and immediately before durable reply; denied context produces FAILED empty answer, no derived text persisted; 19th reasoning regression; CI in progress"
     }
   ],
   "hypotheses": [
@@ -279,7 +294,7 @@
       "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T22:43:58.520Z",
+  "last_checkpoint_at": "2026-10-30T22:49:51.556Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -288,7 +303,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "A2 F1 live consent transport gate implemented; CI #41137328678 prior PASS, new #41139970252 IN_PROGRESS; F1 Android E2E NOT_RUN; 3/8 unchanged",
+  "scope": "A2 two functional F1 safety batches: live consent at HTTP boundary #905b4f PASS CI #41139970252, and post-provider derived-answer suppression #c3d4e9 pending CI #41140606044; 3/8 criteria unchanged",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
