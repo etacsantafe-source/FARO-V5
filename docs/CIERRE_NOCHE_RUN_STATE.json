@@ -116,11 +116,11 @@
   ],
   "in_flight_actions": [
     {
-      "id": 41137328678,
-      "head_sha": "636567f8079a0337eea5aa4d703e60013fe26688",
+      "id": 41139970252,
+      "head_sha": "905b4f261874cf3faff91a71ce978cafe8478788",
       "status": "in_progress",
-      "reason": "F1 Keystore consent CAS, stale and revocation 3-case XML",
-      "resume": "Verify terminal exact XML; no repeat identical"
+      "reason": "F1 consent revocation after Keystore read, live HTTP admission and transport regression 8/8",
+      "resume": "Verify terminal exact SHA and XML transport8/8 bootstrap4/4 consent3/3; no identical repeat"
     }
   ],
   "actions_launched_v12": [
@@ -178,9 +178,18 @@
     {
       "id": 41137328678,
       "head_sha": "636567f8079a0337eea5aa4d703e60013fe26688",
-      "status": "in_progress",
+      "status": "COMPLETED_SUCCESS",
       "reason": "F1 functional consent/credential CAS and revocation targeted test batch",
-      "started_at": "2026-10-30T22:19:17Z"
+      "started_at": "2026-10-30T22:19:17Z",
+      "completed_at": "2026-10-30T22:25:02Z",
+      "tests": "Exact XML oracle step PASS: transport7/7 bootstrap4/4 consent3/3; Android Kotlin/Java compile PASS"
+    },
+    {
+      "id": 41139970252,
+      "head_sha": "905b4f261874cf3faff91a71ce978cafe8478788",
+      "status": "IN_PROGRESS",
+      "reason": "F1 revocation gate at transport before HTTP dispatch and while waiting; one new focused regression",
+      "started_at": "2026-10-30T22:43:20Z"
     }
   ],
   "used_time_minutes": {
@@ -202,7 +211,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "Wait CI #41137328678 exact SHA636567; verify XML transport7/7 bootstrap4/4 consent3/3 and Android compile. If RED diagnose and targeted fix before B1 minute20; otherwise checkpoint WAIT_CI if still active by minute25. Next F1 Android E2E / restart activation."
+    "step": "Verify CI #41139970252 exact SHA and XML (8/8 transport,4/4 bootstrap,3/3 consent); if RED diagnose actual compiler/log and correct safely; if GREEN continue essential Android integration/recovery, no full suite. V2 OFF."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -223,11 +232,11 @@
     "scheduled_start": "2026-10-30T19:40:00-03:00",
     "started_at": "2026-10-30T22:40:13.708Z",
     "deadline": "2026-10-30T20:10:00-03:00",
-    "phase": "DEVELOPMENT",
+    "phase": "DEVELOPMENT_CI_IN_FLIGHT",
     "stop_new_work_at": "2026-10-30T20:00:00-03:00",
     "finish_work_by": "2026-10-30T20:05:00-03:00"
   },
-  "code_head": "636567f8079a0337eea5aa4d703e60013fe26688",
+  "code_head": "905b4f261874cf3faff91a71ce978cafe8478788",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -248,6 +257,11 @@
       "commit": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
       "kind": "F1 Android bootstrap Kotlin compatibility",
       "result": "Android trusted bootstrap compiled; directed CI4 7/7 transport + 4/4 bootstrap XML PASS, no Android E2E"
+    },
+    {
+      "commit": "905b4f261874cf3faff91a71ce978cafe8478788",
+      "kind": "F1 live consent revocation enforced by provider adapter",
+      "result": "Trusted factory binds current consent/credential revision to HTTP adapter; adapter rejects post-Keystore revocation before network, cancels pending call on revocation; new deterministic 8th transport test; CI in flight, not certified"
     }
   ],
   "hypotheses": [
@@ -265,7 +279,7 @@
       "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T22:40:13.708Z",
+  "last_checkpoint_at": "2026-10-30T22:43:58.520Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -274,7 +288,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B1 F1: implemented minimal Settings shell entry + internal Activity for explicit Groq consent, process-singleton DataStore/Keystore and unique secret CAS; test coverage 3 cases added. CI #41136399502 SUCCESS (7/7+4/4 and Android compile), CI #41137328678 IN_PROGRESS. No F1 E2E certification, 3/8 unchanged.",
+  "scope": "A2 F1 live consent transport gate implemented; CI #41137328678 prior PASS, new #41139970252 IN_PROGRESS; F1 Android E2E NOT_RUN; 3/8 unchanged",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
