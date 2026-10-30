@@ -9,7 +9,7 @@
     "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
     "epoch": 6,
     "lease_expires_at": "2026-10-30T19:39:00Z",
-    "expected_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e"
+    "expected_head": "7900e208c17eb8c8dc99300931072e42e2b8f73a"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -34,19 +34,26 @@
     "t4": "NOT_RUN"
   },
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-  "source_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-  "in_flight_actions": [],
-  "scope": "A2 F1/F3: reconcile B expired lease and completed CI, inspect next essential functional gap; no code change yet",
-  "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
+  "source_head": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+  "in_flight_actions": [
+    {
+      "id": 41113428119,
+      "head_sha": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+      "status": "IN_PROGRESS",
+      "conclusion": null
+    }
+  ],
+  "scope": "A2 F1: recovered expired B epoch5 after B completed, acquired epoch6 with branch-head CAS; implemented bounded earlier-turn-only context with per-fragment trusted egress admission and 2 directed tests; CI pending.",
+  "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
   "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "ACTIVE",
+    "mode": "WAIT_CI",
     "criterion": "F1",
-    "step": "Inspect missing trusted bootstrap/egress integration or F3 SAF UI; implement minimal bounded safe change if CAS lease valid."
+    "step": "Verify Actions 41113428119 terminal SHA and exact XML; if RED diagnose once, if GREEN continue next necessary integration gap before minute20. Do not duplicate pending CI."
   },
-  "status": "ACTIVE_WRITER",
-  "code_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-  "last_checkpoint_at": "2026-10-30T19:10:21.873Z",
+  "status": "ACTIVE_WAIT_CI",
+  "code_head": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+  "last_checkpoint_at": "2026-10-30T19:13:57.262Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -90,6 +97,13 @@
       "attempt_id": "run3-f4-critical-01",
       "hypothesis": "existing Workspace lifecycle, gateway routing and generation switch suites are not included in directed cloud gate; execute 36 exact cases without changing product",
       "expected_evidence": "F4 critical 36/36 XML, directed 29/29 and Surface 31/31; still not full F4 or Android E2E"
+    },
+    {
+      "issue": "F1 bounded historical context + egress",
+      "attempt_id": "v11-A2-f1-context-01",
+      "fix_commit": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+      "expected_evidence": "CI 41113428119 directed 33/33 + F4 36/36 + Surface 31/31, compile/structural",
+      "status": "WAIT_CI"
     }
   ],
   "completed_actions": [
@@ -213,6 +227,27 @@
       "errors": 0,
       "skipped": 0,
       "notes": "Exact JUnit XML verified in logs; canonical timeline read moved to Dispatchers.IO; no Android E2E/T4"
+    },
+    {
+      "id": 41109035846,
+      "head_sha": "22ca41949f2303bb93d6bce63ad67d49ec87127b",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "31/31 directed + 36/36 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "B1 host Composer accepted turn dispatch; CI terminal, exact XML asserted"
+    },
+    {
+      "id": 41110513051,
+      "job_id": 124251400508,
+      "head_sha": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "31/31 directed + 36/36 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "B2 generation-owned DeliveryGraph lifecycle; exact XML inspected in logs"
     }
   ],
   "writer_history": {
@@ -234,7 +269,8 @@
     "v11_a1_writer_cas": "OBSERVED",
     "v11_a1_no_overlap": "OBSERVED",
     "v11_a1_actions": "TWO_TERMINAL_SUCCESS",
-    "v11_a1_thirty_minute_continuity": "NOT_DEMONSTRATED; closed cleanly after 20.3 min"
+    "v11_a1_thirty_minute_continuity": "NOT_DEMONSTRATED; closed cleanly after 20.3 min",
+    "v11_a2_writer_recovery": "OBSERVED_B_EXPIRED_LEASE_AUTOMATION_COMPLETED_CI_TERMINAL_CAS_EPOCH6"
   },
   "writer_recovery": {
     "previous_owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
