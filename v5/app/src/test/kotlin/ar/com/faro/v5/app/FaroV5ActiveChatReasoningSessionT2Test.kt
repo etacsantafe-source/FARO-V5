@@ -4,6 +4,9 @@ import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.workspace.*
 import java.nio.charset.StandardCharsets
 import java.nio.file.Path
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 import java.util.function.BooleanSupplier
@@ -166,6 +169,43 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals(2, checks.get())
             assertEquals(ConversationMessageState.PROCESSING,
                 runBlocking { store.readTimeline(chat) }!!.messages.last().state)
+        }
+    }
+
+    @Test fun concurrentRequestsForSameTurnNeverCallModelTwice() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val entered = CountDownLatch(1)
+            val release = CountDownLatch(1)
+            val model = ModelGateway { _, _ ->
+                calls.incrementAndGet()
+                entered.countDown()
+                check(release.await(20, TimeUnit.SECONDS)) { "model test release timed out" }
+                ReasoningResult.Success(ModelBindingId("fake"), CanonicalPayload.fromEncoded(
+                    "text/plain", "Única respuesta".toByteArray(StandardCharsets.UTF_8)
+                ))
+            }
+            val session = session(store, model = model)
+            val pool = Executors.newFixedThreadPool(2)
+            try {
+                val first = pool.submit<FaroV5AssistantTurnOutcome> {
+                    session.run(request, NeverCancelled)
+                }
+                assertTrue(entered.await(20, TimeUnit.SECONDS))
+                val second = pool.submit<FaroV5AssistantTurnOutcome> {
+                    session.run(request, NeverCancelled)
+                }
+                assertEquals(FaroV5AssistantTurnOutcome.IN_PROGRESS,
+                    second.get(20, TimeUnit.SECONDS))
+                release.countDown()
+                assertEquals(FaroV5AssistantTurnOutcome.COMPLETED,
+                    first.get(20, TimeUnit.SECONDS))
+                assertEquals(1, calls.get())
+                assertEquals(2, runBlocking { store.readTimeline(chat) }!!.messages.size)
+            } finally {
+                release.countDown()
+                pool.shutdownNow()
+            }
         }
     }
 
