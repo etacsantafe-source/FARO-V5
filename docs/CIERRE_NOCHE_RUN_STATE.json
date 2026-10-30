@@ -9,7 +9,7 @@
     "owner": "NOCHE_A_1",
     "epoch": 9,
     "lease_expires_at": "2026-10-30T19:10:00-03:00",
-    "expected_head": "1967506c49218271f207583f87733363add6fbc2"
+    "expected_head": "570ff81e19e8f2cd51a8687869335beec8926286"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -119,8 +119,15 @@
       "id": 41133226321,
       "head_sha": "1967506c49218271f207583f87733363add6fbc2",
       "status": "in_progress",
-      "reason": "F1 Android bootstrap targeted compile/test",
-      "resume": "Check terminal status and exact XML; no identical retry"
+      "reason": "First Android bootstrap CI; verify exact compiler log",
+      "resume": "Do not retry identical SHA"
+    },
+    {
+      "id": 41133963832,
+      "head_sha": "570ff81e19e8f2cd51a8687869335beec8926286",
+      "status": "pending",
+      "reason": "Corrected F1 transport and Android bootstrap",
+      "resume": "Wait for CI2 completion; then check terminal XML"
     }
   ],
   "actions_launched_v12": [
@@ -140,6 +147,15 @@
       "reason": "F1 trusted Android bootstrap + profile/Keystore/egress policy, compile and four focused tests",
       "status": "IN_PROGRESS",
       "created_at": "2026-10-30T21:44:17Z",
+      "completed_at": null,
+      "wall_seconds": null
+    },
+    {
+      "id": 41133963832,
+      "head_sha": "570ff81e19e8f2cd51a8687869335beec8926286",
+      "reason": "Correct F1 prompt bytes + consent guard + reject truncated model replies; targeted 7 transport + 4 bootstrap + Android compile",
+      "status": "PENDING",
+      "created_at": "2026-10-30T21:50:27Z",
       "completed_at": null,
       "wall_seconds": null
     }
@@ -162,7 +178,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "Check CI 41133226321 terminal exact XML; if compiler red, fix prompt byte encoding and any actual errors; add guarded credential read before dispatch; run one focused corrected CI. Then stage Settings consent/Keystore entry UI and Android E2E, without V2 cutover."
+    "step": "Observe CI2 #41133226321 terminal compiler log and CI3 #41133963832 exact XML. Do not cancel/duplicate. If CI3 PASS, continue minimal Android Settings credential/consent port and quarantined E2E in B1; no V2 activation."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -175,9 +191,9 @@
     "started_at": "2026-10-30T21:40:05.011Z",
     "deadline": "2026-10-30T19:10:00-03:00",
     "phase": "F1_ANDROID_BOOTSTRAP_CI",
-    "last_observed_at": "2026-10-30T21:49:04.739Z"
+    "last_observed_at": "2026-10-30T21:51:58.140Z"
   },
-  "code_head": "1967506c49218271f207583f87733363add6fbc2",
+  "code_head": "570ff81e19e8f2cd51a8687869335beec8926286",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -188,14 +204,20 @@
       "commit": "1967506c49218271f207583f87733363add6fbc2",
       "kind": "F1 dormant Android trusted bootstrap",
       "result": "ComposedModelGateway, AiControlPreferenceStore consent/profile, AndroidKeystoreSecretStore, live egress rechecks; CI in progress, no Android E2E"
+    },
+    {
+      "commit": "570ff81e19e8f2cd51a8687869335beec8926286",
+      "kind": "F1 safety correction",
+      "result": "Corrected prompt byte encoding (locally reproduced Kotlin type mismatch); guarded Keystore secret read with fresh consent; reject non-stop/wrong-role responses; CI queued behind in-progress CI2"
     }
   ],
   "hypotheses": [
     {
       "issue": "F1 bootstrap prompt byte encoding",
       "observation": "Static review identified Kotlin concatenation before .toByteArray, likely type mismatch; await exact CI log before correction",
-      "status": "PENDING_CI_DIAGNOSIS"
+      "status": "CORRECTED_PENDING_CI",
+      "fix_commit": "570ff81e19e8f2cd51a8687869335beec8926286"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T21:49:04.739Z"
+  "last_checkpoint_at": "2026-10-30T21:51:58.141Z"
 }
