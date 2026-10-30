@@ -9,7 +9,7 @@
     "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
     "epoch": 6,
     "lease_expires_at": "2026-10-30T19:39:00Z",
-    "expected_head": "7900e208c17eb8c8dc99300931072e42e2b8f73a"
+    "expected_head": "031667d7940bfde17565cf9a900cd496f10618a4"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -34,26 +34,26 @@
     "t4": "NOT_RUN"
   },
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-  "source_head": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+  "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
   "in_flight_actions": [
     {
-      "id": 41113428119,
-      "head_sha": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+      "id": 41114483263,
+      "head_sha": "031667d7940bfde17565cf9a900cd496f10618a4",
       "status": "IN_PROGRESS",
       "conclusion": null
     }
   ],
-  "scope": "A2 F1: recovered expired B epoch5 after B completed, acquired epoch6 with branch-head CAS; implemented bounded earlier-turn-only context with per-fragment trusted egress admission and 2 directed tests; CI pending.",
+  "scope": "A2 F1: recovered expired B writer, implemented bounded historical context with per-fragment admission (CI 41113428119 PASS); strengthened turn-level privacy so denied historical user suppresses its derived FARO reply; CI 41114483263 pending.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
   "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
     "mode": "WAIT_CI",
     "criterion": "F1",
-    "step": "Verify Actions 41113428119 terminal SHA and exact XML; if RED diagnose once, if GREEN continue next necessary integration gap before minute20. Do not duplicate pending CI."
+    "step": "Verify 41114483263 terminal SHA/XML; if green record PASS as bounded F1 evidence, not Android E2E; if red diagnose once safely. No further Actions while pending. Release writer by minute30."
   },
   "status": "ACTIVE_WAIT_CI",
-  "code_head": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
-  "last_checkpoint_at": "2026-10-30T19:13:57.262Z",
+  "code_head": "031667d7940bfde17565cf9a900cd496f10618a4",
+  "last_checkpoint_at": "2026-10-30T19:20:57.488Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -103,6 +103,15 @@
       "attempt_id": "v11-A2-f1-context-01",
       "fix_commit": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
       "expected_evidence": "CI 41113428119 directed 33/33 + F4 36/36 + Surface 31/31, compile/structural",
+      "status": "WAIT_CI"
+    },
+    {
+      "issue": "F1 derived assistant egress leak",
+      "attempt_id": "v11-A2-f1-derived-01",
+      "hypothesis": "A completed assistant response can contain data from a denied earlier user; independent fragment admission alone is insufficient.",
+      "correction": "Require same-turn user admission before including assistant reply in model context.",
+      "fix_commit": "031667d7940bfde17565cf9a900cd496f10618a4",
+      "expected_evidence": "CI 41114483263 33/33 directed, 36/36 F4, 31/31 Surface, exact XML",
       "status": "WAIT_CI"
     }
   ],
@@ -248,6 +257,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "B2 generation-owned DeliveryGraph lifecycle; exact XML inspected in logs"
+    },
+    {
+      "id": 41113428119,
+      "job_id": 124261387663,
+      "head_sha": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "33/33 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "F1 bounded earlier-turn context with per-fragment egress; exact XML 13/13 reasoning suite and all other directed verified from job logs; Android E2E/T4 NOT_RUN"
     }
   ],
   "writer_history": {
