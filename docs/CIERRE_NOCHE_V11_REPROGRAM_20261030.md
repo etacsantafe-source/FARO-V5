@@ -1,5 +1,5 @@
 # FARO V5 — CIERRE Noche V1.1 · NUEVO piloto de 3 horas, 30/10/2026
-**Estado:** NEW_EXPLICIT_AUTHORIZATION / PENDING_SCHEDULER_CONFIRMATION.
+**Estado:** NEW_EXPLICIT_AUTHORIZATION / SCHEDULES_CONFIRMED_ENABLED / DO_NOT_EXTEND.
 
 ## Autoridad y calendario (Argentina UTC-03)
 - La persona usuaria pausó expresamente las tres automatizaciones anteriores, resolvió el bloqueo F3 aprobando opción A y luego dio una NUEVA orden explícita «Reprogramamos». Esta autorización reemplaza solo para la nueva ventana el estado PAUSED del registro histórico; NO autoriza tareas fuera de la ventana ni prórroga automática.
@@ -31,3 +31,9 @@
 5. Minutos 25–30: checkpoint durable, resultados, SHA, XML y errores, writer NONE y terminar. No afirmar que el runtime sostuvo 30 minutos sin observarlos. Si cae contexto/cuota, retomar la próxima sesión desde GitHub reconciliando commits y CI primero.
 6. El corte absoluto 18:10 prevalece incluso si la sesión empezó tarde. Al cerrarse S2.A6 o quedar solo T4, pausar ambas automatizaciones y adelantar informe de forma segura si es posible. No abrir S3/S4, no ampliar permiso ni programar más tareas.
 7. Informe final 18:20: leer GitHub READ_ONLY, identificar ejecuciones reales (no solo calendario), X/8 evidenciado, F1/F2/F3/F4/T4, ROJOS, CI y SHA/XML, writer/leasing, duración efectiva y pendiente exacto para S2. No modificar código ni disparar Actions.
+
+## Confirmación real de programaciones (segunda ventana)
+- Reutilizada Noche A id `6ae4d8f201948191aacf0589adcb5c64`: is_enabled=true, DTSTART 20261030T181000Z, HOURLY COUNT=3.
+- Reutilizada Noche B id `6ae4d8f4b2308191b3c8c3e148f38570`: is_enabled=true, DTSTART 20261030T184000Z, HOURLY COUNT=3.
+- Reutilizado Informe final id `6ae4d90683b88191930dd64194370d27`: is_enabled=true, DTSTART 20261030T212000Z, ejecución única.
+- **Las ejecuciones programadas son intenciones, no comprobación de trabajo efectivo ni 30 minutos de cómputo.** Cada sesión debe reportar tiempo real y checkpoint.
