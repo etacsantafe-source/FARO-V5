@@ -38,17 +38,22 @@
       "id": 41087662875,
       "head_sha": "79a1daae6e90adbed8de82dc258f1d881811042b",
       "status": "IN_PROGRESS",
-      "trigger": "push",
-      "expected": "Android compile + 20/20 directed + surface XML"
+      "scope": "initial production Kotlin compile, legacy directed gate"
+    },
+    {
+      "id": 41088193344,
+      "head_sha": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
+      "status": "PENDING",
+      "scope": "six new real Workspace + fake ModelGateway F1 tests and exact 26/26 XML"
     }
   ],
   "scope": "F1 trusted assistant generation/Delivery start/resolve bridge, no provider credential, V2 OFF",
   "hypothesis": "No generation-scoped host coordinator currently links accepted Workspace user turn to ModelGateway result and durable FARO Start/Resolve; add explicit trusted admission and no-replay handling.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Verify Actions #41087662875 terminal exact SHA, job steps and XML; if red inspect logs and fix only grounded cause; then extend trusted generation lifecycle tests, keep V2 OFF and 3/8.",
+  "next_action": "Reconcile CI #41087662875 then #41088193344 exact terminal SHA, compile, XML. First run does NOT include new tests. Fix red only with grounded cause; keep V2 OFF and 3/8.",
   "status": "RUNNING",
-  "code_head": "79a1daae6e90adbed8de82dc258f1d881811042b",
-  "last_checkpoint_at": "2026-10-30T16:12:09.236Z",
+  "code_head": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
+  "last_checkpoint_at": "2026-10-30T16:15:32.061Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
