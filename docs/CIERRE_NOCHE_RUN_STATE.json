@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v11-3h",
   "run_id": "cierre-v11-20261030-B-1640",
   "run_number": 4,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1640",
+    "state": "NONE",
+    "owner": null,
     "epoch": 7,
-    "lease_expires_at": "2026-10-30T20:09:20.000Z",
-    "expected_head": "25b1f657bd8b64630ba1d0d22bcf9113228e3771"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -34,27 +34,19 @@
     "t4": "NOT_RUN"
   },
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-  "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "in_flight_actions": [
-    {
-      "id": 41119328351,
-      "head_sha": "a19c6854c5519b2c662165eb1d6da600b179ea33",
-      "status": "in_progress",
-      "conclusion": null,
-      "started_at": "2026-10-30T19:56:39Z"
-    }
-  ],
-  "scope": "B2 F1: final per-fragment egress revalidation PASS 41118040821; typed assistant outcome UI and host integration tests WAIT_CI 41119328351.",
+  "source_head": "a19c6854c5519b2c662165eb1d6da600b179ea33",
+  "in_flight_actions": [],
+  "scope": "B2 F1: final per-fragment egress revalidation; typed OFFLINE/FAILED/NOT_AUTHORIZED UI completion and real Workspace host dispatch integration. Both CI terminal SUCCESS; no user-facing V2 activation.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
-  "tests": "41118040821 terminal SUCCESS exact SHA/XML 35/35 directed, F4 36/36, Surface 31/31. 41119328351 IN_PROGRESS typed assistant status + 2 host integration tests; expected 37/37, F4 36/36, Surface 31/31, not certified.",
+  "tests": "CI 41118040821 SUCCESS exact SHA/XML 35/35 directed, 36/36 F4, 31/31 Surface; CI 41119328351 SUCCESS exact SHA/XML 37/37 directed, 36/36 F4, 31/31 Surface. Android compile/structural PASS, no Android E2E/T4.",
   "next_action": {
-    "mode": "WAIT_CI",
+    "mode": "NEXT_SCHEDULED_SESSION",
     "criterion": "F1",
-    "step": "Verify 41119328351 terminal SHA/XML. If fail, diagnose and at most one safe correction/retry before minute20; if still active at minute25 record WAIT_CI. Next A should tackle trusted ComposedModelGateway bootstrap or F3 consent UI, no V2 cutover."
+    "step": "A-1710: verify writer NONE epoch7 and no active CI, HEAD. Next indispensable F1 gap: trusted app bootstrap of policy-bound ComposedModelGateway with platform:ai Groq binding/profile/egress settings; do not enable V2. Alternatively F3 minimal consent/SAF UI while preserving V2 gate. No duplicate Actions 41118040821/41119328351."
   },
   "status": "CLOSED_PASS_REVIEW",
   "code_head": "a19c6854c5519b2c662165eb1d6da600b179ea33",
-  "last_checkpoint_at": "2026-10-30T20:00:48.617Z",
+  "last_checkpoint_at": "2026-10-30T20:07:39.148Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -306,6 +298,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "Exact JUnit XML 15/15 reasoning, Android compile and structural PASS; no Android E2E/T4"
+    },
+    {
+      "id": 41119328351,
+      "job_id": 124281693425,
+      "head_sha": "a19c6854c5519b2c662165eb1d6da600b179ea33",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "37/37 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Exact XML 17/17 F1 reasoning and two typed host port integration tests; Android compile/structural PASS; no Android E2E/T4"
     }
   ],
   "writer_history": {
@@ -313,7 +316,7 @@
     "epoch": 7,
     "acquired_at": "2026-10-30T19:45:39.423Z",
     "lease_expires_at": "2026-10-30T20:09:20.000Z",
-    "released_at": null
+    "released_at": "2026-10-30T20:07:39.148Z"
   },
   "run_started_at": "2026-10-30T19:43:55.304Z",
   "operational_certification": {
@@ -334,7 +337,12 @@
     "v11_a2_actions": "TWO_TERMINAL_SUCCESS",
     "v11_a2_duration_observed_minutes": 24.49,
     "v11_a2_writer_released": true,
-    "v11_b2_lease_renewal": "CAS_EXACT_HEAD_EPOCH7; until 17:09:20 -03, before A-1710; no work after minute20."
+    "v11_b2_lease_renewal": "CAS_EXACT_HEAD_EPOCH7; until 17:09:20 -03, before A-1710; no work after minute20.",
+    "v11_b2_writer_cas": "OBSERVED_EPOCH7",
+    "v11_b2_no_overlap": "OBSERVED_A2_COMPLETED_B2_ACTIVE_ONLY",
+    "v11_b2_actions": "TWO_TERMINAL_SUCCESS_EXACT_XML",
+    "v11_b2_duration_observed_minutes": 23.73,
+    "v11_b2_writer_released": true
   },
   "writer_recovery": {
     "previous_owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
@@ -356,8 +364,8 @@
     "F4: 36/36 critical JVM regressions pass but are not integral Android certification.",
     "T4: physical device NOT_RUN."
   ],
-  "run_closed_at": null,
-  "run_duration_observed_minutes": null,
+  "run_closed_at": "2026-10-30T20:07:39.148Z",
+  "run_duration_observed_minutes": 23.73,
   "v11_a2_writer_history": {
     "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
     "epoch": 6,
