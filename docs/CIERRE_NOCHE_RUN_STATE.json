@@ -1,0 +1,36 @@
+{
+  "schema": "cierre-night-run/v1",
+  "pilot_id": "cierre-20261030-3h",
+  "run_id": "cierre-20261030-1209",
+  "run_number": 1,
+  "state": "ACTIVE",
+  "writer": {
+    "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run1",
+    "epoch": 1,
+    "acquired_at": "2026-10-30T12:12:00-03:00",
+    "lease_expires_at": "2026-10-30T13:00:00-03:00"
+  },
+  "authorization": {
+    "branch": "work/cierre-noche-pilot-20261030",
+    "repo": "etacsantafe-source/FARO-V5",
+    "global_end": "2026-10-30T15:09:00-03:00",
+    "per_run_max_minutes": 50,
+    "stop_new_work_at_minute": 45
+  },
+  "stage": {
+    "id": "S2.A6",
+    "certified": 3,
+    "total": 8,
+    "v2_enabled": false,
+    "s3_open": false,
+    "s4_open": false
+  },
+  "base_head": "b575d21d1965dc1e10801a2103ab7643027b8893",
+  "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
+  "in_flight_actions": [],
+  "scope": "F1 asynchronous chat screen state isolation across conversation switches; Android compile and regression only",
+  "hypothesis": "Compose rememberCoroutineScope survives conversation id changes and allows in-flight callbacks from A to overwrite editor state of B; key entire screen session to cancel old composition scope.",
+  "tests": "NOT_RUN",
+  "next_action": "Implement minimal screen lifecycle isolation, enable isolated branch CI, verify exact run SHA and XML.",
+  "status": "IN_PROGRESS"
+}
