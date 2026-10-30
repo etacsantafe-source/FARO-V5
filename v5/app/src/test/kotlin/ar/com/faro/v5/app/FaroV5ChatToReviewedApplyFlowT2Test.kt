@@ -17,9 +17,10 @@ import org.junit.jupiter.api.io.TempDir
 
 /**
  * F1 directed cross-boundary flow: real generation-scoped Composer -> Workspace
- * timeline -> human Review -> trusted Apply -> Reality receipt -> reopened stores.
+ * timeline -> neutral model reply -> human Review -> trusted Apply -> Reality receipt.
+ * No live provider, Android UI E2E or V2 activation is inferred.
  * The shipping UI Apply port remains denied while V2_ACTIVE_ENABLED=false.
- * This is NOT Android UI E2E, model delivery, activation, or T4 certification.
+ * This is NOT Android UI E2E, OS delivery, activation, or T4 certification.
  */
 class FaroV5ChatToReviewedApplyFlowT2Test {
     @TempDir lateinit var root: Path
@@ -100,11 +101,41 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                 } as ConversationTimelineWriteResult.Saved
                 assertFalse(sent.replayed)
 
+                // The same authoritative Workspace turn is consumed by a trusted,
+                // explicitly admitted model seam. No provider credentials, UI
+                // Apply capability or alternate chat database are introduced.
+                val model = ModelGateway { reasoning, _ ->
+                    assertEquals("Quiero actualizar mi perfil",
+                        String(reasoning.input.copyBytes(), Charsets.UTF_8))
+                    ReasoningResult.Success(
+                        ModelBindingId("fake-local"),
+                        CanonicalPayload.fromEncoded(
+                            "text/plain", "FARO preparó una respuesta".toByteArray(Charsets.UTF_8)
+                        ),
+                    )
+                }
+                val assistant = FaroV5ActiveChatReasoningSession(
+                    generation, workspace, gate, pointer, ready, model, { true },
+                )
+                assertEquals(
+                    FaroV5AssistantTurnOutcome.COMPLETED,
+                    assistant.run(
+                        FaroV5AssistantTurnRequest(
+                            chat, ConversationMessageId("flow-message"),
+                            ConversationTurnId("flow-turn"), ConversationMessageId("flow-faro"),
+                            ModelProfileId("test-profile"), 1710000000001L,
+                            IdempotencyKey("flow-start-faro"),
+                            IdempotencyKey("flow-resolve-faro"),
+                        ),
+                        NeverCancelled,
+                    ),
+                )
+
                 val read = FaroV5ActiveChatReadSession(
                     generation, workspace, workspace, pointer, ready,
                 )
                 assertEquals(
-                    listOf("Quiero actualizar mi perfil"),
+                    listOf("Quiero actualizar mi perfil", "FARO preparó una respuesta"),
                     call { read.timelineReadPort.readTimeline(chat) }!!.messages.map { it.text },
                 )
 
@@ -157,7 +188,7 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                 assertEquals("FARO Verified", reality.read().displayName!!.value)
                 assertEquals(1L, reality.read().revision)
                 assertEquals(
-                    listOf("Quiero actualizar mi perfil"),
+                    listOf("Quiero actualizar mi perfil", "FARO preparó una respuesta"),
                     call { workspace.readTimeline(chat) }!!.messages.map { it.text },
                 )
                 val restored = call { workspace.reviews(chat) }.single()
