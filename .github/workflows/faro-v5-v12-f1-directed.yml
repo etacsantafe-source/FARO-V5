@@ -6,6 +6,7 @@ on:
       - work/cierre-noche-v12-pilot-20261030
     paths:
       - "v5/platform/web/**"
+      - "v5/app/**"
       - ".github/workflows/faro-v5-v12-f1-directed.yml"
 
 permissions:
@@ -28,11 +29,27 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
       - name: Targeted provider-neutral real transport tests
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :platform:web:test --tests 'ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest'
+      - name: Android trusted bootstrap compile and focused policy tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:compileDebugKotlin :app:compileDebugJavaWithJavac \
+            :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest'
       - name: Exact XML oracle
         run: |
           python3 - <<'PY'
@@ -44,4 +61,10 @@ jobs:
           got=tuple(int(root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
           if got!=(6,0,0,0): raise SystemExit(f'F1_TRANSPORT_FAIL_XML {got}')
           print('FARO_V12_F1_TRANSPORT_XML_PASS 6/6')
+          q=Path('v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml')
+          if not q.is_file(): raise SystemExit('F1_BOOTSTRAP_MISSING_XML')
+          other=ET.parse(q).getroot()
+          got2=tuple(int(other.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if got2!=(4,0,0,0): raise SystemExit(f'F1_BOOTSTRAP_FAIL_XML {got2}')
+          print('FARO_V12_F1_BOOTSTRAP_XML_PASS 4/4')
           PY

@@ -21,6 +21,7 @@ public final class FaroV5Application extends Application implements Configuratio
             Executors.newSingleThreadExecutor(
                     task -> new Thread(task, "faro-v5-startup-recovery"));
     private final AtomicBoolean startupRecoveryRunning = new AtomicBoolean(false);
+    private final AtomicBoolean trustedAssistantBootstrapAttempted = new AtomicBoolean(false);
     private final ExecutorService controlExecutor =
             Executors.newSingleThreadExecutor(
                     task -> new Thread(task, "faro-v5-control"));
@@ -170,6 +171,9 @@ public final class FaroV5Application extends Application implements Configuratio
                 () -> {
                     try {
                         FaroV5CompositionRoot root = compositionRoot();
+                        if (trustedAssistantBootstrapAttempted.compareAndSet(false, true)) {
+                            FaroV5TrustedAssistantBootstrap.installIfAuthorized(this, root);
+                        }
                         FaroV5StartupReadiness readiness =
                                 root.recoverPendingMaintenanceState(tracker);
                         if (!readiness.isLocalReady()) {
