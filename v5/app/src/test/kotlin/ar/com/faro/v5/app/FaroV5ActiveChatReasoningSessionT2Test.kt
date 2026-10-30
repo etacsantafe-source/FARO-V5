@@ -31,7 +31,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
         IdempotencyKey("start-f1"), IdempotencyKey("resolve-f1"),
     )
     private fun db() = root.resolve("workspace.db").toString()
-    private fun seed(store: ConversationWorkspaceStore) {
+    private fun seed(store: ConversationWorkspaceStore, firstUserText: String = "Hola FARO") {
         assertTrue(runBlocking {
             store.createAndSelect(chat, 100L, IdempotencyKey("create-f1"))
         } is ConversationSelectionResult.Saved)
@@ -41,7 +41,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
                 chat, before.authorityToken, before.revision, IdempotencyKey("accept-f1"),
                 ConversationTimelineIntent.AcceptUser(ConversationMessage(
                     userId, chat, turn, ConversationMessageRole.USER,
-                    ConversationMessageState.ACCEPTED, "Hola FARO", 150L,
+                    ConversationMessageState.ACCEPTED, firstUserText, 150L,
                 )),
             ))
         } is ConversationTimelineWriteResult.Saved)
@@ -317,8 +317,11 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             }
         }
     }
-    private fun seedHistoryAndLaterTurn(store: ConversationWorkspaceStore) {
-        seed(store)
+    private fun seedHistoryAndLaterTurn(
+        store: ConversationWorkspaceStore,
+        firstUserText: String = "Hola FARO",
+    ) {
+        seed(store, firstUserText)
         fun append(intent: ConversationTimelineIntent, key: String) {
             val before = runBlocking { store.readTimeline(chat) }!!
             assertTrue(runBlocking {
@@ -375,6 +378,31 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertTrue(input.contains("FARO:\nRespuesta anterior"))
             assertTrue(input.contains("USUARIO:\nSegunda pregunta"))
             assertFalse(input.contains("MENSAJE FUTURO"))
+            assertEquals(1, calls.get())
+        }
+    }
+
+    @Test fun labelledContextBudgetNeverLeaksAssistantWithoutItsUserTurn() {
+        ConversationWorkspaceStore(db()).use { store ->
+            // Raw text fits the 12k context window, but the added USUARIO/FARO
+            // labels exceed the second budget: FARO would fit, its user would not.
+            seedHistoryAndLaterTurn(store, "X".repeat(11950))
+            val captured = AtomicReference("")
+            val model = ModelGateway { reasoning, _ ->
+                calls.incrementAndGet()
+                captured.set(String(reasoning.input.copyBytes(), StandardCharsets.UTF_8))
+                ReasoningResult.Success(
+                    ModelBindingId("fake-local"),
+                    CanonicalPayload.fromEncoded(
+                        "text/plain", "Respuesta nueva".toByteArray(StandardCharsets.UTF_8)
+                    ),
+                )
+            }
+            assertEquals(
+                FaroV5AssistantTurnOutcome.COMPLETED,
+                session(store, model = model).run(secondRequest(), NeverCancelled),
+            )
+            assertEquals("Segunda pregunta", captured.get())
             assertEquals(1, calls.get())
         }
     }

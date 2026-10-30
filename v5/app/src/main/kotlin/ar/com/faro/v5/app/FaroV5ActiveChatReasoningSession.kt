@@ -331,13 +331,26 @@ class FaroV5ActiveChatReasoningSession(
             reversedMessages += message
             characters += added
         }
-        if (reversed.size <= 1) return currentOnly()
+        // The second, labelled-character budget may truncate a USER after
+        // selecting its shorter FARO reply. Never export an orphaned derived
+        // reply: it can disclose a user turn absent from the final context.
+        val includedUserTurns = reversedMessages.asSequence()
+            .filter { it.role == ConversationMessageRole.USER }
+            .map { it.turnId }.toSet()
+        val selected = reversedMessages.asReversed().filter { message ->
+            message.role == ConversationMessageRole.USER ||
+                message.turnId in includedUserTurns
+        }
+        if (selected.size <= 1) return currentOnly()
         return AuthorizedContext(
             CanonicalPayload.fromEncoded(
                 "text/plain",
-                reversed.asReversed().joinToString("\n\n").toByteArray(StandardCharsets.UTF_8),
+                selected.joinToString("\n\n") { message ->
+                    (if (message.role == ConversationMessageRole.USER) "USUARIO" else "FARO") +
+                        ":\n" + message.text
+                }.toByteArray(StandardCharsets.UTF_8),
             ),
-            reversedMessages.asReversed().toList(),
+            selected,
         )
     }
 
