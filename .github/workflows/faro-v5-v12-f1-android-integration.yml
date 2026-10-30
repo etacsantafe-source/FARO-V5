@@ -1,0 +1,78 @@
+name: FARO V5 V1.2 F1 Android integration
+
+on:
+  push:
+    branches:
+      - work/cierre-noche-v12-pilot-20261030
+    paths:
+      - "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5AndroidChatHostFlowInstrumentationTest.kt"
+      - ".github/workflows/faro-v5-v12-f1-android-integration.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-v12-f1-android-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  f1-android-chat-host:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Enable KVM for Android emulator
+        run: |
+          if [ -e /dev/kvm ]; then
+            sudo chmod 666 /dev/kvm
+          else
+            echo "KVM_UNAVAILABLE: emulator may not run"
+          fi
+      - name: Run real Android F1 Composer Workspace Model recovery integration
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: cd v5 && ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5AndroidChatHostFlowInstrumentationTest
+      - name: Android instrumentation XML oracle
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          files=list(Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'))
+          matches=[]
+          for p in files:
+              root=ET.parse(p).getroot()
+              for case in root.iter('testcase'):
+                  if 'FaroV5AndroidChatHostFlowInstrumentationTest' in case.attrib.get('classname',''):
+                      matches.append((p,case))
+          if len(matches)!=1: raise SystemExit(f'F1_ANDROID_TEST_NOT_EXECUTED count={len(matches)}')
+          p,case=matches[0]
+          if any(case.find(x) is not None for x in ('failure','error','skipped')):
+              raise SystemExit(f'F1_ANDROID_TEST_FAILED {p}')
+          print('FARO_V12_F1_ANDROID_HOST_FLOW_EXECUTED_PASS 1/1')
+          print('This does not certify F1 UI/Review/Apply/Delivery or physical T4.')
+          PY
