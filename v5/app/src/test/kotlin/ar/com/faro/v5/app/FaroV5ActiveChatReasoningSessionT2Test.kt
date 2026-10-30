@@ -449,4 +449,79 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals("", reply.text)
         }
     }
+
+    @Test fun acceptedTurnHostPortDeliversTypedSuccessWithoutReplayingModel() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val dispatcher = FaroV5HostAssistantTurnDispatcher(
+                session(store), Executors.newSingleThreadExecutor(),
+                BooleanSupplier { active.get() == "gen-f1" },
+            )
+            val port = FaroV5HostAcceptedTurnDispatchPort(
+                dispatcher, Supplier { ModelProfileId("balanced") },
+                BooleanSupplier { active.get() == "gen-f1" },
+            )
+            try {
+                val accepted = ConversationAcceptedUserTurn(chat, userId, turn, 150L)
+                val completed = CountDownLatch(1)
+                val status = AtomicReference<ConversationAssistantTurnCompletion>()
+                assertTrue(port.dispatchAcceptedTurnWithOutcome(accepted) {
+                    status.set(it)
+                    completed.countDown()
+                })
+                assertTrue(completed.await(20, TimeUnit.SECONDS))
+                assertEquals(ConversationAssistantTurnCompletion.COMPLETED, status.get())
+                assertEquals(1, calls.get())
+                val repeated = CountDownLatch(1)
+                assertTrue(port.dispatchAcceptedTurnWithOutcome(accepted) {
+                    status.set(it)
+                    repeated.countDown()
+                })
+                assertTrue(repeated.await(20, TimeUnit.SECONDS))
+                assertEquals(1, calls.get())
+                assertEquals("Respuesta FARO",
+                    runBlocking { store.readTimeline(chat) }!!.messages.last().text)
+            } finally {
+                port.close()
+            }
+        }
+    }
+
+    @Test fun hostPortReportsOfflineWithoutFabricatingAssistantText() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val offline = ModelGateway { _, _ ->
+                calls.incrementAndGet()
+                ReasoningResult.Failure(AiFailure(
+                    AiFailureKind.OFFLINE, RetryDisposition.RETRYABLE
+                ))
+            }
+            val dispatcher = FaroV5HostAssistantTurnDispatcher(
+                session(store, model = offline), Executors.newSingleThreadExecutor(),
+                BooleanSupplier { active.get() == "gen-f1" },
+            )
+            val port = FaroV5HostAcceptedTurnDispatchPort(
+                dispatcher, Supplier { ModelProfileId("balanced") },
+                BooleanSupplier { active.get() == "gen-f1" },
+            )
+            try {
+                val done = CountDownLatch(1)
+                val status = AtomicReference<ConversationAssistantTurnCompletion>()
+                assertTrue(port.dispatchAcceptedTurnWithOutcome(
+                    ConversationAcceptedUserTurn(chat, userId, turn, 150L)
+                ) {
+                    status.set(it)
+                    done.countDown()
+                })
+                assertTrue(done.await(20, TimeUnit.SECONDS))
+                assertEquals(ConversationAssistantTurnCompletion.OFFLINE, status.get())
+                assertEquals(1, calls.get())
+                val reply = runBlocking { store.readTimeline(chat) }!!.messages.last()
+                assertEquals(ConversationMessageState.OFFLINE, reply.state)
+                assertEquals("", reply.text)
+            } finally {
+                port.close()
+            }
+        }
+    }
 }

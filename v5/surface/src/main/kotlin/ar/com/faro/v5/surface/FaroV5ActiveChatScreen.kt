@@ -20,6 +20,8 @@ import ar.com.faro.v5.kernel.contracts.ConversationReviewDecision
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewIntent
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewSnapshot
 import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnOutcomePort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnCompletion
 import ar.com.faro.v5.kernel.contracts.ConversationAcceptedUserTurn
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort
 import ar.com.faro.v5.kernel.contracts.ConversationDraftEditorState
@@ -308,10 +310,34 @@ private fun FaroV5ActiveChatScreenSession(
                                                             )
                                                             val queued = try {
                                                                 withContext(Dispatchers.IO) {
-                                                                    assistantTurnPort.dispatchAcceptedTurn(accepted) {
-                                                                        // The worker owns execution; a disposed
-                                                                        // chat scope cannot publish stale UI state.
-                                                                        scope.launch { timelineVersion++ }
+                                                                    val typed = assistantTurnPort as?
+                                                                        ConversationAssistantTurnOutcomePort
+                                                                    if (typed != null) {
+                                                                        typed.dispatchAcceptedTurnWithOutcome(accepted) { result ->
+                                                                            // A disposed chat scope cannot publish
+                                                                            // stale UI state or start a model retry.
+                                                                            scope.launch {
+                                                                                timelineVersion++
+                                                                                message = when (result) {
+                                                                                    ConversationAssistantTurnCompletion.OFFLINE ->
+                                                                                        "Sin conexión. Tu mensaje quedó guardado, pero FARO no pudo responder."
+                                                                                    ConversationAssistantTurnCompletion.FAILED ->
+                                                                                        "FARO no pudo generar una respuesta. Revisá el chat."
+                                                                                    ConversationAssistantTurnCompletion.NOT_AUTHORIZED ->
+                                                                                        "No se autorizó enviar este mensaje a la IA."
+                                                                                    ConversationAssistantTurnCompletion.INVALID_TURN ->
+                                                                                        "La conversación cambió. Revisá el chat."
+                                                                                    ConversationAssistantTurnCompletion.STALE,
+                                                                                    ConversationAssistantTurnCompletion.RECOVERY_REQUIRED ->
+                                                                                        "No se pudo verificar la respuesta. Reabrí el chat antes de reintentar."
+                                                                                    else -> message
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        assistantTurnPort.dispatchAcceptedTurn(accepted) {
+                                                                            scope.launch { timelineVersion++ }
+                                                                        }
                                                                     }
                                                                 }
                                                             } catch (_: Exception) { false }

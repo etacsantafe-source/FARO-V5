@@ -2,6 +2,8 @@ package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.ConversationAcceptedUserTurn
 import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnOutcomePort
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnCompletion
 import ar.com.faro.v5.kernel.contracts.ConversationMessageId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.kernel.contracts.ModelProfileId
@@ -21,10 +23,15 @@ class FaroV5HostAcceptedTurnDispatchPort(
     private val dispatcher: FaroV5HostAssistantTurnDispatcher,
     private val trustedProfileId: Supplier<ModelProfileId>,
     private val generationAdmitted: BooleanSupplier,
-) : ConversationAssistantTurnDispatchPort, AutoCloseable {
+) : ConversationAssistantTurnOutcomePort, AutoCloseable {
     override fun dispatchAcceptedTurn(
         turn: ConversationAcceptedUserTurn,
         onFinished: () -> Unit,
+    ): Boolean = dispatchAcceptedTurnWithOutcome(turn) { onFinished() }
+
+    override fun dispatchAcceptedTurnWithOutcome(
+        turn: ConversationAcceptedUserTurn,
+        onFinished: (ConversationAssistantTurnCompletion) -> Unit,
     ): Boolean {
         val admitted = try { generationAdmitted.getAsBoolean() }
             catch (_: Exception) { false }
@@ -54,8 +61,30 @@ class FaroV5HostAcceptedTurnDispatchPort(
         } else null
         if (immediate == FaroV5AssistantTurnOutcome.STALE ||
             immediate == FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED) return false
-        future.whenComplete { _, _ ->
-            try { onFinished() } catch (_: Exception) { /* UI may be disposed */ }
+        future.whenComplete { outcome, failure ->
+            val status = if (failure != null)
+                ConversationAssistantTurnCompletion.RECOVERY_REQUIRED
+            else when (outcome) {
+                FaroV5AssistantTurnOutcome.COMPLETED ->
+                    ConversationAssistantTurnCompletion.COMPLETED
+                FaroV5AssistantTurnOutcome.FAILED ->
+                    ConversationAssistantTurnCompletion.FAILED
+                FaroV5AssistantTurnOutcome.OFFLINE ->
+                    ConversationAssistantTurnCompletion.OFFLINE
+                FaroV5AssistantTurnOutcome.NOT_AUTHORIZED ->
+                    ConversationAssistantTurnCompletion.NOT_AUTHORIZED
+                FaroV5AssistantTurnOutcome.INVALID_TURN ->
+                    ConversationAssistantTurnCompletion.INVALID_TURN
+                FaroV5AssistantTurnOutcome.ALREADY_RECORDED ->
+                    ConversationAssistantTurnCompletion.ALREADY_RECORDED
+                FaroV5AssistantTurnOutcome.IN_PROGRESS ->
+                    ConversationAssistantTurnCompletion.IN_PROGRESS
+                FaroV5AssistantTurnOutcome.STALE ->
+                    ConversationAssistantTurnCompletion.STALE
+                FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED, null ->
+                    ConversationAssistantTurnCompletion.RECOVERY_REQUIRED
+            }
+            try { onFinished(status) } catch (_: Exception) { /* UI may be disposed */ }
         }
         return true
     }

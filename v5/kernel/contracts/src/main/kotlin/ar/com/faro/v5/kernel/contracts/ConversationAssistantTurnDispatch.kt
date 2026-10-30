@@ -23,3 +23,20 @@ data class ConversationAcceptedUserTurn(
 fun interface ConversationAssistantTurnDispatchPort {
     fun dispatchAcceptedTurn(turn: ConversationAcceptedUserTurn, onFinished: () -> Unit): Boolean
 }
+
+/**
+ * Presentation-only status of a host-owned assistant attempt. It cannot grant
+ * model egress, retry an uncertain call or authorize an Apply operation.
+ */
+enum class ConversationAssistantTurnCompletion {
+    COMPLETED, FAILED, OFFLINE, NOT_AUTHORIZED, INVALID_TURN,
+    ALREADY_RECORDED, IN_PROGRESS, STALE, RECOVERY_REQUIRED
+}
+
+/** Optional typed callback; legacy refresh-only dispatch remains compatible. */
+interface ConversationAssistantTurnOutcomePort : ConversationAssistantTurnDispatchPort {
+    fun dispatchAcceptedTurnWithOutcome(
+        turn: ConversationAcceptedUserTurn,
+        onFinished: (ConversationAssistantTurnCompletion) -> Unit,
+    ): Boolean
+}
