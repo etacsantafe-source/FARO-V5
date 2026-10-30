@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v11-3h",
-  "run_id": "cierre-v11-20261030-A-1610",
-  "run_number": 3,
-  "state": "CLOSED",
+  "run_id": "cierre-v11-20261030-B-1640",
+  "run_number": 4,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 6,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1640",
+    "epoch": 7,
+    "lease_expires_at": "2026-10-30T20:08:30.000Z",
+    "expected_head": "72df2124bbe5d2bd0abfb62f6bff0b942c5d9dbb"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -36,17 +36,17 @@
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
   "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
   "in_flight_actions": [],
-  "scope": "A2 F1: bounded historical context per-fragment admission and denied-user derived assistant suppression; both CI terminal SUCCESS, writer released.",
+  "scope": "B2 F1 provider-neutral ModelGateway integration and Android lifecycle; no CI started yet.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
   "tests": "CI 41113428119 + 41114483263 SUCCESS exact SHA/XML: directed 33/33, F4 36/36, Surface 31/31; reasoning 13/13; Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "NEXT_SCHEDULED_SESSION",
+    "mode": "IN_PROGRESS",
     "criterion": "F1",
-    "step": "B-1640: verify clean writer/CI and HEAD; bind provider-neutral ModelGateway, preserve egress, Android E2E; no duplicate 41114483263."
+    "step": "Inspect trusted bootstrap binding and implement minimal safe provider-neutral bridge/test; CI directed then checkpoint."
   },
   "status": "CLOSED_PASS_REVIEW",
   "code_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "last_checkpoint_at": "2026-10-30T19:33:55.818Z",
+  "last_checkpoint_at": "2026-10-30T19:45:39.423Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -275,13 +275,13 @@
     }
   ],
   "writer_history": {
-    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1510",
-    "epoch": 4,
-    "acquired_at": "2026-10-30T18:10:19.837Z",
-    "lease_expires_at": "2026-10-30T18:39:00Z",
-    "released_at": "2026-10-30T18:30:39.906Z"
+    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1640",
+    "epoch": 7,
+    "acquired_at": "2026-10-30T19:45:39.423Z",
+    "lease_expires_at": "2026-10-30T20:08:30.000Z",
+    "released_at": null
   },
-  "run_started_at": "2026-10-30T19:09:26.508Z",
+  "run_started_at": "2026-10-30T19:43:55.304Z",
   "operational_certification": {
     "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
     "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
@@ -321,13 +321,20 @@
     "F4: 36/36 critical JVM regressions pass but are not integral Android certification.",
     "T4: physical device NOT_RUN."
   ],
-  "run_closed_at": "2026-10-30T19:33:55.818Z",
-  "run_duration_observed_minutes": 24.49,
+  "run_closed_at": null,
+  "run_duration_observed_minutes": null,
   "v11_a2_writer_history": {
     "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
     "epoch": 6,
     "acquired_at": "2026-10-30T19:09:26.508Z",
     "lease_expires_at": "2026-10-30T19:39:00Z",
     "released_at": "2026-10-30T19:33:55.818Z"
+  },
+  "writer_history_previous": {
+    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1510",
+    "epoch": 4,
+    "acquired_at": "2026-10-30T18:10:19.837Z",
+    "lease_expires_at": "2026-10-30T18:39:00Z",
+    "released_at": "2026-10-30T18:30:39.906Z"
   }
 }
