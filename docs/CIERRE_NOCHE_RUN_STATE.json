@@ -9,7 +9,7 @@
     "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run3",
     "epoch": 3,
     "lease_expires_at": "2026-10-30T14:59:00-03:00",
-    "expected_head": "03613ebdb84e2aef50153a267842662a147dbc14"
+    "expected_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb"
   },
   "authorization": {
     "branch": "work/cierre-noche-pilot-20261030",
@@ -33,14 +33,21 @@
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41096575587,
+      "head_sha": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
+      "status": "IN_PROGRESS",
+      "scope": "F1 orphaned PROCESSING exclusive recovery; 29/29 directed + 31/31 surface expected"
+    }
+  ],
   "scope": "F1 interrupted assistant reply recovery with explicit host-only exclusive admission; no model replay, no V2 activation",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Await branch-push Actions exact SHA; inspect 29/29 directed and 31/31 Surface XML, Android compile and structural checks. If red investigate cause; if green checkpoint and proceed to independent F1/F2/F4 gap. Do not claim Android E2E.",
+  "next_action": "Verify Actions #41096575587 terminal and exact SHA 8fabed1; inspect job XML 29/29 directed and Surface. Do not launch new CI while this run is active. If green, record checkpoint and close writer or continue indispensable independent F1/F2/F4 gap.",
   "status": "RUNNING",
-  "code_head": "PENDING_NEXT_COMMIT",
-  "last_checkpoint_at": "2026-10-30T17:10:48.137Z",
+  "code_head": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
+  "last_checkpoint_at": "2026-10-30T17:11:25.774Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
