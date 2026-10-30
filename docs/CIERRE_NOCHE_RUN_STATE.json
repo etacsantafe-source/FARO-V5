@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v11-3h",
   "run_id": "cierre-v11-20261030-A-1510",
   "run_number": 1,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1510",
+    "state": "NONE",
+    "owner": null,
     "epoch": 4,
-    "lease_expires_at": "2026-10-30T18:39:00Z",
-    "expected_head": "3c000789ccd3618cbd44414d99f101222a42d481"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -36,17 +36,17 @@
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
   "in_flight_actions": [],
-  "scope": "V1.1 Noche A 15:10–15:40; F1 async host-owned generation, F3 option A approved; CI branch gate repair required",
+  "scope": "F1 host-owned async accepted-turn dispatcher with generation fencing and one in-flight turn; canonical chat timeline read moved off UI thread. F3 owner decision A preserved, no F3 UX implemented.",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
-  "tests": "CI 41104799269 terminal SUCCESS SHA a408cea5; exact XML 11/11 F1 reasoning (0,0,0), 31/31 directed, 36/36 critical, 31/31 Surface. No Android E2E.",
+  "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "ACTIVE_AUTHORIZED",
+    "mode": "READ_ONLY_UNTIL_NEXT_SCHEDULED_B",
     "criterion": "F1",
-    "step": "Second safe F1 integration: canonical timeline read moves to Dispatchers.IO; verify directed CI exact SHA/XML. No V2 cutover."
+    "step": "B 15:40: fresh permission/HEAD/writer/CI preflight. Next indispensable F1 integration: bind trusted assistant dispatcher AFTER canonical Composer send commit to real Workspace, using stable reply/idempotency, host-owned profile/egress, lifecycle cancellation; add directed integrated test. Existing dispatcher is NOT wired to root/shell, so no user-facing model replies yet. Then F2 and F3 minimal consent+SAF UX. Never enable V2 or S3/S4 without separate certification."
   },
   "status": "CLOSED_HANDOFF_CLEAN",
-  "code_head": "a408cea5ffd1e7a7558018f78a19262e66519682",
-  "last_checkpoint_at": "2026-10-30T18:20:58.618Z",
+  "code_head": "7e461758ba39c65d149cee3b56e011ab478972db",
+  "last_checkpoint_at": "2026-10-30T18:30:39.906Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -202,24 +202,41 @@
       "errors": 0,
       "skipped": 0,
       "notes": "Exact JUnit XML verified in job logs; host-owned async dispatcher + 2 new tests; Android E2E/T4 NOT_RUN"
+    },
+    {
+      "id": 41106186732,
+      "job_id": 124236510565,
+      "head_sha": "7e461758ba39c65d149cee3b56e011ab478972db",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "31/31 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Exact JUnit XML verified in logs; canonical timeline read moved to Dispatchers.IO; no Android E2E/T4"
     }
   ],
   "writer_history": {
-    "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run1",
-    "epoch": 1,
-    "acquired_at": "2026-10-30T12:12:00-03:00",
-    "lease_expires_at": "2026-10-30T13:00:00-03:00"
+    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1510",
+    "epoch": 4,
+    "acquired_at": "2026-10-30T18:10:19.837Z",
+    "lease_expires_at": "2026-10-30T18:39:00Z",
+    "released_at": "2026-10-30T18:30:39.906Z"
   },
   "run_started_at": "2026-10-30T18:10:19.837Z",
-  "run_finished_at_utc": null,
-  "duration_minutes_approx": null,
+  "run_finished_at_utc": "2026-10-30T18:30:39.906Z",
+  "duration_minutes_approx": 20.3,
   "operational_certification": {
     "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
     "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
     "writer_cas": "OBSERVED_ON_BRANCH_WRITES",
     "no_overlap": "OBSERVED_RUN3_NO_OVERLAP",
     "global_cutoff": "NOT_TESTED; closed before 15:09",
-    "red_investigation": "OBSERVED_RUN1_AND_RUN2; RUN3_GREEN"
+    "red_investigation": "OBSERVED_RUN1_AND_RUN2; RUN3_GREEN",
+    "v11_a1_effective_duration_minutes": 20.3,
+    "v11_a1_writer_cas": "OBSERVED",
+    "v11_a1_no_overlap": "OBSERVED",
+    "v11_a1_actions": "TWO_TERMINAL_SUCCESS",
+    "v11_a1_thirty_minute_continuity": "NOT_DEMONSTRATED; closed cleanly after 20.3 min"
   },
   "writer_recovery": {
     "previous_owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run2",
@@ -232,11 +249,11 @@
   "main_head_verified": "9bae214541f466a62e149853931b96abb8d74ed9",
   "private_repo_verified": true,
   "technical_gaps": [
-    "F1: Host-owned asynchronous dispatcher implemented in a408cea5 but NOT bound to real shell/gateway; Android E2E remains uncertified.",
-    "F1: bounded multi-turn context and per-fragment egress admission must be integrated; do not forward historical chat blindly.",
-    "F2: V2 Android activation/recovery E2E remains uncertified; V1 stays protected and V2 OFF.",
-    "F3: S2/S5 owner conflict resolved option A; minimal Android SAF UI/consent implementation and full certification still pending.",
-    "F4: 36/36 critical JVM regressions are partial, not integral Android certification.",
-    "T4: physical device tests NOT_RUN."
+    "F1: async host dispatcher and UI-thread timeline read compiled and tested, but dispatcher is NOT yet bound to real Composer/DeliveryGraph or trusted provider-neutral ModelGateway. Android Chat/Review/Apply/Delivery E2E remains uncertified.",
+    "F1: bounded multi-turn context and per-fragment egress admission must be integrated; never forward historical chat blindly.",
+    "F2: Android V2 activation/recovery E2E remains uncertified; V1 protected, V2 OFF.",
+    "F3: human owner decision resolved option A; minimal user-facing consent/export/restore SAF flow not implemented. Current production export requires V2_ACTIVE_ENABLED=false gate, so pre-cutover certification needs a safe quarantined/test-only path without weakening shipping admission.",
+    "F4: 36/36 critical JVM regressions pass but are not integral Android certification.",
+    "T4: physical device NOT_RUN."
   ]
 }
