@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v12-3h",
   "run_id": "cierre-v12-20261030-A2-1940",
   "run_number": 3,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_2",
+    "state": "NONE",
+    "owner": null,
     "epoch": 11,
-    "lease_expires_at": "2026-10-30T20:10:00-03:00",
-    "expected_head": "bf1939bb29c863f8ef68dac3e71b6fc20a7f8b79"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -114,15 +114,7 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [
-    {
-      "id": 41140606044,
-      "head_sha": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
-      "status": "IN_PROGRESS",
-      "reason": "F1 post-provider revocation prevents derived reply persistence",
-      "resume": "Verify terminal exact XML transport8/8 bootstrap4/4 consent3/3 reasoning19/19; no repeat identical"
-    }
-  ],
+  "in_flight_actions": [],
   "actions_launched_v12": [
     {
       "id": 41132960313,
@@ -197,9 +189,12 @@
     {
       "id": 41140606044,
       "head_sha": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED_SUCCESS",
       "reason": "F1 after-provider consent revalidation before Workspace commit, one new 19th reasoning test",
-      "started_at": "2026-10-30T22:49:14Z"
+      "started_at": "2026-10-30T22:49:14Z",
+      "completed_at": "2026-10-30T22:56:45Z",
+      "wall_seconds": 451,
+      "tests": "Exact XML oracle log: transport8/8 bootstrap4/4 consent3/3 reasoning19/19, failures/errors/skips 0; Android Kotlin/Java compile PASS; Android E2E NOT_RUN"
     }
   ],
   "used_time_minutes": {
@@ -220,8 +215,9 @@
     }
   ],
   "next_action": {
+    "mode": "NEXT_SESSION_B2",
     "criterion": "F1",
-    "step": "Verify #41140606044 exact SHA c3d4e9a4... and XML transport8/8 bootstrap4/4 consent3/3 reasoning19/19; if RED diagnose actual failure; if PASS, F1 Android E2E still pending, prioritize Android instrumentation host/Keystore lifecycle without V2 activation. Then F2/F3 functional."
+    "step": "First revalidate HEAD, writer NONE epoch11 and no Actions pending; reuse CI #41139970252 and #41140606044 exact SHAs. Next indispensable: Android host/Keystore consent Activity instrumentation and Composer→Workspace→reasoning→Review→Apply→Delivery Android E2E without enabling V2; then F2 recovery and F3 SAF minimal UI option A. Do not repeat 38/36/31. T4 physical waits."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -237,14 +233,16 @@
       "android_e2e": "NOT_RUN"
     }
   },
-  "status": "ACTIVE",
+  "status": "CLOSED_PASS_REVIEW",
   "current_run": {
     "scheduled_start": "2026-10-30T19:40:00-03:00",
     "started_at": "2026-10-30T22:40:13.708Z",
     "deadline": "2026-10-30T20:10:00-03:00",
-    "phase": "DEVELOPMENT_CI_IN_FLIGHT",
+    "phase": "CLOSED",
     "stop_new_work_at": "2026-10-30T20:00:00-03:00",
-    "finish_work_by": "2026-10-30T20:05:00-03:00"
+    "finish_work_by": "2026-10-30T20:05:00-03:00",
+    "closed_at": "2026-10-30T22:57:55.790Z",
+    "last_observed_at": "2026-10-30T22:57:55.790Z"
   },
   "code_head": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
   "functional_progress": [
@@ -294,7 +292,7 @@
       "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T22:49:51.556Z",
+  "last_checkpoint_at": "2026-10-30T22:57:55.790Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -303,7 +301,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "A2 two functional F1 safety batches: live consent at HTTP boundary #905b4f PASS CI #41139970252, and post-provider derived-answer suppression #c3d4e9 pending CI #41140606044; 3/8 criteria unchanged",
+  "scope": "A2 CLOSED: F1 live consent revocation at HTTP transport and post-provider Workspace resolution; two functional batches, two directed Actions SUCCESS exact SHA/XML; no Android E2E, S2.A6 3/8 unchanged",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
@@ -311,5 +309,38 @@
     "prior_automation_terminal": "completed 2026-10-30T19:34:15.910-03:00",
     "prior_branch_head": "bf1939bb29c863f8ef68dac3e71b6fc20a7f8b79",
     "method": "CAS expected_sha after terminal run and expired lease"
+  },
+  "a2_timing": {
+    "started_at": "2026-10-30T22:40:13.708Z",
+    "closed_at": "2026-10-30T22:57:55.790Z",
+    "elapsed_minutes": 17.7,
+    "scheduled_window_minutes": 30,
+    "unused_window_minutes": 12.3,
+    "action_wall_seconds_sum": 753,
+    "actions_started": 2,
+    "actions_reused": 1,
+    "action_ids": [
+      41139970252,
+      41140606044
+    ],
+    "event_times_utc": {
+      "writer_acquired": "2026-10-30T22:40:13Z",
+      "code_batch1_committed": "2026-10-30T22:43:18Z",
+      "ci1_started": "2026-10-30T22:43:20Z",
+      "ci1_completed": "2026-10-30T22:48:22Z",
+      "code_batch2_committed": "2026-10-30T22:49:12Z",
+      "ci2_started": "2026-10-30T22:49:14Z",
+      "interim_checkpoint": "2026-10-30T22:49:57Z",
+      "ci2_completed": "2026-10-30T22:56:45Z"
+    },
+    "breakdown": {
+      "investigation_minutes": null,
+      "development_minutes": null,
+      "local_tests_minutes": null,
+      "ci_wall_minutes": 12.55,
+      "ci_wait_minutes": null,
+      "checkpoint_minutes": null,
+      "reason": "Only total elapsed and Actions wall duration independently measured; tasks and CI overlap. No fabricated phase split."
+    }
   }
 }
