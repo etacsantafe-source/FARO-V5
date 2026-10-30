@@ -204,6 +204,67 @@ class FaroV5ActiveChatReasoningSession(
         return FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
     }
 
+
+    /**
+     * Explicit post-restart reconciliation for an orphaned PROCESSING reply.
+     * Only a trusted host holding exclusive recovery admission may call this;
+     * never call while a model request for the same generation can still run.
+     * It never sends another model request or fabricates assistant text.
+     */
+    fun settleInterruptedAfterRecovery(
+        request: FaroV5AssistantTurnRequest,
+        exclusiveRecoveryAdmission: BooleanSupplier,
+    ): FaroV5AssistantTurnOutcome {
+        if (!current()) return FaroV5AssistantTurnOutcome.STALE
+        val admitted = try { exclusiveRecoveryAdmission.getAsBoolean() }
+            catch (_: Exception) { false }
+        if (!admitted) return FaroV5AssistantTurnOutcome.NOT_AUTHORIZED
+        return try {
+            gate.withMaterialWrite {
+                if (!current()) return@withMaterialWrite FaroV5AssistantTurnOutcome.STALE
+                if (!exclusiveRecoveryAdmission.getAsBoolean())
+                    return@withMaterialWrite FaroV5AssistantTurnOutcome.NOT_AUTHORIZED
+                val latest = read(request.conversationId)
+                    ?: return@withMaterialWrite FaroV5AssistantTurnOutcome.INVALID_TURN
+                val acceptedUser = latest.messages.any {
+                    it.id == request.userMessageId && it.turnId == request.turnId &&
+                        it.role == ConversationMessageRole.USER &&
+                        it.state == ConversationMessageState.ACCEPTED
+                }
+                if (!acceptedUser) return@withMaterialWrite FaroV5AssistantTurnOutcome.INVALID_TURN
+                val reply = latest.messages.firstOrNull {
+                    it.role == ConversationMessageRole.FARO && it.turnId == request.turnId
+                }
+                if (reply == null || reply.id != request.faroMessageId)
+                    return@withMaterialWrite FaroV5AssistantTurnOutcome.INVALID_TURN
+                if (reply.state != ConversationMessageState.PROCESSING)
+                    return@withMaterialWrite FaroV5AssistantTurnOutcome.ALREADY_RECORDED
+                val written = runBlocking {
+                    workspace.writeTimeline(
+                        ConversationTimelineWriteRequest(
+                            request.conversationId, latest.authorityToken, latest.revision,
+                            IdempotencyKey(
+                                request.resolveKey.value + ":recovery:r" + latest.revision
+                            ),
+                            ConversationTimelineIntent.ResolveFaro(
+                                request.faroMessageId, request.turnId,
+                                ConversationMessageState.FAILED, "",
+                            ),
+                        )
+                    )
+                }
+                if (!current()) return@withMaterialWrite FaroV5AssistantTurnOutcome.STALE
+                when (written) {
+                    is ConversationTimelineWriteResult.Saved -> FaroV5AssistantTurnOutcome.FAILED
+                    is ConversationTimelineWriteResult.Stale -> FaroV5AssistantTurnOutcome.STALE
+                    else -> FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
+                }
+            }
+        } catch (_: Exception) {
+            FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
+        }
+    }
+
     private fun decodeText(payload: CanonicalPayload): String? {
         if (payload.formatId != "text/plain" ||
             payload.size > ConversationTimelinePolicy.MAX_MESSAGE_CHARS * 4) return null

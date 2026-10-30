@@ -209,6 +209,42 @@ class FaroV5ActiveChatReasoningSessionT2Test {
         }
     }
 
+
+    @Test fun interruptedReplyRequiresExclusiveRecoveryAndNeverReplaysModelAfterReopen() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val interrupted = ModelGateway { _, _ ->
+                calls.incrementAndGet()
+                active.set("other-gen")
+                ReasoningResult.Success(ModelBindingId("fake"), CanonicalPayload.fromEncoded(
+                    "text/plain", "Uncommitted reply".toByteArray(StandardCharsets.UTF_8)
+                ))
+            }
+            assertEquals(FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED,
+                session(store, model = interrupted).run(request, NeverCancelled))
+            assertEquals(ConversationMessageState.PROCESSING,
+                runBlocking { store.readTimeline(chat) }!!.messages.last().state)
+        }
+        active.set("gen-f1")
+        ConversationWorkspaceStore(db()).use { reopened ->
+            val recovery = session(reopened)
+            assertEquals(FaroV5AssistantTurnOutcome.NOT_AUTHORIZED,
+                recovery.settleInterruptedAfterRecovery(request, BooleanSupplier { false }))
+            assertEquals(ConversationMessageState.PROCESSING,
+                runBlocking { reopened.readTimeline(chat) }!!.messages.last().state)
+            assertEquals(FaroV5AssistantTurnOutcome.FAILED,
+                recovery.settleInterruptedAfterRecovery(request, BooleanSupplier { true }))
+            assertEquals(FaroV5AssistantTurnOutcome.ALREADY_RECORDED,
+                recovery.settleInterruptedAfterRecovery(request, BooleanSupplier { true }))
+            assertEquals(FaroV5AssistantTurnOutcome.ALREADY_RECORDED,
+                recovery.run(request, NeverCancelled))
+            assertEquals(1, calls.get())
+            val reply = runBlocking { reopened.readTimeline(chat) }!!.messages.last()
+            assertEquals(ConversationMessageState.FAILED, reply.state)
+            assertEquals("", reply.text)
+        }
+    }
+
     @Test fun unknownUserMessageCannotMintFaroReply() {
         ConversationWorkspaceStore(db()).use { store ->
             seed(store)

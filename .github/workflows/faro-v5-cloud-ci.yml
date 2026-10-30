@@ -82,7 +82,7 @@ jobs:
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5PreSwitchHostAdmissionT2Test.xml': 7,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test.xml': 3,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 1,
-            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test.xml': 8,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ActiveChatReasoningSessionT2Test.xml': 9,
           }
           for path, tests in expected.items():
             p = Path(path)
@@ -105,5 +105,5 @@ jobs:
             total_surface += got[0]
             print(f'PASS_SURFACE_XML {p}: {got}')
           print(f'FARO_V5_SURFACE_XML_PASS {total_surface}/{total_surface}')
-          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 28/28')
+          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 29/29')
           PY
