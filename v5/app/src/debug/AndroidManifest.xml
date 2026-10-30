@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5P5PhysicalActivity"
+            android:excludeFromRecents="true"
+            android:exported="false" />
+    </application>
+</manifest>

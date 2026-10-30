@@ -1,0 +1,242 @@
+# FARO V5 GENERATED SPEC BASELINE — DO NOT EDIT
+generator_version	1
+authority_revision	D-229
+source_blob	docs/v5/V5_CAPABILITY_TAXONOMY.md	b272f50aba9aeae525c8baf19a87b65f08bb8bf7
+source_blob	docs/v5/V5_OPERATION_CONTRACT_INVENTORY.md	a161f7f57eaf6285edb1f250ce691d07725b32dc
+source_blob	docs/v5/V5_RG06C_07_GLOBAL_REFREEZE.md	34be34a82c7a96357048ac64a1a8c1b2fdfc5418
+capability_count	54
+operation_count	172
+profile_count	READ_ONLY	49
+profile_count	REALITY_MUTATION	70
+profile_count	AUXILIARY_MUTATION	35
+profile_count	OBSERVATIONAL_WRITE	7
+profile_count	EXTERNAL_EFFECT	5
+profile_count	MAINTENANCE_EFFECT	6
+[capabilities]
+capability	N-001
+capability	N-002
+capability	N-003
+capability	N-004
+capability	N-005
+capability	N-006
+capability	N-007
+capability	N-008
+capability	N-009
+capability	N-010
+capability	N-011
+capability	N-012
+capability	N-013
+capability	N-014
+capability	N-015
+capability	N-016
+capability	N-017
+capability	N-018
+capability	N-019
+capability	N-020
+capability	N-021
+capability	N-022
+capability	N-023
+capability	N-024
+capability	N-025
+capability	N-026
+capability	N-027
+capability	N-028
+capability	N-029
+capability	N-030
+capability	N-031
+capability	N-032
+capability	N-033
+capability	N-034
+capability	N-035
+capability	N-036
+capability	N-037
+capability	N-038
+capability	N-039
+capability	N-040
+capability	N-041
+capability	N-042
+capability	N-043
+capability	N-044
+capability	N-045
+capability	N-046
+capability	N-047
+capability	N-048
+capability	N-049
+capability	N-050
+capability	N-051
+capability	N-052
+capability	N-053
+capability	N-054
+[operations]
+operation	N-012	ai.budget.set	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.credential.clear	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.credential.replace	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.credentials.clear_all	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.models.set	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.provider.select	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.routing.reset	ai-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-012	ai.settings.read	ai-control	READ_ONLY	BINDABLE	ADAPT
+operation	N-012	ai.usage.read	ai-control	READ_ONLY	BINDABLE	ADAPT
+operation	N-031	attention.read	planning	READ_ONLY	BINDABLE	ADAPT
+operation	N-041	backup.export	maintenance.backup	EXTERNAL_EFFECT	BINDABLE	ADAPT
+operation	N-041	backup.recover	maintenance.backup	MAINTENANCE_EFFECT	BINDABLE	ADAPT
+operation	N-041	backup.restore	maintenance.backup	MAINTENANCE_EFFECT	BINDABLE	ADAPT
+operation	N-034	commercial.evidence.ingest	commercial-evidence	OBSERVATIONAL_WRITE	BINDABLE	ADAPT
+operation	N-034	commercial.evidence.record	commercial-evidence	OBSERVATIONAL_WRITE	BINDABLE	MERGE
+operation	N-034	commercial.price_history.read	commercial-evidence	READ_ONLY	BINDABLE	ADAPT
+operation	N-034	commercial.quote	commercial-evidence	READ_ONLY	BINDABLE	KEEP
+operation	N-010	conversation.activate	workspace	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-010	conversation.archive.set	workspace	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-010	conversation.create	workspace	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-010	conversation.delete	workspace	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-010	conversation.pin.set	workspace	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-010	conversation.rename	workspace	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-010	conversation.search	workspace	READ_ONLY	BINDABLE	KEEP
+operation	N-010	conversation.workspace.read	workspace	READ_ONLY	BINDABLE	KEEP
+operation	N-032	delivery.preference.read	delivery	READ_ONLY	BINDABLE	NEW_V5
+operation	N-032	delivery.preference.set	delivery	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-045	diagnostics.export	diagnostics	EXTERNAL_EFFECT	BINDABLE	RECOVER
+operation	N-045	diagnostics.health.read	diagnostics	READ_ONLY	BINDABLE	ADAPT
+operation	N-045	diagnostics.performance.run	diagnostics	READ_ONLY	BINDABLE	RECOVER
+operation	N-045	diagnostics.self_test.run	diagnostics	READ_ONLY	BINDABLE	RECOVER
+operation	N-019	evidence.assess	evidence	READ_ONLY	BINDABLE	NEW_V5
+operation	N-019	evidence.ingest	evidence	OBSERVATIONAL_WRITE	BINDABLE	RECOVER
+operation	N-019	evidence.read	evidence	READ_ONLY	BINDABLE	RECOVER
+operation	N-025	finance.account.create	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-029	finance.budget.clear	finance	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-029	finance.budget.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-029	finance.budget.set	finance	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-025	finance.credit_line.create	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-025	finance.debt.create	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-025	finance.debt.payment.record	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-025	finance.entry.record	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-025	finance.financed_purchase.record	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-026	finance.fx_transfer.record	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-027	finance.horizon.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-027	finance.plan_item.cancel	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-027	finance.plan_item.create	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-027	finance.plan_item.execute	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-029	finance.reconciliation.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-025	finance.reservation.apply	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-025	finance.reservation.create	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-025	finance.reservation.release	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-029	finance.safe_capacity.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-029	finance.savings_floor.clear	finance	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-029	finance.savings_floor.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-029	finance.savings_floor.set	finance	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-027	finance.schedule.create	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-027	finance.schedule.delete	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-027	finance.schedule.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-027	finance.schedule.set_active	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-027	finance.schedule.update	finance	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-025	finance.snapshot.read	finance	READ_ONLY	BINDABLE	ADAPT
+operation	N-025	finance.transfer.record	finance	REALITY_MUTATION	BINDABLE	RECOVER
+operation	N-015	history.query	history-readmodel	READ_ONLY	BINDABLE	ADAPT
+operation	N-015	history.receipt.read	history-readmodel	READ_ONLY	BINDABLE	KEEP
+operation	N-022	home.read	home-readmodel	READ_ONLY	BINDABLE	ADAPT
+operation	N-037	kitchen.period.preview	household	READ_ONLY	BINDABLE	ADAPT
+operation	N-037	kitchen.storage_capacity.set	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-013	knowledge.search	knowledge	READ_ONLY	BINDABLE	RECOVER
+operation	N-031	matter.create	planning	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-031	matter.lifecycle.set	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-031	matter.snooze	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-031	matter.update	planning	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-037	meal.cancel	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-037	meal.plan	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-011	memory.correct	semantic-memory	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-011	memory.forget	semantic-memory	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-011	memory.learn_validated	semantic-memory	AUXILIARY_MUTATION	INTERNAL_ONLY	INTERNAL_ONLY
+operation	N-011	memory.recall	semantic-memory	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-028	monthly_plan.item.add	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-028	monthly_plan.item.cancel	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-028	monthly_plan.objective.allocate	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-028	monthly_plan.read	planning	READ_ONLY	BINDABLE	ADAPT
+operation	N-032	notice.dismiss	delivery	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-032	notice.read	delivery	READ_ONLY	BINDABLE	NEW_V5
+operation	N-032	notice.resolve	delivery	AUXILIARY_MUTATION	INTERNAL_ONLY	INTERNAL_ONLY
+operation	N-032	notice.route	delivery	AUXILIARY_MUTATION	INTERNAL_ONLY	INTERNAL_ONLY
+operation	N-032	notice.seen.set	delivery	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-032	notification.delivery.dispatch	delivery	EXTERNAL_EFFECT	BINDABLE	NEW_V5
+operation	N-032	notification.delivery.reconcile	delivery	AUXILIARY_MUTATION	INTERNAL_ONLY	INTERNAL_ONLY
+operation	N-030	objective.create	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-030	objective.lifecycle.set	planning	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-030	objective.update	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-030	objectives.read	planning	READ_ONLY	BINDABLE	ADAPT
+operation	N-047	onboarding.complete	onboarding-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-047	onboarding.defer	onboarding-control	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-047	onboarding.state.read	onboarding-control	READ_ONLY	BINDABLE	ADAPT
+operation	N-041	portability.export	maintenance.portability	EXTERNAL_EFFECT	BINDABLE	NEW_V5
+operation	N-041	portability.preview	maintenance.portability	READ_ONLY	BINDABLE	NEW_V5
+operation	N-037	prepared_food.mark_prepared	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-037	prepared_food.use	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-038	profile.read	profile	READ_ONLY	BINDABLE	ADAPT
+operation	N-038	profile.update_declared	profile	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-036	purchase_plan.commit	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-036	purchase_plan.preview	household	READ_ONLY	BINDABLE	ADAPT
+operation	N-024	radar.feedback.record	radar	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-024	radar.history.read	radar	READ_ONLY	BINDABLE	ADAPT
+operation	N-024	radar.read	radar	READ_ONLY	BINDABLE	ADAPT
+operation	N-024	radar.refresh	radar	OBSERVATIONAL_WRITE	BINDABLE	ADAPT
+operation	N-037	recipe.delete	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-037	recipe.save	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-017	relation.create	relations	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-017	relation.delete	relations	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-017	relation.read	relations	READ_ONLY	BINDABLE	KEEP
+operation	N-032	reminder.attend	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-032	reminder.cancel	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-032	reminder.create	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-032	reminder.read	planning	READ_ONLY	BINDABLE	ADAPT
+operation	N-032	reminder.update	planning	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-046	reset.execute	maintenance.reset	MAINTENANCE_EFFECT	BINDABLE	ADAPT
+operation	N-046	reset.plan	maintenance.reset	READ_ONLY	BINDABLE	ADAPT
+operation	N-018	search.query	federated-search	READ_ONLY	BINDABLE	ADAPT
+operation	N-018	search.saved_view.create	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.saved_view.delete	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.saved_view.read	federated-search	READ_ONLY	BINDABLE	NEW_V5
+operation	N-018	search.saved_view.update	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-040	security.biometric.set	security-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-040	security.pin.clear	security-control	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-040	security.pin.set	security-control	AUXILIARY_MUTATION	BINDABLE	KEEP
+operation	N-040	security.screen_privacy.set	security-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-040	security.status.read	security-control	READ_ONLY	BINDABLE	ADAPT
+operation	N-039	settings.amount_visibility.set	presentation-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-039	settings.presentation.read	presentation-control	READ_ONLY	BINDABLE	ADAPT
+operation	N-039	settings.theme.set	presentation-control	AUXILIARY_MUTATION	BINDABLE	ADAPT
+operation	N-033	shopping.need.quality.set	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-036	shopping.payment.record	household	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-033	shopping.preference.site.set	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-036	shopping.purchase.read	household	READ_ONLY	BINDABLE	ADAPT
+operation	N-036	shopping.purchase.record	household	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-036	shopping.receipt.record	household	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-033	shopping.savings_objective.set	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-033	shopping.snapshot.read	household	READ_ONLY	BINDABLE	ADAPT
+operation	N-033	shopping_need.add	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-033	shopping_need.complete	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-033	shopping_need.remove	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-033	shopping_need.schedule.create	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-033	shopping_need.schedule.set_active	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-033	shopping_need.schedule.update	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-033	shopping_need.update	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-035	stock.consume	household	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-035	stock.meta.set	household	REALITY_MUTATION	BINDABLE	ADAPT
+operation	N-035	stock.observe	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-035	stock.receive	household	REALITY_MUTATION	BINDABLE	MERGE
+operation	N-035	stock.release	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-035	stock.reserve	household	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-035	stock.snapshot.read	household	READ_ONLY	BINDABLE	ADAPT
+operation	N-041	storage.migrate	maintenance.backup	MAINTENANCE_EFFECT	INTERNAL_ONLY	INTERNAL_ONLY
+operation	N-014	summary.read	summary-readmodel	READ_ONLY	BINDABLE	ADAPT
+operation	N-016	undo.execute	undo-coordinator	REALITY_MUTATION	BINDABLE	KEEP
+operation	N-016	undo.inspect	undo-coordinator	READ_ONLY	BINDABLE	KEEP
+operation	N-042	update.check	maintenance.update	READ_ONLY	BINDABLE	ADAPT
+operation	N-042	update.install	maintenance.update	EXTERNAL_EFFECT	BINDABLE	ADAPT
+operation	N-042	update.reconcile	maintenance.update	MAINTENANCE_EFFECT	BINDABLE	NEW_V5
+operation	N-042	update.stage	maintenance.update	MAINTENANCE_EFFECT	BINDABLE	ADAPT
+operation	N-054	watch.create	watch	REALITY_MUTATION	BINDABLE	NEW_V5
+operation	N-054	watch.evaluate	watch	OBSERVATIONAL_WRITE	BINDABLE	NEW_V5
+operation	N-054	watch.history.read	watch	READ_ONLY	BINDABLE	NEW_V5
+operation	N-054	watch.lifecycle.set	watch	REALITY_MUTATION	BINDABLE	NEW_V5
+operation	N-054	watch.read	watch	READ_ONLY	BINDABLE	NEW_V5
+operation	N-054	watch.update	watch	REALITY_MUTATION	BINDABLE	NEW_V5
+operation	N-048	web.fetch	web-evidence	OBSERVATIONAL_WRITE	BINDABLE	ADAPT
+operation	N-048	web.search	web-evidence	OBSERVATIONAL_WRITE	BINDABLE	ADAPT

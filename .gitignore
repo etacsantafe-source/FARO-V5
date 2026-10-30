@@ -1,0 +1,32 @@
+# Workspace y compilación
+**/build/
+.gradle/
+.kotlin/
+**/.gradle/
+**/.kotlin/
+local.properties
+**/local.properties
+.idea/
+*.iml
+
+# Credenciales, datos y firma: nunca versionar
+.env
+.env.*
+**/.env
+**/.env.*
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.pem
+*.pk8
+*.key
+*.p12.b64
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+*.faro
+*.bak
+*.log

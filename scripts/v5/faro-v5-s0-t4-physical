@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+[[ -n "$ROOT" ]] || { echo "ERROR: ejecutá esto dentro del repo FARO."; exit 2; }
+cd "$ROOT"
+
+SOURCE_SHA="${FARO_V5_S0_SOURCE_SHA:-$(git rev-parse HEAD)}"
+FIXTURE_APPLICATION_ID="ar.com.faro.alpha.s0fixture"
+FIXTURE_LABEL="FARO S0 TEST"
+DOWNLOAD_DIR="${HOME}/storage/downloads"
+OUT_DIR="$ROOT/build/faro-v5-s0-t4-physical"
+APK_OUT="$OUT_DIR/FARO-S0-TEST.apk"
+REPORT="$OUT_DIR/latest.txt"
+
+[[ -z "$(git status --porcelain --untracked-files=no)" ]] || {
+  echo "ERROR: el repo canónico tiene cambios tracked locales; no preparar S0 T4."
+  exit 2
+}
+
+[[ -d "$DOWNLOAD_DIR" ]] || {
+  echo "ERROR: Termux no tiene acceso a Descargas."
+  echo "Ejecutá una vez: termux-setup-storage"
+  exit 3
+}
+
+mkdir -p "$OUT_DIR"
+
+echo "FARO V5 S0 T4 · preparando fixture físico sin ADB"
+(
+  cd "$ROOT/v5"
+  ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+    -PfaroS0PhysicalApplicationId="$FIXTURE_APPLICATION_ID" \
+    :app:assembleDebug
+)
+
+SOURCE_APK="$ROOT/v5/app/build/outputs/apk/debug/app-debug.apk"
+[[ -s "$SOURCE_APK" ]] || {
+  echo "ERROR: build terminó sin APK S0."
+  exit 2
+}
+
+cp "$SOURCE_APK" "$APK_OUT"
+cp "$SOURCE_APK" "$DOWNLOAD_DIR/FARO-S0-TEST.apk"
+chmod 0644 "$DOWNLOAD_DIR/FARO-S0-TEST.apk" 2>/dev/null || true
+
+if command -v termux-media-scan >/dev/null 2>&1; then
+  timeout 10s termux-media-scan "$DOWNLOAD_DIR/FARO-S0-TEST.apk" >/dev/null 2>&1 || true
+fi
+
+{
+  echo "FARO V5 S0 T4 HUMAN PHYSICAL PREP"
+  echo "source_sha=$SOURCE_SHA"
+  echo "fixture_application_id=$FIXTURE_APPLICATION_ID"
+  echo "fixture_label=$FIXTURE_LABEL"
+  echo "apk_download=$DOWNLOAD_DIR/FARO-S0-TEST.apk"
+  echo "adb_used=false"
+  echo "result=WAIT_HUMAN_PHYSICAL"
+  echo "scenario_1=fresh_launch_onboarding_or_ready"
+  echo "scenario_2=defer_onboarding_then_force_stop"
+  echo "scenario_3=relaunch_stays_ready_without_maintenance"
+} > "$REPORT"
+
+echo
+echo "🟡 FARO V5 S0 T4 · APK listo para prueba humana"
+echo "Archivo: Descargas/FARO-S0-TEST.apk"
+echo
+echo "Checklist:"
+echo "1) Instalá FARO-S0-TEST.apk y abrí FARO S0 TEST."
+echo "2) Debe mostrar 'Bienvenido a FARO' o 'FARO está listo'; nunca 'FARO necesita atención'."
+echo "3) Si aparece onboarding, tocá 'Más tarde' y verificá 'FARO está listo'."
+echo "4) Android > Apps > FARO S0 TEST > Forzar detención."
+echo "5) Abrilo de nuevo: debe volver sano y NO mostrar onboarding diferido ni 'FARO necesita atención'."
+echo
+echo "Decime verde si los 5 pasos pasan; rojo si alguno falla."
+echo "Reporte: $REPORT"

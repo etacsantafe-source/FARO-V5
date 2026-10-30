@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.FaroV5" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowBackground">@color/faro_bootstrap_surface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <style name="Theme.FaroV5.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/faro_bootstrap_surface</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_faro_bootstrap</item>
+        <item name="postSplashScreenTheme">@style/Theme.FaroV5</item>
+    </style>
+</resources>

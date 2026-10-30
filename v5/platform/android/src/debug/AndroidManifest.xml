@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="ar.com.faro.v5.platform.android.cert.FaroV5P6CertificationActivity"
+            android:excludeFromRecents="true"
+            android:exported="false" />
+        <provider
+            android:name="ar.com.faro.v5.platform.android.cert.FaroV5P6CertificationProvider"
+            android:authorities="${applicationId}.p6cert"
+            android:exported="false"
+            android:grantUriPermissions="false" />
+    </application>
+</manifest>

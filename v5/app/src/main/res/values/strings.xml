@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FARO</string>
+    <string name="bootstrap_initializing_title">Preparando FARO</string>
+    <string name="bootstrap_phase_storage">Preparando el almacenamiento local…</string>
+    <string name="bootstrap_phase_maintenance">Preparando la recuperación local…</string>
+    <string name="bootstrap_phase_external_effects">Recuperando operaciones pendientes…</string>
+    <string name="bootstrap_phase_update">Revisando una actualización pendiente…</string>
+    <string name="bootstrap_phase_reset">Continuando un restablecimiento pendiente…</string>
+    <string name="bootstrap_phase_generation">Recuperando un cambio de datos pendiente…</string>
+    <string name="bootstrap_phase_health">Verificando que tus datos locales estén listos…</string>
+    <string name="bootstrap_recovery_migration">Estamos terminando de preparar tus datos para esta versión de FARO…</string>
+    <string name="bootstrap_recovery_restore">Estamos terminando de recuperar tus datos…</string>
+    <string name="bootstrap_recovery_reset">Estamos terminando el restablecimiento que había quedado pendiente…</string>
+    <string name="bootstrap_recovery_multiple">Estamos terminando de recuperar varios cambios pendientes…</string>
+    <string name="bootstrap_initializing_body">Verificando tus datos locales…</string>
+    <string name="bootstrap_initializing_supporting">Este paso no necesita conexión a Internet.</string>
+    <string name="bootstrap_progress_accessibility">Preparación en curso</string>
+
+    <string name="onboarding_welcome_title">Bienvenido a FARO</string>
+    <string name="onboarding_welcome_body">FARO te ayuda a ordenar lo importante y acompañarte para decidir qué hacer.</string>
+    <string name="onboarding_welcome_supporting">Podés empezar ahora. Tu nombre, la seguridad, las notificaciones y la IA se configuran después, sólo cuando hagan falta.</string>
+    <string name="onboarding_start_action">Empezar</string>
+    <string name="onboarding_later_action">Más tarde</string>
+    <string name="onboarding_unavailable_supporting">La bienvenida no está disponible ahora, pero FARO sigue listo para usar.</string>
+
+    <string name="bootstrap_ready_title">FARO está listo</string>
+    <string name="bootstrap_ready_body">Tus datos locales están disponibles.</string>
+
+    <string name="bootstrap_maintenance_title">FARO necesita atención</string>
+    <string name="bootstrap_maintenance_supporting">Para proteger tus datos, los cambios permanecen bloqueados hasta completar la recuperación.</string>
+    <string name="bootstrap_maintenance_storage">No pudimos preparar el almacenamiento local.</string>
+    <string name="bootstrap_maintenance_runtime">No pudimos iniciar la recuperación local.</string>
+    <string name="bootstrap_maintenance_external_recovery">Hay una recuperación pendiente que no pudo completarse.</string>
+    <string name="bootstrap_maintenance_update">No pudimos comprobar una actualización pendiente.</string>
+    <string name="bootstrap_maintenance_reset">Hay un restablecimiento pendiente que requiere atención.</string>
+    <string name="bootstrap_maintenance_generation">Hay un cambio de datos pendiente que requiere atención.</string>
+    <string name="bootstrap_maintenance_health">Tus datos locales no superaron la verificación de apertura.</string>
+    <string name="bootstrap_maintenance_migration">No pudimos terminar de preparar tus datos para esta versión de FARO.</string>
+    <string name="bootstrap_maintenance_restore">No pudimos terminar de recuperar tus datos.</string>
+    <string name="bootstrap_maintenance_reset_specific">No pudimos terminar el restablecimiento pendiente.</string>
+    <string name="bootstrap_maintenance_multiple">No pudimos completar varias recuperaciones pendientes.</string>
+    <string name="bootstrap_retry_action">Intentar de nuevo</string>
+    <string name="bootstrap_diagnostics_show">Ver detalles</string>
+    <string name="bootstrap_diagnostics_hide">Ocultar detalles</string>
+    <string name="bootstrap_diagnostics_title">Detalles técnicos</string>
+    <string name="bootstrap_diagnostics_supporting">Estos datos son locales y pueden servir para revisar qué falló.</string>
+</resources>
