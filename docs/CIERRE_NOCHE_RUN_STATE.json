@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v12-3h",
-  "run_id": null,
-  "run_number": 0,
-  "state": "AUTHORIZED_READY",
+  "run_id": "cierre-v12-20261030-A1-1840",
+  "run_number": 1,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 8,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_1",
+    "epoch": 9,
+    "lease_expires_at": "2026-10-30T19:10:00-03:00",
+    "expected_head": "1e47a9c387d0169b61035e05e072e514566a1309"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -141,5 +141,11 @@
     "previous_automations": "none enabled at new-pilot preflight",
     "source_v11_actions_in_flight": 0
   },
-  "status": "READY_PENDING_FIRST_TRIGGER"
+  "status": "ACTIVE",
+  "current_run": {
+    "scheduled_start": "2026-10-30T18:40:00-03:00",
+    "started_at": "2026-10-30T21:40:05.011Z",
+    "deadline": "2026-10-30T19:10:00-03:00",
+    "phase": "DEVELOP_F1"
+  }
 }
