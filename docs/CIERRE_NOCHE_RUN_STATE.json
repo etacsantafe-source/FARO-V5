@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v11-3h",
   "run_id": "cierre-v11-20261030-A-1610",
   "run_number": 3,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
+    "state": "NONE",
+    "owner": null,
     "epoch": 6,
-    "lease_expires_at": "2026-10-30T19:39:00Z",
-    "expected_head": "031667d7940bfde17565cf9a900cd496f10618a4"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -35,25 +35,18 @@
   },
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
   "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "in_flight_actions": [
-    {
-      "id": 41114483263,
-      "head_sha": "031667d7940bfde17565cf9a900cd496f10618a4",
-      "status": "IN_PROGRESS",
-      "conclusion": null
-    }
-  ],
-  "scope": "A2 F1: recovered expired B writer, implemented bounded historical context with per-fragment admission (CI 41113428119 PASS); strengthened turn-level privacy so denied historical user suppresses its derived FARO reply; CI 41114483263 pending.",
+  "in_flight_actions": [],
+  "scope": "A2 F1: bounded historical context per-fragment admission and denied-user derived assistant suppression; both CI terminal SUCCESS, writer released.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
-  "tests": "V1.1 A1: CI 41104799269 SUCCESS exact SHA a408cea5, F1 reasoning 11/11; CI 41106186732 SUCCESS exact SHA 7e461758, F1 reasoning 11/11; both 31/31 directed + 36/36 critical + 31/31 Surface, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
+  "tests": "CI 41113428119 + 41114483263 SUCCESS exact SHA/XML: directed 33/33, F4 36/36, Surface 31/31; reasoning 13/13; Android E2E/T4 NOT_RUN.",
   "next_action": {
-    "mode": "WAIT_CI",
+    "mode": "NEXT_SCHEDULED_SESSION",
     "criterion": "F1",
-    "step": "Verify 41114483263 terminal SHA/XML; if green record PASS as bounded F1 evidence, not Android E2E; if red diagnose once safely. No further Actions while pending. Release writer by minute30."
+    "step": "B-1640: verify clean writer/CI and HEAD; bind provider-neutral ModelGateway, preserve egress, Android E2E; no duplicate 41114483263."
   },
-  "status": "ACTIVE_WAIT_CI",
+  "status": "CLOSED_PASS_REVIEW",
   "code_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "last_checkpoint_at": "2026-10-30T19:20:57.488Z",
+  "last_checkpoint_at": "2026-10-30T19:33:55.818Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -268,6 +261,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "F1 bounded earlier-turn context with per-fragment egress; exact XML 13/13 reasoning suite and all other directed verified from job logs; Android E2E/T4 NOT_RUN"
+    },
+    {
+      "id": 41114483263,
+      "job_id": 124265009111,
+      "head_sha": "031667d7940bfde17565cf9a900cd496f10618a4",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "33/33 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Verified exact XML in GitHub job log, 13/13 active chat reasoning; Android E2E/T4 NOT_RUN"
     }
   ],
   "writer_history": {
@@ -290,7 +294,12 @@
     "v11_a1_no_overlap": "OBSERVED",
     "v11_a1_actions": "TWO_TERMINAL_SUCCESS",
     "v11_a1_thirty_minute_continuity": "NOT_DEMONSTRATED; closed cleanly after 20.3 min",
-    "v11_a2_writer_recovery": "OBSERVED_B_EXPIRED_LEASE_AUTOMATION_COMPLETED_CI_TERMINAL_CAS_EPOCH6"
+    "v11_a2_writer_recovery": "OBSERVED_B_EXPIRED_LEASE_AUTOMATION_COMPLETED_CI_TERMINAL_CAS_EPOCH6",
+    "v11_a2_writer_cas": "OBSERVED",
+    "v11_a2_no_overlap": "OBSERVED",
+    "v11_a2_actions": "TWO_TERMINAL_SUCCESS",
+    "v11_a2_duration_observed_minutes": 24.49,
+    "v11_a2_writer_released": true
   },
   "writer_recovery": {
     "previous_owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
@@ -311,5 +320,14 @@
     "F3: human owner decision resolved option A; minimal user-facing consent/export/restore SAF flow not implemented. Current production export requires V2_ACTIVE_ENABLED=false gate, so pre-cutover certification needs a safe quarantined/test-only path without weakening shipping admission.",
     "F4: 36/36 critical JVM regressions pass but are not integral Android certification.",
     "T4: physical device NOT_RUN."
-  ]
+  ],
+  "run_closed_at": "2026-10-30T19:33:55.818Z",
+  "run_duration_observed_minutes": 24.49,
+  "v11_a2_writer_history": {
+    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
+    "epoch": 6,
+    "acquired_at": "2026-10-30T19:09:26.508Z",
+    "lease_expires_at": "2026-10-30T19:39:00Z",
+    "released_at": "2026-10-30T19:33:55.818Z"
+  }
 }
