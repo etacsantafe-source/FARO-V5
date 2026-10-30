@@ -254,4 +254,67 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             assertEquals(0, calls.get())
         }
     }
+
+    @Test fun hostDispatcherRunsModelOffCallerThreadAndSharesInFlightTurn() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val entered = CountDownLatch(1)
+            val release = CountDownLatch(1)
+            val workerThread = AtomicReference("")
+            val callerThread = Thread.currentThread().name
+            val model = ModelGateway { _, _ ->
+                workerThread.set(Thread.currentThread().name)
+                calls.incrementAndGet()
+                entered.countDown()
+                check(release.await(20, TimeUnit.SECONDS))
+                ReasoningResult.Success(ModelBindingId("fake"), CanonicalPayload.fromEncoded(
+                    "text/plain", "Respuesta en segundo plano".toByteArray(StandardCharsets.UTF_8)
+                ))
+            }
+            val dispatcher = FaroV5HostAssistantTurnDispatcher(
+                session(store, model = model), Executors.newSingleThreadExecutor(),
+                BooleanSupplier { active.get() == "gen-f1" },
+            )
+            try {
+                val first = dispatcher.submit(request)
+                assertTrue(entered.await(20, TimeUnit.SECONDS))
+                val duplicate = dispatcher.submit(request)
+                assertSame(first, duplicate)
+                assertFalse(first.isDone)
+                release.countDown()
+                assertEquals(FaroV5AssistantTurnOutcome.COMPLETED,
+                    first.get(20, TimeUnit.SECONDS))
+                assertNotEquals(callerThread, workerThread.get())
+                assertEquals(1, calls.get())
+                assertEquals(ConversationMessageState.COMPLETED,
+                    runBlocking { store.readTimeline(chat) }!!.messages.last().state)
+            } finally {
+                release.countDown()
+                dispatcher.close()
+            }
+        }
+    }
+
+    @Test fun hostDispatcherDeniesStaleOrClosedGenerationWithoutModelCall() {
+        ConversationWorkspaceStore(db()).use { store ->
+            seed(store)
+            val dispatcher = FaroV5HostAssistantTurnDispatcher(
+                session(store), Executors.newSingleThreadExecutor(),
+                BooleanSupplier { active.get() == "gen-f1" },
+            )
+            try {
+                active.set("other-gen")
+                assertEquals(FaroV5AssistantTurnOutcome.STALE,
+                    dispatcher.submit(request).get(20, TimeUnit.SECONDS))
+                active.set("gen-f1")
+                dispatcher.close()
+                assertEquals(FaroV5AssistantTurnOutcome.STALE,
+                    dispatcher.submit(request).get(20, TimeUnit.SECONDS))
+                assertEquals(0, calls.get())
+                assertEquals(1, runBlocking { store.readTimeline(chat) }!!.messages.size)
+            } finally {
+                dispatcher.close()
+            }
+        }
+    }
 }
