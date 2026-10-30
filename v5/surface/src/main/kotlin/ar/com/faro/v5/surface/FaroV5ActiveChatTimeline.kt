@@ -11,6 +11,8 @@ import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineSnapshot
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private sealed interface ChatTimelineProjection {
     data object Loading : ChatTimelineProjection
@@ -36,7 +38,9 @@ fun FaroV5ActiveChatTimeline(
     LaunchedEffect(activeConversationId, timelineReadPort, refreshRevision) {
         if (activeConversationId != null) {
             projection = try {
-                val snapshot = timelineReadPort.readTimeline(activeConversationId)
+                val snapshot = withContext(Dispatchers.IO) {
+                    timelineReadPort.readTimeline(activeConversationId)
+                }
                 if (snapshot == null) ChatTimelineProjection.Missing
                 else ChatTimelineProjection.Ready(snapshot)
             } catch (cancelled: CancellationException) {

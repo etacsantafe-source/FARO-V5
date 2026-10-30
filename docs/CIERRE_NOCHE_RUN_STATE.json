@@ -35,26 +35,18 @@
   },
   "base_head": "03613ebdb84e2aef50153a267842662a147dbc14",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [
-    {
-      "id": 41104799269,
-      "head_sha": "a408cea5ffd1e7a7558018f78a19262e66519682",
-      "status": "in_progress",
-      "conclusion": null,
-      "kind": "F1 host-owned async dispatch + CI new branch"
-    }
-  ],
+  "in_flight_actions": [],
   "scope": "V1.1 Noche A 15:10–15:40; F1 async host-owned generation, F3 option A approved; CI branch gate repair required",
   "hypothesis": "After process death or generation switch, an orphaned FARO PROCESSING reply cannot be settled without model replay. Add explicit trusted exclusive-recovery settlement to FAILED with empty text; fail closed without admission, preserve one reply and no second model call.",
-  "tests": "NEW CI 41104799269 IN_PROGRESS (SHA a408cea5); 11 directed reasoning cases expected, 31/31 directed total, 36/36 critical, 31/31 Surface; NO PASS until terminal XML.",
+  "tests": "CI 41104799269 terminal SUCCESS SHA a408cea5; exact XML 11/11 F1 reasoning (0,0,0), 31/31 directed, 36/36 critical, 31/31 Surface. No Android E2E.",
   "next_action": {
-    "mode": "ACTIVE_WAIT_CI",
+    "mode": "ACTIVE_AUTHORIZED",
     "criterion": "F1",
-    "step": "Verify run 41104799269 terminal, exact directed XML. On PASS, commit prepared off-UI-thread canonical timeline read fix (blob 7efaa1ba4b2135a06166930e667ff94a9e1bb1f6) with CAS, verify new CI. On FAIL, diagnose once and correct safely; no blind repeat. F3 remains authorized but untested."
+    "step": "Second safe F1 integration: canonical timeline read moves to Dispatchers.IO; verify directed CI exact SHA/XML. No V2 cutover."
   },
   "status": "CLOSED_HANDOFF_CLEAN",
   "code_head": "a408cea5ffd1e7a7558018f78a19262e66519682",
-  "last_checkpoint_at": "2026-10-30T18:20:01.597Z",
+  "last_checkpoint_at": "2026-10-30T18:20:58.618Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -199,6 +191,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "Exact XML counts verified by runner and log; not standalone XML artifact; Android E2E NOT_RUN"
+    },
+    {
+      "id": 41104799269,
+      "job_id": 124231456407,
+      "head_sha": "a408cea5ffd1e7a7558018f78a19262e66519682",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "31/31 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Exact JUnit XML verified in job logs; host-owned async dispatcher + 2 new tests; Android E2E/T4 NOT_RUN"
     }
   ],
   "writer_history": {
