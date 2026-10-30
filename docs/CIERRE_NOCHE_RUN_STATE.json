@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v12-3h",
   "run_id": "cierre-v12-20261030-A1-1840",
   "run_number": 1,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_1",
+    "state": "NONE",
+    "owner": null,
     "epoch": 9,
-    "lease_expires_at": "2026-10-30T19:10:00-03:00",
-    "expected_head": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -114,15 +114,7 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [
-    {
-      "id": 41134824782,
-      "head_sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
-      "status": "in_progress",
-      "reason": "Corrected Android F1 bootstrap and provider transport CI",
-      "resume": "Verify terminal and exact XML; do not cancel or repeat identical"
-    }
-  ],
+  "in_flight_actions": [],
   "actions_launched_v12": [
     {
       "id": 41132960313,
@@ -160,21 +152,23 @@
       "id": 41134824782,
       "head_sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
       "reason": "Fix compiler JvmField value-class annotation; focused transport 7 + bootstrap 4 + Android compile",
-      "status": "IN_PROGRESS",
+      "status": "COMPLETED_SUCCESS",
       "created_at": "2026-10-30T21:57:51Z",
-      "completed_at": null,
-      "wall_seconds": null
+      "completed_at": "2026-10-30T22:05:15Z",
+      "wall_seconds": 444,
+      "tests": "Transport XML 7/7, bootstrap XML 4/4, failures/errors/skips=0; Android compile Kotlin/Java PASS; structural baseline PASS; Android E2E NOT_RUN"
     }
   ],
   "used_time_minutes": {
+    "total_session_elapsed": 26.93,
     "investigation": null,
     "development": null,
     "tests": null,
-    "actions_wall_time": 3.716666666666667,
+    "actions_wall_time_sum": 26.43,
     "waiting": null,
     "checkpoint_and_communication": null,
     "non_execution": null,
-    "note": "Run elapsed measured from started_at. Development/research not independently metered; do not fabricate. CI1 223s overlaps other work; CI2 ongoing."
+    "note": "Only total elapsed and workflow wall durations are independently measured; Actions overlap development and each other. No fabricated breakdown; no billable minutes inferred."
   },
   "blockers": [
     {
@@ -184,20 +178,30 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "No new work after 19:00 A1. Verify CI4 #41134824782 terminal and XML if completed before 19:05. Otherwise WAIT_CI with SHA0903, release writer NONE and let B1 resume. Keep 3/8, V2 OFF, S3/S4 closed, T4 NOT_RUN. Next functional gap is Settings Keystore/consent UI and quarantined Android E2E."
+    "step": "B1 at 19:10: verify writer NONE epoch9 and exact current HEAD, then implement minimal trusted Settings/Keystore profile+consent UI and Android chat integration. Reuse CI4 SUCCESS SHA0903 XML 7/7 transport + 4/4 bootstrap; do not repeat identical. F1 Android E2E remains pending. F2/F3/F4/T4 pending."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
     "previous_automations": "none enabled at new-pilot preflight",
-    "source_v11_actions_in_flight": 0
+    "source_v11_actions_in_flight": 0,
+    "CI4": {
+      "id": 41134824782,
+      "status": "SUCCESS",
+      "sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
+      "job_id": 124334577040,
+      "xml": "7/7 transport + 4/4 bootstrap; failures=0 errors=0 skipped=0",
+      "android_compile": "PASS",
+      "android_e2e": "NOT_RUN"
+    }
   },
-  "status": "ACTIVE_WAIT_CI",
+  "status": "CLOSED_PASS_REVIEW",
   "current_run": {
     "scheduled_start": "2026-10-30T18:40:00-03:00",
     "started_at": "2026-10-30T21:40:05.011Z",
     "deadline": "2026-10-30T19:10:00-03:00",
-    "phase": "F1_CI4_WAIT",
-    "last_observed_at": "2026-10-30T21:58:08.461Z"
+    "phase": "CLOSED",
+    "last_observed_at": "2026-10-30T22:07:00.702Z",
+    "closed_at": "2026-10-30T22:07:00.702Z"
   },
   "code_head": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
   "functional_progress": [
@@ -219,7 +223,7 @@
     {
       "commit": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
       "kind": "F1 Android bootstrap Kotlin compatibility",
-      "result": "Removed invalid @JvmField annotations from trusted catalog; CI4 directed in progress"
+      "result": "Android trusted bootstrap compiled; directed CI4 7/7 transport + 4/4 bootstrap XML PASS, no Android E2E"
     }
   ],
   "hypotheses": [
@@ -237,5 +241,5 @@
       "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T21:58:08.461Z"
+  "last_checkpoint_at": "2026-10-30T22:07:00.702Z"
 }
