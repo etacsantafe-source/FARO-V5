@@ -114,7 +114,15 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41143467969,
+      "head_sha": "29f64361130c52b27e899f71a654d03137f1c617",
+      "status": "IN_PROGRESS",
+      "reason": "F1 Android Keystore consent-to-real-gateway instrumentation compile and focused regressions",
+      "created_at": "2026-10-30T23:16:30Z"
+    }
+  ],
   "actions_launched_v12": [
     {
       "id": 41132960313,
@@ -215,9 +223,9 @@
     }
   ],
   "next_action": {
-    "mode": "NEXT_SESSION_B2",
+    "mode": "B2_RESUME",
     "criterion": "F1",
-    "step": "First revalidate HEAD, writer NONE epoch11 and no Actions pending; reuse CI #41139970252 and #41140606044 exact SHAs. Next indispensable: Android host/Keystore consent Activity instrumentation and Composer→Workspace→reasoning→Review→Apply→Delivery Android E2E without enabling V2; then F2 recovery and F3 SAF minimal UI option A. Do not repeat 38/36/31. T4 physical waits."
+    "step": "Verify Actions 41143467969 exact SHA and XML; if RED diagnose and correct one safe batch; no physical claims. Continue essential F1 Android host integration if safe, then checkpoint and release writer before 20:39 Argentina."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -240,9 +248,10 @@
     "stop_new_work_at": "2026-10-30T20:33:39-03:00",
     "finish_work_by": "2026-10-30T20:38:39-03:00",
     "deadline": "2026-10-30T20:39:00-03:00",
-    "phase": "ACTIVE"
+    "phase": "ACTIVE_WAIT_CI",
+    "last_observed_at": "2026-10-30T23:18:53.977Z"
   },
-  "code_head": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
+  "code_head": "29f64361130c52b27e899f71a654d03137f1c617",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -299,7 +308,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B2 active: F1 Android E2E host/Keystore consent UI; writer acquired with CAS. No certification assumed.",
+  "scope": "B2 interim: Android Keystore + consent + real gateway round-trip instrumentation added, non-exported Activity and V2 OFF asserted; CI compile running, Android execution NOT_RUN.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
