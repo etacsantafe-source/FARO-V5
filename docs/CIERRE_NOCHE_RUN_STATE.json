@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v12-3h",
-  "run_id": "cierre-v12-20261030-A1-1840",
-  "run_number": 1,
-  "state": "CLOSED",
+  "run_id": "cierre-v12-20261030-B1-1910",
+  "run_number": 2,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 9,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_1",
+    "epoch": 10,
+    "lease_expires_at": "2026-10-30T19:35:00-03:00",
+    "expected_head": "6375ed58609b0768026b154345723ac9b8af9da0"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -178,7 +178,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "B1 at 19:10: verify writer NONE epoch9 and exact current HEAD, then implement minimal trusted Settings/Keystore profile+consent UI and Android chat integration. Reuse CI4 SUCCESS SHA0903 XML 7/7 transport + 4/4 bootstrap; do not repeat identical. F1 Android E2E remains pending. F2/F3/F4/T4 pending."
+    "step": "B1: build minimal Android AI consent+credential settings path on existing shell, use one process-owned DataStore and Keystore; no V2 activation; targeted CI by functional batch."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -194,7 +194,7 @@
       "android_e2e": "NOT_RUN"
     }
   },
-  "status": "CLOSED_PASS_REVIEW",
+  "status": "ACTIVE",
   "current_run": {
     "scheduled_start": "2026-10-30T18:40:00-03:00",
     "started_at": "2026-10-30T21:40:05.011Z",
@@ -241,5 +241,13 @@
       "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T22:07:00.702Z"
+  "last_checkpoint_at": "2026-10-30T22:07:00.702Z",
+  "b1_timing": {
+    "scheduled_start": "2026-10-30T19:10:00-03:00",
+    "automation_started": "2026-10-30T19:05:33.615698-03:00",
+    "writer_acquired_approx": "2026-10-30T19:10:08-03:00",
+    "stop_new_work": "2026-10-30T19:25:33-03:00",
+    "checkpoint_by": "2026-10-30T19:35:33-03:00",
+    "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
+  }
 }
