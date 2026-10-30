@@ -37,24 +37,24 @@
   "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
   "in_flight_actions": [
     {
-      "id": 41118040821,
-      "head_sha": "d60579d19a8d1ec2e4228f05bc52a602ceb31e56",
+      "id": 41119328351,
+      "head_sha": "a19c6854c5519b2c662165eb1d6da600b179ea33",
       "status": "in_progress",
       "conclusion": null,
-      "started_at": "2026-10-30T19:46:56Z"
+      "started_at": "2026-10-30T19:56:39Z"
     }
   ],
-  "scope": "B2 F1: revalidate every selected historical/current egress fragment just before ModelGateway dispatch; two targeted revocation tests and exact CI XML.",
+  "scope": "B2 F1: final per-fragment egress revalidation PASS 41118040821; typed assistant outcome UI and host integration tests WAIT_CI 41119328351.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
-  "tests": "CI 41118040821 in_progress at exact code SHA d60579d; expected 35/35 directed, F4 36/36, Surface 31/31; NOT CERTIFIED until terminal XML.",
+  "tests": "41118040821 terminal SUCCESS exact SHA/XML 35/35 directed, F4 36/36, Surface 31/31. 41119328351 IN_PROGRESS typed assistant status + 2 host integration tests; expected 37/37, F4 36/36, Surface 31/31, not certified.",
   "next_action": {
     "mode": "WAIT_CI",
     "criterion": "F1",
-    "step": "Reconcile CI 41118040821 exact XML; do not duplicate. If terminal PASS, next F1 gap is trusted bootstrap ModelGateway binding, Android E2E. F3 consent UI still pending."
+    "step": "Verify 41119328351 terminal SHA/XML. If fail, diagnose and at most one safe correction/retry before minute20; if still active at minute25 record WAIT_CI. Next A should tackle trusted ComposedModelGateway bootstrap or F3 consent UI, no V2 cutover."
   },
   "status": "CLOSED_PASS_REVIEW",
-  "code_head": "d60579d19a8d1ec2e4228f05bc52a602ceb31e56",
-  "last_checkpoint_at": "2026-10-30T19:52:01.175Z",
+  "code_head": "a19c6854c5519b2c662165eb1d6da600b179ea33",
+  "last_checkpoint_at": "2026-10-30T19:57:14.336Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -121,6 +121,14 @@
       "hypothesis": "selected historical/current fragments may become disallowed after initial filter but before provider dispatch",
       "correction": "revalidate all actually included fragments immediately before gateway.reason; fail closed and leave PROCESSING for exclusive recovery",
       "expected_evidence": "Actions directed 35/35, F4 36/36, Surface 31/31, Android compile and structural, no Android E2E"
+    },
+    {
+      "issue": "F1 assistant failure status invisible to chat",
+      "attempt_id": "v11-B2-f1-typed-completion-02",
+      "hypothesis": "refresh-only completion callback hides OFFLINE/FAILED/NOT_AUTHORIZED from user even after canonical Workspace terminal state",
+      "correction": "optional provider-neutral typed completion port and UI messages, no retry/Apply, V2 dormant",
+      "fix_commit": "a19c6854c5519b2c662165eb1d6da600b179ea33",
+      "expected_evidence": "CI 41119328351 exact 37/37 directed, 36/36 critical, 31/31 Surface; Android compile/structural"
     }
   ],
   "completed_actions": [
@@ -287,6 +295,17 @@
       "errors": 0,
       "skipped": 0,
       "notes": "Verified exact XML in GitHub job log, 13/13 active chat reasoning; Android E2E/T4 NOT_RUN"
+    },
+    {
+      "id": 41118040821,
+      "job_id": 124277269036,
+      "head_sha": "d60579d19a8d1ec2e4228f05bc52a602ceb31e56",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "35/35 directed + 36/36 F4 critical + 31/31 Surface",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "notes": "Exact JUnit XML 15/15 reasoning, Android compile and structural PASS; no Android E2E/T4"
     }
   ],
   "writer_history": {
@@ -329,10 +348,10 @@
   "main_head_verified": "9bae214541f466a62e149853931b96abb8d74ed9",
   "private_repo_verified": true,
   "technical_gaps": [
-    "F1: async host dispatcher and UI-thread timeline read compiled and tested, but dispatcher is NOT yet bound to real Composer/DeliveryGraph or trusted provider-neutral ModelGateway. Android Chat/Review/Apply/Delivery E2E remains uncertified.",
-    "F1: bounded multi-turn context and per-fragment egress admission must be integrated; never forward historical chat blindly.",
+    "F1: Composer->host dispatcher->Workspace already wired behind V2 OFF; trusted application bootstrap still does NOT instantiate configured provider-neutral ComposedModelGateway with live Groq binding/profile/egress policy. Android Chat/Review/Apply/Delivery E2E remains uncertified.",
+    "F1: typed offline/failure status UI on exact SHA a19c6854 is WAIT_CI, not certified. New egress revocation guard passed JVM/Android compilation but no physical Android E2E.",
     "F2: Android V2 activation/recovery E2E remains uncertified; V1 protected, V2 OFF.",
-    "F3: human owner decision resolved option A; minimal user-facing consent/export/restore SAF flow not implemented. Current production export requires V2_ACTIVE_ENABLED=false gate, so pre-cutover certification needs a safe quarantined/test-only path without weakening shipping admission.",
+    "F3: option A decision resolved; minimal user-facing consent/export/restore SAF flow not implemented. Current export V2_ACTIVE_ENABLED=false gate; pre-cutover certification needs safe quarantined test-only path without weakening shipping admission.",
     "F4: 36/36 critical JVM regressions pass but are not integral Android certification.",
     "T4: physical device NOT_RUN."
   ],
