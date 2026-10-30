@@ -286,9 +286,20 @@ class FaroV5ActiveChatReasoningSession(
         )
         val window = ConversationTimelinePolicy.contextWindow(beforeAndCurrent)
         if (window.lastOrNull()?.id != user.id) return currentOnly()
+        // An assistant reply can reveal its user's private question. Admit
+        // it only when that same-turn user is also admitted, never in isolation.
+        val admittedUserTurns = window.asSequence()
+            .filter { it.role == ConversationMessageRole.USER }
+            .filter { message ->
+                message.id == user.id ||
+                    try { trustedEgressAdmission(message) } catch (_: Exception) { false }
+            }
+            .map { it.turnId }
+            .toSet()
         val allowed = window.filter { message ->
-            message.id == user.id ||
-                try { trustedEgressAdmission(message) } catch (_: Exception) { false }
+            if (message.turnId !in admittedUserTurns) false
+            else if (message.role == ConversationMessageRole.USER) true
+            else try { trustedEgressAdmission(message) } catch (_: Exception) { false }
         }
         if (allowed.size <= 1) return currentOnly()
         val reversed = mutableListOf<String>()

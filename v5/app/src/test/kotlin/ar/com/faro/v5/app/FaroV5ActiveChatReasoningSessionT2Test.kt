@@ -379,7 +379,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
         }
     }
 
-    @Test fun deniedHistoricalFragmentsNeverLeaveWorkspace() {
+    @Test fun deniedHistoricalUserAlsoSuppressesItsDerivedAssistantReply() {
         ConversationWorkspaceStore(db()).use { store ->
             seedHistoryAndLaterTurn(store)
             val captured = AtomicReference("")
@@ -393,7 +393,7 @@ class FaroV5ActiveChatReasoningSessionT2Test {
             val reasoning = FaroV5ActiveChatReasoningSession(
                 "gen-f1", store, gate, Supplier { active.get() },
                 BooleanSupplier { true }, model,
-                { it.id == ConversationMessageId("user-second") },
+                { it.id != userId },
             )
             assertEquals(FaroV5AssistantTurnOutcome.COMPLETED,
                 reasoning.run(secondRequest(), NeverCancelled))
