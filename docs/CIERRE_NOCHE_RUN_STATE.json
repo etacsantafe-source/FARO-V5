@@ -116,11 +116,11 @@
   ],
   "in_flight_actions": [
     {
-      "id": 41143467969,
-      "head_sha": "29f64361130c52b27e899f71a654d03137f1c617",
-      "status": "IN_PROGRESS",
-      "reason": "F1 Android Keystore consent-to-real-gateway instrumentation compile and focused regressions",
-      "created_at": "2026-10-30T23:16:30Z"
+      "id": 41144270096,
+      "head_sha": "013cc7acc68739508755f6cac7a5123c02f4b590",
+      "status": "QUEUED",
+      "reason": "Corrected CI shell command, compile Android instrumentation and directed F1 regressions",
+      "created_at": "2026-10-30T23:24:19Z"
     }
   ],
   "actions_launched_v12": [
@@ -203,6 +203,23 @@
       "completed_at": "2026-10-30T22:56:45Z",
       "wall_seconds": 451,
       "tests": "Exact XML oracle log: transport8/8 bootstrap4/4 consent3/3 reasoning19/19, failures/errors/skips 0; Android Kotlin/Java compile PASS; Android E2E NOT_RUN"
+    },
+    {
+      "id": 41143467969,
+      "head_sha": "29f64361130c52b27e899f71a654d03137f1c617",
+      "status": "COMPLETED_FAILURE",
+      "reason": "First Android instrumentation compile gate; failed in CI shell command",
+      "tests": "transport8/8,bootstrap4/4,consent3/3,reasoning19/19 steps PASS; AndroidTest compile NOT_RUN; Gradle Task '\\\\' not found; no product failure",
+      "created_at": "2026-10-30T23:16:30Z",
+      "completed_at": "2026-10-30T23:23:37Z",
+      "wall_seconds": 427
+    },
+    {
+      "id": 41144270096,
+      "head_sha": "013cc7acc68739508755f6cac7a5123c02f4b590",
+      "status": "QUEUED",
+      "reason": "Fix double backslash in Gradle shell line; targeted AndroidTest compile and existing F1 regressions",
+      "created_at": "2026-10-30T23:24:19Z"
     }
   ],
   "used_time_minutes": {
@@ -249,9 +266,9 @@
     "finish_work_by": "2026-10-30T20:38:39-03:00",
     "deadline": "2026-10-30T20:39:00-03:00",
     "phase": "ACTIVE_WAIT_CI",
-    "last_observed_at": "2026-10-30T23:18:53.977Z"
+    "last_observed_at": "2026-10-30T23:24:28.813Z"
   },
-  "code_head": "29f64361130c52b27e899f71a654d03137f1c617",
+  "code_head": "013cc7acc68739508755f6cac7a5123c02f4b590",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -297,6 +314,14 @@
       "observation": "CI3 41133963832 exact compiler INAPPLICABLE_JVM_FIELD at Factory.kt:131; @JvmField cannot annotate ModelBindingId value-class property",
       "fix_commit": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
       "status": "FIXED_AWAIT_CI4"
+    },
+    {
+      "issue": "B2 CI AndroidTest compile shell task selection",
+      "observation": "#41143467969 failed with Task '\\\\' not found; previous transport and bootstrap steps passed",
+      "cause": "YAML run block contained two literal backslashes before newline",
+      "fix_commit": "013cc7acc68739508755f6cac7a5123c02f4b590",
+      "status": "FIXED_AWAIT_CI",
+      "next_run": 41144270096
     }
   ],
   "last_checkpoint_at": "2026-10-30T22:57:55.790Z",
@@ -308,7 +333,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B2 interim: Android Keystore + consent + real gateway round-trip instrumentation added, non-exported Activity and V2 OFF asserted; CI compile running, Android execution NOT_RUN.",
+  "scope": "B2 F1 Android Keystore consent/gateway instrumentation implemented; CI1 failure in shell continuation, corrected on SHA013cc7; CI2 queued; no Android runtime executed.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
