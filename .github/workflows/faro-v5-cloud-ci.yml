@@ -32,10 +32,10 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-      - name: Install Android 37 compile platform
-        run: sdkmanager "platforms;android-37" "build-tools;36.0.0"
+      - name: Install Android 37 compile platform using runner SDK
+        run: |
+          test -n "$ANDROID_HOME"
+          sdkmanager --install "platforms;android-37" "build-tools;36.0.0"
       - name: Structural, composition and Android compiler gates
         working-directory: v5
         run: |
