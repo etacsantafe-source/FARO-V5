@@ -61,7 +61,8 @@ jobs:
             --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostAdapterTest' \
             --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest' \
             --tests 'ar.com.faro.v5.app.FaroV5PreSwitchHostAdmissionT2Test' \
-            --tests 'ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test'
+            --tests 'ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test' \
+            --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
       - name: Check exact directed JUnit XML
         run: |
           python3 - <<'PY'
@@ -73,6 +74,7 @@ jobs:
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest.xml': 2,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5PreSwitchHostAdmissionT2Test.xml': 7,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5QuarantinedRecoveryVsV1GateT2Test.xml': 3,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 1,
           }
           for path, tests in expected.items():
             p = Path(path)
@@ -83,5 +85,5 @@ jobs:
             if got != (tests, 0, 0, 0):
               raise SystemExit(f'FAIL_XML {path} {got}, expected {(tests,0,0,0)}')
             print(f'PASS_XML {path}: {got}')
-          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 19/19')
+          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 20/20')
           PY
