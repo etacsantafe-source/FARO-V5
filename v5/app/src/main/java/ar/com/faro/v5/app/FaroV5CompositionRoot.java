@@ -13,6 +13,10 @@ import ar.com.faro.v5.kernel.contracts.MaterialWriteGate;
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort;
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort;
+import ar.com.faro.v5.kernel.contracts.ConversationMessage;
+import ar.com.faro.v5.kernel.contracts.ModelGateway;
+import ar.com.faro.v5.kernel.contracts.ModelProfileId;
 import ar.com.faro.v5.kernel.contracts.ConversationReviewPort;
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceSelectionPort;
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewContext;
@@ -40,6 +44,11 @@ import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Set;
+import java.util.Objects;
+import java.util.concurrent.Executors;
+import java.util.function.Supplier;
+import java.util.function.Predicate;
+import java.util.function.BooleanSupplier;
 
 /**
  * Terminal application composition for the P3 Delivery path.
@@ -61,6 +70,7 @@ public final class FaroV5CompositionRoot {
     private final Object maintenanceAdmissionLock = new Object();
 
     private volatile DeliveryGraph deliveryGraph;
+    private volatile TrustedAssistantRuntime trustedAssistantRuntime;
     private volatile OnboardingGraph onboardingGraph;
     private volatile boolean maintenanceRecoveryComplete = false;
     private volatile StartupReprojectionState startupReprojectionState =
@@ -84,6 +94,26 @@ public final class FaroV5CompositionRoot {
         this.workerFactory = new FaroWorkerFactory(executionPort);
         this.androidPlatformAdapters =
                 new AndroidPlatformAdapterFactory(appContext);
+    }
+
+    /**
+     * Trusted application-bootstrap injection only, before any DeliveryGraph is
+     * opened. No UI, chat message or provider response may install credentials,
+     * choose a model profile or grant egress through this method.
+     * Shipping V1 and uncertified V2 never expose an assistant dispatch port.
+     */
+    synchronized void configureTrustedAssistantRuntime(
+            ModelGateway gateway,
+            Supplier<ModelProfileId> profile,
+            Predicate<ConversationMessage> egressAdmission) {
+        if (deliveryGraph != null) {
+            throw new IllegalStateException(
+                    "trusted assistant configuration must precede graph construction");
+        }
+        trustedAssistantRuntime = new TrustedAssistantRuntime(
+                Objects.requireNonNull(gateway, "gateway"),
+                Objects.requireNonNull(profile, "profile"),
+                Objects.requireNonNull(egressAdmission, "egressAdmission"));
     }
 
     /** Staged V2 host wiring only; no active pointer, Apply or cutover. */
@@ -448,7 +478,7 @@ public final class FaroV5CompositionRoot {
             }
             DeliveryGraph current = deliveryGraph;
             if (current != null) {
-                current.stores.close();
+                current.close();
                 deliveryGraph = null;
             }
             OnboardingGraph currentOnboarding = onboardingGraph;
@@ -500,6 +530,17 @@ public final class FaroV5CompositionRoot {
         if (!maintenanceRecoveryComplete) return null;
         FaroV5ActiveChatSelectionSession session = deliveryGraph().chatSelectionSession;
         return session == null ? null : session.port;
+    }
+
+    /**
+     * No assistant model calls for shipping V1 or uncertified V2. A future
+     * trusted bootstrap must supply the policy-bound ModelGateway/profile.
+     */
+    public ConversationAssistantTurnDispatchPort activeAssistantTurnPort() {
+        if (!maintenanceRecoveryComplete || !FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            return null;
+        DeliveryGraph graph = deliveryGraph();
+        return graph.chatAssistantDispatch;
     }
 
     /** No user-facing Apply before the COMPLETE F1-F4 V2 certification. */
@@ -587,7 +628,7 @@ public final class FaroV5CompositionRoot {
             activeGenerationId = generationStorage().activeGenerationId();
             current = deliveryGraph;
             if (current != null && !current.generationId.equals(activeGenerationId)) {
-                current.stores.close();
+                current.close();
                 current = null;
                 deliveryGraph = null;
             }
@@ -652,6 +693,33 @@ public final class FaroV5CompositionRoot {
                                         stores.getReality(), materialWriteGate,
                                         () -> generationStorage().activeGenerationId(),
                                         () -> maintenanceRecoveryComplete);
+                FaroV5HostAcceptedTurnDispatchPort assistantDispatch = null;
+                TrustedAssistantRuntime assistantConfig = trustedAssistantRuntime;
+                if (stores.getWorkspace() != null &&
+                        FaroV5HostCertification.V2_ACTIVE_ENABLED &&
+                        assistantConfig != null) {
+                    final String selectedGeneration = activeGenerationId;
+                    BooleanSupplier admitted = () ->
+                            maintenanceRecoveryComplete &&
+                            FaroV5HostCertification.V2_ACTIVE_ENABLED &&
+                            generationStorage().activeGenerationId()
+                                    .equals(selectedGeneration);
+                    FaroV5ActiveChatReasoningSession reasoning =
+                            new FaroV5ActiveChatReasoningSession(
+                                    selectedGeneration, stores.getWorkspace(),
+                                    materialWriteGate,
+                                    () -> generationStorage().activeGenerationId(),
+                                    () -> maintenanceRecoveryComplete,
+                                    assistantConfig.gateway,
+                                    message -> assistantConfig.egressAdmission.test(message));
+                    assistantDispatch = new FaroV5HostAcceptedTurnDispatchPort(
+                            new FaroV5HostAssistantTurnDispatcher(
+                                    reasoning,
+                                    Executors.newSingleThreadExecutor(
+                                            task -> new Thread(task, "faro-v5-assistant")),
+                                    admitted),
+                            assistantConfig.profile, admitted);
+                }
                 current =
                         new DeliveryGraph(
                                 activeGenerationId,
@@ -662,7 +730,8 @@ public final class FaroV5CompositionRoot {
                                 chatComposerSession,
                                 chatReviewSession,
                                 chatSelectionSession,
-                                chatApplySession);
+                                chatApplySession,
+                                assistantDispatch);
                 deliveryGraph = current;
             }
             return current;
@@ -688,6 +757,21 @@ public final class FaroV5CompositionRoot {
         }
     }
 
+    private static final class TrustedAssistantRuntime {
+        final ModelGateway gateway;
+        final Supplier<ModelProfileId> profile;
+        final Predicate<ConversationMessage> egressAdmission;
+
+        TrustedAssistantRuntime(
+                ModelGateway gateway,
+                Supplier<ModelProfileId> profile,
+                Predicate<ConversationMessage> egressAdmission) {
+            this.gateway = gateway;
+            this.profile = profile;
+            this.egressAdmission = egressAdmission;
+        }
+    }
+
     private static final class DeliveryGraph {
         final String generationId;
         final FaroV5GenerationStoreGraph stores;
@@ -698,6 +782,7 @@ public final class FaroV5CompositionRoot {
         final FaroV5ActiveChatReviewSession chatReviewSession;
         final FaroV5ActiveChatSelectionSession chatSelectionSession;
         final FaroV5ActiveReviewedApplySession chatApplySession;
+        final FaroV5HostAcceptedTurnDispatchPort chatAssistantDispatch;
 
         DeliveryGraph(
                 String generationId,
@@ -708,7 +793,8 @@ public final class FaroV5CompositionRoot {
                 FaroV5ActiveChatComposerSession chatComposerSession,
                 FaroV5ActiveChatReviewSession chatReviewSession,
                 FaroV5ActiveChatSelectionSession chatSelectionSession,
-                FaroV5ActiveReviewedApplySession chatApplySession) {
+                FaroV5ActiveReviewedApplySession chatApplySession,
+                FaroV5HostAcceptedTurnDispatchPort chatAssistantDispatch) {
             this.generationId = generationId;
             this.stores = stores;
             this.store = store;
@@ -718,6 +804,15 @@ public final class FaroV5CompositionRoot {
             this.chatReviewSession = chatReviewSession;
             this.chatSelectionSession = chatSelectionSession;
             this.chatApplySession = chatApplySession;
+            this.chatAssistantDispatch = chatAssistantDispatch;
+        }
+
+        void close() {
+            try {
+                if (chatAssistantDispatch != null) chatAssistantDispatch.close();
+            } finally {
+                stores.close();
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ import ar.com.faro.v5.control.OnboardingSnapshot;
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort;
+import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort;
 import ar.com.faro.v5.kernel.contracts.ConversationReviewPort;
 import ar.com.faro.v5.kernel.contracts.ConversationApplyRequestPort;
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceSelectionPort;
@@ -59,6 +60,10 @@ public final class FaroV5Application extends Application implements Configuratio
 
     public ConversationComposerPort activeComposerPort() {
         return compositionRoot().activeComposerPort();
+    }
+
+    public ConversationAssistantTurnDispatchPort activeAssistantTurnPort() {
+        return compositionRoot().activeAssistantTurnPort();
     }
 
     public ConversationWorkspaceSelectionPort activeWorkspaceSelectionPort() {

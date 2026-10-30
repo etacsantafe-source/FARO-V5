@@ -467,7 +467,8 @@ public final class FaroV5BootstrapActivity extends ComponentActivity {
                 faroApplication.activeComposerPort(),
                 faroApplication.activeReviewPort(),
                 faroApplication.activeWorkspaceSelectionPort(),
-                faroApplication.activeApplyRequestPort());
+                faroApplication.activeApplyRequestPort(),
+                faroApplication.activeAssistantTurnPort());
         mountedSurface = FaroV5HostSurfacePolicy.Surface.SHELL;
     }
 
