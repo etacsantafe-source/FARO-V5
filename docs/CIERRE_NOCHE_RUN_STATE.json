@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v12-3h",
-  "run_id": "cierre-v12-20261030-B1-1910",
-  "run_number": 2,
+  "run_id": "cierre-v12-20261030-A2-1940",
+  "run_number": 3,
   "state": "ACTIVE",
   "writer": {
     "state": "ACTIVE",
-    "owner": "NOCHE_B_1",
-    "epoch": 10,
-    "lease_expires_at": "2026-10-30T19:35:00-03:00",
-    "expected_head": "636567f8079a0337eea5aa4d703e60013fe26688"
+    "owner": "NOCHE_A_2",
+    "epoch": 11,
+    "lease_expires_at": "2026-10-30T20:10:00-03:00",
+    "expected_head": "bf1939bb29c863f8ef68dac3e71b6fc20a7f8b79"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -220,12 +220,12 @@
   },
   "status": "ACTIVE",
   "current_run": {
-    "scheduled_start": "2026-10-30T18:40:00-03:00",
-    "started_at": "2026-10-30T21:40:05.011Z",
-    "deadline": "2026-10-30T19:10:00-03:00",
-    "phase": "CLOSED",
-    "last_observed_at": "2026-10-30T22:07:00.702Z",
-    "closed_at": "2026-10-30T22:07:00.702Z"
+    "scheduled_start": "2026-10-30T19:40:00-03:00",
+    "started_at": "2026-10-30T22:40:13.708Z",
+    "deadline": "2026-10-30T20:10:00-03:00",
+    "phase": "DEVELOPMENT",
+    "stop_new_work_at": "2026-10-30T20:00:00-03:00",
+    "finish_work_by": "2026-10-30T20:05:00-03:00"
   },
   "code_head": "636567f8079a0337eea5aa4d703e60013fe26688",
   "functional_progress": [
@@ -265,7 +265,7 @@
       "status": "FIXED_AWAIT_CI4"
     }
   ],
-  "last_checkpoint_at": "2026-10-30T22:07:00.702Z",
+  "last_checkpoint_at": "2026-10-30T22:40:13.708Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -274,5 +274,13 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B1 F1: implemented minimal Settings shell entry + internal Activity for explicit Groq consent, process-singleton DataStore/Keystore and unique secret CAS; test coverage 3 cases added. CI #41136399502 SUCCESS (7/7+4/4 and Android compile), CI #41137328678 IN_PROGRESS. No F1 E2E certification, 3/8 unchanged."
+  "scope": "B1 F1: implemented minimal Settings shell entry + internal Activity for explicit Groq consent, process-singleton DataStore/Keystore and unique secret CAS; test coverage 3 cases added. CI #41136399502 SUCCESS (7/7+4/4 and Android compile), CI #41137328678 IN_PROGRESS. No F1 E2E certification, 3/8 unchanged.",
+  "recovery": {
+    "prior_writer": "NOCHE_B_1",
+    "prior_epoch": 10,
+    "prior_lease_expired_at": "2026-10-30T19:35:00-03:00",
+    "prior_automation_terminal": "completed 2026-10-30T19:34:15.910-03:00",
+    "prior_branch_head": "bf1939bb29c863f8ef68dac3e71b6fc20a7f8b79",
+    "method": "CAS expected_sha after terminal run and expired lease"
+  }
 }
