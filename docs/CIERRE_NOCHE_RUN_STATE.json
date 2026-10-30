@@ -5,10 +5,10 @@
   "run_number": 1,
   "state": "ACTIVE",
   "writer": {
-    "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run1",
-    "epoch": 1,
-    "acquired_at": "2026-10-30T12:12:00-03:00",
-    "lease_expires_at": "2026-10-30T13:00:00-03:00"
+    "state": "NONE",
+    "owner": null,
+    "epoch": null,
+    "lease_expires_at": null
   },
   "authorization": {
     "branch": "work/cierre-noche-pilot-20261030",
@@ -23,25 +23,23 @@
     "total": 8,
     "v2_enabled": false,
     "s3_open": false,
-    "s4_open": false
+    "s4_open": false,
+    "f1": "IN_PROGRESS",
+    "f2": "IN_PROGRESS",
+    "f3": "WAIT_HUMAN",
+    "f4": "PENDING",
+    "t4": "NOT_RUN"
   },
   "base_head": "b575d21d1965dc1e10801a2103ab7643027b8893",
   "source_head": "03f3cf146b06807324858e824845dc9713db94fa",
-  "in_flight_actions": [
-    {
-      "id": 41079756331,
-      "head_sha": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
-      "status": "IN_PROGRESS",
-      "kind": "F1 review guard; expected same static linter issue"
-    }
-  ],
+  "in_flight_actions": [],
   "scope": "F1 asynchronous chat screen state isolation across conversation switches; Android compile and regression only",
   "hypothesis": "Compose rememberCoroutineScope survives conversation id changes and allows in-flight callbacks from A to overwrite editor state of B; key entire screen session to cancel old composition scope.",
-  "tests": "Actions 41078535853 in progress, 41079248284 queued. No PASS claimed.",
-  "next_action": "Check 41079756331 terminal (likely same red), then new push run for comment correction. Verify exact SHA and XML; do not claim PASS before terminal.",
-  "status": "WAIT_CI",
-  "code_head": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
-  "last_checkpoint_at": "2026-10-30T12:22:00-03:00",
+  "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
+  "next_action": "Cycle 2 (13:09 -03 if still authorized): revalidate HEAD, no writer, Actions, then investigate real missing F1 assistant generation/Delivery integration. Surface and Composer already use authoritative Workspace, but no Android host ModelGateway -> FARO timeline Start/Resolve bridge; design minimal trusted host with explicit egress, idempotent receipt and generation gate. Do not enable V2 or use real provider credentials without established policy. Consider F2 recovery only if independent and safe. Keep 3/8 until Android E2E.",
+  "status": "CYCLE_CLOSED_HANDOFF_CLEAN",
+  "code_head": "cdefbe365b292539b96d81b23fca742ba4aeda33",
+  "last_checkpoint_at": "2026-10-30T15:32:27.642Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -70,18 +68,54 @@
   "completed_actions": [
     {
       "id": 41078535853,
+      "job_id": 124141147956,
       "head_sha": "fae9b6950f4e180320292aa665b0b7c52cde7012",
       "status": "COMPLETED_SUCCESS",
-      "junit": "20/20, failures=0 errors=0 skipped=0",
-      "scope": "JVM + Android compiler, NOT Android E2E"
+      "tests": "20/20",
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
     },
     {
       "id": 41079248284,
+      "job_id": 124143886982,
       "head_sha": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
       "status": "COMPLETED_FAILURE",
-      "stage": "v5StructuralCheck",
-      "reason": "S1.A1 :surface purity violation: FaroV5ShellNavigation.kt -> SQLite (forbidden token in explanatory comment; no runtime DB call)",
-      "job_id": 124143886982
+      "cause": "S1.A1 surface purity static scan forbade SQLite token in source comment"
+    },
+    {
+      "id": 41079756331,
+      "job_id": 124146013317,
+      "head_sha": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
+      "status": "COMPLETED_FAILURE",
+      "cause": "Same S1.A1 static scan on pre-correction SHA"
+    },
+    {
+      "id": 41080071535,
+      "job_id": 124147818206,
+      "head_sha": "cdefbe365b292539b96d81b23fca742ba4aeda33",
+      "status": "COMPLETED_SUCCESS",
+      "tests": "20/20 directed + 31/31 surface",
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
     }
-  ]
+  ],
+  "writer_history": {
+    "owner": "automation-6ae4b1ffede88191812b719ffa87fc8c/run1",
+    "epoch": 1,
+    "acquired_at": "2026-10-30T12:12:00-03:00",
+    "lease_expires_at": "2026-10-30T13:00:00-03:00"
+  },
+  "run_started_at": "2026-10-30T12:09:48-03:00",
+  "run_finished_at_utc": "2026-10-30T15:32:27.642Z",
+  "duration_minutes_approx": 23,
+  "operational_certification": {
+    "fifty_minute_continuity": "NOT_TESTED",
+    "context_cut_recovery": "NOT_TESTED",
+    "writer_cas": "OBSERVED_ON_BRANCH_WRITES",
+    "no_overlap": "OBSERVED_FOR_THIS_CYCLE",
+    "global_cutoff": "NOT_TESTED",
+    "red_investigation": "OBSERVED_ONE_STATIC_FAILURE_WITH_NEW_CAUSE_AND_FIX"
+  }
 }
