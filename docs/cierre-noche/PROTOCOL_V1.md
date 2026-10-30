@@ -1,5 +1,5 @@
-# FARO V5 — CIERRE Noche · protocolo operativo V1
-**Fecha:** 2026-10-30 · **Estado:** `DRAFT_DURABLE / INACTIVE / NO_AUTOMATION / NO_CUTOVER`
+# FARO V5 — CIERRE Noche · protocolo operativo V1.1
+**Fecha:** 2026-10-30 · **Revisión:** V1.1, ventana operativa de 30 minutos · **Estado:** `DRAFT_DURABLE / INACTIVE / NO_AUTOMATION / NO_CUTOVER`
 
 Este documento registra las reglas acordadas con el usuario y prepara la continuidad entre ejecuciones y chats. **Su existencia no autoriza iniciar una ejecución, crear una programación, modificar producto ni publicar repositorios.** La programación debe ser expresamente aprobada y probada antes de una noche real.
 
@@ -32,14 +32,17 @@ Para el bloque inicial S2.A6 se mantienen exactamente ocho criterios:
 
 ## 3. Ventanas temporales por ejecución
 
-Objetivo operativo: programación **como máximo horaria**, con trabajo acotado por reloj monotónico de la sesión.
+Objetivo operativo: programación **como máximo horaria**, con sesiones de **30 minutos como máximo objetivo**, medidas desde el inicio efectivo de cada invocación.
 
 - Minuto 0: validar autorización, HEAD, writer, exclusividad, gates en vuelo y estado durable.
-- Minuto 0–45: encadenar investigación, implementación y pruebas funcionales útiles.
-- Minuto 45: no empezar ningún trabajo nuevo ni disparar nuevas Actions. Terminar de registrar lo observable, dejar checkpoint seguro y liberar writer.
-- Minuto 50: cierre duro objetivo. Si la plataforma corta antes, prevalece el estado durable y se retoma bajo otra ejecución autorizada.
+- Minutos 0–20: investigar, implementar, probar y encadenar trabajos funcionales útiles.
+- Minuto 20: **no iniciar tareas nuevas, implementaciones nuevas ni nuevas Actions**. Continuar únicamente los trabajos que ya estén en curso y cerrar lo que sea seguro.
+- Minutos 20–25: recoger los resultados de los trabajos iniciados antes del minuto 20; verificar las Actions terminadas y registrar evidencia.
+- **Minuto 25, si una Actions sigue ejecutándose: guardar su identificador y retomarla en la siguiente sesión. No cancelarla automáticamente ni superponer escritores.** No esperar activamente esa Actions hasta el minuto 30: dejarla como `WAIT_CI`, con run ID, SHA y estado conocido, y seguir con cierre durable.
+- Minutos 25–30: checkpoint, conciliación de estados conocidos, liberar writer y finalizar la ejecución. Ninguna escritura de producto ni Action nueva.
+- Minuto 30: finalizar la sesión. Si la plataforma corta antes, prevalece el estado durable y se retoma bajo otra ejecución autorizada.
 
-**Advertencia operativa:** ChatGPT puede finalizar una ejecución antes de 50 minutos, agotar cuota/contexto o fallar antes de su último checkpoint; la programación horaria no garantiza 50 minutos de cómputo continuo. Antes de operar toda una noche, demostrar esto en un piloto medido. No simular trabajo en segundo plano cuando ya terminó el turno.
+**Advertencia operativa:** ChatGPT puede finalizar una ejecución antes de 30 minutos, agotar cuota/contexto o fallar antes de su último checkpoint; la programación horaria no garantiza 30 minutos de cómputo continuo. Antes de operar toda una noche, medirlo en un piloto. No simular trabajo en segundo plano cuando ya terminó el turno.
 
 Además, respetar el corte global de la noche: si vence durante una sesión, cesar nuevas escrituras/Actions, finalizar lo seguro y desactivar la automatización cuando el permiso y la herramienta lo permitan. Los límites globales son más estrictos que el reloj local.
 
@@ -72,7 +75,7 @@ Repetir **RECUPERAR → INVESTIGAR → DIAGNOSTICAR HUECOS → PLANIFICAR → ES
 El chat **NO** es la fuente durable. El estado autorizado, archivos y checkpoint deben residir en GitHub, con metadatos acotados y sin secretos.
 
 - Al iniciar cualquier ejecución/chat, buscar el checkpoint más reciente de la **rama autorizada**, leer solo su índice y los documentos necesarios para el siguiente frente; nunca inyectar todo el historial/chat ni los 541 archivos de V5.
-- Guardar checkpoint **al finalizar cada unidad segura**, antes de bifurcar una investigación difícil, después de una prueba terminal importante y al acercarse al minuto 45. Si es factible, registrar también avance intermedio aproximadamente cada 10–15 minutos, siempre con escrituras exclusivas/atómicas (no crear commits vacíos recurrentes).
+- Guardar checkpoint **al finalizar cada unidad segura**, antes de bifurcar una investigación difícil, después de una prueba terminal importante y al acercarse al minuto 20, y especialmente antes del minuto 25. Si es factible, registrar también avance intermedio aproximadamente cada 10–15 minutos, siempre con escrituras exclusivas/atómicas (no crear commits vacíos recurrentes).
 - Los snapshots intermedios contienen: objetivo/criterio, estado de gates, HEAD fuente y de checkpoint, writer/lease, trabajo completado, hipótesis verificadas y refutadas, intentos con SHA/run, bloqueo, `next_action`, hora límite, permisos y evidencia exacta.
 - No guardar credenciales, tokens, información personal, prompts sensibles, volcados completos de código/logs ni payloads de Reality. Referenciar enlaces/IDs de evidencia de GitHub redactada; resumen corto, preciso, suficiente para retomar.
 - Ante contexto cercano al límite: **compactar el estado en checkpoint**, priorizar una única siguiente acción y finalizar limpio. No continuar explorando solo en memoria sin respaldo durable.
@@ -109,7 +112,8 @@ Se detiene cuando: vence autorización o reloj de ejecución; S2.A6 realmente 8/
 ## 9. Estado de adopción
 
 - Protocolo y esquema: documentados; **NO es un motor de ejecución certificado**.
-- Garantía de 50 minutos continuos en ChatGPT: **NO DEMOSTRADA**.
+- Garantía de 30 minutos continuos en ChatGPT: **NO DEMOSTRADA**.
+- Regla v1.1: a los 25 minutos, toda Actions aún activa queda en `WAIT_CI` para la sesión siguiente, sin cancelación automática ni escritores superpuestos.
 - Ejecutor periódico: **INACTIVO; cero tareas habilitadas al preparar este documento**.
 - La autorización del piloto de la tarde finalizó; **no habilita ejecución nocturna futura**.
 - Ningún código de producto ni `main` se modifica mediante este documento.
