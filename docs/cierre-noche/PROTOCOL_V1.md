@@ -1,5 +1,5 @@
-# FARO V5 — CIERRE Noche · protocolo operativo V1.1
-**Fecha:** 2026-10-30 · **Revisión:** V1.1, ventana operativa de 30 minutos · **Estado:** `DRAFT_DURABLE / INACTIVE / NO_AUTOMATION / NO_CUTOVER`
+# FARO V5 — CIERRE Noche · protocolo operativo V1.2
+**Fecha:** 2026-10-30 · **Revisión:** V1.2, dos tareas alternadas y política CI por lote funcional · **Estado:** `DRAFT_DURABLE / INACTIVE / NO_AUTOMATION / NO_CUTOVER`
 
 Este documento registra las reglas acordadas con el usuario y prepara la continuidad entre ejecuciones y chats. **Su existencia no autoriza iniciar una ejecución, crear una programación, modificar producto ni publicar repositorios.** La programación debe ser expresamente aprobada y probada antes de una noche real.
 
@@ -13,7 +13,7 @@ Para el bloque inicial S2.A6 se mantienen exactamente ocho criterios:
 3. Journal, pointer, rollback, replay, WAL T2 — certificado histórico.
 4. F1: Chat/Composer/Review/Apply/Delivery Android extremo a extremo — por certificar.
 5. F2: activación y recuperación Android extremo a extremo, V1 protegido — por certificar.
-6. F3: cinco stores, exportación/restauración/SAF y consentimiento — por certificar, con decisión humana pendiente S2/S5.
+6. F3: cinco stores, exportación/restauración/SAF y consentimiento — por certificar. Opción A aprobada: UI mínima de consentimiento/SAF en S2 y Ajustes definitivo en S5.
 7. F4: regresiones integrales críticas — por certificar.
 8. T4: físico — NOT_RUN, lo realizan usuario/equipo cuando estén disponibles.
 
@@ -27,12 +27,12 @@ Para el bloque inicial S2.A6 se mantienen exactamente ocho criterios:
 - V2 OFF hasta autorización distinta; S3/S4 cerrados.
 - Termux no debe ser requisito del modo nube. T4 físico no puede sustituirse por JVM, emulador o simulación.
 - GitHub Actions con `contents: read` para compilar/probar; verificar SHA exacto, estado terminal y XML de cada gate. No atribuir test físico a CI.
-- F3 conflicto de propiedad del consentimiento/Settings entre S2 y S5: dejar decisión humana pendiente y buscar tareas independientes. No decidir ni implementar S5 para eludirlo.
+- F3 opción A está aprobada en `docs/FARO_V5_F3_S2_S5_DECISION_20261030.md` de la rama de producto más reciente: S2 implementa flujo mínimo de consentimiento + SAF; S5 conserva Ajustes definitivo. No reabrir artificialmente `WAIT_HUMAN` ni anticipar S5.
 - Una noche nueva requiere **permiso vigente con fecha/hora de inicio, finalización, repo, rama y alcance**. Un permiso vencido es `NO_WRITE`. No extenderlo por inferencia ni porque una automatización figure enabled.
 
 ## 3. Ventanas temporales por ejecución
 
-Objetivo operativo: programación **como máximo horaria**, con sesiones de **30 minutos como máximo objetivo**, medidas desde el inicio efectivo de cada invocación.
+Objetivo operativo: **dos tareas horarias A/B desfasadas 30 minutos**, cada una con sesiones de hasta 30 minutos como máximo objetivo, medidas desde el inicio efectivo. La programación por sí sola no concede permiso de escritura.
 
 - Minuto 0: validar autorización, HEAD, writer, exclusividad, gates en vuelo y estado durable.
 - Minutos 0–20: investigar, implementar, probar y encadenar trabajos funcionales útiles.
@@ -46,19 +46,40 @@ Objetivo operativo: programación **como máximo horaria**, con sesiones de **30
 
 Además, respetar el corte global de la noche: si vence durante una sesión, cesar nuevas escrituras/Actions, finalizar lo seguro y desactivar la automatización cuando el permiso y la herramienta lo permitan. Los límites globales son más estrictos que el reloj local.
 
+### Piloto de tres horas, dos tareas y sin superposición
+
+- El siguiente piloto autorizado se configura en chat nuevo: A cada hora, B cada hora desplazada 30 minutos, tres disparos por tarea (seis ventanas previstas). Si la primera comienza en T0, A ejecuta T0/T+60/T+120; B T+30/T+90/T+150; corte absoluto T+180, o S2.A6 terminado antes. Calcular fechas exactas al activar en America/Argentina/Buenos_Aires; no reutilizar horarios vencidos.
+- Si una ejecución se retrasa, prevalece el corte global. No simular actividad para llenar 30 minutos.
+- **Dos tareas programadas, no tres**. La última sesión permitida entrega un checkpoint e informe final, o se entrega al cierre anticipado. Si no es posible generar el informe al minuto exacto, persistir el checkpoint verificable para consulta posterior. No crear una tercera automatización sin autorización.
+- Ambas tareas comparten writer único con CAS `expected_sha`, epoch, lease y exclusividad. Si la sesión nueva detecta writer activo, lease incierto o Actions en progreso que impidan escribir seguro, operar READ_ONLY o finalizar; nunca escritores superpuestos.
+- Al cumplir 8/8, o quedar solo T4 físico sin trabajo independiente realizable, cerrar sesiones restantes; no abrir S3/S4 ni extender las tres horas.
+
 ## 4. Bucle de investigación y cierre por objetivos
 
 Repetir **RECUPERAR → INVESTIGAR → DIAGNOSTICAR HUECOS → PLANIFICAR → ESCRIBIR → PROBAR → EVALUAR → CHECKPOINT → CONTINUAR**.
 
 1. Recuperar: comprobar branch HEAD real y último checkpoint de GitHub, no la memoria del chat.
 2. Investigar: ¿cuál es el siguiente hueco **indispensable** para un criterio incompleto? Buscar código existente, contratos, pruebas y evidencias; evitar inventar tareas.
-3. Priorizar: F1 integrado, F2 real, F3 independiente del conflicto humano, F4 crítica, T4 preparado. Alterar el orden solo por dependencia fundada.
-4. Planificar: cambio mínimo, hipótesis contrastable, riesgos, suite concreta y señal verificable. No duplicar microtests certificados.
+3. Priorizar **terminar F1 funcional** (bootstrap Android de `ComposedModelGateway`, perfil/credenciales/egreso y recorrido real), después F2 y F3 por dependencias, F4 integral y T4 preparado. Evitar perseguir microfallos hipotéticos mientras falte una integración esencial.
+4. Planificar **un lote de implementación funcional** con resultado observable y condiciones de aceptación, hipótesis, riesgos, verificación específica y costo previsto de CI. No convertir cada pequeño refactor en una ejecución completa.
 5. Escribir: solo alcance permitido, revisión de HEAD y lease, commit atómico trazable.
-6. Probar: CI dirigida, resultado terminal, SHA y XML exacto. `IN_PROGRESS`, `SKIPPED` o `NOT_RUN` no son `PASS`.
+6. Probar conforme a §4.1: primero comprobación específica; CI dirigida por **lote funcional** y full gate sólo al cierre o por riesgo justificado. En cualquier CI exigir estado terminal, SHA y XML exactos. `IN_PROGRESS`, `SKIPPED` o `NOT_RUN` no son `PASS`.
 7. Evaluar: VERDE = completar y seguir **en la misma ejecución**; ROJO = investigar y cambiar de hipótesis; AMARILLO = pendiente justificadamente humano o externo, avanzar otro frente independiente.
 8. Checkpoint: guardar resultado y siguiente tarea. Revalidar permiso, tiempo, writer y HEAD antes de otra escritura.
 9. Si el objetivo sigue incompleto y hay tiempo, **encadenar otra tarea concreta**, no cerrar por un simple VERDE.
+
+### 4.1. Política escalonada de pruebas y presupuesto GitHub Actions (V1.2)
+
+**Prioridad: desarrollar recorridos funcionales completos, no maximizar el contador de tests.** El último piloto lanzó nueve Actions y repitió a menudo suites de 36 regresiones críticas y 31 de superficie tras cambios pequeños. No repetir ese patrón.
+
+1. **Cambio pequeño:** revisar el diff, contratos e invariantes; usar comprobaciones estáticas y tests específicos si la herramienta lo permite. No lanzar automáticamente el gate completo de 38 dirigidas + 36 críticas + 31 Surface. Si sólo se puede probar mediante Actions, agrupar cambios relacionados y seguros en un lote funcional antes de lanzarlo.
+2. **Lote funcional completo:** lanzar **una Actions dirigida** al código afectado y dependencias esenciales, con SHA exacto y objetivo de aceptación. No ejecutar CI por cada commit ni checkpoint documental. Registrar alcance y costo observado.
+3. **ROJO:** investigar el log y la causa; corregir y repetir sólo las pruebas implicadas si es posible. No reintentar sin nueva evidencia el mismo SHA con el mismo fallo. Si el workflow no permite seleccionar pruebas, proponer un job dirigido seguro dentro de la rama autorizada; conservar íntegros los gates de cierre.
+4. **Cierre F1/F2/F3 o cambio crítico transversal:** ejecutar integración del recorrido y suite crítica necesaria. Ejecutar la batería integral una vez al acercarse al cierre de etapa S2.A6, o antes únicamente si un riesgo transversal fundamentado lo exige. No sustituir Android E2E ni T4 por JVM repetidas.
+5. **Reutilizar evidencia:** si una CI ya certificó el SHA exacto y entradas/contratos equivalentes, reutilizar resultado, logs/XML y ID; no repetirla por un simple VERDE. No cancelar una Actions aún en curso para lanzar otra.
+6. **Medir consumo:** registrar `actions_launched`, `actions_reused`, IDs, duración de workflows y motivo por ejecución. La duración del workflow no equivale necesariamente a minutos facturados. Sin progreso funcional que justifique el costo, checkpoint sin CI.
+
+**Regla anti-bucle:** si dos sesiones consecutivas no cierran ningún subhito de aceptación funcional, cambiar el plan y volver a la integración que falta. No inventar más micropruebas para prolongar trabajo. Nunca omitir controles de seguridad ni la certificación final obligatoria.
 
 ## 5. ROJO persistente: investigar sin bucles ciegos
 
@@ -111,10 +132,10 @@ Se detiene cuando: vence autorización o reloj de ejecución; S2.A6 realmente 8/
 
 ## 9. Estado de adopción
 
-- Protocolo y esquema: documentados; **NO es un motor de ejecución certificado**.
+- Protocolo V1.2 y esquema: documentados; **NO es un motor de ejecución certificado**. Incorpora CI escalonada y prioridad del desarrollo funcional F1.
 - Garantía de 30 minutos continuos en ChatGPT: **NO DEMOSTRADA**.
 - Regla v1.1: a los 25 minutos, toda Actions aún activa queda en `WAIT_CI` para la sesión siguiente, sin cancelación automática ni escritores superpuestos.
-- Ejecutor periódico: **INACTIVO; cero tareas habilitadas al preparar este documento**.
+- Patrón previsto: dos tareas horarias alternadas cada 30 min; verificar tareas y permisos en vivo antes de cualquier escritura. Esta revisión documental NO activa automatizaciones.
 - La autorización del piloto de la tarde finalizó; **no habilita ejecución nocturna futura**.
 - Ningún código de producto ni `main` se modifica mediante este documento.
-- S2.A6 en la fuente piloto al cierre del ciclo 02: 3/8; F1/F2/F3 abiertos; F4 pendiente; T4 NOT_RUN; V2 OFF.
+- Estado verificado al cierre del piloto V1.1 en `work/cierre-noche-v11-pilot-20261030` HEAD `f1873b71da4622cb7309e1bff082d2f76bb66fa5`: S2.A6 3/8. Última Actions #41125074207 SUCCESS (38/38 dirigidas, 36/36 críticas, 31/31 Surface). Falta Android E2E/T4, V2 OFF; esos resultados NO equivalen a nuevos criterios cerrados.
