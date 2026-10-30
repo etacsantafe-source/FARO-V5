@@ -1,9 +1,9 @@
 {
   "schema": "cierre-night-run/v1",
-  "pilot_id": "cierre-20261030-v11-3h",
-  "run_id": "cierre-v11-20261030-B-1740",
-  "run_number": 6,
-  "state": "CLOSED",
+  "pilot_id": "cierre-20261030-v12-3h",
+  "run_id": null,
+  "run_number": 0,
+  "state": "AUTHORIZED_READY",
   "writer": {
     "state": "NONE",
     "owner": null,
@@ -12,16 +12,43 @@
     "expected_head": null
   },
   "authorization": {
-    "branch": "work/cierre-noche-v11-pilot-20261030",
+    "source": "explicit new user message 2026-10-30",
     "repo": "etacsantafe-source/FARO-V5",
-    "global_end": "2026-10-30T18:10:00-03:00",
+    "branch": "work/cierre-noche-v12-pilot-20261030",
+    "window_start": "2026-10-30T18:40:00-03:00",
+    "global_end": "2026-10-30T21:40:00-03:00",
     "per_run_max_minutes": 30,
     "stop_new_work_at_minute": 20,
-    "permit_path": "docs/CIERRE_NOCHE_V11_REPROGRAM_20261030.md",
-    "f3_decision_path": "docs/FARO_V5_F3_S2_S5_DECISION_20261030.md"
+    "finish_work_by_minute": 25,
+    "wait_ci_at_minute": 25,
+    "checkpoint_release_by_minute": 30,
+    "permit_path": "docs/CIERRE_NOCHE_V12_PILOT_20261030.md",
+    "protocol_ref": "docs/cierre-noche-v1-20261030",
+    "protocol_path": "docs/cierre-noche/PROTOCOL_V1.md"
+  },
+  "automations": {
+    "a": {
+      "id": "6ae50c97f1448191b0174ae023aa7a0d",
+      "local_times": [
+        "2026-10-30T18:40:00-03:00",
+        "2026-10-30T19:40:00-03:00",
+        "2026-10-30T20:40:00-03:00"
+      ],
+      "enabled": true
+    },
+    "b": {
+      "id": "6ae50ca4a8e88191a328702124ae5aa6",
+      "local_times": [
+        "2026-10-30T19:10:00-03:00",
+        "2026-10-30T20:10:00-03:00",
+        "2026-10-30T21:10:00-03:00"
+      ],
+      "enabled": true
+    }
   },
   "stage": {
     "id": "S2.A6",
+    "status": "OPEN",
     "certified": 3,
     "total": 8,
     "v2_enabled": false,
@@ -29,376 +56,90 @@
     "s4_open": false,
     "f1": "IN_PROGRESS",
     "f2": "IN_PROGRESS",
-    "f3": "IN_PROGRESS",
+    "f3": "OPTION_A_APPROVED_IMPLEMENTATION_OPEN",
     "f4": "IN_PROGRESS",
     "t4": "NOT_RUN"
   },
-  "base_head": "2c3550da829f3d64ab06d7fd5645314b4ef6fba1",
-  "source_head": "b030c2fa464a211921015fac47c1e25d37247dc2",
-  "in_flight_actions": [],
-  "scope": "B3 F1: fixed derived assistant reply orphan after labelled 12k budget; 1 targeted JVM regression and exact directed gate. No F1/F2/F3/F4/T4 criterion certified, 3/8 unchanged.",
-  "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
-  "tests": "Actions 41125074207 terminal SUCCESS exact head b030c2fa464a211921015fac47c1e25d37247dc2; XML 38/38 directed (0 failures/errors/skips), 36/36 F4 critical (0/0/0), 31/31 Surface (0/0/0); F1 session 18/18 (0/0/0); Android compile/structural PASS; Android E2E/T4 NOT_RUN.",
-  "next_action": {
-    "mode": "FINAL_REPORT_READ_ONLY",
-    "criterion": "S2.A6",
-    "step": "At 18:20 verify final GitHub HEAD/CI and report. Remaining F1 trusted Android bootstrap ComposedModelGateway/profile/credentials/egress + Android E2E; F2 activation/recovery E2E; F3 minimal consent/SAF UI and RESTORE journal staging; F4 integral Android; T4 physical. No further autonomous writes in this pilot."
-  },
-  "status": "CLOSED_PASS_REVIEW",
-  "code_head": "b030c2fa464a211921015fac47c1e25d37247dc2",
-  "last_checkpoint_at": "2026-10-30T20:48:44.256Z",
-  "hypotheses": [
+  "criteria": [
     {
-      "issue": "stale Chat coroutine",
-      "fix_commit": "fae9b6950f4e180320292aa665b0b7c52cde7012",
-      "evidence": "rememberCoroutineScope survives activeConversationId change; key full chat session"
+      "id": 1,
+      "code": "FIVE_OWNERS",
+      "state": "CERTIFIED",
+      "basis": "historical"
     },
     {
-      "issue": "stale Shell selection and main-thread SQLite read",
-      "fix_commit": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
-      "evidence": "Scaffold scope survived host-port changes; LaunchedEffect readSnapshot() was synchronous on UI thread; key shell and use IO dispatcher"
+      "id": 2,
+      "code": "FBS2_ISOLATED_RESTORE",
+      "state": "CERTIFIED",
+      "basis": "historical"
     },
     {
-      "issue": "duplicate Review decisions under double tap",
-      "fix_commit": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
-      "evidence": "Review onConfirm/onDiscard lacked an in-flight guard; UI could mint multiple keys while one decision is pending. Added reviewBusy and Apply interlock."
+      "id": 3,
+      "code": "JOURNAL_REPLAY_WAL",
+      "state": "CERTIFIED",
+      "basis": "historical"
     },
     {
-      "issue": "ROJO structural purity",
-      "attempt_id": "run1-f1-purity-01",
-      "observation": "CI 41079248284 fails S1.A1 purity due to SQLite word in surface comment",
-      "hypothesis": "static surface boundary scans source text including comments",
-      "correction": "replace comment with provider-neutral Workspace terminology",
-      "previous_head": "e6ee3ed59be28750bf055cf600344c81174e2950"
+      "id": 4,
+      "code": "F1_ANDROID_CHAT_E2E",
+      "state": "IN_PROGRESS"
     },
     {
-      "issue": "ROJO cross-module test visibility",
-      "attempt_id": "run2-f1-internal-01",
-      "observation": "Actions 41087662875 compileDebugUnitTestKotlin failed on internal WorkspaceStore.create",
-      "hypothesis": "test setup called internal method from app module",
-      "correction": "commit 4b2b3d uses public suspend WorkspaceSelection and Timeline ports; exact 6-case CI queued",
-      "next_evidence": 41088193344
+      "id": 5,
+      "code": "F2_ANDROID_ACTIVATION_RECOVERY",
+      "state": "IN_PROGRESS"
     },
     {
-      "issue": "orphaned PROCESSING reply after interrupted model request",
-      "attempt_id": "run3-f1-recovery-01",
-      "hypothesis": "explicit trusted exclusive post-restart reconciliation can mark orphan FAILED without second egress",
-      "expected_evidence": "one added JVM test with denial, reopen, terminal settlement and no model replay; directed CI 29/29"
+      "id": 6,
+      "code": "F3_FIVE_STORE_BACKUP_SAF_CONSENT",
+      "state": "IN_PROGRESS"
     },
     {
-      "issue": "F4 critical integration gap",
-      "attempt_id": "run3-f4-critical-01",
-      "hypothesis": "existing Workspace lifecycle, gateway routing and generation switch suites are not included in directed cloud gate; execute 36 exact cases without changing product",
-      "expected_evidence": "F4 critical 36/36 XML, directed 29/29 and Surface 31/31; still not full F4 or Android E2E"
+      "id": 7,
+      "code": "F4_INTEGRAL_REGRESSIONS",
+      "state": "IN_PROGRESS"
     },
     {
-      "issue": "F1 bounded historical context + egress",
-      "attempt_id": "v11-A2-f1-context-01",
-      "fix_commit": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
-      "expected_evidence": "CI 41113428119 directed 33/33 + F4 36/36 + Surface 31/31, compile/structural",
-      "status": "WAIT_CI"
-    },
-    {
-      "issue": "F1 derived assistant egress leak",
-      "attempt_id": "v11-A2-f1-derived-01",
-      "hypothesis": "A completed assistant response can contain data from a denied earlier user; independent fragment admission alone is insufficient.",
-      "correction": "Require same-turn user admission before including assistant reply in model context.",
-      "fix_commit": "031667d7940bfde17565cf9a900cd496f10618a4",
-      "expected_evidence": "CI 41114483263 33/33 directed, 36/36 F4, 31/31 Surface, exact XML",
-      "status": "WAIT_CI"
-    },
-    {
-      "issue": "F1 egress revocation after context selection",
-      "attempt_id": "v11-B2-f1-final-admission-01",
-      "hypothesis": "selected historical/current fragments may become disallowed after initial filter but before provider dispatch",
-      "correction": "revalidate all actually included fragments immediately before gateway.reason; fail closed and leave PROCESSING for exclusive recovery",
-      "expected_evidence": "Actions directed 35/35, F4 36/36, Surface 31/31, Android compile and structural, no Android E2E"
-    },
-    {
-      "issue": "F1 assistant failure status invisible to chat",
-      "attempt_id": "v11-B2-f1-typed-completion-02",
-      "hypothesis": "refresh-only completion callback hides OFFLINE/FAILED/NOT_AUTHORIZED from user even after canonical Workspace terminal state",
-      "correction": "optional provider-neutral typed completion port and UI messages, no retry/Apply, V2 dormant",
-      "fix_commit": "a19c6854c5519b2c662165eb1d6da600b179ea33",
-      "expected_evidence": "CI 41119328351 exact 37/37 directed, 36/36 critical, 31/31 Surface; Android compile/structural"
-    },
-    {
-      "issue": "F1 orphaned derived assistant under labelled-character budget",
-      "attempt_id": "v11-B3-f1-orphan-01",
-      "hypothesis": "raw 11984-character window fits 12000, but added labels make 12012; reverse truncation includes assistant without same-turn user",
-      "correction": "post-budget selected turns must include their USER before retaining FARO; keep selected fragment list identical to emitted context",
-      "fix_commit": "b030c2fa464a211921015fac47c1e25d37247dc2",
-      "expected_evidence": "Actions 41125074207 exact 38/38 directed including regression, 36/36 critical, 31/31 Surface",
-      "status": "PASS",
-      "evidence": "Actions 41125074207 SUCCESS; exact F1 18/18, directed 38/38, F4 36/36, Surface 31/31 XML"
+      "id": 8,
+      "code": "T4_PHYSICAL",
+      "state": "NOT_RUN"
     }
   ],
-  "completed_actions": [
+  "base_head": "f1873b71da4622cb7309e1bff082d2f76bb66fa5",
+  "reused_evidence": [
     {
-      "id": 41078535853,
-      "job_id": 124141147956,
-      "head_sha": "fae9b6950f4e180320292aa665b0b7c52cde7012",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "20/20",
-      "errors": 0,
-      "failures": 0,
-      "skipped": 0
-    },
-    {
-      "id": 41079248284,
-      "job_id": 124143886982,
-      "head_sha": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
-      "status": "COMPLETED_FAILURE",
-      "cause": "S1.A1 surface purity static scan forbade SQLite token in source comment"
-    },
-    {
-      "id": 41079756331,
-      "job_id": 124146013317,
-      "head_sha": "12c7a5d8ed886371b7632750fa63f4961a063dcd",
-      "status": "COMPLETED_FAILURE",
-      "cause": "Same S1.A1 static scan on pre-correction SHA"
-    },
-    {
-      "id": 41080071535,
-      "job_id": 124147818206,
-      "head_sha": "cdefbe365b292539b96d81b23fca742ba4aeda33",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "20/20 directed + 31/31 surface",
-      "errors": 0,
-      "failures": 0,
-      "skipped": 0
-    },
-    {
-      "id": 41087662875,
-      "job_id": 124172970825,
-      "head_sha": "79a1daae6e90adbed8de82dc258f1d881811042b",
-      "status": "COMPLETED_FAILURE",
-      "cause": "Kotlin compiler INVISIBLE_REFERENCE test line 31: cross-module internal WorkspaceStore.create; production Kotlin compile passed; already corrected on next SHA by public createAndSelect/readTimeline/writeTimeline APIs"
-    },
-    {
-      "id": 41089007297,
-      "head_sha": "7b10fc4421c9af3b53512c51376e02277bdc454e",
-      "status": "COMPLETED_CANCELLED",
-      "cause": "GitHub concurrency group replaces older pending run when a newer pending run is queued; not a code/test failure; superseded by 41089571810"
-    },
-    {
-      "id": 41088193344,
-      "job_id": 124177163724,
-      "head_sha": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "26/26 directed + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Android compile and structural checks pass; no Android E2E"
-    },
-    {
-      "id": 41089571810,
-      "head_sha": "5495a6e4b1e96aadf2888a99dab6904faf9f12d5",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "27/27 directed + 31/31 surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    {
-      "id": 41091015452,
-      "head_sha": "03613ebdb84e2aef50153a267842662a147dbc14",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "28/28 directed + 31/31 surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "job_id": 124184585567
-    },
-    {
-      "id": 41096575587,
-      "job_id": 124203771710,
-      "head_sha": "8fabed1ec4993b7f70d1ef813ddf1de143245cdb",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "29/29 directed + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "F1 orphaned PROCESSING trusted recovery; JVM only, Android E2E NOT_RUN"
-    },
-    {
-      "id": 41097591479,
-      "job_id": 124207262122,
-      "head_sha": "5cf7c0e32da6deb56d1f81406d0a39d4f75f7e4a",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "29/29 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Exact XML counts verified by runner and log; not standalone XML artifact; Android E2E NOT_RUN"
-    },
-    {
-      "id": 41104799269,
-      "job_id": 124231456407,
-      "head_sha": "a408cea5ffd1e7a7558018f78a19262e66519682",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "31/31 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Exact JUnit XML verified in job logs; host-owned async dispatcher + 2 new tests; Android E2E/T4 NOT_RUN"
-    },
-    {
-      "id": 41106186732,
-      "job_id": 124236510565,
-      "head_sha": "7e461758ba39c65d149cee3b56e011ab478972db",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "31/31 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Exact JUnit XML verified in logs; canonical timeline read moved to Dispatchers.IO; no Android E2E/T4"
-    },
-    {
-      "id": 41109035846,
-      "head_sha": "22ca41949f2303bb93d6bce63ad67d49ec87127b",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "31/31 directed + 36/36 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "B1 host Composer accepted turn dispatch; CI terminal, exact XML asserted"
-    },
-    {
-      "id": 41110513051,
-      "job_id": 124251400508,
-      "head_sha": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "31/31 directed + 36/36 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "B2 generation-owned DeliveryGraph lifecycle; exact XML inspected in logs"
-    },
-    {
-      "id": 41113428119,
-      "job_id": 124261387663,
-      "head_sha": "7900e208c17eb8c8dc99300931072e42e2b8f73a",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "33/33 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "F1 bounded earlier-turn context with per-fragment egress; exact XML 13/13 reasoning suite and all other directed verified from job logs; Android E2E/T4 NOT_RUN"
-    },
-    {
-      "id": 41114483263,
-      "job_id": 124265009111,
-      "head_sha": "031667d7940bfde17565cf9a900cd496f10618a4",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "33/33 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Verified exact XML in GitHub job log, 13/13 active chat reasoning; Android E2E/T4 NOT_RUN"
-    },
-    {
-      "id": 41118040821,
-      "job_id": 124277269036,
-      "head_sha": "d60579d19a8d1ec2e4228f05bc52a602ceb31e56",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "35/35 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Exact JUnit XML 15/15 reasoning, Android compile and structural PASS; no Android E2E/T4"
-    },
-    {
-      "id": 41119328351,
-      "job_id": 124281693425,
-      "head_sha": "a19c6854c5519b2c662165eb1d6da600b179ea33",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "37/37 directed + 36/36 F4 critical + 31/31 Surface",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "Exact XML 17/17 F1 reasoning and two typed host port integration tests; Android compile/structural PASS; no Android E2E/T4"
-    },
-    {
-      "id": 41125074207,
-      "job_id": 124301160337,
+      "kind": "CI",
+      "run_id": 41125074207,
       "head_sha": "b030c2fa464a211921015fac47c1e25d37247dc2",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "38/38 directed + 36/36 F4 critical + 31/31 Surface; F1 suite 18/18",
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "notes": "B3 privacy fix: no derived FARO reply without its user after labelled context budget; Android compiler/structural PASS, no Android E2E/T4"
+      "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "writer_history": {
-    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1640",
-    "epoch": 7,
-    "acquired_at": "2026-10-30T19:45:39.423Z",
-    "lease_expires_at": "2026-10-30T20:09:20.000Z",
-    "released_at": "2026-10-30T20:07:39.148Z"
+  "in_flight_actions": [],
+  "actions_launched_v12": [],
+  "used_time_minutes": {
+    "investigation": 0,
+    "development": 0,
+    "tests": 0,
+    "actions_wall_time": 0,
+    "waiting": 0,
+    "checkpoint_and_communication": 0,
+    "non_execution": null,
+    "note": "No runtime measured yet; no invented minutes. Workflow wall time may overlap development and is not GitHub billable minutes."
   },
-  "run_started_at": "2026-10-30T19:43:55.304Z",
-  "operational_certification": {
-    "fifty_minute_continuity": "NOT_TESTED; actual run3 about 19 min",
-    "context_cut_recovery": "PARTIAL: run2 completed while state remained ACTIVE; run3 reconciled expired lease and terminal CI, no duplicate Actions",
-    "writer_cas": "OBSERVED_ON_BRANCH_WRITES",
-    "no_overlap": "OBSERVED_RUN3_NO_OVERLAP",
-    "global_cutoff": "NOT_TESTED; closed before 15:09",
-    "red_investigation": "OBSERVED_RUN1_AND_RUN2; RUN3_GREEN",
-    "v11_a1_effective_duration_minutes": 20.3,
-    "v11_a1_writer_cas": "OBSERVED",
-    "v11_a1_no_overlap": "OBSERVED",
-    "v11_a1_actions": "TWO_TERMINAL_SUCCESS",
-    "v11_a1_thirty_minute_continuity": "NOT_DEMONSTRATED; closed cleanly after 20.3 min",
-    "v11_a2_writer_recovery": "OBSERVED_B_EXPIRED_LEASE_AUTOMATION_COMPLETED_CI_TERMINAL_CAS_EPOCH6",
-    "v11_a2_writer_cas": "OBSERVED",
-    "v11_a2_no_overlap": "OBSERVED",
-    "v11_a2_actions": "TWO_TERMINAL_SUCCESS",
-    "v11_a2_duration_observed_minutes": 24.49,
-    "v11_a2_writer_released": true,
-    "v11_b2_lease_renewal": "CAS_EXACT_HEAD_EPOCH7; until 17:09:20 -03, before A-1710; no work after minute20.",
-    "v11_b2_writer_cas": "OBSERVED_EPOCH7",
-    "v11_b2_no_overlap": "OBSERVED_A2_COMPLETED_B2_ACTIVE_ONLY",
-    "v11_b2_actions": "TWO_TERMINAL_SUCCESS_EXACT_XML",
-    "v11_b2_duration_observed_minutes": 23.73,
-    "v11_b2_writer_released": true
-  },
-  "writer_recovery": {
-    "previous_owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
-    "previous_epoch": 5,
-    "previous_lease_expired_at": "2026-10-30T19:09:00Z",
-    "previous_automation_completed_at": "2026-10-30T19:04:06.694Z",
-    "ci_terminal": true,
-    "active_actions": 0,
-    "head_before_recovery": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-    "reason": "B session recorded completed and lease expired; no CI queued/running; acquire epoch 6 only with exact branch-head CAS"
-  },
-  "main_head_verified": "9bae214541f466a62e149853931b96abb8d74ed9",
-  "private_repo_verified": true,
-  "technical_gaps": [
-    "F1: Composer->host dispatcher->Workspace already wired behind V2 OFF; trusted application bootstrap still does NOT instantiate configured provider-neutral ComposedModelGateway with live Groq binding/profile/egress policy. Android Chat/Review/Apply/Delivery E2E remains uncertified.",
-    "F1: typed offline/failure status UI on exact SHA a19c6854 is WAIT_CI, not certified. New egress revocation guard passed JVM/Android compilation but no physical Android E2E.",
-    "F2: Android V2 activation/recovery E2E remains uncertified; V1 protected, V2 OFF.",
-    "F3: option A decision resolved; minimal user-facing consent/export/restore SAF flow not implemented. Current export V2_ACTIVE_ENABLED=false gate; pre-cutover certification needs safe quarantined test-only path without weakening shipping admission.",
-    "F4: 36/36 critical JVM regressions pass but are not integral Android certification.",
-    "T4: physical device NOT_RUN."
+  "blockers": [
+    {
+      "id": "T4_PHYSICAL",
+      "status": "WAIT_PHYSICAL"
+    }
   ],
-  "run_closed_at": "2026-10-30T20:07:39.148Z",
-  "run_duration_observed_minutes": 23.73,
-  "v11_a2_writer_history": {
-    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1610",
-    "epoch": 6,
-    "acquired_at": "2026-10-30T19:09:26.508Z",
-    "lease_expires_at": "2026-10-30T19:39:00Z",
-    "released_at": "2026-10-30T19:33:55.818Z"
+  "next_action": {
+    "criterion": "F1",
+    "step": "On A1, start from trusted Android ComposedModelGateway bootstrap, profile/settings Keystore credentials, egress policy, host chat E2E. Develop functional batch with targeted CI and durable checkpoint."
   },
-  "writer_history_previous": {
-    "owner": "automation-6ae4d8f201948191aacf0589adcb5c64/A-1510",
-    "epoch": 4,
-    "acquired_at": "2026-10-30T18:10:19.837Z",
-    "lease_expires_at": "2026-10-30T18:39:00Z",
-    "released_at": "2026-10-30T18:30:39.906Z"
-  }
+  "observations": {
+    "source_v11_writer": "NONE epoch8",
+    "previous_automations": "none enabled at new-pilot preflight",
+    "source_v11_actions_in_flight": 0
+  },
+  "status": "READY_PENDING_FIRST_TRIGGER"
 }
