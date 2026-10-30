@@ -55,8 +55,7 @@ jobs:
       - name: Compile Android-only F1 consent and Keystore integration instrumentation
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \\
-            :app:compileDebugAndroidTestKotlin :app:compileDebugAndroidTestJavaWithJavac
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugAndroidTestKotlin :app:compileDebugAndroidTestJavaWithJavac
           echo 'FARO_V12_F1_ANDROID_INSTRUMENTATION_COMPILE_PASS; device execution NOT_RUN'
       - name: Exact XML oracle
         run: |
