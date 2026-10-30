@@ -9,7 +9,7 @@
     "owner": "NOCHE_B_1",
     "epoch": 10,
     "lease_expires_at": "2026-10-30T19:35:00-03:00",
-    "expected_head": "6375ed58609b0768026b154345723ac9b8af9da0"
+    "expected_head": "f27e65ab9f6e93e04bc2cba1ff597353ec8f38ae"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -114,7 +114,15 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41136399502,
+      "head_sha": "f27e65ab9f6e93e04bc2cba1ff597353ec8f38ae",
+      "status": "in_progress",
+      "reason": "F1 Settings/Keystore UI and Android compile directed gate",
+      "resume": "Verify terminal and exact XML; no identical rerun"
+    }
+  ],
   "actions_launched_v12": [
     {
       "id": 41132960313,
@@ -157,6 +165,13 @@
       "completed_at": "2026-10-30T22:05:15Z",
       "wall_seconds": 444,
       "tests": "Transport XML 7/7, bootstrap XML 4/4, failures/errors/skips=0; Android compile Kotlin/Java PASS; structural baseline PASS; Android E2E NOT_RUN"
+    },
+    {
+      "id": 41136399502,
+      "head_sha": "f27e65ab9f6e93e04bc2cba1ff597353ec8f38ae",
+      "status": "in_progress",
+      "reason": "Functional F1 Android settings/credential UI batch",
+      "started_at": "2026-10-30T22:11:08Z"
     }
   ],
   "used_time_minutes": {
@@ -178,7 +193,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "B1: build minimal Android AI consent+credential settings path on existing shell, use one process-owned DataStore and Keystore; no V2 activation; targeted CI by functional batch."
+    "step": "Verify CI #41136399502 terminal, inspect Kotlin/Java compilation and 7+4 XML. If RED, diagnose and one safe targeted fix; if PASS, prepare Android instrumentation for settings/Keystore and F1 end-to-end without V2 activation."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -203,7 +218,7 @@
     "last_observed_at": "2026-10-30T22:07:00.702Z",
     "closed_at": "2026-10-30T22:07:00.702Z"
   },
-  "code_head": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
+  "code_head": "f27e65ab9f6e93e04bc2cba1ff597353ec8f38ae",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -249,5 +264,6 @@
     "stop_new_work": "2026-10-30T19:25:33-03:00",
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
-  }
+  },
+  "scope": "B1 F1: implemented minimal AI consent/credential Android Activity, process-singleton DataStore, Keystore fresh secret CAS, Settings shell entry; V2 remains OFF; Android E2E pending."
 }
