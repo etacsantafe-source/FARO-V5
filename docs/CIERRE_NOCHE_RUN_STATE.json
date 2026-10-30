@@ -8,8 +8,8 @@
     "state": "ACTIVE",
     "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1640",
     "epoch": 7,
-    "lease_expires_at": "2026-10-30T20:08:30.000Z",
-    "expected_head": "72df2124bbe5d2bd0abfb62f6bff0b942c5d9dbb"
+    "lease_expires_at": "2026-10-30T20:09:20.000Z",
+    "expected_head": "25b1f657bd8b64630ba1d0d22bcf9113228e3771"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -54,7 +54,7 @@
   },
   "status": "CLOSED_PASS_REVIEW",
   "code_head": "a19c6854c5519b2c662165eb1d6da600b179ea33",
-  "last_checkpoint_at": "2026-10-30T19:57:14.336Z",
+  "last_checkpoint_at": "2026-10-30T20:00:48.617Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -312,7 +312,7 @@
     "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1640",
     "epoch": 7,
     "acquired_at": "2026-10-30T19:45:39.423Z",
-    "lease_expires_at": "2026-10-30T20:08:30.000Z",
+    "lease_expires_at": "2026-10-30T20:09:20.000Z",
     "released_at": null
   },
   "run_started_at": "2026-10-30T19:43:55.304Z",
@@ -333,7 +333,8 @@
     "v11_a2_no_overlap": "OBSERVED",
     "v11_a2_actions": "TWO_TERMINAL_SUCCESS",
     "v11_a2_duration_observed_minutes": 24.49,
-    "v11_a2_writer_released": true
+    "v11_a2_writer_released": true,
+    "v11_b2_lease_renewal": "CAS_EXACT_HEAD_EPOCH7; until 17:09:20 -03, before A-1710; no work after minute20."
   },
   "writer_recovery": {
     "previous_owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1540",
