@@ -1,0 +1,44 @@
+name: FARO V5 private cloud compile gate
+
+on:
+  push:
+    branches:
+      - work/cloud-afternoon-pilot-20261030
+    paths:
+      - ".github/workflows/faro-v5-cloud-ci.yml"
+      - "v5/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-cloud-trial-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compile-only:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - name: Checkout exact trial commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android 37 compile platform
+        run: sdkmanager "platforms;android-37" "build-tools;36.0.0"
+      - name: Structural, composition and Android compiler gates
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            v5StructuralCheck appCompositionPolicyCheck \
+            :app:compileDebugKotlin :app:compileDebugJavaWithJavac
