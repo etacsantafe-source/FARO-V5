@@ -28,7 +28,7 @@ class OpenAiCompatibleModelBindingTest {
             chain.request().body!!.writeTo(buffer)
             seenBody.set(buffer.readUtf8())
             reply(chain.request(), 200,
-                """{"choices":[{"message":{"role":"assistant","content":"Hola FARO"}}],"usage":{"prompt_tokens":12,"completion_tokens":4}}""")
+                """{"choices":[{"finish_reason":"stop","message":{"role":"assistant","content":"Hola FARO"}}],"usage":{"prompt_tokens":12,"completion_tokens":4}}""")
         }.build()
         val result = binding(client).reason(invocation(), NeverCancelled)
         val success = assertInstanceOf(ModelBindingInvocationResult.Success::class.java, result)
@@ -41,6 +41,18 @@ class OpenAiCompatibleModelBindingTest {
         assertTrue(seenBody.get().contains("\"role\":\"system\""))
         assertTrue(seenBody.get().contains("\"role\":\"user\""))
         assertFalse(result.toString().contains("test-credential-123"))
+    }
+
+    @Test
+    fun `truncated completion cannot be committed as a complete assistant reply`() {
+        val client = OkHttpClient.Builder().addInterceptor { chain ->
+            reply(chain.request(), 200,
+                """{"choices":[{"finish_reason":"length","message":{"role":"assistant","content":"partial"}}]}""")
+        }.build()
+        assertEquals(
+            AiFailureKind.INVALID_STRUCTURED_RESPONSE,
+            failureKind(binding(client).reason(invocation(), NeverCancelled)),
+        )
     }
 
     @Test

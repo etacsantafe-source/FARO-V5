@@ -44,8 +44,8 @@ class FaroV5TrustedModelGatewayFactory(
             promptRef,
             CanonicalPayload.fromEncoded(
                 "text/plain",
-                "Sos FARO, un asistente personal. Respondé de forma clara y breve en español. " +
-                    "No afirmes haber aplicado cambios sin un recibo de ejecución verificable."
+                ("Sos FARO, un asistente personal. Respondé de forma clara y breve en español. " +
+                    "No afirmes haber aplicado cambios sin un recibo de ejecución verificable.")
                     .toByteArray(Charsets.UTF_8),
             ),
         )
@@ -61,6 +61,13 @@ class FaroV5TrustedModelGatewayFactory(
             latest != null && latest.remoteReasoningEnabled &&
                 latest.activeProfile == DEFAULT_PROFILE &&
                 latest.credentialRefFor(BINDING_ID) == credentialId
+        }
+        // Revocation is checked again immediately before credential access,
+        // not only while resolving the gateway policy.
+        val guardedSecrets = SecretReader { requested ->
+            if (requested != credentialId || !liveAuthorized()) null
+            else try { secretReader.readValueOrNull(requested) }
+            catch (_: Exception) { null }
         }
         val policy = ModelGatewayPolicyResolver { request ->
             if (!liveAuthorized()) null
@@ -81,7 +88,7 @@ class FaroV5TrustedModelGatewayFactory(
         }
         val binding = OpenAiCompatibleModelBinding(
             BINDING_ID, ApprovedChatEndpoint.GROQ, "llama-3.3-70b-versatile",
-            secretReader, credentialId,
+            guardedSecrets, credentialId,
             IoExecutionPolicy(5000, 20000, 25000), 512,
         )
         val gateway = ComposedModelGateway(

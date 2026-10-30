@@ -167,8 +167,15 @@ class OpenAiCompatibleModelBinding internal constructor(
                 ?: return fail(AiFailureKind.INVALID_STRUCTURED_RESPONSE)
             val choice = choices.singleOrNull() as? JsonObject
                 ?: return fail(AiFailureKind.INVALID_STRUCTURED_RESPONSE)
+            // A truncated or tool-call answer must not become a durable COMPLETED reply.
+            val finish = (choice["finish_reason"] as? JsonPrimitive)
+                ?.takeIf { it.isString }?.contentOrNull
+            if (finish != "stop") return fail(AiFailureKind.INVALID_STRUCTURED_RESPONSE)
             val message = choice["message"] as? JsonObject
                 ?: return fail(AiFailureKind.INVALID_STRUCTURED_RESPONSE)
+            val role = (message["role"] as? JsonPrimitive)
+                ?.takeIf { it.isString }?.contentOrNull
+            if (role != "assistant") return fail(AiFailureKind.INVALID_STRUCTURED_RESPONSE)
             val content = message["content"] as? JsonPrimitive
                 ?: return fail(AiFailureKind.INVALID_STRUCTURED_RESPONSE)
             val answer = content.takeIf { it.isString }?.contentOrNull
