@@ -35,18 +35,26 @@
   },
   "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
   "source_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41118040821,
+      "head_sha": "d60579d19a8d1ec2e4228f05bc52a602ceb31e56",
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at": "2026-10-30T19:46:56Z"
+    }
+  ],
   "scope": "B2 F1: revalidate every selected historical/current egress fragment just before ModelGateway dispatch; two targeted revocation tests and exact CI XML.",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
-  "tests": "CI 41113428119 + 41114483263 SUCCESS exact SHA/XML: directed 33/33, F4 36/36, Surface 31/31; reasoning 13/13; Android E2E/T4 NOT_RUN.",
+  "tests": "CI 41118040821 in_progress at exact code SHA d60579d; expected 35/35 directed, F4 36/36, Surface 31/31; NOT CERTIFIED until terminal XML.",
   "next_action": {
     "mode": "WAIT_CI",
     "criterion": "F1",
-    "step": "Verify next Actions terminal SHA and 35/35 directed XML; if PASS, consider next safe F1/F2 gap."
+    "step": "Reconcile CI 41118040821 exact XML; do not duplicate. If terminal PASS, next F1 gap is trusted bootstrap ModelGateway binding, Android E2E. F3 consent UI still pending."
   },
   "status": "CLOSED_PASS_REVIEW",
-  "code_head": "031667d7940bfde17565cf9a900cd496f10618a4",
-  "last_checkpoint_at": "2026-10-30T19:46:39.320Z",
+  "code_head": "d60579d19a8d1ec2e4228f05bc52a602ceb31e56",
+  "last_checkpoint_at": "2026-10-30T19:52:01.175Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
