@@ -85,6 +85,8 @@ private fun FaroV5ActiveChatScreenSession(
     var message by remember(activeConversationId, composerPort) { mutableStateOf<String?>(null) }
     var timelineVersion by remember(activeConversationId, composerPort) { mutableStateOf(0L) }
     var reviewVersion by remember(activeConversationId, reviewPort) { mutableStateOf(0L) }
+    // Serialize Review commands; a double tap cannot mint a second idempotency key.
+    var reviewBusy by remember(activeConversationId, reviewPort) { mutableStateOf(false) }
     var applyBusy by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
     var applyUncertain by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
     var canonicalReviews by remember(activeConversationId, reviewPort) {
@@ -140,51 +142,61 @@ private fun FaroV5ActiveChatScreenSession(
                     review = review,
                     reviewExpanded = true,
                     onConfirm = { context ->
-                        if (!applyBusy && !applyUncertain) scope.launch {
-                            try {
-                                val decided = withContext(Dispatchers.IO) {
-                                    reviewPort.decide(
-                                        ConversationPlanReviewIntent.Approve(context),
-                                        IdempotencyKey(UUID.randomUUID().toString()),
-                                    )
-                                }
-                                if (decided is ConversationReviewDecision.Saved) {
-                                    message = "Propuesta confirmada. Todavía no se aplicaron cambios."
+                        if (!reviewBusy && !applyBusy && !applyUncertain) {
+                            reviewBusy = true
+                            scope.launch {
+                                try {
+                                    val decided = withContext(Dispatchers.IO) {
+                                        reviewPort.decide(
+                                            ConversationPlanReviewIntent.Approve(context),
+                                            IdempotencyKey(UUID.randomUUID().toString()),
+                                        )
+                                    }
+                                    if (decided is ConversationReviewDecision.Saved) {
+                                        message = "Propuesta confirmada. Todavía no se aplicaron cambios."
+                                    } else message = "La propuesta cambió. Volvé a revisarla."
                                     reviewVersion++
-                                } else message = "La propuesta cambió. Volvé a revisarla."
-                            } catch (cancelled: CancellationException) {
-                                throw cancelled
-                            } catch (_: Exception) {
-                                message = "No se pudo confirmar la propuesta."
-                                reviewVersion++
+                                } catch (cancelled: CancellationException) {
+                                    throw cancelled
+                                } catch (_: Exception) {
+                                    message = "No se pudo confirmar la propuesta."
+                                    reviewVersion++
+                                } finally {
+                                    reviewBusy = false
+                                }
                             }
                         }
                     },
                     onDiscard = { context ->
-                        if (!applyBusy && !applyUncertain) scope.launch {
-                            try {
-                                val decided = withContext(Dispatchers.IO) {
-                                    reviewPort.decide(
-                                        ConversationPlanReviewIntent.Discard(context),
-                                        IdempotencyKey(UUID.randomUUID().toString()),
-                                    )
+                        if (!reviewBusy && !applyBusy && !applyUncertain) {
+                            reviewBusy = true
+                            scope.launch {
+                                try {
+                                    val decided = withContext(Dispatchers.IO) {
+                                        reviewPort.decide(
+                                            ConversationPlanReviewIntent.Discard(context),
+                                            IdempotencyKey(UUID.randomUUID().toString()),
+                                        )
+                                    }
+                                    if (decided is ConversationReviewDecision.Saved) {
+                                        message = "Propuesta descartada."
+                                    } else message = "La propuesta cambió. Volvé a revisarla."
+                                    reviewVersion++
+                                } catch (cancelled: CancellationException) {
+                                    throw cancelled
+                                } catch (_: Exception) {
+                                    message = "No se pudo descartar la propuesta."
+                                    reviewVersion++
+                                } finally {
+                                    reviewBusy = false
                                 }
-                                if (decided is ConversationReviewDecision.Saved) {
-                                    message = "Propuesta descartada."
-                                } else message = "La propuesta cambió. Volvé a revisarla."
-                                reviewVersion++
-                            } catch (cancelled: CancellationException) {
-                                throw cancelled
-                            } catch (_: Exception) {
-                                message = "No se pudo descartar la propuesta."
-                                reviewVersion++
                             }
                         }
                     },
                     // Only a certified V2 host can expose this port. Never trust UI as authority.
-                    onRequestApply = applyRequestPort?.takeIf { !applyBusy && !applyUncertain }?.let { requestPort ->
+                    onRequestApply = applyRequestPort?.takeIf { !reviewBusy && !applyBusy && !applyUncertain }?.let { requestPort ->
                         { context ->
-                            if (!applyBusy && !applyUncertain) {
+                            if (!reviewBusy && !applyBusy && !applyUncertain) {
                                 applyBusy = true
                                 scope.launch {
                                     try {
