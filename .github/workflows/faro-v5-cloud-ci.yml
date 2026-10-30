@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - work/cloud-afternoon-pilot-20261030
+      - work/cierre-noche-pilot-20261030
     paths:
       - ".github/workflows/faro-v5-cloud-ci.yml"
       - "v5/**"
@@ -47,7 +48,7 @@ jobs:
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             v5StructuralCheck appCompositionPolicyCheck \
-            :app:compileDebugKotlin :app:compileDebugJavaWithJavac
+            :surface:compileDebugKotlin :app:compileDebugKotlin :app:compileDebugJavaWithJavac
       - name: Directed F3 backup external-effect tests
         working-directory: v5
         run: |

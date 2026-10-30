@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,12 +37,38 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
+ * Each conversation/generation-bound port set owns a distinct Compose lifetime.
+ * A previous screen's IO callbacks must not update the new conversation editor,
+ * review state or timeline after the user switches conversations or authority.
+ * Disposal cancels rememberCoroutineScope and LaunchedEffect work together.
+ * Canonical Workspace and generation gates still own all durable mutations.
+ */
+@Composable
+fun FaroV5ActiveChatScreen(
+    activeConversationId: ConversationId?,
+    timelineReadPort: ConversationTimelineReadPort,
+    composerPort: ConversationComposerPort?,
+    reviewPort: ConversationReviewPort? = null,
+    applyRequestPort: ConversationApplyRequestPort? = null,
+) {
+    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort) {
+        FaroV5ActiveChatScreenSession(
+            activeConversationId = activeConversationId,
+            timelineReadPort = timelineReadPort,
+            composerPort = composerPort,
+            reviewPort = reviewPort,
+            applyRequestPort = applyRequestPort,
+        )
+    }
+}
+
+/**
  * Real Chat → authoritative Workspace path. Composer never holds a second
  * authority, and the user message appears only after the owner acknowledges
  * the atomic send. No synthetic FARO reply, model call or Apply side effect.
  */
 @Composable
-fun FaroV5ActiveChatScreen(
+private fun FaroV5ActiveChatScreenSession(
     activeConversationId: ConversationId?,
     timelineReadPort: ConversationTimelineReadPort,
     composerPort: ConversationComposerPort?,
