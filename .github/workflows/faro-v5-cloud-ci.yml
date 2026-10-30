@@ -38,9 +38,46 @@ jobs:
           SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
           test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
       - name: Structural, composition and Android compiler gates
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             v5StructuralCheck appCompositionPolicyCheck \
             :app:compileDebugKotlin :app:compileDebugJavaWithJavac
+      - name: Directed F3 backup external-effect tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :maintenance:test --tests 'ar.com.faro.v5.maintenance.BackupExternalWriteT2Test'
+      - name: Directed F1 reviewed Apply host tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest \
+            --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostAdapterTest' \
+            --tests 'ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest'
+      - name: Check exact directed JUnit XML
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          expected = {
+            'v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.BackupExternalWriteT2Test.xml': 4,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ReviewedApplyHostAdapterTest.xml': 3,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ReviewedApplyHostIntegrationTest.xml': 2,
+          }
+          for path, tests in expected.items():
+            p = Path(path)
+            if not p.is_file():
+              raise SystemExit(f'MISSING_XML {path}')
+            root = ET.parse(p).getroot()
+            got = tuple(int(root.attrib.get(k, '-1')) for k in ('tests', 'failures', 'errors', 'skipped'))
+            if got != (tests, 0, 0, 0):
+              raise SystemExit(f'FAIL_XML {path} {got}, expected {(tests,0,0,0)}')
+            print(f'PASS_XML {path}: {got}')
+          print('FARO_V5_NEW_REPO_DIRECTED_XML_PASS 9/9')
+          PY
