@@ -38,16 +38,22 @@
       "id": 41088193344,
       "head_sha": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
       "status": "IN_PROGRESS",
-      "scope": "exact 26/26 directed XML including six F1 model reply cases"
+      "scope": "six F1 model reply cases, 26/26 directed XML"
+    },
+    {
+      "id": 41089571810,
+      "head_sha": "5495a6e4b1e96aadf2888a99dab6904faf9f12d5",
+      "status": "PENDING",
+      "scope": "integrated Composer->Model->Review->Apply plus egress revocation, seven F1 cases, 27/27 XML"
     }
   ],
   "scope": "F1 trusted assistant generation/Delivery start/resolve bridge, no provider credential, V2 OFF",
   "hypothesis": "No generation-scoped host coordinator currently links accepted Workspace user turn to ModelGateway result and durable FARO Start/Resolve; add explicit trusted admission and no-replay handling.",
   "tests": "LATEST CI 41080071535 completed/success exact SHA cdefbe3: 20/20 directed and 31/31 surface JUnit XML, 0 failures/errors/skipped. Android E2E/T4 NOT_RUN.",
-  "next_action": "Wait for Actions 41088193344 terminal exact SHA, inspect XML 26/26; if green add one cross-boundary Composer->FARO reply->Review->Apply JVM test, preserving V2 OFF; if red diagnose fresh cause.",
+  "next_action": "Verify 41088193344 terminal exact SHA and XML 26/26; then 41089571810 exact SHA and XML 27/27. No new CI until these settle. Keep 3/8, V2 OFF; do not infer Android E2E.",
   "status": "RUNNING",
-  "code_head": "4b2b3d181237fe8d98e39a504609a3b6eea0ac1d",
-  "last_checkpoint_at": "2026-10-30T16:20:07.147Z",
+  "code_head": "5495a6e4b1e96aadf2888a99dab6904faf9f12d5",
+  "last_checkpoint_at": "2026-10-30T16:24:32.806Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
@@ -122,6 +128,12 @@
       "head_sha": "79a1daae6e90adbed8de82dc258f1d881811042b",
       "status": "COMPLETED_FAILURE",
       "cause": "Kotlin compiler INVISIBLE_REFERENCE test line 31: cross-module internal WorkspaceStore.create; production Kotlin compile passed; already corrected on next SHA by public createAndSelect/readTimeline/writeTimeline APIs"
+    },
+    {
+      "id": 41089007297,
+      "head_sha": "7b10fc4421c9af3b53512c51376e02277bdc454e",
+      "status": "COMPLETED_CANCELLED",
+      "cause": "GitHub concurrency group replaces older pending run when a newer pending run is queued; not a code/test failure; superseded by 41089571810"
     }
   ],
   "writer_history": {
