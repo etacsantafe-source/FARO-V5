@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v12-3h",
-  "run_id": "cierre-v12-20261030-B2-2010",
-  "run_number": 4,
-  "state": "CLOSED",
+  "run_id": "cierre-v12-20261030-A3-2040",
+  "run_number": 5,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 12,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_3",
+    "epoch": 13,
+    "lease_expires_at": "2026-10-31T00:09:00Z",
+    "expected_head": "42db0a19f5a734b701914c2ad4cdd0b50793d87f"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -254,14 +254,13 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "CLOSED_PASS_REVIEW",
+  "status": "ACTIVE_WRITER",
   "current_run": {
-    "scheduled_start": "2026-10-30T20:10:00-03:00",
-    "started_at": "2026-10-30T20:13:39-03:00",
-    "closed_at": "2026-10-30T23:30:47.783Z",
-    "phase": "CLOSED",
-    "stop_new_work_at": "2026-10-30T20:33:39-03:00",
-    "deadline": "2026-10-30T20:39:00-03:00"
+    "scheduled_start": "2026-10-30T20:40:00-03:00",
+    "started_at": "2026-10-30T23:43:24.885Z",
+    "phase": "ACTIVE",
+    "stop_new_work_at": "2026-10-31T00:00:00.000Z",
+    "deadline": "2026-10-31T00:09:00Z"
   },
   "code_head": "013cc7acc68739508755f6cac7a5123c02f4b590",
   "functional_progress": [
