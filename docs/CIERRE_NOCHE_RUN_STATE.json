@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v11-3h",
-  "run_id": "cierre-v11-20261030-B-1640",
-  "run_number": 4,
-  "state": "CLOSED",
+  "run_id": "cierre-v11-20261030-B-1740",
+  "run_number": 6,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 7,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "automation-6ae4d8f4b2308191b3c8c3e148f38570/B-1740",
+    "epoch": 8,
+    "lease_expires_at": "2026-10-30T18:09:00-03:00",
+    "expected_head": "2c3550da829f3d64ab06d7fd5645314b4ef6fba1"
   },
   "authorization": {
     "branch": "work/cierre-noche-v11-pilot-20261030",
@@ -33,10 +33,10 @@
     "f4": "IN_PROGRESS",
     "t4": "NOT_RUN"
   },
-  "base_head": "5e49e05671f66a05a156dbcf8def8d096e2e484e",
-  "source_head": "a19c6854c5519b2c662165eb1d6da600b179ea33",
+  "base_head": "2c3550da829f3d64ab06d7fd5645314b4ef6fba1",
+  "source_head": "2c3550da829f3d64ab06d7fd5645314b4ef6fba1",
   "in_flight_actions": [],
-  "scope": "B2 F1: final per-fragment egress revalidation; typed OFFLINE/FAILED/NOT_AUTHORIZED UI completion and real Workspace host dispatch integration. Both CI terminal SUCCESS; no user-facing V2 activation.",
+  "scope": "B3 F1: fix bounded context orphan assistant privacy leak under label overhead; add regression and exact CI",
   "hypothesis": "Previous F1 request only forwarded latest user text, losing bounded chat context. Privacy risk from forwarding unfiltered history; select only earlier accepted/completed turns, check trusted egress per fragment, exclude future turns.",
   "tests": "CI 41118040821 SUCCESS exact SHA/XML 35/35 directed, 36/36 F4, 31/31 Surface; CI 41119328351 SUCCESS exact SHA/XML 37/37 directed, 36/36 F4, 31/31 Surface. Android compile/structural PASS, no Android E2E/T4.",
   "next_action": {
@@ -44,9 +44,9 @@
     "criterion": "F1",
     "step": "A-1710: verify writer NONE epoch7 and no active CI, HEAD. Next indispensable F1 gap: trusted app bootstrap of policy-bound ComposedModelGateway with platform:ai Groq binding/profile/egress settings; do not enable V2. Alternatively F3 minimal consent/SAF UI while preserving V2 gate. No duplicate Actions 41118040821/41119328351."
   },
-  "status": "CLOSED_PASS_REVIEW",
+  "status": "ACTIVE",
   "code_head": "a19c6854c5519b2c662165eb1d6da600b179ea33",
-  "last_checkpoint_at": "2026-10-30T20:07:39.148Z",
+  "last_checkpoint_at": "2026-10-30T20:40:07.210Z",
   "hypotheses": [
     {
       "issue": "stale Chat coroutine",
