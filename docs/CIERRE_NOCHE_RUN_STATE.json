@@ -32,14 +32,32 @@
       "id": 41078535853,
       "head_sha": "fae9b6950f4e180320292aa665b0b7c52cde7012",
       "status": "IN_PROGRESS",
-      "kind": "F1 Compose chat lifetime and existing directed CI"
+      "kind": "F1 chat coroutine lifetime + existing 20 tests"
+    },
+    {
+      "id": 41079248284,
+      "head_sha": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
+      "status": "QUEUED",
+      "kind": "F1 shell host rebind, off-main Workspace read + surface regressions"
     }
   ],
   "scope": "F1 asynchronous chat screen state isolation across conversation switches; Android compile and regression only",
   "hypothesis": "Compose rememberCoroutineScope survives conversation id changes and allows in-flight callbacks from A to overwrite editor state of B; key entire screen session to cancel old composition scope.",
-  "tests": "GitHub Actions 41078535853 in progress; do not claim PASS",
-  "next_action": "Reconcile Actions 41078535853 terminal SHA, job steps and XML. If FAIL investigate new hypothesis before retry.",
+  "tests": "Actions 41078535853 in progress, 41079248284 queued. No PASS claimed.",
+  "next_action": "Reconcile both CI runs by exact SHA, job steps and XML; if second CI fails diagnose new hypothesis. Keep 3/8 and V2 OFF.",
   "status": "WAIT_CI",
-  "code_head": "fae9b6950f4e180320292aa665b0b7c52cde7012",
-  "last_checkpoint_at": "2026-10-30T12:13:00-03:00"
+  "code_head": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
+  "last_checkpoint_at": "2026-10-30T12:17:00-03:00",
+  "hypotheses": [
+    {
+      "issue": "stale Chat coroutine",
+      "fix_commit": "fae9b6950f4e180320292aa665b0b7c52cde7012",
+      "evidence": "rememberCoroutineScope survives activeConversationId change; key full chat session"
+    },
+    {
+      "issue": "stale Shell selection and main-thread SQLite read",
+      "fix_commit": "79612723b8501f4501aa7f0669bf594c3ef9c68b",
+      "evidence": "Scaffold scope survived host-port changes; LaunchedEffect readSnapshot() was synchronous on UI thread; key shell and use IO dispatcher"
+    }
+  ]
 }
