@@ -12,11 +12,11 @@
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
     "state": "ACTIVE",
-    "owner": "NOCHE_A_V14_TURN4_20261031_1510",
-    "epoch": 39,
-    "lease_acquired_at": "2026-10-31T18:10:08.688Z",
-    "lease_expires_at": "2026-10-31T18:37:00.000Z",
-    "expected_head": "dda57d4e90254cb90bfd1b122dcb308646c9f308",
+    "owner": "NOCHE_B_V14_TURN4_20261031_1540",
+    "epoch": 40,
+    "lease_acquired_at": "2026-10-31T18:46:26Z",
+    "lease_expires_at": "2026-10-31T19:07:00Z",
+    "expected_head": "a4c112a5e8730cc9db56f37943f3543e3693c0d2",
     "acquire_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
@@ -288,27 +288,27 @@
   },
   "report": null,
   "active_session": {
-    "id": "NOCHE_A_V14_TURN4_20261031_1510",
-    "scheduled_start": "2026-10-31T18:10:00Z",
-    "actual_start": "2026-10-31T18:09:22.368084Z",
-    "writer_acquired_at": "2026-10-31T18:10:08.688Z",
+    "id": "NOCHE_B_V14_TURN4_20261031_1540",
+    "scheduled_start": "2026-10-31T18:40:00Z",
+    "actual_start": "2026-10-31T18:41:18.702929Z",
+    "writer_acquired_at": "2026-10-31T18:46:26Z",
     "status": "ACTIVE",
-    "previous_head": "dda57d4e90254cb90bfd1b122dcb308646c9f308",
-    "window_end": "2026-10-31T18:40:00Z",
-    "no_new_work_after": "2026-10-31T18:30:00Z"
+    "previous_head": "a4c112a5e8730cc9db56f37943f3543e3693c0d2",
+    "window_end": "2026-10-31T19:10:00Z",
+    "no_new_work_after": "2026-10-31T19:00:00Z",
+    "wait_writer_seconds_observed": 307
   },
   "last_code_commit": "2586ef7705d7f3c10ce4e2fa91c043a6cb0aa82c",
   "last_checkpoint_at": "2026-10-31T17:52:37.612Z",
   "last_checkpoint": "docs/CIERRE_NOCHE_V14_B3_CHECKPOINT_20261031_1440.md",
   "next_action": "F3 release-positive user SAF picker/export and authenticated five-owner restore with journal still require end-to-end evidence; F1 real consented remote model E2E, F2 recovery, F4 integral, T4 physical pending. Do not repeat 11/11 same SHA.",
   "recovered_stale_writer": {
-    "previous_owner": "NOCHE_A_V14_TURN2_20261031_1310",
-    "previous_epoch": 36,
-    "previous_lease_expired_at": "2026-10-31T16:37:00Z",
-    "prior_owner_automation_terminal_at": "2026-10-31T16:41:02.018752Z",
-    "prior_B_automation_terminal_at": "2026-10-31T16:46:02.078523Z",
-    "verified_head": "d722d2139b8974e0fd059eaf8a245a2134117dda",
-    "method": "read terminal runs + CAS expected head; no blind expiry override",
-    "recovered_at": "2026-10-31T17:10:16.080Z"
+    "previous_owner": "NOCHE_A_V14_TURN4_20261031_1510",
+    "previous_epoch": 39,
+    "lease_expired_at": "2026-10-31T18:37:00.000Z",
+    "previous_run_completed_at": "2026-10-31T18:37:16.098264Z",
+    "rechecked_after_five_minutes_at": "2026-10-31T18:46:20Z",
+    "head_unchanged": "a4c112a5e8730cc9db56f37943f3543e3693c0d2",
+    "method": "CAS expected HEAD; prior owner terminal and lease expired"
   }
 }
