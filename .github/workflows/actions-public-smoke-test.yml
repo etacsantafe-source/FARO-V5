@@ -1,0 +1,21 @@
+name: FARO V5 - Public Actions smoke test
+
+on:
+  push:
+    branches:
+      - test/actions-public-smoke-20261031
+    paths:
+      - .github/workflows/actions-public-smoke-test.yml
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check public runner
+        run: |
+          echo "FARO_ACTIONS_OK"
