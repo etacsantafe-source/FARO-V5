@@ -7,6 +7,8 @@ on:
     paths:
       - "v5/app/**"
       - "v5/surface/**"
+      - "v5/store/reality/**"
+      - "v5/store/generation/**"
       - ".github/workflows/faro-v5-v13-f1-functional.yml"
 
 permissions:
@@ -17,6 +19,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  f1-sqlite-android-path-preflight:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Staged five-store SQLite alias and symlink fences (directed)
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests 'ar.com.faro.v5.generation.FaroV5GenerationStoreGraphV2T2Test.stagedFiveStorePreflightAcceptsCanonicalAndroidStyleParentAlias' \
+            --tests 'ar.com.faro.v5.generation.FaroV5GenerationStoreGraphV2T2Test.stagedPreflightRejectsFinalDatabaseSymlinkDespiteCanonicalParent'
+      - name: Exact preflight XML oracle
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          p=Path('v5/store/generation/build/test-results/test/TEST-ar.com.faro.v5.generation.FaroV5GenerationStoreGraphV2T2Test.xml')
+          if not p.is_file(): raise SystemExit('F1_PREFLIGHT_XML_MISSING')
+          root=ET.parse(p).getroot()
+          actual=tuple(int(root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if actual!=(2,0,0,0): raise SystemExit(f'F1_PREFLIGHT_FAILED {actual}')
+          print('F1_PREFLIGHT_ALIAS_AND_FINAL_SYMLINK_FENCES_PASS 2/2')
+          PY
+
   f1-quarantined-bridge:
     if: github.repository == 'etacsantafe-source/FARO-V5'
     runs-on: ubuntu-latest

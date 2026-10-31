@@ -1,5 +1,8 @@
 package ar.com.faro.v5.app
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
@@ -16,8 +19,7 @@ import ar.com.faro.v5.delivery.api.NoticeCandidate
 import ar.com.faro.v5.delivery.api.NoticeRouteResult
 import ar.com.faro.v5.delivery.api.NoticeRouter
 import ar.com.faro.v5.delivery.api.NoticeSensitivity
-import ar.com.faro.v5.delivery.spi.NotificationDeliverySink
-import ar.com.faro.v5.delivery.spi.NotificationSinkOutcome
+import ar.com.faro.v5.platform.android.notification.AndroidNotificationDeliverySink
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.kernel.contracts.*
@@ -280,9 +282,19 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertTrue(replay is NoticeRouteResult.Materialized)
                                 val materialized = replay as NoticeRouteResult.Materialized
                                 assertFalse(materialized.created)
+                                // Real Android delivery adapter, with no notification
+                                // permission: the OS projection must fail closed.
+                                // Never grant permission or post from quarantine.
+                                assertTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                                assertNotEquals(
+                                    PackageManager.PERMISSION_GRANTED,
+                                    context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS),
+                                )
                                 val delivery = NotificationDeliveryDispatcher(
                                     deliveryStore,
-                                    NotificationDeliverySink { NotificationSinkOutcome.BLOCKED_PERMISSION },
+                                    AndroidNotificationDeliverySink(
+                                        context, R.drawable.ic_faro_notification,
+                                    ),
                                 ).dispatch(materialized.deliveryIntent.deliveryIntentId)
                                 assertTrue(delivery is NotificationDispatchExecution.Completed)
                                 assertEquals(
