@@ -597,4 +597,55 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
         }
     }
 
+    @Test fun quarantinedF2FiveOwnerRecoveryHealthKeepsV1PointerAndRejectsMissingWorkspace() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f2-health-")
+        try {
+            val layout = FileStorageGenerationLayout(root)
+            val pointer = FileActiveGenerationPointer(root)
+            val journal = FileBootstrapJournal(root)
+            val oldId = StorageGenerationId("f2-active-v1")
+            val targetId = StorageGenerationId("f2-staged-v2")
+            val operation = MaintenanceOperationId("f2-validated-restore")
+            val old = layout.stage(StorageGenerationDescriptor(oldId, "schema-five-store-1", 4L))
+            GenerationStoreFiles.LEGACY_V1.forEach {
+                Files.write(old.directory.resolve(it), byteArrayOf(1))
+            }
+            assertEquals(oldId, requireNotNull(pointer.compareAndSet(null, oldId)).generationId)
+            val stage = layout.stageWorkspaceV2(
+                StorageGenerationDescriptor(targetId, "schema-five-store-1", 4L),
+            )
+            materialize(stage.directory)
+            journal.create(BootstrapJournalEntry(
+                operation, MaintenanceOperationKind.RESTORE, oldId, targetId,
+                BootstrapPhase.VALIDATED,
+            ))
+            val pointerBefore = pointer.read()
+            val journalBefore = journal.read(operation)
+            val inspector = FaroV5QuarantinedV2RecoveryHost(
+                layout, journal, pointer, SingleProcessMaterialWriteGate(),
+            )
+            assertEquals(
+                V2QuarantinedRecoveryEvidence.Candidate(targetId.value),
+                inspector.inspectHealthy(operation),
+            )
+            assertEquals(pointerBefore, pointer.read())
+            assertEquals(journalBefore, journal.read(operation))
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+
+            val workspaceFile = stage.directory.resolve(GenerationStoreFiles.WORKSPACE)
+            Files.delete(workspaceFile)
+            assertEquals(
+                V2QuarantinedRecoveryEvidence.Blocked,
+                inspector.inspectHealthy(operation),
+            )
+            assertFalse("recovery preflight must not recreate missing Workspace",
+                Files.exists(workspaceFile))
+            assertEquals(pointerBefore, pointer.read())
+            assertEquals(journalBefore, journal.read(operation))
+        } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
+
 }
