@@ -115,12 +115,14 @@ class OpenAiCompatibleModelBinding internal constructor(
         val body = buildJsonObject {
             put("model", JsonPrimitive(model))
             put("stream", JsonPrimitive(false))
-            put("max_tokens", JsonPrimitive(maxOutputTokens))
-            // Groq GPT-OSS includes a separate reasoning field by default.
-            // Keep reasoning private and preserve completion budget for the answer.
+            // GPT-OSS uses Groq's current completion limit field. Keep
+            // the legacy compatible field for other approved providers.
             if (endpoint == ApprovedChatEndpoint.GROQ && model.startsWith("openai/gpt-oss-")) {
+                put("max_completion_tokens", JsonPrimitive(maxOutputTokens))
                 put("include_reasoning", JsonPrimitive(false))
                 put("reasoning_effort", JsonPrimitive("low"))
+            } else {
+                put("max_tokens", JsonPrimitive(maxOutputTokens))
             }
             put("messages", messages)
         }.toString().toByteArray(StandardCharsets.UTF_8)
@@ -238,7 +240,10 @@ class OpenAiCompatibleModelBinding internal constructor(
             ?.takeIf { it in 1L..300L }?.times(1000L)
         return when (response.code) {
             401, 403 -> fail(AiFailureKind.AUTH_REJECTED)
+            404 -> fail(AiFailureKind.MODEL_UNAVAILABLE)
+            413 -> fail(AiFailureKind.CONTEXT_TOO_LARGE)
             429 -> fail(AiFailureKind.RATE_LIMIT, RetryDisposition.RETRYABLE, after)
+            498 -> fail(AiFailureKind.PROVIDER_CAPACITY, RetryDisposition.RETRYABLE, after)
             408, 504 -> fail(AiFailureKind.TIMEOUT, RetryDisposition.RETRYABLE)
             in 500..599 -> fail(AiFailureKind.TRANSIENT_SERVER, RetryDisposition.RETRYABLE)
             else -> fail(AiFailureKind.TERMINAL_REQUEST_ERROR)

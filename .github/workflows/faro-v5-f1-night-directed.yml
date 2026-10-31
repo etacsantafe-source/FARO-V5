@@ -52,7 +52,7 @@ jobs:
           from pathlib import Path
           import xml.etree.ElementTree as ET
           expected = {
-            'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml': 9,
+            'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml': 10,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml': 5,
           }
           for path, count in expected.items():

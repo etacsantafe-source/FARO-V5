@@ -64,7 +64,8 @@ class OpenAiCompatibleModelBindingTest {
             binding.reason(invocation(), NeverCancelled))
         assertTrue(seenBody.get().contains("\"include_reasoning\":false"))
         assertTrue(seenBody.get().contains("\"reasoning_effort\":\"low\""))
-        assertTrue(seenBody.get().contains("\"max_tokens\":2048"))
+        assertTrue(seenBody.get().contains("\"max_completion_tokens\":2048"))
+        assertFalse(seenBody.get().contains("\"max_tokens\""))
     }
 
     @Test
@@ -143,6 +144,29 @@ class OpenAiCompatibleModelBindingTest {
         assertEquals(AiFailureKind.RATE_LIMIT, failure.failure.kind)
         assertEquals(3000L, failure.failure.retryAfterMillis)
         assertEquals(1, calls.get())
+    }
+
+    @Test
+    fun `provider model missing oversized and capacity errors stay typed`() {
+        val cases = listOf(
+            404 to AiFailureKind.MODEL_UNAVAILABLE,
+            413 to AiFailureKind.CONTEXT_TOO_LARGE,
+            498 to AiFailureKind.PROVIDER_CAPACITY,
+        )
+        for ((status, expected) in cases) {
+            val client = OkHttpClient.Builder().addInterceptor { chain ->
+                reply(chain.request(), status, "{}")
+            }.build()
+            val result = assertInstanceOf(
+                ModelBindingInvocationResult.Failure::class.java,
+                binding(client).reason(invocation(), NeverCancelled),
+            )
+            assertEquals(expected, result.failure.kind, "HTTP $status")
+            assertEquals(
+                if (status == 498) RetryDisposition.RETRYABLE else RetryDisposition.NOT_RETRYABLE,
+                result.failure.retryDisposition,
+            )
+        }
     }
 
     @Test
