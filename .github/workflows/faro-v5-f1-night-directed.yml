@@ -53,7 +53,7 @@ jobs:
           import xml.etree.ElementTree as ET
           expected = {
             'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml': 10,
-            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml': 5,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml': 6,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 2,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test.xml': 2,
           }

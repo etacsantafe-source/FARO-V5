@@ -16,6 +16,16 @@ class FaroV5TrustedModelGatewayFactoryTest {
         assertEquals("openai/gpt-oss-120b", FaroV5TrustedModelGatewayFactory.GROQ_MODEL_ID)
     }
 
+    @Test
+    fun `fixed Groq probe requires exact bounded UTF8 FARO OK response`() {
+        fun reply(format: String, bytes: ByteArray) = CanonicalPayload.fromEncoded(format, bytes)
+        assertTrue(FaroV5GroqProbeVerifier.accepts(reply("text/plain", "FARO_OK\\n".replace("\\\\n", "\\n").encodeToByteArray())))
+        assertFalse(FaroV5GroqProbeVerifier.accepts(reply("text/plain", "FARO_OK and more".encodeToByteArray())))
+        assertFalse(FaroV5GroqProbeVerifier.accepts(reply("application/json", "FARO_OK".encodeToByteArray())))
+        assertFalse(FaroV5GroqProbeVerifier.accepts(reply("text/plain", byteArrayOf(0xC3.toByte(), 0x28))))
+        assertFalse(FaroV5GroqProbeVerifier.accepts(reply("text/plain", "FARO_OK".repeat(40).encodeToByteArray())))
+    }
+
     private val credential = SecretId("ai.groq.primary")
 
     @Test

@@ -140,3 +140,22 @@ class FaroV5TrustedModelGatewayFactory(
         const val GROQ_MODEL_ID = "openai/gpt-oss-120b"
     }
 }
+
+/** A successful HTTP response is not enough for the consented, fixed-input Groq probe. */
+internal object FaroV5GroqProbeVerifier {
+    fun accepts(payload: CanonicalPayload): Boolean {
+        if (payload.formatId != "text/plain" || payload.size !in 1..128) return false
+        val bytes = payload.copyBytes()
+        return try {
+            val marker = java.nio.charset.StandardCharsets.UTF_8.newDecoder()
+                .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT)
+                .decode(java.nio.ByteBuffer.wrap(bytes)).toString().trim()
+            marker == "FARO_OK"
+        } catch (_: Exception) {
+            false
+        } finally {
+            bytes.fill(0)
+        }
+    }
+}

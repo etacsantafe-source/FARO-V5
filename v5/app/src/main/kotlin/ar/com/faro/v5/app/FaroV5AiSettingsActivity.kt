@@ -160,7 +160,10 @@ class FaroV5AiSettingsActivity : ComponentActivity() {
                         )
                         when (result) {
                             is ReasoningResult.Success ->
-                                "Groq respondió. Transporte real OK; chat y Apply no se probaron."
+                                if (FaroV5GroqProbeVerifier.accepts(result.output))
+                                    "Groq respondió FARO_OK. Transporte real OK; chat y Apply no se probaron."
+                                else
+                                    "Groq respondió, pero no devolvió FARO_OK. La prueba no pasó; chat y Apply no se probaron."
                             is ReasoningResult.Failure ->
                                 "Groq no respondió: ${result.failure.kind}. Revisá conexión, clave y límites gratuitos."
                         }
