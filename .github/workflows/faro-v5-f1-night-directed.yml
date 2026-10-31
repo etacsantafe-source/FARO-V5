@@ -1,0 +1,66 @@
+name: FARO V5 F1 night directed
+on:
+  push:
+    branches:
+      - work/f1-noche-v14-20261031-1820
+    paths:
+      - "v5/app/**"
+      - "v5/platform/web/**"
+      - ".github/workflows/faro-v5-f1-night-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-f1-night-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  f1-groq-provider-and-consent:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Real transport protocol and consent tests (synthetic responses only)
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :platform:web:test --tests 'ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest'
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest'
+      - name: Exact F1 XML oracle
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          expected = {
+            'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml': 9,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml': 5,
+          }
+          for path, count in expected.items():
+            p=Path(path)
+            if not p.is_file(): raise SystemExit('F1_MISSING_XML '+path)
+            root=ET.parse(p).getroot()
+            actual=tuple(int(root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+            if actual != (count,0,0,0): raise SystemExit(f'F1_XML_FAIL {path} {actual}')
+            print('F1_NIGHT_DIRECTED_PASS',p.name,f'{count}/{count}')
+          print('Groq LIVE credential and physical Android NOT_RUN; F1 remains OPEN.')
+          PY
