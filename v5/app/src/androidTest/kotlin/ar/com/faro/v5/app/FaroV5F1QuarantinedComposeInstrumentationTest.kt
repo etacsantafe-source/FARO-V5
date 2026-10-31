@@ -297,6 +297,17 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertEquals(NoticeSensitivity.NORMAL, notices.single().sensitivity)
                                 // Reprojection uses the canonical durable intent, not
                                 // a second Apply or a duplicate Notice.
+                                // Recover from the canonical committed Workspace
+                                // receipt without issuing another Apply or Notice.
+                                val newNotices = runBlocking {
+                                    FaroV5QuarantinedCommittedDeliveryReconciler(
+                                        host.reviewPort, NoticeRouter(deliveryStore),
+                                        gate, BooleanSupplier { host.verifyQuarantined() },
+                                    ).reproject(chat)
+                                }
+                                assertEquals(0, newNotices)
+                                assertEquals(1L, reality.read().revision)
+                                assertEquals(1, deliveryStore.readNotices().size)
                                 val notice = notices.single()
                                 val replay = NoticeRouter(deliveryStore).route(
                                     NoticeCandidate(
