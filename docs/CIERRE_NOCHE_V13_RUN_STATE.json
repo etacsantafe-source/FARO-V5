@@ -1,0 +1,100 @@
+{
+  "schema_version": 13,
+  "status": "AUTHORIZED_READY",
+  "source_repo": "etacsantafe-source/FARO-V5",
+  "source_branch": "work/cierre-noche-v12-pilot-20261030",
+  "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
+  "branch": "work/cierre-noche-v13-20261030",
+  "authorization": {
+    "start_local": "2026-10-30T22:08:00-03:00",
+    "end_local": "2026-10-31T07:00:00-03:00",
+    "scope": "S2.A6 F1/F2/F3/F4; conditional isolated S3; NO V2 CUTOVER/S4",
+    "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
+  },
+  "writer": {
+    "state": "NONE",
+    "owner": null,
+    "epoch": 16,
+    "lease_expires_at": null,
+    "expected_head": null
+  },
+  "stage": {
+    "id": "S2.A6",
+    "status": "OPEN",
+    "certified": 3,
+    "total": 8,
+    "v2_enabled": false,
+    "s3_open": false,
+    "s4_open": false,
+    "f1": "IN_PROGRESS",
+    "f2": "IN_PROGRESS",
+    "f3": "OPTION_A_APPROVED_IMPLEMENTATION_OPEN",
+    "f4": "IN_PROGRESS",
+    "t4": "NOT_RUN"
+  },
+  "criteria": [
+    {
+      "id": 1,
+      "code": "FIVE_OWNERS",
+      "state": "CERTIFIED"
+    },
+    {
+      "id": 2,
+      "code": "FBS2_ISOLATED_RESTORE",
+      "state": "CERTIFIED"
+    },
+    {
+      "id": 3,
+      "code": "JOURNAL_REPLAY_WAL",
+      "state": "CERTIFIED"
+    },
+    {
+      "id": 4,
+      "code": "F1_ANDROID_CHAT_E2E",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": 5,
+      "code": "F2_ANDROID_ACTIVATION_RECOVERY",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": 6,
+      "code": "F3_FIVE_STORE_BACKUP_SAF_CONSENT",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": 7,
+      "code": "F4_INTEGRAL_REGRESSIONS",
+      "state": "IN_PROGRESS"
+    },
+    {
+      "id": 8,
+      "code": "T4_PHYSICAL",
+      "state": "NOT_RUN"
+    }
+  ],
+  "code_head": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
+  "evidence": {
+    "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
+    "prior_16_actions_terminal": true,
+    "android_emulator_host_flow": "1/1",
+    "f1_five_owner_host_jvm": "1/1",
+    "f1_full_android_e2e": "NOT_CERTIFIED"
+  },
+  "in_flight": [],
+  "blockers": [
+    {
+      "id": "T4_PHYSICAL",
+      "state": "WAIT_PHYSICAL"
+    }
+  ],
+  "hypotheses": [],
+  "next_action": {
+    "criterion": "F1",
+    "step": "Implement functional Android UI Compose→Review→Apply→Delivery end-to-end in quarantined host, without V2 activation; test targeted functional batch."
+  },
+  "sessions": [],
+  "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
+  "last_checkpoint_at": "2026-10-30T22:11:00-03:00"
+}
