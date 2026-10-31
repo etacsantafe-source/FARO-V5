@@ -11,13 +11,15 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V14_TURN4_20261031_1540",
+    "state": "NONE",
+    "owner": null,
     "epoch": 40,
     "lease_acquired_at": "2026-10-31T18:46:26Z",
-    "lease_expires_at": "2026-10-31T19:07:00Z",
-    "expected_head": "a4c112a5e8730cc9db56f37943f3543e3693c0d2",
-    "acquire_method": "CAS_EXPECTED_HEAD"
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_B_V14_TURN4_20261031_1540",
+    "release_method": "CAS_EXPECTED_HEAD",
+    "last_release_recorded_at": "2026-10-31T18:55:18Z"
   },
   "stage": {
     "id": "S2.A6",
@@ -272,6 +274,53 @@
       "certified_after": 3,
       "checkpoint_path": "docs/CIERRE_NOCHE_V14_B3_CHECKPOINT_20261031_1440.md",
       "writer_release": "CAS_PENDING_VERIFY"
+    },
+    {
+      "id": "NOCHE_B_V14_TURN4_20261031_1540",
+      "scheduled_start": "2026-10-31T18:40:00Z",
+      "actual_start": "2026-10-31T18:41:18.702929Z",
+      "first_precheck_at": "2026-10-31T18:41:31Z",
+      "five_minute_recheck_at": "2026-10-31T18:46:20Z",
+      "previous_writer_terminal_at": "2026-10-31T18:37:16.098264Z",
+      "previous_lease_expired_at": "2026-10-31T18:37:00Z",
+      "recovered_previous_epoch": 39,
+      "recovery_and_acquire_commit": "15a966d289f4017a348abe1633562a7cc463334f",
+      "writer_epoch": 40,
+      "writer_acquired_at": "2026-10-31T18:46:26Z",
+      "checkpoint_prepared_at": "2026-10-31T18:55:18Z",
+      "observed_wall_seconds_to_checkpoint": 839,
+      "observed_writer_wait_seconds": 301,
+      "observed_writer_held_seconds_to_checkpoint": 532,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "idle_seconds": "NO_REGISTRADO",
+      "productive_seconds": "NO_REGISTRADO",
+      "code_commits": [
+        "71a5124174a8c73af4f3a8820620a02eadd13591"
+      ],
+      "functional_change": "F3 SAF export destination SHA-256 verification now checks cancellation after every provider read, including EOF, preventing a cancelled verification from being marked SUCCESS.",
+      "tests": "Android emulator exact XML oracle PASS 13/13; includes new cancellation-at-EOF regression; real SAF picker and T4 physical NOT_CERTIFIED",
+      "actions": [
+        {
+          "id": 41231091263,
+          "sha": "71a5124174a8c73af4f3a8820620a02eadd13591",
+          "job_id": 124625285456,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-31T18:47:13Z",
+          "job_started_at": "2026-10-31T18:47:15Z",
+          "job_completed_at": "2026-10-31T18:54:52Z",
+          "run_updated_at": "2026-10-31T18:54:53Z",
+          "wall_seconds": 460,
+          "queue_seconds": 2,
+          "execution_seconds": 457,
+          "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 13/13; exact Android XML oracle SUCCESS; zero failures/errors/skips",
+          "overlaps_session": true
+        }
+      ],
+      "certified_before": 3,
+      "certified_after": 3,
+      "checkpoint_path": "docs/CIERRE_NOCHE_V14_B4_CHECKPOINT_20261031_1540.md",
+      "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
     }
   ],
   "metrics": {
@@ -284,24 +333,26 @@
     "exclusive_activity_breakdown": "NO_REGISTRADO",
     "ci_overlap_separate": true,
     "last_session_scheduled_elapsed_seconds": 758,
-    "last_session_pre_window_seconds": 287
+    "last_session_pre_window_seconds": 287,
+    "last_session_observed_wall_seconds_to_checkpoint": 839,
+    "last_session_writer_wait_seconds_approx": 301,
+    "last_session_writer_held_seconds_approx": 532,
+    "last_session_exclusive_breakdown": "NO_REGISTRADO",
+    "last_ci": {
+      "id": 41231091263,
+      "wall_seconds": 460,
+      "queue_seconds": 2,
+      "execution_seconds": 457,
+      "overlap_not_double_counted": true
+    },
+    "idle_seconds": "NO_REGISTRADO"
   },
   "report": null,
-  "active_session": {
-    "id": "NOCHE_B_V14_TURN4_20261031_1540",
-    "scheduled_start": "2026-10-31T18:40:00Z",
-    "actual_start": "2026-10-31T18:41:18.702929Z",
-    "writer_acquired_at": "2026-10-31T18:46:26Z",
-    "status": "ACTIVE",
-    "previous_head": "a4c112a5e8730cc9db56f37943f3543e3693c0d2",
-    "window_end": "2026-10-31T19:10:00Z",
-    "no_new_work_after": "2026-10-31T19:00:00Z",
-    "wait_writer_seconds_observed": 307
-  },
-  "last_code_commit": "2586ef7705d7f3c10ce4e2fa91c043a6cb0aa82c",
-  "last_checkpoint_at": "2026-10-31T17:52:37.612Z",
-  "last_checkpoint": "docs/CIERRE_NOCHE_V14_B3_CHECKPOINT_20261031_1440.md",
-  "next_action": "F3 release-positive user SAF picker/export and authenticated five-owner restore with journal still require end-to-end evidence; F1 real consented remote model E2E, F2 recovery, F4 integral, T4 physical pending. Do not repeat 11/11 same SHA.",
+  "active_session": null,
+  "last_code_commit": "71a5124174a8c73af4f3a8820620a02eadd13591",
+  "last_checkpoint_at": "2026-10-31T18:55:18Z",
+  "last_checkpoint": "docs/CIERRE_NOCHE_V14_B4_CHECKPOINT_20261031_1540.md",
+  "next_action": "F3 positive Android SAF picker + authenticated five-store restore journal E2E, preserve V1 and V2 OFF; verify 13/13 evidence exact SHA and do not rerun same suite.",
   "recovered_stale_writer": {
     "previous_owner": "NOCHE_A_V14_TURN4_20261031_1510",
     "previous_epoch": 39,
