@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "WAIT_RESOURCE",
+  "status": "ACTIVE",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,15 +12,15 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 28,
-    "lease_expires_at": null,
-    "expected_head": null,
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_V13_TURN6_20261031_0405",
+    "epoch": 29,
+    "lease_acquired_at": "2026-10-31T07:07:19.700Z",
+    "lease_expires_at": "2026-10-31T07:32:19.700Z",
+    "expected_head": "60860cd24d639190949786649a1dbe304414c64a",
     "last_released_at": "2026-10-31T06:43:32.800Z",
     "last_owner": "NOCHE_A_V13_TURN6_20261031_0340",
-    "release_method": "CAS_EXPECTED_HEAD",
-    "lease_acquired_at": "2026-10-31T06:40:44.005Z"
+    "release_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
     "id": "S2.A6",
@@ -834,7 +834,13 @@
     "ci_41163095797": "FAILURE",
     "ci_41163252426": "FAILURE"
   },
-  "active_session": null,
+  "active_session": {
+    "id": "NOCHE_B_V13_TURN6_20261031_0405",
+    "started_at": "2026-10-31T07:07:19.700Z",
+    "lease_expires_at": "2026-10-31T07:32:19.700Z",
+    "objective": "Diagnose pre-run CI and improve F3/F2 functional path without V2 cutover",
+    "starting_head": "60860cd24d639190949786649a1dbe304414c64a"
+  },
   "last_precheck": {
     "at": "2026-10-31T04:46:09.667Z",
     "head": "706939404883043c678df66b9bdd860fa1b5f053",
