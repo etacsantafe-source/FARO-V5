@@ -19,7 +19,8 @@ class FaroV5TrustedModelGatewayFactoryTest {
     @Test
     fun `fixed Groq probe requires exact bounded UTF8 FARO OK response`() {
         fun reply(format: String, bytes: ByteArray) = CanonicalPayload.fromEncoded(format, bytes)
-        assertTrue(FaroV5GroqProbeVerifier.accepts(reply("text/plain", "FARO_OK\\n".replace("\\\\n", "\\n").encodeToByteArray())))
+        assertTrue(FaroV5GroqProbeVerifier.accepts(reply("text/plain", " FARO_OK ".encodeToByteArray())))
+        assertTrue(FaroV5GroqProbeVerifier.accepts(reply("text/plain", "FARO_OK".encodeToByteArray())))
         assertFalse(FaroV5GroqProbeVerifier.accepts(reply("text/plain", "FARO_OK and more".encodeToByteArray())))
         assertFalse(FaroV5GroqProbeVerifier.accepts(reply("application/json", "FARO_OK".encodeToByteArray())))
         assertFalse(FaroV5GroqProbeVerifier.accepts(reply("text/plain", byteArrayOf(0xC3.toByte(), 0x28))))
