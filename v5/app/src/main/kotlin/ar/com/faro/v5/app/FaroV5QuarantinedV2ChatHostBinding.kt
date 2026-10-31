@@ -148,9 +148,13 @@ internal class FaroV5QuarantinedV2ChatHostBinding private constructor(
                         }
                     }
                 }
+                val modelReview = FaroV5ModelReviewBridge(
+                    generation, workspace, graph.reality, gate, pinned, admitted,
+                )
                 dispatch = FaroV5HostAcceptedTurnDispatchPort(
                     FaroV5HostAssistantTurnDispatcher(
                         reasoning, Executors.newSingleThreadExecutor(), admitted,
+                        { conversationId, turnId -> modelReview.propose(conversationId, turnId) },
                     ),
                     profile, admitted,
                 )

@@ -4,6 +4,7 @@ import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.PreparedPlan
 import ar.com.faro.v5.kernel.runtime.PreparedPlanEnvelopeCodec
 import ar.com.faro.v5.owner.profile.api.*
+import ar.com.faro.v5.owner.profile.spi.ProfilePersistencePort
 import ar.com.faro.v5.workspace.*
 import java.security.MessageDigest
 import java.util.function.BooleanSupplier
@@ -25,7 +26,7 @@ import kotlinx.serialization.json.contentOrNull
 class FaroV5ModelReviewBridge(
     private val generationId: String,
     private val workspace: ConversationWorkspaceStore,
-    private val profile: ProfileReadApi,
+    private val profile: ProfilePersistencePort,
     private val gate: MaterialWriteGate,
     private val activeGeneration: Supplier<String>,
     private val recoveryReady: BooleanSupplier,
@@ -63,6 +64,12 @@ class FaroV5ModelReviewBridge(
                 // No operation descriptor, dependency stamp, fingerprint or
                 // idempotency identity may be supplied by the model.
                 val identity = stableIdentity(conversationId.value + ":" + turnId.value + ":" + reply.id.value)
+                // A repeated completion (including after restart) must never
+                // generate a second review with a newer Reality stamp.
+                val existing = runBlocking { workspace.reviews(conversationId) }
+                    .firstOrNull { it.reviewId == "f1:model:" + identity }
+                if (existing != null)
+                    return@withMaterialWrite WorkspacePlanReviewWriteResult.Saved(existing, true)
                 val descriptor = OperationContractDescriptor(
                     ProfileOperations.UPDATE_DECLARED, ProfileOperations.CAPABILITY_ID,
                     ProfileOperations.EXECUTOR_ID, ExecutionProfile.REALITY_MUTATION,
@@ -107,7 +114,7 @@ class FaroV5ModelReviewBridge(
             val value = obj["display_name"] as? JsonPrimitive ?: return null
             if (!value.isString) return null
             val raw = value.contentOrNull ?: return null
-            if (raw.any { it.isISOControl() }) return null
+            if (raw.any { Character.isISOControl(it) }) return null
             DeclaredDisplayName.of(raw)
         } catch (_: Exception) { null }
     }
@@ -115,5 +122,5 @@ class FaroV5ModelReviewBridge(
     private fun stableIdentity(text: String): String =
         MessageDigest.getInstance("SHA-256")
             .digest(text.toByteArray(Charsets.UTF_8))
-            .joinToString("") { "%02x".format(it) }
+            .joinToString("") { "%02x".format(it.toInt() and 0xff) }
 }

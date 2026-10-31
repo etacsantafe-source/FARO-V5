@@ -39,7 +39,7 @@ class FaroV5TrustedModelGatewayFactory(
             ref = DEFAULT_PROFILE,
             orderedBindings = listOf(ModelProfileBinding(BINDING_ID, DataEgressTarget.REMOTE_MODEL)),
         )
-        val promptRef = PromptRef(PromptId("faro-v5-chat"), PromptVersion(1))
+        val promptRef = PromptRef(PromptId("faro-v5-chat"), PromptVersion(2))
         val prompt = PromptArtifact(
             promptRef,
             CanonicalPayload.fromEncoded(
@@ -47,7 +47,7 @@ class FaroV5TrustedModelGatewayFactory(
                 ("Sos FARO, un asistente personal. Respondé de forma clara y breve en español. " +
                     "No afirmes haber aplicado cambios sin un recibo de ejecución verificable. " +
                     "Solo si el usuario solicita cambiar su nombre declarado, respondé exclusivamente " +
-                    "con JSON {\\\"type\\\":\\\"profile.update_declared\\\",\\\"display_name\\\":\\\"NOMBRE\\\"}. " +
+                    "con JSON {\"type\":\"profile.update_declared\",\"display_name\":\"NOMBRE\"}. " +
                     "No incluyas otros campos ni afirmes que el cambio fue ejecutado. " +
                     "En otras consultas respondé normalmente.")
                     .toByteArray(Charsets.UTF_8),

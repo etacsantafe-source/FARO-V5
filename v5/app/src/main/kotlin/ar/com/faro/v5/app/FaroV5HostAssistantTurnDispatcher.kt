@@ -26,6 +26,7 @@ class FaroV5HostAssistantTurnDispatcher(
     private val session: FaroV5ActiveChatReasoningSession,
     private val dedicatedWorker: ExecutorService,
     private val generationAdmitted: BooleanSupplier,
+    private val onDurableReply: (ConversationId, ConversationTurnId) -> Unit = { _, _ -> },
 ) : AutoCloseable {
     private val closed = AtomicBoolean(false)
     private val inFlight = ConcurrentHashMap<
@@ -62,6 +63,14 @@ class FaroV5HostAssistantTurnDispatcher(
                     )
                 } catch (_: Exception) {
                     FaroV5AssistantTurnOutcome.RECOVERY_REQUIRED
+                }
+                // Only the trusted host can turn a durable model reply into a
+                // bounded, reviewable proposal. Never grant Apply or change
+                // the recorded assistant outcome on proposal failure.
+                if (outcome == FaroV5AssistantTurnOutcome.COMPLETED ||
+                    outcome == FaroV5AssistantTurnOutcome.ALREADY_RECORDED) {
+                    try { onDurableReply(request.conversationId, request.turnId) }
+                    catch (_: Exception) { /* replayable on a later delivery */ }
                 }
                 result.complete(outcome)
                 inFlight.remove(key, result)
