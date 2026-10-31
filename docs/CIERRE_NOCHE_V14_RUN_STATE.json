@@ -1,0 +1,107 @@
+{
+  "schema_version": 14,
+  "phase": "AUTHORIZED_PRE_START",
+  "repo": "etacsantafe-source/FARO-V5",
+  "branch": "work/cierre-noche-v14-20261031",
+  "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
+  "authorized_start_local": "2026-10-31T12:10:00-03:00",
+  "absolute_cutoff_local": "2026-10-31T18:10:00-03:00",
+  "time_zone": "America/Argentina/Cordoba",
+  "base_head": "b9219d5a501a49e6834f540afc2ad99a46aa0616",
+  "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
+  "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
+  "writer": {
+    "state": "NONE",
+    "owner": null,
+    "epoch": 33,
+    "lease_expires_at": null,
+    "last_verified_source": "V1.3 durable source checkpoint; MUST RECHECK"
+  },
+  "stage": {
+    "id": "S2.A6",
+    "status": "OPEN",
+    "certified": 3,
+    "total": 8,
+    "v2_enabled": false,
+    "s3_open": false,
+    "s4_open": false
+  },
+  "criteria": [
+    {
+      "id": 1,
+      "code": "FIVE_OWNERS",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": 2,
+      "code": "FBS2_ISOLATED_RESTORE",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": 3,
+      "code": "JOURNAL_REPLAY_WAL",
+      "status": "CERTIFIED"
+    },
+    {
+      "id": 4,
+      "code": "F1_ANDROID_CHAT_E2E",
+      "status": "OPEN"
+    },
+    {
+      "id": 5,
+      "code": "F2_ANDROID_ACTIVATION_RECOVERY",
+      "status": "OPEN"
+    },
+    {
+      "id": 6,
+      "code": "F3_FIVE_STORE_BACKUP_SAF_CONSENT",
+      "status": "OPEN"
+    },
+    {
+      "id": 7,
+      "code": "F4_INTEGRAL_REGRESSIONS",
+      "status": "OPEN"
+    },
+    {
+      "id": 8,
+      "code": "T4_PHYSICAL",
+      "status": "NOT_RUN"
+    }
+  ],
+  "windows": {
+    "A": [
+      "12:10",
+      "13:10",
+      "14:10",
+      "15:10",
+      "16:10",
+      "17:10"
+    ],
+    "B": [
+      "12:40",
+      "13:40",
+      "14:40",
+      "15:40",
+      "16:40",
+      "17:40"
+    ],
+    "report": "18:10"
+  },
+  "ci_baseline": {
+    "id": 41212633698,
+    "status": "SUCCESS",
+    "purpose": "public repository Actions smoke; not S2 functional"
+  },
+  "automations": {
+    "A": null,
+    "B": null,
+    "report": null
+  },
+  "sessions": [],
+  "metrics": {
+    "measured_total_seconds": 0,
+    "unknown_seconds": null,
+    "ci_overlaps_separate": true
+  },
+  "report": null
+}
