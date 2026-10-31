@@ -66,3 +66,76 @@ jobs:
             print('F1_NIGHT_DIRECTED_PASS',p.name,f'{count}/{count}')
           print('Groq LIVE credential and physical Android NOT_RUN; F1 remains OPEN.')
           PY
+
+  f1-android-keystore-and-apk:
+    needs: f1-groq-provider-and-consent
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Enable KVM for Android 35
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; else echo KVM_UNAVAILABLE; fi
+      - name: Isolated Android Keystore and consent test, no live key
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5TrustedAssistantAndroidIntegrationTest
+      - name: Exact Android Keystore consent XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          names=set()
+          for p in Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'):
+              root=ET.parse(p).getroot()
+              for case in root.iter('testcase'):
+                  if 'FaroV5TrustedAssistantAndroidIntegrationTest' in case.attrib.get('classname',''):
+                      if any(case.find(k) is not None for k in ('failure','error','skipped')):
+                          raise SystemExit('F1_ANDROID_KEYSTORE_TEST_FAILED '+case.attrib.get('name',''))
+                      names.add(case.attrib.get('name'))
+          expected={'isolatedKeystoreConsentAndRevocationGateTheRealModelGateway',
+                    'localSettingsScreenIsNotExportedAndCannotActivateV2'}
+          if names != expected: raise SystemExit(f'F1_ANDROID_KEYSTORE_XML_MISMATCH {names}')
+          print('F1_ANDROID_KEYSTORE_CONSENT_EMULATOR_PASS 2/2; live Groq and physical T4 NOT_RUN')
+          PY
+      - name: Build quarantined debug APK without any provider credential
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          cd app/build/outputs/apk/debug
+          sha256sum app-debug.apk > FARO_F1_debug_SHA256.txt
+          echo 'F1_DEBUG_APK_READY_FOR_HUMAN; V2 OFF; no live provider test'
+      - name: Publish short-lived F1 debug APK and checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-f1-debug-apk
+          path: |
+            v5/app/build/outputs/apk/debug/app-debug.apk
+            v5/app/build/outputs/apk/debug/FARO_F1_debug_SHA256.txt
+          if-no-files-found: error
+          retention-days: 3
