@@ -414,6 +414,22 @@ class FaroV5MaintenanceRuntime(
         return staged.descriptor.generationId.value
     }
 
+    /** Resume only an exact, complete PREPARING/STAGED quarantine; no cutover. */
+    internal fun recoverConsentedFiveStoreRestoreJournal(
+        operationId: String,
+        descriptor: StorageGenerationDescriptor,
+        userConfirmed: Boolean,
+    ): String {
+        check(userConfirmed) { "restore recovery requires renewed explicit consent" }
+        check(root.startupReprojectionState ==
+            FaroV5CompositionRoot.StartupReprojectionState.PASS) {
+            "startup recovery must finish before restore recovery"
+        }
+        val staged = FaroV5QuarantinedRestorePreparation(storageRoot, quiescence)
+            .recoverInterrupted(MaintenanceOperationId(operationId), descriptor)
+        return staged.descriptor.generationId.value
+    }
+
     internal fun createConsentedFiveStoreRestorePicker(
         operationId: String,
         targetGenerationId: String,

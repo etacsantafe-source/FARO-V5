@@ -235,4 +235,49 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             root.toFile().deleteRecursively()
         }
     }
+
+    @Test fun interruptedRestorePreparationRechecksFiveOwnersAndAdvancesOnlyJournal() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f3-recover-")
+        try {
+            val layout = FileStorageGenerationLayout(root)
+            val previous = StorageGenerationDescriptor(
+                StorageGenerationId("f3-recover-v1"), "v1-protected", 1710000000100L,
+            )
+            layout.stage(previous)
+            val pointer = FileActiveGenerationPointer(root)
+            assertNotNull(pointer.compareAndSet(null, previous.generationId))
+            val before = pointer.read()
+            val operation = MaintenanceOperationId("f3-recover-operation")
+            val target = StorageGenerationDescriptor(
+                StorageGenerationId("f3-recover-target"), "five-store-v2-test",
+                1710000000101L,
+            )
+            val journal = FileBootstrapJournal(root)
+            journal.create(BootstrapJournalEntry(
+                operationId = operation,
+                kind = MaintenanceOperationKind.RESTORE,
+                previousGenerationId = previous.generationId,
+                targetGenerationId = target.generationId,
+                phase = BootstrapPhase.PREPARING,
+            ))
+            // Simulated crash after all five stores are initialized, before
+            // PREPARING -> STAGED was durably recorded.
+            FaroV5WorkspaceV2StageOwner(root).stageFreshAndVerify(target)
+            assertEquals(BootstrapPhase.PREPARING, journal.read(operation)!!.phase)
+            val coordinator = FaroV5QuarantinedRestorePreparation(
+                root, MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate())
+            )
+            assertEquals(target, coordinator.recoverInterrupted(operation, target).descriptor)
+            assertEquals(BootstrapPhase.STAGED, journal.read(operation)!!.phase)
+            assertEquals(before, pointer.read())
+            // A replay of the same complete STAGED identity is idempotent.
+            assertEquals(target, coordinator.recoverInterrupted(operation, target).descriptor)
+            assertEquals(BootstrapPhase.STAGED, journal.read(operation)!!.phase)
+            assertEquals(before, pointer.read())
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
 }

@@ -4,7 +4,9 @@ import ar.com.faro.v5.maintenance.BootstrapJournalEntry
 import ar.com.faro.v5.maintenance.BootstrapPhase
 import ar.com.faro.v5.maintenance.BootstrapTransitionPolicy
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
+import ar.com.faro.v5.maintenance.ExistingGenerationFormatReader
 import ar.com.faro.v5.maintenance.FileBootstrapJournal
+import ar.com.faro.v5.maintenance.GenerationStoreFormat
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaintenanceOperationKind
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
@@ -64,6 +66,63 @@ class FaroV5QuarantinedRestorePreparation(
         }
         check(journal.read(operationId) == next && pointer.read() == predecessor) {
             "restore journal or active predecessor drifted after staging"
+        }
+        staged
+    }
+
+    /**
+     * Recovery after a crash BETWEEN five-store initialization and the
+     * PREPARING -> STAGED CAS. Never restage, overwrite, delete, switch V1
+     * or infer success from a descriptor alone. Caller supplies the exact
+     * immutable descriptor from trusted durable maintenance intent.
+     */
+    fun recoverInterrupted(
+        operationId: MaintenanceOperationId,
+        descriptor: StorageGenerationDescriptor,
+    ): StagedStorageGeneration = quiescence.withMaterialWritesQuiesced(operationId) {
+        val journal = FileBootstrapJournal(storageRoot)
+        val pointer = FileActiveGenerationPointer(storageRoot)
+        val entry = checkNotNull(journal.read(operationId)) {
+            "interrupted restore requires an existing durable journal"
+        }
+        val predecessor = checkNotNull(pointer.read()) {
+            "interrupted restore requires an active predecessor"
+        }
+        check(entry.kind == MaintenanceOperationKind.RESTORE &&
+            entry.operationId == operationId &&
+            entry.phase in setOf(BootstrapPhase.PREPARING, BootstrapPhase.STAGED) &&
+            !entry.materialWritesAccepted &&
+            entry.previousGenerationId == predecessor.generationId &&
+            entry.targetGenerationId == descriptor.generationId &&
+            journal.pending().all { it.operationId == operationId }) {
+            "interrupted restore journal or predecessor authority is invalid"
+        }
+        val staged = ar.com.faro.v5.maintenance.FileStorageGenerationLayout(storageRoot)
+            .requireStaged(descriptor.generationId)
+        check(staged.descriptor == descriptor &&
+            ExistingGenerationFormatReader.requireAndRead(staged) ==
+                GenerationStoreFormat.WORKSPACE_V2) {
+            "interrupted restore target is not the exact complete V2 generation"
+        }
+        FaroV5GenerationStoreGraph.openValidatedV2(staged).use { graph ->
+            check(graph.verifyHealthy()) {
+                "interrupted restore target failed five-owner health verification"
+            }
+        }
+        check(pointer.read() == predecessor) {
+            "active predecessor changed during interrupted restore verification"
+        }
+        if (entry.phase == BootstrapPhase.PREPARING) {
+            val next = BootstrapTransitionPolicy.transition(entry, BootstrapPhase.STAGED)
+            check(journal.compareAndSet(entry, next)) {
+                "interrupted restore journal CAS lost"
+            }
+            check(journal.read(operationId) == next) {
+                "interrupted restore STAGED record was not durable"
+            }
+        }
+        check(pointer.read() == predecessor) {
+            "interrupted restore recovery must never switch the active pointer"
         }
         staged
     }

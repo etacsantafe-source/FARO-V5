@@ -73,12 +73,13 @@ jobs:
               'destroyWipesQueuedOrInFlightBackupPassphrase',
               'fiveOwnerEncryptedQuarantineRoundTripThroughAndroidResolverKeepsV1',
               'restorePreparationCreatesDurableStagedJournalWithOneSharedGate',
+              'interruptedRestorePreparationRechecksFiveOwnersAndAdvancesOnlyJournal',
           }
           actual={c.attrib.get('name') for _,c in matches}
-          if len(matches)!=6 or actual!=expected: raise SystemExit(f'F3_V14_MISSING_OR_DUPLICATE_XML count={len(matches)} names={actual}')
+          if len(matches)!=7 or actual!=expected: raise SystemExit(f'F3_V14_MISSING_OR_DUPLICATE_XML count={len(matches)} names={actual}')
           for p,c in matches:
               if any(c.find(k) is not None for k in ('failure','error','skipped')):
                   raise SystemExit(f'F3_V14_TEST_FAILED {p} {c.attrib.get("name")}')
-          print('F3_V14_SAF_AND_RESTORE_PREPARATION_PASS 6/6')
+          print('F3_V14_SAF_AND_RESTORE_RECOVERY_PASS 7/7')
           print('Android emulator only; real DocumentsProvider picker, journal restore and T4 physical NOT CERTIFIED')
           PY
