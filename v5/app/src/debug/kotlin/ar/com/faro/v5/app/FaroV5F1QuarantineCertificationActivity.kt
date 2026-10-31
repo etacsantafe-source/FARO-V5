@@ -11,6 +11,7 @@ import ar.com.faro.v5.surface.FaroV5SurfaceHost
  */
 internal object FaroV5F1QuarantineUiFixture {
     @Volatile var host: FaroV5QuarantinedV2ChatHostBinding? = null
+    @Volatile var applyPort: ar.com.faro.v5.kernel.contracts.ConversationApplyRequestPort? = null
 }
 
 class FaroV5F1QuarantineCertificationActivity : ComponentActivity() {
@@ -27,7 +28,7 @@ class FaroV5F1QuarantineCertificationActivity : ComponentActivity() {
             composerPort = staged.composerPort,
             reviewPort = staged.reviewPort,
             selectionPort = staged.selectionPort,
-            applyRequestPort = null,
+            applyRequestPort = FaroV5F1QuarantineUiFixture.applyPort,
             assistantTurnPort = staged.assistantTurnPort,
         )
     }
