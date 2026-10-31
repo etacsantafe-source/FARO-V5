@@ -723,7 +723,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             BackupExternalEffectCoordinator(attemptStore).begin(exportSource)
             val rejectedExportFile = isolated.resolve("non-saf-export.farobak2")
             val rejectedExport = runtime.completeConsentedFiveStoreExportPicker(
-                FiveStoreSafExportSession(exportSource, before.generationId.value),
+                FiveStoreSafExportSession(exportSource, checkNotNull(before).generationId.value),
                 resolver, Uri.fromFile(rejectedExportFile.toFile()),
                 CancellationSignal(), true, true,
             )
