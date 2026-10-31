@@ -280,4 +280,80 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             root.toFile().deleteRecursively()
         }
     }
+
+    @Test fun journaledFiveStoreRestoreValidatesAuthenticatedOwnersWithoutV1Switch() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f3-validated-")
+        val password = "synthetic-f3-journaled-restore-2026".toCharArray()
+        try {
+            val layout = FileStorageGenerationLayout(root)
+            val previous = StorageGenerationDescriptor(
+                StorageGenerationId("f3-validated-active-v1"),
+                "v1-protected", 1710000000200L,
+            )
+            layout.stage(previous)
+            val pointer = FileActiveGenerationPointer(root)
+            assertNotNull(pointer.compareAndSet(null, previous.generationId))
+            val before = pointer.read()
+            val sharedLease = MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate())
+            val source = FaroV5WorkspaceV2StageOwner(root).stageFreshAndVerify(
+                StorageGenerationDescriptor(
+                    StorageGenerationId("f3-validated-backup-source"),
+                    "five-store-v2-test", 1710000000201L,
+                )
+            )
+            val encrypted = FaroV5GenerationStoreGraph.openValidatedV2(source).use { graph ->
+                val workspace = graph.workspace!!
+                val original = workspace.backup.snapshot()
+                workspace.backup.restoreOrVerify(original.copy(revision = 9L))
+                val set = FaroV5FiveStoreBackupCapture(graph, sharedLease).capture(
+                    MaintenanceOperationId("f3-validated-capture"),
+                    BackupSetId("f3-validated-five-owner-set"),
+                    "5.0-test", 1710000000202L,
+                )
+                FaroV5FiveStorePortableBackupCrypto().seal(set, password)
+            }
+            try {
+                val operation = MaintenanceOperationId("f3-validated-restore")
+                val descriptor = StorageGenerationDescriptor(
+                    StorageGenerationId("f3-validated-quarantine"),
+                    "five-store-v2-test", 1710000000203L,
+                )
+                val target = FaroV5QuarantinedRestorePreparation(root, sharedLease)
+                    .prepare(operation, descriptor)
+                val journal = FileBootstrapJournal(root)
+                assertEquals(BootstrapPhase.STAGED, journal.read(operation)!!.phase)
+                FaroV5GenerationStoreGraph.openValidatedV2(target).use { graph ->
+                    val identity = FileRestoreArchiveIdentity(root)
+                    val admission = FaroV5RestoreJournalAdmission(
+                        journal, pointer, descriptor.generationId, sharedLease,
+                    )
+                    val staged = FaroV5FiveStoreStagedRestore(
+                        root, target, graph, admission,
+                        archiveIdentity = identity,
+                    ).restoreAuthenticated(operation, encrypted, password)
+                    assertTrue(staged is FiveStoreStagedRestoreResult.StagedVerified)
+                    val validated = FaroV5StagedRestoreJournalValidator(
+                        root, target, graph, journal, pointer, identity, sharedLease,
+                    ).validateAuthenticatedStage(operation, encrypted, password)
+                    assertEquals(
+                        FiveStoreJournalValidationResult.Validated(
+                            descriptor.generationId.value, false,
+                        ),
+                        validated,
+                    )
+                    assertEquals(9L, graph.workspace!!.backup.snapshot().revision)
+                }
+                assertEquals(BootstrapPhase.VALIDATED, journal.read(operation)!!.phase)
+                assertFalse(journal.read(operation)!!.materialWritesAccepted)
+                assertEquals(before, pointer.read())
+                assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            } finally {
+                encrypted.fill(0)
+            }
+        } finally {
+            password.fill('\\u0000')
+            root.toFile().deleteRecursively()
+        }
+    }
 }

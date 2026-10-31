@@ -49,6 +49,7 @@ import ar.com.faro.v5.platform.android.backup.AndroidBackupSafAdapter
 import ar.com.faro.v5.platform.android.reset.AndroidResetOsReconciliation
 import ar.com.faro.v5.platform.android.reset.AndroidResetVaultReconciliation
 import java.io.File
+import java.util.UUID
 
 /**
  * A process-local, one-shot SAF export capability. It is never serialized or
@@ -461,6 +462,58 @@ class FaroV5MaintenanceRuntime(
         // already exist and recovery must never lose its authenticated input.
         return restoreConsentedFiveStoreStage(
             operationId, targetGenerationId, artifact, passphrase, userConfirmed,
+        )
+    }
+
+    /**
+     * Internal F3 one-shot orchestration for a NEW consented SAF restore.
+     * Authenticate a five-owner archive in disposable preview staging BEFORE
+     * allocating any durable RESTORE journal or V2 target. Re-read and
+     * authenticate during the actual restore; a mutable provider cannot
+     * substitute unverified bytes. No pointer switch or V2 activation.
+     *
+     * This is deliberately not yet exposed by the Activity while the full
+     * picker/recovery flow is uncertified. Failures after journal creation
+     * leave a durable recovery barrier, never a silent retry/new authority.
+     */
+    internal fun restoreConsentedFiveStorePickedDocumentFromNewJournal(
+        resolver: ContentResolver,
+        selected: Uri?,
+        stagedAtEpochMillis: Long,
+        cancellationSignal: CancellationSignal,
+        passphrase: CharArray,
+        userConfirmed: Boolean,
+    ): FiveStoreJournalValidationResult? {
+        if (selected == null) return null
+        check(userConfirmed) { "restore requires operation-specific consent" }
+        val before = checkNotNull(pointer.read()) {
+            "restore requires an active predecessor generation"
+        }
+        val authenticated = verifyConsentedFiveStorePickedDocument(
+            resolver, selected, stagedAtEpochMillis, cancellationSignal,
+            passphrase, true,
+        )
+        if (!authenticated) return null
+        cancellationSignal.throwIfCanceled()
+        check(pointer.read() == before) {
+            "active generation changed between archive preview and restore"
+        }
+        val identity = UUID.randomUUID().toString()
+        val operationId = "f3-consented-restore-$identity"
+        val descriptor = StorageGenerationDescriptor(
+            StorageGenerationId("f3-quarantined-$identity"),
+            "faro-v5-five-owner-workspace-v2-20261031",
+            stagedAtEpochMillis,
+        )
+        val staged = FaroV5QuarantinedRestorePreparation(storageRoot, quiescence)
+            .prepare(MaintenanceOperationId(operationId), descriptor)
+        check(pointer.read() == before) {
+            "active predecessor drifted after durable restore preparation"
+        }
+        return restoreConsentedFiveStorePickedDocument(
+            operationId, staged.descriptor.generationId.value,
+            resolver, selected, stagedAtEpochMillis, cancellationSignal,
+            passphrase, true,
         )
     }
 
