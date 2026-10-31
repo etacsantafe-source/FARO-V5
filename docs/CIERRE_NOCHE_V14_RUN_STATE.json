@@ -11,16 +11,13 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 38,
-    "lease_acquired_at": "2026-10-31T17:40:10.500Z",
-    "lease_expires_at": null,
-    "expected_head": null,
-    "last_owner": "NOCHE_B_V14_TURN3_20261031_1440",
-    "last_released_at": "2026-10-31T17:52:37.612Z",
-    "release_method": "CAS_EXPECTED_HEAD",
-    "note": "Post-CAS read verification required"
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_V14_TURN4_20261031_1510",
+    "epoch": 39,
+    "lease_acquired_at": "2026-10-31T18:10:08.688Z",
+    "lease_expires_at": "2026-10-31T18:37:00.000Z",
+    "expected_head": "dda57d4e90254cb90bfd1b122dcb308646c9f308",
+    "acquire_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
     "id": "S2.A6",
@@ -290,7 +287,16 @@
     "last_session_pre_window_seconds": 287
   },
   "report": null,
-  "active_session": null,
+  "active_session": {
+    "id": "NOCHE_A_V14_TURN4_20261031_1510",
+    "scheduled_start": "2026-10-31T18:10:00Z",
+    "actual_start": "2026-10-31T18:09:22.368084Z",
+    "writer_acquired_at": "2026-10-31T18:10:08.688Z",
+    "status": "ACTIVE",
+    "previous_head": "dda57d4e90254cb90bfd1b122dcb308646c9f308",
+    "window_end": "2026-10-31T18:40:00Z",
+    "no_new_work_after": "2026-10-31T18:30:00Z"
+  },
   "last_code_commit": "2586ef7705d7f3c10ce4e2fa91c043a6cb0aa82c",
   "last_checkpoint_at": "2026-10-31T17:52:37.612Z",
   "last_checkpoint": "docs/CIERRE_NOCHE_V14_B3_CHECKPOINT_20261031_1440.md",
