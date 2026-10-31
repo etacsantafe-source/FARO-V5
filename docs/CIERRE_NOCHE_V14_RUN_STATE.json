@@ -1,6 +1,6 @@
 {
   "schema_version": 14,
-  "phase": "ACTIVE",
+  "phase": "WAIT_NEXT_SESSION",
   "repo": "etacsantafe-source/FARO-V5",
   "branch": "work/cierre-noche-v14-20261031",
   "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
@@ -11,14 +11,14 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_V14_TURN6_20261031_1710",
+    "state": "NONE",
+    "owner": null,
     "epoch": 43,
     "lease_acquired_at": "2026-10-31T20:12:37.854Z",
-    "lease_expires_at": "2026-10-31T20:37:00Z",
-    "expected_head": "cd86c87bdbbf10687756639f51bf467e88211540",
-    "last_owner": "NOCHE_B_V14_TURN5_20261031_1640",
-    "last_release_recorded_at": "2026-10-31T19:48:55.655Z",
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_A_V14_TURN6_20261031_1710",
+    "last_release_recorded_at": "2026-10-31T20:26:52.114Z",
     "release_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
@@ -460,6 +460,68 @@
       "certified_before": 3,
       "certified_after": 3,
       "checkpoint_path": "docs/CIERRE_NOCHE_V14_B5_CHECKPOINT_20261031_1640.md",
+      "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
+    },
+    {
+      "id": "NOCHE_A_V14_TURN6_20261031_1710",
+      "scheduled_start": "2026-10-31T20:10:00Z",
+      "runtime_started_at": "2026-10-31T20:12:05Z",
+      "first_tool_observed_at": "2026-10-31T20:12:28.601Z",
+      "writer_acquired_at": "2026-10-31T20:12:37.854Z",
+      "writer_cas_verified_at": "2026-10-31T20:12:51.639Z",
+      "checkpoint_prepared_at": "2026-10-31T20:26:52.114Z",
+      "observed_wall_seconds_to_checkpoint": 887,
+      "scheduled_window_elapsed_seconds_to_checkpoint": 1012,
+      "writer_held_seconds_to_checkpoint": 854,
+      "closed_early": true,
+      "early_close_reason": "No additional safe code change while second directed CI in flight; release writer before runtime uncertainty, preserve original 17:40 B and 18:10 absolute cutoff",
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "investigation_seconds": "NO_REGISTRADO",
+      "code_seconds": "NO_REGISTRADO",
+      "tests_review_seconds": "NO_REGISTRADO",
+      "ci_wait_seconds": "NO_REGISTRADO",
+      "writer_wait_seconds": 0,
+      "checkpoint_coordination_seconds": "NO_REGISTRADO",
+      "idle_seconds": "NO_REGISTRADO",
+      "code_commits": [
+        "2bcb78b699b5156ee0b3b936b37e09532d8fab9f",
+        "64a5717961c5b4c5dcff9a84de6f6f6115816b74"
+      ],
+      "functional_changes": "F3 consented SAF runtime now refuses non-content URI export before any external write, preview returns false for non-SAF URI, and both restore paths reject forged file:// before journal. Android positive MediaStore content:// authenticated preview checks V1 pointer and zero journals; invalid export attempt is durably FAILED in isolated test. V2 remains OFF.",
+      "ci": [
+        {
+          "id": 41237986536,
+          "sha": "2bcb78b699b5156ee0b3b936b37e09532d8fab9f",
+          "job_id": 124645696884,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-31T20:14:42Z",
+          "completed_at": "2026-10-31T20:21:36Z",
+          "wall_seconds": 414,
+          "queue_proxy_seconds": 3,
+          "runner_log_span_seconds": 409,
+          "queue_exact_seconds": "NO_REGISTRADO",
+          "execution_exact_seconds": "NO_REGISTRADO",
+          "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 14/14; zero failed/errors/skipped; emulator Android API35; real picker/T4 not certified",
+          "overlaps_session": true
+        },
+        {
+          "id": 41238671049,
+          "sha": "64a5717961c5b4c5dcff9a84de6f6f6115816b74",
+          "job_id": 124647724429,
+          "status": "in_progress",
+          "conclusion": null,
+          "created_at": "2026-10-31T20:23:20Z",
+          "updated_at": "2026-10-31T20:23:23Z",
+          "queue_seconds": "NO_REGISTRADO",
+          "execution_seconds": "NO_REGISTRADO",
+          "xml": "NOT_YET_VERIFIED",
+          "overlaps_session": true
+        }
+      ],
+      "certified_before": 3,
+      "certified_after": 3,
+      "checkpoint_path": "docs/CIERRE_NOCHE_V14_A6_CHECKPOINT_20261031_1710.md",
       "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
     }
   ],
