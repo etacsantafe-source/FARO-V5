@@ -45,6 +45,29 @@ class OpenAiCompatibleModelBindingTest {
     }
 
     @Test
+    fun `GPT OSS Groq request excludes reasoning and uses low effort`() {
+        val seenBody = AtomicReference<String>()
+        val client = OkHttpClient.Builder().addInterceptor { chain ->
+            val buffer = Buffer()
+            chain.request().body!!.writeTo(buffer)
+            seenBody.set(buffer.readUtf8())
+            reply(chain.request(), 200,
+                """{"choices":[{"finish_reason":"stop","message":{"role":"assistant","content":"Listo"}}]}""")
+        }.build()
+        val binding = OpenAiCompatibleModelBinding(
+            client, ModelBindingId("groq-test"), ApprovedChatEndpoint.GROQ,
+            "openai/gpt-oss-120b", SecretReader {
+                SecretValue.copyOf("test-credential-123".encodeToByteArray())
+            }, SecretId("faro-test-secret"), 2048,
+        )
+        assertInstanceOf(ModelBindingInvocationResult.Success::class.java,
+            binding.reason(invocation(), NeverCancelled))
+        assertTrue(seenBody.get().contains("\\"include_reasoning\\":false"))
+        assertTrue(seenBody.get().contains("\\"reasoning_effort\\":\\"low\\""))
+        assertTrue(seenBody.get().contains("\\"max_tokens\\":2048"))
+    }
+
+    @Test
     fun `truncated completion cannot be committed as a complete assistant reply`() {
         val client = OkHttpClient.Builder().addInterceptor { chain ->
             reply(chain.request(), 200,

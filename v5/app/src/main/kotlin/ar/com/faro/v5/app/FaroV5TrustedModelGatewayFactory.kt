@@ -54,7 +54,7 @@ class FaroV5TrustedModelGatewayFactory(
             TimeUnit.HOURS.toNanos(6),
         )
         cache.replace(listOf(ProviderCapabilitySnapshot(
-            BINDING_ID, ModelLifecycle.ACTIVE, setOf(ModelCapability.TEXT), 8192,
+            BINDING_ID, ModelLifecycle.ACTIVE, setOf(ModelCapability.TEXT), 131072,
         )))
         val liveAuthorized = {
             val latest = currentControl()
@@ -80,16 +80,16 @@ class FaroV5TrustedModelGatewayFactory(
                 requestEstimatedTokens = maxOf(1, (request.input.size + 3) / 4),
                 promptSensitivity = EgressSensitivity.PUBLIC,
                 requestSensitivity = EgressSensitivity.PRIVATE,
-                maxOutputTokens = 512L,
+                maxOutputTokens = 2048L,
                 pricing = emptyList(),
                 monetaryBudget = currentControl()?.budget ?: AiMonetaryBudget.Capped("USD", 0),
                 retryTimingConfig = AiRetryTimingConfig(500, 3000, 0, 0),
             )
         }
         val binding = OpenAiCompatibleModelBinding(
-            BINDING_ID, ApprovedChatEndpoint.GROQ, "llama-3.3-70b-versatile",
+            BINDING_ID, ApprovedChatEndpoint.GROQ, GROQ_MODEL_ID,
             guardedSecrets, credentialId,
-            IoExecutionPolicy(5000, 20000, 25000), 512,
+            IoExecutionPolicy(5000, 20000, 25000), 2048,
             authorizationStillValid = liveAuthorized,
         )
         val gateway = ComposedModelGateway(
@@ -131,5 +131,8 @@ class FaroV5TrustedModelGatewayFactory(
         )
         val BINDING_ID = ModelBindingId("groq-primary")
         const val CONTROL_FILENAME = "faro-v5-ai.preferences_pb"
+        // Groq officially replaced free-tier Llama 3.3 70B on 2026-08-16.
+        // Production replacement: https://console.groq.com/docs/deprecations
+        const val GROQ_MODEL_ID = "openai/gpt-oss-120b"
     }
 }

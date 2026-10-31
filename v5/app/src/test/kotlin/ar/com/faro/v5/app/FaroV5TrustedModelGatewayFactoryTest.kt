@@ -11,6 +11,11 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class FaroV5TrustedModelGatewayFactoryTest {
+    @Test
+    fun `configured Groq model is the supported GPT OSS replacement`() {
+        assertEquals("openai/gpt-oss-120b", FaroV5TrustedModelGatewayFactory.GROQ_MODEL_ID)
+    }
+
     private val credential = SecretId("ai.groq.primary")
 
     @Test

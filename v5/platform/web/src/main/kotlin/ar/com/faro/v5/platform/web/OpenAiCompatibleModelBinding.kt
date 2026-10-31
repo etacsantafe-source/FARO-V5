@@ -116,6 +116,12 @@ class OpenAiCompatibleModelBinding internal constructor(
             put("model", JsonPrimitive(model))
             put("stream", JsonPrimitive(false))
             put("max_tokens", JsonPrimitive(maxOutputTokens))
+            // Groq GPT-OSS includes a separate reasoning field by default.
+            // Keep reasoning private and preserve completion budget for the answer.
+            if (endpoint == ApprovedChatEndpoint.GROQ && model.startsWith("openai/gpt-oss-")) {
+                put("include_reasoning", JsonPrimitive(false))
+                put("reasoning_effort", JsonPrimitive("low"))
+            }
             put("messages", messages)
         }.toString().toByteArray(StandardCharsets.UTF_8)
         if (body.size > MAX_REQUEST_BYTES) {
