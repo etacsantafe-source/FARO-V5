@@ -708,6 +708,29 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                 rejected is IllegalStateException)
             assertTrue(FileBootstrapJournal(storage).pending().isEmpty())
             assertEquals(before, pointer.read())
+            // A forged file:// export destination must be reconciled as FAILED
+            // before opening any provider, even with the V2 cutover gate OFF.
+            val privateExportStore = FilePortableBackupArchiveStore(
+                storage.resolve("f3-rejected-external-export"),
+            )
+            val privateExportArtifact = privateExportStore.stageBytes(
+                checkNotNull(encrypted), 1710000000603L,
+            )
+            val exportSource = PreparedBackupExternalWriteSource(
+                "f3-non-saf-export", privateExportArtifact, privateExportStore,
+            )
+            val attemptStore = FileBackupExternalAttemptStore(storage)
+            BackupExternalEffectCoordinator(attemptStore).begin(exportSource)
+            val rejectedExportFile = isolated.resolve("non-saf-export.farobak2")
+            val rejectedExport = runtime.completeConsentedFiveStoreExportPicker(
+                FiveStoreSafExportSession(exportSource, before.generationId.value),
+                resolver, Uri.fromFile(rejectedExportFile.toFile()),
+                CancellationSignal(), true, true,
+            )
+            assertEquals(BackupExternalWriteStatus.FAILED, rejectedExport.status)
+            assertEquals("export_destination_not_saf_content", rejectedExport.reason)
+            assertFalse(Files.exists(rejectedExportFile))
+            assertEquals(before, pointer.read())
             val result = runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
                 resolver, selectedUri, 1710000000603L, CancellationSignal(), password, true,
             )
