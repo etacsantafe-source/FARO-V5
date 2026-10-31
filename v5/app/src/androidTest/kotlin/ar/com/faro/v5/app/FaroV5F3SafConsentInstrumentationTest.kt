@@ -86,6 +86,48 @@ class FaroV5F3SafConsentInstrumentationTest {
         }
     }
 
+    @Test fun invalidPassphrasesRevokeAllConsentBeforeOpeningSaf() {
+        ActivityScenario.launch(FaroV5FiveStoreSafConsentActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                val password = all.filterIsInstance<EditText>().single()
+                val checks = all.filterIsInstance<CheckBox>()
+                val previewConsent = checks.single {
+                    it.text.toString().startsWith("Confirmo verificar")
+                }
+                val preview = all.filterIsInstance<Button>().single {
+                    it.text.toString().startsWith("Verificar archivo cifrado")
+                }
+                previewConsent.isChecked = true
+                password.setText(" ".repeat(12))
+                preview.performClick()
+                assertEquals("", password.text.toString())
+                assertTrue(checks.all { !it.isChecked })
+                assertTrue(preview.isEnabled)
+                assertTrue(all.filterIsInstance<TextView>().any {
+                    it.text.toString().contains("entre 12 y 1024")
+                })
+
+                val exportConsent = checks.single {
+                    it.text.toString().startsWith("Confirmo exportar")
+                }
+                val share = checks.single {
+                    it.text.toString().startsWith("Para exportar")
+                }
+                val export = all.filterIsInstance<Button>().single {
+                    it.text.toString() == "Exportar respaldo cifrado"
+                }
+                exportConsent.isChecked = true
+                share.isChecked = true
+                password.setText("x".repeat(1025))
+                export.performClick()
+                assertEquals("", password.text.toString())
+                assertTrue(checks.all { !it.isChecked })
+                assertTrue(export.isEnabled)
+            }
+        }
+    }
+
     @Test fun credentialsAndConsentAreDiscardedOnActivityRecreation() {
         ActivityScenario.launch(FaroV5FiveStoreSafConsentActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->

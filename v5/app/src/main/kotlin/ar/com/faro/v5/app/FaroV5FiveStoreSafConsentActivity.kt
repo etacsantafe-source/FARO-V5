@@ -233,11 +233,21 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     }
 
     private fun takePassphrase(): CharArray? {
-        val chars = passphrase.text.toString().toCharArray()
-        passphrase.text.clear()
-        if (chars.size >= 12) return chars
+        // Avoid an immutable String copy of the user's backup secret.
+        val editable = passphrase.text
+        val chars = CharArray(editable.length) { index -> editable[index] }
+        editable.clear()
+        if (chars.size in 12..1024 &&
+            chars.any { !it.isWhitespace() } &&
+            chars.none { it == '\u0000' }
+        ) return chars
         chars.fill('\u0000')
-        showStatus("La contraseña debe tener al menos 12 caracteres.")
+        // A rejected secret cannot leave a reusable export/restore/preview grant.
+        exportConsent.isChecked = false
+        restoreConsent.isChecked = false
+        previewConsent.isChecked = false
+        share.isChecked = false
+        showStatus("La contraseña debe tener entre 12 y 1024 caracteres y contener texto.")
         return null
     }
 
