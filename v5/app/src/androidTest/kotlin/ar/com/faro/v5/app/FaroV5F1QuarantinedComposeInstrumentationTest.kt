@@ -9,8 +9,15 @@ import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import ar.com.faro.v5.delivery.api.DeliveryEffectState
+import ar.com.faro.v5.delivery.api.NotificationDeliveryDispatcher
+import ar.com.faro.v5.delivery.api.NotificationDispatchExecution
+import ar.com.faro.v5.delivery.api.NoticeCandidate
+import ar.com.faro.v5.delivery.api.NoticeRouteResult
 import ar.com.faro.v5.delivery.api.NoticeRouter
 import ar.com.faro.v5.delivery.api.NoticeSensitivity
+import ar.com.faro.v5.delivery.spi.NotificationDeliverySink
+import ar.com.faro.v5.delivery.spi.NotificationSinkOutcome
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.kernel.contracts.*
@@ -227,6 +234,7 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                         apply.executeAfterHumanRequest(context)
                                 },
                                 router = NoticeRouter(deliveryStore),
+                                gate = gate,
                                 admitted = BooleanSupplier { host.verifyQuarantined() },
                                 onProjectionFailure = { deliveryFailures.incrementAndGet() },
                             )
@@ -259,6 +267,29 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertEquals(1, notices.size)
                                 assertEquals("Cambios aplicados y registrados", notices.single().summary.value)
                                 assertEquals(NoticeSensitivity.NORMAL, notices.single().sensitivity)
+                                // Reprojection uses the canonical durable intent, not
+                                // a second Apply or a duplicate Notice.
+                                val notice = notices.single()
+                                val replay = NoticeRouter(deliveryStore).route(
+                                    NoticeCandidate(
+                                        notice.noticeKey, notice.sourceRef, notice.occurrenceRef,
+                                        notice.materiality, notice.sensitivity, notice.summary,
+                                        notice.destinationRef,
+                                    )
+                                )
+                                assertTrue(replay is NoticeRouteResult.Materialized)
+                                val materialized = replay as NoticeRouteResult.Materialized
+                                assertFalse(materialized.created)
+                                val delivery = NotificationDeliveryDispatcher(
+                                    deliveryStore,
+                                    NotificationDeliverySink { NotificationSinkOutcome.BLOCKED_PERMISSION },
+                                ).dispatch(materialized.deliveryIntent.deliveryIntentId)
+                                assertTrue(delivery is NotificationDispatchExecution.Completed)
+                                assertEquals(
+                                    DeliveryEffectState.BLOCKED_PERMISSION,
+                                    (delivery as NotificationDispatchExecution.Completed).deliveryIntent.state,
+                                )
+                                assertEquals(1, deliveryStore.readNotices().size)
                                 assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
                             }
                         } finally {

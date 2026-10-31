@@ -12,6 +12,7 @@ import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.kernel.contracts.ConversationApplyHostOutcome
 import ar.com.faro.v5.kernel.contracts.ConversationApplyRequestPort
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewContext
+import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import java.util.function.BooleanSupplier
@@ -28,19 +29,24 @@ import java.util.function.BooleanSupplier
 internal class FaroV5QuarantinedReviewedApplyDeliveryPort(
     private val upstream: ConversationApplyRequestPort,
     private val router: NoticeRouter,
+    private val gate: MaterialWriteGate,
     private val admitted: BooleanSupplier,
     private val onProjectionFailure: (Exception) -> Unit,
 ) : ConversationApplyRequestPort {
     override suspend fun request(
         context: ConversationPlanReviewContext,
     ): ConversationApplyHostOutcome {
-        if (!admitted.asBoolean) {
+        if (!admitted.getAsBoolean()) {
             return ConversationApplyHostOutcome.Denied("quarantine_lost")
         }
         val outcome = upstream.request(context)
-        if (outcome is ConversationApplyHostOutcome.Committed && admitted.asBoolean) {
+        if (outcome is ConversationApplyHostOutcome.Committed) {
             try {
-                val receipt = outcome.receipt
+                // The same gate fences maintenance/pointer switching and all
+                // five-owner writes. Recheck stage admission UNDER this gate.
+                gate.withMaterialWrite {
+                    check(admitted.getAsBoolean()) { "quarantine_lost" }
+                    val receipt = outcome.receipt
                 // Only canonical Reality identity determines the Notice key.
                 // No user text, profile value, credential or prompt in the Notice.
                 val identity = UUID.nameUUIDFromBytes(
@@ -62,9 +68,10 @@ internal class FaroV5QuarantinedReviewedApplyDeliveryPort(
                         destinationRef = DestinationRef.of("chat-$destination"),
                     ),
                 )
+                }
             } catch (failure: Exception) {
                 // Never turn a committed Reality effect into a false Apply failure.
-                onProjectionFailure(failure)
+                runCatching { onProjectionFailure(failure) }
             }
         }
         return outcome
