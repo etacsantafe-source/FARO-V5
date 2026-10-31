@@ -169,4 +169,25 @@ class FaroV5F3SafConsentInstrumentationTest {
         assertTrue(secret.all { it == '\u0000' })
     }
 
+
+    @Test fun debugQuarantinedRestoreRequiresConsentWithoutOpeningPicker() {
+        val context = androidx.test.platform.app.InstrumentationRegistry
+            .getInstrumentation().targetContext
+        val launch = android.content.Intent(
+            context, FaroV5FiveStoreSafConsentActivity::class.java,
+        ).putExtra(FaroV5FiveStoreSafConsentActivity.EXTRA_DEBUG_FRESH_RESTORE, true)
+        ActivityScenario.launch<FaroV5FiveStoreSafConsentActivity>(launch).use { scenario ->
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                val restore = all.filterIsInstance<Button>()
+                    .single { it.text.toString().startsWith("Elegir archivo") }
+                assertTrue("only debug test path may offer quarantine restore", restore.isEnabled)
+                restore.performClick()
+                assertTrue(all.filterIsInstance<TextView>().any {
+                    it.text.toString().contains("Restaurar requiere confirmación")
+                })
+                assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            }
+        }
+    }
 }

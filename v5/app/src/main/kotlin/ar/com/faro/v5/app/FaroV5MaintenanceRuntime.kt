@@ -431,6 +431,19 @@ class FaroV5MaintenanceRuntime(
         return staged.descriptor.generationId.value
     }
 
+    /** No journal is created until a consented SAF URI authenticates. */
+    internal fun createConsentedFiveStoreNewRestorePicker(
+        userConfirmed: Boolean,
+    ): Intent {
+        check(userConfirmed) { "new restore picker requires explicit consent" }
+        check(root.startupReprojectionState ==
+            FaroV5CompositionRoot.StartupReprojectionState.PASS) {
+            "startup recovery must finish before restore picker"
+        }
+        check(pointer.read() != null) { "restore requires an active predecessor" }
+        return backupSafAdapter.createRestoreDocumentIntent()
+    }
+
     internal fun createConsentedFiveStoreRestorePicker(
         operationId: String,
         targetGenerationId: String,

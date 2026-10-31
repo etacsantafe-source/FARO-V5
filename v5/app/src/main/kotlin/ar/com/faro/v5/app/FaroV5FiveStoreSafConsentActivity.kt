@@ -34,11 +34,13 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     companion object {
         const val EXTRA_RESTORE_OPERATION = "ar.com.faro.v5.f3.RESTORE_OPERATION"
         const val EXTRA_RESTORE_TARGET = "ar.com.faro.v5.f3.RESTORE_TARGET"
+        const val EXTRA_DEBUG_FRESH_RESTORE = "ar.com.faro.v5.f3.DEBUG_FRESH_RESTORE"
     }
 
     private sealed interface Pending {
         data class Export(val session: FiveStoreSafExportSession) : Pending
         data class Preview(val passphrase: CharArray) : Pending
+        data class FreshRestore(val passphrase: CharArray) : Pending
         data class Restore(
             val operation: String,
             val target: String,
@@ -80,6 +82,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         val stillConfirmed = when (request) {
             is Pending.Export -> exportConsent.isChecked
             is Pending.Restore -> restoreConsent.isChecked
+            is Pending.FreshRestore -> restoreConsent.isChecked
             is Pending.Preview -> previewConsent.isChecked
         }
         val stillShared = share.isChecked
@@ -128,6 +131,23 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                             wipeSecret(request.passphrase)
                         }
                     }
+                    is Pending.FreshRestore -> {
+                        try {
+                            if (!stillConfirmed || uri == null) {
+                                "Restauración cancelada antes del journal; V1 sigue activa."
+                            } else {
+                                val outcome = runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
+                                    contentResolver, uri, System.currentTimeMillis(),
+                                    cancellation, request.passphrase, true,
+                                )
+                                if (outcome is FiveStoreJournalValidationResult.Validated)
+                                    "Cinco almacenes validados en cuarentena. V1 sigue activa."
+                                else "Respaldo no autenticado; V1 sigue activa."
+                            }
+                        } finally {
+                            wipeSecret(request.passphrase)
+                        }
+                    }
                     is Pending.Restore -> {
                         try {
                             if (!stillConfirmed || uri == null) {
@@ -149,6 +169,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 }
             } catch (_: Exception) {
                 if (request is Pending.Restore) wipeSecret(request.passphrase)
+                if (request is Pending.FreshRestore) wipeSecret(request.passphrase)
                 if (request is Pending.Preview) wipeSecret(request.passphrase)
                 "Operación no disponible o bloqueada. V1 sigue activa."
             }
@@ -229,12 +250,14 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         setContentView(scroll)
         val operation = intent.getStringExtra(EXTRA_RESTORE_OPERATION)
         val target = intent.getStringExtra(EXTRA_RESTORE_TARGET)
-        restore.isEnabled = !operation.isNullOrBlank() && !target.isNullOrBlank()
+        restore.isEnabled = (!operation.isNullOrBlank() && !target.isNullOrBlank()) ||
+            debugFreshRestoreAllowed()
         export.setOnClickListener { startExport() }
         preview.setOnClickListener { startPreview() }
         restore.setOnClickListener {
             if (!operation.isNullOrBlank() && !target.isNullOrBlank())
                 startRestore(operation, target)
+            else if (debugFreshRestoreAllowed()) startFreshRestore()
         }
     }
 
@@ -356,6 +379,53 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * Debug-only S2 F3 quarantine: never available in a release build or from
+     * an untrusted exported Activity. A cancelled picker creates NO journal.
+     * Real consent is checked again on result before any durable stage.
+     */
+    private fun debugFreshRestoreAllowed(): Boolean =
+        (applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0 &&
+            intent.getBooleanExtra(EXTRA_DEBUG_FRESH_RESTORE, false)
+
+    private fun startFreshRestore() {
+        if (busy || !restoreConsent.isChecked || !debugFreshRestoreAllowed()) {
+            showStatus("Restaurar requiere confirmación específica.")
+            return
+        }
+        val chars = takePassphrase() ?: return
+        setBusy(true)
+        worker.execute {
+            try {
+                val document = (application as FaroV5Application)
+                    .fiveStoreSafConsentRuntime()
+                    .createConsentedFiveStoreNewRestorePicker(true)
+                runOnUiThread {
+                    if (!isDestroyed) {
+                        pending = Pending.FreshRestore(chars)
+                        try {
+                            picker.launch(document)
+                        } catch (_: Exception) {
+                            discardPendingPickerRequest()
+                            restoreConsent.isChecked = false
+                            showStatus("No se pudo abrir el selector. Sin journal nuevo.")
+                            setBusy(false)
+                        }
+                    } else wipeSecret(chars)
+                }
+            } catch (_: Exception) {
+                wipeSecret(chars)
+                runOnUiThread {
+                    if (!isDestroyed) {
+                        restoreConsent.isChecked = false
+                        showStatus("Restauración en cuarentena no disponible.")
+                        setBusy(false)
+                    }
+                }
+            }
+        }
+    }
+
     private fun startRestore(operation: String, target: String) {
         if (busy || !restoreConsent.isChecked) {
             showStatus("Restaurar requiere confirmación específica.")
@@ -400,6 +470,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         pending = null
         when (request) {
             is Pending.Preview -> wipeSecret(request.passphrase)
+            is Pending.FreshRestore -> wipeSecret(request.passphrase)
             is Pending.Restore -> wipeSecret(request.passphrase)
             is Pending.Export -> runCatching {
                 (application as FaroV5Application)
@@ -422,9 +493,11 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         share.isEnabled = !active
         previewConsent.isEnabled = !active
         preview.isEnabled = !active
-        restore.isEnabled = !active &&
-            !intent.getStringExtra(EXTRA_RESTORE_OPERATION).isNullOrBlank() &&
-            !intent.getStringExtra(EXTRA_RESTORE_TARGET).isNullOrBlank()
+        restore.isEnabled = !active && (
+            (!intent.getStringExtra(EXTRA_RESTORE_OPERATION).isNullOrBlank() &&
+                !intent.getStringExtra(EXTRA_RESTORE_TARGET).isNullOrBlank()) ||
+                debugFreshRestoreAllowed()
+            )
     }
 
     override fun onDestroy() {
