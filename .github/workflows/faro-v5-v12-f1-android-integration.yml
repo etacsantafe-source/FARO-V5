@@ -19,7 +19,7 @@ jobs:
   f1-android-chat-host:
     if: github.repository == 'etacsantafe-source/FARO-V5'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +55,7 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5AndroidChatHostFlowInstrumentationTest
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5AndroidChatHostFlowInstrumentationTest
       - name: Android instrumentation XML oracle
         if: always()
         run: |
