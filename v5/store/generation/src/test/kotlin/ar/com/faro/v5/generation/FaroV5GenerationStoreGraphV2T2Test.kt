@@ -81,6 +81,34 @@ class FaroV5GenerationStoreGraphV2T2Test {
         return envelope
     }
 
+    @Test fun stagedFiveStorePreflightAcceptsCanonicalAndroidStyleParentAlias() {
+        val physicalRoot = Files.createDirectory(root.resolve("physical-app-data"))
+        val appAlias = root.resolve("data-user-zero")
+        Files.createSymbolicLink(appAlias, physicalRoot)
+        val staged = FileStorageGenerationLayout(appAlias).stageWorkspaceV2(
+            StorageGenerationDescriptor(
+                StorageGenerationId("android-path-alias"), "schema-five-store-1", 4L,
+            )
+        )
+        materializeFive(staged)
+        FaroV5GenerationStoreGraph.openValidatedV2(staged).use { graph ->
+            assertTrue(graph.verifyHealthy())
+            assertEquals("android-path-alias", graph.generationId)
+        }
+    }
+
+    @Test fun stagedPreflightRejectsFinalDatabaseSymlinkDespiteCanonicalParent() {
+        val staged = stage("final-file-symlink")
+        materializeFive(staged)
+        val original = staged.directory.resolve(GenerationStoreFiles.WORKSPACE)
+        val moved = staged.directory.resolve("workspace-sealed-copy.db")
+        Files.move(original, moved)
+        Files.createSymbolicLink(original, moved.fileName)
+        assertThrows(IllegalStateException::class.java) {
+            FaroV5GenerationStoreGraph.openValidatedV2(staged).use { }
+        }
+    }
+
     @Test fun unverifiedPreparedPlanCannotBeExposedByDefaultFiveStoreOpener() {
         val staged = stage("deny-all-prepared")
         materializePendingPlan(staged)

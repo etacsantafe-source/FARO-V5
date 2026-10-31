@@ -42,11 +42,18 @@ object ActiveSqlitePreflight {
                 }
             }
         }
+        // Resolve the trusted Android app-directory alias before NOFOLLOW.
+        // Do not resolve the final DB file: a symlink there stays forbidden.
+        check(!Files.isSymbolicLink(directory) &&
+            Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS)) {
+            "active generation directory must be a real directory"
+        }
+        val physicalDirectory = directory.toRealPath()
         val driver = BundledSQLiteDriver()
         for (schema in schemas) {
             // Unlike staged immutable=1, this read observes valid committed WAL.
             driver.open(
-                directory.resolve(schema.name).toString(),
+                physicalDirectory.resolve(schema.name).toString(),
                 SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
             ).use { db ->
                 val version = db.prepare("PRAGMA user_version").use { statement ->

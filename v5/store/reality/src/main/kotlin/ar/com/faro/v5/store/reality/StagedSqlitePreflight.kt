@@ -5,6 +5,7 @@ import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
 import androidx.sqlite.driver.bundled.SQLITE_OPEN_READONLY
 import androidx.sqlite.driver.bundled.SQLITE_OPEN_URI
 import java.nio.file.Files
+import java.nio.file.LinkOption
 import java.nio.file.Path
 
 /**
@@ -32,10 +33,20 @@ object StagedSqlitePreflight {
                 }
             }
         }
+        // Android app-private paths may traverse a trusted platform alias
+        // (/data/user/0 -> /data/data). SQLite NOFOLLOW rejects that alias.
+        // Canonicalize the directory, NOT the file, to retain the final-file
+        // symlink fence and the immutable, read-only inspection contract.
+        check(!Files.isSymbolicLink(directory) &&
+            Files.isDirectory(directory, LinkOption.NOFOLLOW_LINKS)) {
+            "staged generation directory must be a real directory"
+        }
+        val physicalDirectory = directory.toRealPath()
         val driver = BundledSQLiteDriver()
         schemas.forEach { schema ->
-            val file = directory.resolve(schema.name)
-            check(!Files.isSymbolicLink(file) && Files.isRegularFile(file)) {
+            val file = physicalDirectory.resolve(schema.name)
+            check(!Files.isSymbolicLink(file) &&
+                Files.isRegularFile(file, LinkOption.NOFOLLOW_LINKS)) {
                 "staged generation SQLite file must be regular: ${schema.name}"
             }
             // Immutable read-only URI cannot create shm/WAL. It is valid only
