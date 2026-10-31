@@ -62,9 +62,9 @@ class OpenAiCompatibleModelBindingTest {
         )
         assertInstanceOf(ModelBindingInvocationResult.Success::class.java,
             binding.reason(invocation(), NeverCancelled))
-        assertTrue(seenBody.get().contains("\\"include_reasoning\\":false"))
-        assertTrue(seenBody.get().contains("\\"reasoning_effort\\":\\"low\\""))
-        assertTrue(seenBody.get().contains("\\"max_tokens\\":2048"))
+        assertTrue(seenBody.get().contains("\"include_reasoning\":false"))
+        assertTrue(seenBody.get().contains("\"reasoning_effort\":\"low\""))
+        assertTrue(seenBody.get().contains("\"max_tokens\":2048"))
     }
 
     @Test
