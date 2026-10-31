@@ -60,6 +60,32 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
         ConversationWorkspaceStore(path.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
     }
 
+    @Test fun realProviderQuarantineRequiresAndroidConsentBeforeOpeningStores() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-consent-")
+        try {
+            val staged = FileStorageGenerationLayout(root).stageWorkspaceV2(
+                StorageGenerationDescriptor(
+                    StorageGenerationId("f1-consent-denied"),
+                    "schema-five-store-1", 4L,
+                )
+            )
+            // Fresh debug test sandbox has no user grant or Keystore credential.
+            // A denied real-provider host must not even initialize Workspace.
+            val control = FaroV5TrustedAssistantControlOwner.get(context)
+            assertFalse(runBlocking { control.read().remoteReasoningEnabled })
+            val activeV1 = Files.createDirectory(root.resolve("active-v1"))
+            val denied = FaroV5F1ConsentedQuarantineHost.open(
+                context, staged, SingleProcessMaterialWriteGate(), Supplier { activeV1 },
+            )
+            assertNull(denied)
+            assertFalse(Files.exists(staged.directory.resolve(GenerationStoreFiles.WORKSPACE)))
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
+
     @Test fun composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-ui-")
