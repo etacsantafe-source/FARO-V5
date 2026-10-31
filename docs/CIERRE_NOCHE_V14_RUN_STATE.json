@@ -1,6 +1,6 @@
 {
   "schema_version": 14,
-  "phase": "IN_PROGRESS",
+  "phase": "WAIT_NEXT_SESSION",
   "repo": "etacsantafe-source/FARO-V5",
   "branch": "work/cierre-noche-v14-20261031",
   "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
@@ -11,13 +11,16 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V14_TURN3_20261031_1440",
+    "state": "NONE",
+    "owner": null,
     "epoch": 38,
     "lease_acquired_at": "2026-10-31T17:40:10.500Z",
-    "lease_expires_at": "2026-10-31T18:07:00Z",
-    "expected_head": "6a335afe245519bcad9e08e15ab701f53b420baa",
-    "acquire_method": "CAS_EXPECTED_HEAD"
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_B_V14_TURN3_20261031_1440",
+    "last_released_at": "2026-10-31T17:52:37.612Z",
+    "release_method": "CAS_EXPECTED_HEAD",
+    "note": "Post-CAS read verification required"
   },
   "stage": {
     "id": "S2.A6",
@@ -225,32 +228,73 @@
       "certified_after": 3,
       "checkpoint_path": "docs/CIERRE_NOCHE_V14_A3_CHECKPOINT_20261031_1410.md",
       "writer_release": "CAS_PENDING_VERIFY"
+    },
+    {
+      "id": "NOCHE_B_V14_TURN3_20261031_1440",
+      "scheduled_start": "2026-10-31T17:40:00Z",
+      "actual_start": "2026-10-31T17:35:13.124428Z",
+      "pre_window_read_only": true,
+      "writer_acquired_at": "2026-10-31T17:40:10.500Z",
+      "checkpoint_prepared_at": "2026-10-31T17:52:37.612Z",
+      "observed_wall_seconds_to_checkpoint": 1044,
+      "scheduled_window_elapsed_seconds_to_checkpoint": 758,
+      "writer_held_seconds_to_checkpoint": 747,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "pre_window_wall_seconds": 287,
+      "pre_window_activity": "read-only investigation and deliberate wait; exclusive split NO_REGISTRADO",
+      "code_commits": [
+        "2586ef7705d7f3c10ce4e2fa91c043a6cb0aa82c"
+      ],
+      "functional_change": "Reconcile a prepared external backup attempt if Android export picker intent construction fails before launch; new Android regression rejects forged restore operation/target extras without durable journal.",
+      "ci": [
+        {
+          "id": 41225697218,
+          "sha": "2586ef7705d7f3c10ce4e2fa91c043a6cb0aa82c",
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-31T17:40:52Z",
+          "job_id": 124609261221,
+          "job_started_at": "2026-10-31T17:40:55Z",
+          "job_completed_at": "2026-10-31T17:49:40Z",
+          "run_completed_at": "2026-10-31T17:49:40Z",
+          "wall_seconds": 528,
+          "queue_seconds": 3,
+          "execution_seconds": 525,
+          "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 11/11; exact XML oracle step SUCCESS; Android emulator API35; no physical T4"
+        }
+      ],
+      "ci_reused": [
+        {
+          "id": 41223479830,
+          "sha": "e9a1097c648cbd108569b2b7435462c5df1d86e3",
+          "result": "SUCCESS",
+          "xml": "10/10 prior SHA, not rerun"
+        }
+      ],
+      "certified_before": 3,
+      "certified_after": 3,
+      "checkpoint_path": "docs/CIERRE_NOCHE_V14_B3_CHECKPOINT_20261031_1440.md",
+      "writer_release": "CAS_PENDING_VERIFY"
     }
   ],
   "metrics": {
     "measured_total_seconds": 1435,
     "unknown_seconds": null,
     "ci_overlaps_separate": true,
-    "coverage": "A3 actual start and writer hold measured; no invented investigation/code/test/wait split; A1/A2/B2 unmeasured.",
-    "last_session_observed_wall_seconds": 455,
-    "last_session_writer_held_seconds": 240,
+    "coverage": "B3 timestamps and CI wall/queue/execution measured; no invented exclusive investigation/code/test/wait/idle split. Other sessions' gaps remain unmeasured.",
+    "last_session_observed_wall_seconds": 1044,
+    "last_session_writer_held_seconds": 747,
     "exclusive_activity_breakdown": "NO_REGISTRADO",
-    "ci_overlap_separate": true
+    "ci_overlap_separate": true,
+    "last_session_scheduled_elapsed_seconds": 758,
+    "last_session_pre_window_seconds": 287
   },
   "report": null,
-  "active_session": {
-    "owner": "NOCHE_B_V14_TURN3_20261031_1440",
-    "scheduled_start": "2026-10-31T17:40:00Z",
-    "actual_start": "2026-10-31T17:35:13.124428Z",
-    "writer_acquired_at": "2026-10-31T17:40:10.500Z",
-    "pre_window_read_only": true,
-    "code_cutoff": "2026-10-31T18:00:00Z",
-    "checkpoint_cutoff": "2026-10-31T18:07:00Z"
-  },
-  "last_code_commit": "e9a1097c648cbd108569b2b7435462c5df1d86e3",
-  "last_checkpoint_at": "2026-10-31T17:14:17.068Z",
-  "last_checkpoint": "docs/CIERRE_NOCHE_V14_A3_CHECKPOINT_20261031_1410.md",
-  "next_action": "READ_ONLY verify Actions #41223479830 exact SHA e9a1097, terminal XML 10/10; if ROJO diagnose compile or Android regression before new attempt. F3 real user SAF picker E2E, bounded orphan retention and F1 remote consent still open. T4 physical NOT_RUN.",
+  "active_session": null,
+  "last_code_commit": "2586ef7705d7f3c10ce4e2fa91c043a6cb0aa82c",
+  "last_checkpoint_at": "2026-10-31T17:52:37.612Z",
+  "last_checkpoint": "docs/CIERRE_NOCHE_V14_B3_CHECKPOINT_20261031_1440.md",
+  "next_action": "F3 release-positive user SAF picker/export and authenticated five-owner restore with journal still require end-to-end evidence; F1 real consented remote model E2E, F2 recovery, F4 integral, T4 physical pending. Do not repeat 11/11 same SHA.",
   "recovered_stale_writer": {
     "previous_owner": "NOCHE_A_V14_TURN2_20261031_1310",
     "previous_epoch": 36,
