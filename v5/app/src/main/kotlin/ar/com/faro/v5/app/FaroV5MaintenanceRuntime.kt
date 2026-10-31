@@ -506,6 +506,9 @@ class FaroV5MaintenanceRuntime(
         val before = checkNotNull(pointer.read()) {
             "restore requires an active predecessor generation"
         }
+        check(journal.pending().isEmpty()) {
+            "unresolved maintenance authority blocks a new restore"
+        }
         // Pin exactly the authenticated provider bytes before creating any
         // journal. Never reopen a mutable content:// URI after authentication.
         return synchronized(previewLock) {
@@ -533,36 +536,28 @@ class FaroV5MaintenanceRuntime(
                         val identity = UUID.randomUUID().toString()
                         val operationId = "f3-consented-restore-$identity"
                         val operation = MaintenanceOperationId(operationId)
-                        try {
-                            cancellationSignal.throwIfCanceled()
-                            val descriptor = StorageGenerationDescriptor(
-                                StorageGenerationId("f3-quarantined-$identity"),
-                                "faro-v5-five-owner-workspace-v2-20261031",
-                                stagedAtEpochMillis,
-                            )
-                            val staged = FaroV5QuarantinedRestorePreparation(
-                                storageRoot, quiescence,
-                            ).prepare(
-                                operation, descriptor,
-                                expectedPreviousGenerationId = before.generationId,
-                            )
-                            check(pointer.read() == before) {
-                                "active predecessor drifted after restore journal"
-                            }
-                            restoreConsentedFiveStoreStage(
-                                operationId, staged.descriptor.generationId.value,
-                                pinned, passphrase, true,
-                            )
-                        } catch (failure: Exception) {
-                            // Only delete if journal absence was read reliably.
-                            // Once PREPARING/STAGED exists, preserve the exact
-                            // encrypted bytes for deterministic recovery.
-                            val journalState = runCatching { journal.read(operation) }
-                            if (journalState.isSuccess && journalState.getOrNull() == null) {
-                                fiveStorePrivateArchiveStore.delete(pinned)
-                            }
-                            throw failure
+                        // Content-addressed blobs can also be pinned by
+                        // another operation. Never delete a shared digest on
+                        // failed admission; bounded retention owns orphan cleanup.
+                        cancellationSignal.throwIfCanceled()
+                        val descriptor = StorageGenerationDescriptor(
+                            StorageGenerationId("f3-quarantined-$identity"),
+                            "faro-v5-five-owner-workspace-v2-20261031",
+                            stagedAtEpochMillis,
+                        )
+                        val staged = FaroV5QuarantinedRestorePreparation(
+                            storageRoot, quiescence,
+                        ).prepare(
+                            operation, descriptor,
+                            expectedPreviousGenerationId = before.generationId,
+                        )
+                        check(pointer.read() == before) {
+                            "active predecessor drifted after restore journal"
                         }
+                        restoreConsentedFiveStoreStage(
+                            operationId, staged.descriptor.generationId.value,
+                            pinned, passphrase, true,
+                        )
                     }
                 } finally {
                     encrypted.fill(0)
