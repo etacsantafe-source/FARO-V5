@@ -104,6 +104,12 @@ class FaroV5ModelReviewBridge(
         }
     }
 
+    /** Java-callable adapter: @JvmInline IDs are unboxed/mangled in direct JVM methods. */
+    fun callback(): (ConversationId, ConversationTurnId) -> Unit = { conversationId, turnId ->
+        propose(conversationId, turnId)
+        Unit
+    }
+
     private fun parseProfileProposal(text: String): DeclaredDisplayName? {
         if (text.length !in 2..4096) return null
         return try {

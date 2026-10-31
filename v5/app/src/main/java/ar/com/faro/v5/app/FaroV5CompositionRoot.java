@@ -559,7 +559,7 @@ public final class FaroV5CompositionRoot {
     /** Context-only reviewed Apply; disabled for shipping V1 and pending recovery. */
     public ConversationApplyHostOutcome applyActiveReviewedPlan(
             ConversationPlanReviewContext context) {
-        if (!maintenanceRecoveryComplete) return null;
+        if (!maintenanceRecoveryComplete || !FaroV5HostCertification.V2_ACTIVE_ENABLED) return null;
         FaroV5ActiveReviewedApplySession session = deliveryGraph().chatApplySession;
         return session == null ? null : session.executeAfterHumanRequest(context);
     }
@@ -733,10 +733,7 @@ public final class FaroV5CompositionRoot {
                                     Executors.newSingleThreadExecutor(
                                             task -> new Thread(task, "faro-v5-assistant")),
                                     admitted,
-                                    (conversationId, turnId) -> {
-                                        modelReview.propose(conversationId, turnId);
-                                        return kotlin.Unit.INSTANCE;
-                                    }),
+                                    modelReview.callback()),
                             assistantConfig.profile, admitted);
                 }
                 current =
