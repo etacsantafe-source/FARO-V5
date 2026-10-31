@@ -1,6 +1,6 @@
 # FARO V5 — INFORME FINAL · Piloto CIERRE Noche V1.2 · 30/10/2026
 
-**CIERRE FINAL CONCILIADO / HANDOFF CLEAN / S2.A6 OPEN 3/8**. Última sesión B3, autorización global hasta 21:40 Argentina, sin extensión. Rama privada exclusiva `work/cierre-noche-v12-pilot-20261030`. V2 OFF, S3/S4 cerrados, main `9bae214541f466a62e149853931b96abb8d74ed9` sin cambios, T4 físico NOT_RUN. Writer liberado tras conciliación final epoch15. Ambas automatizaciones A/B quedaron desactivadas. Desactivar A/B desde Automations al finalizar; no tercera tarea.
+**CIERRE FINAL CONCILIADO / HANDOFF CLEAN / S2.A6 OPEN 3/8**. Última sesión B3, autorización global hasta 21:40 Argentina, sin extensión. Rama privada exclusiva `work/cierre-noche-v12-pilot-20261030`. V2 OFF, S3/S4 cerrados, main `9bae214541f466a62e149853931b96abb8d74ed9` sin cambios, T4 físico NOT_RUN. Writer liberado tras conciliación final epoch16. Ambas automatizaciones A/B quedaron desactivadas. No se creó tercera tarea.
 
 ## Resultado funcional entregado
 
@@ -32,7 +32,7 @@
 - FAILURE diagnosticadas/corregidas: #41133226321 (String/ByteArray), #41133963832 (JvmField value-class), #41143467969 (Gradle shell `\\`), #41149448511 (JUnit test non-void no descubierto; BUILD SUCCESS pero oráculo XML falló).
 - CANCELLED: #41146263216 por límite 30m de cold-build, sin XML; nueva #41149448573 ejecutó 1/1 Android PASS tras ajuste.
 - **Conciliación final:** #41150231238 SUCCESS terminal, SHA `a3f2883b1f91c8200ce6f452805f67bfddbee6ec`, XML 8/8 + 4/4 + 3/3 + 19/19 + host 1/1, sin fallos/errores/omitidos. **Actions pendientes: 0.**
-- Duración wall **acumulada de 15 Actions terminales: 134.90 minutos**, solapada con desarrollo/otras Actions. Todas las 16 Actions ya son terminales. Esto **NO** representa minutos facturados ni se suma al tiempo de sesión.
+- Duración wall **acumulada de 16 Actions terminales: 134.90 minutos**, solapada con desarrollo/otras Actions. Todas las 16 Actions ya son terminales. Esto **NO** representa minutos facturados ni se suma al tiempo de sesión.
 - No se volvió a ejecutar la batería 38/38+36/36+31/31 en cada cambio. Evidencia anterior #41125074207 se conserva únicamente sobre su SHA exacto.
 
 ## Tiempo real y desgloses honestos
@@ -47,7 +47,7 @@
 | B3 | 24.77 | writer acquired 21:10:12 to final checkpoint observation ~21:34:58 |
 | **Total aproximado de actividad** | **139.52** | A/B, incluyendo preflight y esperas |
 | **Tiempo sin sesión activa en ventana global 180m** | **40.48** | estimación por diferencia, no equivalente a tiempo perdido de CPU |
-| **Actions wall terminales** | **134.90** | independiente, solapado, 15 runs |
+| **Actions wall terminales** | **134.90** | independiente, solapado, 16 runs |
 
 - **Investigación y desarrollo:** se realizaron en los lotes F1, pero no hay cronómetro exclusivo por fase; no asignar minutos ficticios.
 - **Pruebas locales:** no hay duración consolidada independiente; compilaciones y suites dirigidas están en Actions.
@@ -58,12 +58,12 @@
 
 ## Handoff tras corte
 
-1. Verificar **#41150231238** terminal, SHA y XML de host 1/1 sin lanzar otra Actions idéntica.
+1. **#41150231238 ya verificada** terminal SUCCESS, SHA exacto y XML host 1/1. No repetirla.
 2. Completar F1 UI Compose/Review/Apply/Delivery Android E2E en cuarentena, conservando consentimiento/Keystore y V2 OFF; no afirmar cierre antes.
 3. F2 activación/recovery Android con V1 protegido; F3 opción A UI mínima SAF/consentimiento/export/restore; F4 batería integral al cierre; T4 físico con usuario/equipo.
 4. No hay permiso autónomo nuevo después de 21:40; una nueva tanda requiere autorización expresa. Writer NONE, repo privado, sin merge ni main/histórico alterados.
 
-**Estado final:** cierre seguro anticipado antes de corte; 0 Actions pendientes; writer NONE epoch15; A/B desactivadas, no hay permiso autónomo adicional.
+**Estado final:** cierre seguro anticipado antes de corte; 0 Actions pendientes; writer NONE epoch16; A/B desactivadas, no hay permiso autónomo adicional.
 
 ## Conciliación terminal adicional
 - #41150231238 finalizó **SUCCESS** 2026-10-31 00:34:47Z (21:34:47 Argentina), job `124384760062`, oráculo XML host cinco owners **1/1** y suites dirigidas 8/8, 4/4, 3/3, 19/19, sin fallos/errores/omitidos.

@@ -5,11 +5,11 @@
   "run_number": 6,
   "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_3_REPORT_TYPO_FIX",
+    "state": "NONE",
+    "owner": null,
     "epoch": 16,
-    "lease_expires_at": "2026-10-31T00:39:00Z",
-    "expected_head": "e03bb67f5ec3cc3aa26173d15ee1c2aa11517c52"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -282,7 +282,7 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "FINAL_REPORT_TYPO_RECONCILIATION",
+  "status": "CLOSED_FINAL_VERIFIED_HANDOFF_CLEAN",
   "current_run": {
     "scheduled_start": "2026-10-30T21:10:00-03:00",
     "started_at": "2026-10-31T00:10:12Z",
@@ -393,7 +393,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "FINAL CONCILED V1.2: F1 real provider bootstrap, consent revocation, quarantined five-owner host JVM 1/1 PASS, Android emulator Composer/Workspace/recovery 1/1 PASS. F1 full UI/Review/Apply/Delivery E2E incomplete, 3/8 unchanged. All 16 Actions terminal (11 success,4 fail,1 cancel), 0 pending; A/B disabled; writer NONE epoch15.",
+  "scope": "FINAL CONCILED V1.2: F1 real provider bootstrap, consent revocation, quarantined five-owner host JVM 1/1 PASS, Android emulator Composer/Workspace/recovery 1/1 PASS. F1 full UI/Review/Apply/Delivery E2E incomplete, 3/8 unchanged. All 16 Actions terminal (11 success,4 fail,1 cancel), 0 pending; A/B disabled; writer NONE epoch16.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
