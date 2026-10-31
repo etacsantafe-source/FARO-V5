@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "ACTIVE",
+  "status": "WAIT_RESOURCE",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,14 +12,14 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V13_TURN6_20261031_0405",
+    "state": "NONE",
+    "owner": null,
     "epoch": 29,
     "lease_acquired_at": "2026-10-31T07:07:19.700Z",
-    "lease_expires_at": "2026-10-31T07:32:19.700Z",
-    "expected_head": "60860cd24d639190949786649a1dbe304414c64a",
-    "last_released_at": "2026-10-31T06:43:32.800Z",
-    "last_owner": "NOCHE_A_V13_TURN6_20261031_0340",
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_released_at": "2026-10-31T07:11:37.491Z",
+    "last_owner": "NOCHE_B_V13_TURN6_20261031_0405",
     "release_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
@@ -766,11 +766,14 @@
       ],
       "ci_pending": [],
       "tests": "Static diff safety inspection PASS; Kotlin/Android compilation NOT_RUN (no runner); Android preview positive SAF path NOT_CERTIFIED",
-      "known_limitations": "F3 export/restore still incomplete; F1 live remote consent not verified; F2/F4 not certified; T4 NOT_RUN; S2 3/8."
+      "known_limitations": "F3 export/restore still incomplete; F1 live remote consent not verified; F2/F4 not certified; T4 NOT_RUN; S2 3/8.",
+      "released_at": "2026-10-31T07:11:37.491Z",
+      "duration_observed_minutes": 4.3,
+      "writer_released": "CAS_PENDING_VERIFY"
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T07:11:24.797Z",
+  "last_checkpoint_at": "2026-10-31T07:11:37.491Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
@@ -888,19 +891,7 @@
     "ci_41163095797": "FAILURE",
     "ci_41163252426": "FAILURE"
   },
-  "active_session": {
-    "id": "NOCHE_B_V13_TURN6_20261031_0405",
-    "started_at": "2026-10-31T07:07:19.700Z",
-    "lease_expires_at": "2026-10-31T07:32:19.700Z",
-    "objective": "Diagnose pre-run CI and improve F3/F2 functional path without V2 cutover",
-    "starting_head": "60860cd24d639190949786649a1dbe304414c64a",
-    "checkpoint_at": "2026-10-31T07:11:24.797Z",
-    "code_commits": [
-      "e05f6d6f231a49fec09406cb3fbe2bc10ad55291"
-    ],
-    "ci_pending": [],
-    "checkpoint_file": "docs/cierre-noche/checkpoints/V13_B6_20261031_0410.md"
-  },
+  "active_session": null,
   "last_precheck": {
     "at": "2026-10-31T04:46:09.667Z",
     "head": "706939404883043c678df66b9bdd860fa1b5f053",
