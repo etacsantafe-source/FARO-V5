@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import ar.com.faro.v5.kernel.contracts.*
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.Executors
 import kotlinx.coroutines.runBlocking
@@ -28,6 +29,7 @@ class FaroV5AiSettingsActivity : ComponentActivity() {
     private lateinit var consent: CheckBox
     private lateinit var save: Button
     private lateinit var disable: Button
+    private lateinit var probe: Button
     private var revision: Long = -1L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +76,16 @@ class FaroV5AiSettingsActivity : ComponentActivity() {
             isEnabled = false
         }
         column.addView(disable)
+        // Manual debug-only transport check: explicit tap, fixed non-personal
+        // input, Keystore credential, no Workspace/Reality write or V2 cutover.
+        probe = Button(this).apply {
+            text = "Probar conexión Groq (solo debug)"
+            isEnabled = false
+            visibility = if ((applicationInfo.flags and
+                android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0)
+                View.VISIBLE else View.GONE
+        }
+        column.addView(probe)
         column.addView(TextView(this).apply {
             text = "Los secretos se guardan con Android Keystore. Los cambios de activación se aplican tras reiniciar FARO. V2 sigue desactivada."
         })
@@ -122,12 +134,55 @@ class FaroV5AiSettingsActivity : ComponentActivity() {
                 }
             }
         }
+        probe.setOnClickListener {
+            busy(true)
+            status.text = "Probando Groq con un mensaje fijo, sin datos personales…"
+            worker.execute {
+                val message = try {
+                    val components = FaroV5TrustedModelGatewayFactory(
+                        readControl = { runBlocking { owner.read() } },
+                        secretReader = owner.secretReader(),
+                    ).create()
+                    if (components == null) {
+                        "Primero guardá una clave y autorizá expresamente la IA remota."
+                    } else {
+                        val result = components.gateway.reason(
+                            ReasoningRequest(
+                                ModelRequestId("f1-debug-probe-" + java.util.UUID.randomUUID()),
+                                FaroV5TrustedModelGatewayFactory.DEFAULT_PROFILE.profileId,
+                                ModelRequirements(setOf(ModelCapability.TEXT)),
+                                CanonicalPayload.fromEncoded(
+                                    "text/plain",
+                                    "Respondé solo FARO_OK".toByteArray(Charsets.UTF_8),
+                                ),
+                            ),
+                            NeverCancelled,
+                        )
+                        when (result) {
+                            is ReasoningResult.Success ->
+                                "Groq respondió. Transporte real OK; chat y Apply no se probaron."
+                            is ReasoningResult.Failure ->
+                                "Groq no respondió: ${result.failure.kind}. Revisá conexión, clave y límites gratuitos."
+                        }
+                    }
+                } catch (_: Exception) {
+                    "No se pudo completar la prueba. No se modificó Reality."
+                }
+                runOnUiThread {
+                    if (!isDestroyed) {
+                        status.text = message
+                        busy(false)
+                    }
+                }
+            }
+        }
         refresh()
     }
 
     private fun busy(active: Boolean) {
         save.isEnabled = !active && revision >= 0L
         disable.isEnabled = !active && revision >= 0L
+        probe.isEnabled = !active && revision >= 0L && probe.visibility == View.VISIBLE
     }
 
     private fun showResult(result: FaroV5TrustedAssistantControlOwner.Change) {
