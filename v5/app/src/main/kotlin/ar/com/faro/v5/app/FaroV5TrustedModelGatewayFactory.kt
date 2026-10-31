@@ -45,7 +45,11 @@ class FaroV5TrustedModelGatewayFactory(
             CanonicalPayload.fromEncoded(
                 "text/plain",
                 ("Sos FARO, un asistente personal. Respondé de forma clara y breve en español. " +
-                    "No afirmes haber aplicado cambios sin un recibo de ejecución verificable.")
+                    "No afirmes haber aplicado cambios sin un recibo de ejecución verificable. " +
+                    "Solo si el usuario solicita cambiar su nombre declarado, respondé exclusivamente " +
+                    "con JSON {\\\"type\\\":\\\"profile.update_declared\\\",\\\"display_name\\\":\\\"NOMBRE\\\"}. " +
+                    "No incluyas otros campos ni afirmes que el cambio fue ejecutado. " +
+                    "En otras consultas respondé normalmente.")
                     .toByteArray(Charsets.UTF_8),
             ),
         )

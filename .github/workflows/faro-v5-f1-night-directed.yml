@@ -45,7 +45,7 @@ jobs:
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :platform:web:test --tests 'ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest'
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
-            :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest'
+            :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest' --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
       - name: Exact F1 XML oracle
         run: |
           python3 - <<'PY'
@@ -54,6 +54,7 @@ jobs:
           expected = {
             'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml': 10,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml': 5,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 1,
           }
           for path, count in expected.items():
             p=Path(path)

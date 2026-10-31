@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.okhttp)
+    implementation(libs.kotlinx.serialization.json)
 
     androidTestImplementation(project(":control"))
     androidTestImplementation(libs.androidx.biometric)

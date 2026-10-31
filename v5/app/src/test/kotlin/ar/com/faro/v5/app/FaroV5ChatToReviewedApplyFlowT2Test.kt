@@ -117,7 +117,7 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                     ReasoningResult.Success(
                         ModelBindingId("fake-local"),
                         CanonicalPayload.fromEncoded(
-                            "text/plain", "FARO preparó una respuesta".toByteArray(Charsets.UTF_8)
+                            "text/plain", "{\\\"type\\\":\\\"profile.update_declared\\\",\\\"display_name\\\":\\\"FARO Verified\\\"}".toByteArray(Charsets.UTF_8)
                         ),
                     )
                 }
@@ -152,18 +152,23 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                     generation, workspace, workspace, pointer, ready,
                 )
                 assertEquals(
-                    listOf("Quiero actualizar mi perfil", "FARO preparó una respuesta"),
+                    listOf("Quiero actualizar mi perfil", "{\\\"type\\\":\\\"profile.update_declared\\\",\\\"display_name\\\":\\\"FARO Verified\\\"}"),
                     call { read.timelineReadPort.readTimeline(chat) }!!.messages.map { it.text },
                 )
 
-                val plan = prepared(reality)
-                val token = requireNotNull(call { workspace.read(chat) }).authorityToken
-                val pending = workspace.createPlanReview(WorkspacePlanReviewCreateRequest(
-                    chat, "flow-review", token, workspace.snapshot().revision,
-                    plan.planFingerprint, "Actualizar perfil",
-                    PreparedPlanEnvelopeCodec.encode(plan),
-                    IdempotencyKey("flow-create-review"),
-                )) as WorkspacePlanReviewWriteResult.Saved
+                // The model supplies only a bounded intent. The trusted host
+                // reconstructs the plan, dependency stamp and fingerprint from
+                // authoritative Reality and persists it to Workspace for review.
+                val bridge = FaroV5ModelReviewBridge(
+                    generation, workspace, reality, gate, pointer, ready,
+                )
+                val pending = bridge.propose(chat, ConversationTurnId("flow-turn"))
+                    as WorkspacePlanReviewWriteResult.Saved
+                assertFalse(pending.replayed)
+                assertEquals(ConversationPlanReviewState.PENDING, pending.review.state)
+                // Model-driven proposal is NOT approval or an Apply effect.
+                assertNull(reality.read().displayName)
+                assertNull(bridge.propose(chat, ConversationTurnId("missing-turn")))
                 val review = FaroV5ActiveChatReviewSession(
                     generation, workspace, gate, pointer, ready,
                 )
