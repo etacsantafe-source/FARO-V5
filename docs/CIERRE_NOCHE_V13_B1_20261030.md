@@ -1,0 +1,12 @@
+# FARO V5 — CIERRE Noche V1.3 · B1 · 30/10/2026
+- Inicio real: 2026-10-31T02:08:44.291Z UTC (23:08:44 Argentina); checkpoint: 2026-10-31T02:22:09.589Z UTC; duración observada 13.42 minutos, no simulada.
+- Repo privado: etacsantafe-source/FARO-V5; rama exclusiva: work/cierre-noche-v13-20261030. Writer epoch 19 adquirido CAS desde 6da10889; liberación solicitada por CAS a NONE. Confirmar lectura posterior.
+- HEAD previo B1: 6da10889e236f2c60be2900a0afad8354bb27526; code HEAD final: 5b0d1e24b48a659ef03bf631869803df0d10d7cb.
+- Código funcional: 90b87c9 (corrige import Android Compose `onNode`, fortalece oráculo XML 2/2, agrega proyección de Apply COMMITTED a Notice genérico durable en Auxiliary); 5b0d1e2 (fence del mismo MaterialWriteGate bajo admisión en cuarentena; test idempotencia Notice y Delivery bloqueada por permisos sin OS real).
+- Seguridad: sin V2 shipping, sin cutover, sin secrets, sin publicación; no se usa texto del usuario en Notice; el recibo Reality sigue autoritativo aunque falle proyección. Esta proyección sólo está conectada al fixture de certificación.
+- CI anterior: #41156847099 SHA bc313d8 FAILURE; #41156998464 SHA d6ab6f0 FAILURE, ambos por import Kotlin `androidx.compose.ui.test.onNode` inexistente; Android XML 0, JVM 2/2 PASS. Diagnóstico concreto y corrección, no reintento ciego del mismo SHA.
+- CI nueva #41158828666 SHA 90b87c9: job JVM 124411548746 SUCCESS, XML exacto 1/1 host + 1/1 Review/Apply; job Android 124411548523 IN_PROGRESS, no XML terminal aún.
+- CI nueva #41159082904 SHA 5b0d1e2: PENDING, pendiente por concurrency; no cancelar ni atribuir PASS.
+- S2.A6 sigue 3/8. 1–3 CERTIFIED históricos; 4 F1 IN_PROGRESS; 5 F2 OPEN; 6 F3 opción A aprobada, implementación/certificación OPEN; 7 F4 OPEN; 8 T4 físico NOT_RUN. V2 OFF, S3/S4 no abiertos.
+- Siguiente: comprobar terminal y XML exacto de ambas Actions. Si falla, leer causa precisa, corregir sólo afectado. Completar F1 Delivery real (foreground banner / background Android) y consentimiento/Keystore/egreso con proveedor neutral en recorrido Android sin activar V2. Después F2/F3/F4 y preparar T4.
+- Las Actions wall son independientes del tiempo de sesión y NO representan minutos facturados. No hay medición fiable por subfase; no inventar.
