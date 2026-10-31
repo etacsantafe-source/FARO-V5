@@ -604,4 +604,86 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
         assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
     }
 
+
+    /**
+     * Real Android content:// -> consented runtime -> authenticated five-owner
+     * journal path, without activating V2 or changing the V1 pointer.
+     * The isolated fixture injects an already-passed startup precondition;
+     * this is NOT a certification of production startup or a physical picker.
+     */
+    @Test fun consentedContentProviderRestoreCreatesValidatedJournalWithoutV1Switch() {
+        val base = InstrumentationRegistry.getInstrumentation().targetContext
+        val isolated = Files.createTempDirectory(
+            base.noBackupFilesDir.toPath(), "f3-runtime-consented-",
+        )
+        val context = object : android.content.ContextWrapper(base) {
+            override fun getApplicationContext(): android.content.Context = this
+            override fun getNoBackupFilesDir(): java.io.File = isolated.toFile()
+        }
+        val storage = isolated.resolve("faro-v5-storage")
+        val password = "synthetic-f3-runtime-consent-2026".toCharArray()
+        var encrypted: ByteArray? = null
+        var uri: Uri? = null
+        try {
+            val layout = FileStorageGenerationLayout(storage)
+            val previous = StorageGenerationDescriptor(
+                StorageGenerationId("f3-runtime-v1"), "v1-protected", 1710000000600L,
+            )
+            layout.stage(previous)
+            val pointer = FileActiveGenerationPointer(storage)
+            assertNotNull(pointer.compareAndSet(null, previous.generationId))
+            val before = pointer.read()
+            val source = FaroV5WorkspaceV2StageOwner(storage).stageFreshAndVerify(
+                StorageGenerationDescriptor(
+                    StorageGenerationId("f3-runtime-source"),
+                    "five-store-v2-test", 1710000000601L,
+                )
+            )
+            val captureGate = MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate())
+            encrypted = FaroV5GenerationStoreGraph.openValidatedV2(source).use { graph ->
+                val set = FaroV5FiveStoreBackupCapture(graph, captureGate).capture(
+                    MaintenanceOperationId("f3-runtime-capture"),
+                    BackupSetId("f3-runtime-five-owner-backup"),
+                    "5.0-test", 1710000000602L,
+                )
+                FaroV5FiveStorePortableBackupCrypto().seal(set, password)
+            }
+            val resolver = base.contentResolver
+            uri = checkNotNull(resolver.insert(
+                MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME,
+                        "faro-v5-runtime-${System.nanoTime()}.farobak2")
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
+                },
+            ))
+            resolver.openOutputStream(uri, "wt")!!.use { it.write(encrypted) }
+
+            val root = FaroV5CompositionRoot(context)
+            // This fixture exercises the runtime AFTER startup admission. It
+            // does not claim to have tested actual startup recovery or T4.
+            val readiness = FaroV5CompositionRoot::class.java
+                .getDeclaredField("startupReprojectionState")
+            readiness.isAccessible = true
+            readiness.set(root, FaroV5CompositionRoot.StartupReprojectionState.PASS)
+            val runtime = FaroV5MaintenanceRuntime(context, root)
+            val result = runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
+                resolver, uri, 1710000000603L, CancellationSignal(), password, true,
+            )
+            assertTrue("authenticated provider must validate five owners in quarantine",
+                result is FiveStoreJournalValidationResult.Validated)
+            val journals = FileBootstrapJournal(storage).pending()
+                .filter { it.kind == MaintenanceOperationKind.RESTORE }
+            assertEquals(1, journals.size)
+            assertEquals(BootstrapPhase.VALIDATED, journals.single().phase)
+            assertFalse(journals.single().materialWritesAccepted)
+            assertEquals("V1 active pointer must never switch", before, pointer.read())
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        } finally {
+            uri?.let { runCatching { base.contentResolver.delete(it, null, null) } }
+            encrypted?.fill(0)
+            password.fill('\\u0000')
+            isolated.toFile().deleteRecursively()
+        }
+    }
 }

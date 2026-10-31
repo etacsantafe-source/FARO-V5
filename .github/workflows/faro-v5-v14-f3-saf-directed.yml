@@ -80,12 +80,13 @@ jobs:
               'forgedRestoreIdentityCannotOpenSafWithoutDurableJournal',
               'providerReadCancellationCannotCommitPrivateIngress',
               'exportVerificationRejectsCancellationArrivingWithProviderEof',
+              'consentedContentProviderRestoreCreatesValidatedJournalWithoutV1Switch',
           }
           actual={c.attrib.get('name') for _,c in matches}
-          if len(matches)!=13 or actual!=expected: raise SystemExit(f'F3_V14_MISSING_OR_DUPLICATE_XML count={len(matches)} names={actual}')
+          if len(matches)!=14 or actual!=expected: raise SystemExit(f'F3_V14_MISSING_OR_DUPLICATE_XML count={len(matches)} names={actual}')
           for p,c in matches:
               if any(c.find(k) is not None for k in ('failure','error','skipped')):
                   raise SystemExit(f'F3_V14_TEST_FAILED {p} {c.attrib.get("name")}')
-          print('F3_V14_PINNED_PROVIDER_JOURNAL_PASS 13/13')
+          print('F3_V14_PINNED_PROVIDER_JOURNAL_PASS 14/14')
           print('Android emulator only; real user SAF picker and T4 physical NOT CERTIFIED')
           PY
