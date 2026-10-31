@@ -1,15 +1,15 @@
 {
   "schema": "cierre-night-run/v1",
   "pilot_id": "cierre-20261030-v12-3h",
-  "run_id": "cierre-v12-20261030-A3-2040",
-  "run_number": 5,
-  "state": "CLOSED",
+  "run_id": "cierre-v12-20261030-B3-2110",
+  "run_number": 6,
+  "state": "ACTIVE",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 13,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_3",
+    "epoch": 14,
+    "lease_expires_at": "2026-10-31T00:39:50Z",
+    "expected_head": "54ff6f8c140b00376f04d38fab4d4e393adc8fe3"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -264,9 +264,9 @@
     }
   ],
   "next_action": {
-    "mode": "NEXT_SESSION_B3_FINAL",
+    "mode": "B3_FINAL_SESSION",
     "criterion": "F1",
-    "step": "Verify Actions #41146263216 terminal status, job logs and exact instrumentation XML. If FAIL diagnose root cause without identical rerun; if PASS note Android host-flow test (NOT full UI E2E). Keep S2.A6 3/8 until F1 Compose UI→Review→Apply→Delivery and F2/F3/F4/T4 criteria met. B3 must deliver final report and disable A+B by 21:40. No new broad 38/36/31 suites."
+    "step": "Verify Android emulator #41146263216 exact XML; complete a bounded F1 functional gap if safe; final report and disable A/B before 21:40 Argentina."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -283,15 +283,13 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "CLOSED_WAIT_CI_HANDOFF_CLEAN",
+  "status": "ACTIVE_WRITER",
   "current_run": {
-    "scheduled_start": "2026-10-30T20:40:00-03:00",
-    "started_at": "2026-10-30T23:43:24.885Z",
-    "phase": "CLOSED",
-    "stop_new_work_at": "2026-10-31T00:00:00.000Z",
-    "deadline": "2026-10-31T00:09:00Z",
-    "closed_at": "2026-10-31T00:07:41.241Z",
-    "elapsed_minutes": 24.27
+    "scheduled_start": "2026-10-30T21:10:00-03:00",
+    "started_at": "2026-10-31T00:10:12Z",
+    "phase": "ACTIVE",
+    "stop_new_work_at": "2026-10-31T00:30:12Z",
+    "deadline": "2026-10-31T00:39:50Z"
   },
   "code_head": "013cc7acc68739508755f6cac7a5123c02f4b590",
   "functional_progress": [
