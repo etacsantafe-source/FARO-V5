@@ -667,6 +667,18 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                 .getDeclaredField("startupReprojectionState")
             readiness.isAccessible = true
             readiness.set(root, FaroV5CompositionRoot.StartupReprojectionState.PASS)
+            // PASS alone is not startup admission. The production root closes
+            // material writes at construction and opens them only after recovery.
+            // Complete that transition explicitly in this isolated fixture;
+            // do not weaken the shipping maintenance gate or claim startup E2E.
+            val fixtureGate = root.materialWriteGate as SingleProcessMaterialWriteGate
+            assertFalse("new root must start fail-closed", fixtureGate.isMaterialWriteAdmissionOpen())
+            val finishRecovery = FaroV5CompositionRoot::class.java
+                .getDeclaredMethod("completeStartupRecovery")
+            finishRecovery.isAccessible = true
+            finishRecovery.invoke(root)
+            assertTrue("fixture must admit material writes after synthetic recovery",
+                fixtureGate.isMaterialWriteAdmissionOpen())
             val runtime = FaroV5MaintenanceRuntime(context, root)
             val result = runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
                 resolver, selectedUri, 1710000000603L, CancellationSignal(), password, true,
