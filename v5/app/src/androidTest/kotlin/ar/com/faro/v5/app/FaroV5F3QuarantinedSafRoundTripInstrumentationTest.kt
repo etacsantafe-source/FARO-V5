@@ -203,7 +203,24 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             val coordinator = FaroV5QuarantinedRestorePreparation(
                 root, MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate())
             )
-            val staged = coordinator.prepare(operation, target)
+            // A stale predecessor token must be rejected BEFORE creating a
+            // journal or touching the fresh target.
+            val staleOperation = MaintenanceOperationId("f3-prepare-stale-predecessor")
+            var staleRejected = false
+            try {
+                coordinator.prepare(
+                    staleOperation, target,
+                    expectedPreviousGenerationId = StorageGenerationId("wrong-v1"),
+                )
+            } catch (_: IllegalStateException) {
+                staleRejected = true
+            }
+            assertTrue("stale predecessor must fail closed", staleRejected)
+            assertNull(journal.read(staleOperation))
+            assertEquals(before, pointer.read())
+            val staged = coordinator.prepare(
+                operation, target, expectedPreviousGenerationId = source.generationId,
+            )
             assertEquals(target, staged.descriptor)
             assertEquals(target, layout.requireStaged(target.generationId).descriptor)
             val entry = journal.read(operation)

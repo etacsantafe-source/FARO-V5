@@ -506,7 +506,8 @@ class FaroV5MaintenanceRuntime(
             stagedAtEpochMillis,
         )
         val staged = FaroV5QuarantinedRestorePreparation(storageRoot, quiescence)
-            .prepare(MaintenanceOperationId(operationId), descriptor)
+            .prepare(MaintenanceOperationId(operationId), descriptor,
+                expectedPreviousGenerationId = before.generationId)
         check(pointer.read() == before) {
             "active predecessor drifted after durable restore preparation"
         }

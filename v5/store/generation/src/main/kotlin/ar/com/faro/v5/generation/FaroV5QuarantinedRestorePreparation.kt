@@ -12,6 +12,7 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationKind
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
 import ar.com.faro.v5.maintenance.StorageGenerationDescriptor
+import ar.com.faro.v5.maintenance.StorageGenerationId
 import java.nio.file.Path
 
 /**
@@ -30,11 +31,16 @@ class FaroV5QuarantinedRestorePreparation(
     fun prepare(
         operationId: MaintenanceOperationId,
         descriptor: StorageGenerationDescriptor,
+        expectedPreviousGenerationId: StorageGenerationId? = null,
     ): StagedStorageGeneration = quiescence.withMaterialWritesQuiesced(operationId) {
         val journal = FileBootstrapJournal(storageRoot)
         val pointer = FileActiveGenerationPointer(storageRoot)
         val predecessor = checkNotNull(pointer.read()) {
             "quarantined restore requires an existing active generation"
+        }
+        check(expectedPreviousGenerationId == null ||
+            predecessor.generationId == expectedPreviousGenerationId) {
+            "active predecessor changed since consented archive authentication"
         }
         check(predecessor.generationId != descriptor.generationId) {
             "restore target must differ from active generation"
