@@ -45,6 +45,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
 
     private val worker = Executors.newSingleThreadExecutor()
     private var pending: Pending? = null
+    private var activeCancellation: CancellationSignal? = null
     private var busy = false
     private lateinit var status: TextView
     private lateinit var passphrase: EditText
@@ -68,6 +69,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         val uri = if (result.resultCode == Activity.RESULT_OK) result.data?.data else null
         val stillConfirmed = confirm.isChecked
         val stillShared = share.isChecked
+        val cancellation = CancellationSignal()
+        activeCancellation = cancellation
         setBusy(true)
         worker.execute {
             val message = try {
@@ -76,7 +79,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 when (request) {
                     is Pending.Export -> {
                         val receipt = runtime.completeConsentedFiveStoreExportPicker(
-                            request.session, contentResolver, uri, CancellationSignal(),
+                            request.session, contentResolver, uri, cancellation,
                             stillConfirmed, stillShared,
                         )
                         when (receipt.status) {
@@ -97,7 +100,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                             } else {
                                 val outcome = runtime.restoreConsentedFiveStorePickedDocument(
                                     request.operation, request.target, contentResolver, uri,
-                                    System.currentTimeMillis(), CancellationSignal(),
+                                    System.currentTimeMillis(), cancellation,
                                     request.passphrase, true,
                                 )
                                 if (outcome is FiveStoreJournalValidationResult.Validated)
@@ -114,6 +117,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 "Operación no disponible o bloqueada. V1 sigue activa."
             }
             runOnUiThread {
+                if (activeCancellation === cancellation) activeCancellation = null
                 if (!isDestroyed) {
                     showStatus(message)
                     setBusy(false)
@@ -273,6 +277,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        activeCancellation?.cancel()
+        activeCancellation = null
         (pending as? Pending.Restore)?.passphrase?.fill('\u0000')
         pending = null
         worker.shutdownNow()

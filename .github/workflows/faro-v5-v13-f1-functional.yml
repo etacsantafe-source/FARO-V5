@@ -136,7 +136,7 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest,ar.com.faro.v5.app.FaroV5F3SafConsentInstrumentationTest
       - name: Exact Android Compose XML oracle
         if: always()
         run: |
@@ -148,9 +148,9 @@ jobs:
           for p in files:
               root=ET.parse(p).getroot()
               for case in root.iter('testcase'):
-                  if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
+                  if any(name in case.attrib.get('classname','') for name in ('FaroV5F1QuarantinedComposeInstrumentationTest','FaroV5F3SafConsentInstrumentationTest')):
                       matches.append((p,case))
-          if len(matches)!=6: raise SystemExit(f'F1_V13_COMPOSE_NOT_EXECUTED count={len(matches)}')
+          if len(matches)!=7: raise SystemExit(f'F1_F3_V13_ANDROID_NOT_EXECUTED count={len(matches)}')
           expected={
               'realProviderQuarantineRequiresAndroidConsentBeforeOpeningStores',
               'composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation',
@@ -158,12 +158,13 @@ jobs:
               'permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage',
               'recoverOrphanedProcessingAfterExclusiveHostRestartWithoutProviderReplay',
               'quarantinedF2FiveOwnerRecoveryHealthKeepsV1PointerAndRejectsMissingWorkspace',
+              'noConsentOrV2CertificationCannotExportOrRestore',
           }
           names={case.attrib.get('name') for _,case in matches}
           if names!=expected: raise SystemExit(f'F1_V13_COMPOSE_WRONG_CASES {names}')
           for p,case in matches:
               if any(case.find(x) is not None for x in ('failure','error','skipped')):
                   raise SystemExit(f'F1_V13_COMPOSE_FAILED {p} {case.attrib.get("name")}')
-          print('FARO_V13_F1_F2_QUARANTINE_EXECUTED_PASS 6/6')
+          print('FARO_V13_F1_F2_F3_QUARANTINE_EXECUTED_PASS 7/7')
           print('Staged Reality Apply and Android OS Delivery tested in emulator; live remote provider and physical T4 NOT_RUN; F1 remains OPEN.')
           PY
