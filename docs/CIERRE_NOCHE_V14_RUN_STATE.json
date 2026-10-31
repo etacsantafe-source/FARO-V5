@@ -1,6 +1,6 @@
 {
   "schema_version": 14,
-  "phase": "WAIT_NEXT_SESSION",
+  "phase": "DEVELOPMENT",
   "repo": "etacsantafe-source/FARO-V5",
   "branch": "work/cierre-noche-v14-20261031",
   "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
@@ -12,12 +12,12 @@
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
     "state": "ACTIVE",
-    "owner": "NOCHE_A_V14_TURN2_20261031_1310",
-    "epoch": 36,
-    "lease_acquired_at": "2026-10-31T16:10:13.918Z",
-    "lease_expires_at": "2026-10-31T16:37:00Z",
-    "expected_head": "3b9f2e34d4323da7ac2d6d7395d4b3c428d29fab",
-    "acquisition_method": "CAS_EXPECTED_HEAD"
+    "owner": "NOCHE_A_V14_TURN3_20261031_1410",
+    "epoch": 37,
+    "lease_acquired_at": "2026-10-31T17:10:16.080Z",
+    "lease_expires_at": "2026-10-31T17:37:00Z",
+    "expected_head": "d722d2139b8974e0fd059eaf8a245a2134117dda",
+    "acquisition_method": "CAS_EXPECTED_HEAD_AFTER_TERMINAL_PREDECESSOR"
   },
   "stage": {
     "id": "S2.A6",
@@ -169,16 +169,26 @@
   },
   "report": null,
   "active_session": {
-    "id": "NOCHE_A_V14_TURN2_20261031_1310",
-    "scheduled_start": "2026-10-31T16:10:00Z",
-    "execution_started_at": "2026-10-31T16:06:44.407870Z",
-    "writer_acquired_at": "2026-10-31T16:10:13.918Z",
+    "id": "NOCHE_A_V14_TURN3_20261031_1410",
+    "scheduled_start": "2026-10-31T17:10:00Z",
+    "execution_started_at": "2026-10-31T17:06:41.212128Z",
+    "writer_acquired_at": "2026-10-31T17:10:16.080Z",
     "phase": "DEVELOPMENT",
-    "target": "F3 quarantined restore journal preparation",
-    "end_write_by": "2026-10-31T16:37:00Z"
+    "target": "F3 pin authenticated provider bytes once before durable restore journal",
+    "end_write_by": "2026-10-31T17:37:00Z"
   },
   "last_code_commit": "3b4ffd48e44f30bfcd70c8fc1e54497590de057d",
   "last_checkpoint_at": "2026-10-31T16:05:45.562Z",
   "last_checkpoint": "docs/CIERRE_NOCHE_V14_B1_CHECKPOINT_20261031_1240.md",
-  "next_action": "F3 trusted maintenance RESTORE PREPARING->STAGED journal coordinator under shared lease; Android real picker/journal E2E. Reuse SHA 3b4ffd4 Android 5/5; F1/F2/F4/T4 pending."
+  "next_action": "F3 trusted maintenance RESTORE PREPARING->STAGED journal coordinator under shared lease; Android real picker/journal E2E. Reuse SHA 3b4ffd4 Android 5/5; F1/F2/F4/T4 pending.",
+  "recovered_stale_writer": {
+    "previous_owner": "NOCHE_A_V14_TURN2_20261031_1310",
+    "previous_epoch": 36,
+    "previous_lease_expired_at": "2026-10-31T16:37:00Z",
+    "prior_owner_automation_terminal_at": "2026-10-31T16:41:02.018752Z",
+    "prior_B_automation_terminal_at": "2026-10-31T16:46:02.078523Z",
+    "verified_head": "d722d2139b8974e0fd059eaf8a245a2134117dda",
+    "method": "read terminal runs + CAS expected head; no blind expiry override",
+    "recovered_at": "2026-10-31T17:10:16.080Z"
+  }
 }
