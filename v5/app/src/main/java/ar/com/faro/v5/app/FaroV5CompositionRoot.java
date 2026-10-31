@@ -718,12 +718,25 @@ public final class FaroV5CompositionRoot {
                                     () -> maintenanceRecoveryComplete,
                                     assistantConfig.gateway,
                                     message -> assistantConfig.egressAdmission.test(message));
+                    // Dormant until the full V2 activation gate is certified.
+                    // Only a COMPLETED durable FARO reply may propose a trusted,
+                    // locally fingerprinted review; the model never gains Apply.
+                    FaroV5ModelReviewBridge modelReview =
+                            new FaroV5ModelReviewBridge(
+                                    selectedGeneration, stores.getWorkspace(),
+                                    stores.getReality(), materialWriteGate,
+                                    () -> generationStorage().activeGenerationId(),
+                                    admitted);
                     assistantDispatch = new FaroV5HostAcceptedTurnDispatchPort(
                             new FaroV5HostAssistantTurnDispatcher(
                                     reasoning,
                                     Executors.newSingleThreadExecutor(
                                             task -> new Thread(task, "faro-v5-assistant")),
-                                    admitted),
+                                    admitted,
+                                    (conversationId, turnId) -> {
+                                        modelReview.propose(conversationId, turnId);
+                                        return kotlin.Unit.INSTANCE;
+                                    }),
                             assistantConfig.profile, admitted);
                 }
                 current =
