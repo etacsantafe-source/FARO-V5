@@ -657,7 +657,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                     put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
                 },
             ))
-            resolver.openOutputStream(uri, "wt")!!.use { it.write(encrypted) }
+            resolver.openOutputStream(uri, "wt")!!.use { it.write(checkNotNull(encrypted)) }
 
             val root = FaroV5CompositionRoot(context)
             // This fixture exercises the runtime AFTER startup admission. It
@@ -682,7 +682,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
         } finally {
             uri?.let { runCatching { base.contentResolver.delete(it, null, null) } }
             encrypted?.fill(0)
-            password.fill('\\u0000')
+            password.fill('\u0000')
             isolated.toFile().deleteRecursively()
         }
     }
