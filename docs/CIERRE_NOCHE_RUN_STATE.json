@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v12-3h",
   "run_id": "cierre-v12-20261030-A3-2040",
   "run_number": 5,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_3",
+    "state": "NONE",
+    "owner": null,
     "epoch": 13,
-    "lease_expires_at": "2026-10-31T00:09:00Z",
-    "expected_head": "42db0a19f5a734b701914c2ad4cdd0b50793d87f"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -114,7 +114,17 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [],
+  "in_flight_actions": [
+    {
+      "id": 41146263216,
+      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "status": "IN_PROGRESS",
+      "reason": "Android API35 emulator executes synthetic F1 Composer→SQLite Workspace→ModelGateway→reopen instrumentation",
+      "created_at": "2026-10-30T23:44:44Z",
+      "last_observed_at": "2026-10-31T00:07:41.241Z",
+      "expected_evidence": "Android instrumentation XML 1/1; not UI/Apply/Delivery/T4"
+    }
+  ],
   "actions_launched_v12": [
     {
       "id": 41132960313,
@@ -215,6 +225,25 @@
       "completed_at": "2026-10-30T23:29:50Z",
       "wall_seconds": 331,
       "tests": "XML transport8/8 bootstrap4/4 consent3/3 reasoning19/19; failures=errors=skips=0; Android Kotlin/Java compile PASS; AndroidTest Kotlin/Java COMPILE PASS; Android instrumentation EXECUTION NOT_RUN"
+    },
+    {
+      "id": 41146263160,
+      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "status": "COMPLETED_SUCCESS",
+      "reason": "Automatic existing F1 directed CI triggered by app/src/androidTest change; no production source changed",
+      "created_at": "2026-10-30T23:44:44Z",
+      "completed_at": "2026-10-30T23:51:19Z",
+      "wall_seconds": 395,
+      "tests": "Exact XML oracle: transport8/8 bootstrap4/4 consent3/3 reasoning19/19; 0 failures/errors/skips; AndroidTest compile PASS; Android device execution NOT_RUN in this workflow"
+    },
+    {
+      "id": 41146263216,
+      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "status": "WAIT_CI",
+      "reason": "Dedicated F1 Android emulator execution (first Android runtime host-flow test)",
+      "created_at": "2026-10-30T23:44:44Z",
+      "last_observed_at": "2026-10-31T00:07:41.241Z",
+      "tests": "NOT_YET_TERMINAL, XML pending"
     }
   ],
   "used_time_minutes": {
@@ -235,9 +264,9 @@
     }
   ],
   "next_action": {
-    "mode": "NEXT_SESSION_A3",
+    "mode": "NEXT_SESSION_B3_FINAL",
     "criterion": "F1",
-    "step": "Revalidate HEAD writer NONE epoch12, CI #41144270096 SUCCESS exact SHA 013cc7, and no Actions in flight. Continue F1 quarantined Android E2E Composer→Workspace→reasoning→Review→Apply→Delivery without enabling V2, and execute instrumented Keystore tests on Android emulator/physical when available (T4 physical still separate). Then F2 activation/recovery and F3 minimal consent/SAF option A; no 38/36/31 repeat."
+    "step": "Verify Actions #41146263216 terminal status, job logs and exact instrumentation XML. If FAIL diagnose root cause without identical rerun; if PASS note Android host-flow test (NOT full UI E2E). Keep S2.A6 3/8 until F1 Compose UI→Review→Apply→Delivery and F2/F3/F4/T4 criteria met. B3 must deliver final report and disable A+B by 21:40. No new broad 38/36/31 suites."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -254,13 +283,15 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "ACTIVE_WRITER",
+  "status": "CLOSED_WAIT_CI_HANDOFF_CLEAN",
   "current_run": {
     "scheduled_start": "2026-10-30T20:40:00-03:00",
     "started_at": "2026-10-30T23:43:24.885Z",
-    "phase": "ACTIVE",
+    "phase": "CLOSED",
     "stop_new_work_at": "2026-10-31T00:00:00.000Z",
-    "deadline": "2026-10-31T00:09:00Z"
+    "deadline": "2026-10-31T00:09:00Z",
+    "closed_at": "2026-10-31T00:07:41.241Z",
+    "elapsed_minutes": 24.27
   },
   "code_head": "013cc7acc68739508755f6cac7a5123c02f4b590",
   "functional_progress": [
@@ -298,6 +329,11 @@
       "commit": "29f64361130c52b27e899f71a654d03137f1c617",
       "kind": "F1 Android-only integration instrumentation",
       "result": "Isolated synthetic consent and Keystore secret roundtrip -> real composed model gateway -> revocation, and non-exported AI settings guard. Test compiled on CI, Android execution NOT_RUN."
+    },
+    {
+      "commit": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "kind": "F1 Android emulator host-flow integration",
+      "result": "New AndroidJUnit4 instrumentation for real Android SQLite Workspace Composer→accepted user→synthetic local ModelGateway→persisted reply→reopen; duplicate dispatch idempotent, V2 OFF, no network/secret/cutover. Dedicated emulator CI #41146263216 WAIT_CI; existing directed CI #41146263160 PASS exact SHA."
     }
   ],
   "hypotheses": [
@@ -323,7 +359,7 @@
       "next_run": 41144270096
     }
   ],
-  "last_checkpoint_at": "2026-10-30T23:30:47.783Z",
+  "last_checkpoint_at": "2026-10-31T00:07:41.241Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -402,5 +438,33 @@
       "checkpoint_minutes": null,
       "note": "Event spans mix investigation/development; explicit CI waits were measured by 13 sleeps (410 seconds), CI workflow wall times overlap session and are not billable-minute totals."
     }
-  }
+  },
+  "sessions_v12": [
+    {
+      "run_id": "cierre-v12-20261030-A3-2040",
+      "start": "2026-10-30T23:43:24.885Z",
+      "end": "2026-10-31T00:07:41.241Z",
+      "elapsed_minutes": 24.27,
+      "code_commit": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "actions_new": [
+        41146263160,
+        41146263216
+      ],
+      "actions_success": [
+        41146263160
+      ],
+      "actions_pending": [
+        41146263216
+      ],
+      "timing": {
+        "preflight": "~19s before writer (automation 20:43:05 → writer 20:43:24, approximate)",
+        "investigation_and_implementation": "writer 20:43:24 → code commit/CI start 20:44:44 (~1m20s combined, no individual breakdown)",
+        "ci_monitoring_and_wait": "20:44:44 → close; overlaps review and Actions",
+        "actions_wall": "CI directed 6m35s; emulator still in progress, not additive",
+        "checkpoint": "included in total session",
+        "idle": "not separately measured",
+        "unused_of_30_minutes": 5.73
+      }
+    }
+  ]
 }
