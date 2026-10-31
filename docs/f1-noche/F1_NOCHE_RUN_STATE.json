@@ -6,16 +6,16 @@
   "absolute_cutoff": "2026-10-31T21:20:00-03:00",
   "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 1,
-    "acquired_at": "2026-10-31T21:23:02.567Z",
-    "lease_expires_at": null,
-    "expected_head": null,
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_F1_1850",
+    "epoch": 2,
+    "acquired_at": "2026-10-31T21:52:23.825Z",
+    "lease_expires_at": "2026-10-31T22:17:00Z",
+    "expected_head": "b8f5bbc7d8e7ece5f7f52c5b5830a45691eed1ca",
     "last_owner": "NOCHE_A_F1_1820",
-    "released_at": "2026-10-31T21:45:29.924Z",
-    "release_method": "CAS_EXPECTED_HEAD_VERIFIED",
-    "verified_at": "2026-10-31T21:45:48.022Z"
+    "released_at": null,
+    "release_method": null,
+    "verified_at": null
   },
   "f1": "OPEN",
   "v2_enabled": false,
@@ -39,7 +39,7 @@
     "F1 code gap: structured model output to trusted plan review is not yet integrated end-to-end",
     "F1 debug credential/test entry path and APK not yet ready"
   ],
-  "next_task": "NOCHE B 18:50 - verify CAS HEAD/writer; implement F1 structured response -> bounded trusted Review proposal without automatic Apply, then directed tests. Keep Groq live/physical WAIT_HUMAN.",
+  "next_task": "B1 active: bounded model proposal->human review seam",
   "sessions": [
     {
       "id": "NOCHE_A_F1_TURN1_20261031_1820",
