@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "ACTIVE_WRITER",
+  "status": "WAIT_CI",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,15 +12,15 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V13_TURN4_20261031_0212",
+    "state": "NONE",
+    "owner": null,
     "epoch": 25,
-    "lease_expires_at": "2026-10-31T05:37:22.792Z",
-    "lease_acquired_at": "2026-10-31T05:13:22.792Z",
-    "expected_head": "ac208edb433687f962f0b79489d26a4193601fed",
-    "last_released_at": "2026-10-31T04:48:34.492Z",
-    "last_owner": "NOCHE_A_V13_TURN4_20261031_0145",
-    "release_method": "PENDING"
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_released_at": "2026-10-31T05:16:55.868Z",
+    "last_owner": "NOCHE_B_V13_TURN4_20261031_0212",
+    "release_method": "CAS_EXPECTED_HEAD_VERIFICATION_PENDING",
+    "lease_acquired_at": "2026-10-31T05:13:22.792Z"
   },
   "stage": {
     "id": "S2.A6",
@@ -78,7 +78,7 @@
       "state": "NOT_RUN"
     }
   ],
-  "code_head": "84a7576d3d7560e7168d644e46591849f5e178bd",
+  "code_head": "c6a1cd88caf4c517a10f0baaac9c7e6538a2ff6c",
   "evidence": {
     "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
     "prior_16_actions_terminal": true,
@@ -245,16 +245,36 @@
       "conclusion": null,
       "xml": "WAIT_CI",
       "scope": "4-case Compose OS notification permission boundary + synthetic Keystore consented host, JVM 2/2 and SQLite 2/2"
+    },
+    "f1_v13_b4_prior_ci": {
+      "id": 41169968001,
+      "sha": "84a7576d3d7560e7168d644e46591849f5e178bd",
+      "status": "SUCCESS",
+      "android_xml": "5? NO: 4/4 PASS emulator, zero failures/errors/skips",
+      "jvm_xml": "2/2 PASS",
+      "sqlite_xml": "2/2 PASS",
+      "started_at": "2026-10-31T04:47:15Z",
+      "completed_at": "2026-10-31T04:58:22Z",
+      "duration_wall_seconds": 667,
+      "limitation": "Synthetic Keystore credential, no real remote provider request; not F1 certification"
+    },
+    "f1_v13_b4_new_ci": {
+      "id": 41171880380,
+      "sha": "c6a1cd88caf4c517a10f0baaac9c7e6538a2ff6c",
+      "status": "in_progress",
+      "conclusion": null,
+      "xml": "WAIT_CI",
+      "scope": "F1 interrupted PROCESSING recovery before dispatcher, Android Compose 5 cases, JVM 2, SQLite 2"
     }
   },
   "in_flight": [
     {
-      "id": 41169968001,
-      "sha": "84a7576d3d7560e7168d644e46591849f5e178bd",
+      "id": 41171880380,
+      "sha": "c6a1cd88caf4c517a10f0baaac9c7e6538a2ff6c",
       "status": "WAIT_CI",
-      "observed_at": "2026-10-31T04:48:34.492Z",
+      "observed_at": "2026-10-31T05:16:55.868Z",
       "workflow": "faro-v5-v13-f1-functional.yml",
-      "reason": "Verify 4 Android Compose cases; JVM/SQLite; do not certify from queued/running"
+      "reason": "Verify terminal 5-case Android XML, JVM and SQLite; do not certify without evidence"
     }
   ],
   "blockers": [
@@ -324,7 +344,7 @@
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "Verify terminal run 41169968001 XML; inspect remaining F1 integration gaps, then implement safe functional change in quarantine. Writer acquired by CAS epoch25."
+    "step": "READ_ONLY verify run 41171880380 terminal status and exact XML 5 Android/2 JVM/2 SQLite. If red inspect compile/runtime logs and correct only affected code. If green, F1 still open pending live remote provider consented E2E; new restart reconciliation is explicit exclusive/quarantine-only, never automatic model replay. Next safe work F2 Android protected recovery and F3 option A minimal SAF UI; no V2 cutover, T4 physical NOT_RUN."
   },
   "sessions": [
     {
@@ -510,6 +530,25 @@
         }
       },
       "known_limitations": "F1 Android OS and consent integration pending CI; no real remote provider call; F2/F3/F4 incomplete; T4 physical NOT_RUN; V2 OFF. Work closed early, no simulated 30m."
+    },
+    {
+      "id": "NOCHE_B_V13_TURN4_20261031_0212",
+      "started_at": "2026-10-31T05:13:22.792Z",
+      "checkpoint_at": "2026-10-31T05:16:55.868Z",
+      "writer_epoch": 25,
+      "duration_observed_minutes": 3.55,
+      "commits": [
+        "c6a1cd88caf4c517a10f0baaac9c7e6538a2ff6c"
+      ],
+      "new_functionality": "F1 exclusive post-restart reconciliation across canonical Workspace conversations: PROCESSING assistant replies settle FAILED without reissuing model requests or Apply, before new dispatcher; idempotent on reopen, V2 remains OFF",
+      "ci_verified_prior": 41169968001,
+      "ci_launched": [
+        41171880380
+      ],
+      "ci_pending": [
+        41171880380
+      ],
+      "known_limitations": "New 5-case Android run not yet terminal; no live provider credential/call, F1 not certified, F2/F3/F4 not certified, T4 NOT_RUN; phase timers not available, duration measured from writer acquisition."
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
