@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "F1_ANDROID_CI_FAILURE_DIAGNOSIS",
+  "status": "WAIT_CI_F1_ANDROID_SQLITE_ALIAS_CONSENT_DELIVERY",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,14 +12,12 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_V13_TURN2_20261030_2335",
+    "state": "NONE",
+    "owner": null,
     "epoch": 20,
-    "lease_acquired_at": "2026-10-31T02:36:25.302Z",
-    "lease_expires_at": "2026-10-31T03:00:25.302Z",
-    "expected_head": "a1bb192fbaddaaf1c458245f85067cb2f63c11b6",
-    "lease_token": "A_V13_E20_2026-10-31T02:36:25.302Z",
-    "last_released_at": "2026-10-31T02:22:09.589Z"
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_released_at": "2026-10-31T02:41:55.206Z"
   },
   "stage": {
     "id": "S2.A6",
@@ -77,7 +75,7 @@
       "state": "NOT_RUN"
     }
   ],
-  "code_head": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
+  "code_head": "6159b5072f6f85477687916add67d0d6884242ad",
   "evidence": {
     "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
     "prior_16_actions_terminal": true,
@@ -123,24 +121,62 @@
         "FaroV5ChatToReviewedApplyFlowT2Test 1/1"
       ],
       "note": "Android Compose instrumentation still IN_PROGRESS; no F1 criterion certified"
-    }
+    },
+    "f1_v13_a2_failures": [
+      {
+        "id": 41158828666,
+        "sha": "90b87c9b4a158ded5b91b6c94b5af57c42ab0185",
+        "status": "FAILURE",
+        "android_xml": "2/2 FAILED SQLite CANTOPEN 14 StagedSqlitePreflight.kt:43",
+        "jvm_xml": "2/2 PASS",
+        "android_job": 124411548523
+      },
+      {
+        "id": 41159082904,
+        "sha": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
+        "status": "FAILURE",
+        "android_xml": "2/2 FAILED same SQLite CANTOPEN 14",
+        "jvm": "FAILURE transient Gradle Maven plugin dependency resolution",
+        "android_job": 124414776888
+      }
+    ],
+    "f1_v13_a2_new_ci": [
+      {
+        "id": 41160899873,
+        "sha": "71fe8788c841a3ce310e7089ee9f6ce2924843eb",
+        "status": "IN_PROGRESS",
+        "scope": "3 jobs: 2 SQLite alias/symlink tests, 2 JVM host tests, 2 Android Compose UI tests"
+      },
+      {
+        "id": 41160976772,
+        "sha": "832f90792953fcd42502cd339b0369f97ff143ed",
+        "status": "CANCELLED",
+        "reason": "GitHub concurrency pending-run replacement after subsequent push; not manually cancelled; no XML PASS claimed"
+      },
+      {
+        "id": 41161068591,
+        "sha": "6159b5072f6f85477687916add67d0d6884242ad",
+        "status": "PENDING",
+        "scope": "3 jobs: 2 SQLite tests, 2 JVM host tests, 3 Android Compose UI tests"
+      }
+    ]
   },
   "in_flight": [
     {
-      "id": 41158828666,
-      "sha": "90b87c9b4a158ded5b91b6c94b5af57c42ab0185",
+      "id": 41160899873,
+      "sha": "71fe8788c841a3ce310e7089ee9f6ce2924843eb",
       "status": "WAIT_CI",
       "workflow": "faro-v5-v13-f1-functional.yml",
-      "observed_at": "2026-10-31T02:22:09.589Z",
-      "reason": "Android Compose instrumentation job 124411548523 still in progress; JVM 2/2 PASS"
+      "observed_at": "2026-10-31T02:41:55.206Z",
+      "reason": "SQLite alias/OS delivery Android CI running; terminal XML pending"
     },
     {
-      "id": 41159082904,
-      "sha": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
+      "id": 41161068591,
+      "sha": "6159b5072f6f85477687916add67d0d6884242ad",
       "status": "WAIT_CI",
       "workflow": "faro-v5-v13-f1-functional.yml",
-      "observed_at": "2026-10-31T02:22:09.589Z",
-      "reason": "Queued by workflow concurrency; Android Compose and JVM XML pending"
+      "observed_at": "2026-10-31T02:41:55.206Z",
+      "reason": "Newest functional batch pending due workflow concurrency; 3 Android UI cases; no terminal XML"
     }
   ],
   "blockers": [
@@ -161,11 +197,24 @@
       "cause": "Projection must share maintenance material admission",
       "fix_sha": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
       "state": "CI_PENDING"
+    },
+    {
+      "id": "F1_ANDROID_SQLITE_NOFOLLOW_PLATFORM_ALIAS",
+      "cause": "Android /data/user/0 may traverse a platform symlink; SQLITE_OPEN_NOFOLLOW on original path fails with SQLite code14; canonicalize trusted generation directory, retain final-file symlink fence and immutable/read-only inspection",
+      "fix_sha": "ac909b20915cfe39cc52be0cb6efecd3b8cc74b9",
+      "state": "CI_PENDING",
+      "external_reference": "https://www.sqlite.org/uri.html"
+    },
+    {
+      "id": "F1_CI_CONCURRENCY_PENDING_REPLACEMENT",
+      "cause": "GitHub concurrency group keyed by branch permits one running and one pending; later push auto-cancelled pending run 41160976772",
+      "state": "DOCUMENTED_NEXT_TURN_REVIEW",
+      "fix_sha": null
     }
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "READ_ONLY inspect terminal CI #41158828666 SHA 90b87c9 and #41159082904 SHA 5b0d1e2, exact Android XML and job logs. If RED, change hypothesis and make focused fix with new CAS writer. Do not repeat old SHAs. Finish F1 OS Delivery foreground/background and real consented provider-neutral Android path in quarantine; no V2 activation. Then F2/F3/F4."
+    "step": "READ_ONLY verify terminal run #41160899873 SHA 71fe8788 and #41161068591 SHA 6159b50, jobs/XML. #41160976772 was auto-CANCELLED by pending-run replacement, not a PASS. If SQLite code14 persists, inspect canonical physical URI/NOFOLLOW behavior and adjust hypothesis. Avoid more commits while CI pending; change workflow concurrency/trigger strategy before another chain. Finish foreground banner/background OS delivery and real consented provider E2E; then F2/F3/F4. Do not certify F1 without full Android E2E, T4 remains NOT_RUN."
   },
   "sessions": [
     {
@@ -224,10 +273,43 @@
       ],
       "ci_reused": 2,
       "known_limitations": "No complete Android UI E2E XML yet, no real OS notification, no physical T4, no F1 certification. One CI JVM job passed 2/2 on first SHA."
+    },
+    {
+      "id": "NOCHE_A_V13_TURN2_20261030_2335",
+      "started_at": "2026-10-31T02:36:25.302Z",
+      "writer_acquired_at": "2026-10-31T02:36:25.302Z",
+      "checkpoint_at": "2026-10-31T02:41:55.206Z",
+      "writer_epoch": 20,
+      "duration_observed_minutes": 5.5,
+      "commits": [
+        "ac909b20915cfe39cc52be0cb6efecd3b8cc74b9",
+        "71fe8788c841a3ce310e7089ee9f6ce2924843eb",
+        "832f90792953fcd42502cd339b0369f97ff143ed",
+        "6159b5072f6f85477687916add67d0d6884242ad"
+      ],
+      "new_functionality": "Android SQLite path admission; OS permission-denied Delivery adapter; consented Keystore provider-neutral host; committed Workspace→Auxiliary Delivery replay",
+      "ci_launched_automatically": 3,
+      "ci_ids": [
+        41160899873,
+        41160976772,
+        41161068591
+      ],
+      "ci_cancelled_by_github_concurrency": [
+        41160976772
+      ],
+      "ci_pending": [
+        41160899873,
+        41161068591
+      ],
+      "ci_reused": [
+        41158828666,
+        41159082904
+      ],
+      "known_limitations": "No terminal XML on new SHAs, F1 not certified, OS successful background notification not tested, real remote reasoning not tested, T4 physical NOT_RUN. GitHub Actions wall/billable minutes not inferred."
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T02:22:09.589Z",
+  "last_checkpoint_at": "2026-10-31T02:41:55.206Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
@@ -249,6 +331,30 @@
       "description": "Debug-only explicit Apply request uses canonical Workspace approved plan and real staged Reality receipt; shipping V2 port remains denied. OS Delivery not integrated.",
       "verified": "IMPLEMENTED_PENDING_ANDROID_XML",
       "android_compile": "WAIT_CI_41156998464"
+    },
+    {
+      "kind": "F1 Android SQLite NOFOLLOW path alias",
+      "commit": "ac909b20915cfe39cc52be0cb6efecd3b8cc74b9",
+      "description": "Canonicalize trusted staged/active generation directories before SQLite read-only NOFOLLOW; retain final DB symlink denial; two directed JVM regressions",
+      "verified": "IMPLEMENTED_CI_PENDING"
+    },
+    {
+      "kind": "F1 Android OS permission-denied Delivery",
+      "commit": "71fe8788c841a3ce310e7089ee9f6ce2924843eb",
+      "description": "Quarantined Apply UI test dispatches through real AndroidNotificationDeliverySink with notification permission denied; verifies durable BLOCKED_PERMISSION and no OS posting",
+      "verified": "IMPLEMENTED_CI_PENDING"
+    },
+    {
+      "kind": "F1 consented Keystore-backed real model host",
+      "commit": "832f90792953fcd42502cd339b0369f97ff143ed",
+      "description": "Debug-only host factory binds canonical five-store Workspace to trusted ComposedModelGateway from local consent/Keystore, no V2 activation; Android no-consent denial test",
+      "verified": "IMPLEMENTED_CI_PENDING"
+    },
+    {
+      "kind": "F1 post-Apply durable Delivery recovery",
+      "commit": "6159b5072f6f85477687916add67d0d6884242ad",
+      "description": "Idempotently reprojects committed canonical Workspace receipts into Auxiliary without replaying Reality Apply; Android UI test exercises replay",
+      "verified": "IMPLEMENTED_CI_PENDING"
     }
   ],
   "ci_preparation": [
@@ -260,7 +366,7 @@
       "status": "IN_PROGRESS"
     }
   ],
-  "head_at_checkpoint_parent": "d6ab6f088bbbd2899dd7cb519e05a7025e4d53f0",
+  "head_at_checkpoint_parent": "6159b5072f6f85477687916add67d0d6884242ad",
   "precheck": {
     "at": "2026-10-31T02:36:25.302Z",
     "head": "a1bb192fbaddaaf1c458245f85067cb2f63c11b6",
