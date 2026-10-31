@@ -83,7 +83,16 @@
     "f1_five_owner_host_jvm": "1/1",
     "f1_full_android_e2e": "NOT_CERTIFIED"
   },
-  "in_flight": [],
+  "in_flight": [
+    {
+      "id": 41154147884,
+      "sha": "96c3b61b9bebef97daf52c314dda10fe1e91ca39",
+      "status": "WAIT_CI",
+      "observed_at": "2026-10-31T01:12:31Z",
+      "workflow": "faro-v5-v13-f1-functional.yml",
+      "reason": "targeted Android compile + two existing functional host/review-apply tests; no PASS before exact terminal/XML"
+    }
+  ],
   "blockers": [
     {
       "id": "T4_PHYSICAL",
@@ -93,7 +102,7 @@
   "hypotheses": [],
   "next_action": {
     "criterion": "F1",
-    "step": "Read current branch HEAD, writer and Github Actions; verify first v13 targeted workflow is registered/running; if no Actions, use GitHub supported branch workflow registration without changing main; continue functional Android UI+Review+Apply+Delivery integration in quarantine with Android instrumentation, not another tests-only loop."
+    "step": "First check GitHub Actions #41154147884 status, exact SHA, XML and duration; on failure diagnose compile/test before changing code; continue F1 functional Android Compose/Review/Apply/Delivery in quarantined graph. No redundant CI."
   },
   "sessions": [
     {
@@ -116,7 +125,7 @@
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T01:12:12.869Z",
+  "last_checkpoint_at": "2026-10-31T01:12:39.989Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
@@ -130,7 +139,9 @@
     {
       "commit": "96c3b61b9bebef97daf52c314dda10fe1e91ca39",
       "workflow": ".github/workflows/faro-v5-v13-f1-functional.yml",
-      "description": "New branch-scoped, read-only GitHub Actions directed compile+two owner tests; workflow not observed as running when queried 2026-10-31 01:11:58Z; must verify GitHub Actions before concluding."
+      "description": "New branch-scoped, read-only GitHub Actions directed compile+two owner tests; workflow not observed as running when queried 2026-10-31 01:11:58Z; must verify GitHub Actions before concluding.",
+      "action_id": 41154147884,
+      "status": "IN_PROGRESS"
     }
   ]
 }
