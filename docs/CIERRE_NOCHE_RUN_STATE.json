@@ -116,20 +116,20 @@
   ],
   "in_flight_actions": [
     {
-      "id": 41149448511,
-      "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
+      "id": 41150231238,
+      "head_sha": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
       "status": "QUEUED",
-      "reason": "F1 five-owner quarantined host test + 8/4/3/19 directed XML and AndroidTest compile",
-      "created_at": "2026-10-31T00:18:29Z",
-      "expected_evidence": "new host 1/1 + existing 8/4/3/19 exact XML"
+      "reason": "F1 targeted retry after JUnit non-void test discovery correction; exact host XML 1/1",
+      "created_at": "2026-10-31T00:27:07Z",
+      "expected_evidence": "transport8/8 bootstrap4/4 consent3/3 reasoning19/19 host1/1"
     },
     {
       "id": 41149448573,
       "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
-      "status": "QUEUED",
-      "reason": "F1 Android emulator retry with increased job timeout 50m and Gradle 1536m/768m memory after cold-build timeout",
+      "status": "IN_PROGRESS",
+      "reason": "F1 Android emulator 50m adjusted cold build; production code unchanged by later test-only correction",
       "created_at": "2026-10-31T00:18:29Z",
-      "expected_evidence": "Android instrumentation 1/1 exact XML, not full UI/Apply/Delivery/T4"
+      "expected_evidence": "Android instrumentation 1/1; NOT full UI/Apply/Delivery/T4"
     }
   ],
   "actions_launched_v12": [
@@ -273,7 +273,7 @@
   "next_action": {
     "mode": "B3_FINAL_SESSION",
     "criterion": "F1",
-    "step": "Verify #41149448511 exact XML, diagnose any red once safely. Track #41149448573 without cancelling; at minute25 checkpoint WAIT_CI, writer NONE, final report, disable A/B before 21:40."
+    "step": "Verify #41150231238 exact XML; if still red after minute20 no new code, checkpoint as pending. #41149448573 may remain WAIT_CI; do not cancel. At minute25 finalize report and release writer, disable A/B."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -298,7 +298,7 @@
     "stop_new_work_at": "2026-10-31T00:30:12Z",
     "deadline": "2026-10-31T00:39:50Z"
   },
-  "code_head": "37e260d133f3ea0077c579d587bc0c169edda527",
+  "code_head": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -380,9 +380,17 @@
       "correction": "CI workflow 50m timeout, Gradle 1536MiB heap/768MiB metaspace; no identical retry",
       "fix_commit": "37e260d133f3ea0077c579d587bc0c169edda527",
       "new_run": 41149448573
+    },
+    {
+      "issue": "B3 host test not discovered by JUnit Jupiter",
+      "observation": "CI #41149448511 Gradle unit BUILD SUCCESSFUL but F1_QUARANTINED_HOST_MISSING_XML; Kotlin expression-body test returned assertThrows exception instead of Unit",
+      "status": "CORRECTED_WAIT_CI",
+      "correction": "Explicit : Unit on @Test function, no product code change",
+      "fix_commit": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
+      "new_run": 41150231238
     }
   ],
-  "last_checkpoint_at": "2026-10-31T00:18:35Z",
+  "last_checkpoint_at": "2026-10-31T00:27:13Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -391,7 +399,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B3 ACTIVE: F1 five-owner quarantined chat host implemented, directed CI #41148824741 SUCCESS; host test + adjusted emulator retry queued. No criterion 4-8 certified.",
+  "scope": "B3 ACTIVE: F1 five-owner staged host implemented and production compile SUCCESS; new JUnit test non-void discovery ROJO corrected; CI #41150231238 queued; emulator #41149448573 running. S2.A6 3/8.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
@@ -511,6 +519,16 @@
       "status": "COMPLETED_SUCCESS",
       "reason": "B3 F1 quarantined five-owner host production code compile and directed regression",
       "tests": "transport8/8 bootstrap4/4 consent3/3 reasoning19/19, AndroidTest compile"
+    },
+    {
+      "id": 41149448511,
+      "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
+      "status": "COMPLETED_FAILURE_ORACLE",
+      "reason": "JUnit Jupiter test function inferred non-void return; Gradle build SUCCESS but new host XML absent",
+      "tests": "transport8/8 bootstrap4/4 consent3/3 reasoning19/19 PASS, host NOT_DISCOVERED, AndroidTest compile PASS",
+      "created_at": "2026-10-31T00:18:29Z",
+      "completed_at": "2026-10-31T00:26:13Z",
+      "wall_seconds": 464
     }
   ],
   "b3_timing": {
