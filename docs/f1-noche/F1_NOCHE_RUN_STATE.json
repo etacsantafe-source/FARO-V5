@@ -14,8 +14,8 @@
     "expected_head": null,
     "last_owner": "NOCHE_B_F1_1850",
     "released_at": "2026-10-31T22:15:22.070Z",
-    "release_method": "CAS_EXPECTED_HEAD_PENDING_POST_READ",
-    "verified_at": null
+    "release_method": "CAS_EXPECTED_HEAD_VERIFIED",
+    "verified_at": "2026-10-31T22:15:35.735Z"
   },
   "f1": "OPEN",
   "v2_enabled": false,
@@ -178,7 +178,7 @@
         }
       ],
       "checkpoint_path": "docs/f1-noche/F1_NOCHE_B1_CHECKPOINT_20261031_1850.md",
-      "writer_release": "CAS_PENDING_VERIFY"
+      "writer_release": "CAS_EXPECTED_HEAD_VERIFIED"
     }
   ],
   "last_checkpoint_at": "2026-10-31T22:15:22.070Z"
