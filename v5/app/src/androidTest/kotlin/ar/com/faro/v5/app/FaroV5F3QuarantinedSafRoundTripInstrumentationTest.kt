@@ -649,7 +649,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                 FaroV5FiveStorePortableBackupCrypto().seal(set, password)
             }
             val resolver = base.contentResolver
-            uri = checkNotNull(resolver.insert(
+            val selectedUri = checkNotNull(resolver.insert(
                 MediaStore.Downloads.EXTERNAL_CONTENT_URI,
                 ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME,
@@ -657,7 +657,8 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                     put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
                 },
             ))
-            resolver.openOutputStream(uri, "wt")!!.use { it.write(checkNotNull(encrypted)) }
+            uri = selectedUri
+            resolver.openOutputStream(selectedUri, "wt")!!.use { it.write(checkNotNull(encrypted)) }
 
             val root = FaroV5CompositionRoot(context)
             // This fixture exercises the runtime AFTER startup admission. It
@@ -668,7 +669,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             readiness.set(root, FaroV5CompositionRoot.StartupReprojectionState.PASS)
             val runtime = FaroV5MaintenanceRuntime(context, root)
             val result = runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
-                resolver, uri, 1710000000603L, CancellationSignal(), password, true,
+                resolver, selectedUri, 1710000000603L, CancellationSignal(), password, true,
             )
             assertTrue("authenticated provider must validate five owners in quarantine",
                 result is FiveStoreJournalValidationResult.Validated)
