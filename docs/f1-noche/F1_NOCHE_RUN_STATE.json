@@ -6,15 +6,15 @@
   "absolute_cutoff": "2026-10-31T21:20:00-03:00",
   "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_F1_1920",
+    "state": "NONE",
+    "owner": null,
     "epoch": 3,
     "acquired_at": "2026-10-31T22:23:42.735Z",
-    "lease_expires_at": "2026-10-31T22:47:00.000Z",
-    "expected_head": "9e11deb487043383d4f983a2d1ad7e9a59004d42",
-    "last_owner": "NOCHE_B_F1_1850",
-    "released_at": null,
-    "release_method": null,
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_A_F1_1920",
+    "released_at": "2026-10-31T22:45:31.874Z",
+    "release_method": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY",
     "verified_at": null
   },
   "f1": "OPEN",
@@ -27,21 +27,25 @@
     "integration": "EN_DESARROLLO"
   },
   "scope_notes": {
-    "groq": "Synthetic JSON/transport/consent tests 15/15 PASS on exact SHA; LIVE Groq credential NOT_RUN",
-    "chat": "Prior staged Composer->SQLite Workspace->ModelGateway->durable reply implementation; no live provider E2E",
-    "review_apply": "Structured JSON -> trusted local Profile PreparedPlan + canonical fingerprint -> durable Workspace PENDING review; quarantined host callback; compilation passed and most directed tests passed, but final exact-SHA CI FAIL due stale test expectation at line 215. No certified PASS or automatic Apply.",
-    "delivery": "Prior quarantined Android permission/notification implementation; not physical T4",
-    "integration": "End-to-end synthetic structured reply to human review implemented; full CI gate FAIL; live Groq/physical Android NOT_RUN, APK not ready; shipping CompositionRoot V2 still OFF."
+    "groq": "Synthetic Groq transport 10/10 and factory 5/5 PASS on SHA 3ba93f8 and dffe785a; Android Keystore consent 2/2 emulator PASS on dffe785a; LIVE Groq NOT_RUN.",
+    "chat": "Composer->Workspace SQLite->ModelGateway->durable reply/reopen synthetic PASS 2/2 on 3ba93f8 and dffe785a; live provider E2E NOT_RUN.",
+    "review_apply": "Structured model JSON -> trusted local fingerprint -> Workspace review -> human approval -> Atomic Apply/receipt/idempotency PASS in directed JVM test on dffe785a. Production CompositionRoot callback added ea1886fc but CI FAILED Java cannot resolve Kotlin value-class-mangled propose; NOT_CERTIFIED.",
+    "delivery": "Prior quarantined Android notification/dedup implementation remains; no new F1 full Android E2E in A2.",
+    "integration": "Debug APK artifact 13060368194 from dffe785a SUCCESS, suitable only for consented Groq transport smoke; final code ea1886fc CI FAILED. Groq live and physical T4 NOT_RUN; V2 OFF; F1 OPEN."
   },
   "blockers": [
     "WAIT_HUMAN: real Groq key must be entered only on Android through consented Keystore UI, not GitHub",
     "WAIT_HUMAN: Android physical device test after APK ready",
     "F1 debug credential/test entry path and APK not yet ready",
     "B1 writer state was accidentally reverted to A1 NONE by a code commit based on an old tree; restored immediately with exact-head CAS, no competing session observed.",
-    "F1 B1 RED: update stale post-reopen expected text at v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ChatToReviewedApplyFlowT2Test.kt:215 to exact JSON string; then rerun directed CI on new SHA and inspect XML.",
-    "F1 B1: shipping CompositionRoot uses legacy 3-argument dispatcher (preserved by @JvmOverloads); quarantined host is wired for proposals, production V2-gated proposal wiring still pending."
+    "F1 B1: shipping CompositionRoot uses legacy 3-argument dispatcher (preserved by @JvmOverloads); quarantined host is wired for proposals, production V2-gated proposal wiring still pending.",
+    "A2 RED #41248313958 SHA ea1886fc: Java compile cannot resolve FaroV5ModelReviewBridge.propose(ConversationId,ConversationTurnId) at CompositionRoot.java:737; likely Kotlin @JvmInline value-class name mangling. B2 add public fun callback(): (ConversationId,ConversationTurnId)->Unit in Kotlin bridge, Java pass modelReview.callback() instead of Java lambda; then verify compile/XML.",
+    "A2 debug APK artifact #13060368194 is built from dffe785a (not final ea1886fc) and only proves readiness for human Groq transport smoke; not full F1.",
+    "Groq free tier must be confirmed on the user's own account before sending any live request; paid accounts may incur provider charges.",
+    "A2 pending full synthetic Android model-generated Review->Apply->Delivery test; existing UI test pre-stages the Review and uses plain text local reply.",
+    "A2 CompositionRoot.applyActiveReviewedPlan direct method should additionally check V2_ACTIVE_ENABLED before exposing Apply; do not change V2 flag."
   ],
-  "next_task": "A2 19:20: first fix ONLY stale expected post-reopen assistant JSON assertion at FaroV5ChatToReviewedApplyFlowT2Test.kt:215, run directed CI on exact SHA and verify XML; then continue F1 gated production bridge and debug Keystore credential/APK path, no V2 activation.",
+  "next_task": "B2 19:50: FIRST fix Java/Kotlin value-class callback compile ROJO #41248313958 by exposing Java-callable no-value-class-argument callback() from FaroV5ModelReviewBridge and passing modelReview.callback() to FaroV5HostAssistantTurnDispatcher; compile and run directed CI once on exact SHA, inspect XML. THEN gate CompositionRoot.applyActiveReviewedPlan with V2_ACTIVE_ENABLED and extend existing Android Compose F1 test to produce structured model JSON -> durable Review -> human approval -> Atomic Apply -> denied-permission Delivery/reprojection without pre-staging review. Keep V2 OFF. Groq live and physical Android WAIT_HUMAN.",
   "sessions": [
     {
       "id": "NOCHE_A_F1_TURN1_20261031_1820",
@@ -179,7 +183,82 @@
       ],
       "checkpoint_path": "docs/f1-noche/F1_NOCHE_B1_CHECKPOINT_20261031_1850.md",
       "writer_release": "CAS_EXPECTED_HEAD_VERIFIED"
+    },
+    {
+      "id": "NOCHE_A_F1_TURN2_20261031_1920",
+      "scheduled_start": "2026-10-31T19:20:00-03:00",
+      "actual_start": "2026-10-31T22:23:24.007Z",
+      "writer_acquired_at": "2026-10-31T22:23:42.735Z",
+      "checkpoint_and_release_at": "2026-10-31T22:45:31.874Z",
+      "observed_wall_seconds_to_checkpoint": 1328,
+      "observed_writer_held_seconds_to_release": 1309,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "investigation_seconds": "NO_REGISTRADO",
+      "code_seconds": "NO_REGISTRADO",
+      "tests_review_seconds": "NO_REGISTRADO",
+      "ci_wait_seconds": "NO_REGISTRADO",
+      "writer_wait_seconds": 0,
+      "coordination_seconds": "NO_REGISTRADO",
+      "idle_seconds": "NO_REGISTRADO",
+      "ci_wall_not_additive": true,
+      "code_commits": [
+        "3ba93f887ef822ee970087b94ab7531d36a074bb",
+        "4c01b8660510832d19cbf725bd1b1f66eab2fcd0",
+        "dffe785ab9513b362597f63f4cbe8d38f40c8f13",
+        "ea1886fca252963946a0fc1b8f5019b3116ba819"
+      ],
+      "writer_acquire_commit": "39f45c8d51ab7f97edb5a2674ee25827a96d35b4",
+      "ci": [
+        {
+          "id": 41248017466,
+          "sha": "3ba93f887ef822ee970087b94ab7531d36a074bb",
+          "result": "SUCCESS",
+          "xml": "F1_NIGHT_DIRECTED_PASS 10/10 Groq transport + 5/5 factory + 2/2 reviewed flow + 2/2 host =19/19",
+          "run_wall_seconds": 214,
+          "queue_seconds": 2,
+          "job_execution_seconds": 211
+        },
+        {
+          "id": 41248085970,
+          "sha": "4c01b8660510832d19cbf725bd1b1f66eab2fcd0",
+          "result": "CANCELLED_PENDING_REPLACEMENT",
+          "xml": "NOT_RUN",
+          "pending_seconds": 59
+        },
+        {
+          "id": 41248158188,
+          "sha": "dffe785ab9513b362597f63f4cbe8d38f40c8f13",
+          "result": "SUCCESS",
+          "xml": "19/19 JVM + 2/2 Android emulator Keystore/consent, zero failed/skipped; APK artifact uploaded",
+          "run_wall_seconds": 815,
+          "queue_seconds": 102,
+          "job1_execution_seconds": 282,
+          "job2_execution_seconds": 428,
+          "artifact_id": 13060368194,
+          "artifact_url": "https://github.com/etacsantafe-source/FARO-V5/actions/runs/41248158188/artifacts/13060368194"
+        },
+        {
+          "id": 41248313958,
+          "sha": "ea1886fca252963946a0fc1b8f5019b3116ba819",
+          "result": "FAILURE",
+          "xml": "NOT_RUN Java compile failed; emulator/APK job SKIPPED",
+          "root": "CompositionRoot.java:737 cannot find symbol propose(ConversationId,ConversationTurnId) on Kotlin bridge; probable value-class JVM mangling",
+          "run_wall_seconds": 896,
+          "queue_proxy_seconds": 683,
+          "job_execution_seconds": 212
+        }
+      ],
+      "artifact": {
+        "id": 13060368194,
+        "sha": "dffe785ab9513b362597f63f4cbe8d38f40c8f13",
+        "name": "faro-v5-f1-debug-apk",
+        "size_bytes": 23597857,
+        "expires_at": "2026-11-03T22:39:28Z",
+        "status": "READY_FOR_HUMAN_TRANSPORT_ONLY"
+      },
+      "checkpoint_path": "docs/f1-noche/F1_NOCHE_A2_CHECKPOINT_20261031_1920.md",
+      "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
     }
   ],
-  "last_checkpoint_at": "2026-10-31T22:15:22.070Z"
+  "last_checkpoint_at": "2026-10-31T22:45:31.874Z"
 }
