@@ -116,13 +116,20 @@
   ],
   "in_flight_actions": [
     {
-      "id": 41146263216,
-      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
-      "status": "IN_PROGRESS",
-      "reason": "Android API35 emulator executes synthetic F1 Composer→SQLite Workspace→ModelGateway→reopen instrumentation",
-      "created_at": "2026-10-30T23:44:44Z",
-      "last_observed_at": "2026-10-31T00:07:41.241Z",
-      "expected_evidence": "Android instrumentation XML 1/1; not UI/Apply/Delivery/T4"
+      "id": 41149448511,
+      "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
+      "status": "QUEUED",
+      "reason": "F1 five-owner quarantined host test + 8/4/3/19 directed XML and AndroidTest compile",
+      "created_at": "2026-10-31T00:18:29Z",
+      "expected_evidence": "new host 1/1 + existing 8/4/3/19 exact XML"
+    },
+    {
+      "id": 41149448573,
+      "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
+      "status": "QUEUED",
+      "reason": "F1 Android emulator retry with increased job timeout 50m and Gradle 1536m/768m memory after cold-build timeout",
+      "created_at": "2026-10-31T00:18:29Z",
+      "expected_evidence": "Android instrumentation 1/1 exact XML, not full UI/Apply/Delivery/T4"
     }
   ],
   "actions_launched_v12": [
@@ -266,7 +273,7 @@
   "next_action": {
     "mode": "B3_FINAL_SESSION",
     "criterion": "F1",
-    "step": "Verify Android emulator #41146263216 exact XML; complete a bounded F1 functional gap if safe; final report and disable A/B before 21:40 Argentina."
+    "step": "Verify #41149448511 exact XML, diagnose any red once safely. Track #41149448573 without cancelling; at minute25 checkpoint WAIT_CI, writer NONE, final report, disable A/B before 21:40."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -291,7 +298,7 @@
     "stop_new_work_at": "2026-10-31T00:30:12Z",
     "deadline": "2026-10-31T00:39:50Z"
   },
-  "code_head": "013cc7acc68739508755f6cac7a5123c02f4b590",
+  "code_head": "37e260d133f3ea0077c579d587bc0c169edda527",
   "functional_progress": [
     {
       "commit": "43016859c3299e5494d1d9b92ef27cd353080ccd",
@@ -332,6 +339,16 @@
       "commit": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
       "kind": "F1 Android emulator host-flow integration",
       "result": "New AndroidJUnit4 instrumentation for real Android SQLite Workspace Composer→accepted user→synthetic local ModelGateway→persisted reply→reopen; duplicate dispatch idempotent, V2 OFF, no network/secret/cutover. Dedicated emulator CI #41146263216 WAIT_CI; existing directed CI #41146263160 PASS exact SHA."
+    },
+    {
+      "commit": "0e9f067db9242dad00012b4553dd735634cac847",
+      "kind": "F1 quarantined five-store chat host",
+      "result": "Real staged five-owner Workspace composes selection/Composer/timeline/Review/trusted assistant dispatch with shared gate, live stage-not-active admission, no Apply/delivery/cutover. Directed CI #41148824741 SUCCESS."
+    },
+    {
+      "commit": "37e260d133f3ea0077c579d587bc0c169edda527",
+      "kind": "F1 host integration test and Android CI timeout correction",
+      "result": "Native five-store quarantined chat/dispatch/pointer-loss test added to directed XML gate; Android emulator job timeout increased 30->50m and Gradle heap/metaspace after A3 cold-build timeout; #41149448511 and #41149448573 queued."
     }
   ],
   "hypotheses": [
@@ -355,9 +372,17 @@
       "fix_commit": "013cc7acc68739508755f6cac7a5123c02f4b590",
       "status": "FIXED_AWAIT_CI",
       "next_run": 41144270096
+    },
+    {
+      "issue": "A3 emulator timeout before AndroidTest execution",
+      "observation": "CI #41146263216 CANCELLED at 30m; emulator booted in ~2m; cold Gradle build progressed to app:compileDebugJavaWithJavac but never reached connected instrumentation; XML 0",
+      "status": "INFRA_TIMEOUT_NOT_PRODUCT_FAILURE",
+      "correction": "CI workflow 50m timeout, Gradle 1536MiB heap/768MiB metaspace; no identical retry",
+      "fix_commit": "37e260d133f3ea0077c579d587bc0c169edda527",
+      "new_run": 41149448573
     }
   ],
-  "last_checkpoint_at": "2026-10-31T00:07:41.241Z",
+  "last_checkpoint_at": "2026-10-31T00:18:35Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -366,7 +391,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B2 CLOSED: F1 isolated Android-only consent/DataStore/Keystore-to-real ComposedModelGateway instrumentation and non-exported settings guard implemented. Directed CI2 PASS exact XML and AndroidTest compile; Android runtime NOT_RUN. No new S2.A6 criterion certified.",
+  "scope": "B3 ACTIVE: F1 five-owner quarantined chat host implemented, directed CI #41148824741 SUCCESS; host test + adjusted emulator retry queued. No criterion 4-8 certified.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
@@ -464,5 +489,38 @@
         "unused_of_30_minutes": 5.73
       }
     }
-  ]
+  ],
+  "completed_actions": [
+    {
+      "id": 41146263160,
+      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "status": "COMPLETED_SUCCESS",
+      "reason": "A3 F1 directed",
+      "tests": "transport8/8 bootstrap4/4 consent3/3 reasoning19/19 AndroidTest compile"
+    },
+    {
+      "id": 41146263216,
+      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "status": "COMPLETED_CANCELLED_TIMEOUT",
+      "reason": "A3 Android emulator cold Gradle compile exceeded 30m job timeout; no instrumentation XML",
+      "tests": "Android instrumentation NOT_RUN"
+    },
+    {
+      "id": 41148824741,
+      "head_sha": "0e9f067db9242dad00012b4553dd735634cac847",
+      "status": "COMPLETED_SUCCESS",
+      "reason": "B3 F1 quarantined five-owner host production code compile and directed regression",
+      "tests": "transport8/8 bootstrap4/4 consent3/3 reasoning19/19, AndroidTest compile"
+    }
+  ],
+  "b3_timing": {
+    "scheduled_start": "2026-10-30T21:10:00-03:00",
+    "writer_acquired_at": "2026-10-31T00:10:12Z",
+    "code_commit": "2026-10-31T00:11:47Z",
+    "first_ci_id": 41148824741,
+    "first_ci_start": "2026-10-31T00:11:49Z",
+    "first_ci_end": "2026-10-31T00:17:41Z",
+    "test_and_ci_commit": "2026-10-31T00:18:29Z",
+    "phase_breakdown_note": "Preflight and code work interleaved; only event spans measured. CI wall overlaps session."
+  }
 }
