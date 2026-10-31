@@ -49,7 +49,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     private var busy = false
     private lateinit var status: TextView
     private lateinit var passphrase: EditText
-    private lateinit var confirm: CheckBox
+    private lateinit var exportConsent: CheckBox
+    private lateinit var restoreConsent: CheckBox
     private lateinit var share: CheckBox
     private lateinit var export: Button
     private lateinit var restore: Button
@@ -67,8 +68,15 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
             return@registerForActivityResult
         }
         val uri = if (result.resultCode == Activity.RESULT_OK) result.data?.data else null
-        val stillConfirmed = confirm.isChecked
+        val stillConfirmed = when (request) {
+            is Pending.Export -> exportConsent.isChecked
+            is Pending.Restore -> restoreConsent.isChecked
+        }
         val stillShared = share.isChecked
+        // Consent is operation-specific and one-shot, even if SAF is cancelled.
+        exportConsent.isChecked = false
+        restoreConsent.isChecked = false
+        share.isChecked = false
         val cancellation = CancellationSignal()
         activeCancellation = cancellation
         setBusy(true)
@@ -151,12 +159,18 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
             importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
         }
         column.addView(passphrase)
-        confirm = CheckBox(this).apply {
-            text = "Confirmo esta operación sobre el respaldo cifrado."
+        exportConsent = CheckBox(this).apply {
+            text = "Confirmo exportar los cinco almacenes cifrados al destino elegido."
             isChecked = false
             setSaveEnabled(false)
         }
-        column.addView(confirm)
+        column.addView(exportConsent)
+        restoreConsent = CheckBox(this).apply {
+            text = "Confirmo restaurar un archivo cifrado en cuarentena, sin activar V2."
+            isChecked = false
+            setSaveEnabled(false)
+        }
+        column.addView(restoreConsent)
         share = CheckBox(this).apply {
             text = "Para exportar, acepto elegir un destino externo mediante Android."
             isChecked = false
@@ -197,7 +211,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     }
 
     private fun startExport() {
-        if (busy || !confirm.isChecked || !share.isChecked) {
+        if (busy || !exportConsent.isChecked || !share.isChecked) {
             showStatus("Exportar requiere confirmar y aceptar el destino externo.")
             return
         }
@@ -224,6 +238,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
             } catch (_: Exception) {
                 runOnUiThread {
                     if (!isDestroyed) {
+                        exportConsent.isChecked = false
+                        share.isChecked = false
                         showStatus("Exportación no autorizada. V2 permanece desactivada.")
                         setBusy(false)
                     }
@@ -235,7 +251,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     }
 
     private fun startRestore(operation: String, target: String) {
-        if (busy || !confirm.isChecked) {
+        if (busy || !restoreConsent.isChecked) {
             showStatus("Restaurar requiere confirmación específica.")
             return
         }
@@ -256,6 +272,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 chars.fill('\u0000')
                 runOnUiThread {
                     if (!isDestroyed) {
+                        restoreConsent.isChecked = false
                         showStatus("No existe restauración autorizada para este archivo.")
                         setBusy(false)
                     }
@@ -271,6 +288,9 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     private fun setBusy(active: Boolean) {
         busy = active
         export.isEnabled = !active
+        exportConsent.isEnabled = !active
+        restoreConsent.isEnabled = !active
+        share.isEnabled = !active
         restore.isEnabled = !active &&
             !intent.getStringExtra(EXTRA_RESTORE_OPERATION).isNullOrBlank() &&
             !intent.getStringExtra(EXTRA_RESTORE_TARGET).isNullOrBlank()

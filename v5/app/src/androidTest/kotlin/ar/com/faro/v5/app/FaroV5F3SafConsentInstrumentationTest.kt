@@ -31,8 +31,10 @@ class FaroV5F3SafConsentInstrumentationTest {
                     .single { it.text.toString() == "Exportar respaldo cifrado" }
                 val restore = all.filterIsInstance<Button>()
                     .single { it.text.toString().startsWith("Elegir archivo") }
-                val confirm = all.filterIsInstance<CheckBox>()
-                    .single { it.text.toString().startsWith("Confirmo") }
+                val exportConsent = all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Confirmo exportar") }
+                val restoreConsent = all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Confirmo restaurar") }
                 val share = all.filterIsInstance<CheckBox>()
                     .single { it.text.toString().startsWith("Para exportar") }
                 val password = all.filterIsInstance<EditText>().single()
@@ -41,9 +43,16 @@ class FaroV5F3SafConsentInstrumentationTest {
                 assertTrue(all.filterIsInstance<TextView>().any {
                     it.text.toString().contains("requiere confirmar")
                 })
-                confirm.isChecked = true
+                // Restore consent must never authorize export.
+                restoreConsent.isChecked = true
                 share.isChecked = true
                 password.setText("synthetic-passphrase-123")
+                export.performClick()
+                assertTrue(all.filterIsInstance<TextView>().any {
+                    it.text.toString().contains("requiere confirmar")
+                })
+                restoreConsent.isChecked = false
+                exportConsent.isChecked = true
                 export.performClick()
             }
             var denied = false
@@ -57,6 +66,13 @@ class FaroV5F3SafConsentInstrumentationTest {
                 Thread.sleep(50)
             }
             assertTrue("V2 OFF must deny export before SAF picker", denied)
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                assertFalse(all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Confirmo exportar") }.isChecked)
+                assertFalse(all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Para exportar") }.isChecked)
+            }
             assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
         }
     }
