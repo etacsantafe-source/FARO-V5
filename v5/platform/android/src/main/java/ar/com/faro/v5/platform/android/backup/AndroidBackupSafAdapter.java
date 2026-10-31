@@ -216,8 +216,8 @@ public final class AndroidBackupSafAdapter {
             long expectedBytes,
             String expectedSha256,
             CancellationSignal cancellationSignal) {
-        // A provider may block during verification open. Propagate cancellation
-        // into the DocumentsProvider rather than only checking subsequent reads.
+        // A provider can ignore cancellation until its final read returns EOF.
+        // Never report a verified external effect after cancellation.
         try {
             ParcelFileDescriptor descriptor =
                     resolver.openFileDescriptor(destination, "r", cancellationSignal);
@@ -226,30 +226,7 @@ public final class AndroidBackupSafAdapter {
             }
             try (InputStream input =
                     new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
-                MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] buffer = new byte[BUFFER_BYTES];
-            long count = 0L;
-
-            while (true) {
-                cancellationSignal.throwIfCanceled();
-                int read = input.read(buffer);
-                if (read < 0) {
-                    break;
-                }
-                count = Math.addExact(count, read);
-                if (count > expectedBytes) {
-                    return Verification.MISMATCH;
-                }
-                digest.update(buffer, 0, read);
-            }
-
-            if (count != expectedBytes) {
-                return Verification.MISMATCH;
-            }
-            String actual = toHex(digest.digest());
-            return expectedSha256.equals(actual)
-                    ? Verification.MATCH
-                    : Verification.MISMATCH;
+                return verifyStream(input, expectedBytes, expectedSha256, cancellationSignal);
             }
         } catch (FileNotFoundException | SecurityException unavailable) {
             return Verification.UNAVAILABLE;
@@ -258,6 +235,40 @@ public final class AndroidBackupSafAdapter {
         } catch (NoSuchAlgorithmException impossible) {
             throw new IllegalStateException("SHA-256 unavailable", impossible);
         }
+    }
+
+    /** Verify the exact bytes while checking cancellation on BOTH sides of each provider read. */
+    private static Verification verifyStream(
+            InputStream input,
+            long expectedBytes,
+            String expectedSha256,
+            CancellationSignal cancellationSignal)
+            throws IOException, NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] buffer = new byte[BUFFER_BYTES];
+        long count = 0L;
+        while (true) {
+            cancellationSignal.throwIfCanceled();
+            int read = input.read(buffer);
+            // In particular, EOF does not prove success if cancellation arrived
+            // while the provider was blocked inside the final read.
+            cancellationSignal.throwIfCanceled();
+            if (read < 0) {
+                break;
+            }
+            count = Math.addExact(count, read);
+            if (count > expectedBytes) {
+                return Verification.MISMATCH;
+            }
+            digest.update(buffer, 0, read);
+        }
+        cancellationSignal.throwIfCanceled();
+        if (count != expectedBytes) {
+            return Verification.MISMATCH;
+        }
+        return expectedSha256.equals(toHex(digest.digest()))
+                ? Verification.MATCH
+                : Verification.MISMATCH;
     }
 
     private static String toHex(byte[] bytes) {

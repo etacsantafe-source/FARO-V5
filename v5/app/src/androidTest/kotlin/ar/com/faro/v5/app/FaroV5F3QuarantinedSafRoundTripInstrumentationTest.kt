@@ -552,4 +552,32 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
         }
     }
 
+    @Test fun exportVerificationRejectsCancellationArrivingWithProviderEof() {
+        val signal = CancellationSignal()
+        val bytes = "f3-provider-verification-cancel".toByteArray(Charsets.UTF_8)
+        val digest = java.security.MessageDigest.getInstance("SHA-256")
+            .digest(bytes).joinToString("") { "%02x".format(it.toInt() and 0xff) }
+        val provider = object : java.io.ByteArrayInputStream(bytes) {
+            override fun read(buffer: ByteArray, offset: Int, length: Int): Int {
+                val count = super.read(buffer, offset, length)
+                if (count < 0) signal.cancel()
+                return count
+            }
+        }
+        val method = AndroidBackupSafAdapter::class.java.getDeclaredMethod(
+            "verifyStream", java.io.InputStream::class.java,
+            java.lang.Long.TYPE, String::class.java, CancellationSignal::class.java,
+        )
+        method.isAccessible = true
+        val thrown = runCatching {
+            method.invoke(null, provider, bytes.size.toLong(), digest, signal)
+        }.exceptionOrNull()
+        assertTrue(
+            "cancellation during provider EOF must not yield verified export SUCCESS",
+            thrown is java.lang.reflect.InvocationTargetException &&
+                thrown.cause is android.os.OperationCanceledException,
+        )
+        assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+    }
+
 }
