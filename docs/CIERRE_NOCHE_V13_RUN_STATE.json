@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "WRITER_ACTIVE_F1_RED_DIAGNOSIS",
+  "status": "F1_ANDROID_COMPOSE_RETRY_WAIT_CI",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -75,7 +75,7 @@
       "state": "NOT_RUN"
     }
   ],
-  "code_head": "d6ab6f088bbbd2899dd7cb519e05a7025e4d53f0",
+  "code_head": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
   "evidence": {
     "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
     "prior_16_actions_terminal": true,
@@ -94,28 +94,40 @@
       "started_at": "2026-10-31T01:11:57Z",
       "completed_at": "2026-10-31T01:18:03Z",
       "duration_wall_seconds": 366
-    }
+    },
+    "f1_v13_initial_android_failures": [
+      {
+        "id": 41156847099,
+        "sha": "bc313d8f1886132155d8f34e78ec8cbc9c061169",
+        "status": "FAILURE",
+        "cause": "AndroidTest Kotlin UNRESOLVED_IMPORT androidx.compose.ui.test.onNode; XML count 0, no Android UI execution",
+        "jvm": "PASS 2/2"
+      },
+      {
+        "id": 41156998464,
+        "sha": "d6ab6f088bbbd2899dd7cb519e05a7025e4d53f0",
+        "status": "FAILURE",
+        "cause": "Same unresolved onNode import; Android UI tests NOT_RUN",
+        "jvm": "PASS 2/2"
+      }
+    ]
   },
   "in_flight": [
     {
-      "id": 41156847099,
-      "sha": "bc313d8f1886132155d8f34e78ec8cbc9c061169",
+      "id": 41158828666,
+      "sha": "90b87c9b4a158ded5b91b6c94b5af57c42ab0185",
       "status": "WAIT_CI",
-      "observed_at": "2026-10-31T01:48:05.503Z",
       "workflow": "faro-v5-v13-f1-functional.yml",
-      "jobs": [
-        124405415895,
-        124405416077
-      ],
-      "reason": "Compose send and durable reply: Android emulator + JVM, in progress; exact terminal/XML pending"
+      "observed_at": "2026-10-31T02:14:50.124Z",
+      "reason": "F1 Compose Android test import fixed; post-Apply Auxiliary Notice projection; XML oracle verifies both cases"
     },
     {
-      "id": 41156998464,
-      "sha": "d6ab6f088bbbd2899dd7cb519e05a7025e4d53f0",
+      "id": 41159082904,
+      "sha": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
       "status": "WAIT_CI",
-      "observed_at": "2026-10-31T01:48:05.503Z",
       "workflow": "faro-v5-v13-f1-functional.yml",
-      "reason": "Compose human Review -> staged Reality Apply receipt, queued by concurrency; exact terminal/XML pending"
+      "observed_at": "2026-10-31T02:14:50.124Z",
+      "reason": "F1 post-Apply Notice projection gated with shared MaterialWriteGate; fake permission-denied Delivery dispatcher; Android/JVM CI queued"
     }
   ],
   "blockers": [
@@ -124,10 +136,23 @@
       "state": "WAIT_PHYSICAL"
     }
   ],
-  "hypotheses": [],
+  "hypotheses": [
+    {
+      "id": "F1_COMPOSE_IMPORT",
+      "cause": "onNode is ComposeTestRule member, not importable extension",
+      "fix_sha": "90b87c9b4a158ded5b91b6c94b5af57c42ab0185",
+      "state": "CI_PENDING"
+    },
+    {
+      "id": "F1_DELIVERY_FENCE",
+      "cause": "Projection must share maintenance material admission",
+      "fix_sha": "5b0d1e24b48a659ef03bf631869803df0d10d7cb",
+      "state": "CI_PENDING"
+    }
+  ],
   "next_action": {
     "criterion": "F1",
-    "step": "Fix AndroidTest compile unresolved import onNode in FaroV5F1QuarantinedComposeInstrumentationTest; then test only Android Compose directed, do not certify before XML."
+    "step": "Verify #41158828666 and #41159082904 terminal and exact XML. Diagnose new red from logs; no repeat of old SHAs. F1 OS notification/foreground background policy remains unconnected; do not certify. Then F2/F3."
   },
   "sessions": [
     {
@@ -170,7 +195,7 @@
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T02:08:44.291Z",
+  "last_checkpoint_at": "2026-10-31T02:14:50.124Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
