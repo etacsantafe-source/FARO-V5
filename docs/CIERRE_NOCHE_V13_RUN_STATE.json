@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "WAIT_RESOURCE",
+  "status": "IN_PROGRESS",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,12 +12,12 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 30,
-    "lease_acquired_at": "2026-10-31T07:37:07.545Z",
-    "lease_expires_at": null,
-    "expected_head": null,
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_V13_TURN7_20261031_0510",
+    "epoch": 31,
+    "lease_acquired_at": "2026-10-31T08:10:59.881Z",
+    "lease_expires_at": "2026-10-31T08:34:59.881Z",
+    "expected_head": "4d10d548b09362207e6773b7bfa0584c6dc3e14d",
     "last_released_at": "2026-10-31T07:39:11.580Z",
     "last_owner": "NOCHE_A_V13_TURN6_20261031_0435",
     "release_method": "CAS_EXPECTED_HEAD"
@@ -920,15 +920,21 @@
     "ci_41163095797": "FAILURE",
     "ci_41163252426": "FAILURE"
   },
-  "active_session": null,
+  "active_session": {
+    "owner": "NOCHE_B_V13_TURN7_20261031_0510",
+    "started_at": "2026-10-31T08:10:59.881Z",
+    "writer_epoch": 31,
+    "head_at_acquisition": "4d10d548b09362207e6773b7bfa0584c6dc3e14d",
+    "mode": "DEVELOPMENT",
+    "lease_expires_at": "2026-10-31T08:34:59.881Z"
+  },
   "last_precheck": {
-    "at": "2026-10-31T04:46:09.667Z",
-    "head": "706939404883043c678df66b9bdd860fa1b5f053",
-    "ci_run": 41167627577,
-    "ci_status": "FAILURE",
-    "ci_sha": "78fe08b23d95568a8dc6ba7267276f4766364424",
-    "b_last_status": "COMPLETED",
-    "b_last_at": "2026-10-31T04:14:11.790786Z"
+    "at": "2026-10-31T08:10:59.881Z",
+    "head": "4d10d548b09362207e6773b7bfa0584c6dc3e14d",
+    "writer_before": "NONE epoch30",
+    "automation_a": "completed",
+    "automation_b": "IN_PROGRESS self",
+    "ci_latest": "41181395040 FAILURE_PRE_RUN_NO_RUNNER"
   },
   "last_code_commit": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291",
   "last_turn": {
