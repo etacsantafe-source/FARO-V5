@@ -185,10 +185,21 @@ public final class AndroidBackupSafAdapter {
                 new CancellationCheckingInputStream(raw, cancellationSignal)) {
             StagedPortableBackupArchive staged =
                     store.stageFrom(input, stagedAtEpochMillis);
-            if (!store.verify(staged)) {
-                throw new IOException("staged backup archive failed verification");
+            try {
+                if (!store.verify(staged)) {
+                    throw new IOException("staged backup archive failed verification");
+                }
+                return staged;
+            } catch (IOException | RuntimeException invalid) {
+                // An unverified ingress artifact is not pinned by a restore
+                // journal and must not linger in private staging.
+                try {
+                    store.delete(staged);
+                } catch (RuntimeException cleanup) {
+                    invalid.addSuppressed(cleanup);
+                }
+                throw invalid;
             }
-            return staged;
         }
     }
 
