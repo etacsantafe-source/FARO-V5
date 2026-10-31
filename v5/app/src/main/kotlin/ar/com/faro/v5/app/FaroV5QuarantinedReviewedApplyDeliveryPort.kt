@@ -76,9 +76,12 @@ internal object FaroV5CommittedApplyNoticeProjection {
         receipt: ExecutionReceipt,
         review: ConversationPlanReviewSnapshot,
     ): NoticeRouteResult {
+        // Cross-module public properties cannot be smart-cast by Kotlin.
+        // Capture the canonical Workspace receipt once before validating it.
+        val storedReceipt = review.receipt
         check(review.state == ConversationPlanReviewState.COMMITTED &&
-            review.receipt != null &&
-            review.receipt.transactionId == receipt.transactionId &&
+            storedReceipt != null &&
+            storedReceipt.transactionId == receipt.transactionId &&
             review.planFingerprint == receipt.planFingerprint) {
             "Delivery projection requires a committed, matching Reality receipt"
         }

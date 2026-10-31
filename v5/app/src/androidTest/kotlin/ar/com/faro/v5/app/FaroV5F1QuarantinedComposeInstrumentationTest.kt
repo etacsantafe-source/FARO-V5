@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToString
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
@@ -51,6 +53,19 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FaroV5F1QuarantinedComposeInstrumentationTest {
     @get:Rule val compose = createEmptyComposeRule()
+
+    private fun awaitUi(description: String, condition: () -> Boolean) {
+        try {
+            compose.waitUntil(30_000, condition)
+        } catch (failure: Throwable) {
+            // The actual semantics tree distinguishes a missing Activity/root
+            // from a failed Workspace selection or an absent Composer/Review.
+            val tree = runCatching {
+                compose.onRoot(useUnmergedTree = true).printToString()
+            }.getOrElse { "No Compose root: ${it.javaClass.simpleName}: ${it.message}" }
+            throw AssertionError("F1 UI timeout at $description. Semantics: $tree", failure)
+        }
+    }
 
     private fun materialize(path: Path) {
         RealityStore(path.resolve(GenerationStoreFiles.REALITY).toString()).use { }
@@ -127,7 +142,10 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                     ActivityScenario.launch(
                         FaroV5F1QuarantineCertificationActivity::class.java,
                     ).use { scenario ->
-                        compose.waitUntil(30_000) {
+                        assertEquals(chat, runBlocking {
+                            host.workspaceReadPort.readSnapshot().activeConversationId
+                        })
+                        awaitUi("Composer after canonical Workspace selection") {
                             compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().isNotEmpty()
                         }
                         compose.onNode(hasSetTextAction()).performTextInput("Hola FARO")
@@ -270,7 +288,10 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                             ActivityScenario.launch(
                                 FaroV5F1QuarantineCertificationActivity::class.java,
                             ).use {
-                                compose.waitUntil(30_000) {
+                                assertEquals(chat, runBlocking {
+                                    host.workspaceReadPort.readSnapshot().activeConversationId
+                                })
+                                awaitUi("Review after canonical Workspace selection") {
                                     compose.onAllNodesWithText("Confirmar propuesta")
                                         .fetchSemanticsNodes().isNotEmpty()
                                 }
