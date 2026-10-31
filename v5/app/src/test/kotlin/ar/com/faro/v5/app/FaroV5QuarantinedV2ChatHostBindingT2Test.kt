@@ -34,7 +34,7 @@ class FaroV5QuarantinedV2ChatHostBindingT2Test {
         ConversationWorkspaceStore(path.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
     }
 
-    @Test fun fiveOwnerChatDispatchPersistsOnceAndClosesOnQuarantineLoss() = runBlocking {
+    @Test fun fiveOwnerChatDispatchPersistsOnceAndClosesOnQuarantineLoss(): Unit = runBlocking {
         val stage = FileStorageGenerationLayout(root).stageWorkspaceV2(
             StorageGenerationDescriptor(StorageGenerationId("f1-quarantined"),
                 "schema-five-store-1", 4L)
