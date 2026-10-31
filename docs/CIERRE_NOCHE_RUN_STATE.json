@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v12-3h",
   "run_id": "cierre-v12-20261030-B3-2110",
   "run_number": 6,
-  "state": "ACTIVE_FINAL_RECONCILIATION",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_3_FINAL_RECONCILIATION",
+    "state": "NONE",
+    "owner": null,
     "epoch": 15,
-    "lease_expires_at": "2026-10-31T00:39:00Z",
-    "expected_head": "2a6ef30203afaf2fc93ae502373727002b157513"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -34,7 +34,7 @@
         "2026-10-30T19:40:00-03:00",
         "2026-10-30T20:40:00-03:00"
       ],
-      "enabled": true
+      "enabled": false
     },
     "b": {
       "id": "6ae50ca4a8e88191a328702124ae5aa6",
@@ -43,7 +43,7 @@
         "2026-10-30T20:10:00-03:00",
         "2026-10-30T21:10:00-03:00"
       ],
-      "enabled": true
+      "enabled": false
     }
   },
   "stage": {
@@ -263,9 +263,9 @@
     }
   ],
   "next_action": {
-    "mode": "NO_WRITE_EXPIRED_PILOT_READ_ONLY",
+    "mode": "READ_ONLY_NO_AUTONOMOUS_AUTHORIZATION",
     "criterion": "F1",
-    "step": "Verify #41150231238 terminal and XML READ_ONLY. Then request new authorization before F1 Compose/Review/Apply/Delivery E2E, F2/F3/F4/T4."
+    "step": "No pending CI. New explicit authorization required before F1 Compose/Review/Apply/Delivery E2E, F2/F3/F4/T4."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -282,7 +282,7 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "FINAL_CI_RECONCILIATION",
+  "status": "CLOSED_FINAL_RECONCILED_HANDOFF_CLEAN",
   "current_run": {
     "scheduled_start": "2026-10-30T21:10:00-03:00",
     "started_at": "2026-10-31T00:10:12Z",
@@ -393,7 +393,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "FINAL V1.2 B3: F1 real provider bootstrap, revocation controls, quarantined five-owner host, Android emulator Composer/Workspace/recovery 1/1 PASS; F1 full E2E incomplete. 3/8 unchanged. CI #41150231238 WAIT_CI. A/B disable requested.",
+  "scope": "FINAL CONCILED V1.2: F1 real provider bootstrap, consent revocation, quarantined five-owner host JVM 1/1 PASS, Android emulator Composer/Workspace/recovery 1/1 PASS. F1 full UI/Review/Apply/Delivery E2E incomplete, 3/8 unchanged. All 16 Actions terminal (11 success,4 fail,1 cancel), 0 pending; A/B disabled; writer NONE epoch15.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
@@ -544,6 +544,16 @@
       "created_at": "2026-10-31T00:18:29Z",
       "completed_at": "2026-10-31T00:26:13Z",
       "wall_seconds": 464
+    },
+    {
+      "id": 41150231238,
+      "head_sha": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
+      "status": "COMPLETED_SUCCESS",
+      "reason": "F1 quarantined five-owner host JUnit discovery fix",
+      "tests": "XML 8/8 transport, 4/4 bootstrap, 3/3 consent, 19/19 reasoning, 1/1 five-owner host; failures/errors/skips=0; AndroidTest compile PASS, runtime Android test NOT_RUN",
+      "created_at": "2026-10-31T00:27:07Z",
+      "completed_at": "2026-10-31T00:34:47Z",
+      "wall_seconds": 460
     }
   ],
   "b3_timing": {
