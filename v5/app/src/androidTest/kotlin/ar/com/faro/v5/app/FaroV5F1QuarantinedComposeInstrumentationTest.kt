@@ -145,6 +145,95 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
         }
     }
 
+
+    @Test fun recoverOrphanedProcessingAfterExclusiveHostRestartWithoutProviderReplay() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-restart-")
+        try {
+            val staged = FileStorageGenerationLayout(root).stageWorkspaceV2(
+                StorageGenerationDescriptor(
+                    StorageGenerationId("f1-restart-isolated"),
+                    "schema-five-store-1", 4L,
+                )
+            )
+            materialize(staged.directory)
+            val activeV1 = Files.createDirectory(root.resolve("active-v1"))
+            val gate = SingleProcessMaterialWriteGate()
+            val modelCalls = AtomicInteger(0)
+            val model = ModelGateway { _, _ ->
+                modelCalls.incrementAndGet()
+                error("recovery must not call model provider")
+            }
+            val chat = ConversationId("f1-restart-chat")
+            fun open(exclusive: Boolean) =
+                FaroV5QuarantinedV2ChatHostBinding.openForCertification(
+                    staged, gate, Supplier { activeV1 }, model,
+                    Supplier { ModelProfileId("local-recovery") }, { true },
+                    exclusiveRestartRecovery = if (exclusive) BooleanSupplier { true } else null,
+                )
+            open(false).use { host ->
+                assertTrue(runBlocking {
+                    host.selectionPort.createAndSelect(
+                        chat, 1710000000000L, IdempotencyKey("f1-restart-create"),
+                    )
+                } is ConversationSelectionResult.Saved)
+                val draft = requireNotNull(runBlocking { host.composerPort.read(chat) })
+                val saved = runBlocking {
+                    host.composerPort.save(ConversationDraftSaveRequest(
+                        chat, draft.authorityToken, draft.revision,
+                        "Mensaje aceptado antes del cierre", IdempotencyKey("f1-restart-draft"),
+                    ))
+                } as ConversationDraftWriteResult.Saved
+                assertTrue(runBlocking {
+                    host.composerPort.sendDraft(ConversationDraftSendRequest(
+                        ConversationDraftSendCandidate(
+                            chat, saved.snapshot.authorityToken, saved.snapshot.revision,
+                            saved.snapshot.text,
+                        ),
+                        ConversationMessageId("f1-restart-user"),
+                        ConversationTurnId("f1-restart-turn"),
+                        1710000000001L, IdempotencyKey("f1-restart-send"),
+                    ))
+                } is ConversationTimelineWriteResult.Saved)
+            }
+            ConversationWorkspaceStore(
+                staged.directory.resolve(GenerationStoreFiles.WORKSPACE).toString()
+            ).use { workspace ->
+                val before = requireNotNull(runBlocking { workspace.readTimeline(chat) })
+                val processing = ConversationMessage(
+                    ConversationMessageId("f1-restart-faro"), chat,
+                    ConversationTurnId("f1-restart-turn"),
+                    ConversationMessageRole.FARO, ConversationMessageState.PROCESSING,
+                    "", 1710000000002L,
+                )
+                assertTrue(runBlocking {
+                    workspace.writeTimeline(ConversationTimelineWriteRequest(
+                        chat, before.authorityToken, before.revision,
+                        IdempotencyKey("f1-restart-processing"),
+                        ConversationTimelineIntent.StartFaro(processing),
+                    ))
+                } is ConversationTimelineWriteResult.Saved)
+            }
+            open(true).use { host ->
+                assertEquals(1, host.recoveredInterruptedTurns)
+                val timeline = requireNotNull(runBlocking {
+                    host.timelineReadPort.readTimeline(chat)
+                })
+                assertEquals(ConversationMessageState.FAILED, timeline.messages.last().state)
+                assertEquals("", timeline.messages.last().text)
+                assertEquals(0, modelCalls.get())
+                assertTrue(host.verifyQuarantined())
+            }
+            open(true).use { host ->
+                assertEquals(0, host.recoveredInterruptedTurns)
+                assertEquals(0, modelCalls.get())
+            }
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
+
     @Test fun composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-ui-")

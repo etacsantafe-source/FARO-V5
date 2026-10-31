@@ -4,6 +4,9 @@ import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
 import java.nio.file.Path
+import java.nio.charset.StandardCharsets
+import java.util.UUID
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BooleanSupplier
@@ -33,6 +36,7 @@ internal class FaroV5QuarantinedV2ChatHostBinding private constructor(
     val reviewPort: ConversationReviewPort,
     val assistantTurnPort: ConversationAssistantTurnOutcomePort,
     private val dispatch: FaroV5HostAcceptedTurnDispatchPort,
+    val recoveredInterruptedTurns: Int,
 ) : AutoCloseable {
     val generationId: String get() = graph.generationId
 
@@ -61,6 +65,7 @@ internal class FaroV5QuarantinedV2ChatHostBinding private constructor(
             gateway: ModelGateway,
             profile: Supplier<ModelProfileId>,
             egress: (ConversationMessage) -> Boolean,
+            exclusiveRestartRecovery: BooleanSupplier? = null,
         ): FaroV5QuarantinedV2ChatHostBinding {
             val graph = FaroV5QuarantinedV2GraphAdmission
                 .canonical(gate, activeDirectory).open(staged)
@@ -94,6 +99,55 @@ internal class FaroV5QuarantinedV2ChatHostBinding private constructor(
                 val reasoning = FaroV5ActiveChatReasoningSession(
                     generation, workspace, gate, pinned, admitted, gateway, egress,
                 )
+
+                // Explicit restart-only reconciliation. This runs BEFORE a new
+                // dispatcher exists: no model request can race this host's
+                // recovery. The caller must prove exclusive recovery ownership.
+                // A PROCESSING row means an uncertain remote call: mark FAILED,
+                // never replay it, never invent assistant text or Apply effects.
+                var recovered = 0
+                if (exclusiveRestartRecovery != null) {
+                    check(admitted.getAsBoolean() &&
+                        exclusiveRestartRecovery.getAsBoolean()) {
+                        "exclusive_restart_recovery_not_admitted"
+                    }
+                    val conversations = runBlocking { workspace.readSnapshot() }.conversations
+                    for (entry in conversations) {
+                        val timeline = runBlocking { workspace.readTimeline(entry.id) }
+                            ?: continue
+                        for (reply in timeline.messages.filter {
+                            it.role == ConversationMessageRole.FARO &&
+                                it.state == ConversationMessageState.PROCESSING
+                        }) {
+                            val user = timeline.messages.firstOrNull {
+                                it.role == ConversationMessageRole.USER &&
+                                    it.turnId == reply.turnId &&
+                                    it.state == ConversationMessageState.ACCEPTED
+                            } ?: error("orphaned_faro_without_accepted_user")
+                            val recoveryIdentity = UUID.nameUUIDFromBytes(
+                                ("f1-recovery:" + generation + ":" +
+                                    entry.id.value + ":" + reply.turnId.value)
+                                    .toByteArray(StandardCharsets.UTF_8),
+                            )
+                            val key = IdempotencyKey("f1-recovery-$recoveryIdentity")
+                            val outcome = reasoning.settleInterruptedAfterRecovery(
+                                FaroV5AssistantTurnRequest(
+                                    entry.id, user.id, reply.turnId, reply.id,
+                                    profile.get(), reply.createdAtEpochMillis, key, key,
+                                ),
+                                BooleanSupplier {
+                                    admitted.getAsBoolean() &&
+                                        exclusiveRestartRecovery.getAsBoolean()
+                                },
+                            )
+                            check(outcome == FaroV5AssistantTurnOutcome.FAILED ||
+                                outcome == FaroV5AssistantTurnOutcome.ALREADY_RECORDED) {
+                                "interrupted_turn_recovery_incomplete:$outcome"
+                            }
+                            if (outcome == FaroV5AssistantTurnOutcome.FAILED) recovered++
+                        }
+                    }
+                }
                 dispatch = FaroV5HostAcceptedTurnDispatchPort(
                     FaroV5HostAssistantTurnDispatcher(
                         reasoning, Executors.newSingleThreadExecutor(), admitted,
@@ -104,6 +158,7 @@ internal class FaroV5QuarantinedV2ChatHostBinding private constructor(
                     graph, stagePath, activeDirectory, closed,
                     read.workspaceReadPort, read.timelineReadPort,
                     selection.port, composer.port, review.port, dispatch, dispatch,
+                    recovered,
                 )
             } catch (failure: Throwable) {
                 runCatching { dispatch?.close() }
