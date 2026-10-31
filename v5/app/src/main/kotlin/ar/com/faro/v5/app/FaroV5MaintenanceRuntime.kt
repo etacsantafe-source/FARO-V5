@@ -148,16 +148,20 @@ class FaroV5MaintenanceRuntime(
                 ),
         )
 
-    // Read-only evidence port for a quarantined V2 restore; never an activation
-    // permit. The live pre-switch admission remains V1-only.
-    private val v2RecoveryProbe by lazy {
-        FaroV5QuarantinedV2RecoveryProbe(layout, journal, pointer)
+    // F2: production maintenance now uses the actual five-owner SQLite health
+    // inspection rather than trusting a descriptor-only V2 recovery candidate.
+    // Evidence is read-only, not an activation permit. The live pre-switch
+    // admission remains V1-only and V2_ACTIVE_ENABLED stays false.
+    private val v2RecoveryHealth by lazy {
+        FaroV5QuarantinedV2RecoveryHost(
+            layout, journal, pointer, root.materialWriteGate,
+        )
     }
 
     internal fun inspectQuarantinedV2Restore(
         operationId: String,
     ): V2QuarantinedRecoveryEvidence =
-        v2RecoveryProbe.inspect(MaintenanceOperationId(operationId))
+        v2RecoveryHealth.inspectHealthy(MaintenanceOperationId(operationId))
 
     // Internal-only health inspection of an already-switched V2 generation.
     // Not used by V1 startup, active pointer switching, replay or readmission.
