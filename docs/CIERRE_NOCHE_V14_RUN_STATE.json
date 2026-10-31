@@ -12,11 +12,18 @@
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
     "state": "ACTIVE",
-    "owner": "NOCHE_A_V14_TURN1_20261031_1210",
-    "epoch": 34,
-    "lease_acquired_at": "2026-10-31T15:10:12.291Z",
-    "lease_expires_at": "2026-10-31T15:37:00Z",
-    "expected_head": "a0d33eb63e0554acdf79ddeb98cc8ceb26444579"
+    "owner": "NOCHE_B_V14_TURN1_20261031_1240",
+    "epoch": 35,
+    "lease_acquired_at": "2026-10-31T15:45:30.225Z",
+    "lease_expires_at": "2026-10-31T16:07:00Z",
+    "expected_head": "2b8b745cbe40e4e1121d302c7471f3dce9cd30f2",
+    "recovered_from": {
+      "owner": "NOCHE_A_V14_TURN1_20261031_1210",
+      "expired_lease": "2026-10-31T15:37:00Z",
+      "previous_run_completed_at": "2026-10-31T15:38:17.192617Z",
+      "head_unchanged": true,
+      "verified_at": "2026-10-31T15:45:30.225Z"
+    }
   },
   "stage": {
     "id": "S2.A6",
@@ -106,10 +113,11 @@
   },
   "report": null,
   "active_session": {
-    "id": "NOCHE_A_V14_TURN1_20261031_1210",
-    "scheduled_start": "2026-10-31T15:10:00Z",
-    "actual_start": "2026-10-31T15:10:12.291Z",
-    "writer_epoch": 34,
-    "scope": "S2.A6 F3 first, F1/F2/F4 pending"
+    "id": "NOCHE_B_V14_TURN1_20261031_1240",
+    "scheduled_start": "2026-10-31T15:40:00Z",
+    "actual_start": "2026-10-31T15:41:50.392413Z",
+    "writer_acquired_at": "2026-10-31T15:45:30.225Z",
+    "writer_epoch": 35,
+    "scope": "S2.A6 F3 Android SAF cancellation read ingress; S2 3/8"
   }
 }
