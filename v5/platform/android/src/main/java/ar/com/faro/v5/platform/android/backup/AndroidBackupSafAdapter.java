@@ -319,13 +319,19 @@ public final class AndroidBackupSafAdapter {
         @Override
         public int read() throws IOException {
             cancellationSignal.throwIfCanceled();
-            return super.read();
+            int result = super.read();
+            // A provider may ignore cancellation while blocked in read().
+            // Never hand post-cancellation bytes to private staging.
+            cancellationSignal.throwIfCanceled();
+            return result;
         }
 
         @Override
         public int read(byte[] bytes, int offset, int length) throws IOException {
             cancellationSignal.throwIfCanceled();
-            return super.read(bytes, offset, length);
+            int result = super.read(bytes, offset, length);
+            cancellationSignal.throwIfCanceled();
+            return result;
         }
     }
 }

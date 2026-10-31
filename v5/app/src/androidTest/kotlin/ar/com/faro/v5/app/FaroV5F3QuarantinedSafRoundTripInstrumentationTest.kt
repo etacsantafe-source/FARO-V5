@@ -512,4 +512,44 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
         }
     }
 
+    @Test fun providerReadCancellationCannotCommitPrivateIngress() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f3-cancel-read-")
+        val signal = CancellationSignal()
+        // Simulate a DocumentsProvider that returns bytes despite a cancellation
+        // raised while its blocking read is in progress.
+        val provider = object : java.io.ByteArrayInputStream(ByteArray(128) { 0x42.toByte() }) {
+            override fun read(buffer: ByteArray, offset: Int, length: Int): Int {
+                val count = super.read(buffer, offset, length)
+                if (count > 0) signal.cancel()
+                return count
+            }
+        }
+        try {
+            val type = Class.forName(
+                "ar.com.faro.v5.platform.android.backup.AndroidBackupSafAdapter\$CancellationCheckingInputStream"
+            )
+            val constructor = type.getDeclaredConstructor(
+                java.io.InputStream::class.java, CancellationSignal::class.java,
+            )
+            constructor.isAccessible = true
+            val guarded = constructor.newInstance(provider, signal) as java.io.InputStream
+            val staging = FilePortableBackupArchiveStore(root.resolve("incoming"))
+            var rejected = false
+            try {
+                staging.stageFrom(guarded, 1710000000400L)
+            } catch (_: android.os.OperationCanceledException) {
+                rejected = true
+            }
+            assertTrue("cancelled provider read must abort staging", rejected)
+            Files.list(root.resolve("incoming")).use { entries ->
+                assertFalse("no completed or temporary archive after cancellation",
+                    entries.findAny().isPresent)
+            }
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
+
 }
