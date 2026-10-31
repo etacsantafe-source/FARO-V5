@@ -6,15 +6,15 @@
   "absolute_cutoff": "2026-10-31T21:20:00-03:00",
   "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_F1_1850",
+    "state": "NONE",
+    "owner": null,
     "epoch": 2,
     "acquired_at": "2026-10-31T21:52:23.825Z",
-    "lease_expires_at": "2026-10-31T22:17:00Z",
-    "expected_head": "180386a6d30f156ebbb6f78baa60e263f4c34398",
-    "last_owner": "NOCHE_A_F1_1820",
-    "released_at": null,
-    "release_method": null,
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_B_F1_1850",
+    "released_at": "2026-10-31T22:15:22.070Z",
+    "release_method": "CAS_EXPECTED_HEAD_PENDING_POST_READ",
     "verified_at": null
   },
   "f1": "OPEN",
@@ -29,18 +29,19 @@
   "scope_notes": {
     "groq": "Synthetic JSON/transport/consent tests 15/15 PASS on exact SHA; LIVE Groq credential NOT_RUN",
     "chat": "Prior staged Composer->SQLite Workspace->ModelGateway->durable reply implementation; no live provider E2E",
-    "review_apply": "Prior canonical human review/fingerprint/Reality receipt implementation; no model-structured plan creation E2E",
+    "review_apply": "Structured JSON -> trusted local Profile PreparedPlan + canonical fingerprint -> durable Workspace PENDING review; quarantined host callback; compilation passed and most directed tests passed, but final exact-SHA CI FAIL due stale test expectation at line 215. No certified PASS or automatic Apply.",
     "delivery": "Prior quarantined Android permission/notification implementation; not physical T4",
-    "integration": "Full real provider and physical Android path NOT_RUN; APK not ready"
+    "integration": "End-to-end synthetic structured reply to human review implemented; full CI gate FAIL; live Groq/physical Android NOT_RUN, APK not ready; shipping CompositionRoot V2 still OFF."
   },
   "blockers": [
     "WAIT_HUMAN: real Groq key must be entered only on Android through consented Keystore UI, not GitHub",
     "WAIT_HUMAN: Android physical device test after APK ready",
-    "F1 code gap: structured model output to trusted plan review is not yet integrated end-to-end",
     "F1 debug credential/test entry path and APK not yet ready",
-    "B1 writer state was accidentally reverted to A1 NONE by a code commit based on an old tree; restored immediately with exact-head CAS, no competing session observed."
+    "B1 writer state was accidentally reverted to A1 NONE by a code commit based on an old tree; restored immediately with exact-head CAS, no competing session observed.",
+    "F1 B1 RED: update stale post-reopen expected text at v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ChatToReviewedApplyFlowT2Test.kt:215 to exact JSON string; then rerun directed CI on new SHA and inspect XML.",
+    "F1 B1: shipping CompositionRoot uses legacy 3-argument dispatcher (preserved by @JvmOverloads); quarantined host is wired for proposals, production V2-gated proposal wiring still pending."
   ],
-  "next_task": "B1 active: bounded model proposal->human review seam",
+  "next_task": "A2 19:20: first fix ONLY stale expected post-reopen assistant JSON assertion at FaroV5ChatToReviewedApplyFlowT2Test.kt:215, run directed CI on exact SHA and verify XML; then continue F1 gated production bridge and debug Keystore credential/APK path, no V2 activation.",
   "sessions": [
     {
       "id": "NOCHE_A_F1_TURN1_20261031_1820",
@@ -104,7 +105,81 @@
       ],
       "checkpoint_path": "docs/f1-noche/F1_NOCHE_A1_CHECKPOINT_20261031_1820.md",
       "writer_release": "CAS_EXPECTED_HEAD_VERIFIED"
+    },
+    {
+      "id": "NOCHE_B_F1_TURN1_20261031_1850",
+      "scheduled_start": "2026-10-31T18:50:00-03:00",
+      "actual_start": "2026-10-31T21:52:06Z",
+      "writer_acquired_at": "2026-10-31T21:52:23.825Z",
+      "checkpoint_and_release_at": "2026-10-31T22:15:22.070Z",
+      "observed_wall_seconds_to_checkpoint": 1396,
+      "observed_writer_held_seconds_to_release": 1378,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "investigation_seconds": "NO_REGISTRADO",
+      "code_seconds": "NO_REGISTRADO",
+      "tests_review_seconds": "NO_REGISTRADO",
+      "ci_wait_seconds": "NO_REGISTRADO",
+      "writer_wait_seconds": 0,
+      "coordination_seconds": "NO_REGISTRADO",
+      "idle_seconds": "NO_REGISTRADO",
+      "ci_wall_not_additive": true,
+      "code_commits": [
+        "51d2fd9ace4a9447816ed7e968a841c6c8c34ba5",
+        "431c785d91d4c4e07871e6af99fbf016a6ec8f4d",
+        "180386a6d30f156ebbb6f78baa60e263f4c34398",
+        "9dc7b01d7a3462d2e13803dbdae8eb0c7ecca2b3",
+        "a95f8d1f0a048e3b945bb78aca7a5bfd528eddde"
+      ],
+      "writer_commits": [
+        "3c18cae1d93fb0b670e663efd78cef3a94952f1b",
+        "0cd225ac2f5fb5338ee1297b2c4fee4f47266f7c"
+      ],
+      "writer_incident": "Old base tree accidentally reverted epoch2 to A1 NONE; recovered via exact-head CAS 0cd225ac; verified ACTIVE epoch2 after correction; no competing writer observed",
+      "ci": [
+        {
+          "id": 41245668665,
+          "sha": "51d2fd9ace4a9447816ed7e968a841c6c8c34ba5",
+          "result": "FAILURE",
+          "root": "Kotlin test compile mismatch RealityStore vs ProfileReadApi; corrected in 431c785d",
+          "wall_seconds": 232,
+          "queue_proxy_seconds": 4,
+          "runner_log_span_seconds": 226,
+          "xml": "NOT_RUN"
+        },
+        {
+          "id": 41245867313,
+          "sha": "180386a6d30f156ebbb6f78baa60e263f4c34398",
+          "result": "FAILURE",
+          "root": "Java CompositionRoot 3-arg constructor incompatible with new Kotlin callback; corrected by @JvmOverloads in a95f8d1f",
+          "wall_seconds": 341,
+          "queue_proxy_seconds": 73,
+          "runner_log_span_seconds": 267,
+          "xml": "NOT_RUN"
+        },
+        {
+          "id": 41246139989,
+          "sha": "9dc7b01d7a3462d2e13803dbdae8eb0c7ecca2b3",
+          "result": "FAILURE",
+          "root": "Same old-SHA Java constructor mismatch; queued before correction, no identical rerun requested",
+          "wall_seconds": 386,
+          "queue_proxy_seconds": 107,
+          "runner_log_span_seconds": 278,
+          "xml": "NOT_RUN"
+        },
+        {
+          "id": 41246312730,
+          "sha": "a95f8d1f0a048e3b945bb78aca7a5bfd528eddde",
+          "result": "FAILURE",
+          "root": "Compilation PASS; 9 app tests executed, 1 failed at FaroV5ChatToReviewedApplyFlowT2Test.kt:215: stale expected plain text after reopen instead of new structured JSON; no final XML oracle",
+          "wall_seconds": 486,
+          "queue_proxy_seconds": 267,
+          "runner_log_span_seconds": 217,
+          "xml": "APP_TESTS_9_EXECUTED_1_FAILED; FORMAL_XML_ORACLE_SKIPPED"
+        }
+      ],
+      "checkpoint_path": "docs/f1-noche/F1_NOCHE_B1_CHECKPOINT_20261031_1850.md",
+      "writer_release": "CAS_PENDING_VERIFY"
     }
   ],
-  "last_checkpoint_at": "2026-10-31T21:45:29.924Z"
+  "last_checkpoint_at": "2026-10-31T22:15:22.070Z"
 }
