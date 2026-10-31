@@ -7,16 +7,16 @@
   "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
   "writer": {
     "state": "ACTIVE",
-    "owner": "NOCHE_A_F1_2020",
-    "epoch": 5,
-    "acquired_at": "2026-10-31T23:20:11.320Z",
-    "lease_expires_at": "2026-10-31T23:47:00Z",
-    "expected_head": "2bd2580d4c5a301e4606eb235c6d335125bb1d0c",
-    "last_owner": "NOCHE_B_F1_1950",
+    "owner": "NOCHE_B_F1_2050",
+    "epoch": 6,
+    "acquired_at": "2026-10-31T23:50:08.228Z",
+    "lease_expires_at": "2026-11-01T00:17:00Z",
+    "expected_head": "e6764a2dee10f3892750a6ad0a16d7ab49138ba8",
+    "last_owner": "NOCHE_A_F1_2020",
     "released_at": null,
     "release_method": null,
     "verified_at": null,
-    "recovery_note": "B2 automation terminal failed at 2026-10-31T23:14:45Z; lease expired at 23:17Z; A3 recovered only after both verified, via CAS exact HEAD"
+    "recovery_note": "A3 terminal at 2026-10-31T23:33:00.287340Z; A3 lease expired 2026-10-31T23:47:00Z; recovered by B3 after verifying both, CAS expected HEAD"
   },
   "f1": "OPEN",
   "v2_enabled": false,
@@ -47,7 +47,7 @@
     "A2 CompositionRoot.applyActiveReviewedPlan direct method should additionally check V2_ACTIVE_ENABLED before exposing Apply; do not change V2 flag.",
     "B2 terminated failed after successful Actions #41250029386; writer epoch4 remained ACTIVE and checkpoint B2 missing. A3 recovery epoch5 after terminal+lease checks, preserving code SHA 2bd2580d."
   ],
-  "next_task": "B2 19:50: FIRST fix Java/Kotlin value-class callback compile ROJO #41248313958 by exposing Java-callable no-value-class-argument callback() from FaroV5ModelReviewBridge and passing modelReview.callback() to FaroV5HostAssistantTurnDispatcher; compile and run directed CI once on exact SHA, inspect XML. THEN gate CompositionRoot.applyActiveReviewedPlan with V2_ACTIVE_ENABLED and extend existing Android Compose F1 test to produce structured model JSON -> durable Review -> human approval -> Atomic Apply -> denied-permission Delivery/reprojection without pre-staging review. Keep V2 OFF. Groq live and physical Android WAIT_HUMAN.",
+  "next_task": "B3: verify Groq probe response exact FARO_OK (not just HTTP 200), add directed JVM test, preserve no-key/consent and V2 OFF, run existing F1 gate once; Groq live and physical WAIT_HUMAN",
   "sessions": [
     {
       "id": "NOCHE_A_F1_TURN1_20261031_1820",
@@ -262,5 +262,5 @@
       "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
     }
   ],
-  "last_checkpoint_at": "2026-10-31T23:20:11.320Z"
+  "last_checkpoint_at": "2026-10-31T23:50:08.228Z"
 }
