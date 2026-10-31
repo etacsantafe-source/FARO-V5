@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "project": "FARO V5 F1 Noche",
+  "branch": "work/f1-noche-v14-20261031-1820",
+  "authorized_start": "2026-10-31T18:20:00-03:00",
+  "absolute_cutoff": "2026-10-31T21:20:00-03:00",
+  "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
+  "writer": {
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_F1_1820",
+    "epoch": 1,
+    "acquired_at": "2026-10-31T21:23:02.567Z",
+    "lease_expires_at": "2026-10-31T21:47:00Z",
+    "expected_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56"
+  },
+  "f1": "OPEN",
+  "v2_enabled": false,
+  "submilestones": {
+    "groq": "EN_DESARROLLO",
+    "chat": "PENDIENTE",
+    "review_apply": "PENDIENTE",
+    "delivery": "PENDIENTE",
+    "integration": "PENDIENTE"
+  },
+  "sessions": [],
+  "notes": "CAS lease; no changes to main, previous branches or unrelated F2/F3/F4"
+}
