@@ -7,15 +7,16 @@
   "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
   "writer": {
     "state": "ACTIVE",
-    "owner": "NOCHE_B_F1_1950",
-    "epoch": 4,
-    "acquired_at": "2026-10-31T22:50:05.195Z",
-    "lease_expires_at": "2026-10-31T23:17:00Z",
-    "expected_head": "cd047d2b15a746ae224525f8e9e57c95584e7c94",
-    "last_owner": "NOCHE_A_F1_1920",
+    "owner": "NOCHE_A_F1_2020",
+    "epoch": 5,
+    "acquired_at": "2026-10-31T23:20:11.320Z",
+    "lease_expires_at": "2026-10-31T23:47:00Z",
+    "expected_head": "2bd2580d4c5a301e4606eb235c6d335125bb1d0c",
+    "last_owner": "NOCHE_B_F1_1950",
     "released_at": null,
     "release_method": null,
-    "verified_at": null
+    "verified_at": null,
+    "recovery_note": "B2 automation terminal failed at 2026-10-31T23:14:45Z; lease expired at 23:17Z; A3 recovered only after both verified, via CAS exact HEAD"
   },
   "f1": "OPEN",
   "v2_enabled": false,
@@ -43,7 +44,8 @@
     "A2 debug APK artifact #13060368194 is built from dffe785a (not final ea1886fc) and only proves readiness for human Groq transport smoke; not full F1.",
     "Groq free tier must be confirmed on the user's own account before sending any live request; paid accounts may incur provider charges.",
     "A2 pending full synthetic Android model-generated Review->Apply->Delivery test; existing UI test pre-stages the Review and uses plain text local reply.",
-    "A2 CompositionRoot.applyActiveReviewedPlan direct method should additionally check V2_ACTIVE_ENABLED before exposing Apply; do not change V2 flag."
+    "A2 CompositionRoot.applyActiveReviewedPlan direct method should additionally check V2_ACTIVE_ENABLED before exposing Apply; do not change V2 flag.",
+    "B2 terminated failed after successful Actions #41250029386; writer epoch4 remained ACTIVE and checkpoint B2 missing. A3 recovery epoch5 after terminal+lease checks, preserving code SHA 2bd2580d."
   ],
   "next_task": "B2 19:50: FIRST fix Java/Kotlin value-class callback compile ROJO #41248313958 by exposing Java-callable no-value-class-argument callback() from FaroV5ModelReviewBridge and passing modelReview.callback() to FaroV5HostAssistantTurnDispatcher; compile and run directed CI once on exact SHA, inspect XML. THEN gate CompositionRoot.applyActiveReviewedPlan with V2_ACTIVE_ENABLED and extend existing Android Compose F1 test to produce structured model JSON -> durable Review -> human approval -> Atomic Apply -> denied-permission Delivery/reprojection without pre-staging review. Keep V2 OFF. Groq live and physical Android WAIT_HUMAN.",
   "sessions": [
@@ -260,5 +262,5 @@
       "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
     }
   ],
-  "last_checkpoint_at": "2026-10-31T22:45:31.874Z"
+  "last_checkpoint_at": "2026-10-31T23:20:11.320Z"
 }
