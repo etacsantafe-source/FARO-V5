@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "ACTIVE_WRITER",
+  "status": "WAIT_CI",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,14 +12,14 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_V13_TURN4_20261031_0145",
+    "state": "NONE",
+    "owner": null,
     "epoch": 24,
-    "lease_expires_at": "2026-10-31T05:06:09.667Z",
-    "expected_head": "706939404883043c678df66b9bdd860fa1b5f053",
-    "last_released_at": "2026-10-31T04:13:55.354Z",
-    "last_owner": "NOCHE_B_V13_TURN3_20261031_0110",
-    "release_method": null,
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_released_at": "2026-10-31T04:48:34.492Z",
+    "last_owner": "NOCHE_A_V13_TURN4_20261031_0145",
+    "release_method": "CAS_EXPECTED_HEAD_VERIFICATION_PENDING",
     "lease_acquired_at": "2026-10-31T04:46:09.667Z"
   },
   "stage": {
@@ -78,7 +78,7 @@
       "state": "NOT_RUN"
     }
   ],
-  "code_head": "78fe08b23d95568a8dc6ba7267276f4766364424",
+  "code_head": "84a7576d3d7560e7168d644e46591849f5e178bd",
   "evidence": {
     "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
     "prior_16_actions_terminal": true,
@@ -226,16 +226,35 @@
       "conclusion": null,
       "scope": "Quarantined UI Apply→Android OS dispatch with permission denied; independent Android OS posted+idempotence case; 4 Android cases, 2 JVM and 2 SQLite expected",
       "xml": "WAIT_CI"
+    },
+    "f1_v13_a4_prior_ci": {
+      "id": 41167627577,
+      "sha": "78fe08b23d95568a8dc6ba7267276f4766364424",
+      "status": "FAILURE",
+      "wall_seconds": 634,
+      "sqlite_xml": "2/2 PASS",
+      "jvm_xml": "2/2 PASS",
+      "android_xml": "3 cases present, 1/4 completed; instrumentation process crashed; 4/4 NOT_CERTIFIED",
+      "android_job": 124438520317,
+      "root_cause_hypothesis": "runtime POST_NOTIFICATIONS revoke inside instrumentation kills app process; order-independent permission mutation unsafe"
+    },
+    "f1_v13_a4_new_ci": {
+      "id": 41169968001,
+      "sha": "84a7576d3d7560e7168d644e46591849f5e178bd",
+      "status": "in_progress",
+      "conclusion": null,
+      "xml": "WAIT_CI",
+      "scope": "4-case Compose OS notification permission boundary + synthetic Keystore consented host, JVM 2/2 and SQLite 2/2"
     }
   },
   "in_flight": [
     {
-      "id": 41167627577,
-      "sha": "78fe08b23d95568a8dc6ba7267276f4766364424",
+      "id": 41169968001,
+      "sha": "84a7576d3d7560e7168d644e46591849f5e178bd",
       "status": "WAIT_CI",
-      "observed_at": "2026-10-31T04:13:55.354Z",
+      "observed_at": "2026-10-31T04:48:34.492Z",
       "workflow": "faro-v5-v13-f1-functional.yml",
-      "reason": "Await Android 4-case XML, JVM and SQLite directed jobs; no PASS claimed"
+      "reason": "Verify 4 Android Compose cases; JVM/SQLite; do not certify from queued/running"
     }
   ],
   "blockers": [
@@ -294,11 +313,18 @@
       "cause": "Actual OS positive path requires Android 35 notification runtime permission, NotificationManager enabled and active notification observation; test grants only inside isolated emulator, revokes and cancels in finally",
       "fix_sha": "78fe08b23d95568a8dc6ba7267276f4766364424",
       "state": "CI_PENDING"
+    },
+    {
+      "id": "F1_ANDROID_PERMISSION_REVOCATION_PROCESS_KILL",
+      "cause": "Android runtime permission revoke inside active instrumentation likely kills app process after 1/4; run 41167627577 produced 3 XML entries, not 4; no full Android PASS",
+      "fix_sha": "84a7576d3d7560e7168d644e46591849f5e178bd",
+      "state": "FIX_COMMITTED_WAIT_CI",
+      "change": "Ordered denied-before-grant tests, no in-process revoke, isolated emulator cleanup; test real consented Keystore host without network"
     }
   ],
   "next_action": {
     "criterion": "F1",
-    "step": "READ_ONLY verify Actions #41167627577 SHA 78fe08b (terminal jobs and exact 4-case Android XML); if red diagnose permission/notification or compile logs, do not blindly rerun. If green, add Android Keystore consent+revocation instrumentation to directed F1 evidence and complete quarantine composition; no real provider API call without explicit credential. F2/F3/F4 next; T4 physical NOT_RUN, V2 OFF."
+    "step": "READ_ONLY verify run 41169968001 terminal status and exact 4-case Android XML, JVM 2/2 and SQLite 2/2; if red diagnose crash or consented host using new logs, no blind rerun. If green, F1 remains open without live remote provider; do not use real API credentials without explicit consent. F2 Android recovery and F3 staged five-store SAF UI are next independent safe functional gaps. F3 shipping export currently gated by V2_ACTIVE_ENABLED=false; build isolated quarantine evidence, never enable V2. S2 3/8; T4 physical NOT_RUN."
   },
   "sessions": [
     {
@@ -458,6 +484,32 @@
         41165731391
       ],
       "known_limitations": "F1 3/8 unchanged; live Groq success needs explicit user credential and consent; OS positive path WAIT_CI; T4 physical NOT_RUN; F2/F3/F4 still open"
+    },
+    {
+      "id": "NOCHE_A_V13_TURN4_20261031_0145",
+      "started_at": "2026-10-31T04:45:00.212Z",
+      "checkpoint_at": "2026-10-31T04:48:34.492Z",
+      "duration_observed_minutes": 3.57,
+      "writer_epoch": 24,
+      "commits": [
+        "84a7576d3d7560e7168d644e46591849f5e178bd"
+      ],
+      "new_functionality": "No product implementation changed; extended Android consented Keystore-backed F1 host integration test and corrected process-killing permission mutation in OS delivery test; test-only functional evidence awaiting CI.",
+      "ci_reused": [
+        41167627577
+      ],
+      "ci_launched_automatically": 1,
+      "ci_pending": [
+        41169968001
+      ],
+      "ci_xml_verified": {
+        "previous_run_41167627577": {
+          "sqlite": "2/2 PASS",
+          "jvm": "2/2 PASS",
+          "android": "INCOMPLETE count=3 of 4, instrumentation crash"
+        }
+      },
+      "known_limitations": "F1 Android OS and consent integration pending CI; no real remote provider call; F2/F3/F4 incomplete; T4 physical NOT_RUN; V2 OFF. Work closed early, no simulated 30m."
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
@@ -562,5 +614,6 @@
     "ci_sha": "78fe08b23d95568a8dc6ba7267276f4766364424",
     "b_last_status": "COMPLETED",
     "b_last_at": "2026-10-31T04:14:11.790786Z"
-  }
+  },
+  "last_code_commit": "84a7576d3d7560e7168d644e46591849f5e178bd"
 }
