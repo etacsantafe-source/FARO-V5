@@ -79,6 +79,11 @@ public final class FaroV5Application extends Application implements Configuratio
         return compositionRoot().activeReviewPort();
     }
 
+    // Only the app-internal, non-exported S2 SAF consent Activity may use this.
+    FaroV5MaintenanceRuntime fiveStoreSafConsentRuntime() {
+        return compositionRoot().fiveStoreSafConsentRuntime();
+    }
+
     public FaroV5StartupReadiness getStartupReadiness() {
         return compositionRoot().getStartupReadiness();
     }

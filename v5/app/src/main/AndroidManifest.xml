@@ -25,6 +25,11 @@
             android:name="ar.com.faro.v5.app.FaroV5AiSettingsActivity"
             android:exported="false" />
 
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5FiveStoreSafConsentActivity"
+            android:exported="false"
+            android:excludeFromRecents="true" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

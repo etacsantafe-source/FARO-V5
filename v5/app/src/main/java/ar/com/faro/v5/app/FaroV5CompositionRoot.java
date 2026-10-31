@@ -193,6 +193,12 @@ public final class FaroV5CompositionRoot {
         }
     }
 
+    // S2 F3 non-exported consent surface; shares the canonical maintenance owner.
+    // It cannot bypass the V2 certification gate or startup recovery.
+    FaroV5MaintenanceRuntime fiveStoreSafConsentRuntime() {
+        return maintenanceRuntime();
+    }
+
     private FaroV5MaintenanceRuntime maintenanceRuntime() {
         FaroV5MaintenanceRuntime current = maintenanceRuntime;
         if (current != null) {
