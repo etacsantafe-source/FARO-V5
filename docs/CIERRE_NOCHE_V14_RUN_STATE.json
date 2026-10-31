@@ -1,6 +1,6 @@
 {
   "schema_version": 14,
-  "phase": "IN_PROGRESS",
+  "phase": "WAIT_NEXT_SESSION",
   "repo": "etacsantafe-source/FARO-V5",
   "branch": "work/cierre-noche-v14-20261031",
   "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
@@ -11,19 +11,16 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V14_TURN1_20261031_1240",
+    "state": "NONE",
+    "owner": null,
     "epoch": 35,
     "lease_acquired_at": "2026-10-31T15:45:30.225Z",
-    "lease_expires_at": "2026-10-31T16:07:00Z",
-    "expected_head": "2b8b745cbe40e4e1121d302c7471f3dce9cd30f2",
-    "recovered_from": {
-      "owner": "NOCHE_A_V14_TURN1_20261031_1210",
-      "expired_lease": "2026-10-31T15:37:00Z",
-      "previous_run_completed_at": "2026-10-31T15:38:17.192617Z",
-      "head_unchanged": true,
-      "verified_at": "2026-10-31T15:45:30.225Z"
-    }
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_B_V14_TURN1_20261031_1240",
+    "release_method": "CAS_EXPECTED_HEAD",
+    "release_checkpoint_recorded_at": "2026-10-31T16:05:45.562Z",
+    "prior_recovery_verified": true
   },
   "stage": {
     "id": "S2.A6",
@@ -105,19 +102,78 @@
     "B": null,
     "report": null
   },
-  "sessions": [],
+  "sessions": [
+    {
+      "id": "NOCHE_B_V14_TURN1_20261031_1240",
+      "scheduled_start": "2026-10-31T15:40:00Z",
+      "actual_start": "2026-10-31T15:41:50.392413Z",
+      "writer_acquired_at": "2026-10-31T15:45:30.225Z",
+      "checkpoint_prepared_at": "2026-10-31T16:05:45.562Z",
+      "observed_wall_seconds_to_checkpoint": 1435,
+      "writer_retry_wall_seconds_overlaps_research": 220,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "commits": [
+        "7203539cd9a0adac84ca4d39dfa0689db3d49509",
+        "fdaf85a3d0c6376f4248b7c1ef4f2909a774e1b1",
+        "3b4ffd48e44f30bfcd70c8fc1e54497590de057d"
+      ],
+      "ci": [
+        {
+          "id": 41216435525,
+          "sha": "7203539cd9a0adac84ca4d39dfa0689db3d49509",
+          "result": "FAILURE",
+          "created_at": "2026-10-31T15:46:21Z",
+          "job_started_at": "2026-10-31T15:46:24Z",
+          "job_completed_at": "2026-10-31T15:52:17Z",
+          "completed_at": "2026-10-31T15:52:17Z",
+          "wall_seconds": 356,
+          "queue_seconds": 3,
+          "execution_seconds": 353,
+          "xml": "NOT_RUN",
+          "root_cause": "Javac checked FileNotFoundException at AndroidBackupSafAdapter.java:222; compile failed",
+          "job_id": 124581822347
+        },
+        {
+          "id": 41216467050,
+          "sha": "fdaf85a3d0c6376f4248b7c1ef4f2909a774e1b1",
+          "result": "CANCELLED_AUTOMATIC_PENDING_REPLACEMENT",
+          "created_at": "2026-10-31T15:46:45Z",
+          "completed_at": "2026-10-31T15:47:54Z",
+          "wall_seconds": 69,
+          "pending_before_cancel_seconds": 69,
+          "execution_seconds": 0,
+          "xml": "NOT_RUN",
+          "job_id": null
+        },
+        {
+          "id": 41216555083,
+          "sha": "3b4ffd48e44f30bfcd70c8fc1e54497590de057d",
+          "result": "SUCCESS",
+          "created_at": "2026-10-31T15:47:53Z",
+          "job_started_at": "2026-10-31T15:52:19Z",
+          "job_completed_at": "2026-10-31T15:59:23Z",
+          "completed_at": "2026-10-31T15:59:24Z",
+          "wall_seconds": 691,
+          "queue_seconds": 266,
+          "execution_seconds": 424,
+          "xml": "F3_V14_SAF_TRUNCATION_AND_CONSENT_PASS 5/5; zero failed/skipped; Android emulator API35",
+          "job_id": 124583209939
+        }
+      ],
+      "checkpoint_path": "docs/CIERRE_NOCHE_V14_B1_CHECKPOINT_20261031_1240.md",
+      "writer_released": "CAS_PENDING_VERIFY"
+    }
+  ],
   "metrics": {
-    "measured_total_seconds": 0,
+    "measured_total_seconds": 1435,
     "unknown_seconds": null,
-    "ci_overlaps_separate": true
+    "ci_overlaps_separate": true,
+    "coverage": "B1 observed wall only; A1 and exclusive activity breakdown not measured; do not treat as total 6h utilization"
   },
   "report": null,
-  "active_session": {
-    "id": "NOCHE_B_V14_TURN1_20261031_1240",
-    "scheduled_start": "2026-10-31T15:40:00Z",
-    "actual_start": "2026-10-31T15:41:50.392413Z",
-    "writer_acquired_at": "2026-10-31T15:45:30.225Z",
-    "writer_epoch": 35,
-    "scope": "S2.A6 F3 Android SAF cancellation read ingress; S2 3/8"
-  }
+  "active_session": null,
+  "last_code_commit": "3b4ffd48e44f30bfcd70c8fc1e54497590de057d",
+  "last_checkpoint_at": "2026-10-31T16:05:45.562Z",
+  "last_checkpoint": "docs/CIERRE_NOCHE_V14_B1_CHECKPOINT_20261031_1240.md",
+  "next_action": "F3 trusted maintenance RESTORE PREPARING->STAGED journal coordinator under shared lease; Android real picker/journal E2E. Reuse SHA 3b4ffd4 Android 5/5; F1/F2/F4/T4 pending."
 }
