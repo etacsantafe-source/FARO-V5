@@ -177,13 +177,19 @@ public final class AndroidBackupSafAdapter {
         Objects.requireNonNull(cancellationSignal, "cancellationSignal");
 
         cancellationSignal.throwIfCanceled();
-        InputStream raw = resolver.openInputStream(sourceUri);
-        if (raw == null) {
-            throw new FileNotFoundException("backup provider returned null input stream");
+        // The SAF provider must receive the same cancellation signal as our
+        // bounded private staging copy. openInputStream() cannot cancel a
+        // provider blocked while opening the document.
+        ParcelFileDescriptor descriptor =
+                resolver.openFileDescriptor(sourceUri, "r", cancellationSignal);
+        if (descriptor == null) {
+            throw new FileNotFoundException("backup provider returned null read descriptor");
         }
 
         try (InputStream input =
-                new CancellationCheckingInputStream(raw, cancellationSignal)) {
+                new CancellationCheckingInputStream(
+                        new ParcelFileDescriptor.AutoCloseInputStream(descriptor),
+                        cancellationSignal)) {
             StagedPortableBackupArchive staged =
                     store.stageFrom(input, stagedAtEpochMillis);
             try {
@@ -210,10 +216,15 @@ public final class AndroidBackupSafAdapter {
             long expectedBytes,
             String expectedSha256,
             CancellationSignal cancellationSignal) {
-        try (InputStream input = resolver.openInputStream(destination)) {
-            if (input == null) {
-                return Verification.UNAVAILABLE;
-            }
+        // A provider may block during verification open. Propagate cancellation
+        // into the DocumentsProvider rather than only checking subsequent reads.
+        ParcelFileDescriptor descriptor =
+                resolver.openFileDescriptor(destination, "r", cancellationSignal);
+        if (descriptor == null) {
+            return Verification.UNAVAILABLE;
+        }
+        try (InputStream input =
+                new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] buffer = new byte[BUFFER_BYTES];
             long count = 0L;
