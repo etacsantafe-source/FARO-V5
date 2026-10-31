@@ -117,9 +117,15 @@ jobs:
                   if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
                       matches.append((p,case))
           if len(matches)!=2: raise SystemExit(f'F1_V13_COMPOSE_NOT_EXECUTED count={len(matches)}')
-          p,case=matches[0]
-          if any(case.find(x) is not None for x in ('failure','error','skipped')):
-              raise SystemExit(f'F1_V13_COMPOSE_FAILED {p}')
+          expected={
+              'composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation',
+              'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt',
+          }
+          names={case.attrib.get('name') for _,case in matches}
+          if names!=expected: raise SystemExit(f'F1_V13_COMPOSE_WRONG_CASES {names}')
+          for p,case in matches:
+              if any(case.find(x) is not None for x in ('failure','error','skipped')):
+                  raise SystemExit(f'F1_V13_COMPOSE_FAILED {p} {case.attrib.get("name")}')
           print('FARO_V13_F1_COMPOSE_QUARANTINE_EXECUTED_PASS 2/2')
           print('Staged Reality Apply tested, OS Delivery and physical T4 NOT_RUN; F1 criterion remains OPEN.')
           PY

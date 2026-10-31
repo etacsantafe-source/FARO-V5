@@ -3,13 +3,14 @@ package ar.com.faro.v5.app
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.onNode
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import ar.com.faro.v5.delivery.api.NoticeRouter
+import ar.com.faro.v5.delivery.api.NoticeSensitivity
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.kernel.contracts.*
@@ -209,15 +210,26 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                         FaroV5F1QuarantineUiFixture.host = host
                         // Debug-only explicit human request; the shipping port
                         // remains denied because V2_ACTIVE_ENABLED is false.
+                        // The only projection here is a durable generic Notice in
+                        // isolated Auxiliary; never post an Android notification.
+                        // The UI does not supply a receipt or a delivery identity.
+                        val deliveryFailures = AtomicInteger(0)
+                        val deliveryStore = AuxiliaryDeliveryStore(
+                            staged.directory.resolve(GenerationStoreFiles.AUXILIARY).toString(),
+                            materialWriteGate = gate,
+                        )
                         FaroV5F1QuarantineUiFixture.applyPort =
-                            object : ConversationApplyRequestPort {
-                                override suspend fun request(
-                                    context: ConversationPlanReviewContext,
-                                ): ConversationApplyHostOutcome =
-                                    if (!host.verifyQuarantined())
-                                        ConversationApplyHostOutcome.Denied("quarantine_lost")
-                                    else apply.executeAfterHumanRequest(context)
-                            }
+                            FaroV5QuarantinedReviewedApplyDeliveryPort(
+                                upstream = object : ConversationApplyRequestPort {
+                                    override suspend fun request(
+                                        context: ConversationPlanReviewContext,
+                                    ): ConversationApplyHostOutcome =
+                                        apply.executeAfterHumanRequest(context)
+                                },
+                                router = NoticeRouter(deliveryStore),
+                                admitted = BooleanSupplier { host.verifyQuarantined() },
+                                onProjectionFailure = { deliveryFailures.incrementAndGet() },
+                            )
                         try {
                             ActivityScenario.launch(
                                 FaroV5F1QuarantineCertificationActivity::class.java,
@@ -242,11 +254,17 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertEquals(ConversationPlanReviewState.COMMITTED, review.state)
                                 assertNotNull(review.receipt)
                                 assertEquals(1L, reality.read().revision)
+                                assertEquals(0, deliveryFailures.get())
+                                val notices = deliveryStore.readNotices()
+                                assertEquals(1, notices.size)
+                                assertEquals("Cambios aplicados y registrados", notices.single().summary.value)
+                                assertEquals(NoticeSensitivity.NORMAL, notices.single().sensitivity)
                                 assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
                             }
                         } finally {
                             FaroV5F1QuarantineUiFixture.applyPort = null
                             FaroV5F1QuarantineUiFixture.host = null
+                            deliveryStore.close()
                         }
                     }
                 }
