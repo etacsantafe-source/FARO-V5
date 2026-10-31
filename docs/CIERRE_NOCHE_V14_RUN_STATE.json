@@ -1,6 +1,6 @@
 {
   "schema_version": 14,
-  "phase": "WAIT_NEXT_SESSION",
+  "phase": "ACTIVE_SESSION",
   "repo": "etacsantafe-source/FARO-V5",
   "branch": "work/cierre-noche-v14-20261031",
   "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
@@ -11,15 +11,12 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 43,
-    "lease_acquired_at": "2026-10-31T20:12:37.854Z",
-    "lease_expires_at": null,
-    "expected_head": null,
-    "last_owner": "NOCHE_A_V14_TURN6_20261031_1710",
-    "last_release_recorded_at": "2026-10-31T20:26:52.114Z",
-    "release_method": "CAS_EXPECTED_HEAD"
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_V14_TURN6_20261031_1740",
+    "epoch": 44,
+    "lease_acquired_at": "2026-10-31T20:40:08.002Z",
+    "lease_expires_at": "2026-10-31T21:07:00Z",
+    "expected_head": "2ecb5655b8f34b6819ccaefab4de646cdb623ca8"
   },
   "stage": {
     "id": "S2.A6",
@@ -577,7 +574,12 @@
     }
   },
   "report": null,
-  "active_session": null,
+  "active_session": {
+    "id": "NOCHE_B_V14_TURN6_20261031_1740",
+    "scheduled_start": "2026-10-31T20:40:00Z",
+    "writer_acquired_at": "2026-10-31T20:40:08.002Z",
+    "window_end": "2026-10-31T21:10:00Z"
+  },
   "last_code_commit": "a4515676efa6f10192b0e0256979529e294e6ebb",
   "last_checkpoint_at": "2026-10-31T19:48:55.655Z",
   "last_checkpoint": "docs/CIERRE_NOCHE_V14_B5_CHECKPOINT_20261031_1640.md",
