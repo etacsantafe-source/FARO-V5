@@ -180,4 +180,59 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             root.toFile().deleteRecursively()
         }
     }
+
+    @Test fun restorePreparationCreatesDurableStagedJournalWithOneSharedGate() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f3-journal-")
+        try {
+            val layout = FileStorageGenerationLayout(root)
+            val source = StorageGenerationDescriptor(
+                StorageGenerationId("f3-preparation-active-v1"),
+                "v1-protected", 1710000000000L,
+            )
+            layout.stage(source)
+            val pointer = FileActiveGenerationPointer(root)
+            assertNotNull(pointer.compareAndSet(null, source.generationId))
+            val before = pointer.read()
+            val journal = FileBootstrapJournal(root)
+            val operation = MaintenanceOperationId("f3-prepare-one")
+            val target = StorageGenerationDescriptor(
+                StorageGenerationId("f3-preparation-v2-target"),
+                "five-store-v2-test", 1710000000001L,
+            )
+            val coordinator = FaroV5QuarantinedRestorePreparation(
+                root, MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate())
+            )
+            val staged = coordinator.prepare(operation, target)
+            assertEquals(target, staged.descriptor)
+            assertEquals(target, layout.requireStaged(target.generationId).descriptor)
+            val entry = journal.read(operation)
+            assertNotNull(entry)
+            assertEquals(MaintenanceOperationKind.RESTORE, entry!!.kind)
+            assertEquals(BootstrapPhase.STAGED, entry.phase)
+            assertEquals(source.generationId, entry.previousGenerationId)
+            assertEquals(target.generationId, entry.targetGenerationId)
+            assertFalse(entry.materialWritesAccepted)
+            assertEquals(before, pointer.read())
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+
+            // A second operation must fail BEFORE creating a target or journal.
+            val secondOp = MaintenanceOperationId("f3-prepare-conflict")
+            val secondTarget = StorageGenerationDescriptor(
+                StorageGenerationId("f3-preparation-blocked"),
+                "five-store-v2-test", 1710000000002L,
+            )
+            var refused = false
+            try {
+                coordinator.prepare(secondOp, secondTarget)
+            } catch (_: IllegalStateException) {
+                refused = true
+            }
+            assertTrue("unresolved RESTORE must block another preparation", refused)
+            assertNull(journal.read(secondOp))
+            assertEquals(before, pointer.read())
+        } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
 }

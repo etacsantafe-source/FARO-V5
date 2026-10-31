@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.CancellationSignal
+import ar.com.faro.v5.generation.FaroV5QuarantinedRestorePreparation
 import ar.com.faro.v5.generation.FaroV5FiveStoreStagedRestore
 import ar.com.faro.v5.generation.FaroV5RestoreJournalAdmission
 import ar.com.faro.v5.generation.FaroV5StagedRestoreJournalValidator
@@ -41,6 +42,7 @@ import ar.com.faro.v5.maintenance.ResetExecutionRequest
 import ar.com.faro.v5.maintenance.ResetExecutionResult
 import ar.com.faro.v5.maintenance.ResetLifecycleCoordinator
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
+import ar.com.faro.v5.maintenance.StorageGenerationDescriptor
 import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.maintenance.ValidatedGenerationActivationCoordinator
 import ar.com.faro.v5.platform.android.backup.AndroidBackupSafAdapter
@@ -387,6 +389,31 @@ class FaroV5MaintenanceRuntime(
      * RESTORE ingress stays quarantined: no pointer switch, second authority,
      * automatic Apply or OS effects. Picker URI is one-shot, never journaled.
      */
+    /**
+     * Trusted F3 maintenance entry point. Only an explicitly consented caller
+     * can prepare a NEW durable RESTORE journal and five-store quarantine.
+     * The existing picker subsequently admits this exact operation/target.
+     * No Activity extras may create a journal; V2 activation remains OFF.
+     */
+    internal fun prepareConsentedFiveStoreRestoreJournal(
+        operationId: String,
+        descriptor: StorageGenerationDescriptor,
+        userConfirmed: Boolean,
+    ): String {
+        check(userConfirmed) { "restore preparation requires explicit consent" }
+        check(root.startupReprojectionState ==
+            FaroV5CompositionRoot.StartupReprojectionState.PASS) {
+            "startup recovery must finish before restore preparation"
+        }
+        val operation = MaintenanceOperationId(operationId)
+        val staged = FaroV5QuarantinedRestorePreparation(storageRoot, quiescence)
+            .prepare(operation, descriptor)
+        check(journal.read(operation)?.phase == BootstrapPhase.STAGED) {
+            "restore preparation has no durable STAGED journal"
+        }
+        return staged.descriptor.generationId.value
+    }
+
     internal fun createConsentedFiveStoreRestorePicker(
         operationId: String,
         targetGenerationId: String,
