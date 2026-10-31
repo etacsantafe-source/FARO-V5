@@ -112,7 +112,7 @@ public final class AndroidBackupSafAdapter {
                             source.getSha256Hex(),
                             cancellationSignal);
             if (verification == Verification.MATCH) {
-                return exportCoordinator.completeVerifiedSuccess(source);
+                return completeVerifiedSuccessIfNotCancelled(source, cancellationSignal);
             }
             if (verification == Verification.MISMATCH) {
                 return exportCoordinator.completeUnknown(
@@ -149,6 +149,18 @@ public final class AndroidBackupSafAdapter {
             return exportCoordinator.completeKnownFailureAfterStart(
                     source, "external_runtime_failure_before_open");
         }
+    }
+
+    /**
+     * Recheck cancellation at the final durable receipt boundary. A provider
+     * can finish verifying bytes and then deliver cancellation while closing
+     * its descriptor; MATCH alone must not grant a successful external effect.
+     */
+    private BackupExternalEffectReceipt completeVerifiedSuccessIfNotCancelled(
+            PreparedBackupExternalWriteSource source,
+            CancellationSignal cancellationSignal) {
+        cancellationSignal.throwIfCanceled();
+        return exportCoordinator.completeVerifiedSuccess(source);
     }
 
     public Intent createRestoreDocumentIntent() {

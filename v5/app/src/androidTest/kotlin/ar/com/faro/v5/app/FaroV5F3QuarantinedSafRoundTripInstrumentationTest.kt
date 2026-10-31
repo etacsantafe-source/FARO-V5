@@ -143,10 +143,34 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                         }
                         assertEquals(Intent.ACTION_CREATE_DOCUMENT,
                             saf.createExportDocumentIntent(providerSource).action)
+                    val restorePicker = saf.createRestoreDocumentIntent()
+                    assertEquals(Intent.ACTION_OPEN_DOCUMENT, restorePicker.action)
+                    assertTrue(restorePicker.hasCategory(Intent.CATEGORY_OPENABLE))
+                    assertEquals("application/octet-stream", restorePicker.type)
+                    assertTrue(
+                        restorePicker.flags and Intent.FLAG_GRANT_READ_URI_PERMISSION != 0
+                    )
                         val providerReceipt = saf.writeSelectedExportDocument(
                             resolver, providerUri, providerSource, CancellationSignal(),
                         )
                         assertEquals(BackupExternalWriteStatus.SUCCESS, providerReceipt.status)
+                        // The final receipt transition must reject cancellation
+                        // even after the provider has returned verified bytes.
+                        val finalizer = AndroidBackupSafAdapter::class.java.getDeclaredMethod(
+                            "completeVerifiedSuccessIfNotCancelled",
+                            PreparedBackupExternalWriteSource::class.java,
+                            CancellationSignal::class.java,
+                        )
+                        finalizer.isAccessible = true
+                        val lateCancel = CancellationSignal().apply { cancel() }
+                        val rejected = runCatching {
+                            finalizer.invoke(saf, providerSource, lateCancel)
+                        }.exceptionOrNull()
+                        assertTrue(
+                            "late cancellation cannot issue a verified SUCCESS receipt",
+                            rejected is java.lang.reflect.InvocationTargetException &&
+                                rejected.cause is android.os.OperationCanceledException,
+                        )
                         val providerImported = FilePortableBackupArchiveStore(
                             root.resolve("provider-imported")
                         )

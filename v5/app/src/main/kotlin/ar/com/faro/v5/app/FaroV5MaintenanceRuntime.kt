@@ -551,6 +551,10 @@ class FaroV5MaintenanceRuntime(
                             operation, descriptor,
                             expectedPreviousGenerationId = before.generationId,
                         )
+                        // A cancellation after the durable journal is created
+                        // leaves STAGED as a recovery barrier, never silently
+                        // continues to restore or switches the V1 pointer.
+                        cancellationSignal.throwIfCanceled()
                         check(pointer.read() == before) {
                             "active predecessor drifted after restore journal"
                         }
