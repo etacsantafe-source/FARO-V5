@@ -481,9 +481,9 @@ class FaroV5MaintenanceRuntime(
     /**
      * Internal F3 one-shot orchestration for a NEW consented SAF restore.
      * Authenticate a five-owner archive in disposable preview staging BEFORE
-     * allocating any durable RESTORE journal or V2 target. Re-read and
-     * authenticate during the actual restore; a mutable provider cannot
-     * substitute unverified bytes. No pointer switch or V2 activation.
+     * allocating any durable RESTORE journal or V2 target. Pin those exact
+     * encrypted bytes in private staging: a mutable provider cannot swap
+     * archives between authentication and journaled restore. No cutover.
      *
      * This is deliberately not yet exposed by the Activity while the full
      * picker/recovery flow is uncertified. Failures after journal creation
@@ -499,36 +499,78 @@ class FaroV5MaintenanceRuntime(
     ): FiveStoreJournalValidationResult? {
         if (selected == null) return null
         check(userConfirmed) { "restore requires operation-specific consent" }
+        check(root.startupReprojectionState ==
+            FaroV5CompositionRoot.StartupReprojectionState.PASS) {
+            "startup recovery must finish before restore ingress"
+        }
         val before = checkNotNull(pointer.read()) {
             "restore requires an active predecessor generation"
         }
-        val authenticated = verifyConsentedFiveStorePickedDocument(
-            resolver, selected, stagedAtEpochMillis, cancellationSignal,
-            passphrase, true,
-        )
-        if (!authenticated) return null
-        cancellationSignal.throwIfCanceled()
-        check(pointer.read() == before) {
-            "active generation changed between archive preview and restore"
+        // Pin exactly the authenticated provider bytes before creating any
+        // journal. Never reopen a mutable content:// URI after authentication.
+        return synchronized(previewLock) {
+            cancellationSignal.throwIfCanceled()
+            val previewArtifact = backupSafAdapter.stageSelectedRestoreArchive(
+                resolver, selected, fiveStorePreviewArchiveStore,
+                stagedAtEpochMillis, cancellationSignal,
+            )
+            try {
+                val encrypted = fiveStorePreviewArchiveStore.readBytes(previewArtifact)
+                try {
+                    cancellationSignal.throwIfCanceled()
+                    val opened = FaroV5FiveStorePortableBackupCrypto()
+                        .open(encrypted, passphrase)
+                    if (opened !is FiveStorePortableBackupOpenResult.Opened) {
+                        null
+                    } else {
+                        cancellationSignal.throwIfCanceled()
+                        check(pointer.read() == before) {
+                            "active predecessor changed before restore pin"
+                        }
+                        val pinned = fiveStorePrivateArchiveStore.stageBytes(
+                            encrypted, stagedAtEpochMillis,
+                        )
+                        val identity = UUID.randomUUID().toString()
+                        val operationId = "f3-consented-restore-$identity"
+                        val operation = MaintenanceOperationId(operationId)
+                        try {
+                            cancellationSignal.throwIfCanceled()
+                            val descriptor = StorageGenerationDescriptor(
+                                StorageGenerationId("f3-quarantined-$identity"),
+                                "faro-v5-five-owner-workspace-v2-20261031",
+                                stagedAtEpochMillis,
+                            )
+                            val staged = FaroV5QuarantinedRestorePreparation(
+                                storageRoot, quiescence,
+                            ).prepare(
+                                operation, descriptor,
+                                expectedPreviousGenerationId = before.generationId,
+                            )
+                            check(pointer.read() == before) {
+                                "active predecessor drifted after restore journal"
+                            }
+                            restoreConsentedFiveStoreStage(
+                                operationId, staged.descriptor.generationId.value,
+                                pinned, passphrase, true,
+                            )
+                        } catch (failure: Exception) {
+                            // Only delete if journal absence was read reliably.
+                            // Once PREPARING/STAGED exists, preserve the exact
+                            // encrypted bytes for deterministic recovery.
+                            val journalState = runCatching { journal.read(operation) }
+                            if (journalState.isSuccess && journalState.getOrNull() == null) {
+                                fiveStorePrivateArchiveStore.delete(pinned)
+                            }
+                            throw failure
+                        }
+                    }
+                } finally {
+                    encrypted.fill(0)
+                }
+            } finally {
+                fiveStorePreviewArchiveStore.delete(previewArtifact)
+            }
         }
-        val identity = UUID.randomUUID().toString()
-        val operationId = "f3-consented-restore-$identity"
-        val descriptor = StorageGenerationDescriptor(
-            StorageGenerationId("f3-quarantined-$identity"),
-            "faro-v5-five-owner-workspace-v2-20261031",
-            stagedAtEpochMillis,
-        )
-        val staged = FaroV5QuarantinedRestorePreparation(storageRoot, quiescence)
-            .prepare(MaintenanceOperationId(operationId), descriptor,
-                expectedPreviousGenerationId = before.generationId)
-        check(pointer.read() == before) {
-            "active predecessor drifted after durable restore preparation"
-        }
-        return restoreConsentedFiveStorePickedDocument(
-            operationId, staged.descriptor.generationId.value,
-            resolver, selected, stagedAtEpochMillis, cancellationSignal,
-            passphrase, true,
-        )
     }
 
     private fun requireRestorePickerAdmission(

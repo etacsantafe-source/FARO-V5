@@ -373,4 +373,143 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             root.toFile().deleteRecursively()
         }
     }
+    @Test fun mutableContentProviderCannotSwapPinnedAuthenticatedRestoreArchive() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f3-provider-pin-")
+        val password = "synthetic-f3-provider-pin-2026".toCharArray()
+        try {
+            val layout = FileStorageGenerationLayout(root)
+            val previous = StorageGenerationDescriptor(
+                StorageGenerationId("f3-pin-active-v1"), "v1-protected", 1710000000300L,
+            )
+            layout.stage(previous)
+            val pointer = FileActiveGenerationPointer(root)
+            assertNotNull(pointer.compareAndSet(null, previous.generationId))
+            val before = pointer.read()
+            val lease = MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate())
+            val source = FaroV5WorkspaceV2StageOwner(root).stageFreshAndVerify(
+                StorageGenerationDescriptor(
+                    StorageGenerationId("f3-pin-source"), "five-store-v2-test",
+                    1710000000301L,
+                )
+            )
+            val (original, replacement) =
+                FaroV5GenerationStoreGraph.openValidatedV2(source).use { graph ->
+                    val capture = FaroV5FiveStoreBackupCapture(graph, lease)
+                    val first = capture.capture(
+                        MaintenanceOperationId("f3-pin-capture-one"),
+                        BackupSetId("f3-pin-backup-one"), "5.0-test", 1710000000302L,
+                    )
+                    val workspace = graph.workspace!!
+                    val snapshot = workspace.backup.snapshot()
+                    workspace.backup.restoreOrVerify(
+                        snapshot.copy(revision = snapshot.revision + 9L)
+                    )
+                    val second = capture.capture(
+                        MaintenanceOperationId("f3-pin-capture-two"),
+                        BackupSetId("f3-pin-backup-two"), "5.0-test", 1710000000303L,
+                    )
+                    Pair(
+                        FaroV5FiveStorePortableBackupCrypto().seal(first, password),
+                        FaroV5FiveStorePortableBackupCrypto().seal(second, password),
+                    )
+                }
+            try {
+                assertFalse(original.contentEquals(replacement))
+                val resolver = context.contentResolver
+                val uri = checkNotNull(resolver.insert(
+                    MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                    ContentValues().apply {
+                        put(MediaStore.MediaColumns.DISPLAY_NAME,
+                            "faro-v5-pin-${System.nanoTime()}.farobak2")
+                        put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
+                    },
+                ))
+                try {
+                    resolver.openOutputStream(uri, "wt")!!.use { it.write(original) }
+                    val saf = AndroidBackupSafAdapter(
+                        BackupExternalEffectCoordinator(FileBackupExternalAttemptStore(root))
+                    )
+                    val previewStore = FilePortableBackupArchiveStore(root.resolve("preview"))
+                    val preview = saf.stageSelectedRestoreArchive(
+                        resolver, uri, previewStore, 1710000000304L, CancellationSignal(),
+                    )
+                    try {
+                        val previewBytes = previewStore.readBytes(preview)
+                        try {
+                            assertTrue(
+                                FaroV5FiveStorePortableBackupCrypto().open(
+                                    previewBytes, password
+                                ) is FiveStorePortableBackupOpenResult.Opened
+                            )
+                            val pinnedStore = FilePortableBackupArchiveStore(
+                                root.resolve("backup").resolve("five-store-staged")
+                            )
+                            val pinned = pinnedStore.stageBytes(previewBytes, 1710000000304L)
+                            // The provider changes AFTER authentication, but
+                            // the durable restore uses the pinned original.
+                            resolver.openOutputStream(uri, "wt")!!.use {
+                                it.write(replacement)
+                            }
+                            val pinnedBytes = pinnedStore.readBytes(pinned)
+                            try {
+                                assertArrayEquals(original, pinnedBytes)
+                                val operation = MaintenanceOperationId("f3-pin-restore")
+                                val descriptor = StorageGenerationDescriptor(
+                                    StorageGenerationId("f3-pin-target"),
+                                    "five-store-v2-test", 1710000000305L,
+                                )
+                                val staged = FaroV5QuarantinedRestorePreparation(
+                                    root, lease,
+                                ).prepare(
+                                    operation, descriptor,
+                                    expectedPreviousGenerationId = previous.generationId,
+                                )
+                                val journal = FileBootstrapJournal(root)
+                                FaroV5GenerationStoreGraph.openValidatedV2(staged).use { graph ->
+                                    val identity = FileRestoreArchiveIdentity(root)
+                                    val admission = FaroV5RestoreJournalAdmission(
+                                        journal, pointer, descriptor.generationId, lease,
+                                    )
+                                    val restored = FaroV5FiveStoreStagedRestore(
+                                        root, staged, graph, admission,
+                                        archiveIdentity = identity,
+                                    ).restoreAuthenticated(operation, pinnedBytes, password)
+                                    assertTrue(restored is FiveStoreStagedRestoreResult.StagedVerified)
+                                    val validated = FaroV5StagedRestoreJournalValidator(
+                                        root, staged, graph, journal, pointer, identity, lease,
+                                    ).validateAuthenticatedStage(
+                                        operation, pinnedBytes, password,
+                                    )
+                                    assertEquals(
+                                        FiveStoreJournalValidationResult.Validated(
+                                            descriptor.generationId.value, false,
+                                        ),
+                                        validated,
+                                    )
+                                }
+                                assertEquals(before, pointer.read())
+                                assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+                            } finally {
+                                pinnedBytes.fill(0)
+                            }
+                        } finally {
+                            previewBytes.fill(0)
+                        }
+                    } finally {
+                        previewStore.delete(preview)
+                    }
+                } finally {
+                    resolver.delete(uri, null, null)
+                }
+            } finally {
+                original.fill(0)
+                replacement.fill(0)
+            }
+        } finally {
+            password.fill('\\u0000')
+            root.toFile().deleteRecursively()
+        }
+    }
+
 }
