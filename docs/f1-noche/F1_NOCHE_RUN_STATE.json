@@ -6,22 +6,103 @@
   "absolute_cutoff": "2026-10-31T21:20:00-03:00",
   "base_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_A_F1_1820",
+    "state": "NONE",
+    "owner": null,
     "epoch": 1,
     "acquired_at": "2026-10-31T21:23:02.567Z",
-    "lease_expires_at": "2026-10-31T21:47:00Z",
-    "expected_head": "ec0f896c29eff00ca7b9e0dcdb2ea93dfea2fa56"
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_A_F1_1820",
+    "released_at": "2026-10-31T21:45:29.924Z",
+    "release_method": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
   },
   "f1": "OPEN",
   "v2_enabled": false,
   "submilestones": {
-    "groq": "EN_DESARROLLO",
-    "chat": "PENDIENTE",
-    "review_apply": "PENDIENTE",
-    "delivery": "PENDIENTE",
-    "integration": "PENDIENTE"
+    "groq": "PROBADO",
+    "chat": "IMPLEMENTADO",
+    "review_apply": "IMPLEMENTADO",
+    "delivery": "IMPLEMENTADO",
+    "integration": "EN_DESARROLLO"
   },
-  "sessions": [],
-  "notes": "CAS lease; no changes to main, previous branches or unrelated F2/F3/F4"
+  "scope_notes": {
+    "groq": "Synthetic JSON/transport/consent tests 15/15 PASS on exact SHA; LIVE Groq credential NOT_RUN",
+    "chat": "Prior staged Composer->SQLite Workspace->ModelGateway->durable reply implementation; no live provider E2E",
+    "review_apply": "Prior canonical human review/fingerprint/Reality receipt implementation; no model-structured plan creation E2E",
+    "delivery": "Prior quarantined Android permission/notification implementation; not physical T4",
+    "integration": "Full real provider and physical Android path NOT_RUN; APK not ready"
+  },
+  "blockers": [
+    "WAIT_HUMAN: real Groq key must be entered only on Android through consented Keystore UI, not GitHub",
+    "WAIT_HUMAN: Android physical device test after APK ready",
+    "F1 code gap: structured model output to trusted plan review is not yet integrated end-to-end",
+    "F1 debug credential/test entry path and APK not yet ready"
+  ],
+  "next_task": "NOCHE B 18:50 - verify CAS HEAD/writer; implement F1 structured response -> bounded trusted Review proposal without automatic Apply, then directed tests. Keep Groq live/physical WAIT_HUMAN.",
+  "sessions": [
+    {
+      "id": "NOCHE_A_F1_TURN1_20261031_1820",
+      "scheduled_start": "2026-10-31T18:20:00-03:00",
+      "actual_start": "2026-10-31T21:22:31Z",
+      "writer_acquired_at": "2026-10-31T21:23:02.567Z",
+      "checkpoint_and_release_at": "2026-10-31T21:45:29.924Z",
+      "observed_wall_seconds_to_checkpoint": 1379,
+      "observed_writer_held_seconds_to_release": 1347,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "investigation_seconds": "NO_REGISTRADO",
+      "code_seconds": "NO_REGISTRADO",
+      "tests_review_seconds": "NO_REGISTRADO",
+      "ci_wait_seconds": "NO_REGISTRADO",
+      "writer_wait_seconds": 0,
+      "coordination_seconds": "NO_REGISTRADO",
+      "idle_seconds": "NO_REGISTRADO",
+      "ci_wall_not_additive": true,
+      "lease_commit": "db9ad1b1bf7837c392bb0c1d27a5d97e95e847d8",
+      "code_commits": [
+        "79fc4ea7376facd7f92509057da7b1dc9317bba4",
+        "91cb91f76ef0b15441ce926ec4ec905a37d87a0b",
+        "ee1f6ecd6a406ce7fcfad467e15624f1cf00e47c",
+        "382a7c23771d1d48aeb5247cc4e384331ecb32e9"
+      ],
+      "ci": [
+        {
+          "id": 41243431547,
+          "sha": "91cb91f76ef0b15441ce926ec4ec905a37d87a0b",
+          "result": "FAILURE",
+          "tests": "NOT_RUN",
+          "cause": "Kotlin test assertion escaping UNRESOLVED_REFERENCE at OpenAiCompatibleModelBindingTest.kt:65; fixed by ee1f6ecd",
+          "created_at": "2026-10-31T21:24:18Z",
+          "completed_at": "2026-10-31T21:27:24Z",
+          "run_wall_seconds": 186,
+          "queue_proxy_seconds": 4,
+          "runner_log_span_seconds": 179
+        },
+        {
+          "id": 41243481358,
+          "sha": "ee1f6ecd6a406ce7fcfad467e15624f1cf00e47c",
+          "result": "SUCCESS",
+          "tests": "Groq transport 9/9 + trusted factory 5/5 = 14/14; exact XML zero failed/error/skipped",
+          "created_at": "2026-10-31T21:24:57Z",
+          "completed_at": "2026-10-31T21:31:47Z",
+          "run_wall_seconds": 410,
+          "queue_proxy_seconds": 149,
+          "runner_log_span_seconds": 259
+        },
+        {
+          "id": 41244061014,
+          "sha": "382a7c23771d1d48aeb5247cc4e384331ecb32e9",
+          "result": "SUCCESS",
+          "tests": "Groq transport 10/10 + trusted factory 5/5 = 15/15; exact XML zero failed/error/skipped",
+          "created_at": "2026-10-31T21:32:24Z",
+          "completed_at": "2026-10-31T21:37:50Z",
+          "run_wall_seconds": 326,
+          "queue_proxy_seconds": 4,
+          "runner_log_span_seconds": 319
+        }
+      ],
+      "checkpoint_path": "docs/f1-noche/F1_NOCHE_A1_CHECKPOINT_20261031_1820.md",
+      "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
+    }
+  ],
+  "last_checkpoint_at": "2026-10-31T21:45:29.924Z"
 }
