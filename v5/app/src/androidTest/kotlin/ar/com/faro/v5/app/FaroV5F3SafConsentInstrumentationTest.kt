@@ -149,4 +149,24 @@ class FaroV5F3SafConsentInstrumentationTest {
         }
     }
 
+
+    @Test fun destroyWipesQueuedOrInFlightBackupPassphrase() {
+        lateinit var secret: CharArray
+        val scenario = ActivityScenario.launch(FaroV5FiveStoreSafConsentActivity::class.java)
+        try {
+            scenario.onActivity { activity ->
+                val input = views(activity.findViewById(android.R.id.content))
+                    .filterIsInstance<EditText>().single()
+                input.setText("synthetic-queued-secret-2026")
+                val take = activity.javaClass.getDeclaredMethod("takePassphrase")
+                take.isAccessible = true
+                secret = take.invoke(activity) as CharArray
+                assertTrue(secret.any { it != '\u0000' })
+            }
+        } finally {
+            scenario.close()
+        }
+        assertTrue(secret.all { it == '\u0000' })
+    }
+
 }

@@ -18,6 +18,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import ar.com.faro.v5.generation.FiveStoreJournalValidationResult
 import ar.com.faro.v5.maintenance.BackupExternalWriteStatus
 import java.util.UUID
+import java.util.Collections
+import java.util.IdentityHashMap
 import java.util.concurrent.Executors
 
 /**
@@ -45,6 +47,10 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     }
 
     private val worker = Executors.newSingleThreadExecutor()
+    // shutdownNow() can discard queued work before its finally block wipes secrets.
+    private val inFlightSecrets = Collections.synchronizedSet(
+        Collections.newSetFromMap(IdentityHashMap<CharArray, Boolean>())
+    )
     private var pending: Pending? = null
     private var activeCancellation: CancellationSignal? = null
     private var busy = false
@@ -119,7 +125,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                                 "El archivo o la contraseña no se validaron. No se restauraron datos."
                             }
                         } finally {
-                            request.passphrase.fill('\u0000')
+                            wipeSecret(request.passphrase)
                         }
                     }
                     is Pending.Restore -> {
@@ -137,13 +143,13 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                                 else "No se validó el respaldo; V1 sigue activa."
                             }
                         } finally {
-                            request.passphrase.fill('\u0000')
+                            wipeSecret(request.passphrase)
                         }
                     }
                 }
             } catch (_: Exception) {
-                if (request is Pending.Restore) request.passphrase.fill('\u0000')
-                if (request is Pending.Preview) request.passphrase.fill('\u0000')
+                if (request is Pending.Restore) wipeSecret(request.passphrase)
+                if (request is Pending.Preview) wipeSecret(request.passphrase)
                 "Operación no disponible o bloqueada. V1 sigue activa."
             }
             runOnUiThread {
@@ -232,6 +238,13 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         }
     }
 
+    private fun wipeSecret(secret: CharArray) {
+        synchronized(inFlightSecrets) {
+            secret.fill('\u0000')
+            inFlightSecrets.remove(secret)
+        }
+    }
+
     private fun takePassphrase(): CharArray? {
         // Avoid an immutable String copy of the user's backup secret.
         val editable = passphrase.text
@@ -240,8 +253,11 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         if (chars.size in 12..1024 &&
             chars.any { !it.isWhitespace() } &&
             chars.none { it == '\u0000' }
-        ) return chars
-        chars.fill('\u0000')
+        ) {
+            synchronized(inFlightSecrets) { inFlightSecrets.add(chars) }
+            return chars
+        }
+        wipeSecret(chars)
         // A rejected secret cannot leave a reusable export/restore/preview grant.
         exportConsent.isChecked = false
         restoreConsent.isChecked = false
@@ -297,7 +313,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                     }
                 }
             } finally {
-                chars.fill('\u0000')
+                wipeSecret(chars)
             }
         }
     }
@@ -325,10 +341,10 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                             showStatus("No se pudo abrir el selector. No se restauraron datos.")
                             setBusy(false)
                         }
-                    } else chars.fill('\u0000')
+                    } else wipeSecret(chars)
                 }
             } catch (_: Exception) {
-                chars.fill('\u0000')
+                wipeSecret(chars)
                 runOnUiThread {
                     if (!isDestroyed) {
                         previewConsent.isChecked = false
@@ -363,10 +379,10 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                             showStatus("No se pudo abrir el selector. Restauración cancelada.")
                             setBusy(false)
                         }
-                    } else chars.fill('\u0000')
+                    } else wipeSecret(chars)
                 }
             } catch (_: Exception) {
-                chars.fill('\u0000')
+                wipeSecret(chars)
                 runOnUiThread {
                     if (!isDestroyed) {
                         restoreConsent.isChecked = false
@@ -383,8 +399,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         val request = pending
         pending = null
         when (request) {
-            is Pending.Preview -> request.passphrase.fill('\u0000')
-            is Pending.Restore -> request.passphrase.fill('\u0000')
+            is Pending.Preview -> wipeSecret(request.passphrase)
+            is Pending.Restore -> wipeSecret(request.passphrase)
             is Pending.Export -> runCatching {
                 (application as FaroV5Application)
                     .fiveStoreSafConsentRuntime()
@@ -416,6 +432,10 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         activeCancellation = null
         discardPendingPickerRequest()
         worker.shutdownNow()
+        synchronized(inFlightSecrets) {
+            inFlightSecrets.forEach { it.fill('\u0000') }
+            inFlightSecrets.clear()
+        }
         if (::passphrase.isInitialized) passphrase.text.clear()
         super.onDestroy()
     }

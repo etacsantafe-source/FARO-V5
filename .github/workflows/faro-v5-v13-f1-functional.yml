@@ -150,7 +150,7 @@ jobs:
               for case in root.iter('testcase'):
                   if any(name in case.attrib.get('classname','') for name in ('FaroV5F1QuarantinedComposeInstrumentationTest','FaroV5F3SafConsentInstrumentationTest','FaroV5F3QuarantinedSafRoundTripInstrumentationTest')):
                       matches.append((p,case))
-          if len(matches)!=10: raise SystemExit(f'F1_F3_V13_ANDROID_NOT_EXECUTED count={len(matches)}')
+          if len(matches)!=11: raise SystemExit(f'F1_F3_V13_ANDROID_NOT_EXECUTED count={len(matches)}')
           expected={
               'realProviderQuarantineRequiresAndroidConsentBeforeOpeningStores',
               'composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation',
@@ -160,6 +160,7 @@ jobs:
               'quarantinedF2FiveOwnerRecoveryHealthKeepsV1PointerAndRejectsMissingWorkspace',
               'noConsentOrV2CertificationCannotExportOrRestore',
               'credentialsAndConsentAreDiscardedOnActivityRecreation',
+              'destroyWipesQueuedOrInFlightBackupPassphrase',
               'invalidPassphrasesRevokeAllConsentBeforeOpeningSaf',
               'fiveOwnerEncryptedQuarantineRoundTripThroughAndroidResolverKeepsV1',
           }
@@ -168,6 +169,6 @@ jobs:
           for p,case in matches:
               if any(case.find(x) is not None for x in ('failure','error','skipped')):
                   raise SystemExit(f'F1_V13_COMPOSE_FAILED {p} {case.attrib.get("name")}')
-          print('FARO_V13_F1_F2_F3_QUARANTINE_EXECUTED_PASS 10/10')
+          print('FARO_V13_F1_F2_F3_QUARANTINE_EXECUTED_PASS 11/11')
           print('Staged Reality Apply and Android OS Delivery tested in emulator; live remote provider and physical T4 NOT_RUN; F1 remains OPEN.')
           PY
