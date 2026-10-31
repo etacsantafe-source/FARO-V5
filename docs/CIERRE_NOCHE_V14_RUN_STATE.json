@@ -1,6 +1,6 @@
 {
   "schema_version": 14,
-  "phase": "AUTHORIZED_PRE_START",
+  "phase": "IN_PROGRESS",
   "repo": "etacsantafe-source/FARO-V5",
   "branch": "work/cierre-noche-v14-20261031",
   "authorization_doc": "docs/CIERRE_NOCHE_V14_AUTHORIZATION_20261031.md",
@@ -11,11 +11,12 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 33,
-    "lease_expires_at": null,
-    "last_verified_source": "V1.3 durable source checkpoint; MUST RECHECK"
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_V14_TURN1_20261031_1210",
+    "epoch": 34,
+    "lease_acquired_at": "2026-10-31T15:10:12.291Z",
+    "lease_expires_at": "2026-10-31T15:37:00Z",
+    "expected_head": "a0d33eb63e0554acdf79ddeb98cc8ceb26444579"
   },
   "stage": {
     "id": "S2.A6",
@@ -103,5 +104,12 @@
     "unknown_seconds": null,
     "ci_overlaps_separate": true
   },
-  "report": null
+  "report": null,
+  "active_session": {
+    "id": "NOCHE_A_V14_TURN1_20261031_1210",
+    "scheduled_start": "2026-10-31T15:10:00Z",
+    "actual_start": "2026-10-31T15:10:12.291Z",
+    "writer_epoch": 34,
+    "scope": "S2.A6 F3 first, F1/F2/F4 pending"
+  }
 }
