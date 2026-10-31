@@ -85,4 +85,26 @@ class FaroV5F3SafConsentInstrumentationTest {
             assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
         }
     }
+
+    @Test fun credentialsAndConsentAreDiscardedOnActivityRecreation() {
+        ActivityScenario.launch(FaroV5FiveStoreSafConsentActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                all.filterIsInstance<EditText>().single().setText("synthetic-passphrase-123")
+                all.filterIsInstance<CheckBox>().forEach { it.isChecked = true }
+            }
+            scenario.recreate()
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                assertEquals("", all.filterIsInstance<EditText>().single().text.toString())
+                assertTrue(all.filterIsInstance<CheckBox>().all { !it.isChecked })
+                assertTrue(all.filterIsInstance<TextView>().any {
+                    it.text.toString().contains("Sesión anterior descartada")
+                })
+                assertFalse(all.filterIsInstance<Button>()
+                    .single { it.text.toString().startsWith("Elegir archivo") }.isEnabled)
+            }
+        }
+    }
+
 }

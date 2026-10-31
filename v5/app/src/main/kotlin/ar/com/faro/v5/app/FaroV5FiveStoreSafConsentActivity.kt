@@ -263,7 +263,18 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 runOnUiThread {
                     if (!isDestroyed) {
                         pending = Pending.Export(session)
-                        picker.launch(document)
+                        try {
+                            picker.launch(document)
+                        } catch (_: Exception) {
+                            discardPendingPickerRequest()
+                            exportConsent.isChecked = false
+                            share.isChecked = false
+                            showStatus("No se pudo abrir el selector. Exportación cancelada.")
+                            setBusy(false)
+                        }
+                    } else {
+                        // No external URI exists; close the prepared attempt.
+                        runCatching { runtime.cancelConsentedFiveStoreExportPicker(session) }
                     }
                 }
             } catch (_: Exception) {
@@ -299,8 +310,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                         try {
                             picker.launch(document)
                         } catch (_: Exception) {
-                            pending = null
-                            chars.fill('\u0000')
+                            discardPendingPickerRequest()
                             previewConsent.isChecked = false
                             showStatus("No se pudo abrir el selector. No se restauraron datos.")
                             setBusy(false)
@@ -335,7 +345,14 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 runOnUiThread {
                     if (!isDestroyed) {
                         pending = Pending.Restore(operation, target, chars)
-                        picker.launch(document)
+                        try {
+                            picker.launch(document)
+                        } catch (_: Exception) {
+                            discardPendingPickerRequest()
+                            restoreConsent.isChecked = false
+                            showStatus("No se pudo abrir el selector. Restauración cancelada.")
+                            setBusy(false)
+                        }
                     } else chars.fill('\u0000')
                 }
             } catch (_: Exception) {
@@ -348,6 +365,22 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    /** Drop a picker that never returned a URI, including rotation/destruction. */
+    private fun discardPendingPickerRequest() {
+        val request = pending
+        pending = null
+        when (request) {
+            is Pending.Preview -> request.passphrase.fill('\u0000')
+            is Pending.Restore -> request.passphrase.fill('\u0000')
+            is Pending.Export -> runCatching {
+                (application as FaroV5Application)
+                    .fiveStoreSafConsentRuntime()
+                    .cancelConsentedFiveStoreExportPicker(request.session)
+            }
+            null -> Unit
         }
     }
 
@@ -371,9 +404,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     override fun onDestroy() {
         activeCancellation?.cancel()
         activeCancellation = null
-        (pending as? Pending.Restore)?.passphrase?.fill('\u0000')
-        (pending as? Pending.Preview)?.passphrase?.fill('\u0000')
-        pending = null
+        discardPendingPickerRequest()
         worker.shutdownNow()
         if (::passphrase.isInitialized) passphrase.text.clear()
         super.onDestroy()

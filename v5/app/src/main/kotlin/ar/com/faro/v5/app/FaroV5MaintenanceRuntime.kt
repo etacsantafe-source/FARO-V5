@@ -292,6 +292,12 @@ class FaroV5MaintenanceRuntime(
      * admission records FAILED, never a false successful external receipt.
      * The existing adapter verifies bytes/hash and preserves EFFECT_UNKNOWN.
      */
+    /** No URI was returned: reconcile an abandoned SAF picker without external writes. */
+    internal fun cancelConsentedFiveStoreExportPicker(
+        session: FiveStoreSafExportSession,
+    ): BackupExternalEffectReceipt =
+        backupSafAdapter.exportPickerCancelled(session.source)
+
     internal fun completeConsentedFiveStoreExportPicker(
         session: FiveStoreSafExportSession,
         resolver: ContentResolver,
