@@ -1,0 +1,40 @@
+{
+  "version": "V1.4",
+  "repo": "etacsantafe-source/FARO-V5",
+  "branch": "work/cierre-noche-v14-20261031",
+  "schedule_kind": "exact_schedule",
+  "timezone": "America/Argentina/Cordoba",
+  "start_local": "2026-10-31T12:10:00-03:00",
+  "absolute_cutoff_local": "2026-10-31T18:10:00-03:00",
+  "A": {
+    "id": "6ae6046f03348191b8edcdc99c483cc8",
+    "local_occurrences": [
+      "12:10",
+      "13:10",
+      "14:10",
+      "15:10",
+      "16:10",
+      "17:10"
+    ],
+    "rrule": "HOURLY COUNT=6"
+  },
+  "B": {
+    "id": "6ae604716bd88191b00b3080f1e0fac4",
+    "local_occurrences": [
+      "12:40",
+      "13:40",
+      "14:40",
+      "15:40",
+      "16:40",
+      "17:40"
+    ],
+    "rrule": "HOURLY COUNT=6"
+  },
+  "report": {
+    "id": "6ae604746f5481919bcb3de6185f43ff",
+    "local_scheduled": "18:10",
+    "mode": "ONCE READ_ONLY"
+  },
+  "initial_automation_creations": "SUCCESS 3/3",
+  "note": "Creation accepted; next_run_time returned null, verify actual executions with Automations.peek. Scheduled start and time boundaries do not guarantee exact launch."
+}
