@@ -1,0 +1,68 @@
+name: FARO V5 V1.3 F1 functional bridge
+
+on:
+  push:
+    branches:
+      - work/cierre-noche-v13-20261030
+    paths:
+      - "v5/app/**"
+      - "v5/surface/**"
+      - ".github/workflows/faro-v5-v13-f1-functional.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-v13-f1-functional-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  f1-quarantined-bridge:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compose surface and staged host compile plus two functional owner tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:compileDebugKotlin \
+            :app:testDebugUnitTest \
+            --tests 'ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test' \
+            --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
+      - name: Focused XML oracle (does not certify complete Android UI E2E)
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          names=[
+              'FaroV5QuarantinedV2ChatHostBindingT2Test',
+              'FaroV5ChatToReviewedApplyFlowT2Test',
+          ]
+          for name in names:
+              p=Path('v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.'+name+'.xml')
+              if not p.is_file(): raise SystemExit('F1_V13_MISSING_XML '+name)
+              root=ET.parse(p).getroot()
+              values=tuple(int(root.attrib.get(k,'-1')) for k in
+                           ('tests','failures','errors','skipped'))
+              if values!=(1,0,0,0): raise SystemExit(f'F1_V13_FAIL {name} {values}')
+              print('F1_V13_DIRECTED_PASS',name,'1/1')
+          print('Android UI E2E and physical T4 NOT_RUN; S2.A6 unchanged.')
+          PY
