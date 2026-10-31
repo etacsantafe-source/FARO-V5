@@ -67,6 +67,62 @@ jobs:
           print('Groq LIVE credential and physical Android NOT_RUN; F1 remains OPEN.')
           PY
 
+
+  f1-android-structured-review-delivery:
+    needs: f1-groq-provider-and-consent
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Enable KVM for Android 35
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; else echo KVM_UNAVAILABLE; fi
+      - name: Structured IA to human Review, Atomic Apply and denied OS Delivery
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt
+      - name: Exact F1 Android structured Review/Apply/Delivery XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          cases=[]
+          for p in Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'):
+              for case in ET.parse(p).getroot().iter('testcase'):
+                  if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
+                      cases.append(case)
+          if len(cases)!=1 or cases[0].attrib.get('name')!='composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt':
+              raise SystemExit('F1_STRUCTURED_ANDROID_CASE_MISSING_OR_WRONG '+str([x.attrib.get('name') for x in cases]))
+          if any(cases[0].find(x) is not None for x in ('failure','error','skipped')):
+              raise SystemExit('F1_STRUCTURED_ANDROID_CASE_FAILED')
+          print('F1_ANDROID_STRUCTURED_REVIEW_APPLY_DENIED_DELIVERY_PASS 1/1')
+          print('LIVE_GROQ_AND_PHYSICAL_T4_NOT_RUN; V2_OFF')
+          PY
+
   f1-android-keystore-and-apk:
     needs: f1-groq-provider-and-consent
     if: github.repository == 'etacsantafe-source/FARO-V5'

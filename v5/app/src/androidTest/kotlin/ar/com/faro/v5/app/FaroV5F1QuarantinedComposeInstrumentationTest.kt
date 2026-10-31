@@ -337,57 +337,29 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
             val realityPath = staged.directory.resolve(GenerationStoreFiles.REALITY).toString()
             val workspacePath = staged.directory.resolve(GenerationStoreFiles.WORKSPACE).toString()
 
-            // Trusted host/test creates a frozen, verified plan before any UI
-            // sees it. The UI never supplies an ApplyPlan, binding or receipt.
-            RealityStore(realityPath, materialWriteGate = gate).use { reality ->
-                val descriptor = OperationContractDescriptor(
-                    ProfileOperations.UPDATE_DECLARED,
-                    ProfileOperations.CAPABILITY_ID,
-                    ProfileOperations.EXECUTOR_ID,
-                    ExecutionProfile.REALITY_MUTATION,
-                    ContractVersion("1"),
-                    ContractFingerprint("profile-update-declared-v1"),
-                    ContractExposure.BINDABLE,
+            // Only select the canonical Workspace conversation here. No review
+            // or ApplyPlan is pre-staged: the durable structured model reply
+            // must generate the trusted, fingerprinted proposal itself.
+            ConversationWorkspaceStore.openExistingWithPlanVerifier(
+                workspacePath, CanonicalPreparedPlanEnvelopeVerifier,
+                materialWriteGate = gate,
+            ).use { workspace ->
+                val selection = FaroV5ActiveChatSelectionSession(
+                    generation, workspace, gate, pointer, ready,
                 )
-                val operation = PreparedOperation(
-                    descriptor,
-                    ProfileDeclaredUpdatePayload.payload(
-                        ProfileDeclaredUpdate(DeclaredDisplayName.of("FARO UI Verified"))
-                    ),
-                    DependencyStampSet.of(reality.read().dependencyStamp()),
-                    IdempotencyKey("f1-review-ui-operation"),
-                )
-                val plan = PreparedPlan.of(
-                    ApplyPlanNode(PlanNodeId("profile"), operation, emptySet())
-                )
-                ConversationWorkspaceStore.openExistingWithPlanVerifier(
-                    workspacePath, CanonicalPreparedPlanEnvelopeVerifier,
-                    materialWriteGate = gate,
-                ).use { workspace ->
-                    val selection = FaroV5ActiveChatSelectionSession(
-                        generation, workspace, gate, pointer, ready,
+                assertTrue(runBlocking {
+                    selection.port.createAndSelect(
+                        chat, 1710000000000L, IdempotencyKey("f1-review-ui-create"),
                     )
-                    assertTrue(runBlocking {
-                        selection.port.createAndSelect(
-                            chat, 1710000000000L, IdempotencyKey("f1-review-ui-create"),
-                        )
-                    } is ConversationSelectionResult.Saved)
-                    val token = requireNotNull(runBlocking { workspace.read(chat) }).authorityToken
-                    assertTrue(workspace.createPlanReview(
-                        WorkspacePlanReviewCreateRequest(
-                            chat, "f1-review-ui-plan", token, workspace.snapshot().revision,
-                            plan.planFingerprint, "Actualizar nombre de perfil",
-                            PreparedPlanEnvelopeCodec.encode(plan),
-                            IdempotencyKey("f1-review-ui-stage"),
-                        )
-                    ) is WorkspacePlanReviewWriteResult.Saved)
-                }
+                } is ConversationSelectionResult.Saved)
+                assertTrue(runBlocking { workspace.reviews(chat) }.isEmpty())
             }
 
             // One Android screen must carry the same canonical conversation
             // through Composer -> Workspace -> local IA -> human Review -> Apply.
             // The local model is deterministic; real remote-provider consent
             // remains a separate security gate, never a fake network success.
+            val structured = """{"type":"profile.update_declared","display_name":"FARO UI Verified"}"""
             val replies = AtomicInteger(0)
             val localGateway = ModelGateway { request, _ ->
                 replies.incrementAndGet()
@@ -395,7 +367,7 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                 ReasoningResult.Success(
                     ModelBindingId("local-f1-combined"),
                     CanonicalPayload.fromEncoded(
-                        "text/plain", "Respuesta local".toByteArray(Charsets.UTF_8),
+                        "text/plain", structured.toByteArray(Charsets.UTF_8),
                     ),
                 )
             }
@@ -455,16 +427,20 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 }
                                 compose.onNode(hasSetTextAction()).performTextInput("Hola FARO")
                                 compose.onNodeWithText("Enviar").performClick()
-                                awaitUi("Local IA reply before Review") {
-                                    compose.onAllNodesWithText("Respuesta local")
+                                awaitUi("Trusted Review created after durable structured IA reply") {
+                                    compose.onAllNodesWithText("Confirmar propuesta")
                                         .fetchSemanticsNodes().isNotEmpty()
                                 }
                                 assertEquals(1, replies.get())
                                 val timeline = runBlocking { host.timelineReadPort.readTimeline(chat) }
                                 assertEquals(
-                                    listOf("Hola FARO", "Respuesta local"),
+                                    listOf("Hola FARO", structured),
                                     requireNotNull(timeline).messages.map { it.text },
                                 )
+                                val proposed = runBlocking { host.reviewPort.reviews(chat) }.single()
+                                assertEquals(ConversationPlanReviewState.PENDING, proposed.state)
+                                assertNotNull(proposed.planFingerprint)
+                                assertNull(reality.read().displayName)
                                 awaitUi("Review after canonical Workspace selection") {
                                     compose.onAllNodesWithText("Confirmar propuesta")
                                         .fetchSemanticsNodes().isNotEmpty()
