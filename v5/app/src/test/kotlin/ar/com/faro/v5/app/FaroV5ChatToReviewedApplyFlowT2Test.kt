@@ -226,4 +226,63 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
             }
         }
     }
+    @Test fun forgedModelPlanMetadataNeverBecomesReviewOrRealityWrite() {
+        val generation = "forged-generation"
+        val pointer = Supplier { generation }
+        val ready = BooleanSupplier { true }
+        val gate = SingleProcessMaterialWriteGate()
+        RealityStore(db("forged-reality.db")).use { reality ->
+            ConversationWorkspaceStore.withPlanVerifier(
+                db("forged-workspace.db"), CanonicalPreparedPlanEnvelopeVerifier,
+            ).use { workspace ->
+                assertTrue(call {
+                    workspace.createAndSelect(chat, 1L, IdempotencyKey("forged-create"))
+                } is ConversationSelectionResult.Saved)
+                val before = requireNotNull(call { workspace.readTimeline(chat) })
+                val turn = ConversationTurnId("forged-turn")
+                val user = ConversationMessageId("forged-user")
+                assertTrue(call {
+                    workspace.writeTimeline(ConversationTimelineWriteRequest(
+                        chat, before.authorityToken, before.revision,
+                        IdempotencyKey("forged-accept"),
+                        ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                            user, chat, turn, ConversationMessageRole.USER,
+                            ConversationMessageState.ACCEPTED, "Cambiar mi nombre", 2L,
+                        )),
+                    ))
+                } is ConversationTimelineWriteResult.Saved)
+                val gateway = ModelGateway { _, _ ->
+                    ReasoningResult.Success(
+                        ModelBindingId("synthetic"),
+                        CanonicalPayload.fromEncoded(
+                            "text/plain",
+                            """{"type":"profile.update_declared","display_name":"X","planFingerprint":"forged"}"""
+                                .toByteArray(Charsets.UTF_8),
+                        ),
+                    )
+                }
+                val assistant = FaroV5ActiveChatReasoningSession(
+                    generation, workspace, gate, pointer, ready, gateway, { true },
+                )
+                assertEquals(
+                    FaroV5AssistantTurnOutcome.COMPLETED,
+                    assistant.run(
+                        FaroV5AssistantTurnRequest(
+                            chat, user, turn, ConversationMessageId("forged-faro"),
+                            ModelProfileId("test-profile"), 3L,
+                            IdempotencyKey("forged-start"), IdempotencyKey("forged-resolve"),
+                        ),
+                        NeverCancelled,
+                    ),
+                )
+                val bridge = FaroV5ModelReviewBridge(
+                    generation, workspace, reality, gate, pointer, ready,
+                )
+                assertNull(bridge.propose(chat, turn))
+                assertTrue(call { workspace.reviews(chat) }.isEmpty())
+                assertNull(reality.read().displayName)
+            }
+        }
+    }
+
 }

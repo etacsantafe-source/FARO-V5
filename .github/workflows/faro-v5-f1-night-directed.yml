@@ -54,7 +54,7 @@ jobs:
           expected = {
             'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml': 10,
             'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml': 5,
-            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 1,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml': 2,
           }
           for path, count in expected.items():
             p=Path(path)
