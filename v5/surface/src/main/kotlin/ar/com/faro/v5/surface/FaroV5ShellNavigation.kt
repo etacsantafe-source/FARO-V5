@@ -37,6 +37,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
@@ -241,6 +242,9 @@ fun FaroV5ShellScaffold(
     }
     val workspaceProjection =
         (workspaceReadState as? FaroV5WorkspaceReadState.Ready)?.projection
+    // Navigation3 can retain the NavEntry content lambda from its first frame.
+    // Keep canonical asynchronous selection observable inside that entry.
+    val activeConversationForEntry = rememberUpdatedState(workspaceProjection?.activeConversationId)
 
     // A confirmed Workspace result, never an optimistic local ID, selects chat.
     fun selectChat(newChat: Boolean, id: ConversationId? = null) {
@@ -376,7 +380,7 @@ fun FaroV5ShellScaffold(
                     NavEntry(key) {
                         if (key == FaroV5ShellDestination.CHAT && timelineReadPort != null) {
                             FaroV5ActiveChatScreen(
-                                activeConversationId = workspaceProjection?.activeConversationId,
+                                activeConversationId = activeConversationForEntry.value,
                                 timelineReadPort = timelineReadPort,
                                 composerPort = composerPort,
                                 reviewPort = reviewPort,

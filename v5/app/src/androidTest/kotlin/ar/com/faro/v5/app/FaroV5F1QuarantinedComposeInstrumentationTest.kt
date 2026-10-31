@@ -145,6 +145,9 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                         assertEquals(chat, runBlocking {
                             host.workspaceReadPort.readSnapshot().activeConversationId
                         })
+                        assertEquals(chat, ConversationWorkspaceProjector.project(runBlocking {
+                            host.workspaceReadPort.readSnapshot()
+                        }).activeConversationId)
                         awaitUi("Composer after canonical Workspace selection") {
                             compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().isNotEmpty()
                         }
@@ -303,6 +306,9 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertEquals(chat, runBlocking {
                                     host.workspaceReadPort.readSnapshot().activeConversationId
                                 })
+                                assertEquals(chat, ConversationWorkspaceProjector.project(runBlocking {
+                                    host.workspaceReadPort.readSnapshot()
+                                }).activeConversationId)
                                 awaitUi("Composer in combined F1 flow") {
                                     compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().isNotEmpty()
                                 }
