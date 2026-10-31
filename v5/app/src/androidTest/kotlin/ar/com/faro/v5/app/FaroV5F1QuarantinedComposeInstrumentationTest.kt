@@ -244,12 +244,24 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                 }
             }
 
-            val noNetwork = ModelGateway { _, _ ->
-                error("Review-only Compose certification must not call a model")
+            // One Android screen must carry the same canonical conversation
+            // through Composer -> Workspace -> local IA -> human Review -> Apply.
+            // The local model is deterministic; real remote-provider consent
+            // remains a separate security gate, never a fake network success.
+            val replies = AtomicInteger(0)
+            val localGateway = ModelGateway { request, _ ->
+                replies.incrementAndGet()
+                assertEquals("Hola FARO", String(request.input.copyBytes(), Charsets.UTF_8))
+                ReasoningResult.Success(
+                    ModelBindingId("local-f1-combined"),
+                    CanonicalPayload.fromEncoded(
+                        "text/plain", "Respuesta local".toByteArray(Charsets.UTF_8),
+                    ),
+                )
             }
             FaroV5QuarantinedV2ChatHostBinding.openForCertification(
-                staged, gate, Supplier { activeV1 }, noNetwork,
-                Supplier { ModelProfileId("f1-review-local") }, { false },
+                staged, gate, Supplier { activeV1 }, localGateway,
+                Supplier { ModelProfileId("f1-review-local") }, { true },
             ).use { host ->
                 RealityStore(realityPath, materialWriteGate = gate).use { reality ->
                     ConversationWorkspaceStore.openExistingWithPlanVerifier(
@@ -291,6 +303,21 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertEquals(chat, runBlocking {
                                     host.workspaceReadPort.readSnapshot().activeConversationId
                                 })
+                                awaitUi("Composer in combined F1 flow") {
+                                    compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().isNotEmpty()
+                                }
+                                compose.onNode(hasSetTextAction()).performTextInput("Hola FARO")
+                                compose.onNodeWithText("Enviar").performClick()
+                                awaitUi("Local IA reply before Review") {
+                                    compose.onAllNodesWithText("Respuesta local")
+                                        .fetchSemanticsNodes().isNotEmpty()
+                                }
+                                assertEquals(1, replies.get())
+                                val timeline = runBlocking { host.timelineReadPort.readTimeline(chat) }
+                                assertEquals(
+                                    listOf("Hola FARO", "Respuesta local"),
+                                    requireNotNull(timeline).messages.map { it.text },
+                                )
                                 awaitUi("Review after canonical Workspace selection") {
                                     compose.onAllNodesWithText("Confirmar propuesta")
                                         .fetchSemanticsNodes().isNotEmpty()

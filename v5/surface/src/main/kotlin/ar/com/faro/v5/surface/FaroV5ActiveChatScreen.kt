@@ -318,6 +318,9 @@ private fun FaroV5ActiveChatScreenSession(
                                                                             // stale UI state or start a model retry.
                                                                             scope.launch {
                                                                                 timelineVersion++
+                                                                                // A new durable turn may invalidate review context/authority.
+                                                                                // Refresh canonical Workspace reviews before any human Apply.
+                                                                                reviewVersion++
                                                                                 message = when (result) {
                                                                                     ConversationAssistantTurnCompletion.OFFLINE ->
                                                                                         "Sin conexión. Tu mensaje quedó guardado, pero FARO no pudo responder."
@@ -336,7 +339,10 @@ private fun FaroV5ActiveChatScreenSession(
                                                                         }
                                                                     } else {
                                                                         assistantTurnPort.dispatchAcceptedTurn(accepted) {
-                                                                            scope.launch { timelineVersion++ }
+                                                                            scope.launch {
+                                                                                timelineVersion++
+                                                                                reviewVersion++
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -350,6 +356,9 @@ private fun FaroV5ActiveChatScreenSession(
                                                         }
                                                         editor = cleared?.let(::ConversationDraftEditorState)
                                                         timelineVersion++
+                                                        // Sending a user turn changes Workspace revision.
+                                                        // Re-read reviews instead of approving a stale context.
+                                                        reviewVersion++
                                                     }
                                                     is ConversationTimelineWriteResult.Stale -> {
                                                         message = "El borrador quedó desactualizado. Revisalo."
