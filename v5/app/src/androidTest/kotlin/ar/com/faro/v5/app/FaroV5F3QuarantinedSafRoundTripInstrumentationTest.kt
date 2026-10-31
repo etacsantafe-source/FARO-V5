@@ -1,6 +1,8 @@
 package ar.com.faro.v5.app
 
+import android.content.ContentValues
 import android.content.Intent
+import android.provider.MediaStore
 import android.net.Uri
 import android.os.CancellationSignal
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -114,6 +116,61 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                     } finally {
                         encrypted.fill(0)
                         importedStore.delete(imported)
+                    }
+                    // Real Android content:// provider (MediaStore), not a file://
+                    // stand-in. SAF picker consent itself remains a separate F3 gate.
+                    val providerSource = export.prepare(
+                        MaintenanceOperationId("f3-provider-export"),
+                        BackupSetId("f3-provider-backup"),
+                        "5.0.0-test", 1710000000003L, password,
+                        FiveStoreBackupExportConsent(true, true),
+                        "f3-provider-effect",
+                    )
+                    val resolver = context.contentResolver
+                    val providerUri = checkNotNull(resolver.insert(
+                        MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                        ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME,
+                                "faro-v5-provider-${System.nanoTime()}.farobak2")
+                            put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
+                        }
+                    )) { "MediaStore provider unavailable for directed Android test" }
+                    try {
+                        // Providers can return existing bytes; explicit wt must
+                        // truncate them and the verified read must use content://.
+                        resolver.openOutputStream(providerUri, "wt")!!.use {
+                            it.write(ByteArray(providerSource.byteCount.toInt() + 19) { 0x5A.toByte() })
+                        }
+                        assertEquals(Intent.ACTION_CREATE_DOCUMENT,
+                            saf.createExportDocumentIntent(providerSource).action)
+                        val providerReceipt = saf.writeSelectedExportDocument(
+                            resolver, providerUri, providerSource, CancellationSignal(),
+                        )
+                        assertEquals(BackupExternalWriteStatus.SUCCESS, providerReceipt.status)
+                        val providerImported = FilePortableBackupArchiveStore(
+                            root.resolve("provider-imported")
+                        )
+                        val providerArtifact = saf.stageSelectedRestoreArchive(
+                            resolver, providerUri, providerImported,
+                            1710000000004L, CancellationSignal(),
+                        )
+                        try {
+                            assertTrue(providerImported.verify(providerArtifact))
+                            val providerEncrypted = providerImported.readBytes(providerArtifact)
+                            try {
+                                val providerOpened =
+                                    FaroV5FiveStorePortableBackupCrypto().open(
+                                        providerEncrypted, password
+                                    )
+                                assertTrue(providerOpened is FiveStorePortableBackupOpenResult.Opened)
+                            } finally {
+                                providerEncrypted.fill(0)
+                            }
+                        } finally {
+                            providerImported.delete(providerArtifact)
+                        }
+                    } finally {
+                        resolver.delete(providerUri, null, null)
                     }
                     assertEquals("V1-protected", String(Files.readAllBytes(activeV1.resolve("sentinel")), Charsets.UTF_8))
                     assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
