@@ -83,12 +83,18 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                     val picker = saf.createExportDocumentIntent(source)
                     assertEquals(Intent.ACTION_CREATE_DOCUMENT, picker.action)
                     val destination = root.resolve("selected.farobak2")
-                    Files.createFile(destination)
+                    // A provider may return a nonempty document. Old trailing bytes must
+                    // not survive the selected export write.
+                    Files.write(destination, ByteArray(source.byteCount.toInt() + 37) {
+                        0x5A.toByte()
+                    })
                     val uri = Uri.fromFile(destination.toFile())
                     val receipt = saf.writeSelectedExportDocument(
                         context.contentResolver, uri, source, CancellationSignal(),
                     )
                     assertEquals(BackupExternalWriteStatus.SUCCESS, receipt.status)
+                    assertEquals("SAF export must truncate stale destination bytes",
+                        source.byteCount, Files.size(destination))
                     val importedStore = FilePortableBackupArchiveStore(root.resolve("imported"))
                     val imported = saf.stageSelectedRestoreArchive(
                         context.contentResolver, uri, importedStore,

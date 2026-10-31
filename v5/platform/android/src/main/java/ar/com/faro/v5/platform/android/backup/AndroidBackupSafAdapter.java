@@ -83,7 +83,8 @@ public final class AndroidBackupSafAdapter {
         try {
             cancellationSignal.throwIfCanceled();
             ParcelFileDescriptor descriptor =
-                    resolver.openFileDescriptor(destination, "w", cancellationSignal);
+                    // Explicit truncation: SAF providers need not truncate for plain "w".
+                    resolver.openFileDescriptor(destination, "wt", cancellationSignal);
             if (descriptor == null) {
                 return exportCoordinator.completeKnownFailureAfterStart(
                         source, "provider_open_returned_null");
