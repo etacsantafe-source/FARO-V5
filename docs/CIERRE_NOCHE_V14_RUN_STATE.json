@@ -11,12 +11,15 @@
   "prior_code_head": "2bf2e65ce61827a62a2e79f34db3c2e4177f5624",
   "base_checkpoint": "docs/CIERRE_NOCHE_V13_B8_CHECKPOINT_20261031_0614.md",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V14_TURN5_20261031_1640",
+    "state": "NONE",
+    "owner": null,
     "epoch": 42,
     "lease_acquired_at": "2026-10-31T19:40:00Z",
-    "lease_expires_at": "2026-10-31T20:07:00Z",
-    "expected_head": "05abbf3387754befc7124490986d20a952db6fd2"
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_owner": "NOCHE_B_V14_TURN5_20261031_1640",
+    "last_release_recorded_at": "2026-10-31T19:48:55.655Z",
+    "release_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
     "id": "S2.A6",
@@ -397,6 +400,67 @@
       "certified_after": 3,
       "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY",
       "checkpoint_path": "docs/CIERRE_NOCHE_V14_A5_CHECKPOINT_20261031_1610.md"
+    },
+    {
+      "id": "NOCHE_B_V14_TURN5_20261031_1640",
+      "scheduled_start": "2026-10-31T19:40:00Z",
+      "runtime_started_at": "2026-10-31T19:36:49.763Z",
+      "writer_acquired_at": "2026-10-31T19:40:00Z",
+      "checkpoint_prepared_at": "2026-10-31T19:48:55.655Z",
+      "observed_wall_seconds_to_checkpoint": 726,
+      "scheduled_window_elapsed_seconds_to_checkpoint": 536,
+      "writer_held_seconds_to_checkpoint": 536,
+      "pre_window_seconds": 190,
+      "pre_window_activity": "READ_ONLY CI diagnosis and scheduled-window wait; exact exclusive split NO_REGISTRADO",
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "investigation_seconds": "NO_REGISTRADO",
+      "code_seconds": "NO_REGISTRADO",
+      "tests_review_seconds": "NO_REGISTRADO",
+      "ci_wait_seconds": "NO_REGISTRADO",
+      "writer_wait_seconds": 0,
+      "checkpoint_coordination_seconds": "NO_REGISTRADO",
+      "idle_seconds": "NO_REGISTRADO",
+      "code_commits": [
+        "a4515676efa6f10192b0e0256979529e294e6ebb"
+      ],
+      "functional_changes": "Corrected F3 isolated Android runtime restore test fixture to complete the startup admission transition before journaled restore, preserving fail-closed production material write gate. Verified fail-closed before and open after synthetic recovery; positive MediaStore content://->five-owner VALIDATED journal with V1 pointer unchanged passes.",
+      "ci": [
+        {
+          "id": 41233238496,
+          "sha": "f8edbcbf7c7836c5c8fb5c93694bcb191c4f860e",
+          "job_id": 124632930420,
+          "status": "completed",
+          "conclusion": "failure",
+          "created_at": "2026-10-31T19:14:05Z",
+          "job_started_at": "2026-10-31T19:19:48Z",
+          "completed_at": "2026-10-31T19:28:16Z",
+          "wall_seconds": 851,
+          "queue_seconds": 343,
+          "execution_seconds": 508,
+          "xml": "13/14; one failure consentedContentProviderRestoreCreatesValidatedJournalWithoutV1Switch; root startup PASS injected without opening materialWriteGate; all other 13 tests passed",
+          "reused_prior_run": true
+        },
+        {
+          "id": 41235339491,
+          "sha": "a4515676efa6f10192b0e0256979529e294e6ebb",
+          "job_id": 124637813500,
+          "status": "completed",
+          "conclusion": "success",
+          "created_at": "2026-10-31T19:40:42Z",
+          "job_started_at": "2026-10-31T19:40:44Z",
+          "completed_at": "2026-10-31T19:47:20Z",
+          "wall_seconds": 398,
+          "queue_seconds": 2,
+          "execution_seconds": 396,
+          "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 14/14; 0 failures/errors/skips; exact Android XML oracle SUCCESS",
+          "overlaps_session": true
+        }
+      ],
+      "red_analysis": "GitHub Actions #41233238496 failed one new positive restore test with IllegalStateException 'material writes are suspended until maintenance recovery completes'. Architecture review showed FaroV5CompositionRoot constructor creates FaroV5StartupReadinessGate which closes SingleProcessMaterialWriteGate; synthetic PASS enum alone does not admit writes. Fixture now invokes root private completeStartupRecovery (test-only) and asserts gate closed then open. No production bypass; #41235339491 14/14 PASS.",
+      "certified_before": 3,
+      "certified_after": 3,
+      "checkpoint_path": "docs/CIERRE_NOCHE_V14_B5_CHECKPOINT_20261031_1640.md",
+      "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
     }
   ],
   "metrics": {
@@ -434,22 +498,28 @@
       "ci1_queue_proxy_seconds": 4,
       "ci2_status": "in_progress",
       "ci_overlap_not_double_counted": true
+    },
+    "v14_b5": {
+      "observed_wall_seconds_to_checkpoint": 726,
+      "scheduled_window_elapsed_seconds_to_checkpoint": 536,
+      "writer_held_seconds_to_checkpoint": 536,
+      "pre_window_seconds": 190,
+      "exclusive_activity_breakdown": "NO_REGISTRADO",
+      "ci_failure_wall_seconds": 851,
+      "ci_failure_queue_seconds": 343,
+      "ci_failure_execution_seconds": 508,
+      "ci_success_wall_seconds": 398,
+      "ci_success_queue_seconds": 2,
+      "ci_success_execution_seconds": 396,
+      "ci_overlap_not_double_counted": true
     }
   },
   "report": null,
-  "active_session": {
-    "id": "NOCHE_B_V14_TURN5_20261031_1640",
-    "scheduled_start": "2026-10-31T19:40:00Z",
-    "runtime_started_at": "2026-10-31T19:36:49.763643Z",
-    "writer_acquired_at": "2026-10-31T19:40:00Z",
-    "state": "ACTIVE",
-    "focus": "F3 Android real provider restore test fixture failure: startup admission gate remains closed",
-    "red_action": 41233238496
-  },
-  "last_code_commit": "f8edbcbf7c7836c5c8fb5c93694bcb191c4f860e",
-  "last_checkpoint_at": "2026-10-31T19:25:29.452Z",
-  "last_checkpoint": "docs/CIERRE_NOCHE_V14_A5_CHECKPOINT_20261031_1610.md",
-  "next_action": "Verify Actions #41233238496 exact SHA f8edbcbf terminal and 14/14 XML; if failure diagnose without blind rerun; then F3 real Android SAF picker positive consent flow in quarantined host while V2 OFF. F1/F2/F4 and physical T4 remain OPEN.",
+  "active_session": null,
+  "last_code_commit": "a4515676efa6f10192b0e0256979529e294e6ebb",
+  "last_checkpoint_at": "2026-10-31T19:48:55.655Z",
+  "last_checkpoint": "docs/CIERRE_NOCHE_V14_B5_CHECKPOINT_20261031_1640.md",
+  "next_action": "Recheck writer; reuse CI #41235339491 14/14 exact SHA; positive real SAF picker consent still pending; F1/F2/F4 and T4 physical open",
   "recovered_stale_writer": {
     "previous_owner": "NOCHE_A_V14_TURN4_20261031_1510",
     "previous_epoch": 39,
@@ -460,18 +530,16 @@
     "method": "CAS expected HEAD; prior owner terminal and lease expired"
   },
   "last_turn": {
-    "id": "NOCHE_A_V14_TURN5_20261031_1610",
-    "scheduled_start": "2026-10-31T19:10:00Z",
-    "runtime_started_at": "2026-10-31T19:07:52.843105Z",
-    "pre_window_read_only": true,
-    "pre_window_seconds": 127,
-    "writer_epoch": 41,
-    "writer_acquired_at": "2026-10-31T19:10:04.064Z",
-    "checkpoint_prepared_at": "2026-10-31T19:25:29.452Z",
-    "observed_wall_seconds_to_checkpoint": 1057,
-    "scheduled_window_elapsed_seconds_to_checkpoint": 929,
-    "writer_held_seconds_to_checkpoint": 925,
-    "mixed_implementation_and_review_window_seconds": 240,
+    "id": "NOCHE_B_V14_TURN5_20261031_1640",
+    "scheduled_start": "2026-10-31T19:40:00Z",
+    "runtime_started_at": "2026-10-31T19:36:49.763Z",
+    "writer_acquired_at": "2026-10-31T19:40:00Z",
+    "checkpoint_prepared_at": "2026-10-31T19:48:55.655Z",
+    "observed_wall_seconds_to_checkpoint": 726,
+    "scheduled_window_elapsed_seconds_to_checkpoint": 536,
+    "writer_held_seconds_to_checkpoint": 536,
+    "pre_window_seconds": 190,
+    "pre_window_activity": "READ_ONLY CI diagnosis and scheduled-window wait; exact exclusive split NO_REGISTRADO",
     "exclusive_activity_breakdown": "NO_REGISTRADO",
     "investigation_seconds": "NO_REGISTRADO",
     "code_seconds": "NO_REGISTRADO",
@@ -481,71 +549,46 @@
     "checkpoint_coordination_seconds": "NO_REGISTRADO",
     "idle_seconds": "NO_REGISTRADO",
     "code_commits": [
-      "a90dbda77f4764aa40304ee467e1f2630687cc4a",
-      "1904a6b4fab28e8cfdf9e7ecd393b545b1217167",
-      "771614297d1628d690fc849013a91aefd162cedd",
-      "f8edbcbf7c7836c5c8fb5c93694bcb191c4f860e"
+      "a4515676efa6f10192b0e0256979529e294e6ebb"
     ],
-    "functional_changes": "F3 SAF verified-export final cancellation fence; restore journal post-preparation cancellation barrier; positive synthetic content:// provider->runtime->five-store journal integration test on isolated fixture",
+    "functional_changes": "Corrected F3 isolated Android runtime restore test fixture to complete the startup admission transition before journaled restore, preserving fail-closed production material write gate. Verified fail-closed before and open after synthetic recovery; positive MediaStore content://->five-owner VALIDATED journal with V1 pointer unchanged passes.",
     "ci": [
-      {
-        "id": 41233024908,
-        "sha": "a90dbda77f4764aa40304ee467e1f2630687cc4a",
-        "status": "completed",
-        "conclusion": "success",
-        "created_at": "2026-10-31T19:11:19Z",
-        "updated_at": "2026-10-31T19:19:47Z",
-        "wall_seconds": 508,
-        "runner_log_first_at": "2026-10-31T19:11:22.6992548Z",
-        "runner_log_last_at": "2026-10-31T19:19:45.5538563Z",
-        "runner_log_span_seconds": 503,
-        "queue_proxy_seconds": 4,
-        "queue_exact_seconds": "NO_REGISTRADO",
-        "execution_exact_seconds": "NO_REGISTRADO",
-        "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 13/13",
-        "job_id": 124630956306,
-        "xml_oracle_step": "SUCCESS",
-        "overlaps_development": true
-      },
       {
         "id": 41233238496,
         "sha": "f8edbcbf7c7836c5c8fb5c93694bcb191c4f860e",
-        "status": "in_progress",
-        "conclusion": null,
+        "job_id": 124632930420,
+        "status": "completed",
+        "conclusion": "failure",
         "created_at": "2026-10-31T19:14:05Z",
-        "updated_at": "2026-10-31T19:19:49Z",
-        "xml": "WAIT_CI",
-        "queue_seconds": "NO_REGISTRADO",
-        "execution_seconds": "NO_REGISTRADO"
+        "job_started_at": "2026-10-31T19:19:48Z",
+        "completed_at": "2026-10-31T19:28:16Z",
+        "wall_seconds": 851,
+        "queue_seconds": 343,
+        "execution_seconds": 508,
+        "xml": "13/14; one failure consentedContentProviderRestoreCreatesValidatedJournalWithoutV1Switch; root startup PASS injected without opening materialWriteGate; all other 13 tests passed",
+        "reused_prior_run": true
       },
       {
-        "id": 41233184135,
+        "id": 41235339491,
+        "sha": "a4515676efa6f10192b0e0256979529e294e6ebb",
+        "job_id": 124637813500,
         "status": "completed",
-        "conclusion": "cancelled",
-        "jobs": 0,
-        "xml": "NOT_RUN"
-      },
-      {
-        "id": 41233213373,
-        "status": "completed",
-        "conclusion": "cancelled",
-        "jobs": 0,
-        "xml": "NOT_RUN"
+        "conclusion": "success",
+        "created_at": "2026-10-31T19:40:42Z",
+        "job_started_at": "2026-10-31T19:40:44Z",
+        "completed_at": "2026-10-31T19:47:20Z",
+        "wall_seconds": 398,
+        "queue_seconds": 2,
+        "execution_seconds": 396,
+        "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 14/14; 0 failures/errors/skips; exact Android XML oracle SUCCESS",
+        "overlaps_session": true
       }
     ],
+    "red_analysis": "GitHub Actions #41233238496 failed one new positive restore test with IllegalStateException 'material writes are suspended until maintenance recovery completes'. Architecture review showed FaroV5CompositionRoot constructor creates FaroV5StartupReadinessGate which closes SingleProcessMaterialWriteGate; synthetic PASS enum alone does not admit writes. Fixture now invokes root private completeStartupRecovery (test-only) and asserts gate closed then open. No production bypass; #41235339491 14/14 PASS.",
     "certified_before": 3,
     "certified_after": 3,
-    "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY",
-    "checkpoint_path": "docs/CIERRE_NOCHE_V14_A5_CHECKPOINT_20261031_1610.md"
+    "checkpoint_path": "docs/CIERRE_NOCHE_V14_B5_CHECKPOINT_20261031_1640.md",
+    "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
   },
-  "in_flight_actions": [
-    {
-      "id": 41233238496,
-      "sha": "f8edbcbf7c7836c5c8fb5c93694bcb191c4f860e",
-      "status": "completed",
-      "conclusion": "failure",
-      "xml": "13/14; consentedContentProviderRestoreCreatesValidatedJournalWithoutV1Switch fails: material writes suspended until maintenance recovery completes",
-      "job_id": 124632930420
-    }
-  ]
+  "in_flight_actions": []
 }
