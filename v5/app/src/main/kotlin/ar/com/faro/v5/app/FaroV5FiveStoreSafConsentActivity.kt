@@ -36,6 +36,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
 
     private sealed interface Pending {
         data class Export(val session: FiveStoreSafExportSession) : Pending
+        data class Preview(val passphrase: CharArray) : Pending
         data class Restore(
             val operation: String,
             val target: String,
@@ -51,9 +52,11 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
     private lateinit var passphrase: EditText
     private lateinit var exportConsent: CheckBox
     private lateinit var restoreConsent: CheckBox
+    private lateinit var previewConsent: CheckBox
     private lateinit var share: CheckBox
     private lateinit var export: Button
     private lateinit var restore: Button
+    private lateinit var preview: Button
 
     private val picker = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -71,11 +74,13 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         val stillConfirmed = when (request) {
             is Pending.Export -> exportConsent.isChecked
             is Pending.Restore -> restoreConsent.isChecked
+            is Pending.Preview -> previewConsent.isChecked
         }
         val stillShared = share.isChecked
         // Consent is operation-specific and one-shot, even if SAF is cancelled.
         exportConsent.isChecked = false
         restoreConsent.isChecked = false
+        previewConsent.isChecked = false
         share.isChecked = false
         val cancellation = CancellationSignal()
         activeCancellation = cancellation
@@ -101,6 +106,22 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                                 "Exportación bloqueada o fallida; no se confirmó el respaldo."
                         }
                     }
+                    is Pending.Preview -> {
+                        try {
+                            if (!stillConfirmed || uri == null) {
+                                "Verificación cancelada; no se restauraron datos."
+                            } else if (runtime.verifyConsentedFiveStorePickedDocument(
+                                    contentResolver, uri, System.currentTimeMillis(),
+                                    cancellation, request.passphrase, true,
+                                )) {
+                                "Respaldo cifrado FAROBAK2 autenticado: cinco almacenes. No restaurado."
+                            } else {
+                                "El archivo o la contraseña no se validaron. No se restauraron datos."
+                            }
+                        } finally {
+                            request.passphrase.fill('\u0000')
+                        }
+                    }
                     is Pending.Restore -> {
                         try {
                             if (!stillConfirmed || uri == null) {
@@ -122,6 +143,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                 }
             } catch (_: Exception) {
                 if (request is Pending.Restore) request.passphrase.fill('\u0000')
+                if (request is Pending.Preview) request.passphrase.fill('\u0000')
                 "Operación no disponible o bloqueada. V1 sigue activa."
             }
             runOnUiThread {
@@ -171,6 +193,12 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
             setSaveEnabled(false)
         }
         column.addView(restoreConsent)
+        previewConsent = CheckBox(this).apply {
+            text = "Confirmo verificar un respaldo cifrado sin restaurarlo."
+            isChecked = false
+            setSaveEnabled(false)
+        }
+        column.addView(previewConsent)
         share = CheckBox(this).apply {
             text = "Para exportar, acepto elegir un destino externo mediante Android."
             isChecked = false
@@ -181,6 +209,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         column.addView(export)
         restore = Button(this).apply { text = "Elegir archivo para restaurar en cuarentena" }
         column.addView(restore)
+        preview = Button(this).apply { text = "Verificar archivo cifrado (sin restaurar)" }
+        column.addView(preview)
         status = TextView(this).apply {
             text = if (savedInstanceState == null)
                 "Esperando confirmación explícita."
@@ -195,6 +225,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         val target = intent.getStringExtra(EXTRA_RESTORE_TARGET)
         restore.isEnabled = !operation.isNullOrBlank() && !target.isNullOrBlank()
         export.setOnClickListener { startExport() }
+        preview.setOnClickListener { startPreview() }
         restore.setOnClickListener {
             if (!operation.isNullOrBlank() && !target.isNullOrBlank())
                 startRestore(operation, target)
@@ -250,6 +281,45 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         }
     }
 
+    private fun startPreview() {
+        if (busy || !previewConsent.isChecked) {
+            showStatus("Verificar requiere confirmación específica.")
+            return
+        }
+        val chars = takePassphrase() ?: return
+        setBusy(true)
+        worker.execute {
+            try {
+                val document = (application as FaroV5Application)
+                    .fiveStoreSafConsentRuntime()
+                    .createConsentedFiveStorePreviewPicker(true)
+                runOnUiThread {
+                    if (!isDestroyed) {
+                        pending = Pending.Preview(chars)
+                        try {
+                            picker.launch(document)
+                        } catch (_: Exception) {
+                            pending = null
+                            chars.fill('\u0000')
+                            previewConsent.isChecked = false
+                            showStatus("No se pudo abrir el selector. No se restauraron datos.")
+                            setBusy(false)
+                        }
+                    } else chars.fill('\u0000')
+                }
+            } catch (_: Exception) {
+                chars.fill('\u0000')
+                runOnUiThread {
+                    if (!isDestroyed) {
+                        previewConsent.isChecked = false
+                        showStatus("Verificación no disponible. No se restauraron datos.")
+                        setBusy(false)
+                    }
+                }
+            }
+        }
+    }
+
     private fun startRestore(operation: String, target: String) {
         if (busy || !restoreConsent.isChecked) {
             showStatus("Restaurar requiere confirmación específica.")
@@ -291,6 +361,8 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         exportConsent.isEnabled = !active
         restoreConsent.isEnabled = !active
         share.isEnabled = !active
+        previewConsent.isEnabled = !active
+        preview.isEnabled = !active
         restore.isEnabled = !active &&
             !intent.getStringExtra(EXTRA_RESTORE_OPERATION).isNullOrBlank() &&
             !intent.getStringExtra(EXTRA_RESTORE_TARGET).isNullOrBlank()
@@ -300,6 +372,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         activeCancellation?.cancel()
         activeCancellation = null
         (pending as? Pending.Restore)?.passphrase?.fill('\u0000')
+        (pending as? Pending.Preview)?.passphrase?.fill('\u0000')
         pending = null
         worker.shutdownNow()
         if (::passphrase.isInitialized) passphrase.text.clear()

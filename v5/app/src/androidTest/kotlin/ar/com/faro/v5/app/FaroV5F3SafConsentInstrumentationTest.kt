@@ -29,6 +29,10 @@ class FaroV5F3SafConsentInstrumentationTest {
                 val all = views(activity.findViewById(android.R.id.content))
                 val export = all.filterIsInstance<Button>()
                     .single { it.text.toString() == "Exportar respaldo cifrado" }
+                val preview = all.filterIsInstance<Button>()
+                    .single { it.text.toString().startsWith("Verificar archivo cifrado") }
+                val previewConsent = all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Confirmo verificar") }
                 val restore = all.filterIsInstance<Button>()
                     .single { it.text.toString().startsWith("Elegir archivo") }
                 val exportConsent = all.filterIsInstance<CheckBox>()
@@ -39,6 +43,11 @@ class FaroV5F3SafConsentInstrumentationTest {
                     .single { it.text.toString().startsWith("Para exportar") }
                 val password = all.filterIsInstance<EditText>().single()
                 assertFalse("No trusted restore journal provided", restore.isEnabled)
+                preview.performClick()
+                assertTrue(all.filterIsInstance<TextView>().any {
+                    it.text.toString().contains("Verificar requiere confirmación")
+                })
+                assertFalse(previewConsent.isChecked)
                 export.performClick()
                 assertTrue(all.filterIsInstance<TextView>().any {
                     it.text.toString().contains("requiere confirmar")

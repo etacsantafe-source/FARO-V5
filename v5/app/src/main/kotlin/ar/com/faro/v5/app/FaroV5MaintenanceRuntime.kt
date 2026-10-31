@@ -10,6 +10,8 @@ import ar.com.faro.v5.generation.FaroV5RestoreJournalAdmission
 import ar.com.faro.v5.generation.FaroV5StagedRestoreJournalValidator
 import ar.com.faro.v5.generation.FiveStoreJournalValidationResult
 import ar.com.faro.v5.generation.FiveStoreStagedRestoreResult
+import ar.com.faro.v5.generation.FaroV5FiveStorePortableBackupCrypto
+import ar.com.faro.v5.generation.FiveStorePortableBackupOpenResult
 import ar.com.faro.v5.maintenance.BootstrapPhase
 import ar.com.faro.v5.maintenance.FileRestoreArchiveIdentity
 import ar.com.faro.v5.maintenance.StagedPortableBackupArchive
@@ -80,6 +82,12 @@ class FaroV5MaintenanceRuntime(
     private val backupSafAdapter by lazy { AndroidBackupSafAdapter(backupExternalEffects) }
     private val fiveStorePrivateArchiveStore by lazy {
         FilePortableBackupArchiveStore(storageRoot.resolve("backup").resolve("five-store-staged"))
+    }
+    // Read-only F3 preview uses a separate private encrypted staging area;
+    // it never deletes an artifact pinned by a restore journal.
+    private val previewLock = Any()
+    private val fiveStorePreviewArchiveStore by lazy {
+        FilePortableBackupArchiveStore(storageRoot.resolve("backup").resolve("five-store-preview"))
     }
     private val portabilityExternalEffects =
         PortabilityExternalEffectCoordinator(
@@ -312,6 +320,62 @@ class FaroV5MaintenanceRuntime(
             pointer.read()?.generationId?.value == session.activeGenerationId &&
             runCatching { fiveStorePrivateArchiveStore.verify(session.source.artifact) }
                 .getOrDefault(false)
+
+    /**
+     * F3 user-selected backup preview, without a restore journal or target.
+     * Verifies the encrypted FAROBAK2 envelope and all five semantic owners,
+     * but never stages a V2 generation, changes the active pointer, or Applies.
+     * The separate preview artifact is deleted even on invalid credentials.
+     */
+    internal fun createConsentedFiveStorePreviewPicker(userConfirmed: Boolean): Intent {
+        check(userConfirmed) { "backup preview requires explicit user consent" }
+        check(root.startupReprojectionState ==
+            FaroV5CompositionRoot.StartupReprojectionState.PASS) {
+            "startup recovery must complete before backup preview"
+        }
+        check(pointer.read() != null) { "backup preview requires an active generation" }
+        return backupSafAdapter.createRestoreDocumentIntent()
+    }
+
+    internal fun verifyConsentedFiveStorePickedDocument(
+        resolver: ContentResolver,
+        selected: Uri?,
+        stagedAtEpochMillis: Long,
+        cancellationSignal: CancellationSignal,
+        passphrase: CharArray,
+        userConfirmed: Boolean,
+    ): Boolean {
+        if (!userConfirmed || selected == null) return false
+        check(root.startupReprojectionState ==
+            FaroV5CompositionRoot.StartupReprojectionState.PASS) {
+            "startup recovery must complete before backup preview"
+        }
+        val before = checkNotNull(pointer.read()) { "no active generation" }
+        return synchronized(previewLock) {
+            cancellationSignal.throwIfCanceled()
+            val artifact = backupSafAdapter.stageSelectedRestoreArchive(
+                resolver, selected, fiveStorePreviewArchiveStore,
+                stagedAtEpochMillis, cancellationSignal,
+            )
+            try {
+                val encrypted = fiveStorePreviewArchiveStore.readBytes(artifact)
+                try {
+                    cancellationSignal.throwIfCanceled()
+                    val result = FaroV5FiveStorePortableBackupCrypto()
+                        .open(encrypted, passphrase)
+                    cancellationSignal.throwIfCanceled()
+                    result is FiveStorePortableBackupOpenResult.Opened &&
+                        pointer.read() == before
+                } finally {
+                    encrypted.fill(0)
+                }
+            } finally {
+                // Preview artifacts must not accumulate or interfere with
+                // the separately pinned restore-journal staging area.
+                fiveStorePreviewArchiveStore.delete(artifact)
+            }
+        }
+    }
 
     /**
      * RESTORE ingress stays quarantined: no pointer switch, second authority,
