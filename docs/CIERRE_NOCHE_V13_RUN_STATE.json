@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "READY_FOR_SCHEDULED_F1_DEVELOPMENT",
+  "status": "WRITER_ACTIVE_F1",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,11 +12,11 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 17,
-    "lease_expires_at": null,
-    "expected_head": null,
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_V13_20261030_2242",
+    "epoch": 18,
+    "lease_expires_at": "2026-10-31T02:09:00.000Z",
+    "expected_head": "ab15d89335b6cc88cfee0d66a911b6d645b6ccf0",
     "last_released_at": "2026-10-31T01:12:12.869Z"
   },
   "stage": {
@@ -125,7 +125,7 @@
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T01:12:39.989Z",
+  "last_checkpoint_at": "2026-10-31T01:43:36.053Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
@@ -143,5 +143,13 @@
       "action_id": 41154147884,
       "status": "IN_PROGRESS"
     }
-  ]
+  ],
+  "active_session": {
+    "id": "NOCHE_A_V13_20261030_2242",
+    "started_at": "2026-10-31T01:43:36.053Z",
+    "writer_epoch": 18,
+    "preflight_head": "ab15d89335b6cc88cfee0d66a911b6d645b6ccf0",
+    "lease_expires_at": "2026-10-31T02:09:00.000Z",
+    "focus": "F1 quarantined Android Compose/Review/Apply/Delivery"
+  }
 }
