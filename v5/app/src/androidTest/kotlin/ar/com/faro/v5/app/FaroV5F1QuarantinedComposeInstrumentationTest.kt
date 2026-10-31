@@ -415,7 +415,7 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                         try {
                             ActivityScenario.launch(
                                 FaroV5F1QuarantineCertificationActivity::class.java,
-                            ).use {
+                            ).use { scenario ->
                                 assertEquals(chat, runBlocking {
                                     host.workspaceReadPort.readSnapshot().activeConversationId
                                 })
@@ -502,6 +502,18 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 )
                                 assertEquals(DeliveryEffectState.BLOCKED_PERMISSION, delivery.state)
                                 assertEquals(1, deliveryStore.readNotices().size)
+                                // A UI process-level recreation must not replay
+                                // the accepted turn, the Reality Apply, or the
+                                // permission-denied notification projection.
+                                scenario.recreate()
+                                compose.waitForIdle()
+                                assertEquals(1, replies.get())
+                                assertEquals(1L, reality.read().revision)
+                                assertEquals(1, runBlocking { host.reviewPort.reviews(chat) }.size)
+                                assertEquals(1, deliveryStore.readNotices().size)
+                                assertEquals(DeliveryEffectState.BLOCKED_PERMISSION,
+                                    requireNotNull(deliveryStore.readDeliveryIntent(
+                                        materialized.deliveryIntent.deliveryIntentId)).state)
                                 assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
                             }
                         } finally {

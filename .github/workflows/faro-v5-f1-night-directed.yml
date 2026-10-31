@@ -104,7 +104,7 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage
       - name: Exact F1 Android structured Review/Apply/Delivery XML
         run: |
           python3 - <<'PY'
@@ -115,11 +115,14 @@ jobs:
               for case in ET.parse(p).getroot().iter('testcase'):
                   if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
                       cases.append(case)
-          if len(cases)!=1 or cases[0].attrib.get('name')!='composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt':
-              raise SystemExit('F1_STRUCTURED_ANDROID_CASE_MISSING_OR_WRONG '+str([x.attrib.get('name') for x in cases]))
-          if any(cases[0].find(x) is not None for x in ('failure','error','skipped')):
+          expected = {'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt',
+                      'permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage'}
+          names = [case.attrib.get('name') for case in cases]
+          if len(cases)!=2 or set(names)!=expected:
+              raise SystemExit('F1_STRUCTURED_ANDROID_CASES_MISSING_OR_WRONG '+str(names))
+          if any(case.find(x) is not None for case in cases for x in ('failure','error','skipped')):
               raise SystemExit('F1_STRUCTURED_ANDROID_CASE_FAILED')
-          print('F1_ANDROID_STRUCTURED_REVIEW_APPLY_DENIED_DELIVERY_PASS 1/1')
+          print('F1_ANDROID_REVIEW_APPLY_DENIED_GRANTED_DELIVERY_PASS 2/2')
           print('LIVE_GROQ_AND_PHYSICAL_T4_NOT_RUN; V2_OFF')
           PY
 
