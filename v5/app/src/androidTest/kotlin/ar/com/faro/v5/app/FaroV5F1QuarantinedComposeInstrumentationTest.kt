@@ -50,6 +50,8 @@ import java.util.function.Supplier
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Rule
+import org.junit.FixMethodOrder
+import org.junit.runners.MethodSorters
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -59,6 +61,10 @@ import org.junit.runner.RunWith
  * Not full F1 E2E: Apply and external Delivery intentionally absent, T4 NOT_RUN.
  */
 @RunWith(AndroidJUnit4::class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+// Notification permission is process-wide. Run denied-permission UI tests
+// before the positive OS-post test; revoking a runtime permission during
+// instrumentation kills the app process on Android 13+.
 class FaroV5F1QuarantinedComposeInstrumentationTest {
     @get:Rule val compose = createEmptyComposeRule()
 
@@ -104,6 +110,36 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
             assertNull(denied)
             assertFalse(Files.exists(staged.directory.resolve(GenerationStoreFiles.WORKSPACE)))
             assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            // Real provider-neutral host admission uses explicit Android
+            // consent and Keystore, but never sends a request in this test.
+            materialize(staged.directory)
+            val synthetic = ("test_" + java.util.UUID.randomUUID().toString()
+                .replace("-", "")).toByteArray(Charsets.UTF_8)
+            try {
+                val initial = runBlocking { control.read() }
+                assertTrue(runBlocking {
+                    control.enableWithCredential(synthetic, initial.revision)
+                } is FaroV5TrustedAssistantControlOwner.Change.Saved)
+                FaroV5F1ConsentedQuarantineHost.open(
+                    context, staged, SingleProcessMaterialWriteGate(), Supplier { activeV1 },
+                ).use { opened ->
+                    assertNotNull("Consented Keystore-backed F1 host", opened)
+                    assertTrue(requireNotNull(opened).verifyQuarantined())
+                }
+                val allowed = runBlocking { control.read() }
+                assertTrue(runBlocking {
+                    control.disable(allowed.revision)
+                } is FaroV5TrustedAssistantControlOwner.Change.Saved)
+                assertNull(FaroV5F1ConsentedQuarantineHost.open(
+                    context, staged, SingleProcessMaterialWriteGate(), Supplier { activeV1 },
+                ))
+            } finally {
+                synthetic.fill(0)
+                val current = runBlocking { control.read() }
+                if (current.remoteReasoningEnabled) {
+                    runBlocking { control.disable(current.revision) }
+                }
+            }
         } finally {
             root.toFile().deleteRecursively()
         }
@@ -190,10 +226,10 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
     }
     @Test fun composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        // Explicitly deny OS permission, independently of test execution order.
-        InstrumentationRegistry.getInstrumentation().uiAutomation.revokeRuntimePermission(
-            context.packageName, Manifest.permission.POST_NOTIFICATIONS,
-        )
+        // Fresh emulator starts denied; never revoke during instrumentation,
+        // because Android kills the instrumented process on runtime revocation.
+        assertNotEquals(PackageManager.PERMISSION_GRANTED,
+            context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS))
         val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-review-ui-")
         try {
             val staged = FileStorageGenerationLayout(root).stageWorkspaceV2(
@@ -421,9 +457,9 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
         assertTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         val ui = InstrumentationRegistry.getInstrumentation().uiAutomation
         val manager = requireNotNull(context.getSystemService(NotificationManager::class.java))
-        val originallyGranted = context.checkSelfPermission(
-            Manifest.permission.POST_NOTIFICATIONS,
-        ) == PackageManager.PERMISSION_GRANTED
+        assertNotEquals("OS grant must start denied in the isolated emulator",
+            PackageManager.PERMISSION_GRANTED,
+            context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS))
         val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-os-post-")
         var postedTag: String? = null
         try {
@@ -466,9 +502,8 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
         } finally {
             // The emulator notification must never survive the test.
             postedTag?.let { manager.cancel(it, 1001) }
-            if (!originallyGranted) {
-                ui.revokeRuntimePermission(context.packageName, Manifest.permission.POST_NOTIFICATIONS)
-            }
+            // Do not revoke inside instrumentation: Android kills the process.
+            // This CI job uses a disposable emulator; no user permission changes.
             root.toFile().deleteRecursively()
         }
     }
