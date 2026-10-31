@@ -22,7 +22,7 @@ import java.util.function.BooleanSupplier
  * must not silently replay an uncertain model call. This boundary does not
  * activate V2 or certify end-to-end Android delivery.
  */
-class FaroV5HostAssistantTurnDispatcher(
+class FaroV5HostAssistantTurnDispatcher @JvmOverloads constructor(
     private val session: FaroV5ActiveChatReasoningSession,
     private val dedicatedWorker: ExecutorService,
     private val generationAdmitted: BooleanSupplier,
