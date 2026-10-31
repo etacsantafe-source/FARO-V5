@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v12-3h",
   "run_id": "cierre-v12-20261030-B3-2110",
   "run_number": 6,
-  "state": "ACTIVE",
+  "state": "CLOSED",
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_3",
+    "state": "NONE",
+    "owner": null,
     "epoch": 14,
-    "lease_expires_at": "2026-10-31T00:39:50Z",
-    "expected_head": "54ff6f8c140b00376f04d38fab4d4e393adc8fe3"
+    "lease_expires_at": null,
+    "expected_head": null
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -114,155 +114,147 @@
       "tests": "directed38/38,F1reasoning18/18,critical36/36,surface31/31;AndroidE2E/T4_NOT_RUN"
     }
   ],
-  "in_flight_actions": [
+  "in_flight_actions": [],
+  "actions_launched_v12": [
     {
       "id": 41150231238,
       "head_sha": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
-      "status": "QUEUED",
-      "reason": "F1 targeted retry after JUnit non-void test discovery correction; exact host XML 1/1",
+      "status": "COMPLETED_SUCCESS",
       "created_at": "2026-10-31T00:27:07Z",
-      "expected_evidence": "transport8/8 bootstrap4/4 consent3/3 reasoning19/19 host1/1"
+      "updated_at": "2026-10-31T00:34:47Z",
+      "wall_minutes": 7.67
     },
     {
       "id": 41149448573,
       "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
-      "status": "IN_PROGRESS",
-      "reason": "F1 Android emulator 50m adjusted cold build; production code unchanged by later test-only correction",
+      "status": "COMPLETED_SUCCESS",
       "created_at": "2026-10-31T00:18:29Z",
-      "expected_evidence": "Android instrumentation 1/1; NOT full UI/Apply/Delivery/T4"
-    }
-  ],
-  "actions_launched_v12": [
-    {
-      "id": 41132960313,
-      "head_sha": "43016859c3299e5494d1d9b92ef27cd353080ccd",
-      "reason": "F1 real approved HTTPS model transport + six focused JVM tests",
-      "status": "COMPLETED_SUCCESS",
-      "tests": "6/6, failures/errors/skips=0",
-      "created_at": "2026-10-30T21:42:03Z",
-      "completed_at": "2026-10-30T21:45:46Z",
-      "wall_seconds": 223
+      "updated_at": "2026-10-31T00:30:40Z",
+      "wall_minutes": 12.18
     },
     {
-      "id": 41133226321,
-      "head_sha": "1967506c49218271f207583f87733363add6fbc2",
-      "reason": "F1 trusted Android bootstrap + profile/Keystore/egress policy, compile and four focused tests",
+      "id": 41149448511,
+      "head_sha": "37e260d133f3ea0077c579d587bc0c169edda527",
       "status": "COMPLETED_FAILURE",
-      "created_at": "2026-10-30T21:44:17Z",
-      "completed_at": "2026-10-30T21:52:52Z",
-      "wall_seconds": 515,
-      "tests": "transport 6/6 PASS; Android Kotlin compile ARGUMENT_TYPE_MISMATCH String vs ByteArray; app tests NOT_RUN",
-      "cause": "Kotlin prompt concatenation applied .toByteArray to second literal only; fixed on SHA 570ff81"
+      "created_at": "2026-10-31T00:18:29Z",
+      "updated_at": "2026-10-31T00:26:13Z",
+      "wall_minutes": 7.73
     },
     {
-      "id": 41133963832,
-      "head_sha": "570ff81e19e8f2cd51a8687869335beec8926286",
-      "reason": "Correct F1 prompt bytes + consent guard + reject truncated model replies; targeted 7 transport + 4 bootstrap + Android compile",
-      "status": "COMPLETED_FAILURE",
-      "created_at": "2026-10-30T21:50:27Z",
-      "completed_at": "2026-10-30T21:57:11Z",
-      "wall_seconds": 404,
-      "tests": "transport 7/7 PASS; Android compile INAPPLICABLE_JVM_FIELD; app tests NOT_RUN",
-      "cause": "@JvmField on value-class ModelBindingId in companion; fixed on SHA0903"
-    },
-    {
-      "id": 41134824782,
-      "head_sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
-      "reason": "Fix compiler JvmField value-class annotation; focused transport 7 + bootstrap 4 + Android compile",
+      "id": 41148824741,
+      "head_sha": "0e9f067db9242dad00012b4553dd735634cac847",
       "status": "COMPLETED_SUCCESS",
-      "created_at": "2026-10-30T21:57:51Z",
-      "completed_at": "2026-10-30T22:05:15Z",
-      "wall_seconds": 444,
-      "tests": "Transport XML 7/7, bootstrap XML 4/4, failures/errors/skips=0; Android compile Kotlin/Java PASS; structural baseline PASS; Android E2E NOT_RUN"
+      "created_at": "2026-10-31T00:11:49Z",
+      "updated_at": "2026-10-31T00:17:41Z",
+      "wall_minutes": 5.87
     },
     {
-      "id": 41136399502,
-      "head_sha": "f27e65ab9f6e93e04bc2cba1ff597353ec8f38ae",
-      "status": "completed_success",
-      "reason": "Functional F1 Android settings/credential UI batch",
-      "started_at": "2026-10-30T22:11:08Z",
-      "completed_at": "2026-10-30T22:18:22Z",
-      "tests": "transport7/7, bootstrap4/4, Android compile PASS; XML errors/failures/skips 0"
-    },
-    {
-      "id": 41137328678,
-      "head_sha": "636567f8079a0337eea5aa4d703e60013fe26688",
-      "status": "COMPLETED_SUCCESS",
-      "reason": "F1 functional consent/credential CAS and revocation targeted test batch",
-      "started_at": "2026-10-30T22:19:17Z",
-      "completed_at": "2026-10-30T22:25:02Z",
-      "tests": "Exact XML oracle step PASS: transport7/7 bootstrap4/4 consent3/3; Android Kotlin/Java compile PASS"
-    },
-    {
-      "id": 41139970252,
-      "head_sha": "905b4f261874cf3faff91a71ce978cafe8478788",
-      "status": "COMPLETED_SUCCESS",
-      "reason": "F1 revocation gate at transport before HTTP dispatch and while waiting; one new focused regression",
-      "started_at": "2026-10-30T22:43:20Z",
-      "completed_at": "2026-10-30T22:48:22Z",
-      "wall_seconds": 302,
-      "tests": "Exact XML oracle step PASS transport8/8 bootstrap4/4 consent3/3; Android compile PASS; Android E2E NOT_RUN"
-    },
-    {
-      "id": 41140606044,
-      "head_sha": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
-      "status": "COMPLETED_SUCCESS",
-      "reason": "F1 after-provider consent revalidation before Workspace commit, one new 19th reasoning test",
-      "started_at": "2026-10-30T22:49:14Z",
-      "completed_at": "2026-10-30T22:56:45Z",
-      "wall_seconds": 451,
-      "tests": "Exact XML oracle log: transport8/8 bootstrap4/4 consent3/3 reasoning19/19, failures/errors/skips 0; Android Kotlin/Java compile PASS; Android E2E NOT_RUN"
-    },
-    {
-      "id": 41143467969,
-      "head_sha": "29f64361130c52b27e899f71a654d03137f1c617",
-      "status": "COMPLETED_FAILURE",
-      "reason": "Initial F1 Android instrumentation compile; shell typo, not product compile error",
-      "tests": "transport8/8 + bootstrap4/4 + consent3/3 + reasoning19/19 steps SUCCESS; AndroidTest NOT_RUN due Task '\\\\' not found; XML oracle SKIPPED",
-      "created_at": "2026-10-30T23:16:30Z",
-      "completed_at": "2026-10-30T23:23:37Z",
-      "wall_seconds": 427
-    },
-    {
-      "id": 41144270096,
-      "head_sha": "013cc7acc68739508755f6cac7a5123c02f4b590",
-      "status": "COMPLETED_SUCCESS",
-      "reason": "Fix double backslash in Gradle shell line; targeted AndroidTest compile and existing F1 regressions",
-      "created_at": "2026-10-30T23:24:19Z",
-      "completed_at": "2026-10-30T23:29:50Z",
-      "wall_seconds": 331,
-      "tests": "XML transport8/8 bootstrap4/4 consent3/3 reasoning19/19; failures=errors=skips=0; Android Kotlin/Java compile PASS; AndroidTest Kotlin/Java COMPILE PASS; Android instrumentation EXECUTION NOT_RUN"
+      "id": 41146263216,
+      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
+      "status": "COMPLETED_CANCELLED",
+      "created_at": "2026-10-30T23:44:44Z",
+      "updated_at": "2026-10-31T00:14:58Z",
+      "wall_minutes": 30.23
     },
     {
       "id": 41146263160,
       "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
       "status": "COMPLETED_SUCCESS",
-      "reason": "Automatic existing F1 directed CI triggered by app/src/androidTest change; no production source changed",
       "created_at": "2026-10-30T23:44:44Z",
-      "completed_at": "2026-10-30T23:51:19Z",
-      "wall_seconds": 395,
-      "tests": "Exact XML oracle: transport8/8 bootstrap4/4 consent3/3 reasoning19/19; 0 failures/errors/skips; AndroidTest compile PASS; Android device execution NOT_RUN in this workflow"
+      "updated_at": "2026-10-30T23:51:19Z",
+      "wall_minutes": 6.58
     },
     {
-      "id": 41146263216,
-      "head_sha": "c0f91cd8182c70b6361d8c4e96854e000f71c9af",
-      "status": "WAIT_CI",
-      "reason": "Dedicated F1 Android emulator execution (first Android runtime host-flow test)",
-      "created_at": "2026-10-30T23:44:44Z",
-      "last_observed_at": "2026-10-31T00:07:41.241Z",
-      "tests": "NOT_YET_TERMINAL, XML pending"
+      "id": 41144270096,
+      "head_sha": "013cc7acc68739508755f6cac7a5123c02f4b590",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T23:24:19Z",
+      "updated_at": "2026-10-30T23:29:50Z",
+      "wall_minutes": 5.52
+    },
+    {
+      "id": 41143467969,
+      "head_sha": "29f64361130c52b27e899f71a654d03137f1c617",
+      "status": "COMPLETED_FAILURE",
+      "created_at": "2026-10-30T23:16:30Z",
+      "updated_at": "2026-10-30T23:23:39Z",
+      "wall_minutes": 7.15
+    },
+    {
+      "id": 41140606044,
+      "head_sha": "c3d4e9a4e9b602f7490f7514260c1888731ac69f",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T22:49:14Z",
+      "updated_at": "2026-10-30T22:56:45Z",
+      "wall_minutes": 7.52
+    },
+    {
+      "id": 41139970252,
+      "head_sha": "905b4f261874cf3faff91a71ce978cafe8478788",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T22:43:20Z",
+      "updated_at": "2026-10-30T22:48:22Z",
+      "wall_minutes": 5.03
+    },
+    {
+      "id": 41137328678,
+      "head_sha": "636567f8079a0337eea5aa4d703e60013fe26688",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T22:19:17Z",
+      "updated_at": "2026-10-30T22:25:02Z",
+      "wall_minutes": 5.75
+    },
+    {
+      "id": 41136399502,
+      "head_sha": "f27e65ab9f6e93e04bc2cba1ff597353ec8f38ae",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T22:11:08Z",
+      "updated_at": "2026-10-30T22:18:22Z",
+      "wall_minutes": 7.23
+    },
+    {
+      "id": 41134824782,
+      "head_sha": "0903a672b8b93a9f1ac8222f675bdfb1e7dd0dbb",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T21:57:51Z",
+      "updated_at": "2026-10-30T22:05:15Z",
+      "wall_minutes": 7.4
+    },
+    {
+      "id": 41133963832,
+      "head_sha": "570ff81e19e8f2cd51a8687869335beec8926286",
+      "status": "COMPLETED_FAILURE",
+      "created_at": "2026-10-30T21:50:27Z",
+      "updated_at": "2026-10-30T21:57:11Z",
+      "wall_minutes": 6.73
+    },
+    {
+      "id": 41133226321,
+      "head_sha": "1967506c49218271f207583f87733363add6fbc2",
+      "status": "COMPLETED_FAILURE",
+      "created_at": "2026-10-30T21:44:17Z",
+      "updated_at": "2026-10-30T21:52:52Z",
+      "wall_minutes": 8.58
+    },
+    {
+      "id": 41132960313,
+      "head_sha": "43016859c3299e5494d1d9b92ef27cd353080ccd",
+      "status": "COMPLETED_SUCCESS",
+      "created_at": "2026-10-30T21:42:03Z",
+      "updated_at": "2026-10-30T21:45:46Z",
+      "wall_minutes": 3.72
     }
   ],
   "used_time_minutes": {
-    "total_session_elapsed": 26.93,
+    "total_sessions_approx": 139.52,
+    "unutilized_of_180_approx": 40.48,
+    "actions_terminal_wall_sum": 134.9,
     "investigation": null,
     "development": null,
-    "tests": null,
-    "actions_wall_time_sum": 26.43,
+    "local_tests": null,
     "waiting": null,
     "checkpoint_and_communication": null,
-    "non_execution": null,
-    "note": "Only total elapsed and workflow wall durations are independently measured; Actions overlap development and each other. No fabricated breakdown; no billable minutes inferred."
+    "note": "Only per-session elapsed and terminal workflow wall time measured. B1 approximate. No invented breakdown, Actions overlap and not billable-minute estimate."
   },
   "blockers": [
     {
@@ -271,9 +263,9 @@
     }
   ],
   "next_action": {
-    "mode": "B3_FINAL_SESSION",
+    "mode": "NO_WRITE_EXPIRED_PILOT_READ_ONLY",
     "criterion": "F1",
-    "step": "Verify #41150231238 exact XML; if still red after minute20 no new code, checkpoint as pending. #41149448573 may remain WAIT_CI; do not cancel. At minute25 finalize report and release writer, disable A/B."
+    "step": "Verify #41150231238 terminal and XML READ_ONLY. Then request new authorization before F1 Compose/Review/Apply/Delivery E2E, F2/F3/F4/T4."
   },
   "observations": {
     "source_v11_writer": "NONE epoch8",
@@ -290,13 +282,15 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "ACTIVE_WRITER",
+  "status": "CLOSED_PASS_REVIEW_HANDOFF_CLEAN",
   "current_run": {
     "scheduled_start": "2026-10-30T21:10:00-03:00",
     "started_at": "2026-10-31T00:10:12Z",
-    "phase": "ACTIVE",
+    "phase": "CLOSED",
     "stop_new_work_at": "2026-10-31T00:30:12Z",
-    "deadline": "2026-10-31T00:39:50Z"
+    "deadline": "2026-10-31T00:39:50Z",
+    "closed_at": "2026-10-31T00:34:58Z",
+    "elapsed_minutes": 24.77
   },
   "code_head": "a3f2883b1f91c8200ce6f452805f67bfddbee6ec",
   "functional_progress": [
@@ -390,7 +384,7 @@
       "new_run": 41150231238
     }
   ],
-  "last_checkpoint_at": "2026-10-31T00:27:13Z",
+  "last_checkpoint_at": "2026-10-31T00:34:58Z",
   "b1_timing": {
     "scheduled_start": "2026-10-30T19:10:00-03:00",
     "automation_started": "2026-10-30T19:05:33.615698-03:00",
@@ -399,7 +393,7 @@
     "checkpoint_by": "2026-10-30T19:35:33-03:00",
     "note": "Early trigger spent ~4.5 minutes READ_ONLY while A1 writer was active; no overlapping writers."
   },
-  "scope": "B3 ACTIVE: F1 five-owner staged host implemented and production compile SUCCESS; new JUnit test non-void discovery ROJO corrected; CI #41150231238 queued; emulator #41149448573 running. S2.A6 3/8.",
+  "scope": "FINAL V1.2 B3: F1 real provider bootstrap, revocation controls, quarantined five-owner host, Android emulator Composer/Workspace/recovery 1/1 PASS; F1 full E2E incomplete. 3/8 unchanged. CI #41150231238 WAIT_CI. A/B disable requested.",
   "recovery": {
     "prior_writer": "NOCHE_B_1",
     "prior_epoch": 10,
@@ -496,6 +490,27 @@
         "idle": "not separately measured",
         "unused_of_30_minutes": 5.73
       }
+    },
+    {
+      "run_id": "cierre-v12-20261030-B3-2110",
+      "start": "2026-10-31T00:10:12Z",
+      "end": "2026-10-31T00:34:58Z",
+      "elapsed_minutes": 24.77,
+      "actions_new": [
+        41148824741,
+        41149448511,
+        41149448573,
+        41150231238
+      ],
+      "actions_success": [
+        41148824741,
+        41149448573
+      ],
+      "actions_failure": [
+        41149448511
+      ],
+      "actions_pending": [],
+      "note": "Approx. final checkpoint observation; Actions wall overlaps session"
     }
   ],
   "completed_actions": [
@@ -540,5 +555,6 @@
     "first_ci_end": "2026-10-31T00:17:41Z",
     "test_and_ci_commit": "2026-10-31T00:18:29Z",
     "phase_breakdown_note": "Preflight and code work interleaved; only event spans measured. CI wall overlaps session."
-  }
+  },
+  "final_report_path": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md"
 }
