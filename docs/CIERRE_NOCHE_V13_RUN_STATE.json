@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "AUTHORIZED_READY",
+  "status": "INITIAL_DEVELOPMENT",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,11 +12,12 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 16,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "MANUAL_V13_INITIAL",
+    "epoch": 17,
+    "lease_expires_at": "2026-10-31T01:30:42.397Z",
+    "expected_head": "1e36be1908c2fb8b54c06334dea6ba9f273c8498",
+    "started_at": "2026-10-31T01:10:42.397Z"
   },
   "stage": {
     "id": "S2.A6",
