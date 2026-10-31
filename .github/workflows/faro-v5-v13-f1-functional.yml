@@ -66,3 +66,60 @@ jobs:
               print('F1_V13_DIRECTED_PASS',name,'1/1')
           print('Android UI E2E and physical T4 NOT_RUN; S2.A6 unchanged.')
           PY
+
+  f1-android-compose-quarantine:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Enable KVM
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; else echo KVM_UNAVAILABLE; fi
+      - name: Android Compose F1 quarantined five-owner UI test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest
+      - name: Exact Android Compose XML oracle
+        if: always()
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          files=list(Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'))
+          matches=[]
+          for p in files:
+              root=ET.parse(p).getroot()
+              for case in root.iter('testcase'):
+                  if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
+                      matches.append((p,case))
+          if len(matches)!=1: raise SystemExit(f'F1_V13_COMPOSE_NOT_EXECUTED count={len(matches)}')
+          p,case=matches[0]
+          if any(case.find(x) is not None for x in ('failure','error','skipped')):
+              raise SystemExit(f'F1_V13_COMPOSE_FAILED {p}')
+          print('FARO_V13_F1_COMPOSE_QUARANTINE_EXECUTED_PASS 1/1')
+          print('Apply, OS Delivery and physical T4 NOT_RUN; F1 criterion remains OPEN.')
+          PY

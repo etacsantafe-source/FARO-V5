@@ -5,5 +5,9 @@
             android:name="ar.com.faro.v5.app.FaroV5P5PhysicalActivity"
             android:excludeFromRecents="true"
             android:exported="false" />
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5F1QuarantineCertificationActivity"
+            android:exported="false"
+            android:excludeFromRecents="true" />
     </application>
 </manifest>
