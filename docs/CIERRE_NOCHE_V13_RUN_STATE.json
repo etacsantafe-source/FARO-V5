@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "IN_PROGRESS",
+  "status": "WAIT_RESOURCE",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,14 +12,14 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "NOCHE_B_V13_TURN7_20261031_0510",
+    "state": "NONE",
+    "owner": null,
     "epoch": 31,
     "lease_acquired_at": "2026-10-31T08:10:59.881Z",
-    "lease_expires_at": "2026-10-31T08:34:59.881Z",
-    "expected_head": "4d10d548b09362207e6773b7bfa0584c6dc3e14d",
-    "last_released_at": "2026-10-31T07:39:11.580Z",
-    "last_owner": "NOCHE_A_V13_TURN6_20261031_0435",
+    "lease_expires_at": null,
+    "expected_head": null,
+    "last_released_at": "2026-10-31T08:12:50.710Z",
+    "last_owner": "NOCHE_B_V13_TURN7_20261031_0510",
     "release_method": "CAS_EXPECTED_HEAD"
   },
   "stage": {
@@ -78,7 +78,7 @@
       "state": "NOT_RUN"
     }
   ],
-  "code_head": "dbc9b359f9a477971c3ea95fd706bb6e29a43ea6",
+  "code_head": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
   "evidence": {
     "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
     "prior_16_actions_terminal": true,
@@ -394,6 +394,30 @@
         "xml": "NOT_RUN",
         "duration_wall_seconds": 4
       }
+    },
+    "f3_v13_b7_password_policy": {
+      "commit": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
+      "files": [
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5FiveStoreSafConsentActivity.kt",
+        "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5F3SafConsentInstrumentationTest.kt",
+        ".github/workflows/faro-v5-v13-f1-functional.yml"
+      ],
+      "functional_change": "Backup passphrase copied directly from Editable to wipeable CharArray without immutable String; rejects unsafe lengths/whitespace/NUL and revokes all one-shot operation consents before any SAF picker; Android negative regression added; XML oracle updated from stale 7/7 to 9/9.",
+      "verification": "STATIC_DIFF_REVIEW_ONLY",
+      "android_xml": "NOT_RUN",
+      "ci": {
+        "id": 41183601361,
+        "sha": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
+        "status": "FAILURE_PRE_RUN_NO_RUNNER",
+        "jobs": [
+          124485888250,
+          124485888432,
+          124485888487
+        ],
+        "steps": 0,
+        "xml": "NOT_RUN",
+        "wall_seconds_approx": 3
+      }
     }
   },
   "in_flight": [],
@@ -403,9 +427,9 @@
       "state": "WAIT_PHYSICAL"
     },
     {
-      "id": "CI_RUNNER_ALLOCATION_V13_B6",
+      "id": "CI_RUNNER_ALLOCATION_V13_B7",
       "state": "WAIT_RESOURCE",
-      "detail": "Three consecutive runs #41177654138, #41179478414, #41181395040 failed in 3–4s; 3 jobs each failed before runner assignment, no steps/XML. External runner allocation/billing suspected, unconfirmed. Do not retry unchanged SHA or alter payment."
+      "detail": "Four consecutive runs #41177654138, #41179478414, #41181395040, #41183601361 failed in 3-4 seconds across all three jobs before runner assignment, zero steps/XML. Cause not proven; do not retry unchanged SHA or change billing."
     }
   ],
   "hypotheses": [
@@ -485,11 +509,20 @@
       "cause": "Third workflow run #41181395040 failed pre-run in 4 seconds across all three jobs; no Android/SQLite/JVM tests executed",
       "state": "WAIT_RESOURCE_NO_BLIND_RETRY",
       "run": 41181395040
+    },
+    {
+      "id": "F3_S2_QUARANTINE_EXPORT_SEQUENCING",
+      "cause": "Production prepareConsentedFiveStoreExport and FiveStoreExportPreparation require V2_ACTIVE_ENABLED/certified active generation; S2 F3 requires an export+restore flow while V2 remains OFF. A separate, explicitly quarantined certification route may be needed; do not bypass production guard or switch pointer.",
+      "state": "INVESTIGATE_SAFE_DESIGN_NO_BYPASS",
+      "evidence_files": [
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5MaintenanceRuntime.kt",
+        "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreExportPreparation.kt"
+      ]
     }
   ],
   "next_action": {
     "criterion": "F3/F2/F1",
-    "step": "Check Actions runner eligibility/read-only, no billing changes or blind retries. When runners return run directed F3 Android SAF lifecycle + authenticated preview/restore path with XML on exact code SHA. Continue protected F2 activation/recovery independently; F1 live remote consented provider still needs safe credential/egress. Keep 3/8, V2 OFF, T4 NOT_RUN."
+    "step": "READ_ONLY check GitHub runner eligibility, no billing change or blind reruns. When CI is available, certify B7 exact SHA 5f15a448 and 9-case Android oracle. Investigate safe isolated F3 export certification while V2 OFF; never bypass active-production guard. F1 live remote provider still requires real user credential/consent; F2/F4 and physical T4 remain open. Maintain 3/8."
   },
   "sessions": [
     {
@@ -799,10 +832,29 @@
       "released_at": "2026-10-31T07:11:37.491Z",
       "duration_observed_minutes": 4.3,
       "writer_released": "CAS_PENDING_VERIFY"
+    },
+    {
+      "id": "NOCHE_B_V13_TURN7_20261031_0510",
+      "started_at": "2026-10-31T08:10:59.881Z",
+      "checkpoint_at": "2026-10-31T08:12:50.710Z",
+      "writer_epoch": 31,
+      "duration_observed_minutes": 1.85,
+      "code_commits": [
+        "5f15a44871c8c60a2748257059a810b2c6d2ef47"
+      ],
+      "functional_changes": "F3 safe passphrase extraction/policy and one-shot consent reset; Android negative test and stale XML oracle correction",
+      "ci_auto_launched": [
+        41183601361
+      ],
+      "ci_terminal_fail_pre_runner": [
+        41183601361
+      ],
+      "ci_pending": [],
+      "known_limitations": "No runners, no Android/JVM/SQLite execution on new SHA; F3 active export remains production-gated with V2 OFF; F1 remote consent unverified, T4 NOT_RUN, S2 3/8."
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T07:11:37.491Z",
+  "last_checkpoint_at": "2026-10-31T08:12:50.710Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
@@ -899,6 +951,13 @@
       "description": "F3 Android SAF authenticated five-store preview without restore journal; one-shot preview consent; separate private encrypted staging cleaned on completion; V1 pointer and V2 OFF preserved",
       "verified": "STATIC_REVIEW_ONLY_CI_NO_RUNNER",
       "android_compile": "NOT_RUN_41179478414"
+    },
+    {
+      "kind": "F3 secure backup password admission and consent reset",
+      "commit": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
+      "description": "No immutable String copy of entered passphrase, enforce FAROBAK2 12..1024/nonblank/no NUL before SAF; rejected secret revokes export/restore/preview/share consent. Android regression and 9/9 oracle prepared.",
+      "verified": "STATIC_DIFF_REVIEW_ONLY_CI_NO_RUNNER",
+      "android_compile": "NOT_RUN_41183601361"
     }
   ],
   "ci_preparation": [
@@ -910,7 +969,7 @@
       "status": "IN_PROGRESS"
     }
   ],
-  "head_at_checkpoint_parent": "cf8b2233b0ee04d304db1cc9718fac6164608138",
+  "head_at_checkpoint_parent": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
   "precheck": {
     "at": "2026-10-31T03:43:46Z",
     "head": "4b541779699218352320f817f02c6e8f29ad3b26",
@@ -920,14 +979,7 @@
     "ci_41163095797": "FAILURE",
     "ci_41163252426": "FAILURE"
   },
-  "active_session": {
-    "owner": "NOCHE_B_V13_TURN7_20261031_0510",
-    "started_at": "2026-10-31T08:10:59.881Z",
-    "writer_epoch": 31,
-    "head_at_acquisition": "4d10d548b09362207e6773b7bfa0584c6dc3e14d",
-    "mode": "DEVELOPMENT",
-    "lease_expires_at": "2026-10-31T08:34:59.881Z"
-  },
+  "active_session": null,
   "last_precheck": {
     "at": "2026-10-31T08:10:59.881Z",
     "head": "4d10d548b09362207e6773b7bfa0584c6dc3e14d",
@@ -936,17 +988,21 @@
     "automation_b": "IN_PROGRESS self",
     "ci_latest": "41181395040 FAILURE_PRE_RUN_NO_RUNNER"
   },
-  "last_code_commit": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291",
+  "last_code_commit": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
   "last_turn": {
-    "owner": "NOCHE_A_V13_TURN6_20261031_0435",
-    "started_at": "2026-10-31T07:37:07.545Z",
-    "ended_at": "2026-10-31T07:39:11.580Z",
-    "duration_wall_seconds": 124,
-    "code_head": "dbc9b359f9a477971c3ea95fd706bb6e29a43ea6",
-    "actions_launched_auto": 1,
-    "actions_reused": 2,
+    "owner": "NOCHE_B_V13_TURN7_20261031_0510",
+    "started_at": "2026-10-31T08:10:59.881Z",
+    "ended_at": "2026-10-31T08:12:50.710Z",
+    "duration_wall_seconds": 111,
+    "code_head": "5f15a44871c8c60a2748257059a810b2c6d2ef47",
+    "code_commits": [
+      "5f15a44871c8c60a2748257059a810b2c6d2ef47"
+    ],
+    "actions_launched_automatically": 1,
+    "actions_reused": 3,
     "certified_before": 3,
     "certified_after": 3,
-    "checkpoint_path": "docs/CIERRE_NOCHE_V13_A6_CHECKPOINT_20261031_0435.md"
+    "checkpoint_path": "docs/CIERRE_NOCHE_V13_B7_CHECKPOINT_20261031_0510.md",
+    "writer_released": "CAS_PENDING_VERIFY"
   }
 }
