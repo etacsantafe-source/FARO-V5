@@ -190,4 +190,50 @@ class FaroV5F3SafConsentInstrumentationTest {
             }
         }
     }
+
+    @Test fun forgedRestoreIdentityCannotOpenSafWithoutDurableJournal() {
+        val context = androidx.test.platform.app.InstrumentationRegistry
+            .getInstrumentation().targetContext
+        val launch = android.content.Intent(
+            context, FaroV5FiveStoreSafConsentActivity::class.java,
+        ).putExtra(
+            FaroV5FiveStoreSafConsentActivity.EXTRA_RESTORE_OPERATION,
+            "f3-forged-operation-without-journal",
+        ).putExtra(
+            FaroV5FiveStoreSafConsentActivity.EXTRA_RESTORE_TARGET,
+            "f3-forged-target",
+        )
+        ActivityScenario.launch<FaroV5FiveStoreSafConsentActivity>(launch).use { scenario ->
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                val restore = all.filterIsInstance<Button>()
+                    .single { it.text.toString().startsWith("Elegir archivo") }
+                val consent = all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Confirmo restaurar") }
+                val password = all.filterIsInstance<EditText>().single()
+                assertTrue("extras show the button but confer no journal authority", restore.isEnabled)
+                consent.isChecked = true
+                password.setText("synthetic-forged-restore-secret-2026")
+                restore.performClick()
+            }
+            var rejected = false
+            for (attempt in 0 until 100) {
+                scenario.onActivity { activity ->
+                    rejected = views(activity.findViewById(android.R.id.content))
+                        .filterIsInstance<TextView>()
+                        .any { it.text.toString().contains("No existe restauración autorizada") }
+                }
+                if (rejected) break
+                Thread.sleep(50)
+            }
+            assertTrue("untrusted extras cannot create journal or open SAF", rejected)
+            scenario.onActivity { activity ->
+                val all = views(activity.findViewById(android.R.id.content))
+                assertFalse(all.filterIsInstance<CheckBox>()
+                    .single { it.text.toString().startsWith("Confirmo restaurar") }.isChecked)
+                assertEquals("", all.filterIsInstance<EditText>().single().text.toString())
+            }
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        }
+    }
 }

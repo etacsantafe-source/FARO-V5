@@ -298,6 +298,7 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
         val chars = takePassphrase() ?: return
         setBusy(true)
         worker.execute {
+            var preparedSession: FiveStoreSafExportSession? = null
             try {
                 val runtime = (application as FaroV5Application)
                     .fiveStoreSafConsentRuntime()
@@ -306,6 +307,9 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                     "f3-export-$id", "f3-backup-$id", "5.0.0-dev",
                     System.currentTimeMillis(), chars, true, true, "f3-saf-$id",
                 )
+                // A prepared external attempt must be reconciled even if
+                // the picker intent fails before Android can launch it.
+                preparedSession = session
                 val document = runtime.createConsentedFiveStoreExportPicker(
                     session, true, true,
                 )
@@ -327,6 +331,13 @@ class FaroV5FiveStoreSafConsentActivity : ComponentActivity() {
                     }
                 }
             } catch (_: Exception) {
+                preparedSession?.let { session ->
+                    runCatching {
+                        (application as FaroV5Application)
+                            .fiveStoreSafConsentRuntime()
+                            .cancelConsentedFiveStoreExportPicker(session)
+                    }
+                }
                 runOnUiThread {
                     if (!isDestroyed) {
                         exportConsent.isChecked = false
