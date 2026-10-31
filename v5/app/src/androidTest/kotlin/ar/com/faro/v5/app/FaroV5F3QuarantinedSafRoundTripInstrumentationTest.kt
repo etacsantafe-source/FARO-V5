@@ -680,6 +680,34 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
             assertTrue("fixture must admit material writes after synthetic recovery",
                 fixtureGate.isMaterialWriteAdmissionOpen())
             val runtime = FaroV5MaintenanceRuntime(context, root)
+            // Positive SAF preview: a real content:// provider is authenticated
+            // without creating a restore journal or switching the V1 pointer.
+            val previewPicker = runtime.createConsentedFiveStorePreviewPicker(true)
+            assertEquals(Intent.ACTION_OPEN_DOCUMENT, previewPicker.action)
+            assertTrue(previewPicker.hasCategory(Intent.CATEGORY_OPENABLE))
+            assertTrue(runtime.verifyConsentedFiveStorePickedDocument(
+                resolver, selectedUri, 1710000000603L, CancellationSignal(),
+                password, true,
+            ))
+            assertTrue("preview must not create a restore journal",
+                FileBootstrapJournal(storage).pending().isEmpty())
+            assertEquals(before, pointer.read())
+            // A forged file:// result must not bypass the Android SAF grant.
+            val forged = Uri.fromFile(isolated.resolve("not-saf.farobak2").toFile())
+            assertFalse(runtime.verifyConsentedFiveStorePickedDocument(
+                resolver, forged, 1710000000603L, CancellationSignal(),
+                password, true,
+            ))
+            val rejected = runCatching {
+                runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
+                    resolver, forged, 1710000000603L, CancellationSignal(),
+                    password, true,
+                )
+            }.exceptionOrNull()
+            assertTrue("non-SAF restore must fail before journal",
+                rejected is IllegalStateException)
+            assertTrue(FileBootstrapJournal(storage).pending().isEmpty())
+            assertEquals(before, pointer.read())
             val result = runtime.restoreConsentedFiveStorePickedDocumentFromNewJournal(
                 resolver, selectedUri, 1710000000603L, CancellationSignal(), password, true,
             )

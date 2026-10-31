@@ -312,6 +312,13 @@ class FaroV5MaintenanceRuntime(
         if (destination == null) {
             return backupSafAdapter.exportPickerCancelled(session.source)
         }
+        // A real Android document picker grants content:// access only. Reject
+        // forged file:// and other schemes before any external write begins.
+        if (destination.scheme != ContentResolver.SCHEME_CONTENT) {
+            return backupSafAdapter.exportDeniedBeforeWrite(
+                session.source, "export_destination_not_saf_content"
+            )
+        }
         if (!userConfirmed || !externalShareAcknowledged || !exportSessionAdmitted(session)) {
             return backupSafAdapter.exportDeniedBeforeWrite(
                 session.source, "export_consent_or_generation_changed"
@@ -354,7 +361,8 @@ class FaroV5MaintenanceRuntime(
         passphrase: CharArray,
         userConfirmed: Boolean,
     ): Boolean {
-        if (!userConfirmed || selected == null) return false
+        if (!userConfirmed || selected == null ||
+            selected.scheme != ContentResolver.SCHEME_CONTENT) return false
         check(root.startupReprojectionState ==
             FaroV5CompositionRoot.StartupReprojectionState.PASS) {
             "startup recovery must complete before backup preview"
@@ -466,6 +474,9 @@ class FaroV5MaintenanceRuntime(
     ): FiveStoreJournalValidationResult? {
         if (selected == null) return null // picker cancelled: no staging or activation
         check(userConfirmed) { "restore ingress requires explicit user confirmation" }
+        check(selected.scheme == ContentResolver.SCHEME_CONTENT) {
+            "restore ingress requires a SAF content URI"
+        }
         requireRestorePickerAdmission(operationId, targetGenerationId)
         val artifact = backupSafAdapter.stageSelectedRestoreArchive(
             resolver, selected, fiveStorePrivateArchiveStore,
@@ -499,6 +510,9 @@ class FaroV5MaintenanceRuntime(
     ): FiveStoreJournalValidationResult? {
         if (selected == null) return null
         check(userConfirmed) { "restore requires operation-specific consent" }
+        check(selected.scheme == ContentResolver.SCHEME_CONTENT) {
+            "new restore requires a SAF content URI"
+        }
         check(root.startupReprojectionState ==
             FaroV5CompositionRoot.StartupReprojectionState.PASS) {
             "startup recovery must finish before restore ingress"
