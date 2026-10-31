@@ -3,13 +3,13 @@
   "pilot_id": "cierre-20261030-v12-3h",
   "run_id": "cierre-v12-20261030-B3-2110",
   "run_number": 6,
-  "state": "CLOSED",
+  "state": "ACTIVE_FINAL_RECONCILIATION",
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 14,
-    "lease_expires_at": null,
-    "expected_head": null
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_3_FINAL_RECONCILIATION",
+    "epoch": 15,
+    "lease_expires_at": "2026-10-31T00:39:00Z",
+    "expected_head": "2a6ef30203afaf2fc93ae502373727002b157513"
   },
   "authorization": {
     "source": "explicit new user message 2026-10-30",
@@ -282,7 +282,7 @@
     },
     "main_sha_B2": "9bae214541f466a62e149853931b96abb8d74ed9"
   },
-  "status": "CLOSED_PASS_REVIEW_HANDOFF_CLEAN",
+  "status": "FINAL_CI_RECONCILIATION",
   "current_run": {
     "scheduled_start": "2026-10-30T21:10:00-03:00",
     "started_at": "2026-10-31T00:10:12Z",
