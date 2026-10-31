@@ -218,14 +218,15 @@ public final class AndroidBackupSafAdapter {
             CancellationSignal cancellationSignal) {
         // A provider may block during verification open. Propagate cancellation
         // into the DocumentsProvider rather than only checking subsequent reads.
-        ParcelFileDescriptor descriptor =
-                resolver.openFileDescriptor(destination, "r", cancellationSignal);
-        if (descriptor == null) {
-            return Verification.UNAVAILABLE;
-        }
-        try (InputStream input =
-                new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        try {
+            ParcelFileDescriptor descriptor =
+                    resolver.openFileDescriptor(destination, "r", cancellationSignal);
+            if (descriptor == null) {
+                return Verification.UNAVAILABLE;
+            }
+            try (InputStream input =
+                    new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] buffer = new byte[BUFFER_BYTES];
             long count = 0L;
 
@@ -249,6 +250,7 @@ public final class AndroidBackupSafAdapter {
             return expectedSha256.equals(actual)
                     ? Verification.MATCH
                     : Verification.MISMATCH;
+            }
         } catch (FileNotFoundException | SecurityException unavailable) {
             return Verification.UNAVAILABLE;
         } catch (IOException unavailable) {
