@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "WAIT_CI_F1_ANDROID_COMPOSE",
+  "status": "F1_ANDROID_CI_FAILURE_DIAGNOSIS",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,11 +12,13 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 19,
-    "lease_expires_at": null,
-    "expected_head": null,
+    "state": "ACTIVE",
+    "owner": "NOCHE_A_V13_TURN2_20261030_2335",
+    "epoch": 20,
+    "lease_acquired_at": "2026-10-31T02:36:25.302Z",
+    "lease_expires_at": "2026-10-31T03:00:25.302Z",
+    "expected_head": "a1bb192fbaddaaf1c458245f85067cb2f63c11b6",
+    "lease_token": "A_V13_E20_2026-10-31T02:36:25.302Z",
     "last_released_at": "2026-10-31T02:22:09.589Z"
   },
   "stage": {
@@ -258,5 +260,12 @@
       "status": "IN_PROGRESS"
     }
   ],
-  "head_at_checkpoint_parent": "d6ab6f088bbbd2899dd7cb519e05a7025e4d53f0"
+  "head_at_checkpoint_parent": "d6ab6f088bbbd2899dd7cb519e05a7025e4d53f0",
+  "precheck": {
+    "at": "2026-10-31T02:36:25.302Z",
+    "head": "a1bb192fbaddaaf1c458245f85067cb2f63c11b6",
+    "automation_b": "COMPLETED",
+    "ci_41158828666": "FAILURE_ANDROID_SQLITE_14",
+    "ci_41159082904": "IN_PROGRESS_JVM_GRADLE_DEP_RESOLVE_FAILURE"
+  }
 }
