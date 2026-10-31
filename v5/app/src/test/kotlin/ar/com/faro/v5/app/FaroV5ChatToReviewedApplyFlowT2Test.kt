@@ -213,7 +213,7 @@ class FaroV5ChatToReviewedApplyFlowT2Test {
                 assertEquals("FARO Verified", reality.read().displayName!!.value)
                 assertEquals(1L, reality.read().revision)
                 assertEquals(
-                    listOf("Quiero actualizar mi perfil", "FARO preparó una respuesta"),
+                    listOf("Quiero actualizar mi perfil", "{\"type\":\"profile.update_declared\",\"display_name\":\"FARO Verified\"}"),
                     call { workspace.readTimeline(chat) }!!.messages.map { it.text },
                 )
                 val restored = call { workspace.reviews(chat) }.single()
