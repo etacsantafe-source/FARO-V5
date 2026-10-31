@@ -78,7 +78,7 @@
       "state": "NOT_RUN"
     }
   ],
-  "code_head": "cf8b2233b0ee04d304db1cc9718fac6164608138",
+  "code_head": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291",
   "evidence": {
     "prior_report": "docs/CIERRE_NOCHE_V12_FINAL_20261030.md",
     "prior_16_actions_terminal": true,
@@ -352,6 +352,25 @@
         "duration_wall_seconds": 4,
         "root_cause": "UNCONFIRMED"
       }
+    },
+    "f3_v13_b6_preview": {
+      "commit": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291",
+      "files": [
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5MaintenanceRuntime.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5FiveStoreSafConsentActivity.kt",
+        "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5F3SafConsentInstrumentationTest.kt"
+      ],
+      "functional_change": "Independent operation-specific SAF encrypted FAROBAK2 five-owner preview with real passphrase authentication, bounded separate private staging, cancellation, no journal/target, no V2 activation or pointer switch, one-shot consent, cleanup/wipe.",
+      "verified": "STATIC_DIFF_REVIEW_ONLY",
+      "android_xml": "NOT_RUN",
+      "ci": {
+        "id": 41179478414,
+        "sha": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291",
+        "status": "FAILURE_PRE_RUN_NO_RUNNER",
+        "jobs": 3,
+        "xml": "NOT_RUN",
+        "duration_wall_seconds": 3
+      }
     }
   },
   "in_flight": [],
@@ -361,9 +380,9 @@
       "state": "WAIT_PHYSICAL"
     },
     {
-      "id": "CI_41177654138_NO_RUNNER",
+      "id": "CI_RUNNER_ALLOCATION_V13_B6",
       "state": "WAIT_RESOURCE",
-      "detail": "All 3 jobs failed before runner allocation (runner_id=0, zero steps, no logs). No compile/tests executed; root cause unknown; do not retry blindly or certify."
+      "detail": "Runs #41177654138 (cf8b223) and #41179478414 (e05f6d6) failed in 4s/3s, all 3 jobs each had runner_id=0/steps=0/no XML. GitHub billing entitlement/runner allocation suspected but not confirmed; do not spend or blindly retry."
     }
   ],
   "hypotheses": [
@@ -428,11 +447,20 @@
       "id": "CI_RUNNER_PRESTART_41177654138",
       "cause": "External GitHub Actions runner allocation or billing/resource issue suspected; not established from available job metadata",
       "state": "UNCONFIRMED_NO_CODE_CHANGE"
+    },
+    {
+      "id": "CI_RUNNER_NO_STEPS_REPEAT",
+      "cause": "Two consecutive workflow runs all jobs failed before runner assignment; external runner or account billing entitlement suspected, not proven",
+      "state": "WAIT_RESOURCE_NO_RETRY",
+      "runs": [
+        41177654138,
+        41179478414
+      ]
     }
   ],
   "next_action": {
     "criterion": "F3/F2/F1",
-    "step": "First diagnose GitHub Actions #41177654138 pre-run failure (all jobs runner_id=0, steps=[], no logs; resource/billing hypothesis unconfirmed). Do NOT rerun same SHA blindly. If runner service restored, verify only affected F3 UI consent test and exact XML on cf8b2233. Then implement trusted F3 restore journal/staged generation admission path (currently requires existing operation/target extras; no S2 end-to-end UI entry), and F2 protected recovery activation E2E; F1 live remote consented provider requires real credential/egress permission. Keep S2 3/8, V2 OFF, T4 NOT_RUN, S3/S4 closed."
+    "step": "Verify runner/billing eligibility read-only (no payment changes); avoid blind CI retries while all jobs fail pre-run. On runner recovery certify F3 SAF preview with positive authenticated Android provider test and one-shot consent, then implement safe journal+staged restore handoff with explicit abort/recovery; F2 protected activation/recovery; F1 real consented provider requires user credential/egress. Preserve V2 OFF, S2 3/8, T4 NOT_RUN."
   },
   "sessions": [
     {
@@ -720,10 +748,29 @@
       ],
       "ci_pending": [],
       "known_limitations": "No runner allocated for latest SHA, no XML; F1 live provider user-consented remote call unverified; F2/F3/F4 not certified; T4 NOT_RUN; V2 OFF"
+    },
+    {
+      "id": "NOCHE_B_V13_TURN6_20261031_0405",
+      "started_at": "2026-10-31T07:07:19.700Z",
+      "checkpoint_at": "2026-10-31T07:11:24.797Z",
+      "writer_epoch": 29,
+      "code_commits": [
+        "e05f6d6f231a49fec09406cb3fbe2bc10ad55291"
+      ],
+      "functional_changes": "F3 Android SAF authenticated five-store preview without restore journal; one-shot preview consent; separate private encrypted staging cleaned on completion; V1 pointer and V2 OFF preserved",
+      "ci_launched_automatically": [
+        41179478414
+      ],
+      "ci_terminal_fail_pre_runner": [
+        41179478414
+      ],
+      "ci_pending": [],
+      "tests": "Static diff safety inspection PASS; Kotlin/Android compilation NOT_RUN (no runner); Android preview positive SAF path NOT_CERTIFIED",
+      "known_limitations": "F3 export/restore still incomplete; F1 live remote consent not verified; F2/F4 not certified; T4 NOT_RUN; S2 3/8."
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T06:43:32.800Z",
+  "last_checkpoint_at": "2026-10-31T07:11:24.797Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
@@ -813,6 +860,13 @@
       "description": "Android minimal S2 UI now independently confirms export vs restore and revokes both approvals after picker or denied operation; prevents cross-operation reuse. Does not bypass V2 certification or journal admission.",
       "verified": "STATIC_REVIEW_ONLY_CI_NO_RUNNER",
       "android_compile": "NOT_RUN_41177654138"
+    },
+    {
+      "kind": "F3 SAF authenticated preview without journal",
+      "commit": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291",
+      "description": "F3 Android SAF authenticated five-store preview without restore journal; one-shot preview consent; separate private encrypted staging cleaned on completion; V1 pointer and V2 OFF preserved",
+      "verified": "STATIC_REVIEW_ONLY_CI_NO_RUNNER",
+      "android_compile": "NOT_RUN_41179478414"
     }
   ],
   "ci_preparation": [
@@ -839,7 +893,13 @@
     "started_at": "2026-10-31T07:07:19.700Z",
     "lease_expires_at": "2026-10-31T07:32:19.700Z",
     "objective": "Diagnose pre-run CI and improve F3/F2 functional path without V2 cutover",
-    "starting_head": "60860cd24d639190949786649a1dbe304414c64a"
+    "starting_head": "60860cd24d639190949786649a1dbe304414c64a",
+    "checkpoint_at": "2026-10-31T07:11:24.797Z",
+    "code_commits": [
+      "e05f6d6f231a49fec09406cb3fbe2bc10ad55291"
+    ],
+    "ci_pending": [],
+    "checkpoint_file": "docs/cierre-noche/checkpoints/V13_B6_20261031_0410.md"
   },
   "last_precheck": {
     "at": "2026-10-31T04:46:09.667Z",
@@ -850,5 +910,5 @@
     "b_last_status": "COMPLETED",
     "b_last_at": "2026-10-31T04:14:11.790786Z"
   },
-  "last_code_commit": "cf8b2233b0ee04d304db1cc9718fac6164608138"
+  "last_code_commit": "e05f6d6f231a49fec09406cb3fbe2bc10ad55291"
 }
