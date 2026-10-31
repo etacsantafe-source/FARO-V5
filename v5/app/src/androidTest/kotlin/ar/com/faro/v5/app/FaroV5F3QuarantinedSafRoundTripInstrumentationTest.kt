@@ -507,7 +507,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                 replacement.fill(0)
             }
         } finally {
-            password.fill('\\u0000')
+            password.fill('\u0000')
             root.toFile().deleteRecursively()
         }
     }
