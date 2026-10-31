@@ -34,7 +34,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
         val password = "synthetic-f3-quarantine-only-2026".toCharArray()
         try {
             val activeV1 = Files.createDirectory(root.resolve("active-v1"))
-            Files.writeString(activeV1.resolve("sentinel"), "V1-protected")
+            Files.write(activeV1.resolve("sentinel"), "V1-protected".toByteArray(Charsets.UTF_8))
             val staged = FileStorageGenerationLayout(root).stageWorkspaceV2(
                 StorageGenerationDescriptor(
                     StorageGenerationId("f3-quarantine-five"),
@@ -115,7 +115,7 @@ class FaroV5F3QuarantinedSafRoundTripInstrumentationTest {
                         encrypted.fill(0)
                         importedStore.delete(imported)
                     }
-                    assertEquals("V1-protected", Files.readString(activeV1.resolve("sentinel")))
+                    assertEquals("V1-protected", String(Files.readAllBytes(activeV1.resolve("sentinel")), Charsets.UTF_8))
                     assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
                 }
         } finally {
