@@ -1,6 +1,7 @@
 package ar.com.faro.v5.app
 
 import android.Manifest
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.ui.test.hasSetTextAction
@@ -18,6 +19,13 @@ import ar.com.faro.v5.delivery.api.DeliveryEffectState
 import ar.com.faro.v5.delivery.api.NotificationDeliveryDispatcher
 import ar.com.faro.v5.delivery.api.NotificationDispatchExecution
 import ar.com.faro.v5.delivery.api.NoticeCandidate
+import ar.com.faro.v5.delivery.api.NoticeKey
+import ar.com.faro.v5.delivery.api.SourceRef
+import ar.com.faro.v5.delivery.api.OccurrenceRef
+import ar.com.faro.v5.delivery.api.DestinationRef
+import ar.com.faro.v5.delivery.api.NoticeMateriality
+import ar.com.faro.v5.delivery.api.NoticeSummary
+import ar.com.faro.v5.delivery.spi.NotificationProjectionObservation
 import ar.com.faro.v5.delivery.api.NoticeRouteResult
 import ar.com.faro.v5.delivery.api.NoticeRouter
 import ar.com.faro.v5.delivery.api.NoticeSensitivity
@@ -182,6 +190,10 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
     }
     @Test fun composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
+        // Explicitly deny OS permission, independently of test execution order.
+        InstrumentationRegistry.getInstrumentation().uiAutomation.revokeRuntimePermission(
+            context.packageName, Manifest.permission.POST_NOTIFICATIONS,
+        )
         val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-review-ui-")
         try {
             val staged = FileStorageGenerationLayout(root).stageWorkspaceV2(
@@ -298,6 +310,10 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 gate = gate,
                                 admitted = BooleanSupplier { host.verifyQuarantined() },
                                 onProjectionFailure = { deliveryFailures.incrementAndGet() },
+                                dispatcher = NotificationDeliveryDispatcher(
+                                    deliveryStore,
+                                    AndroidNotificationDeliverySink(context, R.drawable.ic_faro_notification),
+                                ),
                             )
                         try {
                             ActivityScenario.launch(
@@ -373,25 +389,17 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                 assertTrue(replay is NoticeRouteResult.Materialized)
                                 val materialized = replay as NoticeRouteResult.Materialized
                                 assertFalse(materialized.created)
-                                // Real Android delivery adapter, with no notification
-                                // permission: the OS projection must fail closed.
-                                // Never grant permission or post from quarantine.
+                                // The human Apply callback now reaches the real OS
+                                // adapter; denied permission must block the effect.
                                 assertTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
                                 assertNotEquals(
                                     PackageManager.PERMISSION_GRANTED,
                                     context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS),
                                 )
-                                val delivery = NotificationDeliveryDispatcher(
-                                    deliveryStore,
-                                    AndroidNotificationDeliverySink(
-                                        context, R.drawable.ic_faro_notification,
-                                    ),
-                                ).dispatch(materialized.deliveryIntent.deliveryIntentId)
-                                assertTrue(delivery is NotificationDispatchExecution.Completed)
-                                assertEquals(
-                                    DeliveryEffectState.BLOCKED_PERMISSION,
-                                    (delivery as NotificationDispatchExecution.Completed).deliveryIntent.state,
+                                val delivery = requireNotNull(
+                                    deliveryStore.readDeliveryIntent(materialized.deliveryIntent.deliveryIntentId)
                                 )
+                                assertEquals(DeliveryEffectState.BLOCKED_PERMISSION, delivery.state)
                                 assertEquals(1, deliveryStore.readNotices().size)
                                 assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
                             }
@@ -404,6 +412,63 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                 }
             }
         } finally {
+            root.toFile().deleteRecursively()
+        }
+    }
+
+    @Test fun permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        assertTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        val ui = InstrumentationRegistry.getInstrumentation().uiAutomation
+        val manager = requireNotNull(context.getSystemService(NotificationManager::class.java))
+        val originallyGranted = context.checkSelfPermission(
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
+        val root = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f1-os-post-")
+        var postedTag: String? = null
+        try {
+            ui.grantRuntimePermission(context.packageName, Manifest.permission.POST_NOTIFICATIONS)
+            assertEquals(PackageManager.PERMISSION_GRANTED,
+                context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS))
+            assertTrue("OS notifications disabled despite grant", manager.areNotificationsEnabled())
+            AuxiliaryDeliveryStore(root.resolve("auxiliary.db").toString()).use { store ->
+                val routed = NoticeRouter(store).route(
+                    NoticeCandidate(
+                        NoticeKey.of("f1-os-post-" + System.nanoTime()),
+                        SourceRef.of("f1-staged-android"),
+                        OccurrenceRef.of("committed"),
+                        NoticeMateriality.NOTICE,
+                        NoticeSensitivity.NORMAL,
+                        NoticeSummary.of("Cambios aplicados y registrados"),
+                        DestinationRef.of("chat-staged"),
+                    ),
+                ) as NoticeRouteResult.Materialized
+                val intentId = routed.deliveryIntent.deliveryIntentId
+                postedTag = AndroidNotificationDeliverySink.stableTag(intentId.value)
+                val sink = AndroidNotificationDeliverySink(
+                    context, R.drawable.ic_faro_notification,
+                )
+                val dispatcher = NotificationDeliveryDispatcher(store, sink)
+                val first = dispatcher.dispatch(intentId)
+                assertTrue(first is NotificationDispatchExecution.Completed)
+                assertEquals(DeliveryEffectState.POSTED_TO_OS,
+                    (first as NotificationDispatchExecution.Completed).deliveryIntent.state)
+                compose.waitUntil(5_000) {
+                    sink.observe(intentId.value) == NotificationProjectionObservation.ACTIVE
+                }
+                assertEquals(1, manager.activeNotifications.count { it.tag == postedTag })
+                assertTrue("OS effect must not be repeated",
+                    dispatcher.dispatch(intentId) is NotificationDispatchExecution.NotEligible)
+                assertEquals(DeliveryEffectState.POSTED_TO_OS,
+                    requireNotNull(store.readDeliveryIntent(intentId)).state)
+                assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            }
+        } finally {
+            // The emulator notification must never survive the test.
+            postedTag?.let { manager.cancel(it, 1001) }
+            if (!originallyGranted) {
+                ui.revokeRuntimePermission(context.packageName, Manifest.permission.POST_NOTIFICATIONS)
+            }
             root.toFile().deleteRecursively()
         }
     }

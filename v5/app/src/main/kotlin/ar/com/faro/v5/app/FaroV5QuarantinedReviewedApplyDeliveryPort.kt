@@ -5,6 +5,8 @@ import ar.com.faro.v5.delivery.api.NoticeCandidate
 import ar.com.faro.v5.delivery.api.NoticeKey
 import ar.com.faro.v5.delivery.api.NoticeMateriality
 import ar.com.faro.v5.delivery.api.NoticeRouter
+import ar.com.faro.v5.delivery.api.NotificationDeliveryDispatcher
+import ar.com.faro.v5.delivery.api.NotificationDispatchExecution
 import ar.com.faro.v5.delivery.api.NoticeSensitivity
 import ar.com.faro.v5.delivery.api.NoticeSummary
 import ar.com.faro.v5.delivery.api.OccurrenceRef
@@ -38,6 +40,7 @@ internal class FaroV5QuarantinedReviewedApplyDeliveryPort(
     private val gate: MaterialWriteGate,
     private val admitted: BooleanSupplier,
     private val onProjectionFailure: (Exception) -> Unit,
+    private val dispatcher: NotificationDeliveryDispatcher? = null,
 ) : ConversationApplyRequestPort {
     override suspend fun request(
         context: ConversationPlanReviewContext,
@@ -52,9 +55,19 @@ internal class FaroV5QuarantinedReviewedApplyDeliveryPort(
                 // five-owner writes. Recheck stage admission UNDER this gate.
                 gate.withMaterialWrite {
                     check(admitted.getAsBoolean()) { "quarantine_lost" }
-                    FaroV5CommittedApplyNoticeProjection.project(
+                    val routed = FaroV5CommittedApplyNoticeProjection.project(
                         router, outcome.receipt, outcome.review,
                     )
+                    // The optional OS dispatcher belongs only to the quarantined
+                    // certification host; no shipping V2 activation is possible.
+                    if (routed is NoticeRouteResult.Materialized && dispatcher != null) {
+                        check(admitted.getAsBoolean()) { "quarantine_lost" }
+                        when (dispatcher.dispatch(routed.deliveryIntent.deliveryIntentId)) {
+                            is NotificationDispatchExecution.Completed,
+                            is NotificationDispatchExecution.NotEligible -> Unit
+                            else -> error("Delivery effect needs explicit reconciliation")
+                        }
+                    }
                 }
             } catch (failure: Exception) {
                 // Never turn a committed Reality effect into a false Apply failure.

@@ -150,17 +150,18 @@ jobs:
               for case in root.iter('testcase'):
                   if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
                       matches.append((p,case))
-          if len(matches)!=3: raise SystemExit(f'F1_V13_COMPOSE_NOT_EXECUTED count={len(matches)}')
+          if len(matches)!=4: raise SystemExit(f'F1_V13_COMPOSE_NOT_EXECUTED count={len(matches)}')
           expected={
               'realProviderQuarantineRequiresAndroidConsentBeforeOpeningStores',
               'composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation',
               'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt',
+              'permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage',
           }
           names={case.attrib.get('name') for _,case in matches}
           if names!=expected: raise SystemExit(f'F1_V13_COMPOSE_WRONG_CASES {names}')
           for p,case in matches:
               if any(case.find(x) is not None for x in ('failure','error','skipped')):
                   raise SystemExit(f'F1_V13_COMPOSE_FAILED {p} {case.attrib.get("name")}')
-          print('FARO_V13_F1_COMPOSE_QUARANTINE_EXECUTED_PASS 3/3')
-          print('Staged Reality Apply tested, OS Delivery and physical T4 NOT_RUN; F1 criterion remains OPEN.')
+          print('FARO_V13_F1_COMPOSE_QUARANTINE_EXECUTED_PASS 4/4')
+          print('Staged Reality Apply and Android OS Delivery tested in emulator; live remote provider and physical T4 NOT_RUN; F1 remains OPEN.')
           PY
