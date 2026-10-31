@@ -1,6 +1,6 @@
 {
   "schema_version": 13,
-  "status": "WAIT_CI_F1_ANDROID_COMPOSE",
+  "status": "WRITER_ACTIVE_F1_RED_DIAGNOSIS",
   "source_repo": "etacsantafe-source/FARO-V5",
   "source_branch": "work/cierre-noche-v12-pilot-20261030",
   "source_head": "13230a348b3f8113ee33cd2df6e2e3de9b5d2275",
@@ -12,11 +12,11 @@
     "document": "docs/CIERRE_NOCHE_V13_AUTHORIZATION_20261030.md"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 18,
-    "lease_expires_at": null,
-    "expected_head": null,
+    "state": "ACTIVE",
+    "owner": "NOCHE_B_V13_20261030_2310",
+    "epoch": 19,
+    "lease_expires_at": "2026-10-31T02:32:44.291Z",
+    "expected_head": "6da10889e236f2c60be2900a0afad8354bb27526",
     "last_released_at": "2026-10-31T01:48:31.940Z"
   },
   "stage": {
@@ -127,7 +127,7 @@
   "hypotheses": [],
   "next_action": {
     "criterion": "F1",
-    "step": "READ_ONLY verify Actions #41156847099 SHA bc313d8 and #41156998464 SHA d6ab6f exact terminal status, job logs and Android/JVM XML. If red diagnose precise Kotlin compile/instrumentation cause and make at most one safe focused fix under new writer. No repeat of approved SHA. Then continue F1 OS Delivery/Review integration in quarantine, never enable V2 or certify F1 without complete E2E."
+    "step": "Fix AndroidTest compile unresolved import onNode in FaroV5F1QuarantinedComposeInstrumentationTest; then test only Android Compose directed, do not certify before XML."
   },
   "sessions": [
     {
@@ -170,7 +170,7 @@
     }
   ],
   "automation_record": "docs/CIERRE_NOCHE_V13_AUTOMATIONS.json",
-  "last_checkpoint_at": "2026-10-31T01:48:31.940Z",
+  "last_checkpoint_at": "2026-10-31T02:08:44.291Z",
   "functional_progress": [
     {
       "kind": "F1 quarantined real Compose UI bridge",
