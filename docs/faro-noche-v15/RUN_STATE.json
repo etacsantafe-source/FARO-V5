@@ -1,6 +1,6 @@
 {
   "schema_version": 15,
-  "status": "ACTIVE_WAITING_NEXT_TURN",
+  "status": "ACTIVE_WRITER",
   "mode": "AUTOMATED_NIGHT_V15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/faro-noche-v15-20261101",
@@ -15,14 +15,13 @@
     "REPORT": "6ae6c5d4ffe08191b8804bf4b8cb51d0"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 1,
-    "expected_head": null,
-    "lease_until": null,
-    "last_terminal_owner": "V15_A_20261101_0200",
-    "last_terminal_at": "2026-11-01T05:25:21.461Z",
-    "last_terminal_parent_head": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47"
+    "state": "ACTIVE",
+    "owner": "V15_B_20261101_0230",
+    "epoch": 2,
+    "expected_head": "1c74c79a08c8d2ed746e5afe643d093dfeac32c4",
+    "lease_until": "2026-11-01T05:57:00Z",
+    "acquired_at": "2026-11-01T05:30:11.548Z",
+    "previous_terminal_owner": "V15_A_20261101_0200"
   },
   "stage": {
     "id": "S2.A6",
