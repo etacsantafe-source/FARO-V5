@@ -11,9 +11,9 @@
             android:excludeFromRecents="true" />
         <!-- TEST-ONLY synthetic SAF picker. Separate isolated app ID; never in release. -->
         <activity
-            android:name="ar.com.faro.v5.app.FaroV5T4SafSandboxActivity"
+            android:name="ar.com.faro.v5.app.FaroV5T4SafIntegralActivity"
             android:exported="true"
-            android:label="FARO T4 SAF PRUEBA"
+            android:label="FARO T4 SAF INTEGRAL"
             android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
