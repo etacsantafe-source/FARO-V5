@@ -90,18 +90,20 @@
         "id": 41277512819,
         "sha": "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
         "status": "IN_PROGRESS",
-        "note": "initial XML oracle expected 26 Android but class has 6 F1 Compose methods; oracle will be incorrect even if all 27 execute"
+        "note": "initial XML oracle expected 26 Android but class has 6 F1 Compose methods; oracle will be incorrect even if all 27 execute",
+        "jvm": "F4_JVM_CROSS_F1_F2_F3_PASS 36/36",
+        "android": "IN_PROGRESS_27_CASES_EXPECTED_BUT_ORACLE_26_WRONG"
       },
       {
         "id": 41277545474,
         "sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
-        "status": "PENDING",
+        "status": "PENDING_CONCURRENCY",
         "expected": "JVM 36/36 + Android 27/27 = 63/63",
         "note": "corrected exact oracle; do not certify until XML terminal"
       }
     ],
     "physical": "NOT_RUN",
-    "next": "Wait for exact F4 63/63 XML; diagnose ROJO and correct safely; T4 one APK campaign later."
+    "next": "Await Android 27 execution first run, then corrected run #41277545474 exact 27/27 + JVM36/36; if any real red diagnose. No new Actions until current finishes."
   },
   "t4": {
     "status": "DEFERRED_BATCHED_PHYSICAL"
@@ -259,6 +261,44 @@
         "ended_utc": "2026-11-01T05:33:33Z"
       }
     ],
-    "next": "F4 integrated #41277545474 pending behind #41277512819; exact 36 JVM + 27 Android; physical T4 checklist staged."
+    "next": "F4 integrated #41277545474 pending behind #41277512819; exact 36 JVM + 27 Android; physical T4 checklist staged.",
+    "events": [
+      {
+        "utc": "2026-11-01T05:30:21Z",
+        "event": "writer epoch2 acquired"
+      },
+      {
+        "utc": "2026-11-01T05:30:45Z",
+        "event": "F2 JVM test corrected and 16-case gate committed"
+      },
+      {
+        "utc": "2026-11-01T05:33:33Z",
+        "event": "F2 JVM 16/16 PASS #41277220813"
+      },
+      {
+        "utc": "2026-11-01T05:34:05Z",
+        "event": "F2 READY_FOR_T4 frozen, 21 distinct tests"
+      },
+      {
+        "utc": "2026-11-01T05:34:39Z",
+        "event": "F3 READY_FOR_T4 reused 14/14 same blobs"
+      },
+      {
+        "utc": "2026-11-01T05:35:13Z",
+        "event": "F4 initial 62-case oracle run #41277512819 started"
+      },
+      {
+        "utc": "2026-11-01T05:35:41Z",
+        "event": "F4 corrected 63-case oracle run #41277545474 queued"
+      },
+      {
+        "utc": "2026-11-01T05:36:26Z",
+        "event": "T4 single-campaign checklist committed; no APK"
+      },
+      {
+        "utc": "2026-11-01T05:40:43Z",
+        "event": "F4 initial JVM 36/36 PASS #41277512819"
+      }
+    ]
   }
 }
