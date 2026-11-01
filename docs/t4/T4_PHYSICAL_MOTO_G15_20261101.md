@@ -32,3 +32,10 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - Después de la instrucción de cargar la clave Groq en el teléfono, consentir y pulsar «Probar conexión Groq (solo debug)», respondió: **«Todo ok»**. Registrar como **Groq debug real: PASS_REPORTADO_POR_USUARIO**, pendiente de guardar literalmente el mensaje/status de prueba si se exige evidencia más fina. No hay captura de status ni logs de red; no asumir que se probó Chat/Apply real.
 - Próxima prueba: pulsar «Desactivar IA remota y borrar clave», y luego «Probar conexión Groq (solo debug)» para confirmar bloqueo tras revocación. Estado: NO_RUN.
 - Seguidamente, SAF manual (destino físico + exportación/restauración aislada) y cierre de criterios pendientes.
+
+## Revocación Groq y bloqueo SAF (actualización del chat)
+- Después de pulsar «Desactivar IA remota y borrar clave» y verificar de nuevo el control de red, el usuario respondió «Todo ok!!». **REVOCACIÓN: PASS_REPORTADO_POR_USUARIO**, falta capturar texto literal de la UI si se exige una prueba de evidencia más estricta. No guardar credenciales.
+- Descubierto bloqueo arquitectónico antes de la campaña SAF real: `FaroV5MaintenanceRuntime.prepareConsentedFiveStoreExport()` contiene `check(FaroV5HostCertification.V2_ACTIVE_ENABLED)` y éste sigue en `false`. Exportar respaldo de cinco stores desde la actividad de mantenimiento NO está autorizado con esta APK y no se debe activar V2 solo para forzar el test.
+- `FaroV5FiveStoreSafConsentActivity` es `exported=false` en manifest y no hay ruta de menú pública desde la superficie normal. Su entrada requiere un harness de instrumentación de confianza o una variante específica debug, manteniendo la cuarentena y el acceso explícito. No presentarla como disponible en Ajustes.
+- Vía segura todavía posible: verificar **cancelación/preview** con actividad del paquete de debug operada por su UID y archivo sintético; una prueba real de exportación/restauración debe usar fixture aislado y no reactivar V2. No atribuirle PASS sin interacción real con selector Android.
+- Estado S2.A6 continúa **3/8 CERTIFIED** hasta evidencias finales; resto T4 manual abierto.
