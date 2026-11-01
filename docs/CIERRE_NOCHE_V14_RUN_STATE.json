@@ -651,7 +651,7 @@
   "last_code_commit": "7424bc996d79f5ecefac104027788331dfc26dc4",
   "last_checkpoint_at": "2026-10-31T20:50:17.523Z",
   "last_checkpoint": "docs/CIERRE_NOCHE_V14_B6_CHECKPOINT_20261031_1740.md",
-  "next_action": "READ_ONLY final report at 18:10 local; S2.A6 remains 3/8; F3 real SAF user picker and T4 physical NOT_RUN, export gate intentionally V2 OFF; F1/F2/F4 OPEN; do not start S3/S4",
+  "next_action": "Aplicar decisión docs/S2_A6_BATCHED_PHYSICAL_T4_DECISION_20261031.md: cerrar los gates automáticos de F1 en SHA exacto, preparar host aislado; posponer pruebas humanas/physical a T4 conjunto; después F2-F4; S2.A6 3/8, V2 OFF, no abrir S3/S4 ni activar automaciones",
   "recovered_stale_writer": {
     "previous_owner": "NOCHE_A_V14_TURN4_20261031_1510",
     "previous_epoch": 39,
@@ -719,5 +719,15 @@
     "checkpoint_path": "docs/CIERRE_NOCHE_V14_B6_CHECKPOINT_20261031_1740.md",
     "writer_release": "CAS_EXPECTED_HEAD_PENDING_POST_READ_VERIFY"
   },
-  "in_flight_actions": []
+  "in_flight_actions": [],
+  "post_run_human_decision": {
+    "local_date": "2026-10-31",
+    "kind": "BATCH_PHYSICAL_T4",
+    "decision_path": "docs/S2_A6_BATCHED_PHYSICAL_T4_DECISION_20261031.md",
+    "technical_gates_during_development": true,
+    "defer_physical_until_final_T4": true,
+    "f1_next": "COMPLETE_AUTOMATED_GATES_THEN_READY_FOR_T4",
+    "does_not_certify_pending_criteria": true,
+    "no_automation_activated": true
+  }
 }
