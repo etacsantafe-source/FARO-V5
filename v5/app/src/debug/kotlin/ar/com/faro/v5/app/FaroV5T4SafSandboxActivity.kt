@@ -34,6 +34,9 @@ import java.util.function.Supplier
  */
 class FaroV5T4SafSandboxActivity : ComponentActivity() {
     private enum class Step { EXPORT, RESTORE }
+    // One-shot proof of explicit consent at the moment Android's picker is launched.
+    // Never depend on the CheckBox's potentially restored UI state after picker return.
+    private data class PickerGrant(val step: Step, val consentAtLaunch: Boolean)
     private data class Ready(
         val source: PreparedBackupExternalWriteSource,
         val adapter: AndroidBackupSafAdapter,
@@ -47,19 +50,16 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
     private lateinit var exportButton: Button
     private lateinit var restoreButton: Button
     private var ready: Ready? = null
-    private var pending: Step? = null
+    private var pending: PickerGrant? = null
 
     private val picker = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        val step = pending
+        val ticket = pending
         pending = null
+        val step = ticket?.step
         val uri = if (result.resultCode == Activity.RESULT_OK) result.data?.data else null
-        val granted = when (step) {
-            Step.EXPORT -> exportConsent.isChecked
-            Step.RESTORE -> restoreConsent.isChecked
-            null -> false
-        }
+        val granted = ticket?.consentAtLaunch == true
         exportConsent.isChecked = false
         restoreConsent.isChecked = false
         if (uri == null) {
@@ -67,8 +67,14 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
             busy(false)
             return@registerForActivityResult
         }
-        if (!granted || uri.scheme != ContentResolver.SCHEME_CONTENT) {
-            status.text = "ROJO: selector o consentimiento inválido. Sin efectos."
+        if (!granted) {
+            status.text = "ROJO: falta autorización original para este selector. Sin efectos."
+            busy(false)
+            return@registerForActivityResult
+        }
+        if (uri.scheme != ContentResolver.SCHEME_CONTENT) {
+            // Do not disclose document names, URI values or personal content in diagnostics.
+            status.text = "ROJO: Android devolvió un tipo de URI distinto de content://. Sin efectos."
             busy(false)
             return@registerForActivityResult
         }
@@ -148,8 +154,14 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
                     runOnUiThread {
                         if (!isDestroyed && exportConsent.isChecked) {
                             ready = prepared
-                            pending = Step.EXPORT
-                            picker.launch(prepared.adapter.createExportDocumentIntent(prepared.source))
+                            pending = PickerGrant(Step.EXPORT, consentAtLaunch = true)
+                            try {
+                                picker.launch(prepared.adapter.createExportDocumentIntent(prepared.source))
+                            } catch (_: Exception) {
+                                pending = null
+                                status.text = "ROJO: no se pudo abrir el selector Android. Sin efectos."
+                                busy(false)
+                            }
                         } else {
                             busy(false)
                         }
@@ -170,8 +182,14 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
                 return@setOnClickListener
             }
             busy(true)
-            pending = Step.RESTORE
-            picker.launch(ready!!.adapter.createRestoreDocumentIntent())
+            pending = PickerGrant(Step.RESTORE, consentAtLaunch = true)
+            try {
+                picker.launch(ready!!.adapter.createRestoreDocumentIntent())
+            } catch (_: Exception) {
+                pending = null
+                status.text = "ROJO: no se pudo abrir el selector Android de restauración."
+                busy(false)
+            }
         }
     }
 
