@@ -91,18 +91,23 @@ class GenerationPreSwitchAdmissionT2Test {
         assertEquals(0, other.second.opened + other.second.replayed + other.second.projected)
     }
 
-    @Test fun postSwitchHealthVerifiedCannotInstallReplayFenceOnUnsupportedHost() {
+    @Test fun postSwitchHealthVerifiedHostDowngradeRollsBackBeforeWriteFence() {
         val (coordinator, pointer, other) = setup(BootstrapPhase.HEALTH_VERIFIED)
         check(pointer.compareAndSet(source, target) != null)
         assertEquals(
-            GenerationActivationResult.Blocked(
-                operation, GenerationActivationBlockReason.TARGET_RUNTIME_UNSUPPORTED
+            GenerationActivationResult.RolledBack(
+                operation,
+                MaintenanceOperationKind.RESTORE,
+                source,
+                GenerationActivationBlockReason.TARGET_RUNTIME_UNSUPPORTED,
             ), coordinator.recover(operation)
         )
-        assertEquals(target, pointer.read()!!.generationId)
-        assertEquals(BootstrapPhase.HEALTH_VERIFIED, other.first.read(operation)!!.phase)
+        assertEquals(source, pointer.read()!!.generationId)
+        assertEquals(BootstrapPhase.ROLLBACK_VERIFIED, other.first.read(operation)!!.phase)
         assertFalse(other.first.read(operation)!!.materialWritesAccepted)
-        assertEquals(0, other.second.replayed + other.second.projected)
+        assertEquals(1, other.second.opened)
+        assertEquals(1, other.second.projected)
+        assertEquals(0, other.second.replayed)
     }
 
     @Test fun completedButUnfencedCannotResumeWritesWithoutHostSupport() {

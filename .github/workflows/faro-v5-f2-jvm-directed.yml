@@ -1,0 +1,66 @@
+name: FARO V5 F2 JVM admission and activation regression
+on:
+  push:
+    branches:
+      - work/faro-noche-v15-20261101
+    paths:
+      - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/GenerationPreSwitchAdmissionT2Test.kt"
+      - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/ValidatedGenerationActivationT2Test.kt"
+      - ".github/workflows/faro-v5-f2-jvm-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-f2-jvm-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  f2-jvm-regression:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform for Gradle configuration
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run F2 JVM admission and activation regression
+        run: |
+          cd v5
+          ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :maintenance:test --tests 'ar.com.faro.v5.maintenance.GenerationPreSwitchAdmissionT2Test' --tests 'ar.com.faro.v5.maintenance.ValidatedGenerationActivationT2Test'
+      - name: Exact JVM XML oracle
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          classes={'GenerationPreSwitchAdmissionT2Test':6, 'ValidatedGenerationActivationT2Test':10}
+          found={name:[] for name in classes}
+          for p in Path('v5/maintenance/build/test-results/test').rglob('TEST-*.xml'):
+              for case in ET.parse(p).getroot().iter('testcase'):
+                  cls=case.attrib.get('classname','')
+                  for name in classes:
+                      if cls.endswith('.'+name):
+                          found[name].append(case)
+          counts={name:len(cases) for name,cases in found.items()}
+          if counts!=classes:
+              raise SystemExit('F2_JVM_CASES_MISSING_OR_WRONG '+str(counts))
+          if any(case.find(kind) is not None for cases in found.values() for case in cases for kind in ('failure','error','skipped')):
+              raise SystemExit('F2_JVM_TEST_FAILED')
+          print('F2_JVM_ADMISSION_ACTIVATION_PASS 16/16')
+          print('F2 NOT CERTIFIED; T4 physical NOT_RUN; V2_ACTIVE_ENABLED false')
+          PY
