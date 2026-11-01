@@ -1,0 +1,93 @@
+name: FARO V5 T4 integral SAF - post-picker authorization
+on:
+  push:
+    branches: [work/t4-saf-integral-20261101]
+    paths: [.github/workflows/faro-v5-t4-saf-integral.yml]
+permissions:
+  contents: write
+concurrency:
+  group: faro-v5-t4-saf-integral-v4
+  cancel-in-progress: false
+jobs:
+  isolated-compile-gate-and-release:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Enforce isolated T4 diff and V2 OFF
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 0e1fcb62ce0344680547b18c38bdf35e44ca1f7e HEAD
+          while read -r f; do
+            case "$f" in
+              docs/t4/*|.github/workflows/faro-v5-t4-saf-integral.yml|v5/app/src/debug/*|v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5T4PostPickerGateTest.kt) ;;
+              *) echo "UNAUTHORIZED_FUNCTIONAL_DIFF: $f"; exit 1 ;;
+            esac
+          done < <(git diff --name-only 0e1fcb62ce0344680547b18c38bdf35e44ca1f7e HEAD)
+          grep -q 'const val V2_ACTIVE_ENABLED: Boolean = false' v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HostCertification.kt
+          grep -q 'FaroV5T4SafIntegralActivity' v5/app/src/debug/AndroidManifest.xml
+          ! grep -q 'FaroV5T4SafSandboxActivity' v5/app/src/debug/AndroidManifest.xml
+          test "$(grep -c 'registerForActivityResult(' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt)" -eq 2
+          grep -q 'gate.authorizeAfterReturn' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK platform 37
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Four one-shot post-picker JVM regression tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests ar.com.faro.v5.app.FaroV5T4PostPickerGateTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4saf4
+          python3 - <<'PY'
+          import glob,xml.etree.ElementTree as E
+          f=glob.glob('app/build/test-results/testDebugUnitTest/TEST-*FaroV5T4PostPickerGateTest.xml')
+          assert len(f)==1, f
+          x=E.parse(f[0]).getroot()
+          assert (int(x.get('tests','0')),int(x.get('failures','0')),int(x.get('errors','0')))==(4,0,0),x.attrib
+          print('T4_POST_PICKER_REGRESSION_4_OF_4_PASS')
+          PY
+      - name: Assemble isolated debug APK
+        working-directory: v5
+        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4saf4
+      - name: Verify identity SHA and signature
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          cp v5/app/build/outputs/apk/debug/app-debug.apk output/FARO-V5-T4-SAF-INTEGRAL-V4.apk
+          {
+            echo 'BASE_T4_SOURCE_SHA=0e1fcb62ce0344680547b18c38bdf35e44ca1f7e'
+            echo "ISOLATED_FIX_SHA=$GITHUB_SHA"
+            echo 'V2_ACTIVE_ENABLED=false'
+            echo 'PRODUCTION_BACKUP_CERTIFIED=false'
+            sha256sum output/FARO-V5-T4-SAF-INTEGRAL-V4.apk
+            "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging output/FARO-V5-T4-SAF-INTEGRAL-V4.apk | head -n 4
+            "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs output/FARO-V5-T4-SAF-INTEGRAL-V4.apk
+          } | tee output/T4-SAF-INTEGRAL-V4-MANIFEST.txt
+          grep -q "package: name='ar.com.faro.alpha.t4saf4.v5dev'" output/T4-SAF-INTEGRAL-V4-MANIFEST.txt
+      - name: Publish only on green CI
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG=faro-v5-t4-saf-integral-v4-20261101
+          ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "FARO V5 T4 isolated SAF integral diagnostic V4" \
+            --notes "Solo APK DEBUG SINTETICA. Consentimiento NUEVO posterior al selector, sin persistir URI ni permisos, V2 OFF. Requiere prueba física: NO certifica respaldo de producción." \
+            output/FARO-V5-T4-SAF-INTEGRAL-V4.apk output/T4-SAF-INTEGRAL-V4-MANIFEST.txt
