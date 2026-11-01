@@ -72,3 +72,10 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - Release directa: `https://github.com/etacsantafe-source/FARO-V5/releases/tag/faro-v5-t4-saf-picker-v2-20261101`.
 - APK `FARO-V5-T4-SAF-PRUEBA-V2.apk`, package separado `ar.com.faro.alpha.t4saf2.v5dev`, SHA-256 `098dfe06afa2a0f6dac92462028c0b9b62950f22ceac6f7df019e6cd6d63726a`, firma debug SHA-256 `5d323d5071e8ae7761ee9224d3704b4082da9386de804349088040a9b1beb3ec`.
 - Este resultado sólo valida compilación + firma. **SAF manual permanece ROJO** hasta que el usuario ejecute el picker real y se observe resultado en el dispositivo.
+
+## T4 SAF manual — fallo del picker V2 (captura 17:27 Argentina)
+- Captura textual: `ROJO: falta autorización original para este selector. Sin efectos.` al volver de seleccionar destino con Android.
+- El código V2 sólo emite ese diagnóstico con `uri != null` y `pending == null` (o `consentAtLaunch=false`, imposible al asignarse el ticket). Por tanto, **se perdió la referencia a la sesión pendiente** mientras Android estaba mostrando DocumentsUI; la recreación de Activity es una causa plausible, no quedó demostrada una muerte de proceso.
+- Las capturas anteriores muestran FARO en pantalla dividida con ChatGPT, condición que puede provocar recreación por cambios de configuración. No asumir que el error es un permiso Android negado ni que se escribió un archivo; el callback rechazó la operación antes de `writeSelectedExportDocument`.
+- Corrección limitada a `src/debug`: `RetainedPickerState : ViewModel` conserva ticket one-shot, prepared source y root temporal a través de recreación de Activity; **no** persiste autorización ni secreto en Bundle/SQLite, y un cierre de proceso hace fail-closed con nuevo consentimiento. Los botones se deshabilitan si hay picker pendiente. Commits `94309163` y `84391676`.
+- Workflow v3 con APK independiente `ar.com.faro.alpha.t4saf3.v5dev` y release/tag nuevos, commit `7e04363e`. GitHub Actions #41347186599 ejecutándose al registrar; **no declarar SAF PASS hasta evidencia física**. La APK ordinaria de F1-F4 y V2 OFF siguen sin modificación.
