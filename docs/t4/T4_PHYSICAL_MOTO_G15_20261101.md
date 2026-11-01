@@ -66,3 +66,9 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - Corrección confinada al harness `v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafSandboxActivity.kt`: ticket de autorización efímero/one-shot capturado al pulsar el botón y abrir el picker; no depender del estado UI restaurado; errores separados `falta autorización original`, `URI distinto de content://` y `picker no abre`. No modificar controles de producción ni activar V2. Commit `835c7450`.
 - Workflow modificado para crear APK de prueba **separada** en `ar.com.faro.alpha.t4saf2.v5dev`, sin colisión de firma con la auxiliar anterior. Commit `31e96450`; Actions `#41314736385` compilando al registrar.
 - **NO VALIDADO EN TELÉFONO** todavía: habrá que registrar el nuevo resultado antes de decir PASS.
+
+## SAF picker v2 publicado para reintento dirigido
+- Actions #41314736385 **SUCCESS**; Gradle BUILD SUCCESSFUL. Fuente funcional `0750ee530703141016c6cd59a5312758d915ad1c`; workflow/debug harness HEAD compilado `31e96450e91e00d6348edfdd903bb889e485ba0a`.
+- Release directa: `https://github.com/etacsantafe-source/FARO-V5/releases/tag/faro-v5-t4-saf-picker-v2-20261101`.
+- APK `FARO-V5-T4-SAF-PRUEBA-V2.apk`, package separado `ar.com.faro.alpha.t4saf2.v5dev`, SHA-256 `098dfe06afa2a0f6dac92462028c0b9b62950f22ceac6f7df019e6cd6d63726a`, firma debug SHA-256 `5d323d5071e8ae7761ee9224d3704b4082da9386de804349088040a9b1beb3ec`.
+- Este resultado sólo valida compilación + firma. **SAF manual permanece ROJO** hasta que el usuario ejecute el picker real y se observe resultado en el dispositivo.
