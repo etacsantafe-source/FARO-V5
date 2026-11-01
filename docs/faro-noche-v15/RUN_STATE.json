@@ -65,12 +65,23 @@
     "next": "Only physical Moto G15 T4 activation/recovery, consent and restart remain; do not certify S2.A6 criterion."
   },
   "f3": {
-    "status": "AUTHORIZED_TO_REVIEW_EXISTING_AUTOMATED_EVIDENCE",
+    "status": "READY_FOR_T4_AUTOMATED",
     "decision": "OPTION_A_APPROVED",
-    "physical": "NOT_RUN"
+    "evidence": [
+      {
+        "action_id": 41240002977,
+        "sha": "7424bc996d79f5ecefac104027788331dfc26dc4",
+        "xml": "F3_V14_PINNED_PROVIDER_JOURNAL_PASS 14/14",
+        "blobs": "F3 Activity, Runtime, SAF adapter, four generation components and two instrumentation suites identical on V1.5"
+      }
+    ],
+    "automated_tests_passed": 14,
+    "physical": "NOT_RUN",
+    "release_gate": "V2_OFF_AND_FRESH_RESTORE_DEBUG_ONLY_UNTIL_T4",
+    "next": "T4 human SAF picker/consent, provider URI, export+restore five owners on Moto G15; do not enable release V2 or production cutover."
   },
   "f4": {
-    "status": "WAIT_F3_AUTOMATED_COMPLETION",
+    "status": "AUTHORIZED_TO_IMPLEMENT_INTEGRATED_REGRESSION",
     "physical": "NOT_RUN"
   },
   "t4": {
@@ -229,6 +240,6 @@
         "ended_utc": "2026-11-01T05:33:33Z"
       }
     ],
-    "next": "Review F3 14/14 historical identical blobs, decide F3 READY_FOR_T4; then F4 integrated gate"
+    "next": "F4 cross-F1/F2/F3 integrated regression on single SHA, Android+JVM, preserve V2 OFF and T4 deferred."
   }
 }
