@@ -1,6 +1,6 @@
 {
   "schema_version": 15,
-  "status": "ACTIVE_WRITER",
+  "status": "ACTIVE_WAITING_NEXT_TURN",
   "mode": "AUTOMATED_NIGHT_V15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/faro-noche-v15-20261101",
@@ -15,14 +15,14 @@
     "REPORT": "6ae6c5d4ffe08191b8804bf4b8cb51d0"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "V15_A_20261101_0200",
+    "state": "NONE",
+    "owner": null,
     "epoch": 1,
-    "expected_head": "889bc6d426be1e6fcbc2433ea4d9967de39948cd",
-    "lease_until": "2026-11-01T05:27:00Z",
-    "started_at": "2026-11-01T05:04:40.451Z",
-    "session_window_local": "02:00-02:30",
-    "terminal": false
+    "expected_head": null,
+    "lease_until": null,
+    "last_terminal_owner": "V15_A_20261101_0200",
+    "last_terminal_at": "2026-11-01T05:25:21.461Z",
+    "last_terminal_parent_head": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47"
   },
   "stage": {
     "id": "S2.A6",
@@ -41,13 +41,13 @@
     "groq_live": "NOT_RUN"
   },
   "f2": {
-    "status": "OPEN_AUTOMATED_S01_PASS",
-    "source_code_sha": "736ebd63ecbfb12187a43de8601d1223a4045a20",
-    "action_id": 41273805209,
-    "automated_tests_passed": 3,
-    "xml": "PASS_3_OF_3",
+    "status": "OPEN_AUTOMATED_S02_PASS_PENDING_JVM_REVIEW_AND_T4",
+    "source_code_sha": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47",
+    "action_id": 41276096648,
+    "automated_tests_passed": 5,
+    "xml": "PASS_5_OF_5",
     "physical": "NOT_RUN",
-    "next": "Verify remaining Android activation/recovery E2E and close automated blockers before F3"
+    "next": "Validate targeted maintenance JVM admission/activation regressions; inspect outdated HEALTH_VERIFIED host downgrade assertion, then decide F2_READY_FOR_T4. Do not start F3 until F2 automatable work done."
   },
   "f3": {
     "status": "WAIT_F2_AUTOMATED_COMPLETION",
@@ -102,10 +102,100 @@
   },
   "last_session": {
     "turn": "A",
-    "scheduled_local": "2026-11-01T02:00:00-03:00",
-    "actual_started_utc": "2026-11-01T05:04:40.451Z",
-    "phase": "F2_ANDROID_RECOVERY",
-    "work": "in_progress",
-    "tests_new": "NOT_RUN"
-  }
+    "slot": "02:00",
+    "window_local": "2026-11-01T02:00:00-03:00/2026-11-01T02:30:00-03:00",
+    "first_observed_utc": "2026-11-01T05:04:40Z",
+    "ended_utc": "2026-11-01T05:25:21.461Z",
+    "writer_owner": "V15_A_20261101_0200",
+    "writer_epoch": 1,
+    "writer_terminal": "RELEASE_COMMIT_CAS",
+    "functional_commits": [
+      "79e19ab876062ac103badec2380897da83863505",
+      "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47"
+    ],
+    "actions": [
+      {
+        "id": 41275545814,
+        "sha": "79e19ab876062ac103badec2380897da83863505",
+        "conclusion": "FAILURE",
+        "observed_tests": "5 executed, 2 failed, 3 passed; XML oracle SKIPPED",
+        "started_utc": "2026-11-01T05:05:23Z",
+        "ended_utc": "2026-11-01T05:13:01Z",
+        "reason": "test fixture disallowed previous V1 projection during valid rollback"
+      },
+      {
+        "id": 41276096648,
+        "sha": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47",
+        "conclusion": "SUCCESS",
+        "xml": "F2_ANDROID_ISOLATED_ACTIVATION_RECOVERY_PASS 5/5",
+        "started_utc": "2026-11-01T05:13:28Z",
+        "ended_utc": "2026-11-01T05:19:15Z"
+      }
+    ],
+    "f2_status": "OPEN_AUTOMATED_S02_PASS_PENDING_JVM_REVIEW_AND_T4",
+    "next": "Validate targeted maintenance JVM admission/activation regressions; inspect outdated HEALTH_VERIFIED host downgrade assertion, then decide F2_READY_FOR_T4. Do not start F3 until F2 automatable work done.",
+    "metrics": {
+      "first_observed_utc": "2026-11-01T05:04:40Z",
+      "last_observed_utc": "2026-11-01T05:25:21.461Z",
+      "ci1_wall_seconds": 458,
+      "ci2_wall_seconds": 347,
+      "ci_wall_not_additive_to_human_time": true,
+      "exclusive_coding_seconds": "NO_REGISTRADO",
+      "exclusive_research_seconds": "NO_REGISTRADO",
+      "exclusive_ci_wait_seconds": "NO_REGISTRADO",
+      "exclusive_coordination_seconds": "NO_REGISTRADO",
+      "exclusive_idle_seconds": "NO_REGISTRADO",
+      "useful_ratio": "NO_REGISTRADO"
+    }
+  },
+  "sessions": [
+    {
+      "turn": "A",
+      "slot": "02:00",
+      "window_local": "2026-11-01T02:00:00-03:00/2026-11-01T02:30:00-03:00",
+      "first_observed_utc": "2026-11-01T05:04:40Z",
+      "ended_utc": "2026-11-01T05:25:21.461Z",
+      "writer_owner": "V15_A_20261101_0200",
+      "writer_epoch": 1,
+      "writer_terminal": "RELEASE_COMMIT_CAS",
+      "functional_commits": [
+        "79e19ab876062ac103badec2380897da83863505",
+        "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47"
+      ],
+      "actions": [
+        {
+          "id": 41275545814,
+          "sha": "79e19ab876062ac103badec2380897da83863505",
+          "conclusion": "FAILURE",
+          "observed_tests": "5 executed, 2 failed, 3 passed; XML oracle SKIPPED",
+          "started_utc": "2026-11-01T05:05:23Z",
+          "ended_utc": "2026-11-01T05:13:01Z",
+          "reason": "test fixture disallowed previous V1 projection during valid rollback"
+        },
+        {
+          "id": 41276096648,
+          "sha": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47",
+          "conclusion": "SUCCESS",
+          "xml": "F2_ANDROID_ISOLATED_ACTIVATION_RECOVERY_PASS 5/5",
+          "started_utc": "2026-11-01T05:13:28Z",
+          "ended_utc": "2026-11-01T05:19:15Z"
+        }
+      ],
+      "f2_status": "OPEN_AUTOMATED_S02_PASS_PENDING_JVM_REVIEW_AND_T4",
+      "next": "Validate targeted maintenance JVM admission/activation regressions; inspect outdated HEALTH_VERIFIED host downgrade assertion, then decide F2_READY_FOR_T4. Do not start F3 until F2 automatable work done.",
+      "metrics": {
+        "first_observed_utc": "2026-11-01T05:04:40Z",
+        "last_observed_utc": "2026-11-01T05:25:21.461Z",
+        "ci1_wall_seconds": 458,
+        "ci2_wall_seconds": 347,
+        "ci_wall_not_additive_to_human_time": true,
+        "exclusive_coding_seconds": "NO_REGISTRADO",
+        "exclusive_research_seconds": "NO_REGISTRADO",
+        "exclusive_ci_wait_seconds": "NO_REGISTRADO",
+        "exclusive_coordination_seconds": "NO_REGISTRADO",
+        "exclusive_idle_seconds": "NO_REGISTRADO",
+        "useful_ratio": "NO_REGISTRADO"
+      }
+    }
+  ]
 }
