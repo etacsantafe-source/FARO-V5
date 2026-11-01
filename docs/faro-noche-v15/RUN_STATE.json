@@ -1,0 +1,79 @@
+{
+  "schema_version": 15,
+  "status": "READY_NOT_ACTIVE",
+  "mode": "PREPARED_FOR_NEW_CHAT_ACTIVATION",
+  "repository": "etacsantafe-source/FARO-V5",
+  "branch": "work/faro-noche-v15-20261101",
+  "source_branch": "work/f2-manual-20261101",
+  "source_head": "3f61f5c483d70d05d41048f704c45c4337c21fda",
+  "cutoff_local": "2026-11-01T06:00:00-03:00",
+  "timezone": "America/Argentina/Cordoba",
+  "automation_enabled": false,
+  "automation_tasks": {
+    "A": null,
+    "B": null,
+    "REPORT": null
+  },
+  "writer": {
+    "state": "NONE",
+    "owner": null,
+    "epoch": 0,
+    "expected_head": null,
+    "lease_until": null
+  },
+  "stage": {
+    "id": "S2.A6",
+    "certified": 3,
+    "total": 8,
+    "v2_enabled": false,
+    "s3_open": false,
+    "s4_open": false
+  },
+  "f1": {
+    "status": "READY_FOR_T4_FROZEN",
+    "code_sha": "2c79c5f2f18c7742cf2b8b512221a2a7a6430f62",
+    "action_id": 41266155404,
+    "automated_tests_passed": 27,
+    "physical": "NOT_RUN",
+    "groq_live": "NOT_RUN"
+  },
+  "f2": {
+    "status": "OPEN_AUTOMATED_S01_PASS",
+    "source_code_sha": "736ebd63ecbfb12187a43de8601d1223a4045a20",
+    "action_id": 41273805209,
+    "automated_tests_passed": 3,
+    "xml": "PASS_3_OF_3",
+    "physical": "NOT_RUN",
+    "next": "Verify remaining Android activation/recovery E2E and close automated blockers before F3"
+  },
+  "f3": {
+    "status": "WAIT_F2_AUTOMATED_COMPLETION",
+    "decision": "OPTION_A_APPROVED",
+    "physical": "NOT_RUN"
+  },
+  "f4": {
+    "status": "WAIT_F3_AUTOMATED_COMPLETION",
+    "physical": "NOT_RUN"
+  },
+  "t4": {
+    "status": "DEFERRED_BATCHED_PHYSICAL"
+  },
+  "activation_requirements": [
+    "USER_EXPLICIT_ACTIVATE_IN_NEW_CHAT",
+    "REVERIFY_CURRENT_TIME_BEFORE_0600_LOCAL",
+    "REVERIFY_BRANCH_HEAD",
+    "REVERIFY_NO_ACTIVE_WRITER",
+    "REVERIFY_AUTOMATIONS_DISABLED",
+    "CREATE_A_B_HOURLY_STAGGERED_30_MIN",
+    "CREATE_REPORT_READ_ONLY_0600_LOCAL"
+  ],
+  "stop_conditions": [
+    "CUTOFF_20261101_0600_LOCAL",
+    "F2_F3_F4_ALL_AUTOMATED_WORK_READY_FOR_T4",
+    "UNRESOLVED_SAFETY_OR_EXCLUSIVITY_BLOCKER"
+  ],
+  "no_physical_tests": true,
+  "no_apk": true,
+  "no_main_changes": true,
+  "version": "FARO_NOCHE_V1_5"
+}
