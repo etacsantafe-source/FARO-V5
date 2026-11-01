@@ -79,7 +79,7 @@ jobs:
           print('Groq live and T4 physical NOT_RUN; V2 remains OFF')
           PY
 
-  f4-android-26:
+  f4-android-27:
     if: github.repository == 'etacsantafe-source/FARO-V5'
     runs-on: ubuntu-latest
     timeout-minutes: 55
@@ -115,12 +115,12 @@ jobs:
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest,ar.com.faro.v5.app.FaroV5F2IsolatedActivationRecoveryInstrumentationTest,ar.com.faro.v5.app.FaroV5F3SafConsentInstrumentationTest,ar.com.faro.v5.app.FaroV5F3QuarantinedSafRoundTripInstrumentationTest,ar.com.faro.v5.app.FaroV5TrustedAssistantAndroidIntegrationTest
-      - name: Exact Android 26 XML oracle
+      - name: Exact Android 27 XML oracle
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import xml.etree.ElementTree as ET
-          expected={'FaroV5F1QuarantinedComposeInstrumentationTest':5,
+          expected={'FaroV5F1QuarantinedComposeInstrumentationTest':6,
                     'FaroV5F2IsolatedActivationRecoveryInstrumentationTest':5,
                     'FaroV5F3SafConsentInstrumentationTest':6,
                     'FaroV5F3QuarantinedSafRoundTripInstrumentationTest':8,
@@ -138,6 +138,6 @@ jobs:
               if len(names)!=len(set(names)): raise SystemExit('F4_ANDROID_DUPLICATE_TEST '+name)
               if any(c.find(kind) is not None for c in cases for kind in ('failure','error','skipped')):
                   raise SystemExit('F4_ANDROID_TEST_FAILED '+name)
-          print('F4_ANDROID_CROSS_F1_F2_F3_PASS 26/26')
+          print('F4_ANDROID_CROSS_F1_F2_F3_PASS 27/27')
           print('F1-F4 automated integration only; T4 physical and Groq live NOT_RUN; V2_OFF')
           PY
