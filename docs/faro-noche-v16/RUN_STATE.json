@@ -1,0 +1,47 @@
+{
+  "schema_version": 16,
+  "status": "PREPARED_NOT_ACTIVE",
+  "mode": "DOCUMENTATION_ONLY",
+  "date_local": "2026-11-01",
+  "source_branch": "work/faro-noche-v15-20261101",
+  "source_head": "0750ee530703141016c6cd59a5312758d915ad1c",
+  "preparation_branch": "docs/faro-noche-v16-prep-20261101",
+  "automation_enabled": false,
+  "created_automations": [],
+  "previous_v15_automations": "ALL_THREE_DISABLED_VERIFIED",
+  "writer": {
+    "state": "NONE",
+    "owner": null,
+    "lease_until": null
+  },
+  "next_approved_work": "MANUAL_T4_WITH_USER_IN_NEW_CHAT",
+  "t4_plan": "docs/faro-noche-v15/T4_SINGLE_CAMPAIGN_PLAN.md",
+  "next_chat": "docs/faro-noche-v16/NEXT_CHAT_T4.md",
+  "functional_state": {
+    "S2_A6_certified": 3,
+    "S2_A6_total": 8,
+    "F1": "READY_FOR_T4_FROZEN",
+    "F2": "READY_FOR_T4_AUTOMATED",
+    "F3": "READY_FOR_T4_AUTOMATED",
+    "F4": "READY_FOR_T4_AUTOMATED",
+    "T4": "NOT_RUN",
+    "V2_ACTIVE_ENABLED": false,
+    "S3": "NOT_OPEN",
+    "S4": "NOT_OPEN"
+  },
+  "improvements": [
+    "DELTA_FIRST_HANDOFF",
+    "READ_ONLY_RESEARCH_WHILE_BUSY",
+    "CI_NON_DUPLICATION",
+    "SMART_EARLY_STOP",
+    "EXCLUSIVE_INTERVAL_TIMESTAMPS",
+    "SEPARATE_CI_WALLCLOCK",
+    "UNOBSERVED_EXPLICIT",
+    "COMPARABILITY_GATES",
+    "LOW_OVERHEAD_CHECKPOINT"
+  ],
+  "metrics_schema": "docs/faro-noche-v16/SESSION_METRICS_TEMPLATE.json",
+  "metrics_spec": "docs/faro-noche-v16/METRICS_SPEC.md",
+  "metrics_runtime_instrumentation": "NOT_DEPLOYED_NO_FUTURE_NIGHT_AUTHORIZED",
+  "safety": "NO_AUTOMATION_CREATED_NO_CODE_CHANGES"
+}

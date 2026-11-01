@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.6-prepared",
+  "status": "TEMPLATE_ONLY_NOT_A_REAL_RUN",
+  "session_id": null,
+  "slot_start_local": null,
+  "slot_end_local": null,
+  "timezone": "America/Argentina/Cordoba",
+  "actual_first_observed_utc": null,
+  "actual_last_observed_utc": null,
+  "owner": null,
+  "writer_epoch": null,
+  "writer_terminal": null,
+  "head_before": null,
+  "head_after": null,
+  "intervals": [],
+  "allowed_categories": [
+    "IMPLEMENTATION",
+    "INVESTIGATION",
+    "VALIDATION_REVIEW",
+    "COORDINATION",
+    "WRITER_WAIT",
+    "CI_WAIT",
+    "IDLE_OBSERVED",
+    "UNOBSERVED"
+  ],
+  "interval_example_shape": {
+    "start_utc": null,
+    "end_utc": null,
+    "category": null,
+    "description": null,
+    "evidence_ref": null
+  },
+  "actions_parallel": [],
+  "action_example_shape": {
+    "id": null,
+    "sha": null,
+    "queued_at_utc": null,
+    "started_at_utc": null,
+    "ended_at_utc": null,
+    "result": null,
+    "xml_oracle": null
+  },
+  "totals_seconds": {
+    "IMPLEMENTATION": null,
+    "INVESTIGATION": null,
+    "VALIDATION_REVIEW": null,
+    "COORDINATION": null,
+    "WRITER_WAIT": null,
+    "CI_WAIT": null,
+    "IDLE_OBSERVED": null,
+    "UNOBSERVED": null
+  },
+  "useful_ratio_classified": null,
+  "useful_ratio_scheduled_minimum": null,
+  "coverage_classified": null,
+  "comparability": "NO_REGISTRADO_UNTIL_MEASURED",
+  "last_verified_next_action": null
+}
