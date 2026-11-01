@@ -63,12 +63,13 @@ jobs:
                   if 'FaroV5F2IsolatedActivationRecoveryInstrumentationTest' in case.attrib.get('classname',''):
                       cases.append(case)
           expected={'crashAfterPointerPublishRecoversFiveStoresAndDoesNotReplayTwice',
-                    'missingWorkspaceBlocksActivationWithoutMovingV1PointerOrAdmittingWrites'}
+                    'missingWorkspaceBlocksActivationWithoutMovingV1PointerOrAdmittingWrites',
+                    'postSwitchHealthReadsActiveCommittedWalAndKeepsWriteGateClosed'}
           names=[c.attrib.get('name') for c in cases]
-          if len(names)!=2 or set(names)!=expected:
+          if len(names)!=3 or set(names)!=expected:
               raise SystemExit('F2_ANDROID_CASES_MISSING_OR_WRONG '+str(names))
           if any(c.find(x) is not None for c in cases for x in ('failure','error','skipped')):
               raise SystemExit('F2_ANDROID_TEST_FAILED')
-          print('F2_ANDROID_ISOLATED_ACTIVATION_RECOVERY_PASS 2/2')
+          print('F2_ANDROID_ISOLATED_ACTIVATION_RECOVERY_PASS 3/3')
           print('F2 NOT CERTIFIED; physical T4 NOT_RUN; V2_ACTIVE_ENABLED false')
           PY

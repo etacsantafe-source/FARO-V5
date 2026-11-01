@@ -1,5 +1,8 @@
 package ar.com.faro.v5.app
 
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_READWRITE
+import androidx.sqlite.execSQL
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
@@ -111,7 +114,7 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
                 runtime = GenerationRuntimeActivationPort { _, generationId ->
                     if (generationId == previous) true else if (generationId != target) false
                     else runCatching {
-                        FaroV5GenerationStoreGraph.openValidatedV2WithSharedGate(
+                        FaroV5GenerationStoreGraph.openActiveV2WithSharedGate(
                             layout.requireStaged(generationId),
                             CanonicalPreparedPlanEnvelopeVerifier,
                             gate,
@@ -187,5 +190,42 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
         assertTrue(f.projections.isEmpty())
         assertFalse(f.gate.isMaterialWriteAdmissionOpen())
         assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+    }
+
+    @Test
+    fun postSwitchHealthReadsActiveCommittedWalAndKeepsWriteGateClosed() = isolated { f ->
+        val validated = checkNotNull(f.journal.read(f.operation))
+        val prepared = BootstrapTransitionPolicy.transition(
+            validated, BootstrapPhase.SWITCH_PREPARED,
+        )
+        assertTrue(f.journal.compareAndSet(validated, prepared))
+        val switched = GenerationSwitchCoordinator(
+            f.journal, f.pointer, f.layout,
+        ).switch(f.operation)
+        assertEquals(BootstrapPhase.SWITCHED, switched.phase)
+        assertEquals(f.target, checkNotNull(f.pointer.read()).generationId)
+
+        val workspace = f.stage.directory.resolve(GenerationStoreFiles.WORKSPACE)
+        BundledSQLiteDriver().open(workspace.toString(), SQLITE_OPEN_READWRITE).use { writer ->
+            writer.prepare("PRAGMA journal_mode=WAL").use { assertTrue(it.step()) }
+            writer.execSQL(
+                """INSERT INTO workspace_conversation
+                   (id, title, activity_ms, pinned, archived, pending_review)
+                   VALUES ('f2-wal-visible', 'F2 committed WAL', 1, 0, 0, 0)"""
+            )
+            assertTrue(Files.exists(f.stage.directory.resolve(
+                GenerationStoreFiles.WORKSPACE + "-wal",
+            )))
+            val health = FaroV5V2RecoveryRuntimeHealthOwner.canonical(
+                f.layout, f.journal, f.pointer, f.quiescence, f.gate,
+            )
+            assertEquals(V2RuntimeHealth.Verified(f.target.value),
+                health.verify(f.operation))
+            assertEquals(switched, f.journal.read(f.operation))
+            assertEquals(f.target, checkNotNull(f.pointer.read()).generationId)
+            assertFalse("post-switch health cannot admit material writes",
+                f.gate.isMaterialWriteAdmissionOpen())
+            assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        }
     }
 }
