@@ -177,7 +177,7 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
         } else if (savedInstanceState != null) {
             status.text = "Sesión SAF interrumpida. Se requiere nueva autorización."
         }
-        busy(false)
+        busy(pending != null)
         exportButton.setOnClickListener {
             if (!exportConsent.isChecked) {
                 status.text = "Marcá primero el consentimiento de exportación sintética."
