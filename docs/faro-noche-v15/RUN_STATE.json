@@ -81,8 +81,25 @@
     "next": "T4 human SAF picker/consent, provider URI, export+restore five owners on Moto G15; do not enable release V2 or production cutover."
   },
   "f4": {
-    "status": "AUTHORIZED_TO_IMPLEMENT_INTEGRATED_REGRESSION",
-    "physical": "NOT_RUN"
+    "status": "IN_PROGRESS_INTEGRATED_CI",
+    "source_code_sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
+    "ci": [
+      {
+        "id": 41277512819,
+        "sha": "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
+        "status": "IN_PROGRESS",
+        "note": "initial XML oracle expected 26 Android but class has 6 F1 Compose methods; oracle will be incorrect even if all 27 execute"
+      },
+      {
+        "id": 41277545474,
+        "sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
+        "status": "PENDING",
+        "expected": "JVM 36/36 + Android 27/27 = 63/63",
+        "note": "corrected exact oracle; do not certify until XML terminal"
+      }
+    ],
+    "physical": "NOT_RUN",
+    "next": "Wait for exact F4 63/63 XML; diagnose ROJO and correct safely; T4 one APK campaign later."
   },
   "t4": {
     "status": "DEFERRED_BATCHED_PHYSICAL"
@@ -240,6 +257,6 @@
         "ended_utc": "2026-11-01T05:33:33Z"
       }
     ],
-    "next": "F4 cross-F1/F2/F3 integrated regression on single SHA, Android+JVM, preserve V2 OFF and T4 deferred."
+    "next": "F4 integrated #41277545474 pending behind #41277512819; exact 36 JVM + 27 Android; physical T4 checklist staged."
   }
 }
