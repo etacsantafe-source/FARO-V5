@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "repo": "etacsantafe-source/FARO-V5",
+  "branch": "work/f1-auto-v15-20261101",
+  "source_branch": "work/f1-noche-v14-20261031-1820",
+  "source_sha": "304690d378f02c1553856ca52b6aa7338005cb7b",
+  "prior_decision": "docs/S2_A6_BATCHED_PHYSICAL_T4_DECISION_20261031.md",
+  "authorization_doc": "docs/f1-auto/F1_AUTO_V15_AUTH_20261031.md",
+  "status": "PENDING_INITIAL_PRECHECK",
+  "old_source_writer": {
+    "state": "ACTIVE",
+    "epoch": 6,
+    "owner": "NOCHE_B_F1_2050",
+    "lease_expires_at": "2026-11-01T00:17:00Z",
+    "terminal_confirmation_required": true
+  },
+  "writer": {
+    "state": "NONE_NEW_BRANCH_NOT_YET_ACQUIRED",
+    "epoch": 0,
+    "owner": null,
+    "expected_head": null
+  },
+  "stage": {
+    "id": "S2.A6",
+    "certified": 3,
+    "total": 8,
+    "v2_enabled": false,
+    "s3_open": false,
+    "s4_open": false
+  },
+  "f1_status": "OPEN",
+  "f1_automated_status": "TO_VERIFY",
+  "t4_physical": "NOT_RUN",
+  "start_local": "2026-10-31T23:50:00-03:00",
+  "cutoff_local": "2026-11-01T02:50:00-03:00",
+  "report_local": "2026-11-01T02:55:00-03:00",
+  "reuse_actions": [
+    {
+      "id": 41254217573,
+      "sha": "f7d5b68e0f0ae412ad7029cdb6a1dbef70479a7c",
+      "result": "SUCCESS",
+      "evidence": "20/20 JVM, 2/2 Android Keystore, 2/2 Review/Apply/Delivery emulated"
+    }
+  ],
+  "next_action": "First writer precheck and recover only with proof old owner is terminal. Then complete outstanding F1 automated gaps; if none, READY_FOR_T4. Never attempt human Groq or physical tests.",
+  "sessions": [],
+  "in_flight_actions": []
+}
