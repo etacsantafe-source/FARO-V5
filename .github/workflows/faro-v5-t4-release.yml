@@ -1,0 +1,67 @@
+name: FARO V5 T4 publish direct APK downloads
+
+on:
+  push:
+    branches:
+      - work/faro-t4-build-20261101
+    paths:
+      - .github/workflows/faro-v5-t4-release.yml
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: faro-v5-t4-direct-release
+  cancel-in-progress: false
+
+jobs:
+  publish-paired-t4-debug-apks:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: '41307450405'
+      RELEASE_TAG: 'faro-v5-t4-20261101'
+    steps:
+      - name: Checkout isolated workflow only
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Download proven T4 build artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" --name FARO-V5-T4-F1-F4-paired-APKs --dir t4-apks
+          test -s t4-apks/FARO-V5-T4-app-debug.apk
+          test -s t4-apks/FARO-V5-T4-androidTest-debug.apk
+          test -s t4-apks/T4_APK_MANIFEST.txt
+      - name: Verify published files byte-for-byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd t4-apks
+          printf '%s\n' \
+            'ef0968c4b211abc841b93adc4ee3c8458d5c82209cdc453ca65f3336bb8de22f  FARO-V5-T4-app-debug.apk' \
+            '3c5f10079241913bebf2557c828be23cc435fec52244f161092176c2ffa69fb0  FARO-V5-T4-androidTest-debug.apk' | sha256sum -c -
+          grep -q 'functional_source_sha=0750ee530703141016c6cd59a5312758d915ad1c' T4_APK_MANIFEST.txt
+          grep -q 'application_id_expected=ar.com.faro.alpha.t4.v5dev' T4_APK_MANIFEST.txt
+      - name: Publish pre-release for direct download
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release already exists; cannot silently overwrite APK assets"
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target 0750ee530703141016c6cd59a5312758d915ad1c \
+            --title "FARO V5 T4 - APK debug aislada para pruebas físicas" \
+            --notes "Sólo para T4 en Moto G15. Fuente funcional 0750ee530703141016c6cd59a5312758d915ad1c; Actions #41307450405 SUCCESS. APK de aplicación y APK de instrumentación; checksums publicados en el manifiesto. Paquete aislado ar.com.faro.alpha.t4.v5dev. No instalar en producción. V2 OFF." \
+            --prerelease \
+            t4-apks/FARO-V5-T4-app-debug.apk \
+            t4-apks/FARO-V5-T4-androidTest-debug.apk \
+            t4-apks/T4_APK_MANIFEST.txt
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json url,assets
