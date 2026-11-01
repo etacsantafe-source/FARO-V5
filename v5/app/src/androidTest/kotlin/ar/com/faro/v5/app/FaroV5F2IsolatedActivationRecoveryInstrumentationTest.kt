@@ -1,0 +1,191 @@
+package ar.com.faro.v5.app
+
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.evidence.WebEvidenceStore
+import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
+import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
+import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
+import ar.com.faro.v5.maintenance.*
+import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
+import ar.com.faro.v5.store.reality.RealityStore
+import ar.com.faro.v5.workspace.ConversationWorkspaceStore
+import java.nio.file.Files
+import java.nio.file.Path
+import java.util.function.Supplier
+import org.junit.Assert.*
+import org.junit.Test
+import org.junit.runner.RunWith
+
+/**
+ * F2 Android integration: real five-owner SQLite, but an EXCLUSIVE temporary
+ * generation root. Never exercises the shipping V1 pointer, application data,
+ * real OS projections, or V2_ACTIVE_ENABLED.
+ */
+@RunWith(AndroidJUnit4::class)
+class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
+    private fun isolated(block: (Fixture) -> Unit) {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val directory = Files.createTempDirectory(context.noBackupFilesDir.toPath(), "f2-isolated-")
+        try {
+            block(Fixture(directory))
+        } finally {
+            directory.toFile().deleteRecursively()
+        }
+    }
+
+    private class Fixture(val root: Path) {
+        val layout = FileStorageGenerationLayout(root)
+        val pointer = FileActiveGenerationPointer(root)
+        val journal = FileBootstrapJournal(root)
+        val gate = SingleProcessMaterialWriteGate()
+        val quiescence = MaterialWriteGateQuiescence(gate)
+        val previous = StorageGenerationId("f2-original-v1")
+        val target = StorageGenerationId("f2-candidate-v2")
+        val operation = MaintenanceOperationId("f2-restart-recovery")
+        val stage: StagedStorageGeneration
+        val replays = mutableListOf<String>()
+        val projections = mutableListOf<String>()
+
+        init {
+            val old = layout.stage(StorageGenerationDescriptor(previous, "schema-v1", 1L))
+            GenerationStoreFiles.LEGACY_V1.forEach {
+                Files.write(old.directory.resolve(it), byteArrayOf(1))
+            }
+            checkNotNull(pointer.compareAndSet(null, previous))
+            stage = layout.stageWorkspaceV2(
+                StorageGenerationDescriptor(target, "schema-five-store-1", 2L),
+            )
+            RealityStore(stage.directory.resolve(GenerationStoreFiles.REALITY).toString()).use { }
+            CommercialEvidenceStore(stage.directory.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { }
+            WebEvidenceStore(stage.directory.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
+            AuxiliaryDeliveryStore(stage.directory.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
+            ConversationWorkspaceStore(stage.directory.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
+
+            var current = BootstrapJournalEntry(
+                operation, MaintenanceOperationKind.RESTORE, previous, target,
+                BootstrapPhase.PREPARING,
+            )
+            journal.create(current)
+            for (next in listOf(BootstrapPhase.STAGED, BootstrapPhase.VALIDATED)) {
+                val updated = BootstrapTransitionPolicy.transition(current, next)
+                check(journal.compareAndSet(current, updated))
+                current = updated
+            }
+            gate.closeMaterialWriteAdmission()
+        }
+
+        private val admission = FaroV5PreSwitchHostAdmission(
+            layout = layout,
+            activePointer = pointer,
+            // This is a test-local supported-host simulation, NOT the shipping flag.
+            v2HostCertified = true,
+            verifyQuarantinedV2 = { candidate ->
+                FaroV5QuarantinedV2GraphAdmission.canonical(
+                    gate,
+                    Supplier {
+                        val active = checkNotNull(pointer.read()).generationId
+                        layout.requireStaged(active).directory
+                    },
+                ).open(candidate).use { it.verifyHealthy() }
+            },
+        )
+
+        fun coordinator(crashAfterPointer: Boolean = false) =
+            ValidatedGenerationActivationCoordinator(
+                journal = journal,
+                activePointer = pointer,
+                generationLayout = layout,
+                quiescence = quiescence,
+                generationSwitch = GenerationSwitchCoordinator(
+                    journal = journal,
+                    activePointer = pointer,
+                    generationLayout = layout,
+                    faultInjector = { point ->
+                        if (crashAfterPointer &&
+                            point == GenerationSwitchFaultPoint.AFTER_POINTER_PUBLISH_BEFORE_JOURNAL_ADVANCE
+                        ) error("synthetic process death immediately after pointer publication")
+                    },
+                ),
+                runtime = GenerationRuntimeActivationPort { _, generationId ->
+                    if (generationId == previous) true else if (generationId != target) false
+                    else runCatching {
+                        FaroV5GenerationStoreGraph.openValidatedV2WithSharedGate(
+                            layout.requireStaged(generationId),
+                            CanonicalPreparedPlanEnvelopeVerifier,
+                            gate,
+                        ).use { graph ->
+                            graph.generationId == target.value && graph.verifyHealthy()
+                        }
+                    }.getOrDefault(false)
+                },
+                replayFence = GenerationReplayFencePort { _, generationId ->
+                    check(generationId == target)
+                    replays += generationId.value
+                },
+                projections = GenerationProjectionReconciliationPort { _, generationId ->
+                    check(generationId == target)
+                    projections += generationId.value
+                },
+                preSwitchAdmission = admission,
+            )
+    }
+
+    @Test
+    fun crashAfterPointerPublishRecoversFiveStoresAndDoesNotReplayTwice() = isolated { f ->
+        assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        val failure = runCatching {
+            f.coordinator(crashAfterPointer = true).activate(f.operation)
+        }.exceptionOrNull()
+        assertTrue("fault injection must interrupt activation", failure is IllegalStateException)
+        assertEquals(f.target, checkNotNull(f.pointer.read()).generationId)
+        assertEquals(BootstrapPhase.SWITCH_PREPARED, checkNotNull(f.journal.read(f.operation)).phase)
+        assertFalse(f.gate.isMaterialWriteAdmissionOpen())
+        assertTrue(f.replays.isEmpty())
+        assertTrue(f.projections.isEmpty())
+
+        // Reconstruct coordinator as a fresh runtime would after process death.
+        val result = f.coordinator().recover(f.operation)
+        assertEquals(
+            GenerationActivationResult.Activated(
+                f.operation, MaintenanceOperationKind.RESTORE, f.target, recovered = true,
+            ),
+            result,
+        )
+        assertEquals(f.target, checkNotNull(f.pointer.read()).generationId)
+        val completed = checkNotNull(f.journal.read(f.operation))
+        assertEquals(BootstrapPhase.COMPLETED, completed.phase)
+        assertTrue(completed.materialWritesAccepted)
+        assertEquals(listOf(f.target.value), f.replays)
+        assertEquals(listOf(f.target.value), f.projections)
+        assertFalse("runtime health alone must never open startup write admission",
+            f.gate.isMaterialWriteAdmissionOpen())
+        assertEquals(result, f.coordinator().recover(f.operation))
+        assertEquals(1, f.replays.size)
+        assertEquals(1, f.projections.size)
+        assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+    }
+
+    @Test
+    fun missingWorkspaceBlocksActivationWithoutMovingV1PointerOrAdmittingWrites() = isolated { f ->
+        val before = f.pointer.read()
+        Files.delete(f.stage.directory.resolve(GenerationStoreFiles.WORKSPACE))
+        val journalBefore = f.journal.read(f.operation)
+        val result = f.coordinator().activate(f.operation)
+        assertEquals(
+            GenerationActivationResult.Blocked(
+                f.operation, GenerationActivationBlockReason.TARGET_RUNTIME_UNSUPPORTED,
+            ),
+            result,
+        )
+        assertEquals(before, f.pointer.read())
+        // The coordinator must not manufacture missing SQLite authority.
+        assertFalse(Files.exists(f.stage.directory.resolve(GenerationStoreFiles.WORKSPACE)))
+        assertEquals(journalBefore, f.journal.read(f.operation))
+        assertTrue(f.replays.isEmpty())
+        assertTrue(f.projections.isEmpty())
+        assertFalse(f.gate.isMaterialWriteAdmissionOpen())
+        assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+    }
+}
