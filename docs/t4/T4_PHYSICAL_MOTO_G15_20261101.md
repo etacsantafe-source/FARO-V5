@@ -79,3 +79,10 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - Las capturas anteriores muestran FARO en pantalla dividida con ChatGPT, condición que puede provocar recreación por cambios de configuración. No asumir que el error es un permiso Android negado ni que se escribió un archivo; el callback rechazó la operación antes de `writeSelectedExportDocument`.
 - Corrección limitada a `src/debug`: `RetainedPickerState : ViewModel` conserva ticket one-shot, prepared source y root temporal a través de recreación de Activity; **no** persiste autorización ni secreto en Bundle/SQLite, y un cierre de proceso hace fail-closed con nuevo consentimiento. Los botones se deshabilitan si hay picker pendiente. Commits `94309163` y `84391676`.
 - Workflow v3 con APK independiente `ar.com.faro.alpha.t4saf3.v5dev` y release/tag nuevos, commit `7e04363e`. GitHub Actions #41347186599 ejecutándose al registrar; **no declarar SAF PASS hasta evidencia física**. La APK ordinaria de F1-F4 y V2 OFF siguen sin modificación.
+
+## Compilación SAF manual v3 finalizada (01/11/2026)
+- GitHub Actions `#41347186599`: **SUCCESS**, Gradle `BUILD SUCCESSFUL`, commit de código debug y workflow `7e04363e3223a6889543219a9c922f4a7630d688`, fuente funcional `0750ee530703141016c6cd59a5312758d915ad1c`.
+- Artefacto público: `https://github.com/etacsantafe-source/FARO-V5/releases/tag/faro-v5-t4-saf-picker-v3-20261101`.
+- APK: `FARO-V5-T4-SAF-PRUEBA-V3.apk`; paquete aislado `ar.com.faro.alpha.t4saf3.v5dev`; tamaño 61.854.647 bytes; SHA-256 `0527e88f904995446a68b35a6303e7c83f5c62d1881ae299c4c4d3963b712b52`; certificado debug SHA-256 `7bbe536fe65f52c1d90718277d94be9b47ead57aa2ca194fbce4ea69d7ac417c`.
+- Corrección incluye retención de ticket y fuente sintética sólo ante recreación de Activity, ninguna autorización persistida tras pérdida de proceso. `V2_ACTIVE_ENABLED=false` comprobado por build.
+- Próxima acción: descargar y verificar SHA desde Termux, instalar vía `termux-open --view` sin ADB (usuario con datos móviles y sin Wi-Fi), abrir la app auxiliar aislada **a pantalla completa**, repetir solo exportación SAF. **Aún no hay PASS físico de esta nueva versión.**
