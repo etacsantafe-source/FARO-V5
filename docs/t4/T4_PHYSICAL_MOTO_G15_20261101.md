@@ -47,3 +47,10 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - Para obtener evidencia de **picker SAF real**, se agregó sólo en `v5/app/src/debug` un harness `FaroV5T4SafSandboxActivity`, que prepara cinco stores sintéticos y un sentinel V1 temporales, exige consentimiento de exportación/importación, exporta por `ACTION_CREATE_DOCUMENT`, lee mediante `ACTION_OPEN_DOCUMENT`, y usa journal y restore validados en cuarentena; V2 permanece OFF.
 - El debug test harness se compila con applicationId separado `ar.com.faro.alpha.t4saf.v5dev`, sin tocar `ar.com.faro.alpha.t4.v5dev` (Groq F1) ni `ar.com.faro.alpha.v5dev` anterior. No constituye certificación de la vía de exportación de producción.
 - Workflow `.github/workflows/faro-v5-t4-saf-debug.yml`, Actions #41311989732, estado pendiente de resultado final al registrar. No informar PASS hasta ejecutar realmente con Android DocumentsUI y observar receipt+restore.
+
+## Harness SAF sintético compilado y publicado
+- Actions #41311989732: **SUCCESS** (Gradle BUILD SUCCESSFUL). Commit de build `0de4e5d1ddc5ef79a528e277e33c836891dcd149`; fuente funcional base `0750ee53`, modificaciones solo debug/workflows/docs.
+- GitHub release `faro-v5-t4-saf-picker-20261101`, archivo `FARO-V5-T4-SAF-PRUEBA.apk`.
+- SHA-256 esperado `ad214d30e51f31113d0eb88df2d0c9490310def76bba024f99f63a6b7b099223`.
+- Package `ar.com.faro.alpha.t4saf.v5dev`; firma debug `aeac671eab68e93437c69cc5a7bef7df1333fa42045f73632f24d8cd9b032e9a`.
+- NO prueba ejecutada en teléfono aún. Próximo paso descargar/validar/instalar APK aislada y abrir `FaroV5T4SafSandboxActivity` para permitir selección real de destino SAF con consentimiento y datos sintéticos, después importar/restaurar en cuarentena. Solo tras evidencia de Android se podrá marcar manual SAF PASS limitado al harness, no a producción.
