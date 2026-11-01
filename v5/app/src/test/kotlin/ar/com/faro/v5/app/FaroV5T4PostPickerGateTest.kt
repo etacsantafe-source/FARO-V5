@@ -10,7 +10,7 @@ class FaroV5T4PostPickerGateTest {
         gate.pickerReturned("EXPORT", true)
         assertFalse(gate.authorizeAfterReturn("EXPORT", false))
         assertTrue(gate.authorizeAfterReturn("EXPORT", true))
-        assertFalse("consent is one shot", gate.authorizeAfterReturn("EXPORT", true))
+        assertFalse(gate.authorizeAfterReturn("EXPORT", true), "consent is one shot")
     }
 
     @Test fun stalePrePickerConsentCannotAuthorizeAfterProcessRestart() {
