@@ -58,6 +58,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
     private class UiState : ViewModel() {
         var pickerOpen: Step? = null
         var selection: Selection? = null
+        val gate = FaroV5T4PostPickerGate()
     }
 
     private val password = "synthetic-only-t4-manual-20261101"
@@ -147,8 +148,8 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
                 status.text = "Primero elegí un destino o archivo desde Android."
                 return@setOnClickListener
             }
-            if (!consent.isChecked) {
-                status.text = "Marcá el consentimiento NUEVO después del selector."
+            if (!retained.gate.authorizeAfterReturn(selected.step.name, consent.isChecked)) {
+                status.text = "Falta consentimiento NUEVO después del selector."
                 return@setOnClickListener
             }
             if (selected.uri.scheme != ContentResolver.SCHEME_CONTENT) {
@@ -213,6 +214,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
     private fun startPicker(step: Step) {
         if (isWorking || retained.pickerOpen != null) return
         retained.selection = null
+        retained.gate.reset()
         retained.pickerOpen = step
         consent.isChecked = false
         updateButtons()
@@ -245,6 +247,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
     private fun handlePicked(step: Step, result: ActivityResult) {
         retained.pickerOpen = null
         retained.selection = null
+        retained.gate.reset()
         consent.isChecked = false
         val uri = if (result.resultCode == Activity.RESULT_OK) result.data?.data else null
         if (result.resultCode != Activity.RESULT_OK) {
@@ -255,6 +258,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
             status.text = "ROJO: URI distinto de content://. Sin operación FARO."
         } else {
             retained.selection = Selection(step, uri)
+            retained.gate.pickerReturned(step.name, true)
             status.text = if (step == Step.EXPORT)
                 "Destino elegido. NO se escribió todavía. Marcá el consentimiento " +
                     "y pulsá CONFIRMAR para exportar los cinco almacenes sintéticos."
