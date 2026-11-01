@@ -89,21 +89,21 @@
       {
         "id": 41277512819,
         "sha": "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
-        "status": "IN_PROGRESS",
+        "status": "FAILURE_ORACLE_COUNT_ONLY",
         "note": "initial XML oracle expected 26 Android but class has 6 F1 Compose methods; oracle will be incorrect even if all 27 execute",
-        "jvm": "F4_JVM_CROSS_F1_F2_F3_PASS 36/36",
-        "android": "IN_PROGRESS_27_CASES_EXPECTED_BUT_ORACLE_26_WRONG"
+        "jvm": "PASS_36_OF_36",
+        "android": "GRADLE_SUCCESS_27_TESTS_EXECUTED; XML count 6+5+6+8+2; oracle expected 5+5+6+8+2 and failed"
       },
       {
         "id": 41277545474,
         "sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
-        "status": "PENDING_CONCURRENCY",
+        "status": "IN_PROGRESS_AFTER_CONCURRENCY",
         "expected": "JVM 36/36 + Android 27/27 = 63/63",
         "note": "corrected exact oracle; do not certify until XML terminal"
       }
     ],
     "physical": "NOT_RUN",
-    "next": "Await Android 27 execution first run, then corrected run #41277545474 exact 27/27 + JVM36/36; if any real red diagnose. No new Actions until current finishes."
+    "next": "Await corrected #41277545474 exact JVM 36/36 and Android 27/27; if green F4 READY_FOR_T4, no more automatic work."
   },
   "t4": {
     "status": "DEFERRED_BATCHED_PHYSICAL"
@@ -298,6 +298,14 @@
       {
         "utc": "2026-11-01T05:40:43Z",
         "event": "F4 initial JVM 36/36 PASS #41277512819"
+      },
+      {
+        "utc": "2026-11-01T05:44:18Z",
+        "event": "F4 initial #41277512819 Android Gradle SUCCESS 27 cases; XML oracle failed only wrong expected count 26; JVM 36 PASS"
+      },
+      {
+        "utc": "2026-11-01T05:44:24Z",
+        "event": "Corrected F4 #41277545474 started after queue"
       }
     ]
   }
