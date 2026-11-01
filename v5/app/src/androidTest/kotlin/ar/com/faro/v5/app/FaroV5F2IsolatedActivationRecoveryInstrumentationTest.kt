@@ -133,7 +133,8 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
                     replays += generationId.value
                 },
                 projections = GenerationProjectionReconciliationPort { _, generationId ->
-                    check(generationId == target)
+                    // Rollback must reproject the verified previous V1 authority.
+                    check(generationId == target || generationId == previous)
                     projections += generationId.value
                 },
                 preSwitchAdmission = admission,
