@@ -1,6 +1,6 @@
 {
   "schema_version": 15,
-  "status": "ACTIVE_WAITING_FIRST_TURN",
+  "status": "ACTIVE_WRITER",
   "mode": "AUTOMATED_NIGHT_V15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/faro-noche-v15-20261101",
@@ -15,11 +15,14 @@
     "REPORT": "6ae6c5d4ffe08191b8804bf4b8cb51d0"
   },
   "writer": {
-    "state": "NONE",
-    "owner": null,
-    "epoch": 0,
-    "expected_head": null,
-    "lease_until": null
+    "state": "ACTIVE",
+    "owner": "V15_A_20261101_0200",
+    "epoch": 1,
+    "expected_head": "889bc6d426be1e6fcbc2433ea4d9967de39948cd",
+    "lease_until": "2026-11-01T05:27:00Z",
+    "started_at": "2026-11-01T05:04:40.451Z",
+    "session_window_local": "02:00-02:30",
+    "terminal": false
   },
   "stage": {
     "id": "S2.A6",
@@ -96,5 +99,13 @@
     "initial_head": "a5042e194489e75fb26f147ac4a9cf75faceb1e6",
     "task_created_confirmed": true,
     "activation_commit_only_no_writer_lease": true
+  },
+  "last_session": {
+    "turn": "A",
+    "scheduled_local": "2026-11-01T02:00:00-03:00",
+    "actual_started_utc": "2026-11-01T05:04:40.451Z",
+    "phase": "F2_ANDROID_RECOVERY",
+    "work": "in_progress",
+    "tests_new": "NOT_RUN"
   }
 }
