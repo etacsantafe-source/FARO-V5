@@ -12,10 +12,13 @@
     "epoch": 6,
     "owner": "NOCHE_B_F1_2050",
     "lease_expires_at": "2026-11-01T00:17:00Z",
-    "terminal_confirmation_required": true
+    "terminal_confirmation_required": true,
+    "disposition": "STALE_RECORD_OWNER_TERMINAL_NOT_A_LIVE_WRITER",
+    "evidence": "F1 Noche B3 recorded terminal at 2026-11-01T00:15:40.698301Z; final report finished 2026-11-01T00:21:45.671812Z; old branch HEAD 304690d378f02c1553856ca52b6aa7338005cb7b stable; old A/B disabled; legacy lease expiry 2026-11-01T00:17:00Z; legacy branch left unchanged",
+    "branch_modified": false
   },
   "writer": {
-    "state": "NONE_NEW_BRANCH_NOT_YET_ACQUIRED",
+    "state": "NONE",
     "epoch": 0,
     "owner": null,
     "expected_head": null
@@ -29,7 +32,7 @@
     "s4_open": false
   },
   "f1_status": "OPEN",
-  "f1_automated_status": "TO_VERIFY",
+  "f1_automated_status": "RUNNING_DIRECTED_GATES",
   "t4_physical": "NOT_RUN",
   "start_local": "2026-10-31T23:50:00-03:00",
   "cutoff_local": "2026-11-01T02:50:00-03:00",
@@ -42,7 +45,24 @@
       "evidence": "20/20 JVM, 2/2 Android Keystore, 2/2 Review/Apply/Delivery emulated"
     }
   ],
-  "next_action": "First writer precheck and recover only with proof old owner is terminal. Then complete outstanding F1 automated gaps; if none, READY_FOR_T4. Never attempt human Groq or physical tests.",
-  "sessions": [],
-  "in_flight_actions": []
+  "next_action": "Check GitHub Actions on the manual branch for exact test XML: JVM 20/20, Android Keystore 2/2, F1 isolated Chat/Review/Apply/Delivery 5/5; if RED diagnose and fix in this chat, don't run F2/3/4. If GREEN consider READY_FOR_T4, not CERTIFIED; physical/Groq live deferred.",
+  "sessions": [
+    {
+      "id": "MANUAL_F1_S01_20261031",
+      "status": "CHANGE_COMMITTED_CI_PENDING",
+      "source_sha": "fb619c18c10469d0053a9c673d2af52fefafa152",
+      "file": ".github/workflows/faro-v5-f1-night-directed.yml",
+      "change": "Extend Android F1 from 2 to 5 existing exercised tests with strict XML oracle, enable push on manual branch.",
+      "prior_success": {
+        "run_id": 41254217573,
+        "sha": "f7d5b68e0f0ae412ad7029cdb6a1dbef70479a7c",
+        "evidence": "20/20 JVM +2/2 Keystore +2/2 F1 Android"
+      },
+      "measurement": "NO_REGISTRADO",
+      "writer_release": "NONE VIA ATOMIC_EXPECTED_HEAD_CAS"
+    }
+  ],
+  "in_flight_actions": [],
+  "mode": "MANUAL_CHAT_ONLY",
+  "automation_enabled": false
 }

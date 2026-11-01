@@ -1,8 +1,9 @@
-name: FARO V5 F1 night directed
+name: FARO V5 F1 manual directed gates
 on:
   push:
     branches:
       - work/f1-noche-v14-20261031-1820
+      - work/f1-auto-v15-20261101
     paths:
       - "v5/app/**"
       - "v5/platform/web/**"
@@ -94,7 +95,7 @@ jobs:
       - name: Enable KVM for Android 35
         run: |
           if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; else echo KVM_UNAVAILABLE; fi
-      - name: Structured IA to human Review, Atomic Apply and denied OS Delivery
+      - name: Complete isolated F1 Chat, Workspace, recovery, consent, Review, Apply and Delivery
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -104,8 +105,8 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage
-      - name: Exact F1 Android structured Review/Apply/Delivery XML
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#realProviderQuarantineRequiresAndroidConsentBeforeOpeningStores,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#recoverOrphanedProcessingAfterExclusiveHostRestartWithoutProviderReplay
+      - name: Exact five-test F1 Android end-to-end quarantine XML
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -115,14 +116,17 @@ jobs:
               for case in ET.parse(p).getroot().iter('testcase'):
                   if 'FaroV5F1QuarantinedComposeInstrumentationTest' in case.attrib.get('classname',''):
                       cases.append(case)
-          expected = {'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt',
-                      'permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage'}
+          expected = {'realProviderQuarantineRequiresAndroidConsentBeforeOpeningStores',
+                      'composeSendUsesCanonicalFiveOwnerWorkspaceAndRecoversAfterRecreation',
+                      'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt',
+                      'permittedAndroidDeliveryPostsOnceAndIsObservableInIsolatedStage',
+                      'recoverOrphanedProcessingAfterExclusiveHostRestartWithoutProviderReplay'}
           names = [case.attrib.get('name') for case in cases]
-          if len(cases)!=2 or set(names)!=expected:
+          if len(cases)!=5 or len(set(names))!=5 or set(names)!=expected:
               raise SystemExit('F1_STRUCTURED_ANDROID_CASES_MISSING_OR_WRONG '+str(names))
           if any(case.find(x) is not None for case in cases for x in ('failure','error','skipped')):
               raise SystemExit('F1_STRUCTURED_ANDROID_CASE_FAILED')
-          print('F1_ANDROID_REVIEW_APPLY_DENIED_GRANTED_DELIVERY_PASS 2/2')
+          print('F1_ANDROID_CHAT_CONSENT_RECOVERY_REVIEW_APPLY_DELIVERY_PASS 5/5')
           print('LIVE_GROQ_AND_PHYSICAL_T4_NOT_RUN; V2_OFF')
           PY
 
