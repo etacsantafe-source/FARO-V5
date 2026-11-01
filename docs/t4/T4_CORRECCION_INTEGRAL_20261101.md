@@ -38,6 +38,14 @@
 5. Para cobertura integral: cancelar picker, forzar recreación/split-screen, probar proceso terminado entre selección y confirmación, URI inaccesible/archivo inválido, retry limpio y cancelación durante operación. Documentar efectos inciertos, sin borrar archivos reales automáticamente.
 6. F2/F4 UI real y autorización productiva F3 siguen pendientes por separado. Ninguna prueba T4 sintética habilita S3/S4 ni certifica S2.A6.
 
-## CI
-- Action de prueba: https://github.com/etacsantafe-source/FARO-V5/actions/runs/41356258845
-- Resultado al crear este documento: **EN CURSO**. No asignar PASS ni compartir APK como probada hasta confirmar conclusión real.
+## CI comprobado y cierre de build (2026-11-01)
+- Ejecución #41356258845: **FAILURE**, únicamente import `org.junit.Assert` no resuelto en test nuevo (la Activity principal compiló). Ninguna APK publicada.
+- Ejecución #41356581883: **FAILURE**, orden incompatible en `assertFalse` de JUnit Jupiter; corregido antes de tercer build. Ninguna APK publicada.
+- Ejecución final #41356724771: **SUCCESS** al HEAD `339c394e2e118a3b47f5e6977ae725d90e54581b` (prueba 4/4 PASS, `:app:assembleDebug` BUILD SUCCESSFUL, chequeos package/firma/hash PASS, release publicado).
+- APK exacta `FARO-V5-T4-SAF-INTEGRAL-V4.apk`; package `ar.com.faro.alpha.t4saf4.v5dev`; tamaño **61.887.411 bytes**; SHA-256 **`6958cf99d21b97b8932c87f142ae57a62f9421a35c1dc046f7ff52c03dcf15af`**; firma debug SHA-256 **`d26a4f3b6a7f0404ad45423c2d14335658317b4ce8b274e6c4ab07a97d8c325b`**.
+- Release oficial: https://github.com/etacsantafe-source/FARO-V5/releases/tag/faro-v5-t4-saf-integral-v4-20261101
+- APK: https://github.com/etacsantafe-source/FARO-V5/releases/download/faro-v5-t4-saf-integral-v4-20261101/FARO-V5-T4-SAF-INTEGRAL-V4.apk
+- Manifest de integridad: https://github.com/etacsantafe-source/FARO-V5/releases/download/faro-v5-t4-saf-integral-v4-20261101/T4-SAF-INTEGRAL-V4-MANIFEST.txt
+- **No ejecutar de nuevo los 27 tests físicos previos**; hacer únicamente la prueba manual SAF positiva/negativa delimitada.
+- **NO** es todavía PASS físico ni validación de restauración de producción. Se conserva T4 SAF ROJO y S2.A6 3/8 hasta que el usuario pruebe el selector, confirmación, exportación y restore físico en cuarentena.
+
