@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: faro-v5-t4-apks-once
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build-t4-apks:
@@ -26,12 +26,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-          fetch-depth: 3
+          fetch-depth: 8
       - name: Verify exact frozen functional source and workflow-only delta
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^^)" = "0750ee530703141016c6cd59a5312758d915ad1c"
+          git merge-base --is-ancestor 0750ee530703141016c6cd59a5312758d915ad1c HEAD
           test "$(git diff --name-only 0750ee530703141016c6cd59a5312758d915ad1c HEAD)" = ".github/workflows/faro-v5-t4-apks.yml"
           echo "SOURCE_SHA=0750ee530703141016c6cd59a5312758d915ad1c" >> "$GITHUB_ENV"
           echo "T4_DEBUG_ONLY_NO_RELEASE_SIGNATURE"
@@ -57,7 +57,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug :app:assembleDebugAndroidTest
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug :app:assembleDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4
       - name: Verify and package BOTH APKs with identities
         shell: bash
         run: |
@@ -76,7 +76,7 @@ jobs:
             echo "v2_active_enabled=false (must remain disabled at runtime)"
             echo "debug_only=true"
             echo "production_install_allowed=false"
-            echo "application_id_expected=ar.com.faro.alpha.v5dev"
+            echo "application_id_expected=ar.com.faro.alpha.t4.v5dev"
             echo "Android Test APK is an instrumentation runner, not a standalone app"
             echo
             echo "APK_SHA256:"
@@ -91,7 +91,7 @@ jobs:
             echo "TEST_SIGNING:"
             "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$TEST"
           } | tee t4-apks/T4_APK_MANIFEST.txt
-          grep -q "package: name='ar.com.faro.alpha.v5dev'" t4-apks/T4_APK_MANIFEST.txt
+          grep -q "package: name='ar.com.faro.alpha.t4.v5dev'" t4-apks/T4_APK_MANIFEST.txt
       - name: Publish one T4 paired APK artifact
         uses: actions/upload-artifact@v4
         with:
