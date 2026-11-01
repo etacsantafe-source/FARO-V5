@@ -12,6 +12,8 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.generation.*
@@ -41,16 +43,31 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
         val source: PreparedBackupExternalWriteSource,
         val adapter: AndroidBackupSafAdapter,
     )
+    /**
+     * Survives Activity recreation while Android DocumentsUI is open, but NOT
+     * process death. The latter must fail closed and demand fresh consent.
+     * No credential or persistent authorization is written to a Bundle/disk.
+     */
+    private class RetainedPickerState : ViewModel() {
+        var root: Path? = null
+        var ready: Ready? = null
+        var pending: PickerGrant? = null
+    }
+    private lateinit var retained: RetainedPickerState
     private val password = "synthetic-only-t4-manual-20261101"
     private val worker = Executors.newSingleThreadExecutor()
-    private lateinit var testRoot: Path
+    private val testRoot: Path get() = checkNotNull(retained.root)
     private lateinit var status: TextView
     private lateinit var exportConsent: CheckBox
     private lateinit var restoreConsent: CheckBox
     private lateinit var exportButton: Button
     private lateinit var restoreButton: Button
-    private var ready: Ready? = null
-    private var pending: PickerGrant? = null
+    private var ready: Ready?
+        get() = retained.ready
+        set(value) { retained.ready = value }
+    private var pending: PickerGrant?
+        get() = retained.pending
+        set(value) { retained.pending = value }
 
     private val picker = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -68,7 +85,9 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
             return@registerForActivityResult
         }
         if (!granted) {
-            status.text = "ROJO: falta autorización original para este selector. Sin efectos."
+            status.text = "ROJO: se perdió la sesión autorizada del selector (posible cierre de proceso). " +
+                "No se escribió nada. Volvé a autorizar antes de repetir."
+            ready = null
             busy(false)
             return@registerForActivityResult
         }
@@ -101,7 +120,16 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         check((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0)
         check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
-        testRoot = Files.createTempDirectory(noBackupFilesDir.toPath(), "t4-saf-synthetic-")
+        retained = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                check(modelClass == RetainedPickerState::class.java)
+                @Suppress("UNCHECKED_CAST")
+                return RetainedPickerState() as T
+            }
+        })[RetainedPickerState::class.java]
+        if (retained.root == null) {
+            retained.root = Files.createTempDirectory(noBackupFilesDir.toPath(), "t4-saf-synthetic-")
+        }
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val pad = (20 * resources.displayMetrics.density).toInt()
@@ -141,6 +169,15 @@ class FaroV5T4SafSandboxActivity : ComponentActivity() {
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         })
+        // A new Activity instance may be created while DocumentsUI is visible.
+        // Only a live, retained ViewModel may preserve the one-shot ticket.
+        // If Android killed the process, no ticket is resurrected from Bundle.
+        if (savedInstanceState != null && pending != null) {
+            status.text = "Selector SAF en curso (sesión conservada tras recreación)."
+        } else if (savedInstanceState != null) {
+            status.text = "Sesión SAF interrumpida. Se requiere nueva autorización."
+        }
+        busy(false)
         exportButton.setOnClickListener {
             if (!exportConsent.isChecked) {
                 status.text = "Marcá primero el consentimiento de exportación sintética."
