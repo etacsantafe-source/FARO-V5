@@ -67,7 +67,8 @@ internal class FaroV5V2RecoveryRuntimeHealthOwner(
             gate: MaterialWriteGate,
         ) = FaroV5V2RecoveryRuntimeHealthOwner(layout, journal, pointer, quiescence,
             V2RuntimeOpener { staged ->
-                val graph = FaroV5GenerationStoreGraph.openValidatedV2WithSharedGate(
+                // The pointer already names this generation: inspect live WAL, not a sealed STAGED snapshot.
+                val graph = FaroV5GenerationStoreGraph.openActiveV2WithSharedGate(
                     staged, CanonicalPreparedPlanEnvelopeVerifier, gate)
                 object : V2RuntimeGraph {
                     override val generationId get() = graph.generationId
