@@ -26,3 +26,9 @@
 
 ## Próxima acción puntual
 En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario acepta realizar la prueba de red, guardar la credencial Groq en Keystore local y ejecutar «Probar conexión Groq (solo debug)» con texto fijo. Nunca pedir que publique su API key, ni activar IA remota sin autorización.
+
+## Actualización de interacción humana (10:10–10:??, hora argentina; horario exacto no registrado)
+- El usuario confirmó que abrió la aplicación T4 desde `ar.com.faro.alpha.t4.v5dev` y entró a Ajustes/Configurar IA.
+- Después de la instrucción de cargar la clave Groq en el teléfono, consentir y pulsar «Probar conexión Groq (solo debug)», respondió: **«Todo ok»**. Registrar como **Groq debug real: PASS_REPORTADO_POR_USUARIO**, pendiente de guardar literalmente el mensaje/status de prueba si se exige evidencia más fina. No hay captura de status ni logs de red; no asumir que se probó Chat/Apply real.
+- Próxima prueba: pulsar «Desactivar IA remota y borrar clave», y luego «Probar conexión Groq (solo debug)» para confirmar bloqueo tras revocación. Estado: NO_RUN.
+- Seguidamente, SAF manual (destino físico + exportación/restauración aislada) y cierre de criterios pendientes.
