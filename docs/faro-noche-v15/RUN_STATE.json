@@ -40,16 +40,32 @@
     "groq_live": "NOT_RUN"
   },
   "f2": {
-    "status": "OPEN_AUTOMATED_S02_PASS_PENDING_JVM_REVIEW_AND_T4",
-    "source_code_sha": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47",
-    "action_id": 41276096648,
-    "automated_tests_passed": 5,
-    "xml": "PASS_5_OF_5",
+    "status": "READY_FOR_T4_AUTOMATED",
+    "source_code_sha": "e4ef579453d0028b434f416b79fd4dd9a0ceca2f",
+    "evidence": [
+      {
+        "action_id": 41273805209,
+        "sha": "736ebd63ecbfb12187a43de8601d1223a4045a20",
+        "xml": "3/3 PASS Android S01"
+      },
+      {
+        "action_id": 41276096648,
+        "sha": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47",
+        "xml": "5/5 PASS Android S02"
+      },
+      {
+        "action_id": 41277220813,
+        "sha": "e4ef579453d0028b434f416b79fd4dd9a0ceca2f",
+        "xml": "16/16 PASS JVM admission/activation"
+      }
+    ],
+    "automated_tests_passed": 24,
+    "xml": "ANDROID_3+5_JVM_16_PASS_BY_SHA",
     "physical": "NOT_RUN",
-    "next": "Validate targeted maintenance JVM admission/activation regressions; inspect outdated HEALTH_VERIFIED host downgrade assertion, then decide F2_READY_FOR_T4. Do not start F3 until F2 automatable work done."
+    "next": "Only physical Moto G15 T4 activation/recovery, consent and restart remain; do not certify S2.A6 criterion."
   },
   "f3": {
-    "status": "WAIT_F2_AUTOMATED_COMPLETION",
+    "status": "AUTHORIZED_TO_REVIEW_EXISTING_AUTOMATED_EVIDENCE",
     "decision": "OPTION_A_APPROVED",
     "physical": "NOT_RUN"
   },
@@ -196,5 +212,23 @@
         "useful_ratio": "NO_REGISTRADO"
       }
     }
-  ]
+  ],
+  "current_session": {
+    "turn": "B",
+    "slot": "02:30",
+    "owner": "V15_B_20261101_0230",
+    "epoch": 2,
+    "started_utc": "2026-11-01T05:30:11.548Z",
+    "ci": [
+      {
+        "id": 41277220813,
+        "sha": "e4ef579453d0028b434f416b79fd4dd9a0ceca2f",
+        "conclusion": "SUCCESS",
+        "xml": "F2_JVM_ADMISSION_ACTIVATION_PASS 16/16",
+        "started_utc": "2026-11-01T05:30:47Z",
+        "ended_utc": "2026-11-01T05:33:33Z"
+      }
+    ],
+    "next": "Review F3 14/14 historical identical blobs, decide F3 READY_FOR_T4; then F4 integrated gate"
+  }
 }
