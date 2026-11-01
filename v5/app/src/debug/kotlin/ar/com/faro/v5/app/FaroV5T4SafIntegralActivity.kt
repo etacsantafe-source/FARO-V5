@@ -85,7 +85,13 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         check((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0)
         check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
-        retained = ViewModelProvider(this)[UiState::class.java]
+        retained = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                check(modelClass == UiState::class.java)
+                @Suppress("UNCHECKED_CAST")
+                return UiState() as T
+            }
+        })[UiState::class.java]
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val pad = (20 * resources.displayMetrics.density).toInt()
