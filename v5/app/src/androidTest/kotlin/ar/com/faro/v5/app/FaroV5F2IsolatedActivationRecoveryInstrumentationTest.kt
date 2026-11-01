@@ -1,8 +1,6 @@
 package ar.com.faro.v5.app
 
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import androidx.sqlite.driver.bundled.SQLITE_OPEN_READWRITE
-import androidx.sqlite.execSQL
+import android.database.sqlite.SQLiteDatabase
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
@@ -206,8 +204,8 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
         assertEquals(f.target, checkNotNull(f.pointer.read()).generationId)
 
         val workspace = f.stage.directory.resolve(GenerationStoreFiles.WORKSPACE)
-        BundledSQLiteDriver().open(workspace.toString(), SQLITE_OPEN_READWRITE).use { writer ->
-            writer.prepare("PRAGMA journal_mode=WAL").use { assertTrue(it.step()) }
+        SQLiteDatabase.openDatabase(workspace.toString(), null, SQLiteDatabase.OPEN_READWRITE).use { writer ->
+            assertTrue(writer.enableWriteAheadLogging())
             writer.execSQL(
                 """INSERT INTO workspace_conversation
                    (id, title, activity_ms, pinned, archived, pending_review)
