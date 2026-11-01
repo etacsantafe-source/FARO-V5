@@ -27,3 +27,10 @@
 
 ## Continuación
 Verificar el resultado de Actions #41268105177 y su XML. Corregir cualquier ROJO comprobado en lotes pequeños; continuar F2 con la activación/recuperación de Android que falte. Mantener F2 OPEN hasta la aceptación integral y pruebas T4 diferidas. No pedir APK ni instalar ninguna prueba en el Moto G15 ahora.
+
+## Verificación manual posterior (2026-11-01)
+- [Actions #41267962131](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41267962131), SHA `c29355823dcdbe6dafb74b687306f0421027850a`: SUCCESS, XML exacto **2/2 PASS** (revisión anterior, sin test activo WAL).
+- [Actions #41268105177](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41268105177), SHA `a2bf5d9408ae82875ef5b504b436de5b5220d9d7`: **ROJO de compilación** en `:app:compileDebugAndroidTestKotlin`. `BundledSQLiteDriver` no está disponible para el test Android; **las 3 pruebas NO se ejecutaron** y no se ejecutó oráculo XML. No es evidencia de falla de generación/recuperación.
+- Corrección confinada al fixture de instrumentación, SHA `736ebd63ecbfb12187a43de8601d1223a4045a20`: usar `android.database.sqlite.SQLiteDatabase`, activar WAL y escribir dato de prueba con Android SDK; sin cambios de código de producción, sin dependencia nueva ni APK descargable.
+- [Actions #41273805209](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41273805209), SHA exacto `736ebd63ecbfb12187a43de8601d1223a4045a20`: observado **QUEUED**, no PASS. Verificar finalización y XML **3/3**; si ROJO, resolver causa real sin reabrir F1.
+- F2 **OPEN**; S2.A6 **3/8**; V2 **OFF**; T4 físico **NOT_RUN**. No activar FARO Noche ni avanzar S3/S4.
