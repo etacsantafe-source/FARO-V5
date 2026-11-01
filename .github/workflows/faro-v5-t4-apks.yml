@@ -26,13 +26,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 3
       - name: Verify exact frozen functional source and workflow-only delta
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = "0750ee530703141016c6cd59a5312758d915ad1c"
-          test "$(git diff --name-only HEAD^ HEAD)" = ".github/workflows/faro-v5-t4-apks.yml"
-          echo "SOURCE_SHA=$(git rev-parse HEAD^)" >> "$GITHUB_ENV"
+          test "$(git rev-parse HEAD^^)" = "0750ee530703141016c6cd59a5312758d915ad1c"
+          test "$(git diff --name-only 0750ee530703141016c6cd59a5312758d915ad1c HEAD)" = ".github/workflows/faro-v5-t4-apks.yml"
+          echo "SOURCE_SHA=0750ee530703141016c6cd59a5312758d915ad1c" >> "$GITHUB_ENV"
           echo "T4_DEBUG_ONLY_NO_RELEASE_SIGNATURE"
       - name: Set up JDK 21
         uses: actions/setup-java@v4
