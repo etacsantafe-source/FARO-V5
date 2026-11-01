@@ -54,3 +54,8 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - SHA-256 esperado `ad214d30e51f31113d0eb88df2d0c9490310def76bba024f99f63a6b7b099223`.
 - Package `ar.com.faro.alpha.t4saf.v5dev`; firma debug `aeac671eab68e93437c69cc5a7bef7df1333fa42045f73632f24d8cd9b032e9a`.
 - NO prueba ejecutada en teléfono aún. Próximo paso descargar/validar/instalar APK aislada y abrir `FaroV5T4SafSandboxActivity` para permitir selección real de destino SAF con consentimiento y datos sintéticos, después importar/restaurar en cuarentena. Solo tras evidencia de Android se podrá marcar manual SAF PASS limitado al harness, no a producción.
+
+## SAF manual — ROJO reportado por usuario (01/11/2026)
+- El usuario mostró la pantalla `FARO T4 - SAF REAL (datos sintéticos)` abierta en dispositivo: APK auxiliar instalada y Activity visible. Primera captura con casillas desmarcadas y estado `Pendiente de consentimiento. V2 OFF.`.
+- Tras indicación de marcar consentimiento y pulsar exportación, el usuario respondió `Rojo`. **No hay aún mensaje literal posterior a la acción, ni screenshot del error**. Estado `MANUAL_SAF_EXPORT_FAIL_REPORTED_DIAGNOSIS_PENDING`, NO PASS, selector/exportación no comprobada. No inferir fallo de generación, permisos, ni identidad sin evidencia.
+- Se pausa restore, no modificar V2 ni FARO existente. Diagnóstico siguiente: recuperar el mensaje visible en la etiqueta de estado después de pulsar Exportar (o captura de esa pantalla); clasificar si fallo antes del picker, en selección, o en escritura verificada. Corregir sólo caso afectado.
