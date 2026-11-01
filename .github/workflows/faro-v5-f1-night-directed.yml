@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - work/f1-noche-v14-20261031-1820
-      - work/f1-auto-v15-20261101
     paths:
       - "v5/app/**"
       - "v5/platform/web/**"
@@ -185,20 +184,3 @@ jobs:
           if names != expected: raise SystemExit(f'F1_ANDROID_KEYSTORE_XML_MISMATCH {names}')
           print('F1_ANDROID_KEYSTORE_CONSENT_EMULATOR_PASS 2/2; live Groq and physical T4 NOT_RUN')
           PY
-      - name: Build quarantined debug APK without any provider credential
-        working-directory: v5
-        run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug
-          test -s app/build/outputs/apk/debug/app-debug.apk
-          cd app/build/outputs/apk/debug
-          sha256sum app-debug.apk > FARO_F1_debug_SHA256.txt
-          echo 'F1_DEBUG_APK_READY_FOR_HUMAN; V2 OFF; no live provider test'
-      - name: Publish short-lived F1 debug APK and checksum
-        uses: actions/upload-artifact@v4
-        with:
-          name: faro-v5-f1-debug-apk
-          path: |
-            v5/app/build/outputs/apk/debug/app-debug.apk
-            v5/app/build/outputs/apk/debug/FARO_F1_debug_SHA256.txt
-          if-no-files-found: error
-          retention-days: 3

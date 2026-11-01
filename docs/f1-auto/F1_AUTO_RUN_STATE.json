@@ -6,7 +6,7 @@
   "source_sha": "304690d378f02c1553856ca52b6aa7338005cb7b",
   "prior_decision": "docs/S2_A6_BATCHED_PHYSICAL_T4_DECISION_20261031.md",
   "authorization_doc": "docs/f1-auto/F1_AUTO_V15_AUTH_20261031.md",
-  "status": "PENDING_INITIAL_PRECHECK",
+  "status": "FROZEN_READY_FOR_T4",
   "old_source_writer": {
     "state": "ACTIVE",
     "epoch": 6,
@@ -31,8 +31,8 @@
     "s3_open": false,
     "s4_open": false
   },
-  "f1_status": "OPEN",
-  "f1_automated_status": "RUNNING_DIRECTED_GATES",
+  "f1_status": "OPEN_AWAITING_T4",
+  "f1_automated_status": "READY_FOR_T4_FROZEN",
   "t4_physical": "NOT_RUN",
   "start_local": "2026-10-31T23:50:00-03:00",
   "cutoff_local": "2026-11-01T02:50:00-03:00",
@@ -45,7 +45,7 @@
       "evidence": "20/20 JVM, 2/2 Android Keystore, 2/2 Review/Apply/Delivery emulated"
     }
   ],
-  "next_action": "Check GitHub Actions on the manual branch for exact test XML: JVM 20/20, Android Keystore 2/2, F1 isolated Chat/Review/Apply/Delivery 5/5; if RED diagnose and fix in this chat, don't run F2/3/4. If GREEN consider READY_FOR_T4, not CERTIFIED; physical/Groq live deferred.",
+  "next_action": "F1 automated gates FROZEN, exact code SHA 2c79c5f2f18c7742cf2b8b512221a2a7a6430f62, Actions #41266155404 success 27/27. Continue F2 manually only when requested; physical and Groq LIVE in final T4. S2.A6 3/8; V2 OFF.",
   "sessions": [
     {
       "id": "MANUAL_F1_S01_20261031",
@@ -64,5 +64,21 @@
   ],
   "in_flight_actions": [],
   "mode": "MANUAL_CHAT_ONLY",
-  "automation_enabled": false
+  "automation_enabled": false,
+  "freeze": {
+    "status": "READY_FOR_T4_FROZEN",
+    "code_sha": "2c79c5f2f18c7742cf2b8b512221a2a7a6430f62",
+    "action_run_id": 41266155404,
+    "tests": {
+      "jvm": 20,
+      "android_f1": 5,
+      "android_keystore": 2,
+      "total": 27
+    },
+    "physical": "NOT_RUN",
+    "groq_live": "NOT_RUN",
+    "freeze_doc": "docs/f1-auto/F1_FROZEN_READY_FOR_T4_20261101.md",
+    "workflow_auto_push_disabled": true,
+    "apk_download_build_removed": true
+  }
 }
