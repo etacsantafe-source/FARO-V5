@@ -1,5 +1,5 @@
 name: FARO V5 T4 integral SAF - post-picker authorization
-# Retry after aligning T4 unit tests with the repository's JUnit Jupiter dependencies.
+# Targeted retry: Jupiter imports AND boolean-first assertion signatures corrected.
 on:
   push:
     branches: [work/t4-saf-integral-20261101]
