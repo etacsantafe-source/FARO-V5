@@ -1,6 +1,6 @@
 {
   "schema_version": 15,
-  "status": "ACTIVE_WRITER",
+  "status": "AUTOMATED_WORK_COMPLETE_T4_PENDING",
   "mode": "AUTOMATED_NIGHT_V15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/faro-noche-v15-20261101",
@@ -8,20 +8,21 @@
   "source_head": "3f61f5c483d70d05d41048f704c45c4337c21fda",
   "cutoff_local": "2026-11-01T06:00:00-03:00",
   "timezone": "America/Argentina/Cordoba",
-  "automation_enabled": true,
+  "automation_enabled": false,
   "automation_tasks": {
     "A": "6ae6c5c552a88191be5f52fd0b6b133d",
     "B": "6ae6c5c740808191b748e0e79838e797",
     "REPORT": "6ae6c5d4ffe08191b8804bf4b8cb51d0"
   },
   "writer": {
-    "state": "ACTIVE",
-    "owner": "V15_B_20261101_0230",
+    "state": "NONE",
+    "owner": null,
     "epoch": 2,
-    "expected_head": "1c74c79a08c8d2ed746e5afe643d093dfeac32c4",
-    "lease_until": "2026-11-01T05:57:00Z",
-    "acquired_at": "2026-11-01T05:30:11.548Z",
-    "previous_terminal_owner": "V15_A_20261101_0200"
+    "expected_head": null,
+    "lease_until": null,
+    "last_terminal_owner": "V15_B_20261101_0230",
+    "last_terminal_at": "2026-11-01T05:52:28.653Z",
+    "last_terminal_parent_head": "4dd3ddba9406e6e34a0b8a9f5ef4cfdc3b592ce5"
   },
   "stage": {
     "id": "S2.A6",
@@ -83,27 +84,27 @@
     "next": "T4 human SAF picker/consent, provider URI, export+restore five owners on Moto G15; do not enable release V2 or production cutover."
   },
   "f4": {
-    "status": "IN_PROGRESS_INTEGRATED_CI",
+    "status": "READY_FOR_T4_AUTOMATED",
     "source_code_sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
-    "ci": [
+    "evidence": [
       {
-        "id": 41277512819,
+        "action_id": 41277512819,
         "sha": "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
-        "status": "FAILURE_ORACLE_COUNT_ONLY",
-        "note": "initial XML oracle expected 26 Android but class has 6 F1 Compose methods; oracle will be incorrect even if all 27 execute",
-        "jvm": "PASS_36_OF_36",
-        "android": "GRADLE_SUCCESS_27_TESTS_EXECUTED; XML count 6+5+6+8+2; oracle expected 5+5+6+8+2 and failed"
+        "conclusion": "FAILURE_ORACLE_COUNT_ONLY",
+        "jvm": "36/36 PASS",
+        "android": "Gradle 27 tests executed successfully; oracle wrongly expected 26"
       },
       {
-        "id": 41277545474,
+        "action_id": 41277545474,
         "sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
-        "status": "IN_PROGRESS_AFTER_CONCURRENCY",
-        "expected": "JVM 36/36 + Android 27/27 = 63/63",
-        "note": "corrected exact oracle; do not certify until XML terminal"
+        "conclusion": "SUCCESS",
+        "xml": "F4_JVM_CROSS_F1_F2_F3_PASS 36/36; F4_ANDROID_CROSS_F1_F2_F3_PASS 27/27"
       }
     ],
+    "automated_distinct_tests_passed": 63,
     "physical": "NOT_RUN",
-    "next": "Await corrected #41277545474 exact JVM 36/36 and Android 27/27; if green F4 READY_FOR_T4, no more automatic work."
+    "next": "Single Moto G15 T4 campaign only, live Groq/SAF human consent; no production V2 until full S2.A6 certification.",
+    "t4_plan": "docs/faro-noche-v15/T4_SINGLE_CAMPAIGN_PLAN.md"
   },
   "t4": {
     "status": "DEFERRED_BATCHED_PHYSICAL"
@@ -148,45 +149,67 @@
     "activation_commit_only_no_writer_lease": true
   },
   "last_session": {
-    "turn": "A",
-    "slot": "02:00",
-    "window_local": "2026-11-01T02:00:00-03:00/2026-11-01T02:30:00-03:00",
-    "first_observed_utc": "2026-11-01T05:04:40Z",
-    "ended_utc": "2026-11-01T05:25:21.461Z",
-    "writer_owner": "V15_A_20261101_0200",
-    "writer_epoch": 1,
+    "turn": "B",
+    "slot": "02:30",
+    "window_local": "2026-11-01T02:30:00-03:00/2026-11-01T03:00:00-03:00",
+    "first_observed_utc": "2026-11-01T05:29:16Z",
+    "writer_acquired_utc": "2026-11-01T05:30:11.548Z",
+    "ended_utc": "2026-11-01T05:52:28.653Z",
+    "writer_owner": "V15_B_20261101_0230",
+    "writer_epoch": 2,
     "writer_terminal": "RELEASE_COMMIT_CAS",
     "functional_commits": [
-      "79e19ab876062ac103badec2380897da83863505",
-      "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47"
+      "e4ef579453d0028b434f416b79fd4dd9a0ceca2f"
+    ],
+    "documentation_commits": [
+      "7ef7a5fe5b0da9aca39852dbb7d42e9d54ae3e01",
+      "3cd068bf2ce440529d10879d8583b6b760b1a06c",
+      "7ec4a954ecd8a2b51e18d447f71bdfb758bfb6e7"
+    ],
+    "workflow_commits": [
+      "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
+      "0f8e4705632b92215eb6b06a83eb01a5fd939c1e"
     ],
     "actions": [
       {
-        "id": 41275545814,
-        "sha": "79e19ab876062ac103badec2380897da83863505",
-        "conclusion": "FAILURE",
-        "observed_tests": "5 executed, 2 failed, 3 passed; XML oracle SKIPPED",
-        "started_utc": "2026-11-01T05:05:23Z",
-        "ended_utc": "2026-11-01T05:13:01Z",
-        "reason": "test fixture disallowed previous V1 projection during valid rollback"
+        "id": 41277220813,
+        "sha": "e4ef579453d0028b434f416b79fd4dd9a0ceca2f",
+        "conclusion": "SUCCESS",
+        "xml": "F2_JVM_ADMISSION_ACTIVATION_PASS 16/16",
+        "started_utc": "2026-11-01T05:30:47Z",
+        "ended_utc": "2026-11-01T05:33:33Z"
       },
       {
-        "id": 41276096648,
-        "sha": "9b25e27bfc5b7f0cc5c9f5c203f211fa6f72aa47",
+        "id": 41277512819,
+        "sha": "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
+        "conclusion": "FAILURE_XML_COUNT_ONLY",
+        "xml": "JVM36 PASS; Android Gradle 27 executed, oracle expected 26",
+        "started_utc": "2026-11-01T05:35:13Z",
+        "ended_utc": "2026-11-01T05:44:22Z"
+      },
+      {
+        "id": 41277545474,
+        "sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
         "conclusion": "SUCCESS",
-        "xml": "F2_ANDROID_ISOLATED_ACTIVATION_RECOVERY_PASS 5/5",
-        "started_utc": "2026-11-01T05:13:28Z",
-        "ended_utc": "2026-11-01T05:19:15Z"
+        "xml": "JVM36/36 + Android27/27",
+        "created_utc": "2026-11-01T05:35:41Z",
+        "ended_utc": "2026-11-01T05:51:39Z"
       }
     ],
-    "f2_status": "OPEN_AUTOMATED_S02_PASS_PENDING_JVM_REVIEW_AND_T4",
-    "next": "Validate targeted maintenance JVM admission/activation regressions; inspect outdated HEALTH_VERIFIED host downgrade assertion, then decide F2_READY_FOR_T4. Do not start F3 until F2 automatable work done.",
+    "f2_status": "READY_FOR_T4_AUTOMATED",
+    "f3_status": "READY_FOR_T4_AUTOMATED",
+    "f4_status": "READY_FOR_T4_AUTOMATED",
+    "stage_certified": "3/8",
+    "physical": "NOT_RUN",
+    "automation_A_B": "DISABLED_VERIFIED",
     "metrics": {
-      "first_observed_utc": "2026-11-01T05:04:40Z",
-      "last_observed_utc": "2026-11-01T05:25:21.461Z",
-      "ci1_wall_seconds": 458,
-      "ci2_wall_seconds": 347,
-      "ci_wall_not_additive_to_human_time": true,
+      "first_observed_utc": "2026-11-01T05:29:16Z",
+      "writer_acquired_utc": "2026-11-01T05:30:11.548Z",
+      "last_observed_utc": "2026-11-01T05:52:28.653Z",
+      "ci1_wall_seconds": 166,
+      "ci2_wall_seconds": 549,
+      "ci3_queue_plus_run_seconds": 958,
+      "ci_wall_not_additive_to_session": true,
       "exclusive_coding_seconds": "NO_REGISTRADO",
       "exclusive_research_seconds": "NO_REGISTRADO",
       "exclusive_ci_wait_seconds": "NO_REGISTRADO",
@@ -243,70 +266,78 @@
         "exclusive_idle_seconds": "NO_REGISTRADO",
         "useful_ratio": "NO_REGISTRADO"
       }
+    },
+    {
+      "turn": "B",
+      "slot": "02:30",
+      "window_local": "2026-11-01T02:30:00-03:00/2026-11-01T03:00:00-03:00",
+      "first_observed_utc": "2026-11-01T05:29:16Z",
+      "writer_acquired_utc": "2026-11-01T05:30:11.548Z",
+      "ended_utc": "2026-11-01T05:52:28.653Z",
+      "writer_owner": "V15_B_20261101_0230",
+      "writer_epoch": 2,
+      "writer_terminal": "RELEASE_COMMIT_CAS",
+      "functional_commits": [
+        "e4ef579453d0028b434f416b79fd4dd9a0ceca2f"
+      ],
+      "documentation_commits": [
+        "7ef7a5fe5b0da9aca39852dbb7d42e9d54ae3e01",
+        "3cd068bf2ce440529d10879d8583b6b760b1a06c",
+        "7ec4a954ecd8a2b51e18d447f71bdfb758bfb6e7"
+      ],
+      "workflow_commits": [
+        "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
+        "0f8e4705632b92215eb6b06a83eb01a5fd939c1e"
+      ],
+      "actions": [
+        {
+          "id": 41277220813,
+          "sha": "e4ef579453d0028b434f416b79fd4dd9a0ceca2f",
+          "conclusion": "SUCCESS",
+          "xml": "F2_JVM_ADMISSION_ACTIVATION_PASS 16/16",
+          "started_utc": "2026-11-01T05:30:47Z",
+          "ended_utc": "2026-11-01T05:33:33Z"
+        },
+        {
+          "id": 41277512819,
+          "sha": "23bda6efc14c5a559bf2c848974b72ac11b70ad9",
+          "conclusion": "FAILURE_XML_COUNT_ONLY",
+          "xml": "JVM36 PASS; Android Gradle 27 executed, oracle expected 26",
+          "started_utc": "2026-11-01T05:35:13Z",
+          "ended_utc": "2026-11-01T05:44:22Z"
+        },
+        {
+          "id": 41277545474,
+          "sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
+          "conclusion": "SUCCESS",
+          "xml": "JVM36/36 + Android27/27",
+          "created_utc": "2026-11-01T05:35:41Z",
+          "ended_utc": "2026-11-01T05:51:39Z"
+        }
+      ],
+      "f2_status": "READY_FOR_T4_AUTOMATED",
+      "f3_status": "READY_FOR_T4_AUTOMATED",
+      "f4_status": "READY_FOR_T4_AUTOMATED",
+      "stage_certified": "3/8",
+      "physical": "NOT_RUN",
+      "automation_A_B": "DISABLED_VERIFIED",
+      "metrics": {
+        "first_observed_utc": "2026-11-01T05:29:16Z",
+        "writer_acquired_utc": "2026-11-01T05:30:11.548Z",
+        "last_observed_utc": "2026-11-01T05:52:28.653Z",
+        "ci1_wall_seconds": 166,
+        "ci2_wall_seconds": 549,
+        "ci3_queue_plus_run_seconds": 958,
+        "ci_wall_not_additive_to_session": true,
+        "exclusive_coding_seconds": "NO_REGISTRADO",
+        "exclusive_research_seconds": "NO_REGISTRADO",
+        "exclusive_ci_wait_seconds": "NO_REGISTRADO",
+        "exclusive_coordination_seconds": "NO_REGISTRADO",
+        "exclusive_idle_seconds": "NO_REGISTRADO",
+        "useful_ratio": "NO_REGISTRADO"
+      }
     }
   ],
-  "current_session": {
-    "turn": "B",
-    "slot": "02:30",
-    "owner": "V15_B_20261101_0230",
-    "epoch": 2,
-    "started_utc": "2026-11-01T05:30:11.548Z",
-    "ci": [
-      {
-        "id": 41277220813,
-        "sha": "e4ef579453d0028b434f416b79fd4dd9a0ceca2f",
-        "conclusion": "SUCCESS",
-        "xml": "F2_JVM_ADMISSION_ACTIVATION_PASS 16/16",
-        "started_utc": "2026-11-01T05:30:47Z",
-        "ended_utc": "2026-11-01T05:33:33Z"
-      }
-    ],
-    "next": "F4 integrated #41277545474 pending behind #41277512819; exact 36 JVM + 27 Android; physical T4 checklist staged.",
-    "events": [
-      {
-        "utc": "2026-11-01T05:30:21Z",
-        "event": "writer epoch2 acquired"
-      },
-      {
-        "utc": "2026-11-01T05:30:45Z",
-        "event": "F2 JVM test corrected and 16-case gate committed"
-      },
-      {
-        "utc": "2026-11-01T05:33:33Z",
-        "event": "F2 JVM 16/16 PASS #41277220813"
-      },
-      {
-        "utc": "2026-11-01T05:34:05Z",
-        "event": "F2 READY_FOR_T4 frozen, 21 distinct tests"
-      },
-      {
-        "utc": "2026-11-01T05:34:39Z",
-        "event": "F3 READY_FOR_T4 reused 14/14 same blobs"
-      },
-      {
-        "utc": "2026-11-01T05:35:13Z",
-        "event": "F4 initial 62-case oracle run #41277512819 started"
-      },
-      {
-        "utc": "2026-11-01T05:35:41Z",
-        "event": "F4 corrected 63-case oracle run #41277545474 queued"
-      },
-      {
-        "utc": "2026-11-01T05:36:26Z",
-        "event": "T4 single-campaign checklist committed; no APK"
-      },
-      {
-        "utc": "2026-11-01T05:40:43Z",
-        "event": "F4 initial JVM 36/36 PASS #41277512819"
-      },
-      {
-        "utc": "2026-11-01T05:44:18Z",
-        "event": "F4 initial #41277512819 Android Gradle SUCCESS 27 cases; XML oracle failed only wrong expected count 26; JVM 36 PASS"
-      },
-      {
-        "utc": "2026-11-01T05:44:24Z",
-        "event": "Corrected F4 #41277545474 started after queue"
-      }
-    ]
-  }
+  "report_automation_enabled": true,
+  "stop_reason": "F2_F3_F4_ALL_AUTOMATED_READY_FOR_T4_BEFORE_0600"
 }
