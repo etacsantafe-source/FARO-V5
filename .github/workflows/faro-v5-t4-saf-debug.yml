@@ -1,0 +1,84 @@
+name: FARO V5 T4 isolated real SAF picker harness
+
+on:
+  push:
+    branches:
+      - work/faro-t4-build-20261101
+    paths:
+      - .github/workflows/faro-v5-t4-saf-debug.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: faro-v5-t4-saf-real-picker
+  cancel-in-progress: false
+
+jobs:
+  build-and-release-isolated-saf:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify frozen source and debug-only changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 0750ee530703141016c6cd59a5312758d915ad1c HEAD
+          git diff --name-only 0750ee530703141016c6cd59a5312758d915ad1c HEAD | while read -r f; do
+            case "$f" in
+              .github/workflows/faro-v5-t4-apks.yml|.github/workflows/faro-v5-t4-release.yml|.github/workflows/faro-v5-t4-saf-debug.yml|docs/t4/*|v5/app/src/debug/*) ;;
+              *) echo "UNAUTHORIZED_SOURCE_CHANGE: $f"; exit 1 ;;
+            esac
+          done
+          grep -q 'const val V2_ACTIVE_ENABLED: Boolean = false' v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HostCertification.kt
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android platform 37 and tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile standalone debug SAF picker app
+        working-directory: v5
+        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4saf
+      - name: Check identity, signer and hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          cp v5/app/build/outputs/apk/debug/app-debug.apk output/FARO-V5-T4-SAF-PRUEBA.apk
+          {
+            echo 'FUNCTIONAL_SOURCE_SHA=0750ee530703141016c6cd59a5312758d915ad1c'
+            echo "DEBUG_HARNESS_SHA=$GITHUB_SHA"
+            echo 'PURPOSE=REAL_ANDROID_SAF_PICKER_SYNTHETIC_FIVE_STORE_ONLY'
+            echo 'V2_ACTIVE_ENABLED=false'
+            echo 'RELEASE_NOT_FOR_PRODUCTION=true'
+            sha256sum output/FARO-V5-T4-SAF-PRUEBA.apk
+            "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging output/FARO-V5-T4-SAF-PRUEBA.apk | head -n 4
+            "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs output/FARO-V5-T4-SAF-PRUEBA.apk
+          } | tee output/T4-SAF-MANIFEST.txt
+          grep -q "package: name='ar.com.faro.alpha.t4saf.v5dev'" output/T4-SAF-MANIFEST.txt
+      - name: Publish direct GitHub release (one-off)
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG=faro-v5-t4-saf-picker-20261101
+          ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "FARO V5 T4 - SAF manual isolated synthetic demo" \
+            --notes "Solo debug Android; cinco stores sintéticos temporales. SAF picker real, sin datos de FARO, sin V2. No es certificación de exportación de producción." \
+            output/FARO-V5-T4-SAF-PRUEBA.apk output/T4-SAF-MANIFEST.txt
