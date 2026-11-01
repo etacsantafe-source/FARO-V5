@@ -93,7 +93,11 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
             },
         )
 
-        fun coordinator(crashAfterPointer: Boolean = false) =
+        fun coordinator(
+            crashAfterPointer: Boolean = false,
+            failTargetHealth: Boolean = false,
+            crashAfterRollbackPointer: Boolean = false,
+        ) =
             ValidatedGenerationActivationCoordinator(
                 journal = journal,
                 activePointer = pointer,
@@ -107,10 +111,13 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
                         if (crashAfterPointer &&
                             point == GenerationSwitchFaultPoint.AFTER_POINTER_PUBLISH_BEFORE_JOURNAL_ADVANCE
                         ) error("synthetic process death immediately after pointer publication")
+                        if (crashAfterRollbackPointer &&
+                            point == GenerationSwitchFaultPoint.AFTER_ROLLBACK_POINTER_PUBLISH_BEFORE_JOURNAL_ADVANCE
+                        ) error("synthetic process death immediately after rollback pointer publication")
                     },
                 ),
                 runtime = GenerationRuntimeActivationPort { _, generationId ->
-                    if (generationId == previous) true else if (generationId != target) false
+                    if (generationId == previous) true else if (generationId != target || failTargetHealth) false
                     else runCatching {
                         FaroV5GenerationStoreGraph.openActiveV2WithSharedGate(
                             layout.requireStaged(generationId),
@@ -225,5 +232,58 @@ class FaroV5F2IsolatedActivationRecoveryInstrumentationTest {
                 f.gate.isMaterialWriteAdmissionOpen())
             assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
         }
+    }
+
+    @Test
+    fun targetHealthFailureRollsBackRealFiveStorePointerBeforeAnyWriteAdmission() = isolated { f ->
+        val result = f.coordinator(failTargetHealth = true).activate(f.operation)
+        assertTrue("runtime health failure must roll back", result is GenerationActivationResult.RolledBack)
+        val rolled = result as GenerationActivationResult.RolledBack
+        assertEquals(GenerationActivationBlockReason.RUNTIME_HEALTH_FAILED, rolled.failedStep)
+        assertEquals(f.previous, rolled.restoredGenerationId)
+        assertEquals(f.previous, checkNotNull(f.pointer.read()).generationId)
+        val journal = checkNotNull(f.journal.read(f.operation))
+        assertEquals(BootstrapPhase.ROLLBACK_VERIFIED, journal.phase)
+        assertFalse(journal.materialWritesAccepted)
+        assertTrue("target replay must never run", f.replays.isEmpty())
+        assertEquals(listOf(f.previous.value), f.projections)
+        assertFalse(f.gate.isMaterialWriteAdmissionOpen())
+        assertEquals(rolled.restoredGenerationId,
+            (f.coordinator().recover(f.operation) as GenerationActivationResult.RolledBack)
+                .restoredGenerationId)
+        assertEquals(listOf(f.previous.value), f.projections)
+        assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+    }
+
+    @Test
+    fun crashAfterRollbackPointerPublicationRecoversWithoutTargetReplay() = isolated { f ->
+        val failure = runCatching {
+            f.coordinator(
+                failTargetHealth = true,
+                crashAfterRollbackPointer = true,
+            ).activate(f.operation)
+        }.exceptionOrNull()
+        assertTrue("rollback fault must interrupt activation", failure is IllegalStateException)
+        assertEquals(f.previous, checkNotNull(f.pointer.read()).generationId)
+        assertEquals(BootstrapPhase.ROLLBACK_PREPARED,
+            checkNotNull(f.journal.read(f.operation)).phase)
+        assertFalse(f.gate.isMaterialWriteAdmissionOpen())
+        assertTrue(f.replays.isEmpty())
+
+        val recovered = f.coordinator().recover(f.operation)
+        assertTrue(recovered is GenerationActivationResult.RolledBack)
+        assertEquals(f.previous,
+            (recovered as GenerationActivationResult.RolledBack).restoredGenerationId)
+        assertEquals(BootstrapPhase.ROLLBACK_VERIFIED,
+            checkNotNull(f.journal.read(f.operation)).phase)
+        assertEquals(f.previous, checkNotNull(f.pointer.read()).generationId)
+        assertEquals(listOf(f.previous.value), f.projections)
+        assertTrue(f.replays.isEmpty())
+        assertFalse(f.gate.isMaterialWriteAdmissionOpen())
+        assertEquals(f.previous,
+            (f.coordinator().recover(f.operation) as GenerationActivationResult.RolledBack)
+                .restoredGenerationId)
+        assertEquals(1, f.projections.size)
+        assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
     }
 }
