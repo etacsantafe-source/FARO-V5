@@ -1,0 +1,143 @@
+name: FARO V5 F4 integrated F1 F2 F3 regression
+on:
+  push:
+    branches:
+      - work/faro-noche-v15-20261101
+    paths:
+      - ".github/workflows/faro-v5-f4-integrated-directed.yml"
+      - "v5/app/src/main/**"
+      - "v5/app/src/androidTest/**"
+      - "v5/maintenance/src/main/**"
+      - "v5/maintenance/src/test/**"
+      - "v5/platform/web/src/**"
+      - "v5/platform/android/src/**"
+      - "v5/store/generation/src/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-f4-integrated-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  f4-jvm-36:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: F1 web gateway synthetic protocol 10
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :platform:web:test --tests 'ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest'
+      - name: F1 app gateway review and quarantined host 10
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest' --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test' --tests 'ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test'
+      - name: F2 maintenance activation admission and rollback 16
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :maintenance:test --tests 'ar.com.faro.v5.maintenance.GenerationPreSwitchAdmissionT2Test' --tests 'ar.com.faro.v5.maintenance.ValidatedGenerationActivationT2Test'
+      - name: Exact JVM 36 XML oracle
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          expected = {
+            'v5/platform/web/build/test-results/test/TEST-ar.com.faro.v5.platform.web.OpenAiCompatibleModelBindingTest.xml':10,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5TrustedModelGatewayFactoryTest.xml':6,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test.xml':2,
+            'v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test.xml':2,
+            'v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.GenerationPreSwitchAdmissionT2Test.xml':6,
+            'v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.ValidatedGenerationActivationT2Test.xml':10,
+          }
+          for filename,count in expected.items():
+              p=Path(filename)
+              if not p.is_file(): raise SystemExit('F4_JVM_XML_MISSING '+filename)
+              root=ET.parse(p).getroot()
+              actual=tuple(int(root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if actual!=(count,0,0,0): raise SystemExit(f'F4_JVM_XML_FAILED {filename} {actual}')
+          print('F4_JVM_CROSS_F1_F2_F3_PASS 36/36')
+          print('Groq live and T4 physical NOT_RUN; V2 remains OFF')
+          PY
+
+  f4-android-26:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Enable KVM for Android 35 emulator
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; else echo KVM_UNAVAILABLE; fi
+      - name: Cross F1 F2 F3 isolated five-owner emulator integration
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-boot-timeout: 600
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest,ar.com.faro.v5.app.FaroV5F2IsolatedActivationRecoveryInstrumentationTest,ar.com.faro.v5.app.FaroV5F3SafConsentInstrumentationTest,ar.com.faro.v5.app.FaroV5F3QuarantinedSafRoundTripInstrumentationTest,ar.com.faro.v5.app.FaroV5TrustedAssistantAndroidIntegrationTest
+      - name: Exact Android 26 XML oracle
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          expected={'FaroV5F1QuarantinedComposeInstrumentationTest':5,
+                    'FaroV5F2IsolatedActivationRecoveryInstrumentationTest':5,
+                    'FaroV5F3SafConsentInstrumentationTest':6,
+                    'FaroV5F3QuarantinedSafRoundTripInstrumentationTest':8,
+                    'FaroV5TrustedAssistantAndroidIntegrationTest':2}
+          found={name:[] for name in expected}
+          for p in Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'):
+              for case in ET.parse(p).getroot().iter('testcase'):
+                  cls=case.attrib.get('classname','')
+                  for name in expected:
+                      if cls.endswith('.'+name): found[name].append(case)
+          counts={name:len(cases) for name,cases in found.items()}
+          if counts!=expected: raise SystemExit('F4_ANDROID_CASES_MISSING_OR_DUPLICATE '+str(counts))
+          for name,cases in found.items():
+              names=[c.attrib.get('name') for c in cases]
+              if len(names)!=len(set(names)): raise SystemExit('F4_ANDROID_DUPLICATE_TEST '+name)
+              if any(c.find(kind) is not None for c in cases for kind in ('failure','error','skipped')):
+                  raise SystemExit('F4_ANDROID_TEST_FAILED '+name)
+          print('F4_ANDROID_CROSS_F1_F2_F3_PASS 26/26')
+          print('F1-F4 automated integration only; T4 physical and Groq live NOT_RUN; V2_OFF')
+          PY
