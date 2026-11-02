@@ -112,16 +112,17 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "PARTIAL_CI_VERIFIED",
+      "status": "PARTIAL_CI_PENDING_OWNER_BINDING_BLOCKED",
       "claimed_by": null,
-      "head_expected": "d2296680301dfecba448e961a226fb05426ed3e9",
-      "attempts": 2,
+      "head_expected": "aaf6aa2fcac786eeeaa44eec3eaf0ce683815dc4",
+      "attempts": 3,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "action_run_ids": [
         41538658363,
-        41539252466
+        41539252466,
+        41542542171
       ],
-      "checkpoint": "NOCHE_B_1930_DURABLE_HANDOFF_REAL_HOME_PORT_UNBOUND",
+      "checkpoint": "NOCHE_A_2000_DURABLE_SEAM_TESTS_CI_IN_PROGRESS",
       "evidence": {
         "branch_sha": "d2296680301dfecba448e961a226fb05426ed3e9",
         "code_commits": [
@@ -155,7 +156,22 @@
           "A1 accessibility, owner integration and final physical campaign"
         ],
         "physical": "NOT_RUN",
-        "X01_X12": "NOT_RUN"
+        "X01_X12": "NOT_RUN",
+        "owner_seam_commit": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
+        "checkpoint_sha": "aaf6aa2fcac786eeeaa44eec3eaf0ce683815dc4",
+        "code_added": [
+          "FaroV5HomeReadCoordinator.kt",
+          "FaroV5HomeReadCoordinatorTest.kt"
+        ],
+        "directed_ci": {
+          "run_id": 41542542171,
+          "sha": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
+          "status": "IN_PROGRESS",
+          "xml": "NOT_YET_VERIFIED"
+        },
+        "owner_binding": "BLOCKED_MISSING_N022_N031_N032_GUARDADOS_REAL_OWNER",
+        "test_claim": "NONE_FOR_NEW_SHA",
+        "next": "Wait existing CI; do not duplicate. Find canonical owner APIs; no fabricated counts."
       }
     },
     {
@@ -229,16 +245,17 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A1_NOCHE_B_HANDOFF_20261102.md",
-    "commit_sha": "d2296680301dfecba448e961a226fb05426ed3e9",
+    "source": "docs/s3-night/S3_A1_NOCHE_A_2000_HANDOFF_20261102.md",
+    "commit_sha": "aaf6aa2fcac786eeeaa44eec3eaf0ce683815dc4",
     "task_id": "S3-A1",
-    "status": "PARTIAL_CI_VERIFIED_NEXT_OWNER_BINDING",
-    "writer_epoch": 20
+    "status": "PARTIAL_CI_PENDING_OWNER_BINDING_BLOCKED",
+    "writer_epoch": 21,
+    "action_run_id": 41542542171
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
-  "last_committed_sha": "d2296680301dfecba448e961a226fb05426ed3e9",
+  "last_committed_sha": "aaf6aa2fcac786eeeaa44eec3eaf0ce683815dc4",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
   "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
