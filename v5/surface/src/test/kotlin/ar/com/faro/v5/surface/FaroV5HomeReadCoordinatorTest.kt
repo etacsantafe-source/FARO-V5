@@ -57,6 +57,8 @@ class FaroV5HomeReadCoordinatorTest {
         assertThrows(IllegalArgumentException::class.java) {
             owner(" ") { FaroV5HomeCount(1, 1L, "notice.read") }
         }
+        // Keep the JUnit method return type Unit; non-void tests are not discovered.
+        Unit
     }
 
     @Test
