@@ -106,3 +106,27 @@ internal fun faroV5ReviewStateLabel(
     ConversationPlanReviewState.COMMITTED -> "Aplicado y registrado"
     ConversationPlanReviewState.DISCARDED -> "Propuesta descartada"
 }
+
+/**
+ * Presentation only: the canonical proposal, fingerprint and Apply authority
+ * are unchanged. Unknown or invalid actions remain readable verbatim.
+ */
+internal fun faroV5HumanizedActionText(raw: String): String {
+    val trimmed = raw.trim()
+    if (!trimmed.startsWith("{") || !trimmed.endsWith("}")) return raw
+    return try {
+        val action = JSONObject(trimmed)
+        if (action.length() != 2 ||
+            action.optString("type") != "profile.update_declared" ||
+            action.opt("display_name") !is String
+        ) {
+            raw
+        } else {
+            val name = action.getString("display_name").trim()
+            if (name.isBlank() || name.length > 200) raw
+            else "Cambio de nombre declarado\nNuevo nombre: $name"
+        }
+    } catch (_: Exception) {
+        raw
+    }
+}
