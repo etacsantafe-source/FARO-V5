@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test
 
 class FaroV5HomeReadCoordinatorTest {
     private fun owner(source: String, block: suspend () -> FaroV5HomeCount?) =
-        FaroV5HomeOwnerBinding(source, FaroV5HomeIndicatorOwner { block() })
+        FaroV5HomeOwnerBinding(
+            source,
+            FaroV5HomeIndicatorOwner { block() },
+            FaroV5HomeAuthorityStamp { "authorized-generation-1" },
+        )
 
     @Test
     fun realZeroAndUnavailableOwnerRemainDifferent() = runBlocking {
@@ -78,4 +82,88 @@ class FaroV5HomeReadCoordinatorTest {
         val counts = FaroV5HomeReadCoordinator(emptyMap()).readIndicators()
         assertTrue(counts.isEmpty())
     }
+    @Test
+    fun revokedAuthorityDoesNotReadOwnerOrExposeStaleCount() = runBlocking {
+        var ownerReads = 0
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
+                "notice.read",
+                FaroV5HomeIndicatorOwner {
+                    ownerReads++
+                    FaroV5HomeCount(7, 100L, "notice.read")
+                },
+                FaroV5HomeAuthorityStamp { null },
+            )),
+        )
+        assertTrue(adapter.readIndicators().isEmpty())
+        assertEquals(0, ownerReads)
+    }
+
+    @Test
+    fun generationSwitchDuringSuspendedReadFailsClosed() = runBlocking {
+        var probes = 0
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(FaroV5HomeIndicator.PENDIENTES to FaroV5HomeOwnerBinding(
+                "attention.read",
+                FaroV5HomeIndicatorOwner { FaroV5HomeCount(5, 100L, "attention.read") },
+                FaroV5HomeAuthorityStamp {
+                    probes++
+                    if (probes == 1) "generation-1" else "generation-2"
+                },
+            )),
+        )
+        assertTrue(adapter.readIndicators().isEmpty())
+        assertEquals(2, probes)
+    }
+
+    @Test
+    fun revokedAuthorityAfterReadFailsClosed() = runBlocking {
+        var probes = 0
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
+                "notice.read",
+                FaroV5HomeIndicatorOwner { FaroV5HomeCount(3, 100L, "notice.read") },
+                FaroV5HomeAuthorityStamp {
+                    probes++
+                    if (probes == 1) "generation-1" else null
+                },
+            )),
+        )
+        assertTrue(adapter.readIndicators().isEmpty())
+    }
+
+    @Test
+    fun authorityProbeFailureIsUnknownWithoutMaskingOtherOwner() = runBlocking {
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(
+                FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
+                    "notice.read",
+                    FaroV5HomeIndicatorOwner { FaroV5HomeCount(3, 100L, "notice.read") },
+                    FaroV5HomeAuthorityStamp { throw SecurityException("revoked") },
+                ),
+                FaroV5HomeIndicator.ACTIVIDAD_RECIENTE to owner("history.query") {
+                    FaroV5HomeCount(2, 101L, "history.query")
+                },
+            ),
+        )
+        val counts = adapter.readIndicators()
+        assertTrue(FaroV5HomeIndicator.AVISOS !in counts)
+        assertEquals(2, counts[FaroV5HomeIndicator.ACTIVIDAD_RECIENTE]?.count)
+    }
+
+    @Test
+    fun authorityProbeCancellationPropagates() {
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
+                "notice.read",
+                FaroV5HomeIndicatorOwner { FaroV5HomeCount(1, 100L, "notice.read") },
+                FaroV5HomeAuthorityStamp { throw CancellationException("host switched") },
+            )),
+        )
+        assertThrows(CancellationException::class.java) {
+            runBlocking { adapter.readIndicators() }
+        }
+        Unit
+    }
+
 }

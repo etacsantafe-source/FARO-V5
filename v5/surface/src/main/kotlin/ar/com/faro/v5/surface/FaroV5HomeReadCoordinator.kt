@@ -11,10 +11,20 @@ fun interface FaroV5HomeIndicatorOwner {
     suspend fun readCount(): FaroV5HomeCount?
 }
 
-/** Provenance is explicitly bound to the owner, never inferred from a label. */
+/**
+ * Owner-supplied, authorization-scoped active-generation stamp.
+ * A null/blank stamp means that the owner cannot prove current read authority.
+ * This is not a new owner or a substitute for its canonical ACL checks.
+ */
+fun interface FaroV5HomeAuthorityStamp {
+    suspend fun readStamp(): String?
+}
+
+/** Provenance and read authority are bound to the canonical owner, never inferred from a label. */
 data class FaroV5HomeOwnerBinding(
     val expectedCanonicalSource: String,
     val readPort: FaroV5HomeIndicatorOwner,
+    val authorityStamp: FaroV5HomeAuthorityStamp,
 ) {
     init {
         require(expectedCanonicalSource.isNotBlank())
@@ -28,10 +38,21 @@ data class FaroV5HomeOwnerBinding(
 class FaroV5HomeReadCoordinator(
     private val owners: Map<FaroV5HomeIndicator, FaroV5HomeOwnerBinding>,
 ) : FaroV5HomeReadPort {
+    private suspend fun admittedStamp(binding: FaroV5HomeOwnerBinding): String? =
+        try {
+            binding.authorityStamp.readStamp()?.takeIf { it.isNotBlank() }
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (_: Exception) {
+            null
+        }
+
     override suspend fun readIndicators(): Map<FaroV5HomeIndicator, FaroV5HomeCount> {
         val visible = linkedMapOf<FaroV5HomeIndicator, FaroV5HomeCount>()
         for (indicator in FaroV5HomeIndicator.entries) {
             val binding = owners[indicator] ?: continue
+            // Reject unavailable or revoked authority before touching owner data.
+            val before = admittedStamp(binding) ?: continue
             val count = try {
                 binding.readPort.readCount()
             } catch (cancelled: CancellationException) {
@@ -40,8 +61,11 @@ class FaroV5HomeReadCoordinator(
                 // A failed or unauthorized owner is not an empty result.
                 null
             }
-            // A miswired owner must not show another domain's number.
-            if (count != null && count.canonicalSource == binding.expectedCanonicalSource) {
+            // A generation/ACL change during suspension invalidates the entire read.
+            val after = admittedStamp(binding)
+            if (after == before && count != null &&
+                count.canonicalSource == binding.expectedCanonicalSource
+            ) {
                 visible[indicator] = count
             }
         }
