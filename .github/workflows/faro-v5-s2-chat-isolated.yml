@@ -45,6 +45,10 @@ jobs:
         run: |
           set -euo pipefail
           grep -q 'FaroV5F1IsolatedChatActivity' v5/app/src/debug/AndroidManifest.xml
+          # T4 on-device UX: debug Chat stays in Recents; secret entry remains screenshot-protected.
+          grep -Fq 'android:excludeFromRecents="false"' v5/app/src/debug/AndroidManifest.xml
+          grep -Fq 'window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)' v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5AiSettingsActivity.kt
+          grep -Fq 'faroV5HumanizedActionText(review.reviewText)' v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5PlanReview.kt
           grep -q 'const val V2_ACTIVE_ENABLED: Boolean = false' v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HostCertification.kt
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging v5/app/build/outputs/apk/debug/app-debug.apk | grep "package: name='ar.com.faro.alpha.s2isolated.v5dev'"
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs v5/app/build/outputs/apk/debug/app-debug.apk
