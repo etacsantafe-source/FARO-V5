@@ -31,3 +31,9 @@ El runner Python actual sólo ejecuta comprobaciones READ_ONLY de la allowlist. 
 
 ## Requisitos antes de certificar Noche activa
 Demostrar en el momento de activar que ambos turnos usan realmente la misma cola CLOUD y writer, que los permisos GitHub funcionan en cada sesión, que se puede retomar un checkpoint y que el STOP ante writer ocupado es efectivo. No confundir pasar CI con habilitar schedules.
+
+## Evidencia adicional al cerrar la preparación
+- CI final Actions #41528974614: SUCCESS tras ejecutar preflight antes de los tests y excluir los caches Python del control de cambios.
+- Cola CLOUD: prueba de CAS real (primera escritura y rechazo de SHA obsoleto) PASS, restauración STAGED inactiva; ref final df09448783ec1cf02256e540e291955437d5e6c5.
+- Writer final observado RELEASED después de prueba cola; conservar exclusividad al habilitar turnos.
+- Las 25 automatizaciones históricas consultadas permanecieron desactivadas. No hay horarios activados.

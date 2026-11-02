@@ -5,8 +5,8 @@
   "trigger_action": "RECOVER_CONTEXT_READ_ONLY_NO_EXECUTION",
   "updated_local_date": "2026-11-02",
   "repository": "etacsantafe-source/FARO-V5",
-  "branch": "work/s2-chat-finish-night-20261102",
-  "phase": "S2_CLOSED",
+  "branch": "work/faro-auto-v2-integration-20261102",
+  "phase": "S2_CLOSED_S3_NIGHT_ACTIVATION_PENDING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,18 +18,23 @@
   "s3_open": false,
   "s4_open": false,
   "writer": {
-    "last_documented": "NONE",
-    "must_revalidate_before_any_write": true
+    "last_documented": "RELEASED",
+    "must_revalidate_before_any_write": true,
+    "coordination_ref": "refs/heads/faro-v5-writer-lock",
+    "queue_ref": "refs/heads/faro-v5-night-queue",
+    "cas_probes": "PASS_API_WRITER_AND_CLOUD_QUEUE;PASS_REMOTE_GIT_CI",
+    "no_auto_takeover": true
   },
   "automation": {
-    "current_status": "NOT_LIVE_VERIFIED",
-    "activation_authorized": false
+    "current_status": "ALL_25_DISABLED_VERIFIED",
+    "activation_authorized": false,
+    "s3_noche_activation_only_after_explicit_user_decision": true
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s2-night/HANDOFF_NEXT_CHAT_S2_CLOSED_20261102.md",
+  "handoff": "docs/v5/FARO_NOCHE_S3_ACTIVATION_HANDOFF_20261102.md",
   "historical_night_v15": "docs/faro-noche-v15/RUN_STATE.json",
-  "next": "Recover protocol and verify actual Auto/Noche installation, workers, queue, active automations, writer/CAS. Discuss before doing any work.",
+  "next": "RECOVER READ_ONLY. S3 design and Noche infrastructure ready for activation checks. Only after explicit user authorization in a new chat: open S3, enable cloud queue, configure two Night sessions. No implicit execution.",
   "permissions": "NO_AUTO_EXECUTION_NO_S3_S4_NO_V2_ACTIVATION",
-  "checkpoint_status": "CLEAN_DOCUMENTARY_HANDOFF",
-  "notes": "Branch HEAD must be read live on next chat; never treat this pointer as a live lease or current CI status."
+  "checkpoint_status": "NIGHT_INFRA_PREPARED_CAS_AND_CI_PASS_ACTIVATION_PENDING",
+  "notes": "Current writer/queue statuses must be re-read live; GitHub 2026-11-02 tests #41528974614 and #41528236429 were SUCCESS. This checkpoint is documentary, not a lock."
 }
