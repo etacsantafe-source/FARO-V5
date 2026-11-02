@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """FARO writer v2. Exclusive GitHub ref CAS. Never auto-steal an existing lock."""
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -47,6 +48,9 @@ def ref():
 def record(sha):
     if sha == ZERO:
         return None
+    git("fetch", "--no-tags", REMOTE, REF)
+    if git("rev-parse", "FETCH_HEAD") != sha:
+        raise Stop("writer changed during fetch")
     raw = git("show", sha + ":writer.json")
     return json.loads(raw)
 
@@ -90,7 +94,7 @@ def main():
         if args.target_head != head():
             raise Stop("target HEAD mismatch")
         value = {"schema": 1, "status": "HELD", "owner": args.owner,
-                 "token": args.token, "target_head": args.target_head,
+                 "token_hash": hashlib.sha256(args.token.encode()).hexdigest(), "target_head": args.target_head,
                  "epoch": (state or {}).get("epoch", 0) + 1,
                  "timestamp": int(time.time())}
         publish(old, value)
@@ -98,7 +102,7 @@ def main():
         return
     if state is None or state.get("status") != "HELD":
         raise Stop("writer not held")
-    if state.get("owner") != args.owner or state.get("token") != args.token:
+    if state.get("owner") != args.owner or state.get("token_hash") != hashlib.sha256(args.token.encode()).hexdigest():
         raise Stop("writer identity mismatch")
     if args.action == "verify":
         if args.target_head != state.get("target_head") or head() != args.target_head:
