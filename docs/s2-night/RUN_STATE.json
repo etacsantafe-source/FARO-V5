@@ -2,7 +2,7 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A3_CI_OOM_RECOVERY_TRIGGERED",
+  "session": "NIGHT_A3_CI_MEMORY_FIX_HANDOFF_CLEAN",
   "branch": "work/s2-chat-finish-night-20261102",
   "last_functional_commit": "7b740e9fcaefb264f284a0d0feed82d56aa2ac45",
   "writer": "NONE",
@@ -47,6 +47,19 @@
       "sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
       "status": "completed",
       "conclusion": "cancelled"
+    },
+    {
+      "run_id": 41398800844,
+      "sha": "bcafb2e3a05e6e84706810acbed1da30f36c943e",
+      "status": "completed",
+      "conclusion": "failure",
+      "reason": "workflow YAML invalid (literal escaped newline); corrected in 2e241312"
+    },
+    {
+      "run_id": 41398844415,
+      "sha": "2e2413121f2a32c1cce6199870621424a084ba6c",
+      "status": "in_progress",
+      "conclusion": null
     }
   ],
   "not_verified": [
@@ -62,7 +75,7 @@
     "A5 Android ContentResolver 3 tests now committed but not executed",
     "Latest workflow 5/5 Android + A5 9/9 JVM not executed"
   ],
-  "next": "CI memory fix in workflow triggers one new run on branch. Inspect new Actions run, verify Gradle compile and 9/9 A5 JVM + 5/5 Android XML, fix RED, produce verified APK. Keep F1/T4 OPEN until evidence.",
+  "next": "Run #41398844415 is the sole active targeted CI for the A5/F1 integration, on SHA 2e241312. Do NOT start another run or write source while active. Check logs/XML after it completes; if RED fix only affected part. If PASS verify APK package ar.com.faro.alpha.s2isolated.v5dev, SHA256 and apksigner; then one minimal T4 physical campaign. S2 stays OPEN 6/8.",
   "prepared_next_commit": null,
   "android_test_published": true,
   "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS."
