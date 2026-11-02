@@ -32,3 +32,13 @@ La fuente autoritativa actual de esta rama es [`docs/s2/S2_A6_CURRENT.json`](S2_
 - Los «VERDE» físicos V5 son resultados **informados por el usuario**, no capturas del estado final. Esta distinción no invalida el avance SAF, pero impide inventar detalle literal adicional.
 
 **No se requieren más certificaciones documentales repetidas**: resolver solamente el bloqueo integrado F1/T4 y, cuando exista evidencia, actualizar el contador a 8/8 mediante un único dictamen final.
+
+## Decisión humana posterior: congelación de recorridos imposibles (02/11/2026)
+
+**APROBADO — CONGELAR F1 (#4) Y T4 (#8)**. Motivo: el usuario indicó que los recorridos completos no pueden realizarse todavía porque faltan funciones visibles, especialmente Chat. El código confirma `V2_ACTIVE_ENABLED=false` y la superficie Chat integrada de producción no está disponible para esa prueba física. Seguir repitiendo SAF no puede desbloquearlos.
+
+**Estado operativo:** `S2.A6 = OPEN, EXECUTION FROZEN_HANDOFF_CLEAN, 6/8 CERTIFIED`. No se confunde «congelado» con «certificado»: permanecen abiertos los criterios 4 y 8, con dependencia documentada de una superficie integrada Chat → Review → Apply → receipt → Delivery → reinicio/recuperación en un único APK aislado. Los seis restantes **ya certificados** no se deshacen, ni se vuelven a probar por formalidad.
+
+**Reanudación:** cuando exista una UI Chat integrada segura y testeable sin afectar la V1, retomar únicamente F1/T4 contra los contratos congelados; obtener los consentimientos humanos de Android donde corresponda. No habilitar V2 prematuramente, no modificar main, no abrir S3/S4 ni activar FARO Noche por esta decisión. El desarrollo/certificación pendiente queda congelado sin más órdenes de prueba inmediata al usuario.
+
+**No declarar «S2 COMPLETADA» ni «8/8»**: este es un handoff técnico-documental con bloqueo explícito. El progreso de las otras fases requiere autorización y un plan separado; no se deriva de congelar estos dos criterios.
