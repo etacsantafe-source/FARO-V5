@@ -11,5 +11,5 @@
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "activation_requires": "EXPLICIT_USER_APPROVAL_IN_NEW_CHAT",
   "last_committed_sha": "2080a25ec88e0b127cf1ba38728c687429781f57",
-  "cas_probe": "IN_PROGRESS"
+  "cas_probe": "PASS_STALE_CAS_REJECTED"
 }
