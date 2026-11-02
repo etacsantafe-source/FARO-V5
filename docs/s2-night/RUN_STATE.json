@@ -1,22 +1,19 @@
 {
   "schema_version": 1,
-  "phase": "S2.A6",
+  "phase": "S2_CLOSED",
   "date_local": "2026-11-02",
-  "session": "NIGHT_B4_FINAL_AUTOMATED_GATE_AND_SINGLE_APK_HANDOFF",
+  "session": "S2_FINAL_PHYSICAL_EVIDENCE_CLOSURE",
   "branch": "work/s2-chat-finish-night-20261102",
   "last_functional_commit": "def90be3cafc7fec25885448315a57b5215eda0b",
   "writer": "NONE",
   "handoff": "CLEAN",
-  "certified": 6,
+  "certified": 8,
   "total": 8,
-  "open_criteria": [
-    4,
-    8
-  ],
+  "open_criteria": [],
   "v2_active_enabled": false,
   "s3_open": false,
   "s4_open": false,
-  "physical_t4": "NOT_RUN",
+  "physical_t4": "PASS_USER_OBSERVED_WITH_SQLITE_READ_ONLY_EVIDENCE",
   "implemented": [
     "debug launcher FaroV5F1IsolatedChatActivity with Keystore/consent-gated real Groq",
     "persistent quarantined five-owner Workspace Composer Timeline Review",
@@ -89,15 +86,13 @@
     }
   ],
   "not_verified": [
-    "physical Moto G15 single integrated T4",
-    "live Groq with on-device consent and local credential",
-    "physical Chat→Review→Apply→receipt→Delivery→restart without duplicates"
+    "Android OS notification POSTED_TO_OS is outside isolated T4: intentionally not dispatched by quarantine port; delivery_intent PLANNED is expected"
   ],
-  "next": "Only one minimal Moto G15 consented physical F1/T4 journey; no further autonomous coding or CI required unless physical RED. Do not declare S2 8/8 without evidence.",
+  "next": "S2 frozen. Do not activate V2 or open S3/S4 without separate human authorization. No further physical T4 tests.",
   "prepared_next_commit": null,
   "android_test_published": true,
   "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS.",
-  "execution_state": "READY_FOR_SINGLE_MINIMAL_PHYSICAL_T4",
+  "execution_state": "S2_CLOSED_FROZEN_V2_OFF",
   "automated_validation": {
     "run_id": 41421309967,
     "head_sha": "def90be3cafc7fec25885448315a57b5215eda0b",
@@ -106,7 +101,7 @@
     "jvm_f1": "4/4 PASS XML",
     "jvm_a5": "9/9 PASS XML",
     "android_integrated": "5/5 PASS XML",
-    "physical_t4": "NOT_RUN"
+    "physical_t4": "PASS_USER_OBSERVED_SQLITE_RECEIPT_NOTICE_UNIQUE"
   },
   "apk": {
     "artifact_id": 13129913168,
@@ -117,5 +112,12 @@
     "sha256": "0efe51ea514eb49407e166a08865ee9499b47bb9c48c5b6a9f579113f7efc238",
     "signer_sha256": "cc14bcf1b2890e8fabcfcab0e2d8f18f23a98c9e7beb6a7af796dfd589b106db",
     "artifact_zip_sha256": "ab57643b082c761149010165a1c1539762cac5da4bf2b1e65bc9fbc5c5c0b638"
+  },
+  "final_evidence": {
+    "ci": "Actions #41421309967 18/18 XML PASS; later UI fix Actions green reported by user, XML not independently retrieved",
+    "physical": "Groq chat, review, Apply, restart persistence observed by user",
+    "sqlite": "5 stores integrity OK; Reality 1 COMMITTED 1 matching receipt; Workspace 13 distinct receipts; Auxiliary 1 notice and 1 matching delivery intent",
+    "delivery": "PLANNED expected: isolated port explicitly documents no OS notification dispatch and dispatcher optional; durable Auxiliary notice is certified, not OS delivery",
+    "source": "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5QuarantinedReviewedApplyDeliveryPort.kt"
   }
 }
