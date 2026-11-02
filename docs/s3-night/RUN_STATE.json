@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "phase": "S3_OPEN",
+  "date_local": "2026-11-02",
+  "timezone": "America/Argentina/Cordoba",
+  "branch": "work/s3-night-20261102",
+  "base_sha": "bef2ee4db9d09f073db0eef6f63fc92e76f70bcb",
+  "s2_status": "CLOSED_8_OF_8_FROZEN",
+  "app_v2": "OFF",
+  "s4": "OFF",
+  "night": "PREPARING",
+  "authorization": "EXPLICIT_USER_2026-11-02",
+  "deadline": "2026-11-02T22:00:00-03:00",
+  "writer": "SINGLE_CAS_GITHUB_REF",
+  "writer_ref": "refs/heads/faro-v5-writer-lock",
+  "queue_ref": "refs/heads/faro-v5-night-queue",
+  "night_slots": [
+    "A:19:00/20:00/21:00",
+    "B:19:30/20:30/21:30"
+  ],
+  "slots_status": "UNSCHEDULED",
+  "gates": {
+    "shared_queue_two_sessions": "NOT_RUN",
+    "competing_writer_safe_stop": "NOT_RUN",
+    "contract_freeze": "NOT_RUN",
+    "physical_at_end": "NOT_RUN"
+  },
+  "tasks": [
+    "S3-N00",
+    "S3-P00",
+    "S3-A1",
+    "S3-A2",
+    "S3-A3",
+    "S3-A4",
+    "S3-A5"
+  ],
+  "next": "Stage shared CLOUD queue by CAS; schedule A/B only after lock release. At 22:00 stop writes; final report 22:10 READ_ONLY.",
+  "restrictions": [
+    "No S4",
+    "No V2 activation",
+    "No historical repo/main mutations",
+    "No paid API",
+    "No physical tests before final campaign",
+    "No claim of PASS without evidence",
+    "No automation beyond deadline"
+  ]
+}

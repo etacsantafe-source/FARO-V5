@@ -5,36 +5,35 @@
   "trigger_action": "RECOVER_CONTEXT_READ_ONLY_NO_EXECUTION",
   "updated_local_date": "2026-11-02",
   "repository": "etacsantafe-source/FARO-V5",
-  "branch": "work/faro-auto-v2-integration-20261102",
-  "phase": "S2_CLOSED_S3_NIGHT_ACTIVATION_PENDING",
+  "branch": "work/s3-night-20261102",
+  "phase": "S3_OPEN_NIGHT_PREP",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
     "total": 8,
-    "state_file": "docs/s2-night/RUN_STATE.json",
-    "physical_evidence": "docs/s2-night/T4_PHYSICAL_UI_FIX_HANDOFF_20261102.md"
+    "state_file": "docs/s2-night/RUN_STATE.json"
   },
   "app_v2_enabled": false,
-  "s3_open": false,
+  "s3_open": true,
   "s4_open": false,
   "writer": {
-    "last_documented": "RELEASED",
-    "must_revalidate_before_any_write": true,
     "coordination_ref": "refs/heads/faro-v5-writer-lock",
     "queue_ref": "refs/heads/faro-v5-night-queue",
-    "cas_probes": "PASS_API_WRITER_AND_CLOUD_QUEUE;PASS_REMOTE_GIT_CI",
+    "must_revalidate_before_any_write": true,
     "no_auto_takeover": true
   },
   "automation": {
-    "current_status": "25_DISABLED_VERIFIED_20261102",
-    "activation_authorized": false,
-    "s3_noche_activation_only_after_explicit_user_decision": true
+    "activation_authorized": true,
+    "authorized_until": "2026-11-02T22:00:00-03:00",
+    "time_zone": "America/Argentina/Cordoba",
+    "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
+    "status": "PREPARING_SCHEDULES"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/v5/FARO_V5_S3_PRE_NOCHE_HANDOFF_CLEAN_20261102.md",
-  "historical_night_v15": "docs/faro-noche-v15/RUN_STATE.json",
-  "next": "En chat nuevo: continuar FARO V5, recuperar este handoff READ_ONLY, verificar writer y cola, resolver congelación contractual S3 y pedir autorización explícita para S3/Noche. Sin activación por continuidad.",
-  "permissions": "NO_AUTO_EXECUTION_NO_S3_S4_NO_V2_ACTIVATION",
-  "checkpoint_status": "HANDOFF_CLEAN_S3_DESIGN_AND_NIGHT_PREP_VERIFIED_NOT_ACTIVATED",
-  "notes": "Current writer/queue statuses must be re-read live; GitHub 2026-11-02 tests #41528974614 and #41528236429 were SUCCESS. This checkpoint is documentary, not a lock."
+  "handoff": "docs/s3-night/RUN_STATE.json",
+  "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
+  "permissions": "S3_ONLY_UNTIL_22;NO_S4;NO_APP_V2;NO_MAIN;NO_V4.4_WRITES;NO_PAID_APIS;PHYSICAL_TESTS_AT_END",
+  "next": "Read RUN_STATE and queue.json. Validate shared CAS writer and CLOUD queue using both A/B. Start bounded contract freeze P00 before A1; no false PASS. All mutation stops at 22:00 AR.",
+  "checkpoint_status": "S3_OPEN_NIGHT_SCHEDULE_PENDING",
+  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical."
 }
