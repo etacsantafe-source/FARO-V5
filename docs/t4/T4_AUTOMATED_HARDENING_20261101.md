@@ -76,3 +76,32 @@ Log de error: `NoSuchMethodError: No static method readString(Ljava/nio/file/Pat
 Instalar este APK **aislado** en Moto G15 y verificar **una exportación + una restauración SAF** con consentimiento nuevo y contenido sintético no vacío. No volver a ejecutar JVM/emulador en teléfono; no sustituir el APK V4 que ya tenía export/restore VERDE, ni quitar FARO habitual. Como dos paquetes tienen etiqueta parecida, abrir mediante `adb shell am start -n ar.com.faro.alpha.t4saf5.v5dev/ar.com.faro.v5.app.FaroV5T4SafIntegralActivity` para garantizar identidad.
 
 **T4 global NO CERTIFICADO / S2.A6 3/8 / V2 OFF.** El PASS de un harness sintético, aunque sea físico, no equivale a F3 productiva. Los otros criterios 4–8 deben evaluarse contra sus contratos congelados, sin cambiar estados por inferencia. GitHub `main` sigue protegida sin cambios productivos.
+
+## Campaña física SAF V5 positiva — Moto G15, 02/11/2026 ~00:08–00:15 ART
+
+### Evidencia y trazabilidad
+- APK identidad: `FARO-V5-T4-SAF-AUTO-V5.apk`, SHA-256 `2619ce5ecc9ff1a34f9b460506147742022ef0eab14991e40869c8743afdd789`, paquete `ar.com.faro.alpha.t4saf5.v5dev`, release `faro-v5-t4-saf-auto-v5-20261101`.
+- El usuario mostró salida de Termux `FARO-V5-T4-SAF-AUTO-V5.apk: OK` (hash validado). La primera instalación no encontró dispositivo ADB; después de reconectar por depuración inalámbrica, el usuario comunicó `Ya abrió` tras el comando que instalaba y abría específicamente el componente V5. **No hay salida literal `Success` de esta segunda ejecución**, aunque se comprobó apertura de la Activity.
+- **Captura física aportada por usuario** en Moto G15 aproximadamente a las 00:12 ART: Activity `FARO T4 - SAF integral aislado`, checkbox desmarcado y mensaje exacto `Falta consentimiento NUEVO después del selector.` → gate posterior al selector observado. La imagen no contiene URI ni nombre de archivo; no se sube al repo.
+- Luego de marcar consentimiento y confirmar EXPORT, el usuario comunicó `Verdw` (interpretado como `Verde`) siguiendo la secuencia de exportación de `FARO-T4-V5-PRUEBA`. **`T4_V5_SAF_EXPORT_PHYSICAL=PASS_REPORTED_BY_USER`**. No hay captura del texto final completo.
+- Luego de elegir el respaldo sintético para restaurar y conceder un consentimiento NUEVO, el usuario comunicó `Verde`. **`T4_V5_SAF_RESTORE_PHYSICAL=PASS_REPORTED_BY_USER`**. No hay captura del estado final completo ni log externo; registrar con esta granularidad.
+- **Interpretación del verde de restore acotada al código V5 autenticado**: la rutina `restoreSelected` solo devuelve `VERDE` tras verificar FAROBAK2, journal `Validated`, igualdad semántica por cinco owners con archivo autenticado, presencia de datos no vacíos por owner, puntero anterior intacto, sentinel sintético V1 intacto y V2 OFF. Esta inferencia depende de que el verde reportado corresponda a esa ruta en esta APK; **no confundir la inferencia de código con una captura literal**.
+- GitHub Actions automático `#41379627980` completed/success, **7/7 JVM y 25/25 Android emulado**; release `#41380364442` completed/success y firma/hash validados. Estos PASS son independientes de las observaciones físicas, no se suman como casos extra inventados.
+- **Resultado de la campaña:** SAF real Android picker V5 aislado, export+restore principal **VERDE reportado por usuario**, con consentimiento posterior demostrado en captura. No solicitar repetir los mismos pasos de V4/V5 sin detectar una regresión concreta.
+
+### Evaluación dirigida contra criterios congelados S2.A6
+| # | Criterio congelado | Evidencia disponible | Decisión segura |
+|---|---|---|---|
+| 1 | FIVE_OWNERS | Certificación previa | CERTIFIED, sin cambio |
+| 2 | FBS2_ISOLATED_RESTORE | Certificación previa | CERTIFIED, sin cambio |
+| 3 | JOURNAL_REPLAY_WAL | Certificación previa | CERTIFIED, sin cambio |
+| 4 | F1_ANDROID_CHAT_E2E | F4 36 JVM / 27 Android emulados; 27 físicos instrumentados PASS reportados + Groq debug/revocación PASS reportados, pero faltan receipts físicos claros de la cadena Chat→Review→Apply→Delivery/Keystore | OPEN; evidencia fragmentaria, no declarar certificación global |
+| 5 | F2_ANDROID_ACTIVATION_RECOVERY | F2 5 Android automatizados dentro #41379627980 + F4 integración 27/27 anterior; pruebas de recuperación y puntero aislado | READY_FOR_T4 / OPEN formal; revisar criterio físico exacto antes de firmar |
+| 6 | F3_FIVE_STORE_BACKUP_SAF_CONSENT | F3 14 Android automatizados dentro #41379627980; SAF V4 físico y SAF V5 **con fixture no vacío** reportados verdes, journaling/sentinels aislados | PASS de escenario aislado; OPEN formal para flujo productivo `V2_ACTIVE_ENABLED=false` |
+| 7 | F4_INTEGRAL_REGRESSIONS | #41277545474, 36/36 JVM + 27/27 Android, SHA ancestro productivo sin `src/main` distinto | Gate automático PASS probado; criterio OPEN en estado congelado hasta valoración/registro formal de cierre |
+| 8 | T4_PHYSICAL | SAF V5 verde reportado; 27/27 Android físicos instrumentados y Groq debug/revocación reportados anteriormente. No se tiene evidencia completa observada de campaña T4 F1→F4 integrada sobre un único APK ni de la transición de producción | EN_CURSO; no afirmar T4 global PASS/CERTIFIED |
+
+**Contador durable sin cambios: S2.A6 = 3/8 certificados, OPEN.** Esta tabla **no descalifica** los PASS técnicos: explicita qué está aprobado y dónde sigue faltando autoridad/evidencia. F4 automático no se vuelve a correr por formalidad; F3 productiva no se habilita para fabricar un verde. S3/S4 no abiertos; `main` intacta, sin cambios a `src/main`.
+
+### Decisión siguiente
+El recorrido SAF sintético está hecho; **no pedir más selecciones SAF por ahora**. Priorizar recuperación de evidence/receipts físicos previos F1/F2/F4 contra el contrato de criterio 4/5/7 y delimitar si el criterio T4 exige una prueba integradora final. Si sigue faltando una operación productiva, revisar su autoridad técnica y ofrecer un plan seguro separado, nunca activar V2 silenciosamente.
