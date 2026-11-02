@@ -14,14 +14,33 @@
       "title": "Demostrar A/B misma cola CLOUD y writer CAS",
       "priority": "P0",
       "depends_on": [],
-      "status": "PENDING",
+      "status": "WAITING_B",
       "claimed_by": null,
-      "head_expected": null,
-      "attempts": 0,
+      "head_expected": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+      "attempts": 1,
       "acceptance": "A y B leen misma queue SHA, verifican writer y permisos, prueban STOP y recuperan checkpoint en una tarea inocua; sin efectos funcionales",
       "action_run_ids": [],
-      "checkpoint": null,
-      "evidence": null
+      "checkpoint": "NOCHE_A_GATE_PROBE_RECORDED_WAIT_B",
+      "evidence": {
+        "NOCHE_A": {
+          "observed_utc": "2026-11-02T22:00:50Z",
+          "cloud_queue_ref": "refs/heads/faro-v5-night-queue",
+          "queue_sha_seen": "7a2f9366aac5069689ce0f15943aa53ea17689dc",
+          "writer_ref": "refs/heads/faro-v5-writer-lock",
+          "writer_acquire_sha": "3addddb2956114d71deb8cdda3b485197ea1c5a8",
+          "writer_epoch": 12,
+          "writer_owner": "NOCHE_A.S3N00.20261102T1900",
+          "branch_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+          "writer_cas_acquire": "PASS",
+          "other_owner_stop": "PASS_LOCAL_GUARD_OBSERVED_HELD",
+          "stale_expected_cas": "INCONCLUSIVE_GITHUB_ERROR_GENERIC_REF_UNCHANGED",
+          "checkpoint_recovery": "READ_PREVIOUS_QUEUE_CHECKPOINT_PASS",
+          "ci_status": "NO_RUNS_ON_S3_BRANCH",
+          "s3_branch_mutated": false
+        },
+        "NOCHE_B": null,
+        "combined": "PENDING_B_INDEPENDENT_PROOF"
+      }
     },
     {
       "task_id": "S3-P00",
@@ -126,10 +145,11 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/RUN_STATE.json",
+    "source": "queue.json",
     "commit_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
     "task_id": "S3-N00",
-    "status": "READY_FOR_FIRST_NIGHT_TURN"
+    "status": "NOCHE_A_RECORDED_WAIT_B",
+    "writer_epoch": 12
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
