@@ -9,6 +9,8 @@ on:
       - scripts/v5/faro-guarded-run.py
       - scripts/v5/test_faro_guarded_run.py
       - scripts/v5/faro-auto-v2-readiness.py
+      - scripts/v5/faro-auto-v2-queue.py
+      - scripts/v5/faro-auto-v2-resource.py
       - .github/workflows/faro-auto-v2-writer-tests.yml
   workflow_dispatch:
 permissions:
@@ -24,7 +26,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Python syntax and unit checks (no GitHub writes)
         run: |
-          python3 -m py_compile scripts/v5/faro-writer-cas.py scripts/v5/test_faro_writer_cas.py scripts/v5/faro-guarded-run.py scripts/v5/test_faro_guarded_run.py scripts/v5/faro-auto-v2-readiness.py
+          python3 -m py_compile scripts/v5/faro-writer-cas.py scripts/v5/test_faro_writer_cas.py scripts/v5/faro-guarded-run.py scripts/v5/test_faro_guarded_run.py scripts/v5/faro-auto-v2-readiness.py scripts/v5/faro-auto-v2-queue.py scripts/v5/faro-auto-v2-resource.py
           python3 scripts/v5/test_faro_writer_cas.py -v
           python3 scripts/v5/test_faro_guarded_run.py -v
           python3 scripts/v5/faro-auto-v2-readiness.py
