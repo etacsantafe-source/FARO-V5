@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.s3-pre-noche-clean-handoff-20261102",
-  "token_hash": "02a3bc6dcd83501e3288d9b06b4906e7314cd31d0e0e450765b39b68bd3aa289",
-  "target_head": "14317bb8b10a44ea5d9e939f7e113f86b98f0de2",
-  "epoch": 9,
-  "timestamp": 0,
-  "target_branch": "work/faro-auto-v2-integration-20261102"
+  "status": "HELD",
+  "owner": "manual.noche-s3-activation-20261102",
+  "token_hash": "9ab8e9194ae721316dabc3069be11fc9ee814866554be70283e03f7ca84f0610",
+  "target_head": "bef2ee4db9d09f073db0eef6f63fc92e76f70bcb",
+  "epoch": 10,
+  "timestamp": 1793656415,
+  "target_branch": "work/s3-night-20261102"
 }
