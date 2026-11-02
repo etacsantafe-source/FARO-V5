@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "S2.A6",
-  "session": "A1",
+  "session": "NIGHT_A1",
   "date_local": "2026-11-02",
   "branch": "work/s2-chat-finish-night-20261102",
   "baseline_sha": "a942a53bd84ee849502d966ca9b52e002a194c6e",
@@ -9,14 +9,19 @@
   "handoff": "CLEAN",
   "certified": 6,
   "total": 8,
-  "open": [
+  "criteria_open": [
     4,
     8
   ],
   "v2_active_enabled": false,
   "s3_open": false,
   "s4_open": false,
-  "physical": "NOT_RUN",
-  "ci": "PENDING",
-  "next": "Verify push Actions, correct compiler failures, instrument isolated activity, A5, one APK"
+  "physical_t4": "NOT_RUN",
+  "last_observed_ci": {
+    "run_id": 41387836208,
+    "head_sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
+    "status": "IN_PROGRESS_AT_CHECKPOINT"
+  },
+  "next_ci": "PUSH_COMMIT_TO_RUN_JVM_AND_ANDROID_ENTRY",
+  "next": "Inspect latest Actions, fix any ROJO, finish A5 integration and restart test, package one verified APK"
 }

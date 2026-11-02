@@ -5,6 +5,7 @@ import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
 import java.nio.file.Path
 import java.util.function.Supplier
+import java.util.function.BooleanSupplier
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -23,6 +24,7 @@ internal object FaroV5F1ConsentedQuarantineHost {
         staged: StagedStorageGeneration,
         gate: MaterialWriteGate,
         activeDirectory: Supplier<Path>,
+        exclusiveRestartRecovery: BooleanSupplier? = null,
     ): FaroV5QuarantinedV2ChatHostBinding? {
         val owner = FaroV5TrustedAssistantControlOwner.get(context.applicationContext)
         val trusted = FaroV5TrustedModelGatewayFactory(
@@ -36,6 +38,7 @@ internal object FaroV5F1ConsentedQuarantineHost {
             gateway = trusted.gateway,
             profile = trusted.profile,
             egress = { message -> trusted.egressAdmission.test(message) },
+            exclusiveRestartRecovery = exclusiveRestartRecovery,
         )
     }
 }

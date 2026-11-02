@@ -47,6 +47,8 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
         }
     }
     private val worker = Executors.newSingleThreadExecutor()
+    private val initializing = AtomicBoolean(false)
+    private val disposed = AtomicBoolean(false)
     private var ownsSession = false
     private var session: Session? = null
     private lateinit var status: TextView
@@ -99,11 +101,13 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
             return
         }
         ownsSession = true
+        initializing.set(true)
         open.isEnabled = false
         status.text = "Validando consentimiento y abriendo Workspace…"
         worker.execute {
             val result = runCatching { buildSession() }
             runOnUiThread {
+                try {
                 val ready = result.getOrNull()
                 if (isDestroyed || isFinishing) {
                     ready?.close()
@@ -130,6 +134,10 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
                                 FaroV5AiSettingsActivity::class.java))
                         },
                     )
+                }
+                } finally {
+                    initializing.set(false)
+                    if (disposed.get()) release()
                 }
             }
         }
@@ -178,6 +186,7 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
         val sentinel = Files.createDirectories(root.resolve("v1-protected-sentinel"))
         val host = checkNotNull(FaroV5F1ConsentedQuarantineHost.open(
             applicationContext, staged, gate, Supplier { sentinel },
+            exclusiveRestartRecovery = BooleanSupplier { occupied.get() },
         )) { "consentimiento revocado antes de abrir Chat" }
         var workspace: ConversationWorkspaceStore? = null
         var reality: RealityStore? = null
@@ -264,10 +273,11 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
         }
     }
     override fun onDestroy() {
-        worker.shutdownNow()
-        session?.close()
+        disposed.set(true)
+        worker.shutdown()
+        runCatching { session?.close() }
         session = null
-        release()
+        if (!initializing.get()) release()
         super.onDestroy()
     }
 }
