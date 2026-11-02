@@ -112,14 +112,36 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "READY",
+      "status": "IN_PROGRESS_CI",
       "claimed_by": null,
-      "head_expected": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
-      "attempts": 0,
+      "head_expected": "bae8a1a58cdff50c9783275cec17268143bef466",
+      "attempts": 1,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
-      "action_run_ids": [],
-      "checkpoint": null,
-      "evidence": null
+      "action_run_ids": [
+        41538658363
+      ],
+      "checkpoint": "DRAWER_ONLY_NAV_CODE_COMMITTED_CI_PENDING",
+      "evidence": {
+        "branch_sha": "bae8a1a58cdff50c9783275cec17268143bef466",
+        "changes": [
+          "Chat remains internal root, not drawer item",
+          "Buscar/Guardados/Actividad/Avisos added to drawer",
+          "Topbar search/notices shortcuts removed",
+          "Navigation tests updated",
+          "S3-specific CI workflow"
+        ],
+        "ci": {
+          "run_id": 41538658363,
+          "status": "in_progress",
+          "conclusion": null,
+          "xml": "NOT_YET_AVAILABLE"
+        },
+        "pending": [
+          "Four real Inicio indicators with canonical read ports",
+          "Verify CI/XML and fix red",
+          "Accessibility and physical end-campaign"
+        ]
+      }
     },
     {
       "task_id": "S3-A2",
@@ -192,16 +214,16 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/RUN_STATE.json",
-    "commit_sha": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
-    "task_id": "S3-P00",
-    "status": "PASS_SPEC_ONLY_A1_READY",
-    "writer_epoch": 15
+    "source": "queue.json",
+    "commit_sha": "bae8a1a58cdff50c9783275cec17268143bef466",
+    "task_id": "S3-A1",
+    "status": "CODE_COMMITTED_CI_PENDING",
+    "writer_epoch": 17
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
-  "last_committed_sha": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
+  "last_committed_sha": "bae8a1a58cdff50c9783275cec17268143bef466",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
   "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
