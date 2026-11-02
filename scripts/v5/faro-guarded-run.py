@@ -34,6 +34,7 @@ def main():
     if os.environ.get("FARO_V5_WRITER_COORDINATION_READY") != "YES":
         raise RuntimeError("shared writer coordination not certified")
     run(["bash", str(PREFLIGHT)])
+    run([sys.executable, str(ROOT / "scripts/v5/faro-auto-v2-resource.py")])
     # All modes use the same remote writer ref. Never auto-takeover an occupied lock.
     token = secrets.token_hex(32)
     env = {**os.environ, "FARO_WRITER_TOKEN": token}
