@@ -1,35 +1,38 @@
 #!/usr/bin/env bash
-# FARO Auto V2 — read-only admission diagnostic. NEVER starts a worker.
+# FARO Auto V2 — safe preflight. Never acquires writer nor starts workers.
 set -euo pipefail
-EXPECTED_REMOTE='etacsantafe-source/FARO-V5'
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 [[ -n "$ROOT" ]] || { echo 'STOP: not a git repository'; exit 20; }
 cd "$ROOT"
 remote="$(git remote get-url origin 2>/dev/null || true)"
 case "$remote" in
-  "git@github.com:${EXPECTED_REMOTE}.git"|"https://github.com/${EXPECTED_REMOTE}"|"https://github.com/${EXPECTED_REMOTE}.git") ;;
-  *) echo "STOP: origin is not ${EXPECTED_REMOTE}"; exit 20;;
+  git@github.com:etacsantafe-source/FARO-V5.git|https://github.com/etacsantafe-source/FARO-V5|https://github.com/etacsantafe-source/FARO-V5.git) ;;
+  *) echo "STOP: wrong origin: $remote"; exit 20;;
 esac
 branch="$(git branch --show-current)"
 case "$branch" in
-  work/faro-auto-v2-integration-* ) ;;
+  work/faro-auto-v2-integration-*|work/s3-*) ;;
   *) echo "STOP: non-isolated branch: $branch"; exit 20;;
 esac
 [[ -z "$(git status --porcelain)" ]] || { echo 'STOP: dirty worktree'; exit 20; }
 [[ -f docs/s2-night/RUN_STATE.json ]] || { echo 'STOP: S2 state missing'; exit 20; }
 [[ -f docs/v5/FARO_CONTINUITY_POINTER.json ]] || { echo 'STOP: continuity pointer missing'; exit 20; }
-if command -v python3 >/dev/null 2>&1; then
 python3 - <<'PY'
-import json,sys
-s=json.load(open('docs/s2-night/RUN_STATE.json'))
-p=json.load(open('docs/v5/FARO_CONTINUITY_POINTER.json'))
-assert s.get('phase')=='S2_CLOSED' and s.get('certified')==8 and s.get('total')==8
-assert s.get('v2_active_enabled') is False and s.get('s3_open') is False and s.get('s4_open') is False
-assert p.get('automation',{}).get('activation_authorized') is False
-print('S2 CLOSED 8/8; app V2 OFF; S3/S4 OFF; no automation authorization')
+import json
+import os
+import sys
+s = json.load(open('docs/s2-night/RUN_STATE.json'))
+p = json.load(open('docs/v5/FARO_CONTINUITY_POINTER.json'))
+if s.get('phase') != 'S2_CLOSED' or s.get('certified') != s.get('total') or s.get('total') != 8:
+    sys.exit('STOP: S2 is not CLOSED 8/8')
+if s.get('v2_active_enabled') is not False or s.get('s4_open') is not False:
+    sys.exit('STOP: S2 app V2/S4 invariant')
+if p.get('app_v2_enabled') is not False or p.get('s4_open') is not False:
+    sys.exit('STOP: pointer app V2/S4 invariant')
+active = os.environ.get('FARO_V5_AUTOMATION_AUTHORIZED') == 'YES'
+if active and not (p.get('s3_open') is True and p.get('automation', {}).get('activation_authorized') is True):
+    sys.exit('STOP: S3/Noche require explicit durable activation')
+print('PREFLIGHT PASS: S2 8/8, app V2 OFF, S4 OFF; activation-authorized:', active)
 PY
-else
-  echo 'STOP: python3 required to validate state'; exit 20
-fi
 echo "READ_ONLY_PASS: origin=$remote branch=$branch head=$(git rev-parse HEAD)"
-echo 'PREFLIGHT_ONLY: execution requires separate shared writer CAS and explicit authorization'
+echo 'PREFLIGHT_ONLY: still requires remote writer CAS, Resource Guard and explicit task authorization'

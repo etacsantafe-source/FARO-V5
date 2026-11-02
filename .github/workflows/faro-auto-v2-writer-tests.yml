@@ -14,6 +14,7 @@ on:
       - scripts/v5/faro-auto-v2-queue.py
       - scripts/v5/faro-auto-v2-resource.py
       - scripts/v5/faro-s3-verify.py
+      - scripts/v5/faro-auto-v2-preflight
       - scripts/v5/test_faro_auto_v2_hardening.py
       - .github/workflows/faro-auto-v2-writer-tests.yml
   workflow_dispatch:
@@ -38,3 +39,4 @@ jobs:
           python3 scripts/v5/faro-auto-v2-readiness.py
           python3 scripts/v5/test_faro_auto_v2_hardening.py -v
           python3 scripts/v5/faro-s3-verify.py
+          bash scripts/v5/faro-auto-v2-preflight
