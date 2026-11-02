@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "A1 still partial: implement canonical read owner + ACL/dedupe/generation before binding Home. CI #41543680244 39/39 PASS exact SHA 8956d25. Next B 20:30. Hard stop 22:00.",
+  "next": "NOCHE_A 21:00: recover B 20:30 handoff, no repeat CI 44/44 or 5/5; finish canonical owners only if safe. A1 partial, A2/A3/A4 blocked. Hard stop 22:00.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_CI_VERIFIED_OWNER_BINDING_BLOCKED",
+    "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -94,13 +94,29 @@
       "Actividad reciente",
       "Guardados"
     ],
-    "home_port": "UNBOUND_CANONICAL_OWNERS_NOT_IMPLEMENTED",
+    "home_port": "N032_NOTICE_CANONICAL_BOUND_OTHER_THREE_UNAVAILABLE",
     "physical": "NOT_RUN",
     "owner_seam_commit": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
     "owner_seam": "FaroV5HomeReadCoordinator read-only partial isolation tests committed, CI pending",
-    "owner_binding_blocker": "N-022 home.read is catalog-only; no real canonical Home owner in app composition. N-031, N-032 and Guardados count owners not wired. No fabricated counts.",
+    "owner_binding_blocker": "N-032 Notice bound to active Auxiliary; N-031 attention.read, N-015 history.query and bookmarks Guardados still missing. No fake counts.",
     "provenance_commit": "f8bd9f3a784e6ed3304cd05e27ed6c9c51524015",
-    "final_code_commit": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231"
+    "final_code_commit": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231",
+    "notice_owner_commit": "b940f6f6f2a8cf326f96ee73c6b4f295ad690ed3",
+    "authority_guard_commit": "65628e5829a7a9f593a29f9d04ae2706cae1e091",
+    "notice_owner_ci": {
+      "id": 41546676175,
+      "sha": "823b5fd887559b65ad796ef715e0470525f09f80",
+      "conclusion": "SUCCESS",
+      "xml": "5/5_VERIFIED_LOG"
+    },
+    "authority_guard_ci": {
+      "id": 41546415283,
+      "sha": "65628e5829a7a9f593a29f9d04ae2706cae1e091",
+      "conclusion": "SUCCESS",
+      "xml": "44/44_VERIFIED_LOG"
+    },
+    "X01_X12": "NOT_RUN",
+    "handoff": "docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md"
   },
-  "handoff": "docs/s3-night/S3_A1_NOCHE_A_2000_HANDOFF_20261102.md"
+  "handoff": "docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md"
 }
