@@ -32,9 +32,9 @@ jobs:
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
           test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
           if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
-      - name: Assemble isolated Chat (no credentials)
+      # CI recovery: 41390549337 exhausted the Gradle JVM heap in :app:compileDebugJavaWithJavac.\n      # Bound workers and give the compiler a 3 GiB heap; keep emulator job at 1.5 GiB.\n      - name: Assemble isolated Chat (no credentials)
         working-directory: v5
-        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated
+        run: ./gradlew -Dorg.gradle.jvmargs="-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" -Pkotlin.daemon.jvmargs=-Xmx1536m --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated
       - name: Assert debug identity and shipping V2 OFF
         shell: bash
         run: |
@@ -46,10 +46,10 @@ jobs:
           sha256sum v5/app/build/outputs/apk/debug/app-debug.apk
       - name: Directed F1 JVM
         working-directory: v5
-        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test' --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
+        run: ./gradlew -Dorg.gradle.jvmargs="-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" -Pkotlin.daemon.jvmargs=-Xmx1536m --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test' --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
       - name: Directed A5 explicit-consent contract JVM
         working-directory: v5
-        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :kernel:contracts:test --tests 'ar.com.faro.v5.kernel.contracts.ConversationAttachmentDraftConsentPolicyTest'
+        run: ./gradlew -Dorg.gradle.jvmargs="-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" -Pkotlin.daemon.jvmargs=-Xmx1536m --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :kernel:contracts:test --tests 'ar.com.faro.v5.kernel.contracts.ConversationAttachmentDraftConsentPolicyTest'
       - name: Exact A5 consent XML oracle
         shell: bash
         run: |
@@ -118,7 +118,7 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated '-Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1IsolatedEntryInstrumentationTest,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt,ar.com.faro.v5.app.FaroV5A5TextReaderInstrumentationTest'
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated '-Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1IsolatedEntryInstrumentationTest,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt,ar.com.faro.v5.app.FaroV5A5TextReaderInstrumentationTest'
       - name: Exact integrated Android XML (entry + reviewed Apply/Delivery/restart)
         shell: bash
         run: |
