@@ -2,9 +2,9 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A1_FINAL",
+  "session": "NIGHT_B1_FINAL",
   "branch": "work/s2-chat-finish-night-20261102",
-  "last_functional_commit": "505672b359844eb8efb7ab70585b2e69cb2cbcbe",
+  "last_functional_commit": "a630634bf96ff89a5cb9c0366eca6112d2ce585e",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
@@ -22,26 +22,36 @@
     "persistent quarantined five-owner Workspace Composer Timeline Review",
     "isolated reviewed Apply receipt and durable Auxiliary Notice",
     "exclusive restart recovery for PROCESSING without model replay",
-    "Android instrumentation test of denied consent and consented Compose entry"
+    "Android instrumentation test of denied consent and consented Compose entry",
+    "A5 Android OpenMultipleDocuments picker wired into actual Chat; canonical conversation and picker request bound to bounded reader and pure ingress policy; ephemeral payloads wiped, metadata-only local preview, no network egress"
   ],
   "verification": [
     {
-      "run_id": 41387836208,
-      "sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
-      "status": "IN_PROGRESS_LAST_CHECK"
+      "run_id": 41390549337,
+      "sha": "a630634bf96ff89a5cb9c0366eca6112d2ce585e",
+      "status": "pending",
+      "conclusion": null
     },
     {
       "run_id": 41388266987,
       "sha": "505672b359844eb8efb7ab70585b2e69cb2cbcbe",
-      "status": "PENDING_CONCURRENCY_LAST_CHECK"
+      "status": "completed",
+      "conclusion": "cancelled"
+    },
+    {
+      "run_id": 41387836208,
+      "sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
+      "status": "in_progress",
+      "conclusion": null
     }
   ],
   "not_verified": [
-    "new APK build and JVM XML",
-    "new Android entry test",
-    "A5 attachment integration",
+    "new debug APK compile and directed JVM XML",
+    "new Android entry instrumentation",
+    "A5 picker UI+reader end-to-end Android instrumentation",
+    "A5 explicit per-content egress consent and actual attachment delivery",
     "physical T4",
-    "live Groq in user device"
+    "live Groq on user device"
   ],
-  "next": "Check CI runs and logs; fix compile/test reds. Then A5 text ingress with explicit content-specific consent and no URI persistence; add emulated integrated restart; package ONE debug APK SHA/signature; physical T4 only."
+  "next": "Wait for #41387836208 and #41390549337 (newer pending superseded #41388266987); inspect XML/logs, fix compile red. Complete A5 content-specific consent and supported text ingress without URI/bytes persistence, add Android test. Then one isolated APK with SHA/signature and minimal Moto G15 T4. Do not trigger duplicate CI while pending."
 }
