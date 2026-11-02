@@ -58,8 +58,7 @@ import ar.com.faro.v5.delivery.api.NoticeId
 import ar.com.faro.v5.delivery.api.DeliveryIntentId
 import ar.com.faro.v5.kernel.contracts.EffectId
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
-import ar.com.faro.v5.workspace.WorkspaceCreateRequest
-import ar.com.faro.v5.workspace.WorkspaceWriteResult
+import ar.com.faro.v5.workspace.WorkspaceBackupReceipt
 import java.nio.file.Files
 import java.security.MessageDigest
 import java.nio.file.Path
@@ -408,11 +407,18 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { store ->
             // Nonempty, known-value fixture: the restored fifth owner must contain
             // a conversation and a durable idempotency receipt, not merely a schema.
-            check(store.create(WorkspaceCreateRequest(
-                entry = ConversationWorkspaceEntry(fixtureConversation, fixtureTitle, 1L),
-                expectedRevision = 0L,
-                idempotencyKey = IdempotencyKey("t4-saf-fixture-create"),
-            )) is WorkspaceWriteResult.Committed)
+            val original = store.backup.snapshot()
+            val fixture = original.copy(
+                revision = 1L,
+                activeConversationId = fixtureConversation,
+                conversations = listOf(
+                    ConversationWorkspaceEntry(fixtureConversation, fixtureTitle, 1L)
+                ),
+                receipts = listOf(
+                    WorkspaceBackupReceipt("t4-saf-fixture-create", "a".repeat(64), 1L, true)
+                ),
+            )
+            check(store.backup.restoreOrVerify(fixture) == fixture)
         }
         val gate = SingleProcessMaterialWriteGate()
         val source = FaroV5QuarantinedV2GraphAdmission.canonical(gate, Supplier { v1 })
