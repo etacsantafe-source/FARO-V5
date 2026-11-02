@@ -1,10 +1,9 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.remote-cas-safety-test",
-  "token_hash": "d3e90b5d24499aef8555079145a3db893aab1d378cda76dcd95524bf8acf6c28",
+  "status": "HELD",
+  "owner": "manual.writer-readiness-doc-20261102",
+  "token_hash": "da6dd23853ce53dd9db06b120a7571876f47143ee11d7aefa97840e9ad829163",
   "target_head": "9b865a8b7720453f916997cbefb47195c3b2e787",
-  "epoch": 1,
-  "timestamp": 0,
-  "test_only": false
+  "epoch": 2,
+  "timestamp": 0
 }
