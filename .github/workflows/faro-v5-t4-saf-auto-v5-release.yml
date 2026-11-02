@@ -1,0 +1,87 @@
+name: FARO V5 T4 SAF auto V5 - publish only after green 32 test gate
+on:
+  push:
+    branches: [work/t4-saf-automated-hardening-20261101]
+    paths: [.github/workflows/faro-v5-t4-saf-auto-v5-release.yml]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: faro-v5-t4-saf-auto-v5-release
+  cancel-in-progress: false
+jobs:
+  publish-isolated-v5:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Require exact green Android and JVM test SHA; unchanged functional tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERIFIED_SHA=0a2c1f4e8bcfa04820f4ede7513c041da936cfac
+          TEST_RUN=41379627980
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TEST_RUN" --jq '.conclusion')" = "success"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TEST_RUN" --jq '.status')" = "completed"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TEST_RUN" --jq '.head_sha')" = "$VERIFIED_SHA"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TEST_RUN" --jq '.head_branch')" = "work/t4-saf-automated-hardening-20261101"
+          git merge-base --is-ancestor "$VERIFIED_SHA" HEAD
+          test -z "$(git diff --name-only "$VERIFIED_SHA" HEAD -- v5/)"
+          grep -q 'const val V2_ACTIVE_ENABLED: Boolean = false' v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HostCertification.kt
+          grep -q 'FaroV5T4SafIntegralActivity' v5/app/src/debug/AndroidManifest.xml
+          grep -q 'expected.fourStore.auxiliary.notices.size == 1' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
+          ! grep -q 'Files.readString(' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
+          test -z "$(git diff --name-only 67f816b81a9c2ae7979b05448e38dff18ad5498c HEAD -- 'v5/**/src/main/**')"
+          echo "GREEN_CI_32_32_VERIFIED"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 compile platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Assemble isolated debug V5 package
+        working-directory: v5
+        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4saf5
+      - name: Verify APK identity signature and SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          cp v5/app/build/outputs/apk/debug/app-debug.apk output/FARO-V5-T4-SAF-AUTO-V5.apk
+          {
+            echo "TESTED_FUNCTIONAL_SHA=0a2c1f4e8bcfa04820f4ede7513c041da936cfac"
+            echo "RELEASE_WORKFLOW_SHA=$GITHUB_SHA"
+            echo "GREEN_TEST_RUN=41379627980"
+            echo "JVM_7_7=PASS"
+            echo "ANDROID_EMULATOR_25_25=PASS"
+            echo "V2_ACTIVE_ENABLED=false"
+            echo "PRODUCTION_F3_CERTIFIED=false"
+            sha256sum output/FARO-V5-T4-SAF-AUTO-V5.apk
+            "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging output/FARO-V5-T4-SAF-AUTO-V5.apk | head -n 4
+            "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs output/FARO-V5-T4-SAF-AUTO-V5.apk
+          } | tee output/T4-SAF-AUTO-V5-MANIFEST.txt
+          grep -q "package: name='ar.com.faro.alpha.t4saf5.v5dev'" output/T4-SAF-AUTO-V5-MANIFEST.txt
+      - name: Release ONLY isolated debug diagnostics after all gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG=faro-v5-t4-saf-auto-v5-20261101
+          ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
+            --title "FARO T4 SAF V5 isolated - 32 green automated regressions" \
+            --notes "APK DEBUG AISLADA; cinco stores SINTETICOS no vacios. 7 JVM + 25 Android emulator PASS en run 41379627980. V2 OFF. Requiere prueba fisica real del selector SAF: NO certifica F3 de produccion ni cierre global S2." \
+            output/FARO-V5-T4-SAF-AUTO-V5.apk output/T4-SAF-AUTO-V5-MANIFEST.txt
