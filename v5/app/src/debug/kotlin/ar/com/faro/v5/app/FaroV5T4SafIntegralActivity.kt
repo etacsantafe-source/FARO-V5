@@ -54,6 +54,7 @@ import java.util.function.Supplier
 class FaroV5T4SafIntegralActivity : ComponentActivity() {
     companion object {
         private val orphanSweepDone = AtomicBoolean(false)
+        private val orphanSweepFailed = AtomicBoolean(false)
         private val fixtureConversation = ConversationId("t4-saf-fixture")
         private const val fixtureTitle = "T4: datos sinteticos preservados"
     }
@@ -99,10 +100,12 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
         // Once per process, before any worker can start: recover synthetic private
         // staging from a previous process killed before the normal finally block.
-        val sweepFailed = orphanSweepDone.compareAndSet(false, true) &&
-            runCatching {
+        if (orphanSweepDone.compareAndSet(false, true)) {
+            if (runCatching {
                 FaroV5T4SyntheticCleanup.deleteOrphans(noBackupFilesDir.toPath())
-            }.isFailure
+            }.isFailure) orphanSweepFailed.set(true)
+        }
+        val sweepFailed = orphanSweepFailed.get()
         retained = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 check(modelClass == UiState::class.java)
@@ -235,7 +238,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
     }
 
     private fun startPicker(step: Step) {
-        if (isWorking || retained.pickerOpen != null) return
+        if (isWorking || retained.pickerOpen != null || orphanSweepFailed.get()) return
         retained.selection = null
         retained.gate.reset()
         retained.pickerOpen = step
