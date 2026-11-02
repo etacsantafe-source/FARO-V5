@@ -32,7 +32,9 @@ jobs:
           "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
           test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
           if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
-      # CI recovery: 41390549337 exhausted the Gradle JVM heap in :app:compileDebugJavaWithJavac.\n      # Bound workers and give the compiler a 3 GiB heap; keep emulator job at 1.5 GiB.\n      - name: Assemble isolated Chat (no credentials)
+      # CI recovery: 41390549337 exhausted the Gradle JVM heap in :app:compileDebugJavaWithJavac.
+      # Bound workers and give the compiler a 3 GiB heap; keep emulator job at 1.5 GiB.
+      - name: Assemble isolated Chat (no credentials)
         working-directory: v5
         run: ./gradlew -Dorg.gradle.jvmargs="-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" -Pkotlin.daemon.jvmargs=-Xmx1536m --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated
       - name: Assert debug identity and shipping V2 OFF
