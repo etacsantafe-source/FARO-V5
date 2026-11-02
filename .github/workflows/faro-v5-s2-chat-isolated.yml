@@ -118,7 +118,7 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated '-Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1IsolatedEntryInstrumentationTest,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt'
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated '-Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1IsolatedEntryInstrumentationTest,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt,ar.com.faro.v5.app.FaroV5A5TextReaderInstrumentationTest'
       - name: Exact integrated Android XML (entry + reviewed Apply/Delivery/restart)
         shell: bash
         run: |
@@ -130,6 +130,12 @@ jobs:
                'deniedConsentCreatesNoStoreThenConsentedChatMountsWithoutRemoteCall'),
               ('FaroV5F1QuarantinedComposeInstrumentationTest',
                'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt'),
+              ('FaroV5A5TextReaderInstrumentationTest',
+               'syntheticContentProviderReadIsBoundedAndWipedOnClose'),
+              ('FaroV5A5TextReaderInstrumentationTest',
+               'duplicatePickedBytesFailClosedBeforeAnyDraftMutation'),
+              ('FaroV5A5TextReaderInstrumentationTest',
+               'nonContentUriIsRejectedWithoutOpeningProvider'),
           }
           found=[]
           for p in Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'):
@@ -142,5 +148,5 @@ jobs:
                       found.append((cls,name))
           if set(found)!=expected or len(found)!=len(expected):
               raise SystemExit('ANDROID_F1_INTEGRATED_MISSING '+str(found))
-          print('F1_ANDROID_ISOLATED_ENTRY_AND_REVIEW_APPLY_DELIVERY_RESTART_PASS 2/2; LIVE_GROQ_T4_NOT_RUN')
+          print('F1_A5_ANDROID_CHAT_REVIEW_APPLY_DELIVERY_RESTART_AND_READER_PASS 5/5; LIVE_GROQ_T4_NOT_RUN')
           PY

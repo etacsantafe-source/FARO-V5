@@ -2,7 +2,7 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A2_UI_CHECKPOINT",
+  "session": "NIGHT_B2_ANDROID_TEST_INTEGRATED_CI_WAIT",
   "branch": "work/s2-chat-finish-night-20261102",
   "last_functional_commit": "7b740e9fcaefb264f284a0d0feed82d56aa2ac45",
   "writer": "NONE",
@@ -57,8 +57,11 @@
     "live Groq on user device",
     "A5 new draft consent policy JVM tests and UI integration",
     "new A5 consented text-to-draft Compose/Android build on SHA 7b740e9... (commit deliberately skipped CI while previous run pending)",
-    "new Android A5 ContentResolver reader 3 tests prepared as unreferenced commit dcc1f965...; not yet published"
+    "new Android A5 ContentResolver reader 3 tests prepared as unreferenced commit dcc1f965...; not yet published",
+    "A5 Android ContentResolver 3 tests now committed but not executed",
+    "Latest workflow 5/5 Android + A5 9/9 JVM not executed"
   ],
-  "next": "Check #41390549337 (older SHA a630634) first. After it finishes, publish prepared Android A5 reader test from Git objects (rebase onto current HEAD via tree blobs if needed), trigger one new directed Actions run covering 9 JVM + 5 Android cases. Fix red before final APK. Keep T4 physical pending.",
-  "prepared_next_commit": "dcc1f9653e1bfba727b3626fa77c04a5835da35e"
+  "next": "Await prior Actions #41390549337 (still compiling at B2). The prepared Android A5 reader tests and workflow 5/5 were integrated via CAS with [skip ci] to avoid CI overlap. When old run ends, trigger exactly one new workflow via a workflow-file change, validate 9 JVM and 5 Android XML, fix RED, produce one verified APK. No T4 physical yet.",
+  "prepared_next_commit": null,
+  "android_test_published": true
 }
