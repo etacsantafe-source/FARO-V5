@@ -1,0 +1,68 @@
+name: FARO V5 S2 isolated Chat directed
+on:
+  push:
+    branches: [work/s2-chat-finish-night-20261102]
+    paths:
+      - 'v5/app/**'
+      - '.github/workflows/faro-v5-s2-chat-isolated.yml'
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s2-chat-night
+  cancel-in-progress: false
+jobs:
+  compile-and-directed-jvm:
+    if: github.repository == 'etacsantafe-source/FARO-V5'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Assemble isolated Chat (no credentials)
+        working-directory: v5
+        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleDebug -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated
+      - name: Assert debug identity and shipping V2 OFF
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'FaroV5F1IsolatedChatActivity' v5/app/src/debug/AndroidManifest.xml
+          grep -q 'const val V2_ACTIVE_ENABLED: Boolean = false' v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HostCertification.kt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging v5/app/build/outputs/apk/debug/app-debug.apk | grep "package: name='ar.com.faro.alpha.s2isolated.v5dev'"
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs v5/app/build/outputs/apk/debug/app-debug.apk
+          sha256sum v5/app/build/outputs/apk/debug/app-debug.apk
+      - name: Directed F1 JVM
+        working-directory: v5
+        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test' --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
+      - name: Exact XML oracle
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          for name, count in [('FaroV5QuarantinedV2ChatHostBindingT2Test',2),('FaroV5ChatToReviewedApplyFlowT2Test',2)]:
+              p=Path('v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.'+name+'.xml')
+              if not p.is_file(): raise SystemExit('MISSING_XML '+str(p))
+              r=ET.parse(p).getroot()
+              got=tuple(int(r.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if got!=(count,0,0,0): raise SystemExit('RED_XML '+str((name,got)))
+              print('PASS',name,count)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FARO-S2-CHAT-ISOLATED-DEBUG-NOT-PHYSICALLY-VERIFIED
+          path: v5/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

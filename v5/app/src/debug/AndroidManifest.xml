@@ -9,6 +9,18 @@
             android:name="ar.com.faro.v5.app.FaroV5F1QuarantineCertificationActivity"
             android:exported="false"
             android:excludeFromRecents="true" />
+        <!-- Launchable debug-only consent-gated five-owner Chat. -->
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5F1IsolatedChatActivity"
+            android:exported="true"
+            android:label="FARO S2 CHAT AISLADO"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- TEST-ONLY synthetic SAF picker. Separate isolated app ID; never in release. -->
         <activity
             android:name="ar.com.faro.v5.app.FaroV5T4SafIntegralActivity"
