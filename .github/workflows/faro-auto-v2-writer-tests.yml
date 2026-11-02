@@ -1,0 +1,25 @@
+name: FARO Auto V2 isolated writer unit tests
+on:
+  push:
+    branches:
+      - work/faro-auto-v2-integration-20261102
+    paths:
+      - scripts/v5/faro-writer-cas.py
+      - scripts/v5/test_faro_writer_cas.py
+      - .github/workflows/faro-auto-v2-writer-tests.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-auto-v2-writer-test-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python syntax and unit checks (no GitHub writes)
+        run: |
+          python3 -m py_compile scripts/v5/faro-writer-cas.py scripts/v5/test_faro_writer_cas.py
+          python3 scripts/v5/test_faro_writer_cas.py -v
