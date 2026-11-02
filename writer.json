@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.noche-s3-activation-20261102",
-  "token_hash": "9ab8e9194ae721316dabc3069be11fc9ee814866554be70283e03f7ca84f0610",
+  "status": "HELD",
+  "owner": "manual.noche-s3-finalize-20261102",
+  "token_hash": "50985975f5d921180ad1c78ce795dc7261c57b86023bd87ea8c4247be19345c2",
   "target_head": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
-  "epoch": 10,
-  "timestamp": 0,
+  "epoch": 11,
+  "timestamp": 1793656644,
   "target_branch": "work/s3-night-20261102"
 }
