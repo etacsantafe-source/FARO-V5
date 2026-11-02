@@ -32,4 +32,4 @@ else
   echo 'STOP: python3 required to validate state'; exit 20
 fi
 echo "READ_ONLY_PASS: origin=$remote branch=$branch head=$(git rev-parse HEAD)"
-echo 'NOT_AUTHORIZED: no shared writer CAS, no live lease check, no worker execution'
+echo 'PREFLIGHT_ONLY: execution requires separate shared writer CAS and explicit authorization'
