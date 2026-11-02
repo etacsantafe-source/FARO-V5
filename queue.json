@@ -14,13 +14,13 @@
       "title": "Demostrar A/B misma cola CLOUD y writer CAS",
       "priority": "P0",
       "depends_on": [],
-      "status": "WAITING_B",
+      "status": "PASS",
       "claimed_by": null,
       "head_expected": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
-      "attempts": 1,
+      "attempts": 2,
       "acceptance": "A y B leen misma queue SHA, verifican writer y permisos, prueban STOP y recuperan checkpoint en una tarea inocua; sin efectos funcionales",
       "action_run_ids": [],
-      "checkpoint": "NOCHE_A_GATE_PROBE_RECORDED_WAIT_B",
+      "checkpoint": "NOCHE_B_INDEPENDENT_GATE_PROOF_DURABLE",
       "evidence": {
         "NOCHE_A": {
           "observed_utc": "2026-11-02T22:00:50Z",
@@ -40,8 +40,31 @@
           "stale_queue_cas": "INCONCLUSIVE_GENERIC_GITHUB_ERROR_REF_UNCHANGED_2026-11-02T22:04:44Z",
           "cas_rejection_certification": "NOT_CLAIMED"
         },
-        "NOCHE_B": null,
-        "combined": "PENDING_B_INDEPENDENT_PROOF"
+        "NOCHE_B": {
+          "observed_utc": "2026-11-02T22:30:34Z",
+          "cloud_queue_ref": "refs/heads/faro-v5-night-queue",
+          "queue_sha_seen": "4256f42af7fc0398c26a8d97487c8a252149da55",
+          "observed_A_checkpoint": true,
+          "observed_A_writer_epoch": 12,
+          "writer_ref": "refs/heads/faro-v5-writer-lock",
+          "writer_acquire_sha": "2a62eb6d229478e20326d42343424a41bbddbde0",
+          "writer_epoch": 13,
+          "writer_owner": "NOCHE_B.S3N00.20261102T1930",
+          "branch_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+          "writer_cas_acquire": "PASS",
+          "correct_expected_sha_noop": "PASS",
+          "stale_expected_sha_noop": "REJECTED_GENERIC_GITHUB_ERROR_REF_UNCHANGED",
+          "stale_cas_effect": "PASS_EFFECT_OBSERVED_ERROR_NOT_TYPED",
+          "other_owner_stop": "PASS_LOCAL_GUARD_WHILE_HELD",
+          "checkpoint_recovery": "PASS_REOPENED_A_CHECKPOINT",
+          "ci_status": "NO_RUNS_ON_S3_BRANCH",
+          "s3_branch_mutated": false,
+          "limitations": [
+            "No simultaneous two-owner race in this turn",
+            "Generic GitHub GraphQL error for stale expected; correct expected succeeds"
+          ]
+        },
+        "combined": "PASS_A_AND_B_SAME_CLOUD_REFS_REMOTE_WRITER_CAS_WITH_GENERIC_STALE_ERROR_LIMITATION"
       }
     },
     {
@@ -51,7 +74,7 @@
       "depends_on": [
         "S3-N00"
       ],
-      "status": "PENDING",
+      "status": "READY",
       "claimed_by": null,
       "head_expected": null,
       "attempts": 0,
@@ -165,14 +188,14 @@
     "source": "queue.json",
     "commit_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
     "task_id": "S3-N00",
-    "status": "A_EVIDENCE_DURABLE_WAIT_B_RESEARCH_PREP",
-    "writer_epoch": 12
+    "status": "PASS_AB_PROOF;P00_READY",
+    "writer_epoch": 13
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
   "last_committed_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
-  "cas_probe": "PASS_STALE_CAS_REJECTED_2026-11-02_PREPARATION",
+  "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
   "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
   "app_v2": false,
