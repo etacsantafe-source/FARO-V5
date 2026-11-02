@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "NOCHE_B.S3A1-HANDOFF.20261102T1930",
-  "token_hash": "5010f1477b9a54c0c0a7849ddf8a0c5a74df2393e2b3f1195f8a1a85ab67e0b8",
+  "status": "HELD",
+  "owner": "NOCHE_B.S3A1-QUEUE-FINAL.20261102T1930",
+  "token_hash": "63ca58a9f3b5d7083e01db2f1d671b13c7e15a63dcb09a15bd6e17b6c1f0142d",
   "target_head": "d2296680301dfecba448e961a226fb05426ed3e9",
-  "epoch": 19,
-  "timestamp": 0,
+  "epoch": 20,
+  "timestamp": 1793660720,
   "target_branch": "work/s3-night-20261102"
 }
