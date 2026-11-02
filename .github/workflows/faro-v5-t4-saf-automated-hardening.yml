@@ -38,6 +38,7 @@ jobs:
           grep -q 'expected.fourStore.commercialEvidence.records.size == 1' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
           grep -q 'expected.fourStore.webEvidence.fetchRecords.size == 1' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
           grep -q 'expected.fourStore.auxiliary.notices.size == 1' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
+          ! grep -q 'Files.readString(' v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5T4SafIntegralActivity.kt
           ! git diff --name-only 67f816b81a9c2ae7979b05448e38dff18ad5498c HEAD | grep -E '^v5/.*/src/main/'
       - uses: actions/setup-java@v4
         with:
