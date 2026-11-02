@@ -18,6 +18,10 @@ class FaroV5A5TextReaderInstrumentationTest {
     private fun fileUri() = Uri.parse("content://${context.packageName}.a5test/text")
 
     @Test fun syntheticContentProviderReadIsBoundedAndWipedOnClose() {
+        val provider = context.packageManager.getProviderInfo(
+            android.content.ComponentName(context, FaroV5A5TestContentProvider::class.java), 0,
+        )
+        assertFalse("A5 fixture must never be exported", provider.exported)
         val files = AndroidConversationAttachmentReader.readSelected(
             context, listOf(fileUri()),
         )
