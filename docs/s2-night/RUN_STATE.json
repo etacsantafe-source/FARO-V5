@@ -2,7 +2,7 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A4_A5_TEST_PROVIDER_UID_FIX_HANDOFF_CLEAN",
+  "session": "NIGHT_A6_ANDROID_COMPOSE_IMPORT_FIX_CI_TRIGGER",
   "branch": "work/s2-chat-finish-night-20261102",
   "last_functional_commit": "9161ca157fffb242b62a7885dc030c6ecf8d30a2",
   "writer": "NONE",
@@ -77,6 +77,15 @@
       "sha": "5d4add333389fe84d16a38ebf404404ca781c202",
       "status": "not_run",
       "reason": "A4 test-only provider relocation published with [skip ci] to avoid overlapping previously triggered feec3f2 workflow; next turn must run directed CI after prior job ends"
+    },
+    {
+      "run_id": 41402146260,
+      "sha": "feec3f2c1ed4659d083324332e1822d145a18e5c",
+      "status": "completed",
+      "conclusion": "failure",
+      "jvm_job": "success",
+      "a5_jvm": "9/9 PASS",
+      "android_job": "failure before instrumentation: unresolved import androidx.compose.ui.test.onAllNodes at FaroV5F1IsolatedEntryInstrumentationTest.kt:10"
     }
   ],
   "not_verified": [
@@ -94,7 +103,7 @@
     "A4 debug-app provider UID fix has no fresh Android XML PASS yet; do not treat static manifest check as instrumentation success",
     "A4 provider registration assertion is unexecuted until one final directed Android CI"
   ],
-  "next": "After B3 in-flight CI ends, trigger one directed CI on latest A4 source 9161ca157fffb242b62a7885dc030c6ecf8d30a2 (A4 changes intentionally [skip ci]); confirm XML 9/9 A5 JVM, 4/4 F1 JVM, 5/5 Android; then package/signature/SHA of ONE APK and minimal physical T4. Do not start overlapping Actions.",
+  "next": "Verify new push CI for A6 HEAD, confirm 9 A5 JVM + 4 F1 JVM and 5 Android XML. If green validate one APK SHA/signature; if red fix actual failure. No repeat SAF.",
   "prepared_next_commit": null,
   "android_test_published": true,
   "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS."
