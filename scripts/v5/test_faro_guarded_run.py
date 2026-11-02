@@ -49,23 +49,23 @@ class GuardTests(unittest.TestCase):
 
     def test_acquire_failure_never_runs_task(self):
         from subprocess import CalledProcessError
-        with patch.object(mod, "run", side_effect=[None, CalledProcessError(20, "acquire")]) as run:
+        with patch.object(mod, "run", side_effect=[None, None, CalledProcessError(20, "acquire")]) as run:
             with self.assertRaises(CalledProcessError):
                 self.invoke("night-a", ["--approved"],
                             {"FARO_V5_EXECUTION_AUTHORIZED": "YES",
                              "FARO_V5_AUTOMATION_AUTHORIZED": "YES",
                              "FARO_V5_WRITER_COORDINATION_READY": "YES"})
-            self.assertEqual(run.call_count, 2)
+            self.assertEqual(run.call_count, 3)
 
     def test_verified_writer_executes_then_releases(self):
         with patch.object(mod, "run") as run:
             self.invoke("manual", ["--approved"],
                         {"FARO_V5_EXECUTION_AUTHORIZED": "YES",
                          "FARO_V5_WRITER_COORDINATION_READY": "YES"})
-            self.assertEqual(run.call_count, 5)
-            self.assertIn("acquire", run.call_args_list[1].args[0])
-            self.assertIn("verify", run.call_args_list[2].args[0])
-            self.assertIn("release", run.call_args_list[4].args[0])
+            self.assertEqual(run.call_count, 6)
+            self.assertIn("acquire", run.call_args_list[2].args[0])
+            self.assertIn("verify", run.call_args_list[3].args[0])
+            self.assertIn("release", run.call_args_list[5].args[0])
 
 
 if __name__ == "__main__":
