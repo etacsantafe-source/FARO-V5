@@ -74,14 +74,21 @@
       "depends_on": [
         "S3-N00"
       ],
-      "status": "READY",
+      "status": "PASS_SPEC_ONLY",
       "claimed_by": null,
-      "head_expected": null,
-      "attempts": 0,
+      "head_expected": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
+      "attempts": 1,
       "acceptance": "Documento congelado con revisión V4.4+apps+adversarial, 172 oficiales intactos hasta aprobación bounded; no falso PASS",
       "action_run_ids": [],
-      "checkpoint": null,
-      "evidence": null,
+      "checkpoint": "DOC_FROZEN_SPEC_ONLY_TESTS_NOT_RUN",
+      "evidence": {
+        "document": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
+        "branch_sha": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
+        "design_gates": "R0_R3_H01_H04_FROZEN_SPEC",
+        "tests": "NOT_RUN_X01_X12_PENDING",
+        "catalog": "172_UNCHANGED",
+        "saved_bookmark_8": "CANDIDATE_BOUNDED_REOPEN_REQUIRED_BEFORE_A3"
+      },
       "preliminary_read_only": {
         "status": "RESEARCH_ONLY_NOT_CONTRACT_FREEZE",
         "source_branch_s3_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
@@ -105,9 +112,9 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "PENDING",
+      "status": "READY",
       "claimed_by": null,
-      "head_expected": null,
+      "head_expected": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
       "attempts": 0,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "action_run_ids": [],
@@ -185,16 +192,16 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "queue.json",
-    "commit_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
-    "task_id": "S3-N00",
-    "status": "PASS_AB_PROOF;P00_READY",
-    "writer_epoch": 13
+    "source": "docs/s3-night/RUN_STATE.json",
+    "commit_sha": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
+    "task_id": "S3-P00",
+    "status": "PASS_SPEC_ONLY_A1_READY",
+    "writer_epoch": 15
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
-  "last_committed_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+  "last_committed_sha": "52f00b7683c8187a6232cea4c63d1e91f1c85545",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
   "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
