@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.night-v2-integration-20261102",
-  "token_hash": "a67c8f4b9dc8ad73dd69f561225aa30b3c73fa6ef51bac783e40f945157f70cc",
-  "target_head": "63dca721de22a25dc812bc329d470c63bf42a549",
-  "epoch": 3,
+  "status": "HELD",
+  "owner": "manual.night-transition-fix-20261102",
+  "token_hash": "0a44f22399b11c99cfa76c1f8ef30539272c585b0d5a3d68e1caa2c9a7894db1",
+  "target_head": "2080a25ec88e0b127cf1ba38728c687429781f57",
+  "epoch": 4,
   "timestamp": 0,
   "target_branch": "work/faro-auto-v2-integration-20261102"
 }
