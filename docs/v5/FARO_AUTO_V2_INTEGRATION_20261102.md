@@ -23,3 +23,11 @@ Estado: PREPARACIÓN PARCIAL / NO OPERATIVO / NO AUTORIZADO PARA EJECUTAR.
 
 ## Invariantes
 S2 CLOSED 8/8. App V2 OFF. S3/S4 no abiertos. Main, repo histórico y APK sin cambios. Ningún daemon, automation o writer se inicia por crear esta rama.
+
+## Avance de integración (2026-11-02)
+- Writer CAS compartido implementado en `scripts/v5/faro-writer-cas.py`, con rechazo de HELD y sin toma automática por vencimiento.
+- Runner único para Auto, Noche A/B y manual en `scripts/v5/faro-guarded-run.py`; exige autorización explícita, preflight, adquisición, verificación y liberación del writer.
+- Pruebas de identidad/admisión y guardas de ejecución en `test_faro_writer_cas.py` y `test_faro_guarded_run.py`.
+- Actions #41475066442 SUCCESS para primera versión de tests writer; **no equivale a certificación del runner nuevo**.
+- Pendiente: nuevo CI del runner, pruebas de concurrencia Git remota, integración con daemon real y sesiones Noche, verificación de Resource Guard en entorno nuevo, protocolo de revalidación por cada commit, recuperación de fallos y cierre de permisos.
+- Estado: **NO COMPLETADO / NO ACTIVADO**. No abrir S3 todavía; no confundir guardas de seguridad con ejecución operativa completa.
