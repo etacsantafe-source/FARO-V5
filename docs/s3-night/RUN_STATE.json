@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "A1 owner read binding N-022 home.read required; no fake values. A3 +8 contracts candidate; next turn 20:00. Cutoff 22:00.",
+  "next": "Verify Actions #41542542171 XML for SHA e523dc2; owner binding remains blocked; A1 PARTIAL. No A2/A3/A4 until dependencies. Cutoff 22:00.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_CI_VERIFIED",
+    "status": "PARTIAL_CI_IN_PROGRESS_OWNER_BINDING_BLOCKED",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -68,6 +68,12 @@
         "sha": "67fda3b32f8405685bf7bf62365dbcd063806b97",
         "conclusion": "SUCCESS",
         "xml": "34/34"
+      },
+      {
+        "id": 41542542171,
+        "sha": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
+        "conclusion": "IN_PROGRESS",
+        "xml": "PENDING"
       }
     ],
     "home_indicators": [
@@ -76,8 +82,11 @@
       "Actividad reciente",
       "Guardados"
     ],
-    "home_port": "UNBOUND_NO_FAKE_COUNTS",
-    "physical": "NOT_RUN"
+    "home_port": "UNBOUND_CANONICAL_OWNERS_NOT_IMPLEMENTED",
+    "physical": "NOT_RUN",
+    "owner_seam_commit": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
+    "owner_seam": "FaroV5HomeReadCoordinator read-only partial isolation tests committed, CI pending",
+    "owner_binding_blocker": "N-022 home.read has catalog contract but no real host implementation; N-031 attention.read, N-032 notice.read and Guardados owner not wired. Do not invent counts."
   },
-  "handoff": "docs/s3-night/S3_A1_NOCHE_B_HANDOFF_20261102.md"
+  "handoff": "docs/s3-night/S3_A1_NOCHE_A_2000_HANDOFF_20261102.md"
 }
