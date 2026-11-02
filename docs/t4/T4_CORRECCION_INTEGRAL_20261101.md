@@ -71,3 +71,30 @@
 - `main` intacta, paquete FARO habitual intacto, no S3/S4; esta actualización no adquiere writer y no activa FARO Noche. Es exclusivamente documental.
 
 **Próxima acción prioritaria:** no construir otra APK ni repetir pruebas positivas. Elegir un pequeño lote dirigido de casos negativos SAF y registrar sus resultados, y en paralelo mapear los criterios de F2/F4/F3 realmente pendientes para terminar T4 sin confundir certificación del harness con la del producto.
+
+
+## Preverificación preventiva previa a nuevos ensayos (01/11/2026, solo lectura de código)
+
+### Confirmado sin ejecutar un nuevo build
+- El diff de la rama V4 contra `work/faro-t4-build-20261101` afecta solo el launcher debug, su gate y pruebas, workflow y docs. Ningún archivo de `src/main` cambió por V4. `main` observado en `9bae214541f466a62e149853931b96abb8d74ed9` al momento de verificar.
+- Actions #41356724771 `completed/success`, HEAD compilado `339c394e2e118a3b47f5e6977ae725d90e54581b`, **4/4 tests del gate**; no es una suite de ciclo de vida Activity ni de contenido persistido.
+- Dos launchers `ActivityResult` fijos distinguen EXPORT/RESTORE. `handlePicked` reinicia el gate y desmarca checkbox, y la confirmación posterior es one-shot. La evidencia física positiva V4 indica que el flujo principal dejó de perder el ticket al regresar del picker.
+- `AndroidBackupSafAdapter` usa `wt` para truncar, verifica tamaño/SHA leyendo destino y ante fallos posteriores a escritura registra `EFFECT_UNKNOWN`; la restauración ingresa primero por staging privado y autentica el contenedor antes de validar generación aislada.
+
+### Riesgos remanentes detectados por inspección (NO equivalen a defectos reproducidos)
+1. **R1, integración productiva / bloqueo conocido:** `FaroV5FiveStoreSafConsentActivity` sigue siendo una ruta distinta, con `pending` efímero; la preparación de exportación productiva exige `V2_ACTIVE_ENABLED=true`, que continúa prohibido. El PASS V4 no resuelve F3 del producto. Requiere un flujo S2 mínimo autorizado y gates separados, **no** activar V2 solo para probar.
+2. **R2, cobertura de datos:** `prepareSyntheticExport` crea/abre las bases de los cinco owners, pero **no siembra registros de prueba conocidos** ni demuestra recuperación de filas. El roundtrip físico V4 valida sobre todo estructura, transporte cifrado, integridad y journal; aún falta un fixture con contenido no trivial + comparación por owner sin datos reales.
+3. **R3, destrucción de Activity durante escritura:** `onDestroy` cancela `CancellationSignal` y hace `worker.shutdownNow()`. El worker puede quedar a medio escribir un documento externo; proveedor SAF puede haber creado archivo vacío o parcial. No reutilizar el respaldo VERDE ni afirmar que una cancelación deshace el documento externo.
+4. **R4, limpieza tras muerte de proceso:** el directorio de intento está en `noBackupFilesDir` y se elimina en un `finally` best-effort. La muerte abrupta evita ese `finally`; **no se encontró barrido al reiniciar** en el Activity V4. Es material únicamente sintético por diseño, pero varios reintentos interrumpidos podrían dejar basura privada.
+5. **R5, pruebas de ciclo de vida insuficientes:** los 4 tests JVM comprueban el gate puro, **no** reconstrucción de Activity/ActivityResult, reinicio de proceso, permisos SAF, cancelación real o comportamiento de proveedor de documentos. El camino verde físico tampoco cubre esos negativos.
+6. **R6, diagnósticos:** la Activity V4 captura `Exception` y muestra principalmente el nombre de clase. Ante un archivo corrupto, permiso revocado u otro fallo, la UI puede dar `ROJO` sin razón suficiente para diferenciarlo; preservar mensaje/captura y contrastar con logs locales limpios de secretos.
+7. **R7, archivos al elegir destino:** `ACTION_CREATE_DOCUMENT` puede crear un documento exterior antes del clic `CONFIRMAR` de FARO. El consent gate impide escribir contenido FARO prematuramente, pero no puede impedir que el proveedor cree el archivo vacío. No interpretar un nombre de archivo existente como éxito ni prometer ausencia total de documento externo.
+8. **R8, exclusividad del harness:** el `worker`, `isWorking` y `SingleProcessMaterialWriteGate` del intento son por instancia/fixture, no una exclusividad global probada entre varias instancias de Activity con el mismo URI externo. Evitar dos ventanas escribiendo sobre el mismo archivo; producción necesita revisión independiente de writer.
+
+### Plan mínimo para adelantarse a fallos, sin duplicar ensayos aprobados
+- **Primero sin APK nueva:** (a) cancelar `ACTION_OPEN_DOCUMENT` y `ACTION_CREATE_DOCUMENT` sin confirmar; (b) elegir archivo de prueba inválido para restauración y comprobar ROJO sin cambio V1; (c) elegir archivo y girar/recrear pantalla **antes** de confirmar, verificar consentimiento desmarcado y confirmar nuevamente. Usar siempre archivos sintéticos de prueba, nunca sobrescribir el respaldo VERDE.
+- **Luego, solo con control de efectos:** interrumpir durante la operación en archivo sintético descartable, observar resultado incierto y revisar/eliminar manualmente el destino incompleto; evitar automatizar muerte de proceso mientras se escribe hasta tener un procedimiento de recuperación.
+- **Para cerrar cobertura de contenido:** incorporar un fixture no vacío de los cinco owners y oráculos de comparación antes/después, más tests de lifecycle instrumentados, en una futura variante aislada si se autoriza cambiar código. No exigir al usuario instalar inmediatamente una nueva APK solo por este hallazgo.
+- **Para F2/F4 y F3 productiva:** mapear gates/criterios congelados por separado. `T4` sigue abierto y `S2.A6=3/8`; preservar V2 OFF, `main` sin cambios, no S3/S4 y no activar FARO Noche.
+
+_Esta sección registra verificación estática y recomendaciones; no se ejecutaron pruebas físicas nuevas, no se modificó código, no se creó APK._
