@@ -2,9 +2,9 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A6_ANDROID_COMPOSE_IMPORT_FIX_CI_TRIGGER",
+  "session": "NIGHT_B4_FINAL_AUTOMATED_GATE_AND_SINGLE_APK_HANDOFF",
   "branch": "work/s2-chat-finish-night-20261102",
-  "last_functional_commit": "9161ca157fffb242b62a7885dc030c6ecf8d30a2",
+  "last_functional_commit": "def90be3cafc7fec25885448315a57b5215eda0b",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
@@ -89,22 +89,33 @@
     }
   ],
   "not_verified": [
-    "new debug APK compile and directed JVM XML",
-    "new Android entry instrumentation",
-    "A5 picker UI+reader end-to-end Android instrumentation",
-    "A5 explicit per-content egress consent and actual attachment delivery",
-    "physical T4",
-    "live Groq on user device",
-    "A5 new draft consent policy JVM tests and UI integration",
-    "new A5 consented text-to-draft Compose/Android build on SHA 7b740e9... (commit deliberately skipped CI while previous run pending)",
-    "new Android A5 ContentResolver reader 3 tests prepared as unreferenced commit dcc1f965...; not yet published",
-    "A5 Android ContentResolver 3 tests now committed but not executed",
-    "Latest workflow 5/5 Android + A5 9/9 JVM not executed",
-    "A4 debug-app provider UID fix has no fresh Android XML PASS yet; do not treat static manifest check as instrumentation success",
-    "A4 provider registration assertion is unexecuted until one final directed Android CI"
+    "physical Moto G15 single integrated T4",
+    "live Groq with on-device consent and local credential",
+    "physical Chat→Review→Apply→receipt→Delivery→restart without duplicates"
   ],
-  "next": "Verify new push CI for A6 HEAD, confirm 9 A5 JVM + 4 F1 JVM and 5 Android XML. If green validate one APK SHA/signature; if red fix actual failure. No repeat SAF.",
+  "next": "Only one minimal Moto G15 consented physical F1/T4 journey; no further autonomous coding or CI required unless physical RED. Do not declare S2 8/8 without evidence.",
   "prepared_next_commit": null,
   "android_test_published": true,
-  "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS."
+  "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS.",
+  "execution_state": "READY_FOR_SINGLE_MINIMAL_PHYSICAL_T4",
+  "automated_validation": {
+    "run_id": 41421309967,
+    "head_sha": "def90be3cafc7fec25885448315a57b5215eda0b",
+    "status": "completed",
+    "conclusion": "success",
+    "jvm_f1": "4/4 PASS XML",
+    "jvm_a5": "9/9 PASS XML",
+    "android_integrated": "5/5 PASS XML",
+    "physical_t4": "NOT_RUN"
+  },
+  "apk": {
+    "artifact_id": 13129913168,
+    "artifact_name": "FARO-S2-CHAT-ISOLATED-DEBUG-NOT-PHYSICALLY-VERIFIED",
+    "package": "ar.com.faro.alpha.s2isolated.v5dev",
+    "version_code": 66,
+    "version_name": "5.0.0-dev-debug",
+    "sha256": "0efe51ea514eb49407e166a08865ee9499b47bb9c48c5b6a9f579113f7efc238",
+    "signer_sha256": "cc14bcf1b2890e8fabcfcab0e2d8f18f23a98c9e7beb6a7af796dfd589b106db",
+    "artifact_zip_sha256": "ab57643b082c761149010165a1c1539762cac5da4bf2b1e65bc9fbc5c5c0b638"
+  }
 }

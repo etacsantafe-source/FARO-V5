@@ -39,9 +39,9 @@
       "id": 4,
       "code": "F1_ANDROID_CHAT_E2E",
       "status": "OPEN",
-      "basis": "Automated F1 tests and reported physical Groq debug are positive; no observed full Moto G15 Chat→Review→Apply→receipt→Delivery→recovery chain",
-      "execution_state": "IN_PROGRESS_FUNCTIONAL_IMPLEMENTATION_CI_PENDING",
-      "blocking_dependency": "User-accessible integrated Chat→Review→Apply→receipt→Delivery→recovery demonstration in isolated runtime"
+      "basis": "Actions #41421309967: 4/4 F1 JVM, 9/9 A5 JVM and 5/5 integrated Android emulator PASS; live Groq and physical F1 not run",
+      "execution_state": "AUTOMATED_GREEN_PHYSICAL_PENDING",
+      "blocking_dependency": "Single Moto G15 on-device consented Chat→Review→Apply→receipt→Delivery→restart evidence"
     },
     {
       "id": 5,
@@ -66,24 +66,31 @@
       "id": 8,
       "code": "T4_PHYSICAL",
       "status": "IN_PROGRESS",
-      "basis": "User-reported successful isolated SAF V4/V5 and prior device-run 27/27; no complete observed physical integrated F1→F4 T4 campaign on one build",
-      "execution_state": "DEFERRED_SINGLE_MINIMAL_PHYSICAL_T4",
-      "blocking_dependency": "Physical one-build integrated F1–F4 campaign; SAF-only positive portion completed"
+      "basis": "One isolated APK compiled, package/signature/SHA256 verified in Actions #41421309967; Android 5/5 synthetic PASS; no Moto G15 physical run",
+      "execution_state": "READY_FOR_SINGLE_MINIMAL_PHYSICAL_T4",
+      "blocking_dependency": "Single physical Moto G15 F1/T4 journey on APK SHA256 0efe51ea..."
     }
   ],
-  "remaining_required": "Finish and verify new isolated Chat + A5 automatic gates, then one minimal Moto G15 physical F1/T4 journey with explicit on-device Groq consent",
+  "remaining_required": "One minimal physical Moto G15 consented F1/T4 journey on one verified isolated debug APK. No repeat SAF or automatic gates.",
   "no_more_saf_repetition_needed": true,
   "no_groq_secret_requested": true,
   "no_physical_or_production_pass_invented": true,
-  "execution_state": "F1_DEVELOPMENT_RESUMED_AUTOMATED_GATES_PENDING",
+  "execution_state": "READY_FOR_SINGLE_MINIMAL_PHYSICAL_T4",
   "freeze_date_local": "2026-11-02",
-  "freeze_reason": "The complete physical F1/T4 journey cannot be carried out: shipping Chat/UI and integrated Chat→Review→Apply→receipt→Delivery→recovery are not available for the human walkthrough with V2 OFF. Avoid fake certification or repetitive partial SAF tests.",
+  "freeze_reason": "Superseded by 2026-11-02 human authorization and completed isolated Chat/A5 automated CI; physical criterion remains OPEN.",
   "freeze_scope": "Freeze only criteria 4 and 8 and the remaining S2.A6 certification campaign; preserve existing certified technical scope 1,2,3,5,6,7.",
-  "unfreeze_when": "A safe testable integrated Chat/Review/Apply/Delivery surface exists in a single isolated APK and can be exercised with human approval; revalidate the frozen criterion contract before physical execution.",
+  "unfreeze_when": "Automated candidate ready; one human-approved physical consented T4 journey remains.",
   "replay_policy": "Reuse PASS evidence; no repeat of SAF V4/V5, Groq debug, 32/32 CI or 27/27 instrumented physical tests just for bureaucracy.",
   "last_human_decision": "2026-11-02: authorized autonomous S2 development without clock cutoff; keep V2 OFF, no production or Android consent inferred",
   "freeze_superseded_by_authorization": true,
   "night_work_branch": "work/s2-chat-finish-night-20261102",
-  "candidate_functional_sha": "505672b359844eb8efb7ab70585b2e69cb2cbcbe",
-  "automated_validation": "PENDING_ACTIONS_41387836208_AND_41388266987"
+  "candidate_functional_sha": "def90be3cafc7fec25885448315a57b5215eda0b",
+  "automated_validation": {
+    "run_id": 41421309967,
+    "head_sha": "def90be3cafc7fec25885448315a57b5215eda0b",
+    "conclusion": "success",
+    "f1_jvm": "4/4 PASS",
+    "a5_jvm": "9/9 PASS",
+    "integrated_android": "5/5 PASS"
+  }
 }
