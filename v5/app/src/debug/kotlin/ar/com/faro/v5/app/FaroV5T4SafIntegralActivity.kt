@@ -466,7 +466,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         val receipt = prep.adapter.writeSelectedExportDocument(
             contentResolver, uri, prep.source, cancellation
         )
-        check(Files.readString(testRoot.resolve("v1-sentinel/protected")) == "V1-untouched")
+        check(String(Files.readAllBytes(testRoot.resolve("v1-sentinel/protected")), Charsets.UTF_8) == "V1-untouched")
         check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
         return if (receipt.status == BackupExternalWriteStatus.SUCCESS) {
             "VERDE: respaldo sintético cifrado escrito y verificado por Android. " +
@@ -549,7 +549,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
                 check(verified is FiveStoreJournalValidationResult.Validated)
                 check(pointer.read() == before)
                 check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
-                check(Files.readString(testRoot.resolve("v1-sentinel/protected")) == "V1-untouched")
+                check(String(Files.readAllBytes(testRoot.resolve("v1-sentinel/protected")), Charsets.UTF_8) == "V1-untouched")
                 return "VERDE: selector SAF real, cinco almacenes autenticados, " +
                     "datos no vacios de cinco almacenes verificados, journal VALIDATED, V1 intacta y V2 OFF."
             } finally {
