@@ -2,6 +2,7 @@ package ar.com.faro.v5.app
 
 import android.os.SystemClock
 import android.view.View
+import android.view.WindowManager
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -48,6 +49,9 @@ class FaroV5F1IsolatedEntryInstrumentationTest {
         assertFalse("No implicit Groq consent in a fresh debug app", before.remoteReasoningEnabled)
         ActivityScenario.launch(FaroV5F1IsolatedChatActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
+                // DEBUG Chat is screenshot-friendly; credential Settings is secure.
+                assertEquals(0, activity.window.attributes.flags and
+                    WindowManager.LayoutParams.FLAG_SECURE)
                 requireNotNull(findButton(activity.window.decorView)).performClick()
             }
             var denied = false
