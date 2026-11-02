@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "PREPARING",
+  "night": "ACTIVE_SCHEDULED",
   "authorization": "EXPLICIT_USER_2026-11-02",
   "deadline": "2026-11-02T22:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -18,11 +18,11 @@
     "A:19:00/20:00/21:00",
     "B:19:30/20:30/21:30"
   ],
-  "slots_status": "UNSCHEDULED",
+  "slots_status": "A_B_CREATED_ENABLED",
   "gates": {
-    "shared_queue_two_sessions": "NOT_RUN",
-    "competing_writer_safe_stop": "NOT_RUN",
-    "contract_freeze": "NOT_RUN",
+    "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
+    "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
+    "contract_freeze": "DRAFT_REVIEWED_TESTS_PENDING",
     "physical_at_end": "NOT_RUN"
   },
   "tasks": [
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Stage shared CLOUD queue by CAS; schedule A/B only after lock release. At 22:00 stop writes; final report 22:10 READ_ONLY.",
+  "next": "P00 contract review drafted, must validate types/tests/explicit bounded reopen before PASS. Then A1; deadline 22:00.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -43,5 +43,12 @@
     "No physical tests before final campaign",
     "No claim of PASS without evidence",
     "No automation beyond deadline"
-  ]
+  ],
+  "automations": {
+    "A": "6ae9072890248191b886a790cf456be6",
+    "B": "6ae9072a7b6c8191b9e107fe6d6c6940",
+    "report": "6ae9073eccd08191b88aec776771ca9e"
+  },
+  "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
+  "last_completed_gate": "S3-N00"
 }

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-02",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_PREP",
+  "phase": "S3_OPEN_NIGHT_ACTIVE",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -27,13 +27,16 @@
     "authorized_until": "2026-11-02T22:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "PREPARING_SCHEDULES"
+    "status": "A_B_ENABLED_SCHEDULED",
+    "A_id": "6ae9072890248191b886a790cf456be6",
+    "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
+    "final_id": "6ae9073eccd08191b88aec776771ca9e"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_UNTIL_22;NO_S4;NO_APP_V2;NO_MAIN;NO_V4.4_WRITES;NO_PAID_APIS;PHYSICAL_TESTS_AT_END",
-  "next": "Read RUN_STATE and queue.json. Validate shared CAS writer and CLOUD queue using both A/B. Start bounded contract freeze P00 before A1; no false PASS. All mutation stops at 22:00 AR.",
-  "checkpoint_status": "S3_OPEN_NIGHT_SCHEDULE_PENDING",
+  "next": "Read CLOUD queue latest, S3 P00 review doc, writer; P00 tests and bounded reopen decision before A1. No app V2/S4; 22:00 hard stop.",
+  "checkpoint_status": "N00_AB_PASS_P00_DRAFT_NOT_FROZEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical."
 }
