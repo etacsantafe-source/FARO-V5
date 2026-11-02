@@ -2,9 +2,9 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A2_FINAL",
+  "session": "NIGHT_A2_UI_CHECKPOINT",
   "branch": "work/s2-chat-finish-night-20261102",
-  "last_functional_commit": "a630634bf96ff89a5cb9c0366eca6112d2ce585e",
+  "last_functional_commit": "7b740e9fcaefb264f284a0d0feed82d56aa2ac45",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
@@ -24,13 +24,15 @@
     "exclusive restart recovery for PROCESSING without model replay",
     "Android instrumentation test of denied consent and consented Compose entry",
     "A5 Android OpenMultipleDocuments picker wired into actual Chat; canonical conversation and picker request bound to bounded reader and pure ingress policy; ephemeral payloads wiped, metadata-only local preview, no network egress",
-    "A5 pure second-stage text draft consent gate: explicit confirmation, current conversation/picker, SHA-256 and size binding, <=8 KiB supported text only, no network authority; 8 JVM tests added (not yet run)"
+    "A5 pure second-stage text draft consent gate: explicit confirmation, current conversation/picker, SHA-256 and size binding, <=8 KiB supported text only, no network authority; 8 JVM tests added (not yet run)",
+    "A5 isolated Chat content-specific text confirmation dialog, SHA256+byte recheck, 8KiB text-only draft insertion, separate user Send and trusted egress; other formats remain local preview (UNVERIFIED)",
+    "A5 draft consent 9 JVM tests and workflow directed gate; Android Compose Chat/Review/Apply/Delivery/restart test selected for next CI (UNVERIFIED)"
   ],
   "verification": [
     {
       "run_id": 41390549337,
       "sha": "a630634bf96ff89a5cb9c0366eca6112d2ce585e",
-      "status": "pending",
+      "status": "in_progress",
       "conclusion": null
     },
     {
@@ -53,7 +55,10 @@
     "A5 explicit per-content egress consent and actual attachment delivery",
     "physical T4",
     "live Groq on user device",
-    "A5 new draft consent policy JVM tests and UI integration"
+    "A5 new draft consent policy JVM tests and UI integration",
+    "new A5 consented text-to-draft Compose/Android build on SHA 7b740e9... (commit deliberately skipped CI while previous run pending)",
+    "new Android A5 ContentResolver reader 3 tests prepared as unreferenced commit dcc1f965...; not yet published"
   ],
-  "next": "Verify #41390549337 build first. Wire ConversationAttachmentDraftConsentPolicy to visible content-specific confirmation in isolated Chat; validate bytes/Workspace again, edit draft only, separate Send and trusted egress. Add Android tests, run affected gates and one APK."
+  "next": "Check #41390549337 (older SHA a630634) first. After it finishes, publish prepared Android A5 reader test from Git objects (rebase onto current HEAD via tree blobs if needed), trigger one new directed Actions run covering 9 JVM + 5 Android cases. Fix red before final APK. Keep T4 physical pending.",
+  "prepared_next_commit": "dcc1f9653e1bfba727b3626fa77c04a5835da35e"
 }
