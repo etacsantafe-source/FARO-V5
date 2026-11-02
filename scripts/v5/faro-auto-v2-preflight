@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# FARO Auto V2 — read-only admission diagnostic. NEVER starts a worker.
+set -euo pipefail
+EXPECTED_REMOTE='etacsantafe-source/FARO-V5'
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+[[ -n "$ROOT" ]] || { echo 'STOP: not a git repository'; exit 20; }
+cd "$ROOT"
+remote="$(git remote get-url origin 2>/dev/null || true)"
+case "$remote" in
+  "git@github.com:${EXPECTED_REMOTE}.git"|"https://github.com/${EXPECTED_REMOTE}"|"https://github.com/${EXPECTED_REMOTE}.git") ;;
+  *) echo "STOP: origin is not ${EXPECTED_REMOTE}"; exit 20;;
+esac
+branch="$(git branch --show-current)"
+case "$branch" in
+  work/faro-auto-v2-integration-* ) ;;
+  *) echo "STOP: non-isolated branch: $branch"; exit 20;;
+esac
+[[ -z "$(git status --porcelain)" ]] || { echo 'STOP: dirty worktree'; exit 20; }
+[[ -f docs/s2-night/RUN_STATE.json ]] || { echo 'STOP: S2 state missing'; exit 20; }
+[[ -f docs/v5/FARO_CONTINUITY_POINTER.json ]] || { echo 'STOP: continuity pointer missing'; exit 20; }
+if command -v python3 >/dev/null 2>&1; then
+python3 - <<'PY'
+import json,sys
+s=json.load(open('docs/s2-night/RUN_STATE.json'))
+p=json.load(open('docs/v5/FARO_CONTINUITY_POINTER.json'))
+assert s.get('phase')=='S2_CLOSED' and s.get('certified')==8 and s.get('total')==8
+assert s.get('v2_active_enabled') is False and s.get('s3_open') is False and s.get('s4_open') is False
+assert p.get('automation',{}).get('activation_authorized') is False
+print('S2 CLOSED 8/8; app V2 OFF; S3/S4 OFF; no automation authorization')
+PY
+else
+  echo 'STOP: python3 required to validate state'; exit 20
+fi
+echo "READ_ONLY_PASS: origin=$remote branch=$branch head=$(git rev-parse HEAD)"
+echo 'NOT_AUTHORIZED: no shared writer CAS, no live lease check, no worker execution'
