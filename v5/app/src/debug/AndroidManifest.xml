@@ -14,7 +14,7 @@
             android:name="ar.com.faro.v5.app.FaroV5F1IsolatedChatActivity"
             android:exported="true"
             android:label="FARO S2 CHAT AISLADO"
-            android:excludeFromRecents="true"
+            android:excludeFromRecents="false"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
