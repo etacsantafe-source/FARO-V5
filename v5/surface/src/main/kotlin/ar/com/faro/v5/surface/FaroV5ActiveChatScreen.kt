@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
@@ -27,6 +29,9 @@ import ar.com.faro.v5.kernel.contracts.ConversationAcceptedUserTurn
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort
 import ar.com.faro.v5.kernel.contracts.ConversationDraftEditorState
 import ar.com.faro.v5.kernel.contracts.ConversationDraftPolicy
+import ar.com.faro.v5.kernel.contracts.ConversationAttachmentDraftConsentPolicy
+import ar.com.faro.v5.kernel.contracts.DraftConsent
+import ar.com.faro.v5.kernel.contracts.AttachmentDraftDecision
 import ar.com.faro.v5.kernel.contracts.ConversationDraftSendRequest
 import ar.com.faro.v5.kernel.contracts.ConversationDraftWriteResult
 import ar.com.faro.v5.kernel.contracts.ConversationId
@@ -36,6 +41,7 @@ import ar.com.faro.v5.kernel.contracts.ConversationTimelineWriteResult
 import ar.com.faro.v5.kernel.contracts.ConversationTurnId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import java.util.UUID
+import java.security.MessageDigest
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,7 +62,7 @@ fun FaroV5ActiveChatScreen(
     reviewPort: ConversationReviewPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
-    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
 ) {
     key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress) {
         FaroV5ActiveChatScreenSession(
@@ -84,7 +90,7 @@ private fun FaroV5ActiveChatScreenSession(
     reviewPort: ConversationReviewPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
-    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
 ) {
     val scope = rememberCoroutineScope()
     var editor by remember(activeConversationId, composerPort) {
@@ -100,6 +106,9 @@ private fun FaroV5ActiveChatScreenSession(
     var reviewBusy by remember(activeConversationId, reviewPort) { mutableStateOf(false) }
     var applyBusy by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
     var attachmentBusy by remember(activeConversationId, attachmentIngress) { mutableStateOf(false) }
+    var pendingTextAttachment by remember(activeConversationId, attachmentIngress) {
+        mutableStateOf<FaroV5AttachmentIngressResult.TextPendingApproval?>(null)
+    }
     var applyUncertain by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
     var canonicalReviews by remember(activeConversationId, reviewPort) {
         mutableStateOf<List<ConversationPlanReviewSnapshot>>(emptyList())
@@ -254,13 +263,14 @@ private fun FaroV5ActiveChatScreenSession(
                 FaroV5TextComposer(
                     editor = currentEditor,
                     onTextChanged = { text ->
-                        if (!busy && !uncertain) {
+                        if (!busy && !uncertain && !attachmentBusy && pendingTextAttachment == null) {
                             editor = editor?.let { ConversationDraftPolicy.edit(it, text) }
                         }
                     },
                     onSend = null,
                     onSubmitEditor = { submitted ->
-                        if (!busy && !uncertain && activeConversationId == submitted.persisted.conversationId) {
+                        if (!busy && !uncertain && !attachmentBusy && pendingTextAttachment == null &&
+                            activeConversationId == submitted.persisted.conversationId) {
                             scope.launch {
                                 busy = true
                                 message = null
@@ -408,7 +418,7 @@ private fun FaroV5ActiveChatScreenSession(
                             }
                         }
                     },
-                    saving = busy || uncertain,
+                    saving = busy || uncertain || attachmentBusy || pendingTextAttachment != null,
                 )
             }
             if (attachmentIngress != null) {
@@ -416,12 +426,21 @@ private fun FaroV5ActiveChatScreenSession(
                     conversationId = activeConversationId,
                     newPickerRequestId = { UUID.randomUUID().toString() },
                     onPicked = { pickedConversation, pickerRequest, uris ->
-                        if (!busy && !uncertain && !attachmentBusy &&
+                        if (!busy && !uncertain && !attachmentBusy && pendingTextAttachment == null &&
                             pickedConversation == activeConversationId) {
                             attachmentBusy = true
                             scope.launch {
                                 try {
-                                    message = attachmentIngress(pickedConversation, pickerRequest, uris)
+                                    when (val result = attachmentIngress(
+                                        pickedConversation, pickerRequest, uris,
+                                    )) {
+                                        is FaroV5AttachmentIngressResult.LocalPreview ->
+                                            message = result.message
+                                        is FaroV5AttachmentIngressResult.TextPendingApproval -> {
+                                            pendingTextAttachment = result
+                                            message = null
+                                        }
+                                    }
                                 } catch (cancelled: CancellationException) {
                                     throw cancelled
                                 } catch (_: Exception) {
@@ -435,7 +454,109 @@ private fun FaroV5ActiveChatScreenSession(
                         }
                     },
                     onError = { message = it },
-                    enabled = !busy && !uncertain && !attachmentBusy,
+                    enabled = !busy && !uncertain && !attachmentBusy && pendingTextAttachment == null,
+                )
+            }
+            val pending = pendingTextAttachment
+            if (pending != null) {
+                val item = pending.ingress.items.singleOrNull()
+                AlertDialog(
+                    onDismissRequest = { pendingTextAttachment = null },
+                    title = { Text("Confirmar texto para el mensaje") },
+                    text = {
+                        Text(
+                            "Archivo: ${item?.displayName ?: "desconocido"} " +
+                                "(${item?.sizeBytes ?: 0} bytes). SHA-256: " +
+                                "${item?.sha256Hex?.take(12) ?: "?"}…\n" +
+                                "Contenido (inicio): ${pending.text.take(180)}\n\n" +
+                                "Si confirmás, el contenido íntegro se incorpora al " +
+                                "borrador de esta conversación. Solo se enviará a Groq " +
+                                "si después pulsás Enviar, y si la política de egreso " +
+                                "lo permite. Cancelar descarta este texto."
+                        )
+                    },
+                    confirmButton = {
+                        TextButton(
+                            enabled = !busy && !uncertain && !attachmentBusy,
+                            onClick = {
+                                if (attachmentBusy) return@TextButton
+                                attachmentBusy = true
+                                scope.launch {
+                                    try {
+                                        val current = editor
+                                        val selected = pending.ingress.items.singleOrNull()
+                                        // Revalidate the exact UTF-8 payload after
+                                        // confirmation; no URI or raw file bytes survive
+                                        // the picker callback.
+                                        val payloadBytes = pending.text.toByteArray(Charsets.UTF_8)
+                                        val contentMatches = try {
+                                            val digestBytes = MessageDigest.getInstance("SHA-256")
+                                                .digest(payloadBytes)
+                                            val hash = try {
+                                                digestBytes.joinToString("") {
+                                                    "%02x".format(it.toInt() and 0xff)
+                                                }
+                                            } finally { digestBytes.fill(0) }
+                                            selected != null &&
+                                                selected.sizeBytes == payloadBytes.size.toLong() &&
+                                                selected.sha256Hex == hash
+                                        } finally { payloadBytes.fill(0) }
+                                        val approval = if (!contentMatches || selected == null)
+                                            null else ConversationAttachmentDraftConsentPolicy.evaluate(
+                                                ingress = pending.ingress,
+                                                activeConversationId = activeConversationId
+                                                    ?: pending.ingress.conversationId,
+                                                activePickerRequestId = pending.ingress.pickerRequestId,
+                                                consent = DraftConsent(
+                                                    pending.ingress.conversationId,
+                                                    pending.ingress.pickerRequestId,
+                                                    selected.sha256Hex,
+                                                    selected.sizeBytes,
+                                                    explicitlyConfirmed = true,
+                                                ),
+                                            )
+                                        val latest = if (activeConversationId != null &&
+                                            composerPort != null
+                                        ) withContext(Dispatchers.IO) {
+                                            composerPort.read(activeConversationId)
+                                        } else null
+                                        if (approval !is AttachmentDraftDecision.ApprovedForDraftOnly ||
+                                            current == null || latest != current.persisted ||
+                                            current.conflict || editor != current
+                                        ) {
+                                            message = "La autorización o el borrador cambió. " +
+                                                "Volvé a seleccionar el archivo."
+                                        } else {
+                                            val addition = "\n\n[Texto de archivo: " +
+                                                selected!!.displayName + "; SHA-256: " +
+                                                selected.sha256Hex + "]\n" +
+                                                pending.text + "\n[/Fin del archivo]\n"
+                                            val merged = current.text + addition
+                                            if (merged.length > ConversationDraftPolicy.MAX_TEXT_CHARS) {
+                                                message = "El texto supera el límite del borrador."
+                                            } else {
+                                                editor = ConversationDraftPolicy.edit(current, merged)
+                                                message = "Texto agregado solo al borrador. " +
+                                                    "Revisalo y pulsá Enviar para solicitar IA."
+                                            }
+                                        }
+                                    } catch (cancelled: CancellationException) {
+                                        throw cancelled
+                                    } catch (_: Exception) {
+                                        message = "No se pudo verificar el texto. No se envió."
+                                    } finally {
+                                        pendingTextAttachment = null
+                                        attachmentBusy = false
+                                    }
+                                }
+                            },
+                        ) { Text("Incorporar al borrador") }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { pendingTextAttachment = null }) {
+                            Text("Cancelar")
+                        }
+                    },
                 )
             }
             if (message != null) {

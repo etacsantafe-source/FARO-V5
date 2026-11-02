@@ -25,7 +25,7 @@ object FaroV5SurfaceHost {
         applyRequestPort: ConversationApplyRequestPort? = null,
         assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
         onOpenAiSettings: Runnable? = null,
-        attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
+        attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
     ) {
         activity.setContent {
             FaroV5Theme {

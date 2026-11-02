@@ -199,7 +199,7 @@ fun FaroV5ShellScaffold(
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     onOpenAiSettings: (() -> Unit)? = null,
-    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },

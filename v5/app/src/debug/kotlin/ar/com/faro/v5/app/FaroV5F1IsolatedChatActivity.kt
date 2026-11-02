@@ -20,6 +20,9 @@ import ar.com.faro.v5.platform.android.ingress.AndroidConversationAttachmentRead
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.surface.FaroV5SurfaceHost
+import ar.com.faro.v5.surface.FaroV5AttachmentIngressResult
+import java.nio.charset.StandardCharsets
+import java.nio.charset.CodingErrorAction
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import java.nio.file.Files
 import java.util.concurrent.Executors
@@ -273,21 +276,23 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
         }
     }
 
-    /** A5 local ingress only: no URI/bytes persisted, no model egress on selection. */
+    /** A5: picker reads remain local until the user confirms a text draft. */
     private suspend fun previewAttachments(
         conversation: ConversationId,
         pickerRequest: String,
         uris: List<Uri>,
-    ): String = withContext(Dispatchers.IO) {
+    ): FaroV5AttachmentIngressResult = withContext(Dispatchers.IO) {
+        fun preview(message: String) =
+            FaroV5AttachmentIngressResult.LocalPreview(message)
         val readPort = session?.host?.workspaceReadPort
-            ?: return@withContext "Chat cerrado. Volvé a seleccionar los archivos."
+            ?: return@withContext preview("Chat cerrado. Volvé a seleccionar los archivos.")
         if (readPort.readSnapshot().activeConversationId != conversation) {
-            return@withContext "La conversación cambió. Volvé a seleccionar los archivos."
+            return@withContext preview("La conversación cambió. Volvé a seleccionar los archivos.")
         }
         val files = AndroidConversationAttachmentReader.readSelected(applicationContext, uris)
         try {
             if (readPort.readSnapshot().activeConversationId != conversation) {
-                return@withContext "La conversación cambió. No se conservaron los archivos."
+                return@withContext preview("La conversación cambió. No se conservaron los archivos.")
             }
             val candidates = files.map { file ->
                 ConversationAttachmentCandidate(
@@ -298,12 +303,28 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
             when (val result = ConversationAttachmentIngressPolicy.evaluate(
                 conversation, pickerRequest, candidates,
             )) {
-                is ConversationAttachmentIngressResult.Ready ->
-                    "${result.items.size} adjunto(s) verificado(s), ${result.totalBytes} bytes. " +
-                        "Solo vista previa local: no se enviaron a Groq ni se guardaron. " +
-                        "El envío de contenido requiere consentimiento específico."
                 is ConversationAttachmentIngressResult.Rejected ->
-                    "Adjuntos rechazados: ${result.reason}. No se envió contenido."
+                    preview("Adjuntos rechazados: ${result.reason}. No se envió contenido.")
+                is ConversationAttachmentIngressResult.Ready -> {
+                    val item = result.items.singleOrNull()
+                    val allowedText = setOf(
+                        "text/plain", "text/markdown", "text/csv", "application/json",
+                    )
+                    if (item == null || item.mimeType !in allowedText ||
+                        item.sizeBytes > ConversationAttachmentDraftConsentPolicy.MAX_DRAFT_TEXT_BYTES
+                    ) {
+                        preview("${result.items.size} archivo(s) verificado(s), ${result.totalBytes} bytes. " +
+                            "Vista previa local solamente. Para incorporar contenido a IA, " +
+                            "seleccioná un único texto de hasta 8 KiB.")
+                    } else {
+                        val decoder = StandardCharsets.UTF_8.newDecoder()
+                            .onMalformedInput(CodingErrorAction.REPORT)
+                            .onUnmappableCharacter(CodingErrorAction.REPORT)
+                        val text = decoder.decode(files.single().readOnlyBytes()).toString()
+                        if (text.isBlank()) preview("El texto está vacío. No se incorporó al borrador.")
+                        else FaroV5AttachmentIngressResult.TextPendingApproval(result, text)
+                    }
+                }
             }
         } finally {
             files.forEach { it.close() }

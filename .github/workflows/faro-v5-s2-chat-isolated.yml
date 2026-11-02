@@ -47,6 +47,22 @@ jobs:
       - name: Directed F1 JVM
         working-directory: v5
         run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests 'ar.com.faro.v5.app.FaroV5QuarantinedV2ChatHostBindingT2Test' --tests 'ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test'
+      - name: Directed A5 explicit-consent contract JVM
+        working-directory: v5
+        run: ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :kernel:contracts:test --tests 'ar.com.faro.v5.kernel.contracts.ConversationAttachmentDraftConsentPolicyTest'
+      - name: Exact A5 consent XML oracle
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          p=Path('v5/kernel/contracts/build/test-results/test/TEST-ar.com.faro.v5.kernel.contracts.ConversationAttachmentDraftConsentPolicyTest.xml')
+          if not p.is_file(): raise SystemExit('MISSING_A5_XML '+str(p))
+          r=ET.parse(p).getroot()
+          got=tuple(int(r.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if got!=(9,0,0,0): raise SystemExit('RED_A5_XML '+str(got))
+          print('A5_TEXT_DRAFT_CONSENT_PASS 9/9; PHYSICAL_T4_NOT_RUN')
+          PY
       - name: Exact XML oracle
         shell: bash
         run: |
@@ -102,21 +118,29 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1IsolatedEntryInstrumentationTest
-      - name: Exact one-test Android XML
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated '-Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F1IsolatedEntryInstrumentationTest,ar.com.faro.v5.app.FaroV5F1QuarantinedComposeInstrumentationTest#composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt'
+      - name: Exact integrated Android XML (entry + reviewed Apply/Delivery/restart)
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import xml.etree.ElementTree as ET
-          cases=[]
+          expected={
+              ('FaroV5F1IsolatedEntryInstrumentationTest',
+               'deniedConsentCreatesNoStoreThenConsentedChatMountsWithoutRemoteCall'),
+              ('FaroV5F1QuarantinedComposeInstrumentationTest',
+               'composeHumanReviewAppliesOnlyToQuarantinedRealityWithCanonicalReceipt'),
+          }
+          found=[]
           for p in Path('v5/app/build/outputs/androidTest-results/connected').rglob('TEST-*.xml'):
               for case in ET.parse(p).getroot().iter('testcase'):
-                  if 'FaroV5F1IsolatedEntryInstrumentationTest' in case.attrib.get('classname',''):
-                      cases.append(case)
-          if len(cases)!=1 or cases[0].attrib.get('name')!='deniedConsentCreatesNoStoreThenConsentedChatMountsWithoutRemoteCall':
-              raise SystemExit('F1_ENTRY_CASE_MISSING')
-          if any(cases[0].find(k) is not None for k in ('failure','error','skipped')):
-              raise SystemExit('F1_ENTRY_CASE_FAILED')
-          print('F1_ISOLATED_CHAT_ENTRY_EMULATOR_PASS 1/1; LIVE_GROQ_PHYSICAL_NOT_RUN')
+                  cls=case.attrib.get('classname','').split('.')[-1]
+                  name=case.attrib.get('name','')
+                  if (cls,name) in expected:
+                      if any(case.find(k) is not None for k in ('failure','error','skipped')):
+                          raise SystemExit('ANDROID_F1_INTEGRATED_RED '+str((cls,name)))
+                      found.append((cls,name))
+          if set(found)!=expected or len(found)!=len(expected):
+              raise SystemExit('ANDROID_F1_INTEGRATED_MISSING '+str(found))
+          print('F1_ANDROID_ISOLATED_ENTRY_AND_REVIEW_APPLY_DELIVERY_RESTART_PASS 2/2; LIVE_GROQ_T4_NOT_RUN')
           PY

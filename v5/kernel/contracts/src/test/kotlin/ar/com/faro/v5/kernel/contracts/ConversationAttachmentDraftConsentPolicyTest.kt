@@ -2,6 +2,7 @@ package ar.com.faro.v5.kernel.contracts
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class ConversationAttachmentDraftConsentPolicyTest {
@@ -95,5 +96,15 @@ class ConversationAttachmentDraftConsentPolicyTest {
         assertTrue(allowed is AttachmentDraftDecision.ApprovedForDraftOnly)
         assertEquals(digest,
             (allowed as AttachmentDraftDecision.ApprovedForDraftOnly).candidate.sha256Hex)
+    }
+
+    @Test fun approvalCannotBypassCanonicalWorkspaceSaveBeforeSend() {
+        assertTrue(decision() is AttachmentDraftDecision.ApprovedForDraftOnly)
+        val snapshot = ConversationDraftSnapshot(chat, "authority-1", 0L, "")
+        val editor = ConversationDraftEditorState(snapshot)
+        val local = ConversationDraftPolicy.edit(editor, "Texto confirmado")
+        assertTrue(local.hasUnsavedChanges)
+        // Consent to stage text is not an accepted user turn or an egress grant.
+        assertNull(ConversationDraftPolicy.sendCandidate(local))
     }
 }
