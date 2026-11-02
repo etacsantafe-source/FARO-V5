@@ -1,15 +1,143 @@
 {
   "schema": 1,
-  "mode": "STAGED",
-  "activation_authorized": false,
-  "phase": "S2_CLOSED_S3_NOT_OPEN",
-  "next_seq": 1,
-  "tasks": [],
+  "mode": "ENABLED",
+  "activation_authorized": true,
+  "authorized_by": "USER_EXPLICIT_CHAT_2026-11-02",
+  "phase": "S3_OPEN",
+  "branch": "work/s3-night-20261102",
+  "timezone": "America/Argentina/Cordoba",
+  "hard_stop_at": "2026-11-02T22:00:00-03:00",
+  "next_seq": 8,
+  "tasks": [
+    {
+      "task_id": "S3-N00",
+      "title": "Demostrar A/B misma cola CLOUD y writer CAS",
+      "priority": "P0",
+      "depends_on": [],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "A y B leen misma queue SHA, verifican writer y permisos, prueban STOP y recuperan checkpoint en una tarea inocua; sin efectos funcionales",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    },
+    {
+      "task_id": "S3-P00",
+      "title": "Cerrar contratos H01-H04 R0-R3 y bounded Guardados",
+      "priority": "P0",
+      "depends_on": [
+        "S3-N00"
+      ],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "Documento congelado con revisión V4.4+apps+adversarial, 172 oficiales intactos hasta aprobación bounded; no falso PASS",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    },
+    {
+      "task_id": "S3-A1",
+      "title": "Inicio con 4 indicadores y drawer único",
+      "priority": "P1",
+      "depends_on": [
+        "S3-P00"
+      ],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    },
+    {
+      "task_id": "S3-A2",
+      "title": "Búsqueda global/in-chat offline explicable",
+      "priority": "P1",
+      "depends_on": [
+        "S3-A1"
+      ],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "Código+tests español, cobertura parcial, fuentes y restore",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    },
+    {
+      "task_id": "S3-A3",
+      "title": "Guardados exactos y persistentes",
+      "priority": "P1",
+      "depends_on": [
+        "S3-P00",
+        "S3-A1"
+      ],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "Referencias MessageRef, permisos, borrado/restore, idempotencia",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    },
+    {
+      "task_id": "S3-A4",
+      "title": "Actividad, Avisos y Resúmenes",
+      "priority": "P1",
+      "depends_on": [
+        "S3-A1",
+        "S3-P00"
+      ],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "Activity receipt-only, notice non-mutating, summaries consent",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    },
+    {
+      "task_id": "S3-A5",
+      "title": "Integrar Chat y cierre S3",
+      "priority": "P1",
+      "depends_on": [
+        "S3-A2",
+        "S3-A3",
+        "S3-A4"
+      ],
+      "status": "PENDING",
+      "claimed_by": null,
+      "head_expected": null,
+      "attempts": 0,
+      "acceptance": "Review/Apply autoridad, resource guard, recovery, X01-X12; campaña física final, nunca fingir PASS",
+      "action_run_ids": [],
+      "checkpoint": null,
+      "evidence": null
+    }
+  ],
   "inflight": null,
-  "last_checkpoint": null,
+  "last_checkpoint": {
+    "source": "docs/s3-night/RUN_STATE.json",
+    "commit_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+    "task_id": "S3-N00",
+    "status": "READY_FOR_FIRST_NIGHT_TURN"
+  },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
-  "activation_requires": "EXPLICIT_USER_APPROVAL_IN_NEW_CHAT",
-  "last_committed_sha": "2080a25ec88e0b127cf1ba38728c687429781f57",
-  "cas_probe": "PASS_STALE_CAS_REJECTED"
+  "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
+  "last_committed_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+  "cas_probe": "PASS_STALE_CAS_REJECTED_2026-11-02_PREPARATION",
+  "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
+  "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
+  "app_v2": false,
+  "s4": false
 }
