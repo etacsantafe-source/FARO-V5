@@ -59,3 +59,20 @@ Log de error: `NoSuchMethodError: No static method readString(Ljava/nio/file/Pat
 **Corrección:** las dos llamadas debug `Files.readString(path)` fueron reemplazadas por `String(Files.readAllBytes(path), Charsets.UTF_8)` en `FaroV5T4SafIntegralActivity.kt`, sin alterar producto. Commit de corrección `d5e178a5e34fd6c85fc5f9afe45d9a6e201aa446`.
 
 **Reintento:** Actions #41379627980, SHA `0a2c1f4e8bcfa04820f4ede7513c041da936cfac`, disparada; resultado **no verificado todavía** al escribir. El workflow impide reintroducir `Files.readString(` en este harness. No dar 25/25 ni F3 productiva por cerrados hasta obtener XML final.
+
+## Cierre automatizado V5 — 32/32 PASS y artefacto único publicado
+
+- GitHub Actions **#41379627980**, SHA funcional `0a2c1f4e8bcfa04820f4ede7513c041da936cfac`: `completed/success`, JVM **7/7**, Android API35 emulado **25/25**, XML exacto PASS. Incluye provider MediaStore real `content://`, cinco owners con fixtures no vacíos, reconstrucción/cancelación de Activity y rechazo de archivo corrupto.
+- La regresión Android API35 por `Files.readString` fue corregida antes de esta ejecución y no reapareció.
+- Release workflow **#41380364442**, SHA `61d8579e73c61b9839f54f615f6402fb4aa8f6a0`: `completed/success`; verificó por GitHub API identidad y éxito del run de 32 casos; verificó que no hay modificaciones de `v5/` desde el SHA probado; compiló, verificó `aapt` y firma debug y publicó **una sola APK**.
+- Release prerelease: https://github.com/etacsantafe-source/FARO-V5/releases/tag/faro-v5-t4-saf-auto-v5-20261101
+- APK: `FARO-V5-T4-SAF-AUTO-V5.apk`, `61,903,795` bytes, SHA-256 **`2619ce5ecc9ff1a34f9b460506147742022ef0eab14991e40869c8743afdd789`**.
+- Android package **`ar.com.faro.alpha.t4saf5.v5dev`**, `versionCode=66`, `versionName=5.0.0-dev-debug`, `minSdk=29`, `targetSdk=36`.
+- Debug signing certificate SHA-256: `789d0405571e36602777b28bea180e20190ca3d59c68d0119c1b51b9abfec3a8`.
+- Asset URL: https://github.com/etacsantafe-source/FARO-V5/releases/download/faro-v5-t4-saf-auto-v5-20261101/FARO-V5-T4-SAF-AUTO-V5.apk
+- SHA/firma y manifiesto inmutable: https://github.com/etacsantafe-source/FARO-V5/releases/download/faro-v5-t4-saf-auto-v5-20261101/T4-SAF-AUTO-V5-MANIFEST.txt
+
+### Siguiente fase, limitada a hardware real
+Instalar este APK **aislado** en Moto G15 y verificar **una exportación + una restauración SAF** con consentimiento nuevo y contenido sintético no vacío. No volver a ejecutar JVM/emulador en teléfono; no sustituir el APK V4 que ya tenía export/restore VERDE, ni quitar FARO habitual. Como dos paquetes tienen etiqueta parecida, abrir mediante `adb shell am start -n ar.com.faro.alpha.t4saf5.v5dev/ar.com.faro.v5.app.FaroV5T4SafIntegralActivity` para garantizar identidad.
+
+**T4 global NO CERTIFICADO / S2.A6 3/8 / V2 OFF.** El PASS de un harness sintético, aunque sea físico, no equivale a F3 productiva. Los otros criterios 4–8 deben evaluarse contra sus contratos congelados, sin cambiar estados por inferencia. GitHub `main` sigue protegida sin cambios productivos.
