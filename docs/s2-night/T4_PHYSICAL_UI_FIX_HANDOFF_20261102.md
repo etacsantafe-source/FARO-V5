@@ -20,3 +20,13 @@
 2. Actualizar por ADB solo la APK aislada sin borrar datos, para verificar capturas y texto humanizado.
 3. Comprobar recibo, aviso y ausencia de duplicación tras relanzamiento, sin repetir llamada Groq o Apply ya observados salvo error. Solo con evidencia física suficiente emitir dictamen final 8/8.
 Protecciones conservadas: V2 OFF, main y FARO habitual intactos, S3/S4 cerrados, writer NONE.
+
+## Evidencia posterior: SQLite físico en copia read-only (02/11/2026)
+- Usuario extrajo cinco SQLite de la instalación aislada y reportó PRAGMA integrity_check=ok para Workspace, Auxiliary, Reality, Commercial Evidence y Web Evidence.
+- Reality: apply_attempt=1 (transaction_id único); execution_receipt=1 (receipt_id único, transaction_id no repetido); JOIN por transaction_id: COMMITTED, un recibo, fingerprint coincidente.
+- Workspace: workspace_receipt=13, claves únicas=13.
+- Auxiliary: delivery_notice=1; notice_id notice-c944365c-4cfb-4b41-9618-6c2db4ff0458, notice_key f1-apply-0544d8db-54b8-3160-85c6-3dbb402a45fa, source_ref f1-reviewed-apply, occurrence_ref committed, summary 'Cambios aplicados y registrados', relevance OPEN, attention UNSEEN, revision 1.
+- Auxiliary: delivery_intent=1; notice_id coincide con delivery_notice; sink ANDROID_NOTIFICATION, desired_action UPSERT, state PLANNED.
+- En estas copias hay un aviso y una intención, sin duplicación observada. PLANNED no certifica publicación efectiva de notificación Android; no confundir persistencia de aviso con entrega del sink. La muestra no demuestra por sí sola la ausencia de duplicados futuros.
+- Usuario confirmó que no volvió a modificar datos en Termux después de extraerlos. No repetir Groq, Apply ni pruebas físicas ya aprobadas.
+- Mantener S2.A6 sin cierre definitivo hasta resolver explícitamente el criterio de entrega Android o justificar por contrato que el estado PLANNED es suficiente; V2 OFF, main intacta, S3/S4 no abrir.
