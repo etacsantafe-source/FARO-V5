@@ -1,6 +1,13 @@
 package ar.com.faro.v5.app
 
 import android.app.Activity
+import android.content.ContentValues
+import android.os.CancellationSignal
+import android.provider.MediaStore
+import java.nio.file.Files
+import java.nio.file.Path
+import java.lang.reflect.InvocationTargetException
+import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import android.content.Intent
 import android.net.Uri
 import android.widget.Button
@@ -118,4 +125,93 @@ class FaroV5T4SafHardeningInstrumentationTest {
             }
         }
     }
+
+
+    /**
+     * Android MediaStore is a real content:// provider (not a user picker).
+     * Invoke the isolated synthetic harness, then require exact five-owner
+     * equality and a nonempty restored Workspace fixture.
+     */
+    @Test fun mediaStoreProviderRoundTripVerifiesNonemptyWorkspaceAndAllFiveOwners() {
+        ActivityScenario.launch(FaroV5T4SafIntegralActivity::class.java).use { scenario ->
+            lateinit var activity: FaroV5T4SafIntegralActivity
+            scenario.onActivity { activity = it }
+            val root = Files.createTempDirectory(activity.noBackupFilesDir.toPath(), "t4-direct-")
+            val restored = Files.createTempDirectory(activity.noBackupFilesDir.toPath(), "t4-restored-")
+            val resolver = activity.contentResolver
+            val uri = checkNotNull(resolver.insert(
+                MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME,
+                        "t4-hardening-${System.nanoTime()}.farobak")
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
+                }
+            ))
+            try {
+                val prepare = FaroV5T4SafIntegralActivity::class.java.getDeclaredMethod(
+                    "prepareSyntheticExport", Path::class.java
+                ).apply { isAccessible = true }
+                val prepared = prepare.invoke(activity, root)
+                val export = FaroV5T4SafIntegralActivity::class.java.getDeclaredMethod(
+                    "exportSelected", Uri::class.java, prepared.javaClass,
+                    Path::class.java, CancellationSignal::class.java
+                ).apply { isAccessible = true }
+                val exported = export.invoke(
+                    activity, uri, prepared, root, CancellationSignal()
+                ) as String
+                assertTrue(exported, exported.startsWith("VERDE:"))
+                val restore = FaroV5T4SafIntegralActivity::class.java.getDeclaredMethod(
+                    "restoreSelected", Uri::class.java, Path::class.java,
+                    CancellationSignal::class.java
+                ).apply { isAccessible = true }
+                val outcome = restore.invoke(
+                    activity, uri, restored, CancellationSignal()
+                ) as String
+                assertTrue(outcome, outcome.startsWith("VERDE:"))
+                assertTrue(outcome, outcome.contains("contenido Workspace verificado"))
+                assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            } finally {
+                resolver.delete(uri, null, null)
+                root.toFile().deleteRecursively()
+                restored.toFile().deleteRecursively()
+            }
+        }
+    }
+
+    @Test fun corruptedDocumentCannotCreateActiveRestorePointer() {
+        ActivityScenario.launch(FaroV5T4SafIntegralActivity::class.java).use { scenario ->
+            lateinit var activity: FaroV5T4SafIntegralActivity
+            scenario.onActivity { activity = it }
+            val root = Files.createTempDirectory(activity.noBackupFilesDir.toPath(), "t4-corrupt-")
+            val resolver = activity.contentResolver
+            val uri = checkNotNull(resolver.insert(
+                MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME,
+                        "t4-invalid-${System.nanoTime()}.farobak")
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream")
+                }
+            ))
+            try {
+                resolver.openOutputStream(uri, "wt")!!.use {
+                    it.write("corrupted, not FAROBAK2".toByteArray())
+                }
+                val restore = FaroV5T4SafIntegralActivity::class.java.getDeclaredMethod(
+                    "restoreSelected", Uri::class.java, Path::class.java,
+                    CancellationSignal::class.java
+                ).apply { isAccessible = true }
+                val error = runCatching {
+                    restore.invoke(activity, uri, root, CancellationSignal())
+                }.exceptionOrNull()
+                assertTrue("bad document must be refused", error is InvocationTargetException)
+                assertFalse("invalid file cannot publish a pointer",
+                    FileActiveGenerationPointer(root).read() != null)
+                assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
+            } finally {
+                resolver.delete(uri, null, null)
+                root.toFile().deleteRecursively()
+            }
+        }
+    }
+
 }
