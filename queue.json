@@ -112,26 +112,28 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "PARTIAL_CI_VERIFIED_OWNER_BINDING_BLOCKED",
+      "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4",
       "claimed_by": null,
-      "head_expected": "b080014ef915593432a97285a5389e8007d90db1",
-      "attempts": 3,
+      "head_expected": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
+      "attempts": 4,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "action_run_ids": [
         41538658363,
         41539252466,
         41542542171,
         41543063290,
-        41543680244
+        41543680244,
+        41546415283,
+        41546676175
       ],
-      "checkpoint": "NOCHE_A_2000_CLOSED_CI_39_OF_39",
+      "checkpoint": "NOCHE_B_2030_CLOSED_NOTICE_OWNER_1_OF_4_CI_44_AND_5",
       "evidence": {
-        "branch_sha": "d2296680301dfecba448e961a226fb05426ed3e9",
+        "branch_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
         "code_commits": [
           "bae8a1a58cdff50c9783275cec17268143bef466",
           "67fda3b32f8405685bf7bf62365dbcd063806b97"
         ],
-        "handoff": "docs/s3-night/S3_A1_NOCHE_B_HANDOFF_20261102.md",
+        "handoff": "docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md",
         "changes": [
           "Drawer-only navigation; Chat root internal, no duplicate drawer Chat",
           "Buscar, Guardados, Actividad, Avisos drawer destinations",
@@ -160,20 +162,28 @@
         "physical": "NOT_RUN",
         "X01_X12": "NOT_RUN",
         "owner_seam_commit": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
-        "checkpoint_sha": "b080014ef915593432a97285a5389e8007d90db1",
+        "checkpoint_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
         "code_added": [
           "FaroV5HomeReadCoordinator.kt",
           "FaroV5HomeReadCoordinatorTest.kt"
         ],
-        "directed_ci": {
-          "run_id": 41543680244,
-          "sha": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231",
-          "status": "SUCCESS",
-          "xml": "39/39_VERIFIED"
-        },
-        "owner_binding": "BLOCKED_MISSING_CANONICAL_HOME_OWNER",
+        "directed_ci": [
+          {
+            "id": 41546415283,
+            "sha": "65628e5829a7a9f593a29f9d04ae2706cae1e091",
+            "conclusion": "SUCCESS",
+            "xml": "44/44_VERIFIED"
+          },
+          {
+            "id": 41546676175,
+            "sha": "823b5fd887559b65ad796ef715e0470525f09f80",
+            "conclusion": "SUCCESS",
+            "xml": "5/5_VERIFIED"
+          }
+        ],
+        "owner_binding": "PARTIAL_REAL_NOTICE_ONLY_NO_FAKE_OTHER_COUNTS",
         "test_claim": "PASS_COORDINATOR_ONLY_NOT_OWNER_BINDING",
-        "next": "B 20:30 investigate canonical Home owner binding; do not fake counts; no A2/A3/A4 until A1 accepted.",
+        "next": "NOCHE_A 21:00 continue A1; do not repeat 44/44 or 5/5 same SHA; no A2/A3/A4 until A1 accepted",
         "final_code_commit": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231",
         "previous_ci": [
           {
@@ -184,6 +194,16 @@
             "id": 41543063290,
             "xml": "38/38_NON_VOID_TEST_NOT_DISCOVERED"
           }
+        ],
+        "notice_source": "N032_ACTIVE_AUXILIARY_READ_NOTICES_OPEN_NOT_DISMISSED_DEDUP_ID",
+        "notice_real_owner": "BOUND_V1_ACTIVE_GENERATION_WITH_PRE_POST_STAMP",
+        "authority_guard_commit": "65628e5829a7a9f593a29f9d04ae2706cae1e091",
+        "notice_binding_commit": "b940f6f6f2a8cf326f96ee73c6b4f295ad690ed3",
+        "missing": [
+          "N031 attention.read canonical owner",
+          "N015 history.query canonical owner",
+          "Message bookmarks Guardados bounded reopen pending",
+          "Android physical campaign NOT_RUN"
         ]
       }
     },
@@ -258,20 +278,39 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A1_NOCHE_A_2000_HANDOFF_20261102.md",
-    "commit_sha": "b080014ef915593432a97285a5389e8007d90db1",
+    "source": "docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md",
+    "commit_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
     "task_id": "S3-A1",
-    "status": "PARTIAL_CI_VERIFIED_OWNER_BINDING_BLOCKED",
-    "writer_epoch": 21,
-    "action_run_id": 41543680244
+    "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4",
+    "writer_epoch": 22,
+    "action_run_ids": [
+      41546415283,
+      41546676175
+    ]
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
-  "last_committed_sha": "b080014ef915593432a97285a5389e8007d90db1",
+  "last_committed_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
   "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
   "app_v2": false,
-  "s4": false
+  "s4": false,
+  "turns": {
+    "NOCHE_B_2030": {
+      "status": "CLOSED_CI_VERIFIED",
+      "writer_epoch": 22,
+      "branch_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
+      "run_ids": [
+        41546415283,
+        41546676175
+      ],
+      "xml": [
+        "44/44",
+        "5/5"
+      ],
+      "time_breakdown": "NO_REGISTRADO"
+    }
+  }
 }
