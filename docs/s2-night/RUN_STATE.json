@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
   "phase": "S2.A6",
-  "session": "NIGHT_A1",
   "date_local": "2026-11-02",
+  "session": "NIGHT_A1_FINAL",
   "branch": "work/s2-chat-finish-night-20261102",
-  "baseline_sha": "a942a53bd84ee849502d966ca9b52e002a194c6e",
+  "last_functional_commit": "505672b359844eb8efb7ab70585b2e69cb2cbcbe",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
   "total": 8,
-  "criteria_open": [
+  "open_criteria": [
     4,
     8
   ],
@@ -17,11 +17,31 @@
   "s3_open": false,
   "s4_open": false,
   "physical_t4": "NOT_RUN",
-  "last_observed_ci": {
-    "run_id": 41387836208,
-    "head_sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
-    "status": "IN_PROGRESS_AT_CHECKPOINT"
-  },
-  "next_ci": "PUSH_COMMIT_TO_RUN_JVM_AND_ANDROID_ENTRY",
-  "next": "Inspect latest Actions, fix any ROJO, finish A5 integration and restart test, package one verified APK"
+  "implemented": [
+    "debug launcher FaroV5F1IsolatedChatActivity with Keystore/consent-gated real Groq",
+    "persistent quarantined five-owner Workspace Composer Timeline Review",
+    "isolated reviewed Apply receipt and durable Auxiliary Notice",
+    "exclusive restart recovery for PROCESSING without model replay",
+    "Android instrumentation test of denied consent and consented Compose entry"
+  ],
+  "verification": [
+    {
+      "run_id": 41387836208,
+      "sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
+      "status": "IN_PROGRESS_LAST_CHECK"
+    },
+    {
+      "run_id": 41388266987,
+      "sha": "505672b359844eb8efb7ab70585b2e69cb2cbcbe",
+      "status": "PENDING_CONCURRENCY_LAST_CHECK"
+    }
+  ],
+  "not_verified": [
+    "new APK build and JVM XML",
+    "new Android entry test",
+    "A5 attachment integration",
+    "physical T4",
+    "live Groq in user device"
+  ],
+  "next": "Check CI runs and logs; fix compile/test reds. Then A5 text ingress with explicit content-specific consent and no URI persistence; add emulated integrated restart; package ONE debug APK SHA/signature; physical T4 only."
 }
