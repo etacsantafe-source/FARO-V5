@@ -45,8 +45,12 @@ def main():
         run(cmd + ["acquire"] + base, env=env)
         acquired = True
         run(cmd + ["verify"] + base, env=env)
-        # Command must be separately reviewed. This guard does not sandbox it.
-        run(a.command[1:], env={k:v for k,v in os.environ.items() if k != "FARO_WRITER_TOKEN"})
+        # Refuse arbitrary commands: only approved repository entrypoints may run.
+        allowed = {"scripts/v5/faro-auto-v2-readiness.py"}
+        command = a.command[1:]
+        if len(command) != 2 or command[0] != sys.executable or command[1] not in allowed:
+            raise RuntimeError("command is not in reviewed allowlist")
+        run(command, env={k:v for k,v in os.environ.items() if k != "FARO_WRITER_TOKEN"})
     finally:
         if acquired:
             # A failed release must be visible, not silently ignored.
