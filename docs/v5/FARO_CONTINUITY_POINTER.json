@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "project": "FARO V5",
+  "trigger": "Continuar FARO V5",
+  "trigger_action": "RECOVER_CONTEXT_READ_ONLY_NO_EXECUTION",
+  "updated_local_date": "2026-11-02",
+  "repository": "etacsantafe-source/FARO-V5",
+  "branch": "work/s2-chat-finish-night-20261102",
+  "phase": "S2_CLOSED",
+  "s2": {
+    "status": "CLOSED",
+    "certified": 8,
+    "total": 8,
+    "state_file": "docs/s2-night/RUN_STATE.json",
+    "physical_evidence": "docs/s2-night/T4_PHYSICAL_UI_FIX_HANDOFF_20261102.md"
+  },
+  "app_v2_enabled": false,
+  "s3_open": false,
+  "s4_open": false,
+  "writer": {
+    "last_documented": "NONE",
+    "must_revalidate_before_any_write": true
+  },
+  "automation": {
+    "current_status": "NOT_LIVE_VERIFIED",
+    "activation_authorized": false
+  },
+  "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
+  "handoff": "docs/s2-night/HANDOFF_NEXT_CHAT_S2_CLOSED_20261102.md",
+  "historical_night_v15": "docs/faro-noche-v15/RUN_STATE.json",
+  "next": "Recover protocol and verify actual Auto/Noche installation, workers, queue, active automations, writer/CAS. Discuss before doing any work.",
+  "permissions": "NO_AUTO_EXECUTION_NO_S3_S4_NO_V2_ACTIVATION",
+  "checkpoint_status": "CLEAN_DOCUMENTARY_HANDOFF",
+  "notes": "Branch HEAD must be read live on next chat; never treat this pointer as a live lease or current CI status."
+}
