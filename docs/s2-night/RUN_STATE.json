@@ -2,7 +2,7 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_B1_FINAL",
+  "session": "NIGHT_A2_FINAL",
   "branch": "work/s2-chat-finish-night-20261102",
   "last_functional_commit": "a630634bf96ff89a5cb9c0366eca6112d2ce585e",
   "writer": "NONE",
@@ -23,7 +23,8 @@
     "isolated reviewed Apply receipt and durable Auxiliary Notice",
     "exclusive restart recovery for PROCESSING without model replay",
     "Android instrumentation test of denied consent and consented Compose entry",
-    "A5 Android OpenMultipleDocuments picker wired into actual Chat; canonical conversation and picker request bound to bounded reader and pure ingress policy; ephemeral payloads wiped, metadata-only local preview, no network egress"
+    "A5 Android OpenMultipleDocuments picker wired into actual Chat; canonical conversation and picker request bound to bounded reader and pure ingress policy; ephemeral payloads wiped, metadata-only local preview, no network egress",
+    "A5 pure second-stage text draft consent gate: explicit confirmation, current conversation/picker, SHA-256 and size binding, <=8 KiB supported text only, no network authority; 8 JVM tests added (not yet run)"
   ],
   "verification": [
     {
@@ -41,8 +42,8 @@
     {
       "run_id": 41387836208,
       "sha": "38631765d331ee558b35f2b98615b4f61d3d172c",
-      "status": "in_progress",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "cancelled"
     }
   ],
   "not_verified": [
@@ -51,7 +52,8 @@
     "A5 picker UI+reader end-to-end Android instrumentation",
     "A5 explicit per-content egress consent and actual attachment delivery",
     "physical T4",
-    "live Groq on user device"
+    "live Groq on user device",
+    "A5 new draft consent policy JVM tests and UI integration"
   ],
-  "next": "Wait for #41387836208 and #41390549337 (newer pending superseded #41388266987); inspect XML/logs, fix compile red. Complete A5 content-specific consent and supported text ingress without URI/bytes persistence, add Android test. Then one isolated APK with SHA/signature and minimal Moto G15 T4. Do not trigger duplicate CI while pending."
+  "next": "Verify #41390549337 build first. Wire ConversationAttachmentDraftConsentPolicy to visible content-specific confirmation in isolated Chat; validate bytes/Workspace again, edit draft only, separate Send and trusted egress. Add Android tests, run affected gates and one APK."
 }
