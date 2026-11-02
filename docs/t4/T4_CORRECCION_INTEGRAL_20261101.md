@@ -30,7 +30,7 @@
 - CI exclusiva de esta rama con verificación de alcance de cambios, test JVM, compilación APK, aplicación ID nueva, hash y firma; publica prerelease solo si todos los gates pasan.
 - Diferencia importante: SAF manual de prueba aislada NO constituye autorización para exportación de almacenes reales o para reactivar V2.
 
-## Prueba física pendiente en Moto G15
+## Plan original de prueba física (histórico; recorrido positivo realizado en V4)
 1. Descargar desde el release CI **solo si aparece SUCCESS**, comprobar nombre y SHA; instalar con Android/Termux sin depender de ADB ni Wi-Fi. La app usa package aislado `ar.com.faro.alpha.t4saf4.v5dev`.
 2. Abrir la app a pantalla completa; elegir destino con selector Android. Al volver, la casilla debe estar DESMARCADA y no haber escritura FARO.
 3. Marcar consentimiento nuevo y pulsar Confirmar. Solo `VERDE: respaldo sintético cifrado escrito y verificado por Android` cuenta como exportación física PASS (debug).
@@ -47,7 +47,7 @@
 - APK: https://github.com/etacsantafe-source/FARO-V5/releases/download/faro-v5-t4-saf-integral-v4-20261101/FARO-V5-T4-SAF-INTEGRAL-V4.apk
 - Manifest de integridad: https://github.com/etacsantafe-source/FARO-V5/releases/download/faro-v5-t4-saf-integral-v4-20261101/T4-SAF-INTEGRAL-V4-MANIFEST.txt
 - **No ejecutar de nuevo los 27 tests físicos previos**; hacer únicamente la prueba manual SAF positiva/negativa delimitada.
-- **NO** es todavía PASS físico ni validación de restauración de producción. Se conserva T4 SAF ROJO y S2.A6 3/8 hasta que el usuario pruebe el selector, confirmación, exportación y restore físico en cuarentena.
+- **Estado al cierre de CI, antes de la prueba V4 (histórico):** todavía no había PASS físico. Fue actualizado en la sección de evidencia positiva posterior. La restauración de producción sigue NO validada, S2.A6 3/8.
 
 
 ## Evidencia física V4 positiva — Moto G15, 01/11/2026 aprox. 23:00–23:10 AR
@@ -68,6 +68,6 @@
 - **No ejecutadas/documentadas aún** las pruebas negativas de SAF: cancelación del selector, recreación/split-screen o muerte de proceso, URI inaccesible/archivo inválido, reintentos y cancelación en operación. Una respuesta verde no demuestra automáticamente esos casos.
 - **F2/F4 en UI e integración real Chat/Review/Apply + recuperación**, aún requieren evidencias físicas específicas; **F3 productiva** requiere diseño/autorización separado porque `V2_ACTIVE_ENABLED=false` bloquea exportación real. No habilitar V2 para “forzar” T4.
 - **T4 global: ABIERTO**, no cierre ficticio ni transferencia de los PASS debug a producción. **S2.A6: 3/8 CERTIFIED**, sin alterar números de criterios sin mapeo y evidencia por criterio.
-- `main` intacta, paquete FARO habitual intacto, no S3/S4, writer NONE y ninguna FARO Noche activada. Esta actualización es solo documental.
+- `main` intacta, paquete FARO habitual intacto, no S3/S4; esta actualización no adquiere writer y no activa FARO Noche. Es exclusivamente documental.
 
 **Próxima acción prioritaria:** no construir otra APK ni repetir pruebas positivas. Elegir un pequeño lote dirigido de casos negativos SAF y registrar sus resultados, y en paralelo mapear los criterios de F2/F4/F3 realmente pendientes para terminar T4 sin confundir certificación del harness con la del producto.
