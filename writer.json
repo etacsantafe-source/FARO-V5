@@ -1,9 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.writer-readiness-doc-20261102",
-  "token_hash": "da6dd23853ce53dd9db06b120a7571876f47143ee11d7aefa97840e9ad829163",
-  "target_head": "9b865a8b7720453f916997cbefb47195c3b2e787",
-  "epoch": 2,
-  "timestamp": 0
+  "status": "HELD",
+  "owner": "manual.night-v2-integration-20261102",
+  "token_hash": "a67c8f4b9dc8ad73dd69f561225aa30b3c73fa6ef51bac783e40f945157f70cc",
+  "target_head": "63dca721de22a25dc812bc329d470c63bf42a549",
+  "epoch": 3,
+  "timestamp": 0,
+  "target_branch": "work/faro-auto-v2-integration-20261102"
 }
