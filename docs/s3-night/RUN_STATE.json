@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Verify Actions #41542542171 XML for SHA e523dc2; owner binding remains blocked; A1 PARTIAL. No A2/A3/A4 until dependencies. Cutoff 22:00.",
+  "next": "A1 still partial: implement canonical read owner + ACL/dedupe/generation before binding Home. CI #41543680244 39/39 PASS exact SHA 8956d25. Next B 20:30. Hard stop 22:00.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_CI_IN_PROGRESS_OWNER_BINDING_BLOCKED",
+    "status": "PARTIAL_CI_VERIFIED_OWNER_BINDING_BLOCKED",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -72,8 +72,20 @@
       {
         "id": 41542542171,
         "sha": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
-        "conclusion": "IN_PROGRESS",
-        "xml": "PENDING"
+        "conclusion": "SUCCESS",
+        "xml": "38/38"
+      },
+      {
+        "id": 41543063290,
+        "sha": "f8bd9f3a784e6ed3304cd05e27ed6c9c51524015",
+        "conclusion": "SUCCESS",
+        "xml": "38/38_NON_VOID_TEST_NOT_DISCOVERED"
+      },
+      {
+        "id": 41543680244,
+        "sha": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231",
+        "conclusion": "SUCCESS",
+        "xml": "39/39_VERIFIED"
       }
     ],
     "home_indicators": [
@@ -86,7 +98,9 @@
     "physical": "NOT_RUN",
     "owner_seam_commit": "e523dc2d35bbf2390d92005233d0c7d8d92e8e54",
     "owner_seam": "FaroV5HomeReadCoordinator read-only partial isolation tests committed, CI pending",
-    "owner_binding_blocker": "N-022 home.read has catalog contract but no real host implementation; N-031 attention.read, N-032 notice.read and Guardados owner not wired. Do not invent counts."
+    "owner_binding_blocker": "N-022 home.read is catalog-only; no real canonical Home owner in app composition. N-031, N-032 and Guardados count owners not wired. No fabricated counts.",
+    "provenance_commit": "f8bd9f3a784e6ed3304cd05e27ed6c9c51524015",
+    "final_code_commit": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231"
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2000_HANDOFF_20261102.md"
 }

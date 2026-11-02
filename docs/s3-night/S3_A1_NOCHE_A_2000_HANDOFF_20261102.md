@@ -1,12 +1,16 @@
-# FARO V5 S3 — NOCHE_A 20:00 · A1 owner discovery and safe seam
+# FARO V5 S3 — NOCHE_A 20:00 · CIERRE DURABLE 02/11/2026
 
-## Verificación read-only
-Branch checkpoint before changes: `d2296680301dfecba448e961a226fb05426ed3e9`. N00 PASS A/B, P00 PASS_SPEC_ONLY, A1 PARTIAL_CI_VERIFIED. Reused green CI #41538658363 (31/31) and #41539252466 (34/34), not rerun.
+## Estado comprobado
+S3-N00 PASS A/B con limitación de stale CAS genérico (no se hizo carrera simultánea). P00 PASS_SPEC_ONLY R0–R3/H01–H04; 172 contratos oficiales intactos, +8 Guardados candidatos no aprobados. A1 **PARTIAL_CI_VERIFIED**, NO completada. S2 8/8 CLOSED, V2 app OFF, S4 OFF. Sin pruebas físicas.
 
-Inspected actual composition: `FaroV5BootstrapActivity.showShellSurface()` calls `FaroV5SurfaceHost.install()` with Workspace, Timeline, Composer, Review, Selection, Apply, Assistant; **does not pass a Home owner**. `FaroV5CompositionRoot` exports active Workspace/Timeline, but no N-022 home.read, N-031 attention.read, N-032 notice.read or auxiliary Guardados count owner. Catalog names are contracts, not proof of runtime bindings. V4.4 Home materiality and Radar refresh cannot be treated as canonical V5 Home data. A real 4-count binding remains **BLOCKED_BY_MISSING_CANONICAL_OWNERS**, not fabricated.
+## Trabajo funcional de este turno
+- Investigación de composición real: `FaroV5BootstrapActivity.showShellSurface()` no pasa Home owner; `FaroV5CompositionRoot` expone Workspace/Timeline pero no implementaciones canónicas N-022 `home.read`, N-031 `attention.read`, N-032 `notice.read` ni owner de Guardados. Un catálogo con OperationIds NO demuestra implementación ni autoridad. La pantalla sigue mostrando «No disponible» y no inventa cifras.
+- Nuevo `FaroV5HomeReadCoordinator`: agregación pura por owner inyectado, ausencia/ACL/errores => UNKNOWN, cero real distinto, cancelación propagada, comprobación estricta `expectedCanonicalSource` contra el valor devuelto para impedir cruces de dominio.
+- Tests `FaroV5HomeReadCoordinatorTest`: cero/ausencia, error parcial, source mismatch, cancelación, owners vacíos. Se detectó que un test de expresión Kotlin devolvía excepción en vez de Unit y JUnit no lo descubría; corregido en commit `8956d2597ec9f7e8cf1b2d91b512bb76322c0231`.
+- GitHub Actions dirigido por SHA: [#41542542171](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41542542171) SUCCESS **38/38 XML** para `e523dc2d35bbf2390d92005233d0c7d8d92e8e54`; [#41543063290](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41543063290) SUCCESS **38/38 XML** para `f8bd9f3a784e6ed3304cd05e27ed6c9c51524015` (un test de retorno no-Unit NO descubierto); [#41543680244](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41543680244) SUCCESS **39/39 XML** para `8956d2597ec9f7e8cf1b2d91b512bb76322c0231`. Logs y XML agregados verificados. Los PASS previos 31/31 y 34/34 no se repitieron.
+- Investigación A2 READ_ONLY: AppSearch `SearchProjectionHit` devuelve sólo locator/stamp/rank y `SearchProjectionQuery` busca un namespace. La federación N-018, ACL owner y cobertura parcial no existen en ese índice. No reemplazarlo por FTS sin pruebas español/offline/rebuild.
 
-## Bounded code
-Added `FaroV5HomeReadCoordinator` in surface, a read-only composition seam accepting independently authorized owner read ports. Each unavailable, failed or revoked source remains UNKNOWN, not zero; a valid real zero is preserved. Cancellation propagates. Tests cover zero vs unavailable, partial owner failure, cancellation and empty owners. This does **not** activate app V2, introduce OperationIds, claim canonical sources, or wire a fake owner into bootstrap.
+## Bloqueo y próximo paso
+A1 **BLOCKED_CANONICAL_HOME_OWNER_BINDING**: falta implementación real y composición de cuatro lecturas, identidad/dedupe de Pendientes, ACL/generación, asOf y lifecycle. El coordinator es seam testeada, NO un owner ni un binding. No marcar A1 PASS ni avanzar A2/A3/A4 por dependencia. Para B 20:30: recuperar este SHA, writer/queue, investigar cómo implementar N-022 sobre owners reales sin crear autoridad paralela; continuar A1. A3 +8 exige bounded reopen separado.
 
-## Next
-Verify directed CI and XML for this exact SHA. A1 remains PARTIAL until canonical owners and owner-generation/ACL semantics are implemented and bound; do not mark PASS based on seam tests. Only then A2/A3/A4 according to dependencies. A3 +8 candidate remains BLOCKED_FOR_BOUNDED_REOPEN. X01-X12 and physical campaign NOT_RUN.
+No escribir en main/V4.4, no activar app V2, no S4, no APIs pagas. Corte absoluto 22:00 AR. Writer liberado por CAS al cierre del turno; verificar estado remoto.
