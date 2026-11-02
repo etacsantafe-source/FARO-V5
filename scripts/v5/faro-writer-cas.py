@@ -78,6 +78,9 @@ def main():
     p.add_argument("--token", default="")
     p.add_argument("--target-head", default="")
     args = p.parse_args()
+    if args.token:
+        raise Stop("token CLI argument disabled; use FARO_WRITER_TOKEN environment variable")
+    args.token = os.environ.get("FARO_WRITER_TOKEN", "")
     remote_ok()
     old = ref()
     state = record(old)
@@ -93,6 +96,8 @@ def main():
             raise Stop("writer occupied; no automatic lease takeover")
         if args.target_head != head():
             raise Stop("target HEAD mismatch")
+        if git("status", "--porcelain"):
+            raise Stop("dirty worktree")
         value = {"schema": 1, "status": "HELD", "owner": args.owner,
                  "token_hash": hashlib.sha256(args.token.encode()).hexdigest(), "target_head": args.target_head,
                  "epoch": (state or {}).get("epoch", 0) + 1,
