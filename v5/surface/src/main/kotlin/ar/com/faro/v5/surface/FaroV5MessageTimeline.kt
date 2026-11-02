@@ -84,9 +84,13 @@ fun FaroV5MessageTimeline(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
-                        if (message.text.isNotEmpty()) {
+                        // Humanize only trusted FARO structured-action display.
+                        // Keep user messages and durable payloads unchanged.
+                        val visibleText = if (message.role == ConversationMessageRole.FARO)
+                            faroV5HumanizedActionText(message.text) else message.text
+                        if (visibleText.isNotEmpty()) {
                             SelectionContainer {
-                                Text(message.text, style = MaterialTheme.typography.bodyMedium)
+                                Text(visibleText, style = MaterialTheme.typography.bodyMedium)
                             }
                         }
                         val status = faroV5MessageStatusLabel(message, message.turnId in activeProcessingTurns)
