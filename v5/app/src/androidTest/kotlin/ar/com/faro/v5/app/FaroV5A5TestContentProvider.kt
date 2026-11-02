@@ -29,7 +29,7 @@ class FaroV5A5TestContentProvider : ContentProvider() {
     ): Cursor = MatrixCursor(arrayOf(
         OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE,
     )).apply {
-        addRow(arrayOf(FILE_NAME, TEXT.toByteArray(Charsets.UTF_8).size))
+        addRow(arrayOf<Any?>(FILE_NAME, TEXT.toByteArray(Charsets.UTF_8).size))
     }
 
     override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
