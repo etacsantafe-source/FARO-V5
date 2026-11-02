@@ -10,6 +10,10 @@ import android.os.OperationCanceledException
 import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceEntry
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
+import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
+import ar.com.faro.v5.kernel.contracts.TransactionId
+import ar.com.faro.v5.kernel.contracts.AtomicApplyTransactionDecision
+import ar.com.faro.v5.kernel.contracts.CanonicalPayload
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
@@ -22,6 +26,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.evidence.CommercialPriceObservation
+import ar.com.faro.v5.evidence.CommercialProductKey
+import ar.com.faro.v5.evidence.CommercialMerchant
+import ar.com.faro.v5.evidence.CommercialCurrencyCode
+import ar.com.faro.v5.evidence.CommercialEvidenceSourceKind
+import ar.com.faro.v5.evidence.CommercialEvidenceRecordOutcome
+import ar.com.faro.v5.evidence.WebFetchedSource
+import ar.com.faro.v5.evidence.WebFetchMethod
+import ar.com.faro.v5.evidence.WebEvidenceRecordOutcome
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.generation.*
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
@@ -29,10 +42,26 @@ import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.platform.android.backup.AndroidBackupSafAdapter
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
+import ar.com.faro.v5.owner.profile.api.DeclaredDisplayName
+import ar.com.faro.v5.delivery.api.NoticeCandidate
+import ar.com.faro.v5.delivery.api.NoticeRouter
+import ar.com.faro.v5.delivery.api.NoticeRouteResult
+import ar.com.faro.v5.delivery.api.NoticeKey
+import ar.com.faro.v5.delivery.api.SourceRef
+import ar.com.faro.v5.delivery.api.OccurrenceRef
+import ar.com.faro.v5.delivery.api.NoticeMateriality
+import ar.com.faro.v5.delivery.api.NoticeSensitivity
+import ar.com.faro.v5.delivery.api.NoticeSummary
+import ar.com.faro.v5.delivery.api.DestinationRef
+import ar.com.faro.v5.delivery.api.NoticeMaterializationIds
+import ar.com.faro.v5.delivery.api.NoticeId
+import ar.com.faro.v5.delivery.api.DeliveryIntentId
+import ar.com.faro.v5.kernel.contracts.EffectId
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.workspace.WorkspaceCreateRequest
 import ar.com.faro.v5.workspace.WorkspaceWriteResult
 import java.nio.file.Files
+import java.security.MessageDigest
 import java.nio.file.Path
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -315,10 +344,67 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
             )
         )
         val dir = staged.directory
-        RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
-        CommercialEvidenceStore(dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { }
-        WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
-        AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
+        RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { store ->
+            store.run(TransactionId("t4-synthetic-profile")) { scope ->
+                store.updateDeclared(DeclaredDisplayName.of("T4 Ejemplo Sintetico"), scope)
+                AtomicApplyTransactionDecision.Commit(Unit)
+            }
+            check(store.backup.snapshot().profileRevision > 0L)
+        }
+        CommercialEvidenceStore(dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { store ->
+            val result = store.record(
+                CommercialPriceObservation(
+                    productKey = CommercialProductKey("t4-prueba-producto"),
+                    merchant = CommercialMerchant("Comercio Sintetico"),
+                    currencyCode = CommercialCurrencyCode("ARS"),
+                    amountMinor = 12345L,
+                    sourceKind = CommercialEvidenceSourceKind.MANUAL,
+                    sourceRef = "t4:fixture:commercial",
+                    observedAtEpochMillis = 1L,
+                ),
+                IdempotencyKey("t4-commercial-record"),
+                PayloadFingerprint("t4-commercial-payload"),
+            )
+            check(result is CommercialEvidenceRecordOutcome.Committed)
+        }
+        WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { store ->
+            val body = "T4 evidencia web sintetica".toByteArray()
+            val sha = MessageDigest.getInstance("SHA-256").digest(body)
+                .joinToString("") { "%02x".format(it) }
+            val source = WebFetchedSource(
+                requestedUrl = "https://example.com/t4-fixture",
+                finalUrl = "https://example.com/t4-fixture",
+                method = WebFetchMethod.GET,
+                statusCode = 200,
+                mediaType = "text/plain",
+                redirectCount = 0,
+                acquiredAtEpochMillis = 1L,
+                contentSha256Hex = sha,
+                body = CanonicalPayload.fromEncoded("text/plain", body),
+                policyVersion = "t4-fixture",
+                fetcherVersion = "t4-fixture",
+            )
+            check(store.record(source, IdempotencyKey("t4-web-record"),
+                PayloadFingerprint("t4-web-payload")) is WebEvidenceRecordOutcome.Committed)
+        }
+        AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { store ->
+            val candidate = NoticeCandidate(
+                noticeKey = NoticeKey.of("t4.fixture"),
+                sourceRef = SourceRef.of("t4:synthetic"),
+                occurrenceRef = OccurrenceRef.of("t4:occurrence:1"),
+                materiality = NoticeMateriality.NOTICE,
+                sensitivity = NoticeSensitivity.NORMAL,
+                summary = NoticeSummary.of("Aviso de prueba sintetica T4"),
+                destinationRef = DestinationRef.of("t4:fixture"),
+            )
+            check(NoticeRouter(store) {
+                NoticeMaterializationIds(
+                    noticeId = NoticeId.of("t4-fixture-notice"),
+                    deliveryIntentId = DeliveryIntentId.of("t4-fixture-delivery"),
+                    effectId = EffectId("t4-fixture-effect"),
+                )
+            }.route(candidate) is NoticeRouteResult.Materialized)
+        }
         ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { store ->
             // Nonempty, known-value fixture: the restored fifth owner must contain
             // a conversation and a durable idempotency receipt, not merely a schema.
@@ -440,6 +526,10 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
                     check(workspace.conversations.single().id == fixtureConversation)
                     check(workspace.conversations.single().title == fixtureTitle)
                     check(workspace.receipts.size == 1)
+                    check(expected.fourStore.reality.profileRevision > 0L)
+                    check(expected.fourStore.commercialEvidence.records.size == 1)
+                    check(expected.fourStore.webEvidence.fetchRecords.size == 1)
+                    check(expected.fourStore.auxiliary.notices.size == 1)
                     check(graph.reality.backup.snapshot() == expected.fourStore.reality)
                     check(graph.commercialEvidence.backup.snapshot() == expected.fourStore.commercialEvidence)
                     check(graph.webEvidence.backup.snapshot() == expected.fourStore.webEvidence)
@@ -451,7 +541,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
                 check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
                 check(Files.readString(testRoot.resolve("v1-sentinel/protected")) == "V1-untouched")
                 return "VERDE: selector SAF real, cinco almacenes autenticados, " +
-                    "contenido Workspace verificado, journal VALIDATED, V1 intacta y V2 OFF."
+                    "datos no vacios de cinco almacenes verificados, journal VALIDATED, V1 intacta y V2 OFF."
             } finally {
                 encrypted.fill(0)
             }
