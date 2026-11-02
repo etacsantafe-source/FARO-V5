@@ -32,5 +32,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Isolated debug-only A5 fixture. Same UID as the app; never exported. -->
+        <provider
+            android:name="ar.com.faro.v5.app.FaroV5A5TestContentProvider"
+            android:authorities="${applicationId}.a5test"
+            android:exported="false" />
     </application>
 </manifest>

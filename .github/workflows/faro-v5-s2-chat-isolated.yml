@@ -4,6 +4,9 @@ on:
     branches: [work/s2-chat-finish-night-20261102]
     paths:
       - 'v5/app/**'
+      - 'v5/surface/**'
+      - 'v5/kernel/contracts/**'
+      - 'v5/platform/**'
       - '.github/workflows/faro-v5-s2-chat-isolated.yml'
 permissions:
   contents: read

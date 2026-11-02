@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 /** A5 real Android ContentResolver path; synthetic text only, no model egress. */
 @RunWith(AndroidJUnit4::class)
 class FaroV5A5TextReaderInstrumentationTest {
-    private val context get() = InstrumentationRegistry.getInstrumentation().context
+    private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
     private fun fileUri() = Uri.parse("content://${context.packageName}.a5test/text")
 
     @Test fun syntheticContentProviderReadIsBoundedAndWipedOnClose() {

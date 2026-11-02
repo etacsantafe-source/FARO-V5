@@ -9,7 +9,7 @@ import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import java.io.File
 
-/** Instrumentation-APK-only local file provider; never installed in shipping app. */
+/** Isolated debug-only local fixture; same UID as target app, never exported or in release. */
 class FaroV5A5TestContentProvider : ContentProvider() {
     companion object {
         const val FILE_NAME = "faro-a5-synthetic.txt"
