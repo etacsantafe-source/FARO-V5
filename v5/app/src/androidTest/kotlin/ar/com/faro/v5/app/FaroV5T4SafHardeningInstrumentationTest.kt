@@ -168,7 +168,7 @@ class FaroV5T4SafHardeningInstrumentationTest {
                     activity, uri, restored, CancellationSignal()
                 ) as String
                 assertTrue(outcome, outcome.startsWith("VERDE:"))
-                assertTrue(outcome, outcome.contains("contenido Workspace verificado"))
+                assertTrue(outcome, outcome.contains("datos no vacios de cinco almacenes verificados"))
                 assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
             } finally {
                 resolver.delete(uri, null, null)
