@@ -445,6 +445,15 @@ class FaroV5F1QuarantinedComposeInstrumentationTest {
                                     compose.onAllNodesWithText("Confirmar propuesta")
                                         .fetchSemanticsNodes().isNotEmpty()
                                 }
+                                // Structured action is displayed in Spanish, not as raw JSON.
+                                awaitUi("Human-readable profile update") {
+                                    compose.onAllNodesWithText(
+                                        "Nuevo nombre: FARO UI Verified", substring = true
+                                    ).fetchSemanticsNodes().isNotEmpty()
+                                }
+                                assertTrue(
+                                    compose.onAllNodesWithText(structured).fetchSemanticsNodes().isEmpty()
+                                )
                                 compose.onNodeWithText("Confirmar propuesta").performClick()
                                 compose.waitUntil(30_000) {
                                     compose.onAllNodesWithText("Aplicar cambios")
