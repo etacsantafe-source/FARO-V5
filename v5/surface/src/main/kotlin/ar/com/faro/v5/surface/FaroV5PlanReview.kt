@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewContext
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewSnapshot
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewState
+import org.json.JSONObject
 
 /**
  * Read-only A4 review surface; NOT mounted in app until the canonical durable
