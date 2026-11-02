@@ -36,7 +36,7 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_UNTIL_22;NO_S4;NO_APP_V2;NO_MAIN;NO_V4.4_WRITES;NO_PAID_APIS;PHYSICAL_TESTS_AT_END",
-  "next": "A1 drawer-only navigation + Inicio; preserve Chat-first without duplicate drawer Chat. Tests/CI required, do not claim code PASS yet. Hard stop 22:00.",
-  "checkpoint_status": "S3_N00_PASS_P00_FROZEN_SPEC_ONLY_A1_READY",
+  "next": "Recover queue and S3_A1_NOCHE_B_HANDOFF_20261102.md; implement real N-022 Home read binding; no invented counts, no duplicate CI. Deadline 22:00 AR.",
+  "checkpoint_status": "N00_PASS_P00_SPEC_PASS_A1_PARTIAL_CI_34_OF_34",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical."
 }
