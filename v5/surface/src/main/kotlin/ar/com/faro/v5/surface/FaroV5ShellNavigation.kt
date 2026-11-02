@@ -210,6 +210,7 @@ fun FaroV5ShellScaffold(
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
+    homeReadPort: FaroV5HomeReadPort? = null,
 ) {
     require(backStack.isNotEmpty()) {
         "FARO shell navigation requires a presentation root."
@@ -369,7 +370,12 @@ fun FaroV5ShellScaffold(
                         .padding(innerPadding),
                 entryProvider = { key ->
                     NavEntry(key) {
-                        if (key == FaroV5ShellDestination.CHAT && timelineReadPort != null) {
+                        if (key == FaroV5ShellDestination.INICIO) {
+                            FaroV5HomeScreen(
+                                readPort = homeReadPort,
+                                onNavigate = { destination -> navigate(destination) },
+                            )
+                        } else if (key == FaroV5ShellDestination.CHAT && timelineReadPort != null) {
                             FaroV5ActiveChatScreen(
                                 activeConversationId = activeConversationForEntry.value,
                                 timelineReadPort = timelineReadPort,

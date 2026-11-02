@@ -26,6 +26,7 @@ object FaroV5SurfaceHost {
         assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
         onOpenAiSettings: Runnable? = null,
         attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
+        homeReadPort: FaroV5HomeReadPort? = null,
     ) {
         activity.setContent {
             FaroV5Theme {
@@ -39,6 +40,7 @@ object FaroV5SurfaceHost {
                     assistantTurnPort = assistantTurnPort,
                     onOpenAiSettings = onOpenAiSettings?.let { launcher -> { launcher.run() } },
                     attachmentIngress = attachmentIngress,
+                    homeReadPort = homeReadPort,
                 )
             }
         }
