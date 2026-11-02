@@ -85,9 +85,7 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: |
-            cd v5
-            ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4saf5 -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F2IsolatedActivationRecoveryInstrumentationTest,ar.com.faro.v5.app.FaroV5F3SafConsentInstrumentationTest,ar.com.faro.v5.app.FaroV5F3QuarantinedSafRoundTripInstrumentationTest,ar.com.faro.v5.app.FaroV5T4SafHardeningInstrumentationTest
+          script: cd v5 && ./gradlew -Dorg.gradle.jvmargs="-Xmx1536m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:connectedDebugAndroidTest -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.t4saf5 -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5F2IsolatedActivationRecoveryInstrumentationTest,ar.com.faro.v5.app.FaroV5F3SafConsentInstrumentationTest,ar.com.faro.v5.app.FaroV5F3QuarantinedSafRoundTripInstrumentationTest,ar.com.faro.v5.app.FaroV5T4SafHardeningInstrumentationTest
       - name: Exact Android XML oracle (not a physical human picker)
         if: always()
         shell: bash
