@@ -26,15 +26,15 @@
     "no_auto_takeover": true
   },
   "automation": {
-    "current_status": "ALL_25_DISABLED_VERIFIED",
+    "current_status": "25_DISABLED_VERIFIED_20261102",
     "activation_authorized": false,
     "s3_noche_activation_only_after_explicit_user_decision": true
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/v5/FARO_NOCHE_S3_ACTIVATION_HANDOFF_20261102.md",
+  "handoff": "docs/v5/FARO_V5_S3_PRE_NOCHE_HANDOFF_CLEAN_20261102.md",
   "historical_night_v15": "docs/faro-noche-v15/RUN_STATE.json",
-  "next": "RECOVER READ_ONLY. S3 design and Noche infrastructure ready for activation checks. Only after explicit user authorization in a new chat: open S3, enable cloud queue, configure two Night sessions. No implicit execution.",
+  "next": "En chat nuevo: continuar FARO V5, recuperar este handoff READ_ONLY, verificar writer y cola, resolver congelación contractual S3 y pedir autorización explícita para S3/Noche. Sin activación por continuidad.",
   "permissions": "NO_AUTO_EXECUTION_NO_S3_S4_NO_V2_ACTIVATION",
-  "checkpoint_status": "NIGHT_INFRA_PREPARED_CAS_AND_CI_PASS_ACTIVATION_PENDING",
+  "checkpoint_status": "HANDOFF_CLEAN_S3_DESIGN_AND_NIGHT_PREP_VERIFIED_NOT_ACTIVATED",
   "notes": "Current writer/queue statuses must be re-read live; GitHub 2026-11-02 tests #41528974614 and #41528236429 were SUCCESS. This checkpoint is documentary, not a lock."
 }
