@@ -1,5 +1,6 @@
 package ar.com.faro.v5.surface
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -55,8 +56,9 @@ fun FaroV5ActiveChatScreen(
     reviewPort: ConversationReviewPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
 ) {
-    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort) {
+    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress) {
         FaroV5ActiveChatScreenSession(
             activeConversationId = activeConversationId,
             timelineReadPort = timelineReadPort,
@@ -64,6 +66,7 @@ fun FaroV5ActiveChatScreen(
             reviewPort = reviewPort,
             applyRequestPort = applyRequestPort,
             assistantTurnPort = assistantTurnPort,
+            attachmentIngress = attachmentIngress,
         )
     }
 }
@@ -81,6 +84,7 @@ private fun FaroV5ActiveChatScreenSession(
     reviewPort: ConversationReviewPort? = null,
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
 ) {
     val scope = rememberCoroutineScope()
     var editor by remember(activeConversationId, composerPort) {
@@ -95,6 +99,7 @@ private fun FaroV5ActiveChatScreenSession(
     // Serialize Review commands; a double tap cannot mint a second idempotency key.
     var reviewBusy by remember(activeConversationId, reviewPort) { mutableStateOf(false) }
     var applyBusy by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
+    var attachmentBusy by remember(activeConversationId, attachmentIngress) { mutableStateOf(false) }
     var applyUncertain by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
     var canonicalReviews by remember(activeConversationId, reviewPort) {
         mutableStateOf<List<ConversationPlanReviewSnapshot>>(emptyList())
@@ -404,6 +409,33 @@ private fun FaroV5ActiveChatScreenSession(
                         }
                     },
                     saving = busy || uncertain,
+                )
+            }
+            if (attachmentIngress != null) {
+                FaroV5AttachmentPicker(
+                    conversationId = activeConversationId,
+                    newPickerRequestId = { UUID.randomUUID().toString() },
+                    onPicked = { pickedConversation, pickerRequest, uris ->
+                        if (!busy && !uncertain && !attachmentBusy &&
+                            pickedConversation == activeConversationId) {
+                            attachmentBusy = true
+                            scope.launch {
+                                try {
+                                    message = attachmentIngress(pickedConversation, pickerRequest, uris)
+                                } catch (cancelled: CancellationException) {
+                                    throw cancelled
+                                } catch (_: Exception) {
+                                    message = "No se pudieron verificar los adjuntos. No se envió contenido."
+                                } finally {
+                                    attachmentBusy = false
+                                }
+                            }
+                        } else {
+                            message = "El chat cambió. Volvé a seleccionar los archivos."
+                        }
+                    },
+                    onError = { message = it },
+                    enabled = !busy && !uncertain && !attachmentBusy,
                 )
             }
             if (message != null) {

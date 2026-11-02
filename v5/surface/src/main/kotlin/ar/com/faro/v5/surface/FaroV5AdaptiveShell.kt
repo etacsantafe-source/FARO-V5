@@ -1,6 +1,8 @@
 package ar.com.faro.v5.surface
 
 import androidx.compose.material3.SnackbarHostState
+import android.net.Uri
+import ar.com.faro.v5.kernel.contracts.ConversationId
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
@@ -39,6 +41,7 @@ fun FaroV5AdaptiveShell(
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     onOpenAiSettings: (() -> Unit)? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
@@ -66,6 +69,7 @@ fun FaroV5AdaptiveShell(
         applyRequestPort = applyRequestPort,
         assistantTurnPort = assistantTurnPort,
         onOpenAiSettings = onOpenAiSettings,
+        attachmentIngress = attachmentIngress,
         destinationContent = destinationContent,
         )
     }

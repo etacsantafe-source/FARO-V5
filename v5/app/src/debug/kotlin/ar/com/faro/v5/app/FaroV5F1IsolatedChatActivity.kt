@@ -1,6 +1,7 @@
 package ar.com.faro.v5.app
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -15,6 +16,7 @@ import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
 import ar.com.faro.v5.maintenance.*
+import ar.com.faro.v5.platform.android.ingress.AndroidConversationAttachmentReader
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.surface.FaroV5SurfaceHost
@@ -25,6 +27,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BooleanSupplier
 import java.util.function.Supplier
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /** Debug-only five-owner Chat. No V1 pointer, production V2 or synthetic reply. */
 class FaroV5F1IsolatedChatActivity : ComponentActivity() {
@@ -132,6 +136,9 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
                         onOpenAiSettings = Runnable {
                             startActivity(Intent(this,
                                 FaroV5AiSettingsActivity::class.java))
+                        },
+                        attachmentIngress = { conversation, pickerRequest, uris ->
+                            previewAttachments(conversation, pickerRequest, uris)
                         },
                     )
                 }
@@ -263,6 +270,43 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
             runCatching { workspace?.close() }
             host.close()
             throw failure
+        }
+    }
+
+    /** A5 local ingress only: no URI/bytes persisted, no model egress on selection. */
+    private suspend fun previewAttachments(
+        conversation: ConversationId,
+        pickerRequest: String,
+        uris: List<Uri>,
+    ): String = withContext(Dispatchers.IO) {
+        val readPort = session?.host?.workspaceReadPort
+            ?: return@withContext "Chat cerrado. Volvé a seleccionar los archivos."
+        if (readPort.readSnapshot().activeConversationId != conversation) {
+            return@withContext "La conversación cambió. Volvé a seleccionar los archivos."
+        }
+        val files = AndroidConversationAttachmentReader.readSelected(applicationContext, uris)
+        try {
+            if (readPort.readSnapshot().activeConversationId != conversation) {
+                return@withContext "La conversación cambió. No se conservaron los archivos."
+            }
+            val candidates = files.map { file ->
+                ConversationAttachmentCandidate(
+                    conversation, pickerRequest, file.displayName(), file.mimeType(),
+                    file.sizeBytes().toLong(), file.sha256Hex(),
+                )
+            }
+            when (val result = ConversationAttachmentIngressPolicy.evaluate(
+                conversation, pickerRequest, candidates,
+            )) {
+                is ConversationAttachmentIngressResult.Ready ->
+                    "${result.items.size} adjunto(s) verificado(s), ${result.totalBytes} bytes. " +
+                        "Solo vista previa local: no se enviaron a Groq ni se guardaron. " +
+                        "El envío de contenido requiere consentimiento específico."
+                is ConversationAttachmentIngressResult.Rejected ->
+                    "Adjuntos rechazados: ${result.reason}. No se envió contenido."
+            }
+        } finally {
+            files.forEach { it.close() }
         }
     }
 

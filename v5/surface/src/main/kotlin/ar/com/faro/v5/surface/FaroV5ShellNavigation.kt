@@ -1,5 +1,6 @@
 package ar.com.faro.v5.surface
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -198,6 +199,7 @@ fun FaroV5ShellScaffold(
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     onOpenAiSettings: (() -> Unit)? = null,
+    attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
     destinationContent: @Composable (FaroV5ShellDestination) -> Unit = {
         FaroV5UnavailableDestination(it)
     },
@@ -386,6 +388,7 @@ fun FaroV5ShellScaffold(
                                 reviewPort = reviewPort,
                                 applyRequestPort = applyRequestPort,
                                 assistantTurnPort = assistantTurnPort,
+                                attachmentIngress = attachmentIngress,
                             )
                         } else if (key == FaroV5ShellDestination.AJUSTES &&
                             onOpenAiSettings != null) {

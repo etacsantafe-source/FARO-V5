@@ -2,6 +2,8 @@ package ar.com.faro.v5.surface
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import android.net.Uri
+import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort
@@ -23,6 +25,7 @@ object FaroV5SurfaceHost {
         applyRequestPort: ConversationApplyRequestPort? = null,
         assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
         onOpenAiSettings: Runnable? = null,
+        attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> String)? = null,
     ) {
         activity.setContent {
             FaroV5Theme {
@@ -35,6 +38,7 @@ object FaroV5SurfaceHost {
                     applyRequestPort = applyRequestPort,
                     assistantTurnPort = assistantTurnPort,
                     onOpenAiSettings = onOpenAiSettings?.let { launcher -> { launcher.run() } },
+                    attachmentIngress = attachmentIngress,
                 )
             }
         }
