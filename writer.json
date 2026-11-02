@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.noche-queue-cas-probe-20261102",
-  "token_hash": "e2419b987c746e60bd9aca6c7e2bd252e1d0fd671fb2f5cba231ac7a5c10e251",
+  "status": "HELD",
+  "owner": "manual.faro-noche-v2-final-handoff-20261102",
+  "token_hash": "a91673c49c6e181d6a7bbd6318b877f3e924dacc3aa87feb999727a719e1738c",
   "target_head": "7fa471f9ce13ccd4599f91ce00e3803bc7efcc0e",
-  "epoch": 6,
+  "epoch": 7,
   "timestamp": 0,
   "target_branch": "work/faro-auto-v2-integration-20261102"
 }
