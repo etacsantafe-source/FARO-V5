@@ -19,3 +19,8 @@ Updated isolated S2 workflow push path filters to cover `v5/app`, `v5/surface`, 
 1. Check the in-flight B3 Actions (no overlap); if RED, inspect actual failure. A4 preemptively addresses potential test-only ContentResolver cross-UID access without exporting fixture.
 2. After B3 finishes, trigger **one** directed CI for A4 source, confirm exact 9 A5 JVM + 4 F1 JVM + 5 Android tests from XML. If red, correct actual issue.
 3. On green, validate **one** debug APK `ar.com.faro.alpha.s2isolated.v5dev`, signature and SHA-256, and minimal Moto G15 route. Do not repeat SAF, request Groq secret, claim 8/8, or activate V2.
+
+## Additional A4 test hardening
+
+- [Commit `9161ca1`](https://github.com/etacsantafe-source/FARO-V5/commit/9161ca157fffb242b62a7885dc030c6ecf8d30a2) adds an Android regression assertion that the provider is actually registered in the target app and remains `exported=false`. This is a test of the specific cross-UID fix, not a claim of Android PASS.
+- Both A4 code commits carry `[skip ci]` because the B3 push run status could not be resolved via the available connector. Next run must validate the latest SHA after previous CI ends; never infer PASS.

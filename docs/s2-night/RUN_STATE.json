@@ -4,7 +4,7 @@
   "date_local": "2026-11-02",
   "session": "NIGHT_A4_A5_TEST_PROVIDER_UID_FIX_HANDOFF_CLEAN",
   "branch": "work/s2-chat-finish-night-20261102",
-  "last_functional_commit": "5d4add333389fe84d16a38ebf404404ca781c202",
+  "last_functional_commit": "9161ca157fffb242b62a7885dc030c6ecf8d30a2",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
@@ -28,7 +28,8 @@
     "A5 isolated Chat content-specific text confirmation dialog, SHA256+byte recheck, 8KiB text-only draft insertion, separate user Send and trusted egress; other formats remain local preview (UNVERIFIED)",
     "A5 draft consent 9 JVM tests and workflow directed gate; Android Compose Chat/Review/Apply/Delivery/restart test selected for next CI (UNVERIFIED)",
     "B3 code fix in Android test ContentProvider: explicit arrayOf<Any?> for mixed String/Int MatrixCursor.addRow; branch commit feec3f2c1ed4659d083324332e1822d145a18e5c",
-    "A4 isolated debug-only A5 synthetic ContentProvider moved from androidTest APK to debug app UID with exported=false; Android test now uses targetContext; workflow watches app/surface/kernel/platform; functional commit 5d4add333389fe84d16a38ebf404404ca781c202 [skip ci]"
+    "A4 isolated debug-only A5 synthetic ContentProvider moved from androidTest APK to debug app UID with exported=false; Android test now uses targetContext; workflow watches app/surface/kernel/platform; functional commit 5d4add333389fe84d16a38ebf404404ca781c202 [skip ci]",
+    "A4 Android regression test now asserts isolated debug A5 provider is registered and not exported, commit 9161ca157fffb242b62a7885dc030c6ecf8d30a2 [skip ci]"
   ],
   "verification": [
     {
@@ -90,9 +91,10 @@
     "new Android A5 ContentResolver reader 3 tests prepared as unreferenced commit dcc1f965...; not yet published",
     "A5 Android ContentResolver 3 tests now committed but not executed",
     "Latest workflow 5/5 Android + A5 9/9 JVM not executed",
-    "A4 debug-app provider UID fix has no fresh Android XML PASS yet; do not treat static manifest check as instrumentation success"
+    "A4 debug-app provider UID fix has no fresh Android XML PASS yet; do not treat static manifest check as instrumentation success",
+    "A4 provider registration assertion is unexecuted until one final directed Android CI"
   ],
-  "next": "Recover Actions for feec3f2 (GitHub connector does not list push-triggered runs by commit; use available workflow run ID/check results if surfaced), do not overlap CI. Then trigger exactly one directed CI for A4 commit 5d4add333389fe84d16a38ebf404404ca781c202 and verify 9/9 A5 JVM, 4/4 F1 JVM, 5/5 Android XML; if green, validate one isolated APK package/signature/SHA and minimal physical T4. No production V2.",
+  "next": "After B3 in-flight CI ends, trigger one directed CI on latest A4 source 9161ca157fffb242b62a7885dc030c6ecf8d30a2 (A4 changes intentionally [skip ci]); confirm XML 9/9 A5 JVM, 4/4 F1 JVM, 5/5 Android; then package/signature/SHA of ONE APK and minimal physical T4. Do not start overlapping Actions.",
   "prepared_next_commit": null,
   "android_test_published": true,
   "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS."
