@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "id": "S2.A6",
+  "date_local": "2026-11-02",
+  "timezone": "America/Argentina/Cordoba",
+  "repository": "etacsantafe-source/FARO-V5",
+  "branch": "work/t4-saf-automated-hardening-20261101",
+  "basis_functional_sha": "0a2c1f4e8bcfa04820f4ede7513c041da936cfac",
+  "baseline_f4_sha": "0f8e4705632b92215eb6b06a83eb01a5fd939c1e",
+  "status": "OPEN",
+  "certified": 6,
+  "total": 8,
+  "v2_active_enabled": false,
+  "s3_open": false,
+  "s4_open": false,
+  "main_unchanged": true,
+  "applies_to": "S2 isolated/quarantined technical certification; not live V2 activation",
+  "evidence_document": "docs/s2/S2_A6_CERTIFICATION_DECISION_20261102.md",
+  "criteria": [
+    {
+      "id": 1,
+      "code": "FIVE_OWNERS",
+      "status": "CERTIFIED",
+      "basis": "Previously certified; no change"
+    },
+    {
+      "id": 2,
+      "code": "FBS2_ISOLATED_RESTORE",
+      "status": "CERTIFIED",
+      "basis": "Previously certified; no change"
+    },
+    {
+      "id": 3,
+      "code": "JOURNAL_REPLAY_WAL",
+      "status": "CERTIFIED",
+      "basis": "Previously certified; no change"
+    },
+    {
+      "id": 4,
+      "code": "F1_ANDROID_CHAT_E2E",
+      "status": "OPEN",
+      "basis": "Automated F1 tests and reported physical Groq debug are positive; no observed full Moto G15 Chat→Review→Apply→receipt→Delivery→recovery chain"
+    },
+    {
+      "id": 5,
+      "code": "F2_ANDROID_ACTIVATION_RECOVERY",
+      "status": "CERTIFIED",
+      "basis": "Actions 41276096648 5/5 Android; 41277220813 16/16 JVM; 41379627980 5/5 Android; isolated pointer rollback, WAL, replay; physical scope separately T4"
+    },
+    {
+      "id": 6,
+      "code": "F3_FIVE_STORE_BACKUP_SAF_CONSENT",
+      "status": "CERTIFIED",
+      "scope": "isolated five-store SAF with explicit Android consent, NOT production V2",
+      "basis": "Actions 41379627980 14/14 F3 Android; 6 T4 Android; hardware Moto G15 V5 user-reported export+restore green with nonempty five-owner fixtures, post-picker fresh consent screenshot"
+    },
+    {
+      "id": 7,
+      "code": "F4_INTEGRAL_REGRESSIONS",
+      "status": "CERTIFIED",
+      "basis": "Actions 41277545474 two SUCCESS jobs 36/36 JVM + 27/27 Android; current branch inherits production source without src/main changes; 41379627980 32/32 T4 regressions"
+    },
+    {
+      "id": 8,
+      "code": "T4_PHYSICAL",
+      "status": "IN_PROGRESS",
+      "basis": "User-reported successful isolated SAF V4/V5 and prior device-run 27/27; no complete observed physical integrated F1→F4 T4 campaign on one build"
+    }
+  ],
+  "remaining_required": "Single end-to-end physical F1/Chat→Review→Apply→receipt→Delivery→recovery observation with isolated data, and corresponding T4 full-coverage attestation",
+  "no_more_saf_repetition_needed": true,
+  "no_groq_secret_requested": true,
+  "no_physical_or_production_pass_invented": true
+}
