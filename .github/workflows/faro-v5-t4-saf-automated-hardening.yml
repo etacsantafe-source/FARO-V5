@@ -96,7 +96,7 @@ jobs:
               'FaroV5F2IsolatedActivationRecoveryInstrumentationTest':5,
               'FaroV5F3SafConsentInstrumentationTest':6,
               'FaroV5F3QuarantinedSafRoundTripInstrumentationTest':8,
-              'FaroV5T4SafHardeningInstrumentationTest':4,
+              'FaroV5T4SafHardeningInstrumentationTest':6,
           }
           counts={name:0 for name in expected}
           seen=set()
@@ -111,6 +111,6 @@ jobs:
                   if any(case.find(k) is not None for k in ('failure','error','skipped')):
                       raise SystemExit(f'FAILED_CASE {key} in {file}')
           if counts!=expected: raise SystemExit(f'WRONG_CASE_COUNT: {counts}, expected {expected}')
-          print('T4_F2_F3_ANDROID_AUTOMATED_PASS 23/23')
+          print('T4_F2_F3_ANDROID_AUTOMATED_PASS 25/25')
           print('SAF native picker human consent: NOT RUN; real F3 production gate: NOT CERTIFIED')
           PY
