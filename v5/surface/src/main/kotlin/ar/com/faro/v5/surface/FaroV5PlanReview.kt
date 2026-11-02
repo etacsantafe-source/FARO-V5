@@ -42,7 +42,7 @@ fun FaroV5PlanReview(
             Text(faroV5ReviewStateLabel(review.state, activeApplyVerified),
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             if (reviewExpanded) {
-                Text(review.reviewText, style = MaterialTheme.typography.bodyMedium)
+                Text(faroV5HumanizedActionText(review.reviewText), style = MaterialTheme.typography.bodyMedium)
                 Text("Nada cambia en tus datos hasta que confirmes y solicites aplicar.",
                     style = MaterialTheme.typography.bodySmall)
             }
