@@ -2,9 +2,9 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_A3_CI_MEMORY_FIX_HANDOFF_CLEAN",
+  "session": "NIGHT_B3_ANDROID_COMPILER_FIX_HANDOFF_CLEAN",
   "branch": "work/s2-chat-finish-night-20261102",
-  "last_functional_commit": "7b740e9fcaefb264f284a0d0feed82d56aa2ac45",
+  "last_functional_commit": "feec3f2c1ed4659d083324332e1822d145a18e5c",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
@@ -26,7 +26,8 @@
     "A5 Android OpenMultipleDocuments picker wired into actual Chat; canonical conversation and picker request bound to bounded reader and pure ingress policy; ephemeral payloads wiped, metadata-only local preview, no network egress",
     "A5 pure second-stage text draft consent gate: explicit confirmation, current conversation/picker, SHA-256 and size binding, <=8 KiB supported text only, no network authority; 8 JVM tests added (not yet run)",
     "A5 isolated Chat content-specific text confirmation dialog, SHA256+byte recheck, 8KiB text-only draft insertion, separate user Send and trusted egress; other formats remain local preview (UNVERIFIED)",
-    "A5 draft consent 9 JVM tests and workflow directed gate; Android Compose Chat/Review/Apply/Delivery/restart test selected for next CI (UNVERIFIED)"
+    "A5 draft consent 9 JVM tests and workflow directed gate; Android Compose Chat/Review/Apply/Delivery/restart test selected for next CI (UNVERIFIED)",
+    "B3 code fix in Android test ContentProvider: explicit arrayOf<Any?> for mixed String/Int MatrixCursor.addRow; branch commit feec3f2c1ed4659d083324332e1822d145a18e5c"
   ],
   "verification": [
     {
@@ -60,6 +61,15 @@
       "sha": "2e2413121f2a32c1cce6199870621424a084ba6c",
       "status": "in_progress",
       "conclusion": null
+    },
+    {
+      "run_id": 41398844415,
+      "sha": "2e2413121f2a32c1cce6199870621424a084ba6c",
+      "status": "completed",
+      "conclusion": "failure",
+      "jvm_job": "success",
+      "a5_jvm": "9/9 PASS from XML oracle",
+      "android_job": "failure before instrumentation at FaroV5A5TestContentProvider.kt:32 TYPE_INTERSECTION_AS_REIFIED_ERROR"
     }
   ],
   "not_verified": [
@@ -75,7 +85,7 @@
     "A5 Android ContentResolver 3 tests now committed but not executed",
     "Latest workflow 5/5 Android + A5 9/9 JVM not executed"
   ],
-  "next": "Run #41398844415 is the sole active targeted CI for the A5/F1 integration, on SHA 2e241312. Do NOT start another run or write source while active. Check logs/XML after it completes; if RED fix only affected part. If PASS verify APK package ar.com.faro.alpha.s2isolated.v5dev, SHA256 and apksigner; then one minimal T4 physical campaign. S2 stays OPEN 6/8.",
+  "next": "B3 correction committed, triggering one targeted S2 CI on code SHA feec3f2c1ed4659d083324332e1822d145a18e5c. Do not start overlapping Actions. Next session locate run and verify Android integrated 5/5 XML; JVM A5 9/9 already green on preceding run; if all PASS, validate package/signature/SHA and prepare one physical Moto G15 APK. S2 6/8 OPEN.",
   "prepared_next_commit": null,
   "android_test_published": true,
   "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS."
