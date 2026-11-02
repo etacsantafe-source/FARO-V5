@@ -104,3 +104,12 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - Para restauración del respaldo sintético, tras el recordatorio `falta consentimiento`, el usuario respondió **`Verde`** después de confirmar → **restauración física SAF V4 PASS_REPORTADO**, sin texto completo de receipt adjunto.
 - Estado operativo: **T4-SAF recorrido positivo debug superado (V4)**, pero **T4 general aún OPEN** por casos negativos (cancelación, recreación/muerte de proceso, archivo corrupto/inaccesible, reintentos) y por la integración real F2/F4 y autorización productiva F3. **S2.A6 3/8**, no actualizar certificación global con pruebas sintéticas. No repetir los 27 tests ni Groq.
 - Informe detallado y pendientes: `docs/t4/T4_CORRECCION_INTEGRAL_20261101.md` (mismo branch). Mantener `main` intacta; no S3/S4; no ejecutar FARO Noche.
+
+## V5 — 02/11/2026, prueba física positiva del SAF con cinco fixtures no vacíos
+- Identidad APK: `FARO-V5-T4-SAF-AUTO-V5.apk`, package `ar.com.faro.alpha.t4saf5.v5dev`, SHA-256 `2619ce5ecc9ff1a34f9b460506147742022ef0eab14991e40869c8743afdd789`. Fuente probada `0a2c1f4e`; release CI `#41380364442`; regressions `#41379627980` 7 JVM + 25 Android PASS.
+- Termux: descarga/comprobación `FARO-V5-T4-SAF-AUTO-V5.apk: OK`. Primer `adb install`: `no devices/emulators found` por reconexión Wi-Fi; tras nuevo bloque ADB, usuario `Ya abrió`. No deducir salida exacta `Success` no mostrada.
+- Captura 00:12 ART: selector terminado y nueva casilla SIN marcar; `Falta consentimiento NUEVO después del selector.` (esperado).
+- Luego de confirmar exportación, usuario `Verdw` (síntesis: VERDE). **EXPORT V5=PASS_REPORTADO_POR_USUARIO** sin captura de status final.
+- Luego de restaurar ese respaldo con consentimiento nuevo, usuario `Verde`. **RESTORE V5=PASS_REPORTADO_POR_USUARIO** sin texto completo de UI. El mensaje verde del código V5 está condicionado a verificación semántica por owner y no vacíos, journal VALIDATED, sentinel V1 y V2 OFF, pero no se capturó literalmente.
+- SAF V5 recorrido positivo completado en Moto G15; no repetir V4 ni las 25 pruebas emuladas. **T4 global / S2.A6 siguen OPEN (3/8 CERTIFIED)**. F1/F2/F3/F4 y certificación de producción requieren evaluación separada. Sin reactivación de V2, sin cambio de `main` ni S3/S4.
+- Detalle y matriz criterio a criterio: `docs/t4/T4_AUTOMATED_HARDENING_20261101.md` de esta rama.
