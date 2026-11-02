@@ -16,7 +16,7 @@ spec.loader.exec_module(mod)
 class GuardTests(unittest.TestCase):
     def invoke(self, mode, flags=None, env=None):
         args = ["guard", "--mode", mode, "--owner", "night-a-001",
-                "--target-head", "a" * 40] + (flags or []) + ["--", "echo", "safe"]
+                "--target-head", "a" * 40] + (flags or []) + ["--", sys.executable, "scripts/v5/faro-auto-v2-readiness.py"]
         with patch.object(sys, "argv", args), patch.dict(os.environ, env or {}, clear=True):
             mod.main()
 
