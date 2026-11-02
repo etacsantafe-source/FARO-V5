@@ -470,7 +470,9 @@ public final class FaroV5BootstrapActivity extends ComponentActivity {
                 faroApplication.activeApplyRequestPort(),
                 faroApplication.activeAssistantTurnPort(),
                 () -> startActivity(new android.content.Intent(
-                        this, FaroV5AiSettingsActivity.class)));
+                        this, FaroV5AiSettingsActivity.class)),
+                null,
+                faroApplication.readActiveHomePort());
         mountedSurface = FaroV5HostSurfacePolicy.Surface.SHELL;
     }
 

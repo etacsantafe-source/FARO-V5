@@ -5,6 +5,7 @@ import androidx.work.Configuration;
 import ar.com.faro.v5.control.OnboardingMutationOutcome;
 import ar.com.faro.v5.control.OnboardingSnapshot;
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort;
+import ar.com.faro.v5.surface.FaroV5HomeReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort;
 import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort;
@@ -49,6 +50,10 @@ public final class FaroV5Application extends Application implements Configuratio
         return new Configuration.Builder()
                 .setWorkerFactory(compositionRoot().getWorkerFactory())
                 .build();
+    }
+
+    public FaroV5HomeReadPort readActiveHomePort() {
+        return compositionRoot().readActiveHomePort();
     }
 
     public ConversationWorkspaceReadPort readActiveWorkspacePort() {

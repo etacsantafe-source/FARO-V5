@@ -41,6 +41,7 @@ import ar.com.faro.v5.platform.android.work.AndroidScheduledDeliveryWorkProjecti
 import ar.com.faro.v5.platform.android.work.AndroidWorkManagerScheduler;
 import ar.com.faro.v5.platform.android.work.FaroWorkerFactory;
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore;
+import ar.com.faro.v5.surface.FaroV5HomeReadPort;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Set;
@@ -507,6 +508,22 @@ public final class FaroV5CompositionRoot {
      * V1 intentionally has no fifth owner and returns null. No staged V2 may
      * enter this path; activation still requires a separately certified switch.
      */
+    /**
+     * Bind only the existing active-generation Auxiliary Notice read authority.
+     * Other Home indicators remain UNKNOWN until their canonical owners exist.
+     * This method never activates V2 or writes a notice.
+     */
+    public FaroV5HomeReadPort readActiveHomePort() {
+        if (!maintenanceRecoveryComplete) return null;
+        DeliveryGraph graph = deliveryGraph();
+        return FaroV5HomeNoticeBindingFactory.create(
+                () -> graph.store.readNotices(),
+                graph.generationId,
+                () -> generationStorage().activeGenerationId(),
+                () -> maintenanceRecoveryComplete,
+                System::currentTimeMillis);
+    }
+
     public ConversationWorkspaceReadPort readActiveWorkspacePort() {
         if (!maintenanceRecoveryComplete) return null;
         FaroV5ActiveChatReadSession session = deliveryGraph().chatReadSession;
