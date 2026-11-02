@@ -50,7 +50,7 @@ with tempfile.TemporaryDirectory(prefix="faro-v2-smoke-") as tmp:
                 assert writer_state["owner"] == "auto"
                 writer_state["owner"] = None
                 writer_state["releases"] += 1
-        elif cmd[0] == sys.executable and "faro-auto-v2-readiness.py" in cmd:
+        elif cmd[0] == sys.executable and any(str(part).endswith("faro-auto-v2-readiness.py") for part in cmd):
             writer_state["tasks"] += 1
 
     def execute_guard(cmd, **kwargs):
