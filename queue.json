@@ -34,9 +34,11 @@
           "writer_cas_acquire": "PASS",
           "other_owner_stop": "PASS_LOCAL_GUARD_OBSERVED_HELD",
           "stale_expected_cas": "INCONCLUSIVE_GITHUB_ERROR_GENERIC_REF_UNCHANGED",
-          "checkpoint_recovery": "READ_PREVIOUS_QUEUE_CHECKPOINT_PASS",
+          "checkpoint_recovery": "PASS_REOPENED_CLOUD_QUEUE_AT_2026-11-02T22:04:01Z",
           "ci_status": "NO_RUNS_ON_S3_BRANCH",
-          "s3_branch_mutated": false
+          "s3_branch_mutated": false,
+          "stale_queue_cas": "INCONCLUSIVE_GENERIC_GITHUB_ERROR_REF_UNCHANGED_2026-11-02T22:04:44Z",
+          "cas_rejection_certification": "NOT_CLAIMED"
         },
         "NOCHE_B": null,
         "combined": "PENDING_B_INDEPENDENT_PROOF"
@@ -56,7 +58,22 @@
       "acceptance": "Documento congelado con revisión V4.4+apps+adversarial, 172 oficiales intactos hasta aprobación bounded; no falso PASS",
       "action_run_ids": [],
       "checkpoint": null,
-      "evidence": null
+      "evidence": null,
+      "preliminary_read_only": {
+        "status": "RESEARCH_ONLY_NOT_CONTRACT_FREEZE",
+        "source_branch_s3_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
+        "source_branch_v44_sha": "44f1e6eb77102a71955b4fb113582d209d94ac69",
+        "findings": [
+          "V5 shell 991be956: CHAT drawer root and topbar Search/Avisos, but latest S3 drawer-only navigation + D-491 no separate Chat drawer item; ACTIVIDAD/GUARDADOS absent; resolve in P00/A1.",
+          "V4 GlobalSearch 6dde31b8: deterministic dedup/domain diversity and owner unavailable warnings in text header; V4 UI parser drops header, and Shell 28dc17b8 may show false Sin coincidencias; V5 must use typed coverage.",
+          "V4 Workspace d4adbb07: archive reversible and clears pin, text search includes archived on nonblank; V5 ConversationWorkspace bd3834a2 already has 7 recent + archived projection, do not redo.",
+          "V5 AppSearch b95eab54 is private disposable index; SearchProjectionHit f364508a only opaque locator/stamp/rank; owner re-read mandatory. Do not replace with SQLite FTS without Spanish/offline/rebuild tests.",
+          "V5 ConversationPlanReview f68bcc0d requires canonical Reality receipt for COMMITTED; Auxiliary saved/bookmark mutations need separate receipts, never forge Reality.",
+          "D-226 Saved Views (V4 design 216c4d6f) are saved query definitions and already in official 172; message bookmarks +8 remain CANDIDATE, distinct concept and bounded review required."
+        ],
+        "tests": "NONE_EXECUTED; X01-X12_PENDING",
+        "next": "B independently validates shared queue, writer, CAS and stop. Only after S3-N00 PASS may P00 contract freeze write branch."
+      }
     },
     {
       "task_id": "S3-A1",
@@ -148,7 +165,7 @@
     "source": "queue.json",
     "commit_sha": "7bfb76fe7d48bbd499a6d71099588b4a837fcb0a",
     "task_id": "S3-N00",
-    "status": "NOCHE_A_RECORDED_WAIT_B",
+    "status": "A_EVIDENCE_DURABLE_WAIT_B_RESEARCH_PREP",
     "writer_epoch": 12
   },
   "owner": null,
