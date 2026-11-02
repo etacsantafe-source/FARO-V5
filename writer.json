@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.faro-noche-v2-final-handoff-20261102",
-  "token_hash": "a91673c49c6e181d6a7bbd6318b877f3e924dacc3aa87feb999727a719e1738c",
-  "target_head": "7fa471f9ce13ccd4599f91ce00e3803bc7efcc0e",
-  "epoch": 7,
+  "status": "HELD",
+  "owner": "manual.s3-app-benchmark-20261102",
+  "token_hash": "d70d00ebd443f22b6800e651858bb95b2d77955772226bec398162488aee3041",
+  "target_head": "01450db5b6c26a540b088a1e160f619f8ce328de",
+  "epoch": 8,
   "timestamp": 0,
   "target_branch": "work/faro-auto-v2-integration-20261102"
 }
