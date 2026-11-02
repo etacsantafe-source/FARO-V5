@@ -2,9 +2,9 @@
   "schema_version": 1,
   "phase": "S2.A6",
   "date_local": "2026-11-02",
-  "session": "NIGHT_B3_ANDROID_COMPILER_FIX_HANDOFF_CLEAN",
+  "session": "NIGHT_A4_A5_TEST_PROVIDER_UID_FIX_HANDOFF_CLEAN",
   "branch": "work/s2-chat-finish-night-20261102",
-  "last_functional_commit": "feec3f2c1ed4659d083324332e1822d145a18e5c",
+  "last_functional_commit": "5d4add333389fe84d16a38ebf404404ca781c202",
   "writer": "NONE",
   "handoff": "CLEAN",
   "certified": 6,
@@ -27,7 +27,8 @@
     "A5 pure second-stage text draft consent gate: explicit confirmation, current conversation/picker, SHA-256 and size binding, <=8 KiB supported text only, no network authority; 8 JVM tests added (not yet run)",
     "A5 isolated Chat content-specific text confirmation dialog, SHA256+byte recheck, 8KiB text-only draft insertion, separate user Send and trusted egress; other formats remain local preview (UNVERIFIED)",
     "A5 draft consent 9 JVM tests and workflow directed gate; Android Compose Chat/Review/Apply/Delivery/restart test selected for next CI (UNVERIFIED)",
-    "B3 code fix in Android test ContentProvider: explicit arrayOf<Any?> for mixed String/Int MatrixCursor.addRow; branch commit feec3f2c1ed4659d083324332e1822d145a18e5c"
+    "B3 code fix in Android test ContentProvider: explicit arrayOf<Any?> for mixed String/Int MatrixCursor.addRow; branch commit feec3f2c1ed4659d083324332e1822d145a18e5c",
+    "A4 isolated debug-only A5 synthetic ContentProvider moved from androidTest APK to debug app UID with exported=false; Android test now uses targetContext; workflow watches app/surface/kernel/platform; functional commit 5d4add333389fe84d16a38ebf404404ca781c202 [skip ci]"
   ],
   "verification": [
     {
@@ -70,6 +71,11 @@
       "jvm_job": "success",
       "a5_jvm": "9/9 PASS from XML oracle",
       "android_job": "failure before instrumentation at FaroV5A5TestContentProvider.kt:32 TYPE_INTERSECTION_AS_REIFIED_ERROR"
+    },
+    {
+      "sha": "5d4add333389fe84d16a38ebf404404ca781c202",
+      "status": "not_run",
+      "reason": "A4 test-only provider relocation published with [skip ci] to avoid overlapping previously triggered feec3f2 workflow; next turn must run directed CI after prior job ends"
     }
   ],
   "not_verified": [
@@ -83,9 +89,10 @@
     "new A5 consented text-to-draft Compose/Android build on SHA 7b740e9... (commit deliberately skipped CI while previous run pending)",
     "new Android A5 ContentResolver reader 3 tests prepared as unreferenced commit dcc1f965...; not yet published",
     "A5 Android ContentResolver 3 tests now committed but not executed",
-    "Latest workflow 5/5 Android + A5 9/9 JVM not executed"
+    "Latest workflow 5/5 Android + A5 9/9 JVM not executed",
+    "A4 debug-app provider UID fix has no fresh Android XML PASS yet; do not treat static manifest check as instrumentation success"
   ],
-  "next": "B3 correction committed, triggering one targeted S2 CI on code SHA feec3f2c1ed4659d083324332e1822d145a18e5c. Do not start overlapping Actions. Next session locate run and verify Android integrated 5/5 XML; JVM A5 9/9 already green on preceding run; if all PASS, validate package/signature/SHA and prepare one physical Moto G15 APK. S2 6/8 OPEN.",
+  "next": "Recover Actions for feec3f2 (GitHub connector does not list push-triggered runs by commit; use available workflow run ID/check results if surfaced), do not overlap CI. Then trigger exactly one directed CI for A4 commit 5d4add333389fe84d16a38ebf404404ca781c202 and verify 9/9 A5 JVM, 4/4 F1 JVM, 5/5 Android XML; if green, validate one isolated APK package/signature/SHA and minimal physical T4. No production V2.",
   "prepared_next_commit": null,
   "android_test_published": true,
   "ci_root_cause": "Actions 41390549337: :app:compileDebugJavaWithJavac java.lang.OutOfMemoryError: Java heap space at 05:10:42Z, runner canceled at 05:50:17Z; prior cancellation not PASS."
