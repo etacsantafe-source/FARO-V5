@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.s3-app-benchmark-20261102",
-  "token_hash": "d70d00ebd443f22b6800e651858bb95b2d77955772226bec398162488aee3041",
-  "target_head": "01450db5b6c26a540b088a1e160f619f8ce328de",
-  "epoch": 8,
+  "status": "HELD",
+  "owner": "manual.s3-pre-noche-clean-handoff-20261102",
+  "token_hash": "02a3bc6dcd83501e3288d9b06b4906e7314cd31d0e0e450765b39b68bd3aa289",
+  "target_head": "14317bb8b10a44ea5d9e939f7e113f86b98f0de2",
+  "epoch": 9,
   "timestamp": 0,
   "target_branch": "work/faro-auto-v2-integration-20261102"
 }
