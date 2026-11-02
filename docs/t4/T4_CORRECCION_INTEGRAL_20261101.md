@@ -5,7 +5,7 @@
 - Base comprobada: `work/faro-t4-build-20261101` @ `0e1fcb62ce0344680547b18c38bdf35e44ca1f7e`.
 - Rama de corrección exclusiva: `work/t4-saf-integral-20261101`.
 - Ningún cambio a `main`, producción, almacenes activos, V2 ni S3/S4. `V2_ACTIVE_ENABLED=false`.
-- T4 SAF manual: **ROJO** hasta evidencia positiva física. S2.A6: **3/8 certificados**.
+- T4 SAF aislado V4: **exportación VERDE con captura, restauración VERDE reportada por usuario**; campaña negativa/integración productiva pendiente. S2.A6: **3/8 certificados**.
 - F1 Groq debug y revocación: PASS reportado por usuario; no son prueba de Chat/Apply producción.
 - 27/27 pruebas Android instrumentadas T4 reportadas PASS; no son la campaña SAF real ni cierran F2–F4.
 
@@ -49,3 +49,25 @@
 - **No ejecutar de nuevo los 27 tests físicos previos**; hacer únicamente la prueba manual SAF positiva/negativa delimitada.
 - **NO** es todavía PASS físico ni validación de restauración de producción. Se conserva T4 SAF ROJO y S2.A6 3/8 hasta que el usuario pruebe el selector, confirmación, exportación y restore físico en cuarentena.
 
+
+## Evidencia física V4 positiva — Moto G15, 01/11/2026 aprox. 23:00–23:10 AR
+
+**Identidad probada**
+- Archivo instalado: `FARO-V5-T4-SAF-INTEGRAL-V4.apk`, package aislado `ar.com.faro.alpha.t4saf4.v5dev`, SHA-256 `6958cf99d21b97b8932c87f142ae57a62f9421a35c1dc046f7ff52c03dcf15af`.
+- El usuario ejecutó en Termux el bloque de descarga, `sha256sum -c -` y `adb install -r`, con salida literal `FARO-V5-T4-SAF-INTEGRAL-V4.apk: OK`, `Performing Streamed Install`, `Success`.
+- Capturas aportadas en la conversación, **no incorporadas como binarios al repositorio**; la restitución no tiene captura del texto completo de verificación.
+
+**Interacción comprobada**
+1. Se abrió `FARO T4 - SAF integral aislado` en el teléfono. Tras seleccionar destino de Android, captura: checkbox de consentimiento desmarcada y estado `Falta consentimiento NUEVO después del selector.`. Esto concuerda con la necesidad de autorización posterior al picker. No identifica por sí solo URI ni contenido.
+2. El usuario marcó consentimiento y confirmó. La siguiente **captura** muestra literalmente: `VERDE: respaldo sintético cifrado escrito y verificado por Android. Ahora elegí ESE MISMO archivo para restauración aislada.` → **EXPORTACION_SAF_DEBUG_FISICA = PASS_OBSERVADO_EN_CAPTURA**.
+3. Se indicó elegir el mismo archivo en `3. ELEGIR RESPALDO SINTÉTICO` y conceder consentimiento nuevo. El usuario comunicó inicialmente `"falta consentimiento....."` y después de marcar y confirmar respondió `"Verde"`. → **RESTAURACION_SAF_DEBUG_FISICA = PASS_REPORTADO_POR_USUARIO**. No adjudicar texto exacto de `journal VALIDATED` ni `V1 intacta` sin captura/log; el código V4 comprueba esos elementos antes de mostrar su mensaje verde, pero la evidencia disponible es el reporte del usuario.
+4. No repetir 27/27 pruebas instrumentadas previas ni Groq debug por estas dos operaciones; son campañas distintas.
+
+**Alcance y faltantes para cerrar T4**
+- **Verde parcial dirigido**: se superó el bloqueo físico del picker V1–V3 y el recorrido feliz de exportación y restauración con 5 almacenes sintéticos, usando documentos externos SAF y consentimiento nuevo. El mensaje de consentimiento requerido es **comportamiento esperado**, no fallo.
+- **No ejecutadas/documentadas aún** las pruebas negativas de SAF: cancelación del selector, recreación/split-screen o muerte de proceso, URI inaccesible/archivo inválido, reintentos y cancelación en operación. Una respuesta verde no demuestra automáticamente esos casos.
+- **F2/F4 en UI e integración real Chat/Review/Apply + recuperación**, aún requieren evidencias físicas específicas; **F3 productiva** requiere diseño/autorización separado porque `V2_ACTIVE_ENABLED=false` bloquea exportación real. No habilitar V2 para “forzar” T4.
+- **T4 global: ABIERTO**, no cierre ficticio ni transferencia de los PASS debug a producción. **S2.A6: 3/8 CERTIFIED**, sin alterar números de criterios sin mapeo y evidencia por criterio.
+- `main` intacta, paquete FARO habitual intacto, no S3/S4, writer NONE y ninguna FARO Noche activada. Esta actualización es solo documental.
+
+**Próxima acción prioritaria:** no construir otra APK ni repetir pruebas positivas. Elegir un pequeño lote dirigido de casos negativos SAF y registrar sus resultados, y en paralelo mapear los criterios de F2/F4/F3 realmente pendientes para terminar T4 sin confundir certificación del harness con la del producto.
