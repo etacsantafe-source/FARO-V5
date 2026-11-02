@@ -37,3 +37,6 @@ Demostrar en el momento de activar que ambos turnos usan realmente la misma cola
 - Cola CLOUD: prueba de CAS real (primera escritura y rechazo de SHA obsoleto) PASS, restauración STAGED inactiva; ref final df09448783ec1cf02256e540e291955437d5e6c5.
 - Writer final observado RELEASED después de prueba cola; conservar exclusividad al habilitar turnos.
 - Las 25 automatizaciones históricas consultadas permanecieron desactivadas. No hay horarios activados.
+
+## Benchmark externo de S3 (02/11/2026)
+Leer `docs/v5/FARO_S3_BENCHMARK_APPS_20261102.md` **antes de encolar tareas S3**. Se encontró hueco material R0: falta Actividad como sección explícita de drawer alimentada por N-015 `history.query`; refinar R1–R7 de búsqueda, avisos y Review/Apply. X01–X12 son nuevas pruebas **por implementar**, no PASS. Guardados 172→180 sigue candidato, no catálogo congelado. Mantener Noche OFF hasta autorización en nuevo chat.
