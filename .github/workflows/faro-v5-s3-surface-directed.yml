@@ -1,0 +1,66 @@
+name: FARO V5 S3 directed surface navigation
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/surface/**"
+      - ".github/workflows/faro-v5-s3-surface-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-surface-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  surface-navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile and run surface regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :surface:compileDebugKotlin :surface:testDebugUnitTest
+      - name: Verify exact JUnit XML
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          base = Path('v5/surface/build/test-results/testDebugUnitTest')
+          xmls = sorted(base.glob('TEST-*.xml'))
+          if not xmls:
+              raise SystemExit('S3_MISSING_XML')
+          total = 0
+          found = False
+          for p in xmls:
+              root = ET.parse(p).getroot()
+              vals = tuple(int(root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+              if vals[0] < 1 or vals[1:] != (0,0,0):
+                  raise SystemExit(f'S3_FAIL_XML {p.name} {vals}')
+              if 'FaroV5ShellNavigationContractTest' in p.name:
+                  found = True
+              total += vals[0]
+          if not found:
+              raise SystemExit('S3_MISSING_NAVIGATION_XML')
+          print(f'S3_SURFACE_XML_PASS {total}/{total}')
+          PY

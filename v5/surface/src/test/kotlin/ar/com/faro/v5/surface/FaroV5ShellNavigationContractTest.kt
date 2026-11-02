@@ -32,7 +32,6 @@ class FaroV5ShellNavigationContractTest {
     fun drawerKeepsSettingsAsRootButPlacesItInFooter() {
         assertEquals(
             listOf(
-                FaroV5ShellDestination.CHAT,
                 FaroV5ShellDestination.INICIO,
                 FaroV5ShellDestination.FINANZAS,
                 FaroV5ShellDestination.OBJETIVOS,
@@ -43,6 +42,7 @@ class FaroV5ShellNavigationContractTest {
         )
         assertTrue(FaroV5ShellDestination.AJUSTES in faroV5ShellRoots)
         assertFalse(FaroV5ShellDestination.AJUSTES in faroV5PrimaryDrawerRoots)
+        assertFalse(FaroV5ShellDestination.CHAT in faroV5PrimaryDrawerRoots)
     }
 
     @Test
@@ -50,9 +50,20 @@ class FaroV5ShellNavigationContractTest {
         assertEquals(
             setOf(
                 FaroV5ShellDestination.BUSCAR,
+                FaroV5ShellDestination.GUARDADOS,
+                FaroV5ShellDestination.ACTIVIDAD,
                 FaroV5ShellDestination.AVISOS,
             ),
             faroV5SecondaryShellDestinations,
+        )
+        assertEquals(
+            listOf(
+                FaroV5ShellDestination.BUSCAR,
+                FaroV5ShellDestination.GUARDADOS,
+                FaroV5ShellDestination.ACTIVIDAD,
+                FaroV5ShellDestination.AVISOS,
+            ),
+            faroV5DrawerSecondaryDestinations,
         )
         assertTrue(
             faroV5SecondaryShellDestinations.all {

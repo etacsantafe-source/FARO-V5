@@ -10,8 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -79,6 +77,8 @@ enum class FaroV5ShellDestination(
     SMART_COMPRA("SmartCompra", FaroV5ShellDestinationKind.ROOT),
     AJUSTES("Ajustes", FaroV5ShellDestinationKind.ROOT),
     BUSCAR("Buscar", FaroV5ShellDestinationKind.SECONDARY),
+    GUARDADOS("Guardados", FaroV5ShellDestinationKind.SECONDARY),
+    ACTIVIDAD("Actividad", FaroV5ShellDestinationKind.SECONDARY),
     AVISOS("Avisos", FaroV5ShellDestinationKind.SECONDARY),
 }
 
@@ -104,13 +104,20 @@ val faroV5ShellRoots: List<FaroV5ShellDestination> =
     )
 
 val faroV5PrimaryDrawerRoots: List<FaroV5ShellDestination> =
-    faroV5ShellRoots.filterNot { it == FaroV5ShellDestination.AJUSTES }
+    faroV5ShellRoots.filterNot {
+        it == FaroV5ShellDestination.AJUSTES || it == FaroV5ShellDestination.CHAT
+    }
 
-val faroV5SecondaryShellDestinations: Set<FaroV5ShellDestination> =
-    setOf(
+val faroV5DrawerSecondaryDestinations: List<FaroV5ShellDestination> =
+    listOf(
         FaroV5ShellDestination.BUSCAR,
+        FaroV5ShellDestination.GUARDADOS,
+        FaroV5ShellDestination.ACTIVIDAD,
         FaroV5ShellDestination.AVISOS,
     )
+
+val faroV5SecondaryShellDestinations: Set<FaroV5ShellDestination> =
+    faroV5DrawerSecondaryDestinations.toSet()
 
 internal fun faroV5NextShellStack(
     current: List<FaroV5ShellDestination>,
@@ -344,24 +351,6 @@ fun FaroV5ShellScaffold(
                             }
                         }
                     },
-                    actions = {
-                        IconButton(
-                            onClick = { navigate(FaroV5ShellDestination.BUSCAR) },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Buscar en FARO",
-                            )
-                        }
-                        IconButton(
-                            onClick = { navigate(FaroV5ShellDestination.AVISOS) },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Notifications,
-                                contentDescription = "Abrir avisos",
-                            )
-                        }
-                    },
                 )
             },
         ) { innerPadding ->
@@ -411,6 +400,7 @@ fun FaroV5ShellScaffold(
     val drawerContent: @Composable () -> Unit = {
         FaroV5ShellDrawerContent(
             currentRoot = currentRoot,
+            currentDestination = currentDestination,
             workspaceProjection = workspaceProjection,
             workspaceReadFailed = workspaceReadState == FaroV5WorkspaceReadState.Failed,
             selectionAvailable = selectionPort != null && !selectionBusy && !selectionUncertain,
@@ -452,6 +442,7 @@ fun FaroV5ShellScaffold(
 @Composable
 private fun FaroV5ShellDrawerContent(
     currentRoot: FaroV5ShellDestination,
+    currentDestination: FaroV5ShellDestination,
     workspaceProjection: ConversationWorkspaceDrawerProjection?,
     workspaceReadFailed: Boolean,
     selectionAvailable: Boolean,
@@ -490,6 +481,14 @@ private fun FaroV5ShellDrawerContent(
                     selected = faroV5DrawerRootIsSelected(
                         currentRoot, target, workspaceProjection?.activeConversationId
                     ),
+                    onClick = { onNavigate(target) },
+                    modifier = Modifier.padding(horizontal = FaroV5Spacing.small),
+                )
+            }
+            faroV5DrawerSecondaryDestinations.forEach { target ->
+                NavigationDrawerItem(
+                    label = { Text(target.label) },
+                    selected = currentDestination == target,
                     onClick = { onNavigate(target) },
                     modifier = Modifier.padding(horizontal = FaroV5Spacing.small),
                 )
