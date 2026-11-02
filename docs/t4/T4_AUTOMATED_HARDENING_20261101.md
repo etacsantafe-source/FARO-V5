@@ -49,3 +49,13 @@ El usuario dijo: «Dale todos los consentimientos que necesite. Quiero terminar 
 - #41378210451: JVM 7/7 OK; Android NO RUN porque el workflow dejó `cd v5` y `./gradlew` en comandos de shell distintos. Log `/usr/bin/sh: 1: ./gradlew: not found` (error CI, no código Android).
 - Corrección workflow a `script: cd v5 && ./gradlew ...` sobre SHA `11070a8c3e6d77f4f1eb58a6d9314ea1d4a60966`.
 - #41378896809: EN CURSO cuando se escribió este checkpoint. No declarar Android PASS ni V5 físico PASS sin XML/cierre confirmado.
+
+## Android emulado — hallazgo verdadero y corrección puntual
+
+**Actions #41378896809, SHA `11070a8c3e6d77f4f1eb58a6d9314ea1d4a60966`:** JVM **7/7 PASS** (oráculo exacto); emulador ejecutó **25/25 casos**, **24 PASS / 1 FAIL**. Falló únicamente `FaroV5T4SafHardeningInstrumentationTest.mediaStoreProviderRoundTripVerifiesNonemptyWorkspaceAndAllFiveOwners`.
+
+Log de error: `NoSuchMethodError: No static method readString(Ljava/nio/file/Path;)Ljava/lang/String;` en `FaroV5T4SafIntegralActivity.exportSelected`, al leer el marcador V1 sintético (Android API35). Importante: el provider sí recibió la operación antes de la aserción, pero NO se puede contar PASS. Los otros 24 casos fueron exitosos en ese SHA.
+
+**Corrección:** las dos llamadas debug `Files.readString(path)` fueron reemplazadas por `String(Files.readAllBytes(path), Charsets.UTF_8)` en `FaroV5T4SafIntegralActivity.kt`, sin alterar producto. Commit de corrección `d5e178a5e34fd6c85fc5f9afe45d9a6e201aa446`.
+
+**Reintento:** Actions #41379627980, SHA `0a2c1f4e8bcfa04820f4ede7513c041da936cfac`, disparada; resultado **no verificado todavía** al escribir. El workflow impide reintroducir `Files.readString(` en este harness. No dar 25/25 ni F3 productiva por cerrados hasta obtener XML final.
