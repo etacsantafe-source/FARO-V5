@@ -11,26 +11,39 @@ fun interface FaroV5HomeIndicatorOwner {
     suspend fun readCount(): FaroV5HomeCount?
 }
 
+/** Provenance is explicitly bound to the owner, never inferred from a label. */
+data class FaroV5HomeOwnerBinding(
+    val expectedCanonicalSource: String,
+    val readPort: FaroV5HomeIndicatorOwner,
+) {
+    init {
+        require(expectedCanonicalSource.isNotBlank())
+    }
+}
+
 /**
  * Read-only, fail-closed projection of independently available owners.
  * This class deliberately does not invent sources or install a V2 host.
  */
 class FaroV5HomeReadCoordinator(
-    private val owners: Map<FaroV5HomeIndicator, FaroV5HomeIndicatorOwner>,
+    private val owners: Map<FaroV5HomeIndicator, FaroV5HomeOwnerBinding>,
 ) : FaroV5HomeReadPort {
     override suspend fun readIndicators(): Map<FaroV5HomeIndicator, FaroV5HomeCount> {
         val visible = linkedMapOf<FaroV5HomeIndicator, FaroV5HomeCount>()
         for (indicator in FaroV5HomeIndicator.entries) {
-            val owner = owners[indicator] ?: continue
+            val binding = owners[indicator] ?: continue
             val count = try {
-                owner.readCount()
+                binding.readPort.readCount()
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (_: Exception) {
                 // A failed or unauthorized owner is not an empty result.
                 null
             }
-            if (count != null) visible[indicator] = count
+            // A miswired owner must not show another domain's number.
+            if (count != null && count.canonicalSource == binding.expectedCanonicalSource) {
+                visible[indicator] = count
+            }
         }
         return visible
     }
