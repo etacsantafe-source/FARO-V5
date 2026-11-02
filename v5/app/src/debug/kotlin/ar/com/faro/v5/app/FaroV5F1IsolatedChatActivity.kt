@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -65,7 +64,8 @@ class FaroV5F1IsolatedChatActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         check((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0)
         check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
-        window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        // Isolated DEBUG chat only: allow user-requested T4 screenshots.
+        // Groq credential Settings retains FLAG_SECURE; production is unchanged.
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val p = (20 * resources.displayMetrics.density).toInt()
