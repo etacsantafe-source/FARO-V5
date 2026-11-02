@@ -30,3 +30,6 @@ local.properties
 *.faro
 *.bak
 *.log
+
+# Legacy local queue must not live in worktree
+scripts/v5/automation-v2/

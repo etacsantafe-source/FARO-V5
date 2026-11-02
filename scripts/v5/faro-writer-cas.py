@@ -45,6 +45,15 @@ def ref():
     return out.split()[0] if out else ZERO
 
 
+def verify_target(branch, expected):
+    if not re.fullmatch(r"work/[A-Za-z0-9_./-]{6,150}", branch or "") or ".." in branch:
+        raise Stop("invalid isolated target branch")
+    out = git("ls-remote", REMOTE, "refs/heads/" + branch)
+    remote_sha = out.split()[0] if out else ""
+    if remote_sha != expected:
+        raise Stop("remote target HEAD mismatch")
+
+
 def record(sha):
     if sha == ZERO:
         return None
@@ -77,6 +86,7 @@ def main():
     p.add_argument("--owner", default="")
     p.add_argument("--token", default="")
     p.add_argument("--target-head", default="")
+    p.add_argument("--target-branch", default="")
     args = p.parse_args()
     if args.token:
         raise Stop("token CLI argument disabled; use FARO_WRITER_TOKEN environment variable")
@@ -96,10 +106,12 @@ def main():
             raise Stop("writer occupied; no automatic lease takeover")
         if args.target_head != head():
             raise Stop("target HEAD mismatch")
+        verify_target(args.target_branch, args.target_head)
         if git("status", "--porcelain"):
             raise Stop("dirty worktree")
         value = {"schema": 1, "status": "HELD", "owner": args.owner,
                  "token_hash": hashlib.sha256(args.token.encode()).hexdigest(), "target_head": args.target_head,
+                 "target_branch": args.target_branch,
                  "epoch": (state or {}).get("epoch", 0) + 1,
                  "timestamp": int(time.time())}
         publish(old, value)
@@ -109,9 +121,12 @@ def main():
         raise Stop("writer not held")
     if state.get("owner") != args.owner or state.get("token_hash") != hashlib.sha256(args.token.encode()).hexdigest():
         raise Stop("writer identity mismatch")
+    if args.target_branch != state.get("target_branch"):
+        raise Stop("target branch identity mismatch")
     if args.action == "verify":
         if args.target_head != state.get("target_head") or head() != args.target_head:
             raise Stop("target HEAD mismatch")
+        verify_target(args.target_branch, args.target_head)
         if ref() != old:
             raise Stop("writer changed during verification")
         print("VERIFIED epoch=" + str(state["epoch"]))

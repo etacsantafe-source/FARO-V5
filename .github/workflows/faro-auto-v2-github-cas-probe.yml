@@ -1,0 +1,57 @@
+name: FARO Auto V2 isolated REAL GitHub remote CAS probe
+on:
+  push:
+    branches:
+      - work/faro-auto-v2-integration-20261102
+    paths:
+      - .github/workflows/faro-auto-v2-github-cas-probe.yml
+      - scripts/v5/faro-writer-cas.py
+      - scripts/v5/test_faro_writer_git_integration.py
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: faro-remote-cas-probe-single
+  cancel-in-progress: false
+jobs:
+  remote-git-cas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Real git push CAS against an ISOLATED disposable ref only
+        shell: bash
+        run: |
+          set -euo pipefail
+          ref=refs/heads/faro-v5-writer-ci-probe
+          ZERO=0000000000000000000000000000000000000000
+          if [[ -n "$(git ls-remote origin "$ref")" ]]; then
+            echo 'STOP probe ref already exists, human cleanup required'
+            exit 20
+          fi
+          git config user.name 'FARO CI CAS Probe'
+          git config user.email 'faro-cas-probe@users.noreply.github.com'
+          tree="$(git write-tree)"
+          base="$(git rev-parse HEAD)"
+          a="$(printf 'CAS probe acquire\n' | git commit-tree "$tree" -p "$base")"
+          b="$(printf 'CAS probe stale contender\n' | git commit-tree "$tree" -p "$base")"
+          cleanup() {
+            if [[ -n "$(git ls-remote origin "$ref")" ]]; then
+              observed="$(git ls-remote origin "$ref" | awk '{print $1}')"
+              git push origin ":$ref" "--force-with-lease=$ref:$observed" || {
+                echo "STOP cannot clean probe ref: $ref"
+                return 20
+              }
+            fi
+          }
+          trap cleanup EXIT
+          git push origin "$a:$ref" "--force-with-lease=$ref:$ZERO"
+          if git push origin "$b:$ref" "--force-with-lease=$ref:$ZERO"; then
+            echo 'FAIL stale contender acquired remote CAS'
+            exit 20
+          fi
+          [[ "$(git ls-remote origin "$ref" | awk '{print $1}')" == "$a" ]]
+          release="$(printf 'CAS probe release\n' | git commit-tree "$tree" -p "$a")"
+          git push origin "$release:$ref" "--force-with-lease=$ref:$a"
+          [[ "$(git ls-remote origin "$ref" | awk '{print $1}')" == "$release" ]]
+          echo 'PASS: REAL GitHub git push --force-with-lease, stale update rejected, release observed'

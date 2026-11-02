@@ -22,6 +22,7 @@ def main():
     p.add_argument("--mode", required=True, choices=sorted(ALLOWED))
     p.add_argument("--owner", required=True)
     p.add_argument("--target-head", required=True)
+    p.add_argument("--target-branch", required=True)
     p.add_argument("--approved", action="store_true")
     p.add_argument("command", nargs=argparse.REMAINDER)
     a = p.parse_args()
@@ -39,16 +40,18 @@ def main():
     token = secrets.token_hex(32)
     env = {**os.environ, "FARO_WRITER_TOKEN": token}
     cmd = [sys.executable, str(WRITER)]
-    base = ["--owner", a.owner, "--target-head", a.target_head]
+    base = ["--owner", a.owner, "--target-head", a.target_head,
+            "--target-branch", a.target_branch]
     acquired = False
     try:
         run(cmd + ["acquire"] + base, env=env)
         acquired = True
         run(cmd + ["verify"] + base, env=env)
         # Refuse arbitrary commands: only approved repository entrypoints may run.
-        allowed = {"scripts/v5/faro-auto-v2-readiness.py"}
+        allowed = {"scripts/v5/faro-auto-v2-readiness.py",
+                   "scripts/v5/faro-s3-verify.py"}
         command = a.command[1:]
-        if len(command) != 2 or command[0] != sys.executable or command[1] not in allowed:
+        if len(command) != 2 or command[0] not in (sys.executable, "python3") or command[1] not in allowed:
             raise RuntimeError("command is not in reviewed allowlist")
         run(command, env={k:v for k,v in os.environ.items() if k != "FARO_WRITER_TOKEN"})
     finally:

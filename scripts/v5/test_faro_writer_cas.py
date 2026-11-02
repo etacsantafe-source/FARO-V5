@@ -18,9 +18,11 @@ spec.loader.exec_module(writer)
 class WriterSafety(unittest.TestCase):
     def run_action(self, action, *, owner="auto-owner", token="a" * 32, target="a" * 40,
                    remote_sha=writer.ZERO, state=None, head=None, dirty=""):
-        args = ["writer", action, "--owner", owner, "--target-head", target]
+        args = ["writer", action, "--owner", owner, "--target-head", target,
+                "--target-branch", "work/faro-auto-v2-integration-20261102"]
         with patch("sys.argv", args), patch.dict(os.environ, {"FARO_WRITER_TOKEN": token}), \
-             patch.object(writer, "remote_ok"), patch.object(writer, "ref", return_value=remote_sha), \
+             patch.object(writer, "remote_ok"), patch.object(writer, "verify_target"), \
+             patch.object(writer, "ref", return_value=remote_sha), \
              patch.object(writer, "record", return_value=state), \
              patch.object(writer, "head", return_value=head or target), \
              patch.object(writer, "git", return_value=dirty), \
@@ -64,7 +66,7 @@ class WriterSafety(unittest.TestCase):
 
     def test_release_only_for_owner(self):
         import hashlib
-        state = {"status": "HELD", "owner": "auto-owner", "token_hash":
+        state = {"status": "HELD", "owner": "auto-owner", "target_branch": "work/faro-auto-v2-integration-20261102", "token_hash":
                  hashlib.sha256(("a" * 32).encode()).hexdigest(), "epoch": 2}
         call = self.run_action("release", state=state, remote_sha="b" * 40)
         self.assertEqual(call.args[1]["status"], "RELEASED")
