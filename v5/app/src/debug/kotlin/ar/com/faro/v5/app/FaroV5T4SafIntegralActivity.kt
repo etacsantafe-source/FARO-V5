@@ -191,6 +191,10 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         exportButton.setOnClickListener { startPicker(Step.EXPORT) }
         restoreButton.setOnClickListener { startPicker(Step.RESTORE) }
         confirmButton.setOnClickListener {
+            if (orphanSweepFailed.get()) {
+                status.text = "ROJO: limpieza sintetica pendiente. Operación bloqueada."
+                return@setOnClickListener
+            }
             val selected = retained.selection
             if (selected == null) {
                 status.text = "Primero elegí un destino o archivo desde Android."
@@ -323,7 +327,7 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
     }
 
     private fun updateButtons() {
-        val idle = !isWorking && retained.pickerOpen == null
+        val idle = !isWorking && retained.pickerOpen == null && !orphanSweepFailed.get()
         exportButton.isEnabled = idle
         restoreButton.isEnabled = idle
         consent.isEnabled = idle && retained.selection != null
