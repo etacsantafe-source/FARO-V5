@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- A5 synthetic provider lives in the isolated debug app so it shares the target UID. -->
-    <application />
-</manifest>
