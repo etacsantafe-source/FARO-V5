@@ -7,6 +7,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.CancellationSignal
 import android.os.OperationCanceledException
+import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceEntry
+import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
@@ -27,10 +30,13 @@ import ar.com.faro.v5.platform.android.backup.AndroidBackupSafAdapter
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
+import ar.com.faro.v5.workspace.WorkspaceCreateRequest
+import ar.com.faro.v5.workspace.WorkspaceWriteResult
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.UUID
 import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Supplier
 
 /**
@@ -46,6 +52,11 @@ import java.util.function.Supplier
  * No V1 production pointer or real Reality/Workspace store is opened.
  */
 class FaroV5T4SafIntegralActivity : ComponentActivity() {
+    companion object {
+        private val orphanSweepDone = AtomicBoolean(false)
+        private val fixtureConversation = ConversationId("t4-saf-fixture")
+        private const val fixtureTitle = "T4: datos sinteticos preservados"
+    }
     private enum class Step { EXPORT, RESTORE }
     private data class Selection(val step: Step, val uri: Uri)
     private data class Ready(
@@ -86,6 +97,12 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         check((applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0)
         check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
+        // Once per process, before any worker can start: recover synthetic private
+        // staging from a previous process killed before the normal finally block.
+        val sweepFailed = orphanSweepDone.compareAndSet(false, true) &&
+            runCatching {
+                FaroV5T4SyntheticCleanup.deleteOrphans(noBackupFilesDir.toPath())
+            }.isFailure
         retained = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 check(modelClass == UiState::class.java)
@@ -209,6 +226,12 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
             status.text = "Cancelando... el archivo de destino podría estar incompleto."
         }
         updateButtons()
+        if (sweepFailed) {
+            status.text = "ROJO: no se pudieron limpiar restos sinteticos anteriores. " +
+                "No continúes hasta revisar el almacenamiento de la prueba."
+            exportButton.isEnabled = false
+            restoreButton.isEnabled = false
+        }
     }
 
     private fun startPicker(step: Step) {
@@ -293,7 +316,15 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
         CommercialEvidenceStore(dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { }
         WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
         AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
-        ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
+        ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { store ->
+            // Nonempty, known-value fixture: the restored fifth owner must contain
+            // a conversation and a durable idempotency receipt, not merely a schema.
+            check(store.create(WorkspaceCreateRequest(
+                entry = ConversationWorkspaceEntry(fixtureConversation, fixtureTitle, 1L),
+                expectedRevision = 0L,
+                idempotencyKey = IdempotencyKey("t4-saf-fixture-create"),
+            )) is WorkspaceWriteResult.Committed)
+        }
         val gate = SingleProcessMaterialWriteGate()
         val source = FaroV5QuarantinedV2GraphAdmission.canonical(gate, Supplier { v1 })
             .open(staged).use { graph ->
@@ -393,16 +424,31 @@ class FaroV5T4SafIntegralActivity : ComponentActivity() {
                         testRoot, staged, graph, admission, archiveIdentity = identity,
                     ).restoreAuthenticated(op, encrypted, password.toCharArray())
                     check(restored is FiveStoreStagedRestoreResult.StagedVerified)
-                    FaroV5StagedRestoreJournalValidator(
+                    val outcome = FaroV5StagedRestoreJournalValidator(
                         testRoot, staged, graph, journal, pointer, identity, lease,
                     ).validateAuthenticatedStage(op, encrypted, password.toCharArray())
+                    check(outcome is FiveStoreJournalValidationResult.Validated)
+                    // Exact cross-owner semantic equality with the authenticated
+                    // archive, plus a nonempty expected fixture in Workspace.
+                    val expected = (opened as FiveStorePortableBackupOpenResult.Opened).backupSet
+                    val workspace = graph.workspace!!.backup.snapshot()
+                    check(workspace == expected.workspace)
+                    check(workspace.revision > 0L)
+                    check(workspace.conversations.single().id == fixtureConversation)
+                    check(workspace.conversations.single().title == fixtureTitle)
+                    check(workspace.receipts.size == 1)
+                    check(graph.reality.backup.snapshot() == expected.fourStore.reality)
+                    check(graph.commercialEvidence.backup.snapshot() == expected.fourStore.commercialEvidence)
+                    check(graph.webEvidence.backup.snapshot() == expected.fourStore.webEvidence)
+                    check(graph.auxiliary.backup.snapshot() == expected.fourStore.auxiliary)
+                    outcome
                 }
                 check(verified is FiveStoreJournalValidationResult.Validated)
                 check(pointer.read() == before)
                 check(!FaroV5HostCertification.V2_ACTIVE_ENABLED)
                 check(Files.readString(testRoot.resolve("v1-sentinel/protected")) == "V1-untouched")
                 return "VERDE: selector SAF real, cinco almacenes autenticados, " +
-                    "journal VALIDATED, V1 intacta y V2 OFF."
+                    "contenido Workspace verificado, journal VALIDATED, V1 intacta y V2 OFF."
             } finally {
                 encrypted.fill(0)
             }
