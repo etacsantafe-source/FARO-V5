@@ -94,3 +94,13 @@ En la APK aislada, abrir menú lateral > Ajustes > Configurar IA. Si el usuario 
 - En captura FARO T4 ocupa la mitad superior y ChatGPT la inferior en modo pantalla dividida; **no atribuir causalidad** pero repetir UNA vez a pantalla completa, sin multitarea/split-screen, antes de fabricar más APK.
 - No hay autorización retenida tras la pérdida de sesión y **no se escribe ningún respaldo**. Mantener T4-SAF manual **ROJO**; no repetir 27 tests ni Groq. V2 activa sigue OFF.
 - Si vuelve a fallar a pantalla completa, rediseñar prueba manual para separar selección de URI de consentimiento post-picker y exigir confirmación humana NUEVA luego de volver, permitiendo recuperación segura de nueva fuente sintética, sin confiar en ticket o secreto previo y sin introducir persistencia de autorización. Gate de exportación normal en producción sigue inaccesible con V2 OFF.
+
+## T4 SAF V4 integral — comprobación física positiva posterior (01/11/2026 ~23:00–23:10 AR)
+
+- Ramas separadas, sin alterar producción: `work/t4-saf-integral-20261101`; Activity única de prueba de cinco almacenes **SINTÉTICOS**; `V2_ACTIVE_ENABLED=false`.
+- Instalación Termux **PASS**, SHA-256 `OK` y `adb install -r` → `Success`; paquete `ar.com.faro.alpha.t4saf4.v5dev`, archivo `FARO-V5-T4-SAF-INTEGRAL-V4.apk`.
+- Evidencia en captura: estado `Falta consentimiento NUEVO después del selector.` con checkbox desmarcada; condición prevista de autorización nueva, no fallo.
+- Evidencia en captura luego de aceptar explícitamente: `VERDE: respaldo sintético cifrado escrito y verificado por Android. Ahora elegí ESE MISMO archivo para restauración aislada.` → **exportación física SAF V4 PASS_OBSERVADO**.
+- Para restauración del respaldo sintético, tras el recordatorio `falta consentimiento`, el usuario respondió **`Verde`** después de confirmar → **restauración física SAF V4 PASS_REPORTADO**, sin texto completo de receipt adjunto.
+- Estado operativo: **T4-SAF recorrido positivo debug superado (V4)**, pero **T4 general aún OPEN** por casos negativos (cancelación, recreación/muerte de proceso, archivo corrupto/inaccesible, reintentos) y por la integración real F2/F4 y autorización productiva F3. **S2.A6 3/8**, no actualizar certificación global con pruebas sintéticas. No repetir los 27 tests ni Groq.
+- Informe detallado y pendientes: `docs/t4/T4_CORRECCION_INTEGRAL_20261101.md` (mismo branch). Mantener `main` intacta; no S3/S4; no ejecutar FARO Noche.
