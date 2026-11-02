@@ -1,6 +1,6 @@
 # FARO V5 S3 — P00 · revisión contractual acotada (NOCHE_B 02/11/2026)
 
-**Estado: DRAFT_REVIEWED / NO FROZEN / NO TEST PASS.** Documento de diseño dentro de S3, no cambio del catálogo ni certificación de implementación. Requiere cerrar gates H01–H04/R0–R3 y ejecutar pruebas dirigidas antes de P00 PASS.
+**Estado: FROZEN_SPEC_ONLY / IMPLEMENTATION NOT CERTIFIED / TESTS NOT_RUN.** Documento de diseño dentro de S3, no cambio del catálogo ni certificación de implementación. Los gates H01–H04/R0–R3 quedan congelados como contrato de diseño, no como implementación; X01–X12 y pruebas de integración permanecen NOT_RUN.
 
 ## Autoridad y evidencia concreta
 
@@ -41,3 +41,15 @@ La propuesta de ocho operaciones de bookmark sobre N-018 (172→180) sigue CANDI
 1. Validar contratos exactos contra tipos Kotlin reales y esquema persistente; decidir si R2 exige bounded reopen explícito y pruebas antes de escribir A3.
 2. Agregar pruebas dirigidas para H01–H04/R0–R3 y X01–X12, empezando por autoridad y referencias; verificar XML por SHA.
 3. Solo entonces marcar P00 PASS y habilitar A1; implementación incremental S3, única campaña física final. No ejecutar Actions duplicadas ni abrir S4.
+
+## Verificación adicional de tipos reales (NOCHE_B)
+
+- `ConversationId` es value class de `ConversationWorkspace.kt` blob `bd3834a2`; `ConversationMessageId` es value class de `ConversationTimeline.kt` blob `a3f51cdd`. El mensaje ya porta `conversationId`; la identidad compuesta propuesta NO debe confiar en índice de UI.
+- `ConversationTimelineSnapshot` incluye `authorityToken` y `revision`: generación/restauración se valida contra owner actual al abrir, sin persistir contenido del mensaje en un bookmark.
+- `ConversationPlanReview.kt` blob `f68bcc0d` exige `ExecutionReceipt(transactionId,planFingerprint)` para COMMITTED; `ExecutionReceipt.kt` blob `30141a4f` es Reality, no recibo auxiliar.
+- `SearchProjectionHit.java` blob `f364508a` solo contiene key/sourceStamp/rankingSignal; `SearchProjectionQuery.java` blob `0dde83bf` es una búsqueda local por namespace; la federación N-018 y coverage deben vivir fuera del índice. `AndroidAppSearchProjection.java` blob `b95eab54` es proyección local descartable; NO reemplazarla por SQLite FTS sin pruebas de español/offline/restore.
+- `FaroV5ShellNavigationContractTest.kt` blob `46c84810` verifica orden de raíces viejo (incluye CHAT) y Search/Avisos secundarios. A1 deberá actualizar esas pruebas, no silenciarlas. `FaroV5WorkspaceReadOnlyDrawerTest.kt` blob `7bd9f381` conserva 7 recientes, pinned y archivados; no duplicar su implementación.
+
+## Decisión acotada P00
+
+**FROZEN_SPEC_ONLY** para R0–R3 y H01–H04 según tabla anterior, con compatibilidad de los tipos actuales y separación de autoridad. Esto congela el *contrato de diseño*, NO certifica implementación ni tests. Los escenarios X01–X12 siguen NOT_RUN. No se agregan OperationIds; el catálogo permanece 172. El bounded reopen de 8 operaciones Guardados queda **BLOCKED_FOR_SEPARATE_REVIEW** antes de cualquier escritura A3. A1 (navegación/Inicio) puede avanzar sin depender de ese reopen; A2 debe preservar relectura del owner y cobertura; A4 no muta fuentes.
