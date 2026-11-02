@@ -60,3 +60,11 @@ Fecha: 2026-11-02. Estado: DOCUMENTADO / NO ACTIVADO / PENDIENTE DE VERIFICACIÓ
 
 ## Handoff
 En próximo chat: «Continuar FARO V5. Recuperar protocolo unificado de desarrollo V2.0». Primero conversar y verificar infraestructura real; NO iniciar tareas automáticamente. Estado esperado: S2 CLOSED 8/8, V2 OFF, S3/S4 sin abrir, writer NONE sujeto a revalidación.
+
+## Regla obligatoria: «Continuar FARO V5» (continuidad entre chats)
+- La frase literal «Continuar FARO V5» solicita **recuperación READ_ONLY de contexto**, nunca autorización para ejecutar, editar GitHub, programar Auto/Noche, iniciar S3/S4 o activar V2.
+- Punto de entrada canónico: `docs/v5/FARO_CONTINUITY_POINTER.json` en la rama indicada por el handoff vigente; leer ese puntero y los documentos a los que apunta, no elegir arbitrariamente un RUN_STATE histórico.
+- Recuperar: etapa y certificación vigente, rama y HEAD comprobado, último checkpoint, writer/lease, estado real de Actions y automatizaciones si son accesibles, permisos y expiraciones, bloqueos, siguiente tarea y límites.
+- Diferenciar estado declarado de estado verificado. Si la herramienta o el repositorio no están accesibles, informar qué no se pudo confirmar, sin inventar continuidad ni ejecutar cambios.
+- Al cierre de cada sesión con cambios, actualizar primero estado durable y luego el puntero canónico; registrar commit final. Si falla actualización del puntero, informar HANDOFF INCOMPLETE, no decir CLEAN.
+- Un nuevo chat debe poder reanudar con solo «Continuar FARO V5» y conversar antes de trabajar. La continuidad no autoriza trabajo por sí sola.
