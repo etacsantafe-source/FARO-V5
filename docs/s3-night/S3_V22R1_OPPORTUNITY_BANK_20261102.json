@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "phase": "S3_OPEN",
+  "protocol": "V2.2-R1",
+  "branch": "work/s3-night-20261102",
+  "source_code_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+  "source_branch_head_at_preparation": "d780b305faa3566d4042d872ed699bcefe0a425b",
+  "prepared_for": "2026-11-02T23:00:00-03:00",
+  "hard_stop_at": "2026-11-03T07:00:00-03:00",
+  "gates": "V22-01..19 NOT_RUN",
+  "max_active": 5,
+  "review_every_turn": true,
+  "anti_repeat": "Dedup by opportunity_id+source_head+hypothesis; skip PASS same SHA/XML",
+  "execution_rule": "No IMPLIED permission by this bank. Writer CAS + queue authorization + live expected HEAD for writes. Other writer HELD => READ_ONLY research, no Git writes. Hard stop prevails.",
+  "opportunities": [
+    {
+      "opportunity_id": "OPP-A1-OWNER",
+      "kind": "IMPLEMENT",
+      "scope": "S3-A1 real owner adapters for Pendientes and Actividad; preserve unavailable for missing",
+      "hypothesis": "Canonical N-031 attention.read and N-015 history.query ports can be verified and bound without fabricated counts or receipts",
+      "depends_on": [
+        "S3-P00",
+        "CANONICAL_N031_OWNER",
+        "CANONICAL_N015_OWNER"
+      ],
+      "approval_needed": "NO_ADDITIONAL_IF_EXISTING_S3_CONTRACT_AND_OWNER_VERIFIED",
+      "writer_needed": true,
+      "expected_head": "REVALIDATE_LIVE_BRANCH_HEAD_BEFORE_CAS",
+      "source_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+      "status": "BLOCKED",
+      "risk": "FALSE_COUNTER_OR_AUTHORITY",
+      "acceptance": "Real canonical count with ACL/dedupe/provenance, unavailable remains distinct from zero; JVM tests by new SHA/XML; no fake receipt",
+      "estimated_size": "MEDIUM",
+      "artifact_path": "docs/s3-night/S3_A1_OWNER_BIND_HANDOFF.md",
+      "evidence": "N-032 owner only 45/45 verified JVM; N-031,N-015 missing as of checkpoint"
+    },
+    {
+      "opportunity_id": "OPP-N031",
+      "kind": "RESEARCH",
+      "scope": "N-031 attention.read source-of-truth ACL and dedup",
+      "hypothesis": "A canonical pending-items owner may already exist in V5/V4.4 but is not wired to N-031 contract; hasPendingReview is semantically insufficient",
+      "depends_on": [],
+      "approval_needed": "NO_READ_ONLY",
+      "writer_needed": false,
+      "expected_head": "SOURCE_HEAD_STABLE_OR_REVALIDATE",
+      "source_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+      "status": "RESEARCH_ONLY",
+      "risk": "FALSE_PENDING",
+      "acceptance": "Identify exact owner path and evidence or prove absence via bounded search, propose falsifiable owner contract/test; no coding by guess",
+      "estimated_size": "SMALL",
+      "artifact_path": "docs/s3-night/OPP_N031_RESEARCH.md",
+      "evidence": "N-031 owner missing; existing N-032 notice implemented"
+    },
+    {
+      "opportunity_id": "OPP-N015",
+      "kind": "RESEARCH",
+      "scope": "N-015 history.query paginated receipt truth",
+      "hypothesis": "Receipt-backed history read can be exposed by existing owner rather than using single lookup by ID",
+      "depends_on": [],
+      "approval_needed": "NO_READ_ONLY",
+      "writer_needed": false,
+      "expected_head": "SOURCE_HEAD_STABLE_OR_REVALIDATE",
+      "source_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+      "status": "RESEARCH_ONLY",
+      "risk": "FAKE_ACTIVITY",
+      "acceptance": "Exact storage/DAO code refs or recorded gap plus paginated asOf/ACL and receipt test specification; compare V4.4 READ_ONLY",
+      "estimated_size": "SMALL",
+      "artifact_path": "docs/s3-night/OPP_N015_RESEARCH.md",
+      "evidence": "history.query canonical owner not verified"
+    },
+    {
+      "opportunity_id": "OPP-A1-ADV",
+      "kind": "ADVERSARIAL",
+      "scope": "A1 stale generation/ACL+accessibility edge not in 45/45",
+      "hypothesis": "Home mixed owner generation may render a stale count after generation switch or permission revocation despite current coordination tests",
+      "depends_on": [
+        "S3-A1_PARTIAL"
+      ],
+      "approval_needed": "NO_READ_ONLY; WRITES_ONLY_WITH_S3_APPROVAL_AND_EXCLUSIVE_CAS",
+      "writer_needed": false,
+      "expected_head": "SOURCE_HEAD_STABLE_OR_REVALIDATE",
+      "source_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+      "status": "RESEARCH_ONLY",
+      "risk": "STALE_PRIVACY_UI",
+      "acceptance": "New minimal reproducible counterexample and named expected test; no rerun identical 45/45 for idle time",
+      "estimated_size": "SMALL",
+      "artifact_path": "docs/s3-night/OPP_A1_ADVERSARIAL.md",
+      "evidence": "45/45 surface JVM verified; physical Compose/instrumentation NOT_RUN"
+    },
+    {
+      "opportunity_id": "OPP-GUARDADOS",
+      "kind": "RESEARCH",
+      "scope": "MessageRef bookmark exactness, restore/revocation and idempotence",
+      "hypothesis": "Message bookmarks need separate Auxiliary receipts and bounded approval, cannot borrow Reality receipt or D-226 Saved Views",
+      "depends_on": [
+        "BOUNDED_REVIEW_8_CANDIDATES"
+      ],
+      "approval_needed": "YES_FOR_CATALOG_AND_A3_IMPLEMENTATION",
+      "writer_needed": false,
+      "expected_head": "SOURCE_HEAD_STABLE_OR_REVALIDATE",
+      "source_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+      "status": "RESEARCH_ONLY",
+      "risk": "UNAUTHORIZED_REGISTRY_EXPANSION",
+      "acceptance": "Test matrix for MessageRef exactness, permission changes, delete/restore and dedup, without changing 172 catalog or implementing +8",
+      "estimated_size": "SMALL",
+      "artifact_path": "docs/s3-night/OPP_GUARDADOS_READ_ONLY.md",
+      "evidence": "+8 REVIEWED_PROVISIONAL_NOT_APPROVED"
+    }
+  ]
+}
