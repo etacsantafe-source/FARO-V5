@@ -46,7 +46,7 @@ object FaroV5HomeNoticeBindingFactory {
         require(expectedGeneration.isNotBlank())
         return FaroV5HomeReadCoordinator(
             invalidations = invalidations,
-            mapOf(
+            owners = mapOf(
                 FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
                     expectedCanonicalSource = "notice.read",
                     readPort = FaroV5HomeIndicatorOwner {
