@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellationException
@@ -55,6 +57,12 @@ interface FaroV5HomeReadPort {
 internal fun faroV5HomeCountText(count: FaroV5HomeCount?): String =
     count?.count?.toString() ?: "No disponible"
 
+/** Spoken label is explicit: a missing owner must not be announced as zero. */
+internal fun faroV5HomeIndicatorAnnouncement(
+    indicator: FaroV5HomeIndicator,
+    count: FaroV5HomeCount?,
+): String = "${indicator.label}: ${faroV5HomeCountText(count)}"
+
 @Composable
 internal fun FaroV5HomeScreen(
     readPort: FaroV5HomeReadPort?,
@@ -78,13 +86,21 @@ internal fun FaroV5HomeScreen(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState())
             .padding(FaroV5Spacing.large),
     ) {
-        Text("Inicio", style = MaterialTheme.typography.headlineSmall)
+        Text(
+            "Inicio",
+            modifier = Modifier.semantics { heading() },
+            style = MaterialTheme.typography.headlineSmall,
+        )
         FaroV5HomeIndicator.entries.forEach { indicator ->
             val value = faroV5HomeCountText(counts?.get(indicator))
             Column(
                 modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)
-                    .clickable { onNavigate(indicator.destination) }
-                    .semantics { contentDescription = "${indicator.label}: $value" }
+                    .clickable(role = Role.Button) { onNavigate(indicator.destination) }
+                    .semantics(mergeDescendants = true) {
+                        contentDescription = faroV5HomeIndicatorAnnouncement(
+                            indicator, counts?.get(indicator)
+                        )
+                    }
                     .padding(vertical = FaroV5Spacing.medium),
             ) {
                 Text(indicator.label, style = MaterialTheme.typography.titleMedium)
