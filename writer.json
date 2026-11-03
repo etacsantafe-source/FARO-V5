@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.v22.final-audit.20261102",
-  "token_hash": "fe4de7412d53ab17cb5392cefb018e7f1a47b9f0a623c84d6e7f08ac152b6630",
+  "status": "HELD",
+  "owner": "manual.s3night.v22r1.activate.20261102T2238",
+  "token_hash": "6fd6237691b48f0691432329c5b6af540bd50a955242c900b36d3549654e8cfb",
   "target_head": "e068ac2a91e05c9415c33fc802e96589c2c615f8",
-  "epoch": 27,
-  "timestamp": 0,
+  "epoch": 28,
+  "timestamp": 1793669890,
   "target_branch": "work/s3-night-20261102"
 }
