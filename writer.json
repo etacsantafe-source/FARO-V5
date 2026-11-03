@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "MANUAL.S3.OBJECTIVES.PREP.20261103",
-  "token_hash": "manual-s3-objectives-prep-v1-20261103",
+  "status": "HELD",
+  "owner": "MANUAL.S3.OBJECTIVES.HANDOFF.20261103",
+  "token_hash": "manual-s3-objectives-handoff-20261103",
   "target_head": "b716af557fae164c0b2185e039b0eaf12779e379",
-  "epoch": 45,
+  "epoch": 46,
   "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "PREPARE_DOCS_ONLY_OBJECTIVE_MODE_NO_PILOT_INTERFERENCE"
+  "purpose": "CLOSE_PREVIOUS_PILOT_FOR_NEW_OBJECTIVE_MODE"
 }
