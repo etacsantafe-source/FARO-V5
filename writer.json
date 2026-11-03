@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "NOCHE_B.S3.20261103T1101",
   "token_hash": "noche-b-s3-1101-compile-fix",
-  "target_head": "7f79412df3747fcbbeb77fafc11f7613286f63cd",
+  "target_head": "b716af557fae164c0b2185e039b0eaf12779e379",
   "epoch": 44,
   "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "S3_A1_FIX_COMPILATION_RED"
+  "purpose": "S3_A1_COMPILE_FIX_COMMITTED_CI_PENDING"
 }
