@@ -112,7 +112,7 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "WAIT_CI",
+      "status": "IN_PROGRESS",
       "claimed_by": null,
       "head_expected": "9a7d0537138756987bbb4760068b93b7f338160e",
       "attempts": 5,
@@ -129,7 +129,7 @@
         41652540734,
         41656343364
       ],
-      "checkpoint": "OBJECTIVES_V1_NOCHE_B_JVM_NAME_FIX_CI_41656343364_IN_PROGRESS",
+      "checkpoint": "OBJECTIVES_V1_NOCHE_B_JVM_INTEROP_FIXED_CI_PASS_NEXT_ACL_GENERATION",
       "evidence": {
         "branch_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
         "code_commits": [
@@ -234,9 +234,9 @@
           "prior_ci_run_id": 41652540734,
           "prior_ci_failure": "javac cannot find symbol from(FaroV5StartupReadinessGate)",
           "new_ci_run_id": 41656343364,
-          "new_ci_status": "IN_PROGRESS",
-          "junit_xml": "NOT_VERIFIED",
-          "next": "Check exact CI SHA/XML; if green continue ACL/generation independent invalidation; no physical test",
+          "new_ci_status": "SUCCESS",
+          "junit_xml": "S3_HOME_NOTICE_XML_PASS 5/5",
+          "next": "Implement independent ACL/generation event from real owner, prove same readPort invalidation; do not claim A1 done",
           "writer_release_epoch": 51
         }
       }
