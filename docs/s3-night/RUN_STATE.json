@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "AUTHORIZED_PRESTART_V22_R1",
+  "night": "AUTHORIZED_V22_R1_PENDING_AUTOMATIONS",
   "authorization": "USER_EXPLICIT_CHAT_2026-11-02_22_38_START_23_CUTOFF_07",
   "deadline": "2026-11-03T07:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -18,7 +18,7 @@
     "A:2026-11-02T23:00:00-03:00+HOURLYx8",
     "B:2026-11-02T23:30:00-03:00+HOURLYx8"
   ],
-  "slots_status": "PENDING_SCHEDULE_VERIFY",
+  "slots_status": "CLOUD_ENABLED_SCHEDULES_PENDING_VERIFY",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "New chat: recover V2.2-R1, read live writer/queue/schedules/HEAD; plan tests V22-01..19, get new hour and absolute deadline before enabling. Noche remains OFF; S3 A1 PARTIAL, catalog 172.",
+  "next": "A/B activation 23:00 and 23:30, 8 turns each, hard cutoff 07:00 03/11; verify actual schedules before sleep; V22 tests NOT_RUN until evidence.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -140,8 +140,8 @@
     "writer_epoch": 23
   },
   "automation_authorization": true,
-  "queue_mode": "PREPARED_ENABLE_PENDING",
-  "queue_ref_sha": "8337f8949fb31588a4eb725ee0112d11fd86f9e1",
+  "queue_mode": "ENABLED",
+  "queue_ref_sha": "2742491ad37f88115d76b65fd5d54c2ae34d55ee",
   "cancellation": {
     "source": "USER_REQUEST_CANCEL_SCHEDULED_TASKS_20261102",
     "A_enabled": false,
@@ -165,7 +165,7 @@
     "no_registry_mutation": true
   },
   "night_v22": {
-    "status": "AUTHORIZED_PRESTART_R1",
+    "status": "AUTHORIZED_ACTIVE_CLOUD_SCHEDULES_PENDING_VERIFY",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "test_matrix": "V22-01_TO_19_NOT_RUN",
     "writer_held_wait_minutes": 5,
@@ -192,7 +192,8 @@
       "early_release",
       "checkpoint"
     ],
-    "start_head": "e068ac2a91e05c9415c33fc802e96589c2c615f8"
+    "start_head": "e068ac2a91e05c9415c33fc802e96589c2c615f8",
+    "opportunity_bank": "docs/s3-night/S3_V22R1_OPPORTUNITY_BANK_20261102.json"
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
   "activation_intent": {
