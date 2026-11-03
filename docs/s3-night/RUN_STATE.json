@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "ONE_HOUR_PILOT_PREPARING_20261103",
+  "night": "ONE_HOUR_PILOT_RUNNING_CODE_COMMITTED",
   "authorization": "USER_EXPLICIT_20261103_IMMEDIATE_ONE_HOUR_PILOT",
   "deadline": "2026-11-03T08:44:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Immediate 1-hour pilot. Run A now, B 08:15, watchdog 08:35, deadline 08:44, report 08:45. Do not run outside new deadline. Build real code/test not repetitive narrative.",
+  "next": "A committed Home invalidation Flow and new test SHA e7bf51be54f6; run 41622566964 in progress; avoid duplicate CI. B to examine actual owner-generation event and implement verified binding if safe. Hard stop 08:44.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -260,7 +260,7 @@
     "activation_authorized": true
   },
   "immediate_pilot": {
-    "status": "PREPARED",
+    "status": "A_CODE_TEST_COMMITTED_CI_IN_PROGRESS",
     "start": "2026-11-03T07:44:00-03:00",
     "hard_stop": "2026-11-03T08:44:00-03:00",
     "A_id": "6ae9072890248191b886a790cf456be6",
@@ -271,6 +271,12 @@
     "baseline_code_head": "d38a95bfb4bdef27a64d24918ae0e71b89617f36",
     "run_now": "PENDING",
     "schedule_verified": false,
-    "pass_criteria": "new code/test verified CI or novel durable blocker; report alone insufficient"
+    "pass_criteria": "new code/test verified CI or novel durable blocker; report alone insufficient",
+    "A_code_sha": "e7bf51be54f6d1f04de912f2a72658b4c148696d",
+    "A_action_run_id": 41622566964,
+    "A_action_status": "IN_PROGRESS_CI_XML_PENDING",
+    "A_physical": "NOT_RUN",
+    "remaining_owner_event_binding": "NOT_IMPLEMENTED_YET",
+    "note": "JVM regression contract + UI flow invalidation added, active owner factory does not yet emit invalidations"
   }
 }
