@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Noche OFF. A1 1/4 owners; bounded reopen Guardados +8 requires human choice. To resume, fresh authorization and schedule; no S3 functional writes now.",
+  "next": "A1 partial real Avisos 1/4. Guardados bounded review documented NOT APPROVED, catalog 172; Noche V2.1 OFF, queue STAGED, writer release required; no A3 implementation.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -155,5 +155,13 @@
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
     "tests": "N21-01_N21-08_NOT_RUN",
     "requires_fresh_approval": true
+  },
+  "guardados_bounded_review": {
+    "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
+    "document": "docs/s3-night/S3_GUARDADOS_BOUNDED_REVIEW_20261102.md",
+    "official_catalog": 172,
+    "proposed_count": 8,
+    "tests": "NOT_RUN",
+    "no_registry_mutation": true
   }
 }
