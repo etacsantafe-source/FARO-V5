@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "mode": "ENABLED",
-  "activation_authorized": true,
+  "mode": "STAGED",
+  "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_CHAT_2026_11_03_1H_IMMEDIATE_PILOT",
   "phase": "S3_OPEN_ONE_HOUR_PILOT",
   "branch": "work/s3-night-20261102",
@@ -401,5 +401,11 @@
     "target": "Test/correct stale Home notices when generation revoked",
     "evidence": "new code+test+real GitHub CI SHA/XML or novel durable blocker; report-only=FAIL",
     "preserve_tasks": true
+  },
+  "shutdown": {
+    "reason": "PILOT_WATCHDOG_A_B_NO_NEW_CODE_TEST",
+    "observed": "2026-11-03T08:35:00-03:00",
+    "preserved_tasks": 7,
+    "report_automation": "6ae9073eccd08191b88aec776771ca9e"
   }
 }
