@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "OFF_SIMPLIFIED_CHAIN_PREPARED",
+  "night": "SHORT_PROMPT_PILOT_ACTIVE",
   "authorization": "EXPIRED_PILOT_HISTORICAL_NEW_APPROVAL_REQUIRED",
   "deadline": "2026-11-03T08:44:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "NEW CHAT: read simplified mission + live queue/writer/HEAD; discuss fresh start/cutoff before enabling A/B. Resume S3-A1 binding without duplicating 46/46.",
+  "next": "Check exact CI #41645370567 on SHA 66c2b558; fix red before further unit. Owner readiness event is wired but ACL/generation still not proven.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4_ACCESSIBILITY_JVM",
+    "status": "PARTIAL_OWNER_STARTUP_INVALIDATION_CODE_COMMITTED_CI_PENDING",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -125,19 +125,31 @@
       "xml": "45/45_VERIFIED_LOG",
       "scope": "SURFACE_JVM_NOT_ANDROID_UI"
     },
-    "accessibility": "Heading, button role, 48dp min target, merged semantics and explicit No disponible vs zero announcement; Compose instrumentation NOT_RUN"
+    "accessibility": "Heading, button role, 48dp min target, merged semantics and explicit No disponible vs zero announcement; Compose instrumentation NOT_RUN",
+    "owner_readiness_invalidation": {
+      "code_commits": [
+        "c4d51a01bad4fe018c3fb6aa8c6bd1b08a322aab",
+        "f1ea7ae23fe76624a9c398ec3508ba1990d02131",
+        "66c2b5580bfd2178b1f1c62a152d4ce911e09fc4"
+      ],
+      "head": "66c2b5580bfd2178b1f1c62a152d4ce911e09fc4",
+      "ci_run_id": 41645370567,
+      "ci": "WAIT_CI_XML_NOT_VERIFIED",
+      "scope": "REAL_STARTUP_READINESS_EVENTS_ONLY",
+      "remaining": "ACL_AND_STANDALONE_GENERATION_CHANGE_EVENTS_NOT_WIRED",
+      "physical": "NOT_RUN"
+    }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
   "last_turn": {
     "owner": "NOCHE_A",
-    "slot": "21:00",
-    "code_sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
-    "ci_run_id": 41549981598,
-    "xml": "45/45_VERIFIED",
+    "slot": "10:31-10:58",
+    "code_sha": "66c2b5580bfd2178b1f1c62a152d4ce911e09fc4",
+    "ci_run_id": 41645370567,
+    "xml": "WAIT_CI",
     "physical": "NOT_RUN",
-    "time_observed": "21:01-21:07 AR approx",
     "time_breakdown": "NO_REGISTRADO",
-    "writer_epoch": 23
+    "writer_epoch": 43
   },
   "automation_authorization": false,
   "queue_mode": "STAGED",
