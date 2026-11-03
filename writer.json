@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "MANUAL.S3.SIMPLE.PILOT.20261103",
-  "token_hash": "s3-simplified-pilot-20261103-manual-v1",
-  "target_head": "058dbd754ef90435e5fb0e4ab0ed9d474a7f6464",
-  "epoch": 41,
-  "timestamp": 0,
+  "status": "HELD",
+  "owner": "NOCHE_A.S3.20261103T1031",
+  "token_hash": "noche-a-s3-short-pilot-20261103-1031",
+  "target_head": "dbd67e1afcde72a2cdf72710fe55a98ca4a04525",
+  "epoch": 42,
+  "timestamp": "2026-11-03T13:31:40Z",
   "target_branch": "work/s3-night-20261102",
-  "purpose": "UPDATE_SHORT_PROMPTS_PILOT_AUTHORIZATION"
+  "purpose": "S3_A1_OWNER_INVALIDATION_TEST"
 }
