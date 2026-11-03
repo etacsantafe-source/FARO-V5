@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "MANUAL.S3.OBJECTIVES.V1.SLOT_CORRECTION.20261103",
   "token_hash": "s3-objectives-v1-slot-correction-20261103",
   "target_head": "b716af557fae164c0b2185e039b0eaf12779e379",
   "epoch": 48,
-  "timestamp": 1793715374,
+  "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "ALIGN_A_START_TO_ACTUAL_AUTOMATION"
+  "purpose": "S3_OBJECTIVES_V1_SLOT_RECONCILED_RELEASED"
 }
