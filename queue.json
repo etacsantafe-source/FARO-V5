@@ -7,7 +7,7 @@
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Cordoba",
   "hard_stop_at": "2026-11-02T22:00:00-03:00",
-  "next_seq": 8,
+  "next_seq": 9,
   "tasks": [
     {
       "task_id": "S3-N00",
@@ -112,10 +112,10 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4",
+      "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4_ACCESSIBILITY_JVM",
       "claimed_by": null,
-      "head_expected": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
-      "attempts": 4,
+      "head_expected": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
+      "attempts": 5,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "action_run_ids": [
         41538658363,
@@ -124,16 +124,17 @@
         41543063290,
         41543680244,
         41546415283,
-        41546676175
+        41546676175,
+        41549981598
       ],
-      "checkpoint": "NOCHE_B_2030_CLOSED_NOTICE_OWNER_1_OF_4_CI_44_AND_5",
+      "checkpoint": "NOCHE_A_2100_CLOSED_A11Y_45_OF_45",
       "evidence": {
-        "branch_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
+        "branch_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
         "code_commits": [
           "bae8a1a58cdff50c9783275cec17268143bef466",
           "67fda3b32f8405685bf7bf62365dbcd063806b97"
         ],
-        "handoff": "docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md",
+        "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
         "changes": [
           "Drawer-only navigation; Chat root internal, no duplicate drawer Chat",
           "Buscar, Guardados, Actividad, Avisos drawer destinations",
@@ -183,7 +184,7 @@
         ],
         "owner_binding": "PARTIAL_REAL_NOTICE_ONLY_NO_FAKE_OTHER_COUNTS",
         "test_claim": "PASS_COORDINATOR_ONLY_NOT_OWNER_BINDING",
-        "next": "NOCHE_A 21:00 continue A1; do not repeat 44/44 or 5/5 same SHA; no A2/A3/A4 until A1 accepted",
+        "next": "NOCHE_B 21:30; real owners N031/N015 and Guardados still missing, A1 partial; no repeat 45/45 same SHA, no A2/A3/A4",
         "final_code_commit": "8956d2597ec9f7e8cf1b2d91b512bb76322c0231",
         "previous_ci": [
           {
@@ -204,7 +205,16 @@
           "N015 history.query canonical owner",
           "Message bookmarks Guardados bounded reopen pending",
           "Android physical campaign NOT_RUN"
-        ]
+        ],
+        "accessibility_commit": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+        "accessibility_ci": {
+          "id": 41549981598,
+          "sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+          "conclusion": "SUCCESS",
+          "xml": "45/45_VERIFIED_LOG",
+          "scope": "SURFACE_JVM_ONLY"
+        },
+        "X12": "PARTIAL_A11Y_JVM_LABEL_ONLY_NO_ANDROID_SEMANTICS_OR_PHYSICAL"
       }
     },
     {
@@ -278,20 +288,19 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md",
-    "commit_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
+    "source": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
+    "commit_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
     "task_id": "S3-A1",
-    "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4",
-    "writer_epoch": 22,
+    "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4_ACCESSIBILITY_JVM",
+    "writer_epoch": 23,
     "action_run_ids": [
-      41546415283,
-      41546676175
+      41549981598
     ]
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
-  "last_committed_sha": "9de7aa688ce5ca4bb09eb9eafbd3f10ec51f3c58",
+  "last_committed_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
   "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
@@ -311,6 +320,20 @@
         "5/5"
       ],
       "time_breakdown": "NO_REGISTRADO"
+    },
+    "NOCHE_A_2100": {
+      "status": "CLOSED_CI_VERIFIED_PENDING_WRITER_RELEASE",
+      "writer_epoch": 23,
+      "branch_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
+      "run_ids": [
+        41549981598
+      ],
+      "xml": [
+        "45/45"
+      ],
+      "time_observed": "21:01-21:08 AR approx",
+      "time_breakdown": "NO_REGISTRADO",
+      "physical": "NOT_RUN"
     }
   }
 }
