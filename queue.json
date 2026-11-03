@@ -492,7 +492,7 @@
       "unit_id": "S3-A1",
       "block_id": 1,
       "block_status": "READY",
-      "expected_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+      "expected_head": "52fb067052266180b964f6e7dcfbff387d1cb928",
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "verified_blocks": {},
       "evidence": [
@@ -511,15 +511,15 @@
       ],
       "next_step": "Block 1: reconcile S3-A1 previous evidence; do not repeat the proven notice tests. Next gap: independent owner ACL/generation invalidation on same readPort; canonical N031 and N015 owners remain unproven. Do not mark A1 DONE.",
       "blocker": null,
-      "writer_release_epoch": 58,
-      "last_observed_at": "2026-11-03T19:40:21-03:00"
+      "writer_release_epoch": 60,
+      "last_observed_at": "2026-11-03T19:44:05-03:00"
     }
   },
   "dynamic_preparation": {
     "status": "PREPARED_UNAUTHORIZED",
     "previous_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
     "prepared_for": "FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103",
-    "live_source_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+    "live_source_head": "52fb067052266180b964f6e7dcfbff387d1cb928",
     "selector_ci": {
       "run_id": 41732667534,
       "sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
@@ -528,6 +528,12 @@
     },
     "writer_epoch_acquired": 59,
     "activation_authorized": false,
-    "note": "No new start/cutoff authorized. Existing past timestamps are invalid; mode remains STAGED."
+    "note": "No new start/cutoff authorized. Existing past timestamps are invalid; mode remains STAGED.",
+    "doc_sync": {
+      "sha": "52fb067052266180b964f6e7dcfbff387d1cb928",
+      "kind": "DOC_ONLY_NO_SELECTOR_CODE_CHANGE",
+      "ci_retained_from_sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+      "run_id": 41732667534
+    }
   }
 }
