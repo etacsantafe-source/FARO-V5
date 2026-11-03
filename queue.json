@@ -3,7 +3,7 @@
   "mode": "STAGED",
   "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_20261103_NIGHT_OBJECTIVES_V1_ONE_HOUR",
-  "phase": "S3_OPEN_OBJECTIVES_V1_ONE_HOUR",
+  "phase": "S3_DYNAMIC_BLOCKS_PREPARED_NOT_ACTIVE",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Buenos_Aires",
   "hard_stop_at": "2026-11-03T12:13:38-03:00",
@@ -374,7 +374,7 @@
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
   "activation_requires": "VALID_USER_AUTHORIZATION_20261103T0949_TO_1049_ONLY",
   "starts_at": "2026-11-03T07:44:00-03:00",
-  "protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
+  "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
   "authorization_epoch": 28,
   "authorized_scope": "S3_SEVEN_APPROVED_TASKS_S2_FROZEN_S4_OFF_V2_OFF_172_UNCHANGED_8_GUARDADOS_PROVISIONAL",
   "priority": "MAXIMIZE_S3_SAFE_PROGRESS_SINGLE_PHYSICAL_CAMPAIGN_AT_END",
@@ -485,5 +485,49 @@
       "remaining": "ACL/generation independent invalidations + N031/N015 real owners + Guardados bounded approval"
     },
     "shutdown_at": "2026-11-03T12:08:00-03:00"
+  },
+  "block_checkpoints": {
+    "S3-A1": {
+      "goal_id": "G-S3-AUTO",
+      "unit_id": "S3-A1",
+      "block_id": 1,
+      "block_status": "READY",
+      "expected_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+      "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
+      "verified_blocks": {},
+      "evidence": [
+        {
+          "kind": "A1_PREVIOUS_CI",
+          "code_sha": "9a7d0537138756987bbb4760068b93b7f338160e",
+          "run_id": 41656343364,
+          "scope": "S3_HOME_NOTICE_XML_PASS_5_OF_5_ONLY"
+        },
+        {
+          "kind": "SELECTOR_CI",
+          "code_sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+          "run_id": 41732667534,
+          "scope": "FARO_NIGHT_SELECTORS_36_OF_36_ONLY"
+        }
+      ],
+      "next_step": "Block 1: reconcile S3-A1 previous evidence; do not repeat the proven notice tests. Next gap: independent owner ACL/generation invalidation on same readPort; canonical N031 and N015 owners remain unproven. Do not mark A1 DONE.",
+      "blocker": null,
+      "writer_release_epoch": 58,
+      "last_observed_at": "2026-11-03T19:40:21-03:00"
+    }
+  },
+  "dynamic_preparation": {
+    "status": "PREPARED_UNAUTHORIZED",
+    "previous_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
+    "prepared_for": "FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103",
+    "live_source_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+    "selector_ci": {
+      "run_id": 41732667534,
+      "sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+      "conclusion": "SUCCESS",
+      "tests": "36/36_XML_VERIFIED"
+    },
+    "writer_epoch_acquired": 59,
+    "activation_authorized": false,
+    "note": "No new start/cutoff authorized. Existing past timestamps are invalid; mode remains STAGED."
   }
 }
