@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "MANUAL.S3.CANCEL.20261103",
-  "token_hash": "manual-cancel-pilot-20261103",
+  "status": "HELD",
+  "owner": "MANUAL.S3.STOP_RETRY.20261103",
+  "token_hash": "manual-stop-20261103-r2",
   "target_head": "058dbd754ef90435e5fb0e4ab0ed9d474a7f6464",
-  "epoch": 39,
+  "epoch": 40,
   "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "QUEUE_REVOCATION_FAILED"
+  "purpose": "REVOKE_CLOUD_AUTHORIZATION_MINIMAL"
 }
