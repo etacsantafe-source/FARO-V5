@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "NOCHE_A.S3.20261103T1031",
-  "token_hash": "noche-a-s3-short-pilot-20261103-1031-checkpoint",
+  "status": "HELD",
+  "owner": "NOCHE_B.S3.20261103T1101",
+  "token_hash": "noche-b-s3-1101-compile-fix",
   "target_head": "7f79412df3747fcbbeb77fafc11f7613286f63cd",
-  "epoch": 43,
+  "epoch": 44,
   "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "S3_A1_CHECKPOINT_SAVED_CI_PENDING"
+  "purpose": "S3_A1_FIX_COMPILATION_RED"
 }
