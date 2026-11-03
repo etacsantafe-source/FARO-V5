@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "manual.s3night.v22r1.cancel-durable-reconcile-20261102",
   "token_hash": "8131586edd3e988a28f429ea12db72fc5a8ddc73e2871d93269021b570e60ee5",
-  "target_head": "f4f23d379403e2d6c85a7d8e075505409f0edde8",
+  "target_head": "0a75e10664729f3a73b7227c73a600b8bd15599b",
   "epoch": 31,
-  "timestamp": 1793674220,
+  "timestamp": 0,
   "target_branch": "work/s3-night-20261102"
 }
