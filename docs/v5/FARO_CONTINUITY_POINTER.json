@@ -36,7 +36,10 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_UNTIL_22;NO_S4;NO_APP_V2;NO_MAIN;NO_V4.4_WRITES;NO_PAID_APIS;PHYSICAL_TESTS_AT_END",
-  "next": "Recover docs/s3-night/S3_A1_NOCHE_B_2030_HANDOFF_20261102.md; N-032 real Avisos bound, CI 44/44 #41546415283 and 5/5 #41546676175. A1 partial 1/4, no fabricated counts. Cutoff 22:00 AR.",
-  "checkpoint_status": "N00_PASS_P00_SPEC_PASS_A1_PARTIAL_NOTICE_REAL_1_OF_4_CI_VERIFIED",
-  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical."
+  "next": "Recover docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md and RUN_STATE.json. NOCHE_A 21:00 A1 accessibility code 89ce6d9, CI #41549981598 SUCCESS XML 45/45; A1 1/4 real (Avisos), other owners unavailable. NOCHE_B 21:30 next, cutoff 22:00 AR.",
+  "checkpoint_status": "N00_PASS_P00_SPEC_PASS_A1_PARTIAL_NOTICE_REAL_1_OF_4_ACCESSIBILITY_JVM_45_OF_45",
+  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
+  "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
+  "last_code_sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+  "last_ci_run_id": 41549981598
 }
