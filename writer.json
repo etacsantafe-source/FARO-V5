@@ -1,1 +1,11 @@
-{"epoch": 57, "owner": "FARO.REPAIR.PUBLISH.20261103", "schema": 1, "status": "RELEASED", "target_branch": "work/s3-night-20261102", "target_head": "746f410fe518905623aacae70215df5e52f30fb2", "timestamp": 1793745261, "token_hash": "79cc0e7806a817c2c804974f4bf9e06d4d0b4219e452f3741219d31f308999a8"}
+{
+  "schema": 1,
+  "status": "HELD",
+  "owner": "FARO.S3.DYNAMIC.CI.20261103T1937",
+  "token_hash": "c0f1c72a8e4c0f414d15ba3cd7e2516e51a5bbc28cdeaad751a83bf7298b1064",
+  "target_head": "1b5e0455b0958964332744638bf3e3538fa26ecd",
+  "epoch": 58,
+  "timestamp": 1793745435,
+  "target_branch": "work/s3-night-20261102",
+  "purpose": "CERTIFY_36_DYNAMIC_MISSION_GATE_TESTS_CI_ONLY"
+}
