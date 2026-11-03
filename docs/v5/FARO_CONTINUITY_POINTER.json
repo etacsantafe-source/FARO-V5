@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-02",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_PAUSED",
+  "phase": "S3_OPEN_NIGHT_PRESTART",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -23,21 +23,24 @@
     "no_auto_takeover": true
   },
   "automation": {
-    "activation_authorized": false,
-    "authorized_until": "2026-11-02T22:00:00-03:00",
+    "activation_authorized": true,
+    "authorized_until": "2026-11-03T07:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "A_B_REPORT_DISABLED_VERIFIED",
+    "status": "PENDING_SCHEDULE_VERIFY",
     "A_id": "6ae9072890248191b886a790cf456be6",
     "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
     "final_id": "6ae9073eccd08191b88aec776771ca9e",
-    "requires_new_authorization": true
+    "requires_new_authorization": false,
+    "authorized_from": "2026-11-02T23:00:00-03:00",
+    "approval": "USER_20261102_CURRENT_CHAT_EXPLICIT_ALL_S3_SAFE_WORK",
+    "protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
-  "permissions": "NO_NIGHT_EXECUTION_WITHOUT_NEW_APPROVAL;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN",
-  "next": "Recover V2.2-R1 final chat audit from its protocol; 19 tests NOT_RUN, no scheduler activation, new deadline and scope required in next chat. Writer early release, safe opportunities, cutoff cleanup clarified. A1 partial; Guardados +8 unapproved; catalog 172.",
+  "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
+  "next": "After automation verification, work S3-A1 real owners/isolated safe work via five opportunity bank; V22 acceptance NOT_RUN until evidence; cutoff 2026-11-03 07:00 AR; one physical campaign at S3 end.",
   "checkpoint_status": "S3_A1_PARTIAL_GUARDADOS_PROVISIONAL_NIGHT_V22_R1_PREPARED_OFF",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
@@ -51,13 +54,16 @@
     "approval": "REVIEW_ONLY_NO_CATALOG_APPROVAL"
   },
   "night_v22": {
-    "status": "PREPARED_R1_NOT_ACTIVE",
+    "status": "AUTHORIZED_PRESTART_NOT_RUNNING",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "acceptance": "V22-01_TO_19_NOT_RUN",
     "principle": "Continue useful authorized work or directed read-only investigation until productive phase ends; never forced duration",
     "wait_rule": "Writer HELD => up to five minutes useful READ_ONLY and recheck, no takeover; CI running != writer held",
-    "requires_fresh_authorization": true,
+    "requires_fresh_authorization": false,
     "review": "V2.2-R1 final gap closure: release writer early; anti-duplicate useful research; cutoff fail closed; metrics separated",
-    "review_section": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren"
+    "review_section": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
+    "cutoff": "2026-11-03T07:00:00-03:00",
+    "first_slot": "2026-11-02T23:00:00-03:00",
+    "report_at": "2026-11-03T07:10:00-03:00"
   }
 }
