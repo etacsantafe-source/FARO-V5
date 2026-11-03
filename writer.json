@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.user-cancel-night-s3-v22r1-20261102T2348",
-  "token_hash": "01223c9a1bf6c6f08dfb8c3f19e8027843940c2fbdae077e319bfb251556d5af",
+  "status": "HELD",
+  "owner": "manual.s3night.v22r1.cancel-durable-reconcile-20261102",
+  "token_hash": "8131586edd3e988a28f429ea12db72fc5a8ddc73e2871d93269021b570e60ee5",
   "target_head": "f4f23d379403e2d6c85a7d8e075505409f0edde8",
-  "epoch": 30,
-  "timestamp": 0,
+  "epoch": 31,
+  "timestamp": 1793674220,
   "target_branch": "work/s3-night-20261102"
 }
