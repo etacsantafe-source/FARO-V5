@@ -21,21 +21,28 @@ class FaroV5HomeReadinessInvalidationsTest {
     fun samePortReceivesRealOwnerRecoveryAndDropsPreviouslyVisibleNotices() = runBlocking {
         val gate = FaroV5StartupReadinessGate(SingleProcessMaterialWriteGate())
         gate.localReady()
-        val notice = NoticeSnapshot(
-            NoticeId.of("n1"), NoticeKey.of("key-n1"),
-            SourceRef.of("source-n1"), OccurrenceRef.of("occ-n1"),
-            NoticeMateriality.NOTICE, NoticeSensitivity.NORMAL,
-            NoticeSummary.of("Notice n1"), DestinationRef.of("avisos"),
-            NoticeRelevance.OPEN, NoticeAttention.UNSEEN, 1L, null
+        fun notice(id: String) = NoticeSnapshot(
+            noticeId = NoticeId.of(id),
+            noticeKey = NoticeKey.of("key-$id"),
+            sourceRef = SourceRef.of("source-$id"),
+            occurrenceRef = OccurrenceRef.of("occ-$id"),
+            materiality = NoticeMateriality.NOTICE,
+            sensitivity = NoticeSensitivity.NORMAL,
+            summary = NoticeSummary.of("Notice $id"),
+            destinationRef = DestinationRef.of("avisos"),
+            relevance = NoticeRelevance.OPEN,
+            attention = NoticeAttention.UNSEEN,
+            revision = 1L,
+            resolutionReason = null,
         )
         val port = FaroV5HomeNoticeBindingFactory.create(
-            Supplier { listOf(notice, notice, notice) },
+            Supplier { listOf(notice("n1"), notice("n2"), notice("n3")) },
             "gen-1", Supplier { "gen-1" },
             BooleanSupplier { gate.snapshot().isLocalReady },
             LongSupplier { 321L },
             FaroV5HomeReadinessInvalidations.from(gate)
         )
-        assertEquals(1, port.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+        assertEquals(3, port.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
         val observed = Channel<Unit>(Channel.UNLIMITED)
         val job = launch { port.invalidations.collect { observed.send(Unit) } }
         yield()
