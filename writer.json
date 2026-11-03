@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "MANUAL.S3.STOP_RETRY.20261103",
-  "token_hash": "manual-stop-20261103-r2",
+  "status": "HELD",
+  "owner": "MANUAL.S3.SIMPLE.PILOT.20261103",
+  "token_hash": "s3-simplified-pilot-20261103-manual-v1",
   "target_head": "058dbd754ef90435e5fb0e4ab0ed9d474a7f6464",
-  "epoch": 40,
+  "epoch": 41,
   "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "QUEUE_STAGED_AFTER_USER_CANCEL"
+  "purpose": "UPDATE_SHORT_PROMPTS_PILOT_AUTHORIZATION"
 }
