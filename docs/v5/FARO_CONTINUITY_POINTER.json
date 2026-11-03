@@ -41,7 +41,7 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "NOCHE OFF. Queue STAGED authorization=false, writer RELEASED after this handoff; cancelled A/B/report. See docs/s3-night/S3_NOCHE_V22R1_LOW_UTILIZATION_POSTMORTEM_20261102.md. No new runs without user permission. Continue design discussion; S3 A1 partial.",
+  "next": "Night OFF; queue STAGED, writer RELEASED after handoff. New mission/evidence gate with local 17/17 tests; no Night or CI PASS implied. Review pilot doc and obtain NEW consent for any future scheduled run.",
   "checkpoint_status": "S3_A1_PARTIAL_NIGHT_V22R1_CANCELLED_BY_USER",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
@@ -68,5 +68,12 @@
     "report_at": "2026-11-03T07:10:00-03:00",
     "opportunity_bank": "docs/s3-night/S3_V22R1_OPPORTUNITY_BANK_20261102.json"
   },
-  "usage_postmortem": "docs/s3-night/S3_NOCHE_V22R1_LOW_UTILIZATION_POSTMORTEM_20261102.md"
+  "usage_postmortem": "docs/s3-night/S3_NOCHE_V22R1_LOW_UTILIZATION_POSTMORTEM_20261102.md",
+  "night_recovery": {
+    "status": "IMPLEMENTED_MANUAL_UNIT_TESTS_LOCAL_17_OF_17_NOT_NIGHT_EXECUTED",
+    "document": "docs/s3-night/NIGHT_CODE_FIRST_PILOT_20261102.md",
+    "source": "scripts/v5/faro-night-mission-gate.py",
+    "tests": "scripts/v5/test_faro_night_mission_gate.py",
+    "new_authorization_required": true
+  }
 }

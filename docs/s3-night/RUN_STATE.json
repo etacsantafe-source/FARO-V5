@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Noche OFF by explicit user cancellation. Do not schedule or write S3 code. Recover incident postmortem, propose short focused pilot with new consent. A1 remains partial, one of four home owners real. Queue STAGED seven tasks intact.",
+  "next": "Noche OFF. Manual mission gate code locally tested 17/17, no CI or scheduled turn. Need two separately authorized supervised pilot sessions before reactivation; S3 A1 still partial.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -224,5 +224,15 @@
     "main_unmodified": "9bae214541f466a62e149853931b96abb8d74ed9",
     "functional_tests": "NO_NEW_TESTS_IN_ACTIVATION",
     "metrics": "OBSERVABLE_ONLY"
+  },
+  "night_recovery": {
+    "status": "READ_ONLY_MISSION_GATE_CODE_COMMITTED_LOCAL_TESTS_17_OF_17_NIGHT_OFF",
+    "source": "scripts/v5/faro-night-mission-gate.py",
+    "tests": "scripts/v5/test_faro_night_mission_gate.py",
+    "document": "docs/s3-night/NIGHT_CODE_FIRST_PILOT_20261102.md",
+    "github_actions": "NOT_RUN",
+    "physical": "NOT_RUN",
+    "scheduler_pilot": "NOT_RUN",
+    "future_authorization_required": true
   }
 }

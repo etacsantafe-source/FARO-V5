@@ -43,9 +43,6 @@ def select_mission(queue, writer, bank, scheduled_at, now, role, branch_head):
         return verdict("STOP", "invalid turn identity")
     if writer.get("status") not in {"HELD", "RELEASED"}:
         return verdict("STOP", "unknown writer state")
-    if writer.get("status") == "HELD":
-        return verdict("READ_ONLY", "writer HELD: no CAS takeover or Actions", next="OPP-N031")
-
     try:
         started = stamp(queue["starts_at"])
         cutoff = stamp(queue["hard_stop_at"])
@@ -61,6 +58,9 @@ def select_mission(queue, writer, bank, scheduled_at, now, role, branch_head):
         return verdict("CLOSE_ONLY", "productive window elapsed; no new unit")
     if scheduled + timedelta(minutes=20) > cutoff:
         return verdict("CLOSE_ONLY", "insufficient room before hard stop")
+    if writer.get("status") == "HELD":
+        return verdict("READ_ONLY", "writer HELD: no CAS takeover or Actions", next="OPP-N031")
+
     if bank.get("protocol") != "V2.2-R1":
         return verdict("STOP", "unrecognized bank protocol")
 
@@ -98,9 +98,9 @@ def verify_result(result):
             return verdict("NO_PASS", "no new code/test commit")
         if result.get("tests_executed") is not True:
             return verdict("NO_PASS", "tests not executed")
-        if result.get("xml_verified") is not True or not isinstance(result.get("xml_passed"), int) or result["xml_passed"] < 1:
+        if result.get("xml_verified") is not True or type(result.get("xml_passed")) is not int or result["xml_passed"] < 1:
             return verdict("NO_PASS", "JUnit XML proof missing")
-        if not isinstance(result.get("run_id"), int) or result["run_id"] <= 0:
+        if type(result.get("run_id")) is not int or result["run_id"] <= 0:
             return verdict("NO_PASS", "exact CI run ID missing")
         if result.get("run_sha") != sha:
             return verdict("NO_PASS", "CI did not run on exact code SHA")

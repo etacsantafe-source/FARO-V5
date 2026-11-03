@@ -97,6 +97,17 @@ class NightMissionGateTests(unittest.TestCase):
              "run_id": 123, "run_sha": "c" * 40}
         self.assertEqual("NO_PASS", gate.verify_result(x)["decision"])
 
+    def test_writer_held_after_cutoff_stops_not_wait(self):
+        self.assertEqual("STOP", decide(w={"status": "HELD"},
+                                         scheduled="2026-11-03T06:30:00-03:00",
+                                         now="2026-11-03T07:00:00-03:00")["decision"])
+
+    def test_boolean_xml_count_is_rejected(self):
+        x = {"kind": "CODE_TEST", "started_from": "b" * 40, "commit_sha": SHA,
+             "tests_executed": True, "xml_verified": True, "xml_passed": True,
+             "run_id": 123, "run_sha": SHA}
+        self.assertEqual("NO_PASS", gate.verify_result(x)["decision"])
+
     def test_blocker_is_not_code_pass(self):
         x = {"kind":"BLOCKER","opportunity_id":"OPP-A1-ADV",
              "source_file":"FaroV5HomeIndicators.kt", "falsifiable_issue":"No Compose test environment",
