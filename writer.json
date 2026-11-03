@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.DYNAMIC.QUEUE.20261103T1940",
   "token_hash": "c3ce83e23bb3957c9fb737b86b1dbc4a1ccd85c4281c23fdbb6472b12d7e6b36",
   "target_branch": "work/s3-night-20261102",
   "target_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
   "epoch": 59,
-  "timestamp": 1793745621,
+  "timestamp": 1793745697,
   "purpose": "STAGE_S3_DYNAMIC_QUEUE_NO_AUTHORIZATION"
 }
