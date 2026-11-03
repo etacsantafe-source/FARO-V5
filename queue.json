@@ -114,7 +114,7 @@
       ],
       "status": "WAIT_CI",
       "claimed_by": null,
-      "head_expected": "82c9b869da28ed02160e99bd65ce706d795451d4",
+      "head_expected": "9a7d0537138756987bbb4760068b93b7f338160e",
       "attempts": 5,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "action_run_ids": [
@@ -126,9 +126,10 @@
         41546415283,
         41546676175,
         41549981598,
-        41652540734
+        41652540734,
+        41656343364
       ],
-      "checkpoint": "OBJECTIVES_V1_MANUAL_FIX_CI_41652540734_IN_PROGRESS",
+      "checkpoint": "OBJECTIVES_V1_NOCHE_B_JVM_NAME_FIX_CI_41656343364_IN_PROGRESS",
       "evidence": {
         "branch_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
         "code_commits": [
@@ -226,6 +227,17 @@
           "change": "fun from -> internal fun from; existing JVM test preserved",
           "manual_not_AB": true,
           "remaining": "ACL/generation independent invalidations + N031/N015 real owners + Guardados bounded approval"
+        },
+        "night_b_20261103": {
+          "code_commit": "9a7d0537138756987bbb4760068b93b7f338160e",
+          "change": "@JvmName(from) on internal Kotlin method to expose stable Java static method without making package-private gate public",
+          "prior_ci_run_id": 41652540734,
+          "prior_ci_failure": "javac cannot find symbol from(FaroV5StartupReadinessGate)",
+          "new_ci_run_id": 41656343364,
+          "new_ci_status": "IN_PROGRESS",
+          "junit_xml": "NOT_VERIFIED",
+          "next": "Check exact CI SHA/XML; if green continue ACL/generation independent invalidation; no physical test",
+          "writer_release_epoch": 51
         }
       }
     },
