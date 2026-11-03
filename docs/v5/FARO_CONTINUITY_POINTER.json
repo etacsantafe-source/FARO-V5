@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-02",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_PRESTART",
+  "phase": "S3_OPEN_NIGHT_ACTIVE",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -27,7 +27,7 @@
     "authorized_until": "2026-11-03T07:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "CLOUD_ENABLED_SCHEDULES_PENDING_VERIFY",
+    "status": "A_B_REPORT_ENABLED_VERIFIED",
     "A_id": "6ae9072890248191b886a790cf456be6",
     "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
     "final_id": "6ae9073eccd08191b88aec776771ca9e",
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "After automation verification, work S3-A1 real owners/isolated safe work via five opportunity bank; V22 acceptance NOT_RUN until evidence; cutoff 2026-11-03 07:00 AR; one physical campaign at S3 end.",
-  "checkpoint_status": "S3_A1_PARTIAL_NIGHT_V22R1_APPROVED_CLOUD_ENABLED_WRITER_RELEASE_PENDING",
+  "next": "Recover live CLOUD queue + writer, current branch HEAD; 23:00-07:00 R1 S3 sessions A/B; 07:10 report READ_ONLY. Do not repeat completed CI. Physical one campaign only. Until session starts writer must be RELEASED.",
+  "checkpoint_status": "S3_A1_PARTIAL_NIGHT_V22_R1_ACTIVE_A_B_REPORT_VERIFIED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
   "last_code_sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
@@ -54,7 +54,7 @@
     "approval": "REVIEW_ONLY_NO_CATALOG_APPROVAL"
   },
   "night_v22": {
-    "status": "AUTHORIZED_CLOUD_ENABLED_SCHEDULES_PENDING_VERIFY",
+    "status": "ACTIVE_V22_R1_SCHEDULER_ENABLED",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "acceptance": "V22-01_TO_19_NOT_RUN",
     "principle": "Continue useful authorized work or directed read-only investigation until productive phase ends; never forced duration",
