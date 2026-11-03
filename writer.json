@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.noche-capabilities-pilot-20261102",
-  "token_hash": "8b9e51e57e5d2a31626a1ca7934c4251e5bfbbfe8018e73f0b6e976aec50dcc0",
+  "status": "HELD",
+  "owner": "manual.night-20261103-recovery-schedule",
+  "token_hash": "42fe713a24c7635bca37d04e51b2a16be475d1c9f470c0843acaf8d1bd310577",
   "target_head": "67325beb7cdcbba81210c111bf11fb4f1eb2c7a2",
-  "epoch": 32,
-  "timestamp": 0,
+  "epoch": 33,
+  "timestamp": 1793700890,
   "target_branch": "work/s3-night-20261102"
 }
