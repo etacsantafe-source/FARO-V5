@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.DYNAMIC.CI.20261103T1937",
   "token_hash": "c0f1c72a8e4c0f414d15ba3cd7e2516e51a5bbc28cdeaad751a83bf7298b1064",
   "target_head": "1b5e0455b0958964332744638bf3e3538fa26ecd",
   "epoch": 58,
-  "timestamp": 1793745435,
+  "timestamp": 1793745568,
   "target_branch": "work/s3-night-20261102",
   "purpose": "CERTIFY_36_DYNAMIC_MISSION_GATE_TESTS_CI_ONLY"
 }
