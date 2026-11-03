@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-03",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_ACTIVE_20261103",
+  "phase": "S3_OPEN_IMMEDIATE_PILOT_PREPARING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -24,16 +24,16 @@
   },
   "automation": {
     "activation_authorized": true,
-    "authorized_until": "2026-11-04T07:00:00-03:00",
+    "authorized_until": "2026-11-03T08:44:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "A_B_WATCHDOG_REPORT_ENABLED_VERIFIED",
+    "status": "ONE_HOUR_PILOT_PREPARING",
     "A_id": "6ae9072890248191b886a790cf456be6",
     "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
     "final_id": "6ae9073eccd08191b88aec776771ca9e",
     "requires_new_authorization": false,
-    "authorized_from": "2026-11-03T23:00:00-03:00",
-    "approval": "USER_20261103_APPROVES_UPCOMING_NIGHT_23_TO_07",
+    "authorized_from": "2026-11-03T07:44:00-03:00",
+    "approval": "USER_20261103_IMMEDIATE_ONE_HOUR_TEST",
     "protocol": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md",
     "previous_authorization_revoked": true,
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
@@ -42,7 +42,7 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "Upcoming turns A/B 23:00→07:00 Argentina; code-first evidence required. GitHub CI gate 17/17 verified but scheduler unproven; 00:20/01:20 productivity watchdog may stop ineffective night. Read queue and writer before any work.",
+  "next": "ONE HOUR PILOT, start immediately. Require real writer CAS, code/test and CI or new durable blocker. No A/B after 08:44. Queue should be STAGED at end.",
   "checkpoint_status": "S3_A1_PARTIAL_NIGHT_20261103_CODE_FIRST_ACTIVE_GATE_TESTED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
@@ -87,5 +87,13 @@
     "queue_mode": "ENABLED",
     "gate_ci_run_id": 41618051210,
     "gate_ci_xml": "17/17_VERIFIED"
+  },
+  "immediate_pilot": {
+    "status": "PREPARED",
+    "start": "2026-11-03T07:44:00-03:00",
+    "stop": "2026-11-03T08:44:00-03:00",
+    "baseline_head": "d38a95bfb4bdef27a64d24918ae0e71b89617f36",
+    "unit": "OPP-A1-ADV",
+    "report_at": "2026-11-03T08:45:00-03:00"
   }
 }
