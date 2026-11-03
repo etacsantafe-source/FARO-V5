@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-02",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_PAUSED",
+  "phase": "S3_OPEN_NIGHT_PREPARING_20261103",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -24,24 +24,24 @@
   },
   "automation": {
     "activation_authorized": false,
-    "authorized_until": "2026-11-03T07:00:00-03:00",
+    "authorized_until": "2026-11-04T07:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "A_B_REPORT_DISABLED_VERIFIED",
+    "status": "PREPARING_SCHEDULES",
     "A_id": "6ae9072890248191b886a790cf456be6",
     "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
     "final_id": "6ae9073eccd08191b88aec776771ca9e",
-    "requires_new_authorization": true,
-    "authorized_from": "2026-11-02T23:00:00-03:00",
-    "approval": "USER_20261102_CURRENT_CHAT_EXPLICIT_ALL_S3_SAFE_WORK",
-    "protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
+    "requires_new_authorization": false,
+    "authorized_from": "2026-11-03T23:00:00-03:00",
+    "approval": "USER_20261103_APPROVES_UPCOMING_NIGHT_23_TO_07",
+    "protocol": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md",
     "previous_authorization_revoked": true
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "Night OFF; queue STAGED, writer RELEASED after handoff. New mission/evidence gate with local 17/17 tests; no Night or CI PASS implied. Review pilot doc and obtain NEW consent for any future scheduled run.",
+  "next": "Upcoming full night PREPARING. Consult live queue and writer, verify schedules and deadline before claims. Old permission remains revoked.",
   "checkpoint_status": "S3_A1_PARTIAL_NIGHT_V22R1_CANCELLED_BY_USER",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
@@ -75,5 +75,12 @@
     "source": "scripts/v5/faro-night-mission-gate.py",
     "tests": "scripts/v5/test_faro_night_mission_gate.py",
     "new_authorization_required": true
+  },
+  "recovery_night": {
+    "status": "PREPARING",
+    "start": "2026-11-03T23:00:00-03:00",
+    "stop": "2026-11-04T07:00:00-03:00",
+    "watchdog": "2026-11-04T00:20:00-03:00",
+    "doc": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md"
   }
 }

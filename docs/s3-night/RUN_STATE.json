@@ -8,9 +8,9 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "CANCELLED_BY_USER_V22_R1",
-  "authorization": "USER_EXPLICIT_CHAT_2026-11-02_22_38_START_23_CUTOFF_07",
-  "deadline": "2026-11-03T07:00:00-03:00",
+  "night": "PREPARING_RECOVERY_20261103",
+  "authorization": "USER_2026_11_03_APPROVES_FULL_UPCOMING_NIGHT",
+  "deadline": "2026-11-04T07:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "queue_ref": "refs/heads/faro-v5-night-queue",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Noche OFF. Manual mission gate code locally tested 17/17, no CI or scheduled turn. Need two separately authorized supervised pilot sessions before reactivation; S3 A1 still partial.",
+  "next": "Noche 03→04 PREPARING, no ejecutar antes de 23:00. A1 concrete test first, watchdog at 00:20. Verify queue and actual schedules before ACTIVE.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -139,7 +139,7 @@
     "time_breakdown": "NO_REGISTRADO",
     "writer_epoch": 23
   },
-  "automation_authorization": false,
+  "automation_authorization": true,
   "queue_mode": "STAGED",
   "queue_ref_sha": "ca34758121c3385989aca84ad67ee47efe74143c",
   "cancellation": {
@@ -234,5 +234,15 @@
     "physical": "NOT_RUN",
     "scheduler_pilot": "NOT_RUN",
     "future_authorization_required": true
+  },
+  "recovery_night": {
+    "status": "PREPARING_NOT_YET_SCHEDULED",
+    "starts_at": "2026-11-03T23:00:00-03:00",
+    "hard_stop_at": "2026-11-04T07:00:00-03:00",
+    "timezone": "America/Argentina/Cordoba",
+    "doc": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md",
+    "previous_night_cancelled": true,
+    "watchdog_at": "2026-11-04T00:20:00-03:00",
+    "gate_ci": "NOT_RUN"
   }
 }
