@@ -1,11 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO_NOCHE_S3_DYNAMIC_V1_PREP_20261103T1338",
-  "token_hash": "faro-s3-dynamic-v1-prep-20261103t1338",
-  "target_head": "746f410fe518905623aacae70215df5e52f30fb2",
-  "epoch": 54,
-  "timestamp": 0,
-  "target_branch": "work/s3-night-20261102",
-  "purpose": "PREPARATION_STOPPED_CHECKPOINT_UPDATE_BLOCKED_NO_ACTIVATION"
-}
+{"epoch": 55, "owner": "FARO.REPAIR.20261103", "schema": 1, "status": "HELD", "target_branch": "work/s3-night-20261102", "target_head": "746f410fe518905623aacae70215df5e52f30fb2", "timestamp": 1793743555, "token_hash": "d846a07668c0fc9461295df483b3d84f5fc8ceccee4fb12d7ca2860252fec9b6"}
