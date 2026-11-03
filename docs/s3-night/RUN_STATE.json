@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "A1 partial real Avisos 1/4. Guardados bounded review documented NOT APPROVED, catalog 172; Noche V2.1 OFF, queue STAGED, writer release required; no A3 implementation.",
+  "next": "Next chat: recover V2.2 protocol, verify writer RELEASED/queue STAGED/schedules OFF, obtain new start/deadline and activate only upon authorization. A1 partial; Guardados +8 candidate not approved.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -163,5 +163,15 @@
     "proposed_count": 8,
     "tests": "NOT_RUN",
     "no_registry_mutation": true
+  },
+  "night_v22": {
+    "status": "PREPARED_NOT_ACTIVE",
+    "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
+    "test_matrix": "V22-01_TO_15_NOT_RUN",
+    "writer_held_wait_minutes": 5,
+    "continuation": "SAFE_OPPORTUNITY_BANK",
+    "schedules": "OFF",
+    "catalog": 172,
+    "activation_authorized": false
   }
 }
