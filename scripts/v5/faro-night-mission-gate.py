@@ -89,6 +89,141 @@ def select_mission(queue, writer, bank, scheduled_at, now, role, branch_head):
     return verdict("CLOSE_ONLY", "no safe nonduplicated opportunity")
 
 
+# FARO Noche S3 blocks V1. Pure selector: no GitHub writes, locks or schedules.
+DYNAMIC_PROTOCOL = "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md"
+BLOCKS = ("EVIDENCIA", "COMPARACION", "INVESTIGACION", "UNIFICACION",
+          "AUDITORIA_PREVIA", "IMPLEMENTAR_Y_PROBAR", "AUDITORIA_FINAL")
+DONE_STATES = {"PASS", "DONE_VERIFIED", "READY_FOR_SINGLE_PHYSICAL_CAMPAIGN"}
+BLOCK_STATES = {"READY", "IN_PROGRESS", "WAIT_CI", "WAIT_WRITER", "WAIT_HUMAN",
+                "BLOCKED", "DONE_VERIFIED", "READY_FOR_SINGLE_PHYSICAL_CAMPAIGN"}
+
+
+def select_dynamic_blocks(queue, writer, scheduled_at, now, role, branch_head):
+    """Choose one safe S3 unit/block from the existing shared CLOUD queue.
+
+    Pure read-only decision. Caller must independently acquire/verify own writer
+    via official CAS before changing code/queue. Never grant execution authority.
+    """
+    if not isinstance(queue, dict) or not isinstance(writer, dict):
+        return verdict("STOP", "invalid queue/writer")
+    if queue.get("branch") != BRANCH or queue.get("protocol") != DYNAMIC_PROTOCOL:
+        return verdict("STOP", "branch/protocol mismatch")
+    if queue.get("mode") != "ENABLED" or queue.get("activation_authorized") is not True:
+        return verdict("STOP", "Noche not authorized")
+    if not isinstance(branch_head, str) or not SHA.fullmatch(branch_head):
+        return verdict("STOP", "invalid branch HEAD")
+    if role not in ("NOCHE_A", "NOCHE_B"):
+        return verdict("STOP", "invalid role")
+    if queue.get("inflight") is not None:
+        return verdict("STOP", "unresolved in-flight operation")
+    if writer.get("status") not in ("RELEASED", "HELD"):
+        return verdict("STOP", "writer state unknown")
+    try:
+        start = stamp(queue["starts_at"])
+        cutoff = stamp(queue["hard_stop_at"])
+        slot = stamp(scheduled_at)
+        current = stamp(now)
+    except (ValueError, TypeError, KeyError):
+        return verdict("STOP", "invalid authorization timestamps")
+    if cutoff <= start or slot < start or slot >= cutoff or current >= cutoff:
+        return verdict("STOP", "authorization expired or invalid")
+    offset = int((slot - start).total_seconds())
+    expected_offset = 0 if role == "NOCHE_A" else 1800
+    if offset < 0 or offset % 3600 != expected_offset or slot != start + timedelta(seconds=offset):
+        return verdict("STOP", "A/B slot mismatch")
+    if current < slot or current >= slot + timedelta(minutes=30):
+        return verdict("STOP", "outside scheduled slot")
+    age = (current - slot).total_seconds()
+    if age >= 27 * 60:
+        return verdict("READ_ONLY", "margin phase: no writes")
+    if age >= 20 * 60 or slot + timedelta(minutes=20) > cutoff:
+        return verdict("CLOSE_ONLY", "closing phase: checkpoint/release own writer only")
+    if writer["status"] == "HELD":
+        return verdict("READ_ONLY", "writer held; never take over")
+
+    tasks = queue.get("tasks")
+    if not isinstance(tasks, list) or not tasks:
+        return verdict("STOP", "missing shared task queue")
+    by_id = {}
+    for task in tasks:
+        if not isinstance(task, dict) or not isinstance(task.get("task_id"), str):
+            return verdict("STOP", "invalid queue task")
+        if task["task_id"] in by_id:
+            return verdict("STOP", "duplicate task id")
+        by_id[task["task_id"]] = task
+    checkpoints = queue.get("block_checkpoints", {})
+    if not isinstance(checkpoints, dict):
+        return verdict("STOP", "invalid block checkpoints")
+
+    def dependencies_done(task):
+        dependencies = task.get("depends_on", [])
+        if not isinstance(dependencies, list):
+            return False
+        for dep in dependencies:
+            upstream = by_id.get(dep)
+            if upstream is None:
+                return False
+            if upstream.get("status") in DONE_STATES:
+                continue
+            if dep == "S3-P00" and upstream.get("status") == "PASS_SPEC_ONLY":
+                continue
+            return False
+        return True
+
+    # Resume in-progress work before opening another unit; WAIT_CI blocks
+    # independent writes only for the same unit, not a global CI lock.
+    candidates = [t for t in tasks if t.get("status") in ("IN_PROGRESS", "WAIT_CI", "WAIT_WRITER")]
+    candidates += [t for t in tasks if t.get("status") in ("READY", "PENDING")]
+    for task in candidates:
+        tid = task["task_id"]
+        if not tid.startswith("S3-") or not dependencies_done(task):
+            continue
+        status = task.get("status")
+        if status == "WAIT_CI":
+            return verdict("READ_ONLY", "CI pending; verify exact run and SHA", unit_id=tid,
+                           run_ids=task.get("action_run_ids", []))
+        if status == "WAIT_WRITER":
+            return verdict("READ_ONLY", "unit waiting for writer", unit_id=tid)
+        cp = checkpoints.get(tid)
+        if cp is None:
+            if status == "IN_PROGRESS":
+                return verdict("RECONCILE_CHECKPOINT", "legacy unit needs evidence mapping; do not repeat", unit_id=tid)
+            return verdict("WORK_BLOCK", "new unit starts from evidence", unit_id=tid,
+                           block_id=1, block_name=BLOCKS[0], expected_head=branch_head,
+                           requires_writer_cas=True)
+        if not isinstance(cp, dict) or cp.get("unit_id") != tid:
+            return verdict("STOP", "checkpoint identity mismatch", unit_id=tid)
+        if cp.get("block_status") not in BLOCK_STATES:
+            return verdict("STOP", "unknown checkpoint status", unit_id=tid)
+        if cp.get("block_status") == "WAIT_CI":
+            return verdict("READ_ONLY", "checkpoint WAIT_CI; verify remote CI", unit_id=tid,
+                           evidence=cp.get("evidence", []))
+        if cp.get("block_status") in ("WAIT_HUMAN", "BLOCKED"):
+            continue
+        if cp.get("block_status") == "WAIT_WRITER":
+            return verdict("READ_ONLY", "checkpoint WAIT_WRITER", unit_id=tid)
+        if cp.get("expected_head") != branch_head:
+            return verdict("REVALIDATE_SHA", "checkpoint SHA differs; revalidate affected blocks only",
+                           unit_id=tid, expected_head=cp.get("expected_head"), live_head=branch_head)
+        acceptance = task.get("acceptance")
+        verified = cp.get("verified_blocks", {})
+        if not isinstance(verified, dict):
+            return verdict("STOP", "invalid verified blocks", unit_id=tid)
+        block = None
+        for i in range(1, 8):
+            proof = verified.get(str(i))
+            if isinstance(proof, dict) and proof.get("sha") == branch_head and proof.get("acceptance") == acceptance and proof.get("evidence"):
+                continue
+            block = i
+            break
+        if block is None:
+            return verdict("REVIEW_COMPLETION", "all blocks evidenced; require acceptance audit before DONE", unit_id=tid)
+        return verdict("WORK_BLOCK", "resume first nonverified block", unit_id=tid,
+                       block_id=block, block_name=BLOCKS[block - 1], expected_head=branch_head,
+                       requires_writer_cas=True)
+    return verdict("CLOSE_ONLY", "no safely eligible S3 unit; leave human/physical for later")
+
+
 def verify_result(result):
     if result.get("kind") == "CODE_TEST":
         sha = result.get("commit_sha")
@@ -124,10 +259,17 @@ def main():
     parser.add_argument("--now")
     parser.add_argument("--role")
     parser.add_argument("--branch-head")
+    parser.add_argument("--dynamic", action="store_true")
     args = parser.parse_args()
     try:
         if args.operation == "verify":
             output = verify_result(json.loads(args.result.read_text(encoding="utf-8")))
+        elif args.dynamic:
+            output = select_dynamic_blocks(
+                json.loads(args.queue.read_text(encoding="utf-8")),
+                json.loads(args.writer.read_text(encoding="utf-8")),
+                args.scheduled_at, args.now, args.role, args.branch_head,
+            )
         else:
             output = select_mission(
                 json.loads(args.queue.read_text(encoding="utf-8")),
