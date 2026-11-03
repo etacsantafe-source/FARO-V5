@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "PREPARING_RECOVERY_20261103",
+  "night": "ACTIVE_SCHEDULED_CODE_FIRST_20261103",
   "authorization": "USER_2026_11_03_APPROVES_FULL_UPCOMING_NIGHT",
   "deadline": "2026-11-04T07:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Noche 03→04 PREPARING, no ejecutar antes de 23:00. A1 concrete test first, watchdog at 00:20. Verify queue and actual schedules before ACTIVE.",
+  "next": "First actual turn A 2026-11-03 23:00 AR. Code-first OPP-A1-ADV test; do not repeat narrative. Watchdog 00:20 and 01:20. Cutoff 04/11 07:00, report 07:10 read-only.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -140,7 +140,7 @@
     "writer_epoch": 23
   },
   "automation_authorization": true,
-  "queue_mode": "STAGED",
+  "queue_mode": "ENABLED",
   "queue_ref_sha": "ca34758121c3385989aca84ad67ee47efe74143c",
   "cancellation": {
     "reason": "USER_EXPLICIT_CANCEL_V22_R1_LOW_PRODUCTIVITY",
@@ -236,13 +236,27 @@
     "future_authorization_required": true
   },
   "recovery_night": {
-    "status": "PREPARING_NOT_YET_SCHEDULED",
+    "status": "ACTIVE_SCHEDULED_VERIFIED",
     "starts_at": "2026-11-03T23:00:00-03:00",
     "hard_stop_at": "2026-11-04T07:00:00-03:00",
     "timezone": "America/Argentina/Cordoba",
     "doc": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md",
     "previous_night_cancelled": true,
     "watchdog_at": "2026-11-04T00:20:00-03:00",
-    "gate_ci": "NOT_RUN"
+    "gate_ci": {
+      "id": 41618051210,
+      "commit": "4bdda5c78241757095ce389252cb829aa8df6767",
+      "conclusion": "SUCCESS",
+      "xml": "17/17_VERIFIED_JOB_LOG"
+    },
+    "baseline_head": "4bdda5c78241757095ce389252cb829aa8df6767",
+    "schedules": {
+      "A": "6ae9072890248191b886a790cf456be6",
+      "B": "6ae9072a7b6c8191b9e107fe6d6c6940",
+      "report": "6ae9073eccd08191b88aec776771ca9e",
+      "watchdog": "6ae9b51b2ac88191833cb7db6f9f5ed0"
+    },
+    "queue_mode": "ENABLED",
+    "activation_authorized": true
   }
 }
