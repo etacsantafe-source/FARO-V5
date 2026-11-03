@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.DYNAMIC.CI.20261103T1937",
-  "token_hash": "c0f1c72a8e4c0f414d15ba3cd7e2516e51a5bbc28cdeaad751a83bf7298b1064",
-  "target_head": "1b5e0455b0958964332744638bf3e3538fa26ecd",
-  "epoch": 58,
-  "timestamp": 1793745568,
+  "status": "HELD",
+  "owner": "FARO.S3.DYNAMIC.QUEUE.20261103T1940",
+  "token_hash": "c3ce83e23bb3957c9fb737b86b1dbc4a1ccd85c4281c23fdbb6472b12d7e6b36",
   "target_branch": "work/s3-night-20261102",
-  "purpose": "CERTIFY_36_DYNAMIC_MISSION_GATE_TESTS_CI_ONLY"
+  "target_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
+  "epoch": 59,
+  "timestamp": 1793745621,
+  "purpose": "STAGE_S3_DYNAMIC_QUEUE_NO_AUTHORIZATION"
 }
