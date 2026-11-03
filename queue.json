@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "mode": "ENABLED",
-  "activation_authorized": true,
+  "mode": "STAGED",
+  "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_CHAT_2026-11-02",
-  "phase": "S3_OPEN",
+  "phase": "S3_OPEN_NIGHT_PAUSED",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Cordoba",
   "hard_stop_at": "2026-11-02T22:00:00-03:00",
@@ -302,7 +302,7 @@
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
   "last_committed_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
-  "night_schedule": "A 19/20/21; B 19:30/20:30/21:30 AR",
+  "night_schedule": "CANCELLED_USER_REQUEST_2026-11-02",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
   "app_v2": false,
   "s4": false,
@@ -335,5 +335,19 @@
       "time_breakdown": "NO_REGISTRADO",
       "physical": "NOT_RUN"
     }
-  }
+  },
+  "cancellation": {
+    "reason": "EXPLICIT_USER_CANCEL_ALL_S3_NIGHT_AUTOMATIONS",
+    "date_local": "2026-11-02",
+    "automation_ids": [
+      "6ae9073eccd08191b88aec776771ca9e",
+      "6ae9072a7b6c8191b9e107fe6d6c6940",
+      "6ae9072890248191b886a790cf456be6"
+    ],
+    "enabled_count_verified": 0,
+    "leave_backlog_intact": true,
+    "no_new_schedule_without_authorization": true
+  },
+  "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
+  "activation_requires": "NEW_EXPLICIT_HUMAN_APPROVAL_WITH_SCOPE_AND_STOP_TIME"
 }
