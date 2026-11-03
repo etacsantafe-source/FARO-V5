@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "mode": "STAGED",
-  "activation_authorized": false,
-  "authorized_by": "USER_EXPLICIT_CHAT_2026-11-02",
-  "phase": "S3_OPEN_NIGHT_PAUSED",
+  "mode": "ENABLED",
+  "activation_authorized": true,
+  "authorized_by": "USER_EXPLICIT_CURRENT_CHAT_2026-11-02T22_38_ARGENTINA",
+  "phase": "S3_OPEN_NIGHT_V22_R1_AUTHORIZED",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Cordoba",
-  "hard_stop_at": "2026-11-02T22:00:00-03:00",
+  "hard_stop_at": "2026-11-03T07:00:00-03:00",
   "next_seq": 9,
   "tasks": [
     {
@@ -302,7 +302,11 @@
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
   "last_committed_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
-  "night_schedule": "CANCELLED_USER_REQUEST_2026-11-02",
+  "night_schedule": {
+    "A": "2026-11-02T23:00:00-03:00 RRULE FREQ=HOURLY COUNT=8",
+    "B": "2026-11-02T23:30:00-03:00 RRULE FREQ=HOURLY COUNT=8",
+    "report": "2026-11-03T07:10:00-03:00 READ_ONLY"
+  },
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
   "app_v2": false,
   "s4": false,
@@ -349,5 +353,29 @@
     "no_new_schedule_without_authorization": true
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
-  "activation_requires": "NEW_EXPLICIT_HUMAN_APPROVAL_WITH_SCOPE_AND_STOP_TIME"
+  "activation_requires": "NEW_EXPLICIT_HUMAN_APPROVAL_WITH_SCOPE_AND_STOP_TIME",
+  "starts_at": "2026-11-02T23:00:00-03:00",
+  "protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
+  "authorization_epoch": 28,
+  "authorization_head": "d780b305faa3566d4042d872ed699bcefe0a425b",
+  "authorized_scope": "S3_SEVEN_APPROVED_TASKS_S2_FROZEN_S4_OFF_V2_OFF_172_UNCHANGED_8_GUARDADOS_PROVISIONAL",
+  "priority": "MAXIMIZE_S3_SAFE_PROGRESS_SINGLE_PHYSICAL_CAMPAIGN_AT_END",
+  "initial_opportunities": [
+    "OPP-N031",
+    "OPP-N015",
+    "OPP-GUARDADOS",
+    "OPP-A2",
+    "OPP-A1"
+  ],
+  "test_matrix_v22": "V22-01_TO_19_NOT_RUN",
+  "report_metrics": [
+    "observed_utilization_0_20",
+    "observed_runtime_utilization",
+    "verified_units",
+    "wait_writer",
+    "wait_ci",
+    "checkpoint",
+    "early_release",
+    "NO_REGISTRADO_WHEN_MISSING"
+  ]
 }
