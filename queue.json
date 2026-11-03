@@ -440,13 +440,14 @@
     },
     "resume": "S3-A1 fix exact failing compile, run new directed CI SHA/XML, then resume pending ACL/generation invalidation; no duplicate historical work",
     "slots": {
-      "A": "2026-11-03T11:15:00-03:00",
+      "A": "2026-11-03T11:17:00-03:00",
       "B": "2026-11-03T11:45:00-03:00",
       "watchdog": "2026-11-03T12:08:00-03:00",
       "report": "2026-11-03T12:16:00-03:00"
     },
     "metrics": "OBSERVED_ONLY_NO_ESTIMATE",
     "report_after_cutoff": "READ_ONLY",
-    "restrictions": "S3_ONLY_S2_FROZEN_S4_OFF_APP_V2_OFF_172_UNCHANGED_NO_PHYSICAL_UNTIL_FINAL"
+    "restrictions": "S3_ONLY_S2_FROZEN_S4_OFF_APP_V2_OFF_172_UNCHANGED_NO_PHYSICAL_UNTIL_FINAL",
+    "slots_actual_note": "A scheduled at 11:17 AR after 11:15 update rejected as past; B 11:45 AR; exact hard cutoff 12:13:38 AR remains unchanged."
   }
 }
