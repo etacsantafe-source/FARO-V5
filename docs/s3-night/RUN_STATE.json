@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "AUTHORIZED_V22_R1_PENDING_AUTOMATIONS",
+  "night": "ACTIVE_V22_R1_AUTHORIZED_23_TO_07",
   "authorization": "USER_EXPLICIT_CHAT_2026-11-02_22_38_START_23_CUTOFF_07",
   "deadline": "2026-11-03T07:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -18,7 +18,7 @@
     "A:2026-11-02T23:00:00-03:00+HOURLYx8",
     "B:2026-11-02T23:30:00-03:00+HOURLYx8"
   ],
-  "slots_status": "CLOUD_ENABLED_SCHEDULES_PENDING_VERIFY",
+  "slots_status": "A_B_REPORT_ENABLED_VERIFIED",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "A/B activation 23:00 and 23:30, 8 turns each, hard cutoff 07:00 03/11; verify actual schedules before sleep; V22 tests NOT_RUN until evidence.",
+  "next": "S3-A1 PARTIAL. At 23:00 A runs per approved window; pursue real N031/N015 owners, safe research, then authorized commits; retain Guardados +8 provisional. Stop at 07:00; final READ_ONLY 07:10.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -141,7 +141,7 @@
   },
   "automation_authorization": true,
   "queue_mode": "ENABLED",
-  "queue_ref_sha": "2742491ad37f88115d76b65fd5d54c2ae34d55ee",
+  "queue_ref_sha": "ca34758121c3385989aca84ad67ee47efe74143c",
   "cancellation": {
     "source": "USER_REQUEST_CANCEL_SCHEDULED_TASKS_20261102",
     "A_enabled": false,
@@ -165,12 +165,12 @@
     "no_registry_mutation": true
   },
   "night_v22": {
-    "status": "AUTHORIZED_ACTIVE_CLOUD_SCHEDULES_PENDING_VERIFY",
+    "status": "ACTIVE_V22_R1",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "test_matrix": "V22-01_TO_19_NOT_RUN",
     "writer_held_wait_minutes": 5,
     "continuation": "SAFE_OPPORTUNITY_BANK",
-    "schedules": "PENDING_ENABLE",
+    "schedules": "A_B_REPORT_ON_VERIFIED",
     "catalog": 172,
     "activation_authorized": true,
     "review_findings": [
@@ -179,7 +179,7 @@
       "NO_GIT_WRITES_AFTER_DEADLINE",
       "SEPARATE_WINDOW_RUNTIME_OUTPUT_METRICS"
     ],
-    "scheduler_tests": "NOT_RUN",
+    "scheduler_tests": "V22-01_TO_19_NOT_RUN",
     "authorized_start": "2026-11-02T23:00:00-03:00",
     "authorized_until": "2026-11-03T07:00:00-03:00",
     "window_minutes": 20,
@@ -205,5 +205,19 @@
     "expected_report": "2026-11-03T07:10:00-03:00",
     "revalidate_writer_and_cloud_queue_every_turn": true,
     "guards": "NO_S2_S4_MAIN_V44_V2_APP_PAID_API_172_CATALOG_8_GUARDADOS_UNAPPROVED"
+  },
+  "preflight_verification": {
+    "source": "LIVE_GITHUB_AND_AUTOMATIONS_PEEK",
+    "observed_local": "2026-11-02T22:44:00-03:00",
+    "writer": "RELEASED_AFTER_FINALIZATION_REQUIRED",
+    "writer_activation_epoch": 29,
+    "cloud_mode": "ENABLED",
+    "deadline": "2026-11-03T07:00:00-03:00",
+    "schedules": "A_8_B_8_REPORT_0710_ENABLED",
+    "next_run_time": "NOT_PROVIDED_BY_AUTOMATIONS",
+    "s3_tasks": 7,
+    "main_unmodified": "9bae214541f466a62e149853931b96abb8d74ed9",
+    "functional_tests": "NO_NEW_TESTS_IN_ACTIVATION",
+    "metrics": "OBSERVABLE_ONLY"
   }
 }
