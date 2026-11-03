@@ -8,7 +8,7 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "ACTIVE_V22_R1_AUTHORIZED_23_TO_07",
+  "night": "CANCELLED_BY_USER_V22_R1",
   "authorization": "USER_EXPLICIT_CHAT_2026-11-02_22_38_START_23_CUTOFF_07",
   "deadline": "2026-11-03T07:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
@@ -18,7 +18,7 @@
     "A:2026-11-02T23:00:00-03:00+HOURLYx8",
     "B:2026-11-02T23:30:00-03:00+HOURLYx8"
   ],
-  "slots_status": "A_B_REPORT_ENABLED_VERIFIED",
+  "slots_status": "A_B_AND_REPORT_DISABLED_CONFIRMED",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 PARTIAL. At 23:00 A runs per approved window; pursue real N031/N015 owners, safe research, then authorized commits; retain Guardados +8 provisional. Stop at 07:00; final READ_ONLY 07:10.",
+  "next": "Noche OFF by explicit user cancellation. Do not schedule or write S3 code. Recover incident postmortem, propose short focused pilot with new consent. A1 remains partial, one of four home owners real. Queue STAGED seven tasks intact.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -139,16 +139,19 @@
     "time_breakdown": "NO_REGISTRADO",
     "writer_epoch": 23
   },
-  "automation_authorization": true,
-  "queue_mode": "ENABLED",
+  "automation_authorization": false,
+  "queue_mode": "STAGED",
   "queue_ref_sha": "ca34758121c3385989aca84ad67ee47efe74143c",
   "cancellation": {
-    "source": "USER_REQUEST_CANCEL_SCHEDULED_TASKS_20261102",
-    "A_enabled": false,
-    "B_enabled": false,
-    "final_report_enabled": false,
+    "reason": "USER_EXPLICIT_CANCEL_V22_R1_LOW_PRODUCTIVITY",
+    "run_date_local": "2026-11-02",
+    "automations_disabled": true,
     "queue_mode": "STAGED",
-    "backlog_preserved": true
+    "activation_authorized": false,
+    "seven_tasks_retained": true,
+    "scheduled_slots_remaining_cancelled": true,
+    "writer_required_released_on_exit": true,
+    "diagnostic": "docs/s3-night/S3_NOCHE_V22R1_LOW_UTILIZATION_POSTMORTEM_20261102.md"
   },
   "night_v21": {
     "status": "DOCUMENTED_NOT_RUN",
@@ -165,14 +168,14 @@
     "no_registry_mutation": true
   },
   "night_v22": {
-    "status": "ACTIVE_V22_R1",
+    "status": "CANCELLED_BY_USER",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "test_matrix": "V22-01_TO_19_NOT_RUN",
     "writer_held_wait_minutes": 5,
     "continuation": "SAFE_OPPORTUNITY_BANK",
-    "schedules": "A_B_REPORT_ON_VERIFIED",
+    "schedules": "A_B_REPORT_DISABLED_VERIFIED",
     "catalog": 172,
-    "activation_authorized": true,
+    "activation_authorized": false,
     "review_findings": [
       "RELEASE_WRITER_IMMEDIATELY_ON_EARLY_EXIT",
       "RESEARCH_DEDUP_AND_DURABILITY_GATE",
@@ -193,7 +196,9 @@
       "checkpoint"
     ],
     "start_head": "e068ac2a91e05c9415c33fc802e96589c2c615f8",
-    "opportunity_bank": "docs/s3-night/S3_V22R1_OPPORTUNITY_BANK_20261102.json"
+    "opportunity_bank": "docs/s3-night/S3_V22R1_OPPORTUNITY_BANK_20261102.json",
+    "postmortem": "docs/s3-night/S3_NOCHE_V22R1_LOW_UTILIZATION_POSTMORTEM_20261102.md",
+    "tests": "V22-01_TO_19_NOT_RUN"
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
   "activation_intent": {
