@@ -1,8 +1,8 @@
 # FARO V5 — Noche S3 por bloques dinámicos V1
 
 **Fecha:** 2026-11-03 (Argentina).  
-**Estado:** DISEÑADO / NO ACTIVADO / DOCUMENTO LOCAL.  
-**IMPORTANTE:** Este documento NO fue incorporado a GitHub. La operación de adquisición del writer global fue bloqueada por la herramienta. No tratar este archivo como fuente remota certificada ni como autorización de ejecución.
+**Estado:** PREPARADO EN GITHUB / NO ACTIVADO / SIN HORARIO AUTORIZADO.  
+**IMPORTANTE:** Este documento ya está publicado en la rama `work/s3-night-20261102`. El selector dinámico fue incorporado y su CI de 36 pruebas está verificada (run `41732667534`, SHA `1b71555dea07355b168f62ef6292823a7b6d38e4`). La cola CLOUD permanece `STAGED`, `activation_authorized=false`; su presencia remota **NO autoriza ejecución** ni la campaña física.
 
 ## 1. Misión
 
@@ -122,14 +122,14 @@ En todo conflicto entre instantánea documental y GitHub real: prevalecen HEAD/q
 
 > Continuá FARO V5 S3 desde el checkpoint vivo. Objetivo: terminar todo lo automatizable de S3 y dejar solo pruebas físicas/decisiones humanas. Seguí este protocolo de bloques dinámicos: omití bloques ya verificados y encadená los pendientes mientras haya runtime seguro. En el turno programado, 0–20 desarrollo, 20–27 checkpoint/cierre y 27–30 solo lectura. Respetá la autorización y el corte, writer único CAS, rama S3 y restricciones vigentes. Guardá pruebas/CI/SHAs y liberá tu writer al terminar. No repitas trabajo ni amplíes permisos.
 
-La misión real **no debería duplicar los siete bloques** dentro de cada prompt: usar referencia al archivo canónico y fuente remota verificada tras poder publicarlo de manera segura.
+La misión real **no debería duplicar los siete bloques** dentro de cada prompt: usar referencia al archivo canónico y fuente remota verificada en `work/s3-night-20261102`.
 
 ## 10. Activación en otro chat (NO ejecutar ahora)
 
-1. Recuperar este archivo del adjunto/link de conversación o publicarlo en el repositorio **solo cuando se pueda adquirir el writer de manera autorizada y segura**.
+1. Leer este archivo ya publicado en la rama S3 y cotejar el selector `scripts/v5/faro-night-mission-gate.py --dynamic` con la cola CLOUD real; no deducir autorización de su existencia.
 2. Releer estado en vivo: HEAD, último CI, cola, writer, A/B, watchdog, informe. No asumir el snapshot de arriba.
 3. Acordar nueva ventana de prueba, hora de inicio y corte absoluto; una hora si así se autoriza.
 4. Activar únicamente A y B a 30 minutos de separación; cada una no más frecuente que una vez por hora. Control de cierre antes del cutoff e informe final READ_ONLY después.
 5. No afirmar éxito ni tiempo de desarrollo hasta observar ejecución real y CI vinculada.
 
-**Estado final deseado de esta conversación:** diseño guardado localmente, FARO Noche OFF, sin nueva autorización, sin GitHub writes.
+**Estado preparado observado el 2026-11-03:** protocolo, selector, 36 pruebas y cola CLOUD durable; FARO Noche OFF, sin nueva autorización horaria. La cola y el writer vivos prevalecen sobre cualquier snapshot de este documento.
