@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "NOCHE_A.S3.PILOT.20261103T0748",
-  "token_hash": "99532f17521622059cd1e39a62aa0b03658094bb95521279be6c83045f95ab46",
+  "status": "HELD",
+  "owner": "WATCHDOG.S3.PILOT.20261103T0835",
+  "token_hash": "watchdog-20261103-0835-cas",
   "target_head": "53540dcce1416a2fc6beb17904e00b36b9bceb58",
-  "epoch": 35,
-  "timestamp": 0,
+  "epoch": 36,
+  "timestamp": 1793691300,
   "target_branch": "work/s3-night-20261102"
 }
