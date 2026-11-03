@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "WATCHDOG.S3.PILOT.20261103T0835",
-  "token_hash": "watchdog-20261103-0835-cas",
+  "status": "HELD",
+  "owner": "MANUAL.S3.SIMPLIFY.20261103",
+  "token_hash": "manual-s3-simplify-20261103-v1",
   "target_head": "53540dcce1416a2fc6beb17904e00b36b9bceb58",
-  "epoch": 36,
+  "epoch": 37,
   "timestamp": 0,
-  "target_branch": "work/s3-night-20261102"
+  "target_branch": "work/s3-night-20261102",
+  "purpose": "DURABLE_PROTOCOL_ONLY_NIGHT_OFF"
 }
