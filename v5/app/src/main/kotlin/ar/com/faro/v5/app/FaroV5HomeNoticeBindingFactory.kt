@@ -11,6 +11,7 @@ import ar.com.faro.v5.surface.FaroV5HomeOwnerBinding
 import ar.com.faro.v5.surface.FaroV5HomeReadCoordinator
 import ar.com.faro.v5.surface.FaroV5HomeReadPort
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import java.util.function.BooleanSupplier
 import java.util.function.LongSupplier
 import java.util.function.Supplier
@@ -40,7 +41,7 @@ object FaroV5HomeNoticeBindingFactory {
         activeGeneration: Supplier<String>,
         startupReady: BooleanSupplier,
         clock: LongSupplier,
-        invalidations: Flow<Unit>,
+        invalidations: Flow<Unit> = emptyFlow(),
     ): FaroV5HomeReadPort {
         require(expectedGeneration.isNotBlank())
         return FaroV5HomeReadCoordinator(

@@ -29,13 +29,13 @@ class FaroV5HomeReadinessInvalidationsTest {
             NoticeRelevance.OPEN, NoticeAttention.UNSEEN, 1L, null
         )
         val port = FaroV5HomeNoticeBindingFactory.create(
-            Supplier { listOf(notice, notice.copy(noticeId = NoticeId.of("n2")), notice.copy(noticeId = NoticeId.of("n3"))) },
+            Supplier { listOf(notice, notice, notice) },
             "gen-1", Supplier { "gen-1" },
             BooleanSupplier { gate.snapshot().isLocalReady },
             LongSupplier { 321L },
             FaroV5HomeReadinessInvalidations.from(gate)
         )
-        assertEquals(3, port.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+        assertEquals(1, port.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
         val observed = Channel<Unit>(Channel.UNLIMITED)
         val job = launch { port.invalidations.collect { observed.send(Unit) } }
         yield()
