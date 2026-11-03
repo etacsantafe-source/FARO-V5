@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "manual.s3-onehour-pilot-20261103T0744",
   "token_hash": "c2249775f56ae937865be8623f4ca75932112f379417f8a2406676695ae26fed",
-  "target_head": "d38a95bfb4bdef27a64d24918ae0e71b89617f36",
+  "target_head": "9604508a87ec2c2f674fef067d868c2296ce30f8",
   "epoch": 34,
-  "timestamp": 1793702677,
+  "timestamp": 0,
   "target_branch": "work/s3-night-20261102"
 }
