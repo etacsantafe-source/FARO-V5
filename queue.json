@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "mode": "STAGED",
-  "activation_authorized": false,
-  "authorized_by": "USER_EXPLICIT_20261103_SHORT_PROMPT_ONE_HOUR_PILOT",
-  "phase": "S3_OPEN_SHORT_PROMPT_ONE_HOUR_PILOT",
+  "mode": "ENABLED",
+  "activation_authorized": true,
+  "authorized_by": "USER_EXPLICIT_20261103_NIGHT_OBJECTIVES_V1_ONE_HOUR",
+  "phase": "S3_OPEN_OBJECTIVES_V1_ONE_HOUR",
   "branch": "work/s3-night-20261102",
-  "timezone": "America/Argentina/Cordoba",
-  "hard_stop_at": "2026-11-03T11:31:00-03:00",
+  "timezone": "America/Argentina/Buenos_Aires",
+  "hard_stop_at": "2026-11-03T12:13:38-03:00",
   "next_seq": 9,
   "tasks": [
     {
@@ -424,5 +424,29 @@
     "metrics": "OBSERVATIONAL_NO_FABRICATED_RUNTIME",
     "scheduler_evidence": "PENDING",
     "no_physical": true
+  },
+  "pilot_objectives_v1": {
+    "status": "AUTHORIZED_1H",
+    "pilot_start": "2026-11-03T11:13:38-03:00",
+    "hard_stop_at": "2026-11-03T12:13:38-03:00",
+    "protocol_ref": "docs/s3-night-goals-v1-20261103:docs/s3-night/S3_NIGHT_OBJECTIVES_V1_20261103.md",
+    "functional_branch": "work/s3-night-20261102",
+    "baseline_sha": "b716af557fae164c0b2185e039b0eaf12779e379",
+    "last_ci": {
+      "run_id": 41649873354,
+      "sha": "b716af557fae164c0b2185e039b0eaf12779e379",
+      "conclusion": "failure",
+      "reason": "Kotlin EXPOSED_PARAMETER_TYPE FaroV5HomeReadinessInvalidations.kt line 14 public function exposing FaroV5StartupReadinessGate"
+    },
+    "resume": "S3-A1 fix exact failing compile, run new directed CI SHA/XML, then resume pending ACL/generation invalidation; no duplicate historical work",
+    "slots": {
+      "A": "2026-11-03T11:15:00-03:00",
+      "B": "2026-11-03T11:45:00-03:00",
+      "watchdog": "2026-11-03T12:08:00-03:00",
+      "report": "2026-11-03T12:16:00-03:00"
+    },
+    "metrics": "OBSERVED_ONLY_NO_ESTIMATE",
+    "report_after_cutoff": "READ_ONLY",
+    "restrictions": "S3_ONLY_S2_FROZEN_S4_OFF_APP_V2_OFF_172_UNCHANGED_NO_PHYSICAL_UNTIL_FINAL"
   }
 }
