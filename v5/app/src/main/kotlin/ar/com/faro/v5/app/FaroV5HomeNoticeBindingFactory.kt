@@ -10,6 +10,7 @@ import ar.com.faro.v5.surface.FaroV5HomeIndicatorOwner
 import ar.com.faro.v5.surface.FaroV5HomeOwnerBinding
 import ar.com.faro.v5.surface.FaroV5HomeReadCoordinator
 import ar.com.faro.v5.surface.FaroV5HomeReadPort
+import kotlinx.coroutines.flow.Flow
 import java.util.function.BooleanSupplier
 import java.util.function.LongSupplier
 import java.util.function.Supplier
@@ -39,9 +40,11 @@ object FaroV5HomeNoticeBindingFactory {
         activeGeneration: Supplier<String>,
         startupReady: BooleanSupplier,
         clock: LongSupplier,
+        invalidations: Flow<Unit>,
     ): FaroV5HomeReadPort {
         require(expectedGeneration.isNotBlank())
         return FaroV5HomeReadCoordinator(
+            invalidations = invalidations,
             mapOf(
                 FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
                     expectedCanonicalSource = "notice.read",

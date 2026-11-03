@@ -521,7 +521,8 @@ public final class FaroV5CompositionRoot {
                 graph.generationId,
                 () -> generationStorage().activeGenerationId(),
                 () -> maintenanceRecoveryComplete,
-                System::currentTimeMillis);
+                System::currentTimeMillis,
+                FaroV5HomeReadinessInvalidations.from(startupReadinessGate));
     }
 
     public ConversationWorkspaceReadPort readActiveWorkspacePort() {
