@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "NOCHE_B.OBJECTIVES_V1.20261103T1145",
-  "token_hash": "night-b-objectives-v1-ci-success",
+  "status": "HELD",
+  "owner": "WATCHDOG.OBJECTIVES_V1.20261103T1208",
+  "token_hash": "watchdog-objectives-v1-cutoff-1208",
   "target_head": "9a7d0537138756987bbb4760068b93b7f338160e",
-  "epoch": 52,
-  "timestamp": 0,
+  "epoch": 53,
+  "timestamp": 1793718216000,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "NOCHE_B_CI_PASS_5_OF_5_RELEASED"
+  "purpose": "OBJECTIVES_V1_SAFE_SHUTDOWN"
 }
