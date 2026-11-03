@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "mode": "STAGED",
-  "activation_authorized": false,
-  "authorized_by": "USER_EXPLICIT_20261103_NIGHT_OBJECTIVES_V1_ONE_HOUR",
-  "phase": "S3_DYNAMIC_BLOCKS_PREPARED_NOT_ACTIVE",
+  "mode": "ENABLED",
+  "activation_authorized": true,
+  "authorized_by": "USER_EXPLICIT_20261103_IMMEDIATE_ONE_HOUR_DYNAMIC_V1",
+  "phase": "S3_DYNAMIC_V1_PILOT_1H_RUNNING",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Buenos_Aires",
-  "hard_stop_at": "2026-11-03T12:13:38-03:00",
+  "hard_stop_at": "2026-11-03T21:58:00-03:00",
   "next_seq": 9,
   "tasks": [
     {
@@ -373,7 +373,7 @@
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
   "activation_requires": "VALID_USER_AUTHORIZATION_20261103T0949_TO_1049_ONLY",
-  "starts_at": "2026-11-03T07:44:00-03:00",
+  "starts_at": "2026-11-03T20:58:00-03:00",
   "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
   "authorization_epoch": 28,
   "authorized_scope": "S3_SEVEN_APPROVED_TASKS_S2_FROZEN_S4_OFF_V2_OFF_172_UNCHANGED_8_GUARDADOS_PROVISIONAL",
@@ -535,5 +535,17 @@
       "ci_retained_from_sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
       "run_id": 41732667534
     }
+  },
+  "dynamic_pilot_20261103": {
+    "authorized_by": "USER_EXPLICIT_20261103",
+    "A": "2026-11-03T20:58:00-03:00",
+    "B": "2026-11-03T21:28:00-03:00",
+    "hard_stop": "2026-11-03T21:58:00-03:00",
+    "watchdog": "2026-11-03T21:55:00-03:00",
+    "report_read_only": "2026-11-03T22:01:00-03:00",
+    "code_head_at_activation": "52fb067052266180b964f6e7dcfbff387d1cb928",
+    "no_physical": true,
+    "manual_termux_only_activated_queue": true,
+    "automations_to_enable_after_queue_verification": true
   }
 }
