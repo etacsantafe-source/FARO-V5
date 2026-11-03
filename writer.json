@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.guardados-bounded-review.20261102",
-  "token_hash": "4a5fab135a9833e0b240ba17821a4693c79a2b4ed052102e1d767f96a35251ee",
+  "status": "HELD",
+  "owner": "manual.v22.handoff.20261102",
+  "token_hash": "488380e7fb23d33ee0f0d08dde16c157403f4a88d15a5a0cf8429e351de8bc8c",
   "target_head": "c7716dc0240ce5b78fc6f805bb01f763b52b5f64",
-  "epoch": 25,
-  "timestamp": 0,
+  "epoch": 26,
+  "timestamp": 1793667900,
   "target_branch": "work/s3-night-20261102"
 }
