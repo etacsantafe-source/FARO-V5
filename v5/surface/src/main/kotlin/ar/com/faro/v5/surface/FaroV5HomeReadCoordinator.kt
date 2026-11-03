@@ -1,6 +1,8 @@
 package ar.com.faro.v5.surface
 
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 /**
  * N-022 composition seam, not a store or a new OperationContract.
@@ -37,6 +39,7 @@ data class FaroV5HomeOwnerBinding(
  */
 class FaroV5HomeReadCoordinator(
     private val owners: Map<FaroV5HomeIndicator, FaroV5HomeOwnerBinding>,
+    override val invalidations: Flow<Unit> = emptyFlow(),
 ) : FaroV5HomeReadPort {
     private suspend fun admittedStamp(binding: FaroV5HomeOwnerBinding): String? =
         try {

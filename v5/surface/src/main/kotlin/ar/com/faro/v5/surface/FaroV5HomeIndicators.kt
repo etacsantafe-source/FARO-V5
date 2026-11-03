@@ -22,6 +22,10 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.onStart
 
 /**
  * S3 Inicio: four user-approved indicators. The owner supplies real counts.
@@ -52,6 +56,12 @@ data class FaroV5HomeCount(
 /** Read-only adapter for N-022 home.read. No new operation or source of truth. */
 interface FaroV5HomeReadPort {
     suspend fun readIndicators(): Map<FaroV5HomeIndicator, FaroV5HomeCount>
+
+    /**
+     * Canonical owner generation/ACL changes must invalidate already rendered
+     * counters; the empty compatibility default does not provide that guarantee.
+     */
+    val invalidations: Flow<Unit> get() = emptyFlow()
 }
 
 internal fun faroV5HomeCountText(count: FaroV5HomeCount?): String =
@@ -73,12 +83,21 @@ internal fun FaroV5HomeScreen(
         initialValue = null,
         key1 = readPort,
     ) {
-        value = if (readPort == null) null else try {
-            withContext(Dispatchers.IO) { readPort.readIndicators() }
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (_: Exception) {
-            null
+        if (readPort == null) {
+            value = null
+        } else {
+            // Identity alone cannot reflect revocation while the port lives.
+            // Fail closed on an owner-emitted invalidation before reading again.
+            readPort.invalidations.onStart { emit(Unit) }.collectLatest {
+                value = null
+                value = try {
+                    withContext(Dispatchers.IO) { readPort.readIndicators() }
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (_: Exception) {
+                    null
+                }
+            }
         }
     }
 
