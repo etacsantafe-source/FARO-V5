@@ -6,6 +6,7 @@ on:
     paths:
       - "scripts/v5/faro-night-mission-gate.py"
       - "scripts/v5/test_faro_night_mission_gate.py"
+      - "scripts/v5/test_faro_night_dynamic_blocks.py"
       - ".github/workflows/faro-night-mission-gate.yml"
   workflow_dispatch:
 permissions:
@@ -23,28 +24,28 @@ jobs:
           persist-credentials: false
       - name: Validate mission gate and produce real JUnit XML
         run: |
-          python3 -m py_compile scripts/v5/faro-night-mission-gate.py scripts/v5/test_faro_night_mission_gate.py
+          python3 -m py_compile scripts/v5/faro-night-mission-gate.py scripts/v5/test_faro_night_mission_gate.py scripts/v5/test_faro_night_dynamic_blocks.py
           python3 - <<'PY'
           import unittest
           from pathlib import Path
           import xml.etree.ElementTree as ET
-          suite = unittest.defaultTestLoader.discover("scripts/v5", pattern="test_faro_night_mission_gate.py")
+          suite = unittest.defaultTestLoader.discover("scripts/v5", pattern="test_faro_night*.py")
           result = unittest.TextTestRunner(verbosity=2).run(suite)
           out = Path("night-test-results")
           out.mkdir(exist_ok=True)
           root = ET.Element("testsuite", name="NightMission", tests=str(result.testsRun), failures=str(len(result.failures)), errors=str(len(result.errors)), skipped=str(len(result.skipped)))
           ET.ElementTree(root).write(out / "TEST-FaroNightMissionGate.xml", encoding="utf-8", xml_declaration=True)
-          if result.testsRun != 17 or result.failures or result.errors or result.skipped:
+          if result.testsRun != 36 or result.failures or result.errors or result.skipped:
               raise SystemExit("NIGHT_MISSION_FAIL")
-          print("NIGHT_GATE_XML_PASS 17/17")
+          print("NIGHT_DYNAMIC_XML_PASS 36/36")
           PY
       - name: Verify exact XML
         run: |
           python3 - <<'PY'
           import xml.etree.ElementTree as ET
           root=ET.parse("night-test-results/TEST-FaroNightMissionGate.xml").getroot()
-          assert tuple(int(root.attrib[k]) for k in ("tests","failures","errors","skipped")) == (17,0,0,0)
-          print("NIGHT_GATE_XML_VERIFIED 17/17")
+          assert tuple(int(root.attrib[k]) for k in ("tests","failures","errors","skipped")) == (36,0,0,0)
+          print("NIGHT_DYNAMIC_XML_VERIFIED 36/36")
           PY
       - uses: actions/upload-artifact@v4
         with:
