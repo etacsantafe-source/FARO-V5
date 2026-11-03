@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "NOCHE_B.OBJECTIVES_V1.20261103T1145",
   "token_hash": "night-b-objectives-v1-20261103-1145",
-  "target_head": "82c9b869da28ed02160e99bd65ce706d795451d4",
+  "target_head": "9a7d0537138756987bbb4760068b93b7f338160e",
   "epoch": 50,
-  "timestamp": 1793716930621,
+  "timestamp": 0,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "FIX_JVM_FROM_EXPOSED_METHOD_CI_41652540734"
+  "purpose": "NOCHE_B_FIX_COMMITTED_CI_PENDING_RELEASED"
 }
