@@ -112,9 +112,9 @@
       "depends_on": [
         "S3-P00"
       ],
-      "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4_ACCESSIBILITY_JVM",
+      "status": "WAIT_CI",
       "claimed_by": null,
-      "head_expected": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
+      "head_expected": "82c9b869da28ed02160e99bd65ce706d795451d4",
       "attempts": 5,
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "action_run_ids": [
@@ -125,9 +125,10 @@
         41543680244,
         41546415283,
         41546676175,
-        41549981598
+        41549981598,
+        41652540734
       ],
-      "checkpoint": "NOCHE_A_2100_CLOSED_A11Y_45_OF_45",
+      "checkpoint": "OBJECTIVES_V1_MANUAL_FIX_CI_41652540734_IN_PROGRESS",
       "evidence": {
         "branch_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
         "code_commits": [
@@ -214,7 +215,18 @@
           "xml": "45/45_VERIFIED_LOG",
           "scope": "SURFACE_JVM_ONLY"
         },
-        "X12": "PARTIAL_A11Y_JVM_LABEL_ONLY_NO_ANDROID_SEMANTICS_OR_PHYSICAL"
+        "X12": "PARTIAL_A11Y_JVM_LABEL_ONLY_NO_ANDROID_SEMANTICS_OR_PHYSICAL",
+        "pilot_v1_manual_ci_hotfix": {
+          "commit": "82c9b869da28ed02160e99bd65ce706d795451d4",
+          "ci_run_id": 41652540734,
+          "ci_status": "IN_PROGRESS",
+          "ci_conclusion": "NOT_YET_VERIFIED",
+          "xml": "NOT_YET_VERIFIED",
+          "file": "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HomeReadinessInvalidations.kt",
+          "change": "fun from -> internal fun from; existing JVM test preserved",
+          "manual_not_AB": true,
+          "remaining": "ACL/generation independent invalidations + N031/N015 real owners + Guardados bounded approval"
+        }
       }
     },
     {
@@ -448,6 +460,17 @@
     "metrics": "OBSERVED_ONLY_NO_ESTIMATE",
     "report_after_cutoff": "READ_ONLY",
     "restrictions": "S3_ONLY_S2_FROZEN_S4_OFF_APP_V2_OFF_172_UNCHANGED_NO_PHYSICAL_UNTIL_FINAL",
-    "slots_actual_note": "A scheduled at 11:17 AR after 11:15 update rejected as past; B 11:45 AR; exact hard cutoff 12:13:38 AR remains unchanged."
+    "slots_actual_note": "A scheduled at 11:17 AR after 11:15 update rejected as past; B 11:45 AR; exact hard cutoff 12:13:38 AR remains unchanged.",
+    "manual_hotfix": {
+      "commit": "82c9b869da28ed02160e99bd65ce706d795451d4",
+      "ci_run_id": 41652540734,
+      "ci_status": "IN_PROGRESS",
+      "ci_conclusion": "NOT_YET_VERIFIED",
+      "xml": "NOT_YET_VERIFIED",
+      "file": "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HomeReadinessInvalidations.kt",
+      "change": "fun from -> internal fun from; existing JVM test preserved",
+      "manual_not_AB": true,
+      "remaining": "ACL/generation independent invalidations + N031/N015 real owners + Guardados bounded approval"
+    }
   }
 }
