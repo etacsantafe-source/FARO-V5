@@ -1,5 +1,5 @@
 # FARO V5 — Noche S3 SIMPLIFICADA (misión única encadenada)
-Fecha: 2026-11-03. Estado: **PREPARADA / NOCHE OFF / SIN ACTIVACIÓN NI PILOTO NUEVO**.
+Fecha: 2026-11-03. Estado histórico al 03/11: **PREPARADA / OFF**. El estado operativo vigente se determina exclusivamente leyendo la cola CLOUD y las automatizaciones en vivo.
 
 ## Decisión
 Partir de la Noche S3 que produjo código y CI el 02/11, antes de la regresión de V2.2-R1. Los intervalos observados fueron aproximadamente 6+15+10+7 minutos de cuatro turnos (38/80 = 47,5% de ventana, NO productividad útil cronometrada). Los pilotos A/B de V2.2-R1 terminaron en segundos con 0 commits nuevos. No llamar V2.0 a la versión productiva sin verificar la etiqueta. No borrar ni sobrescribir los protocolos históricos.
@@ -32,3 +32,11 @@ S3-A1 PARTIAL. En piloto se produjo código/test `e7bf51be54f6d1f04de912f2a72658
 ## Handoff canónico
 Puntero: `docs/v5/FARO_CONTINUITY_POINTER.json`; estado: `docs/s3-night/RUN_STATE.json`; cola en ref `faro-v5-night-queue:queue.json`; writer ref `faro-v5-writer-lock:writer.json`. La cola/ref viva prevalece sobre instantáneas documentales desactualizadas.
 **Estado esperado después de este cambio: Noche OFF; cola STAGED; A/B OFF; writer RELEASED; ningún horario nuevo aprobado.**
+
+## Corrección operativa — piloto inmediato de una hora (03/11)
+- **Solo una orden breve en A/B:** recuperar esta misión, comprobar autorización/cola/writer/HEAD, continuar la siguiente unidad READY de S3 y entregar código+test+evidencia o bloqueo técnico comprobable; A y B difieren solo en identidad.
+- No incrustar otra copia de este protocolo en cada prompt ni repetir auditorías. Seguir las etapas de esta misión como fuente única. No confundir una explicación narrativa con progreso.
+- Al escribir, usar una operación mínima sobre archivos concretos con control de concurrencia. Un rechazo de seguridad no se soluciona deshabilitando controles, ampliando permisos o repitiendo a ciegas. Reconciliar el estado; seguir con unidad independiente permitida si existe o detener mutaciones.
+- **Primera unidad:** conexión real de invalidación de autoridad desde el owner de FaroV5HomeNoticeBindingFactory.kt/FaroV5CompositionRoot.java; prueba de aviso 3 → revocación → «No disponible» en el mismo readPort; los 46/46 anteriores no certifican esa conexión.
+- Piloto de 60 minutos únicamente con nueva autorización explícita; inicio/corte vigentes en cola CLOUD. Producción nueva excluye commits de coordinación o documentación. No garantizar duración de ejecución: medir inicio/fin reales y GitHub Actions por SHA/XML.
+- Esta sección es una mejora del protocolo, **no demuestra que desapareció el bloqueo de herramientas** ni autoriza S4/V2, cambios en main, aplicaciones pagas, secretos, pruebas físicas o el catálogo +8.
