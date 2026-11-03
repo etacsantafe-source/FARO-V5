@@ -1,11 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.DYNAMIC.DOCSYNC.20261103T1944",
-  "token_hash": "5233444cb338b019a029743042518f91023920b6b98be51130b522f232cf3568",
-  "target_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
-  "target_branch": "work/s3-night-20261102",
-  "epoch": 60,
-  "timestamp": 1793745922,
-  "purpose": "SYNC_DURABLE_S3_DYNAMIC_PROTOCOL_TO_LIVE_STATE_NO_ACTIVATION"
-}
+{"epoch": 61, "owner": "FARO.S3.USER.PILOT.20261103", "schema": 1, "status": "HELD", "target_branch": "work/s3-night-20261102", "target_head": "52fb067052266180b964f6e7dcfbff387d1cb928", "timestamp": 1793750020, "token_hash": "98fe10e7c88a392c33c4336edd2006d8ee8b215235faffd6cc78dfa1113fc204"}
