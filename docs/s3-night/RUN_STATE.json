@@ -8,17 +8,17 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "PAUSED_BY_USER",
-  "authorization": "EXPLICIT_USER_2026-11-02",
-  "deadline": "2026-11-02T22:00:00-03:00",
+  "night": "AUTHORIZED_PRESTART_V22_R1",
+  "authorization": "USER_EXPLICIT_CHAT_2026-11-02_22_38_START_23_CUTOFF_07",
+  "deadline": "2026-11-03T07:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "queue_ref": "refs/heads/faro-v5-night-queue",
   "night_slots": [
-    "A:19:00/20:00/21:00",
-    "B:19:30/20:30/21:30"
+    "A:2026-11-02T23:00:00-03:00+HOURLYx8",
+    "B:2026-11-02T23:30:00-03:00+HOURLYx8"
   ],
-  "slots_status": "A_B_AND_REPORT_DISABLED_CONFIRMED",
+  "slots_status": "PENDING_SCHEDULE_VERIFY",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -139,8 +139,8 @@
     "time_breakdown": "NO_REGISTRADO",
     "writer_epoch": 23
   },
-  "automation_authorization": false,
-  "queue_mode": "STAGED",
+  "automation_authorization": true,
+  "queue_mode": "PREPARED_ENABLE_PENDING",
   "queue_ref_sha": "8337f8949fb31588a4eb725ee0112d11fd86f9e1",
   "cancellation": {
     "source": "USER_REQUEST_CANCEL_SCHEDULED_TASKS_20261102",
@@ -165,20 +165,44 @@
     "no_registry_mutation": true
   },
   "night_v22": {
-    "status": "PREPARED_R1_NOT_ACTIVE",
+    "status": "AUTHORIZED_PRESTART_R1",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "test_matrix": "V22-01_TO_19_NOT_RUN",
     "writer_held_wait_minutes": 5,
     "continuation": "SAFE_OPPORTUNITY_BANK",
-    "schedules": "OFF",
+    "schedules": "PENDING_ENABLE",
     "catalog": 172,
-    "activation_authorized": false,
+    "activation_authorized": true,
     "review_findings": [
       "RELEASE_WRITER_IMMEDIATELY_ON_EARLY_EXIT",
       "RESEARCH_DEDUP_AND_DURABILITY_GATE",
       "NO_GIT_WRITES_AFTER_DEADLINE",
       "SEPARATE_WINDOW_RUNTIME_OUTPUT_METRICS"
     ],
-    "scheduler_tests": "NOT_RUN"
+    "scheduler_tests": "NOT_RUN",
+    "authorized_start": "2026-11-02T23:00:00-03:00",
+    "authorized_until": "2026-11-03T07:00:00-03:00",
+    "window_minutes": 20,
+    "metrics": [
+      "productive_0_20_utilization",
+      "delivered_runtime_utilization",
+      "verified_units_and_actionable_findings",
+      "wait_writer",
+      "wait_ci",
+      "early_release",
+      "checkpoint"
+    ],
+    "start_head": "e068ac2a91e05c9415c33fc802e96589c2c615f8"
+  },
+  "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
+  "activation_intent": {
+    "new_scope": "S3_ONLY_FROM_EXISTING_SEVEN_TASKS",
+    "previous_cancellation_retained": true,
+    "manual_or_parallel_writer": "NO",
+    "night_instructions": "Protocolo V2.2-R1 prevalece. Investigar V4.4 y oficiales READ_ONLY con hipótesis, proteger gates, encadenar oportunidades seguras, conservar SHA/XML PASS, una sola campaña física al cerrar S3.",
+    "deadline": "2026-11-03T07:00:00-03:00",
+    "expected_report": "2026-11-03T07:10:00-03:00",
+    "revalidate_writer_and_cloud_queue_every_turn": true,
+    "guards": "NO_S2_S4_MAIN_V44_V2_APP_PAID_API_172_CATALOG_8_GUARDADOS_UNAPPROVED"
   }
 }
