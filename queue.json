@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "mode": "ENABLED",
-  "activation_authorized": true,
+  "mode": "STAGED",
+  "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_20261103_SHORT_PROMPT_ONE_HOUR_PILOT",
   "phase": "S3_OPEN_SHORT_PROMPT_ONE_HOUR_PILOT",
   "branch": "work/s3-night-20261102",
