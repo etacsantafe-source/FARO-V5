@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "manual.guardados-bounded-review.20261102",
   "token_hash": "4a5fab135a9833e0b240ba17821a4693c79a2b4ed052102e1d767f96a35251ee",
-  "target_head": "6e4fbdf457eaea18489e66811295001fd69973c8",
+  "target_head": "c7716dc0240ce5b78fc6f805bb01f763b52b5f64",
   "epoch": 25,
-  "timestamp": 1793666286,
+  "timestamp": 0,
   "target_branch": "work/s3-night-20261102"
 }
