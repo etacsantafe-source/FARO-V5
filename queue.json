@@ -2,11 +2,11 @@
   "schema": 1,
   "mode": "ENABLED",
   "activation_authorized": true,
-  "authorized_by": "USER_2026_11_03_FULL_NIGHT",
-  "phase": "S3_OPEN_NIGHT_PAUSED",
+  "authorized_by": "USER_EXPLICIT_CHAT_2026_11_03_1H_IMMEDIATE_PILOT",
+  "phase": "S3_OPEN_ONE_HOUR_PILOT",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Cordoba",
-  "hard_stop_at": "2026-11-04T07:00:00-03:00",
+  "hard_stop_at": "2026-11-03T08:44:00-03:00",
   "next_seq": 9,
   "tasks": [
     {
@@ -302,11 +302,7 @@
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
   "last_committed_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
-  "night_schedule": {
-    "A": "2026-11-02T23:00:00-03:00 RRULE FREQ=HOURLY COUNT=8",
-    "B": "2026-11-02T23:30:00-03:00 RRULE FREQ=HOURLY COUNT=8",
-    "report": "2026-11-03T07:10:00-03:00 READ_ONLY"
-  },
+  "night_schedule": "ONE_HOUR_PILOT_A_RUN_NOW_B_0815_WATCHDOG_0835_REPORT_0845",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
   "app_v2": false,
   "s4": false,
@@ -352,8 +348,8 @@
     "reopen_requires_new_explicit_user_authorization": true
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
-  "activation_requires": "NEW_USER_AUTHORIZATION_2026_11_03",
-  "starts_at": "2026-11-03T23:00:00-03:00",
+  "activation_requires": "NEW_EXPLICIT_PILOT_AUTHORIZED_START_20261103T0744_STOP_0844",
+  "starts_at": "2026-11-03T07:44:00-03:00",
   "protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
   "authorization_epoch": 28,
   "authorized_scope": "S3_SEVEN_APPROVED_TASKS_S2_FROZEN_S4_OFF_V2_OFF_172_UNCHANGED_8_GUARDADOS_PROVISIONAL",
@@ -390,5 +386,20 @@
     "report_at": "2026-11-03T07:10:00-03:00",
     "caveat": "next_run_time not provided by dashboard; enabled flag and recurrence verified"
   },
-  "cancelled_at_local": "2026-11-02T23:49:00-03:00"
+  "cancelled_at_local": "2026-11-02T23:49:00-03:00",
+  "one_hour_pilot": {
+    "start": "2026-11-03T07:44:00-03:00",
+    "hard_stop": "2026-11-03T08:44:00-03:00",
+    "source": "USER_20261103_IMMEDIATE_1H_TEST",
+    "branch": "work/s3-night-20261102",
+    "baseline_head": "d38a95bfb4bdef27a64d24918ae0e71b89617f36",
+    "A": "6ae9072890248191b886a790cf456be6",
+    "B": "6ae9072a7b6c8191b9e107fe6d6c6940",
+    "watchdog": "6ae9b51b2ac88191833cb7db6f9f5ed0",
+    "report": "6ae9073eccd08191b88aec776771ca9e",
+    "unit": "OPP-A1-ADV",
+    "target": "Test/correct stale Home notices when generation revoked",
+    "evidence": "new code+test+real GitHub CI SHA/XML or novel durable blocker; report-only=FAIL",
+    "preserve_tasks": true
+  }
 }
