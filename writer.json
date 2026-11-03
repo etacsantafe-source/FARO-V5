@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.DYNAMIC.DOCSYNC.20261103T1944",
   "token_hash": "5233444cb338b019a029743042518f91023920b6b98be51130b522f232cf3568",
   "target_head": "1b71555dea07355b168f62ef6292823a7b6d38e4",
   "target_branch": "work/s3-night-20261102",
   "epoch": 60,
-  "timestamp": 1793745842,
+  "timestamp": 1793745922,
   "purpose": "SYNC_DURABLE_S3_DYNAMIC_PROTOCOL_TO_LIVE_STATE_NO_ACTIVATION"
 }
