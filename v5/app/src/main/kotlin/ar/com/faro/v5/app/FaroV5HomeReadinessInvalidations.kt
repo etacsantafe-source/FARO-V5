@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
  */
 object FaroV5HomeReadinessInvalidations {
     @JvmStatic
+    @JvmName("from")
     internal fun from(gate: FaroV5StartupReadinessGate): Flow<Unit> = callbackFlow {
         val listener = FaroV5StartupReadinessListener { trySend(Unit) }
         gate.addListener(listener)
