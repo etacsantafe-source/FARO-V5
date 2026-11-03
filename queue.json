@@ -357,15 +357,14 @@
   "starts_at": "2026-11-02T23:00:00-03:00",
   "protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
   "authorization_epoch": 28,
-  "authorization_head": "d780b305faa3566d4042d872ed699bcefe0a425b",
   "authorized_scope": "S3_SEVEN_APPROVED_TASKS_S2_FROZEN_S4_OFF_V2_OFF_172_UNCHANGED_8_GUARDADOS_PROVISIONAL",
   "priority": "MAXIMIZE_S3_SAFE_PROGRESS_SINGLE_PHYSICAL_CAMPAIGN_AT_END",
   "initial_opportunities": [
+    "OPP-A1-OWNER",
     "OPP-N031",
     "OPP-N015",
-    "OPP-GUARDADOS",
-    "OPP-A2",
-    "OPP-A1"
+    "OPP-A1-ADV",
+    "OPP-GUARDADOS"
   ],
   "test_matrix_v22": "V22-01_TO_19_NOT_RUN",
   "report_metrics": [
@@ -377,5 +376,19 @@
     "checkpoint",
     "early_release",
     "NO_REGISTRADO_WHEN_MISSING"
-  ]
+  ],
+  "initial_code_head": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
+  "head_validation_policy": "ALWAYS_REVALIDATE_ACTUAL_BRANCH_HEAD_BEFORE_WRITE; AUTHORIZATION_IS_TIME_SCOPE_NOT_FROZEN_HEAD",
+  "opportunity_bank_path": "docs/s3-night/S3_V22R1_OPPORTUNITY_BANK_20261102.json",
+  "schedules_verified": {
+    "A": true,
+    "B": true,
+    "report": true,
+    "verified_from": "Automations.peek",
+    "checked_at": "2026-11-02T22:44:00-03:00",
+    "A_count": 8,
+    "B_count": 8,
+    "report_at": "2026-11-03T07:10:00-03:00",
+    "caveat": "next_run_time not provided by dashboard; enabled flag and recurrence verified"
+  }
 }
