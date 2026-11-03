@@ -27,7 +27,7 @@
     "authorized_until": "2026-11-03T07:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "PENDING_SCHEDULE_VERIFY",
+    "status": "CLOUD_ENABLED_SCHEDULES_PENDING_VERIFY",
     "A_id": "6ae9072890248191b886a790cf456be6",
     "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
     "final_id": "6ae9073eccd08191b88aec776771ca9e",
@@ -41,7 +41,7 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
   "next": "After automation verification, work S3-A1 real owners/isolated safe work via five opportunity bank; V22 acceptance NOT_RUN until evidence; cutoff 2026-11-03 07:00 AR; one physical campaign at S3 end.",
-  "checkpoint_status": "S3_A1_PARTIAL_GUARDADOS_PROVISIONAL_NIGHT_V22_R1_PREPARED_OFF",
+  "checkpoint_status": "S3_A1_PARTIAL_NIGHT_V22R1_APPROVED_CLOUD_ENABLED_WRITER_RELEASE_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
   "last_code_sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
@@ -54,7 +54,7 @@
     "approval": "REVIEW_ONLY_NO_CATALOG_APPROVAL"
   },
   "night_v22": {
-    "status": "AUTHORIZED_PRESTART_NOT_RUNNING",
+    "status": "AUTHORIZED_CLOUD_ENABLED_SCHEDULES_PENDING_VERIFY",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
     "acceptance": "V22-01_TO_19_NOT_RUN",
     "principle": "Continue useful authorized work or directed read-only investigation until productive phase ends; never forced duration",
@@ -64,6 +64,7 @@
     "review_section": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
     "cutoff": "2026-11-03T07:00:00-03:00",
     "first_slot": "2026-11-02T23:00:00-03:00",
-    "report_at": "2026-11-03T07:10:00-03:00"
+    "report_at": "2026-11-03T07:10:00-03:00",
+    "opportunity_bank": "docs/s3-night/S3_V22R1_OPPORTUNITY_BANK_20261102.json"
   }
 }
