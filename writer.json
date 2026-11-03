@@ -1,10 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "manual.v22.handoff.20261102",
-  "token_hash": "488380e7fb23d33ee0f0d08dde16c157403f4a88d15a5a0cf8429e351de8bc8c",
-  "target_head": "ed88637f6661bf393af056c2ef3933be4566fcaa",
-  "epoch": 26,
-  "timestamp": 0,
-  "target_branch": "work/s3-night-20261102"
-}
+{"schema":1,"status":"HELD","owner":"manual.v22.final-audit.20261102","token_hash":"fe4de7412d53ab17cb5392cefb018e7f1a47b9f0a623c84d6e7f08ac152b6630","target_head":"ed88637f6661bf393af056c2ef3933be4566fcaa","epoch":27,"timestamp":1793667900,"target_branch":"work/s3-night-20261102"}
