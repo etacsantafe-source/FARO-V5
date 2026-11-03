@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
+  "status": "HELD",
   "owner": "NOCHE_B.OBJECTIVES_V1.20261103T1145",
-  "token_hash": "night-b-objectives-v1-20261103-1145",
+  "token_hash": "night-b-objectives-v1-checkpoint",
   "target_head": "9a7d0537138756987bbb4760068b93b7f338160e",
-  "epoch": 50,
-  "timestamp": 0,
+  "epoch": 51,
+  "timestamp": 1793716977037,
   "target_branch": "work/s3-night-20261102",
-  "purpose": "NOCHE_B_FIX_COMMITTED_CI_PENDING_RELEASED"
+  "purpose": "CHECKPOINT_CI_41656343364"
 }
