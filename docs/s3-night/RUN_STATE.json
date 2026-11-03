@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Next chat: recover V2.2 protocol, verify writer RELEASED/queue STAGED/schedules OFF, obtain new start/deadline and activate only upon authorization. A1 partial; Guardados +8 candidate not approved.",
+  "next": "New chat: recover V2.2-R1, read live writer/queue/schedules/HEAD; plan tests V22-01..19, get new hour and absolute deadline before enabling. Noche remains OFF; S3 A1 PARTIAL, catalog 172.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -165,13 +165,20 @@
     "no_registry_mutation": true
   },
   "night_v22": {
-    "status": "PREPARED_NOT_ACTIVE",
+    "status": "PREPARED_R1_NOT_ACTIVE",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
-    "test_matrix": "V22-01_TO_15_NOT_RUN",
+    "test_matrix": "V22-01_TO_19_NOT_RUN",
     "writer_held_wait_minutes": 5,
     "continuation": "SAFE_OPPORTUNITY_BANK",
     "schedules": "OFF",
     "catalog": 172,
-    "activation_authorized": false
+    "activation_authorized": false,
+    "review_findings": [
+      "RELEASE_WRITER_IMMEDIATELY_ON_EARLY_EXIT",
+      "RESEARCH_DEDUP_AND_DURABILITY_GATE",
+      "NO_GIT_WRITES_AFTER_DEADLINE",
+      "SEPARATE_WINDOW_RUNTIME_OUTPUT_METRICS"
+    ],
+    "scheduler_tests": "NOT_RUN"
   }
 }

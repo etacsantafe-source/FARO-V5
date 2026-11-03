@@ -37,8 +37,8 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "NO_NIGHT_EXECUTION_WITHOUT_NEW_APPROVAL;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN",
-  "next": "Noche V2.2 documented, OFF; queue STAGED, writer RELEASED required, new schedule and human deadline authorization only in next chat. S3 A1 partial, other dependencies pending, catalog 172.",
-  "checkpoint_status": "S3_A1_PARTIAL_GUARDADOS_REVIEWED_NIGHT_V22_PREPARED_OFF",
+  "next": "Recover V2.2-R1 final chat audit from its protocol; 19 tests NOT_RUN, no scheduler activation, new deadline and scope required in next chat. Writer early release, safe opportunities, cutoff cleanup clarified. A1 partial; Guardados +8 unapproved; catalog 172.",
+  "checkpoint_status": "S3_A1_PARTIAL_GUARDADOS_PROVISIONAL_NIGHT_V22_R1_PREPARED_OFF",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
   "last_code_sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
@@ -51,11 +51,13 @@
     "approval": "REVIEW_ONLY_NO_CATALOG_APPROVAL"
   },
   "night_v22": {
-    "status": "PREPARED_NOT_ACTIVE",
+    "status": "PREPARED_R1_NOT_ACTIVE",
     "document": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md",
-    "acceptance": "V22-01..15_NOT_RUN",
+    "acceptance": "V22-01_TO_19_NOT_RUN",
     "principle": "Continue useful authorized work or directed read-only investigation until productive phase ends; never forced duration",
     "wait_rule": "Writer HELD => up to five minutes useful READ_ONLY and recheck, no takeover; CI running != writer held",
-    "requires_fresh_authorization": true
+    "requires_fresh_authorization": true,
+    "review": "V2.2-R1 final gap closure: release writer early; anti-duplicate useful research; cutoff fail closed; metrics separated",
+    "review_section": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren"
   }
 }

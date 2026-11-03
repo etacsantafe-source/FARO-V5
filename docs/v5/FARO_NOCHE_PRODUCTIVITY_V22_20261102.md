@@ -61,3 +61,39 @@ V22-01 PASS temprano encadena siguiente READY; V22-02 bloqueo A1 conduce a N031/
 2. Validar sin tocar funcionalidad las pruebas V22-01..15 o declarar cuales permanecen NOT_RUN. La revisión documental no certifica el scheduler.
 3. Pedir autorización explícita **nueva** de horario de inicio, alcance y corte. Habilitar cola por CAS y A/B/informe solo con ese consentimiento; nunca reciclar old deadline.
 4. Verificar writer RELEASED al cierre y que main/V4.4, S2, catálogo y app V2 permanezcan intactos.
+
+## Revisión final del chat — V2.2-R1 · 02/11/2026 (prioridad sobre reglas V2.2 anteriores cuando difieren)
+**Estado: PREPARADO / NO ACTIVADO.** La revisión detectó cuatro riesgos operativos y los cerró **como especificación**. Ningún cambio de scheduler ni prueba de concurrencia queda certificado por documentarlo.
+
+### F1 — Liberación temprana y vida útil del writer
+- La ventana 25–27 es el **último tramo previsto** para guardar y liberar, NO una obligación de mantener el writer HELD hasta el minuto 25.
+- Si la automatización está por terminar anticipadamente, terminó su trabajo de escritura o queda solamente CI/lectura, **guardar el checkpoint y liberar inmediatamente el writer PROPIO mediante CAS**; relectura obligatoria de `RELEASED`. No mantener el candado ocioso mientras GitHub Actions corre.
+- Si dentro de 0–20 aparece otra tarea de escritura autorizada después de liberar: **releer HEAD/ref/cola, adquirir writer nuevo con CAS y nueva identidad/epoch antes de cualquier mutación**. Jamás reutilizar el permiso/HEAD de la sesión liberada.
+- Un cierre por límite del runtime puede interrumpir antes del checkpoint o de la liberación: **no prometer limpieza garantizada**. Si queda `HELD`, bloquear siguientes escritores y requerir recuperación segura con evidencia; no hacer takeover por reloj.
+- No iniciar una unidad nueva si no cabe razonablemente antes del límite de trabajo/corte dejando margen para cierre y liberación. Si empezó tarde y ya pasó minuto 20: SOLO cierre/recuperación, no nuevos commits.
+
+### F2 — Registro de oportunidades sin duplicar trabajo
+- Al empezar, formar banco **ordenado de 3–5 oportunidades concretas** a partir del checkpoint y alcance vigentes; cada una con ID estable, `source_head`, hipótesis específica, dependencia, permisos, riesgo, criterio binario, salida concreta y siguiente paso. No inventar tareas ni promover dependencias.
+- Antes de investigar, buscar en `RUN_STATE`, cola y artefactos la **misma hipótesis en el mismo alcance/SHA**; si ya fue resuelta, descartar o formular hipótesis nueva. Registrar `DONE_VERIFIED`, `BLOCKED` o `RESEARCH_ONLY` con evidencia verificable, no solo tiempo empleado.
+- Investigación mientras otro writer está HELD: **estrictamente READ_ONLY**; no escribir checkpoint ni reclamar reserva de tarea global. Para que no se pierda, entregar al cierre un hallazgo estructurado en el informe/handoff del turno; hacerlo durable en GitHub **solamente después de recuperar exclusividad** y dentro de autorización vigente. No llamar `HANDOFF_CLEAN` a un hallazgo no persistido.
+- Si no hay trabajo verificablemente útil, cerrar temprano declarando causa; no producir auditorías circulares, repositorios paralelos ni commits decorativos para alcanzar porcentajes.
+
+### F3 — Corte, cancelación y cola CLOUD: no depender de escrituras posteriores
+- **Cierre normal**: antes del corte autorizado, terminar escrituras, dejar cola STAGED/authorization=false por CAS, registrar CI en vuelo sin cancelarla, liberar writer propio y verificar relecturas. Detener A/B e informe programados para ese permiso, sin alterar históricos.
+- **Informe final después del corte**: READ_ONLY, sin Git writes ni nuevas Actions. Si una caída/cancelación dejó cola ENABLED, la fecha vencida y las verificaciones `activation_authorized`/deadline de cada turno deben garantizar fail-closed; reportar pendiente de recuperación, **NO modificar Git después del corte sin autorización independiente**.
+- Cancelación inmediata del usuario: detener nuevas ejecuciones, deshabilitar A/B y documentar riesgo; cambiar cola por CAS solo si existe autorización segura de cancelación, sin robar writer de otro owner ni dar por hecha limpieza no observada. Toda tarea nueva exige aprobación de horario/corte y habilitación explícita de cola.
+- Distinguir bloqueo por writer HELD, CI RUNNING y fallo GitHub/API incierto. En efecto incierto NO reintentar escritura a ciegas.
+
+### F4 — Métricas y diagnóstico honesto
+- Informar tres números separados: **ocupación útil de ventana 0–20**, **utilización del runtime realmente entregado** y **unidades/hallazgos útiles con evidencia**. Los primeros dos pueden diferir mucho si ChatGPT finaliza una sesión temprano.
+- Si se dedicaron 7 minutos de código y 6 de investigación útil, registrar ambos, pero jamás atribuir los 7 minutos restantes a trabajo que la plataforma no ejecutó.
+- Reportar writer espera, CI espera y tiempo de cierre sin doble contarlos. Marcas ausentes = `NO_REGISTRADO`; no clasificar como `PASS` un trabajo `SPEC_ONLY` o `NOT_RUN`.
+
+### Gates dirigidos añadidos, pendientes (NO_RUN)
+- **V22-16:** final anticipado libera writer inmediatamente sin esperar :25, revalida ref y permite recuperación desde nuevo epoch.
+- **V22-17:** CI en vuelo no mantiene HELD sin escrituras pendientes; nuevo trabajo exige read/lease nuevo y HEAD revalidado.
+- **V22-18:** hallazgo de investigación READ_ONLY con writer ajeno nunca genera Git writes ni se registra falsamente como durable; next-turn dedupe por `opportunity_id + source_head`.
+- **V22-19:** corte vencido impide mutaciones de Git aunque la cola quede ENABLED; informe posterior es estrictamente READ_ONLY y registra remediación pendiente.
+
+### Handoff al próximo chat
+Usar este archivo como **contrato V2.2 con la presente revisión R1** y actualizar las plantillas A/B/informe para referirlo. No iniciar Noche ni habilitar la cola hasta recibir un nuevo corte y autorización del usuario. Mantener **7 tareas S3**, A1 parcial, S2 8/8, app V2 OFF, S4 OFF, catálogo **172**; +8 Guardados solo `REVIEWED_PROVISIONAL_NOT_APPROVED`. Todas las pruebas V22-01..19 permanecen `NOT_RUN` hasta ejecutarlas con evidencia.
