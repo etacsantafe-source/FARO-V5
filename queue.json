@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "mode": "ENABLED",
-  "activation_authorized": true,
+  "mode": "STAGED",
+  "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_20261103_NIGHT_OBJECTIVES_V1_ONE_HOUR",
   "phase": "S3_OPEN_OBJECTIVES_V1_ONE_HOUR",
   "branch": "work/s3-night-20261102",
@@ -450,7 +450,7 @@
     "no_physical": true
   },
   "pilot_objectives_v1": {
-    "status": "AUTHORIZED_1H",
+    "status": "CLOSED_BY_WATCHDOG",
     "pilot_start": "2026-11-03T11:13:38-03:00",
     "hard_stop_at": "2026-11-03T12:13:38-03:00",
     "protocol_ref": "docs/s3-night-goals-v1-20261103:docs/s3-night/S3_NIGHT_OBJECTIVES_V1_20261103.md",
@@ -483,6 +483,7 @@
       "change": "fun from -> internal fun from; existing JVM test preserved",
       "manual_not_AB": true,
       "remaining": "ACL/generation independent invalidations + N031/N015 real owners + Guardados bounded approval"
-    }
+    },
+    "shutdown_at": "2026-11-03T12:08:00-03:00"
   }
 }
