@@ -8,8 +8,8 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "ONE_HOUR_PILOT_RUNNING_CODE_COMMITTED",
-  "authorization": "USER_EXPLICIT_20261103_IMMEDIATE_ONE_HOUR_PILOT",
+  "night": "OFF_SIMPLIFIED_CHAIN_PREPARED",
+  "authorization": "EXPIRED_PILOT_HISTORICAL_NEW_APPROVAL_REQUIRED",
   "deadline": "2026-11-03T08:44:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
   "writer_ref": "refs/heads/faro-v5-writer-lock",
@@ -18,7 +18,7 @@
     "A:2026-11-02T23:00:00-03:00+HOURLYx8",
     "B:2026-11-02T23:30:00-03:00+HOURLYx8"
   ],
-  "slots_status": "A_B_AND_REPORT_DISABLED_CONFIRMED",
+  "slots_status": "A_B_DISABLED_NO_CURRENT_AUTHORIZATION",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "A committed Home invalidation Flow and new test SHA e7bf51be54f6; run 41622566964 in progress; avoid duplicate CI. B to examine actual owner-generation event and implement verified binding if safe. Hard stop 08:44.",
+  "next": "NEW CHAT: read simplified mission + live queue/writer/HEAD; discuss fresh start/cutoff before enabling A/B. Resume S3-A1 binding without duplicating 46/46.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -139,8 +139,8 @@
     "time_breakdown": "NO_REGISTRADO",
     "writer_epoch": 23
   },
-  "automation_authorization": true,
-  "queue_mode": "ENABLED",
+  "automation_authorization": false,
+  "queue_mode": "STAGED",
   "queue_ref_sha": "ca34758121c3385989aca84ad67ee47efe74143c",
   "cancellation": {
     "reason": "USER_EXPLICIT_CANCEL_V22_R1_LOW_PRODUCTIVITY",
@@ -236,7 +236,7 @@
     "future_authorization_required": true
   },
   "recovery_night": {
-    "status": "ACTIVE_SCHEDULED_VERIFIED",
+    "status": "SUPERSEDED_HISTORICAL_DISABLED",
     "starts_at": "2026-11-03T23:00:00-03:00",
     "hard_stop_at": "2026-11-04T07:00:00-03:00",
     "timezone": "America/Argentina/Cordoba",
@@ -260,7 +260,7 @@
     "activation_authorized": true
   },
   "immediate_pilot": {
-    "status": "A_CODE_TEST_COMMITTED_CI_IN_PROGRESS",
+    "status": "CLOSED_WATCHDOG_NIGHT_OFF",
     "start": "2026-11-03T07:44:00-03:00",
     "hard_stop": "2026-11-03T08:44:00-03:00",
     "A_id": "6ae9072890248191b886a790cf456be6",
@@ -274,9 +274,23 @@
     "pass_criteria": "new code/test verified CI or novel durable blocker; report alone insufficient",
     "A_code_sha": "e7bf51be54f6d1f04de912f2a72658b4c148696d",
     "A_action_run_id": 41622566964,
-    "A_action_status": "IN_PROGRESS_CI_XML_PENDING",
+    "A_action_status": "SUCCESS_46_OF_46_VERIFIED_WATCHDOG",
     "A_physical": "NOT_RUN",
     "remaining_owner_event_binding": "NOT_IMPLEMENTED_YET",
-    "note": "JVM regression contract + UI flow invalidation added, active owner factory does not yet emit invalidations"
+    "note": "JVM regression contract + UI flow invalidation added, active owner factory does not yet emit invalidations",
+    "A_B_scheduled_new_commits": 0,
+    "watchdog_note": "A 40.0 seconds; B 34.3 seconds; zero new code; one separate manual code/test commit e7bf51be."
+  },
+  "night_s3_simplified": {
+    "status": "PREPARED_OFF_UNTESTED",
+    "protocol": "docs/s3-night/S3_NIGHT_SIMPLIFIED_CHAIN_20261103.md",
+    "mode": "ONE_CHAINED_MISSION_SHARED_BY_A_B",
+    "writer_epoch_acquired_for_documentation": 37,
+    "queue": "STAGED",
+    "activation_authorized": false,
+    "requires_new_user_window": true,
+    "app_v2": "OFF",
+    "s4": "OFF",
+    "code_changes": false
   }
 }

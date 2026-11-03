@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-03",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_IMMEDIATE_PILOT_PREPARING",
+  "phase": "S3_OPEN_NIGHT_OFF",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -23,18 +23,18 @@
     "no_auto_takeover": true
   },
   "automation": {
-    "activation_authorized": true,
-    "authorized_until": "2026-11-03T08:44:00-03:00",
+    "activation_authorized": false,
+    "authorized_until": null,
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "ONE_HOUR_PILOT_PREPARING",
+    "status": "DISABLED_NEW_WINDOW_REQUIRED",
     "A_id": "6ae9072890248191b886a790cf456be6",
     "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
     "final_id": "6ae9073eccd08191b88aec776771ca9e",
-    "requires_new_authorization": false,
-    "authorized_from": "2026-11-03T07:44:00-03:00",
-    "approval": "USER_20261103_IMMEDIATE_ONE_HOUR_TEST",
-    "protocol": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md",
+    "requires_new_authorization": true,
+    "authorized_from": null,
+    "approval": "EXPIRED_PILOT_HISTORICAL_ONLY",
+    "protocol": "docs/s3-night/S3_NIGHT_SIMPLIFIED_CHAIN_20261103.md",
     "previous_authorization_revoked": true,
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
@@ -42,12 +42,12 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "Pilot 1h running, code/test commit e7bf51be54f6 CI #41622566964 in progress; writer RELEASE required; B should not duplicate OPP-A1-ADV, find owner event binding or move to independent safe task.",
-  "checkpoint_status": "S3_A1_PARTIAL_PILOT_A_CODE_COMMITTED_CI_PENDING",
+  "next": "En nuevo chat: verificar estado live, discutir inicio/corte de Noche S3 simplificada, luego activar por permiso nuevo; sin activar con este handoff.",
+  "checkpoint_status": "S3_A1_PARTIAL_NIGHT_SIMPLIFIED_PREPARED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
-  "last_code_sha": "89ce6d9bb21722d708daafb20f3f19b638cad46b",
-  "last_ci_run_id": 41549981598,
+  "last_code_sha": "e7bf51be54f6d1f04de912f2a72658b4c148696d",
+  "last_ci_run_id": 41622566964,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -78,18 +78,18 @@
     "new_authorization_required": true
   },
   "recovery_night": {
-    "status": "ACTIVE_SCHEDULED_VERIFIED",
+    "status": "SUPERSEDED_HISTORICAL_DISABLED",
     "start": "2026-11-03T23:00:00-03:00",
     "stop": "2026-11-04T07:00:00-03:00",
     "watchdog": "2026-11-04T00:20:00-03:00",
     "doc": "docs/s3-night/S3_NIGHT_CODE_FIRST_20261103.md",
     "baseline_head": "4bdda5c78241757095ce389252cb829aa8df6767",
-    "queue_mode": "ENABLED",
+    "queue_mode": "STAGED",
     "gate_ci_run_id": 41618051210,
     "gate_ci_xml": "17/17_VERIFIED"
   },
   "immediate_pilot": {
-    "status": "A_COMMITTED_CI_PENDING",
+    "status": "CLOSED_CI_46_OF_46_A_B_ZERO_NEW_COMMITS",
     "start": "2026-11-03T07:44:00-03:00",
     "stop": "2026-11-03T08:44:00-03:00",
     "baseline_head": "d38a95bfb4bdef27a64d24918ae0e71b89617f36",
@@ -99,5 +99,12 @@
     "action_run_id": 41622566964,
     "actor": "NOCHE_A",
     "missing": "REAL_OWNER_INVALIDATION_EVENT_BINDING"
+  },
+  "night_s3_simplified": {
+    "status": "PREPARED_OFF",
+    "protocol": "docs/s3-night/S3_NIGHT_SIMPLIFIED_CHAIN_20261103.md",
+    "shared_mission": true,
+    "activation_authorized": false,
+    "requires_new_schedule_and_deadline": true
   }
 }
