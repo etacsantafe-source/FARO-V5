@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A1.NOTICE.COMMIT.20261103",
   "token_hash": "f45112cd38fdfd9db8f7cbad12c94db340c92ca0f7bb5894b6f879d038c93a52",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "0a4eed8a38a0ec051b93fd5cb61a2c43aa0838e6",
+  "target_head": "404f0ba5758fd7f51c0b28f27cd332b952fac982",
   "epoch": 66,
-  "timestamp": 1793753588,
+  "timestamp": 1793753598,
   "purpose": "S3_A1_REAL_OWNER_NOTICE_COMMIT_EVENTS"
 }
