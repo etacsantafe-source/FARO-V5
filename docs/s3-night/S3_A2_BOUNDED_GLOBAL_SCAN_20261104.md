@@ -24,3 +24,10 @@
 - Orden de próxima ejecución: observar run #41850653762 hasta conclusión y XML; si rojo arreglar el cambio; si verde persistir CI exacto; retomar G1 solo con dueño ACL real, o G3 adyacente si bloqueado.
 - Writer de este checkpoint: epoch 128, adquirido para registro durable y debe quedar RELEASED; un nuevo turno revalida CAS.
 
+
+## Dictamen definitivo de CI — prevalece sobre IN_PROGRESS anterior
+
+- Run [#41850653762](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41850653762) **SUCCESS**, SHA de código exacto `de5bfd01f4cb8166723877998ef39641099c867c`. Job `app-home-notice` #126645735634 **SUCCESS**.
+- Log verificado: `BUILD SUCCESSFUL in 3m 27s`; `S3_HOME_NOTICE_XML_PASS 9/9`, `S3_WORKSPACE_SEARCH_XML_PASS 6/6`, `S3_SEARCH_BRIDGE_XML_PASS 5/5`, `S3_AVISOS_XML_PASS 4/4`. Total **24/24** y cero fallos, errores u omitidos según verificador XML.
+- No repetir esta prueba sobre el mismo SHA. Este PASS certifica **la unidad dirigida**, NO S3.A2 completo ni su G1/G2 o pruebas físicas.
+- Próxima unidad: G1 ACL independiente REAL o, si autoridad no disponible, trabajo aislado para desbloquear A2 sin fingir permisos. Seguimiento y cierre formal S3 permanecen sin cambios.

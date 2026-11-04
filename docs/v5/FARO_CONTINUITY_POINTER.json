@@ -42,8 +42,8 @@
   "handoff": "docs/s3-night/S3_A2_BOUNDED_GLOBAL_SCAN_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3.A2 prioridad exclusiva. Código de límite 250 mensajes canónicos/conversación publicado de5bfd01 y prueba con 251 filas; CI #41850653762 en curso/no declarar PASS hasta XML SHA exacto. Si falla, diagnosticar y corregir mínimo. Si pasa, conservar evidencia sin rerun; G1 todavía sin dueño ACL real observable en host V1 (Workspace null): NO simular epochs, NO activar V2. G2 shipping search port nulo. G3 in-chat previo 57/57 PASS; G4 otras fuentes reales pendientes. Una campaña física final S3. Método híbrido, S2 8/8 cerrado, S4/Auto/Noche/V2 OFF, CLOUD STAGED.",
-  "checkpoint_status": "S3_A2_G3_BOUNDED_CANONICAL_SCAN_COMMITTED_CI_PENDING_G1_ACL_OPEN",
+  "next": "S3.A2 prioridad única método híbrido. G3 canonical global read: bounded <=250 eligible messages / conversation, 251st overflow, partial coverage, code SHA de5bfd01f4cb8166723877998ef39641099c867c. CI #41850653762 SUCCESS exact SHA, XML 9/9 Home +6/6 Workspace +5/5 Bridge +4/4 Avisos = 24/24, verified in job logs. DO NOT rerun. G1 real ACL epoch/event independent MISSING in active V1 (no Workspace). No fake ACL. G2 shipping searchReadPort null; G3 global message targeting not yet done; G4 real Finance/Goals/Matters owners absent, G5 final physical only. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, catalog 172 intact; continue allowed safe adjacent G3 while G1 blocked.",
+  "checkpoint_status": "S3_A2_G3_BOUNDED_CANONICAL_SCAN_VERIFIED_24_OF_24_G1_ACL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/s3-night/S3_A2_BOUNDED_GLOBAL_SCAN_20261104.md",
   "last_code_sha": "de5bfd01f4cb8166723877998ef39641099c867c",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "IN_PROGRESS_EXACT_SHA_DE5BFD01_XML_PENDING",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_DE5BFD01_XML_24_OF_24",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -309,11 +309,16 @@
     }
   },
   "progress_s3_a2_global_scan_20261104": {
-    "status": "COMMITTED_CI_PENDING",
+    "status": "DIRECTED_CI_PASS_24_OF_24_EXACT_SHA",
     "code_sha": "de5bfd01f4cb8166723877998ef39641099c867c",
     "run_id": 41850653762,
     "scope": "Workspace canonical global search 250 eligible messages per conversation plus 251st overflow flag, PARTIAL coverage; existing SQLite conversation_id,sequence index reused; code+new 251-message test+exact workflow expected 6/6.",
     "limitations": "CI not yet verified, no Android physical, ACL owner still absent; no V2 activation",
-    "writer_release_expected_epoch": 128
+    "writer_release_expected_epoch": 128,
+    "ci_conclusion": "SUCCESS",
+    "ci_xml": "HOME_9_9;WORKSPACE_6_6;BRIDGE_5_5;AVISOS_4_4;TOTAL_24_24",
+    "ci_verified_job_id": 126645735634,
+    "physical": "NOT_RUN",
+    "limits": "No actual ACL independent owner, shipping unbound; stage A2 not closed; unit JVM only."
   }
 }
