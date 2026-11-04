@@ -93,6 +93,9 @@ data class WorkspaceRevisionSnapshot(
     val workspace: ConversationWorkspaceSnapshot,
 )
 
+/** Read-only bounded canonical text, not an index, draft or authorization token. */
+data class WorkspaceSearchText(val text: String, val complete: Boolean)
+
 data class WorkspaceCreateRequest(
     val entry: ConversationWorkspaceEntry,
     val expectedRevision: Long,
@@ -192,6 +195,43 @@ class ConversationWorkspaceStore private constructor(
         checkOpen()
         readCurrent()
     }
+
+    /**
+     * S3.A2 bounded canonical text for an already-authorized generation-scoped
+     * reader. Only committed accepted USER and completed FARO messages qualify.
+     * No draft, processing, failed, offline or partial assistant text.
+     *
+     * This is not ACL admission: the caller must check the actual generation,
+     * permission epoch and Workspace revision before AND after reading.
+     * Truncation MUST propagate as partial coverage, never a false empty result.
+     */
+    fun readSearchableConversationText(id: ConversationId, maxChars: Int): WorkspaceSearchText =
+        synchronized(mutex) {
+            require(maxChars in 1..16_000) { "bounded canonical text required" }
+            checkOpen()
+            val body = StringBuilder()
+            var complete = true
+            connection.prepare(
+                """SELECT text FROM workspace_message
+                   WHERE conversation_id = ?
+                     AND ((role = 'USER' AND state = 'ACCEPTED')
+                       OR (role = 'FARO' AND state = 'COMPLETED'))
+                   ORDER BY sequence DESC"""
+            ).use { statement ->
+                statement.bindText(1, id.value)
+                while (statement.step()) {
+                    val text = statement.getText(0)
+                    val separator = if (body.isEmpty()) 0 else 1
+                    if (body.length + separator + text.length > maxChars) {
+                        complete = false
+                        break
+                    }
+                    if (separator != 0) body.append('\n')
+                    body.append(text)
+                }
+            }
+            WorkspaceSearchText(body.toString(), complete)
+        }
 
     override suspend fun readTimeline(
         conversationId: ConversationId,

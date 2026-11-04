@@ -57,12 +57,21 @@ class FaroV5WorkspaceSearchReadSource(
                 it.lastActivityEpochMillis
             }.thenBy { it.id.value }
         )
+        // Fixed on-device budget; a partial content scan is explicitly PARTIAL,
+        // never a definitive 'no results'. No disposable index supplies text.
+        var remainingTextChars = 64_000
+        var allContentCovered = true
         val documents = ordered.take(maxDocuments).map { conversation ->
+            val cap = minOf(4_096, remainingTextChars)
+            val body = if (cap > 0)
+                store.readSearchableConversationText(conversation.id, cap) else null
+            if (body == null || !body.complete) allContentCovered = false
+            if (body != null) remainingTextChars -= body.text.length
             SearchCanonicalDocument(
                 SearchProjectionKey(NAMESPACE, opaqueKey(conversation.id)),
                 SearchCanonicalDocument.Kind.CONVERSATION,
                 conversation.title,
-                "",
+                body?.text.orEmpty(),
                 sha256(
                     selectedGenerationId + ":" + state.revision + ":" +
                         conversation.id.value + ":" + conversation.lastActivityEpochMillis
@@ -73,7 +82,9 @@ class FaroV5WorkspaceSearchReadSource(
         check(before == authorityStamp()) {
             "Workspace generation, ACL or revision changed during read"
         }
-        return SearchCanonicalSnapshot(before, documents, ordered.size <= maxDocuments)
+        return SearchCanonicalSnapshot(
+            before, documents, ordered.size <= maxDocuments && allContentCovered,
+        )
     }
 
     /**

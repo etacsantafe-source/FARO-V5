@@ -62,9 +62,9 @@ jobs:
               raise SystemExit(f'S3_WORKSPACE_SEARCH_XML_MISSING {len(related)}')
           result = ET.parse(related[0]).getroot()
           cases = tuple(int(result.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
-          if cases != (3,0,0,0):
+          if cases != (5,0,0,0):
               raise SystemExit(f'S3_WORKSPACE_SEARCH_XML_FAIL {cases}')
-          print('S3_WORKSPACE_SEARCH_XML_PASS 3/3')
+          print('S3_WORKSPACE_SEARCH_XML_PASS 5/5')
           bridge = sorted(base.glob('TEST-*FaroV5WorkspaceSearchSurfaceAdapterTest.xml'))
           if len(bridge) != 1:
               raise SystemExit(f'S3_SEARCH_BRIDGE_XML_MISSING {len(bridge)}')

@@ -4,6 +4,14 @@ import ar.com.faro.v5.control.search.CanonicalSearchCoordinator
 import ar.com.faro.v5.control.search.SearchProjectionKey
 import ar.com.faro.v5.control.search.SearchProjectionQuery
 import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationMessage
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
+import ar.com.faro.v5.kernel.contracts.ConversationMessageRole
+import ar.com.faro.v5.kernel.contracts.ConversationMessageState
+import ar.com.faro.v5.kernel.contracts.ConversationTimelineIntent
+import ar.com.faro.v5.kernel.contracts.ConversationTimelineWriteRequest
+import ar.com.faro.v5.kernel.contracts.ConversationTimelineWriteResult
+import ar.com.faro.v5.kernel.contracts.ConversationTurnId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import java.nio.file.Files
@@ -82,5 +90,68 @@ class FaroV5WorkspaceSearchReadSourceTest {
             .search(SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "missing", 10))
         assertEquals(CanonicalSearchCoordinator.Coverage.UNAVAILABLE, result.coverage)
         assertTrue(result.hits.isEmpty())
+    }
+
+    @Test
+    fun committedMessageContentIsSearchedCanonicallyNotFromADisposableIndex() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            val id = ConversationId("search-message-content")
+            store.createAndSelect(id, 100L, IdempotencyKey("create-search-message"))
+            val timeline = checkNotNull(store.readTimeline(id))
+            val accepted = ConversationMessage(
+                ConversationMessageId("user-message-search"), id,
+                ConversationTurnId("search-turn"), ConversationMessageRole.USER,
+                ConversationMessageState.ACCEPTED,
+                "Pagamos las expensas de noviembre", 150L,
+            )
+            val saved = store.writeTimeline(ConversationTimelineWriteRequest(
+                id, timeline.authorityToken, timeline.revision,
+                IdempotencyKey("accept-message-search"),
+                ConversationTimelineIntent.AcceptUser(accepted),
+            ))
+            assertTrue(saved is ConversationTimelineWriteResult.Saved)
+            val source = FaroV5WorkspaceSearchReadSource(
+                "g1", store, { "g1" }, { "acl-1" }, { true },
+            )
+            val result = CanonicalSearchCoordinator(source, null).search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "EXPENSAS", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.COMPLETE, result.coverage)
+            assertEquals(1, result.hits.size)
+            assertEquals(CanonicalSearchCoordinator.MatchField.BODY, result.hits.single().matchField)
+            assertEquals(id, source.resolveAuthorizedConversation(result.hits.single().key))
+        }
+    }
+
+    @Test
+    fun boundedLongMessageYieldsPartialCoverageInsteadOfFalseAbsence() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            val id = ConversationId("search-long-message")
+            store.createAndSelect(id, 100L, IdempotencyKey("create-long-message"))
+            val timeline = checkNotNull(store.readTimeline(id))
+            val saved = store.writeTimeline(ConversationTimelineWriteRequest(
+                id, timeline.authorityToken, timeline.revision,
+                IdempotencyKey("accept-long-message"),
+                ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                    ConversationMessageId("long-message"), id,
+                    ConversationTurnId("long-turn"), ConversationMessageRole.USER,
+                    ConversationMessageState.ACCEPTED, "z".repeat(5_000), 150L,
+                )),
+            ))
+            assertTrue(saved is ConversationTimelineWriteResult.Saved)
+            val source = FaroV5WorkspaceSearchReadSource(
+                "g1", store, { "g1" }, { "acl-1" }, { true },
+            )
+            val result = CanonicalSearchCoordinator(source, null).search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "no-existe", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, result.coverage)
+            assertTrue(result.hits.isEmpty())
+            val titleResult = CanonicalSearchCoordinator(source, null).search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "nuevo", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, titleResult.coverage)
+            assertEquals(1, titleResult.hits.size)
+        }
     }
 }
