@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.PROGRESS_ESTIMATE_RULE.20261104",
   "token_hash": "80c52ad86d1181a59815f722eb09cfe93bc28bce7f0dc84a4bde96dca0fb59d3",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "bc0ab0178b20492cd9529a742bbda51ef32fdd9c",
+  "target_head": "ab242f417494f0223f730a743c50e0b6dda68720",
   "epoch": 126,
-  "timestamp": 1793802600,
-  "purpose": "S3_PROGRESS_ESTIMATE_PERCENT_DISTINCT_FROM_FORMAL_CLOSURE"
+  "timestamp": 1793803000,
+  "purpose": "S3_APPROXIMATE_PERCENT_REPORTING_DURABLE_HANDOFF_CLEAN"
 }
