@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A1.POINTER_OWNER.20261103",
   "token_hash": "9b3220ba1049041db81f6890ae691afddc08f2990bbc46fe1bdb5fb85258f409",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "35f1a9dc4b2f68d440419175e146e23b510a0973",
+  "target_head": "4df3b488f6f74ad7a9914f3f22370f62e65a5158",
   "epoch": 72,
-  "timestamp": 1793755217,
-  "purpose": "S3_A1_REAL_POINTER_OWNER_INVALIDATION"
+  "timestamp": 1793755471,
+  "purpose": "S3_A1_POINTER_OWNER_CODE_PUBLISHED_CI_PENDING"
 }
