@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A1.CI9.CERT.20261104",
   "token_hash": "4c853b45692f04b6ba0a5b5e17e3f0b63e3ac8d2f8b33cf7cc96bf9ec8839162",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "c55027cb6af922be025b6b0df098666931d2ddb8",
+  "target_head": "03e5c5d55dbe55335e631487df60bc0b9bcf73fe",
   "epoch": 76,
-  "timestamp": 1793775606,
-  "purpose": "S3_A1_CROSSINSTANCE_CI9_DURABLE_CHECKPOINT"
+  "timestamp": 1793775692,
+  "purpose": "S3_A1_CROSSINSTANCE_CI9_CLEAN_HANDOFF"
 }
