@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M5.F02DECLARED.20261104",
-  "token_hash": "d7cf9e3de847d61670bb74e0abb2af6041ee64dbe40f2790a0258e3221d12e94",
-  "target_head": "1d907d1a4b641e2d6c76ae00881197bb9f3d418b",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M5.F02F08_B7_FINAL.20261104",
+  "token_hash": "af2986c151f954cb82b7e6c726029b42c008b1e90a4679c6db9a1c8da41dd31a",
+  "target_head": "c5705efc0a3e29b14f1694392970e2103a31d8fe",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 183,
-  "timestamp": 1793834000,
-  "purpose": "F02_SIGNATURE_PERMISSION_REVIEW_CHECKPOINT_c5705efc"
+  "epoch": 184,
+  "timestamp": 1793834700,
+  "purpose": "M5_F02_COMPONENT_AND_F08_BOUNDED_NEGATIVE_CAPABILITY_FINAL_B7"
 }
