@@ -39,15 +39,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_BOUNDED_GLOBAL_SCAN_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3.A2 OPEN. In-chat exact-message navigation and bounded partial coverage verified 57/57 total, 7/7 new on SHA 09fa2b21 GitHub Actions run 41837562790 SUCCESS. Prior 9bdbf7d4 55/55. Do NOT rerun. Next G1: genuine Workspace ACL read owner with independent monotonic revocation/re-grant events and pointer/generation/lifecycle invalidation; no fake epoch; shipping V1 has no Workspace and SearchReadPort remains null. G2 safe active-host bind only with actual authority; global search direct message target not yet done; G4 real source owners Finance/Objectives/Matters. A1/A4 partial, A3/A5 later. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, 172 operations, Guardados +8 only candidate, physical final only. Last handoff docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
-  "checkpoint_status": "S3_A2_IN_CHAT_EXACT_MESSAGE_NAV_AND_BOUNDED_RESOURCE_CI_PASS_57_OF_57_G1_ACL_OPEN",
+  "next": "S3.A2 prioridad exclusiva. Código de límite 250 mensajes canónicos/conversación publicado de5bfd01 y prueba con 251 filas; CI #41850653762 en curso/no declarar PASS hasta XML SHA exacto. Si falla, diagnosticar y corregir mínimo. Si pasa, conservar evidencia sin rerun; G1 todavía sin dueño ACL real observable en host V1 (Workspace null): NO simular epochs, NO activar V2. G2 shipping search port nulo. G3 in-chat previo 57/57 PASS; G4 otras fuentes reales pendientes. Una campaña física final S3. Método híbrido, S2 8/8 cerrado, S4/Auto/Noche/V2 OFF, CLOUD STAGED.",
+  "checkpoint_status": "S3_A2_G3_BOUNDED_CANONICAL_SCAN_COMMITTED_CI_PENDING_G1_ACL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
-  "last_code_sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
-  "last_ci_run_id": 41837562790,
+  "last_handoff": "docs/s3-night/S3_A2_BOUNDED_GLOBAL_SCAN_20261104.md",
+  "last_code_sha": "de5bfd01f4cb8166723877998ef39641099c867c",
+  "last_ci_run_id": 41850653762,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_APP_SURFACE_XML_57_57_IN_CHAT_7_7",
+  "last_ci_conclusion": "IN_PROGRESS_EXACT_SHA_DE5BFD01_XML_PENDING",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -307,5 +307,13 @@
       "method": "Qualitative evidence-based estimate reviewed at end of each FARO V5 turn; revise only on material functional progress, label approximate and do not conflate with stage closures",
       "baseline": 40
     }
+  },
+  "progress_s3_a2_global_scan_20261104": {
+    "status": "COMMITTED_CI_PENDING",
+    "code_sha": "de5bfd01f4cb8166723877998ef39641099c867c",
+    "run_id": 41850653762,
+    "scope": "Workspace canonical global search 250 eligible messages per conversation plus 251st overflow flag, PARTIAL coverage; existing SQLite conversation_id,sequence index reused; code+new 251-message test+exact workflow expected 6/6.",
+    "limitations": "CI not yet verified, no Android physical, ACL owner still absent; no V2 activation",
+    "writer_release_expected_epoch": 128
   }
 }
