@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2_G3_DURABLE_CI_GATE.20261104",
-  "token_hash": "dd4a4788d390e35076b8eaa689ac21b23c08ef3295b0510586221dc15597f2b9",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A2_G3_CI_CERTIFY.20261104",
+  "token_hash": "afd0ba5bd623b66c43e0f28f6d798e8948d53864619a1c43d98474201cedaadd",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "de5bfd01f4cb8166723877998ef39641099c867c",
-  "epoch": 128,
-  "timestamp": 1793803804,
-  "purpose": "CHECKPOINT_PUBLISHED_CI_PENDING"
+  "target_head": "6f0b584c52556a3140d451ca375a6d5d0bef404d",
+  "epoch": 129,
+  "timestamp": 1793803945,
+  "purpose": "VERIFY_CI_XML_AND_COMPLETE_DURABLE_CI_HANDOFF"
 }
