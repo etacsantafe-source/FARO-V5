@@ -48,7 +48,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
-          names={'CanonicalSearchCoordinatorTest':7,'SearchProjectionContractTest':2,'FederatedCanonicalSearchCoordinatorTest':5}
+          names={'CanonicalSearchCoordinatorTest':7,'SearchProjectionContractTest':2,'FederatedCanonicalSearchCoordinatorTest':6}
           found={}
           for p in Path('v5/control/build/test-results/test').glob('TEST-*.xml'):
               suite=ET.parse(p).getroot()
@@ -57,5 +57,5 @@ jobs:
                       found[name]=tuple(int(suite.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
           if found != {name:(count,0,0,0) for name,count in names.items()}:
               raise SystemExit('S3_SEARCH_XML_FAIL '+str(found))
-          print('S3_CANONICAL_SEARCH_XML_PASS 14/14')
+          print('S3_CANONICAL_SEARCH_XML_PASS 15/15')
           PY

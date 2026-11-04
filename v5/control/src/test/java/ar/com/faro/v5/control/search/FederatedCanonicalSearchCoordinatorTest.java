@@ -2,6 +2,7 @@ package ar.com.faro.v5.control.search;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.Test;
 
 final class FederatedCanonicalSearchCoordinatorTest {
@@ -28,8 +29,7 @@ final class FederatedCanonicalSearchCoordinatorTest {
                 return new SearchCanonicalSnapshot(stamp, List.of(docs), complete);
             }
         };
-        return new FederatedCanonicalSearchCoordinator.Source(
-                ns, new CanonicalSearchCoordinator(port, null));
+        return new FederatedCanonicalSearchCoordinator.Source(ns, port, null);
     }
 
     @Test void roundRobinPreservesFinanceEvenWhenWorkspaceHasManyMatches() {
@@ -77,6 +77,37 @@ final class FederatedCanonicalSearchCoordinatorTest {
         assertEquals(2, result.getHits().size());
         assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL,
                 result.getCoverageBySource().get(WORKSPACE));
+    }
+
+    @Test void lateRevocationOfAnEarlierOwnerSuppressesItsHits() {
+        SearchAuthorityStamp stamp = new SearchAuthorityStamp("g1", "acl-1", 1L);
+        AtomicReference<SearchAuthorityStamp> firstAuthority = new AtomicReference<>(stamp);
+        SearchCanonicalReadPort workspace = new SearchCanonicalReadPort() {
+            @Override public SearchAuthorityStamp authorityStamp() {
+                return firstAuthority.get();
+            }
+            @Override public SearchCanonicalSnapshot readAuthorized(String ns, int max) {
+                return new SearchCanonicalSnapshot(stamp,
+                        List.of(doc(WORKSPACE, "private", "pago privado", 90)), true);
+            }
+        };
+        SearchCanonicalReadPort finance = new SearchCanonicalReadPort() {
+            @Override public SearchAuthorityStamp authorityStamp() { return stamp; }
+            @Override public SearchCanonicalSnapshot readAuthorized(String ns, int max) {
+                firstAuthority.set(null);
+                return new SearchCanonicalSnapshot(stamp,
+                        List.of(doc(FINANCE, "public", "pago aprobado", 50)), true);
+            }
+        };
+        var coordinator = new FederatedCanonicalSearchCoordinator(List.of(
+                new FederatedCanonicalSearchCoordinator.Source(WORKSPACE, workspace, null),
+                new FederatedCanonicalSearchCoordinator.Source(FINANCE, finance, null)));
+        var outcome = coordinator.search("pago", 5);
+        assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, outcome.getCoverage());
+        assertEquals(List.of(FINANCE),
+                outcome.getHits().stream().map(hit -> hit.getKey().getNamespace()).toList());
+        assertEquals(CanonicalSearchCoordinator.Coverage.UNAVAILABLE,
+                outcome.getCoverageBySource().get(WORKSPACE));
     }
 
     @Test void rejectsDuplicateUnregisteredOrOversizedSourceSets() {

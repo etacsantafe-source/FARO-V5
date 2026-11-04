@@ -22,11 +22,14 @@ public final class FederatedCanonicalSearchCoordinator {
 
     public static final class Source {
         private final String namespace;
+        private final SearchCanonicalReadPort authority;
         private final CanonicalSearchCoordinator coordinator;
 
-        public Source(String namespace, CanonicalSearchCoordinator coordinator) {
+        public Source(String namespace, SearchCanonicalReadPort owner,
+                RebuildableSearchProjectionPort index) {
             this.namespace = SearchProjectionBounds.namespace(namespace);
-            this.coordinator = Objects.requireNonNull(coordinator, "coordinator");
+            this.authority = Objects.requireNonNull(owner, "owner");
+            this.coordinator = new CanonicalSearchCoordinator(owner, index);
         }
         public String getNamespace() { return namespace; }
     }
@@ -77,16 +80,23 @@ public final class FederatedCanonicalSearchCoordinator {
 
         Map<String, CanonicalSearchCoordinator.Coverage> coverage = new LinkedHashMap<>();
         List<List<CanonicalSearchCoordinator.Hit>> perSource = new ArrayList<>();
+        List<SearchAuthorityStamp> acceptedAuthority = new ArrayList<>();
         boolean degraded = false;
-        int readable = 0;
 
         for (Source source : sources) {
+            SearchAuthorityStamp stamp = safeStamp(source.authority);
             CanonicalSearchCoordinator.Result response;
             try {
-                response = source.coordinator.search(new SearchProjectionQuery(
-                        source.namespace, query, SearchProjectionBounds.MAX_RESULTS));
+                response = stamp == null ? null
+                        : source.coordinator.search(new SearchProjectionQuery(
+                                source.namespace, query, SearchProjectionBounds.MAX_RESULTS));
             } catch (RuntimeException failure) {
                 // An owner-specific failure must not erase other authorized hits.
+                response = null;
+            }
+            // The owner may revoke access between local coordinator exit and
+            // the next owner. A changed authority NEVER contributes content.
+            if (stamp == null || !stamp.equals(safeStamp(source.authority))) {
                 response = null;
             }
 
@@ -94,16 +104,32 @@ public final class FederatedCanonicalSearchCoordinator {
                     response == null ? CanonicalSearchCoordinator.Coverage.UNAVAILABLE
                             : response.getCoverage();
             coverage.put(source.namespace, level);
+            acceptedAuthority.add(level == CanonicalSearchCoordinator.Coverage.UNAVAILABLE
+                    ? null : stamp);
             if (level == CanonicalSearchCoordinator.Coverage.UNAVAILABLE) {
                 perSource.add(List.of());
                 degraded = true;
             } else {
-                readable++;
                 degraded |= response.isIndexDegraded();
                 // CanonicalSearchCoordinator guarantees only owner-authorized hits.
                 perSource.add(response.getHits());
             }
         }
+
+        // A later source can revoke an EARLIER source. Revalidate every
+        // original full stamp after the entire federation has finished.
+        for (int i = 0; i < sources.size(); i++) {
+            SearchAuthorityStamp stamp = acceptedAuthority.get(i);
+            if (stamp != null && !stamp.equals(safeStamp(sources.get(i).authority))) {
+                coverage.put(sources.get(i).namespace,
+                        CanonicalSearchCoordinator.Coverage.UNAVAILABLE);
+                perSource.set(i, List.of());
+                degraded = true;
+            }
+        }
+        long readable = coverage.values().stream()
+                .filter(level -> level != CanonicalSearchCoordinator.Coverage.UNAVAILABLE)
+                .count();
 
         CanonicalSearchCoordinator.Coverage overall;
         if (readable == 0) {
@@ -131,5 +157,13 @@ public final class FederatedCanonicalSearchCoordinator {
             if (!found) break;
         }
         return new Result(hits, coverage, overall, degraded);
+    }
+
+    private static SearchAuthorityStamp safeStamp(SearchCanonicalReadPort owner) {
+        try {
+            return owner.authorityStamp();
+        } catch (RuntimeException unavailable) {
+            return null;
+        }
     }
 }
