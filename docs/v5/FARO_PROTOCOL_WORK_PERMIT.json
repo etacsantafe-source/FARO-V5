@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
+  "reviewed_head": "ca741880922cec59e7295b0aa03e35b3e173524b",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReadSession.kt",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReadSessionT2Test.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "5a4d69e093aa93204567bdeb4e9d734477a4b015",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
+          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "5a4d69e093aa93204567bdeb4e9d734477a4b015",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
+          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "5a4d69e093aa93204567bdeb4e9d734477a4b015",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
+          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,9 +44,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "5a4d69e093aa93204567bdeb4e9d734477a4b015",
-          "marker": "## B4 UNIFICACIÓN"
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
+          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
+          "marker": "## B4 DISEÑO"
         }
       ]
     },
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "5a4d69e093aa93204567bdeb4e9d734477a4b015",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
+          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "VERIFIED_DEV_JVM_10_OF_10_APK_CI_41933426599_HOME_CI_41933426482",
-    "B7": "PASS_FINAL_AUDIT_DEV_ONLY_SHIPPING_S3_A2_G1_OPEN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "Exact DEV Search pointer ABA RED_FIX code c3f5e5d1 certified by CI 41933426446 XML10/10, 41933426599 APK binary zero permissions signature, 41933426482 S3 regression25/25; B7 PASS DEV scope only. New unit requires fresh B1-B5 and READY.",
-  "how": "Read independent B7 document; next isolate real active host Workspace ACL grant/revoke owner and durable epoch. Never treat DEV session authority as shipping G1 or install APK physically.",
+  "why": "S3.A2-G1 minimum safety: real durable active pointer sequence pinned to production Chat read session, denies ABA A-B-A without subscribers; external OWASP + Element X PR comparison; does NOT enable V2 nor grant shipping ACL.",
+  "how": "Only four paths. CI exact SHA: S3 app Home directed + Chat read 6/6, protocol guard; B7 independent. No activation, main writes, schema changes, APK installation or other domains.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
