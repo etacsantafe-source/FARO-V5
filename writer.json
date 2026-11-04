@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A1.POINTER_SUBSCRIBE_FIX.20261103",
-  "token_hash": "de7a7a3284e5514f9322f7c9edb1939296cab8018e3fdeec9c86a0cbcbd0959d",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A1.CI9.CERT.20261103",
+  "token_hash": "8071eb61b3b7f67b5543b222c1b424ce7d0d6907a4fc500c8fa3d407bbf199a7",
   "target_branch": "work/s3-night-20261102",
   "target_head": "5ced305b3a413e208effd7e6308a6d58b865bb17",
-  "epoch": 73,
-  "timestamp": 1793755843,
-  "purpose": "S3_A1_POINTER_LISTENER_RECHECK_FIX_CODE_COMMITTED_CI_PENDING"
+  "epoch": 74,
+  "timestamp": 1793756088,
+  "purpose": "CERTIFY_S3_A1_POINTER_SUBSCRIBE_CI_41754525802"
 }
