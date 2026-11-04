@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M5.TIMEOUT_REDFIX.B6.20261104",
-  "target_head": "065d0485e8951ac8b27a0e9f2de5fea67d8b08b6",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M5.REDFIX.WAITCI.20261104",
+  "target_head": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 173,
-  "timestamp": 1793823623,
-  "purpose": "M5_APK_REDFIX_CODE_018F0F5E_WAIT_EXACT_CI",
-  "token_hash": "7c16b05af49e38d27c16b05af49e38d27c16b05af49e38d27c16b05af49e38d2"
+  "epoch": 174,
+  "timestamp": 1793823695,
+  "purpose": "M5 APK corrected CI checkpoint docs-only",
+  "token_hash": "5e7092b4d6f81a3c5e7092b4d6f81a3c5e7092b4d6f81a3c5e7092b4d6f81a3c"
 }
