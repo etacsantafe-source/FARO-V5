@@ -8,8 +8,8 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "SHORT_PROMPT_PILOT_ACTIVE",
-  "authorization": "EXPIRED_PILOT_HISTORICAL_NEW_APPROVAL_REQUIRED",
+  "night": "OFF_MANUAL_S3",
+  "authorization": "USER_EXPLICIT_MANUAL_S3_20261103_NIGHT_OFF",
   "deadline": "2026-11-03T08:44:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
   "writer_ref": "refs/heads/faro-v5-writer-lock",
@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Check exact CI #41645370567 on SHA 66c2b558; fix red before further unit. Owner readiness event is wired but ACL/generation still not proven.",
+  "next": "Verify directed CI by exact S3-A1 code SHA and JUnit XML. Investigate independent ACL and active-generation events at canonical owner without inventing Flow. A1 PARTIAL.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -137,6 +137,17 @@
       "ci": "WAIT_CI_XML_NOT_VERIFIED",
       "scope": "REAL_STARTUP_READINESS_EVENTS_ONLY",
       "remaining": "ACL_AND_STANDALONE_GENERATION_CHANGE_EVENTS_NOT_WIRED",
+      "physical": "NOT_RUN"
+    },
+    "manual_interactive_maintenance_readiness": {
+      "state": "CODE_COMMITTED_DIRECTED_CI_PENDING",
+      "code_sha": "3b1fb417112cf076bca2e887222e85f5b95b27ca",
+      "ci_run_id": null,
+      "junit_xml": "PENDING",
+      "actual_gap": "Interactive maintenance closed materialWriteGate but did not notify existing StartupReadiness owner; same Home readPort could retain stale notice counts.",
+      "change": "Begin/complete interactive maintenance now emit real readiness transition; notice read admission requires maintenance complete plus actual owner LOCAL_READY.",
+      "regression_test": "FaroV5HomeNoticeBindingFactoryTest.recoveryGateDeniesStoreRead expanded, count remains five",
+      "limits": "Independent ACL revocation and standalone generation change not observed. N-031, N-015, Guardados still require canonical owners.",
       "physical": "NOT_RUN"
     }
   },
