@@ -38,3 +38,14 @@ Actualizar los números **solo al demostrar cierres reales** mediante fuente de 
 Puntero canónico: `docs/v5/FARO_CONTINUITY_POINTER.json`; checkpoint funcional vigente: `docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md`.
 
 Comando único suficiente en chat nuevo: **Continuar FARO V5**. Respetar restricciones, restaurar metodología y emitir porcentajes + termómetro al final del turno.
+
+## Actualización autorizada por el usuario — doble porcentaje (04/11/2026)
+
+**Además del cierre formal, es obligatorio informar el porcentaje estimado de avance funcional de S3** en todos los cierres de turno FARO V5. La cifra de cierre formal por sí sola (0/5 = 0%) invisibiliza el desarrollo parcial; no volver a presentarla como único avance.
+
+- Línea base funcional aproximada S3 al 04/11/2026: **≈40%**, intervalo razonable **35–45%**; **juicio técnico orientativo**, no métrica de CI, ni certificación ni tiempo trabajado.
+- Evidencia cualitativa: A1 tiene la interfaz/drawer/Inicio parcial; A2 dispone de búsqueda canónica e in-chat con CI, pero falta ACL real y federación shipping; A4 tiene Avisos con propietario Auxiliary parcialmente integrado; A3 Guardados y A5 integración/cierre quedan mucho menos desarrollados. El conjunto justifica avance importante, pero no todavía la mayoría cerrada.
+- No repartir porcentajes falsamente exactos por subetapa ni inferir avance de líneas de código, número de tests, commits o fechas. Revisar la estimación tras unidades verificadas de trabajo y comunicar su **variación orientativa** (p. ej. `≈40% → ≈45%`); no aumentar la cifra solo por auditar o documentar.
+- Mantener **un segundo número independiente**: S3 **0% de cierre formal (0/5 subetapas CLOSED)** al punto de partida. Ambos son válidos: desarrollo estimado vs cierre certificado.
+- Formato al terminar **cada turno**: `📊 S3 ≈40% desarrollado (estimado, 35–45%) · 0% cerrado formalmente (0/5) · S2 100% (8/8). 🌡️ Chat: [color]`. Actualizar la estimación según evidencia nueva y el porcentaje formal solo con cierre PASS real.
+- En cualquier nuevo chat con `Continuar FARO V5`, recuperar el puntero y conservar esta **preferencia obligatoria**; no pedir que el usuario la recuerde. El método híbrido sigue priorizando cerrar S3.A2; porcentajes no autorizan S4, V2, Auto, Noche ni nuevas operaciones Guardados.

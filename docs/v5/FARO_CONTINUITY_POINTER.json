@@ -44,7 +44,7 @@
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
   "next": "S3.A2 OPEN. In-chat exact-message navigation and bounded partial coverage verified 57/57 total, 7/7 new on SHA 09fa2b21 GitHub Actions run 41837562790 SUCCESS. Prior 9bdbf7d4 55/55. Do NOT rerun. Next G1: genuine Workspace ACL read owner with independent monotonic revocation/re-grant events and pointer/generation/lifecycle invalidation; no fake epoch; shipping V1 has no Workspace and SearchReadPort remains null. G2 safe active-host bind only with actual authority; global search direct message target not yet done; G4 real source owners Finance/Objectives/Matters. A1/A4 partial, A3/A5 later. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, 172 operations, Guardados +8 only candidate, physical final only. Last handoff docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "checkpoint_status": "S3_A2_IN_CHAT_EXACT_MESSAGE_NAV_AND_BOUNDED_RESOURCE_CI_PASS_57_OF_57_G1_ACL_OPEN",
-  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage.",
+  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "last_code_sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
   "last_ci_run_id": 41837562790,
@@ -206,7 +206,8 @@
     "no_duplicate_pass": true,
     "termometro": "ALWAYS_QUALITATIVE",
     "percent_end_of_every_turn": true,
-    "percent_contract": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md"
+    "percent_contract": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md",
+    "approximate_s3_percent_end_of_every_turn": true
   },
   "progress_s3_a2_g3_20261104": {
     "status": "PARTIAL_CANONICAL_MESSAGE_BODY_CI_PASS_23_OF_23_NO_SHIPPING_BINDING",
@@ -250,9 +251,9 @@
   "progress_percent_reporting": {
     "enabled": true,
     "requested_by_user": "2026-11-04",
-    "cadence": "END_OF_EVERY_FARO_V5_TURN_INCLUDING_NEW_CHATS",
+    "cadence": "END_OF_EVERY_FARO_V5_TURN_SHOW_BOTH_S3_APPROX_DEV_AND_S3_FORMAL_CLOSURE",
     "source_of_truth": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md",
-    "metric": "VERIFIED_CLOSURE_ONLY_NOT_EFFORT_ESTIMATE",
+    "metric": "DUAL_METRICS_VERIFIED_CLOSURE_AND_EXPLICITLY_HEURISTIC_FUNCTIONAL_PROGRESS",
     "stage_s2": {
       "closed": 8,
       "total": 8,
@@ -288,13 +289,23 @@
     },
     "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
     "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
-    "safeguard": "NEVER_TREAT_TEST_PASS_RATE_AS_PROJECT_COMPLETION; NEVER_COUNT_PARTIAL_AS_CLOSED; NEVER_INVENT_STAGE_PERCENT",
+    "safeguard": "ESTIMATED_PCT_MUST_BE_EXPLICITLY_LABELED_APPROXIMATE; DO_NOT_CONFUSE_WITH_CI_OR_FORMAL_CLOSURE; DO_NOT_FAKE_STAGE_WEIGHTS_OR_PROGRESS",
     "recent_ci": {
       "run_id": 41837562790,
       "sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
       "status": "SUCCESS",
       "xml": "S3_SURFACE_57_57_IN_CHAT_7_7"
     },
-    "carry_forward": "On Continuar FARO V5, read this pointer and reporting doc; include progress and qualitative chat thermometer in final section every turn."
+    "carry_forward": "On new chat triggered by Continuar FARO V5, recover pointer, ALWAYS report approximate S3 progress (currently 40%, heuristic 35-45), formal S3 closure (currently 0% 0/5), S2 closure 100%, qualitative chat thermometer, and changes on actual code evidence.",
+    "stage_s3_approximate_development": {
+      "percent": 40,
+      "lower_bound": 35,
+      "upper_bound": 45,
+      "as_of": "2026-11-04",
+      "status": "HEURISTIC_ESTIMATE_NOT_CERTIFIED",
+      "evidence": "A1 Home/drawer partial, A2 canonical global/in-chat portions CI successful but real ACL/federation unbound, A4 real Auxiliary Avisos partial, A3 and A5 early; no fabricated per-substage numeric weighting",
+      "method": "Qualitative evidence-based estimate reviewed at end of each FARO V5 turn; revise only on material functional progress, label approximate and do not conflate with stage closures",
+      "baseline": 40
+    }
   }
 }
