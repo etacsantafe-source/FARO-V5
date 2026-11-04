@@ -32,6 +32,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
     private val searcher = CanonicalSearchCoordinator(source, null)
 
     override suspend fun search(query: String): FaroV5SearchPage = try {
+        val before = source.authorityStamp()
         val result = searcher.search(
             SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, query, 50),
         )
@@ -40,8 +41,10 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
             CanonicalSearchCoordinator.Coverage.PARTIAL -> FaroV5SearchCoverage.PARTIAL
             CanonicalSearchCoordinator.Coverage.UNAVAILABLE -> FaroV5SearchCoverage.UNAVAILABLE
         }
-        // A post-projection revocation cannot expose already-read titles.
-        if (source.authorityStamp() == null || coverage == FaroV5SearchCoverage.UNAVAILABLE) {
+        // A regrant to a different ACL or an intervening revision cannot
+        // authorize previously observed titles; compare the FULL stamp.
+        if (before == null || before != source.authorityStamp() ||
+            coverage == FaroV5SearchCoverage.UNAVAILABLE) {
             unavailable()
         } else {
             FaroV5SearchPage(

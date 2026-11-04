@@ -2,7 +2,6 @@ package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
-import ar.com.faro.v5.store.reality.*
 import ar.com.faro.v5.surface.FaroV5SearchCoverage
 import ar.com.faro.v5.surface.FaroV5SearchOpenResult
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
@@ -27,13 +26,17 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
             val newer = ConversationId("newer-secret-id")
             store.createAndSelect(older, 100L, IdempotencyKey("create-older"))
             store.createAndSelect(newer, 200L, IdempotencyKey("create-newer"))
+            // V4.4 parity: an empty active chat is REUSED, not duplicated.
+            assertEquals(older, store.readSnapshot().activeConversationId)
+            assertEquals(1, store.readSnapshot().conversations.size)
             val adapter = FaroV5WorkspaceSearchSurfaceAdapter(
                 source(store, { "g1" }, { "acl-1" }), store, MutableSharedFlow(),
             )
             val result = adapter.search("nuevo")
             assertEquals(FaroV5SearchCoverage.COMPLETE, result.coverage)
-            assertEquals(2, result.hits.size)
-            val match = result.hits.first { it.asOfEpochMillis == 100L }
+            assertEquals(1, result.hits.size)
+            val match = result.hits.single()
+            assertEquals(100L, match.asOfEpochMillis)
             assertTrue(match.opaqueId.startsWith("c:"))
             assertNotEquals(older.value, match.opaqueId)
             assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(match))
