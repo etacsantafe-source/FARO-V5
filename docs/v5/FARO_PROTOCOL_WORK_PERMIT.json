@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "M4_DEV_NEGATIVE_EFFECT_GATES",
-  "reviewed_head": "a8088569db284fd4f79d21313e635b8f0e92bca8",
-  "paths": [
-    "v5/app/src/v2CoreDev/AndroidManifest.xml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "aba2850cea07d19bbddb8813b1592cd641b67d62",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_M4_NEGATIVE_EFFECT_GATES_DEV_JVM_MANIFEST",
+    "B7": "PASS_VERIFIED"
   },
   "last_code_review": {
-    "sha": "b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a",
-    "result": "RED_FIX",
+    "sha": "aba2850cea07d19bbddb8813b1592cd641b67d62",
+    "result": "PASS",
     "unit_id": "M4_DEV_NEGATIVE_EFFECT_GATES",
     "evidence": [
       {
-        "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
-        "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
-        "marker": "## B7 RED_FIX"
+        "path": "docs/v5/FARO_V2_M4_B7_PASS_20261104.md",
+        "blob_sha": "7137494b70d565ca344728c3b26ed17a7fae35f4",
+        "marker": "## B7 PASS"
       }
     ]
   },
-  "why": "M4 prior code b92 JVM 6/6 T4 7/7 S3 25/25 PASS but merged manifest 7 unwanted permissions: CI 41895301999 FAILURE; B7 RED_FIX exact evidence, allow only DEV manifest removal. No broadening beyond this path.",
-  "how": "Verify preflight success in github checkout at READY commit, then add tools:node=remove for exactly 7 observed permissions to v2CoreDev overlay, run exact CI, audit B7. Keep deny-by-default in workflow and do not modify shipping.",
+  "why": "M4 exact-code aba2850c: V2 41896913438 SUCCESS JVM6/6 T4 7/7 M1/M2B manifest 4/4 each; S3 41896913436 25/25; guard 41896913450 PASS. No M5 functional code until new B1-B5/READY.",
+  "how": "M5 B1-B5 preaudit and bounded permit only; V2_DEV_CORE_READY not yet proven, physical NOT_RUN.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
