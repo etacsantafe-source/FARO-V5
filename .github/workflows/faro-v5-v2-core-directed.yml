@@ -48,7 +48,7 @@ jobs:
           # AGP 9 defaults to only the debug UnitTest component. Explicitly enable
           # non-debug unit tests for this isolated CI invocation, not production.
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevAuthorityTest"
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5T4PostPickerGateTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5T4PostPickerGateTest" --tests "ar.com.faro.v5.app.FaroV5T4SyntheticCleanupTest"
       - name: Verify exact M2 JVM tests
         run: |
           python3 - <<'PY'
@@ -67,12 +67,14 @@ jobs:
           python3 - <<'PY'
           import xml.etree.ElementTree as ET
           from pathlib import Path
-          p=Path("v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.FaroV5T4PostPickerGateTest.xml")
-          if not p.exists(): raise SystemExit("M2_DEBUG_T4_XML_MISSING")
-          r=ET.parse(p).getroot()
-          c=tuple(int(r.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
-          if c!=(4,0,0,0): raise SystemExit(f"M2_DEBUG_T4_XML_FAIL {c}")
-          print("M2_DEBUG_T4_RELOCATED_XML_PASS 4/4")
+          base=Path("v5/app/build/test-results/testDebugUnitTest")
+          for cls,count in (("FaroV5T4PostPickerGateTest",4),("FaroV5T4SyntheticCleanupTest",3)):
+              p=base / ("TEST-ar.com.faro.v5.app."+cls+".xml")
+              if not p.exists(): raise SystemExit(f"M2_DEBUG_T4_XML_MISSING {cls}")
+              r=ET.parse(p).getroot()
+              c=tuple(int(r.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+              if c!=(count,0,0,0): raise SystemExit(f"M2_DEBUG_T4_XML_FAIL {cls} {c}")
+          print("M2_DEBUG_T4_RELOCATED_XML_PASS 7/7")
           PY
       - name: Verify package isolation, no backup and offline mode
         run: |

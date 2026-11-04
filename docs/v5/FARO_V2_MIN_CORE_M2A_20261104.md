@@ -33,3 +33,9 @@
 - SHA `6f8a3b2957d1f75826270e174053b1fe5f1cfa24`, Actions [#41869278395](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41869278395): ya existe tarea `testV2CoreDevUnitTest`; compilación de todos los tests comunes falló por `FaroV5T4PostPickerGateTest` que referencia `FaroV5T4PostPickerGate` (solo `src/debug`). **Ninguna prueba M2 fue ejecutada**.
 - **Arreglo mínimo sin editar código S2:** trasladar exactamente el mismo blob de prueba (SHA `dcc71c5a56628909d14c64615fd00baaf475609b`) de `src/test/kotlin/...` a `src/testDebug/kotlin/...`. El código T4 permanece intacto; una prueba de `debug` solo debe compilar contra la variante `debug`.
 - Nueva CI dirigida exige XML **M2 3/3 + T4 debug 4/4 + M1 aislamiento 4/4**. El alcance de certificación sigue siendo JVM y manifiestos, no Android físico.
+
+## Tercer intento: segunda y ÚLTIMA dependencia de `src/debug` hallada por barrido de TODOS los tests comunes
+
+- SHA `ef1d056a8c6dab13b4d7b6bf32bbecd87b2e0540`, Actions [#41870431394](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41870431394) FAILURE: `FaroV5T4SyntheticCleanupTest` (común) referencia `FaroV5T4SyntheticCleanup` (sólo `src/debug`). No se ejecutaron los tres tests M2.
+- Barrido READ_ONLY completado: **27 test files Kotlin + 4 Java** contra 9 archivos debug. Las únicas dos referencias cruzadas eran `FaroV5T4PostPickerGateTest` (YA reubicado) y `FaroV5T4SyntheticCleanupTest`. No repetir error uno por uno.
+- Reubicar el segundo test al `src/testDebug` con el **mismo blob SHA `59025180d2eaa9502b3a7c7d90caf212d1a2a67a`**, sin alterar S2 ni sus tests. Workflow exige ambos: 4/4 + 3/3 = **7/7** en debug; más M2 3/3 + M1 4/4. Estado pendiente CI.
