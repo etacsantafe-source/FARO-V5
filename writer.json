@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A4.CANONICAL_AVISOS_READ_ONLY.20261104",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.CHAINED_A2_A4_CI_HANDOFF.20261104",
   "token_hash": "c631b51e5da0e44f5621ac2586fedae215a7cbdddd4b834e41ac3a2b5b90ba7a",
   "target_branch": "work/s3-night-20261102",
   "target_head": "a72b723475c0ea37f57c62752324765577d2b9c8",
-  "epoch": 115,
-  "timestamp": 1793794989,
-  "purpose": "S3_A4_AVISOS_REAL_OWNER_UI_COMMITTED_CI_PENDING"
+  "epoch": 116,
+  "timestamp": 1793795436,
+  "purpose": "S3_CHAINED_A2_A4_TWO_STREAM_CI_VERIFIED_DURABLE_CHECKPOINT"
 }
