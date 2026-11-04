@@ -39,15 +39,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s3-night/S3_A2_CANONICAL_MESSAGE_CONTENT_VERIFIED_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "Hybrid single priority S3.A2 OPEN: G3 bounded canonical message BODY search proven at b82cda31 run #41834770502 23/23 directed JVM, still NOT in-chat exact-message navigation and nonexhaustive PARTIAL. G1 real independent Workspace ACL revocation/regrant owner, genuine monotonic epoch + generation/ACL invalidation, remains blocker; shipping V1 no Workspace and searchReadPort=null; never activate V2. G2 bind only after genuine authority. G4 other actual sources Finance/Objectives/Matters. G5 X01-X12 and physical once at S3 end. A4 real Avisos from Auxiliary but A4 overall partial. S2 CLOSED 8/8 frozen, S3 OPEN, S4/V2/Auto/Noche OFF queue STAGED catalog 172 +8 not authorized. See docs/s3-night/S3_A2_CANONICAL_MESSAGE_CONTENT_VERIFIED_20261104.md",
-  "checkpoint_status": "S3_A2_G3_BOUNDED_MESSAGE_CANONICAL_SEARCH_CI_PASS_23_OF_23_G1_ACL_OWNER_BLOCKED",
+  "next": "S3.A2 HYBRID priority. In-chat exact message navigation code 9bdbf7d4 CI run 41836792753 SUCCESS XML 5/5+surface55/55; bounded resources commit 09fa2b21 (last 250 messages/64000 chars/query<=200, PARTIAL coverage) CI run 41837562790 in_progress PENDING; MUST verify XML 7/7 and full surface before PASS. Then G1 real independent Workspace ACL revoke/regrant epoch owner; G2 shipping binding only with real owner; G3 global hit-to-message remaining; G4 authentic other canonical source adapters. S2 CLOSED8/8, S3 OPEN, S4/V2/Auto/Noche OFF queue STAGED, 172 ops fixed, physical only at end. See docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
+  "checkpoint_status": "S3_A2_IN_CHAT_EXACT_NAV_55_55_PREVIOUS_CI_PASS_BOUNDED_RESOURCE_CI_PENDING_G1_ACL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
-  "last_handoff": "docs/s3-night/S3_A2_CANONICAL_MESSAGE_CONTENT_VERIFIED_20261104.md",
-  "last_code_sha": "b82cda31feec33578d54affc2038e0169e3fbd39",
-  "last_ci_run_id": 41834770502,
+  "last_handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
+  "last_code_sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
+  "last_ci_run_id": 41837562790,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_APP_DIRECTED_XML_23_23",
+  "last_ci_conclusion": "IN_PROGRESS_EXACT_SHA_XML_UNVERIFIED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -216,5 +216,31 @@
     "real_acl": "MISSING",
     "ui": "SEARCH_READ_PORT_NULL",
     "limitations": "EXACT_MESSAGE_NAVIGATION_NOT_DONE;BOUNDED_CONTENT_PARTIAL;MULTI_OWNER_SEARCH_NOT_BOUND"
+  },
+  "progress_s3_a2_in_chat_20261104": {
+    "commits": [
+      "9bdbf7d44e21194e76f8aec1c35a01154d74d016",
+      "09fa2b21d60011dc147971fa169829e3c8657b64"
+    ],
+    "previous_ci": {
+      "id": 41836792753,
+      "status": "SUCCESS",
+      "xml": "5/5 new and 55/55 total"
+    },
+    "current_ci": {
+      "id": 41837562790,
+      "status": "in_progress",
+      "conclusion": "PENDING",
+      "xml": "UNVERIFIED"
+    },
+    "limits": {
+      "message_count": 250,
+      "char_count": 64000,
+      "query_chars": 200
+    },
+    "shipping_search": "UNBOUND",
+    "user_physical": "NOT_RUN",
+    "real_acl": "MISSING",
+    "cross_domain": "NOT_BOUND"
   }
 }
