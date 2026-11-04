@@ -40,3 +40,10 @@
 **B7 AUDITORÍA FINAL:** exigir evidencia de run/test real, SHA de protocolo, que `FARO_PROTOCOL_GATE_PASS` aparezca en logs, writer RELEASED y puntero/permiso verificables. **NO CERRADO** hasta observar esos datos.
 
 **Nota:** estas pruebas representan el protocolo de ejecución de un agente, no un tercero independiente con autoridad para otorgar permisos. El estado PREAUDIT de V2 continúa bloqueado.
+
+## Primer run del guardia — CI roja, corrección dirigida
+
+- SHA `17b409da9af6879728955655fb86e362b677d1ef`; run [#41876544023](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41876544023), **FAILURE en SELFTEST**, no se ejecutó auditoría de historia todavía. 12/14 tests PASSED, 1 FAIL y 1 ERROR.
+- FAIL: la prueba de permiso creado en el mismo commit esperaba `not READY` aunque el motor correctamente rechaza antes con `control-state and code mixed`. Ajustar solo el mensaje esperado, **no** la política.
+- ERROR: segunda unidad intentó commitear un archivo inalterado y Git devolvió nothing to commit. Ajustar fixture a ruta nueva, **no** la política.
+- Próximo gate: 14/14 exactas + `FARO_PROTOCOL_GATE_PASS` en run nuevo sobre SHA nuevo; ningún PASS anticipado.

@@ -94,7 +94,7 @@ class ProtocolHistoryGateTest(unittest.TestCase):
         self.put("v5/app/a.kt", "class A")
         self.permit.write_text(json.dumps({"schema": 1, "status": "READY"}))
         self.commit("feat\n\nFARO-UNIT:M2A")
-        with self.assertRaisesRegex(gate.ProtocolError, "not READY"):
+        with self.assertRaisesRegex(gate.ProtocolError, "control-state and code mixed"):
             self.check()
 
     def test_complete_preaudit_and_bounded_scope_pass(self):
@@ -165,7 +165,7 @@ class ProtocolHistoryGateTest(unittest.TestCase):
             "evidence": [{"path": "docs/v5/audit.md", "blob_sha": sha, "marker": "## B7"}],
         }
         self.ready(unit="M3", last=last)
-        self.source(msg="feat\n\nFARO-UNIT:M3")
+        self.source(label="v5/app/second_unit.kt", msg="feat\n\nFARO-UNIT:M3")
         with self.assertRaisesRegex(gate.ProtocolError, "RED_FIX cannot open"):
             self.check()
 
