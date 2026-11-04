@@ -55,7 +55,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             textSize = 22f
         })
         column.addView(TextView(this).apply {
-            text = "Solo Workspace y Chat local. Sin Groq/IA, Buscar, Apply, notificaciones ni conexión a Internet. Los datos de FARO habitual no se comparten."
+            text = "Workspace, Chat y Buscar local. Sin Groq/IA, Apply, notificaciones ni conexión a Internet. Los datos de FARO habitual no se comparten."
         })
         status = TextView(this).apply { text = "Sin abrir. V2 habitual permanece apagada." }
         column.addView(status)
@@ -117,7 +117,8 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             timelineReadPort = active.timelineReadPort,
                             selectionPort = active.selectionPort,
                             composerPort = active.composerPort,
-                            // No assistant, no review, no Apply, no Search or external effects.
+                            searchReadPort = active.searchReadPort,
+                            // DEV-only canonical Workspace Search; no assistant, Apply or external effects.
                         )
                     }
                 } finally {

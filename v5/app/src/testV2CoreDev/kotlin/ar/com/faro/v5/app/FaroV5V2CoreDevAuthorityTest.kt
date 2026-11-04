@@ -12,6 +12,10 @@ import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.maintenance.*
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -303,6 +307,85 @@ class FaroV5V2CoreDevAuthorityTest {
             assertEquals(1, runBlocking { reopened.workspaceReadPort.readSnapshot() }.conversations.size)
             assertEquals(draft, runBlocking { reopened.composerPort.read(chat) })
             assertTrue(runBlocking { reopened.timelineReadPort.readTimeline(chat) }!!.messages.isEmpty())
+        }
+    }
+
+    @Test fun isolatedDevSearchFindsCommittedMessageAndSelectsCanonicalChat() = runBlocking {
+        FaroV5V2CoreDevAuthority(root).open().use { session ->
+            val chat = ConversationId("dev-search-expensas")
+            assertTrue(session.selectionPort.createAndSelect(
+                chat, 1000L, IdempotencyKey("dev-search-create"),
+            ) is ConversationSelectionResult.Saved)
+            val draft = requireNotNull(session.composerPort.read(chat))
+            val saved = session.composerPort.save(ConversationDraftSaveRequest(
+                chat, draft.authorityToken, draft.revision,
+                "Pagar las expensas de noviembre", IdempotencyKey("dev-search-draft"),
+            )) as ConversationDraftWriteResult.Saved
+            assertTrue(session.composerPort.sendDraft(ConversationDraftSendRequest(
+                ConversationDraftSendCandidate(
+                    chat, saved.snapshot.authorityToken, saved.snapshot.revision,
+                    saved.snapshot.text,
+                ),
+                ConversationMessageId("dev-search-user"), ConversationTurnId("dev-search-turn"),
+                1001L, IdempotencyKey("dev-search-send"),
+            )) is ConversationTimelineWriteResult.Saved)
+            val page = session.searchReadPort.search("EXPENSAS")
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchCoverage.COMPLETE, page.coverage)
+            assertEquals(1, page.hits.size)
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.CONFIRMED,
+                session.searchReadPort.openAuthorized(page.hits.single()))
+            assertEquals(chat, session.workspaceReadPort.readSnapshot().activeConversationId)
+        }
+    }
+
+    @Test fun closedDevSessionDeniesPublishedHitEvenAfterNewVerifiedGrant() = runBlocking {
+        val first = FaroV5V2CoreDevAuthority(root).open()
+        val chat = ConversationId("dev-search-stale-hit")
+        assertTrue(first.selectionPort.createAndSelect(
+            chat, 1000L, IdempotencyKey("dev-search-stale-create"),
+        ) is ConversationSelectionResult.Saved)
+        val oldPort = first.searchReadPort
+        val oldHit = oldPort.search("nuevo").hits.single()
+        first.close()
+        assertEquals(ar.com.faro.v5.surface.FaroV5SearchCoverage.UNAVAILABLE,
+            oldPort.search("nuevo").coverage)
+        assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.UNAVAILABLE,
+            oldPort.openAuthorized(oldHit))
+        FaroV5V2CoreDevAuthority(root).open().use { second ->
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.UNAVAILABLE,
+                oldPort.openAuthorized(oldHit))
+            val fresh = second.searchReadPort.search("nuevo")
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchCoverage.COMPLETE, fresh.coverage)
+            assertEquals(1, fresh.hits.size)
+            assertNotEquals(oldHit.issuanceId, fresh.hits.single().issuanceId)
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.CONFIRMED,
+                second.searchReadPort.openAuthorized(fresh.hits.single()))
+        }
+    }
+
+    @Test fun durablePointerSwitchRevokesDevSearchAndEmitsLiveInvalidation() = runBlocking {
+        FaroV5V2CoreDevAuthority(root).open().use { session ->
+            val chat = ConversationId("dev-search-pointer")
+            assertTrue(session.selectionPort.createAndSelect(
+                chat, 1000L, IdempotencyKey("dev-search-pointer-create"),
+            ) is ConversationSelectionResult.Saved)
+            val hit = session.searchReadPort.search("nuevo").hits.single()
+            val observed = mutableListOf<Unit>()
+            val collector = launch(start = CoroutineStart.UNDISPATCHED) {
+                session.searchReadPort.invalidations.take(2).collect { observed.add(it) }
+            }
+            assertEquals(1, observed.size)
+            val previous = StorageGenerationId("v2-core-dev-workspace-1")
+            val switched = FileActiveGenerationPointer(root).compareAndSet(
+                previous, StorageGenerationId("dev-search-test-stale-pointer"),
+            )
+            assertNotNull(switched)
+            collector.join()
+            assertEquals(2, observed.size)
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchCoverage.UNAVAILABLE,
+                session.searchReadPort.search("nuevo").coverage)
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.UNAVAILABLE,
+                session.searchReadPort.openAuthorized(hit))
         }
     }
 }

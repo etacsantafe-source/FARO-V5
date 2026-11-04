@@ -9,6 +9,7 @@ import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
+import ar.com.faro.v5.surface.FaroV5SearchReadPort
 import java.nio.file.Files
 import java.nio.file.LinkOption
 import java.nio.file.Path
@@ -185,6 +186,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             "DEV activation lacks committed replay fence or authority"
         }
         val graph = FaroV5ActiveGenerationGraphOwner.open(normalized, targetId.value, gate, true)
+        var readAccess: FaroV5V2CoreDevSearchReadAuthority? = null
+        var pointerObserver: Runnable? = null
         return try {
             val workspace = checkNotNull(graph.workspace)
             val alive = AtomicBoolean(true)
@@ -203,11 +206,32 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val composer = FaroV5ActiveChatComposerSession(
                 targetId.value, workspace, gate, current, ready,
             )
+            // DEV search authority is scoped to THIS verified host session.
+            // Never persist a grant or reuse a Workspace write authority token.
+            val access = FaroV5V2CoreDevSearchReadAuthority {
+                ready.getAsBoolean()
+            }
+            readAccess = access
+            access.grantAfterVerifiedOpen()
+            val observer = Runnable { access.invalidate() }
+            pointer.addChangeListener(observer)
+            pointerObserver = observer
+            val canonical = FaroV5WorkspaceSearchReadSource(
+                targetId.value, workspace,
+                { pointer.read()?.generationId?.value },
+                { access.epochOrNull() },
+                { ready.getAsBoolean() },
+            )
+            val search = FaroV5WorkspaceSearchSurfaceAdapter(
+                canonical, selection.port, access.invalidations,
+            )
             Session(
                 graph, alive, reads.workspaceReadPort, reads.timelineReadPort,
-                selection.port, composer.port,
+                selection.port, composer.port, search, access, pointer, observer,
             )
         } catch (failure: Throwable) {
+            pointerObserver?.let { pointer.removeChangeListener(it) }
+            readAccess?.close()
             graph.close()
             throw failure
         }
@@ -220,9 +244,17 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         val timelineReadPort: ConversationTimelineReadPort,
         val selectionPort: ConversationWorkspaceSelectionPort,
         val composerPort: ConversationComposerPort,
+        val searchReadPort: FaroV5SearchReadPort,
+        private val searchAccess: FaroV5V2CoreDevSearchReadAuthority,
+        private val pointer: FileActiveGenerationPointer,
+        private val pointerObserver: Runnable,
     ) : AutoCloseable {
         override fun close() {
-            if (alive.compareAndSet(true, false)) graph.close()
+            if (alive.compareAndSet(true, false)) {
+                searchAccess.close()
+                pointer.removeChangeListener(pointerObserver)
+                graph.close()
+            }
         }
     }
 }
