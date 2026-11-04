@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.EXTERNAL.B3.20261104",
-  "token_hash": "cf5e3b3ae861b1241f6c0dc405e4cc1d87f0c079dc722841778146f9d6394a96",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.DEV_SEARCH.20261104",
+  "token_hash": "571b6e3b92058b10f12a26b7be0d299e645114310dbc900d66908be2de9d28d4",
   "target_head": "7ba9cbc635eeedc4bccce5072c09a9cd4a638092",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 187,
-  "timestamp": 1793833518,
-  "purpose": "S3_A2_G1_EXTERNAL_B3_DOCUMENTED_PROTOCOL_AND_POINTER"
+  "epoch": 188,
+  "timestamp": 1793833795,
+  "purpose": "S3_A2_DEV_READ_SESSION_ACL_B1_B5_PERMIT_AND_CODE"
 }
