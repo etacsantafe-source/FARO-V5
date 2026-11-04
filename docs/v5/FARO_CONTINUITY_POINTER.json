@@ -42,10 +42,10 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M5 APK code SHA 9bd648415718070bdda0465ab26431e36eda95d4 guard #41899136517 SUCCESS, new workflow #41899136921 in_progress; check exact run+APK artifact and AAPT2 binary evidence before claiming PASS, B7 pending. Permit BLOCKED; no next functional commits without B7 and fresh audited permit. See docs/v5/FARO_V2_M5_APK_B6_WAIT_CI_20261104.md. Writer RELEASED expected epoch171; M4 PASS, M5 APK open, physical NOT_RUN, V2_DEV_CORE_READY=false.",
-  "checkpoint_status": "M5_APK_B6_WAIT_CI_B7_PENDING_PERMIT_BLOCKED",
+  "next": "M5 old code 9bd64841 B7 RED_FIX (30m CI timeout, no artifact), new evidence docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md blob 75043d8943a2bf4e271b6f46cc2098f8522967c4 and READY permit for ONLY .github/workflows/faro-v5-v2-core-apk-directed.yml. NEXT exact preflight PASS on GitHub checkout, then workflow bounded in-process/1 worker/diagnostics, run new exact CI, B7. V2_DEV_CORE_READY false; physical NOT_RUN; release writer epoch172.",
+  "checkpoint_status": "M5_APK_B7_REDFIX_TIMEOUT_NEW_PERMIT_READY_PREFLIGHT_REQUIRED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M5_APK_B6_WAIT_CI_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
   "last_code_sha": "9bd648415718070bdda0465ab26431e36eda95d4",
   "last_ci_run_id": 41899136921,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "M5_APK_41899136921_IN_PROGRESS_NO_CONCLUSION;M5_GUARD_41899136517_SUCCESS;M4_PASS_41896913438",
+  "last_ci_conclusion": "M5_APK_41899136921_CANCELLED_JOB_TIMEOUT_30MIN_NO_ARTIFACT;GUARD_41899136517_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -563,7 +563,7 @@
     "m4_permit": "BLOCKED",
     "m4_b6": "DONE_VERIFIED",
     "m4_b7": "PASS_VERIFIED",
-    "m5": "B6_WORKFLOW_COMMITTED_WAIT_CI",
+    "m5": "B7_REDFIX_TIMEOUT_NEW_READY_PERMIT_PREFLIGHT_PENDING",
     "physical": "NOT_RUN",
     "v2_dev_core_ready": false,
     "m4_final_code_sha": "aba2850cea07d19bbddb8813b1592cd641b67d62",
@@ -576,12 +576,12 @@
     "ci_guard_result": "SUCCESS",
     "m5_preaudit": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
     "m5_preaudit_blob": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
-    "m5_permit": "BLOCKED_PENDING_B7",
-    "m5_b6": "WAIT_CI",
-    "m5_b7": "PENDING",
+    "m5_permit": "READY_WORKFLOW_ONLY",
+    "m5_b6": "READY_TO_IMPLEMENT_AFTER_PREFLIGHT",
+    "m5_b7": "RED_FIX_PRIOR_9BD64841",
     "m5_code_sha": "9bd648415718070bdda0465ab26431e36eda95d4",
     "m5_ci_run": 41899136921,
-    "m5_ci_status": "in_progress",
+    "m5_ci_status": "CANCELLED_TIMEOUT_30M_NO_APK",
     "m5_guard_run": 41899136517
   }
 }

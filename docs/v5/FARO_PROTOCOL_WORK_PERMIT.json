@@ -1,16 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "9bd648415718070bdda0465ab26431e36eda95d4",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "M5_DEV_APK_PACKAGE_GATE",
+  "reviewed_head": "f93986c83c33ca287058aec3c27c6806d653eb7a",
+  "paths": [
+    ".github/workflows/faro-v5-v2-core-apk-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
-          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
-          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
-          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
-          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,29 +51,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
-          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "WAIT_CI_M5_APK_PACKAGE_GATE",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "aba2850cea07d19bbddb8813b1592cd641b67d62",
-    "result": "PASS",
-    "unit_id": "M4_DEV_NEGATIVE_EFFECT_GATES",
+    "sha": "9bd648415718070bdda0465ab26431e36eda95d4",
+    "result": "RED_FIX",
+    "unit_id": "M5_DEV_APK_PACKAGE_GATE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_V2_M4_B7_PASS_20261104.md",
-        "blob_sha": "7137494b70d565ca344728c3b26ed17a7fae35f4",
-        "marker": "## B7 PASS"
+        "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
+        "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
+        "marker": "## B7 RED_FIX"
       }
     ]
   },
-  "why": "M5 workflow code 9bd64841 committed with exact parent READY permit+preflight, but APK CI #41899136921 has not been certified and B7 is open. No next functional code allowed.",
-  "how": "Read CI run 41899136921 exact job/log/artifact, then B7 PASS or RED_FIX. Before any subsequent code issue a fresh bounded permit with reviewed evidence. V2_DEV_CORE_READY false, physical NOT_RUN.",
+  "why": "M5 original APK CI 41899136921 cancelled at 30m within :app:compileV2CoreDevKotlin; no APK/artifact. Corrective B1-B5 and B7 RED_FIX doc 75043d89.",
+  "how": "Mandatory exact preflight on GitHub checkout before changing only M5 workflow; bounded Gradle in-process/one worker/log diagnostics. Do not weaken binary gate or claim APK done.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
