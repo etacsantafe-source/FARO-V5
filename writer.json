@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.READINESS.20261104",
   "token_hash": "9da30496bcb2d3c33686de12a0b9968e3e12231e6cc4d85fbfb07428e5e3ee0d",
   "target_head": "445704c5a8d702a872e0d059ce156dd8c9b414f4",
   "target_branch": "work/s3-night-20261102",
   "epoch": 176,
-  "timestamp": 1793825528,
-  "purpose": "M5_SINGLE_PHYSICAL_GATE_READINESS_DOCUMENTATION_ONLY"
+  "timestamp": 1793825580,
+  "purpose": "M5_PHYSICAL_CAMPAIGN_PREP_COMMITTED_58ee7c17_PERMIT_BLOCKED"
 }
