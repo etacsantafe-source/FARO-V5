@@ -28,6 +28,7 @@ object FaroV5SurfaceHost {
         attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
         homeReadPort: FaroV5HomeReadPort? = null,
         searchReadPort: FaroV5SearchReadPort? = null,
+        avisosReadPort: FaroV5AvisosReadPort? = null,
     ) {
         activity.setContent {
             FaroV5Theme {
@@ -43,6 +44,7 @@ object FaroV5SurfaceHost {
                     attachmentIngress = attachmentIngress,
                     homeReadPort = homeReadPort,
                     searchReadPort = searchReadPort,
+                    avisosReadPort = avisosReadPort,
                 )
             }
         }
