@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M4.WAITCI.20261104",
-  "token_hash": "b231a9016f21e9d32e59d705c913aba8b17005e48f321fe8a42f5a520cd395df",
-  "target_head": "b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M4.B7.REDFIX.20261104",
+  "token_hash": "837732f5ac0c625d35c32b66e562bb74f0644d7a5e2cbbb980a3095d4bce88f1",
+  "target_head": "dbbd198045e64e242c47ff1f4d8614517a6e168d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 163,
-  "timestamp": 1793820050,
-  "purpose": "M4_WAIT_CI_DURABLE_DBBD1980"
+  "epoch": 164,
+  "timestamp": 1793820122,
+  "purpose": "M4 B7 RED_FIX seven packaged DEV permissions; doc-only"
 }
