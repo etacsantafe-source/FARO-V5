@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.REDFIX.PREAUDIT.20261104",
   "target_head": "f93986c83c33ca287058aec3c27c6806d653eb7a",
   "target_branch": "work/s3-night-20261102",
   "epoch": 172,
-  "timestamp": 1793823293,
-  "purpose": "M5 APK CI timeout corrective document only",
+  "timestamp": 1793823474,
+  "purpose": "M5_READY_PERMIT_065D0485_PREFLIGHT_PENDING",
   "token_hash": "3a18f6d4b2907e5c3a18f6d4b2907e5c3a18f6d4b2907e5c3a18f6d4b2907e5c"
 }
