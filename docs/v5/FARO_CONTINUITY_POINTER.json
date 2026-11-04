@@ -42,10 +42,10 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "CRITICAL: before writing any functional file, fetch exact protocol-guard run of permit SHA 763081d2, and require `FARO_PROTOCOL_PREFLIGHT_PASS M1_MANIFEST_VERIFIER` and CI success. If queued/failure STOP code and use READ_ONLY investigation. Guard workflow added exact preflight step SHA 1e3cfd58. After PASS and writer CAS re-acquire, fix only .github/workflows/faro-v5-v2-core-directed.yml to validate one packaged_manifests final artifact per variant, with fail-closed diagnosis, and commit tagged FARO-UNIT:M1_MANIFEST_VERIFIER. CI exact M1/M2/M3/T4, B7 final audit, writer RELEASE. S2 8/8 closed S3 ≈40% dev, 0/5 certified; S4, V2 productive, Noche, Auto OFF; no paid API.",
-  "checkpoint_status": "RETRO_DOC_COMPLETE_PERMIT_SCOPED_READY_AWAIT_EXACT_GUARD_CI_PREFLIGHT",
+  "next": "Verify exact new guard CI run on guard fix b6ebe14d: 14/14 + FARO_PROTOCOL_GATE_PASS + FARO_PROTOCOL_PREFLIGHT_PASS M1_MANIFEST_VERIFIER, all with completed SUCCESS. Parent-anchor bridge avoids false B7 failure on first permitted code commit; proof in docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md. Only THEN writer CAS acquire and single functional edit .github/workflows/faro-v5-v2-core-directed.yml tagged FARO-UNIT:M1_MANIFEST_VERIFIER, choose exact packaged_manifests variant path, check single candidate fail-closed, CI M1/M2/M3/T4 and B7 BEFORE another functional change. S2 8/8 S3 ≈40% development and 0/5 formal, S4/V2 productive/Noche/Auto OFF. No repeated CI retries unless causal analysis.",
+  "checkpoint_status": "GUARD_PARENT_PREFLIGHT_FIXED_CI_PENDING_M1_PERMIT_READY_NO_FUNCTIONAL_CODE",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+  "last_handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
   "last_ci_run_id": 41872895263,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -465,11 +465,11 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 147,
+  "last_writer_epoch_observed": 148,
   "protocol_guard": {
-    "status": "PERMIT_READY_PREFLIGHT_IN_CI_NOT_VERIFIED",
+    "status": "POST_CODE_PARENT_PREFLIGHT_BRIDGE_CI_PENDING",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
-    "guard_update_sha": "1e3cfd58160b1afe6a4704559a27ca1328496a4f",
+    "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_commit_sha": "763081d2cf9adcd615ab3e45924d58df3c0d6d9e",
     "permit_status": "READY",
@@ -477,36 +477,48 @@
     "allowed_paths": [
       ".github/workflows/faro-v5-v2-core-directed.yml"
     ],
-    "needs_exact_preflight_pass": true
+    "needs_exact_preflight_pass": true,
+    "preflight_proof_run": {
+      "id": 41878936448,
+      "sha": "6b4c63d3993a82dcb5a007c5f4ae9f22f4a15aef",
+      "job": "126746042901",
+      "status": "JOB_SUCCESS_LOG_PREFLIGHT_PASS_RUN_FINAL_NOT_OBSERVED"
+    }
   },
   "guard_latest_runs": [
     {
+      "id": 41880380178,
+      "head": "b6ebe14d",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 41880325125,
+      "head": "7ab4baec",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 41878936448,
+      "head": "6b4c63d3",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
       "id": 41878892927,
       "head": "763081d2",
-      "status": "queued",
+      "status": "in_progress",
       "conclusion": null
     },
     {
       "id": 41878848206,
       "head": "1e3cfd58",
-      "status": "queued",
-      "conclusion": null
+      "status": "completed",
+      "conclusion": "success"
     },
     {
       "id": 41878817985,
       "head": "7a063b22",
-      "status": "queued",
-      "conclusion": null
-    },
-    {
-      "id": 41878527914,
-      "head": "7465c87d",
-      "status": "queued",
-      "conclusion": null
-    },
-    {
-      "id": 41878472753,
-      "head": "37f032b2",
       "status": "queued",
       "conclusion": null
     }
