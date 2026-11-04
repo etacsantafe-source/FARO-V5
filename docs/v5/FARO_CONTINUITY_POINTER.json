@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 184
+    "expected_release_epoch": 186
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_V2_M5_FINAL_B7_BOUNDED_DEV_READY_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_G1_ACL_OWNER_B1_B5_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M5 B7 PASS_BOUNDED_DEV_ISOLATED and V2_DEV_CORE_READY=true only to RESUME S3 functional development, not V2 production. Evidence F00 hash exact installed, F01 UID distinct, F02 APK permissions and one launcher observed, F03/F04/F05 Chat user/force-stop visual, F06 five SQLite+WAL+journal on DEV run-as, F07 prior FARO preserved, F08 permission/ports negative capability PASS_BOUNDED (NO packet capture, NO absolute IPC claim), F09 N/A. No repeated M1-M5. NEXT: select minimum S3 unit and execute full seven-block protocol with new per-unit READY permit before any functional write; do not update installed APK until debug signing key stable. V2 productive/Auto/Noche OFF. See docs/v5/FARO_V2_M5_FINAL_B7_BOUNDED_DEV_READY_20261104.md",
-  "checkpoint_status": "M5_B7_PASS_BOUNDED_ISOLATED_DEV_V2_DEV_CORE_READY_TRUE_PRODUCTION_V2_OFF",
+  "next": "S3.A2-G1 B1–B5 PREIMPLEMENTATION_REVIEWED. Code BLOCKED. G3 canonical messages ALREADY implemented; do not repeat. NEXT inspect real active Workspace grant/revoke owner and durable independent monotonic ACL epoch, then separate per-unit READY permit after B5, exact preflight, B6 and B7. Keep V2 productive, Auto, Noche OFF; no DEV APK updates until signing identity stable.",
+  "checkpoint_status": "S3_A2_G1_B1_B5_REVIEWED_B6_BLOCKED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M5_FINAL_B7_BOUNDED_DEV_READY_20261104.md",
+  "last_handoff": "docs/s3-night/S3_A2_G1_ACL_OWNER_B1_B5_20261104.md",
   "last_code_sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
   "last_ci_run_id": 41905632794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -696,5 +696,15 @@
     "new_test_runs": 0,
     "final_audit_decision": "B7_PASS_BOUNDED_ISOLATED_DEV_ONLY",
     "limitations": "F08 no network traffic measured; signed APK lacks INTERNET/OS permission, no external ports, one launcher. F06 file structure only, not forensic integrity."
+  },
+  "s3_a2_g1_acl_owner_review": {
+    "status": "PLAN_REVIEWED_WITH_BLOCKER",
+    "baseline_head": "216ba0dfb34c9735301040e3a91c7fb1a57b59be",
+    "document": "docs/s3-night/S3_A2_G1_ACL_OWNER_B1_B5_20261104.md",
+    "code_permit": "BLOCKED",
+    "B6": "NOT_RUN",
+    "B7": "NOT_RUN",
+    "next": "VERIFY_REAL_WORKSPACE_GRANT_REVOKE_OWNER_AND_DURABILITY",
+    "local_date": "2026-11-04"
   }
 }
