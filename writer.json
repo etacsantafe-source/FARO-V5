@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M4.B7.REDFIX.20261104",
-  "token_hash": "837732f5ac0c625d35c32b66e562bb74f0644d7a5e2cbbb980a3095d4bce88f1",
-  "target_head": "dbbd198045e64e242c47ff1f4d8614517a6e168d",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M4.REDFIX.PERM.20261104",
+  "token_hash": "38f700dc19a41b88cbfc43df32ce063df21b50ac97eb65b9b2ab45716af261e1",
+  "target_head": "a8088569db284fd4f79d21313e635b8f0e92bca8",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 164,
-  "timestamp": 1793820209,
-  "purpose": "M4_B7_REDFIX_DURABLE_A8088569_DOCS_ONLY"
+  "epoch": 165,
+  "timestamp": 1793820250,
+  "purpose": "M4 RED_FIX path-bounded manifest DEV permit docs only"
 }
