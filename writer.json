@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.B7PASS.20261104",
   "token_hash": "2724f40cb03897bc68990f2d0c6db12fd021cd881bb154d7d5cb88e16a2ac68e",
   "target_head": "0759da3160e99f5c9ca2afaf8d797c37f499916e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 175,
-  "timestamp": 1793825100,
-  "purpose": "M5_DEV_APK_PACKAGE_GATE_B7_CI_41905632794_PASS_DOCUMENT_ONLY"
+  "timestamp": 1793825061,
+  "purpose": "M5_APK_B7_PASS_CHECKPOINT_445704c5_PERMIT_BLOCKED"
 }
