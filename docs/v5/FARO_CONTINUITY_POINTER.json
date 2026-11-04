@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
-  "trigger_action": "RECOVER_LIVE_STATE_AND_CONTINUE_AUTHORIZED_MANUAL_V2_MIN_CORE_AFTER_WRITER_CAS_PREFLIGHT; NEVER_AUTO_ACTIVATE_V2_PRODUCTION_AUTO_NIGHT",
+  "trigger_action": "RECOVER_LIVE_CHECKPOINT_AND_CONTINUE_MANUAL_RETROSPECTIVE_AUDIT_B1_B5_FIRST_WITHOUT_AUTOMATIONS_OR_PRODUCTION_V2",
   "updated_local_date": "2026-11-04",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
@@ -38,16 +38,16 @@
     "previous_authorization_revoked": true,
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
-  "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/v5/FARO_V2_MIN_CORE_M2B_M3_20261104.md",
+  "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+  "handoff": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M1 PASS #41864185753 XML 4/4; S3 previous regression #41871599723 SUCCESS. Prior M2A #41871599789 failed compile because only test asserted nonexistent public snapshot revision, now fixed via empty conversations. M2B/M3 DEV-only Application+Activity+manifest and true local Workspace/Composer + USER ACCEPTED message persistence test in HEAD, pending exact CI XML 4/4 M2/M3, 7/7 T4 debug, M1 4/4, M2B host manifest 4/4. No Groq/IA/Apply/OS, normal App remains V2 OFF. NEXT inspect exact CI, fix failures narrowly, then M4/M5 recovery/negative gates, single physical at end; S3 ~40% 0/5, S4 OFF, Auto/Noche OFF, catalog 172.",
-  "checkpoint_status": "M2B_DEV_LOCAL_CHAT_UI_AND_M3_TEST_CODE_COMMITTED_CI_PENDING",
+  "next": "PROTOCOL RESTORED BY USER 2026-11-04. FIRST READ live HEAD, writer, queue, CI; read protocol + JSON audit state. RETRO-01 read-only review M0/M1 blocks 1 evidence, 2 V4.4 comparison, 3 alternatives D-021, 4 unify, 5 pre-audit; then M2A M2B M3; preserve code tests 4/4 and T4 debug 7/7 at ae507919, inspect manifest verifier failure ('V2_CORE_M1_MANIFEST_AMBIGUOUS debug 2') only after pre-audit. New functional writes STOP until B1-B5 evidenced for target unit. Do not restart S2, S4, V2 production, Auto/Noche; no duplicate tests or reaudits absent changed hypothesis.",
+  "checkpoint_status": "RESTORED_SEVEN_BLOCK_PROTOCOL_RETROSPECTIVE_AUDIT_FIRST_NO_MORE_FUNCTIONAL_WRITES_UNTIL_PRE_AUDIT",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_MIN_CORE_M2B_M3_20261104.md",
-  "last_code_sha": "772d4ba6be4d6b7cc8e945f7ffe1c727935b222c",
-  "last_ci_run_id": 41871599789,
+  "last_handoff": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+  "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+  "last_ci_run_id": 41872895263,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_TEST_PUBLIC_SNAPSHOT_FIELD_MISSING_ON_PREVIOUS_SHA_NO_M2_TEST_EXECUTED",
+  "last_ci_conclusion": "FAILURE_GLOBAL_MANIFEST_VERIFIER_DEBUG_2;M2_M3_JVM_XML_4_4_PASS;T4_DEBUG_XML_7_7_PASS;S3_REGRESSION_41872895353_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -207,7 +207,9 @@
     "termometro": "ALWAYS_QUALITATIVE",
     "percent_end_of_every_turn": true,
     "percent_contract": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md",
-    "approximate_s3_percent_end_of_every_turn": true
+    "approximate_s3_percent_end_of_every_turn": true,
+    "mandatory_development_protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+    "retro_before_next_implementation": true
   },
   "progress_s3_a2_g3_20261104": {
     "status": "PARTIAL_CANONICAL_MESSAGE_BODY_CI_PASS_23_OF_23_NO_SHIPPING_BINDING",
@@ -404,5 +406,22 @@
     },
     "writer_release_expected_epoch": 135
   },
-  "last_code_ref": "work/s3-night-20261102@HEAD"
+  "last_code_ref": "work/s3-night-20261102@HEAD",
+  "protocol_history": [
+    "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md"
+  ],
+  "audit_state": "docs/v5/FARO_V2_PROTOCOL_RETRO_AUDIT_20261104.json",
+  "retrospective_audit": {
+    "required_by_user": "2026-11-04",
+    "status": "PENDING_INITIAL_FULL_REVIEW",
+    "priority": "NEXT_BEFORE_MORE_FUNCTIONAL_CODE",
+    "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+    "state": "docs/v5/FARO_V2_PROTOCOL_RETRO_AUDIT_20261104.json",
+    "source_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+    "first_unit": "RETRO-01-M0-M1",
+    "first_block": 1,
+    "no_background_automation": true,
+    "completed_scope": "protocol_restored_and_bounded_initial_inventory_only",
+    "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
+  }
 }

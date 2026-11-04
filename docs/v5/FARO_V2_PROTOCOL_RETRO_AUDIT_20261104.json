@@ -1,0 +1,160 @@
+{
+  "schema": 1,
+  "goal_id": "V2_MIN_CORE_SAFE_UNBLOCK",
+  "unit_id": "RETRO_V2_M0_M3",
+  "audit_mandate": "USER_2026_11_04_RECOVER_FULL_PROTOCOL_AND_REVIEW_UNPROTOCOLLED_WORK",
+  "manual_protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+  "historic_protocols": [
+    "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
+    "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md"
+  ],
+  "branch": "work/s3-night-20261102",
+  "audited_source_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+  "block_id": 1,
+  "block_name": "EVIDENCIA",
+  "block_status": "READY",
+  "status": "RETROSPECTIVE_AUDIT_REQUIRED_BEFORE_MORE_FUNCTIONAL_WRITES",
+  "acceptance": "For M0 M1 M2A M2B M3: enumerate 7 protocol blocks and exact evidence, compare V4.4 read-only, investigate and unify, adversarial pre-audit; only then implement delta, exact CI, independent final audit",
+  "units": [
+    {
+      "id": "M0",
+      "status": "PARTIAL_NEEDS_RETRO",
+      "evidence": [
+        "docs/v5/FARO_V2_MIN_CORE_M0_M1_20261104.md"
+      ],
+      "blocks": {
+        "evidence": "PARTIAL",
+        "comparison": "MISSING",
+        "investigation": "MISSING",
+        "unification": "PARTIAL",
+        "pre_audit": "MISSING",
+        "implementation": "NOT_APPLICABLE",
+        "final_audit": "MISSING"
+      }
+    },
+    {
+      "id": "M1",
+      "status": "HISTORICAL_PASS_CURRENT_UNCERTIFIED",
+      "evidence": [
+        "d2a41acb7dc63429a0075adc222807b02e8ee502",
+        "41864185753",
+        "V2_CORE_M1_ISOLATION_PASS 4/4"
+      ],
+      "blocks": {
+        "evidence": "PARTIAL",
+        "comparison": "MISSING",
+        "investigation": "MISSING",
+        "unification": "PARTIAL",
+        "pre_audit": "MISSING",
+        "implementation": "EVIDENCED_HISTORICAL",
+        "final_audit": "PARTIAL"
+      }
+    },
+    {
+      "id": "M2A",
+      "status": "JVM_PASS_FINAL_NOT_VERIFIED",
+      "evidence": [
+        "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+        "41872895263",
+        "V2_CORE_M2_M3_LOCAL_CHAT_JVM_PASS 4/4"
+      ],
+      "risks": [
+        "First-activation interrupted in PREPARING/STAGED not silently recoverable in current DEV startup"
+      ],
+      "blocks": {
+        "evidence": "PARTIAL",
+        "comparison": "MISSING",
+        "investigation": "PARTIAL",
+        "unification": "PARTIAL",
+        "pre_audit": "MISSING",
+        "implementation": "EVIDENCED_JVM_SUBSET",
+        "final_audit": "MISSING"
+      }
+    },
+    {
+      "id": "M2B",
+      "status": "BUILD_PASS_MANIFEST_VERIFIER_FAIL",
+      "evidence": [
+        "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+        "41872895263",
+        "V2_CORE_M1_MANIFEST_AMBIGUOUS debug 2"
+      ],
+      "blocks": {
+        "evidence": "PARTIAL",
+        "comparison": "MISSING",
+        "investigation": "PARTIAL",
+        "unification": "PARTIAL",
+        "pre_audit": "MISSING",
+        "implementation": "PARTIAL",
+        "final_audit": "MISSING"
+      }
+    },
+    {
+      "id": "M3",
+      "status": "LOCAL_CHAT_JVM_PASS_FINAL_NOT_VERIFIED",
+      "evidence": [
+        "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+        "41872895263",
+        "V2_CORE_M2_M3_LOCAL_CHAT_JVM_PASS 4/4"
+      ],
+      "blocks": {
+        "evidence": "PARTIAL",
+        "comparison": "MISSING",
+        "investigation": "PARTIAL",
+        "unification": "PARTIAL",
+        "pre_audit": "MISSING",
+        "implementation": "EVIDENCED_JVM_SUBSET",
+        "final_audit": "MISSING"
+      }
+    },
+    {
+      "id": "M4_M5",
+      "status": "NOT_CLOSED",
+      "evidence": [],
+      "blocks": {
+        "evidence": "MISSING",
+        "comparison": "MISSING",
+        "investigation": "MISSING",
+        "unification": "MISSING",
+        "pre_audit": "MISSING",
+        "implementation": "MISSING",
+        "final_audit": "MISSING"
+      }
+    }
+  ],
+  "current_ci": {
+    "head_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+    "core_run_id": 41872895263,
+    "core_conclusion": "FAILURE",
+    "passed": [
+      "M2_M3_JVM_4_OF_4",
+      "T4_DEBUG_7_OF_7"
+    ],
+    "failed": [
+      "V2_CORE_M1_MANIFEST_AMBIGUOUS_DEBUG_2"
+    ],
+    "s3_regression_run_id": 41872895353,
+    "s3_regression_conclusion": "SUCCESS"
+  },
+  "safety": {
+    "s2": "CLOSED_8_OF_8",
+    "s3_development_estimate": "~40% heuristic (35-45%)",
+    "s3_formal_closed": "0_OF_5",
+    "s4": "OFF",
+    "v2_production": "OFF",
+    "auto": "OFF",
+    "noche": "OFF",
+    "cloud": "STAGED",
+    "catalog": 172,
+    "writer_status_at_observation": "RELEASED",
+    "writer_epoch_at_observation": 141
+  },
+  "next_step": "READ_ONLY RETRO-01: review M0/M1 evidence, compare V4.4 relevant code, alternatives D-021, unification and adversarial pre-audit, record missing gates. Then M2A/M2B/M3. Do NOT patch manifest until prior blocks met. Preserve past PASS. Revalidate live state.",
+  "expected_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
+  "writer_release_epoch": 141,
+  "last_observed_at": "2026-11-04",
+  "blocker": "MANIFEST_VERIFIER_DUPLICATE_DEBUG_2;M4_M5_NOT_VERIFIED",
+  "physical": "NOT_RUN",
+  "user_trigger": "Continuar FARO V5",
+  "no_background_work": true
+}
