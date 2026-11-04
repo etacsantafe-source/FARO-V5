@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.SEARCH.ADAPTER.EMPTY-REUSE-TEST.20261104",
-  "token_hash": "42a1e5ced7fd103ea09ac30d99384cabd7f5342680a399199d3d2ec0f334aeed2",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.SEARCH.FEDERATED.REVOCATION.20261104",
+  "token_hash": "99853a357424c7b0cfec3c2354b9d973b05c462741292eeedec9aa3ca51aa3ef",
   "target_branch": "work/s3-night-20261102",
   "target_head": "ef4eb2a8d8a832e6fdcd550eba82d2ea9573d188",
-  "epoch": 101,
-  "timestamp": 1793792586,
-  "purpose": "S3_A2_WORKSPACE_ADAPTER_FIXED_WAIT_EXACT_CI"
+  "epoch": 102,
+  "timestamp": 1793792776,
+  "purpose": "S3_A2_FEDERATED_POST_MULTI_OWNER_REVOCATION_FENCE"
 }
