@@ -42,10 +42,10 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M4 functional commit b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a strict exact CI V2 #41895301999 S3 #41895302132 IN_PROGRESS at 2026-11-04T19:19Z; guard #41895302140 SUCCESS. Await real CI conclusion and XML, then B7 PASS or RED_FIX; do NOT duplicate runs or claim READY. See docs/v5/FARO_V2_M4_B6_WAIT_CI_20261104.md. M5 OPEN, V2_DEV_CORE_READY false; writer RELEASED expected epoch 163.",
-  "checkpoint_status": "M4_B6_CODE_COMMITTED_EXACT_CI_IN_PROGRESS_B7_OPEN",
+  "next": "M4 B7 RED_FIX 7 packaged manifest DEV permissions, exact evidence docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md. Prior M4 code b92d5407 JVM 6/6, T4 7/7, S3 25/25 PASS; V2 global FAILURE 41895301999. NEXT issue separately new READY permit on v2CoreDev/AndroidManifest.xml after B1-B5 evidence blob, preflight must PASS, then seven tools:node remove, CI exact and B7. Do not relax deny-all. M5 still OPEN, V2_DEV_CORE_READY false.",
+  "checkpoint_status": "M4_B7_REDFIX_DEV_PERMISSIONS_SEVEN_B1_B5_UPDATED_PERMIT_NEEDS_MANIFEST_SCOPE",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M4_B6_WAIT_CI_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
   "last_code_sha": "b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a",
   "last_ci_run_id": 41895301999,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "M4_GUARD_41895302140_SUCCESS;V2_41895301999_IN_PROGRESS;S3_41895302132_IN_PROGRESS",
+  "last_ci_conclusion": "M4_B92D5407_GUARD_41895302140_SUCCESS;V2_41895301999_FAILURE_PERMISSIONS_SEVEN;JVM_6_6_PASS_T4_7_7;S3_41895302132_SUCCESS_25_25",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -559,10 +559,10 @@
     "b7": "PASS_DEV_MANIFEST_SCOPE_ONLY"
   },
   "progress_v2_m4_m5_20261104": {
-    "m4": "B6_CODE_COMMITTED_WAIT_CI",
+    "m4": "B7_REDFIX_PERMISSIONS_SEVEN",
     "m4_permit": "READY_FOR_SAME_UNIT_PENDING_B7",
-    "m4_b6": "WAIT_CI",
-    "m4_b7": "PENDING",
+    "m4_b6": "CI_FAILED_MANIFEST_DENY",
+    "m4_b7": "RED_FIX_FOR_B92D5407",
     "m5": "OPEN",
     "physical": "NOT_RUN",
     "v2_dev_core_ready": false,
@@ -570,6 +570,9 @@
     "guard_run": 41895302140,
     "ci_v2_run": 41895301999,
     "ci_s3_run": 41895302132,
-    "preflight": "PASS_GITHUB_CHECKOUT_41894104925"
+    "preflight": "PASS_GITHUB_CHECKOUT_41894104925",
+    "ci_v2_result": "FAILURE",
+    "ci_s3_result": "SUCCESS_25_25",
+    "redfix_document": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md"
   }
 }
