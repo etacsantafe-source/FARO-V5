@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.HANDOFF.SEARCH.20261104",
   "token_hash": "99bbd4c2433043dde4e6b60e6ff7fe30bd86b73487daae9fe8182ab33e8e0c14",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "6b2ddcf4482bcd190d26cbc8ba6722ec90a44880",
-  "epoch": 92,
-  "timestamp": 1793791470,
-  "purpose": "S3_A2_SEARCH_TWO_GATES_CI_DURABLE_HANDOFF"
+  "target_head": "e1c1a3f6866cd3c8ba0c504ce1014124c1df4a29",
+  "epoch": 93,
+  "timestamp": 1793791567,
+  "purpose": "S3_A2_SEARCH_TWO_DIRECTED_CI_CHECKPOINT_CLEAN"
 }
