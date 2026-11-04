@@ -55,18 +55,18 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
                 source(store, { generation }, { acl }), store, MutableSharedFlow(),
             )
             val hit = adapter.search("nuevo").hits.single()
+            // Revoke without issuing a new search that would clear the page.
             acl = null
-            assertEquals(FaroV5SearchCoverage.UNAVAILABLE, adapter.search("nuevo").coverage)
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
+            // Regrant under a distinct epoch. The OLD implementation would
+            // CONFIRM this hit after rereading the same title and timestamp.
             acl = "acl-2"
-            generation = "g2"
-            assertEquals(FaroV5SearchCoverage.UNAVAILABLE, adapter.search("nuevo").coverage)
-            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
-            // Regrant under a NEW ACL epoch does not revive old displayed hits.
-            generation = "g1"
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
             val freshHit = adapter.search("nuevo").hits.single()
             assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(freshHit))
+            generation = "g2"
+            assertEquals(FaroV5SearchCoverage.UNAVAILABLE, adapter.search("nuevo").coverage)
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(freshHit))
         }
     }
 
