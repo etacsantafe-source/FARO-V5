@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_G3_DURABLE_CI_GATE.20261104",
   "token_hash": "dd4a4788d390e35076b8eaa689ac21b23c08ef3295b0510586221dc15597f2b9",
   "target_branch": "work/s3-night-20261102",
   "target_head": "de5bfd01f4cb8166723877998ef39641099c867c",
   "epoch": 128,
-  "timestamp": 1793803773,
-  "purpose": "S3_A2_G3_DURABLE_EVIDENCE_CI_PENDING"
+  "timestamp": 1793803804,
+  "purpose": "CHECKPOINT_PUBLISHED_CI_PENDING"
 }
