@@ -42,10 +42,10 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M2A_FIRST_START_RECOVERY B7 PASS exact CI: final test code d2af3017; V2 41890189016 SUCCESS XML M2/M3 4/4 + T4 7/7 + M1/M2B manifest 4/4 each; S3 41890189058 SUCCESS 25/25; protocol guard 41890189731 SUCCESS 14/14. Final evidence docs/v5/FARO_V2_M2A_B7_PASS_20261104.md, permit BLOCKED. NEXT: investigate and bound M4/M5 (negative egress, stale owner/renderer/OS, recovery and final readiness gates), reusing M1/M2A/M2B/M3 exact existing evidence. MUST NOT claim V2_DEV_CORE_READY or V2 productive active; no S3/S4 switch without real dependency. Writer RELEASED expected epoch 159, revalidate. S2 CLOSED 8/8; S3 approx 40% development 0/5 formal; S4 OFF; Auto/Noche OFF, CLOUD STAGED, catalog 172; physical NOT_RUN.",
-  "checkpoint_status": "M2A_FIRST_START_RECOVERY_B7_PASS_DEV_JVM_M4_M5_OPEN",
+  "next": "M4 preaudit B1-B5 durable in docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md; protocol work permit remains BLOCKED. NEXT separately issue path-bounded M4 permit with exact evidence blob SHA and preflight PASS; then minimal workflow+stale selection/composer negatives, exact CI XML, independent B7. M5 remains OPEN; V2_DEV_CORE_READY NOT granted; V2 productive/Auto/Noche OFF. No duplicate M1/M2A/M2B/M3 PASS. Writer release epoch expected 160.",
+  "checkpoint_status": "M4_NEGATIVE_GATES_B1_B5_DOCUMENTED_PERMIT_BLOCKED_M5_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M2A_B7_PASS_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
   "last_code_sha": "d2af301789db445be764368f0d50528da63fb41d",
   "last_ci_run_id": 41890189016,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -557,5 +557,16 @@
     "dev_core": "SUCCESS_4_4_7_7_4_4_4_4",
     "s3_regression": "SUCCESS_9_9_7_7_5_5_4_4",
     "b7": "PASS_DEV_MANIFEST_SCOPE_ONLY"
+  },
+  "progress_v2_m4_m5_20261104": {
+    "m4": "B1_B5_DOCUMENTED_PREAUDIT_ONLY",
+    "m4_permit": "BLOCKED",
+    "m4_b6": "NOT_STARTED",
+    "m4_b7": "PENDING",
+    "m5": "OPEN",
+    "physical": "NOT_RUN",
+    "v2_dev_core_ready": false,
+    "baseline_sha": "3b586361740c50558bec129e60f35673adff2717",
+    "preaudit_document": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md"
   }
 }
