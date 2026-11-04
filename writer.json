@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2.WORKSPACE.SOURCE.20261104",
   "token_hash": "66ce06a0e75d7eb0062d866f66c01eb8cc5e61724d8ab112bdbb0a061cbf89b",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "df3322fc34959bbb27b99a9c18ae9a1a939778cd",
+  "target_head": "98e09892cb8d66d9ab77ecd98bb080320674871c",
   "epoch": 84,
-  "timestamp": 1793789614,
-  "purpose": "S3_A2_REAL_WORKSPACE_CANONICAL_SEARCH_READ_SOURCE"
+  "timestamp": 1793789726,
+  "purpose": "S3_A2_REAL_WORKSPACE_SEARCH_PENDING_CI"
 }
