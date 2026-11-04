@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 PARTIAL. N015 Reality-only committed receipt query at b37cbd62 + uncommitted transaction guard at 948d6201 certified by CI 41810884579 and 41811354035, each 2/2. Missing commit-time durability and cross-owner coverage: do not label Activity reciente complete or count lexical receipts as recent. N031 matter-only urgent projection at 760ce23b certified CI 41811626933 4/4. Next genuine planning storage owner + reminder and monthly-plan attention + ACL/generation invalidations; Guardados 8 unapproved. No new Operation IDs, no S4/V2, physical only at final S3.",
+  "next": "S3 manual checkpoint HEAD code 8133e044, 3 completed CI runs: 41816802648 8/8 Search, 41817401345 3/3 Workspace search + 9/9 Home regression, 41817846020 3/3 finance activity + 2/2 receipt regression. Next: authorized S3-A2 UI/federation only after real ACL/generation owner; N031 planning persistence with FBS-compatible lifecycle and actual reminders/monthly alerts; N015 true committed-time/history owner federation; independent ACL revocation emitter. No fake Home counts or unsupported Activity claims; no schema changes until S2 backup compat reviewed. S2 CLOSED, S4/V2 OFF; Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED; physical at end S3.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -288,6 +288,15 @@
         "research_time": "NO_REGISTRADO",
         "ci_wall_time": "OBSERVABLE_IN_GITHUB_RUNS_NOT_USER_WORK_TIME"
       }
+    },
+    "manual_finance_activity_20261104": {
+      "status": "PARTIAL_REALITY_FINANCE_OWNER_FEED_CI_VERIFIED_NOT_GLOBAL_ACTIVITY",
+      "code_sha": "8133e04492a79b7ea187a367d4d4eb89ff4a3e95",
+      "run_id": 41817846020,
+      "ci": "SUCCESS; S3_FINANCE_ACTIVITY_XML_PASS 3/3; S3_REALITY_RECEIPT_XML_PASS 2/2",
+      "implemented": "Read-only RealityStore.financeActivity over actual finance_entry with recordedAt owner-date desc, stable tie cursor, optional account/kind filters, revision, no schema migration, no writes. Denies in-flight and closed store.",
+      "caveat": "RecordedAt is FINANCE owner-defined date, NOT Apply commit timestamp. Entries alone do NOT certify an execution receipt or complete global history.query; no Home Actividad claim.",
+      "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
@@ -454,5 +463,43 @@
     "app_v2": "OFF",
     "s4": "OFF",
     "code_changes": false
+  },
+  "a2_manual_20261104": {
+    "status": "S3-A2 IN_PROGRESS, not complete; S3-A1 remains partial.",
+    "owner_revalidated_search": {
+      "code_sha": "df3322fc34959bbb27b99a9c18ae9a1a939778cd",
+      "run_id": 41816802648,
+      "ci": "SUCCESS; S3_CANONICAL_SEARCH_XML_PASS 8/8",
+      "implemented": "Exact canonical owner authorization, generation+ACL+ownerRevision revalidation before and after read; optional AppSearch ranking hint only; bounded 500 read; fallback when index unavailable; accent-insensitive deterministic ranking; stale/revoked index hits suppressed; PARTIAL and UNAVAILABLE never mislabeled zero.",
+      "not_yet": "No complete multi-owner hybrid federation or surface binding. Index cache invalidation on owner change remains to be independently verified."
+    },
+    "workspace_source": {
+      "code_sha": "98e09892cb8d66d9ab77ecd98bb080320674871c",
+      "run_id": 41817401345,
+      "ci": "SUCCESS; S3_WORKSPACE_SEARCH_XML_PASS 3/3; S3_HOME_NOTICE_XML_PASS 9/9",
+      "implemented": "Actual persisted WorkspaceStore revision and conversation titles; opaque stable SHA-256 IDs; archived retained; canonical resolve on navigation; explicit current-generation, readiness, owner revision, and required ACL epoch supplier; denied after revocation/switch/closed store.",
+      "not_yet": "Not mounted to shipping UI; no real independent ACL epoch publisher shown, so no default ACL stamp/fake authority and V2 remains OFF."
+    }
+  },
+  "last_manual_ci_proofs_20261104": {
+    "direct": [
+      41816802648,
+      41817401345,
+      41817846020
+    ],
+    "exact_xml": [
+      "8/8 canonical search",
+      "3/3 real Workspace search",
+      "9/9 Home notice regression",
+      "3/3 Reality finance activity",
+      "2/2 receipt regression"
+    ],
+    "all_success": true,
+    "metrics": {
+      "effective_work_minutes": "NOT_MEASURED",
+      "research_minutes": "NOT_MEASURED",
+      "ci_elapsed_from_github": "AVAILABLE_RUNS",
+      "physical_tests": "NOT_RUN"
+    }
   }
 }

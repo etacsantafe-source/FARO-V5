@@ -42,12 +42,12 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3-A1 PARTIAL. N015 Reality-only committed receipt query at b37cbd62 + uncommitted transaction guard at 948d6201 certified by CI 41810884579 and 41811354035, each 2/2. Missing commit-time durability and cross-owner coverage: do not label Activity reciente complete or count lexical receipts as recent. N031 matter-only urgent projection at 760ce23b certified CI 41811626933 4/4. Next genuine planning storage owner + reminder and monthly-plan attention + ACL/generation invalidations; Guardados 8 unapproved. No new Operation IDs, no S4/V2, physical only at final S3.",
-  "checkpoint_status": "S3_A1_PARTIAL_N015_REALITY_RECEIPTS_AND_N031_MATTER_POLICY_CI_VERIFIED",
+  "next": "S3 manual checkpoint HEAD code 8133e044, 3 completed CI runs: 41816802648 8/8 Search, 41817401345 3/3 Workspace search + 9/9 Home regression, 41817846020 3/3 finance activity + 2/2 receipt regression. Next: authorized S3-A2 UI/federation only after real ACL/generation owner; N031 planning persistence with FBS-compatible lifecycle and actual reminders/monthly alerts; N015 true committed-time/history owner federation; independent ACL revocation emitter. No fake Home counts or unsupported Activity claims; no schema changes until S2 backup compat reviewed. S2 CLOSED, S4/V2 OFF; Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED; physical at end S3.",
+  "checkpoint_status": "S3_A2_SEARCH_CANONICAL_WORKSPACE_PARTIAL_CI8_8_3_3_AND_N015_FINANCE_PARTIAL_CI3_3",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/RUN_STATE.json",
-  "last_code_sha": "760ce23bcaa4b20215be9e9966051980a08e9aee",
-  "last_ci_run_id": 41811626933,
+  "last_code_sha": "8133e04492a79b7ea187a367d4d4eb89ff4a3e95",
+  "last_ci_run_id": 41817846020,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_4_OF_4_N031;N015_CI_2_OF_2_AT_948D6201",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_S3_FINANCE_ACTIVITY_3_OF_3_RECEIPT_2_OF_2",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -130,5 +130,35 @@
     "s4": "OFF",
     "app_v2": "OFF",
     "catalog": 172
+  },
+  "progress_s3_a2_n015_20261104": {
+    "search": {
+      "sha": "df3322fc34959bbb27b99a9c18ae9a1a939778cd",
+      "run": 41816802648,
+      "xml": "8/8",
+      "status": "PARTIAL_CANONICAL_COORDINATOR"
+    },
+    "workspace": {
+      "sha": "98e09892cb8d66d9ab77ecd98bb080320674871c",
+      "run": 41817401345,
+      "xml": "3/3 plus Home 9/9",
+      "status": "PARTIAL_CANONICAL_REAL_STORE_NO_UI_NO_ACL_EMITTER"
+    },
+    "finance": {
+      "sha": "8133e04492a79b7ea187a367d4d4eb89ff4a3e95",
+      "run": 41817846020,
+      "xml": "3/3 plus receipt 2/2",
+      "status": "PARTIAL_OWNER_RECORDED_TIME_NO_APPLY_COMMIT"
+    },
+    "controls": {
+      "s2": "CLOSED_8_8",
+      "s3": "OPEN",
+      "s4": "OFF",
+      "v2": "OFF",
+      "auto": "OFF",
+      "night": "OFF",
+      "queue": "STAGED",
+      "writer_release_epoch_expected": 86
+    }
   }
 }
