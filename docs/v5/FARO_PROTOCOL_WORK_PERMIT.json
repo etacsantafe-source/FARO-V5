@@ -1,21 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
-  "reviewed_head": "ca741880922cec59e7295b0aa03e35b3e173524b",
+  "reviewed_head": "563cdffca87048a75d347eb9a6d9647f8c6a6b26",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReadSession.kt",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReadSessionT2Test.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReadSessionT2Test.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
-          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -24,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
-          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -34,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
-          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -44,9 +41,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
-          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
-          "marker": "## B4 DISEÑO"
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
+          "marker": "## B4 UNIFICACIÓN"
         }
       ]
     },
@@ -54,29 +51,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B1_B5_20261104.md",
-          "blob_sha": "56f546290ea6ffffe0d3a06200a4ad31f11a4796",
+          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "WAIT_CI_41936856517_41936856422_41936856486",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
-    "result": "PASS",
-    "unit_id": "S3_A2_DEV_SEARCH_SESSION_OWNER",
+    "sha": "212679f7c2dc211445dc7f806479b83aea8780e0",
+    "result": "RED_FIX",
+    "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md",
-        "blob_sha": "345fed6314faa5200b435da31907c71fd38d6174",
+        "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_INITIAL_B7_REDFIX_20261104.md",
+        "blob_sha": "7263a43269955e74785276edd955fdeda0fd6444",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Active Chat read pointer ABA code 212679f7 pushed after successful exact preflight, four CI jobs launched; functional XML and APK still running at checkpoint. B7 pending.",
-  "how": "Verify SHA 212679f7 Actions #41936856517 Chat read 6/6+Home25/25, #41936856422 DEV10/10, #41936856486 APK signature zero permissions, #41936856589 protocol guard; then independent B7 and mark last_code_review. Never treat guard alone as PASS.",
+  "why": "Exact prior S3 CI #41936856517 red: JUnit XML 5/5 while 6 @Test source due inferred non-Unit return from runBlocking/assertThrows, previous code B7 RED_FIX.",
+  "how": "Same-unit one-line Kotlin test signature : Unit fix only; do not loosen 6/6 XML. CI exact SHA + B7 independent. No production changes.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
