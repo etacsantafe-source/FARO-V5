@@ -540,6 +540,11 @@ class RealityStore(
         query: RealityReceiptHistoryQuery,
     ): RealityReceiptHistoryPage = synchronized(lock) {
         checkOpen()
+        // A same-thread observer must not expose a receipt that COMMIT can still
+        // roll back. Other threads already wait for the Reality store lock.
+        check(activeTransactionId == null) {
+            "receipt history is unavailable during an uncommitted Reality transaction"
+        }
         val rows = mutableListOf<ExecutionReceipt>()
         connection.prepare(
             """

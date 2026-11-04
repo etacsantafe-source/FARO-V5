@@ -82,6 +82,11 @@ class RealityBackupFilteringT2Test {
                             )
                         ),
                 )
+                // Even after the receipt row is written, the outer Reality
+                // transaction is not durable until SQLite COMMIT.
+                assertThrows(IllegalStateException::class.java) {
+                    source.receiptHistory.query(RealityReceiptHistoryQuery())
+                }
                 AtomicApplyTransactionDecision.Commit(Unit)
             }
 
