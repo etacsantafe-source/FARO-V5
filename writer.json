@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.CONTINUITY.CHAT.THERMOMETER.20261104",
   "token_hash": "b52f3dd54134f3bf7b3cc3dfa684282ecf0493cdba892502931455d31b302524",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "31f42006aee9a1ac7bfb80b4846c1d9fee2000d9",
+  "target_head": "22f41f650d87621b959b2c6a67bae0dc1df0653d",
   "epoch": 87,
-  "timestamp": 1793790438,
-  "purpose": "PERSIST_CHAT_CONTEXT_THERMOMETER_PREFERENCE_ONLY"
+  "timestamp": 1793790490,
+  "purpose": "CHAT_THERMOMETER_PREFERENCE_DURABLE_CLEAN_HANDOFF"
 }
