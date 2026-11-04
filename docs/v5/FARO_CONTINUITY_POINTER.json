@@ -42,8 +42,8 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Completed bounded B1-B5 retro audit M0/M1/M2A/M2B/M3 in docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md blob ff472d14. M1 manifest check currently FAIL (debug 2); 4/4 M2/M3 JVM +7/7 T4 do NOT imply V2 ready. FIRST verify HEAD/CI/queue/writer and run 41877244186; permit remains BLOCKED. NEXT issue path-bounded docs-only M1_MANIFEST_VERIFIER permit ONLY after verified evidence SHA and demonstrable preflight PASS; no functional commits before. Implementation target: .github/workflows/faro-v5-v2-core-directed.yml packaged manifest unique path; follow B7 exact SHA/CI. M2A PREPARING/STAGED recovery and M3 Android still open. S2 closed 8/8 S3 ~40% dev 0/5 closed S4 OFF V2 productive OFF Noche/Auto OFF.",
-  "checkpoint_status": "M0_M3_RETRO_B1_B5_DOC_RECORDED_PERMIT_BLOCKED_NO_FUNCTIONAL_CI",
+  "next": "CRITICAL: before writing any functional file, fetch exact protocol-guard run of permit SHA 763081d2, and require `FARO_PROTOCOL_PREFLIGHT_PASS M1_MANIFEST_VERIFIER` and CI success. If queued/failure STOP code and use READ_ONLY investigation. Guard workflow added exact preflight step SHA 1e3cfd58. After PASS and writer CAS re-acquire, fix only .github/workflows/faro-v5-v2-core-directed.yml to validate one packaged_manifests final artifact per variant, with fail-closed diagnosis, and commit tagged FARO-UNIT:M1_MANIFEST_VERIFIER. CI exact M1/M2/M3/T4, B7 final audit, writer RELEASE. S2 8/8 closed S3 ≈40% dev, 0/5 certified; S4, V2 productive, Noche, Auto OFF; no paid API.",
+  "checkpoint_status": "RETRO_DOC_COMPLETE_PERMIT_SCOPED_READY_AWAIT_EXACT_GUARD_CI_PREFLIGHT",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
   "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
@@ -456,7 +456,7 @@
     "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
     "state_path": "docs/v5/FARO_V2_PROTOCOL_RETRO_AUDIT_20261104.json",
     "completed_on": "2026-11-04",
-    "permit": "BLOCKED",
+    "permit": "READY_WITH_SCOPE_CI_PREFLIGHT_NOT_VERIFIED",
     "next_unit": "M1_MANIFEST_VERIFIER"
   },
   "guard_last_inspected": {
@@ -465,5 +465,50 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 146
+  "last_writer_epoch_observed": 147,
+  "protocol_guard": {
+    "status": "PERMIT_READY_PREFLIGHT_IN_CI_NOT_VERIFIED",
+    "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
+    "guard_update_sha": "1e3cfd58160b1afe6a4704559a27ca1328496a4f",
+    "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+    "permit_commit_sha": "763081d2cf9adcd615ab3e45924d58df3c0d6d9e",
+    "permit_status": "READY",
+    "unit_id": "M1_MANIFEST_VERIFIER",
+    "allowed_paths": [
+      ".github/workflows/faro-v5-v2-core-directed.yml"
+    ],
+    "needs_exact_preflight_pass": true
+  },
+  "guard_latest_runs": [
+    {
+      "id": 41878892927,
+      "head": "763081d2",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 41878848206,
+      "head": "1e3cfd58",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 41878817985,
+      "head": "7a063b22",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 41878527914,
+      "head": "7465c87d",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 41878472753,
+      "head": "37f032b2",
+      "status": "queued",
+      "conclusion": null
+    }
+  ]
 }
