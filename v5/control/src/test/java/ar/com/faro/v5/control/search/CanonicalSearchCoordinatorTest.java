@@ -64,6 +64,28 @@ final class CanonicalSearchCoordinatorTest {
         assertEquals(CanonicalSearchCoordinator.MatchField.TITLE, result.getHits().get(0).getMatchField());
     }
 
+    @Test void unorderedSpanishTermsAndPunctuationUseOnlyCanonicalFields() {
+        Source source = new Source(true,
+                doc("title", "Café, de la mañana", "", "rev1", 20),
+                doc("cross", "Pago del mes", "Factura de gas", "rev1", 30),
+                doc("no", "Pago de taxi", "", "rev1", 40));
+        var coordinator = new CanonicalSearchCoordinator(source, null);
+        var title = coordinator.search(new SearchProjectionQuery(SPACE, "MANANA cafe", 10));
+        assertEquals(List.of("title"),
+                title.getHits().stream().map(h -> h.getKey().getDocumentId()).toList());
+        assertEquals(CanonicalSearchCoordinator.MatchField.TITLE,
+                title.getHits().get(0).getMatchField());
+
+        var across = coordinator.search(new SearchProjectionQuery(SPACE, "gas PAGO", 10));
+        assertEquals(List.of("cross"),
+                across.getHits().stream().map(h -> h.getKey().getDocumentId()).toList());
+        assertEquals(CanonicalSearchCoordinator.MatchField.BODY,
+                across.getHits().get(0).getMatchField());
+        assertEquals(CanonicalSearchCoordinator.Coverage.COMPLETE, across.getCoverage());
+        assertEquals(CanonicalSearchCoordinator.Coverage.UNAVAILABLE,
+                coordinator.search(new SearchProjectionQuery(SPACE, "!!!", 10)).getCoverage());
+    }
+
     @Test void staleAndUnauthorizedIndexHitsNeverLeak() {
         Source source = new Source(true, doc("live", "Caja", "Banco", "rev2", 5));
         RebuildableSearchProjectionPort malicious = new RebuildableSearchProjectionPort() {

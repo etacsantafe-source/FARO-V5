@@ -104,6 +104,9 @@ public final class CanonicalSearchCoordinator {
 
             String normalizedQuery = normalized(query.getQueryText());
             if (normalizedQuery.isEmpty()) return unavailable();
+            // Match all useful words across authorized canonical fields, as V4.4
+            // did. No index result is allowed to add a word or a document.
+            List<String> terms = List.of(normalizedQuery.split(" "));
             List<Hit> matches = new ArrayList<>();
             Set<String> seen = new HashSet<>();
             for (SearchCanonicalDocument document : snapshot.getDocuments()) {
@@ -112,11 +115,18 @@ public final class CanonicalSearchCoordinator {
                         || !seen.add(id(document.getKey()))) {
                     return unavailable();
                 }
+                String title = normalized(document.getTitle());
+                String body = normalized(document.getBody());
                 MatchField match = null;
-                if (normalized(document.getTitle()).contains(normalizedQuery)) {
+                if (title.contains(normalizedQuery)
+                        || terms.stream().allMatch(title::contains)) {
                     match = MatchField.TITLE;
-                } else if (normalized(document.getBody()).contains(normalizedQuery)) {
-                    match = MatchField.BODY;
+                } else {
+                    String searchable = title + " " + body;
+                    if (searchable.contains(normalizedQuery)
+                            || terms.stream().allMatch(searchable::contains)) {
+                        match = MatchField.BODY;
+                    }
                 }
                 if (match == null) continue;
                 SearchProjectionHit hint = validHints.get(id(document.getKey()));
@@ -151,6 +161,9 @@ public final class CanonicalSearchCoordinator {
     }
     private static String normalized(String value) {
         String decomposed = Normalizer.normalize(value, Normalizer.Form.NFKD);
-        return decomposed.replaceAll("\\p{M}+", "").toLowerCase(Locale.ROOT).trim();
+        return decomposed.replaceAll("\\p{M}+", "")
+                .toLowerCase(Locale.ROOT)
+                .replaceAll("[^\\p{L}\\p{N}]+", " ")
+                .trim();
     }
 }
