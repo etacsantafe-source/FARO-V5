@@ -62,6 +62,11 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
             generation = "g2"
             assertEquals(FaroV5SearchCoverage.UNAVAILABLE, adapter.search("nuevo").coverage)
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
+            // Regrant under a NEW ACL epoch does not revive old displayed hits.
+            generation = "g1"
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
+            val freshHit = adapter.search("nuevo").hits.single()
+            assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(freshHit))
         }
     }
 

@@ -31,7 +31,13 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
 ) : FaroV5SearchReadPort {
     private val searcher = CanonicalSearchCoordinator(source, null)
 
+    // A visible result belongs to the exact authority/revision that issued it.
+    // Revalidating current metadata alone is insufficient after ACL regrant:
+    // an old result must not be reused under a different authority epoch.
+    @Volatile private var publishedAuthority: SearchAuthorityStamp? = null
+
     override suspend fun search(query: String): FaroV5SearchPage = try {
+        publishedAuthority = null
         val before = source.authorityStamp()
         val result = searcher.search(
             SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, query, 50),
@@ -47,7 +53,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
             coverage == FaroV5SearchCoverage.UNAVAILABLE) {
             unavailable()
         } else {
-            FaroV5SearchPage(
+            val page = FaroV5SearchPage(
                 coverage = coverage,
                 hits = result.hits.map { row ->
                     FaroV5SearchHit(
@@ -60,6 +66,12 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
                 },
                 indexDegraded = result.isIndexDegraded,
             )
+            // Invalidation can arrive between mapping and publication.
+            if (before != source.authorityStamp()) unavailable()
+            else {
+                publishedAuthority = before
+                page
+            }
         }
     } catch (cancelled: CancellationException) {
         throw cancelled
@@ -80,6 +92,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
         } else {
             val before = source.authorityStamp()
                 ?: return FaroV5SearchOpenResult.UNAVAILABLE
+            if (publishedAuthority != before) return FaroV5SearchOpenResult.UNAVAILABLE
             val key = SearchProjectionKey(hit.namespace, hit.opaqueId)
             val snapshot = source.readAuthorized(namespace, CanonicalSearchCoordinator.MAX_CANONICAL_DOCUMENTS)
             if (before != snapshot.authority || !sameAuthority(before, source.authorityStamp())) {
