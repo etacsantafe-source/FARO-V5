@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M4.REDFIX.B6.20261104",
-  "token_hash": "b887a275a09d07c2ee65d380d60fd9f4680d84afe2520a01d39f28cbaa3290ad",
-  "target_head": "672ba9420c1355b6f069ba73b9c68fe5e9f297ca",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M4.B7.PASS.20261104",
+  "token_hash": "e3c08a4dfd25b5f709c7320df6b1f23d814796ef4b219205cb9a395e4b960702",
+  "target_head": "aba2850cea07d19bbddb8813b1592cd641b67d62",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 166,
-  "timestamp": 1793820382,
-  "purpose": "M4_DEV_MANIFEST_REDFIX_ABA2850C_WAIT_CI"
+  "epoch": 167,
+  "timestamp": 1793820701,
+  "purpose": "M4 final B7 PASS exact CI, return permit BLOCKED, update pointer"
 }
