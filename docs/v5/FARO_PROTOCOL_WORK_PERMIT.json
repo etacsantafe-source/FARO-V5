@@ -2,19 +2,18 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "M4_DEV_NEGATIVE_EFFECT_GATES",
-  "reviewed_head": "871681a76797f39fa7b9828d2a3a626dd6d80465",
+  "reviewed_head": "a8088569db284fd4f79d21313e635b8f0e92bca8",
   "paths": [
-    ".github/workflows/faro-v5-v2-core-directed.yml",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt"
+    "v5/app/src/v2CoreDev/AndroidManifest.xml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
-          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
-          "marker": "## B1 EVIDENCIA"
+          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
+          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
+          "marker": "## B1 EVIDENCIA NUEVA"
         }
       ]
     },
@@ -22,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
-          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
+          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
+          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -32,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
-          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
+          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
+          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -42,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
-          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
+          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
+          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -52,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
-          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
+          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
+          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
           "marker": "## B5 AUDITORÍA"
         }
       ]
@@ -62,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "d2af301789db445be764368f0d50528da63fb41d",
-    "result": "PASS",
-    "unit_id": "M2A_FIRST_START_RECOVERY",
+    "sha": "b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a",
+    "result": "RED_FIX",
+    "unit_id": "M4_DEV_NEGATIVE_EFFECT_GATES",
     "evidence": [
       {
-        "path": "docs/v5/FARO_V2_M2A_B7_PASS_20261104.md",
-        "blob_sha": "edf12d3d4cc245db60fb44fde08c4347a4b12796",
-        "marker": "## B7 PASS"
+        "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
+        "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
+        "marker": "## B7 RED_FIX"
       }
     ]
   },
-  "why": "M4 B1-B5 negative egress/OS and stale callback preaudit documented exact blob; only existing isolated dev CI + JVM tests may change. No V2 production, no Android physical, M5 open.",
-  "how": "Preflight exact paths MUST PASS before any functional change; then minimal delta, CI exact XML, B7, BLOCKED. Guarded by writer CAS and seven-block-evidence.",
+  "why": "M4 prior code b92 JVM 6/6 T4 7/7 S3 25/25 PASS but merged manifest 7 unwanted permissions: CI 41895301999 FAILURE; B7 RED_FIX exact evidence, allow only DEV manifest removal. No broadening beyond this path.",
+  "how": "Verify preflight success in github checkout at READY commit, then add tools:node=remove for exactly 7 observed permissions to v2CoreDev overlay, run exact CI, audit B7. Keep deny-by-default in workflow and do not modify shipping.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
