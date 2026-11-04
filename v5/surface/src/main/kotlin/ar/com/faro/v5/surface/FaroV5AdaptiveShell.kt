@@ -46,6 +46,7 @@ fun FaroV5AdaptiveShell(
         FaroV5UnavailableDestination(it)
     },
     homeReadPort: FaroV5HomeReadPort? = null,
+    searchReadPort: FaroV5SearchReadPort? = null,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfoV2()
     val drawerMode =
@@ -56,7 +57,7 @@ fun FaroV5AdaptiveShell(
     // A different Workspace/host generation invalidates all pending drawer
     // selection callbacks. Keep the navigation stack, but dispose the old
     // scaffold's coroutine scope and asynchronous read state.
-    key(workspaceReadPort, timelineReadPort, composerPort, reviewPort, selectionPort, applyRequestPort, assistantTurnPort, homeReadPort) {
+    key(workspaceReadPort, timelineReadPort, composerPort, reviewPort, selectionPort, applyRequestPort, assistantTurnPort, homeReadPort, searchReadPort) {
         FaroV5ShellScaffold(
         drawerMode = drawerMode,
         modifier = modifier,
@@ -73,6 +74,7 @@ fun FaroV5AdaptiveShell(
         attachmentIngress = attachmentIngress,
         destinationContent = destinationContent,
         homeReadPort = homeReadPort,
+        searchReadPort = searchReadPort,
         )
     }
 }
