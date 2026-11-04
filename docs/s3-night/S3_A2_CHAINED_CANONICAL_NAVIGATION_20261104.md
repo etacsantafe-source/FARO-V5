@@ -25,3 +25,10 @@
 - S4, V2 app, Auto y Noche OFF, cola CLOUD STAGED, catálogo 172 sin cambio, Guardados +8 solo candidatos.
 - No repetir 59/59 ni 24/24 aprobados sobre SHA previos; siguiente: confirmar CI de prefijo y, si verde, registrar XML exacto; si falla, corrección mínima y revalidación. Luego G1 real; si bloqueo persiste, trabajo G3 estrictamente adyacente sin inventar autoridad.
 - Writer epoch 132 debe quedar RELEASED al cerrar checkpoint. Tiempo efectivo no instrumentado; no inferirlo de CI.
+
+## Dictamen definitivo de la segunda CI — prevalece sobre PENDING anterior
+
+- GitHub Actions [#41854013498](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41854013498) **SUCCESS**, SHA exacto de código `f64699e59e9fe0c287d07e3655b49a69234cb1e9`, job `app-home-notice` #126657598954 **SUCCESS**.
+- Log inspeccionado: `BUILD SUCCESSFUL in 4m 6s`, `S3_HOME_NOTICE_XML_PASS 9/9`, `S3_WORKSPACE_SEARCH_XML_PASS 7/7`, `S3_SEARCH_BRIDGE_XML_PASS 5/5`, `S3_AVISOS_XML_PASS 4/4`. **25/25** pruebas dirigidas; no se sustituyen pruebas físicas.
+- Resumen de la cadena de esta sesión: navegación global Search→Chat `abca920c` CI 59/59 PASS y fragmento de mensaje largo `f64699e5` CI 25/25 PASS. No repetir por SHA.
+- Ninguna de las dos cierra G1 ACL real ni habilita G2 host shipping. A2 permanece PARTIAL, S3 formalmente 0/5, S3 estimado ≈40% (35–45%). Writer epoch 133 liberado al cierre del checkpoint.

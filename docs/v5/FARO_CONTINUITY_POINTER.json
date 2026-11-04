@@ -42,8 +42,8 @@
   "handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3.A2 priority. (1) Search->Chat stale cached conversation fixed: after confirmed selection clear cached Workspace, rereread canonical before navigate, deny missing/failed; code abca920c CI #41853477492 SUCCESS XML surface 59/59 incl in-chat 7/7. (2) Global canonical long message: preserve leading bounded text fragment, report PARTIAL on truncated tail, code f64699e5 CI #41854013498 IN_PROGRESS at checkpoint; verify exact XML expected Workspace 7/7 + Home 9/9 + Bridge 5/5 + Avisos 4/4 =25/25, diagnose if fails; do not rerun prior SHA. (3) G1 real independent monotonic ACL owner MISSING in shipping V1 (Workspace null, V2 staged); G2 search host remains null; G3 global direct-message jump not certified; G4 real Finance/Goals/Matters owners missing; G5 final physical. S2 8/8 CLOSED, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, 172 catalog. Follow hybrid priority A2. Report S3 ≈40% estimated 35-45% and 0/5 closed each turn. Writer RELEASED epoch132 after this checkpoint.",
-  "checkpoint_status": "S3_A2_SEARCH_TO_CHAT_NAVIGATION_CI_PASS_59_OF_59_AND_G3_PREFIX_CI_PENDING",
+  "next": "S3.A2 hybrid single priority. COMPLETED directed units: (1) search->chat fresh canonical selection UI, code abca920c, CI #41853477492 SUCCESS exact SHA XML surface 59/59 (in-chat 7/7); (2) Workspace long text bounded prefix, code f64699e5, CI #41854013498 SUCCESS exact SHA XML Workspace 7/7 + Home 9/9 + Bridge 5/5 + Avisos 4/4=25/25. DO NOT rerun. G1 real ACL owner independent monotonic revocation/regrant still missing; G2 shipping Search null; G3 global exact-message jump not certified; G4 actual Finance/Goals/Matters canonical owners missing; G5 final acceptance + physical pending. No synthetic ACL, no V2/Auto/Noche/S4, no catalog new operations. Next look for real active Workspace read ACL owner; if impossible, only directly related G3 navigation canonical target with strict admission. User wants per-turn S3 ≈40% developed 35-45%, formal 0/5; thermometer.",
+  "checkpoint_status": "S3_A2_SEARCH_TO_CHAT_59_OF_59_AND_G3_LONG_PREFIX_25_OF_25_CI_VERIFIED_G1_ACL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
   "last_code_sha": "f64699e59e9fe0c287d07e3655b49a69234cb1e9",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "IN_PROGRESS_G3_PREFIX_CI_XML_PENDING",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_F64699E5_XML_25_OF_25",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -334,15 +334,17 @@
     },
     "long_message": {
       "run_id": 41854013498,
-      "status": "in_progress",
-      "conclusion": "PENDING",
-      "xml": "NOT_YET_VERIFIED_EXPECT_25_25",
-      "test_scope": "JVM_APP_WORKSPACE_SEARCH_ONLY"
+      "status": "SUCCESS",
+      "conclusion": "SUCCESS",
+      "xml": "HOME_9_9;WORKSPACE_SEARCH_7_7;BRIDGE_5_5;AVISOS_4_4;TOTAL_25_25",
+      "job_id": 126657598954,
+      "code_sha": "f64699e59e9fe0c287d07e3655b49a69234cb1e9",
+      "physical": "NOT_RUN"
     },
     "g1_acl": "MISSING_REAL_OWNER",
     "shipping_search": "NULL",
     "physical": "NOT_RUN",
     "closed": "A2_PARTIAL",
-    "writer_epoch_expected_release": 132
+    "writer_epoch_expected_release": 133
   }
 }
