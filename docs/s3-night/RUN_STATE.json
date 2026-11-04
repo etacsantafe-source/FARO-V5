@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 still PARTIAL: find canonical ACL revocation and independent active-generation change owners; do not repeat directed 5/5 on code SHA. FARO Auto interactive/local not certified running; preflight host before activation. Night OFF.",
+  "next": "Verify exact SHA fc6f6e45 directed CI and JUnit 7/7 before PASS; then investigate actual ACL/generation owner and remaining indicators without duplicating tests",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_OWNER_STARTUP_INVALIDATION_CODE_COMMITTED_CI_PENDING",
+    "status": "PARTIAL_N032_OWNER_COMMIT_EVENTS_CODE_PENDING_DIRECTED_CI",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -151,6 +151,35 @@
       "physical": "NOT_RUN",
       "ci_conclusion": "SUCCESS",
       "ci_scope": "app compile and FaroV5HomeNoticeBindingFactoryTest only; not overall S3-A1 pass"
+    },
+    "notice_commit_live_update": {
+      "status": "CODE_COMMITTED_DIRECTED_CI_PENDING",
+      "code_sha": "fc6f6e45db645394d62ea71fffee1e2a7f6d79ea",
+      "commits": [
+        "404f0ba5758fd7f51c0b28f27cd332b952fac982",
+        "fc6f6e45db645394d62ea71fffee1e2a7f6d79ea"
+      ],
+      "ci_runs": [
+        {
+          "id": 41750150479,
+          "sha": "404f0ba5758fd7f51c0b28f27cd332b952fac982",
+          "status": "IN_PROGRESS_LAST_SEEN",
+          "xml": "NOT_VERIFIED"
+        },
+        {
+          "id": 41750487991,
+          "sha": "fc6f6e45db645394d62ea71fffee1e2a7f6d79ea",
+          "status": "PENDING_LAST_SEEN",
+          "xml": "NOT_VERIFIED_EXPECT_7"
+        }
+      ],
+      "implemented": "N032 AuxiliaryDeliveryStore successful route/resolve committed notice events update already-mounted Home notice counter; recovery owner events remain. Closed store before listener subscription fails closed as unknown without UI exception.",
+      "scope": "Only real process-local committed notice changes. No standalone generation / independent ACL emitter claimed. N031, N015, Guardados still unavailable.",
+      "physical": "NOT_RUN",
+      "writer_epoch_release": 67,
+      "night": "OFF",
+      "auto": "OFF_RESOURCE_GUARD_BLOCKED_AT_836_MIB_BELOW_885_MIB",
+      "next": "Verify exact SHA fc6f6e45 directed CI and JUnit 7/7 before PASS; then investigate actual ACL/generation owner and remaining indicators without duplicating tests"
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
