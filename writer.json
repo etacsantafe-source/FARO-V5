@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A1.CI8.CERT.20261103",
-  "token_hash": "a0590ceef15dc2cfec4e29dcc839e21b423366c976298e178607d8fcecf9cf31",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A1.POINTER_OWNER.20261103",
+  "token_hash": "9b3220ba1049041db81f6890ae691afddc08f2990bbc46fe1bdb5fb85258f409",
   "target_branch": "work/s3-night-20261102",
   "target_head": "35f1a9dc4b2f68d440419175e146e23b510a0973",
-  "epoch": 71,
-  "timestamp": 1793754510,
-  "purpose": "S3_A1_CI_8_8_CERTIFIED_CHECKPOINT"
+  "epoch": 72,
+  "timestamp": 1793755217,
+  "purpose": "S3_A1_REAL_POINTER_OWNER_INVALIDATION"
 }
