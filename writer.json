@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M5.PERM.20261104",
-  "token_hash": "ebc65c4a8ff6e4297651b0a7a3cc177cb57b1729bdb42b374e80a35128f6694",
-  "target_head": "ca1da7491e313fa408a04aed6fd20dcea997cf33",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M5.APK.B6.20261104",
+  "token_hash": "fe649c1a41affdc0e326b7e41f6ba0ef0ad2c6210aa273d9cfe65327f64d1193",
+  "target_head": "2c5d36dbb6ff57c8902ca5ba4731639d35db4685",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 169,
-  "timestamp": 1793821071,
-  "purpose": "M5_APK_WORKFLOW_PERMIT_2C5D36DB_PREFLIGHT_PENDING"
+  "epoch": 170,
+  "timestamp": 1793821138,
+  "purpose": "M5 B6 new GitHub APK directed workflow single path, preflight 41898772948 PASS"
 }
