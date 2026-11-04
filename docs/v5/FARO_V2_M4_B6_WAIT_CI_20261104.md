@@ -1,0 +1,11 @@
+# FARO V5 — M4 B6 exact-code checkpoint WAIT_CI (04/11/2026)
+- Unidad: `M4_DEV_NEGATIVE_EFFECT_GATES`; rama `work/s3-night-20261102`; código `b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a`, commit funcional con `FARO-UNIT:M4_DEV_NEGATIVE_EFFECT_GATES`; SOLO dos archivos aprobados.
+- Preflight **PASS** comprobado en logs de GitHub Actions [#41894104925](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41894104925): `FARO_PROTOCOL_PREFLIGHT_PASS M4_DEV_NEGATIVE_EFFECT_GATES d5354b603b9e6300eb6b3033bd8637f5103e8f0f`, guard 14/14.
+- Cambios: manifest empaquetado DEV falla cerrado por cualquier `uses-permission*`, incluido `uses-permission-sdk-23`, comprueba launcher exportado y extiende gatillos CI a `v5/app/src/main/**` y `v5/surface/**`; JVM añade negativas de puertos stale read/selection/composer tras close, y de read/selection/composer tras puntero cambiado, comprobando borrador y conversación intactos. El XML dirigido se actualizó a **seis métodos JUnit**; no afirmar PASS antes de observarlo.
+- Guardia [#41895302140](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41895302140): **SUCCESS** para SHA exacto `b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a`.
+- CI V2 dirigida [#41895301999](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41895301999): **IN_PROGRESS** en comprobación, NO PASS (compilación de manifest y Kotlin).
+- Regresión S3 [#41895302132](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41895302132): **IN_PROGRESS** en comprobación, NO PASS.
+- Si V2 falla por permisos fusionados adicionales, registrar exactamente permiso/etiqueta en B7 RED_FIX y modificar B1-B5 para incluir manifest DEV solo tras permiso y preflight nuevos. No debilitar la verificación ni ocultar el fallo.
+- Si los tres resultados pasan, ejecutar B7 independiente de M4 usando SHA/logs/XML; dejar permiso BLOCKED y luego ir a M5; NO V2_DEV_CORE_READY por este checkpoint.
+- S2 CLOSED 8/8; S3 ≈40% desarrollo estimado/0 de 5 formal, S4 OFF; V2 productiva, Auto, Noche OFF; cola STAGED, catálogo 172 y campaña física NOT_RUN. No ejecutar ni reintentar CI mientras la existente esté activa. No cambiar main/V4.4.
+- Writer fue RELEASED epoch 162 después del commit funcional. Esta documentación usa epoch 163 y debe terminar RELEASED.
