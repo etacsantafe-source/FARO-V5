@@ -2,17 +2,18 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "M1_MANIFEST_VERIFIER",
-  "reviewed_head": "1e3cfd58160b1afe6a4704559a27ca1328496a4f",
+  "reviewed_head": "a6d0eca41a2052600b0fc5055415127ff13c8e43",
   "paths": [
-    ".github/workflows/faro-v5-v2-core-directed.yml"
+    ".github/workflows/faro-v5-v2-core-directed.yml",
+    "v5/app/src/v2CoreDev/AndroidManifest.xml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -21,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -31,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -41,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -51,18 +52,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
-          "marker": "## B5 AUDITORÍA ADVERSARIAL"
+          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+          "marker": "## B5 AUDITORÍA"
         }
       ]
     },
     "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
-  "last_code_review": null,
-  "why": "B1-B5 retrospective independently documented against V4.4 source and exact CI failures; only allow deterministic final packaged manifest CI verifier correction. READY does not mean preflight passed; CODE HALTED until exact GitHub preflight PASS on this permit's SHA.",
-  "how": "GitHub mandatory protocol guard runs --mode preflight for READY permit; wait exact SHA run with FARO_PROTOCOL_PREFLIGHT_PASS. Then code commit FARO-UNIT:M1_MANIFEST_VERIFIER only for allowed workflow; B7 audit + CI/XML exact before any next code delta.",
+  "last_code_review": {
+    "sha": "42ca878a9c3e86640546ee08112c69fd661f14c2",
+    "result": "RED_FIX",
+    "unit_id": "M1_MANIFEST_VERIFIER",
+    "evidence": [
+      {
+        "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+        "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+        "marker": "## B7 RED_FIX"
+      }
+    ]
+  },
+  "why": "CI exact SHA 42ca878a: M2/M3 JVM 4/4 and T4 7/7 PASS; manifest output lookup resolved, final DEV package FAIL extra P6 certification activity. B7 RED_FIX documented and B1-B5 rescoped to DEV manifest+directed verifier only.",
+  "how": "Await exact GitHub protocol guard 14/14 + FARO_PROTOCOL_GATE_PASS + FARO_PROTOCOL_PREFLIGHT_PASS M1_MANIFEST_VERIFIER on this docs-only READY permit. Only then CAS writer and one FARO-UNIT:M1_MANIFEST_VERIFIER red-fix commit. No other unit/S4/production; verify CI XML and B7 before next code.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
