@@ -69,7 +69,8 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
      * metadata and resolve the opaque key with fresh generation/ACL checks;
      * only the existing selected-generation write gate may mutate selection.
      */
-    override suspend fun openAuthorized(hit: FaroV5SearchHit): FaroV5SearchOpenResult = try {
+    override suspend fun openAuthorized(hit: FaroV5SearchHit): FaroV5SearchOpenResult {
+        return try {
         val namespace = FaroV5WorkspaceSearchReadSource.NAMESPACE
         if (hit.namespace != namespace || hit.canonicalSource != namespace) {
             FaroV5SearchOpenResult.UNAVAILABLE
@@ -81,7 +82,9 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
             if (before != snapshot.authority || !sameAuthority(before, source.authorityStamp())) {
                 FaroV5SearchOpenResult.UNAVAILABLE
             } else {
-                val canonical = snapshot.documents.firstOrNull { it.key == key }
+                val canonical = snapshot.documents.firstOrNull {
+                    it.key.namespace == key.namespace && it.key.documentId == key.documentId
+                }
                 if (canonical == null) {
                     if (snapshot.isComplete) FaroV5SearchOpenResult.STALE
                     else FaroV5SearchOpenResult.UNAVAILABLE
@@ -117,6 +120,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
         throw cancelled
     } catch (_: Exception) {
         FaroV5SearchOpenResult.UNAVAILABLE
+    }
     }
 
     private fun sameAuthority(
