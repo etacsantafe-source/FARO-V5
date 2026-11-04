@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Verify directed CI #41751319739 exact SHA 68e725 8/8 XML; then investigate real authority path for N031/N015 and independent ACL/generation only if actual owner proven. Night and Auto OFF.",
+  "next": "S3-A1 PARTIAL: bind genuine N-031 Pendientes / N-015 Actividad owners when canonical source exists; Guardados needs bounded approval; independently emitted ACL/active-pointer event not demonstrated. Do not repeat 8/8 on same SHA; physical campaign at S3 end only.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_OWNER_NOTICE_CHANGE_AND_CLOSE_EVENTS_NEW_CI_PENDING",
+    "status": "PARTIAL_N032_NOTICE_COMMIT_AND_CLOSE_EVENTS_CI_8_8_VERIFIED",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -182,14 +182,17 @@
       "next": "Verify exact SHA fc6f6e45 directed CI and JUnit 7/7 before PASS; then investigate actual ACL/generation owner and remaining indicators without duplicating tests"
     },
     "notice_store_close_invalidation": {
-      "status": "CODE_COMMITTED_CI_PENDING",
+      "status": "DIRECTED_CI_SUCCESS_8_OF_8_EXACT_SHA",
       "code_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0",
       "ci_run_id": 41751319739,
-      "ci": "IN_PROGRESS_AT_LAST_CHECK",
+      "ci": "SUCCESS",
       "expected_junit": "8/8, exact SHA",
       "contract": "When active AuxiliaryDeliveryStore closes, owner invalidates already-subscribed Home port; subsequent read returns unknown not stale zero",
       "limitations": "Process-local close does not prove independent ACL or raw active-generation pointer event. Other indicators still unavailable.",
-      "physical": "NOT_RUN"
+      "physical": "NOT_RUN",
+      "junit_xml": "S3_HOME_NOTICE_XML_PASS 8/8",
+      "ci_scope": ":app:compileDebugKotlin and exact FaroV5HomeNoticeBindingFactoryTest only",
+      "verified_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0"
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
