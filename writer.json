@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M4.PREAUDIT.20261104",
   "token_hash": "578f64e58489fc551a23fa109f3be05195286c0d5db4e4aab84f9000cbf688e3",
   "target_head": "3b586361740c50558bec129e60f35673adff2717",
   "target_branch": "work/s3-night-20261102",
   "epoch": 160,
-  "timestamp": 1793819147,
-  "purpose": "M4 B1-B5 documentary read-only findings; no functional code or activation"
+  "timestamp": 1793819187,
+  "purpose": "M4_PREAUDIT_CLOSED_871681a7_PERMIT_BLOCKED"
 }
