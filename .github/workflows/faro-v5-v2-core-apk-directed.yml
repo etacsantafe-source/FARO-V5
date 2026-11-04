@@ -1,0 +1,106 @@
+name: FARO V5 M5 isolated V2 DEV APK package gate
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - ".github/workflows/faro-v5-v2-core-apk-directed.yml"
+      - "v5/app/src/v2CoreDev/**"
+      - "v5/app/src/main/**"
+      - "v5/app/build.gradle.kts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-m5-apk-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  v2-dev-apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android isolated DEV compile platform
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+          test -x "$ANDROID_HOME/build-tools/36.0.0/aapt2"
+          test -x "$ANDROID_HOME/build-tools/36.0.0/apksigner"
+      - name: Assemble isolated v2CoreDev APK only
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleV2CoreDev
+      - name: Verify exact signed APK binary package, launcher and no OS permissions
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import os
+          import re
+          import subprocess
+
+          root = Path("v5/app/build/outputs/apk/v2CoreDev")
+          apks = sorted(root.glob("*.apk")) if root.is_dir() else []
+          if len(apks) != 1:
+              raise SystemExit(f"M5_APK_COUNT_STOP count={len(apks)} paths={[str(p) for p in apks]}")
+          apk = apks[0]
+          if not apk.is_file() or apk.stat().st_size < 1024:
+              raise SystemExit("M5_APK_NOT_NONEMPTY")
+          sdk = Path(os.environ["ANDROID_HOME"]) / "build-tools" / "36.0.0"
+          aapt = str(sdk / "aapt2")
+
+          def dump(kind):
+              return subprocess.check_output([aapt, "dump", kind, str(apk)], text=True)
+
+          expected = "ar.com.faro.alpha.v2coredev"
+          package = dump("packagename").strip()
+          if package != expected:
+              raise SystemExit(f"M5_APK_WRONG_PACKAGE {package!r} expected={expected!r}")
+          badging = dump("badging")
+          package_lines = [line for line in badging.splitlines() if line.startswith("package:")]
+          if len(package_lines) != 1 or f"name='{expected}'" not in package_lines[0]:
+              raise SystemExit(f"M5_APK_BADGING_WRONG_PACKAGE {package_lines}")
+          launcher_lines = [line for line in badging.splitlines() if line.startswith("launchable-activity:")]
+          intended = "ar.com.faro.v5.app.FaroV5V2CoreDevActivity"
+          if len(launcher_lines) != 1 or f"name='{intended}'" not in launcher_lines[0]:
+              raise SystemExit(f"M5_APK_LAUNCHER_MISMATCH {launcher_lines}")
+          if not any("application-debuggable" in line for line in badging.splitlines()):
+              raise SystemExit("M5_APK_NOT_DEBUGGABLE")
+
+          permissions = dump("permissions")
+          used = [line.strip() for line in permissions.splitlines()
+                  if re.search(r"uses-permission", line, flags=re.IGNORECASE)]
+          if used:
+              raise SystemExit(f"M5_APK_OS_PERMISSIONS_PRESENT {used}")
+          print("M5_APK_PACKAGENAME_PASS", package)
+          print("M5_APK_EXCLUSIVE_LAUNCHER_PASS", intended)
+          print("M5_APK_BINARY_PERMISSIONS_DENIED_PASS")
+          print("M5_APK_SHA256", hashlib.sha256(apk.read_bytes()).hexdigest())
+          print("M5_APK_BYTES", apk.stat().st_size)
+          PY
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose v5/app/build/outputs/apk/v2CoreDev/*.apk
+          echo "M5_APK_PACKAGE_SIGNATURE_PASS"
+      - name: Upload only verified isolated DEV APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v2-core-dev-apk-${{ github.sha }}
+          path: v5/app/build/outputs/apk/v2CoreDev/*.apk
+          if-no-files-found: error
+          retention-days: 5
+          compression-level: 0
