@@ -25,6 +25,8 @@ import ar.com.faro.v5.kernel.contracts.TransactionId
 import java.nio.file.Files
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class RealityBackupFilteringT2Test {
@@ -88,6 +90,13 @@ class RealityBackupFilteringT2Test {
             assertEquals(1L, sourceInspection.executionReceiptCount)
             assertEquals(1L, sourceInspection.outboxEffectCount)
 
+            val committedPage = source.receiptHistory.query(RealityReceiptHistoryQuery())
+            assertEquals(listOf("tx-committed"), committedPage.receipts.map { it.transactionId.value })
+            assertEquals("receipt-committed", committedPage.receipts.single().receiptId.value)
+            assertEquals("reality.execution_receipt", committedPage.canonicalSource)
+            assertFalse(committedPage.hasCommitTimestamps)
+            assertNull(committedPage.nextCursor)
+
             snapshot = source.backup.snapshot()
             assertEquals(1, snapshot.committedReceipts.size)
             assertEquals("tx-committed", snapshot.committedReceipts.single().transactionId)
@@ -117,6 +126,52 @@ class RealityBackupFilteringT2Test {
                     ?.value,
             )
             assertEquals(snapshot, target.backup.snapshot())
+            assertEquals(
+                listOf("tx-committed"),
+                target.receiptHistory.query(RealityReceiptHistoryQuery())
+                    .receipts.map { it.transactionId.value },
+            )
+        }
+    }
+
+    @Test
+    fun `receipt pages use stable transaction cursor without inventing recency`() {
+        val initialFile = Files.createTempDirectory("faro-v5-history-seed").resolve("reality.db")
+        val empty = RealityStore(initialFile.toString()).use { it.backup.snapshot() }
+        val restored = empty.copy(
+            committedReceipts = listOf("tx-c", "tx-a", "tx-b").sorted().map { id ->
+                RealityCommittedReceiptBackup("receipt-${id}", id, "fingerprint-${id}")
+            },
+        )
+        val file = Files.createTempDirectory("faro-v5-history-restore").resolve("reality.db")
+        val store = RealityStore(file.toString())
+        try {
+            store.backup.restoreOrVerify(restored)
+            val first = store.receiptHistory.query(RealityReceiptHistoryQuery(limit = 2))
+            assertEquals(listOf("tx-a", "tx-b"), first.receipts.map { it.transactionId.value })
+            assertEquals("tx-b", first.nextCursor)
+            assertFalse(first.hasCommitTimestamps)
+            val second = store.receiptHistory.query(
+                RealityReceiptHistoryQuery(afterTransactionId = first.nextCursor, limit = 2)
+            )
+            assertEquals(listOf("tx-c"), second.receipts.map { it.transactionId.value })
+            assertNull(second.nextCursor)
+            val exhausted = store.receiptHistory.query(
+                RealityReceiptHistoryQuery(afterTransactionId = "tx-z")
+            )
+            assertEquals(emptyList<Any>(), exhausted.receipts)
+            assertNull(exhausted.nextCursor)
+            assertThrows(IllegalArgumentException::class.java) {
+                RealityReceiptHistoryQuery(limit = 0)
+            }
+            assertThrows(IllegalArgumentException::class.java) {
+                RealityReceiptHistoryQuery(afterTransactionId = "")
+            }
+        } finally {
+            store.close()
+        }
+        assertThrows(IllegalStateException::class.java) {
+            store.receiptHistory.query(RealityReceiptHistoryQuery())
         }
     }
 

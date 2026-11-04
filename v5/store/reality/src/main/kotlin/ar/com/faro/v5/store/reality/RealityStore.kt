@@ -87,6 +87,13 @@ class RealityStore(
     val executionReceiptLookup: ExecutionReceiptLookupPort =
         ExecutionReceiptLookupPort(::findReceipt)
 
+    /**
+     * N-015 foundation: canonical Reality receipts only, never a chronological
+     * cross-owner activity view. Read-only even when the MaterialWriteGate is closed.
+     */
+    val receiptHistory: RealityReceiptHistoryReadPort =
+        RealityReceiptHistoryReadPort(::queryCommittedReceipts)
+
     val financePersistence: FinancePersistencePort =
         object : FinancePersistencePort {
             override fun read(): FinanceSnapshot = readFinance()
@@ -521,6 +528,54 @@ class RealityStore(
                 planFingerprint = PlanFingerprint(statement.getText(1)),
             )
         }
+    }
+
+    /**
+     * A committed Reality receipt is authoritative only when the paired Apply
+     * attempt is COMMITTED. SQLite's same-connection lock supplies a coherent
+     * page; pagination is lexical by transaction ID, NOT by commit time.
+     * The current durable schema stores no commit timestamp.
+     */
+    private fun queryCommittedReceipts(
+        query: RealityReceiptHistoryQuery,
+    ): RealityReceiptHistoryPage = synchronized(lock) {
+        checkOpen()
+        val rows = mutableListOf<ExecutionReceipt>()
+        connection.prepare(
+            """
+            SELECT r.receipt_id, r.transaction_id, r.plan_fingerprint
+            FROM execution_receipt r
+            JOIN apply_attempt a
+              ON a.transaction_id = r.transaction_id
+             AND a.plan_fingerprint = r.plan_fingerprint
+            WHERE a.state = 'COMMITTED'
+              AND (? IS NULL OR r.transaction_id > ?)
+            ORDER BY r.transaction_id ASC
+            LIMIT ?
+            """.trimIndent()
+        ).use { statement ->
+            val cursor = query.afterTransactionId
+            if (cursor == null) {
+                statement.bindNull(1)
+                statement.bindNull(2)
+            } else {
+                statement.bindText(1, cursor)
+                statement.bindText(2, cursor)
+            }
+            statement.bindLong(3, query.limit.toLong() + 1L)
+            while (statement.step()) {
+                rows += ExecutionReceipt(
+                    receiptId = ReceiptId(statement.getText(0)),
+                    transactionId = TransactionId(statement.getText(1)),
+                    planFingerprint = PlanFingerprint(statement.getText(2)),
+                )
+            }
+        }
+        val page = rows.take(query.limit)
+        RealityReceiptHistoryPage(
+            receipts = page,
+            nextCursor = if (rows.size > query.limit) page.last().transactionId.value else null,
+        )
     }
 
     private fun parseAttemptState(value: String): ApplyAttemptJournalState =
