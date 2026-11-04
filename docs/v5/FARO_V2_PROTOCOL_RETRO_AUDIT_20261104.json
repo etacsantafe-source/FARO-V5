@@ -12,8 +12,8 @@
   "audited_source_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
   "block_id": 7,
   "block_name": "AUDITORIA_FINAL",
-  "block_status": "M1_MANIFEST_VERIFIER_DONE_VERIFIED_SCOPE_DEV_ONLY",
-  "status": "M1_MANIFEST_B7_CLOSED_WITH_EXACT_CI_M2A_RECOVERY_NEXT",
+  "block_status": "M2A_FIRST_START_RECOVERY_DONE_VERIFIED_DEV_JVM_SCOPE_ONLY",
+  "status": "M1_AND_M2A_B7_CLOSED_DEV_ONLY_M4_M5_REQUIRED",
   "acceptance": "For M0 M1 M2A M2B M3: enumerate 7 protocol blocks and exact evidence, compare V4.4 read-only, investigate and unify, adversarial pre-audit; only then implement delta, exact CI, independent final audit",
   "units": [
     {
@@ -62,27 +62,37 @@
     },
     {
       "id": "M2A",
-      "status": "JVM_PASS_FINAL_NOT_VERIFIED",
+      "status": "DEV_FIRST_START_RECOVERY_B7_PASS_PHYSICAL_NOT_RUN",
       "evidence": [
         "ae5079194d11bf658e85ff9acb7e305cbbb24173",
         "41872895263",
-        "V2_CORE_M2_M3_LOCAL_CHAT_JVM_PASS 4/4"
+        "V2_CORE_M2_M3_LOCAL_CHAT_JVM_PASS 4/4",
+        "78fab316a2f57af702124b314ee08c0da2a8dd01",
+        "59a6a46a09677840aa883933ed57a0697cc6ef7d",
+        "d2af301789db445be764368f0d50528da63fb41d",
+        "41890189731",
+        "41890189016",
+        "41890189058",
+        "docs/v5/FARO_V2_M2A_B7_PASS_20261104.md"
       ],
       "risks": [
-        "First-activation interrupted in PREPARING/STAGED not silently recoverable in current DEV startup"
+        "Crashed pre-stage unambiguous PREPARING/STAGED/VALIDATED now JVM tested; partial SQLite and pointer drift fail closed",
+        "Full Android physical, egress and interprocess crash gates M4/M5 NOT_RUN"
       ],
       "blocks": {
-        "evidence": "PARTIAL",
-        "comparison": "MISSING",
-        "investigation": "PARTIAL",
-        "unification": "PARTIAL",
-        "pre_audit": "MISSING",
-        "implementation": "EVIDENCED_JVM_SUBSET",
-        "final_audit": "MISSING"
+        "evidence": "VERIFIED_B1_M2A_FIRST_START_RECOVERY",
+        "comparison": "VERIFIED_B2_V44_READ_ONLY",
+        "investigation": "VERIFIED_B3_OPTIONS",
+        "unification": "VERIFIED_B4_BOUNDED_DEV_ONLY",
+        "pre_audit": "VERIFIED_B5_NEGATIVES",
+        "implementation": "B6_EXACT_CI_PASS_D2AF3017",
+        "final_audit": "B7_PASS_D2AF3017"
       },
       "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
       "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
+      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+      "recovery_b1_b5": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
+      "final_b7": "docs/v5/FARO_V2_M2A_B7_PASS_20261104.md"
     },
     {
       "id": "M2B",
@@ -142,11 +152,11 @@
     }
   ],
   "current_ci": {
-    "head_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
-    "core_run_id": 41884102154,
+    "head_sha": "d2af301789db445be764368f0d50528da63fb41d",
+    "core_run_id": 41890189016,
     "core_conclusion": "SUCCESS",
-    "guard_run_id": 41884102091,
-    "guard_conclusion": "SUCCESS",
+    "guard_run_id": 41890189731,
+    "guard_conclusion": "SUCCESS_14_14",
     "passed": [
       "M2_M3_JVM_4_OF_4",
       "T4_DEBUG_7_OF_7",
@@ -154,7 +164,7 @@
       "M2B_DEV_MANIFEST_4_OF_4"
     ],
     "failed": [],
-    "s3_regression_run_id": 41884102013,
+    "s3_regression_run_id": 41890189058,
     "s3_regression_conclusion": "SUCCESS_9_7_5_4_XML"
   },
   "safety": {
@@ -170,11 +180,11 @@
     "writer_status_at_observation": "RELEASED",
     "writer_epoch_at_observation": 141
   },
-  "next_step": "M1 verifier complete: commit 59160876, guard 41884102091 14/14 PASS, directed 41884102154 SUCCESS M2/M3 JVM 4/4, T4 7/7, M1/M2B manifest 4/4 each. B7 evidence docs/v5/FARO_V2_M1_B7_PASS_20261104.md; permit BLOCKED. Next bounded M2A PREPARING/STAGED/VALIDATED restart recovery B1-B5 and independent permission before code; not V2_DEV_CORE_READY.",
-  "expected_head": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
-  "writer_release_epoch": "PENDING_RELEASE_EPOCH_152",
+  "next_step": "M2A_FIRST_START_RECOVERY B7 PASS docs/v5/FARO_V2_M2A_B7_PASS_20261104.md; next M4/M5 path-bounded safety/recovery/readiness gates B1-B5 before code; V2_DEV_CORE_READY=NO, physical NOT_RUN, productive V2 OFF.",
+  "expected_head": "d2af301789db445be764368f0d50528da63fb41d",
+  "writer_release_epoch": "PENDING_RELEASE_EPOCH_159",
   "last_observed_at": "2026-11-04",
-  "blocker": "M2A_FIRST_START_RECOVERY_PREPARING_STAGED_VALIDATED;M4_M5_NOT_VERIFIED;PHYSICAL_NOT_RUN",
+  "blocker": "M4_M5_NOT_VERIFIED;PHYSICAL_NOT_RUN",
   "physical": "NOT_RUN",
   "user_trigger": "Continuar FARO V5",
   "no_background_work": true,
