@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.SEARCH.FEDERATED.REVOCATION.20261104",
   "token_hash": "99853a357424c7b0cfec3c2354b9d973b05c462741292eeedec9aa3ca51aa3ef",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "ef4eb2a8d8a832e6fdcd550eba82d2ea9573d188",
-  "epoch": 102,
-  "timestamp": 1793792776,
-  "purpose": "S3_A2_FEDERATED_POST_MULTI_OWNER_REVOCATION_FENCE"
+  "target_head": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
+  "epoch": 103,
+  "timestamp": 1793792857,
+  "purpose": "S3_A2_FEDERATED_REVOCATION_CI_PENDING"
 }
