@@ -39,15 +39,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s3-night/S3_A2_SEARCH_CI_HANDOFF_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_ADAPTER_FEDERATION_VERIFIED_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3-A2 remains PARTIAL: certified canonical Spanish unordered token search 9/9 at a65b56fa (run 41819489126) and fail-closed Search surface 48/48 at 6b2ddcf4 (run 41820150581). UI uses NO actual owner by default until independent ACL/generation authority and revocation invalidations are proven; no V2 activation. Next: implement genuine ACL owner and active-generation read admission, safely wire authorized Search port with fresh resolve+select; then multi-owner federation and UI/instrumentation. N031 planning persistence/reminders requires FBS backup compatibility review; N015 committed-time/activity federation still incomplete. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED. No false Home counts; one physical campaign at S3 end.",
-  "checkpoint_status": "S3_A2_SEARCH_CANONICAL_9_9_SURFACE_SEAM_48_48_PARTIAL_NOT_WIRED",
+  "next": "S3-A2 PARTIAL (not closed): real Workspace search-to-selection adapter CI PASS 15/15 (9 Home +3 Workspace +3 adapter), SHA ef4eb2a8 run 41823167085; federated canonical search with V4.4-style domain diversity, per-source typed coverage and end-of-federation ACL revocation fencing CI PASS 15/15 (7 canonical +2 projection +6 federation), SHA 8a5febc7 run 41823780133. Prior UI 48/48 at 6b2ddcf4, Spanish canonical 9/9 at a65b56fa retained. Genuine independent ACL revocation emitter and active-generation invalidations missing; shipping Search remains unbound, V2 OFF. Next: implement REAL ACL authority owner (monotonic epoch, independent revocation signal) and prove generation/ACL invalidations; wire search port only after proof, then actual Finance/other canonical sources and UI integration. N031 planning persistence/reminders/monthly alerts requires FBS/backup compatibility review; N015 committed-time/history federation missing; do not fake Home counts. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED, physical only at S3 end.",
+  "checkpoint_status": "S3_A2_CANONICAL_WORKSPACE_ADAPTER_AND_MULTISOURCE_FEDERATION_CI_PASS_UNBOUND_REAL_ACL",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
-  "last_handoff": "docs/s3-night/S3_A2_SEARCH_CI_HANDOFF_20261104.md",
-  "last_code_sha": "6b2ddcf4482bcd190d26cbc8ba6722ec90a44880",
-  "last_ci_run_id": 41820150581,
+  "last_handoff": "docs/s3-night/S3_A2_ADAPTER_FEDERATION_VERIFIED_20261104.md",
+  "last_code_sha": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
+  "last_ci_run_id": 41823780133,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_SURFACE_48_OF_48_AND_CANONICAL_SEARCH_9_OF_9",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_S3_A2_APP_15_15_AND_FEDERATION_15_15",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -158,7 +158,7 @@
       "auto": "OFF",
       "night": "OFF",
       "queue": "STAGED",
-      "writer_release_epoch_expected": 93
+      "writer_release_epoch_expected": 105
     },
     "search_surface": {
       "sha": "6b2ddcf4482bcd190d26cbc8ba6722ec90a44880",
@@ -166,6 +166,21 @@
       "xml": "48/48 including 2 new search policy tests",
       "status": "PARTIAL_FAIL_CLOSED_UI_PORT_UNBOUND_UNTIL_REAL_ACL_OWNER",
       "physical": "NOT_RUN"
+    },
+    "adapter": {
+      "sha": "ef4eb2a8d8a832e6fdcd550eba82d2ea9573d188",
+      "run": 41823167085,
+      "xml": "9/9 Home +3/3 Workspace source +3/3 Workspace-to-surface adapter",
+      "status": "PARTIAL_REAL_WORKSPACE_SEARCH_AND_OWNER_SELECTION_SEAM_WITH_FAKE_ACL_ONLY_IN_TESTS",
+      "limitations": "Real ACL epoch/revocation owner absent; not mounted shipping. No Android physical.",
+      "regression": "V4.4 empty active chat reuse is canonical; full ACL + owner revision rechecked around search; value-based opaque key match."
+    },
+    "federation": {
+      "sha": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
+      "run": 41823780133,
+      "xml": "7/7 Canonical +2/2 projection +6/6 federated",
+      "status": "PARTIAL_MIXED_OWNER_COVERAGE_REVOKED_SOURCE_SUPPRESSION_WITH_TYPED_STATUS",
+      "limitations": "Generic multi-owner coordinator tested; actual Finance/other search read owners not yet bound; no UI federation enabled."
     }
   },
   "chat_context_thermometer": {

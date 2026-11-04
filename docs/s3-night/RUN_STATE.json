@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A2 remains PARTIAL: certified canonical Spanish unordered token search 9/9 at a65b56fa (run 41819489126) and fail-closed Search surface 48/48 at 6b2ddcf4 (run 41820150581). UI uses NO actual owner by default until independent ACL/generation authority and revocation invalidations are proven; no V2 activation. Next: implement genuine ACL owner and active-generation read admission, safely wire authorized Search port with fresh resolve+select; then multi-owner federation and UI/instrumentation. N031 planning persistence/reminders requires FBS backup compatibility review; N015 committed-time/activity federation still incomplete. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED. No false Home counts; one physical campaign at S3 end.",
+  "next": "S3-A2 PARTIAL (not closed): real Workspace search-to-selection adapter CI PASS 15/15 (9 Home +3 Workspace +3 adapter), SHA ef4eb2a8 run 41823167085; federated canonical search with V4.4-style domain diversity, per-source typed coverage and end-of-federation ACL revocation fencing CI PASS 15/15 (7 canonical +2 projection +6 federation), SHA 8a5febc7 run 41823780133. Prior UI 48/48 at 6b2ddcf4, Spanish canonical 9/9 at a65b56fa retained. Genuine independent ACL revocation emitter and active-generation invalidations missing; shipping Search remains unbound, V2 OFF. Next: implement REAL ACL authority owner (monotonic epoch, independent revocation signal) and prove generation/ACL invalidations; wire search port only after proof, then actual Finance/other canonical sources and UI integration. N031 planning persistence/reminders/monthly alerts requires FBS/backup compatibility review; N015 committed-time/history federation missing; do not fake Home counts. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED, physical only at S3 end.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -299,18 +299,18 @@
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
-  "handoff": "docs/s3-night/S3_A2_SEARCH_CI_HANDOFF_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_ADAPTER_FEDERATION_VERIFIED_20261104.md",
   "last_turn": {
     "mode": "MANUAL_S3",
-    "code_sha": "6b2ddcf4482bcd190d26cbc8ba6722ec90a44880",
+    "code_sha": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
     "ci_runs": [
-      41819489126,
-      41820150581
+      41823167085,
+      41823780133
     ],
-    "ci": "SUCCESS exact SHAs; 9/9 canonical search and 48/48 surface",
-    "writer_release_epoch_expected": 93,
+    "ci": "SUCCESS exact SHAs; app 15/15 and federation 15/15",
+    "writer_release_epoch_expected": 105,
     "physical": "NOT_RUN",
-    "next": "REAL_ACL_AUTHORITY_OWNER_FOR_SEARCH_AND_GENERATION_REVOCATION",
+    "next": "INDEPENDENT_REAL_ACL_EPOCH_REVOCATION_SOURCE_FOR_SHIPPING_SEARCH",
     "s3": "OPEN_PARTIAL",
     "night": "OFF",
     "auto": "OFF",
@@ -499,6 +499,23 @@
       "ci": "SUCCESS EXACT SHA; S3_SURFACE_XML_PASS 48/48",
       "scope": "BUSCAR screen: search field, explicit COMPLETE/PARTIAL/UNAVAILABLE, index degradation, revocation clear, confirmed-only authorized open; genuine owner port deliberately null by default",
       "limitations": "NO ACL owner/federation, no real Search-to-UI binding, no physical verification; only UI presentation + test"
+    },
+    "workspace_surface_adapter": {
+      "status": "DIRECTED_CI_SUCCESS_15_OF_15_EXACT_SHA",
+      "code_sha": "ef4eb2a8d8a832e6fdcd550eba82d2ea9573d188",
+      "run": 41823167085,
+      "xml": "S3_HOME_NOTICE_XML_PASS 9/9; S3_WORKSPACE_SEARCH_XML_PASS 3/3; S3_SEARCH_BRIDGE_XML_PASS 3/3",
+      "tests": "Real persisted Workspace, value-based opaque key resolve, owner selection, fail-closed on ACL/recovery/generation change and tampered/stale hit",
+      "regression": "V4.4 empty chat re-use means only one active row; test corrected, not store changed",
+      "limitation": "Required independently observable ACL epoch missing; no shipping mount."
+    },
+    "federation": {
+      "status": "DIRECTED_CI_SUCCESS_15_OF_15_EXACT_SHA",
+      "code_sha": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
+      "run": 41823780133,
+      "xml": "S3_CANONICAL_SEARCH_XML_PASS 15/15",
+      "scope": "A maximum of eight owner-bound sources; source coverage COMPLETE/PARTIAL/UNAVAILABLE; bounded round-robin domain fairness; revocation of prior owner during later-source query removes hits; no index content authority",
+      "limitations": "Not wired to user-visible Search without real owners and ACL events; no physical."
     }
   },
   "last_manual_ci_proofs_20261104": {
@@ -507,16 +524,20 @@
       41817401345,
       41817846020,
       41819489126,
-      41820150581
+      41820150581,
+      41823167085,
+      41823780133
     ],
     "exact_xml": [
-      "8/8 canonical search prior",
-      "3/3 real Workspace search",
-      "9/9 Home notice regression",
-      "3/3 Reality finance activity",
-      "2/2 receipt regression",
-      "9/9 Spanish canonical token search",
-      "48/48 directed surface including search policy"
+      "8/8 canonical prior",
+      "3/3 real Workspace search prior",
+      "9/9 Home regression prior",
+      "3/3 finance activity",
+      "2/2 receipt history",
+      "9/9 canonical Spanish tokens",
+      "48/48 Search surface",
+      "9/9 Home +3/3 Workspace +3/3 Workspace adapter",
+      "7/7 Canonical +2/2 projection +6/6 federation"
     ],
     "all_success": true,
     "metrics": {
@@ -524,6 +545,7 @@
       "research_minutes": "NOT_MEASURED",
       "ci_elapsed_from_github": "AVAILABLE_RUNS",
       "physical_tests": "NOT_RUN"
-    }
+    },
+    "notes": "FAILED predecessor CI is historical and not ignored: initial adapter test assumed 2 chats; V4.4 empty-chat reuse corrected; first federation CI 429 Maven external retried success 14/14 before revocation patch; final two exact-sha CI PASS."
   }
 }
