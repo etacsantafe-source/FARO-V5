@@ -1,5 +1,10 @@
 package ar.com.faro.v5.surface
 
+import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceEntry
+import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceProjector
+import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceSnapshot
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -188,6 +193,51 @@ class FaroV5ShellNavigationContractTest {
             listOf(FaroV5ShellDestination.CHAT),
             faroV5RestoreShellStack(listOf("INICIO", "BUSCAR", "AVISOS")),
         )
+    }
+
+
+    @Test
+    fun confirmedSearchCannotNavigateUsingCachedWorkspaceWithoutFreshRead() {
+        val staleConversation = ConversationId("cached-chat-before-search")
+        val selectedConversation = ConversationId("search-selected-chat")
+        val entries = listOf(
+            ConversationWorkspaceEntry(staleConversation, "Anterior", 50L),
+            ConversationWorkspaceEntry(selectedConversation, "Actual", 100L),
+        )
+        val previouslyCached = FaroV5WorkspaceReadState.Ready(
+            ConversationWorkspaceProjector.project(
+                ConversationWorkspaceSnapshot(entries, staleConversation)
+            )
+        )
+        // The shell MUST discard this cached state before requesting a new
+        // canonical snapshot, never reuse it after a Search CONFIRMED event.
+        assertEquals(FaroV5ShellDestination.CHAT,
+            faroV5SearchConfirmedDestination(previouslyCached))
+        assertNull(faroV5SearchConfirmedDestination(FaroV5WorkspaceReadState.Loading))
+        val reread = FaroV5WorkspaceReadState.Ready(
+            ConversationWorkspaceProjector.project(
+                ConversationWorkspaceSnapshot(entries, selectedConversation)
+            )
+        )
+        assertEquals(selectedConversation, reread.projection.activeConversationId)
+        assertEquals(FaroV5ShellDestination.CHAT,
+            faroV5SearchConfirmedDestination(reread))
+    }
+
+    @Test
+    fun failedUnboundOrNoSelectionCannotNavigateAfterSearch() {
+        assertNull(faroV5SearchConfirmedDestination(FaroV5WorkspaceReadState.Failed))
+        assertNull(faroV5SearchConfirmedDestination(FaroV5WorkspaceReadState.Unbound))
+        assertNull(faroV5SearchConfirmedDestination(FaroV5WorkspaceReadState.Loading))
+        val noActive = FaroV5WorkspaceReadState.Ready(
+            ConversationWorkspaceProjector.project(
+                ConversationWorkspaceSnapshot(
+                    listOf(ConversationWorkspaceEntry(ConversationId("only"), "Archivado", 10L, archived = true)),
+                    ConversationId("only"),
+                )
+            )
+        )
+        assertNull(faroV5SearchConfirmedDestination(noActive))
     }
 
 }

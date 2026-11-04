@@ -228,6 +228,11 @@ fun FaroV5ShellScaffold(
     var selectionBusy by remember(selectionPort) { mutableStateOf(false) }
     var selectionUncertain by remember(selectionPort) { mutableStateOf(false) }
     var workspaceRefresh by remember(workspaceReadPort, selectionPort) { mutableStateOf(0L) }
+    // Search adapter CONFIRMED only establishes that the canonical selection
+    // write completed. It does not update the shell's cached Workspace projection.
+    var searchSelectionAwaitingRead by remember(workspaceReadPort, searchReadPort) {
+        mutableStateOf(false)
+    }
     // Keyed state prevents stale data from a previously bound Workspace reader.
     var workspaceReadState by remember(workspaceReadPort) {
         mutableStateOf<FaroV5WorkspaceReadState>(
@@ -249,6 +254,25 @@ fun FaroV5ShellScaffold(
                 throw cancelled
             } catch (_: Exception) {
                 FaroV5WorkspaceReadState.Failed
+            }
+        } else {
+            workspaceReadState = FaroV5WorkspaceReadState.Unbound
+        }
+        // After search selection, NEVER navigate to the previously cached Chat ID.
+        // Only the latest completed canonical read can reopen Chat. Failed/absent
+        // Workspace must not silently fall back to another conversation.
+        if (searchSelectionAwaitingRead) {
+            searchSelectionAwaitingRead = false
+            if (faroV5SearchConfirmedDestination(workspaceReadState) ==
+                FaroV5ShellDestination.CHAT
+            ) {
+                backStack.clear()
+                backStack.add(FaroV5ShellDestination.CHAT)
+                if (drawerMode == FaroV5DrawerMode.MODAL) drawerState.close()
+            } else {
+                transientMessageHostState.showSnackbar(
+                    "No se pudo verificar la conversación seleccionada."
+                )
             }
         }
     }
@@ -376,7 +400,14 @@ fun FaroV5ShellScaffold(
                             FaroV5SearchScreen(
                                 readPort = searchReadPort,
                                 onOpenConversation = {
-                                    navigate(FaroV5ShellDestination.CHAT)
+                                    // Selection is committed by the Workspace owner in
+                                    // SearchAdapter, but the shell still has the old
+                                    // active ID. Invalidate that UI cache BEFORE read.
+                                    if (!searchSelectionAwaitingRead) {
+                                        workspaceReadState = FaroV5WorkspaceReadState.Loading
+                                        searchSelectionAwaitingRead = true
+                                        workspaceRefresh++
+                                    }
                                 },
                             )
                         } else if (key == FaroV5ShellDestination.AVISOS) {
@@ -579,6 +610,14 @@ internal sealed interface FaroV5WorkspaceReadState {
     data object Failed : FaroV5WorkspaceReadState
     data class Ready(val projection: ConversationWorkspaceDrawerProjection) : FaroV5WorkspaceReadState
 }
+
+/** An acknowledged search open may navigate only after a fresh Workspace read. */
+internal fun faroV5SearchConfirmedDestination(
+    state: FaroV5WorkspaceReadState,
+): FaroV5ShellDestination? =
+    if (state is FaroV5WorkspaceReadState.Ready &&
+        state.projection.activeConversationId != null
+    ) FaroV5ShellDestination.CHAT else null
 
 /** A root is never highlighted simultaneously with a selected conversation. */
 internal fun faroV5DrawerRootIsSelected(
