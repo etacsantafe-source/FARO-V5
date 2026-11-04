@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M4.REDFIX.PERM.20261104",
-  "token_hash": "38f700dc19a41b88cbfc43df32ce063df21b50ac97eb65b9b2ab45716af261e1",
-  "target_head": "a8088569db284fd4f79d21313e635b8f0e92bca8",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M4.REDFIX.B6.20261104",
+  "token_hash": "b887a275a09d07c2ee65d380d60fd9f4680d84afe2520a01d39f28cbaa3290ad",
+  "target_head": "672ba9420c1355b6f069ba73b9c68fe5e9f297ca",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 165,
-  "timestamp": 1793820299,
-  "purpose": "M4_REDFIX_PERMIT_READY_672BA942_PREFLIGHT_PENDING"
+  "epoch": 166,
+  "timestamp": 1793820337,
+  "purpose": "M4 B6 RED_FIX only V2 Core DEV manifest seven permission removals"
 }
