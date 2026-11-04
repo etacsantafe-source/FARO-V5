@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 179
+    "expected_release_epoch": 180
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
+  "handoff": "docs/v5/FARO_V2_M5_INDEPENDENT_FINAL_AUDIT_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "F07 PASS_VISUAL_PARTIAL: user confirmed FARO DEV app previous chats/data visible 19:05 AR; screenshot shows pinned Conversation 59, recent 77/78/76/74 and menus. App-info reports 4.3.0-dev, not proof of 4.4 release label. F03/F04/F05 also PASS_VISUAL_PARTIAL. M5 global PARTIAL; identity/UID/permissions, WAL internals/egress not certified; NEXT targeted non-destructive F00/F01/F02/F06/F08 when device ready. V2_DEV_CORE_READY false, production OFF. Permit BLOCKED, writer RELEASED expected 179.",
-  "checkpoint_status": "M5_F03_F04_F05_F07_PASS_VISUAL_PARTIAL_M5_GLOBAL_OPEN",
+  "next": "M5 B7 independent audit complete with responsible PARTIAL/OPEN disposition. F03/F04/F05/F07 PASS_VISUAL_PARTIAL; signed APK static and JVM gates PASS; installed binary hash/UID/permissions/5-store sandbox and dynamic IPC/egress remain NOT_VERIFIED without live Moto G15 ADB. DO NOT repeat passes, recompile, update or uninstall installed DEV; ephemeral debug signature update risk. One READ_ONLY ADB session then independent B7 if all pass. Permit BLOCKED, V2 productive/Auto/Noche OFF, S3 approx40% formal0/5. See docs/v5/FARO_V2_M5_INDEPENDENT_FINAL_AUDIT_20261104.md",
+  "checkpoint_status": "M5_INDEPENDENT_B7_AUDIT_DONE_WITH_RESIDUALS_V2_DEV_CORE_READY_FALSE",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M5_INDEPENDENT_FINAL_AUDIT_20261104.md",
   "last_code_sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
   "last_ci_run_id": 41905632794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -597,7 +597,7 @@
     "v2_dev_core_ready": false
   },
   "m5_physical_campaign": {
-    "status": "IN_PROGRESS_F03_F04_F05_F07_VISUAL_PARTIAL",
+    "status": "PARTIAL_AUDITED_B7_OPEN",
     "document": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
     "scope": "DEV_ISOLATED_MOTO_G15_SINGLE_CAMPAIGN",
     "gate_ids": [
@@ -612,7 +612,7 @@
       "F-08",
       "F-09"
     ],
-    "result": "F03_F04_F05_F07_PASS_VISUAL_PARTIAL_OTHER_CONTROLS_NOT_VERIFIED",
+    "result": "FOUR_PARTIAL_VISUAL_PASSES_AND_APK_CI_STATIC_PASS_ON_DEVICE_DIAGNOSTICS_PENDING",
     "artifact_id": 13360681405,
     "run_id": 41905632794,
     "apk_sha256": "8773f7cea29b7487d955aff2a65eecdb56aa0eb49ba6428b74d95ee277f805c4",
@@ -646,5 +646,35 @@
         "limits": "FARO DEV app info 4.3.0-dev. No DB/UID hash or complete dataset audit."
       }
     }
+  },
+  "m5_final_audit": {
+    "status": "B7_AUDITED_WITH_RESIDUALS_M5_GLOBAL_PARTIAL",
+    "document": "docs/v5/FARO_V2_M5_INDEPENDENT_FINAL_AUDIT_20261104.md",
+    "head_reviewed": "11670fc1a3392e956b31510d026bd3342a3d8921",
+    "source_compare_base": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
+    "only_docs_since_apk": true,
+    "pass": [
+      "F03_UI_PARTIAL",
+      "F04_UI_PARTIAL",
+      "F05_FORCE_STOP_PARTIAL",
+      "F07_PRIOR_FARO_PARTIAL",
+      "APK_ID_SIGNATURE_ZERO_PERMISSIONS_CI",
+      "M2A_M4_JVM_CI"
+    ],
+    "pending": [
+      "F00_INSTALLED_APK_HASH",
+      "F01_UID_ON_DEVICE",
+      "F02_ON_DEVICE_COMPONENTS_PERMISSIONS",
+      "F06_SANDBOX_SQLITE_INSPECTION",
+      "F08_DYNAMIC_EGRESS_IPC_OBSERVATION"
+    ],
+    "F09": "NOT_TRIGGERED_NO_REPORTED_CRASH",
+    "risk": "CI_DEBUG_SIGNING_NOT_PROVEN_STABLE_FOR_IN_PLACE_UPGRADE",
+    "android_remote_adb": "UNAVAILABLE",
+    "v2_dev_core_ready": false,
+    "v2_productive": false,
+    "code_changes": 0,
+    "new_test_runs": 0,
+    "final_audit_decision": "OPEN_FAIL_CLOSED"
   }
 }
