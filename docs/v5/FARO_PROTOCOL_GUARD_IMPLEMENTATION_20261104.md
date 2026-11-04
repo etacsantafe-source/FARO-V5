@@ -55,3 +55,16 @@
 - El primer intento `#41876544023` rojo fue por errores de fixture de tests (12/14 pasaron), corregidos SIN debilitar el código del guardia; nuevo CI verde.
 - `GET /rulesets` devolvió `[]`. **No** se verificó un status check requerido en la rama. Para bloqueo administrativo de integración el usuario debe activarlo en GitHub. Esta salvedad se incorpora a `AGENTS.md` para todos los agentes.
 - El guardia y sus 14 negativas se consideran **PASS_ENFORCEMENT_CHECK**, pero la auditoría retrospectiva de M0–M3 **NO está hecha**. El próximo paso se mantiene exclusivamente B1–B5 de esos bloques, y ningún desarrollo funcional hasta entonces.
+
+## Extensión acotada de CI: preflight REAL antes de permitir una corrección (04/11, siguiente turno)
+**B1 — EVIDENCIA:** El guardia `--mode ci` verifica historial de commits funcionales, pero un permiso `READY` emitido en commit documental no tenía un job que ejecutara `--mode preflight` con los `paths` y la `unit_id` del permiso. Como el cliente de GitHub de esta sesión no puede ejecutar comandos en el checkout del repositorio, no corresponde declarar `PREFLIGHT_PASS` mediante reconstrucción manual.
+
+**B2 — COMPARACIÓN:** V4.4 no tenía este gate de desarrollo en GitHub; mantiene sus contratos y no se toca. Reusar el mismo `faro-protocol-gate.py` de 14 tests, el mismo checkout del job `seven-block-evidence` y el mismo permiso `docs/v5/FARO_PROTOCOL_WORK_PERMIT.json`. No crear validador paralelo.
+
+**B3 — INVESTIGACIÓN/ALTERNATIVAS:** (a) Inventar PASS desde un JSON: **DESCARTADO**; (b) instruir al usuario a ejecutar Termux: **DESCARTADO**, es un flujo cloud manual ya autorizado; (c) duplicar validaciones en código de CI: **DESCARTADO** por desvío; (d) ejecutar el preflight existente en el mismo GitHub Actions después del gate, desde `subprocess.run` sin shell y con argumentos leídos del JSON: **ELEGIDO**. El artefacto de CI queda ligado a SHA exacto y es reutilizable entre chats.
+
+**B4 — UNIFICACIÓN:** Solo añadir un step al workflow obligatorio `.github/workflows/faro-v5-protocol-guard.yml`, sin modificar el motor, sin permisos remotos adicionales, con política: `BLOCKED` produce `FARO_PROTOCOL_PREFLIGHT_BLOCKED_EXPECTED` sin autorizar código; `READY` invoca `python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD --unit <unit_id> --path <path>...`; cualquier otro status/missing rompe CI. El gate histórico de todos los commits permanece anterior al step.
+
+**B5 — AUDITORÍA ADVERSARIAL:** leer JSON solo desde checkout, nunca shell interpolation; validar `unit_id`/rutas por programa existente y cero `--path` permisivos; no omitir `--mode ci`; `READY` sin B1–B5 SHA real, reviewed_head o B7 correcto debe fallar. Exposición: el mismo administrador puede desactivar el workflow si no es status check required; `GET /rulesets=[]`, riesgo residual explícito. Se mantiene prohibida escritura funcional si la CI está PENDING/FAILURE y el preflight exacto no reporta PASS.
+
+**B6/B7:** código de bridge y CI exacta **PENDING** hasta commit/run que muestre explícitamente `FARO_PROTOCOL_PREFLIGHT_PASS`; 14 pruebas del motor existentes deben permanecer PASS, más gate histórico. No adjudicar certificación antes de logs. Esta extensión no da autorización a V2 de producción.
