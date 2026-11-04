@@ -44,7 +44,21 @@ jobs:
         working-directory: v5
         run: |
           set -euo pipefail
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleV2CoreDev
+          set +e
+          timeout --signal=TERM --kill-after=30s 1200 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              --info --stacktrace --console=plain :app:assembleV2CoreDev
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            echo "M5_ASSEMBLE_RED_FIX_STOP rc=$rc"
+            free -m || true
+            ps -eo pid,ppid,stat,etime,rss,args --sort=-rss | head -n 20 || true
+            exit "$rc"
+          fi
+          echo "M5_ASSEMBLE_V2_CORE_DEV_PASS"
       - name: Verify exact signed APK binary package, launcher and no OS permissions
         run: |
           set -euo pipefail
