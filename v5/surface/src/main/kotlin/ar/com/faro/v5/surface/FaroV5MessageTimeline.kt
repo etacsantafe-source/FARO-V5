@@ -14,6 +14,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import ar.com.faro.v5.kernel.contracts.ConversationMessage
@@ -36,9 +37,18 @@ fun FaroV5MessageTimeline(
     onRetry: ((ConversationMessageId) -> Unit)? = null,
     onCopyText: ((String) -> Unit)? = null,
     activeProcessingTurns: Set<ConversationTurnId> = emptySet(),
+    focusMessageId: ConversationMessageId? = null,
 ) {
     val byId = timeline.messages.associateBy { it.id }
     val scrollState = rememberLazyListState()
+    // The target is only an ID from the latest canonical timeline snapshot.
+    // No persisted lookup table, cross-conversation jump or stale locator.
+    LaunchedEffect(timeline.conversationId, timeline.revision, focusMessageId) {
+        if (focusMessageId != null) {
+            val position = timeline.messages.indexOfFirst { it.id == focusMessageId }
+            if (position >= 0) scrollState.animateScrollToItem(position)
+        }
+    }
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
         state = scrollState,
@@ -68,7 +78,9 @@ fun FaroV5MessageTimeline(
                 Surface(
                     modifier = Modifier.fillMaxWidth(0.88f),
                     shape = MaterialTheme.shapes.large,
-                    color = if (message.role == ConversationMessageRole.USER) {
+                    color = if (message.id == focusMessageId) {
+                        MaterialTheme.colorScheme.tertiaryContainer
+                    } else if (message.role == ConversationMessageRole.USER) {
                         MaterialTheme.colorScheme.primaryContainer
                     } else MaterialTheme.colorScheme.surfaceVariant,
                 ) {

@@ -1,6 +1,16 @@
 package ar.com.faro.v5.surface
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,6 +39,7 @@ fun FaroV5ActiveChatTimeline(
     timelineReadPort: ConversationTimelineReadPort,
     refreshRevision: Long = 0L,
 ) {
+    var query by remember(activeConversationId, timelineReadPort) { mutableStateOf("") }
     var projection by remember(activeConversationId, timelineReadPort, refreshRevision) {
         mutableStateOf<ChatTimelineProjection>(
             if (activeConversationId == null) ChatTimelineProjection.Unselected
@@ -55,6 +66,50 @@ fun FaroV5ActiveChatTimeline(
         ChatTimelineProjection.Unselected -> Text("No hay una conversación activa.")
         ChatTimelineProjection.Missing -> Text("Esta conversación ya no está disponible.")
         ChatTimelineProjection.Failed -> Text("No se pudo recuperar la conversación.")
-        is ChatTimelineProjection.Ready -> FaroV5MessageTimeline(state.value)
+        is ChatTimelineProjection.Ready -> {
+            val matches = remember(state.value, query) {
+                FaroV5InChatSearchPolicy.matchingMessageIds(state.value, query)
+            }
+            var position by remember(state.value, query) { mutableIntStateOf(0) }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(FaroV5Spacing.small),
+            ) {
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it.take(FaroV5InChatSearchPolicy.MAX_QUERY_CHARS) },
+                    label = { Text("Buscar en esta conversación") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                if (query.isNotBlank()) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            if (matches.isEmpty()) "Sin coincidencias en los mensajes cargados."
+                            else "Coincidencia ${position + 1} de ${matches.size}",
+                            modifier = Modifier.padding(FaroV5Spacing.small),
+                        )
+                        Row {
+                            TextButton(
+                                enabled = matches.size > 1,
+                                onClick = { position = (position + matches.size - 1) % matches.size },
+                            ) { Text("Anterior") }
+                            TextButton(
+                                enabled = matches.size > 1,
+                                onClick = { position = (position + 1) % matches.size },
+                            ) { Text("Siguiente") }
+                        }
+                    }
+                }
+                FaroV5MessageTimeline(
+                    timeline = state.value,
+                    modifier = Modifier.weight(1f),
+                    focusMessageId = matches.getOrNull(position),
+                )
+            }
+        }
     }
 }

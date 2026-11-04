@@ -52,6 +52,7 @@ jobs:
               raise SystemExit('S3_MISSING_XML')
           total = 0
           found = False
+          search_found = False
           for p in xmls:
               root = ET.parse(p).getroot()
               vals = tuple(int(root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
@@ -59,8 +60,15 @@ jobs:
                   raise SystemExit(f'S3_FAIL_XML {p.name} {vals}')
               if 'FaroV5ShellNavigationContractTest' in p.name:
                   found = True
+              if 'FaroV5InChatSearchPolicyTest' in p.name:
+                  if vals != (5,0,0,0):
+                      raise SystemExit(f'S3_IN_CHAT_SEARCH_XML_FAIL {vals}')
+                  search_found = True
               total += vals[0]
           if not found:
               raise SystemExit('S3_MISSING_NAVIGATION_XML')
+          if not search_found:
+              raise SystemExit('S3_MISSING_IN_CHAT_SEARCH_XML')
+          print('S3_IN_CHAT_SEARCH_XML_PASS 5/5')
           print(f'S3_SURFACE_XML_PASS {total}/{total}')
           PY
