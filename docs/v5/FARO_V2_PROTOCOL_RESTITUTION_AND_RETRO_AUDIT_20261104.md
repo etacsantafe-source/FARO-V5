@@ -60,3 +60,9 @@ El usuario reclamó explícitamente recuperar el protocolo de desarrollo complet
 - Objetivo principal vigente: **V2_DEV_CORE_READY con seguridad probada y luego cerrar S3 y S4**.
 
 **Checkpoint de este documento:** protocolo recuperado, hallazgos iniciales registrados, revisión completa de B1–B7 del legado **NOT_DONE**. La siguiente conversación debe efectuar ese recorrido, no afirmar que ya terminó.
+
+
+## 6. Regla explícita de B3 externo verificable — 04/11/2026
+Por instrucción humana, la investigación de **soluciones ajenas y errores ya resueltos** es obligatoria y central; inspeccionar solo FARO/V4.4 no cumple B3.
+Para **cada unidad antes de emitir permiso READY**: 1) consultar documentación primaria actual y proyectos de aplicaciones reales, bugs/fixes, o experiencias open source pertinentes; 2) registrar URLs concretas, mecanismo, límites, versiones/fechas si importan, seguridad, licencias, mantenimiento, recursos y coste; 3) comparar al menos dos alternativas razonables con el diseño FARO y con V4.4 (o demostrar por qué solo hay una); 4) clasificar USAR / ADAPTAR / REFERENCIA / DESCARTAR / SIN CANDIDATO MATERIAL; 5) convertir errores observados en pruebas negativas; 6) B5 rechaza READY si falta evidencia material. La ausencia de ejemplos comparables requiere búsqueda documentada, **nunca inventar resultados**.
+La referencia S3.A2 actual es `docs/s3-night/S3_A2_G1_B3_EXTERNAL_REAL_WORLD_RESEARCH_20261104.md`. El mero cumplimiento documental no autoriza B6: continúan el owner real, el B5 adversarial y el permiso por rutas pendientes.
