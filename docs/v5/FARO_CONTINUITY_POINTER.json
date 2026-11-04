@@ -42,12 +42,12 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M1_MANIFEST_VERIFIER B7 PASS: code 59160876, guard 41884102091 SUCCESS 14/14 + two authorized code units, V2 directed 41884102154 SUCCESS (M2/M3 JVM4/4, T4 7/7, M1 isolation4/4, M2B isolation4/4), S3 regression 41884102013 SUCCESS XML 9/9 Home+7/7 Workspace+5/5 bridge+4/4 Avisos. Evidence docs/v5/FARO_V2_M1_B7_PASS_20261104.md blob 3c889721. Permit docs/v5/FARO_PROTOCOL_WORK_PERMIT.json now BLOCKED (no code until new unit B1-B5 and exact READY preflight). NEXT M2A first-start recovery PREPARING/STAGED/VALIDATED review+bounded unit, then M3/M4/M5 and V2_DEV_CORE_READY ONLY after hard gates. Keep S2 CLOSED 8/8 S3 ≈40% dev estimate and 0/5 formally closed; S4 OFF, productive V2 OFF, Noche/Auto OFF, CLOUD STAGED, catalogue 172. Writer must be released epoch 152.",
-  "checkpoint_status": "M1_MANIFEST_VERIFIER_B7_PASS_ALL_EXACT_CI_S3_REGRESSION_PASS",
+  "next": "M2A_FIRST_START_RECOVERY exact two DEV-only files commit 59a6a46a, protocol 7-block guard 41888732289 SUCCESS (14/14, FARO_PROTOCOL_GATE_PASS 3 functional units, FARO_PROTOCOL_PREFLIGHT_PASS M2A @ 2a4b1682); V2 directed 41888732803 RUNNING, S3 regression 41888732548 RUNNING. DO NOT claim tests PASS or M2A B7 until inspect exact run/steps/XML for SHA 59a6a46a. B1-B5 doc docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md blob 7a1d2223; permit READY unit M2A_FIRST_START_RECOVERY, B7 pending. Evaluate untested mismatched pointer and symlink B5 negatives; if CI fails record RED_FIX, repair only this unit, preserve all other PASS. Writer must RELEASE epoch 156 following checkpoint. S2 CLOSED 8/8; S3 approx 40% developed 0/5 closed; S4 OFF, V2 productive OFF, Noche/Auto OFF, CLOUD STAGED, catalogue 172.",
+  "checkpoint_status": "M2A_B6_CODE_COMMITTED_GUARD_PASS_DIRECTED_CI_RUNNING_B7_NOT_VERIFIED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
-  "last_code_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
-  "last_ci_run_id": 41884102154,
+  "last_handoff": "docs/v5/FARO_V2_M2A_B6_WAIT_CI_20261104.md",
+  "last_code_sha": "59a6a46a09677840aa883933ed57a0697cc6ef7d",
+  "last_ci_run_id": 41888732803,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_GLOBAL_MANIFEST_VERIFIER_DEBUG_2;M2_M3_JVM_XML_4_4_PASS;T4_DEBUG_XML_7_7_PASS;S3_REGRESSION_41872895353_SUCCESS",
+  "last_ci_conclusion": "WAIT_CI_V2_M2A_41888732803;S3_REGRESSION_41888732548_RUNNING;PROTOCOL_GUARD_41888732289_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
