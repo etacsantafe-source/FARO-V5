@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M4.B7.PASS.20261104",
-  "token_hash": "e3c08a4dfd25b5f709c7320df6b1f23d814796ef4b219205cb9a395e4b960702",
-  "target_head": "aba2850cea07d19bbddb8813b1592cd641b67d62",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M5.B1B5.20261104",
+  "token_hash": "38e0bfa2ded64d690a32d6051caf472bb2d32d8f1255aa63fda0c7b0c5bb3fb1",
+  "target_head": "92060b09366585ba1736bf6bdafc8ba05467405f",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 167,
-  "timestamp": 1793820794,
-  "purpose": "M4_B7_PASS_92060B09_PERMIT_BLOCKED"
+  "epoch": 168,
+  "timestamp": 1793820871,
+  "purpose": "M5 B1-B5 APK isolated DEV package preaudit documentation only; no code"
 }
