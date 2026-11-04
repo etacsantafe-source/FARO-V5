@@ -65,3 +65,12 @@ Los comandos no borran ni modifican datos, pero listan rutas privadas del DEV: *
 - `M5_GLOBAL`: **PARTIAL / OPEN — NO APPROVAL** por F-00 exactitud del binario instalado, F-01 UID, F-02 componentes/permisos on-device, F-06 verificación del sandbox y F-08 observación dinámica pendientes.
 - `V2_DEV_CORE_READY`: **false** hasta evidencias físicas pendientes y auditoría final sin rojos. **V2 productiva: OFF**. FARO Auto/Noche OFF, CLOUD STAGED, S2 8/8 cerrado, S3 ~40% desarrollo estimado y 0/5 cierres, S4 no abierto.
 - Próxima unidad MINIMA: una sesión física de **solo lectura** en paquete `ar.com.faro.alpha.v2coredev`, no otra ronda de desarrollo; consolidar evidencia de identidad/UID/permisos, cinco stores y egress observable. F-03/04/05/07 no se repiten. Luego reauditar solo los rojos; si todo PASS, emitir B7 final y cambiar el estado `V2_DEV_CORE_READY` con evidencia. No declarar fecha prometida.
+
+## Adenda de evidencia física del Moto G15 — F-01 y F-06
+La sesión ADB del usuario confirmó `ar.com.faro.alpha.v2coredev` con **UID 10372**, distinto de `ar.com.faro.alpha.v4dev` (10344), la aplicación base (10347) y V5 DEV (10361). **F-01 UID: PASS**.
+
+Una consulta `run-as` de solo lectura al almacenamiento privado DEV mostró dos generaciones. La generación inicial contiene cuatro SQLite; la generación V2 contiene **reality.db, commercial-evidence.db, web-evidence.db, auxiliary.db y workspace.db**, cada una con archivos -wal y -shm. También se observaron los registros del puntero activo, journal, replay fence, descriptor y marcador de formato. **F-06: PASS para existencia y estructura de cinco bases en el dispositivo**, no para integridad interna de SQLite/WAL o semántica de los registros.
+
+`dumpsys` confirmó `versionName=5.0.0-dev-v2coredev`, pero la salida filtrada de permisos no es una prueba exhaustiva de ausencia de permisos. Se preserva la certificación del APK firmado en CI; F-02 permisos instalados sigue parcial. F-00 hash del APK instalado y F-08 validación dinámica de egress/IPC también pendientes.
+
+No se repiten Chat, force-stop, comparación FARO anterior ni CI. `V2_DEV_CORE_READY=false`, V2 productiva OFF, permiso de código BLOCKED.
