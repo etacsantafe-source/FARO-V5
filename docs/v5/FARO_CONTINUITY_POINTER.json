@@ -160,5 +160,19 @@
       "queue": "STAGED",
       "writer_release_epoch_expected": 86
     }
+  },
+  "chat_context_thermometer": {
+    "requested_by_user": "2026-11-04",
+    "enabled": true,
+    "cadence": "include at the end of every substantive FARO V5 progress/update response, including in future chats",
+    "levels": [
+      "GREEN/VERDE: comfortable",
+      "YELLOW/AMARILLO: moderately loaded",
+      "ORANGE/NARANJA: recommend a new chat soon",
+      "RED/ROJO: migrate immediately"
+    ],
+    "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
+    "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
+    "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
   }
 }
