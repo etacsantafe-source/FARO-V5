@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Verify directed CI exact new code SHA and XML 9/9 for genuine active pointer owner event. S3-A1 PARTIAL: N-031 attention.read and N-015 history.query canonical owners remain unavailable; Guardados +8 not approved; independent ACL event not demonstrated. Night/Auto OFF, V2/S4 OFF, physical at S3 end.",
+  "next": "Verify corrected exact-SHA directed CI 9/9 after subscription race fix; then N-031 attention.read and N-015 history.query canonical owner gap. No ACL emitter claim, Guardados +8 unapproved, S3-A1 PARTIAL; Auto/Noche/V2/S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -195,13 +195,20 @@
       "verified_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0"
     },
     "active_generation_pointer_invalidation": {
-      "status": "CODE_PREPARED_DIRECTED_CI_PENDING",
+      "status": "FIX_COMMITTED_CI_PENDING_AFTER_TEST_SUBSCRIPTION_RACE",
       "owner": "FileActiveGenerationPointer.compareAndSet (successful durable publish only)",
       "subscriber": "FaroV5MaintenanceRuntime.activePointerInvalidations -> existing Home readPort",
       "scope": "Process local; no independent ACL or cross-process authority event claimed; no V2 cutover",
       "test": "FaroV5HomeNoticeBindingFactoryTest.sameHomePortInvalidatesOnDurablyPublishedActivePointerChange",
       "expected_xml": "S3_HOME_NOTICE_XML_PASS 9/9",
-      "physical": "NOT_RUN"
+      "physical": "NOT_RUN",
+      "last_ci": {
+        "id": 41753803897,
+        "head_sha": "4df3b488f6f74ad7a9914f3f22370f62e65a5158",
+        "result": "FAILURE_8_OF_9_ONE_TIMEOUT",
+        "cause": "Pointer change fired before pointerChanges callbackFlow was subscribed; test used yield timing rather than handshake."
+      },
+      "fix": "After registering real pointer listener emit revalidation (not fake pointer change). Test awaits subscription recheck before durable compareAndSet."
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",

@@ -83,6 +83,9 @@ class FaroV5MaintenanceRuntime(
     fun activePointerInvalidations(): Flow<Unit> = callbackFlow {
         val listener = Runnable { trySend(Unit); Unit }
         pointer.addChangeListener(listener)
+        // Close the gap between the initial Home read and observer registration.
+        // This is a recheck, NOT a fabricated pointer mutation.
+        trySend(Unit)
         awaitClose { pointer.removeChangeListener(listener) }
     }
     private val layout = FileStorageGenerationLayout(storageRoot)

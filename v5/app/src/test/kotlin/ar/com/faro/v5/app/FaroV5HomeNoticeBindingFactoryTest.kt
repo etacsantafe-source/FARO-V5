@@ -244,6 +244,7 @@ class FaroV5HomeNoticeBindingFactoryTest {
                 val pointerChanges = callbackFlow {
                     val listener = Runnable { trySend(Unit); Unit }
                     pointer.addChangeListener(listener)
+                    trySend(Unit) // deterministic post-registration reconciliation
                     awaitClose { pointer.removeChangeListener(listener) }
                 }
                 val readPort = FaroV5HomeNoticeBindingFactory.create(
@@ -257,8 +258,9 @@ class FaroV5HomeNoticeBindingFactoryTest {
                 val changes = Channel<Unit>(Channel.UNLIMITED)
                 val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
                 try {
-                    yield()
-                    yield()
+                    // The initial recheck proves the pointer listener is subscribed.
+                    withTimeout(3000) { changes.receive() }
+                    assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
                     assertEquals(target, pointer.compareAndSet(original, target)?.generationId)
                     withTimeout(3000) { changes.receive() }
                     assertTrue(readPort.readIndicators().isEmpty())
