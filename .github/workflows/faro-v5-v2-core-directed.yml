@@ -1,0 +1,63 @@
+name: FARO V5 V2 core M1 isolation directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/v2CoreDev/**"
+      - ".github/workflows/faro-v5-v2-core-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-v2-core-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  v2-core-isolation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          set -eu
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile isolated V2 build and process both manifests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:processDebugMainManifest :app:processV2CoreDevMainManifest :app:compileV2CoreDevKotlin
+      - name: Verify package isolation, no backup and offline mode
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          ns = '{http://schemas.android.com/apk/res/android}'
+          base = Path('v5/app/build/intermediates')
+          def read(variant):
+              found = [p for p in base.rglob('AndroidManifest.xml') if 'merged_manifest' in str(p) and variant in p.parts]
+              if len(found) != 1: raise SystemExit(f'V2_CORE_M1_MANIFEST_AMBIGUOUS {variant} {len(found)}')
+              return ET.parse(found[0]).getroot()
+          old = read('debug')
+          dev = read('v2CoreDev')
+          if old.get('package') != 'ar.com.faro.alpha.v5dev': raise SystemExit('V2_CORE_OLD_ID_CHANGED')
+          if dev.get('package') != 'ar.com.faro.alpha.v2coredev': raise SystemExit('V2_CORE_DEV_ID_NOT_ISOLATED')
+          app = dev.find('application')
+          if app is None or app.get(ns+'allowBackup') != 'false': raise SystemExit('V2_CORE_BACKUP_NOT_DISABLED')
+          if 'android.permission.INTERNET' in {e.get(ns+'name') for e in dev.findall('uses-permission')}: raise SystemExit('V2_CORE_NETWORK_GRANTED')
+          print('V2_CORE_M1_ISOLATION_PASS 4/4')
+          PY

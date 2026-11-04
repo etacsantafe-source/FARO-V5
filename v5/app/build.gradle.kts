@@ -71,6 +71,15 @@ android {
         }
     }
 
+    // Isolated offline-only V2 development build. No productive V2 activation.
+    buildTypes.create("v2CoreDev") {
+        initWith(buildTypes.getByName("debug"))
+        applicationIdSuffix = ".v2coredev"
+        versionNameSuffix = "-v2coredev"
+        matchingFallbacks += listOf("debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO V2 CORE DEV"
+    }
+
     buildFeatures {
         resValues = true
     }
