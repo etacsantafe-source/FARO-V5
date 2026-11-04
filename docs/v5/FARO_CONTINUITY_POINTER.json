@@ -39,15 +39,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s3-night/S3_A2_ADAPTER_FEDERATION_VERIFIED_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_AUTHORITY_AND_COVERAGE_GATE_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3-A2 PARTIAL (not closed): real Workspace search-to-selection adapter CI PASS 15/15 (9 Home +3 Workspace +3 adapter), SHA ef4eb2a8 run 41823167085; federated canonical search with V4.4-style domain diversity, per-source typed coverage and end-of-federation ACL revocation fencing CI PASS 15/15 (7 canonical +2 projection +6 federation), SHA 8a5febc7 run 41823780133. Prior UI 48/48 at 6b2ddcf4, Spanish canonical 9/9 at a65b56fa retained. Genuine independent ACL revocation emitter and active-generation invalidations missing; shipping Search remains unbound, V2 OFF. Next: implement REAL ACL authority owner (monotonic epoch, independent revocation signal) and prove generation/ACL invalidations; wire search port only after proof, then actual Finance/other canonical sources and UI integration. N031 planning persistence/reminders/monthly alerts requires FBS/backup compatibility review; N015 committed-time/history federation missing; do not fake Home counts. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED, physical only at S3 end.",
-  "checkpoint_status": "S3_A2_CANONICAL_WORKSPACE_ADAPTER_AND_MULTISOURCE_FEDERATION_CI_PASS_UNBOUND_REAL_ACL",
+  "next": "HYBRID SINGLE PRIORITY S3.A2: G1 real independent Workspace ACL authority + monotonic revocation owner; G2 shipping connection only under real active Workspace and approved host, V1 remains unavailable; G3 bounded canonical message-content/in-chat search not yet implemented (current source body empty); G4 genuine other source adapters; G5 directed CI/XML and final S3 physical only. Do not claim A2 closed. A4 Avisos read-only real Auxiliary owner CI PASS (SHA a72b7234 run 41828757767, 21/21); full A4 still partial. S2 8/8 frozen, S4/V2/Auto/Noche OFF, queue STAGED, Guardados 172 +8 candidate not approved. Follow docs/s3-night/S3_A2_AUTHORITY_AND_COVERAGE_GATE_20261104.md",
+  "checkpoint_status": "S3_A2_ACTIVE_HYBRID_REAL_ACL_AND_MESSAGE_COVERAGE_GATES_OPEN_A4_AVISOS_VERIFIED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
-  "last_handoff": "docs/s3-night/S3_A2_ADAPTER_FEDERATION_VERIFIED_20261104.md",
-  "last_code_sha": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
-  "last_ci_run_id": 41823780133,
+  "last_handoff": "docs/s3-night/S3_A2_AUTHORITY_AND_COVERAGE_GATE_20261104.md",
+  "last_code_sha": "a72b723475c0ea37f57c62752324765577d2b9c8",
+  "last_ci_run_id": 41828757767,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_S3_A2_APP_15_15_AND_FEDERATION_15_15",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_21_OF_21_DIRECTED_A4_AVISOS_PLUS_SEARCH_NOT_ANDROID",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -196,5 +196,14 @@
     "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
     "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
     "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
+  },
+  "manual_hybrid_strategy": {
+    "approved": "2026-11-04",
+    "priority": "S3-A2",
+    "mode": "SINGLE_CLOSURE_PRIORITY",
+    "on_block": "DOCUMENT_REAL_DEPENDENCY_AND_DO_SAFE_ADJACENT_WORK_THAT_UNBLOCKS_A2_THEN_RETURN",
+    "cycle": "RECOVER_HEAD_CAS_CI, INVESTIGATE, COMPARE_V44_READ_ONLY, FIND_GAPS, ADVERSARIAL, IMPLEMENT, EXACT_CI_XML, CHECKPOINT, RELEASE_WRITER",
+    "no_duplicate_pass": true,
+    "termometro": "ALWAYS_QUALITATIVE"
   }
 }
