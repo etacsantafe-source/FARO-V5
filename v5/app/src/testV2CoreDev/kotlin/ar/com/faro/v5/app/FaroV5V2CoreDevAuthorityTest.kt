@@ -388,4 +388,26 @@ class FaroV5V2CoreDevAuthorityTest {
                 session.searchReadPort.openAuthorized(hit))
         }
     }
+
+    @Test fun pointerAbaCannotReviveOldSearchHitWithoutAnInvalidationSubscriber() = runBlocking {
+        FaroV5V2CoreDevAuthority(root).open().use { session ->
+            val chat = ConversationId("dev-search-pointer-aba")
+            assertTrue(session.selectionPort.createAndSelect(
+                chat, 1000L, IdempotencyKey("dev-search-aba-create"),
+            ) is ConversationSelectionResult.Saved)
+            val stale = session.searchReadPort.search("nuevo").hits.single()
+            // Deliberately do NOT collect invalidations. Authorization must
+            // depend on durable pointer identity, not on UI event delivery.
+            val pointer = FileActiveGenerationPointer(root)
+            val start = requireNotNull(pointer.read())
+            val other = StorageGenerationId("dev-search-aba-other-generation")
+            assertNotNull(pointer.compareAndSet(start.generationId, other))
+            val back = requireNotNull(pointer.compareAndSet(other, start.generationId))
+            assertTrue(back.sequence > start.sequence)
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchCoverage.UNAVAILABLE,
+                session.searchReadPort.search("nuevo").coverage)
+            assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.UNAVAILABLE,
+                session.searchReadPort.openAuthorized(stale))
+        }
+    }
 }

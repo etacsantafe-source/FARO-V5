@@ -61,8 +61,8 @@ jobs:
           if len(paths)!=1: raise SystemExit(f"V2_CORE_M2_TEST_XML_MISSING {len(paths)}")
           root=ET.parse(paths[0]).getroot()
           values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
-          if values!=(9,0,0,0): raise SystemExit(f"V2_CORE_M4_TESTS_FAILED {values}")
-          print("V2_CORE_DEV_SEARCH_SESSION_XML_PASS 9/9")
+          if values!=(10,0,0,0): raise SystemExit(f"V2_CORE_M4_TESTS_FAILED {values}")
+          print("V2_CORE_DEV_SEARCH_SESSION_XML_PASS 10/10")
           PY
       - name: Verify relocated historical debug-only T4 gate tests
         run: |

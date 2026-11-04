@@ -185,6 +185,11 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)) {
             "DEV activation lacks committed replay fence or authority"
         }
+        // Pin the DURABLE pointer sequence, not only its reusable generation ID.
+        // A->B->A must never revive an already-mounted DEV Search/read session.
+        val openingPointer = checkNotNull(pointer.read()) { "DEV active pointer missing" }
+        check(openingPointer.generationId == targetId) { "DEV active generation changed" }
+        val pinnedPointerSequence = openingPointer.sequence
         val graph = FaroV5ActiveGenerationGraphOwner.open(normalized, targetId.value, gate, true)
         var readAccess: FaroV5V2CoreDevSearchReadAuthority? = null
         var pointerObserver: Runnable? = null
@@ -193,7 +198,10 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val alive = AtomicBoolean(true)
             val current = Supplier { pointer.read()?.generationId?.value ?: "" }
             val ready = BooleanSupplier {
-                alive.get() && pointer.read()?.generationId == targetId &&
+                val observed = pointer.read()
+                alive.get() && observed != null &&
+                    observed.generationId == targetId &&
+                    observed.sequence == pinnedPointerSequence &&
                     journal.read(operationId) == finalEntry &&
                     replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)
             }
