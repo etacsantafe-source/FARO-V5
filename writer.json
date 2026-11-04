@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A1.STORE.SUBSCRIBE.20261104",
   "token_hash": "c8c420f84e3ff435ea17f50af1f998586f2e0e332a8f971a36712a9beadb641f",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "03e5c5d55dbe55335e631487df60bc0b9bcf73fe",
+  "target_head": "04234713a709be689a1bb68b7c296537757c954f",
   "epoch": 77,
-  "timestamp": 1793775802,
-  "purpose": "S3_A1_NOTICE_SUBSCRIPTION_RECONCILIATION"
+  "timestamp": 1793775867,
+  "purpose": "S3_A1_NOTICE_RECHECK_PENDING_CI"
 }
