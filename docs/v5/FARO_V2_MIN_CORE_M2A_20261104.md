@@ -27,3 +27,9 @@
 
 - Código `db2724c6581cc3acb26801fa763825c410d7e4dd`, run [#41868115531](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41868115531): **FAILURE** antes de ejecutar JVM porque AGP 9 sólo creó `testDebugUnitTest` y no `testV2CoreDevUnitTest` para un build-type extra.
 - Cambio mínimo: sólo en el comando de CI M2 se pide `-Pandroid.onlyEnableUnitTestForTheTestedBuildType=false` (opción documentada de AGP 9); mantiene intactos Gradle de producción/debug y el build type aislado. **Corrección pendiente nueva CI**; no marcar M2 PASS hasta XML real 3/3.
+
+## Segundo CI, error estructural de source-set (NO ejecución de M2)
+
+- SHA `6f8a3b2957d1f75826270e174053b1fe5f1cfa24`, Actions [#41869278395](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41869278395): ya existe tarea `testV2CoreDevUnitTest`; compilación de todos los tests comunes falló por `FaroV5T4PostPickerGateTest` que referencia `FaroV5T4PostPickerGate` (solo `src/debug`). **Ninguna prueba M2 fue ejecutada**.
+- **Arreglo mínimo sin editar código S2:** trasladar exactamente el mismo blob de prueba (SHA `dcc71c5a56628909d14c64615fd00baaf475609b`) de `src/test/kotlin/...` a `src/testDebug/kotlin/...`. El código T4 permanece intacto; una prueba de `debug` solo debe compilar contra la variante `debug`.
+- Nueva CI dirigida exige XML **M2 3/3 + T4 debug 4/4 + M1 aislamiento 4/4**. El alcance de certificación sigue siendo JVM y manifiestos, no Android físico.
