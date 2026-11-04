@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2_IN_CHAT_HANDOFF.20261104",
-  "token_hash": "554e9fed5401a7b60f22f7b8d1a627981cf1db678bd713aa862590354c4280ca",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A2_CI_FINAL.20261104",
+  "token_hash": "39d6f7bfa40787286c371c57600a75f80d4c229041eea5cce9d2773cb2d43bc1",
   "target_branch": "work/s3-night-20261102",
   "target_head": "d3bab87684f3ee16407e74ea354f176453af727b",
-  "epoch": 123,
-  "timestamp": 1793799600,
-  "purpose": "S3_A2_IN_CHAT_BOUNDED_CI_PENDING_DURABLE_HANDOFF"
+  "epoch": 124,
+  "timestamp": 1793800200,
+  "purpose": "S3_A2_IN_CHAT_EXACT_CI_57_57_FINAL_HANDOFF"
 }
