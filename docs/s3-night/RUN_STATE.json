@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Verify exact SHA fc6f6e45 directed CI and JUnit 7/7 before PASS; then investigate actual ACL/generation owner and remaining indicators without duplicating tests",
+  "next": "Verify directed CI #41751319739 exact SHA 68e725 8/8 XML; then investigate real authority path for N031/N015 and independent ACL/generation only if actual owner proven. Night and Auto OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N032_OWNER_COMMIT_EVENTS_CODE_PENDING_DIRECTED_CI",
+    "status": "PARTIAL_OWNER_NOTICE_CHANGE_AND_CLOSE_EVENTS_NEW_CI_PENDING",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -153,7 +153,7 @@
       "ci_scope": "app compile and FaroV5HomeNoticeBindingFactoryTest only; not overall S3-A1 pass"
     },
     "notice_commit_live_update": {
-      "status": "CODE_COMMITTED_DIRECTED_CI_PENDING",
+      "status": "DIRECTED_CI_PASS_7_7_EXACT_SHA_FC6F6E45",
       "code_sha": "fc6f6e45db645394d62ea71fffee1e2a7f6d79ea",
       "commits": [
         "404f0ba5758fd7f51c0b28f27cd332b952fac982",
@@ -163,14 +163,14 @@
         {
           "id": 41750150479,
           "sha": "404f0ba5758fd7f51c0b28f27cd332b952fac982",
-          "status": "IN_PROGRESS_LAST_SEEN",
-          "xml": "NOT_VERIFIED"
+          "status": "SUCCESS",
+          "xml": "S3_HOME_NOTICE_XML_PASS_6/6"
         },
         {
           "id": 41750487991,
           "sha": "fc6f6e45db645394d62ea71fffee1e2a7f6d79ea",
-          "status": "PENDING_LAST_SEEN",
-          "xml": "NOT_VERIFIED_EXPECT_7"
+          "status": "SUCCESS",
+          "xml": "S3_HOME_NOTICE_XML_PASS_7/7"
         }
       ],
       "implemented": "N032 AuxiliaryDeliveryStore successful route/resolve committed notice events update already-mounted Home notice counter; recovery owner events remain. Closed store before listener subscription fails closed as unknown without UI exception.",
@@ -180,6 +180,16 @@
       "night": "OFF",
       "auto": "OFF_RESOURCE_GUARD_BLOCKED_AT_836_MIB_BELOW_885_MIB",
       "next": "Verify exact SHA fc6f6e45 directed CI and JUnit 7/7 before PASS; then investigate actual ACL/generation owner and remaining indicators without duplicating tests"
+    },
+    "notice_store_close_invalidation": {
+      "status": "CODE_COMMITTED_CI_PENDING",
+      "code_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0",
+      "ci_run_id": 41751319739,
+      "ci": "IN_PROGRESS_AT_LAST_CHECK",
+      "expected_junit": "8/8, exact SHA",
+      "contract": "When active AuxiliaryDeliveryStore closes, owner invalidates already-subscribed Home port; subsequent read returns unknown not stale zero",
+      "limitations": "Process-local close does not prove independent ACL or raw active-generation pointer event. Other indicators still unavailable.",
+      "physical": "NOT_RUN"
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
