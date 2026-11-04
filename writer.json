@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.SEARCH.ADAPTER.CORRECTION.20261104",
   "token_hash": "bc00c7f0d12791de5b8c6a8fbc84b4b902b4102a1b47a63a08d02a6d87f46e57",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "0a1e74cf213de0634757258104c5ec39d4b8d6ba",
-  "epoch": 96,
-  "timestamp": 1793791976,
-  "purpose": "S3_A2_ADAPTER_CORRECT_FAIL_CLOSED_KEY_EQUALITY_AND_KOTLIN_RETURN"
+  "target_head": "1f9e7527e773aa477263ef8431b3316f442621e1",
+  "epoch": 97,
+  "timestamp": 1793792034,
+  "purpose": "S3_A2_ADAPTER_CORRECTED_CI_PENDING"
 }
