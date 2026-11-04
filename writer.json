@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.SEARCH.FEDERATED.COVERAGE.20261104",
-  "token_hash": "6b550d848ca264df4a07c8392b17932ce6b63b6c4c7b26b163595109195609d4",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.SEARCH.ADAPTER.EMPTY-REUSE-TEST.20261104",
+  "token_hash": "42a1e5ced7fd103ea09ac30d99384cabd7f5342680a399199d3d2ec0f334aeed2",
   "target_branch": "work/s3-night-20261102",
   "target_head": "352c012b58fec6da9bc24e7c3edb2a968e9d09d5",
-  "epoch": 99,
-  "timestamp": 1793792304,
-  "purpose": "S3_A2_FEDERATED_CANONICAL_SEARCH_PENDING_CI"
+  "epoch": 100,
+  "timestamp": 1793792415,
+  "purpose": "S3_A2_ADAPTER_REAL_WORKSPACE_EMPTY_CHAT_REUSE_TEST_AND_POSTSTAMP"
 }
