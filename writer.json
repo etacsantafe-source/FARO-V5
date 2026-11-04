@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_ACL_ARCHITECTURE_READ_ONLY.20261104",
   "token_hash": "bc42d7cae8144075bdeef53e0c054d5d8b796a5f6f6d516fd4bf4c65a7f367cb",
   "target_branch": "work/s3-night-20261102",
   "target_head": "958ea01a46227bb5124dc25be776bb5d05603104",
   "epoch": 134,
-  "timestamp": 1793806891,
-  "purpose": "DOCUMENT_V2_HOST_DEPENDENCY_WITHOUT_RUNTIME_CHANGES"
+  "timestamp": 1793806993,
+  "purpose": "READ_ONLY_ARCHITECTURE_FINDING_DURABLE_NO_CODE_CHANGE"
 }
