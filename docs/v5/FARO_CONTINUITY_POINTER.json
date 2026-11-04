@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 190
+    "expected_release_epoch": 191
   },
   "automation": {
     "activation_authorized": false,
@@ -40,14 +40,14 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B6_WAIT_CI_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "DEV Search Session B7 PASS @ c3f5e5d1; exact CI: DEV CORE #41933426446 10/10; APK #41933426599 binary SHA256 9be2c4d598ca0e53f6cf81641dd922ab7895a52ee6fa7c79c293b1cd62311ec0, zero permissions/signed; Home #41933426482 25/25; guard #41933426669. DO NOT repeat. NEXT S3.A2 G1 REAL shipping Workspace owner grant/revoke epoch durable independently observable, cross-instance invalidations, generation pointer sequence, B1-B5 external research and per-unit permit before code. Productive V2 OFF, APK not installed, Auto/Noche OFF, S2 frozen, S4 OFF; 0/5 S3 formal.",
-  "checkpoint_status": "S3_A2_DEV_SEARCH_B7_PASS_SHIPPING_G1_OPEN_WRITER_RELEASE_190",
+  "next": "Active Chat Read pointer A->B->A security code SHA 212679f7; B1-B5 preflight #41936541907 PASS, guard #41936856589 SUCCESS. Verify S3 Home Chat #41936856517 XML 6/6+existing25/25, V2 DEV #41936856422 XML10/10, APK DEV #41936856486 binary/signature/zero permissions, then B7 PASS or RED_FIX. Writer release epoch 191. This is NOT shipping Search ACL grant/revoke (G1 OPEN), keep S2 frozen 8/8, S3≈40% development/0/5 closure, S4/V2 shipping/Auto/Noche OFF; external research B3 mandatory.",
+  "checkpoint_status": "S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_CODE_212679F7_WAIT_CI_B7_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md",
-  "last_code_sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
+  "last_handoff": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B6_WAIT_CI_20261104.md",
+  "last_code_sha": "212679f7c2dc211445dc7f806479b83aea8780e0",
   "last_ci_run_id": 41933426446,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -710,7 +710,16 @@
     "next": "VERIFY_REAL_WORKSPACE_GRANT_REVOKE_OWNER_AND_DURABILITY",
     "local_date": "2026-11-04"
   },
-  "ci_pending": null,
+  "ci_pending": {
+    "code_sha": "212679f7c2dc211445dc7f806479b83aea8780e0",
+    "guard": 41936856589,
+    "s3_home_chat": 41936856517,
+    "v2_dev": 41936856422,
+    "dev_apk": 41936856486,
+    "expected_chat_xml": "6/6",
+    "b7": "PENDING",
+    "scope": "ACTIVE_CHAT_READ_POINTER_ABA_NOT_ACL"
+  },
   "dev_search_session": {
     "scope": "v2CoreDev_ONLY",
     "status": "B7_PASS",
