@@ -42,12 +42,12 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3-A1 PARTIAL: two certified real-event bug fixes at c55027cb CI 41788577377 9/9 and 04234713 CI 41789709402 9/9. Next true N031 attention.read and N015 history.query owner readmodels; independent ACL emitter not proven. Guardados 8 provisional; S4/V2 OFF; physical final only. No repeated CI.",
-  "checkpoint_status": "S3_A1_PARTIAL_CROSS_INSTANCE_AND_POST_REGISTER_REAL_EVENTS_CI9_9",
+  "next": "S3-A1 PARTIAL. N015 Reality-only committed receipt query at b37cbd62 + uncommitted transaction guard at 948d6201 certified by CI 41810884579 and 41811354035, each 2/2. Missing commit-time durability and cross-owner coverage: do not label Activity reciente complete or count lexical receipts as recent. N031 matter-only urgent projection at 760ce23b certified CI 41811626933 4/4. Next genuine planning storage owner + reminder and monthly-plan attention + ACL/generation invalidations; Guardados 8 unapproved. No new Operation IDs, no S4/V2, physical only at final S3.",
+  "checkpoint_status": "S3_A1_PARTIAL_N015_REALITY_RECEIPTS_AND_N031_MATTER_POLICY_CI_VERIFIED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/RUN_STATE.json",
-  "last_code_sha": "04234713a709be689a1bb68b7c296537757c954f",
-  "last_ci_run_id": 41789709402,
+  "last_code_sha": "760ce23bcaa4b20215be9e9966051980a08e9aee",
+  "last_ci_run_id": 41811626933,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,5 +107,28 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML_9_9_EXACT_SHA"
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_4_OF_4_N031;N015_CI_2_OF_2_AT_948D6201",
+  "progress_n015_n031": {
+    "n015": {
+      "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
+      "fence_commit": "948d62010b09fd6700c3216d0dd0621d29fc7c23",
+      "runs": [
+        41810884579,
+        41811354035
+      ],
+      "status": "PARTIAL_REALITY_ONLY_NO_TIME"
+    },
+    "n031": {
+      "commit": "760ce23bcaa4b20215be9e9966051980a08e9aee",
+      "run": 41811626933,
+      "status": "PARTIAL_MATTER_POLICY_ONLY_NO_OWNER"
+    },
+    "home": "DO_NOT_SHOW_SYNTHETIC_COUNTS",
+    "physical": "NOT_RUN",
+    "night": "OFF",
+    "auto": "OFF",
+    "s4": "OFF",
+    "app_v2": "OFF",
+    "catalog": 172
+  }
 }

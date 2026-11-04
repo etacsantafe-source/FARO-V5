@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 PARTIAL: cross-instance pointer and post-register notice reconciliation CI9/9 verified at c55027cb and 04234713 respectively. Next implement genuine canonical N031 attention.read planning owner and N015 history.query receipts readmodel using V4.4 semantics READ_ONLY; no invented count; independent ACL emitter unproven; Guardados +8 not approved. Do not repeat CI or physical tests.",
+  "next": "S3-A1 PARTIAL. N015 Reality-only committed receipt query at b37cbd62 + uncommitted transaction guard at 948d6201 certified by CI 41810884579 and 41811354035, each 2/2. Missing commit-time durability and cross-owner coverage: do not label Activity reciente complete or count lexical receipts as recent. N031 matter-only urgent projection at 760ce23b certified CI 41811626933 4/4. Next genuine planning storage owner + reminder and monthly-plan attention + ACL/generation invalidations; Guardados 8 unapproved. No new Operation IDs, no S4/V2, physical only at final S3.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -247,6 +247,47 @@
       "n031": "app-v4/src/main/kotlin/ar/com/faro/v4/followup/FaroV4FollowUpGateway.kt: follow-up state derives actual matters/reminders/attention. Legacy MatterService.pending excludes resolved and deferred snoozed; orders due and priority. V5 canonical planning owner is not yet implemented/bound; do not project a fake count from Workspace.",
       "n015": "app-v4/src/main/kotlin/ar/com/faro/v4/history/FaroV4GlobalHistoryGateway.kt: receipt history with domain/state/time filters and stable cursor page; V5 RealityStore exposes point receipt lookup only, no canonical history query/readmodel. Do not count lookup as complete history.",
       "goal": "Implement canonically owned N031 and N015 with read authority and notifications before Home binding; preserve REALITY vs AUXILIARY provenance, cross-generation fail-closed. No V4 DB copy."
+    },
+    "manual_n015_n031_20261104": {
+      "status": "PARTIAL_CODE_CI_VERIFIED_NOT_UI_READY",
+      "receipt_history": {
+        "scope": "canonical RealityStore committed execution receipts only; lexical transaction cursor, no commit timestamp and no federation",
+        "initial_code_sha": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
+        "initial_ci": {
+          "id": 41810884579,
+          "conclusion": "SUCCESS",
+          "xml": "S3_REALITY_RECEIPT_XML_PASS 2/2"
+        },
+        "transaction_fence_code_sha": "948d62010b09fd6700c3216d0dd0621d29fc7c23",
+        "transaction_fence_ci": {
+          "id": 41811354035,
+          "conclusion": "SUCCESS",
+          "xml": "S3_REALITY_RECEIPT_XML_PASS 2/2"
+        },
+        "regressions": "prepared excluded; receipt survives backup/restore; deterministic cursor; no false chronology; deny reading within uncommitted Reality transaction",
+        "owner": "RealityStore.execution_receipt + apply_attempt COMMITTED",
+        "remaining": "N015 federation, chronological commit-time provenance and safe read admission/ACL before Home Actividad"
+      },
+      "matter_attention": {
+        "scope": "pure matter-only N031 projection; NO persisted matter owner, no Home binding and NO complete pending count",
+        "code_sha": "760ce23bcaa4b20215be9e9966051980a08e9aee",
+        "ci": {
+          "id": 41811626933,
+          "conclusion": "SUCCESS",
+          "xml": "S3_N031_MATTER_POLICY_XML_PASS 4/4"
+        },
+        "regressions": "HIGH or due within seven local civil days; snoozed and terminal excluded; owner identity and revision validation; timezone boundary",
+        "comparison": "V4.4 FARO repo HEAD 44f1e6eb: FaroV4FollowUpGateway.readBlocking and MatterModel; pure policy only, NO V4 import or persistence",
+        "remaining": "real N031 planning source of truth, reminder occurrences/monthly plan attention, full authority stamp/ACL/revocation events before Home Pendientes"
+      },
+      "other": "S3_A1_IN_PROGRESS; notice owner 9/9 previous exact SHA retained; Guardados 8 candidate NOT_APPROVED; no X01-X12 or physical gate run",
+      "writer_release_epoch_expected": 82,
+      "metrics": {
+        "human_time": "NO_REGISTRADO",
+        "development_time": "NO_REGISTRADO",
+        "research_time": "NO_REGISTRADO",
+        "ci_wall_time": "OBSERVABLE_IN_GITHUB_RUNS_NOT_USER_WORK_TIME"
+      }
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
