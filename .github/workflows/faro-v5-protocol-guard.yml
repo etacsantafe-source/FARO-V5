@@ -1,0 +1,36 @@
+name: FARO V5 mandatory seven-block protocol guard
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+  pull_request:
+    branches:
+      - work/s3-night-20261102
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-protocol-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  protocol-guard:
+    name: seven-block-evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Self-test fail-closed protocol gate (14 cases)
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s scripts/quality -p 'test_faro_protocol_gate.py' -v
+      - name: Enforce B1-B5 evidence before each functional commit and B7 before next
+        run: |
+          set -euo pipefail
+          python3 scripts/quality/faro-protocol-gate.py --mode ci --baseline 197e68bc1d9c52917a9066a27e6a0fa235a28217 --head HEAD

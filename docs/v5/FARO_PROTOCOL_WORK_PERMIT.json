@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
+  "paths": [],
+  "stages": {
+    "B1": {
+      "status": "MISSING",
+      "evidence": []
+    },
+    "B2": {
+      "status": "MISSING",
+      "evidence": []
+    },
+    "B3": {
+      "status": "MISSING",
+      "evidence": []
+    },
+    "B4": {
+      "status": "MISSING",
+      "evidence": []
+    },
+    "B5": {
+      "status": "MISSING",
+      "evidence": []
+    },
+    "B6": "BLOCKED",
+    "B7": "PENDING_FINAL_AUDIT"
+  },
+  "last_code_review": null,
+  "why": "USER_20261104_RESTORED_PROTOCOL_RETRO_AUDIT_FIRST; no functional V5 commits until B1-B5 have verified docs blob proofs for a bounded unit.",
+  "how": "Auditor writes docs-only evidence for B1..B5; separate docs-only permit commit with exact blob SHAs, unit, bounded paths and reviewed_head; only THEN code commit labeled FARO-UNIT:<unit>; B7 disposition + evidence required before next functional commit.",
+  "no_auto_night": true,
+  "productive_v2_enabled": false
+}

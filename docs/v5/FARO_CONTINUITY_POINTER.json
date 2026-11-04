@@ -39,13 +39,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+  "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "PROTOCOL RESTORED BY USER 2026-11-04. FIRST READ live HEAD, writer, queue, CI; read protocol + JSON audit state. RETRO-01 read-only review M0/M1 blocks 1 evidence, 2 V4.4 comparison, 3 alternatives D-021, 4 unify, 5 pre-audit; then M2A M2B M3; preserve code tests 4/4 and T4 debug 7/7 at ae507919, inspect manifest verifier failure ('V2_CORE_M1_MANIFEST_AMBIGUOUS debug 2') only after pre-audit. New functional writes STOP until B1-B5 evidenced for target unit. Do not restart S2, S4, V2 production, Auto/Noche; no duplicate tests or reaudits absent changed hypothesis.",
-  "checkpoint_status": "RESTORED_SEVEN_BLOCK_PROTOCOL_RETROSPECTIVE_AUDIT_FIRST_NO_MORE_FUNCTIONAL_WRITES_UNTIL_PRE_AUDIT",
+  "next": "Start by inspecting live GitHub HEAD, writer and mandatory protocol-guard CI, then READ protocol, docs/v5/FARO_PROTOCOL_WORK_PERMIT.json (BLOCKED), and docs/v5/FARO_V2_PROTOCOL_RETRO_AUDIT_20261104.json. DO NOT write v5/** or scripts/v5/** or other functional workflows until B1-B5 evidence and proof-bound UNIT permit is committed docs-only and preflight PASS. Audit earlier M0/M1/M2A/M2B/M3 first. Guard validates all commits since 197e68bc, CI red fails code; B7 disposition required before subsequent code. Still V2 production/Auto/Noche OFF, S3 ~40% 0/5.",
+  "checkpoint_status": "SEVEN_BLOCK_PROTOCOL_GUARD_BOOTSTRAPPED_PERMIT_BLOCKED_NO_FUNCTIONAL_CODE_UNTIL_RETRO_AUDIT",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
+  "last_handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
   "last_ci_run_id": 41872895263,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -209,7 +209,12 @@
     "percent_contract": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md",
     "approximate_s3_percent_end_of_every_turn": true,
     "mandatory_development_protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-    "retro_before_next_implementation": true
+    "retro_before_next_implementation": true,
+    "mandatory_protocol_guard": true,
+    "permit_file": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+    "preflight": "python3 scripts/quality/faro-protocol-gate.py --mode preflight --unit <UNIT> --path <FUNCTIONAL_PATH>",
+    "ci_check": "seven-block-evidence",
+    "default": "STOP_IF_NO_VALID_B1_B5_PERMIT"
   },
   "progress_s3_a2_g3_20261104": {
     "status": "PARTIAL_CANONICAL_MESSAGE_BODY_CI_PASS_23_OF_23_NO_SHIPPING_BINDING",
@@ -423,5 +428,21 @@
     "no_background_automation": true,
     "completed_scope": "protocol_restored_and_bounded_initial_inventory_only",
     "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
+  },
+  "protocol_gate": {
+    "status": "IMPLEMENTED_BOOTSTRAP_CI_PENDING",
+    "mode": "FAIL_CLOSED",
+    "validator": "scripts/quality/faro-protocol-gate.py",
+    "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
+    "check_name": "seven-block-evidence",
+    "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+    "guide": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
+    "baseline": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
+    "permit_status": "BLOCKED",
+    "mandatory_manual_preflight": true,
+    "mandatory_ci_check": true,
+    "required_branch_protection": "NOT_VERIFIED_NOT_CONFIGURED_GET_RULESETS_EMPTY",
+    "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
+    "retrospective_first": true
   }
 }

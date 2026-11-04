@@ -149,12 +149,21 @@
     "writer_status_at_observation": "RELEASED",
     "writer_epoch_at_observation": 141
   },
-  "next_step": "READ_ONLY RETRO-01: review M0/M1 evidence, compare V4.4 relevant code, alternatives D-021, unification and adversarial pre-audit, record missing gates. Then M2A/M2B/M3. Do NOT patch manifest until prior blocks met. Preserve past PASS. Revalidate live state.",
+  "next_step": "FIRST verify protocol gate CI and permit BLOCKED. Then retro M0/M1 B1-B5 read-only, then M2A/M2B/M3, publish pre-audit proofs, issue path-bounded permit docs-only and preflight PASS. No functional writes otherwise.",
   "expected_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
   "writer_release_epoch": 141,
   "last_observed_at": "2026-11-04",
   "blocker": "MANIFEST_VERIFIER_DUPLICATE_DEBUG_2;M4_M5_NOT_VERIFIED",
   "physical": "NOT_RUN",
   "user_trigger": "Continuar FARO V5",
-  "no_background_work": true
+  "no_background_work": true,
+  "protocol_gate": {
+    "status": "CI_PENDING",
+    "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+    "permit_status": "BLOCKED",
+    "check": "seven-block-evidence",
+    "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
+    "baseline": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
+    "first_action": "RETRO M0/M1 B1-B5, record real evidence before any permit becomes READY"
+  }
 }
