@@ -1,16 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "d2af301789db445be764368f0d50528da63fb41d",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "M4_DEV_NEGATIVE_EFFECT_GATES",
+  "reviewed_head": "871681a76797f39fa7b9828d2a3a626dd6d80465",
+  "paths": [
+    ".github/workflows/faro-v5-v2-core-directed.yml",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
-          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
+          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
+          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
-          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
+          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
+          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
-          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
+          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
+          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
-          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
+          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
+          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
-          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
+          "path": "docs/v5/FARO_V2_M4_NEGATIVE_GATES_B1_B5_20261104.md",
+          "blob_sha": "2e716708a9729451b22d73e11f6cc082c6b5998b",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_M2A_FIRST_START_RECOVERY_DEV_JVM",
-    "B7": "PASS_VERIFIED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d2af301789db445be764368f0d50528da63fb41d",
@@ -70,8 +73,8 @@
       }
     ]
   },
-  "why": "M2A bounded first-start recovery B7 final PASS at d2af3017, exact CI V2 41890189016, S3 41890189058 and guard 41890189731. No new functional code without fresh B1-B5 and isolated READY permit.",
-  "how": "NEXT M4/M5 preaudit with separate B1-B5 and exact path scope; resume V2 DEV only. Production V2/Auto/Noche OFF.",
+  "why": "M4 B1-B5 negative egress/OS and stale callback preaudit documented exact blob; only existing isolated dev CI + JVM tests may change. No V2 production, no Android physical, M5 open.",
+  "how": "Preflight exact paths MUST PASS before any functional change; then minimal delta, CI exact XML, B7, BLOCKED. Guarded by writer CAS and seven-block-evidence.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
