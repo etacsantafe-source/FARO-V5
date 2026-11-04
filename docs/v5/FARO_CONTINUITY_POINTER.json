@@ -42,12 +42,12 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Verify exact new guard CI run on guard fix b6ebe14d: 14/14 + FARO_PROTOCOL_GATE_PASS + FARO_PROTOCOL_PREFLIGHT_PASS M1_MANIFEST_VERIFIER, all with completed SUCCESS. Parent-anchor bridge avoids false B7 failure on first permitted code commit; proof in docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md. Only THEN writer CAS acquire and single functional edit .github/workflows/faro-v5-v2-core-directed.yml tagged FARO-UNIT:M1_MANIFEST_VERIFIER, choose exact packaged_manifests variant path, check single candidate fail-closed, CI M1/M2/M3/T4 and B7 BEFORE another functional change. S2 8/8 S3 ≈40% development and 0/5 formal, S4/V2 productive/Noche/Auto OFF. No repeated CI retries unless causal analysis.",
-  "checkpoint_status": "GUARD_PARENT_PREFLIGHT_FIXED_CI_PENDING_M1_PERMIT_READY_NO_FUNCTIONAL_CODE",
+  "next": "Current M1 directed run 41881443958 FAILURE, exact issue: V2_CORE_M2B_EXTRA_LAUNCHERS includes P6CertificationActivity; packaged manifest selection FIXED; M2/M3 4/4 and T4 7/7 preserved. B7 RED_FIX and NEW B1-B5 evidence docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md blob 943ac018. Permit READY two exact paths .github/workflows/faro-v5-v2-core-directed.yml and v5/app/src/v2CoreDev/AndroidManifest.xml. FIRST check protocol guard 14/14 + FARO_PROTOCOL_GATE_PASS + FARO_PROTOCOL_PREFLIGHT_PASS for permit commit c5077980 (or newer HEAD) and writer/queue. Then CAS claim, implement single M1 RED_FIX in DEV-only manifest: remove P6 cert Activity, all unneeded provider/receiver/service/alias by tools:node removeAll; remove platform notification/alarm/install permissions; CI expand negatives (no OS components) and preserve manifest packaging and existing tests. Only then CI directed exact + B7. No S4/V2 prod/Noche/Auto. M2A PREPARING/STAGED/VALIDATED startup recovery still pending separate unit.",
+  "checkpoint_status": "M1_CODE_42CA_REDFIX_DOCUMENTED_PERMIT_TWO_PATHS_CI_PREFLIGHT_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
-  "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
-  "last_ci_run_id": 41872895263,
+  "last_handoff": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+  "last_code_sha": "42ca878a9c3e86640546ee08112c69fd661f14c2",
+  "last_ci_run_id": 41881443958,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -465,17 +465,18 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 148,
+  "last_writer_epoch_observed": 150,
   "protocol_guard": {
-    "status": "POST_CODE_PARENT_PREFLIGHT_BRIDGE_CI_PENDING",
+    "status": "M1_RED_FIX_PERMIT_READY_PREFLIGHT_NOT_VERIFIED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-    "permit_commit_sha": "763081d2cf9adcd615ab3e45924d58df3c0d6d9e",
+    "permit_commit_sha": "c50779801d16aef7dd4c4b6951a688226a9f959e",
     "permit_status": "READY",
     "unit_id": "M1_MANIFEST_VERIFIER",
     "allowed_paths": [
-      ".github/workflows/faro-v5-v2-core-directed.yml"
+      ".github/workflows/faro-v5-v2-core-directed.yml",
+      "v5/app/src/v2CoreDev/AndroidManifest.xml"
     ],
     "needs_exact_preflight_pass": true,
     "preflight_proof_run": {
@@ -483,6 +484,14 @@
       "sha": "6b4c63d3993a82dcb5a007c5f4ae9f22f4a15aef",
       "job": "126746042901",
       "status": "JOB_SUCCESS_LOG_PREFLIGHT_PASS_RUN_FINAL_NOT_OBSERVED"
+    },
+    "previous_code_B7": {
+      "status": "RED_FIX",
+      "sha": "42ca878a9c3e86640546ee08112c69fd661f14c2",
+      "run_id": 41881443958,
+      "conclusion": "failure",
+      "evidence_path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
+      "evidence_sha": "943ac018f706ccd527021dc2c45629d571b5a02b"
     }
   },
   "guard_latest_runs": [
