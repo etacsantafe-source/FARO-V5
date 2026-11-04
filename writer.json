@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M4.WAITCI.20261104",
   "token_hash": "b231a9016f21e9d32e59d705c913aba8b17005e48f321fe8a42f5a520cd395df",
   "target_head": "b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a",
   "target_branch": "work/s3-night-20261102",
   "epoch": 163,
-  "timestamp": 1793819992,
-  "purpose": "M4 CI-running durable WAIT_CI checkpoint docs only"
+  "timestamp": 1793820050,
+  "purpose": "M4_WAIT_CI_DURABLE_DBBD1980"
 }
