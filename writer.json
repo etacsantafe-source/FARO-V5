@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.N015.RECEIPT.PAGE.20261104",
-  "token_hash": "b8474a12cef7311b608d718a0953cf4e52078cf975d4d1e674ac9b33c519924af",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.N015.TRANSACTION.FENCE.20261104",
+  "token_hash": "3d36f4fe874398cdcc7763a229e93167594f9011cdf9cb00b2dc503ef31d543c",
   "target_branch": "work/s3-night-20261102",
   "target_head": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
-  "epoch": 79,
-  "timestamp": 1793786203,
-  "purpose": "S3_N015_REALITY_RECEIPT_PAGINATION_PENDING_CI"
+  "epoch": 80,
+  "timestamp": 1793786415,
+  "purpose": "N015_RECEIPT_HISTORY_ATOMIC_VISIBILITY_FENCE"
 }
