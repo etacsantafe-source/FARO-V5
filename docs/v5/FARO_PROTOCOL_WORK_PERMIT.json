@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A2_DEV_SEARCH_SESSION_OWNER",
   "reviewed_head": "7ba9cbc635eeedc4bccce5072c09a9cd4a638092",
   "paths": [
@@ -61,7 +61,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_41932138084_41932138014_41932137991",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -76,8 +76,8 @@
       }
     ]
   },
-  "why": "B1-B5 reviewed for isolated V2 DEV session search; external real-app research and fail-closed session grant. Does NOT certify shipping ACL or G1.",
-  "how": "Single bounded functional commit; exact protocol preflight, CAS writer, directed V2 DEV CI and exact XML, then independent B7 and BLOCKED next unit. No schema migration, new permissions, V2 activation, paid API or Noche.",
+  "why": "Single DEV Search code commit 8c01f4c4 pushed after successful preflight; required directed XML, APK binary and S3 regression CI are running. No new code authorized until B7.",
+  "how": "Monitor exact SHA 8c01f4c4 runs and logs; record independent B7 PASS or RED_FIX for this same unit. Never count protocol guard as functional CI.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
