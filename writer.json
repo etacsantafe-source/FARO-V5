@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.N015.FINANCE.ACTIVITY.20261104",
   "token_hash": "94d8fa738c636be5e658eb4ea0a1df65df1d457951b2fa4e051a76c3e71deab5",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "98e09892cb8d66d9ab77ecd98bb080320674871c",
+  "target_head": "8133e04492a79b7ea187a367d4d4eb89ff4a3e95",
   "epoch": 85,
-  "timestamp": 1793789840,
-  "purpose": "N015_REALITY_FINANCE_RECORDED_ACTIVITY_SLICE"
+  "timestamp": 1793789959,
+  "purpose": "S3_N015_REAL_FINANCE_LEDGER_PAGE_PENDING_CI"
 }
