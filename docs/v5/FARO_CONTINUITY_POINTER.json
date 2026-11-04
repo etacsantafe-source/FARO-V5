@@ -39,15 +39,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s3-night/S3_A2_BOUNDED_GLOBAL_SCAN_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3.A2 prioridad única método híbrido. G3 canonical global read: bounded <=250 eligible messages / conversation, 251st overflow, partial coverage, code SHA de5bfd01f4cb8166723877998ef39641099c867c. CI #41850653762 SUCCESS exact SHA, XML 9/9 Home +6/6 Workspace +5/5 Bridge +4/4 Avisos = 24/24, verified in job logs. DO NOT rerun. G1 real ACL epoch/event independent MISSING in active V1 (no Workspace). No fake ACL. G2 shipping searchReadPort null; G3 global message targeting not yet done; G4 real Finance/Goals/Matters owners absent, G5 final physical only. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, catalog 172 intact; continue allowed safe adjacent G3 while G1 blocked.",
-  "checkpoint_status": "S3_A2_G3_BOUNDED_CANONICAL_SCAN_VERIFIED_24_OF_24_G1_ACL_OPEN",
+  "next": "S3.A2 priority. (1) Search->Chat stale cached conversation fixed: after confirmed selection clear cached Workspace, rereread canonical before navigate, deny missing/failed; code abca920c CI #41853477492 SUCCESS XML surface 59/59 incl in-chat 7/7. (2) Global canonical long message: preserve leading bounded text fragment, report PARTIAL on truncated tail, code f64699e5 CI #41854013498 IN_PROGRESS at checkpoint; verify exact XML expected Workspace 7/7 + Home 9/9 + Bridge 5/5 + Avisos 4/4 =25/25, diagnose if fails; do not rerun prior SHA. (3) G1 real independent monotonic ACL owner MISSING in shipping V1 (Workspace null, V2 staged); G2 search host remains null; G3 global direct-message jump not certified; G4 real Finance/Goals/Matters owners missing; G5 final physical. S2 8/8 CLOSED, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, 172 catalog. Follow hybrid priority A2. Report S3 ≈40% estimated 35-45% and 0/5 closed each turn. Writer RELEASED epoch132 after this checkpoint.",
+  "checkpoint_status": "S3_A2_SEARCH_TO_CHAT_NAVIGATION_CI_PASS_59_OF_59_AND_G3_PREFIX_CI_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_BOUNDED_GLOBAL_SCAN_20261104.md",
-  "last_code_sha": "de5bfd01f4cb8166723877998ef39641099c867c",
-  "last_ci_run_id": 41850653762,
+  "last_handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
+  "last_code_sha": "f64699e59e9fe0c287d07e3655b49a69234cb1e9",
+  "last_ci_run_id": 41854013498,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_DE5BFD01_XML_24_OF_24",
+  "last_ci_conclusion": "IN_PROGRESS_G3_PREFIX_CI_XML_PENDING",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -320,5 +320,29 @@
     "ci_verified_job_id": 126645735634,
     "physical": "NOT_RUN",
     "limits": "No actual ACL independent owner, shipping unbound; stage A2 not closed; unit JVM only."
+  },
+  "progress_s3_a2_chained_ui_and_prefix_20261104": {
+    "code_commits": [
+      "abca920c3300a2d51f55b2633eb0e945094eec73",
+      "f64699e59e9fe0c287d07e3655b49a69234cb1e9"
+    ],
+    "search_to_chat": {
+      "run_id": 41853477492,
+      "status": "SUCCESS",
+      "xml": "S3_IN_CHAT_SEARCH_7_7;S3_SURFACE_59_59",
+      "test_scope": "JVM_SURFACE_ONLY_NO_ANDROID"
+    },
+    "long_message": {
+      "run_id": 41854013498,
+      "status": "in_progress",
+      "conclusion": "PENDING",
+      "xml": "NOT_YET_VERIFIED_EXPECT_25_25",
+      "test_scope": "JVM_APP_WORKSPACE_SEARCH_ONLY"
+    },
+    "g1_acl": "MISSING_REAL_OWNER",
+    "shipping_search": "NULL",
+    "physical": "NOT_RUN",
+    "closed": "A2_PARTIAL",
+    "writer_epoch_expected_release": 132
   }
 }
