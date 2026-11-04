@@ -232,6 +232,15 @@ class ConversationWorkspaceStore private constructor(
                     val text = statement.getText(0)
                     val separator = if (body.isEmpty()) 0 else 1
                     if (body.length + separator + text.length > maxChars) {
+                        // Keep the bounded leading fragment of the newest
+                        // eligible message instead of discarding every match
+                        // when that single message exceeds the text budget.
+                        // A fragment never certifies complete coverage.
+                        val remaining = maxChars - body.length - separator
+                        if (remaining > 0) {
+                            if (separator != 0) body.append('\n')
+                            body.append(text.take(remaining))
+                        }
                         complete = false
                         break
                     }

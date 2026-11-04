@@ -197,4 +197,45 @@ class FaroV5WorkspaceSearchReadSourceTest {
         }
     }
 
+
+    @Test
+    fun oversizedRecentMessageKeepsBoundedPrefixAndReportsPartialTail() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            val id = ConversationId("search-long-prefix")
+            store.createAndSelect(id, 100L, IdempotencyKey("create-prefix"))
+            val timeline = checkNotNull(store.readTimeline(id))
+            val saved = store.writeTimeline(ConversationTimelineWriteRequest(
+                id, timeline.authorityToken, timeline.revision,
+                IdempotencyKey("accept-prefix"),
+                ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                    ConversationMessageId("long-prefix-message"), id,
+                    ConversationTurnId("prefix-turn"), ConversationMessageRole.USER,
+                    ConversationMessageState.ACCEPTED,
+                    "expensas pendientes " + "x".repeat(4_900) + " remanente-no-visible", 150L,
+                )),
+            ))
+            assertTrue(saved is ConversationTimelineWriteResult.Saved)
+            val source = FaroV5WorkspaceSearchReadSource(
+                "g1", store, { "g1" }, { "test-only-acl" }, { true },
+            )
+            val coordinator = CanonicalSearchCoordinator(source, null)
+            val visible = coordinator.search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "expensas", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, visible.coverage)
+            assertEquals(1, visible.hits.size)
+            assertEquals(CanonicalSearchCoordinator.MatchField.BODY,
+                visible.hits.single().matchField)
+            assertEquals(id, source.resolveAuthorizedConversation(visible.hits.single().key))
+            val omitted = coordinator.search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "remanente-no-visible", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, omitted.coverage)
+            assertTrue(omitted.hits.isEmpty())
+            val text = store.readSearchableConversationText(id, 256)
+            assertEquals(256, text.text.length)
+            assertTrue(!text.complete)
+        }
+    }
+
 }
