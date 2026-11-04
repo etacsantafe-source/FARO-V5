@@ -1,11 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.V2_MINIMUM_OBJECTIVE_DURABLE.20261104",
-  "token_hash": "8cb099f75e996e63c4101cff64fbd4e891cf3cbfa24ae43906c6f3991186c109",
-  "target_branch": "work/s3-night-20261102",
-  "target_head": "63d516c23d0a26c2d1684275d042ad393616ecf9",
-  "epoch": 135,
-  "timestamp": 1793807696,
-  "purpose": "V2_MINIMUM_OBJECTIVE_DURABLE_HANDOFF_CLEAN_NO_RUNTIME_ACTIVATION"
-}
+{"schema":1,"status":"HELD","owner":"FARO.V5.MANUAL.V2CORE.M1.20261104","token_hash":"8329bb0de114b8f7ae32fe8467cec757eac7507d244f0de49e31015247bae264","target_branch":"work/s3-night-20261102","target_head":"0f3045fb7ad480a0126e0e19738f126cf4775636","epoch":136,"timestamp":1793808249,"purpose":"M0_M1_V2_DEV_CORE"}
