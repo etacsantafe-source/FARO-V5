@@ -1,4 +1,4 @@
-name: FARO V5 V2 core M1 isolation directed
+name: FARO V5 V2 core M1 M2 directed
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     paths:
       - "v5/app/build.gradle.kts"
       - "v5/app/src/v2CoreDev/**"
+      - "v5/app/src/testV2CoreDev/**"
       - ".github/workflows/faro-v5-v2-core-directed.yml"
   workflow_dispatch:
 
@@ -41,6 +42,23 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:processDebugMainManifest :app:processV2CoreDevMainManifest :app:compileV2CoreDevKotlin
+      - name: M2 active five-owner JVM directed tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevAuthorityTest"
+      - name: Verify exact M2 JVM tests
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          base=Path("v5/app/build/test-results/testV2CoreDevUnitTest")
+          paths=list(base.glob("TEST-*FaroV5V2CoreDevAuthorityTest.xml"))
+          if len(paths)!=1: raise SystemExit(f"V2_CORE_M2_TEST_XML_MISSING {len(paths)}")
+          root=ET.parse(paths[0]).getroot()
+          values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          if values!=(3,0,0,0): raise SystemExit(f"V2_CORE_M2_TESTS_FAILED {values}")
+          print("V2_CORE_M2_ACTIVE_JVM_PASS 3/3")
+          PY
       - name: Verify package isolation, no backup and offline mode
         run: |
           python3 - <<'PY'
