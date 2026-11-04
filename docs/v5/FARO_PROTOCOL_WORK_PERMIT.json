@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_DEV_SEARCH_SESSION_OWNER",
+  "reviewed_head": "7ba9cbc635eeedc4bccce5072c09a9cd4a638092",
+  "paths": [
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevSearchReadAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt",
+    ".github/workflows/faro-v5-v2-core-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
+          "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B1_B5_20261104.md",
+          "blob_sha": "fe2922ad6b28627ebcea21a91ba7430d7a008eec",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
+          "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B1_B5_20261104.md",
+          "blob_sha": "fe2922ad6b28627ebcea21a91ba7430d7a008eec",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
+          "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B1_B5_20261104.md",
+          "blob_sha": "fe2922ad6b28627ebcea21a91ba7430d7a008eec",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
+          "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B1_B5_20261104.md",
+          "blob_sha": "fe2922ad6b28627ebcea21a91ba7430d7a008eec",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
+          "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B1_B5_20261104.md",
+          "blob_sha": "fe2922ad6b28627ebcea21a91ba7430d7a008eec",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "VERIFIED_APK_CI_41905632794",
-    "B7": "PASS_FINAL_AUDIT_APK_PACKAGE_GATE_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
@@ -70,8 +76,8 @@
       }
     ]
   },
-  "why": "Exact APK CI #41905632794 SUCCESS, artifact #13360681405 and binary/signature/zero-permission evidence B7 PASS. Next functional unit requires new B1-B5/READY permit; M5 global remains PARTIAL, Android NOT_RUN, V2_DEV_CORE_READY=false.",
-  "how": "Preserve B7 doc and APK hash. Do not repeat successful M5 package CI. For new functional code require fresh B1-B5, separate READY permit and exact preflight.",
+  "why": "B1-B5 reviewed for isolated V2 DEV session search; external real-app research and fail-closed session grant. Does NOT certify shipping ACL or G1.",
+  "how": "Single bounded functional commit; exact protocol preflight, CAS writer, directed V2 DEV CI and exact XML, then independent B7 and BLOCKED next unit. No schema migration, new permissions, V2 activation, paid API or Noche.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
