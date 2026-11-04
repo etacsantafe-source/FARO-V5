@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 177
+    "expected_release_epoch": 178
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M5 physical test now IN_PROGRESS via Moto G15 user screenshots at 18:47–18:50 AR; F03 visual chat open, F04 single visible USER test message, F05 force-stop/reopen NOT_RUN. Battery 7%: charge first. No storage/UID/APK runtime audit yet; global M5 PARTIAL; V2_DEV_CORE_READY=false; production OFF, permit BLOCKED. See docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
-  "checkpoint_status": "M5_F03_UI_PASS_VISUAL_PARTIAL_F04_MESSAGE_PASS_VISUAL_PARTIAL_F05_FORCE_STOP_PENDING",
+  "next": "F05 PASS_VISUAL_PARTIAL user confirmed force-stop + reopened original single test message in 18:51 screenshot. Continue F07 non-destructive check habitual FARO still opens and preserves prior data; then targeted F00/F01/F02/F06/F08/F09 when ADB safe. M5 global PARTIAL, V2_DEV_CORE_READY=false, permit BLOCKED, writer expected RELEASED epoch178; no repeat CI. See docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
+  "checkpoint_status": "M5_F03_F04_F05_PASS_VISUAL_PARTIAL_F05_FORCE_STOP_USER_CONFIRMED_GLOBAL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
   "last_code_sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
@@ -597,7 +597,7 @@
     "v2_dev_core_ready": false
   },
   "m5_physical_campaign": {
-    "status": "IN_PROGRESS_USER_VISUAL_EVIDENCE_ONLY",
+    "status": "IN_PROGRESS_F03_F04_F05_VISUAL_PARTIAL",
     "document": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
     "scope": "DEV_ISOLATED_MOTO_G15_SINGLE_CAMPAIGN",
     "gate_ids": [
@@ -612,7 +612,7 @@
       "F-08",
       "F-09"
     ],
-    "result": "F03_UI_PASS_VISUAL_PARTIAL_F04_UI_PASS_VISUAL_PARTIAL_F05_PENDING_OTHERS_NOT_VERIFIED",
+    "result": "F03_F04_F05_PASS_VISUAL_PARTIAL_OTHERS_NOT_VERIFIED",
     "artifact_id": 13360681405,
     "run_id": 41905632794,
     "apk_sha256": "8773f7cea29b7487d955aff2a65eecdb56aa0eb49ba6428b74d95ee277f805c4",
@@ -634,8 +634,10 @@
         "scope": "one rendered test message and empty composer, no durable process restart proof"
       },
       "F05": {
-        "status": "NOT_RUN",
-        "next": "Only DEV force-stop, reopen, check exact one message"
+        "status": "PASS_VISUAL_PARTIAL",
+        "observed_at_local": "2026-11-04T18:51:00-03:00",
+        "user_confirmation": "Explicitly confirmed screenshot was after Android force-stop",
+        "scope": "Same single test message persists in Chat after reopening; no independent ADB/SQLite inspection"
       }
     }
   }

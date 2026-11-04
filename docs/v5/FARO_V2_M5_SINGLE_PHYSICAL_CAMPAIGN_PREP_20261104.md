@@ -74,3 +74,10 @@ No ejecutar comandos en nombre del usuario desde tareas programadas. No presupon
 
 ### Próxima lectura
 Solicitar la captura tras forzar detención del paquete DEV y reabrir Chat. Un mensaje igual y único permite **F-05 persistence PASS_VISUAL_PARTIAL**; evidencia física de otras dimensiones no inferida. Si falla, detener acciones y documentar síntoma, sin borrar el sandbox.
+
+## Evidencia adicional F-05 — confirmación humana 04/11/2026, 18:51 AR
+- El usuario confirmó explícitamente: **«Sí. Después de forzar detención»** en respuesta a si la captura de las 18:51 era posterior a utilizar la acción Android **Forzar detención**, volver a abrir FARO V2 y ver el mensaje original.
+- La captura 18:51 presenta una única burbuja `Prueba FARO V2 - 04/11/2026`, idéntica a la captura 18:50, Chat visible y composer vacío, sin error observable.
+- **F-05 = PASS_VISUAL_PARTIAL (confirmación humana + captura)** para *persistencia del mensaje después de force-stop/reapertura*. No se dispone de traza ADB/logcat que demuestre la transición exacta del proceso, ni inspección interna SQLite/WAL/journal/UID. No elevar a integración física global PASS.
+- F-03 y F-04 permanecen PASS_VISUAL_PARTIAL; **F-00/F-01/F-02/F-06/F-07/F-08/F-09 sin certificación completa**. M5 GLOBAL PARTIAL; `V2_DEV_CORE_READY=false`; producción V2/Auto/Noche OFF; sin cambio de código/CI/APK.
+- **Siguiente control útil y no destructivo:** comprobar visualmente que FARO habitual (no la DEV) sigue abriendo y conserva datos de prueba previos; no borrar almacenamiento ni instalar otro paquete. Si batería sigue al 7%, cargar antes.
