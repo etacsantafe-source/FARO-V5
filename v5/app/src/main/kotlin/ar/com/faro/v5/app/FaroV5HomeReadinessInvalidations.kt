@@ -29,14 +29,17 @@ object FaroV5HomeReadinessInvalidations {
         val readinessListener = FaroV5StartupReadinessListener { trySend(Unit) }
         val noticeListener = Runnable { trySend(Unit) }
         gate.addListener(readinessListener)
-        try {
+        // A generation can close between readPort capture and collector startup.
+        // The closed owner is UNKNOWN, not a fatal presentation exception.
+        val noticeSubscribed = try {
             store.addNoticeCommitListener(noticeListener)
-        } catch (failure: RuntimeException) {
-            gate.removeListener(readinessListener)
-            throw failure
+            true
+        } catch (_: IllegalStateException) {
+            trySend(Unit)
+            false
         }
         awaitClose {
-            store.removeNoticeCommitListener(noticeListener)
+            if (noticeSubscribed) store.removeNoticeCommitListener(noticeListener)
             gate.removeListener(readinessListener)
         }
     }
