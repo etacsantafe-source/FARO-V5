@@ -129,7 +129,29 @@ def select_dynamic_blocks(queue, writer, scheduled_at, now, role, branch_head):
         return verdict("STOP", "authorization expired or invalid")
     offset = int((slot - start).total_seconds())
     expected_offset = 0 if role == "NOCHE_A" else 1800
-    if offset < 0 or offset % 3600 != expected_offset or slot != start + timedelta(seconds=offset):
+    regular_slot = offset >= 0 and offset % 3600 == expected_offset
+    # Explicit user-authorized early B handoff after A completed; never
+    # infer extra schedule authority from the agent stopping early.
+    handoff = queue.get("early_handoff")
+    early_slot = False
+    if role == "NOCHE_B" and isinstance(handoff, dict):
+        try:
+            completed = stamp(handoff.get("prior_completed_at"))
+            early_slot = (
+                handoff.get("authorized") is True
+                and handoff.get("role") == "NOCHE_B"
+                and handoff.get("prior_role") == "NOCHE_A"
+                and isinstance(handoff.get("prior_run_id"), str)
+                and bool(handoff["prior_run_id"].strip())
+                and handoff.get("starts_at") == queue.get("starts_at")
+                and handoff.get("slot_at") == scheduled_at
+                and start <= completed < slot
+                and start < slot < start + timedelta(minutes=30)
+                and slot + timedelta(minutes=30) <= cutoff
+            )
+        except (ValueError, TypeError):
+            early_slot = False
+    if not (regular_slot or early_slot):
         return verdict("STOP", "A/B slot mismatch")
     if current < slot or current >= slot + timedelta(minutes=30):
         return verdict("STOP", "outside scheduled slot")

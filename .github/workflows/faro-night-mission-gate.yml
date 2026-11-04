@@ -35,17 +35,17 @@ jobs:
           out.mkdir(exist_ok=True)
           root = ET.Element("testsuite", name="NightMission", tests=str(result.testsRun), failures=str(len(result.failures)), errors=str(len(result.errors)), skipped=str(len(result.skipped)))
           ET.ElementTree(root).write(out / "TEST-FaroNightMissionGate.xml", encoding="utf-8", xml_declaration=True)
-          if result.testsRun != 36 or result.failures or result.errors or result.skipped:
+          if result.testsRun != 40 or result.failures or result.errors or result.skipped:
               raise SystemExit("NIGHT_MISSION_FAIL")
-          print("NIGHT_DYNAMIC_XML_PASS 36/36")
+          print("NIGHT_DYNAMIC_XML_PASS 40/40")
           PY
       - name: Verify exact XML
         run: |
           python3 - <<'PY'
           import xml.etree.ElementTree as ET
           root=ET.parse("night-test-results/TEST-FaroNightMissionGate.xml").getroot()
-          assert tuple(int(root.attrib[k]) for k in ("tests","failures","errors","skipped")) == (36,0,0,0)
-          print("NIGHT_DYNAMIC_XML_VERIFIED 36/36")
+          assert tuple(int(root.attrib[k]) for k in ("tests","failures","errors","skipped")) == (40,0,0,0)
+          print("NIGHT_DYNAMIC_XML_VERIFIED 40/40")
           PY
       - uses: actions/upload-artifact@v4
         with:

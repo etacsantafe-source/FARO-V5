@@ -135,5 +135,53 @@ class DynamicBlockTests(unittest.TestCase):
         self.assertEqual("REVIEW_COMPLETION", decide(q=q)["decision"])
 
 
+    def test_explicit_early_b_after_a_completion(self):
+        q, _ = seed()
+        q["early_handoff"] = {
+            "authorized": True, "role": "NOCHE_B", "prior_role": "NOCHE_A",
+            "prior_run_id": "actual-a-run", "starts_at": A,
+            "prior_completed_at": "2026-11-03T20:05:00-03:00",
+            "slot_at": "2026-11-03T20:12:00-03:00",
+        }
+        self.assertEqual("WORK_BLOCK", decide(q=q,
+            scheduled="2026-11-03T20:12:00-03:00",
+            now="2026-11-03T20:12:10-03:00")["decision"])
+
+    def test_early_b_requires_explicit_authorization(self):
+        q, _ = seed()
+        q["early_handoff"] = {
+            "authorized": False, "role": "NOCHE_B", "prior_role": "NOCHE_A",
+            "prior_run_id": "actual-a-run", "starts_at": A,
+            "prior_completed_at": "2026-11-03T20:05:00-03:00",
+            "slot_at": "2026-11-03T20:12:00-03:00",
+        }
+        self.assertEqual("STOP", decide(q=q,
+            scheduled="2026-11-03T20:12:00-03:00",
+            now="2026-11-03T20:12:10-03:00")["decision"])
+
+    def test_early_b_rejects_unmatched_slot(self):
+        q, _ = seed()
+        q["early_handoff"] = {
+            "authorized": True, "role": "NOCHE_B", "prior_role": "NOCHE_A",
+            "prior_run_id": "actual-a-run", "starts_at": A,
+            "prior_completed_at": "2026-11-03T20:05:00-03:00",
+            "slot_at": "2026-11-03T20:12:00-03:00",
+        }
+        self.assertEqual("STOP", decide(q=q,
+            scheduled="2026-11-03T20:13:00-03:00",
+            now="2026-11-03T20:13:10-03:00")["decision"])
+
+    def test_early_b_rejects_unfinished_a(self):
+        q, _ = seed()
+        q["early_handoff"] = {
+            "authorized": True, "role": "NOCHE_B", "prior_role": "NOCHE_A",
+            "prior_run_id": "actual-a-run", "starts_at": A,
+            "prior_completed_at": "2026-11-03T20:13:00-03:00",
+            "slot_at": "2026-11-03T20:12:00-03:00",
+        }
+        self.assertEqual("STOP", decide(q=q,
+            scheduled="2026-11-03T20:12:00-03:00",
+            now="2026-11-03T20:12:10-03:00")["decision"])
+
 if __name__ == "__main__":
     unittest.main()
