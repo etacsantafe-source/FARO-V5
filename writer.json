@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2.CANONICAL.SEARCH.20261104",
   "token_hash": "1d72dc6bdeaa9c7246375c826f094f8c6b953c6f979b6093c415ecaf8db0e1c7",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "492a88b5bf0e1610caeffd8927963a2a7af0fda7",
+  "target_head": "df3322fc34959bbb27b99a9c18ae9a1a939778cd",
   "epoch": 83,
-  "timestamp": 1793789237,
-  "purpose": "S3_A2_CANONICAL_SEARCH_REVALIDATION_AND_FALLBACK"
+  "timestamp": 1793789411,
+  "purpose": "S3_A2_OWNER_REVALIDATED_SEARCH_PENDING_CI"
 }
