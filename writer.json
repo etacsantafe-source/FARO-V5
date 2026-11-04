@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2.WORKSPACE.SOURCE.20261104",
-  "token_hash": "66ce06a0e75d7eb0062d866f66c01eb8cc5e61724d8ab112bdbb0a061cbf89b",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.N015.FINANCE.ACTIVITY.20261104",
+  "token_hash": "94d8fa738c636be5e658eb4ea0a1df65df1d457951b2fa4e051a76c3e71deab5",
   "target_branch": "work/s3-night-20261102",
   "target_head": "98e09892cb8d66d9ab77ecd98bb080320674871c",
-  "epoch": 84,
-  "timestamp": 1793789726,
-  "purpose": "S3_A2_REAL_WORKSPACE_SEARCH_PENDING_CI"
+  "epoch": 85,
+  "timestamp": 1793789840,
+  "purpose": "N015_REALITY_FINANCE_RECORDED_ACTIVITY_SLICE"
 }
