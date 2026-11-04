@@ -42,7 +42,7 @@
   "handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3.A2 hybrid single priority. COMPLETED directed units: (1) search->chat fresh canonical selection UI, code abca920c, CI #41853477492 SUCCESS exact SHA XML surface 59/59 (in-chat 7/7); (2) Workspace long text bounded prefix, code f64699e5, CI #41854013498 SUCCESS exact SHA XML Workspace 7/7 + Home 9/9 + Bridge 5/5 + Avisos 4/4=25/25. DO NOT rerun. G1 real ACL owner independent monotonic revocation/regrant still missing; G2 shipping Search null; G3 global exact-message jump not certified; G4 actual Finance/Goals/Matters canonical owners missing; G5 final acceptance + physical pending. No synthetic ACL, no V2/Auto/Noche/S4, no catalog new operations. Next look for real active Workspace read ACL owner; if impossible, only directly related G3 navigation canonical target with strict admission. User wants per-turn S3 ≈40% developed 35-45%, formal 0/5; thermometer.",
+  "next": "G1/G2 cause root verified 2026-11-04: active LEGACY_V1 has FOUR stores and Workspace=NULL; V2 five-owner host remains prohibited by V2_ACTIVE_ENABLED=false, independently from S2 8/8 certificate. Creating ACL epoch alone CANNOT unblock shipping Search. Workspace authority token is for writes; pointer sequence monotonic and readiness notifications are real fences, not independent read ACL. Under approved V2 activation, bind genuinely durable owner-scoped read-admission epoch with revocation/regrant observers, cross-instance tests, plus pointer/readiness checks. FIRST avoid inventing ACL grants: establish if local single-user FARO actually has independent read permission semantics; if not, explicit design decision on G1 requirement before code. No V2 activation without separate authorization. Preserve previously verified 59/59 surface SHA abca920c, 25/25 home/workspace SHA f64699e5, do not rerun. A2 G1..G5 still OPEN, S3 ≈40% estimate, 0/5 closed; S2 8/8 CLOSED. V2/Auto/Noche/S4 OFF, CLOUD STAGED. See added 'Investigación de causa raíz' in docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md.",
   "checkpoint_status": "S3_A2_SEARCH_TO_CHAT_59_OF_59_AND_G3_LONG_PREFIX_25_OF_25_CI_VERIFIED_G1_ACL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
@@ -346,5 +346,20 @@
     "physical": "NOT_RUN",
     "closed": "A2_PARTIAL",
     "writer_epoch_expected_release": 133
+  },
+  "progress_s3_a2_acl_owner_root_cause_20261104": {
+    "mode": "READ_ONLY_ARCHITECTURE_VERIFIED",
+    "v1_workspaces": "UNAVAILABLE_FOUR_STORES",
+    "v2_workspace": "STAGED_NOT_ACTIVE",
+    "v2_production_enabled": false,
+    "workspace_write_token_is_read_acl": false,
+    "existing_pointer_sequence": "DURABLE_MONOTONIC_GENERATION_FENCE",
+    "startup_readiness": "VOLATILE_RECOVERY_FENCE",
+    "real_acl_owner": "MISSING",
+    "g1": "OPEN",
+    "g2": "OPEN",
+    "new_tests": "NONE",
+    "new_runtime_code": "NONE",
+    "writer_epoch_expected_release": 134
   }
 }
