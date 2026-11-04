@@ -527,7 +527,9 @@ public final class FaroV5CompositionRoot {
                 () -> maintenanceRecoveryComplete
                         && startupReadinessGate.snapshot().isLocalReady(),
                 System::currentTimeMillis,
-                FaroV5HomeReadinessInvalidations.from(startupReadinessGate, graph.store));
+                FaroV5HomeReadinessInvalidations.from(
+                        startupReadinessGate, graph.store,
+                        maintenanceRuntime().activePointerInvalidations()));
     }
 
     public ConversationWorkspaceReadPort readActiveWorkspacePort() {

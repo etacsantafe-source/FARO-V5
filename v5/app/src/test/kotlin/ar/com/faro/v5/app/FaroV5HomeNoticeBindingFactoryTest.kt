@@ -19,8 +19,12 @@ import ar.com.faro.v5.delivery.api.OccurrenceRef
 import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.surface.FaroV5HomeIndicator
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
+import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
+import ar.com.faro.v5.maintenance.StorageGenerationId
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
@@ -221,6 +225,51 @@ class FaroV5HomeNoticeBindingFactoryTest {
             }
         } finally {
             store.close()
+            dir.toFile().deleteRecursively()
+        }
+    }
+
+
+    @Test
+    fun sameHomePortInvalidatesOnDurablyPublishedActivePointerChange() = runBlocking {
+        val dir = Files.createTempDirectory("faro-home-active-pointer-event")
+        try {
+            AuxiliaryDeliveryStore(dir.resolve("auxiliary.db").toString()).use { store ->
+                val pointer = FileActiveGenerationPointer(dir)
+                val original = StorageGenerationId("gen-1")
+                val target = StorageGenerationId("gen-2")
+                assertEquals(original, pointer.compareAndSet(null, original)?.generationId)
+                val gate = FaroV5StartupReadinessGate(SingleProcessMaterialWriteGate())
+                gate.localReady()
+                val pointerChanges = callbackFlow {
+                    val listener = Runnable { trySend(Unit); Unit }
+                    pointer.addChangeListener(listener)
+                    awaitClose { pointer.removeChangeListener(listener) }
+                }
+                val readPort = FaroV5HomeNoticeBindingFactory.create(
+                    Supplier { store.readNotices() }, "gen-1",
+                    Supplier { pointer.read()?.generationId?.value ?: error("no active pointer") },
+                    BooleanSupplier { gate.snapshot().isLocalReady },
+                    LongSupplier { 321L },
+                    FaroV5HomeReadinessInvalidations.from(gate, store, pointerChanges),
+                )
+                assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+                val changes = Channel<Unit>(Channel.UNLIMITED)
+                val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
+                try {
+                    yield()
+                    yield()
+                    assertEquals(target, pointer.compareAndSet(original, target)?.generationId)
+                    withTimeout(3000) { changes.receive() }
+                    assertTrue(readPort.readIndicators().isEmpty())
+                    // No synthetic event when a real pointer CAS loses its expected generation.
+                    assertEquals(null, pointer.compareAndSet(original, StorageGenerationId("gen-3")))
+                    assertTrue(changes.tryReceive().isFailure)
+                } finally {
+                    observer.cancel()
+                }
+            }
+        } finally {
             dir.toFile().deleteRecursively()
         }
     }

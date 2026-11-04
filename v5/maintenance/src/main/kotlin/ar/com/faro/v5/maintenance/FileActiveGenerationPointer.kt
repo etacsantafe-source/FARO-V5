@@ -1,6 +1,7 @@
 package ar.com.faro.v5.maintenance
 
 import java.nio.file.Path
+import java.util.concurrent.CopyOnWriteArraySet
 
 data class ActiveGenerationPointer(
     val sequence: Long,
@@ -23,6 +24,12 @@ interface ActiveGenerationPointerPort {
 class FileActiveGenerationPointer(
     root: Path,
 ) : ActiveGenerationPointerPort {
+    /** Real pointer owner: process-local observers after durable publication only. */
+    private val changeListeners = CopyOnWriteArraySet<Runnable>()
+
+    fun addChangeListener(listener: Runnable) { changeListeners.add(listener) }
+    fun removeChangeListener(listener: Runnable) { changeListeners.remove(listener) }
+
     private val records =
         DurableRecordDirectory(
             root.toAbsolutePath().normalize().resolve("bootstrap").resolve("active")
@@ -60,6 +67,14 @@ class FileActiveGenerationPointer(
             sequence = nextSequence,
             bytes = ActiveGenerationPointerCodec.encode(next),
         )
+        // A rejected CAS never notifies; callbacks cannot roll back durable publication.
+        for (listener in changeListeners) {
+            try {
+                listener.run()
+            } catch (_: Exception) {
+                // Observers revalidate authority on every read.
+            }
+        }
         return next
     }
 

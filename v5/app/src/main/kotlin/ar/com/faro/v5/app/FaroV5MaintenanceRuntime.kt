@@ -50,6 +50,9 @@ import ar.com.faro.v5.platform.android.reset.AndroidResetOsReconciliation
 import ar.com.faro.v5.platform.android.reset.AndroidResetVaultReconciliation
 import java.io.File
 import java.util.UUID
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 
 /**
  * A process-local, one-shot SAF export capability. It is never serialized or
@@ -75,6 +78,13 @@ class FaroV5MaintenanceRuntime(
         File(context.applicationContext.noBackupFilesDir, "faro-v5-storage").toPath()
     private val journal = FileBootstrapJournal(storageRoot)
     private val pointer = FileActiveGenerationPointer(storageRoot)
+
+    /** Observe this Maintenance owner's actual pointer, without polling or cutover. */
+    fun activePointerInvalidations(): Flow<Unit> = callbackFlow {
+        val listener = Runnable { trySend(Unit); Unit }
+        pointer.addChangeListener(listener)
+        awaitClose { pointer.removeChangeListener(listener) }
+    }
     private val layout = FileStorageGenerationLayout(storageRoot)
     private val replayFence = FileGenerationReplayFence(storageRoot)
     private val quiescence = MaterialWriteGateQuiescence(root.materialWriteGate)

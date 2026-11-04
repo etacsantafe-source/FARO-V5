@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 PARTIAL: bind genuine N-031 Pendientes / N-015 Actividad owners when canonical source exists; Guardados needs bounded approval; independently emitted ACL/active-pointer event not demonstrated. Do not repeat 8/8 on same SHA; physical campaign at S3 end only.",
+  "next": "Verify directed CI exact new code SHA and XML 9/9 for genuine active pointer owner event. S3-A1 PARTIAL: N-031 attention.read and N-015 history.query canonical owners remain unavailable; Guardados +8 not approved; independent ACL event not demonstrated. Night/Auto OFF, V2/S4 OFF, physical at S3 end.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -193,6 +193,15 @@
       "junit_xml": "S3_HOME_NOTICE_XML_PASS 8/8",
       "ci_scope": ":app:compileDebugKotlin and exact FaroV5HomeNoticeBindingFactoryTest only",
       "verified_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0"
+    },
+    "active_generation_pointer_invalidation": {
+      "status": "CODE_PREPARED_DIRECTED_CI_PENDING",
+      "owner": "FileActiveGenerationPointer.compareAndSet (successful durable publish only)",
+      "subscriber": "FaroV5MaintenanceRuntime.activePointerInvalidations -> existing Home readPort",
+      "scope": "Process local; no independent ACL or cross-process authority event claimed; no V2 cutover",
+      "test": "FaroV5HomeNoticeBindingFactoryTest.sameHomePortInvalidatesOnDurablyPublishedActivePointerChange",
+      "expected_xml": "S3_HOME_NOTICE_XML_PASS 9/9",
+      "physical": "NOT_RUN"
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",

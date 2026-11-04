@@ -3,6 +3,7 @@ package ar.com.faro.v5.app
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.merge
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 
 /**
@@ -43,4 +44,13 @@ object FaroV5HomeReadinessInvalidations {
             gate.removeListener(readinessListener)
         }
     }
+
+    /** Genuine process-local pointer owner signal; not an independent ACL emitter. */
+    @JvmStatic
+    @JvmName("from")
+    internal fun from(
+        gate: FaroV5StartupReadinessGate,
+        store: AuxiliaryDeliveryStore,
+        pointerChanges: Flow<Unit>,
+    ): Flow<Unit> = merge(from(gate, store), pointerChanges)
 }
