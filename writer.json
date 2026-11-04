@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.HYBRID_A2_20261104",
   "token_hash": "19466245708458f89ece4f9ce92ccbad8e8fa477fcc8069b8febc9f00b178dbb",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "5d50381c40ece371ce8f594d1f8327478413ad18",
+  "target_head": "247de9a3ea356383602d71acf54751da046b7c76",
   "epoch": 118,
-  "timestamp": 1793797077,
-  "purpose": "S3_A2_HYBRID_REAL_OWNER_DEPENDENCY_CLOSURE"
+  "timestamp": 1793797207,
+  "purpose": "S3_A2_HYBRID_REAL_OWNER_DEPENDENCY_GATE_DURABLE_CHECKPOINT"
 }
