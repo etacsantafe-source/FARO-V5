@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.PERM.20261104",
   "token_hash": "ebc65c4a8ff6e4297651b0a7a3cc177cb57b1729bdb42b374e80a35128f6694",
   "target_head": "ca1da7491e313fa408a04aed6fd20dcea997cf33",
   "target_branch": "work/s3-night-20261102",
   "epoch": 169,
-  "timestamp": 1793821017,
-  "purpose": "M5 path-bounded CI APK workflow permit docs only"
+  "timestamp": 1793821071,
+  "purpose": "M5_APK_WORKFLOW_PERMIT_2C5D36DB_PREFLIGHT_PENDING"
 }
