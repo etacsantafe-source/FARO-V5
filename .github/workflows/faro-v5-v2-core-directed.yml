@@ -7,6 +7,8 @@ on:
     paths:
       - "v5/app/build.gradle.kts"
       - "v5/app/src/v2CoreDev/**"
+      - "v5/app/src/main/**"
+      - "v5/surface/**"
       - "v5/app/src/testV2CoreDev/**"
       - ".github/workflows/faro-v5-v2-core-directed.yml"
   workflow_dispatch:
@@ -59,8 +61,8 @@ jobs:
           if len(paths)!=1: raise SystemExit(f"V2_CORE_M2_TEST_XML_MISSING {len(paths)}")
           root=ET.parse(paths[0]).getroot()
           values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
-          if values!=(4,0,0,0): raise SystemExit(f"V2_CORE_M2_TESTS_FAILED {values}")
-          print("V2_CORE_M2_M3_LOCAL_CHAT_JVM_PASS 4/4")
+          if values!=(6,0,0,0): raise SystemExit(f"V2_CORE_M4_TESTS_FAILED {values}")
+          print("V2_CORE_M4_STALE_PORTS_JVM_PASS 6/6")
           PY
       - name: Verify relocated historical debug-only T4 gate tests
         run: |
@@ -101,12 +103,20 @@ jobs:
           if dev.get('package') != 'ar.com.faro.alpha.v2coredev': raise SystemExit('V2_CORE_DEV_ID_NOT_ISOLATED')
           app = dev.find('application')
           if app is None or app.get(ns+'allowBackup') != 'false': raise SystemExit('V2_CORE_BACKUP_NOT_DISABLED')
-          if 'android.permission.INTERNET' in {e.get(ns+'name') for e in dev.findall('uses-permission')}: raise SystemExit('V2_CORE_NETWORK_GRANTED')
+          permission_nodes = [
+              (node.tag.rsplit('}', 1)[-1], node.get(ns+'name'))
+              for node in dev
+              if node.tag.rsplit('}', 1)[-1].startswith('uses-permission')
+          ]
+          if permission_nodes:
+              raise SystemExit(f'V2_CORE_M4_PERMISSIONS_NOT_DENIED {permission_nodes}')
           if app.get(ns+'name') != 'ar.com.faro.v5.app.FaroV5V2CoreDevApplication':
               raise SystemExit('V2_CORE_M2B_SHIPPING_APP_STARTUP_NOT_REPLACED')
           activities=[node.get(ns+'name') for node in app.findall('activity')]
           if activities != ['ar.com.faro.v5.app.FaroV5V2CoreDevActivity']:
               raise SystemExit(f'V2_CORE_M2B_EXTRA_LAUNCHERS {activities}')
+          if app.find('activity').get(ns+'exported') != 'true':
+              raise SystemExit('V2_CORE_M4_LAUNCHER_NOT_EXPLICITLY_EXPORTED')
           providers={node.get(ns+'name') for node in app.findall('provider')}
           if providers:
               raise SystemExit(f'V2_CORE_M2B_UNEXPECTED_PROVIDERS {sorted(providers)}')

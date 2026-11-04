@@ -207,4 +207,102 @@ class FaroV5V2CoreDevAuthorityTest {
         }
     }
 
+
+    @Test fun closedSessionRejectsSelectionAndComposerWithoutMutation() {
+        val chat = ConversationId("m4-closed-session-chat")
+        val session = FaroV5V2CoreDevAuthority(root).open()
+        assertTrue(runBlocking {
+            session.selectionPort.createAndSelect(chat, 3000L, IdempotencyKey("m4-init-chat"))
+        } is ConversationSelectionResult.Saved)
+        val initial = runBlocking { session.composerPort.read(chat) }!!
+        val saved = runBlocking {
+            session.composerPort.save(ConversationDraftSaveRequest(
+                chat, initial.authorityToken, initial.revision,
+                "Borrador local M4", IdempotencyKey("m4-first-save"),
+            ))
+        } as ConversationDraftWriteResult.Saved
+        val sendCandidate = checkNotNull(
+            ConversationDraftPolicy.sendCandidate(ConversationDraftEditorState(saved.snapshot))
+        )
+        val staleSelection = session.selectionPort
+        val staleComposer = session.composerPort
+        session.close()
+        assertThrows(IllegalStateException::class.java) {
+            runBlocking {
+                staleSelection.createAndSelect(
+                    ConversationId("m4-forbidden-chat"), 3001L, IdempotencyKey("m4-stale-create"),
+                )
+            }
+        }
+        assertThrows(IllegalStateException::class.java) {
+            runBlocking { staleSelection.select(chat, IdempotencyKey("m4-stale-select")) }
+        }
+        assertThrows(IllegalStateException::class.java) {
+            runBlocking {
+                staleComposer.save(ConversationDraftSaveRequest(
+                    chat, saved.snapshot.authorityToken, saved.snapshot.revision,
+                    "Mutacion prohibida", IdempotencyKey("m4-stale-save"),
+                ))
+            }
+        }
+        assertThrows(IllegalStateException::class.java) {
+            runBlocking {
+                staleComposer.sendDraft(ConversationDraftSendRequest(
+                    sendCandidate, ConversationMessageId("m4-forbidden-message"),
+                    ConversationTurnId("m4-forbidden-turn"), 3002L,
+                    IdempotencyKey("m4-stale-send"),
+                ))
+            }
+        }
+        FaroV5V2CoreDevAuthority(root).open().use { reopened ->
+            val snapshot = runBlocking { reopened.workspaceReadPort.readSnapshot() }
+            assertEquals(1, snapshot.conversations.size)
+            assertEquals(chat, snapshot.activeConversationId)
+            assertEquals(saved.snapshot, runBlocking { reopened.composerPort.read(chat) })
+            assertTrue(runBlocking { reopened.timelineReadPort.readTimeline(chat) }!!.messages.isEmpty())
+        }
+    }
+
+    @Test fun pointerDriftRejectsLocalWritesWithoutMutation() {
+        val chat = ConversationId("m4-pointer-drift-chat")
+        val session = FaroV5V2CoreDevAuthority(root).open()
+        assertTrue(runBlocking {
+            session.selectionPort.createAndSelect(chat, 4000L, IdempotencyKey("m4-drift-init"))
+        } is ConversationSelectionResult.Saved)
+        val draft = runBlocking { session.composerPort.read(chat) }!!
+        val pointer = FileActiveGenerationPointer(root)
+        val target = StorageGenerationId("v2-core-dev-workspace-1")
+        val previous = StorageGenerationId("v2-core-dev-legacy-base-1")
+        checkNotNull(pointer.compareAndSet(target, previous))
+        try {
+            assertThrows(IllegalStateException::class.java) {
+                runBlocking { session.workspaceReadPort.readSnapshot() }
+            }
+            assertThrows(IllegalStateException::class.java) {
+                runBlocking {
+                    session.selectionPort.createAndSelect(
+                        ConversationId("m4-drift-forbidden"), 4001L,
+                        IdempotencyKey("m4-drift-deny-selection"),
+                    )
+                }
+            }
+            assertThrows(IllegalStateException::class.java) {
+                runBlocking {
+                    session.composerPort.save(ConversationDraftSaveRequest(
+                        chat, draft.authorityToken, draft.revision,
+                        "Mutacion prohibida", IdempotencyKey("m4-drift-deny-save"),
+                    ))
+                }
+            }
+            assertEquals(previous, pointer.read()?.generationId)
+        } finally {
+            session.close()
+            checkNotNull(pointer.compareAndSet(previous, target))
+        }
+        FaroV5V2CoreDevAuthority(root).open().use { reopened ->
+            assertEquals(1, runBlocking { reopened.workspaceReadPort.readSnapshot() }.conversations.size)
+            assertEquals(draft, runBlocking { reopened.composerPort.read(chat) })
+            assertTrue(runBlocking { reopened.timelineReadPort.readTimeline(chat) }!!.messages.isEmpty())
+        }
+    }
 }
