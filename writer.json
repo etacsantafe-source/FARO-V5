@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M5.REDFIX.WAITCI.20261104",
-  "target_head": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M5.B7PASS.20261104",
+  "token_hash": "2724f40cb03897bc68990f2d0c6db12fd021cd881bb154d7d5cb88e16a2ac68e",
+  "target_head": "0759da3160e99f5c9ca2afaf8d797c37f499916e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 174,
-  "timestamp": 1793823830,
-  "purpose": "M5_APK_NEW_CI_41905632794_CHECKPOINT_0759DA31_PERMIT_BLOCKED",
-  "token_hash": "5e7092b4d6f81a3c5e7092b4d6f81a3c5e7092b4d6f81a3c5e7092b4d6f81a3c"
+  "epoch": 175,
+  "timestamp": 1793825100,
+  "purpose": "M5_DEV_APK_PACKAGE_GATE_B7_CI_41905632794_PASS_DOCUMENT_ONLY"
 }
