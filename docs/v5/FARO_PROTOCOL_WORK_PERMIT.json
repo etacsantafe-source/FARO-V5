@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "M5_DEV_APK_PACKAGE_GATE",
-  "reviewed_head": "f93986c83c33ca287058aec3c27c6806d653eb7a",
-  "paths": [
-    ".github/workflows/faro-v5-v2-core-apk-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,7 +55,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_CORRECTIVE_M5_APK",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,8 +70,8 @@
       }
     ]
   },
-  "why": "M5 original APK CI 41899136921 cancelled at 30m within :app:compileV2CoreDevKotlin; no APK/artifact. Corrective B1-B5 and B7 RED_FIX doc 75043d89.",
-  "how": "Mandatory exact preflight on GitHub checkout before changing only M5 workflow; bounded Gradle in-process/one worker/log diagnostics. Do not weaken binary gate or claim APK done.",
+  "why": "Previous M5 code 9bd64841 cancelled on job time cap; corrected M5 code 018f0f5e preflight and guard PASS, APK run #41905632794 still pending. No further code until B7.",
+  "how": "Read CI exact #41905632794 logs and published artifact; if PASS B7, if red B7 RED_FIX. Do not launch another run while active; new READY permit after final audit.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }

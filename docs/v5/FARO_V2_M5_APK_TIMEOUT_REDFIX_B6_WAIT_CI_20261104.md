@@ -1,0 +1,11 @@
+# FARO V5 — M5 bounded APK compilation RED_FIX B6 WAIT_CI
+
+Date 2026-11-04 AR. Unit M5_DEV_APK_PACKAGE_GATE. Exact code commit `018f0f5e1cb600a25f5d0d7897def5739a9b06f8` on work/s3-night-20261102. Scope ONLY `.github/workflows/faro-v5-v2-core-apk-directed.yml`.
+
+- Previous code `9bd648415718070bdda0465ab26431e36eda95d4` B7 RED_FIX, run #41899136921 CANCELLED at job 30m; no APK artifact. New preaudit B1-B5 and B7 previous in `docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md` blob `75043d8943a2bf4e271b6f46cc2098f8522967c4`.
+- READY permit on parent commit `065d0485e8951ac8b27a0e9f2de5fea67d8b08b6`; GitHub checkout guard [#41905211146](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41905211146) SUCCESS and exact `FARO_PROTOCOL_PREFLIGHT_PASS M5_DEV_APK_PACKAGE_GATE 065d0485...`.
+- Code `018f0f5e` diff verified exact one file. Gradle assembly strategy experimentally changed only for M5 CI: one worker, in-process Kotlin compiler, 3 GiB heap / 768 MiB metaspace, --info --stacktrace, independent 20-min timeout with fail-closed exit and process/memory diagnostics. It does NOT alter source/runtime application.
+- Mandatory seven-block guard [#41905632721](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41905632721) SUCCESS for exact code SHA.
+- Exact APK CI [#41905632794](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41905632794) **IN_PROGRESS at checkpoint**. Binary APK, AAPT2, signature and artifact **NOT VERIFIED / NOT YET PUBLISHED**; never claim PASS until complete with run and artifact evidence.
+- Guard of this docs commit should PASS with BLOCKED permit. The next task is **READ_ONLY** inspect run #41905632794 and artifact by id. If SUCCESS with verified APK, issue B7 PASS for `M5_DEV_APK_PACKAGE_GATE` ONLY and record exact sha/hash; M5 global and physical Android still open. If FAILURE/TIMEOUT, use last diagnostics and bounded B7 RED_FIX B1-B5, no blind retry.
+- Permit functional reset BLOCKED, no new code or runs until B7 disposition. Writer must be RELEASED epoch 174. Cloud STAGED disabled, V2 productive OFF, Auto/Noche OFF, S4 OFF, S2 closed 8/8; S3 ≈40% development heuristic / 0/5 formal, V2_DEV_CORE_READY false; physical NOT_RUN, no paid APIs/changes to V4.4/main.
