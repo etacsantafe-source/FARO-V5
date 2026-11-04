@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_LONG_TEXT_PREFIX.20261104",
   "token_hash": "889d7fd450714c2d9ae6cb9e7b9cf43dd0699b4c0ed3410d1310ec5f78dbf906",
   "target_branch": "work/s3-night-20261102",
   "target_head": "abca920c3300a2d51f55b2633eb0e945094eec73",
   "epoch": 131,
-  "timestamp": 1793804619,
-  "purpose": "G3_BOUNDED_RECENT_LONG_MESSAGE_PREFIX"
+  "timestamp": 1793804698,
+  "purpose": "G3_LONG_MESSAGE_CANONICAL_PREFIX_PUBLISHED_CI_PENDING"
 }
