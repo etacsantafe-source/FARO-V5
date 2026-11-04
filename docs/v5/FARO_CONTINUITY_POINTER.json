@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 189
+    "expected_release_epoch": 190
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_FIX_B6_WAIT_CI_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Exact SHA c3f5e5d1 corrective DEV Search pointer-ABA code. Check directed workflows #41933426446 V2Core DEV XML10/10, #41933426599 APK zero permissions and signature, #41933426482 S3 Home25/25, guard #41933426669. Then independent B7 PASS or RED_FIX, update last_code_review, permit BLOCKED. Existing SHA 8c01 B7 RED_FIX even though old CI success. DEV Search is NOT shipping G1 ACL. Do not install unsigned/mismatched Android APK, V2 shipping OFF, S2 frozen, S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A2_DEV_SEARCH_C3F5E5D1_ABA_REDFIX_CODE_WAIT_CI_B7_PENDING",
+  "next": "DEV Search Session B7 PASS @ c3f5e5d1; exact CI: DEV CORE #41933426446 10/10; APK #41933426599 binary SHA256 9be2c4d598ca0e53f6cf81641dd922ab7895a52ee6fa7c79c293b1cd62311ec0, zero permissions/signed; Home #41933426482 25/25; guard #41933426669. DO NOT repeat. NEXT S3.A2 G1 REAL shipping Workspace owner grant/revoke epoch durable independently observable, cross-instance invalidations, generation pointer sequence, B1-B5 external research and per-unit permit before code. Productive V2 OFF, APK not installed, Auto/Noche OFF, S2 frozen, S4 OFF; 0/5 S3 formal.",
+  "checkpoint_status": "S3_A2_DEV_SEARCH_B7_PASS_SHIPPING_G1_OPEN_WRITER_RELEASE_190",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_FIX_B6_WAIT_CI_20261104.md",
+  "last_handoff": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md",
   "last_code_sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
-  "last_ci_run_id": 41905632794,
+  "last_ci_run_id": 41933426446,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "M5_APK_41905632794_SUCCESS_ARTIFACT_13360681405_B7_PASS_ONLY",
+  "last_ci_conclusion": "S3_DEV_SEARCH_CORE_10_OF_10_APK_41933426599_SUCCESS_HOME_41933426482_25_OF_25_B7_PASS_DEV_ONLY",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -710,15 +710,30 @@
     "next": "VERIFY_REAL_WORKSPACE_GRANT_REVOKE_OWNER_AND_DURABILITY",
     "local_date": "2026-11-04"
   },
-  "ci_pending": {
+  "ci_pending": null,
+  "dev_search_session": {
+    "scope": "v2CoreDev_ONLY",
+    "status": "B7_PASS",
     "code_sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
-    "guard": 41933426669,
-    "dev_core": 41933426446,
-    "dev_apk": 41933426599,
-    "s3_regression": 41933426482,
-    "expected_dev_core_xml": "10/10",
-    "b7": "PENDING",
-    "previous_sha": "8c01f4c4028a4b2f311e31031924fa194cb3303c",
-    "previous_b7": "RED_FIX_ABA"
+    "prior_code_sha": "8c01f4c4028a4b2f311e31031924fa194cb3303c",
+    "prior_b7": "RED_FIX_ABA",
+    "core_ci": {
+      "id": 41933426446,
+      "xml": "10/10"
+    },
+    "s3_ci": {
+      "id": 41933426482,
+      "xml": "25/25"
+    },
+    "apk_ci": {
+      "id": 41933426599,
+      "sha256": "9be2c4d598ca0e53f6cf81641dd922ab7895a52ee6fa7c79c293b1cd62311ec0",
+      "package": "ar.com.faro.alpha.v2coredev",
+      "permissions": 0
+    },
+    "guard_ci": 41933426669,
+    "physical": "NOT_RUN",
+    "shipping_acl_g1": "OPEN",
+    "b7_doc": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md"
   }
 }

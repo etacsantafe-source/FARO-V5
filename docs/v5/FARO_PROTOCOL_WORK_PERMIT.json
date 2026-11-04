@@ -1,13 +1,9 @@
 {
   "schema": 1,
   "status": "BLOCKED",
-  "unit_id": "S3_A2_DEV_SEARCH_SESSION_OWNER",
-  "reviewed_head": "83575bc551aab4f0a3df7b71d536ff0e401f57c0",
-  "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt",
-    ".github/workflows/faro-v5-v2-core-directed.yml"
-  ],
+  "unit_id": null,
+  "reviewed_head": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "WAIT_CI_41933426446_41933426599_41933426482",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_DEV_JVM_10_OF_10_APK_CI_41933426599_HOME_CI_41933426482",
+    "B7": "PASS_FINAL_AUDIT_DEV_ONLY_SHIPPING_S3_A2_G1_OPEN"
   },
   "last_code_review": {
-    "sha": "8c01f4c4028a4b2f311e31031924fa194cb3303c",
-    "result": "RED_FIX",
+    "sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
+    "result": "PASS",
     "unit_id": "S3_A2_DEV_SEARCH_SESSION_OWNER",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_DEV_SEARCH_INITIAL_B7_REDFIX_20261104.md",
-        "blob_sha": "affe586d0b1cb6a2bdbd5875b7e45f20094b43d3",
+        "path": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_B7_PASS_20261104.md",
+        "blob_sha": "345fed6314faa5200b435da31907c71fd38d6174",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Corrective commit c3f5e5d1 published with READY parent and exact preflight. Next steps depend on fresh SHA CI XML10/10 and APK. Prior 8c01f4c4 remains B7 RED_FIX.",
-  "how": "Complete exact directed CI @ c3f5e5d1; independent B7, then update last_code_review and keep permit BLOCKED. No other functional unit allowed while pending.",
+  "why": "Exact DEV Search pointer ABA RED_FIX code c3f5e5d1 certified by CI 41933426446 XML10/10, 41933426599 APK binary zero permissions signature, 41933426482 S3 regression25/25; B7 PASS DEV scope only. New unit requires fresh B1-B5 and READY.",
+  "how": "Read independent B7 document; next isolate real active host Workspace ACL grant/revoke owner and durable epoch. Never treat DEV session authority as shipping G1 or install APK physically.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
