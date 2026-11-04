@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_CI_25_25_VERDICT.20261104",
   "token_hash": "393d90177d7cf18f1f665e5b0d9987e4684083f08c58fb22e8ff6cc6cf837531",
   "target_branch": "work/s3-night-20261102",
   "target_head": "1847b5ed150df5b510357cac82e39f2116af0e78",
   "epoch": 133,
-  "timestamp": 1793805037,
-  "purpose": "COMPLETE_VERIFIED_EXACT_G3_CI_VERDICT"
+  "timestamp": 1793805058,
+  "purpose": "A2_CHAINED_CI_VERDICT_HANDOFF_CLEAN"
 }
