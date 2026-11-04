@@ -41,7 +41,7 @@ jobs:
       - name: Run Reality receipt query/backup regressions
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityBackupFilteringT2Test"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityBackupFilteringT2Test" --tests "ar.com.faro.v5.store.reality.RealityFinanceActivityReadT2Test"
       - name: Verify exact Reality receipt JUnit XML
         run: |
           python3 - <<'PY'
@@ -56,4 +56,12 @@ jobs:
           if counts != (2, 0, 0, 0):
               raise SystemExit(f'S3_REALITY_XML_FAIL {counts}')
           print('S3_REALITY_RECEIPT_XML_PASS 2/2')
+          activity = sorted(base.glob('TEST-*RealityFinanceActivityReadT2Test.xml'))
+          if len(activity) != 1:
+              raise SystemExit(f'S3_FINANCE_ACTIVITY_XML_MISSING {len(activity)}')
+          activity_root = ET.parse(activity[0]).getroot()
+          counts = tuple(int(activity_root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+          if counts != (3,0,0,0):
+              raise SystemExit(f'S3_FINANCE_ACTIVITY_XML_FAIL {counts}')
+          print('S3_FINANCE_ACTIVITY_XML_PASS 3/3')
           PY

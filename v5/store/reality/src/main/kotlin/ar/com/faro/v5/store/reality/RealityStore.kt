@@ -94,6 +94,10 @@ class RealityStore(
     val receiptHistory: RealityReceiptHistoryReadPort =
         RealityReceiptHistoryReadPort(::queryCommittedReceipts)
 
+    /** N015 owner feed: finance ledger dates, not globally completed Apply. */
+    val financeActivity: RealityFinanceActivityReadPort =
+        RealityFinanceActivityReadPort(::queryFinanceActivity)
+
     val financePersistence: FinancePersistencePort =
         object : FinancePersistencePort {
             override fun read(): FinanceSnapshot = readFinance()
@@ -580,6 +584,45 @@ class RealityStore(
         RealityReceiptHistoryPage(
             receipts = page,
             nextCursor = if (rows.size > query.limit) page.last().transactionId.value else null,
+        )
+    }
+
+    private fun queryFinanceActivity(
+        query: RealityFinanceActivityQuery,
+    ): RealityFinanceActivityPage = synchronized(lock) {
+        checkOpen()
+        check(activeTransactionId == null) {
+            "finance activity cannot expose uncommitted Reality transaction content"
+        }
+        val owner = readFinance()
+        val ordered = owner.entries.asSequence()
+            .filter { query.accountId == null || it.accountId.value == query.accountId }
+            .filter { query.kind == null || it.kind == query.kind }
+            .filter { item ->
+                val cursor = query.after
+                cursor == null ||
+                    item.recordedAtEpochMillis < cursor.recordedAtEpochMillis ||
+                    (item.recordedAtEpochMillis == cursor.recordedAtEpochMillis &&
+                        item.entryId.value > cursor.entryId)
+            }
+            .sortedWith(
+                compareByDescending<FinanceEntrySnapshot> { it.recordedAtEpochMillis }
+                    .thenBy { it.entryId.value }
+            )
+            .take(query.limit + 1)
+            .toList()
+        val selected = ordered.take(query.limit)
+        val tail = selected.lastOrNull()
+        RealityFinanceActivityPage(
+            entries = selected,
+            nextCursor =
+                if (ordered.size > query.limit && tail != null) {
+                    RealityFinanceActivityCursor(
+                        recordedAtEpochMillis = tail.recordedAtEpochMillis,
+                        entryId = tail.entryId.value,
+                    )
+                } else null,
+            financeRevision = owner.revision,
         )
     }
 
