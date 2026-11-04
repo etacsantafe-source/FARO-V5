@@ -10,10 +10,10 @@
   ],
   "branch": "work/s3-night-20261102",
   "audited_source_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
-  "block_id": 1,
-  "block_name": "EVIDENCIA",
-  "block_status": "READY",
-  "status": "RETROSPECTIVE_AUDIT_REQUIRED_BEFORE_MORE_FUNCTIONAL_WRITES",
+  "block_id": 5,
+  "block_name": "AUDITORIA_PREVIA",
+  "block_status": "REVIEW_DOCUMENTED_SELECTIVE_B6_NOT_AUTHORIZED",
+  "status": "RETRO_B1_B5_DOCUMENTED_FOR_M0_M1_M2A_M2B_M3; ALL_FUNCTIONAL_WRITES_STILL_BLOCKED",
   "acceptance": "For M0 M1 M2A M2B M3: enumerate 7 protocol blocks and exact evidence, compare V4.4 read-only, investigate and unify, adversarial pre-audit; only then implement delta, exact CI, independent final audit",
   "units": [
     {
@@ -30,7 +30,10 @@
         "pre_audit": "MISSING",
         "implementation": "NOT_APPLICABLE",
         "final_audit": "MISSING"
-      }
+      },
+      "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
+      "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
     },
     {
       "id": "M1",
@@ -48,7 +51,10 @@
         "pre_audit": "MISSING",
         "implementation": "EVIDENCED_HISTORICAL",
         "final_audit": "PARTIAL"
-      }
+      },
+      "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
+      "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
     },
     {
       "id": "M2A",
@@ -69,7 +75,10 @@
         "pre_audit": "MISSING",
         "implementation": "EVIDENCED_JVM_SUBSET",
         "final_audit": "MISSING"
-      }
+      },
+      "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
+      "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
     },
     {
       "id": "M2B",
@@ -87,7 +96,10 @@
         "pre_audit": "MISSING",
         "implementation": "PARTIAL",
         "final_audit": "MISSING"
-      }
+      },
+      "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
+      "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
     },
     {
       "id": "M3",
@@ -105,7 +117,10 @@
         "pre_audit": "MISSING",
         "implementation": "EVIDENCED_JVM_SUBSET",
         "final_audit": "MISSING"
-      }
+      },
+      "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
+      "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+      "retrospective_evidence_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
     },
     {
       "id": "M4_M5",
@@ -149,10 +164,10 @@
     "writer_status_at_observation": "RELEASED",
     "writer_epoch_at_observation": 141
   },
-  "next_step": "FIRST verify protocol gate CI and permit BLOCKED. Then retro M0/M1 B1-B5 read-only, then M2A/M2B/M3, publish pre-audit proofs, issue path-bounded permit docs-only and preflight PASS. No functional writes otherwise.",
-  "expected_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
-  "writer_release_epoch": 141,
-  "last_observed_at": "2026-11-04",
+  "next_step": "Retrospective B1-B5 document at exact blob SHA. Only M1_MANIFEST_VERIFIER scoped next, after docs-only READY permit and preflight PASS. No V2 functional writes while permit BLOCKED. CI 41877244186 was QUEUED (not PASS) when inspected. M2A PREPARING/STAGED recovery still not certified; M3 Android NOT_RUN.",
+  "expected_head": "527ebcdf52ee2a3b256de78643d10193ddbde799",
+  "writer_release_epoch": "PENDING_RELEASE_EPOCH_146",
+  "last_observed_at": "2026-11-04T14:27:00-03:00",
   "blocker": "MANIFEST_VERIFIER_DUPLICATE_DEBUG_2;M4_M5_NOT_VERIFIED",
   "physical": "NOT_RUN",
   "user_trigger": "Continuar FARO V5",
@@ -168,6 +183,11 @@
     "last_ci_run_id": 41876852639,
     "last_ci_conclusion": "SUCCESS_14_OF_14",
     "last_ci_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
-    "required_branch_protection": "NOT_VERIFIED"
-  }
+    "required_branch_protection": "NO_RULESETS_OBSERVED",
+    "latest_audit_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+    "latest_audit_document_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
+  },
+  "evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+  "evidence_document_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+  "evidence_source_head": "aa438320a7d62574d6f47a67c312ea7d9a05f63b"
 }
