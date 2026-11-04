@@ -41,7 +41,7 @@ jobs:
       - name: Compile isolated V2 build and process both manifests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:processDebugMainManifest :app:processV2CoreDevMainManifest :app:compileV2CoreDevKotlin
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:processDebugManifestForPackage :app:processV2CoreDevManifestForPackage :app:compileV2CoreDevKotlin
       - name: M2 active five-owner JVM directed tests
         working-directory: v5
         run: |
@@ -84,8 +84,16 @@ jobs:
           ns = '{http://schemas.android.com/apk/res/android}'
           base = Path('v5/app/build/intermediates')
           def read(variant):
-              found = [p for p in base.rglob('AndroidManifest.xml') if 'merged_manifest' in str(p) and variant in p.parts]
-              if len(found) != 1: raise SystemExit(f'V2_CORE_M1_MANIFEST_AMBIGUOUS {variant} {len(found)}')
+              # Inspect the packaged output selected for the APK, never a
+              # recursive search across merged-manifest intermediates.
+              packaged = base / 'packaged_manifests' / variant
+              found = sorted(packaged.rglob('AndroidManifest.xml')) if packaged.is_dir() else []
+              if len(found) != 1:
+                  raise SystemExit(
+                      f'V2_CORE_M1_PACKAGED_MANIFEST_COUNT {variant} {len(found)}'
+                      f' dir={packaged} candidates={[str(p) for p in found]}'
+                  )
+              print(f'V2_CORE_M1_PACKAGED_MANIFEST_SELECTED {variant} {found[0]}')
               return ET.parse(found[0]).getroot()
           old = read('debug')
           dev = read('v2CoreDev')
