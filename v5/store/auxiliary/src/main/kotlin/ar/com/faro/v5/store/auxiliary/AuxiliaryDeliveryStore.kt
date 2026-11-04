@@ -35,6 +35,7 @@ import ar.com.faro.v5.delivery.spi.NotificationReconcileClaim
 import ar.com.faro.v5.delivery.spi.NotificationSinkOutcome
 import ar.com.faro.v5.kernel.contracts.EffectId
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
+import java.util.concurrent.CopyOnWriteArraySet
 
 internal enum class AuxiliaryDeliveryFaultPoint {
     AFTER_NOTICE_INSERT,
@@ -70,6 +71,30 @@ class AuxiliaryDeliveryStore private constructor(
         materialWriteGate = null,
     )
     private val lock = Any()
+    // Owner-originated, process-local notice commits. Not an ACL/generation watcher.
+    private val noticeCommitListeners = CopyOnWriteArraySet<Runnable>()
+
+    fun addNoticeCommitListener(listener: Runnable) {
+        synchronized(lock) {
+            checkOpen()
+            noticeCommitListeners.add(listener)
+        }
+    }
+
+    fun removeNoticeCommitListener(listener: Runnable) {
+        noticeCommitListeners.remove(listener)
+    }
+
+    private fun publishNoticeCommit() {
+        // Notify after SQLite commit and outside material-write admission.
+        for (listener in noticeCommitListeners) {
+            try {
+                listener.run()
+            } catch (_: RuntimeException) {
+                noticeCommitListeners.remove(listener)
+            }
+        }
+    }
     /** Optional admission for staged V2; callers must share the host's SINGLE gate. */
     private fun <T> withMaterialAdmission(block: () -> T): T =
         materialWriteGate?.withMaterialWrite(block) ?: block()
@@ -141,7 +166,8 @@ class AuxiliaryDeliveryStore private constructor(
     override fun route(
         candidate: NoticeCandidate,
         newIds: NoticeMaterializationIds,
-    ): NoticeRouteResult = withMaterialAdmission { synchronized(lock) {
+    ): NoticeRouteResult {
+        val result = withMaterialAdmission { synchronized(lock) {
         checkOpen()
         require(candidate.materiality != NoticeMateriality.SILENT) {
             "AuxiliaryDeliveryStore cannot materialize SILENT candidates"
@@ -162,13 +188,18 @@ class AuxiliaryDeliveryStore private constructor(
             runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
             throw failure
         }
-    } }
+        } }
+        // A committed route can be idempotent; a redundant refresh is safe.
+        publishNoticeCommit()
+        return result
+    }
 
 
     override fun resolve(
         noticeId: NoticeId,
         reason: NoticeResolutionReason,
-    ): NoticeResolveResult = withMaterialAdmission { synchronized(lock) {
+    ): NoticeResolveResult {
+        val result = withMaterialAdmission { synchronized(lock) {
         checkOpen()
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         try {
@@ -227,7 +258,12 @@ class AuxiliaryDeliveryStore private constructor(
             runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
             throw failure
         }
-    } }
+        } }
+        if (result is NoticeResolveResult.Resolved) {
+            publishNoticeCommit()
+        }
+        return result
+    }
 
 
     override fun beginNotificationDispatch(

@@ -2,6 +2,11 @@ package ar.com.faro.v5.app
 
 import ar.com.faro.v5.delivery.api.DestinationRef
 import ar.com.faro.v5.delivery.api.NoticeAttention
+import ar.com.faro.v5.delivery.api.NoticeCandidate
+import ar.com.faro.v5.delivery.api.NoticeMaterializationIds
+import ar.com.faro.v5.delivery.api.NoticeResolveResult
+import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
+import ar.com.faro.v5.kernel.contracts.EffectId
 import ar.com.faro.v5.delivery.api.NoticeId
 import ar.com.faro.v5.delivery.api.NoticeKey
 import ar.com.faro.v5.delivery.api.NoticeMateriality
@@ -15,9 +20,15 @@ import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.surface.FaroV5HomeIndicator
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.yield
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.nio.file.Files
 import java.util.function.BooleanSupplier
 import java.util.function.LongSupplier
 import java.util.function.Supplier
@@ -100,6 +111,56 @@ class FaroV5HomeNoticeBindingFactoryTest {
         gate.localReady()
         assertEquals(1, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
         assertEquals(2, reads)
+    }
+
+    @Test
+    fun sameHomePortRecountsRealAuxiliaryCommitAndResolution() = runBlocking {
+        val dir = Files.createTempDirectory("faro-home-notice-commit")
+        try {
+            AuxiliaryDeliveryStore(dir.resolve("auxiliary.db").toString()).use { store ->
+                val gate = FaroV5StartupReadinessGate(SingleProcessMaterialWriteGate())
+                gate.localReady()
+                val readPort = FaroV5HomeNoticeBindingFactory.create(
+                    Supplier { store.readNotices() },
+                    "gen-1", Supplier { "gen-1" },
+                    BooleanSupplier { gate.snapshot().isLocalReady },
+                    LongSupplier { 321L },
+                    FaroV5HomeReadinessInvalidations.from(gate, store),
+                )
+                assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+                val changes = Channel<Unit>(Channel.UNLIMITED)
+                val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
+                try {
+                    yield()
+                    yield()
+                    val candidate = NoticeCandidate(
+                        noticeKey = NoticeKey.of("home.test"),
+                        sourceRef = SourceRef.of("home:source"),
+                        occurrenceRef = OccurrenceRef.of("home:occurrence"),
+                        materiality = NoticeMateriality.NOTICE,
+                        sensitivity = NoticeSensitivity.NORMAL,
+                        summary = NoticeSummary.of("Una novedad real"),
+                        destinationRef = DestinationRef.of("avisos"),
+                    )
+                    val ids = NoticeMaterializationIds(
+                        noticeId = NoticeId.of("home-notice-1"),
+                        deliveryIntentId = ar.com.faro.v5.delivery.api.DeliveryIntentId.of("home-delivery-1"),
+                        effectId = EffectId("home-effect-1"),
+                    )
+                    store.route(candidate, ids)
+                    withTimeout(3000) { changes.receive() }
+                    assertEquals(1, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+                    assertTrue(store.resolve(ids.noticeId, NoticeResolutionReason.SOURCE_RESOLVED)
+                        is NoticeResolveResult.Resolved)
+                    withTimeout(3000) { changes.receive() }
+                    assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+                } finally {
+                    observer.cancel()
+                }
+            }
+        } finally {
+            dir.toFile().deleteRecursively()
+        }
     }
 
     @Test

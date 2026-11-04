@@ -6,6 +6,7 @@ on:
       - work/s3-night-20261102
     paths:
       - "v5/app/**"
+      - "v5/store/auxiliary/**"
       - ".github/workflows/faro-v5-s3-home-notice-directed.yml"
   workflow_dispatch:
 
@@ -53,7 +54,7 @@ jobs:
               raise SystemExit(f'S3_HOME_XML_MISSING {len(xmls)}')
           root = ET.parse(xmls[0]).getroot()
           vals = tuple(int(root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
-          if vals != (5,0,0,0):
+          if vals != (6,0,0,0):
               raise SystemExit(f'S3_HOME_XML_FAIL {vals}')
-          print('S3_HOME_NOTICE_XML_PASS 5/5')
+          print('S3_HOME_NOTICE_XML_PASS 6/6')
           PY
