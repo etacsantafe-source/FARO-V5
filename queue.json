@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "mode": "ENABLED",
-  "activation_authorized": true,
+  "mode": "STAGED",
+  "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_20261103_IMMEDIATE_ONE_HOUR_DYNAMIC_V1",
-  "phase": "S3_DYNAMIC_V1_PILOT_1H_RUNNING",
+  "phase": "S3_MANUAL_HANDOFF_NOCHE_OFF",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Buenos_Aires",
   "hard_stop_at": "2026-11-03T21:58:00-03:00",
@@ -369,7 +369,16 @@
     ],
     "tasks_preserved": true,
     "reason": "LOW_RUNTIME_AND_DUPLICATED_RESEARCH",
-    "reopen_requires_new_explicit_user_authorization": true
+    "reopen_requires_new_explicit_user_authorization": true,
+    "manual_handoff_20261103": {
+      "reason": "USER_EXPLICIT_STOP_NIGHT_CONTINUE_MANUALLY",
+      "effective_at": "2026-11-03T21:23:00-03:00",
+      "a_off": true,
+      "b_off": true,
+      "automations": "DISABLED",
+      "preserve_tasks": true,
+      "physical": "NOT_RUN"
+    }
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
   "activation_requires": "VALID_USER_AUTHORIZATION_20261103T0949_TO_1049_ONLY",
@@ -516,7 +525,7 @@
     }
   },
   "dynamic_preparation": {
-    "status": "PREPARED_UNAUTHORIZED",
+    "status": "STAGED_MANUAL_HANDOFF",
     "previous_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
     "prepared_for": "FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103",
     "live_source_head": "c12d7561762cbe428fa8883fc21569ad162525b8",
@@ -556,7 +565,7 @@
     "automations_to_enable_after_queue_verification": true
   },
   "early_handoff": {
-    "authorized": true,
+    "authorized": false,
     "role": "NOCHE_B",
     "prior_role": "NOCHE_A",
     "prior_run_id": "7f8b904d-f3c8-832f-a65a-d56cd1c374a0",
