@@ -1,12 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "M1_MANIFEST_VERIFIER",
-  "reviewed_head": "a6d0eca41a2052600b0fc5055415127ff13c8e43",
-  "paths": [
-    ".github/workflows/faro-v5-v2-core-directed.yml",
-    "v5/app/src/v2CoreDev/AndroidManifest.xml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -58,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_M1_MANIFEST_DEV_CI",
+    "B7": "PASS_VERIFIED"
   },
   "last_code_review": {
-    "sha": "42ca878a9c3e86640546ee08112c69fd661f14c2",
-    "result": "RED_FIX",
+    "sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+    "result": "PASS",
     "unit_id": "M1_MANIFEST_VERIFIER",
     "evidence": [
       {
-        "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-        "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
-        "marker": "## B7 RED_FIX"
+        "path": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
+        "blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89",
+        "marker": "## B7 PASS"
       }
     ]
   },
-  "why": "CI exact SHA 42ca878a: M2/M3 JVM 4/4 and T4 7/7 PASS; manifest output lookup resolved, final DEV package FAIL extra P6 certification activity. B7 RED_FIX documented and B1-B5 rescoped to DEV manifest+directed verifier only.",
-  "how": "Await exact GitHub protocol guard 14/14 + FARO_PROTOCOL_GATE_PASS + FARO_PROTOCOL_PREFLIGHT_PASS M1_MANIFEST_VERIFIER on this docs-only READY permit. Only then CAS writer and one FARO-UNIT:M1_MANIFEST_VERIFIER red-fix commit. No other unit/S4/production; verify CI XML and B7 before next code.",
+  "why": "M1 manifest verifier B7 DONE_VERIFIED for DEV-only packaged isolation, exact SHA 59160876, CI 41884102154 success; any future code requires separate B1-B5 and path-bounded new READY permit.",
+  "how": "Next unit M2A targeted PREPARING/STAGED/VALIDATED recovery needs fresh evidence/comparison/investigation/unification/adversarial audit, separate docs-only READY permit and preflight PASS. No app productive V2.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }

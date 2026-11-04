@@ -10,10 +10,10 @@
   ],
   "branch": "work/s3-night-20261102",
   "audited_source_head": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
-  "block_id": 5,
-  "block_name": "AUDITORIA_PREVIA",
-  "block_status": "REVIEW_DOCUMENTED_SELECTIVE_B6_NOT_AUTHORIZED",
-  "status": "RETRO_B1_B5_DOCUMENTED_FOR_M0_M1_M2A_M2B_M3; ALL_FUNCTIONAL_WRITES_STILL_BLOCKED",
+  "block_id": 7,
+  "block_name": "AUDITORIA_FINAL",
+  "block_status": "M1_MANIFEST_VERIFIER_DONE_VERIFIED_SCOPE_DEV_ONLY",
+  "status": "M1_MANIFEST_B7_CLOSED_WITH_EXACT_CI_M2A_RECOVERY_NEXT",
   "acceptance": "For M0 M1 M2A M2B M3: enumerate 7 protocol blocks and exact evidence, compare V4.4 read-only, investigate and unify, adversarial pre-audit; only then implement delta, exact CI, independent final audit",
   "units": [
     {
@@ -37,11 +37,15 @@
     },
     {
       "id": "M1",
-      "status": "HISTORICAL_PASS_CURRENT_UNCERTIFIED",
+      "status": "DEV_MANIFEST_ISOLATION_CI_PASS_PHYSICAL_NOT_RUN",
       "evidence": [
         "d2a41acb7dc63429a0075adc222807b02e8ee502",
         "41864185753",
-        "V2_CORE_M1_ISOLATION_PASS 4/4"
+        "V2_CORE_M1_ISOLATION_PASS 4/4",
+        "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+        "41884102154",
+        "V2_CORE_M1_ISOLATION_PASS 4/4",
+        "docs/v5/FARO_V2_M1_B7_PASS_20261104.md"
       ],
       "blocks": {
         "evidence": "PARTIAL",
@@ -49,8 +53,8 @@
         "investigation": "MISSING",
         "unification": "PARTIAL",
         "pre_audit": "MISSING",
-        "implementation": "EVIDENCED_HISTORICAL",
-        "final_audit": "PARTIAL"
+        "implementation": "EVIDENCED_EXACT_CI_DEV_ONLY",
+        "final_audit": "EVIDENCED_B7_59160876"
       },
       "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
       "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
@@ -82,7 +86,7 @@
     },
     {
       "id": "M2B",
-      "status": "BUILD_PASS_MANIFEST_VERIFIER_FAIL",
+      "status": "DEV_MANIFEST_LAUNCHER_ISOLATION_CI_PASS_PHYSICAL_NOT_RUN",
       "evidence": [
         "ae5079194d11bf658e85ff9acb7e305cbbb24173",
         "41872895263",
@@ -94,8 +98,8 @@
         "investigation": "PARTIAL",
         "unification": "PARTIAL",
         "pre_audit": "MISSING",
-        "implementation": "PARTIAL",
-        "final_audit": "MISSING"
+        "implementation": "EVIDENCED_DEV_MANIFEST_ONLY",
+        "final_audit": "PARTIAL_M1_B7_MANIFEST_ONLY"
       },
       "retrospective_B1_B5": "DOCUMENTED_WITH_EXPLICIT_GAPS_NOT_FUNCTIONAL_PASS",
       "retrospective_evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
@@ -138,18 +142,20 @@
     }
   ],
   "current_ci": {
-    "head_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
-    "core_run_id": 41872895263,
-    "core_conclusion": "FAILURE",
+    "head_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+    "core_run_id": 41884102154,
+    "core_conclusion": "SUCCESS",
+    "guard_run_id": 41884102091,
+    "guard_conclusion": "SUCCESS",
     "passed": [
       "M2_M3_JVM_4_OF_4",
-      "T4_DEBUG_7_OF_7"
+      "T4_DEBUG_7_OF_7",
+      "M1_DEV_MANIFEST_4_OF_4",
+      "M2B_DEV_MANIFEST_4_OF_4"
     ],
-    "failed": [
-      "V2_CORE_M1_MANIFEST_AMBIGUOUS_DEBUG_2"
-    ],
-    "s3_regression_run_id": 41872895353,
-    "s3_regression_conclusion": "SUCCESS"
+    "failed": [],
+    "s3_regression_run_id": 41884102013,
+    "s3_regression_conclusion": "SUCCESS_9_7_5_4_XML"
   },
   "safety": {
     "s2": "CLOSED_8_OF_8",
@@ -164,28 +170,34 @@
     "writer_status_at_observation": "RELEASED",
     "writer_epoch_at_observation": 141
   },
-  "next_step": "Retrospective B1-B5 document at exact blob SHA. Only M1_MANIFEST_VERIFIER scoped next, after docs-only READY permit and preflight PASS. No V2 functional writes while permit BLOCKED. CI 41877244186 was QUEUED (not PASS) when inspected. M2A PREPARING/STAGED recovery still not certified; M3 Android NOT_RUN.",
-  "expected_head": "527ebcdf52ee2a3b256de78643d10193ddbde799",
-  "writer_release_epoch": "PENDING_RELEASE_EPOCH_146",
-  "last_observed_at": "2026-11-04T14:27:00-03:00",
-  "blocker": "MANIFEST_VERIFIER_DUPLICATE_DEBUG_2;M4_M5_NOT_VERIFIED",
+  "next_step": "M1 verifier complete: commit 59160876, guard 41884102091 14/14 PASS, directed 41884102154 SUCCESS M2/M3 JVM 4/4, T4 7/7, M1/M2B manifest 4/4 each. B7 evidence docs/v5/FARO_V2_M1_B7_PASS_20261104.md; permit BLOCKED. Next bounded M2A PREPARING/STAGED/VALIDATED restart recovery B1-B5 and independent permission before code; not V2_DEV_CORE_READY.",
+  "expected_head": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+  "writer_release_epoch": "PENDING_RELEASE_EPOCH_152",
+  "last_observed_at": "2026-11-04",
+  "blocker": "M2A_FIRST_START_RECOVERY_PREPARING_STAGED_VALIDATED;M4_M5_NOT_VERIFIED;PHYSICAL_NOT_RUN",
   "physical": "NOT_RUN",
   "user_trigger": "Continuar FARO V5",
   "no_background_work": true,
   "protocol_gate": {
-    "status": "CI_VERIFIED_14_OF_14_PERMIT_BLOCKED",
+    "status": "M1_B7_PASS_GUARD_CI_VERIFIED_PERMIT_BLOCKED",
     "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_status": "BLOCKED",
     "check": "seven-block-evidence",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "baseline": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
     "first_action": "RETRO M0/M1 B1-B5, record real evidence before any permit becomes READY",
-    "last_ci_run_id": 41876852639,
+    "last_ci_run_id": 41884102091,
     "last_ci_conclusion": "SUCCESS_14_OF_14",
-    "last_ci_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
+    "last_ci_source_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
     "required_branch_protection": "NO_RULESETS_OBSERVED",
     "latest_audit_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
-    "latest_audit_document_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb"
+    "latest_audit_document_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+    "last_b7": {
+      "status": "PASS",
+      "code_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+      "evidence_path": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
+      "evidence_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
+    }
   },
   "evidence_document": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
   "evidence_document_blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",

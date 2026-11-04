@@ -42,12 +42,12 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Current M1 directed run 41881443958 FAILURE, exact issue: V2_CORE_M2B_EXTRA_LAUNCHERS includes P6CertificationActivity; packaged manifest selection FIXED; M2/M3 4/4 and T4 7/7 preserved. B7 RED_FIX and NEW B1-B5 evidence docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md blob 943ac018. Permit READY two exact paths .github/workflows/faro-v5-v2-core-directed.yml and v5/app/src/v2CoreDev/AndroidManifest.xml. FIRST check protocol guard 14/14 + FARO_PROTOCOL_GATE_PASS + FARO_PROTOCOL_PREFLIGHT_PASS for permit commit c5077980 (or newer HEAD) and writer/queue. Then CAS claim, implement single M1 RED_FIX in DEV-only manifest: remove P6 cert Activity, all unneeded provider/receiver/service/alias by tools:node removeAll; remove platform notification/alarm/install permissions; CI expand negatives (no OS components) and preserve manifest packaging and existing tests. Only then CI directed exact + B7. No S4/V2 prod/Noche/Auto. M2A PREPARING/STAGED/VALIDATED startup recovery still pending separate unit.",
-  "checkpoint_status": "M1_CODE_42CA_REDFIX_DOCUMENTED_PERMIT_TWO_PATHS_CI_PREFLIGHT_PENDING",
+  "next": "M1_MANIFEST_VERIFIER B7 PASS: code 59160876, guard 41884102091 SUCCESS 14/14 + two authorized code units, V2 directed 41884102154 SUCCESS (M2/M3 JVM4/4, T4 7/7, M1 isolation4/4, M2B isolation4/4), S3 regression 41884102013 SUCCESS XML 9/9 Home+7/7 Workspace+5/5 bridge+4/4 Avisos. Evidence docs/v5/FARO_V2_M1_B7_PASS_20261104.md blob 3c889721. Permit docs/v5/FARO_PROTOCOL_WORK_PERMIT.json now BLOCKED (no code until new unit B1-B5 and exact READY preflight). NEXT M2A first-start recovery PREPARING/STAGED/VALIDATED review+bounded unit, then M3/M4/M5 and V2_DEV_CORE_READY ONLY after hard gates. Keep S2 CLOSED 8/8 S3 ≈40% dev estimate and 0/5 formally closed; S4 OFF, productive V2 OFF, Noche/Auto OFF, CLOUD STAGED, catalogue 172. Writer must be released epoch 152.",
+  "checkpoint_status": "M1_MANIFEST_VERIFIER_B7_PASS_ALL_EXACT_CI_S3_REGRESSION_PASS",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-  "last_code_sha": "42ca878a9c3e86640546ee08112c69fd661f14c2",
-  "last_ci_run_id": 41881443958,
+  "last_handoff": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
+  "last_code_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+  "last_ci_run_id": 41884102154,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -451,13 +451,15 @@
     "required_ci_step": "seven-block-evidence"
   },
   "retro_audit": {
-    "status": "B1_B5_DOCUMENTED_WITH_GAPS",
+    "status": "M1_B7_PASS_M2A_NEXT",
     "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
     "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
     "state_path": "docs/v5/FARO_V2_PROTOCOL_RETRO_AUDIT_20261104.json",
     "completed_on": "2026-11-04",
-    "permit": "READY_WITH_SCOPE_CI_PREFLIGHT_NOT_VERIFIED",
-    "next_unit": "M1_MANIFEST_VERIFIER"
+    "permit": "BLOCKED",
+    "next_unit": "M2A_FIRST_ACTIVATION_RECOVERY",
+    "b7_path": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
+    "b7_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
   },
   "guard_last_inspected": {
     "run_id": 41877244186,
@@ -465,19 +467,16 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 150,
+  "last_writer_epoch_observed": 152,
   "protocol_guard": {
-    "status": "M1_RED_FIX_PERMIT_READY_PREFLIGHT_NOT_VERIFIED",
+    "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_commit_sha": "c50779801d16aef7dd4c4b6951a688226a9f959e",
-    "permit_status": "READY",
-    "unit_id": "M1_MANIFEST_VERIFIER",
-    "allowed_paths": [
-      ".github/workflows/faro-v5-v2-core-directed.yml",
-      "v5/app/src/v2CoreDev/AndroidManifest.xml"
-    ],
+    "permit_status": "BLOCKED",
+    "unit_id": null,
+    "allowed_paths": [],
     "needs_exact_preflight_pass": true,
     "preflight_proof_run": {
       "id": 41878936448,
@@ -492,6 +491,12 @@
       "conclusion": "failure",
       "evidence_path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
       "evidence_sha": "943ac018f706ccd527021dc2c45629d571b5a02b"
+    },
+    "last_code_review": {
+      "sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+      "result": "PASS",
+      "evidence_path": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
+      "evidence_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
     }
   },
   "guard_latest_runs": [
@@ -531,5 +536,26 @@
       "status": "queued",
       "conclusion": null
     }
-  ]
+  ],
+  "s3_progress": {
+    "development_percent_estimate": 40,
+    "development_range_percent": [
+      35,
+      45
+    ],
+    "formal_closed": 0,
+    "formal_total": 5,
+    "formal_percent": 0,
+    "unchanged_by_m1_manifest_fix": true
+  },
+  "m1_checkpoint": {
+    "code_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
+    "guard_run_id": 41884102091,
+    "dev_core_run_id": 41884102154,
+    "s3_regression_run_id": 41884102013,
+    "guard": "SUCCESS_14_14",
+    "dev_core": "SUCCESS_4_4_7_7_4_4_4_4",
+    "s3_regression": "SUCCESS_9_9_7_7_5_5_4_4",
+    "b7": "PASS_DEV_MANIFEST_SCOPE_ONLY"
+  }
 }
