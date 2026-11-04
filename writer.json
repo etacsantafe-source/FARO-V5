@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.HANDOFF.FEDERATED.20261104",
   "token_hash": "c3f128e63fa52c39d6420c4e0f1c46ec4fddbe472b5071c7b0f0fc20a4a0696d",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
-  "epoch": 104,
-  "timestamp": 1793793059,
-  "purpose": "S3_A2_TWO_EXACT_SHA_CI_PASS_15_15_EACH_CLEAN_HANDOFF"
+  "target_head": "1a7eeba76dcd897c34d271f6a9f54fdb708c9962",
+  "epoch": 105,
+  "timestamp": 1793793159,
+  "purpose": "S3_A2_ADAPTER_AND_FEDERATION_TWO_GATES_DURABLE_CLEAN_HANDOFF"
 }
