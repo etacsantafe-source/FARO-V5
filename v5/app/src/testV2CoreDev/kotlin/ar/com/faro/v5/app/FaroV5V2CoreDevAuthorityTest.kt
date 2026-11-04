@@ -148,6 +148,28 @@ class FaroV5V2CoreDevAuthorityTest {
             MaintenanceOperationKind.RESTORE, previous, target, BootstrapPhase.PREPARING))
         assertThrows(Exception::class.java) { FaroV5V2CoreDevAuthority(foreign).open() }
         assertEquals(previous, FileActiveGenerationPointer(foreign).read()?.generationId)
+
+        // A VALIDATED journal with a pointer switched independently must not
+        // be adopted as a completed recovery or material-write authority.
+        val unexpectedPointer = interrupted(
+            "validated-pointer-drift", BootstrapPhase.VALIDATED, true, true)
+        checkNotNull(FileActiveGenerationPointer(unexpectedPointer).compareAndSet(
+            previous, target))
+        assertThrows(Exception::class.java) {
+            FaroV5V2CoreDevAuthority(unexpectedPointer).open()
+        }
+        assertEquals(BootstrapPhase.VALIDATED,
+            FileBootstrapJournal(unexpectedPointer).read(
+                MaintenanceOperationId("v2-core-dev-first-activation-1"))?.phase)
+        assertEquals(target, FileActiveGenerationPointer(unexpectedPointer).read()?.generationId)
+
+        // Root symlinks are denied before bootstrap/generation directories are created.
+        val symlinkTarget = Files.createDirectory(root.resolve("symlink-target"))
+        val symlinkRoot = Files.createSymbolicLink(root.resolve("symlink-root"), symlinkTarget)
+        assertThrows(Exception::class.java) {
+            FaroV5V2CoreDevAuthority(symlinkRoot).open()
+        }
+        assertFalse(Files.exists(symlinkTarget.resolve("generations")))
     }
     @Test fun acceptedLocalUserMessageIsDurableWithoutSyntheticAssistant() {
         val chat = ConversationId("v2-core-message-chat")
