@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.N031.MATTER.POLICY.20261104",
-  "token_hash": "3cc27c890c9d186e3ea1d1940f992b736d15c5d0c06d3cbf9bcab833f7d1eaf3",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.N015.N031.CHECKPOINT.20261104",
+  "token_hash": "c992a42276477fe64f7a8ca9936df2c7510c234a411b26d036e29007e32a8b5d",
   "target_branch": "work/s3-night-20261102",
   "target_head": "760ce23bcaa4b20215be9e9966051980a08e9aee",
-  "epoch": 81,
-  "timestamp": 1793786626,
-  "purpose": "S3_N031_MATTER_POLICY_PENDING_CI"
+  "epoch": 82,
+  "timestamp": 1793786832,
+  "purpose": "S3_N015_N031_CI_CERTIFIED_MANUAL_CHECKPOINT"
 }
