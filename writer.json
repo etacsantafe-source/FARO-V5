@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.WAITCI.20261104",
   "token_hash": "c3d4d386292014e9412ecbdf0e3049a19a8a0c18fd68e2426e7117aa97dca42c",
   "target_head": "9bd648415718070bdda0465ab26431e36eda95d4",
   "target_branch": "work/s3-night-20261102",
   "epoch": 171,
-  "timestamp": 1793821531,
-  "purpose": "M5 B6 CI pending durable docs checkpoint and BLOCKED permit"
+  "timestamp": 1793821608,
+  "purpose": "M5_APK_WAITCI_F93986C8_PERMIT_BLOCKED"
 }
