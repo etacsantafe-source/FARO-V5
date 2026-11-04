@@ -1,17 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "aba2850cea07d19bbddb8813b1592cd641b67d62",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "M5_DEV_APK_PACKAGE_GATE",
+  "reviewed_head": "ca1da7491e313fa408a04aed6fd20dcea997cf33",
+  "paths": [
+    ".github/workflows/faro-v5-v2-core-apk-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
-          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
-          "marker": "## B1 EVIDENCIA NUEVA"
+          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
+          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+          "marker": "## B1 EVIDENCIA"
         }
       ]
     },
@@ -19,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
-          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
+          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
+          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
-          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
+          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
+          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
-          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
+          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
+          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M4_B7_REDFIX_DEV_PERMISSIONS_20261104.md",
-          "blob_sha": "f2c9f60a3d68b740cac7fc92855909b2e72a542f",
+          "path": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
+          "blob_sha": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_M4_NEGATIVE_EFFECT_GATES_DEV_JVM_MANIFEST",
-    "B7": "PASS_VERIFIED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "aba2850cea07d19bbddb8813b1592cd641b67d62",
@@ -70,8 +72,8 @@
       }
     ]
   },
-  "why": "M4 exact-code aba2850c: V2 41896913438 SUCCESS JVM6/6 T4 7/7 M1/M2B manifest 4/4 each; S3 41896913436 25/25; guard 41896913450 PASS. No M5 functional code until new B1-B5/READY.",
-  "how": "M5 B1-B5 preaudit and bounded permit only; V2_DEV_CORE_READY not yet proven, physical NOT_RUN.",
+  "why": "M5 B1-B5 bounded APK binary package/permissions/launcher check and artifact workflow; existing M1-M4 CI reused, physical NOT_RUN.",
+  "how": "Preflight GitHub checkout on this exact READY permit then create only new .github/workflows/faro-v5-v2-core-apk-directed.yml with FARO-UNIT:M5_DEV_APK_PACKAGE_GATE, run directed APK CI and B7. Do not claim V2_DEV_CORE_READY.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
