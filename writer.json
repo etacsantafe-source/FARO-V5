@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A1.NOTICE.COMMIT.20261103",
-  "token_hash": "f45112cd38fdfd9db8f7cbad12c94db340c92ca0f7bb5894b6f879d038c93a52",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A1.CLOSED.STORE.20261103",
+  "token_hash": "70cd7590ad438c8ba653be8eaf7c60df4e47cfa948a15d66c4f9db016c6e1a7d",
   "target_branch": "work/s3-night-20261102",
   "target_head": "404f0ba5758fd7f51c0b28f27cd332b952fac982",
-  "epoch": 66,
-  "timestamp": 1793753598,
-  "purpose": "S3_A1_REAL_OWNER_NOTICE_COMMIT_EVENTS"
+  "epoch": 67,
+  "timestamp": 1793753764,
+  "purpose": "S3_A1_CLOSED_OWNER_SUBSCRIPTION_FAIL_CLOSED"
 }
