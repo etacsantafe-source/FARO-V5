@@ -299,20 +299,29 @@
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
-  "handoff": "docs/s3-night/S3_A2_ACL_REGRANT_HIT_GUARD_VERIFIED_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_A4_CHAINED_CI_HANDOFF_20261104.md",
   "last_turn": {
     "mode": "MANUAL_S3",
-    "code_sha": "703ebd27be50739c4125c2ce1486e6de96859494",
-    "code_fix_sha": "ed5b129338cb56d61db947f4d8751e4b33f7e7ff",
-    "ci_runs": [
-      41825188553,
-      41825631364
+    "code_sha": "a72b723475c0ea37f57c62752324765577d2b9c8",
+    "baseline": "ebe538308eff5c41218b57d2ca7a4ee29c7023c3",
+    "commits": [
+      "c27905a8290acfd24d9562af49491fd04f193838",
+      "ca0eec7146c3e933d726acb1b20f00d267f4b624",
+      "a4327d7753958d35cfdcaa141378ef4b4f4a46fa",
+      "a72b723475c0ea37f57c62752324765577d2b9c8"
     ],
-    "ci": "SUCCESS exact SHA final 703ebd27; Home 9/9 + Workspace 3/3 + Search Bridge 3/3",
-    "writer_release_epoch_expected": 111,
+    "ci_runs": [
+      41827910601,
+      41828553243,
+      41828757767
+    ],
+    "ci": "SUCCESS exact SHAs; Search app 17/17; Avisos surface 50/50; Avisos app 21/21",
+    "writer_release_epoch_expected": 117,
     "physical": "NOT_RUN",
-    "next": "INDEPENDENT_REAL_ACL_EPOCH_REVOCATION_SOURCE_FOR_SHIPPING_SEARCH",
+    "next": "S3_A2_INDEPENDENT_ACL_SOURCE_AND_S3_A1_N031_N015_CANONICAL_OWNERS",
     "s3": "OPEN_PARTIAL",
+    "a2": "PARTIAL_PROVENANCE_VERIFIED_ACL_HOST_MISSING",
+    "a4": "PARTIAL_REAL_AVISOS_READ_ONLY_VERIFIED",
     "night": "OFF",
     "auto": "OFF",
     "s4": "OFF",
@@ -528,6 +537,19 @@
       "regression": "Old hit denied on ACL revoke+regrant without intervening search; fresh hit confirmed; generation switch denied",
       "scope": "STAGED_ADAPTER_ONLY_SHIPPING_SEARCH_NULL_ACL_OWNER_ABSENT",
       "physical": "NOT_RUN"
+    },
+    "issued_page_and_invalidation": {
+      "status": "DIRECTED_CI_SUCCESS_17_OF_17_EXACT_SHA",
+      "code_shas": [
+        "c27905a8290acfd24d9562af49491fd04f193838",
+        "ca0eec7146c3e933d726acb1b20f00d267f4b624"
+      ],
+      "final_sha": "ca0eec7146c3e933d726acb1b20f00d267f4b624",
+      "run_id": 41827910601,
+      "tests": "S3_HOME_NOTICE_XML 9/9; S3_WORKSPACE_SEARCH_XML 3/3; S3_SEARCH_BRIDGE_XML 5/5",
+      "scope": "Staged Workspace Search adapter only; shipping ACL owner missing; real owner invalidations supplied by future authority",
+      "prior_fail": "41827753966 verification expected 3 bridge tests, observed 4 passing; new workflow expects 5 and final CI passed",
+      "physical": "NOT_RUN"
     }
   },
   "last_manual_ci_proofs_20261104": {
@@ -540,7 +562,10 @@
       41823167085,
       41823780133,
       41825188553,
-      41825631364
+      41825631364,
+      41827910601,
+      41828553243,
+      41828757767
     ],
     "exact_xml": [
       "8/8 canonical prior",
@@ -552,7 +577,10 @@
       "48/48 Search surface",
       "9/9 Home +3/3 Workspace +3/3 Workspace adapter",
       "7/7 Canonical +2/2 projection +6/6 federation",
-      "15/15 Workspace stale-hit regrant final exact SHA 703ebd27"
+      "15/15 Workspace stale-hit regrant final exact SHA 703ebd27",
+      "S3.A2 issued hit and owner invalidation final 17/17 exact SHA ca0eec71",
+      "S3.A4 Avisos surface 50/50 exact SHA a4327d77",
+      "S3.A4 active Auxiliary host app 21/21 exact SHA a72b7234"
     ],
     "all_success": true,
     "metrics": {
@@ -561,6 +589,20 @@
       "ci_elapsed_from_github": "AVAILABLE_RUNS",
       "physical_tests": "NOT_RUN"
     },
-    "notes": "FAILED predecessor CI is historical and not ignored: initial adapter test assumed 2 chats; V4.4 empty-chat reuse corrected; first federation CI 429 Maven external retried success 14/14 before revocation patch; final two exact-sha CI PASS. Post-adapter hardening tests revoke/regrant without interim query; final CI #41825631364 succeeded."
+    "notes": "FAILED predecessor CI is historical and not ignored: initial adapter test assumed 2 chats; V4.4 empty-chat reuse corrected; first federation CI 429 Maven external retried success 14/14 before revocation patch; final two exact-sha CI PASS. Post-adapter hardening tests revoke/regrant without interim query; final CI #41825631364 succeeded. S3 A2 old run 41827753966 XML expectation obsolete (3 vs actual4) with successful compile; corrected in ca0eec71 then final 5/5. S3.A4 real Notice source bound shipping V1 READ_ONLY with sensitive redaction, no Android physical."
+  },
+  "a4_manual_20261104": {
+    "status": "PARTIAL_REAL_AUXILIARY_NOTICE_READ_ONLY_SHIPPING_BINDING_CI_VERIFIED",
+    "surface_sha": "a4327d7753958d35cfdcaa141378ef4b4f4a46fa",
+    "app_sha": "a72b723475c0ea37f57c62752324765577d2b9c8",
+    "surface_run": 41828553243,
+    "surface_xml": "S3_SURFACE_XML_PASS 50/50",
+    "app_run": 41828757767,
+    "app_xml": "S3_HOME_NOTICE_XML_PASS 9/9; S3_WORKSPACE_SEARCH_XML_PASS 3/3; S3_SEARCH_BRIDGE_XML_PASS 5/5; S3_AVISOS_XML_PASS 4/4",
+    "source": "Active AuxiliaryDeliveryStore N032 owner; opened only if recovery/generation admitted",
+    "behavior": "OPEN non-dismissed only, SEEN unchanged, sensitive summary redacted, NEEDS_ATTENTION first, bounded100 partial coverage; no mark read/mutation",
+    "limits": "No critical severity contract, Activity/Resumos incomplete, physical NOT_RUN, S3-A4 NOT CLOSED",
+    "comparison": "V4.4 Notifications/Radar READ_ONLY and existing S3 benchmark",
+    "writer_release_epoch_expected": 117
   }
 }
