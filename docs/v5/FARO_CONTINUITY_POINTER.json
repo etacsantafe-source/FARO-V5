@@ -42,10 +42,10 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M4 B7 PASS exact CI and diff at aba2850cea07d19bbddb8813b1592cd641b67d62; permit returned BLOCKED. NEXT M5 seven-block B1-B5 bounded APK DEV integration, crash/restart, offline/egress/OS negatives and physical acceptance planning; separate READY permit/preflight before code; one physical campaign, no claim V2_DEV_CORE_READY yet. Writer release epoch expected 167. S2 8/8, S3 approx40% / 0/5 formal, S4 OFF, V2/Auto/Noche OFF.",
-  "checkpoint_status": "M4_B7_PASS_M5_PREAUDIT_OPEN_V2_DEV_CORE_NOT_READY",
+  "next": "M5 APK exact package gate B1-B5 doc docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md blob 0acec3661d61bfe614bd3e9e38a2fa5dfbe32797 completed; permit still BLOCKED. NEXT issue independent M5 READY permit for .github/workflows/faro-v5-v2-core-apk-directed.yml after verifying guard and preflight PASS. Then B6 add isolated APK build + aapt2 binary permission/package checks + short-lived artifact, exact CI, B7. Physical Android NOT_RUN and V2_DEV_CORE_READY false. M4 B7 PASS reuse, no repeat.",
+  "checkpoint_status": "M5_APK_GATE_B1_B5_PREAUDIT_DOCUMENTED_PERMIT_BLOCKED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M4_B7_PASS_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
   "last_code_sha": "aba2850cea07d19bbddb8813b1592cd641b67d62",
   "last_ci_run_id": 41896913438,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -563,7 +563,7 @@
     "m4_permit": "BLOCKED",
     "m4_b6": "DONE_VERIFIED",
     "m4_b7": "PASS_VERIFIED",
-    "m5": "OPEN_B1_B5_NEXT",
+    "m5": "B1_B5_DOCUMENTED_APK_PACKAGE_GATE_B6_NOT_STARTED",
     "physical": "NOT_RUN",
     "v2_dev_core_ready": false,
     "m4_final_code_sha": "aba2850cea07d19bbddb8813b1592cd641b67d62",
@@ -573,6 +573,9 @@
     "ci_s3_run": 41896913436,
     "ci_s3_result": "SUCCESS_25_25",
     "ci_guard_run": 41896913450,
-    "ci_guard_result": "SUCCESS"
+    "ci_guard_result": "SUCCESS",
+    "m5_preaudit": "docs/v5/FARO_V2_M5_APK_INTEGRATION_B1_B5_20261104.md",
+    "m5_preaudit_blob": "0acec3661d61bfe614bd3e9e38a2fa5dfbe32797",
+    "m5_permit": "BLOCKED"
   }
 }
