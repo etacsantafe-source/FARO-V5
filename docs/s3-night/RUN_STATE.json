@@ -299,16 +299,17 @@
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
-  "handoff": "docs/s3-night/S3_A2_ADAPTER_FEDERATION_VERIFIED_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_ACL_REGRANT_HIT_GUARD_VERIFIED_20261104.md",
   "last_turn": {
     "mode": "MANUAL_S3",
-    "code_sha": "8a5febc76e509b43d5dd46fa2f1b3eea0b5389e4",
+    "code_sha": "703ebd27be50739c4125c2ce1486e6de96859494",
+    "code_fix_sha": "ed5b129338cb56d61db947f4d8751e4b33f7e7ff",
     "ci_runs": [
-      41823167085,
-      41823780133
+      41825188553,
+      41825631364
     ],
-    "ci": "SUCCESS exact SHAs; app 15/15 and federation 15/15",
-    "writer_release_epoch_expected": 105,
+    "ci": "SUCCESS exact SHA final 703ebd27; Home 9/9 + Workspace 3/3 + Search Bridge 3/3",
+    "writer_release_epoch_expected": 111,
     "physical": "NOT_RUN",
     "next": "INDEPENDENT_REAL_ACL_EPOCH_REVOCATION_SOURCE_FOR_SHIPPING_SEARCH",
     "s3": "OPEN_PARTIAL",
@@ -516,6 +517,17 @@
       "xml": "S3_CANONICAL_SEARCH_XML_PASS 15/15",
       "scope": "A maximum of eight owner-bound sources; source coverage COMPLETE/PARTIAL/UNAVAILABLE; bounded round-robin domain fairness; revocation of prior owner during later-source query removes hits; no index content authority",
       "limitations": "Not wired to user-visible Search without real owners and ACL events; no physical."
+    },
+    "acl_regrant_hit_guard": {
+      "status": "DIRECTED_CI_SUCCESS_15_OF_15_EXACT_SHA",
+      "code_sha": "ed5b129338cb56d61db947f4d8751e4b33f7e7ff",
+      "test_sha": "703ebd27be50739c4125c2ce1486e6de96859494",
+      "run_id": 41825631364,
+      "preceding_run_id": 41825188553,
+      "xml": "S3_HOME_NOTICE_XML_PASS 9/9; S3_WORKSPACE_SEARCH_XML_PASS 3/3; S3_SEARCH_BRIDGE_XML_PASS 3/3",
+      "regression": "Old hit denied on ACL revoke+regrant without intervening search; fresh hit confirmed; generation switch denied",
+      "scope": "STAGED_ADAPTER_ONLY_SHIPPING_SEARCH_NULL_ACL_OWNER_ABSENT",
+      "physical": "NOT_RUN"
     }
   },
   "last_manual_ci_proofs_20261104": {
@@ -526,7 +538,9 @@
       41819489126,
       41820150581,
       41823167085,
-      41823780133
+      41823780133,
+      41825188553,
+      41825631364
     ],
     "exact_xml": [
       "8/8 canonical prior",
@@ -537,7 +551,8 @@
       "9/9 canonical Spanish tokens",
       "48/48 Search surface",
       "9/9 Home +3/3 Workspace +3/3 Workspace adapter",
-      "7/7 Canonical +2/2 projection +6/6 federation"
+      "7/7 Canonical +2/2 projection +6/6 federation",
+      "15/15 Workspace stale-hit regrant final exact SHA 703ebd27"
     ],
     "all_success": true,
     "metrics": {
@@ -546,6 +561,6 @@
       "ci_elapsed_from_github": "AVAILABLE_RUNS",
       "physical_tests": "NOT_RUN"
     },
-    "notes": "FAILED predecessor CI is historical and not ignored: initial adapter test assumed 2 chats; V4.4 empty-chat reuse corrected; first federation CI 429 Maven external retried success 14/14 before revocation patch; final two exact-sha CI PASS."
+    "notes": "FAILED predecessor CI is historical and not ignored: initial adapter test assumed 2 chats; V4.4 empty-chat reuse corrected; first federation CI 429 Maven external retried success 14/14 before revocation patch; final two exact-sha CI PASS. Post-adapter hardening tests revoke/regrant without interim query; final CI #41825631364 succeeded."
   }
 }
