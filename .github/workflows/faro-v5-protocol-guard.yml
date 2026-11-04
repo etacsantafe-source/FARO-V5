@@ -34,3 +34,27 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/quality/faro-protocol-gate.py --mode ci --baseline 197e68bc1d9c52917a9066a27e6a0fa235a28217 --head HEAD
+      - name: Verify exact READY permit preflight on GitHub checkout
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import pathlib
+          import subprocess
+
+          permit = json.loads(pathlib.Path("docs/v5/FARO_PROTOCOL_WORK_PERMIT.json").read_text())
+          status = permit.get("status")
+          if status == "BLOCKED":
+              print("FARO_PROTOCOL_PREFLIGHT_BLOCKED_EXPECTED")
+          elif status == "READY":
+              command = [
+                  "python3", "scripts/quality/faro-protocol-gate.py",
+                  "--mode", "preflight", "--head", "HEAD",
+                  "--unit", permit["unit_id"],
+              ]
+              for path in permit["paths"]:
+                  command.extend(["--path", path])
+              subprocess.run(command, check=True)
+          else:
+              raise SystemExit("FARO_PROTOCOL_PREFLIGHT_STOP unknown permit status")
+          PY
