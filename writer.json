@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.HANDOFF.SEARCH.20261104",
-  "token_hash": "99bbd4c2433043dde4e6b60e6ff7fe30bd86b73487daae9fe8182ab33e8e0c14",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.SEARCH.REAL-WORKSPACE-ADAPTER.20261104",
+  "token_hash": "b7992c4504ef6c6709094cf1530abe6aa08c426a1c84c876978e2c0227a1912",
   "target_branch": "work/s3-night-20261102",
   "target_head": "e1c1a3f6866cd3c8ba0c504ce1014124c1df4a29",
-  "epoch": 93,
-  "timestamp": 1793791567,
-  "purpose": "S3_A2_SEARCH_TWO_DIRECTED_CI_CHECKPOINT_CLEAN"
+  "epoch": 94,
+  "timestamp": 1793791779,
+  "purpose": "S3_A2_SEARCH_REAL_WORKSPACE_BRIDGE_WITH_AUTHENTIC_OWNER_INJECTION"
 }
