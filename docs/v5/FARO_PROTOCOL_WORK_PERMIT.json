@@ -1,16 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "M2A_FIRST_START_RECOVERY",
+  "reviewed_head": "78fab316a2f57af702124b314ee08c0da2a8dd01",
+  "paths": [
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
+          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
+          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
+          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
+          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_V2_M1_MANIFEST_REDFIX_B1_B5_B7_20261104.md",
-          "blob_sha": "943ac018f706ccd527021dc2c45629d571b5a02b",
+          "path": "docs/v5/FARO_V2_M2A_RECOVERY_B1_B5_20261104.md",
+          "blob_sha": "7a1d2223128a7054ec55337430f0e0333973197a",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_M1_MANIFEST_DEV_CI",
-    "B7": "PASS_VERIFIED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
@@ -70,8 +73,8 @@
       }
     ]
   },
-  "why": "M1 manifest verifier B7 DONE_VERIFIED for DEV-only packaged isolation, exact SHA 59160876, CI 41884102154 success; any future code requires separate B1-B5 and path-bounded new READY permit.",
-  "how": "Next unit M2A targeted PREPARING/STAGED/VALIDATED recovery needs fresh evidence/comparison/investigation/unification/adversarial audit, separate docs-only READY permit and preflight PASS. No app productive V2.",
+  "why": "M2A PREPARING/STAGED/VALIDATED recovery only on unequivocal staged state in DEV; partial SQLite, foreign journal and unknown pointer fail closed; V1 and shipping untouched.",
+  "how": "M2A_FIRST_START_RECOVERY exact two source-set DEV files only. B1–B5 signed to immutable document blob. Run preflight and seven-block-evidence, then B7 exact CI.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
