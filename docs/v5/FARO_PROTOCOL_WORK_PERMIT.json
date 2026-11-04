@@ -1,36 +1,68 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "M1_MANIFEST_VERIFIER",
+  "reviewed_head": "1e3cfd58160b1afe6a4704559a27ca1328496a4f",
+  "paths": [
+    ".github/workflows/faro-v5-v2-core-directed.yml"
+  ],
   "stages": {
     "B1": {
-      "status": "MISSING",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "marker": "## B1 EVIDENCIA"
+        }
+      ]
     },
     "B2": {
-      "status": "MISSING",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "marker": "## B2 COMPARACIÓN"
+        }
+      ]
     },
     "B3": {
-      "status": "MISSING",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "marker": "## B3 INVESTIGACIÓN"
+        }
+      ]
     },
     "B4": {
-      "status": "MISSING",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "marker": "## B4 UNIFICACIÓN"
+        }
+      ]
     },
     "B5": {
-      "status": "MISSING",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+          "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+          "marker": "## B5 AUDITORÍA ADVERSARIAL"
+        }
+      ]
     },
-    "B6": "BLOCKED",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": null,
-  "why": "USER_20261104_RESTORED_PROTOCOL_RETRO_AUDIT_FIRST; no functional V5 commits until B1-B5 have verified docs blob proofs for a bounded unit.",
-  "how": "Auditor writes docs-only evidence for B1..B5; separate docs-only permit commit with exact blob SHAs, unit, bounded paths and reviewed_head; only THEN code commit labeled FARO-UNIT:<unit>; B7 disposition + evidence required before next functional commit.",
+  "why": "B1-B5 retrospective independently documented against V4.4 source and exact CI failures; only allow deterministic final packaged manifest CI verifier correction. READY does not mean preflight passed; CODE HALTED until exact GitHub preflight PASS on this permit's SHA.",
+  "how": "GitHub mandatory protocol guard runs --mode preflight for READY permit; wait exact SHA run with FARO_PROTOCOL_PREFLIGHT_PASS. Then code commit FARO-UNIT:M1_MANIFEST_VERIFIER only for allowed workflow; B7 audit + CI/XML exact before any next code delta.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
