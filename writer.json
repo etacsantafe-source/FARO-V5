@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.SEARCH.FEDERATED.COVERAGE.20261104",
   "token_hash": "6b550d848ca264df4a07c8392b17932ce6b63b6c4c7b26b163595109195609d4",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "1f9e7527e773aa477263ef8431b3316f442621e1",
-  "epoch": 98,
-  "timestamp": 1793792192,
-  "purpose": "S3_A2_BOUNDED_FEDERATED_OWNER_COVERAGE_V44_DOMAIN_DIVERSITY"
+  "target_head": "352c012b58fec6da9bc24e7c3edb2a968e9d09d5",
+  "epoch": 99,
+  "timestamp": 1793792304,
+  "purpose": "S3_A2_FEDERATED_CANONICAL_SEARCH_PENDING_CI"
 }
