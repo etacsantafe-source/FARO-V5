@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Verify directed CI by exact S3-A1 code SHA and JUnit XML. Investigate independent ACL and active-generation events at canonical owner without inventing Flow. A1 PARTIAL.",
+  "next": "S3-A1 still PARTIAL: find canonical ACL revocation and independent active-generation change owners; do not repeat directed 5/5 on code SHA. FARO Auto interactive/local not certified running; preflight host before activation. Night OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -140,15 +140,17 @@
       "physical": "NOT_RUN"
     },
     "manual_interactive_maintenance_readiness": {
-      "state": "CODE_COMMITTED_DIRECTED_CI_PENDING",
+      "state": "DIRECTED_CI_PASS_VERIFIED_5_OF_5",
       "code_sha": "3b1fb417112cf076bca2e887222e85f5b95b27ca",
-      "ci_run_id": null,
-      "junit_xml": "PENDING",
+      "ci_run_id": 41747753415,
+      "junit_xml": "S3_HOME_NOTICE_XML_PASS 5/5 (verified exact job log)",
       "actual_gap": "Interactive maintenance closed materialWriteGate but did not notify existing StartupReadiness owner; same Home readPort could retain stale notice counts.",
       "change": "Begin/complete interactive maintenance now emit real readiness transition; notice read admission requires maintenance complete plus actual owner LOCAL_READY.",
       "regression_test": "FaroV5HomeNoticeBindingFactoryTest.recoveryGateDeniesStoreRead expanded, count remains five",
       "limits": "Independent ACL revocation and standalone generation change not observed. N-031, N-015, Guardados still require canonical owners.",
-      "physical": "NOT_RUN"
+      "physical": "NOT_RUN",
+      "ci_conclusion": "SUCCESS",
+      "ci_scope": "app compile and FaroV5HomeNoticeBindingFactoryTest only; not overall S3-A1 pass"
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
