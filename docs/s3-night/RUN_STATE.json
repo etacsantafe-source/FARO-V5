@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "Verify corrected exact-SHA directed CI 9/9 after subscription race fix; then N-031 attention.read and N-015 history.query canonical owner gap. No ACL emitter claim, Guardados +8 unapproved, S3-A1 PARTIAL; Auto/Noche/V2/S4 OFF.",
+  "next": "S3-A1 PARTIAL: implement genuine N-031 attention.read and N-015 history.query canonical owners, after source-of-truth validation. Guardados +8 still blocked for bounded approval. Independently emitted ACL revocation not demonstrated. Do not repeat exact-SHA CI 41754525802 9/9; physical campaign at S3 end. Night/Auto OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +53,7 @@
   "last_completed_gate": "S3-N00",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N032_NOTICE_COMMIT_AND_CLOSE_EVENTS_CI_8_8_VERIFIED",
+    "status": "PARTIAL_N032_NOTICE_OWNER_POINTER_EVENTS_CI_9_9_VERIFIED",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -195,7 +195,7 @@
       "verified_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0"
     },
     "active_generation_pointer_invalidation": {
-      "status": "FIX_COMMITTED_CI_PENDING_AFTER_TEST_SUBSCRIPTION_RACE",
+      "status": "DIRECTED_CI_SUCCESS_9_OF_9_EXACT_SHA",
       "owner": "FileActiveGenerationPointer.compareAndSet (successful durable publish only)",
       "subscriber": "FaroV5MaintenanceRuntime.activePointerInvalidations -> existing Home readPort",
       "scope": "Process local; no independent ACL or cross-process authority event claimed; no V2 cutover",
@@ -208,7 +208,14 @@
         "result": "FAILURE_8_OF_9_ONE_TIMEOUT",
         "cause": "Pointer change fired before pointerChanges callbackFlow was subscribed; test used yield timing rather than handshake."
       },
-      "fix": "After registering real pointer listener emit revalidation (not fake pointer change). Test awaits subscription recheck before durable compareAndSet."
+      "fix": "After registering real pointer listener emit revalidation (not fake pointer change). Test awaits subscription recheck before durable compareAndSet.",
+      "code_sha": "5ced305b3a413e208effd7e6308a6d58b865bb17",
+      "ci_run_id": 41754525802,
+      "ci_conclusion": "SUCCESS",
+      "junit_xml": "S3_HOME_NOTICE_XML_PASS 9/9",
+      "junit_scope": "app:compileDebugKotlin plus exact FaroV5HomeNoticeBindingFactoryTest; no Android physical/cross-process certification",
+      "regression": "Real durable FileActiveGenerationPointer publication invalidates already-subscribed Home port; subscription recheck closes initial listener-registration gap.",
+      "remaining": "Independent ACL events, N-031 attention.read and N-015 history.query canonical owners absent; Guardados +8 candidate unapproved."
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
