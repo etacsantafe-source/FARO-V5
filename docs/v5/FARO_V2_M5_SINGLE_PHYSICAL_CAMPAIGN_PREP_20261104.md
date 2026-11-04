@@ -60,3 +60,17 @@ No ejecutar comandos en nombre del usuario desde tareas programadas. No presupon
 
 ## B6 / B7 — reserva explícita
 **B6 físico:** NOT_RUN, depende del dispositivo y participación humana; este documento no ejecuta ADB ni instala APK. **B7 de M5 global:** NOT_VERIFIED, pendiente de evaluación posterior de la evidencia real. Próxima acción: iniciar la única campaña física cuando el usuario tenga el dispositivo disponible y el artefacto verificado, sin alterar FARO habitual.
+
+## Evidencia física observacional — 04/11/2026 18:47–18:50 Argentina (suministrada por usuario)
+
+**Alcance exclusivamente visual de capturas desde el Moto G15.** No se proporcionaron a este checkpoint ADB, `dumpsys`, hash binario extraído, logcat, ni inspección de SQLite. No copiar capturas a repositorio ni presumir permisos por una pantalla.
+
+- **F-03 UI: PASS_VISUAL_PARTIAL.** Captura a las **18:47**: pantalla `FARO V2 — Núcleo local aislado`, texto explícito de no conexión/IA y botón `ABRIR CHAT LOCAL DE DESARROLLO`. Captura a las **18:48**: tras tocar el botón, pantalla Chat visible con entrada de texto, área de conversación y control `Enviar`. No hay crash visible. Esto demuestra apertura visual, **no** inspección directa de cinco archivos, journal/WAL ni estabilidad tras kill.
+- **F-04 UI: PASS_VISUAL_PARTIAL.** Captura a las **18:50**: aparece exactamente una burbuja con `Prueba FARO V2 - 04/11/2026`, y composer vacío. No aparece mensaje de respuesta FARO artificial. Esto acredita envío/renderizado observado, **no prueba aún persistencia tras proceso muerto** ni estado DB/receipts por inspección.
+- **F-05: NOT_RUN** al escribir este checkpoint; la siguiente comprobación es forzar detención **solo de FARO V2 CORE DEV** desde Ajustes → Aplicaciones, reabrir y verificar que permanezca exactamente una burbuja y la selección. No borrar datos, desinstalar, actualizar ni limpiar almacenamiento.
+- **F-00/F-01/F-02/F-06/F-07/F-08/F-09:** NOT_VERIFIED por capturas; instalación DEV al menos mostró un launcher funcional, pero identidad/UID/permiso/aislamiento dinámico de app habitual aún requiere evidencia específica.
+- **Seguridad inmediata:** batería mostrada en captura 18:50 **7%**. Conectar a cargador antes de force-stop/reinicio para evitar interrupción no controlada.
+- **Estado:** M5 física **IN_PROGRESS_USER_SCREENSHOTS_ONLY**; B7 M5 global sigue **OPEN**; `V2_DEV_CORE_READY=false`, V2 productiva OFF. No nuevos cambios funcionales, tests, APK ni CI dirigida. Permiso funcional `BLOCKED`.
+
+### Próxima lectura
+Solicitar la captura tras forzar detención del paquete DEV y reabrir Chat. Un mensaje igual y único permite **F-05 persistence PASS_VISUAL_PARTIAL**; evidencia física de otras dimensiones no inferida. Si falla, detener acciones y documentar síntoma, sin borrar el sandbox.
