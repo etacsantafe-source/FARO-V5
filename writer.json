@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.F06FILES.20261104",
   "token_hash": "0a39026f585d301b7e4bce009c51b80c12575dfb166b0e22a782af5163ed4239",
   "target_head": "1517b6b9e82ba1d1135aded47511e600dc711bfc",
   "target_branch": "work/s3-night-20261102",
   "epoch": 181,
-  "timestamp": 1793832000,
-  "purpose": "M5_F06_FIVE_STORE_ON_DEVICE_FILES_OBSERVED_NO_CONTENT_INSPECTION"
+  "timestamp": 1793832060,
+  "purpose": "F01_F06_DEVICE_FILES_CHECKPOINT_92609e80_PERMIT_BLOCKED"
 }
