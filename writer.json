@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.DEV_SEARCH_B7_PASS.20261104",
-  "token_hash": "4b5f205d671bea3af25940a9ca62ddf31c3b7ad6a31d38328d25a88f0ed0acae",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.G1.CHAT_POINTER_ABA.20261104",
+  "token_hash": "317a88851cb60c59e2bcdc7c39562101039ee544e8876b7202df1628d325d6c6",
   "target_head": "ca741880922cec59e7295b0aa03e35b3e173524b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 190,
-  "timestamp": 1793835141,
-  "purpose": "S3_A2_DEV_SEARCH_B7_PASS_CI_XML_BINARY_VERIFIED"
+  "epoch": 191,
+  "timestamp": 1793835970,
+  "purpose": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA_B1_B5_IMPLEMENT_CI_B7"
 }
