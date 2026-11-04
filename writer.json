@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_SEARCH_SELECTION_REFRESH.20261104",
   "token_hash": "e95729990765e93ac3ec690b258c5d2b3ff9aad91ed1d26df3a1a36ff17e3c40",
   "target_branch": "work/s3-night-20261102",
   "target_head": "76b9984fc4c76f0bfce1a7c8f6036cb8ee5d4a3d",
   "epoch": 130,
-  "timestamp": 1793804368,
-  "purpose": "S3_A2_REFRESH_CANONICAL_SELECTED_CHAT_AFTER_SEARCH_OPEN"
+  "timestamp": 1793804516,
+  "purpose": "S3_A2_SEARCH_TO_CHAT_FIX_PUBLISHED_SURFACE_CI_PENDING"
 }
