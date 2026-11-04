@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "M5_DEV_APK_PACKAGE_GATE",
-  "reviewed_head": "ca1da7491e313fa408a04aed6fd20dcea997cf33",
-  "paths": [
-    ".github/workflows/faro-v5-v2-core-apk-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "9bd648415718070bdda0465ab26431e36eda95d4",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,7 +55,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_M5_APK_PACKAGE_GATE",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,8 +70,8 @@
       }
     ]
   },
-  "why": "M5 B1-B5 bounded APK binary package/permissions/launcher check and artifact workflow; existing M1-M4 CI reused, physical NOT_RUN.",
-  "how": "Preflight GitHub checkout on this exact READY permit then create only new .github/workflows/faro-v5-v2-core-apk-directed.yml with FARO-UNIT:M5_DEV_APK_PACKAGE_GATE, run directed APK CI and B7. Do not claim V2_DEV_CORE_READY.",
+  "why": "M5 workflow code 9bd64841 committed with exact parent READY permit+preflight, but APK CI #41899136921 has not been certified and B7 is open. No next functional code allowed.",
+  "how": "Read CI run 41899136921 exact job/log/artifact, then B7 PASS or RED_FIX. Before any subsequent code issue a fresh bounded permit with reviewed evidence. V2_DEV_CORE_READY false, physical NOT_RUN.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
