@@ -70,48 +70,89 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             ),
         )
 
+        val descriptor = StorageGenerationDescriptor(
+            targetId, "v2-core-dev-five-store-schema-1", 1L,
+        )
+        fun advance(from: BootstrapJournalEntry, phase: BootstrapPhase): BootstrapJournalEntry {
+            val next = BootstrapTransitionPolicy.transition(from, phase)
+            check(journal.compareAndSet(from, next)) { "DEV bootstrap CAS transition failed" }
+            return next
+        }
+        fun initializeFiveStores(dir: Path) {
+            RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
+            CommercialEvidenceStore(
+                dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString(),
+            ).use { }
+            WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
+            AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
+            ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
+        }
+
         when (pointer.read()?.generationId) {
             initialId -> {
-                // Never adopt partial or orphaned stages on restart.
-                check(journal.pending().isEmpty()) {
-                    "DEV startup found pending bootstrap; explicit recovery required"
+                // Resume only the exact pending DEV operation. A completed, foreign
+                // or already-writing journal cannot be replayed against the V1 pointer.
+                val pending = journal.pending()
+                check(pending.all { it.operationId == operationId }) {
+                    "DEV startup found a foreign pending bootstrap"
                 }
-                val entry = BootstrapJournalEntry(
-                    operationId, MaintenanceOperationKind.RESTORE,
-                    initialId, targetId, BootstrapPhase.PREPARING,
-                )
-                journal.create(entry)
-                val staged = layout.stageWorkspaceV2(
-                    StorageGenerationDescriptor(
-                        targetId, "v2-core-dev-five-store-schema-1", 1L,
-                    ),
-                )
-                val dir = staged.directory
-                RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
-                CommercialEvidenceStore(
-                    dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString(),
-                ).use { }
-                WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
-                AuxiliaryDeliveryStore(
-                    dir.resolve(GenerationStoreFiles.AUXILIARY).toString(),
-                ).use { }
-                ConversationWorkspaceStore(
-                    dir.resolve(GenerationStoreFiles.WORKSPACE).toString(),
-                ).use { }
-
-                fun advance(from: BootstrapJournalEntry, phase: BootstrapPhase): BootstrapJournalEntry {
-                    val next = BootstrapTransitionPolicy.transition(from, phase)
-                    check(journal.compareAndSet(from, next)) { "DEV bootstrap CAS transition failed" }
-                    return next
+                val prior = journal.read(operationId)
+                var entry = if (prior == null) {
+                    check(pending.isEmpty()) { "DEV startup has an unexpected pending bootstrap" }
+                    BootstrapJournalEntry(
+                        operationId, MaintenanceOperationKind.RESTORE,
+                        initialId, targetId, BootstrapPhase.PREPARING,
+                    ).also { journal.create(it) }
+                } else {
+                    check(pending.size == 1 && pending.single() == prior &&
+                        prior.kind == MaintenanceOperationKind.RESTORE &&
+                        prior.previousGenerationId == initialId &&
+                        prior.targetGenerationId == targetId &&
+                        !prior.materialWritesAccepted) {
+                        "DEV recovery journal identity, owner or phase mismatch"
+                    }
+                    prior
                 }
-                val stagedEntry = advance(entry, BootstrapPhase.STAGED)
-                FaroV5GenerationStoreGraph.openValidatedV2WithSharedGate(
-                    staged, CanonicalPreparedPlanEnvelopeVerifier, gate,
-                ).use { check(it.workspace != null && it.verifyHealthy()) }
-                advance(stagedEntry, BootstrapPhase.VALIDATED)
-                val result = coordinator.activate(operationId)
+                check(pointer.read()?.generationId == initialId) {
+                    "DEV V1 pointer changed before bootstrap recovery"
+                }
+                when (entry.phase) {
+                    BootstrapPhase.PREPARING -> {
+                        // Existing V2 pre-database metadata can be resumed exactly.
+                        // If none exists, stageWorkspaceV2 requires a never-used path.
+                        // SQLite residue, symlinks or an orphaned empty directory
+                        // fail closed in BOTH paths: never delete or adopt them.
+                        val staged = try {
+                            layout.resumeWorkspaceV2(descriptor)
+                        } catch (_: IllegalStateException) {
+                            layout.stageWorkspaceV2(descriptor)
+                        }
+                        initializeFiveStores(staged.directory)
+                        entry = advance(entry, BootstrapPhase.STAGED)
+                    }
+                    BootstrapPhase.STAGED,
+                    BootstrapPhase.VALIDATED -> Unit
+                    else -> error("DEV V1 recovery does not admit bootstrap phase ${entry.phase}")
+                }
+                if (entry.phase == BootstrapPhase.STAGED) {
+                    // Never reinitialize a partially written SQLite set.
+                    val staged = layout.requireStaged(targetId)
+                    FaroV5GenerationStoreGraph.openValidatedV2WithSharedGate(
+                        staged, CanonicalPreparedPlanEnvelopeVerifier, gate,
+                    ).use { check(it.workspace != null && it.verifyHealthy()) }
+                    entry = advance(entry, BootstrapPhase.VALIDATED)
+                }
+                check(entry.phase == BootstrapPhase.VALIDATED)
+                check(pointer.read()?.generationId == initialId) {
+                    "DEV V1 pointer changed before validated activation"
+                }
+                val result = if (prior == null) {
+                    coordinator.activate(operationId)
+                } else {
+                    coordinator.recover(operationId)
+                }
                 check(result is GenerationActivationResult.Activated) {
-                    "DEV five-owner promotion not admitted: $result"
+                    "DEV five-owner recovery/promotion not admitted: $result"
                 }
             }
             targetId -> {

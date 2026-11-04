@@ -1,5 +1,10 @@
 package ar.com.faro.v5.app
 
+import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.evidence.WebEvidenceStore
+import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
+import ar.com.faro.v5.store.reality.RealityStore
+import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.contracts.ConversationSelectionResult
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
@@ -16,6 +21,39 @@ import org.junit.jupiter.api.io.TempDir
 class FaroV5V2CoreDevAuthorityTest {
     @TempDir lateinit var root: Path
 
+    /** Journal/crash fixture: intentionally constructs pre-switch state only in isolated @TempDir. */
+    private fun interrupted(
+        name: String, phase: BootstrapPhase, stage: Boolean, stores: Boolean,
+    ): Path {
+        val dir = root.resolve(name)
+        val previous = StorageGenerationId("v2-core-dev-legacy-base-1")
+        val target = StorageGenerationId("v2-core-dev-workspace-1")
+        ActiveGenerationStorageLocator(dir).ensureInitialGenerationAndGetDirectory(
+            previous.value, "v2-core-dev-recovery-base-1",
+        )
+        val operation = MaintenanceOperationId("v2-core-dev-first-activation-1")
+        FileBootstrapJournal(dir).create(BootstrapJournalEntry(
+            operation, MaintenanceOperationKind.RESTORE, previous, target, phase,
+        ))
+        if (stage) {
+            val staged = FileStorageGenerationLayout(dir).stageWorkspaceV2(
+                StorageGenerationDescriptor(target, "v2-core-dev-five-store-schema-1", 1L),
+            )
+            if (stores) {
+                RealityStore(staged.directory.resolve(GenerationStoreFiles.REALITY).toString()).use { }
+                CommercialEvidenceStore(staged.directory.resolve(
+                    GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { }
+                WebEvidenceStore(staged.directory.resolve(
+                    GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
+                AuxiliaryDeliveryStore(staged.directory.resolve(
+                    GenerationStoreFiles.AUXILIARY).toString()).use { }
+                ConversationWorkspaceStore(staged.directory.resolve(
+                    GenerationStoreFiles.WORKSPACE).toString()).use { }
+            }
+        }
+        return dir
+    }
+
     @Test fun firstOpenPublishesJournalFenceAndFiveOwnerPointer() {
         FaroV5V2CoreDevAuthority(root).open().use { session ->
             val expected = StorageGenerationId("v2-core-dev-workspace-1")
@@ -29,6 +67,31 @@ class FaroV5V2CoreDevAuthorityTest {
             assertTrue(runBlocking { session.workspaceReadPort.readSnapshot() }.conversations.isEmpty())
             assertThrows(IllegalStateException::class.java) {
                 FaroV5ActiveGenerationGraphOwner.open(root, expected.value, SingleProcessMaterialWriteGate(), false)
+            }
+        }
+        // PREPARING no stage; PREPARING immutable marker+descriptor only;
+        // STAGED 5 healthy stores; VALIDATED 5 healthy stores and V1 pointer.
+        val cases = listOf(
+            Triple("preparing-new", BootstrapPhase.PREPARING, false),
+            Triple("preparing-metadata", BootstrapPhase.PREPARING, true),
+            Triple("staged-complete", BootstrapPhase.STAGED, true),
+            Triple("validated-complete", BootstrapPhase.VALIDATED, true),
+        )
+        for ((name, phase, hasStage) in cases) {
+            val dir = interrupted(name, phase, hasStage,
+                phase != BootstrapPhase.PREPARING)
+            FaroV5V2CoreDevAuthority(dir).open().use { session ->
+                val target = StorageGenerationId("v2-core-dev-workspace-1")
+                assertEquals(target, FileActiveGenerationPointer(dir).read()?.generationId, name)
+                val complete = FileBootstrapJournal(dir).read(
+                    MaintenanceOperationId("v2-core-dev-first-activation-1"),
+                )
+                assertEquals(BootstrapPhase.COMPLETED, complete?.phase, name)
+                assertTrue(complete!!.materialWritesAccepted, name)
+                assertTrue(FileGenerationReplayFence(dir).isInstalled(
+                    MaintenanceOperationKind.RESTORE, target), name)
+                assertTrue(runBlocking { session.workspaceReadPort.readSnapshot() }
+                    .conversations.isEmpty(), name)
             }
         }
     }
@@ -59,6 +122,32 @@ class FaroV5V2CoreDevAuthorityTest {
         Files.write(sqlite, byteArrayOf(1, 2, 3))
         assertThrows(Exception::class.java) { FaroV5V2CoreDevAuthority(root).open() }
         assertEquals(3L, Files.size(sqlite))
+
+        val target = StorageGenerationId("v2-core-dev-workspace-1")
+        val previous = StorageGenerationId("v2-core-dev-legacy-base-1")
+        val partial = interrupted("preparing-partial-sqlite", BootstrapPhase.PREPARING, true, false)
+        val partialStage = FileStorageGenerationLayout(partial).requireStaged(target)
+        val stray = partialStage.directory.resolve(GenerationStoreFiles.REALITY)
+        val bytes = byteArrayOf(7, 9, 11, 13)
+        Files.write(stray, bytes)
+        assertThrows(Exception::class.java) { FaroV5V2CoreDevAuthority(partial).open() }
+        assertArrayEquals(bytes, Files.readAllBytes(stray))
+        assertEquals(previous, FileActiveGenerationPointer(partial).read()?.generationId)
+
+        val incomplete = interrupted("staged-incomplete", BootstrapPhase.STAGED, true, false)
+        val incompleteStage = FileStorageGenerationLayout(incomplete).requireStaged(target)
+        assertThrows(Exception::class.java) { FaroV5V2CoreDevAuthority(incomplete).open() }
+        assertEquals(2L, Files.list(incompleteStage.directory).use { it.count() })
+        assertEquals(previous, FileActiveGenerationPointer(incomplete).read()?.generationId)
+
+        val foreign = root.resolve("foreign-operation")
+        ActiveGenerationStorageLocator(foreign).ensureInitialGenerationAndGetDirectory(
+            previous.value, "v2-core-dev-recovery-base-1")
+        FileBootstrapJournal(foreign).create(BootstrapJournalEntry(
+            MaintenanceOperationId("other-maintenance-operation-1"),
+            MaintenanceOperationKind.RESTORE, previous, target, BootstrapPhase.PREPARING))
+        assertThrows(Exception::class.java) { FaroV5V2CoreDevAuthority(foreign).open() }
+        assertEquals(previous, FileActiveGenerationPointer(foreign).read()?.generationId)
     }
     @Test fun acceptedLocalUserMessageIsDurableWithoutSyntheticAssistant() {
         val chat = ConversationId("v2-core-message-chat")
