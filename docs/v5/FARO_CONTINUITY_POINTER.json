@@ -42,8 +42,8 @@
   "handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3.A2 HYBRID priority. In-chat exact message navigation code 9bdbf7d4 CI run 41836792753 SUCCESS XML 5/5+surface55/55; bounded resources commit 09fa2b21 (last 250 messages/64000 chars/query<=200, PARTIAL coverage) CI run 41837562790 in_progress PENDING; MUST verify XML 7/7 and full surface before PASS. Then G1 real independent Workspace ACL revoke/regrant epoch owner; G2 shipping binding only with real owner; G3 global hit-to-message remaining; G4 authentic other canonical source adapters. S2 CLOSED8/8, S3 OPEN, S4/V2/Auto/Noche OFF queue STAGED, 172 ops fixed, physical only at end. See docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
-  "checkpoint_status": "S3_A2_IN_CHAT_EXACT_NAV_55_55_PREVIOUS_CI_PASS_BOUNDED_RESOURCE_CI_PENDING_G1_ACL_OPEN",
+  "next": "S3.A2 OPEN. In-chat exact-message navigation and bounded partial coverage verified 57/57 total, 7/7 new on SHA 09fa2b21 GitHub Actions run 41837562790 SUCCESS. Prior 9bdbf7d4 55/55. Do NOT rerun. Next G1: genuine Workspace ACL read owner with independent monotonic revocation/re-grant events and pointer/generation/lifecycle invalidation; no fake epoch; shipping V1 has no Workspace and SearchReadPort remains null. G2 safe active-host bind only with actual authority; global search direct message target not yet done; G4 real source owners Finance/Objectives/Matters. A1/A4 partial, A3/A5 later. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, 172 operations, Guardados +8 only candidate, physical final only. Last handoff docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
+  "checkpoint_status": "S3_A2_IN_CHAT_EXACT_MESSAGE_NAV_AND_BOUNDED_RESOURCE_CI_PASS_57_OF_57_G1_ACL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "last_code_sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "IN_PROGRESS_EXACT_SHA_XML_UNVERIFIED",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_APP_SURFACE_XML_57_57_IN_CHAT_7_7",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -229,9 +229,10 @@
     },
     "current_ci": {
       "id": 41837562790,
-      "status": "in_progress",
-      "conclusion": "PENDING",
-      "xml": "UNVERIFIED"
+      "status": "SUCCESS",
+      "conclusion": "SUCCESS",
+      "xml": "IN_CHAT_7_7_SURFACE_57_57_VERIFIED_JOB_LOG",
+      "code_sha": "09fa2b21d60011dc147971fa169829e3c8657b64"
     },
     "limits": {
       "message_count": 250,
@@ -241,6 +242,7 @@
     "shipping_search": "UNBOUND",
     "user_physical": "NOT_RUN",
     "real_acl": "MISSING",
-    "cross_domain": "NOT_BOUND"
+    "cross_domain": "NOT_BOUND",
+    "status": "PARTIAL_FUNCTIONAL_CI_PASS_NO_SHIPPING_BINDING"
   }
 }

@@ -22,3 +22,11 @@
 - 2 commits funcionales nuevos y 1 CI confirmada SUCCESS exacta; segunda CI in_progress. Prueba física NOT_RUN; tiempos humanos NO_MEDIDOS; minutos de GitHub no son productividad humana.
 - Prioridad híbrida única: terminar A2. Si segunda CI falla, diagnóstico de ese SHA y corrección mínima antes de extender. Si pasa, **G1 resolver autoridad ACL Workspace real con evento independiente revocación/regrant entre instancias y puntero**, luego G2 montaje seguro y G4 federación auténtica, sin dispersión.
 - Continuación automática: frase `Continuar FARO V5`, leer puntero canónico y este checkpoint; comprobar escritor/cola/CI; no repetir PASS por SHA; mantener termómetro cualitativo.
+
+## Dictamen definitivo de CI de la segunda unidad (prevalece sobre estado temporal anterior)
+
+- GitHub Actions **#41837562790 = SUCCESS** sobre SHA exacto `09fa2b21d60011dc147971fa169829e3c8657b64`.
+- Job `surface-navigation` SUCCESS, log exacto `BUILD SUCCESSFUL in 6m 45s`, `S3_IN_CHAT_SEARCH_XML_PASS 7/7` y `S3_SURFACE_XML_PASS 57/57`. Verificado en salida real, sin inferir del estado verde solamente.
+- Comparación: primera unidad `9bdbf7d4` con 55/55; segunda `09fa2b21` agrega cobertura parcial y prueba de límites, 57/57.
+- No se han hecho pruebas Android físicas; no declarar cierre A2 o V2. La UI de búsqueda por mensaje queda en el código de Chat, no disponible en V1 sin Workspace activo.
+- Próximo objetivo: **G1 autoridad ACL real independiente** (revocación/regrant, epoch genuino y invalidaciones entre propietarios), luego conexión G2; solo avanzar a G4 una vez asegurada la autorización.
