@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.N015.TRANSACTION.FENCE.20261104",
   "token_hash": "3d36f4fe874398cdcc7763a229e93167594f9011cdf9cb00b2dc503ef31d543c",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
+  "target_head": "948d62010b09fd6700c3216d0dd0621d29fc7c23",
   "epoch": 80,
-  "timestamp": 1793786415,
-  "purpose": "N015_RECEIPT_HISTORY_ATOMIC_VISIBILITY_FENCE"
+  "timestamp": 1793786506,
+  "purpose": "S3_N015_TX_READ_FENCE_PENDING_CI"
 }
