@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M4.B6.20261104",
   "token_hash": "a6e4c18315c59741a83d19219e2b7d6af2d64cff5605b10acefe34627d850966",
   "target_head": "d5354b603b9e6300eb6b3033bd8637f5103e8f0f",
   "target_branch": "work/s3-night-20261102",
   "epoch": 162,
-  "timestamp": 1793819696,
-  "purpose": "M4 B6 path-bounded negative gates workflow+JVM exact preflight verified 41894104925"
+  "timestamp": 1793819779,
+  "purpose": "M4_B6_COMMITTED_B92D5407_WAIT_EXACT_CI"
 }
