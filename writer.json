@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.HANDOFF.20261103",
-  "token_hash": "e7392fb9bfab324115dbd937b523f4c2cb519d71a5725877657b9eec25f82f9a",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A1.MAINT.READINESS.20261103",
+  "token_hash": "dbdd27d04defc307249b1ba8e790c82b78b003f3f501e345bb6b6d5a80e708f2",
   "target_branch": "work/s3-night-20261102",
   "target_head": "c12d7561762cbe428fa8883fc21569ad162525b8",
-  "epoch": 63,
-  "timestamp": 1793751793,
-  "purpose": "STOP_NIGHT_AND_HANDOFF_MANUAL_WITH_QUEUE_STAGED"
+  "epoch": 64,
+  "timestamp": 1793752418,
+  "purpose": "S3_A1_MANUAL_INTERACTIVE_MAINTENANCE_READINESS"
 }
