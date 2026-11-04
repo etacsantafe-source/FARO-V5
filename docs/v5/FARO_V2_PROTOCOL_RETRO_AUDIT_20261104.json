@@ -158,14 +158,16 @@
   "user_trigger": "Continuar FARO V5",
   "no_background_work": true,
   "protocol_gate": {
-    "status": "SELFTEST_FIX_CI_PENDING",
+    "status": "CI_VERIFIED_14_OF_14_PERMIT_BLOCKED",
     "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_status": "BLOCKED",
     "check": "seven-block-evidence",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "baseline": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
     "first_action": "RETRO M0/M1 B1-B5, record real evidence before any permit becomes READY",
-    "last_ci_run_id": 41876544023,
-    "last_ci_conclusion": "FAILURE_TWO_TEST_HARNESS_ONLY"
+    "last_ci_run_id": 41876852639,
+    "last_ci_conclusion": "SUCCESS_14_OF_14",
+    "last_ci_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
+    "required_branch_protection": "NOT_VERIFIED"
   }
 }

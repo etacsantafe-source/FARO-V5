@@ -42,8 +42,8 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Gate commit 17b409da: CI #41876544023 FAILED 12/14 because tests harness error (wrong rejection message expectation and no diff in second commit); targeted fix published pending CI. Verify 14/14 and FARO_PROTOCOL_GATE_PASS, then audit M0/M1/M2A/M2B/M3 read-only B1–B5 and issue permit docs-only before any functional code. Permit BLOCKED. V2/Auto/Noche production OFF.",
-  "checkpoint_status": "SEVEN_BLOCK_PROTOCOL_GUARD_BOOTSTRAPPED_PERMIT_BLOCKED_NO_FUNCTIONAL_CODE_UNTIL_RETRO_AUDIT",
+  "next": "GUARD CI SUCCESS run #41876852639, exact SHA 59962008, 14/14 tests + FARO_PROTOCOL_GATE_PASS; permit BLOCKED; AGENTS.md updated to recover rules for any agent. Read HEAD, writer, queue, root AGENTS and protocol guard before acting. NEXT complete retro audit B1-B5 M0/M1/M2A/M2B/M3, evidence exact paths+SHA, then issue docs-only permit and preflight PASS before functional writes. After code new run + B7 independent. No V2 production, Auto/Noche, S4, paid API.",
+  "checkpoint_status": "MANDATORY_7BLOCK_GUARD_CI_14_14_PASS_PERMIT_BLOCKED_RETRO_AUDIT_NEXT",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
@@ -430,7 +430,7 @@
     "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
   },
   "protocol_gate": {
-    "status": "IMPLEMENTED_SELFTEST_FIX_CI_PENDING",
+    "status": "CI_VERIFIED_ACTIVE_PERMIT_BLOCKED",
     "mode": "FAIL_CLOSED",
     "validator": "scripts/quality/faro-protocol-gate.py",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -441,10 +441,13 @@
     "permit_status": "BLOCKED",
     "mandatory_manual_preflight": true,
     "mandatory_ci_check": true,
-    "required_branch_protection": "NOT_VERIFIED_NOT_CONFIGURED_GET_RULESETS_EMPTY",
+    "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 41876544023,
-    "last_ci_conclusion": "FAILURE_TWO_TEST_HARNESS_ERRORS_RULES_NOT_WEAKENED"
+    "last_ci_run_id": 41876852639,
+    "last_ci_conclusion": "SUCCESS_14_OF_14_AND_FARO_PROTOCOL_GATE_PASS",
+    "verified_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
+    "agent_instructions": "AGENTS.md",
+    "required_ci_step": "seven-block-evidence"
   }
 }

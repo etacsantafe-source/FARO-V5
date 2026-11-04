@@ -47,3 +47,11 @@
 - FAIL: la prueba de permiso creado en el mismo commit esperaba `not READY` aunque el motor correctamente rechaza antes con `control-state and code mixed`. Ajustar solo el mensaje esperado, **no** la política.
 - ERROR: segunda unidad intentó commitear un archivo inalterado y Git devolvió nothing to commit. Ajustar fixture a ruta nueva, **no** la política.
 - Próximo gate: 14/14 exactas + `FARO_PROTOCOL_GATE_PASS` en run nuevo sobre SHA nuevo; ningún PASS anticipado.
+
+## B7 FINAL DE ESTA UNIDAD DE GUARDIA — EVIDENCIA VERIFICADA
+
+- Commit fuente `59962008f0c78366c7a687b8974741b396c751ab`, Actions [#41876852639](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41876852639) **SUCCESS**. Logs: `Ran 14 tests`, `OK`, `FARO_PROTOCOL_GATE_PASS 0 functional units validated docs/tool-only checkpoint`.
+- Writer epoch **144 RELEASED**. Estado `docs/v5/FARO_PROTOCOL_WORK_PERMIT.json` continúa `BLOCKED`. Es correcto que el guardia dé PASS al histórico documental y bloquee cualquier futuro commit funcional sin B1–B5.
+- El primer intento `#41876544023` rojo fue por errores de fixture de tests (12/14 pasaron), corregidos SIN debilitar el código del guardia; nuevo CI verde.
+- `GET /rulesets` devolvió `[]`. **No** se verificó un status check requerido en la rama. Para bloqueo administrativo de integración el usuario debe activarlo en GitHub. Esta salvedad se incorpora a `AGENTS.md` para todos los agentes.
+- El guardia y sus 14 negativas se consideran **PASS_ENFORCEMENT_CHECK**, pero la auditoría retrospectiva de M0–M3 **NO está hecha**. El próximo paso se mantiene exclusivamente B1–B5 de esos bloques, y ningún desarrollo funcional hasta entonces.
