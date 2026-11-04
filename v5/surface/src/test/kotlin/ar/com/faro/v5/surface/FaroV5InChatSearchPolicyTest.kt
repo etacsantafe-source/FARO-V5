@@ -8,6 +8,7 @@ import ar.com.faro.v5.kernel.contracts.ConversationMessageState
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineSnapshot
 import ar.com.faro.v5.kernel.contracts.ConversationTurnId
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -67,5 +68,29 @@ class FaroV5InChatSearchPolicyTest {
             FaroV5InChatSearchPolicy.matchingMessageIds(previous, "pago"))
         assertEquals(listOf(ConversationMessageId("new")),
             FaroV5InChatSearchPolicy.matchingMessageIds(current, "pago"))
+    }
+
+    @Test fun moreThan250MessagesReportsPartialCoverageInsteadOfFalseEmpty() {
+        val messages = (1..251).map { index ->
+            user("m-$index", "turn-$index", "nota número $index")
+        }
+        val result = FaroV5InChatSearchPolicy.search(
+            snapshot(*messages.toTypedArray()), "nota",
+        )
+        assertFalse(result.complete)
+        assertEquals(250, result.messageIds.size)
+        assertEquals(ConversationMessageId("m-2"), result.messageIds.first())
+        assertEquals(ConversationMessageId("m-251"), result.messageIds.last())
+    }
+
+    @Test fun characterBudgetIsFailClosedAndNeverIndexesOlderText() {
+        val timeline = snapshot(
+            user("old", "t1", "clave vieja " + "a".repeat(31_900)),
+            user("mid", "t2", "sin datos " + "b".repeat(31_900)),
+            user("latest", "t3", "clave nueva " + "c".repeat(31_900)),
+        )
+        val result = FaroV5InChatSearchPolicy.search(timeline, "clave")
+        assertFalse(result.complete)
+        assertEquals(listOf(ConversationMessageId("latest")), result.messageIds)
     }
 }

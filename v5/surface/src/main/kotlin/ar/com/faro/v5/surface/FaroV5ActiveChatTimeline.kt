@@ -67,9 +67,10 @@ fun FaroV5ActiveChatTimeline(
         ChatTimelineProjection.Missing -> Text("Esta conversación ya no está disponible.")
         ChatTimelineProjection.Failed -> Text("No se pudo recuperar la conversación.")
         is ChatTimelineProjection.Ready -> {
-            val matches = remember(state.value, query) {
-                FaroV5InChatSearchPolicy.matchingMessageIds(state.value, query)
+            val search = remember(state.value, query) {
+                FaroV5InChatSearchPolicy.search(state.value, query)
             }
+            val matches = search.messageIds
             var position by remember(state.value, query) { mutableIntStateOf(0) }
             Column(
                 modifier = Modifier.fillMaxSize(),
@@ -88,7 +89,11 @@ fun FaroV5ActiveChatTimeline(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            if (matches.isEmpty()) "Sin coincidencias en los mensajes cargados."
+                            if (matches.isEmpty() && !search.complete)
+                                "Cobertura parcial: puede haber más coincidencias."
+                            else if (matches.isEmpty()) "Sin coincidencias en los mensajes cargados."
+                            else if (!search.complete)
+                                "Coincidencia ${position + 1} de ${matches.size} · cobertura parcial"
                             else "Coincidencia ${position + 1} de ${matches.size}",
                             modifier = Modifier.padding(FaroV5Spacing.small),
                         )

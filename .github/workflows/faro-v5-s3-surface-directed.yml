@@ -61,7 +61,7 @@ jobs:
               if 'FaroV5ShellNavigationContractTest' in p.name:
                   found = True
               if 'FaroV5InChatSearchPolicyTest' in p.name:
-                  if vals != (5,0,0,0):
+                  if vals != (7,0,0,0):
                       raise SystemExit(f'S3_IN_CHAT_SEARCH_XML_FAIL {vals}')
                   search_found = True
               total += vals[0]
@@ -69,6 +69,6 @@ jobs:
               raise SystemExit('S3_MISSING_NAVIGATION_XML')
           if not search_found:
               raise SystemExit('S3_MISSING_IN_CHAT_SEARCH_XML')
-          print('S3_IN_CHAT_SEARCH_XML_PASS 5/5')
+          print('S3_IN_CHAT_SEARCH_XML_PASS 7/7')
           print(f'S3_SURFACE_XML_PASS {total}/{total}')
           PY

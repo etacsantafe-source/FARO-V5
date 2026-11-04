@@ -13,29 +13,52 @@ import java.util.Locale
  * The caller owns live generation/readiness admission and refresh; a failed
  * canonical read must not render an old result as a new successful query.
  */
+internal data class FaroV5InChatSearchResult(
+    val messageIds: List<ConversationMessageId>,
+    val complete: Boolean,
+)
+
 internal object FaroV5InChatSearchPolicy {
     const val MAX_QUERY_CHARS = 200
+    private const val MAX_SCANNED_MESSAGES = 250
+    private const val MAX_SCANNED_CHARS = 64_000
 
-    fun matchingMessageIds(
-        timeline: ConversationTimelineSnapshot,
-        query: String,
-    ): List<ConversationMessageId> {
-        if (query.length > MAX_QUERY_CHARS) return emptyList()
+    /** Legacy test helper; UI MUST use search() to preserve coverage status. */
+    fun matchingMessageIds(timeline: ConversationTimelineSnapshot, query: String) =
+        search(timeline, query).messageIds
+
+    fun search(timeline: ConversationTimelineSnapshot, query: String): FaroV5InChatSearchResult {
+        if (query.length > MAX_QUERY_CHARS) return FaroV5InChatSearchResult(emptyList(), false)
         val words = normalize(query).split(' ').filter { it.isNotEmpty() }.distinct()
-        if (words.isEmpty()) return emptyList()
-        return timeline.messages.asSequence()
-            .filter { message ->
-                (message.role == ConversationMessageRole.USER &&
-                    message.state == ConversationMessageState.ACCEPTED) ||
+        if (words.isEmpty()) return FaroV5InChatSearchResult(emptyList(), true)
+
+        val messages = timeline.messages
+        val first = (messages.size - MAX_SCANNED_MESSAGES).coerceAtLeast(0)
+        var complete = first == 0
+        var charsScanned = 0
+        val foundNewestFirst = mutableListOf<ConversationMessageId>()
+
+        // Bound work on the UI thread: process at most the latest 250 messages
+        // and 64k canonical characters. Do not claim a definitive absence if
+        // older or oversized messages could hold further matches.
+        for (i in messages.lastIndex downTo first) {
+            val message = messages[i]
+            val eligible = (message.role == ConversationMessageRole.USER &&
+                message.state == ConversationMessageState.ACCEPTED) ||
                 (message.role == ConversationMessageRole.FARO &&
                     message.state == ConversationMessageState.COMPLETED)
+            if (!eligible) continue
+            if (charsScanned + message.text.length > MAX_SCANNED_CHARS) {
+                complete = false
+                break
             }
-            .filter { message ->
-                val body = normalize(message.text)
-                words.all { word -> body.contains(word) }
+            charsScanned += message.text.length
+            val body = normalize(message.text)
+            if (words.all { word -> body.contains(word) }) {
+                foundNewestFirst += message.id
             }
-            .map { it.id }
-            .toList()
+        }
+        return FaroV5InChatSearchResult(foundNewestFirst.asReversed(), complete)
     }
 
     private fun normalize(text: String): String =
