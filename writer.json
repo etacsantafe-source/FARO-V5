@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A1.MAINT.READINESS.20261103",
   "token_hash": "dbdd27d04defc307249b1ba8e790c82b78b003f3f501e345bb6b6d5a80e708f2",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "c12d7561762cbe428fa8883fc21569ad162525b8",
+  "target_head": "f5f0c5658589fad50553a4dcb3d13d821c83c1e3",
   "epoch": 64,
-  "timestamp": 1793752418,
-  "purpose": "S3_A1_MANUAL_INTERACTIVE_MAINTENANCE_READINESS"
+  "timestamp": 1793752446,
+  "purpose": "S3_A1_MANUAL_CODE_AND_CHECKPOINT_HANDOFF"
 }
