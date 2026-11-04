@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3 manual checkpoint HEAD code 8133e044, 3 completed CI runs: 41816802648 8/8 Search, 41817401345 3/3 Workspace search + 9/9 Home regression, 41817846020 3/3 finance activity + 2/2 receipt regression. Next: authorized S3-A2 UI/federation only after real ACL/generation owner; N031 planning persistence with FBS-compatible lifecycle and actual reminders/monthly alerts; N015 true committed-time/history owner federation; independent ACL revocation emitter. No fake Home counts or unsupported Activity claims; no schema changes until S2 backup compat reviewed. S2 CLOSED, S4/V2 OFF; Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED; physical at end S3.",
+  "next": "S3-A2 remains PARTIAL: certified canonical Spanish unordered token search 9/9 at a65b56fa (run 41819489126) and fail-closed Search surface 48/48 at 6b2ddcf4 (run 41820150581). UI uses NO actual owner by default until independent ACL/generation authority and revocation invalidations are proven; no V2 activation. Next: implement genuine ACL owner and active-generation read admission, safely wire authorized Search port with fresh resolve+select; then multi-owner federation and UI/instrumentation. N031 planning persistence/reminders requires FBS backup compatibility review; N015 committed-time/activity federation still incomplete. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED. No false Home counts; one physical campaign at S3 end.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -299,16 +299,23 @@
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
-  "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
+  "handoff": "docs/s3-night/S3_A2_SEARCH_CI_HANDOFF_20261104.md",
   "last_turn": {
-    "owner": "NOCHE_A",
-    "slot": "10:31-10:58",
-    "code_sha": "66c2b5580bfd2178b1f1c62a152d4ce911e09fc4",
-    "ci_run_id": 41645370567,
-    "xml": "WAIT_CI",
+    "mode": "MANUAL_S3",
+    "code_sha": "6b2ddcf4482bcd190d26cbc8ba6722ec90a44880",
+    "ci_runs": [
+      41819489126,
+      41820150581
+    ],
+    "ci": "SUCCESS exact SHAs; 9/9 canonical search and 48/48 surface",
+    "writer_release_epoch_expected": 93,
     "physical": "NOT_RUN",
-    "time_breakdown": "NO_REGISTRADO",
-    "writer_epoch": 43
+    "next": "REAL_ACL_AUTHORITY_OWNER_FOR_SEARCH_AND_GENERATION_REVOCATION",
+    "s3": "OPEN_PARTIAL",
+    "night": "OFF",
+    "auto": "OFF",
+    "s4": "OFF",
+    "app_v2": "OFF"
   },
   "automation_authorization": false,
   "queue_mode": "STAGED",
@@ -479,20 +486,37 @@
       "ci": "SUCCESS; S3_WORKSPACE_SEARCH_XML_PASS 3/3; S3_HOME_NOTICE_XML_PASS 9/9",
       "implemented": "Actual persisted WorkspaceStore revision and conversation titles; opaque stable SHA-256 IDs; archived retained; canonical resolve on navigation; explicit current-generation, readiness, owner revision, and required ACL epoch supplier; denied after revocation/switch/closed store.",
       "not_yet": "Not mounted to shipping UI; no real independent ACL epoch publisher shown, so no default ACL stamp/fake authority and V2 remains OFF."
+    },
+    "token_search_parity": {
+      "code_sha": "a65b56fa24dea3fa0c700c647400ae644ad4b298",
+      "run_id": 41819489126,
+      "ci": "SUCCESS EXACT SHA; S3_CANONICAL_SEARCH_XML_PASS 9/9",
+      "scope": "V4.4-style Spanish unordered AND terms across authorized canonical title/body; punctuation, accents; no index authority; code and one directed regression"
+    },
+    "surface_seam": {
+      "code_sha": "6b2ddcf4482bcd190d26cbc8ba6722ec90a44880",
+      "run_id": 41820150581,
+      "ci": "SUCCESS EXACT SHA; S3_SURFACE_XML_PASS 48/48",
+      "scope": "BUSCAR screen: search field, explicit COMPLETE/PARTIAL/UNAVAILABLE, index degradation, revocation clear, confirmed-only authorized open; genuine owner port deliberately null by default",
+      "limitations": "NO ACL owner/federation, no real Search-to-UI binding, no physical verification; only UI presentation + test"
     }
   },
   "last_manual_ci_proofs_20261104": {
     "direct": [
       41816802648,
       41817401345,
-      41817846020
+      41817846020,
+      41819489126,
+      41820150581
     ],
     "exact_xml": [
-      "8/8 canonical search",
+      "8/8 canonical search prior",
       "3/3 real Workspace search",
       "9/9 Home notice regression",
       "3/3 Reality finance activity",
-      "2/2 receipt regression"
+      "2/2 receipt regression",
+      "9/9 Spanish canonical token search",
+      "48/48 directed surface including search policy"
     ],
     "all_success": true,
     "metrics": {
