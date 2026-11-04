@@ -194,6 +194,38 @@ class FaroV5HomeNoticeBindingFactoryTest {
     }
 
     @Test
+    fun alreadyMountedHomePortInvalidatesWhenOwnerCloses() = runBlocking {
+        val dir = Files.createTempDirectory("faro-home-owner-closed-live")
+        val store = AuxiliaryDeliveryStore(dir.resolve("auxiliary.db").toString())
+        try {
+            val gate = FaroV5StartupReadinessGate(SingleProcessMaterialWriteGate())
+            gate.localReady()
+            val readPort = FaroV5HomeNoticeBindingFactory.create(
+                Supplier { store.readNotices() },
+                "gen-1", Supplier { "gen-1" },
+                BooleanSupplier { gate.snapshot().isLocalReady },
+                LongSupplier { 321L },
+                FaroV5HomeReadinessInvalidations.from(gate, store),
+            )
+            assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+            val changes = Channel<Unit>(Channel.UNLIMITED)
+            val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
+            try {
+                yield()
+                yield()
+                store.close()
+                withTimeout(3000) { changes.receive() }
+                assertTrue(readPort.readIndicators().isEmpty())
+            } finally {
+                observer.cancel()
+            }
+        } finally {
+            store.close()
+            dir.toFile().deleteRecursively()
+        }
+    }
+
+    @Test
     fun generationChangeDuringReadInvalidatesResult() = runBlocking {
         var probes = 0
         val result = port(

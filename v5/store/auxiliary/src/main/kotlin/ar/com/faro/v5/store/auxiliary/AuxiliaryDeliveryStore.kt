@@ -86,7 +86,7 @@ class AuxiliaryDeliveryStore private constructor(
     }
 
     private fun publishNoticeCommit() {
-        // Notify after SQLite commit and outside material-write admission.
+        // Notify after a committed route/resolve OR the canonical owner closes.
         for (listener in noticeCommitListeners) {
             try {
                 listener.run()
@@ -526,10 +526,22 @@ class AuxiliaryDeliveryStore private constructor(
         readSchemaVersion()
     }
 
-    override fun close() = synchronized(lock) {
-        if (closed) return@synchronized
-        connection.close()
-        closed = true
+    override fun close() {
+        val didClose = synchronized(lock) {
+            if (closed) {
+                false
+            } else {
+                connection.close()
+                closed = true
+                true
+            }
+        }
+        // Graph rotation revokes this read owner even if the old Home port stays
+        // mounted. Do not leave its last count visible after close.
+        if (didClose) {
+            publishNoticeCommit()
+            noticeCommitListeners.clear()
+        }
     }
 
 

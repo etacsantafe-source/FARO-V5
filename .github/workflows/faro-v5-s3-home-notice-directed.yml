@@ -54,7 +54,7 @@ jobs:
               raise SystemExit(f'S3_HOME_XML_MISSING {len(xmls)}')
           root = ET.parse(xmls[0]).getroot()
           vals = tuple(int(root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
-          if vals != (7,0,0,0):
+          if vals != (8,0,0,0):
               raise SystemExit(f'S3_HOME_XML_FAIL {vals}')
-          print('S3_HOME_NOTICE_XML_PASS 7/7')
+          print('S3_HOME_NOTICE_XML_PASS 8/8')
           PY
