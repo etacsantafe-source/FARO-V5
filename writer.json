@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.TIMEOUT_REDFIX.B6.20261104",
   "target_head": "065d0485e8951ac8b27a0e9f2de5fea67d8b08b6",
   "target_branch": "work/s3-night-20261102",
   "epoch": 173,
-  "timestamp": 1793823533,
-  "purpose": "M5 bounded APK CI timeout diagnostic workflow code B6",
+  "timestamp": 1793823623,
+  "purpose": "M5_APK_REDFIX_CODE_018F0F5E_WAIT_EXACT_CI",
   "token_hash": "7c16b05af49e38d27c16b05af49e38d27c16b05af49e38d27c16b05af49e38d2"
 }
