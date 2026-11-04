@@ -154,4 +154,47 @@ class FaroV5WorkspaceSearchReadSourceTest {
             assertEquals(1, titleResult.hits.size)
         }
     }
+
+    @Test
+    fun boundedRecentMessageScanDoesNotClaimCompleteOnLongHistory() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            val id = ConversationId("search-history-bound")
+            store.createAndSelect(id, 100L, IdempotencyKey("create-bounded-history"))
+            for (index in 1..251) {
+                val current = checkNotNull(store.readTimeline(id))
+                val text = when (index) {
+                    1 -> "tesoro antiguo que no debe certificarse como ausente"
+                    251 -> "pago reciente confirmado"
+                    else -> "nota numero " + index
+                }
+                val saved = store.writeTimeline(ConversationTimelineWriteRequest(
+                    id, current.authorityToken, current.revision,
+                    IdempotencyKey("append-bounded-" + index),
+                    ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                        ConversationMessageId("bounded-message-" + index), id,
+                        ConversationTurnId("bounded-turn-" + index),
+                        ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
+                        text, 200L + index,
+                    )),
+                ))
+                assertTrue(saved is ConversationTimelineWriteResult.Saved)
+            }
+            val source = FaroV5WorkspaceSearchReadSource(
+                "g1", store, { "g1" }, { "acl-test-only" }, { true },
+            )
+            val coordinator = CanonicalSearchCoordinator(source, null)
+            val missingFromRecent = coordinator.search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "tesoro", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, missingFromRecent.coverage)
+            assertTrue(missingFromRecent.hits.isEmpty())
+            val foundInRecent = coordinator.search(
+                SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, "pago reciente", 10),
+            )
+            assertEquals(CanonicalSearchCoordinator.Coverage.PARTIAL, foundInRecent.coverage)
+            assertEquals(1, foundInRecent.hits.size)
+            assertEquals(id, source.resolveAuthorizedConversation(foundInRecent.hits.single().key))
+        }
+    }
+
 }

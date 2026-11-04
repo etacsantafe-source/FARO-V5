@@ -94,6 +94,8 @@ data class WorkspaceRevisionSnapshot(
 )
 
 /** Read-only bounded canonical text, not an index, draft or authorization token. */
+private const val MAX_CANONICAL_SEARCH_MESSAGES_PER_CONVERSATION = 250
+
 data class WorkspaceSearchText(val text: String, val complete: Boolean)
 
 data class WorkspaceCreateRequest(
@@ -203,7 +205,8 @@ class ConversationWorkspaceStore private constructor(
      *
      * This is not ACL admission: the caller must check the actual generation,
      * permission epoch and Workspace revision before AND after reading.
-     * Truncation MUST propagate as partial coverage, never a false empty result.
+     * At most 250 eligible messages are examined per conversation (251st only
+     * detects overflow); truncation MUST mark coverage PARTIAL, not false empty.
      */
     fun readSearchableConversationText(id: ConversationId, maxChars: Int): WorkspaceSearchText =
         synchronized(mutex) {
@@ -216,10 +219,16 @@ class ConversationWorkspaceStore private constructor(
                    WHERE conversation_id = ?
                      AND ((role = 'USER' AND state = 'ACCEPTED')
                        OR (role = 'FARO' AND state = 'COMPLETED'))
-                   ORDER BY sequence DESC"""
+                   ORDER BY sequence DESC LIMIT 251"""
             ).use { statement ->
                 statement.bindText(1, id.value)
+                var inspected = 0
                 while (statement.step()) {
+                    inspected += 1
+                    if (inspected > MAX_CANONICAL_SEARCH_MESSAGES_PER_CONVERSATION) {
+                        complete = false
+                        break
+                    }
                     val text = statement.getText(0)
                     val separator = if (body.isEmpty()) 0 else 1
                     if (body.length + separator + text.length > maxChars) {
