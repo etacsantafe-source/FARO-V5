@@ -62,19 +62,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
-    "result": "PASS",
-    "unit_id": "M1_MANIFEST_VERIFIER",
+    "sha": "59a6a46a09677840aa883933ed57a0697cc6ef7d",
+    "result": "RED_FIX",
+    "unit_id": "M2A_FIRST_START_RECOVERY",
     "evidence": [
       {
-        "path": "docs/v5/FARO_V2_M1_B7_PASS_20261104.md",
-        "blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89",
-        "marker": "## B7 PASS"
+        "path": "docs/v5/FARO_V2_M2A_B7_REDFIX_20261104.md",
+        "blob_sha": "86b77840d52422cc4b071c450604a2ebc5666655",
+        "marker": "## B7 RED_FIX"
       }
     ]
   },
-  "why": "M2A PREPARING/STAGED/VALIDATED recovery only on unequivocal staged state in DEV; partial SQLite, foreign journal and unknown pointer fail closed; V1 and shipping untouched.",
-  "how": "M2A_FIRST_START_RECOVERY exact two source-set DEV files only. B1–B5 signed to immutable document blob. Run preflight and seven-block-evidence, then B7 exact CI.",
+  "why": "M2A B6 exact directed CI PASS but B7 RED_FIX due to two untested adversarial cases (VALIDATED pointer drift; symlink root). Next permitted SAME UNIT only; guard docs preflight failure caused by missing B7.",
+  "how": "Next single test-only functional commit FARO-UNIT:M2A_FIRST_START_RECOVERY, exact CI then B7 PASS; keep original B1-B5 doc immutable.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
