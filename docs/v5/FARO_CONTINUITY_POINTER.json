@@ -44,7 +44,7 @@
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
   "next": "S3.A2 OPEN. In-chat exact-message navigation and bounded partial coverage verified 57/57 total, 7/7 new on SHA 09fa2b21 GitHub Actions run 41837562790 SUCCESS. Prior 9bdbf7d4 55/55. Do NOT rerun. Next G1: genuine Workspace ACL read owner with independent monotonic revocation/re-grant events and pointer/generation/lifecycle invalidation; no fake epoch; shipping V1 has no Workspace and SearchReadPort remains null. G2 safe active-host bind only with actual authority; global search direct message target not yet done; G4 real source owners Finance/Objectives/Matters. A1/A4 partial, A3/A5 later. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, CLOUD STAGED, 172 operations, Guardados +8 only candidate, physical final only. Last handoff docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "checkpoint_status": "S3_A2_IN_CHAT_EXACT_MESSAGE_NAV_AND_BOUNDED_RESOURCE_CI_PASS_57_OF_57_G1_ACL_OPEN",
-  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
+  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage.",
   "last_handoff": "docs/s3-night/S3_A2_IN_CHAT_BOUNDED_CHECKPOINT_20261104.md",
   "last_code_sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
   "last_ci_run_id": 41837562790,
@@ -186,7 +186,7 @@
   "chat_context_thermometer": {
     "requested_by_user": "2026-11-04",
     "enabled": true,
-    "cadence": "include at the end of every substantive FARO V5 progress/update response, including in future chats",
+    "cadence": "end of every FARO V5 turn with percent summary; preserve independently of progress metric",
     "levels": [
       "GREEN/VERDE: comfortable",
       "YELLOW/AMARILLO: moderately loaded",
@@ -204,7 +204,9 @@
     "on_block": "DOCUMENT_REAL_DEPENDENCY_AND_DO_SAFE_ADJACENT_WORK_THAT_UNBLOCKS_A2_THEN_RETURN",
     "cycle": "RECOVER_HEAD_CAS_CI, INVESTIGATE, COMPARE_V44_READ_ONLY, FIND_GAPS, ADVERSARIAL, IMPLEMENT, EXACT_CI_XML, CHECKPOINT, RELEASE_WRITER",
     "no_duplicate_pass": true,
-    "termometro": "ALWAYS_QUALITATIVE"
+    "termometro": "ALWAYS_QUALITATIVE",
+    "percent_end_of_every_turn": true,
+    "percent_contract": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md"
   },
   "progress_s3_a2_g3_20261104": {
     "status": "PARTIAL_CANONICAL_MESSAGE_BODY_CI_PASS_23_OF_23_NO_SHIPPING_BINDING",
@@ -244,5 +246,55 @@
     "real_acl": "MISSING",
     "cross_domain": "NOT_BOUND",
     "status": "PARTIAL_FUNCTIONAL_CI_PASS_NO_SHIPPING_BINDING"
+  },
+  "progress_percent_reporting": {
+    "enabled": true,
+    "requested_by_user": "2026-11-04",
+    "cadence": "END_OF_EVERY_FARO_V5_TURN_INCLUDING_NEW_CHATS",
+    "source_of_truth": "docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md",
+    "metric": "VERIFIED_CLOSURE_ONLY_NOT_EFFORT_ESTIMATE",
+    "stage_s2": {
+      "closed": 8,
+      "total": 8,
+      "percent": 100,
+      "status": "CLOSED_FROZEN"
+    },
+    "stage_s3": {
+      "closed": 0,
+      "total": 5,
+      "percent": 0,
+      "stages": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5"
+      ],
+      "status": "OPEN_WITH_PARTIAL_PROGRESS"
+    },
+    "focus_s3_a2": {
+      "closed_gates": 0,
+      "total_gates": 5,
+      "percent": 0,
+      "gates": [
+        "G1",
+        "G2",
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "g3": "PARTIAL_CANONICAL_CHAT_CI_57_57",
+      "status": "OPEN"
+    },
+    "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
+    "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
+    "safeguard": "NEVER_TREAT_TEST_PASS_RATE_AS_PROJECT_COMPLETION; NEVER_COUNT_PARTIAL_AS_CLOSED; NEVER_INVENT_STAGE_PERCENT",
+    "recent_ci": {
+      "run_id": 41837562790,
+      "sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
+      "status": "SUCCESS",
+      "xml": "S3_SURFACE_57_57_IN_CHAT_7_7"
+    },
+    "carry_forward": "On Continuar FARO V5, read this pointer and reporting doc; include progress and qualitative chat thermometer in final section every turn."
   }
 }
