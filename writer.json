@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2.REGRANT_REGRESSION_HARDEN.20261104",
   "token_hash": "c631b51e5da0e44f5621ac2586fedae215a7cbdddd4b834e41ac3a2b5b90ba7a",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "ed5b129338cb56d61db947f4d8751e4b33f7e7ff",
-  "epoch": 108,
-  "timestamp": 1793793614,
-  "purpose": "S3_A2_STRONG_REVOKE_REGRANT_REGRESSION"
+  "target_head": "703ebd27be50739c4125c2ce1486e6de96859494",
+  "epoch": 109,
+  "timestamp": 1793793669,
+  "purpose": "S3_A2_REVOCATION_REGRANT_REGRESSION_COMMITTED_WAIT_CI"
 }
