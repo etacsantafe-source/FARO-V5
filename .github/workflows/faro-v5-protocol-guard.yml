@@ -39,17 +39,33 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           import json
-          import pathlib
           import subprocess
 
-          permit = json.loads(pathlib.Path("docs/v5/FARO_PROTOCOL_WORK_PERMIT.json").read_text())
+          # The permission for a code commit lives in its parent. The history
+          # gate above checks HEAD; the preflight checks the authorization base.
+          changed = subprocess.check_output(
+              ["git", "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"],
+              text=True,
+          ).splitlines()
+          functional = any(
+              path.startswith("v5/")
+              or path.startswith("scripts/v5/")
+              or (path.startswith(".github/workflows/")
+                  and path != ".github/workflows/faro-v5-protocol-guard.yml")
+              for path in changed
+          )
+          revision = "HEAD^" if functional else "HEAD"
+          permit = json.loads(subprocess.check_output(
+              ["git", "show", revision + ":docs/v5/FARO_PROTOCOL_WORK_PERMIT.json"],
+              text=True,
+          ))
           status = permit.get("status")
           if status == "BLOCKED":
-              print("FARO_PROTOCOL_PREFLIGHT_BLOCKED_EXPECTED")
+              print("FARO_PROTOCOL_PREFLIGHT_BLOCKED_EXPECTED", revision)
           elif status == "READY":
               command = [
                   "python3", "scripts/quality/faro-protocol-gate.py",
-                  "--mode", "preflight", "--head", "HEAD",
+                  "--mode", "preflight", "--head", revision,
                   "--unit", permit["unit_id"],
               ]
               for path in permit["paths"]:
