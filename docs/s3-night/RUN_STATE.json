@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 PARTIAL: implement genuine N-031 attention.read and N-015 history.query canonical owners, after source-of-truth validation. Guardados +8 still blocked for bounded approval. Independently emitted ACL revocation not demonstrated. Do not repeat exact-SHA CI 41754525802 9/9; physical campaign at S3 end. Night/Auto OFF.",
+  "next": "S3-A1 PARTIAL after directed CI 41788577377 exact SHA c55027cb 9/9: cross-instance same-root active pointer invalidation proved; next canonical N-031 attention.read and N-015 history.query owner implementation, independent ACL emitter; Guardados +8 still not approved. Physical NOT_RUN; do not repeat 9/9.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -216,6 +216,18 @@
       "junit_scope": "app:compileDebugKotlin plus exact FaroV5HomeNoticeBindingFactoryTest; no Android physical/cross-process certification",
       "regression": "Real durable FileActiveGenerationPointer publication invalidates already-subscribed Home port; subscription recheck closes initial listener-registration gap.",
       "remaining": "Independent ACL events, N-031 attention.read and N-015 history.query canonical owners absent; Guardados +8 candidate unapproved."
+    },
+    "same_root_cross_instance_pointer": {
+      "status": "DIRECTED_CI_SUCCESS_EXACT_SHA_9_OF_9",
+      "code_sha": "c55027cb6af922be025b6b0df098666931d2ddb8",
+      "run_id": 41788577377,
+      "junit_xml": "S3_HOME_NOTICE_XML_PASS 9/9",
+      "change": "FileActiveGenerationPointer shared process-local registry keyed by normalized durable root; separate pointer instances notify only after successful durable publication. Registry pruned when last listener removed.",
+      "regression": "FaroV5HomeNoticeBindingFactoryTest.sameHomePortInvalidatesWhenSeparatePointerInstanceDurablyPublishes",
+      "scope": "process-local only; NOT cross-process/independent ACL; no physical or complete A1 certification",
+      "remaining": "N031 attention.read and N015 history.query canonical read owners not implemented; Guardados bounded review unapproved; independently signaled ACL revocation not proven.",
+      "writer_release_epoch_expected": 76,
+      "physical": "NOT_RUN"
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",

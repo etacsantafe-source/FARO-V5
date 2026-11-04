@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
-  "trigger_action": "RECOVER_CONTEXT_READ_ONLY_NO_EXECUTION",
-  "updated_local_date": "2026-11-03",
+  "trigger_action": "RECOVER_LIVE_STATE_AND_CONTINUE_AUTHORIZED_MANUAL_S3_AFTER_WRITER_CAS_PREFLIGHT;NIGHT_AUTO_OFF",
+  "updated_local_date": "2026-11-04",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
   "phase": "S3_OPEN_NIGHT_OFF",
@@ -42,12 +42,12 @@
   "handoff": "docs/s3-night/RUN_STATE.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "S3-A1 PARTIAL: bind genuine N-031 Pendientes / N-015 Actividad owners when canonical source exists; Guardados needs bounded approval; independently emitted ACL/active-pointer event not demonstrated. Do not repeat 8/8 on same SHA; physical campaign at S3 end only.",
-  "checkpoint_status": "S3_A1_PARTIAL_N032_REAL_POST_COMMIT_AND_OWNER_CLOSE_CI_PASS_8_8",
+  "next": "S3-A1 PARTIAL: N031 attention.read and N015 history.query need genuine canonical read owners; independent ACL revocation emitter unproven; Guardados 8 candidates not approved; cross-instance pointer CI9/9 already verified, do not rerun. No S4/V2. Physical only at final S3 campaign.",
+  "checkpoint_status": "S3_A1_PARTIAL_REAL_NOTICE_POINTER_CROSS_INSTANCE_CI_9_9",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical.",
   "last_handoff": "docs/s3-night/RUN_STATE.json",
-  "last_code_sha": "68e725aff6befa3572ab55aa8583e0578d8752c0",
-  "last_ci_run_id": 41751319739,
+  "last_code_sha": "c55027cb6af922be025b6b0df098666931d2ddb8",
+  "last_ci_run_id": 41788577377,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -106,5 +106,6 @@
     "shared_mission": true,
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
-  }
+  },
+  "last_ci_conclusion": "SUCCESS_XML_9_9_EXACT_SHA"
 }

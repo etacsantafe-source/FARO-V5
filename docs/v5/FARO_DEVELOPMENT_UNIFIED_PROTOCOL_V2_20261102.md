@@ -68,3 +68,8 @@ En próximo chat: «Continuar FARO V5. Recuperar protocolo unificado de desarrol
 - Diferenciar estado declarado de estado verificado. Si la herramienta o el repositorio no están accesibles, informar qué no se pudo confirmar, sin inventar continuidad ni ejecutar cambios.
 - Al cierre de cada sesión con cambios, actualizar primero estado durable y luego el puntero canónico; registrar commit final. Si falla actualización del puntero, informar HANDOFF INCOMPLETE, no decir CLEAN.
 - Un nuevo chat debe poder reanudar con solo «Continuar FARO V5» y conversar antes de trabajar. La continuidad no autoriza trabajo por sí sola.
+
+
+## Aclaración humana vigente — 04/11/2026 (continuación manual S3)
+La instrucción posterior del usuario «Continuar FARO V5» pide recuperar el checkpoint vivo y proseguir de forma autónoma **solo el desarrollo manual S3 ya autorizado**, sin exigirle repetir decisiones o revalidaciones humanas resueltas. Esta aclaración sustituye exclusivamente la interpretación anterior de «solo READ_ONLY» para ese disparador; no autoriza por sí sola tareas programadas, FARO Auto/Noche, expiraciones, S4, activación V2, catálogo Guardados +8, APIs pagas ni escrituras sin exclusividad.
+En cada turno: preflight remoto de HEAD/CI/cola/writer, CAS estricto antes de mutar, continuar lo no cerrado, investigar/comparar/huecos, pruebas dirigidas con XML y checkpoint; si writer HELD/UNKNOWN o cualquier permiso no demostrado, trabajar READ_ONLY y no usurpar. No repetir PASS por SHA.
