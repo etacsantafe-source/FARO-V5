@@ -1,6 +1,6 @@
 package ar.com.faro.v5.app
 
-import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.contracts.ConversationSelectionResult
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
@@ -26,7 +26,7 @@ class FaroV5V2CoreDevAuthorityTest {
             assertEquals(BootstrapPhase.COMPLETED, entry?.phase)
             assertTrue(entry!!.materialWritesAccepted)
             assertTrue(FileGenerationReplayFence(root).isInstalled(MaintenanceOperationKind.RESTORE, expected))
-            assertEquals(0L, runBlocking { session.workspaceReadPort.readSnapshot() }.revision)
+            assertTrue(runBlocking { session.workspaceReadPort.readSnapshot() }.conversations.isEmpty())
             assertThrows(IllegalStateException::class.java) {
                 FaroV5ActiveGenerationGraphOwner.open(root, expected.value, SingleProcessMaterialWriteGate(), false)
             }
@@ -60,4 +60,40 @@ class FaroV5V2CoreDevAuthorityTest {
         assertThrows(Exception::class.java) { FaroV5V2CoreDevAuthority(root).open() }
         assertEquals(3L, Files.size(sqlite))
     }
+    @Test fun acceptedLocalUserMessageIsDurableWithoutSyntheticAssistant() {
+        val chat = ConversationId("v2-core-message-chat")
+        FaroV5V2CoreDevAuthority(root).open().use { session ->
+            assertTrue(runBlocking {
+                session.selectionPort.createAndSelect(chat, 2000L, IdempotencyKey("m3-create"))
+            } is ConversationSelectionResult.Saved)
+            val draft = runBlocking { session.composerPort.read(chat) }!!
+            val saved = runBlocking {
+                session.composerPort.save(ConversationDraftSaveRequest(
+                    chat, draft.authorityToken, draft.revision,
+                    "Hola desde el Chat local", IdempotencyKey("m3-save"),
+                ))
+            } as ConversationDraftWriteResult.Saved
+            val candidate = checkNotNull(
+                ConversationDraftPolicy.sendCandidate(ConversationDraftEditorState(saved.snapshot))
+            )
+            val sent = runBlocking {
+                session.composerPort.sendDraft(ConversationDraftSendRequest(
+                    candidate, ConversationMessageId("m3-user-1"), ConversationTurnId("m3-turn-1"),
+                    2001L, IdempotencyKey("m3-send"),
+                ))
+            }
+            assertTrue(sent is ConversationTimelineWriteResult.Saved)
+            val timeline = runBlocking { session.timelineReadPort.readTimeline(chat) }!!
+            assertEquals(1, timeline.messages.size)
+            assertEquals(ConversationMessageRole.USER, timeline.messages.single().role)
+            assertEquals(ConversationMessageState.ACCEPTED, timeline.messages.single().state)
+            assertEquals("Hola desde el Chat local", timeline.messages.single().text)
+        }
+        FaroV5V2CoreDevAuthority(root).open().use { reopened ->
+            val timeline = runBlocking { reopened.timelineReadPort.readTimeline(chat) }!!
+            assertEquals(1, timeline.messages.size)
+            assertEquals(ConversationMessageRole.USER, timeline.messages.single().role)
+        }
+    }
+
 }

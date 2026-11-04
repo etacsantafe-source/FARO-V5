@@ -37,5 +37,12 @@
 ## Tercer intento: segunda y ÚLTIMA dependencia de `src/debug` hallada por barrido de TODOS los tests comunes
 
 - SHA `ef1d056a8c6dab13b4d7b6bf32bbecd87b2e0540`, Actions [#41870431394](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41870431394) FAILURE: `FaroV5T4SyntheticCleanupTest` (común) referencia `FaroV5T4SyntheticCleanup` (sólo `src/debug`). No se ejecutaron los tres tests M2.
-- Barrido READ_ONLY completado: **27 test files Kotlin + 4 Java** contra 9 archivos debug. Las únicas dos referencias cruzadas eran `FaroV5T4PostPickerGateTest` (YA reubicado) y `FaroV5T4SyntheticCleanupTest`. No repetir error uno por uno.
+- Barrido READ_ONLY completado: **22 test files Kotlin + 4 Java** contra 9 archivos debug. Las únicas dos referencias cruzadas eran `FaroV5T4PostPickerGateTest` (YA reubicado) y `FaroV5T4SyntheticCleanupTest`. No repetir error uno por uno.
 - Reubicar el segundo test al `src/testDebug` con el **mismo blob SHA `59025180d2eaa9502b3a7c7d90caf212d1a2a67a`**, sin alterar S2 ni sus tests. Workflow exige ambos: 4/4 + 3/3 = **7/7** en debug; más M2 3/3 + M1 4/4. Estado pendiente CI.
+
+## Cuarta CI — prueba M2 compilada hasta contrato público, sin ejecución
+
+- SHA `772d4ba6be4d6b7cc8e945f7ffe1c727935b222c`; run [#41871599789](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41871599789) FAILURE en `compileV2CoreDevUnitTestKotlin`: la prueba nueva pretendía leer `ConversationWorkspaceSnapshot.revision`, campo inexistente en el **puerto público** (sí existe sólo en el store interno). Ningún test M2 ejecutado; compilation del build/producto M2 correcto.
+- Corregido exclusivamente test: `readSnapshot().conversations.isEmpty()` sin inventar revisión. Se añade un cuarto test M3 de draft + mensaje USER/ACCEPTED durable y sin respuesta FARO artificial.
+- S3 regression [#41871599723](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41871599723) SUCCESS, no reabrir sus conclusiones.
+- Nuevo gate integrado M2B/M3 pendiente **4/4 JVM +7/7 T4 debug +4/4 aislamiento M1 +4/4 host DEV**. El error de prueba no es una falla probada de persistencia del motor.

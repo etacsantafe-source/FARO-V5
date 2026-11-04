@@ -59,8 +59,8 @@ jobs:
           if len(paths)!=1: raise SystemExit(f"V2_CORE_M2_TEST_XML_MISSING {len(paths)}")
           root=ET.parse(paths[0]).getroot()
           values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
-          if values!=(3,0,0,0): raise SystemExit(f"V2_CORE_M2_TESTS_FAILED {values}")
-          print("V2_CORE_M2_ACTIVE_JVM_PASS 3/3")
+          if values!=(4,0,0,0): raise SystemExit(f"V2_CORE_M2_TESTS_FAILED {values}")
+          print("V2_CORE_M2_M3_LOCAL_CHAT_JVM_PASS 4/4")
           PY
       - name: Verify relocated historical debug-only T4 gate tests
         run: |
@@ -94,5 +94,21 @@ jobs:
           app = dev.find('application')
           if app is None or app.get(ns+'allowBackup') != 'false': raise SystemExit('V2_CORE_BACKUP_NOT_DISABLED')
           if 'android.permission.INTERNET' in {e.get(ns+'name') for e in dev.findall('uses-permission')}: raise SystemExit('V2_CORE_NETWORK_GRANTED')
+          if app.get(ns+'name') != 'ar.com.faro.v5.app.FaroV5V2CoreDevApplication':
+              raise SystemExit('V2_CORE_M2B_SHIPPING_APP_STARTUP_NOT_REPLACED')
+          activities=[node.get(ns+'name') for node in app.findall('activity')]
+          if activities != ['ar.com.faro.v5.app.FaroV5V2CoreDevActivity']:
+              raise SystemExit(f'V2_CORE_M2B_EXTRA_LAUNCHERS {activities}')
+          providers={node.get(ns+'name') for node in app.findall('provider')}
+          if 'androidx.startup.InitializationProvider' in providers:
+              raise SystemExit('V2_CORE_M2B_STARTUP_PROVIDER_PRESENT')
+          launcher=app.find('activity')
+          filters=launcher.findall('intent-filter') if launcher is not None else []
+          if len(filters)!=1: raise SystemExit('V2_CORE_M2B_LAUNCHER_FILTER_MISSING')
+          actions={n.get(ns+'name') for n in filters[0].findall('action')}
+          categories={n.get(ns+'name') for n in filters[0].findall('category')}
+          if 'android.intent.action.MAIN' not in actions or 'android.intent.category.LAUNCHER' not in categories:
+              raise SystemExit('V2_CORE_M2B_LAUNCHER_NOT_MAIN')
+          print('V2_CORE_M2B_DEV_APP_ISOLATED_PASS 4/4')
           print('V2_CORE_M1_ISOLATION_PASS 4/4')
           PY

@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- V2 DEV only: no external model egress or network. -->
+    <!-- No external network or remote AI calls in V2 DEV. -->
     <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <application
+        android:name="ar.com.faro.v5.app.FaroV5V2CoreDevApplication"
+        tools:replace="android:name">
+
+        <!-- None of the shipping or legacy certification launchers may start in this UID. -->
+        <activity android:name="ar.com.faro.v5.app.FaroV5BootstrapActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5AiSettingsActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5FiveStoreSafConsentActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5P5PhysicalActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5F1QuarantineCertificationActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5F1IsolatedChatActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5T4SafIntegralActivity" tools:node="remove" />
+        <provider android:name="ar.com.faro.v5.app.FaroV5A5TestContentProvider" tools:node="remove" />
+        <provider android:name="androidx.startup.InitializationProvider" tools:node="remove" />
+
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5V2CoreDevActivity"
+            android:exported="true"
+            android:label="FARO V2 CORE DEV"
+            android:excludeFromRecents="false"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

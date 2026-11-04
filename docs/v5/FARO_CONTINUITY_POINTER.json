@@ -39,15 +39,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/v5/FARO_V2_MIN_CORE_M2A_20261104.md",
+  "handoff": "docs/v5/FARO_V2_MIN_CORE_M2B_M3_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M2A #41870431394 failed to compile common T4SyntheticCleanup test (debug-only type). READ_ONLY sweep of all 27 Kotlin+4 Java common tests against nine debug sources found only two T4 cross references. T4PostPickerGate already moved; now move SAME-SHA T4SyntheticCleanup test to src/testDebug. Re-run directed M2 3/3 + debug T4 7/7 + M1 isolation 4/4. If green M2B app launcher and M3 local chat. V2 productiva, Auto, Noche OFF; writer CAS.",
-  "checkpoint_status": "M2A_ALL_DEBUG_ONLY_TEST_SOURCESETS_ISOLATED_CI_PENDING",
+  "next": "M1 PASS #41864185753 XML 4/4; S3 previous regression #41871599723 SUCCESS. Prior M2A #41871599789 failed compile because only test asserted nonexistent public snapshot revision, now fixed via empty conversations. M2B/M3 DEV-only Application+Activity+manifest and true local Workspace/Composer + USER ACCEPTED message persistence test in HEAD, pending exact CI XML 4/4 M2/M3, 7/7 T4 debug, M1 4/4, M2B host manifest 4/4. No Groq/IA/Apply/OS, normal App remains V2 OFF. NEXT inspect exact CI, fix failures narrowly, then M4/M5 recovery/negative gates, single physical at end; S3 ~40% 0/5, S4 OFF, Auto/Noche OFF, catalog 172.",
+  "checkpoint_status": "M2B_DEV_LOCAL_CHAT_UI_AND_M3_TEST_CODE_COMMITTED_CI_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_MIN_CORE_M2A_20261104.md",
-  "last_code_sha": "ef1d056a8c6dab13b4d7b6bf32bbecd87b2e0540",
-  "last_ci_run_id": 41870431394,
+  "last_handoff": "docs/v5/FARO_V2_MIN_CORE_M2B_M3_20261104.md",
+  "last_code_sha": "772d4ba6be4d6b7cc8e945f7ffe1c727935b222c",
+  "last_ci_run_id": 41871599789,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_M2A_UNITTEST_SECOND_DEBUG_ONLY_SYNTHETIC_CLASS",
+  "last_ci_conclusion": "FAILURE_TEST_PUBLIC_SNAPSHOT_FIELD_MISSING_ON_PREVIOUS_SHA_NO_M2_TEST_EXECUTED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -403,5 +403,6 @@
       "s4": "NOT_OPEN"
     },
     "writer_release_expected_epoch": 135
-  }
+  },
+  "last_code_ref": "work/s3-night-20261102@HEAD"
 }
