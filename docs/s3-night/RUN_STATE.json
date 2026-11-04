@@ -34,7 +34,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A1 PARTIAL after directed CI 41788577377 exact SHA c55027cb 9/9: cross-instance same-root active pointer invalidation proved; next canonical N-031 attention.read and N-015 history.query owner implementation, independent ACL emitter; Guardados +8 still not approved. Physical NOT_RUN; do not repeat 9/9.",
+  "next": "S3-A1 PARTIAL: cross-instance pointer and post-register notice reconciliation CI9/9 verified at c55027cb and 04234713 respectively. Next implement genuine canonical N031 attention.read planning owner and N015 history.query receipts readmodel using V4.4 semantics READ_ONLY; no invented count; independent ACL emitter unproven; Guardados +8 not approved. Do not repeat CI or physical tests.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -228,6 +228,25 @@
       "remaining": "N031 attention.read and N015 history.query canonical read owners not implemented; Guardados bounded review unapproved; independently signaled ACL revocation not proven.",
       "writer_release_epoch_expected": 76,
       "physical": "NOT_RUN"
+    },
+    "notice_subscription_reconciliation": {
+      "status": "DIRECTED_CI_SUCCESS_9_OF_9_EXACT_SHA",
+      "code_sha": "04234713a709be689a1bb68b7c296537757c954f",
+      "run_id": 41789709402,
+      "ci_conclusion": "SUCCESS",
+      "junit_xml": "S3_HOME_NOTICE_XML_PASS 9/9",
+      "scope": "App compile and directed nine JUnit tests only, not end-to-end Android/ACL/cross-process",
+      "change": "FaroV5HomeReadinessInvalidations.from(gate,store) revalidates after both owner listener registrations; tests drain reconciliation before asserting genuine subsequent owner commits, closes, and generation events.",
+      "physical": "NOT_RUN",
+      "writer_release_epoch_expected": 78
+    },
+    "legacy_next_owner_source_comparison": {
+      "reference_repo": "etacsantafe-source/FARO",
+      "reference_sha": "44f1e6eb77102a71955b4fb113582d209d94ac69",
+      "access": "READ_ONLY",
+      "n031": "app-v4/src/main/kotlin/ar/com/faro/v4/followup/FaroV4FollowUpGateway.kt: follow-up state derives actual matters/reminders/attention. Legacy MatterService.pending excludes resolved and deferred snoozed; orders due and priority. V5 canonical planning owner is not yet implemented/bound; do not project a fake count from Workspace.",
+      "n015": "app-v4/src/main/kotlin/ar/com/faro/v4/history/FaroV4GlobalHistoryGateway.kt: receipt history with domain/state/time filters and stable cursor page; V5 RealityStore exposes point receipt lookup only, no canonical history query/readmodel. Do not count lookup as complete history.",
+      "goal": "Implement canonically owned N031 and N015 with read authority and notifications before Home binding; preserve REALITY vs AUXILIARY provenance, cross-generation fail-closed. No V4 DB copy."
     }
   },
   "handoff": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
