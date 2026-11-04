@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A1.CI9.CERT.20261103",
-  "token_hash": "8071eb61b3b7f67b5543b222c1b424ce7d0d6907a4fc500c8fa3d407bbf199a7",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A1.POINTER.CROSSINSTANCE.20261104",
+  "token_hash": "111b5eb7320994437f342cfc81f92e114bf099f5f3f5c4c0b4484ecb533475a4",
   "target_branch": "work/s3-night-20261102",
   "target_head": "c46da8b71d63456c2ef7c18c14ebea1ff5e510dd",
-  "epoch": 74,
-  "timestamp": 1793756146,
-  "purpose": "S3_A1_CI9_PASS_DURABLE_HANDOFF"
+  "epoch": 75,
+  "timestamp": 1793775220,
+  "purpose": "S3_A1_REAL_POINTER_CROSS_INSTANCE_OWNER_SIGNAL"
 }
