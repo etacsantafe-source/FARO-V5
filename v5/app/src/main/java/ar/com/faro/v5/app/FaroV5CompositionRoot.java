@@ -27,6 +27,8 @@ import ar.com.faro.v5.kernel.contracts.ScheduledWorkExecutionPort;
 import ar.com.faro.v5.kernel.contracts.ScheduledWorkExecutionResult;
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate;
 import ar.com.faro.v5.maintenance.ActiveGenerationStorageLocator;
+import ar.com.faro.v5.maintenance.ActiveGenerationPointer;
+import ar.com.faro.v5.maintenance.FileActiveGenerationPointer;
 import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph;
 import ar.com.faro.v5.maintenance.GenerationActivationResult;
 import ar.com.faro.v5.maintenance.MaintenanceOperationKind;
@@ -704,6 +706,14 @@ public final class FaroV5CompositionRoot {
                                 store,
                                 dispatcher,
                                 reconciler);
+                // Freeze the full durable active-pointer identity once per V2 graph.
+                // A->B->A must not revive old Chat ports if the graph is cached
+                // and no UI listener observed the intervening switch.
+                final FileActiveGenerationPointer chatPointer =
+                        stores.getWorkspace() == null ? null
+                                : new FileActiveGenerationPointer(storageRoot);
+                final ActiveGenerationPointer pinnedChatPointer =
+                        chatPointer == null ? null : chatPointer.read();
                 FaroV5ActiveChatReadSession chatReadSession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveChatReadSession(
@@ -711,7 +721,15 @@ public final class FaroV5CompositionRoot {
                                         stores.getWorkspace(),
                                         stores.getWorkspace(),
                                         () -> generationStorage().activeGenerationId(),
-                                        () -> maintenanceRecoveryComplete);
+                                        () -> maintenanceRecoveryComplete,
+                                        () -> {
+                                            try {
+                                                return pinnedChatPointer != null
+                                                        && pinnedChatPointer.equals(chatPointer.read());
+                                            } catch (RuntimeException unavailablePointer) {
+                                                return false;
+                                            }
+                                        });
                 FaroV5ActiveChatComposerSession chatComposerSession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveChatComposerSession(

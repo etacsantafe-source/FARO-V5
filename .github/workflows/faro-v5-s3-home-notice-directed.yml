@@ -42,7 +42,7 @@ jobs:
       - name: Compile app and run Home notice tests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test"
       - name: Verify exact Home notice JUnit XML
         run: |
           python3 - <<'PY'
@@ -81,4 +81,12 @@ jobs:
           if notice_counts != (4,0,0,0):
               raise SystemExit(f'S3_AVISOS_XML_FAIL {notice_counts}')
           print('S3_AVISOS_XML_PASS 4/4')
+          chat = sorted(base.glob('TEST-*FaroV5ActiveChatReadSessionT2Test.xml'))
+          if len(chat) != 1:
+              raise SystemExit(f'S3_CHAT_POINTER_ABA_XML_MISSING {len(chat)}')
+          chat_root = ET.parse(chat[0]).getroot()
+          chat_counts = tuple(int(chat_root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if chat_counts != (6,0,0,0):
+              raise SystemExit(f'S3_CHAT_POINTER_ABA_XML_FAIL {chat_counts}')
+          print('S3_CHAT_POINTER_ABA_XML_PASS 6/6')
           PY
