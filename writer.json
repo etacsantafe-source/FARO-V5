@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_CHAINED_CI_HANDOFF.20261104",
   "token_hash": "5ac5d01ae9d2c7f4caf77ae21f7146d2a2b5b6e74190a245010f9920e4c42f4a",
   "target_branch": "work/s3-night-20261102",
   "target_head": "f64699e59e9fe0c287d07e3655b49a69234cb1e9",
   "epoch": 132,
-  "timestamp": 1793804817,
-  "purpose": "S3_A2_DURABLE_CHAINED_CHECKPOINT"
+  "timestamp": 1793804923,
+  "purpose": "A2_CHAINED_CHECKPOINT_CI_PENDING_HANDOFF"
 }
