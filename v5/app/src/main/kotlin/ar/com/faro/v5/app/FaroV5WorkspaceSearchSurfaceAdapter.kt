@@ -15,6 +15,7 @@ import ar.com.faro.v5.surface.FaroV5SearchReadPort
 import java.util.UUID
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 
 /**
  * Staged S3.A2 composition adapter. Searches only the genuine Workspace owner.
@@ -27,7 +28,7 @@ import kotlinx.coroutines.flow.Flow
 class FaroV5WorkspaceSearchSurfaceAdapter(
     private val source: FaroV5WorkspaceSearchReadSource,
     private val selection: ConversationWorkspaceSelectionPort,
-    override val invalidations: Flow<Unit>,
+    upstreamInvalidations: Flow<Unit>,
 ) : FaroV5SearchReadPort {
     private val searcher = CanonicalSearchCoordinator(source, null)
 
@@ -40,6 +41,16 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
     private val publicationLock = Any()
     private var searchSerial = 0L
     private var publication: Publication? = null
+
+    // Only the *real owner's* invalidation flow can revoke visible content.
+    // A transient recovery/pointer change also invalidates in-flight queries,
+    // even when the eventual authority stamp becomes equal again.
+    override val invalidations: Flow<Unit> = upstreamInvalidations.onEach {
+        synchronized(publicationLock) {
+            searchSerial += 1
+            publication = null
+        }
+    }
 
     override suspend fun search(query: String): FaroV5SearchPage {
         val requestSerial = synchronized(publicationLock) {
@@ -136,7 +147,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
                         val after = source.authorityStamp()
                         // Selection may legitimately increment Workspace revision.
                         // Generation and ACL epoch, however, must remain unchanged.
-                        if (!sameAuthority(before, after)) {
+                        if (!sameAuthority(before, after) || !isPublished(hit, before)) {
                             FaroV5SearchOpenResult.UNAVAILABLE
                         } else when (outcome) {
                             is ConversationSelectionResult.Saved ->

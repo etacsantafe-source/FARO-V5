@@ -70,7 +70,7 @@ jobs:
               raise SystemExit(f'S3_SEARCH_BRIDGE_XML_MISSING {len(bridge)}')
           bridge_root = ET.parse(bridge[0]).getroot()
           bridge_count = tuple(int(bridge_root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
-          if bridge_count != (3,0,0,0):
+          if bridge_count != (5,0,0,0):
               raise SystemExit(f'S3_SEARCH_BRIDGE_XML_FAIL {bridge_count}')
-          print('S3_SEARCH_BRIDGE_XML_PASS 3/3')
+          print('S3_SEARCH_BRIDGE_XML_PASS 5/5')
           PY

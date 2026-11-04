@@ -5,7 +5,10 @@ import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.surface.FaroV5SearchCoverage
 import ar.com.faro.v5.surface.FaroV5SearchOpenResult
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
@@ -87,6 +90,30 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
             assertNotEquals(old.issuanceId, fresh.issuanceId)
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(old))
             assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(fresh))
+        }
+    }
+
+    @Test
+    fun ownerInvalidationRevokesPreviouslyPublishedHitEvenWithSameStamp() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            store.createAndSelect(ConversationId("owner-event-target"), 100L, IdempotencyKey("new"))
+            val ownerEvents = MutableSharedFlow<Unit>()
+            val adapter = FaroV5WorkspaceSearchSurfaceAdapter(
+                source(store, { "g1" }, { "acl-1" }), store, ownerEvents,
+            )
+            val subscriber = launch(start = CoroutineStart.UNDISPATCHED) {
+                adapter.invalidations.collect()
+            }
+            try {
+                val old = adapter.search("nuevo").hits.single()
+                ownerEvents.emit(Unit)
+                assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(old))
+                val fresh = adapter.search("nuevo").hits.single()
+                assertNotEquals(old.issuanceId, fresh.issuanceId)
+                assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(fresh))
+            } finally {
+                subscriber.cancel()
+            }
         }
     }
 
