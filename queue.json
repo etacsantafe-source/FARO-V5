@@ -492,7 +492,7 @@
       "unit_id": "S3-A1",
       "block_id": 1,
       "block_status": "READY",
-      "expected_head": "52fb067052266180b964f6e7dcfbff387d1cb928",
+      "expected_head": "c12d7561762cbe428fa8883fc21569ad162525b8",
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "verified_blocks": {},
       "evidence": [
@@ -509,17 +509,17 @@
           "scope": "FARO_NIGHT_SELECTORS_36_OF_36_ONLY"
         }
       ],
-      "next_step": "Block 1: reconcile S3-A1 previous evidence; do not repeat the proven notice tests. Next gap: independent owner ACL/generation invalidation on same readPort; canonical N031 and N015 owners remain unproven. Do not mark A1 DONE.",
+      "next_step": "NOCHE_A verified readActiveHomePort readiness binding already exists; do NOT repeat. B must trace canonical ACL/generation emitter and create regression with same readPort; exact CI for new test. selector-only SHA c12d... requires scoped revalidation, not repeat functional A1 PASS.",
       "blocker": null,
       "writer_release_epoch": 60,
-      "last_observed_at": "2026-11-03T19:44:05-03:00"
+      "last_observed_at": "2026-11-03T21:10:00-03:00"
     }
   },
   "dynamic_preparation": {
     "status": "PREPARED_UNAUTHORIZED",
     "previous_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V22_20261102.md#revision-final-del-chat--v22-r1--02112026-prioridad-sobre-reglas-v22-anteriores-cuando-difieren",
     "prepared_for": "FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103",
-    "live_source_head": "52fb067052266180b964f6e7dcfbff387d1cb928",
+    "live_source_head": "c12d7561762cbe428fa8883fc21569ad162525b8",
     "selector_ci": {
       "run_id": 41732667534,
       "sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
@@ -534,6 +534,13 @@
       "kind": "DOC_ONLY_NO_SELECTOR_CODE_CHANGE",
       "ci_retained_from_sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
       "run_id": 41732667534
+    },
+    "early_handoff": {
+      "authorized": true,
+      "slot": "2026-11-03T21:13:00-03:00",
+      "prior_A_completed": "2026-11-04T00:04:26.535333Z",
+      "writer_epoch": 62,
+      "scope": "S3_ONLY"
     }
   },
   "dynamic_pilot_20261103": {
@@ -547,5 +554,17 @@
     "no_physical": true,
     "manual_termux_only_activated_queue": true,
     "automations_to_enable_after_queue_verification": true
+  },
+  "early_handoff": {
+    "authorized": true,
+    "role": "NOCHE_B",
+    "prior_role": "NOCHE_A",
+    "prior_run_id": "7f8b904d-f3c8-832f-a65a-d56cd1c374a0",
+    "prior_completed_at": "2026-11-04T00:04:26.535333Z",
+    "starts_at": "2026-11-03T20:58:00-03:00",
+    "slot_at": "2026-11-03T21:13:00-03:00",
+    "reason": "USER_EXPLICIT_ADVANCE_B_20261103_AFTER_A_COMPLETED_NO_NEW_S3_SCOPE",
+    "previous_b_slot": "2026-11-03T21:28:00-03:00",
+    "authority_end": "2026-11-03T21:58:00-03:00"
   }
 }
