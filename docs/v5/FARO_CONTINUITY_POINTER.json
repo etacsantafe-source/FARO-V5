@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
-  "trigger_action": "RECOVER_LIVE_STATE_AND_CONTINUE_AUTHORIZED_MANUAL_S3_AFTER_WRITER_CAS_PREFLIGHT;NIGHT_AUTO_OFF",
+  "trigger_action": "RECOVER_LIVE_STATE_AND_CONTINUE_AUTHORIZED_MANUAL_V2_MIN_CORE_AFTER_WRITER_CAS_PREFLIGHT; NEVER_AUTO_ACTIVATE_V2_PRODUCTION_AUTO_NIGHT",
   "updated_local_date": "2026-11-04",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
@@ -39,13 +39,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md",
-  "handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
+  "handoff": "docs/v5/FARO_V2_MINIMUM_CORE_UNBLOCK_PLAN_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
-  "permissions": "S3_ONLY_APPROVED_SAFE_SCOPE;NO_S4;NO_APP_V2;NO_MAIN_OR_V44_WRITES;S2_FROZEN;GUARDADOS_PLUS8_NOT_CATALOG_APPROVED",
-  "next": "G1/G2 cause root verified 2026-11-04: active LEGACY_V1 has FOUR stores and Workspace=NULL; V2 five-owner host remains prohibited by V2_ACTIVE_ENABLED=false, independently from S2 8/8 certificate. Creating ACL epoch alone CANNOT unblock shipping Search. Workspace authority token is for writes; pointer sequence monotonic and readiness notifications are real fences, not independent read ACL. Under approved V2 activation, bind genuinely durable owner-scoped read-admission epoch with revocation/regrant observers, cross-instance tests, plus pointer/readiness checks. FIRST avoid inventing ACL grants: establish if local single-user FARO actually has independent read permission semantics; if not, explicit design decision on G1 requirement before code. No V2 activation without separate authorization. Preserve previously verified 59/59 surface SHA abca920c, 25/25 home/workspace SHA f64699e5, do not rerun. A2 G1..G5 still OPEN, S3 ≈40% estimate, 0/5 closed; S2 8/8 CLOSED. V2/Auto/Noche/S4 OFF, CLOUD STAGED. See added 'Investigación de causa raíz' in docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md.",
-  "checkpoint_status": "S3_A2_SEARCH_TO_CHAT_59_OF_59_AND_G3_LONG_PREFIX_25_OF_25_CI_VERIFIED_G1_ACL_OPEN",
+  "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
+  "next": "PRIORITY CHANGED by user 2026-11-04: unblock V2 MINIMUM ISOLATED DEV CORE to restore productive FARO feature development. Canonical plan docs/v5/FARO_V2_MINIMUM_CORE_UNBLOCK_PLAN_20261104.md. NEXT M0 bounded dependency mapping (V1 four stores versus V2 five, host admission, recovery, Compose, S4 dependencies only if proven), then M1 isolated app/storage+safe gates, M2 genuine active Workspace in isolated DEV (never flip global V2_ACTIVE_ENABLED), M3 Chat/Workspace & non-fake ACL, M4 disable default Apply/IA/OS, M5 directed tests, then resume S3 closure then S4. Do not rework A2 G3 peripherals. This is DEVELOPMENT strategic authorization, NOT permission to activate V2 in regular production or schedule automation. Previous CI surface 59/59, home 25/25 already PASS. S2 8/8, S3 ~40% dev 0/5 closure, S4 unopened, V2 prod OFF, Auto/Noche OFF, catalog172; writer CAS mandatory. Continue in any chat with 'Continuar FARO V5' without user repeating instructions.",
+  "checkpoint_status": "V2_MINIMUM_CORE_OBJECTIVE_APPROVED_DOCUMENTED_NOT_ACTIVATED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_CHAINED_CANONICAL_NAVIGATION_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_MINIMUM_CORE_UNBLOCK_PLAN_20261104.md",
   "last_code_sha": "f64699e59e9fe0c287d07e3655b49a69234cb1e9",
   "last_ci_run_id": 41854013498,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -199,9 +199,9 @@
   },
   "manual_hybrid_strategy": {
     "approved": "2026-11-04",
-    "priority": "S3-A2",
-    "mode": "SINGLE_CLOSURE_PRIORITY",
-    "on_block": "DOCUMENT_REAL_DEPENDENCY_AND_DO_SAFE_ADJACENT_WORK_THAT_UNBLOCKS_A2_THEN_RETURN",
+    "priority": "V2_MIN_CORE",
+    "mode": "MINIMUM_DEPENDENCY_FIRST_V2_DEV_READY_THEN_S3_S4_CLOSURES",
+    "on_block": "PROVE_CONCRETE_DEPENDENCY_AND_COMPLETE_MINIMUM_SAFE_UNIT_ONLY;NO_PERIPHERAL_S3_G3_CHURN",
     "cycle": "RECOVER_HEAD_CAS_CI, INVESTIGATE, COMPARE_V44_READ_ONLY, FIND_GAPS, ADVERSARIAL, IMPLEMENT, EXACT_CI_XML, CHECKPOINT, RELEASE_WRITER",
     "no_duplicate_pass": true,
     "termometro": "ALWAYS_QUALITATIVE",
@@ -361,5 +361,47 @@
     "new_tests": "NONE",
     "new_runtime_code": "NONE",
     "writer_epoch_expected_release": 134
+  },
+  "v2_minimum_core_objective_20261104": {
+    "status": "APPROVED_DURABLE_PLAN_NOT_IMPLEMENTED",
+    "objective": "UNBLOCK_V2_INTEGRATED_ISOLATED_DEVELOPMENT_CORE_TO_RESUME_FEATURE_PRODUCTION",
+    "plan": "docs/v5/FARO_V2_MINIMUM_CORE_UNBLOCK_PLAN_20261104.md",
+    "priority": "V2_MIN_CORE",
+    "order": [
+      "M0_DEPENDENCY_GATE",
+      "M1_ISOLATED_APP_STORAGE",
+      "M2_FIVE_STORE_ACTIVE_DEV_ADMISSION",
+      "M3_CHAT_WORKSPACE_AUTHENTIC_PERMISSION",
+      "M4_SENSITIVE_ACTIONS_DENY_BY_DEFAULT",
+      "M5_CI_AND_INTEGRATION",
+      "RESUME_S3_CLOSURE",
+      "CLOSE_S4",
+      "SEPARATE_PRODUCTION_ACTIVATION"
+    ],
+    "scope": "S3_S4_ONLY_PROVEN_MINIMUM_DEPENDENCIES_BEFORE_V2_DEV_READY",
+    "s4_formal_open": false,
+    "v2_production_enabled": false,
+    "v2_dev_core_ready": false,
+    "activation_permission": "NO_PRODUCTION_ACTIVATION_USER_DECISION_REQUIRED",
+    "guardrails": [
+      "CAS_SINGLE_WRITER",
+      "V1_V44_AND_MAIN_UNTOUCHED",
+      "NO_FAKE_ACL",
+      "NO_PAID_APIS",
+      "NO_AUTOMATIONS",
+      "NO_UNAPPROVED_CATALOG_MUTATION",
+      "DO_NOT_REPEAT_PRIOR_CI"
+    ],
+    "last_passed_ci": [
+      "41853477492_59_OF_59",
+      "41854013498_25_OF_25"
+    ],
+    "progress_baseline": {
+      "s2": "100%_8_OF_8",
+      "s3_estimated": "40%_HEURISTIC",
+      "s3_formal": "0_OF_5",
+      "s4": "NOT_OPEN"
+    },
+    "writer_release_expected_epoch": 135
   }
 }
