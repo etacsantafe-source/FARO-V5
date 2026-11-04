@@ -75,7 +75,7 @@ class FaroV5ActiveChatReadSessionT2Test {
         }
     }
 
-    @Test fun durablePointerAbaFailsClosedWithoutAnyListener() = runBlocking {
+    @Test fun durablePointerAbaFailsClosedWithoutAnyListener(): Unit = runBlocking {
         val pointer = FileActiveGenerationPointer(root)
         val generation = StorageGenerationId("g-v2")
         val other = StorageGenerationId("g-other")
