@@ -135,8 +135,9 @@ class FaroV5HomeNoticeBindingFactoryTest {
                 val changes = Channel<Unit>(Channel.UNLIMITED)
                 val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
                 try {
-                    yield()
-                    yield()
+                    // Post-registration reconciliation is distinct from owner commits.
+                    withTimeout(3000) { changes.receive() }
+                    assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
                     val candidate = NoticeCandidate(
                         noticeKey = NoticeKey.of("home.test"),
                         sourceRef = SourceRef.of("home:source"),
@@ -215,8 +216,8 @@ class FaroV5HomeNoticeBindingFactoryTest {
             val changes = Channel<Unit>(Channel.UNLIMITED)
             val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
             try {
-                yield()
-                yield()
+                withTimeout(3000) { changes.receive() } // registration recheck
+                assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
                 store.close()
                 withTimeout(3000) { changes.receive() }
                 assertTrue(readPort.readIndicators().isEmpty())
@@ -259,8 +260,13 @@ class FaroV5HomeNoticeBindingFactoryTest {
                 val changes = Channel<Unit>(Channel.UNLIMITED)
                 val observer = launch { readPort.invalidations.collect { changes.send(Unit) } }
                 try {
-                    // The initial recheck proves the pointer listener is subscribed.
-                    withTimeout(3000) { changes.receive() }
+                    // Drain both post-registration rechecks. The next event must
+                    // be the separate publisher's actual durable pointer commit.
+                    withTimeout(3000) {
+                        changes.receive() // Auxiliary and readiness owner registered
+                        changes.receive() // Pointer owner registered
+                    }
+                    assertTrue(changes.tryReceive().isFailure)
                     assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
                     assertEquals(target, publisher.compareAndSet(original, target)?.generationId)
                     withTimeout(3000) { changes.receive() }

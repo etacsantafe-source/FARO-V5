@@ -36,9 +36,12 @@ object FaroV5HomeReadinessInvalidations {
             store.addNoticeCommitListener(noticeListener)
             true
         } catch (_: IllegalStateException) {
-            trySend(Unit)
             false
         }
+        // Reconcile AFTER both owner listeners are registered. A commit or
+        // readiness transition between the UI's first read and subscription
+        // must not leave a stale count. This is a re-read, not a fake commit.
+        trySend(Unit)
         awaitClose {
             if (noticeSubscribed) store.removeNoticeCommitListener(noticeListener)
             gate.removeListener(readinessListener)
