@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2_CHAINED_CI_HANDOFF.20261104",
-  "token_hash": "5ac5d01ae9d2c7f4caf77ae21f7146d2a2b5b6e74190a245010f9920e4c42f4a",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A2_CI_25_25_VERDICT.20261104",
+  "token_hash": "393d90177d7cf18f1f665e5b0d9987e4684083f08c58fb22e8ff6cc6cf837531",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "f64699e59e9fe0c287d07e3655b49a69234cb1e9",
-  "epoch": 132,
-  "timestamp": 1793804923,
-  "purpose": "A2_CHAINED_CHECKPOINT_CI_PENDING_HANDOFF"
+  "target_head": "1847b5ed150df5b510357cac82e39f2116af0e78",
+  "epoch": 133,
+  "timestamp": 1793805037,
+  "purpose": "COMPLETE_VERIFIED_EXACT_G3_CI_VERDICT"
 }
