@@ -42,7 +42,7 @@ jobs:
       - name: Compile app and run Home notice tests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest"
       - name: Verify exact Home notice JUnit XML
         run: |
           python3 - <<'PY'
@@ -57,4 +57,12 @@ jobs:
           if vals != (9,0,0,0):
               raise SystemExit(f'S3_HOME_XML_FAIL {vals}')
           print('S3_HOME_NOTICE_XML_PASS 9/9')
+          related = sorted(base.glob('TEST-*FaroV5WorkspaceSearchReadSourceTest.xml'))
+          if len(related) != 1:
+              raise SystemExit(f'S3_WORKSPACE_SEARCH_XML_MISSING {len(related)}')
+          result = ET.parse(related[0]).getroot()
+          cases = tuple(int(result.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+          if cases != (3,0,0,0):
+              raise SystemExit(f'S3_WORKSPACE_SEARCH_XML_FAIL {cases}')
+          print('S3_WORKSPACE_SEARCH_XML_PASS 3/3')
           PY
