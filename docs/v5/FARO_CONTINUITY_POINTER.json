@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 175
+    "expected_release_epoch": 176
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
+  "handoff": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M5 APK binary/signature/permissions B7 PASS exact code 018f0f5e run #41905632794 artifact #13360681405. DO NOT REPEAT. Resume bounded M5 global acceptance gaps and S3 Chat/Workspace integration; one consolidated authorized Moto G15 physical campaign pending, V2_DEV_CORE_READY=false. Permit BLOCKED, no fresh functional code without new B1-B5/READY. Writer expected RELEASED epoch 175; queue STAGED, Auto/Noche/V2 productive OFF. See docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
-  "checkpoint_status": "M5_DEV_APK_PACKAGE_GATE_B7_PASS_M5_GLOBAL_PARTIAL_ANDROID_NOT_RUN",
+  "next": "M5 single Moto G15 physical campaign PREPARED, NOT_RUN. Execute only with user/device participation, using verified APK artifact #13360681405 (expires 2026-11-09 UTC), SHA256 APK 8773f7cea..., preserve FARO habitual, no app data clear. M5 global PARTIAL; V2_DEV_CORE_READY=false; S3 Chat/Workspace code already exists, no duplicate M1-M4 CI. Permit BLOCKED; writer RELEASED expected epoch 176. See docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
+  "checkpoint_status": "M5_SINGLE_PHYSICAL_CAMPAIGN_B1_B5_PREPARED_ANDROID_NOT_RUN_M5_GLOBAL_PARTIAL",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
   "last_code_sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
   "last_ci_run_id": 41905632794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -595,5 +595,32 @@
     "physical": "NOT_RUN",
     "global_m5": "PARTIAL",
     "v2_dev_core_ready": false
+  },
+  "m5_physical_campaign": {
+    "status": "PREPARED_B1_B5_ONLY_NOT_RUN",
+    "document": "docs/v5/FARO_V2_M5_SINGLE_PHYSICAL_CAMPAIGN_PREP_20261104.md",
+    "scope": "DEV_ISOLATED_MOTO_G15_SINGLE_CAMPAIGN",
+    "gate_ids": [
+      "F-00",
+      "F-01",
+      "F-02",
+      "F-03",
+      "F-04",
+      "F-05",
+      "F-06",
+      "F-07",
+      "F-08",
+      "F-09"
+    ],
+    "result": "ALL_NOT_RUN",
+    "artifact_id": 13360681405,
+    "run_id": 41905632794,
+    "apk_sha256": "8773f7cea29b7487d955aff2a65eecdb56aa0eb49ba6428b74d95ee277f805c4",
+    "expiry_utc": "2026-11-09T20:26:15Z",
+    "physical_authorization": "REQUIRES_USER_DEVICE_PARTICIPATION_NO_AUTO_INSTALL",
+    "code_changes": 0,
+    "ci_new_runs": 0,
+    "v2_dev_core_ready": false,
+    "v2_productive": false
   }
 }
