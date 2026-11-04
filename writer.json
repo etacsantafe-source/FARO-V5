@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2_SEARCH_SELECTION_REFRESH.20261104",
-  "token_hash": "e95729990765e93ac3ec690b258c5d2b3ff9aad91ed1d26df3a1a36ff17e3c40",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A2_LONG_TEXT_PREFIX.20261104",
+  "token_hash": "889d7fd450714c2d9ae6cb9e7b9cf43dd0699b4c0ed3410d1310ec5f78dbf906",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "76b9984fc4c76f0bfce1a7c8f6036cb8ee5d4a3d",
-  "epoch": 130,
-  "timestamp": 1793804516,
-  "purpose": "S3_A2_SEARCH_TO_CHAT_FIX_PUBLISHED_SURFACE_CI_PENDING"
+  "target_head": "abca920c3300a2d51f55b2633eb0e945094eec73",
+  "epoch": 131,
+  "timestamp": 1793804619,
+  "purpose": "G3_BOUNDED_RECENT_LONG_MESSAGE_PREFIX"
 }
