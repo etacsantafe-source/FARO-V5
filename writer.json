@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M5.F05CONF.20261104",
   "token_hash": "ea14af15b12290d67c4c895204d2495c48b735468d671952b8af4d4c5ca2167a",
   "target_head": "2e4cd9dbd3b1ba9660fb37952af3a9eb4c559a1a",
   "target_branch": "work/s3-night-20261102",
   "epoch": 178,
-  "timestamp": 1793829120,
-  "purpose": "M5_F05_USER_CONFIRMED_FORCE_STOP_VISUAL_PERSISTENCE_DOC_ONLY"
+  "timestamp": 1793829180,
+  "purpose": "F05_CONFIRMED_CHECKPOINT_COMMITTED_PERMIT_BLOCKED"
 }
