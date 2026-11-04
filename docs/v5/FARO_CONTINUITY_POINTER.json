@@ -20,7 +20,8 @@
     "coordination_ref": "refs/heads/faro-v5-writer-lock",
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
-    "no_auto_takeover": true
+    "no_auto_takeover": true,
+    "expected_release_epoch": 175
   },
   "automation": {
     "activation_authorized": false,
@@ -39,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
+  "handoff": "docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Exact corrected M5 APK workflow code 018f0f5e; guard #41905632721 SUCCESS and preflight #41905211146 PASS. APK run #41905632794 was IN_PROGRESS at checkpoint; NEXT read exact run, logs and artifact, mark B7 PASS or RED_FIX. No duplicative workflow reruns, permit BLOCKED, writer RELEASED epoch 174 expected; physical NOT_RUN, V2_DEV_CORE_READY=false. See docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B6_WAIT_CI_20261104.md",
-  "checkpoint_status": "M5_APK_REDFIX_B6_NEW_CI_RUNNING_PERMIT_BLOCKED_B7_PENDING",
+  "next": "M5 APK binary/signature/permissions B7 PASS exact code 018f0f5e run #41905632794 artifact #13360681405. DO NOT REPEAT. Resume bounded M5 global acceptance gaps and S3 Chat/Workspace integration; one consolidated authorized Moto G15 physical campaign pending, V2_DEV_CORE_READY=false. Permit BLOCKED, no fresh functional code without new B1-B5/READY. Writer expected RELEASED epoch 175; queue STAGED, Auto/Noche/V2 productive OFF. See docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
+  "checkpoint_status": "M5_DEV_APK_PACKAGE_GATE_B7_PASS_M5_GLOBAL_PARTIAL_ANDROID_NOT_RUN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B6_WAIT_CI_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
   "last_code_sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
   "last_ci_run_id": 41905632794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -107,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "M5_APK_41905632794_IN_PROGRESS_NO_RESULT;M5_GUARD_41905632721_SUCCESS;OLD_M5_41899136921_CANCELLED_TIMEOUT",
+  "last_ci_conclusion": "M5_APK_41905632794_SUCCESS_ARTIFACT_13360681405_B7_PASS_ONLY",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -583,5 +584,16 @@
     "m5_ci_run": 41905632794,
     "m5_ci_status": "IN_PROGRESS",
     "m5_guard_run": 41905632721
+  },
+  "m5_apk": {
+    "unit": "M5_DEV_APK_PACKAGE_GATE",
+    "status": "B7_PASS_PACKAGE_ONLY",
+    "code_sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
+    "run": 41905632794,
+    "artifact": 13360681405,
+    "apk_sha256": "8773f7cea29b7487d955aff2a65eecdb56aa0eb49ba6428b74d95ee277f805c4",
+    "physical": "NOT_RUN",
+    "global_m5": "PARTIAL",
+    "v2_dev_core_ready": false
   }
 }

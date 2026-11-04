@@ -55,23 +55,23 @@
         }
       ]
     },
-    "B6": "WAIT_CI_CORRECTIVE_M5_APK",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_APK_CI_41905632794",
+    "B7": "PASS_FINAL_AUDIT_APK_PACKAGE_GATE_ONLY"
   },
   "last_code_review": {
-    "sha": "9bd648415718070bdda0465ab26431e36eda95d4",
-    "result": "RED_FIX",
+    "sha": "018f0f5e1cb600a25f5d0d7897def5739a9b06f8",
+    "result": "PASS",
     "unit_id": "M5_DEV_APK_PACKAGE_GATE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_V2_M5_APK_TIMEOUT_REDFIX_B1_B5_20261104.md",
-        "blob_sha": "75043d8943a2bf4e271b6f46cc2098f8522967c4",
-        "marker": "## B7 RED_FIX"
+        "path": "docs/v5/FARO_V2_M5_APK_B7_PASS_20261104.md",
+        "blob_sha": "19647541073413c4ed0aebd8c2672bdc2ef56c03",
+        "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Previous M5 code 9bd64841 cancelled on job time cap; corrected M5 code 018f0f5e preflight and guard PASS, APK run #41905632794 still pending. No further code until B7.",
-  "how": "Read CI exact #41905632794 logs and published artifact; if PASS B7, if red B7 RED_FIX. Do not launch another run while active; new READY permit after final audit.",
+  "why": "Exact APK CI #41905632794 SUCCESS, artifact #13360681405 and binary/signature/zero-permission evidence B7 PASS. Next functional unit requires new B1-B5/READY permit; M5 global remains PARTIAL, Android NOT_RUN, V2_DEV_CORE_READY=false.",
+  "how": "Preserve B7 doc and APK hash. Do not repeat successful M5 package CI. For new functional code require fresh B1-B5, separate READY permit and exact preflight.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
