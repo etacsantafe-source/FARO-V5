@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.M4.B6.20261104",
-  "token_hash": "a6e4c18315c59741a83d19219e2b7d6af2d64cff5605b10acefe34627d850966",
-  "target_head": "d5354b603b9e6300eb6b3033bd8637f5103e8f0f",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.M4.WAITCI.20261104",
+  "token_hash": "b231a9016f21e9d32e59d705c913aba8b17005e48f321fe8a42f5a520cd395df",
+  "target_head": "b92d5407c9a856c1ca91f7e2b81d76b41dd0f15a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 162,
-  "timestamp": 1793819779,
-  "purpose": "M4_B6_COMMITTED_B92D5407_WAIT_EXACT_CI"
+  "epoch": 163,
+  "timestamp": 1793819992,
+  "purpose": "M4 CI-running durable WAIT_CI checkpoint docs only"
 }
