@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 188
+    "expected_release_epoch": 189
   },
   "automation": {
     "activation_authorized": false,
@@ -40,14 +40,14 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B6_WAIT_CI_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_FIX_B6_WAIT_CI_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Verify exact SHA 8c01f4c4 directed Actions #41932138084 (v2CoreDev 9/9), #41932138014 (isolated APK binary/permissions), #41932137991 (Home Workspace), guard #41932138079 PASS. Then independent B7 PASS or RED_FIX, update last_code_review, keep permit BLOCKED. DEV-only Search NOT shipping ACL/G1, no physical APK update/signing. Mandatory external research B3 for all future units.",
-  "checkpoint_status": "S3_A2_DEV_SESSION_SEARCH_CODE_8C01F4C4_WAIT_3_CI_B7_PENDING",
+  "next": "Exact SHA c3f5e5d1 corrective DEV Search pointer-ABA code. Check directed workflows #41933426446 V2Core DEV XML10/10, #41933426599 APK zero permissions and signature, #41933426482 S3 Home25/25, guard #41933426669. Then independent B7 PASS or RED_FIX, update last_code_review, permit BLOCKED. Existing SHA 8c01 B7 RED_FIX even though old CI success. DEV Search is NOT shipping G1 ACL. Do not install unsigned/mismatched Android APK, V2 shipping OFF, S2 frozen, S4/Auto/Noche OFF.",
+  "checkpoint_status": "S3_A2_DEV_SEARCH_C3F5E5D1_ABA_REDFIX_CODE_WAIT_CI_B7_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_DEV_SEARCH_SESSION_OWNER_B6_WAIT_CI_20261104.md",
-  "last_code_sha": "8c01f4c4028a4b2f311e31031924fa194cb3303c",
+  "last_handoff": "docs/s3-night/S3_A2_DEV_SEARCH_ABA_FIX_B6_WAIT_CI_20261104.md",
+  "last_code_sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
   "last_ci_run_id": 41905632794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -711,12 +711,14 @@
     "local_date": "2026-11-04"
   },
   "ci_pending": {
-    "code_sha": "8c01f4c4028a4b2f311e31031924fa194cb3303c",
-    "guard_success": 41932138079,
-    "dev_core": 41932138084,
-    "dev_apk": 41932138014,
-    "s3_regression": 41932137991,
-    "expected_dev_core_xml": "9/9",
-    "b7": "PENDING"
+    "code_sha": "c3f5e5d1238556988fe7cec7164641c1840d8e40",
+    "guard": 41933426669,
+    "dev_core": 41933426446,
+    "dev_apk": 41933426599,
+    "s3_regression": 41933426482,
+    "expected_dev_core_xml": "10/10",
+    "b7": "PENDING",
+    "previous_sha": "8c01f4c4028a4b2f311e31031924fa194cb3303c",
+    "previous_b7": "RED_FIX_ABA"
   }
 }

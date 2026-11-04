@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A2_DEV_SEARCH_SESSION_OWNER",
   "reviewed_head": "83575bc551aab4f0a3df7b71d536ff0e401f57c0",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_41933426446_41933426599_41933426482",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,8 +74,8 @@
       }
     ]
   },
-  "why": "Original code CI all SUCCESS, but B7 found reversible stale Search authorization after A->B->A pointer ABA with no listener; same-unit bounded RED_FIX; no other unit can enter.",
-  "how": "Pin durable FileActiveGenerationPointer.sequence before graph opens, use exact pinned sequence in read admission; add no-subscriber ABA test; 10/10 XML. Preflight, CAS, exact CI and B7 before any other code.",
+  "why": "Corrective commit c3f5e5d1 published with READY parent and exact preflight. Next steps depend on fresh SHA CI XML10/10 and APK. Prior 8c01f4c4 remains B7 RED_FIX.",
+  "how": "Complete exact directed CI @ c3f5e5d1; independent B7, then update last_code_review and keep permit BLOCKED. No other functional unit allowed while pending.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
