@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
-  "trigger_action": "RECOVER_LIVE_CHECKPOINT_AND_CONTINUE_MANUAL_RETROSPECTIVE_AUDIT_B1_B5_FIRST_WITHOUT_AUTOMATIONS_OR_PRODUCTION_V2",
+  "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
   "updated_local_date": "2026-11-04",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
@@ -42,10 +42,10 @@
   "handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "GUARD CI SUCCESS run #41876852639, exact SHA 59962008, 14/14 tests + FARO_PROTOCOL_GATE_PASS; permit BLOCKED; AGENTS.md updated to recover rules for any agent. Read HEAD, writer, queue, root AGENTS and protocol guard before acting. NEXT complete retro audit B1-B5 M0/M1/M2A/M2B/M3, evidence exact paths+SHA, then issue docs-only permit and preflight PASS before functional writes. After code new run + B7 independent. No V2 production, Auto/Noche, S4, paid API.",
-  "checkpoint_status": "MANDATORY_7BLOCK_GUARD_CI_14_14_PASS_PERMIT_BLOCKED_RETRO_AUDIT_NEXT",
+  "next": "Completed bounded B1-B5 retro audit M0/M1/M2A/M2B/M3 in docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md blob ff472d14. M1 manifest check currently FAIL (debug 2); 4/4 M2/M3 JVM +7/7 T4 do NOT imply V2 ready. FIRST verify HEAD/CI/queue/writer and run 41877244186; permit remains BLOCKED. NEXT issue path-bounded docs-only M1_MANIFEST_VERIFIER permit ONLY after verified evidence SHA and demonstrable preflight PASS; no functional commits before. Implementation target: .github/workflows/faro-v5-v2-core-directed.yml packaged manifest unique path; follow B7 exact SHA/CI. M2A PREPARING/STAGED recovery and M3 Android still open. S2 closed 8/8 S3 ~40% dev 0/5 closed S4 OFF V2 productive OFF Noche/Auto OFF.",
+  "checkpoint_status": "M0_M3_RETRO_B1_B5_DOC_RECORDED_PERMIT_BLOCKED_NO_FUNCTIONAL_CI",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
+  "last_handoff": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
   "last_code_sha": "ae5079194d11bf658e85ff9acb7e305cbbb24173",
   "last_ci_run_id": 41872895263,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -449,5 +449,21 @@
     "verified_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
-  }
+  },
+  "retro_audit": {
+    "status": "B1_B5_DOCUMENTED_WITH_GAPS",
+    "path": "docs/v5/FARO_V2_RETRO_B1_B5_M0_M3_20261104.md",
+    "blob_sha": "ff472d14b4f54308d2ee575aff99fce71552e0bb",
+    "state_path": "docs/v5/FARO_V2_PROTOCOL_RETRO_AUDIT_20261104.json",
+    "completed_on": "2026-11-04",
+    "permit": "BLOCKED",
+    "next_unit": "M1_MANIFEST_VERIFIER"
+  },
+  "guard_last_inspected": {
+    "run_id": 41877244186,
+    "source_sha": "aa438320a7d62574d6f47a67c312ea7d9a05f63b",
+    "status": "queued",
+    "conclusion": null
+  },
+  "last_writer_epoch_observed": 146
 }
