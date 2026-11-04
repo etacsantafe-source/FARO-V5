@@ -74,3 +74,8 @@ Una consulta `run-as` de solo lectura al almacenamiento privado DEV mostró dos 
 `dumpsys` confirmó `versionName=5.0.0-dev-v2coredev`, pero la salida filtrada de permisos no es una prueba exhaustiva de ausencia de permisos. Se preserva la certificación del APK firmado en CI; F-02 permisos instalados sigue parcial. F-00 hash del APK instalado y F-08 validación dinámica de egress/IPC también pendientes.
 
 No se repiten Chat, force-stop, comparación FARO anterior ni CI. `V2_DEV_CORE_READY=false`, V2 productiva OFF, permiso de código BLOCKED.
+
+## Adenda F-00 — huella exacta del APK instalado (04/11/2026)
+El usuario ejecutó en Termux/ADB `adb shell pm path ar.com.faro.alpha.v2coredev`, que identificó `base.apk` dentro del directorio de paquetes de `ar.com.faro.alpha.v2coredev`. Acto seguido ejecutó `adb shell sha256sum` sobre la ruta devuelta; **SHA256 observado en el Moto G15: `8773f7cea29b7487d955aff2a65eecdb56aa0eb49ba6428b74d95ee277f805c4`**, coincidencia exacta con el binario APK aprobado en GitHub Actions #41905632794.
+
+**F-00 = PASS_DEVICE_INSTALLED_APK_HASH**: se certifica identidad byte a byte del archivo `base.apk` instalado con el APK registrado; no se reinstaló ni reescribió la app. Esta identidad permite aplicar los resultados AAPT2 del APK firmado (paquete y cero `uses-permission`) a este binario específico. No sustituye revisión de permisos otorgados/configuración efectiva del teléfono o componentes vivos (F-02), ni inspección dinámica del egress/IPC (F-08). F-01 UID y F-06 estructura de cinco bases ya tienen evidencia física y no deben repetirse. **M5 GLOBAL todavía OPEN y `V2_DEV_CORE_READY=false`.**
