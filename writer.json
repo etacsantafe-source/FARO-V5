@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2.PAGE_PROVENANCE.20261104",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.A4.CANONICAL_AVISOS_READ_ONLY.20261104",
   "token_hash": "c631b51e5da0e44f5621ac2586fedae215a7cbdddd4b834e41ac3a2b5b90ba7a",
   "target_branch": "work/s3-night-20261102",
   "target_head": "ca0eec7146c3e933d726acb1b20f00d267f4b624",
-  "epoch": 113,
-  "timestamp": 1793794627,
-  "purpose": "S3_A2_PAGE_PROVENANCE_TWO_CODE_COMMITS_CI_PENDING"
+  "epoch": 114,
+  "timestamp": 1793794806,
+  "purpose": "S3_A4_REAL_AUXILIARY_AVISOS_READ_ONLY_SURFACE"
 }
