@@ -63,10 +63,30 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
             acl = "acl-2"
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
             val freshHit = adapter.search("nuevo").hits.single()
+            assertEquals(hit.opaqueId, freshHit.opaqueId)
+            assertNotEquals(hit.issuanceId, freshHit.issuanceId)
+            // Even after a fresh authorized search, the older result remains denied.
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
             assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(freshHit))
             generation = "g2"
             assertEquals(FaroV5SearchCoverage.UNAVAILABLE, adapter.search("nuevo").coverage)
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(freshHit))
+        }
+    }
+
+    @Test
+    fun laterSearchDoesNotReviveOldHitUnderUnchangedAuthority() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            store.createAndSelect(ConversationId("same-canonical-target"), 100L, IdempotencyKey("new"))
+            val adapter = FaroV5WorkspaceSearchSurfaceAdapter(
+                source(store, { "g1" }, { "acl-1" }), store, MutableSharedFlow(),
+            )
+            val old = adapter.search("nuevo").hits.single()
+            val fresh = adapter.search("nuevo").hits.single()
+            assertEquals(old.opaqueId, fresh.opaqueId)
+            assertNotEquals(old.issuanceId, fresh.issuanceId)
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(old))
+            assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(fresh))
         }
     }
 
@@ -79,11 +99,11 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
                 source(store, { "g1" }, { "acl-1" }), store, MutableSharedFlow(),
             )
             val hit = adapter.search("nuevo").hits.single()
-            assertEquals(FaroV5SearchOpenResult.STALE,
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE,
                 adapter.openAuthorized(hit.copy(title = "Falso")))
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE,
                 adapter.openAuthorized(hit.copy(namespace = "untrusted")))
-            assertEquals(FaroV5SearchOpenResult.STALE,
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE,
                 adapter.openAuthorized(hit.copy(opaqueId = "c:unknown")))
         }
     }

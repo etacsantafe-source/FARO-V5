@@ -31,13 +31,23 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
 ) : FaroV5SearchReadPort {
     private val searcher = CanonicalSearchCoordinator(source, null)
 
-    // A visible result belongs to the exact authority/revision that issued it.
-    // Revalidating current metadata alone is insufficient after ACL regrant:
-    // an old result must not be reused under a different authority epoch.
-    @Volatile private var publishedAuthority: SearchAuthorityStamp? = null
+    // Never accept a hit from another page, even if an ACL regrant produces
+    // identical titles and opaque locators. This is provenance, NOT read authority.
+    private data class Publication(
+        val authority: SearchAuthorityStamp,
+        val issuedHits: Set<FaroV5SearchHit>,
+    )
+    private val publicationLock = Any()
+    private var searchSerial = 0L
+    private var publication: Publication? = null
 
-    override suspend fun search(query: String): FaroV5SearchPage = try {
-        publishedAuthority = null
+    override suspend fun search(query: String): FaroV5SearchPage {
+        val requestSerial = synchronized(publicationLock) {
+            searchSerial += 1
+            publication = null
+            searchSerial
+        }
+        return try {
         val before = source.authorityStamp()
         val result = searcher.search(
             SearchProjectionQuery(FaroV5WorkspaceSearchReadSource.NAMESPACE, query, 50),
@@ -53,6 +63,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
             coverage == FaroV5SearchCoverage.UNAVAILABLE) {
             unavailable()
         } else {
+            val issuanceId = UUID.randomUUID().toString()
             val page = FaroV5SearchPage(
                 coverage = coverage,
                 hits = result.hits.map { row ->
@@ -62,21 +73,28 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
                         title = row.title,
                         canonicalSource = FaroV5WorkspaceSearchReadSource.NAMESPACE,
                         asOfEpochMillis = row.asOfEpochMillis,
+                        issuanceId = issuanceId,
                     )
                 },
                 indexDegraded = result.isIndexDegraded,
             )
-            // Invalidation can arrive between mapping and publication.
-            if (before != source.authorityStamp()) unavailable()
-            else {
-                publishedAuthority = before
-                page
+            // The older concurrent query can never re-publish after a newer
+            // query starts. The real owner stamp is still validated separately.
+            val published = synchronized(publicationLock) {
+                if (searchSerial != requestSerial) false
+                else {
+                    publication = Publication(before, page.hits.toSet())
+                    true
+                }
             }
+            if (published && before == source.authorityStamp()) page
+            else unavailable()
         }
-    } catch (cancelled: CancellationException) {
-        throw cancelled
-    } catch (_: Exception) {
-        unavailable()
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (_: Exception) {
+            unavailable()
+        }
     }
 
     /**
@@ -92,7 +110,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
         } else {
             val before = source.authorityStamp()
                 ?: return FaroV5SearchOpenResult.UNAVAILABLE
-            if (publishedAuthority != before) return FaroV5SearchOpenResult.UNAVAILABLE
+            if (!isPublished(hit, before)) return FaroV5SearchOpenResult.UNAVAILABLE
             val key = SearchProjectionKey(hit.namespace, hit.opaqueId)
             val snapshot = source.readAuthorized(namespace, CanonicalSearchCoordinator.MAX_CANONICAL_DOCUMENTS)
             if (before != snapshot.authority || !sameAuthority(before, source.authorityStamp())) {
@@ -110,7 +128,8 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
                 } else {
                     val id = source.resolveAuthorizedConversation(key)
                         ?: return FaroV5SearchOpenResult.UNAVAILABLE
-                    if (!sameAuthority(before, source.authorityStamp())) {
+                    if (!sameAuthority(before, source.authorityStamp()) ||
+                        !isPublished(hit, before)) {
                         FaroV5SearchOpenResult.UNAVAILABLE
                     } else {
                         val outcome = selection.select(id, IdempotencyKey(UUID.randomUUID().toString()))
@@ -137,6 +156,14 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
     } catch (_: Exception) {
         FaroV5SearchOpenResult.UNAVAILABLE
     }
+    }
+
+    private fun isPublished(
+        hit: FaroV5SearchHit,
+        authority: SearchAuthorityStamp,
+    ): Boolean = synchronized(publicationLock) {
+        val last = publication
+        last != null && last.authority == authority && hit in last.issuedHits
     }
 
     private fun sameAuthority(

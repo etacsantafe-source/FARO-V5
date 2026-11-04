@@ -39,11 +39,14 @@ data class FaroV5SearchHit(
     val title: String,
     val canonicalSource: String,
     val asOfEpochMillis: Long,
+    // Opaque in-memory page issuance, never an ACL credential or persisted identity.
+    val issuanceId: String = "",
 ) {
     init {
         require(namespace.isNotBlank() && opaqueId.isNotBlank())
         require(title.isNotBlank() && canonicalSource.isNotBlank())
         require(asOfEpochMillis >= 0)
+        require(issuanceId.length <= 64 && issuanceId.all { it.isLetterOrDigit() || it == '-' })
     }
 }
 
