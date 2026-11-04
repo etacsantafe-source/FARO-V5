@@ -231,11 +231,12 @@ class FaroV5HomeNoticeBindingFactoryTest {
 
 
     @Test
-    fun sameHomePortInvalidatesOnDurablyPublishedActivePointerChange() = runBlocking {
+    fun sameHomePortInvalidatesWhenSeparatePointerInstanceDurablyPublishes() = runBlocking {
         val dir = Files.createTempDirectory("faro-home-active-pointer-event")
         try {
             AuxiliaryDeliveryStore(dir.resolve("auxiliary.db").toString()).use { store ->
                 val pointer = FileActiveGenerationPointer(dir)
+                val publisher = FileActiveGenerationPointer(dir)
                 val original = StorageGenerationId("gen-1")
                 val target = StorageGenerationId("gen-2")
                 assertEquals(original, pointer.compareAndSet(null, original)?.generationId)
@@ -261,11 +262,11 @@ class FaroV5HomeNoticeBindingFactoryTest {
                     // The initial recheck proves the pointer listener is subscribed.
                     withTimeout(3000) { changes.receive() }
                     assertEquals(0, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
-                    assertEquals(target, pointer.compareAndSet(original, target)?.generationId)
+                    assertEquals(target, publisher.compareAndSet(original, target)?.generationId)
                     withTimeout(3000) { changes.receive() }
                     assertTrue(readPort.readIndicators().isEmpty())
                     // No synthetic event when a real pointer CAS loses its expected generation.
-                    assertEquals(null, pointer.compareAndSet(original, StorageGenerationId("gen-3")))
+                    assertEquals(null, publisher.compareAndSet(original, StorageGenerationId("gen-3")))
                     assertTrue(changes.tryReceive().isFailure)
                 } finally {
                     observer.cancel()

@@ -1,7 +1,6 @@
 package ar.com.faro.v5.maintenance
 
 import java.nio.file.Path
-import java.util.concurrent.CopyOnWriteArraySet
 
 data class ActiveGenerationPointer(
     val sequence: Long,
@@ -24,15 +23,31 @@ interface ActiveGenerationPointerPort {
 class FileActiveGenerationPointer(
     root: Path,
 ) : ActiveGenerationPointerPort {
-    /** Real pointer owner: process-local observers after durable publication only. */
-    private val changeListeners = CopyOnWriteArraySet<Runnable>()
+    /**
+     * Every instance addressing this same durable root shares the process-local
+     * observer registry. Runtime and bootstrap may hold distinct pointer objects.
+     * Cross-process writes still require their own authority revalidation.
+     */
+    private val rootKey: Path = root.toAbsolutePath().normalize()
 
-    fun addChangeListener(listener: Runnable) { changeListeners.add(listener) }
-    fun removeChangeListener(listener: Runnable) { changeListeners.remove(listener) }
+    fun addChangeListener(listener: Runnable) {
+        synchronized(listenerGuard) {
+            listenersByRoot.getOrPut(rootKey) { mutableSetOf() }.add(listener)
+        }
+    }
+
+    fun removeChangeListener(listener: Runnable) {
+        synchronized(listenerGuard) {
+            listenersByRoot[rootKey]?.let { listeners ->
+                listeners.remove(listener)
+                if (listeners.isEmpty()) listenersByRoot.remove(rootKey)
+            }
+        }
+    }
 
     private val records =
         DurableRecordDirectory(
-            root.toAbsolutePath().normalize().resolve("bootstrap").resolve("active")
+            rootKey.resolve("bootstrap").resolve("active")
         )
 
     override fun read(): ActiveGenerationPointer? {
@@ -67,8 +82,12 @@ class FileActiveGenerationPointer(
             sequence = nextSequence,
             bytes = ActiveGenerationPointerCodec.encode(next),
         )
-        // A rejected CAS never notifies; callbacks cannot roll back durable publication.
-        for (listener in changeListeners) {
+        // Only the owner that durably publishes may notify. Snapshot under the
+        // registry lock and invoke outside it, allowing listeners to unsubscribe.
+        val listeners = synchronized(listenerGuard) {
+            listenersByRoot[rootKey]?.toList().orEmpty()
+        }
+        for (listener in listeners) {
             try {
                 listener.run()
             } catch (_: Exception) {
@@ -80,5 +99,7 @@ class FileActiveGenerationPointer(
 
     private companion object {
         const val PREFIX = "active"
+        private val listenerGuard = Any()
+        private val listenersByRoot = mutableMapOf<Path, MutableSet<Runnable>>()
     }
 }
