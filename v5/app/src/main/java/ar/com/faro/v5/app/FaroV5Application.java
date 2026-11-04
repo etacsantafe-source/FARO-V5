@@ -52,6 +52,10 @@ public final class FaroV5Application extends Application implements Configuratio
                 .build();
     }
 
+    public ar.com.faro.v5.surface.FaroV5AvisosReadPort readActiveAvisosPort() {
+        return compositionRoot().readActiveAvisosPort();
+    }
+
     public FaroV5HomeReadPort readActiveHomePort() {
         return compositionRoot().readActiveHomePort();
     }

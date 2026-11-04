@@ -517,6 +517,24 @@ public final class FaroV5CompositionRoot {
      * Other Home indicators remain UNKNOWN until their canonical owners exist.
      * This method never activates V2 or writes a notice.
      */
+    /**
+     * Active Auxiliary owner only; V1 is supported and V2 is not activated.
+     * A false readiness/pointer check returns an unavailable, not an empty list.
+     */
+    public ar.com.faro.v5.surface.FaroV5AvisosReadPort readActiveAvisosPort() {
+        if (!maintenanceRecoveryComplete) return null;
+        DeliveryGraph graph = deliveryGraph();
+        return FaroV5ActiveAvisosBindingFactory.create(
+                () -> graph.store.readNotices(),
+                graph.generationId,
+                () -> generationStorage().activeGenerationId(),
+                () -> maintenanceRecoveryComplete
+                        && startupReadinessGate.snapshot().isLocalReady(),
+                FaroV5HomeReadinessInvalidations.from(
+                        startupReadinessGate, graph.store,
+                        maintenanceRuntime().activePointerInvalidations()));
+    }
+
     public FaroV5HomeReadPort readActiveHomePort() {
         if (!maintenanceRecoveryComplete) return null;
         DeliveryGraph graph = deliveryGraph();

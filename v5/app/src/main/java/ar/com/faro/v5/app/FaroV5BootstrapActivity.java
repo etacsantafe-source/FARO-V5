@@ -472,7 +472,9 @@ public final class FaroV5BootstrapActivity extends ComponentActivity {
                 () -> startActivity(new android.content.Intent(
                         this, FaroV5AiSettingsActivity.class)),
                 null,
-                faroApplication.readActiveHomePort());
+                faroApplication.readActiveHomePort(),
+                null, // Search remains unbound until genuine independent Workspace ACL.
+                faroApplication.readActiveAvisosPort());
         mountedSurface = FaroV5HostSurfacePolicy.Surface.SHELL;
     }
 
