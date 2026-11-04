@@ -415,7 +415,9 @@ public final class FaroV5CompositionRoot {
             }
             maintenanceRecoveryComplete = false;
         }
-        materialWriteGate.closeMaterialWriteAdmission();
+        // Notify the existing readiness owner: already-mounted Home must
+        // forget prior counters when interactive maintenance starts.
+        startupReadinessGate.beginRecovery();
     }
 
     private void requireMaintenanceRecovery() {
@@ -427,17 +429,19 @@ public final class FaroV5CompositionRoot {
     }
 
     private void completeStartupRecovery() {
-        startupReadinessGate.localReady();
         synchronized (maintenanceAdmissionLock) {
             maintenanceRecoveryComplete = true;
         }
+        // The gate opens write admission before notifying presentation.
+        startupReadinessGate.localReady();
     }
 
     private void completeMaintenanceOperation() {
-        materialWriteGate.openMaterialWriteAdmission();
         synchronized (maintenanceAdmissionLock) {
             maintenanceRecoveryComplete = true;
         }
+        // Publish the genuine owner transition; not an invented ACL event.
+        startupReadinessGate.localReady();
     }
 
     private static boolean resetResultAllowsMaterialWrites(ResetExecutionResult result) {
@@ -520,7 +524,8 @@ public final class FaroV5CompositionRoot {
                 () -> graph.store.readNotices(),
                 graph.generationId,
                 () -> generationStorage().activeGenerationId(),
-                () -> maintenanceRecoveryComplete,
+                () -> maintenanceRecoveryComplete
+                        && startupReadinessGate.snapshot().isLocalReady(),
                 System::currentTimeMillis,
                 FaroV5HomeReadinessInvalidations.from(startupReadinessGate));
     }

@@ -13,6 +13,7 @@ import ar.com.faro.v5.delivery.api.NoticeSummary
 import ar.com.faro.v5.delivery.api.OccurrenceRef
 import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.surface.FaroV5HomeIndicator
+import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -77,13 +78,28 @@ class FaroV5HomeNoticeBindingFactoryTest {
 
     @Test
     fun recoveryGateDeniesStoreRead() = runBlocking {
+        val gate = FaroV5StartupReadinessGate(SingleProcessMaterialWriteGate())
+        gate.localReady()
+        var maintenanceComplete = true
         var reads = 0
-        val result = port(Supplier {
+        val readPort = port(Supplier {
             reads++
             listOf(notice("a"))
-        }, ready = BooleanSupplier { false }).readIndicators()
-        assertTrue(result.isEmpty())
-        assertEquals(0, reads)
+        }, ready = BooleanSupplier {
+            maintenanceComplete && gate.snapshot().isLocalReady
+        })
+        assertEquals(1, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+        maintenanceComplete = false
+        gate.beginRecovery()
+        assertTrue(readPort.readIndicators().isEmpty())
+        assertEquals(1, reads)
+        // Maintenance completion cannot authorize reads until owner LOCAL_READY.
+        maintenanceComplete = true
+        assertTrue(readPort.readIndicators().isEmpty())
+        assertEquals(1, reads)
+        gate.localReady()
+        assertEquals(1, readPort.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+        assertEquals(2, reads)
     }
 
     @Test
