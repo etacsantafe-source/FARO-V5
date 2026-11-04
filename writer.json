@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.M4.REDFIX.B6.20261104",
   "token_hash": "b887a275a09d07c2ee65d380d60fd9f4680d84afe2520a01d39f28cbaa3290ad",
   "target_head": "672ba9420c1355b6f069ba73b9c68fe5e9f297ca",
   "target_branch": "work/s3-night-20261102",
   "epoch": 166,
-  "timestamp": 1793820337,
-  "purpose": "M4 B6 RED_FIX only V2 Core DEV manifest seven permission removals"
+  "timestamp": 1793820382,
+  "purpose": "M4_DEV_MANIFEST_REDFIX_ABA2850C_WAIT_CI"
 }
