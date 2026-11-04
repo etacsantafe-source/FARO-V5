@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.S3.MANUAL.A2_CI_FINAL.20261104",
-  "token_hash": "39d6f7bfa40787286c371c57600a75f80d4c229041eea5cce9d2773cb2d43bc1",
+  "status": "HELD",
+  "owner": "FARO.S3.MANUAL.PROGRESS_PERCENT_RULE.20261104",
+  "token_hash": "d130ea97ce0d6f544c1ea2a1478dfa142cf4b6f6031dde7bbf70e8dc79cbe9738",
   "target_branch": "work/s3-night-20261102",
   "target_head": "1ab42ccdeb41a6ac9f12533df1d7546572543e1f",
-  "epoch": 124,
-  "timestamp": 1793800500,
-  "purpose": "S3_A2_IN_CHAT_BOUNDED_XML_57_57_CI_VERIFIED_CLEAN_HANDOFF"
+  "epoch": 125,
+  "timestamp": 1793802808,
+  "purpose": "S3_PERCENT_PROGRESS_CADENCE_AND_METHODOLOGY_DURABLE"
 }
