@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A1.CLOSED.STORE.20261103",
   "token_hash": "70cd7590ad438c8ba653be8eaf7c60df4e47cfa948a15d66c4f9db016c6e1a7d",
   "target_branch": "work/s3-night-20261102",
-  "target_head": "404f0ba5758fd7f51c0b28f27cd332b952fac982",
+  "target_head": "fc6f6e45db645394d62ea71fffee1e2a7f6d79ea",
   "epoch": 67,
-  "timestamp": 1793753764,
+  "timestamp": 1793753772,
   "purpose": "S3_A1_CLOSED_OWNER_SUBSCRIPTION_FAIL_CLOSED"
 }
