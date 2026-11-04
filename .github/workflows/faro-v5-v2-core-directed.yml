@@ -45,7 +45,9 @@ jobs:
       - name: M2 active five-owner JVM directed tests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevAuthorityTest"
+          # AGP 9 defaults to only the debug UnitTest component. Explicitly enable
+          # non-debug unit tests for this isolated CI invocation, not production.
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevAuthorityTest"
       - name: Verify exact M2 JVM tests
         run: |
           python3 - <<'PY'

@@ -22,3 +22,8 @@
 4. **M4/M5** completar negativos de egress/recovery y evidencia Android consolidada; entonces `V2_DEV_CORE_READY`.
 
 **Controles:** S2 8/8 cerrado; S3 ≈40% desarrollado / 0 de 5 formal; S4 sin abrir; V2 productiva OFF; Auto/Noche OFF; CLOUD STAGED; catálogo 172; no APIs pagas. Writer CAS debe liberarse al finalizar el checkpoint. No añadir S4 sin dependencia demostrada.
+
+## CI primer intento: fallo de descubrimiento de tarea (no de compilación)
+
+- Código `db2724c6581cc3acb26801fa763825c410d7e4dd`, run [#41868115531](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41868115531): **FAILURE** antes de ejecutar JVM porque AGP 9 sólo creó `testDebugUnitTest` y no `testV2CoreDevUnitTest` para un build-type extra.
+- Cambio mínimo: sólo en el comando de CI M2 se pide `-Pandroid.onlyEnableUnitTestForTheTestedBuildType=false` (opción documentada de AGP 9); mantiene intactos Gradle de producción/debug y el build type aislado. **Corrección pendiente nueva CI**; no marcar M2 PASS hasta XML real 3/3.

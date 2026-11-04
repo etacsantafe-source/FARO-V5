@@ -42,12 +42,12 @@
   "handoff": "docs/v5/FARO_V2_MIN_CORE_M2A_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "M1 PASS exact run 41864185753 4/4, S3 directed run 41864185671 25/25. M2A dev-only V2 five-owner authority with journal, pointer, replay fence and local Workspace ports committed pending CI. NEXT verify exact M2A 3/3 JVM + M1 4/4. If failure minimal fix. Then M2B isolated DEV launcher/application with own root, no shipping CompositionRoot/IA/Apply/OS, then M3 Chat integration, M4/M5 gates. S2 8/8, S3 40% dev 0/5 formal, S4 not open, production V2 Auto Noche OFF.",
-  "checkpoint_status": "M2A_DEV_ONLY_ACTIVE_AUTHORITY_CODE_CI_PENDING",
+  "next": "M1 PASS exact run 41864185753 4/4, S3 run 41864185671 25/25. M2A code db2724c: first directed CI run 41868115531 FAILED due AGP9 missing testV2CoreDevUnitTest; fix workflow with per-CI -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false. NEXT verify new M2A CI exact 3/3 and M1 4/4, then M2B isolated launcher/application and M3 local Chat. Do not claim M2 PASS before actual XML. V2 production, Auto/Noche OFF, writer CAS required.",
+  "checkpoint_status": "M2A_GRADLE_TASK_DISCOVERY_FIX_CI_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/v5/FARO_V2_MIN_CORE_M2A_20261104.md",
-  "last_code_sha": "M2_A_COMMIT_PENDING",
-  "last_ci_run_id": 41854013498,
+  "last_code_sha": "db2724c6581cc3acb26801fa763825c410d7e4dd",
+  "last_ci_run_id": 41868115531,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -107,7 +107,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "M1_SUCCESS_EXACT_SHA_D2A41ACB_V2CORE_4_4_S3_25_25;M2_PENDING",
+  "last_ci_conclusion": "FAILURE_M2A_GRADLE_TASK_MISSING_NO_TEST_EXECUTED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
