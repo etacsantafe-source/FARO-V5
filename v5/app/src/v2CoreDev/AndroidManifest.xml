@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- No external network or remote AI calls in V2 DEV. -->
     <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" tools:node="remove" />
     <application
         android:name="ar.com.faro.v5.app.FaroV5V2CoreDevApplication"
         tools:replace="android:name">
@@ -15,8 +18,13 @@
         <activity android:name="ar.com.faro.v5.app.FaroV5F1QuarantineCertificationActivity" tools:node="remove" />
         <activity android:name="ar.com.faro.v5.app.FaroV5F1IsolatedChatActivity" tools:node="remove" />
         <activity android:name="ar.com.faro.v5.app.FaroV5T4SafIntegralActivity" tools:node="remove" />
-        <provider android:name="ar.com.faro.v5.app.FaroV5A5TestContentProvider" tools:node="remove" />
-        <provider android:name="androidx.startup.InitializationProvider" tools:node="remove" />
+        <!-- The debug platform module's certification Activity is never part of local DEV. -->
+        <activity android:name="ar.com.faro.v5.platform.android.cert.FaroV5P6CertificationActivity" tools:node="remove" />
+        <!-- No background execution, certification providers or OS dispatch in this UID. -->
+        <provider tools:node="removeAll" />
+        <receiver tools:node="removeAll" />
+        <service tools:node="removeAll" />
+        <activity-alias tools:node="removeAll" />
 
         <activity
             android:name="ar.com.faro.v5.app.FaroV5V2CoreDevActivity"

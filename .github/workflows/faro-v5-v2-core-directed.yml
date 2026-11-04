@@ -108,6 +108,16 @@ jobs:
           if activities != ['ar.com.faro.v5.app.FaroV5V2CoreDevActivity']:
               raise SystemExit(f'V2_CORE_M2B_EXTRA_LAUNCHERS {activities}')
           providers={node.get(ns+'name') for node in app.findall('provider')}
+          if providers:
+              raise SystemExit(f'V2_CORE_M2B_UNEXPECTED_PROVIDERS {sorted(providers)}')
+          for tag in ('receiver', 'service', 'activity-alias'):
+              extras = sorted(x.get(ns+'name') or '<unnamed>' for x in app.findall(tag))
+              if extras:
+                  raise SystemExit(f'V2_CORE_M2B_UNEXPECTED_{tag.upper()} {extras}')
+          forbidden_os = {'android.permission.POST_NOTIFICATIONS', 'android.permission.SCHEDULE_EXACT_ALARM', 'android.permission.REQUEST_INSTALL_PACKAGES'}
+          permissions = {x.get(ns+'name') for x in dev.findall('uses-permission')}
+          if permissions & forbidden_os:
+              raise SystemExit(f'V2_CORE_M2B_OS_PERMISSIONS_PRESENT {sorted(permissions & forbidden_os)}')
           if 'androidx.startup.InitializationProvider' in providers:
               raise SystemExit('V2_CORE_M2B_STARTUP_PROVIDER_PRESENT')
           launcher=app.find('activity')
