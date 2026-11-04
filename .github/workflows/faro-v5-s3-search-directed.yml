@@ -1,0 +1,61 @@
+name: FARO V5 S3 Canonical search directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/control/src/main/java/ar/com/faro/v5/control/search/**"
+      - "v5/control/src/test/java/ar/com/faro/v5/control/search/**"
+      - ".github/workflows/faro-v5-s3-search-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-search-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  canonical-search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform for Gradle
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile and run canonical authorization and fallback tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :control:test --tests "ar.com.faro.v5.control.search.CanonicalSearchCoordinatorTest" --tests "ar.com.faro.v5.control.search.SearchProjectionContractTest"
+      - name: Verify exact canonical search XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          names={'CanonicalSearchCoordinatorTest':6,'SearchProjectionContractTest':2}
+          found={}
+          for p in Path('v5/control/build/test-results/test').glob('TEST-*.xml'):
+              suite=ET.parse(p).getroot()
+              for name in names:
+                  if suite.attrib.get('name','').endswith('.'+name):
+                      found[name]=tuple(int(suite.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if found != {name:(count,0,0,0) for name,count in names.items()}:
+              raise SystemExit('S3_SEARCH_XML_FAIL '+str(found))
+          print('S3_CANONICAL_SEARCH_XML_PASS 8/8')
+          PY
