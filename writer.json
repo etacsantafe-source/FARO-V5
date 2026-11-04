@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.S3.MANUAL.A2_G3_CI_CERTIFY.20261104",
   "token_hash": "afd0ba5bd623b66c43e0f28f6d798e8948d53864619a1c43d98474201cedaadd",
   "target_branch": "work/s3-night-20261102",
   "target_head": "6f0b584c52556a3140d451ca375a6d5d0bef404d",
   "epoch": 129,
-  "timestamp": 1793803945,
-  "purpose": "VERIFY_CI_XML_AND_COMPLETE_DURABLE_CI_HANDOFF"
+  "timestamp": 1793803965,
+  "purpose": "CI_24_24_CERTIFIED_HANDOFF_CLEAN"
 }
