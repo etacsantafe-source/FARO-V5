@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "phase": "S3_OPEN",
-  "date_local": "2026-11-02",
+  "date_local": "2026-11-05",
   "timezone": "America/Argentina/Cordoba",
   "branch": "work/s3-night-20261102",
   "base_sha": "bef2ee4db9d09f073db0eef6f63fc92e76f70bcb",
@@ -23,7 +23,9 @@
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
     "contract_freeze": "PASS_SPEC_ONLY_H01_H04_R0_R3_NO_IMPLEMENTATION_TESTS",
-    "physical_at_end": "NOT_RUN"
+    "physical_at_end": "NOT_RUN",
+    "s3_a2_g4": "CLOSED_B7_AUTOMATED_V2CORE_10_10_T4_7_7_MANIFEST_4_4",
+    "s3_a2_g5": "PENDING_PHYSICAL_LAST_CAMPAIGN"
   },
   "tasks": [
     "S3-N00",
@@ -34,7 +36,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A2 PARTIAL (not closed): real Workspace search-to-selection adapter CI PASS 15/15 (9 Home +3 Workspace +3 adapter), SHA ef4eb2a8 run 41823167085; federated canonical search with V4.4-style domain diversity, per-source typed coverage and end-of-federation ACL revocation fencing CI PASS 15/15 (7 canonical +2 projection +6 federation), SHA 8a5febc7 run 41823780133. Prior UI 48/48 at 6b2ddcf4, Spanish canonical 9/9 at a65b56fa retained. Genuine independent ACL revocation emitter and active-generation invalidations missing; shipping Search remains unbound, V2 OFF. Next: implement REAL ACL authority owner (monotonic epoch, independent revocation signal) and prove generation/ACL invalidations; wire search port only after proof, then actual Finance/other canonical sources and UI integration. N031 planning persistence/reminders/monthly alerts requires FBS/backup compatibility review; N015 committed-time/history federation missing; do not fake Home counts. S2 CLOSED 8/8, S3 OPEN, S4/V2/Auto/Noche OFF, queue STAGED, Guardados +8 NOT APPROVED, physical only at S3 end.",
+  "next": "G4 B7 CLOSED verified CI #42040913961. S3-A2 G1-G4 4/5 (80%) with only G5 physical pending; respect single physical campaign at end. S3 formal 0/5, V2 productive OFF, Noche/Auto OFF, S4 not open. Do not repeat G1-G4 or treat portable FBS1/FBS2 backup as available.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -50,7 +52,7 @@
     "report": "6ae9073eccd08191b88aec776771ca9e"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3-N00",
+  "last_completed_gate": "S3-A2-G4_B7",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "PARTIAL_N032_NOTICE_OWNER_POINTER_EVENTS_CI_9_9_VERIFIED",
@@ -299,28 +301,25 @@
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
-  "handoff": "docs/s3-night/S3_A2_A4_CHAINED_CI_HANDOFF_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
   "last_turn": {
-    "mode": "MANUAL_S3",
-    "code_sha": "a72b723475c0ea37f57c62752324765577d2b9c8",
+    "mode": "MANUAL_S3_G4_B7",
+    "code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
     "baseline": "ebe538308eff5c41218b57d2ca7a4ee29c7023c3",
     "commits": [
-      "c27905a8290acfd24d9562af49491fd04f193838",
-      "ca0eec7146c3e933d726acb1b20f00d267f4b624",
-      "a4327d7753958d35cfdcaa141378ef4b4f4a46fa",
-      "a72b723475c0ea37f57c62752324765577d2b9c8"
+      "b45c42c769ec41ad90d9aa7b17b6d843c1910c24"
     ],
     "ci_runs": [
-      41827910601,
-      41828553243,
-      41828757767
+      42040913961,
+      42040913988,
+      42040913870
     ],
-    "ci": "SUCCESS exact SHAs; Search app 17/17; Avisos surface 50/50; Avisos app 21/21",
-    "writer_release_epoch_expected": 117,
-    "physical": "NOT_RUN",
-    "next": "S3_A2_INDEPENDENT_ACL_SOURCE_AND_S3_A1_N031_N015_CANONICAL_OWNERS",
-    "s3": "OPEN_PARTIAL",
-    "a2": "PARTIAL_PROVENANCE_VERIFIED_ACL_HOST_MISSING",
+    "ci": "SUCCESS V2CORE_10_10 T4_7_7 MANIFEST_4_4 GUARD_PASS",
+    "writer_release_epoch_expected": 263,
+    "physical": "G5_NOT_RUN",
+    "next": "G5_ONLY_LAST_PHYSICAL_CAMPAIGN",
+    "s3": "OPEN_FORMAL_0_OF_5",
+    "a2": "G4_CLOSED_4_OF_5",
     "a4": "PARTIAL_REAL_AVISOS_READ_ONLY_VERIFIED",
     "night": "OFF",
     "auto": "OFF",
@@ -604,5 +603,25 @@
     "limits": "No critical severity contract, Activity/Resumos incomplete, physical NOT_RUN, S3-A4 NOT CLOSED",
     "comparison": "V4.4 Notifications/Radar READ_ONLY and existing S3 benchmark",
     "writer_release_epoch_expected": 117
+  },
+  "a2_g4_20261105": {
+    "status": "CLOSED_B7_AUTOMATED",
+    "last_code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
+    "b7": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
+    "reality_run": 42011878467,
+    "reality_xml": "21/21",
+    "federation_run": 42016712209,
+    "federation_xml": "27/27",
+    "v2_core_run": 42040913961,
+    "v2_core_xml": "10/10",
+    "t4_xml": "7/7",
+    "manifests": "4/4",
+    "home_run": 42040913988,
+    "protocol_run": 42040913870,
+    "writer_release_epoch": 263,
+    "remaining": "G5_PHYSICAL_ONLY",
+    "s3_formal": "0/5",
+    "v2_production": "OFF",
+    "portable_backup": "LEGACY_FAIL_CLOSED_G4_NOT_PORTABLE"
   }
 }

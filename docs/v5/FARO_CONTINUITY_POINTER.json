@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 261
+    "expected_release_epoch": 263
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G4_HANDOFF_V2_CORE_9_OF_10_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G4 ONLY: V2 Core #42018187304 FAIL 9/10, durablePointerSwitchRevokesDevSearchAndEmitsLiveInvalidation. Diagnose exact assertion/invalidation; scoped RED_FIX, rerun V2 Core 10/10, T4 7/7 and manifests; B7 then G4 closure if fully verified. Reality 21/21 and federation 27/27 already passed. G5 physical later. Do not repeat passing work.",
-  "checkpoint_status": "G4_FEDERATION_B7_PASS_V2_CORE_9_OF_10_RED_G4_OPEN",
+  "next": "G4 B7 CLOSED verified CI #42040913961. S3-A2 G1-G4 4/5 (80%) with only G5 physical pending; respect single physical campaign at end. S3 formal 0/5, V2 productive OFF, Noche/Auto OFF, S4 not open. Do not repeat G1-G4 or treat portable FBS1/FBS2 backup as available.",
+  "checkpoint_status": "G4_CLOSED_B7_AUTOMATED_G5_PHYSICAL_PENDING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G4_HANDOFF_V2_CORE_9_OF_10_20261105.md",
-  "last_code_sha": "a49b5cea329b34d15d56891a12606cd33ab27c04",
-  "last_ci_run_id": 42018187304,
+  "last_handoff": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
+  "last_code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
+  "last_ci_run_id": 42040913961,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_V2_CORE_9_OF_10_POINTER_INVALIDATION",
+  "last_ci_conclusion": "SUCCESS_V2CORE_10_10_T4_7_7_MANIFEST_4_4",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -285,9 +285,9 @@
       "status": "OPEN_WITH_PARTIAL_PROGRESS"
     },
     "focus_s3_a2": {
-      "closed_gates": 3,
+      "closed_gates": 4,
       "total_gates": 5,
-      "percent": 60,
+      "percent": 80,
       "gates": [
         "G1",
         "G2",
@@ -296,7 +296,7 @@
         "G5"
       ],
       "g3": "CLOSED_B7_G3_CANONICAL_MESSAGE_ANCHOR_4EB0F24",
-      "status": "G1_G2_G3_CLOSED_G4_OPEN_V2_CORE_9_10_RED_G5_PHYSICAL_LATER"
+      "status": "G1_G2_G3_G4_CLOSED_G5_PHYSICAL_LATER"
     },
     "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
     "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
@@ -313,7 +313,7 @@
       "lower_bound": 35,
       "upper_bound": 45,
       "as_of": "2026-11-04",
-      "status": "HEURISTIC_ESTIMATE_NOT_CERTIFIED",
+      "status": "HEURISTIC_HISTORICAL_40_PCT_NOT_FORMAL_STAGE_CLOSE",
       "evidence": "A1 Home/drawer partial, A2 canonical global/in-chat portions CI successful but real ACL/federation unbound, A4 real Auxiliary Avisos partial, A3 and A5 early; no fabricated per-substage numeric weighting; G2 host Search UI admission CI PASS 52/52 and V2 DEV APK successful, shipping V2 still OFF",
       "method": "Qualitative evidence-based estimate reviewed at end of each FARO V5 turn; revise only on material functional progress, label approximate and do not conflate with stage closures",
       "baseline": 40
@@ -438,7 +438,7 @@
     "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
   },
   "protocol_gate": {
-    "status": "CI_VERIFIED_ACTIVE_PERMIT_BLOCKED",
+    "status": "CI_VERIFIED_PERMIT_BLOCKED_AFTER_G4_B7",
     "mode": "FAIL_CLOSED",
     "validator": "scripts/quality/faro-protocol-gate.py",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -452,8 +452,8 @@
     "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 41876852639,
-    "last_ci_conclusion": "SUCCESS_14_OF_14_AND_FARO_PROTOCOL_GATE_PASS",
+    "last_ci_run_id": 42040913870,
+    "last_ci_conclusion": "SUCCESS",
     "verified_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 261,
+  "last_writer_epoch_observed": 263,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -755,16 +755,16 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
-  "pending_code_publication": false,
+  "last_unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
+  "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
     "G2": "CLOSED_AUTHORIZED_HOST_UI_WIRING_V2_OFF",
-    "G3": "PARTIAL",
-    "G4": "OPEN",
-    "G5": "OPEN"
+    "G3": "CLOSED_B7_CANONICAL_MESSAGE_ANCHOR",
+    "G4": "CLOSED_B7_FOUR_REAL_OWNERS_V2CORE_10_10",
+    "G5": "OPEN_PHYSICAL_CAMPAIGN_LATER"
   },
-  "s3_a2_gates_closed": 2,
+  "s3_a2_gates_closed": 4,
   "s3_a2_gates_total": 5,
   "s3_a2_g2_b6": {
     "status": "PASS_B7_G2_CLOSED",
@@ -818,25 +818,29 @@
     "writer_release_epoch_expected": 228
   },
   "progress_s3_a2_g4_20261105": {
-    "status": "FINANCE_SUBUNIT_B7_PASS_GLOBAL_G4_BLOCKED_REAL_OBJECTIVES_MATTERS_MISSING",
+    "status": "CLOSED_B7_AUTOMATED",
     "b1_b5": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
     "finance_b1_b5": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
     "finance_b7": "docs/s3-night/S3_A2_G4_FINANCE_SOURCE_B7_20261105.md",
-    "code_sha": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
+    "code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
     "s3_run": 41965481039,
     "s3_xml": "58/58 including Finance 4/4",
-    "v2core_run": 41965481015,
-    "v2core_status": "SUCCESS",
+    "v2core_run": 42040913961,
+    "v2core_status": "SUCCESS_10_10_T4_7_7_MANIFEST_4_4",
     "apk_run": 41965481032,
     "apk_status": "SUCCESS",
-    "protocol_run": 41965480987,
+    "protocol_run": 42040913870,
     "protocol_status": "SUCCESS",
-    "global_g4": "OPEN_REAL_OWNERS_MISSING",
+    "global_g4": "CLOSED",
     "b6_finance": "VERIFIED_UNMOUNTED",
     "b7_finance": "PASS",
-    "gates_closed": 3,
+    "gates_closed": 4,
     "gates_total": 5,
-    "physical": "NOT_RUN"
+    "physical": "G5_NOT_RUN",
+    "home_run": 42040913988,
+    "home_status": "SUCCESS",
+    "b7": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
+    "portable_backup": "NOT_IMPLEMENTED_FAIL_CLOSED"
   },
   "g4_owner_contract_foundation": {
     "status": "B7_PASS_CONTRACTS_ONLY",
@@ -860,8 +864,8 @@
     "physical": "NOT_RUN"
   },
   "g4_handoff_20261105": {
-    "status": "OPEN_PENDING_V2_CORE_RED_FIX",
-    "handoff": "docs/s3-night/S3_A2_G4_HANDOFF_V2_CORE_9_OF_10_20261105.md",
+    "status": "CLOSED_B7_AUTOMATED",
+    "handoff": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
     "head_before_handoff": "a49b5cea329b34d15d56891a12606cd33ab27c04",
     "reality": {
       "result": "PASS_21_21",
@@ -872,12 +876,20 @@
       "run": 42016712209
     },
     "v2_core": {
-      "result": "FAIL_9_10",
-      "run": 42018187304,
-      "failed_test": "durablePointerSwitchRevokesDevSearchAndEmitsLiveInvalidation"
+      "result": "SUCCESS_10_10_T4_7_7_MANIFEST_4_4",
+      "run": 42040913961
     },
     "portable_backup": "NOT_IMPLEMENTED_FOR_G4_ROWS_LEGACY_FAIL_CLOSED",
     "physical": "G5_LATER",
-    "writer_release_epoch": 261
+    "writer_release_epoch": 263,
+    "code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
+    "protocol": {
+      "result": "SUCCESS",
+      "run": 42040913870
+    },
+    "home": {
+      "result": "SUCCESS",
+      "run": 42040913988
+    }
   }
 }

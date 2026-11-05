@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
-  "reviewed_head": "3490855e3fb04f03a88da17bd54fd42e727c347f",
-  "paths": [
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_TEST_ONLY_B45C42C_CI_42040913961",
+    "B7": "PASS_FINAL_AUDIT_G4_CLOSED"
   },
   "last_code_review": {
-    "sha": "a49b5cea329b34d15d56891a12606cd33ab27c04",
-    "result": "RED_FIX",
+    "sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
+    "result": "PASS",
     "unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G4_HANDOFF_V2_CORE_9_OF_10_20261105.md",
-        "blob_sha": "4042057e056f809bb17edbbae219aa19aea7a879",
-        "marker": "## RED — last CI"
+        "path": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
+        "blob_sha": "f7067e9f973a40231901210e67a938ca07e8aab7",
+        "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "RED_FIX the G4 V2 Core test invalidation count for four replaying StateFlow grants: #42018187304 failed 9/10.",
-  "how": "Only test change; V2 Core 10/10 plus T4 7/7, manifests, protocol guard; B7 then close G4 if verified.",
+  "why": "G4 CI #42040913961 PASS 10/10 V2Core +7/7 T4 +4/4 manifests; #42040913870 guard PASS. G4 CLOSED, no new unit permitted.",
+  "how": "Recover next focus from pointer: G5 only when physical campaign authorized; S3 A2 4/5; V2 shipping OFF.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
