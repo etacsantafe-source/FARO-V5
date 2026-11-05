@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A4.ABA.CODE.20261105",
   "token_hash": "d2eef95301a884bc22d48ecea18ed9180f9e2f1740704635f42e11f4e36c8792",
-  "target_head": "9ba2980e7b0fe52540ea39577ed7e66c6e1e0835",
+  "target_head": "07f57cc8907f666b15596d2843e9d3943decb472",
   "target_branch": "work/s3-night-20261102",
   "epoch": 322,
-  "timestamp": 1793919417,
-  "purpose": "S3_A4_AVISOS_POINTER_ABA_THREE_PATH_FUNCTIONAL_DELTA",
-  "last_checkpoint": "A4_READY_PERMIT_PASS@9ba2980e7b0fe52540ea39577ed7e66c6e1e0835"
+  "timestamp": 1793919497,
+  "purpose": "S3_A4_AVISOS_POINTER_ABA_CODE_B6_WAIT_CI",
+  "last_checkpoint": "S3_A4_B6_WAIT_CI@07f57cc8907f666b15596d2843e9d3943decb472"
 }
