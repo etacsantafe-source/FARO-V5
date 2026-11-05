@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.STORAGE.B7.FED.PREAUDIT.20261105",
   "token_hash": "d7590fc4bd32e8ec9a1063f157b0a1fd77d638a34bf54af56bd5e2b225ba95f",
   "target_head": "0fab63a04de055e3479b33c6d38e1072646f42e3",
   "target_branch": "work/s3-night-20261102",
   "epoch": 253,
-  "timestamp": 1793875307,
-  "purpose": "G4_STORAGE_B7_AND_FEDERATION_PREEVIDENCE"
+  "timestamp": 1793875485,
+  "purpose": "G4_STORAGE_B7_NEXT_FEDERATION_PREAUDIT"
 }
