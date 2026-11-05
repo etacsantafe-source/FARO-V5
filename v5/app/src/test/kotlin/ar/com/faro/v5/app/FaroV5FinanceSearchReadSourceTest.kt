@@ -129,4 +129,50 @@ class FaroV5FinanceSearchReadSourceTest {
         assertEquals(10, result.hits.size)
         assertTrue(result.isIndexDegraded)
     }
+    @Test
+    fun financeEntryTargetResolvesOnlyExactBoundedCanonicalKeyAndAuthority() {
+        val owner = source(FinanceSnapshotReadApi { snapshot() })
+        val issued = requireNotNull(owner.authorityStamp())
+        val result = CanonicalSearchCoordinator(owner, null).search(query())
+        val key = result.hits.single().key
+        assertEquals(FinanceEntryId.of("private-entry-1"),
+            owner.resolveAuthorizedEntryId(key, issued))
+        assertEquals(null, owner.resolveAuthorizedEntryId(
+            ar.com.faro.v5.control.search.SearchProjectionKey(
+                "workspace.conversations", key.documentId), issued))
+        assertEquals(null, owner.resolveAuthorizedEntryId(
+            ar.com.faro.v5.control.search.SearchProjectionKey(
+                FaroV5FinanceSearchReadSource.NAMESPACE, "f:" + "a".repeat(64)), issued))
+    }
+
+    @Test
+    fun financeTargetRejectsRevokeRegrantRecoveryRevisionAndClosedOwner() {
+        var acl: String? = "finance-acl-1"
+        var generation = "generation-1"
+        var revision = 1L
+        var closed = false
+        val owner = source(FinanceSnapshotReadApi {
+            if (closed) error("Reality closed")
+            snapshot(revision)
+        }, { generation }, { acl }, { true })
+        val issued = requireNotNull(owner.authorityStamp())
+        val key = CanonicalSearchCoordinator(owner, null).search(query()).hits.single().key
+        assertEquals(FinanceEntryId.of("private-entry-1"),
+            owner.resolveAuthorizedEntryId(key, issued))
+        acl = null
+        assertEquals(null, owner.resolveAuthorizedEntryId(key, issued))
+        acl = "finance-acl-2"
+        assertEquals(null, owner.resolveAuthorizedEntryId(key, issued))
+        acl = "finance-acl-1"
+        generation = "generation-2"
+        assertEquals(null, owner.resolveAuthorizedEntryId(key, issued))
+        generation = "generation-1"
+        revision = 2L
+        assertEquals(null, owner.resolveAuthorizedEntryId(key, issued))
+        revision = 1L
+        closed = true
+        assertEquals(null, owner.resolveAuthorizedEntryId(key, issued))
+    }
+
+
 }

@@ -70,9 +70,9 @@ jobs:
               raise SystemExit(f'S3_G4_FINANCE_SOURCE_XML_MISSING {len(finance)}')
           froot = ET.parse(finance[0]).getroot()
           fcounts = tuple(int(froot.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
-          if fcounts != (4,0,0,0):
+          if fcounts != (6,0,0,0):
               raise SystemExit(f'S3_G4_FINANCE_SOURCE_XML_FAIL {fcounts}')
-          print('S3_G4_FINANCE_SOURCE_XML_PASS 4/4_UNMOUNTED')
+          print('S3_G4_FINANCE_SOURCE_XML_PASS 6/6_UNMOUNTED')
           bridge = sorted(base.glob('TEST-*FaroV5WorkspaceSearchSurfaceAdapterTest.xml'))
           if len(bridge) != 1:
               raise SystemExit(f'S3_SEARCH_BRIDGE_XML_MISSING {len(bridge)}')

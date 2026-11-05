@@ -78,6 +78,38 @@ class FaroV5FinanceSearchReadSource(
         )
     }
 
+    /**
+     * Resolve a Finance locator only against the exact originally observed owner
+     * generation, ACL grant and revision. This returns a private domain ID, NOT
+     * UI navigation authority: the eventual Finance host must also verify
+     * issuance/provenance and authorize the destination on its own read path.
+     */
+    fun resolveAuthorizedEntryId(
+        key: SearchProjectionKey,
+        expectedAuthority: SearchAuthorityStamp,
+    ): ar.com.faro.v5.owner.finance.api.FinanceEntryId? {
+        if (key.namespace != NAMESPACE) return null
+        return try {
+            val before = authorityStamp() ?: return null
+            if (before != expectedAuthority) return null
+            val snapshot = finance.read()
+            if (snapshot.revision != before.ownerRevision) return null
+            // Match only the bounded canonical documents that Search could issue,
+            // never an ID from a stale local index or a differently ordered row.
+            val candidates = snapshot.entries.sortedWith(
+                compareByDescending<FinanceEntrySnapshot> { it.recordedAtEpochMillis }
+                    .thenBy { it.entryId.value },
+            ).filter { it.recordedAtEpochMillis >= 0L }
+                .take(CanonicalSearchCoordinator.MAX_CANONICAL_DOCUMENTS)
+            val matched = candidates.firstOrNull {
+                "f:" + sha256(it.entryId.value) == key.documentId
+            }?.entryId
+            if (before == authorityStamp()) matched else null
+        } catch (_: Exception) {
+            null // closed owner / recovery denial is never an empty authorized result
+        }
+    }
+
     private fun sha256(text: String): String =
         MessageDigest.getInstance("SHA-256")
             .digest(text.toByteArray(Charsets.UTF_8))
