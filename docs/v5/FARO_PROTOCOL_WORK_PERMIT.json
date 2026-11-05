@@ -1,17 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "40ceb0c818ac76ebe0feee8f20224e1256d51809",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
+  "reviewed_head": "fe1c9e159e5d2fd6e2c5f3e58f5185817c21ecdf",
+  "paths": [
+    ".github/workflows/faro-v5-v2-core-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_RED_FIX_B1_B7_20261105.md",
-          "blob_sha": "815d354e599cce9396b58d4dab0008107fb388fc",
-          "marker": "## B1 EVIDENCIA NUEVA"
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
+          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "marker": "## B1 EVIDENCIA"
         }
       ]
     },
@@ -19,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_RED_FIX_B1_B7_20261105.md",
-          "blob_sha": "815d354e599cce9396b58d4dab0008107fb388fc",
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
+          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,9 +31,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_RED_FIX_B1_B7_20261105.md",
-          "blob_sha": "815d354e599cce9396b58d4dab0008107fb388fc",
-          "marker": "## B3 INVESTIGACIÓN Y ALTERNATIVAS"
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
+          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "marker": "## B3 INVESTIGACIÓN DE ALTERNATIVAS"
         }
       ]
     },
@@ -39,9 +41,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_RED_FIX_B1_B7_20261105.md",
-          "blob_sha": "815d354e599cce9396b58d4dab0008107fb388fc",
-          "marker": "## B4 UNIFICACIÓN DE CORRECCIÓN / RUTAS EXACTAS"
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
+          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "marker": "## B4 UNIFICACIÓN"
         }
       ]
     },
@@ -49,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_RED_FIX_B1_B7_20261105.md",
-          "blob_sha": "815d354e599cce9396b58d4dab0008107fb388fc",
-          "marker": "## B5 NEGATIVAS Y LÍMITES"
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
+          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "marker": "## B5 AUDITORÍA ADVERSARIAL"
         }
       ]
     },
-    "B6": "VERIFIED_FOUR_OWNER_G4_27_27_40CEB0C_42016712209",
-    "B7": "PASS_FEDERATION_READ_ONLY_DEV_RUNTIME_V2_CORE_STILL_NOT_RUN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "40ceb0c818ac76ebe0feee8f20224e1256d51809",
@@ -70,8 +72,8 @@
       }
     ]
   },
-  "why": "Four-source Search B7 PASS 27/27 and Reality 21/21; G4 global open until corrected V2 Core lifecycle runtime XML",
-  "how": "Issue new single-workflow READY permit after B1-B5, add two globs and verify V2 Core 10/10 + T4 7/7; then final G4 closure.",
+  "why": "Close G4 validation hole: corrected Reality 5→6 DEV lifecycle lacks exact V2CoreDev tests on new SHA; no real G4 closure yet",
+  "how": "Add two narrowly scoped storage/generation path filters to V2 Core workflow, preserve jobs, assert 10/10 and 7/7 plus manifests and protocol PASS",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
