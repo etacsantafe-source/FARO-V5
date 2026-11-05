@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A4.ABA.PREAUDIT.20261105",
   "token_hash": "3b0fadb7af04f5c83139c454eeed3563329426e3fa38ddf173e088b98017577f",
-  "target_head": "ed20b456b9260ff4d50c6e70c2cbf6c0df18162e",
+  "target_head": "f416f8809035fa4d7d06434941469b20ee09ec26",
   "target_branch": "work/s3-night-20261102",
   "epoch": 320,
-  "timestamp": 1793919179,
-  "purpose": "S3_A4_AVISOS_POINTER_ABA_B1_B5_DOC",
-  "last_checkpoint": "PREAUDIT_PENDING@ed20b456b9260ff4d50c6e70c2cbf6c0df18162e"
+  "timestamp": 1793919274,
+  "purpose": "S3_A4_B1_B5_PREAUDIT_DURABLE",
+  "last_checkpoint": "S3_A4_B1_B5_PUBLISHED@f416f8809035fa4d7d06434941469b20ee09ec26"
 }
