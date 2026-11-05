@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.NOCHE.A.20261105.1600",
   "token_hash": "night-a-1600-doc-only-no-secret",
-  "target_head": "c2fdfe607d9da1040d17ce6ae88f4733d3660046",
+  "target_head": "07e03fa732e0041858cc09dc9aed3177b46a7ea9",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 280,
+  "epoch": 281,
   "timestamp": 1793897000,
-  "purpose": "S3_A1_OWNER_PATH_VERIFICATION_DOC_ONLY"
+  "purpose": "S3_A1_A_1600_AUDIT_HANDOFF_WRITER_FREE"
 }
