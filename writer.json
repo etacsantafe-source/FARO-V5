@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A1.N015.SCOPE_REPAIR.20261105",
   "token_hash": "b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a15",
-  "target_head": "e228ea34ec8449f9ff919eb4cda440dc340a2885",
+  "target_head": "ee65cc61cf474c627ff3d90d1c5b3b214db92833",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 295,
-  "timestamp": 1793912450,
-  "purpose": "REMOVE_CIRCULAR_PREAUDIT_GATE_N015_STORAGE_ONLY",
-  "last_checkpoint": "S3_A1_MANUAL_N015_B5_BLOCKED@e228ea34ec8449f9ff919eb4cda440dc340a2885"
+  "epoch": 296,
+  "timestamp": 1793912550,
+  "purpose": "N015_B1_B5_DOCUMENTED_NO_FUNCTIONAL_CODE",
+  "last_checkpoint": "S3_A1_N015_SCOPED_PREAUDIT@ee65cc61cf474c627ff3d90d1c5b3b214db92833"
 }
