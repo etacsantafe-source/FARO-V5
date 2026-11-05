@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.G1.REDFIX_PERMIT.20261104",
-  "token_hash": "bd7f0a9b0f5794fbdd1178f4f4a087f8b07c64835bb49865b76c8fe995e8e6cb",
-  "target_head": "92a09c91e428d1d228619914283ff2e413db8e7e",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.G1.REDFIX_CODE.20261104",
+  "token_hash": "086bc57e44dc538045bfedb833b1b04cad8db8750eb2137befb450b86d2678ad",
+  "target_head": "ccb28cc90a7bb0e3c4dc72ccad63b56bded281cb",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 203,
-  "timestamp": 1793843640,
-  "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_REDFIX_READY_PERMIT"
+  "epoch": 204,
+  "timestamp": 1793843682,
+  "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_RECOVERY_ABA_REDFIX_CODE"
 }
