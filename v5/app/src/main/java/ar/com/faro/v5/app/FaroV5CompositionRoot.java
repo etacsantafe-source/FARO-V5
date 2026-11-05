@@ -44,6 +44,7 @@ import ar.com.faro.v5.platform.android.work.AndroidWorkManagerScheduler;
 import ar.com.faro.v5.platform.android.work.FaroWorkerFactory;
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore;
 import ar.com.faro.v5.surface.FaroV5HomeReadPort;
+import ar.com.faro.v5.surface.FaroV5SearchReadPort;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Set;
@@ -767,6 +768,45 @@ public final class FaroV5CompositionRoot {
                                         () -> generationStorage().activeGenerationId(),
                                         () -> maintenanceRecoveryComplete,
                                         pinnedChatPointerStillCurrent);
+                // G1: trusted host owns the read grant; the shipping SurfaceHost
+                // STILL receives null for Search until the separate G2 gate.
+                FaroV5ActiveWorkspaceSearchGrantOwner activeSearchGrant = null;
+                FaroV5SearchReadPort activeSearchReadPort = null;
+                Runnable searchPointerListener = null;
+                if (stores.getWorkspace() != null &&
+                        FaroV5HostCertification.V2_ACTIVE_ENABLED) {
+                    final BooleanSupplier searchAdmitted = () ->
+                            maintenanceRecoveryComplete &&
+                            FaroV5HostCertification.V2_ACTIVE_ENABLED &&
+                            pinnedChatPointerStillCurrent.getAsBoolean();
+                    final FaroV5ActiveWorkspaceSearchGrantOwner grant =
+                            new FaroV5ActiveWorkspaceSearchGrantOwner(
+                                    activeGenerationId + ":" + pinnedChatPointer.getSequence(),
+                                    searchAdmitted);
+                    final Runnable observer = grant::revoke;
+                    try {
+                        // An active, healthy Workspace and pinned pointer were
+                        // verified by FaroV5ActiveGenerationGraphOwner.open().
+                        grant.grantAfterVerifiedHostOpen();
+                        chatPointer.addChangeListener(observer);
+                        FaroV5WorkspaceSearchReadSource canonical =
+                                new FaroV5WorkspaceSearchReadSource(
+                                        activeGenerationId, stores.getWorkspace(),
+                                        () -> generationStorage().activeGenerationId(),
+                                        () -> grant.epochOrNull(),
+                                        () -> searchAdmitted.getAsBoolean());
+                        activeSearchReadPort = new FaroV5WorkspaceSearchSurfaceAdapter(
+                                canonical, chatSelectionSession.port,
+                                grant.getInvalidations());
+                        activeSearchGrant = grant;
+                        searchPointerListener = observer;
+                    } catch (RuntimeException failure) {
+                        chatPointer.removeChangeListener(observer);
+                        grant.close();
+                        stores.close();
+                        throw failure;
+                    }
+                }
                 FaroV5HostAcceptedTurnDispatchPort assistantDispatch = null;
                 TrustedAssistantRuntime assistantConfig = trustedAssistantRuntime;
                 if (stores.getWorkspace() != null &&
@@ -815,7 +855,11 @@ public final class FaroV5CompositionRoot {
                                 chatReviewSession,
                                 chatSelectionSession,
                                 chatApplySession,
-                                assistantDispatch);
+                                assistantDispatch,
+                                activeSearchReadPort,
+                                activeSearchGrant,
+                                chatPointer,
+                                searchPointerListener);
                 deliveryGraph = current;
             }
             return current;
@@ -867,6 +911,11 @@ public final class FaroV5CompositionRoot {
         final FaroV5ActiveChatSelectionSession chatSelectionSession;
         final FaroV5ActiveReviewedApplySession chatApplySession;
         final FaroV5HostAcceptedTurnDispatchPort chatAssistantDispatch;
+        // G1 owner + canonical Search port are internal until separate G2 UI admission.
+        final FaroV5SearchReadPort searchReadPort;
+        final FaroV5ActiveWorkspaceSearchGrantOwner searchGrantOwner;
+        final FileActiveGenerationPointer searchPointer;
+        final Runnable searchPointerListener;
 
         DeliveryGraph(
                 String generationId,
@@ -878,7 +927,11 @@ public final class FaroV5CompositionRoot {
                 FaroV5ActiveChatReviewSession chatReviewSession,
                 FaroV5ActiveChatSelectionSession chatSelectionSession,
                 FaroV5ActiveReviewedApplySession chatApplySession,
-                FaroV5HostAcceptedTurnDispatchPort chatAssistantDispatch) {
+                FaroV5HostAcceptedTurnDispatchPort chatAssistantDispatch,
+                FaroV5SearchReadPort searchReadPort,
+                FaroV5ActiveWorkspaceSearchGrantOwner searchGrantOwner,
+                FileActiveGenerationPointer searchPointer,
+                Runnable searchPointerListener) {
             this.generationId = generationId;
             this.stores = stores;
             this.store = store;
@@ -889,10 +942,17 @@ public final class FaroV5CompositionRoot {
             this.chatSelectionSession = chatSelectionSession;
             this.chatApplySession = chatApplySession;
             this.chatAssistantDispatch = chatAssistantDispatch;
+            this.searchReadPort = searchReadPort;
+            this.searchGrantOwner = searchGrantOwner;
+            this.searchPointer = searchPointer;
+            this.searchPointerListener = searchPointerListener;
         }
 
         void close() {
             try {
+                if (searchGrantOwner != null) searchGrantOwner.close();
+                if (searchPointer != null && searchPointerListener != null)
+                    searchPointer.removeChangeListener(searchPointerListener);
                 if (chatAssistantDispatch != null) chatAssistantDispatch.close();
             } finally {
                 stores.close();
