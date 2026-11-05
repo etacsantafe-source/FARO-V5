@@ -4,7 +4,7 @@ import ar.com.faro.v5.kernel.contracts.AtomicApplyTransactionDecision
 import ar.com.faro.v5.kernel.contracts.TransactionId
 import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
 import ar.com.faro.v5.maintenance.GenerationStoreFiles
-import ar.com.faro.v5.kernel.contracts.StorageGenerationId
+import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.owner.finance.api.*
 import ar.com.faro.v5.owner.objectives.api.*
 import ar.com.faro.v5.owner.matters.api.*
