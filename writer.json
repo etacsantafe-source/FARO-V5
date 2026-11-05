@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.G1.HOST_GRANT_PERMIT.20261104",
   "token_hash": "dcb2ac722a9b4c2d9896f0e251835ddb49571c799d935287a748527b811c0127",
   "target_head": "7b27f27eef4b9804e25ffd0495594d2c1ce0b00e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 199,
-  "timestamp": 1793842093,
+  "timestamp": 1793842159,
   "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_READY_PERMIT"
 }
