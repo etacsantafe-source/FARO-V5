@@ -36,13 +36,13 @@ class RealityDomainOwnersT2Test {
     @Test
     fun freshDatabaseCreatesBothRealOwnersAndKeepsLegacyBackupWireVersion() {
         RealityStore(":memory:").use { store ->
-            assertEquals(6, store.schemaVersion())
+            assertEquals(7, store.schemaVersion())
             assertEquals(0L, store.objectivePersistence.read().revision)
             assertEquals(0L, store.matterPersistence.read().revision)
             assertEquals(emptyList<ObjectiveRecord>(), store.objectivePersistence.read().objectives)
             assertEquals(emptyList<MatterRecord>(), store.matterPersistence.read().matters)
             assertEquals(5, store.backup.snapshot().schemaVersion)
-            assertEquals(6, store.domainBackup.snapshot().schemaVersion)
+            assertEquals(7, store.domainBackup.snapshot().schemaVersion)
             assertTrue(store.maintenance.inspect().freshForSemanticMigration)
         }
     }
@@ -130,7 +130,7 @@ class RealityDomainOwnersT2Test {
     }
 
     @Test
-    fun realV5DatabaseMigratesAdditivelyToV6AndPreservesProfile() {
+    fun realV5DatabaseMigratesAdditivelyToV7AndPreservesProfile() {
         val db = Files.createTempDirectory("g4-migrate").resolve("reality.db")
         RealityStore(db.toString()).use { source ->
             source.run(TransactionId("tx-profile")) { scope ->
@@ -146,7 +146,7 @@ class RealityDomainOwnersT2Test {
             connection.execSQL("PRAGMA user_version = 5")
         }
         RealityStore(db.toString()).use { migrated ->
-            assertEquals(6, migrated.schemaVersion())
+            assertEquals(7, migrated.schemaVersion())
             assertEquals("Perfil anterior", migrated.read().displayName?.value)
             assertEquals(0, migrated.objectivePersistence.read().objectives.size)
             assertEquals(0, migrated.matterPersistence.read().matters.size)
@@ -170,14 +170,49 @@ class RealityDomainOwnersT2Test {
     }
 
     @Test
-    fun legacyBackupRestoresIntoFreshV6WithoutInventingNewDomainData() {
+    fun legacyBackupRestoresIntoFreshV7WithoutInventingNewDomainData() {
         val snapshot = RealityStore(":memory:").use { source -> source.backup.snapshot() }
         RealityStore(":memory:").use { target ->
             assertEquals(snapshot, target.backup.restoreOrVerify(snapshot))
             assertEquals(emptyList<ObjectiveRecord>(), target.objectivePersistence.read().objectives)
             assertEquals(emptyList<MatterRecord>(), target.matterPersistence.read().matters)
             assertEquals(5, target.backup.snapshot().schemaVersion)
-            assertEquals(6, target.schemaVersion())
+            assertEquals(7, target.schemaVersion())
+        }
+    }
+
+    @Test
+    fun realSchemaSixReceiptsMigrateWithoutInventingCommitTimes() {
+        val db = Files.createTempDirectory("faro-v5-reality-v6-to-v7").resolve("reality.db")
+        val old = RealityStore(db.toString())
+        old.use { store ->
+            val empty = store.backup.snapshot()
+            val legacy = empty.copy(committedReceipts = listOf(
+                RealityCommittedReceiptBackup(
+                    receiptId = "old-receipt", transactionId = "tx-old",
+                    planFingerprint = "plan-old",
+                )
+            ))
+            assertEquals(legacy, store.backup.restoreOrVerify(legacy))
+        }
+        // Construct an actual v6 durable schema, not merely a downgraded version number.
+        BundledSQLiteDriver().open(db.toString()).use { connection ->
+            connection.execSQL(
+                "ALTER TABLE execution_receipt DROP COLUMN commit_recorded_at_epoch_millis"
+            )
+            connection.execSQL("PRAGMA user_version = 6")
+        }
+        RealityStore(db.toString()).use { migrated ->
+            assertEquals(7, migrated.schemaVersion())
+            assertEquals(listOf("tx-old"), migrated.receiptHistory
+                .query(RealityReceiptHistoryQuery()).receipts.map { it.transactionId.value })
+            val timed = migrated.timedReceiptHistory.query(RealityTimedReceiptQuery())
+            assertTrue(timed.legacyUndated)
+            assertTrue(timed.receipts.isEmpty())
+            assertEquals(null, migrated.backup.snapshot().committedReceipts
+                .single().commitRecordedAtEpochMillis)
+            assertEquals(5, migrated.backup.snapshot().schemaVersion)
+            assertEquals("ok", migrated.integrityCheck())
         }
     }
 }
