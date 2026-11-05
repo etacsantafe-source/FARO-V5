@@ -25,9 +25,9 @@
     "contract_freeze": "PASS_SPEC_ONLY_H01_H04_R0_R3_NO_IMPLEMENTATION_TESTS",
     "physical_at_end": "PARTIAL_USER_AUTHORIZED_20261105_WORKSPACE_PASS_3_DOMAINS_EMPTY",
     "s3_a2_g4": "CLOSED_B7_AUTOMATED_V2CORE_10_10_T4_7_7_MANIFEST_4_4",
-    "s3_a2_g5": "OPEN_ANDROID_EMULATOR_CI_WAIT_PHYSICAL_NOT_RUN",
+    "s3_a2_g5": "OPEN_EMULATOR_ANDROID_REAL_OS_PASS_1_1_PHYSICAL_MOTO_PENDING",
     "s3_a2_g5_ci_run": 42062273554,
-    "s3_a2_g5_android_ci_run": 42069366649
+    "s3_a2_g5_android_ci_run": 42071443306
   },
   "tasks": [
     "S3-N00",
@@ -38,7 +38,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "G1-G4 CLOSED. G5 Android emulator exact CI #42069366649 on 13911eacf is in progress at last observation, protocol guard #42069373871 PASS. Check exact Android instrumented 1/1 in CI and B7 (PASS/RED_FIX) before new code. Moto G15 three Reality-domain positive flows and adversarial negatives still NOT_RUN; do not claim G5 CLOSED. No Termux copy-paste; no new S4/V2 productive/Auto/Noche.",
+  "next": "G1-G4 CLOSED. G5 Android real OS emulator API35 integration PASS 1/1 on code bcb38e9, CI #42071443306, protocol #42071443729 SUCCESS. B7 PASS documented and permit exact updated; do not repeat automated owners. G5 remains OPEN due to Moto G15 physical positive Finance/Objective/Matter and adversarial security pending; save one integrated final physical campaign, no repeated ADB copy-paste. S3.A2 formal 4/5, S3 0/5, S2 frozen, V2 shipping/S4/Auto/Noche OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -54,7 +54,7 @@
     "report": "6ae9073eccd08191b88aec776771ca9e"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3-A2-G5_ANDROID_EMULATOR_B5_READY_CI_WAIT",
+  "last_completed_gate": "S3-A2-G5_ANDROID_EMULATOR_B7_PASS_1_1_PHYSICAL_OPEN",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "PARTIAL_N032_NOTICE_OWNER_POINTER_EVENTS_CI_9_9_VERIFIED",
@@ -628,5 +628,19 @@
   },
   "s3_a2_g5_physical_handoff": "docs/s3-night/S3_A2_G5_ANDROID_PHYSICAL_PARTIAL_20261105.md",
   "s3_a2_g5_real_host_doc": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
-  "s3_a2_g5_android_checkpoint": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md"
+  "s3_a2_g5_android_checkpoint": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md",
+  "s3_a2_g5_android_evidence": {
+    "status": "PASS_1_OF_1_EMULATOR_ONLY",
+    "commit": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
+    "run_id": 42071443306,
+    "protocol_run_id": 42071443729,
+    "exact_markers": [
+      "OK (1 test)",
+      "INSTRUMENTATION_CODE: -1",
+      "G5_ANDROID_REAL_OS_FOUR_OWNER_PASS 1/1"
+    ],
+    "b7_document": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md",
+    "physical": "MOTO_G15_THREE_REALITY_OWNER_POSITIVE_AND_ADVERSARIAL_NOT_RUN",
+    "writer_release_epoch_expected": 271
+  }
 }
