@@ -2,20 +2,21 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
-  "reviewed_head": "19c9830c627168caa849f03f4b528a22717c05ef",
+  "reviewed_head": "12c4cfa5677d1ec8faf2111b88151296b1e53a62",
   "paths": [
     "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
-    ".github/workflows/faro-v5-g5-android-directed.yml",
-    "v5/app/build.gradle.kts"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
+    "v5/app/build.gradle.kts",
+    ".github/workflows/faro-v5-g5-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
-          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
-          "marker": "## B1"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
+          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "marker": "### B1"
         }
       ]
     },
@@ -23,9 +24,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
-          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
-          "marker": "## B2"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
+          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "marker": "### B2"
         }
       ]
     },
@@ -33,9 +34,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
-          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
-          "marker": "## B3"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
+          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "marker": "### B3"
         }
       ]
     },
@@ -43,9 +44,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
-          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
-          "marker": "## B4"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
+          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "marker": "### B4"
         }
       ]
     },
@@ -53,9 +54,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
-          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
-          "marker": "## B5"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
+          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "marker": "### B5"
         }
       ]
     },
@@ -63,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "85e36b4c06e272e640467504a360b748fb9fb7f0",
+    "sha": "6a6076585191a2eba2173a4763b30e5f13d21fe1",
     "result": "RED_FIX",
     "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_OOM_REDFIX_B7_20261105.md",
-        "blob_sha": "69717f084999fd1808d6f8ea84364b32b471a1b3",
+        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
+        "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "Android CI #42066291096 OOME Gradle JVM, instrumentation NOT_RUN; M5 APK path succeeded on controlled Xmx3072 and single worker.",
-  "how": "RED_FIX same unit, only memory strategy in .github/workflows/faro-v5-g5-android-directed.yml; test exact Android 1/1 and B7 before closing.",
+  "why": "G5 CI 42067731793 compiled app but failed legacy androidTest dependency A5 in isolated V2; no emulator test executed",
+  "how": "Only move new test to opt-in isolated sourceSet and update Gradle/workflow, no editing old AndroidTests; then exact emulator run and B7",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
