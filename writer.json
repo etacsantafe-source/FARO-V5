@@ -1,12 +1,21 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A1.N015.GENERATION_CI_B7_A1_SCOPE_CLOSE.20261105",
-  "token_hash": "305a1d15305a1d15305a1d15305a1d15305a1d15305a1d15305a1d15305a1d15",
+  "token_hash": "305a1d15305a1d15305a1d15305a1d15305a1d15305a1d15305a1d15",
   "target_head": "554cab80d4622bdbd0fa1800ff851389394c2361",
   "target_branch": "work/s3-night-20261102",
   "epoch": 315,
-  "timestamp": 1793915618,
-  "purpose": "B7_GENERATION_XML_PASS_17_OF_17_AND_S3_A1_SCOPE_RECONCILIATION",
-  "last_checkpoint": "S3_A1_GENERATION_CI_WAIT@554cab80d4622bdbd0fa1800ff851389394c2361"
+  "timestamp": 1793916650,
+  "purpose": "MANUAL_RECOVERY_ABANDONED_B7_OWNER_EXPLICIT_USER_APPROVAL",
+  "last_checkpoint": "S3_A1_GENERATION_CI_B7_DOCUMENTED@a2b926703583a09fb04083fc6c510c10186e94bc",
+  "manual_recovery": {
+    "authorization": "User explicitly requested to perform B7 permit update, CI and release blocked writer in chat on 2026-11-05",
+    "prior_writer_ref": "d98a096f3f41a172c027ef4d0f89cebc311ab218",
+    "prior_status": "HELD",
+    "prior_target_head": "554cab80d4622bdbd0fa1800ff851389394c2361",
+    "observed_head": "a2b926703583a09fb04083fc6c510c10186e94bc",
+    "reason": "Owner session abandoned; writer stale >15 minutes; no queued/in-progress GitHub Actions; recovered only with exact writer branch CAS and no force. Does NOT constitute automatic stale takeover.",
+    "scope": "manual recovery for pending B7 only"
+  }
 }
