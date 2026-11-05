@@ -42,7 +42,7 @@ jobs:
       - name: Compile app and run Home notice tests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5FinanceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveHostPointerABATest" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5SearchHostPortAdmissionTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5FinanceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveHostPointerABATest" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5SearchHostPortAdmissionTest" --tests "ar.com.faro.v5.app.FaroV5RealityTimedActivityReadSourceTest"
       - name: Verify exact Home notice JUnit XML
         run: |
           python3 - <<'PY'
@@ -122,6 +122,14 @@ jobs:
           if g2_counts != (10,0,0,0):
               raise SystemExit(f'S3_G2_HOST_PORT_XML_FAIL {g2_counts}')
           print('S3_G2_HOST_PORT_XML_PASS 10/10')
+          reality = sorted(base.glob('TEST-*FaroV5RealityTimedActivityReadSourceTest.xml'))
+          if len(reality) != 1:
+              raise SystemExit(f'S3_A1_REALITY_ACTIVITY_XML_MISSING {len(reality)}')
+          rroot = ET.parse(reality[0]).getroot()
+          rcounts = tuple(int(rroot.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if rcounts != (6,0,0,0):
+              raise SystemExit(f'S3_A1_REALITY_ACTIVITY_XML_FAIL {rcounts}')
+          print('S3_A1_REALITY_ACTIVITY_XML_PASS 6/6')
           PY
       - name: Verify supported single-process Search host in merged manifest
         run: |
