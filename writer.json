@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A1.N015.STORAGE.B6.20261105",
   "token_hash": "b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a16",
-  "target_head": "ee65cc61cf474c627ff3d90d1c5b3b214db92833",
+  "target_head": "78a5e9beaa3a2ef946fd6b27d7c3def36a274adf",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 297,
-  "timestamp": 1793912600,
-  "purpose": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP_B6",
-  "last_checkpoint": "S3_A1_N015_SCOPED_PREAUDIT@ee65cc61cf474c627ff3d90d1c5b3b214db92833"
+  "epoch": 298,
+  "timestamp": 1793912800,
+  "purpose": "N015_STORAGE_CODE_CI_RUNNING_RELEASED",
+  "last_checkpoint": "N015_B6_WAIT_CI@78a5e9beaa3a2ef946fd6b27d7c3def36a274adf"
 }
