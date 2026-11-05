@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.G1.JVM_REDFIX_B1_B5.20261104",
   "token_hash": "e9fcd3a091607c96a7205b9a816b51c40ad58a2506e9509c084e7ca4638f2e50",
   "target_head": "dc3eee9de857a00b07a808c3ed19f6b60acff3d6",
   "target_branch": "work/s3-night-20261102",
   "epoch": 209,
-  "timestamp": 1793846294,
+  "timestamp": 1793846421,
   "purpose": "S3_A2_G1_POLICY_RESTORE_READMISSION_JVM_REDFIX_AUDIT"
 }
