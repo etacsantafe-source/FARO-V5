@@ -1,16 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "dec1024439fdddc7367d0c98b993b4e0da207e13",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA",
+  "reviewed_head": "3b249e7c04b81b6a40a6bdf143ea809e6cb5cd9d",
+  "paths": [
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatComposerSession.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatSelectionSession.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReviewSession.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveReviewedApplySession.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveHostPointerABATest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
+          "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B1_B5_20261104.md",
+          "blob_sha": "b81207e9f9a321188180e5c85dda03d7618f72a7",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
+          "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B1_B5_20261104.md",
+          "blob_sha": "b81207e9f9a321188180e5c85dda03d7618f72a7",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
+          "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B1_B5_20261104.md",
+          "blob_sha": "b81207e9f9a321188180e5c85dda03d7618f72a7",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
+          "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B1_B5_20261104.md",
+          "blob_sha": "b81207e9f9a321188180e5c85dda03d7618f72a7",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_JUNIT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1c39ccbc74a375b9aee98909cc8ad0ff6ccebf7f",
+          "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B1_B5_20261104.md",
+          "blob_sha": "b81207e9f9a321188180e5c85dda03d7618f72a7",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "VERIFIED_INITIAL_CODE_CI_41936856422_41936856486_AND_REDFIX_JVM_41937907083",
-    "B7": "PASS_FINAL_AUDIT_ACTIVE_CHAT_READ_POINTER_ABA_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "dec1024439fdddc7367d0c98b993b4e0da207e13",
@@ -70,8 +78,8 @@
       }
     ]
   },
-  "why": "Active Chat Read pointer ABA bounded unit certified after one JUnit-discovery RED_FIX: CI 41937907083 XML Chat6/6 + S3 Home25/25, guard SUCCESS, prior core/APK SUCCESS no production delta in fix. NOT shipping Search ACL.",
-  "how": "Next functional unit requires separate B1-B5 external research and READY permit. Study true Workspace Search ACL grant/revoke with durable independent epoch and cross-instance invalidations; audit Composer/Selection/Review/Apply generation ABA separately; no automatic V2 activation.",
+  "why": "Bounded A→B→A durable pointer hardening for host Composer/Selection/Review/Apply; reuses Chat read pinned pointer and material write gate, no shipping Search ACL or V2 activation.",
+  "how": "One permitted seven-path functional commit after positive preflight, run app S3 directed JVM with exact new JUnit XML and protocol guard, then independent B7. Writer released during CI.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
