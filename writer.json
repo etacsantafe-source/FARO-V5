@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.HOST_GRANT_REDFIX_DOC.20261104",
   "token_hash": "0cfcc7932e86cd053769a10d28584a0d9856f4d39e117da8cb987b7bb2f7242c",
   "target_head": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
   "target_branch": "work/s3-night-20261102",
   "epoch": 202,
-  "timestamp": 1793843365,
+  "timestamp": 1793843538,
   "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_B7_REDFIX_PREAUDIT"
 }
