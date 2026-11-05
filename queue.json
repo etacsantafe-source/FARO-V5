@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "mode": "STAGED",
-  "activation_authorized": false,
-  "authorized_by": "USER_EXPLICIT_20261103_IMMEDIATE_ONE_HOUR_DYNAMIC_V1",
-  "phase": "S3_MANUAL_HANDOFF_NOCHE_OFF",
+  "mode": "ENABLED",
+  "activation_authorized": true,
+  "authorized_by": "USER_EXPLICIT_20261105_S3_NOCHE_AB_UNTIL_1900_AR",
+  "phase": "S3_NOCHE_AB_ACTIVE",
   "branch": "work/s3-night-20261102",
-  "timezone": "America/Argentina/Buenos_Aires",
-  "hard_stop_at": "2026-11-03T21:58:00-03:00",
+  "timezone": "America/Argentina/Cordoba",
+  "hard_stop_at": "2026-11-05T19:00:00-03:00",
   "next_seq": 9,
   "tasks": [
     {
@@ -248,14 +248,20 @@
       "depends_on": [
         "S3-A1"
       ],
-      "status": "PENDING",
+      "status": "CLOSED_AUTOMATED_SCOPE",
       "claimed_by": null,
       "head_expected": null,
       "attempts": 0,
       "acceptance": "Código+tests español, cobertura parcial, fuentes y restore",
       "action_run_ids": [],
-      "checkpoint": null,
-      "evidence": null
+      "checkpoint": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+      "evidence": {
+        "scoped_gates": "G1_G5_5_OF_5",
+        "code_sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
+        "run_id": 42071443306,
+        "physical": "NOT_RUN_DEFERRED_S3_A5",
+        "x01_x12": "NOT_RUN_DEFERRED_S3_A5"
+      }
     },
     {
       "task_id": "S3-A3",
@@ -312,21 +318,23 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A1_NOCHE_A_2100_HANDOFF_20261102.md",
-    "commit_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
+    "source": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+    "commit_sha": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
     "task_id": "S3-A1",
-    "status": "PARTIAL_CI_VERIFIED_NOTICE_REAL_1_OF_4_ACCESSIBILITY_JVM",
-    "writer_epoch": 23,
+    "status": "A2_CLOSED_AUTOMATED_SCOPE_A1_NEXT",
+    "writer_epoch": 273,
     "action_run_ids": [
-      41549981598
+      42071443306,
+      42071443729,
+      42072933660
     ]
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "safety": "EXCLUSIVE_WRITER_EXPECTED_SHA_FAIL_CLOSED",
-  "last_committed_sha": "d4c2c6e41c07381739ddfd8e57ac03589bdd8f46",
+  "last_committed_sha": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
   "cas_probe": "PASS_EXPECTED_SHA_NOOP_STALE_ERROR_REF_UNCHANGED_B",
-  "night_schedule": "A_1031_B_1101_WATCHDOG_1129_REPORT_1133",
+  "night_schedule": "A_1500_1600_1700_1800_B_1530_1630_1730_1830_REPORT_1905_AR",
   "allow_physical": "ONLY_SINGLE_CAMPAIGN_AT_S3_END",
   "app_v2": false,
   "s4": false,
@@ -381,12 +389,12 @@
     }
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
-  "activation_requires": "VALID_USER_AUTHORIZATION_20261103T0949_TO_1049_ONLY",
-  "starts_at": "2026-11-03T20:58:00-03:00",
+  "activation_requires": "CURRENT_USER_EXPLICIT_AUTHORIZATION_VALID_UNTIL_20261105_1900_AR",
+  "starts_at": "2026-11-05T15:00:00-03:00",
   "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
-  "authorization_epoch": 28,
+  "authorization_epoch": 29,
   "authorized_scope": "S3_SEVEN_APPROVED_TASKS_S2_FROZEN_S4_OFF_V2_OFF_172_UNCHANGED_8_GUARDADOS_PROVISIONAL",
-  "priority": "MAXIMIZE_S3_SAFE_PROGRESS_SINGLE_PHYSICAL_CAMPAIGN_AT_END",
+  "priority": "S3_A1_FIRST_THEN_MAXIMIZE_REMAINING_S3_AUTOMATABLE",
   "initial_opportunities": [
     "OPP-A1-OWNER",
     "OPP-N031",
@@ -412,12 +420,11 @@
     "A": true,
     "B": true,
     "report": true,
-    "verified_from": "Automations.peek",
-    "checked_at": "2026-11-02T22:44:00-03:00",
-    "A_count": 8,
-    "B_count": 8,
-    "report_at": "2026-11-03T07:10:00-03:00",
-    "caveat": "next_run_time not provided by dashboard; enabled flag and recurrence verified"
+    "verified_from": "Automations.peek 2026-11-05",
+    "A_count": 4,
+    "B_count": 4,
+    "report_at": "2026-11-05T19:05:00-03:00",
+    "caveat": "next_run_time not exposed; enabled=true, exact schedule and RRULE verified"
   },
   "cancelled_at_local": "2026-11-02T23:49:00-03:00",
   "one_hour_pilot": {
@@ -441,7 +448,7 @@
     "preserved_tasks": 7,
     "report_automation": "6ae9073eccd08191b88aec776771ca9e"
   },
-  "authorized_start_at": "2026-11-03T10:31:00-03:00",
+  "authorized_start_at": "2026-11-05T14:37:00-03:00",
   "simplified_pilot": {
     "status": "ENABLED_PENDING_AGENDAS",
     "start": "2026-11-03T10:31:00-03:00",
@@ -501,7 +508,7 @@
       "unit_id": "S3-A1",
       "block_id": 1,
       "block_status": "READY",
-      "expected_head": "c12d7561762cbe428fa8883fc21569ad162525b8",
+      "expected_head": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
       "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
       "verified_blocks": {},
       "evidence": [
@@ -518,7 +525,7 @@
           "scope": "FARO_NIGHT_SELECTORS_36_OF_36_ONLY"
         }
       ],
-      "next_step": "NOCHE_A verified readActiveHomePort readiness binding already exists; do NOT repeat. B must trace canonical ACL/generation emitter and create regression with same readPort; exact CI for new test. selector-only SHA c12d... requires scoped revalidation, not repeat functional A1 PASS.",
+      "next_step": "Inspect S3.A1 real owners and newest code; B1-B5 permit mandatory before new functional writes; reuse existing verified blocks",
       "blocker": null,
       "writer_release_epoch": 60,
       "last_observed_at": "2026-11-03T21:10:00-03:00"
@@ -575,5 +582,24 @@
     "reason": "USER_EXPLICIT_ADVANCE_B_20261103_AFTER_A_COMPLETED_NO_NEW_S3_SCOPE",
     "previous_b_slot": "2026-11-03T21:28:00-03:00",
     "authority_end": "2026-11-03T21:58:00-03:00"
+  },
+  "night_trial_20261105": {
+    "status": "ACTIVE",
+    "start": "2026-11-05T15:00:00-03:00",
+    "hard_stop": "2026-11-05T19:00:00-03:00",
+    "timezone": "America/Argentina/Cordoba",
+    "automation_ids": {
+      "A": "6aecbf6b4a9c819182b739e0a9fe358c",
+      "B": "6aecbf6e32488191b674ac8fcb64feb5",
+      "final": "6aecbf7102a48191ba372839600a824c"
+    },
+    "common_goal": "MAXIMIZE_S3_AUTOMATABLE_S3_A1_FIRST",
+    "slot_rule": "0-20 work;20-25 close/checkpoint/writer release;25-30 read-only;cut from scheduled_for",
+    "writer_policy": "CAS_ONLY_NEVER_TAKEOVER_STOP_IF_HELD_UNKNOWN",
+    "physical": "DEFER_TO_S3_A5_ONE_G15_CAMPAIGN",
+    "x01_x12": "DEFER_TO_S3_A5",
+    "no_new_actions_without_authorization": true,
+    "blocks": "SKIP_VALIDATED_CHAIN_WORK",
+    "historical_finished": "A2_G1_G5_DONE_DO_NOT_REPEAT"
   }
 }
