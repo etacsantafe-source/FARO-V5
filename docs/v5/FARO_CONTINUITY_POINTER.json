@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 292
+    "expected_release_epoch": 294
   },
   "automation": {
     "activation_authorized": false,
@@ -43,10 +43,10 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "MANUAL S3.A1 OPEN: N032 Home pointer ABA fence B7 PASS at 04409855 / CI 42103685170 (11/11 + manifest); next separate bounded N015 durable chronology/backup/ACL or N031 combined planning owner. Guardados +8 CANDIDATE NOT APPROVED; 172 catalog unchanged. Writer RELEASED epoch 292 expected. S3.A2 5/5 scoped CLOSED; X01-X12 and one G15 campaign at S3.A5. S2 8/8 FROZEN; V2 production, Auto, Noche and S4 OFF.",
+  "next": "S3.A1 MANUAL OPEN. N032 durable-pointer B7 PASS at 48e4d7fb (11/11, guard, manifest). N015 B1-B4 recovered and B5 BLOCKED: schema/backup FBS1/FBS2 migration and ACL/federation unresolved (see N015 preaudit). N031 missing genuine combined Reminder/MonthlyPlan/priority owner. Guardados +8 candidate not approved, catalog 172. New code needs unit-specific B1-B5+READY; S3.A2 CLOSED 5/5 scoped, S2 FROZEN, V2 shipping/Noche/Auto/S4 OFF, G15 at A5.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md",
+  "last_handoff": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
   "last_code_sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
   "last_ci_run_id": 42103685170,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -983,6 +983,14 @@
       ],
       "workflow_sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
       "review_doc": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md"
+    },
+    "n015_chronology_preaudit": {
+      "status": "B1_B4_DOCUMENTED_B5_BLOCKED_NO_CODE",
+      "document": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
+      "reviewed_head": "48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761",
+      "schema_version": 6,
+      "required": "SCHEMA_7_AND_LEGACY_FBS1_FBS2_COMPAT_TESTS_WITH_REAL_ACL",
+      "run": "NOT_RUN"
     }
   }
 }
