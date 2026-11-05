@@ -187,13 +187,42 @@ class SemanticBackupRestoreT2Test {
         }
     }
 
-    private fun sampleBackupSet(): SemanticBackupSet {
+
+    @Test
+    fun timedReceiptFbs1V2RoundTripsWithoutChangingLegacyV1Wire() {
+        val legacy = sampleBackupSet()
+        val legacyBytes = SemanticBackupSetCodec.encode(legacy)
+        assertEquals(1, java.nio.ByteBuffer.wrap(legacyBytes).getInt(4))
+        assertEquals(legacy, SemanticBackupSetCodec.decode(legacyBytes))
+        assertTrue(legacy.reality.committedReceipts.all { it.commitRecordedAtEpochMillis == null })
+
+        val timed = sampleBackupSet(timed = true)
+        val timedBytes = SemanticBackupSetCodec.encode(timed)
+        assertEquals(2, java.nio.ByteBuffer.wrap(timedBytes).getInt(4))
+        val decoded = SemanticBackupSetCodec.decode(timedBytes)
+        assertEquals(timed, decoded)
+        assertEquals(12_345L, decoded.reality.committedReceipts.single().commitRecordedAtEpochMillis)
+        assertEquals(timedBytes.toList(), SemanticBackupSetCodec.encode(decoded).toList())
+
+        // The receipt time is bound to the canonical manifest, not a UI hint.
+        val forged = timed.copy(reality = timed.reality.copy(
+            committedReceipts = timed.reality.committedReceipts.map {
+                it.copy(commitRecordedAtEpochMillis = 12_346L)
+            }
+        ))
+        assertFalse(SemanticBackupSetIntegrity.matches(forged))
+        assertThrows(IllegalArgumentException::class.java) {
+            SemanticBackupSetCodec.encode(forged)
+        }
+    }
+
+    private fun sampleBackupSet(timed: Boolean = false): SemanticBackupSet {
         val reality = RealityStore(":memory:")
         val commercial = CommercialEvidenceStore(":memory:")
         val web = WebEvidenceStore(":memory:")
         val auxiliary = AuxiliaryDeliveryStore.open(":memory:")
         return try {
-            seedSource(reality, commercial, web, auxiliary)
+            seedSource(reality, commercial, web, auxiliary, timed)
             SemanticBackupCaptureCoordinator(
                 quiescence = RecordingQuiescence(),
                 reality = reality.backup,
@@ -220,6 +249,7 @@ class SemanticBackupRestoreT2Test {
         commercial: CommercialEvidenceStore,
         web: WebEvidenceStore,
         auxiliary: AuxiliaryDeliveryStore,
+        timed: Boolean = false,
     ) {
         reality.backup.restoreOrVerify(
             RealityBackupSnapshot(
@@ -260,6 +290,7 @@ class SemanticBackupRestoreT2Test {
                             receiptId = "receipt-backup-1",
                             transactionId = "tx-backup-1",
                             planFingerprint = "plan-backup-1",
+                            commitRecordedAtEpochMillis = if (timed) 12_345L else null,
                         )
                     ),
             )

@@ -42,6 +42,10 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityBackupFilteringT2Test" --tests "ar.com.faro.v5.store.reality.RealityFinanceActivityReadT2Test"
+      - name: Check FBS1 and FBS2 timed receipt backup regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :maintenance:test --tests "ar.com.faro.v5.maintenance.SemanticBackupRestoreT2Test" :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5FiveStoreSemanticCodecT2Test"
       - name: Verify exact Reality receipt JUnit XML
         run: |
           python3 - <<'PY'
@@ -53,9 +57,9 @@ jobs:
               raise SystemExit(f'S3_REALITY_XML_MISSING {len(xmls)}')
           root = ET.parse(xmls[0]).getroot()
           counts = tuple(int(root.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
-          if counts != (2, 0, 0, 0):
+          if counts != (3, 0, 0, 0):
               raise SystemExit(f'S3_REALITY_XML_FAIL {counts}')
-          print('S3_REALITY_RECEIPT_XML_PASS 2/2')
+          print('S3_REALITY_RECEIPT_XML_PASS 3/3')
           activity = sorted(base.glob('TEST-*RealityFinanceActivityReadT2Test.xml'))
           if len(activity) != 1:
               raise SystemExit(f'S3_FINANCE_ACTIVITY_XML_MISSING {len(activity)}')
@@ -64,4 +68,17 @@ jobs:
           if counts != (3,0,0,0):
               raise SystemExit(f'S3_FINANCE_ACTIVITY_XML_FAIL {counts}')
           print('S3_FINANCE_ACTIVITY_XML_PASS 3/3')
+          checks = [
+              ('v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.SemanticBackupRestoreT2Test.xml', 4, 'FBS1_RESTORE'),
+              ('v5/store/generation/build/test-results/test/TEST-ar.com.faro.v5.generation.FaroV5FiveStoreSemanticCodecT2Test.xml', 7, 'FBS2_SEMANTIC'),
+          ]
+          for path, expected, label in checks:
+              xml = Path(path)
+              if not xml.is_file():
+                  raise SystemExit(f'S3_{label}_XML_MISSING')
+              counts = tuple(int(ET.parse(xml).getroot().attrib.get(k, '-1'))
+                             for k in ('tests','failures','errors','skipped'))
+              if counts != (expected,0,0,0):
+                  raise SystemExit(f'S3_{label}_XML_FAIL {counts}')
+              print(f'S3_{label}_XML_PASS {expected}/{expected}')
           PY

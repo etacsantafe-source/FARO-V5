@@ -15,6 +15,9 @@ import ar.com.faro.v5.maintenance.SemanticBackupSetCodec
 import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
+import ar.com.faro.v5.store.reality.RealityBackupSnapshot
+import ar.com.faro.v5.store.reality.RealityCommittedReceiptBackup
+import ar.com.faro.v5.store.reality.RealitySemanticMigrationData
 import ar.com.faro.v5.workspace.WorkspaceBackupPlanReview
 import ar.com.faro.v5.workspace.WorkspaceBackupReceipt
 import ar.com.faro.v5.workspace.WorkspaceBackupSnapshot
@@ -34,10 +37,24 @@ import org.junit.jupiter.api.io.TempDir
 class FaroV5FiveStoreSemanticCodecT2Test {
     @TempDir lateinit var temp: Path
 
-    private fun fourStore(): SemanticBackupSet {
+    private fun fourStore(timed: Boolean = false): SemanticBackupSet {
         val root = temp.resolve("four")
         Files.createDirectories(root)
         return RealityStore(root.resolve("reality.db").toString()).use { reality ->
+            if (timed) {
+                reality.backup.restoreOrVerify(RealityBackupSnapshot(
+                    schemaVersion = 5,
+                    profileRevision = 0L,
+                    financeRevision = 0L,
+                    domain = RealitySemanticMigrationData(
+                        declaredDisplayName = null, accounts = emptyList(), entries = emptyList(),
+                    ),
+                    committedReceipts = listOf(
+                        RealityCommittedReceiptBackup("receipt-five-timed", "tx-five-timed",
+                            "plan-five-timed", commitRecordedAtEpochMillis = 4_567L)
+                    ),
+                ))
+            }
             CommercialEvidenceStore(root.resolve("commercial.db").toString()).use { commercial ->
                 WebEvidenceStore(root.resolve("web.db").toString()).use { web ->
                     AuxiliaryDeliveryStore.open(root.resolve("auxiliary.db").toString()).use { auxiliary ->
@@ -94,6 +111,19 @@ class FaroV5FiveStoreSemanticCodecT2Test {
                 )
             ) else emptyList(),
         )
+    }
+
+
+    @Test fun fiveStoreContainerRoundTripsTimedRealityReceiptsWithoutLosingFbs1V2() {
+        val source = FaroV5FiveStoreSemanticSet(fourStore(timed = true), workspace())
+        val inner = SemanticBackupSetCodec.encode(source.fourStore)
+        assertEquals(2, ByteBuffer.wrap(inner).getInt(4)) // inner FBS1 v2
+        val outer = FaroV5FiveStoreSemanticCodec.encode(source)
+        val roundTrip = FaroV5FiveStoreSemanticCodec.decode(outer)
+        assertEquals(source, roundTrip)
+        assertEquals(4_567L, roundTrip.fourStore.reality.committedReceipts
+            .single().commitRecordedAtEpochMillis)
+        assertArrayEquals(outer, FaroV5FiveStoreSemanticCodec.encode(roundTrip))
     }
 
     @Test fun exactFiveStoreSemanticRoundTripDoesNotChangeLegacyFbs1() {
