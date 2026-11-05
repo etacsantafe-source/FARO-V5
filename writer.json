@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.REALITY.DOMAIN.PERMIT.20261105",
   "token_hash": "810022d48c83dceaff4564e8c2dde0504c04435564c255546d49fa10f0f9da9f",
   "target_head": "dae525b8e2ff787f75db2c68ece888cffe74b3b0",
   "target_branch": "work/s3-night-20261102",
   "epoch": 250,
-  "timestamp": 1793854463,
-  "purpose": "G4_REALITY_DOMAIN_OWNER_READY_PERMIT"
+  "timestamp": 1793854506,
+  "purpose": "G4_REALITY_DOMAIN_READY_CI"
 }
