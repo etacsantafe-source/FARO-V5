@@ -1,17 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "dc3eee9de857a00b07a808c3ed19f6b60acff3d6",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G1_POLICY_RESTORE_READMISSION",
+  "reviewed_head": "5e61b0546d8d4ff09122f2b6c67cee900d306355",
+  "paths": [
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwnerTest.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
-          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
-          "marker": "## B1 —"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+          "marker": "## B1 EVIDENCIA"
         }
       ]
     },
@@ -19,9 +21,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
-          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
-          "marker": "## B2 —"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+          "marker": "## B2 COMPARACIÓN Y REUTILIZACIÓN"
         }
       ]
     },
@@ -29,9 +31,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
-          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
-          "marker": "## B3 —"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+          "marker": "## B3 INVESTIGACIÓN EXTERNA Y ALTERNATIVAS"
         }
       ]
     },
@@ -39,9 +41,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
-          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
-          "marker": "## B4 —"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+          "marker": "## B4 DELTA MÍNIMO, MISMA UNIDAD"
         }
       ]
     },
@@ -49,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
-          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
-          "marker": "## B5 —"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+          "marker": "## B5 AUDITORÍA ADVERSARIAL ANTES DE APLICAR"
         }
       ]
     },
-    "B6": "CODE_COMPILED_MAIN_BUT_TEST_KOTLIN_FAIL_SUSPEND_AT_LINE303_CI_41955986988_41955987005",
-    "B7": "RED_FIX_JVM_SUSPEND_COMPILATION"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "dc3eee9de857a00b07a808c3ed19f6b60acff3d6",
@@ -70,8 +72,8 @@
       }
     ]
   },
-  "why": "New file-backed restart test fails Kotlin compile ILLEGAL_SUSPEND_FUNCTION_CALL line303 on 2 CI; same unit narrow single test signature fix before B7. No production code changes until permit READY.",
-  "how": "Same unit B1-B5 RED_FIX doc, separate READY permission for one test file, preflight, CAS writer, one-line runBlocking fix, XML exact G1 10/10+manifest guard, four CI and independent B7.",
+  "why": "Same-unit B7 RED_FIX for Kotlin ILLEGAL_SUSPEND_FUNCTION_CALL in processRestartKeepsWorkspaceButNeverRestoresGrant test at line303. One-line runBlocking test fix, no production source changes.",
+  "how": "One test path only, preflight positive, writer CAS, change method signature to : Unit = runBlocking {, exact XML 10/10 and manifest check, CI all, B7 final. V2 OFF.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
