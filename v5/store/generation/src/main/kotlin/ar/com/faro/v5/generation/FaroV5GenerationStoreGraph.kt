@@ -174,17 +174,24 @@ class FaroV5GenerationStoreGraph private constructor(
          * cannot be inspected as a self-contained sealed generation.
          */
         private fun requireStrictV2StoreSchemas(directory: Path, activeGeneration: Boolean) {
+            // Reality schema7 adds nullable, durable receipt commit time.
+            // The only admitted older layouts are exact schema6 (full domains)
+            // and schema5 (historical base); RealityStore owns migration after
+            // staged/active READ-ONLY integrity and schema admission.
+            val realityCurrentTables = listOf(
+                "profile_state", "apply_attempt", "execution_receipt",
+                "reality_outbox", "finance_state", "finance_account",
+                "finance_account_opening", "finance_entry",
+                "objective_state", "objective_record",
+                "matter_state", "matter_record",
+            )
             val schemas = listOf(
                 StagedSqlitePreflight.Schema(
-                    GenerationStoreFiles.REALITY, 6, listOf(
-                        "profile_state", "apply_attempt", "execution_receipt",
-                        "reality_outbox", "finance_state", "finance_account",
-                        "finance_account_opening", "finance_entry",
-                        "objective_state", "objective_record",
-                        "matter_state", "matter_record",
-                    ),
-                    legacyVersion = 5,
-                    legacyTables = listOf(
+                    GenerationStoreFiles.REALITY, 7, realityCurrentTables,
+                    legacyVersion = 6,
+                    legacyTables = realityCurrentTables,
+                    olderLegacyVersion = 5,
+                    olderLegacyTables = listOf(
                         "profile_state", "apply_attempt", "execution_receipt",
                         "reality_outbox", "finance_state", "finance_account",
                         "finance_account_opening", "finance_entry",

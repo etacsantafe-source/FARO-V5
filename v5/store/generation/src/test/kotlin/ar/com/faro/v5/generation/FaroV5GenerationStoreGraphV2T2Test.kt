@@ -41,6 +41,67 @@ class FaroV5GenerationStoreGraphV2T2Test {
             )
         )
 
+    @Test fun exactRealityPreflightAllowsOnlyFiveSixSeven() {
+        val fullTables = listOf(
+            "profile_state", "apply_attempt", "execution_receipt",
+            "reality_outbox", "finance_state", "finance_account",
+            "finance_account_opening", "finance_entry",
+            "objective_state", "objective_record", "matter_state", "matter_record",
+        )
+        val baseTables = fullTables.take(8)
+        val schema = ar.com.faro.v5.store.reality.StagedSqlitePreflight.Schema(
+            GenerationStoreFiles.REALITY, 7, fullTables,
+            legacyVersion = 6, legacyTables = fullTables,
+            olderLegacyVersion = 5, olderLegacyTables = baseTables,
+        )
+        assertEquals(fullTables, schema.requiredTables(7))
+        assertEquals(fullTables, schema.requiredTables(6))
+        assertEquals(baseTables, schema.requiredTables(5))
+        assertThrows(IllegalStateException::class.java) { schema.requiredTables(4) }
+        assertThrows(IllegalStateException::class.java) { schema.requiredTables(8) }
+        assertThrows(IllegalArgumentException::class.java) {
+            ar.com.faro.v5.store.reality.StagedSqlitePreflight.Schema(
+                GenerationStoreFiles.REALITY, 7, fullTables,
+                legacyVersion = 6, legacyTables = fullTables,
+                olderLegacyVersion = 6, olderLegacyTables = baseTables,
+            )
+        }
+    }
+
+    @Test fun existingSchemaSixRealityIsAdmittedAndUpgradedToSeven() {
+        val staged = stage("reality-schema-six-upgrade")
+        materializeFive(staged)
+        val file = staged.directory.resolve(GenerationStoreFiles.REALITY)
+        // Fixture: preserve all real owner tables but remove ONLY the new
+        // nullable commit-time column to reproduce a genuine version-6 file.
+        BundledSQLiteDriver().open(file.toString(), SQLITE_OPEN_READWRITE).use { db ->
+            db.execSQL(
+                "ALTER TABLE execution_receipt DROP COLUMN commit_recorded_at_epoch_millis"
+            )
+            db.execSQL("PRAGMA user_version = 6")
+        }
+        FaroV5GenerationStoreGraph.openValidatedV2(staged).use { graph ->
+            assertTrue(graph.verifyHealthy())
+        }
+        BundledSQLiteDriver().open(file.toString(), SQLITE_OPEN_READWRITE).use { db ->
+            val version = db.prepare("PRAGMA user_version").use { s ->
+                assertTrue(s.step())
+                s.getLong(0)
+            }
+            assertEquals(7L, version)
+            val hasTime = db.prepare("PRAGMA table_info(execution_receipt)").use { s ->
+                var found = false
+                while (s.step()) {
+                    if (s.getText(1) == "commit_recorded_at_epoch_millis") {
+                        found = true
+                    }
+                }
+                found
+            }
+            assertTrue(hasTime, "schema6 receipt rows must gain nullable time column")
+        }
+    }
+
     private fun materializeFive(staged: StagedStorageGeneration) {
         val dir = staged.directory
         RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
