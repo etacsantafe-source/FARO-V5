@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G4.FINANCE.TARGET.POINTER.20261105",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G4.REALITY.DOMAIN.PREAUDIT.20261105",
   "token_hash": "810022d48c83dceaff4564e8c2dde0504c04435564c255546d49fa10f0f9da9f",
-  "target_head": "03b0723e3dae57e0ce741d2a47a84fff37000bac",
+  "target_head": "d0940c6a585c77165a7fe6438a2162efd0e17fd5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 248,
-  "timestamp": 1793854305,
-  "purpose": "G4_FINANCE_TARGET_B7_POINTER_UPDATED"
+  "epoch": 249,
+  "timestamp": 1793854355,
+  "purpose": "G4_REALITY_DURABLE_OWNER_B1_B5"
 }
