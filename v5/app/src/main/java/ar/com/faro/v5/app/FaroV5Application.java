@@ -6,6 +6,7 @@ import ar.com.faro.v5.control.OnboardingMutationOutcome;
 import ar.com.faro.v5.control.OnboardingSnapshot;
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceReadPort;
 import ar.com.faro.v5.surface.FaroV5HomeReadPort;
+import ar.com.faro.v5.surface.FaroV5SearchReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort;
 import ar.com.faro.v5.kernel.contracts.ConversationComposerPort;
 import ar.com.faro.v5.kernel.contracts.ConversationAssistantTurnDispatchPort;
@@ -58,6 +59,11 @@ public final class FaroV5Application extends Application implements Configuratio
 
     public FaroV5HomeReadPort readActiveHomePort() {
         return compositionRoot().readActiveHomePort();
+    }
+
+    /** Active Search is null for V1, not-ready, revoked or uncertified V2. */
+    public FaroV5SearchReadPort readActiveSearchPort() {
+        return compositionRoot().readActiveSearchPort();
     }
 
     public ConversationWorkspaceReadPort readActiveWorkspacePort() {

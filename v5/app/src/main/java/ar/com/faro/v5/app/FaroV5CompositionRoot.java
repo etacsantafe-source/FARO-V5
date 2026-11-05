@@ -573,6 +573,26 @@ public final class FaroV5CompositionRoot {
                         maintenanceRuntime().activePointerInvalidations()));
     }
 
+    /**
+     * G2: surface bridge for the genuine ACTIVE Workspace Search owner only.
+     * The shipping V1 host stays unbound; this getter never activates V2,
+     * creates a grant, opens a staged graph or treats a UI observer as ACL.
+     */
+    public FaroV5SearchReadPort readActiveSearchPort() {
+        if (!FaroV5HostCertification.V2_ACTIVE_ENABLED
+                || !maintenanceRecoveryComplete
+                || !startupReadinessGate.snapshot().isLocalReady()) {
+            return null;
+        }
+        DeliveryGraph current = deliveryGraph();
+        return FaroV5SearchHostPortAdmission.admittedPort(
+                current.searchReadPort,
+                current.searchGrantOwner,
+                maintenanceRecoveryComplete,
+                startupReadinessGate.snapshot().isLocalReady(),
+                FaroV5HostCertification.V2_ACTIVE_ENABLED);
+    }
+
     public ConversationWorkspaceReadPort readActiveWorkspacePort() {
         if (!maintenanceRecoveryComplete) return null;
         FaroV5ActiveChatReadSession session = deliveryGraph().chatReadSession;

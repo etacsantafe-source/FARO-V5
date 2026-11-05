@@ -473,7 +473,7 @@ public final class FaroV5BootstrapActivity extends ComponentActivity {
                         this, FaroV5AiSettingsActivity.class)),
                 null,
                 faroApplication.readActiveHomePort(),
-                null, // Search remains unbound until genuine independent Workspace ACL.
+                faroApplication.readActiveSearchPort(), // G2: only the admitted active host.
                 faroApplication.readActiveAvisosPort());
         mountedSurface = FaroV5HostSurfacePolicy.Surface.SHELL;
     }

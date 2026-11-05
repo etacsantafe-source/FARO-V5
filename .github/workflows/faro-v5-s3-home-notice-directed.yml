@@ -42,7 +42,7 @@ jobs:
       - name: Compile app and run Home notice tests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveHostPointerABATest" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveHostPointerABATest" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5SearchHostPortAdmissionTest"
       - name: Verify exact Home notice JUnit XML
         run: |
           python3 - <<'PY'
@@ -105,6 +105,14 @@ jobs:
           if grant_counts != (10,0,0,0):
               raise SystemExit(f'S3_SEARCH_HOST_GRANT_XML_FAIL {grant_counts}')
           print('S3_SEARCH_HOST_GRANT_XML_PASS 10/10')
+          g2 = sorted(base.glob('TEST-*FaroV5SearchHostPortAdmissionTest.xml'))
+          if len(g2) != 1:
+              raise SystemExit(f'S3_G2_HOST_PORT_XML_MISSING {len(g2)}')
+          g2_root = ET.parse(g2[0]).getroot()
+          g2_counts = tuple(int(g2_root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if g2_counts != (10,0,0,0):
+              raise SystemExit(f'S3_G2_HOST_PORT_XML_FAIL {g2_counts}')
+          print('S3_G2_HOST_PORT_XML_PASS 10/10')
           PY
       - name: Verify supported single-process Search host in merged manifest
         run: |
