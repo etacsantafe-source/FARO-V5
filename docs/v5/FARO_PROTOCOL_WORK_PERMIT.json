@@ -1,18 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_REALITY_DURABLE_DOMAIN_OWNERS",
-  "reviewed_head": "dae525b8e2ff787f75db2c68ece888cffe74b3b0",
-  "paths": [
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/spi/ObjectivePersistencePort.kt",
-    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/spi/MatterPersistencePort.kt",
-    "v5/store/reality/build.gradle.kts",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityMaintenancePort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityDomainOwnersT2Test.kt",
-    ".github/workflows/faro-v5-g4-reality-domains-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "0fab63a04de055e3479b33c6d38e1072646f42e3",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -64,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_REALITY_STORAGE_8_OF_8_13_LEGACY_0FAB63A",
+    "B7": "PASS_STORAGE_CORE_ONLY_G4_GLOBAL_OPEN"
   },
   "last_code_review": {
-    "sha": "6303c6f77db08832b427bedefa1d718df3cc08c5",
+    "sha": "0fab63a04de055e3479b33c6d38e1072646f42e3",
     "result": "PASS",
-    "unit_id": "S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET",
+    "unit_id": "S3_A2_G4_REALITY_DURABLE_DOMAIN_OWNERS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B7_20261105.md",
-        "blob_sha": "430ee41d2905b6128a380af34c979ff1f9f26c62",
+        "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B7_20261105.md",
+        "blob_sha": "c2e71858d91f7c938eefa23ccbee2333c3245ed9",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Only Reality schema version6 additive Objective/Matter owner backing, preserve legacy FBS1 v5 on empty domain; fail closed otherwise",
-  "how": "Exactly eight functional paths in one commit, seven directed tests plus legacy backup regression, JVM XML; no UI/search exposure, FBS3 export/restore separate unit.",
+  "why": "Reality-backed objectives/matters pass 8/8 and 13 legacy regressions, G4 global remains OPEN without registered real Search and typed navigation",
+  "how": "Next distinct B1-B5 doc ready, issue separately scoped READY permit and new code; no FBS1 export of G4 rows",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
