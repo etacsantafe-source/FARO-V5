@@ -1,11 +1,9 @@
 {
   "schema": 1,
   "status": "BLOCKED",
-  "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
-  "reviewed_head": "563cdffca87048a75d347eb9a6d9647f8c6a6b26",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReadSessionT2Test.kt"
-  ],
+  "unit_id": null,
+  "reviewed_head": "dec1024439fdddc7367d0c98b993b4e0da207e13",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,23 +55,23 @@
         }
       ]
     },
-    "B6": "WAIT_CI_41937907083",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_INITIAL_CODE_CI_41936856422_41936856486_AND_REDFIX_JVM_41937907083",
+    "B7": "PASS_FINAL_AUDIT_ACTIVE_CHAT_READ_POINTER_ABA_ONLY"
   },
   "last_code_review": {
-    "sha": "212679f7c2dc211445dc7f806479b83aea8780e0",
-    "result": "RED_FIX",
+    "sha": "dec1024439fdddc7367d0c98b993b4e0da207e13",
+    "result": "PASS",
     "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_INITIAL_B7_REDFIX_20261104.md",
-        "blob_sha": "7263a43269955e74785276edd955fdeda0fd6444",
+        "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md",
+        "blob_sha": "65013d11fd5181b696dc3c595f079987b0ebb820",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "JUnit RED_FIX commit dec10244 fixes non-Unit inferred test method; exact S3 Home/Chat directed 6/6 CI #41937907083 not yet complete. Other original SHA CI V2core and APK already SUCCESS, guard new SHA SUCCESS.",
-  "how": "Verify S3 Chat pointer ABA XML 6/6 with all 4 earlier plus both ABA tests, Home/Workspace/Bridge/Avisos 25/25, exact SHA; B7 PASS only if SUCCESS. Otherwise new same-unit RED_FIX.",
+  "why": "Active Chat Read pointer ABA bounded unit certified after one JUnit-discovery RED_FIX: CI 41937907083 XML Chat6/6 + S3 Home25/25, guard SUCCESS, prior core/APK SUCCESS no production delta in fix. NOT shipping Search ACL.",
+  "how": "Next functional unit requires separate B1-B5 external research and READY permit. Study true Workspace Search ACL grant/revoke with durable independent epoch and cross-instance invalidations; audit Composer/Selection/Review/Apply generation ABA separately; no automatic V2 activation.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
