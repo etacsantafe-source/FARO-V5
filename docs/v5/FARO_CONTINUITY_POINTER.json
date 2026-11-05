@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 228
+    "expected_release_epoch": 230
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G3 CLOSED B7 PASS after code 4eb0f24 S3 directed 54/54 #41962522467, surface 59/59 #41962522487, V2 core #41962522595, isolated APK #41962522468, protocol #41962522527. G1/G2/G3 CLOSED, G4 NEXT federation real authorized owners, G5 OPEN physical campaign only at end. A2 3/5 gates (60%). V2 productive OFF, S2 CLOSED 8/8, S3 0/5 formal ~40% developed heuristic, S4/Auto/Noche OFF. Writer RELEASED expected epoch228. New code requires G4 B1-B5 permit/preflight and CAS.",
-  "checkpoint_status": "S3_A2_G3_CLOSED_B7_PASS_G4_NEXT_WRITER_RELEASE_228",
+  "next": "G4 B1-B5 audited at 9777ee990c697b6033b55d3905d8a99ff1ebf751. G4 NOT CLOSED: Finanzas canonical Reality finance snapshots exist but no independent search ACL/navigation; Objetivos has no proven owner; Asuntos contract N031 has no backing owner. Need bounded owner implementation and preflight; G1/G2/G3 3/5 CLOSED; G5 future physical. V2 productiva/S4/Auto/Noche OFF.",
+  "checkpoint_status": "S3_A2_G4_B1_B5_AUDITED_BLOCKED_REAL_OBJECTIVES_MATTERS_OWNERS_MISSING",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
+  "last_handoff": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
   "last_code_sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
   "last_ci_run_id": 41962522467,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -816,5 +816,19 @@
     "a2_gates_closed": 3,
     "a2_total_gates": 5,
     "writer_release_epoch_expected": 228
+  },
+  "progress_s3_a2_g4_20261105": {
+    "status": "BLOCKED_MISSING_REAL_OWNERS_B1_B5",
+    "evidence_doc": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
+    "baseline_head": "9777ee990c697b6033b55d3905d8a99ff1ebf751",
+    "code_changes": 0,
+    "ci_new_functional": "NOT_RUN",
+    "finance": "REAL_SNAPSHOT_EXISTS_SEARCH_ACL_NOT_VERIFIED",
+    "objectives": "OWNER_NOT_PROVEN",
+    "matters": "CONTRACT_ONLY_NO_BACKING_OWNER",
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
+    "gates_closed": 3,
+    "gates_total": 5
   }
 }
