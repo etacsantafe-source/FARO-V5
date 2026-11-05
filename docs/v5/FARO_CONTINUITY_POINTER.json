@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 216
+    "expected_release_epoch": 218
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G2_B6_WAIT_CI_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G2 code B6 published 6ea5f223; protocol SUCCESS #41959201264; directed S3 #41959201283, V2 core #41959201284, isolated APK #41959201293 were RUNNING when recorded, NOT PASS. FIRST inspect exact terminal CI/XML; then B7 same unit PASS or RED_FIX. G1 CLOSED do not repeat. G2 WAIT_CI, G3 PARTIAL G4/G5 OPEN; V2 PRODUCTIVE OFF, Auto/Noche/S4 OFF. Release writer epoch216 and revalidate before B7.",
-  "checkpoint_status": "S3_A2_G2_B6_WAIT_CI_CODE_PUBLISHED_NOT_CERTIFIED",
+  "next": "G2 CLOSED B7 PASS after six-file code 6ea5f223 S3 directed #41959201283 XML 52/52+2 merged manifests, protocol #41959201264 SUCCESS, V2 core #41959201284 SUCCESS, isolated APK #41959201293 SUCCESS. DO NOT re-open G1/G2 unless changed architecture. G3 NEXT (PARTIAL canonical message content, language, restore/navigation), G4/G5 OPEN; A2 2/5 gates. V2 productive OFF, S2 CLOSED 8/8, S3 0/5 formal ~40% developed heuristic, S4/Auto/Noche OFF. Physical only G5. Writer RELEASED epoch218 after B7. New code after new B1-B5 permit/preflight and writer CAS.",
+  "checkpoint_status": "S3_A2_G2_CLOSED_B7_PASS_G3_NEXT_WRITER_RELEASE_218",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G2_B6_WAIT_CI_20261105.md",
+  "last_handoff": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
   "last_code_sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
   "last_ci_run_id": 41959201283,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "WAIT_CI_S3_41959201283_V2_41959201284_APK_41959201293_PROTOCOL_SUCCESS_41959201264",
+  "last_ci_conclusion": "G2_S3_XML_52_52_MANIFEST_2_2_SUCCESS_41959201283_V2_CORE_SUCCESS_41959201284_APK_SUCCESS_41959201293_PROTOCOL_SUCCESS_41959201264",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -285,9 +285,9 @@
       "status": "OPEN_WITH_PARTIAL_PROGRESS"
     },
     "focus_s3_a2": {
-      "closed_gates": 0,
+      "closed_gates": 2,
       "total_gates": 5,
-      "percent": 0,
+      "percent": 40,
       "gates": [
         "G1",
         "G2",
@@ -295,8 +295,8 @@
         "G4",
         "G5"
       ],
-      "g3": "PARTIAL_CANONICAL_CHAT_CI_57_57",
-      "status": "OPEN"
+      "g3": "PARTIAL_CANONICAL_MESSAGE_SEARCH_CI_PASSED_CONTINUE_G3",
+      "status": "G1_G2_CLOSED_G3_PARTIAL_G4_G5_OPEN"
     },
     "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
     "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
@@ -314,7 +314,7 @@
       "upper_bound": 45,
       "as_of": "2026-11-04",
       "status": "HEURISTIC_ESTIMATE_NOT_CERTIFIED",
-      "evidence": "A1 Home/drawer partial, A2 canonical global/in-chat portions CI successful but real ACL/federation unbound, A4 real Auxiliary Avisos partial, A3 and A5 early; no fabricated per-substage numeric weighting",
+      "evidence": "A1 Home/drawer partial, A2 canonical global/in-chat portions CI successful but real ACL/federation unbound, A4 real Auxiliary Avisos partial, A3 and A5 early; no fabricated per-substage numeric weighting; G2 host Search UI admission CI PASS 52/52 and V2 DEV APK successful, shipping V2 still OFF",
       "method": "Qualitative evidence-based estimate reviewed at end of each FARO V5 turn; revise only on material functional progress, label approximate and do not conflate with stage closures",
       "baseline": 40
     }
@@ -759,15 +759,15 @@
   "pending_code_publication": false,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
-    "G2": "B6_WAIT_CI",
+    "G2": "CLOSED_AUTHORIZED_HOST_UI_WIRING_V2_OFF",
     "G3": "PARTIAL",
     "G4": "OPEN",
     "G5": "OPEN"
   },
-  "s3_a2_gates_closed": 1,
+  "s3_a2_gates_closed": 2,
   "s3_a2_gates_total": 5,
   "s3_a2_g2_b6": {
-    "status": "WAIT_CI_NOT_PASS",
+    "status": "PASS_B7_G2_CLOSED",
     "code_sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
     "protocol_run": 41959201264,
     "directed_s3_run": 41959201283,
@@ -776,6 +776,28 @@
     "preaudit": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
     "checkpoint": "docs/s3-night/S3_A2_G2_B6_WAIT_CI_20261105.md",
     "physical": "NOT_RUN",
-    "v2_productive": false
+    "v2_productive": false,
+    "s3_xml": "52/52",
+    "g1_single_process_manifest": "2/2",
+    "v2_core_conclusion": "SUCCESS",
+    "apk_conclusion": "SUCCESS",
+    "final_b7": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md"
+  },
+  "progress_s3_a2_g2_20261105": {
+    "status": "CLOSED_B7_PASS_ACTIVE_HOST_UI_WIRING_V2_PRODUCTIVE_OFF",
+    "code_sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
+    "code_paths": 6,
+    "ci_s3_run_id": 41959201283,
+    "ci_s3_xml": "52/52",
+    "ci_manifest": "2/2",
+    "ci_v2_core_run_id": 41959201284,
+    "ci_v2_core_conclusion": "SUCCESS",
+    "ci_apk_run_id": 41959201293,
+    "ci_apk_conclusion": "SUCCESS",
+    "ci_protocol_run_id": 41959201264,
+    "ci_protocol_conclusion": "SUCCESS",
+    "audit": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
+    "physical": "NOT_RUN",
+    "next": "G3_PARTIAL"
   }
 }
