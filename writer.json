@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.V5.MANUAL.S3A2.G2.WAIT_CI_CHECKPOINT.20261105",
+  "status": "RELEASED",
+  "owner": "FARO.V5.MANUAL.S3A2.G2.WAIT_CI_CKPT.RELEASED.20261105",
   "token_hash": "2a72865626234d88e2d922091c6325cd08db8078a834a5782d08e6c10e6042b3",
-  "target_head": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
+  "target_head": "056f15e3ccb0e003987336676537902d84541899",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 215,
-  "timestamp": 1793848004,
-  "purpose": "G2_B6_WAIT_CI_DURABLE_HANDOFF"
+  "epoch": 216,
+  "timestamp": 1793848080,
+  "purpose": "G2_B6_DURABLE_WAIT_CI_RELEASED"
 }
