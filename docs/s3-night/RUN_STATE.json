@@ -8,17 +8,17 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "OFF_MANUAL_S3",
-  "authorization": "USER_EXPLICIT_MANUAL_S3_20261103_NIGHT_OFF",
-  "deadline": "2026-11-03T08:44:00-03:00",
+  "night": "ON_AB_USER_AUTHORIZED_20261105",
+  "authorization": "USER_EXPLICIT_S3_NOCHE_AB_UNTIL_1900_AR_20261105",
+  "deadline": "2026-11-05T19:00:00-03:00",
   "writer": "SINGLE_CAS_GITHUB_REF",
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "queue_ref": "refs/heads/faro-v5-night-queue",
   "night_slots": [
-    "A:2026-11-02T23:00:00-03:00+HOURLYx8",
-    "B:2026-11-02T23:30:00-03:00+HOURLYx8"
+    "A:2026-11-05T15:00:00-03:00+HOURLYx4",
+    "B:2026-11-05T15:30:00-03:00+HOURLYx4"
   ],
-  "slots_status": "A_B_DISABLED_NO_CURRENT_AUTHORIZATION",
+  "slots_status": "SCHEDULED_ACTIVE",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A2 G1-G5 CLOSED 5/5 within DEV/automated scope with B7. S3 formal scoped closure 1/5 (A2), historical dev estimate ~40%. X01-X12 integration and ONE Moto G15 physical validation explicitly deferred to S3.A5; NOT_RUN; V2 shipping OFF. New chat 'Continuar FARO V5': recover HEAD, writer epoch 273 and mandatory protocol; resume oldest open S3.A1 real owner indicators, investigate dependencies without opening S4. Do not rerun G1-G5 passing CI, do not request Termux/ADB copy paste.",
+  "next": "FARO Noche authorized 15-19 AR: S3.A1 first, then other automatable S3 units. S3.A2 CLOSED_AUTOMATED_SCOPE; defer X01-X12 & one Moto G15 campaign to S3.A5. Single CAS writer and hard cutoff 19:00.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -51,9 +51,9 @@
     "No automation beyond deadline"
   ],
   "automations": {
-    "A": "6ae9072890248191b886a790cf456be6",
-    "B": "6ae9072a7b6c8191b9e107fe6d6c6940",
-    "report": "6ae9073eccd08191b88aec776771ca9e"
+    "A": "6aecbf6b4a9c819182b739e0a9fe358c",
+    "B": "6aecbf6e32488191b674ac8fcb64feb5",
+    "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
   "last_completed_gate": "S3-A2-FORMAL_AUTOMATED_SCOPE_5_OF_5_RECONCILED_B7",
