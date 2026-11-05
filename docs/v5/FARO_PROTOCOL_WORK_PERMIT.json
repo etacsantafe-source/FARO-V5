@@ -1,20 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
-  "reviewed_head": "055ce36fef9716fa9b8a0e665ca501c1b183ead0",
+  "status": "READY",
+  "unit_id": "S3_A1_N015_SCHEMA7_GENERATION_XML_CI",
+  "reviewed_head": "d73c0131895e516a88ee17a3089ef928ace5905a",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraphV2T2Test.kt"
+    ".github/workflows/faro-v5-v2-core-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT_B1_B5_20261105.md",
-          "blob_sha": "63197aa732eb0bb77e63d13346348bcf0ff38385",
+          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
+          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
           "marker": "## B1"
         }
       ]
@@ -23,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT_B1_B5_20261105.md",
-          "blob_sha": "63197aa732eb0bb77e63d13346348bcf0ff38385",
+          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
+          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
           "marker": "## B2"
         }
       ]
@@ -33,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT_B1_B5_20261105.md",
-          "blob_sha": "63197aa732eb0bb77e63d13346348bcf0ff38385",
+          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
+          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
           "marker": "## B3"
         }
       ]
@@ -43,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT_B1_B5_20261105.md",
-          "blob_sha": "63197aa732eb0bb77e63d13346348bcf0ff38385",
+          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
+          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
           "marker": "## B4"
         }
       ]
@@ -53,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT_B1_B5_20261105.md",
-          "blob_sha": "63197aa732eb0bb77e63d13346348bcf0ff38385",
+          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
+          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_DC06C01D_V2_11_11",
-    "B7": "PASS_SCOPED_NEW_SCHEMA7_LEGACY_MIGRATION_TESTS_NOT_RUN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
@@ -74,9 +72,9 @@
       }
     ]
   },
-  "why": "V2 DEV new SQLite schema7 restored 11/11 success; 2 new generation legacy migration tests NOT_RUN, not certified",
-  "how": "Next unit requires separate B1–B5 and exact tests; do not assume v5/v6 migration certified",
+  "why": "Execute 17 already-authored native Generation tests (including 2 never run) with exact XML, preserve existing M2 11/11",
+  "how": "Only add :store:generation:test and XML assert 17/17 to already-triggered V2 workflow; scope no data code",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A1 OPEN: N015 federation, N031 planning owner, Guardados approval; generation 2 new targeted tests NOT_RUN"
+  "next": "Inspect CI exact SHA; B7 independent; leave permit BLOCKED"
 }
