@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3.A2",
-  "token_hash": "g5-android-instrumentation-exclusive-20261105-no-secret",
+  "status": "HELD",
+  "owner": "FARO.V5.NOCHE.ACTIVATION.20261105",
+  "token_hash": "noche-20261105-activation-no-secret",
   "target_head": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 273,
-  "timestamp": 1793898000,
-  "purpose": "S3_A2_AUTOMATED_SCOPE_5_OF_5_CLOSED_HANDOFF_NEXT_S3_A1_WRITER_FREE"
+  "epoch": 274,
+  "timestamp": 1793897000,
+  "purpose": "ACTIVATE_S3_NOCHE_AB_20261105_CUTOFF_1900_AR"
 }
