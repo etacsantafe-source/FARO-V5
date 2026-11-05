@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
   "reviewed_head": "055ce36fef9716fa9b8a0e665ca501c1b183ead0",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_DC06C01D_V2_11_11",
+    "B7": "PASS_SCOPED_NEW_SCHEMA7_LEGACY_MIGRATION_TESTS_NOT_RUN"
   },
   "last_code_review": {
-    "sha": "9d2491f6a03114753e68cdb4c37fb2f0a4c6b046",
+    "sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
     "result": "PASS",
-    "unit_id": "S3_A1_N015_REALITY_ACTIVITY_ADMISSION",
+    "unit_id": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B7_PASS_20261105.md",
-        "blob_sha": "6a86b17c689757d01f6ab03f4169d84e8a7bd066",
+        "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_B7_PASS_SCOPED_20261105.md",
+        "blob_sha": "25abe5be7e0eef4743f6dbeee84f7875f1bbe3ac",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "11/11 V2 DEV graph fail due hardcoded Reality schema6 vs real schema7; preserve v5/v6 explicit compatibility, no broad migrations",
-  "how": "Three path bounded hotfix, then directed CI exact 11/11 and generation test XML; B7 separate",
+  "why": "V2 DEV new SQLite schema7 restored 11/11 success; 2 new generation legacy migration tests NOT_RUN, not certified",
+  "how": "Next unit requires separate B1–B5 and exact tests; do not assume v5/v6 migration certified",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Schema7 preflight bounded fix + CI"
+  "next": "S3.A1 OPEN: N015 federation, N031 planning owner, Guardados approval; generation 2 new targeted tests NOT_RUN"
 }
