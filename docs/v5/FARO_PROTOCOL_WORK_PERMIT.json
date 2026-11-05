@@ -1,28 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
-  "reviewed_head": "ee65cc61cf474c627ff3d90d1c5b3b214db92833",
+  "status": "READY",
+  "unit_id": "S3_A1_N015_REALITY_ACTIVITY_ADMISSION",
+  "reviewed_head": "b726351106970bc8ccae5d6b5d153f8bd8947c19",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityBackupPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityReceiptHistoryPort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityBackupFilteringT2Test.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt",
-    ".github/workflows/faro-v5-s3-receipt-history-directed.yml",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityDomainOwnersT2Test.kt",
-    ".github/workflows/faro-v5-g4-reality-domains-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealityTimedActivityReadSource.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealityTimedActivityReadSourceTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
-          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
+          "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B1_B5_20261105.md",
+          "blob_sha": "068a6e32c24ad694d7fa43ab9537580bcfb2303a",
           "marker": "## B1"
         }
       ]
@@ -31,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
-          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
+          "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B1_B5_20261105.md",
+          "blob_sha": "068a6e32c24ad694d7fa43ab9537580bcfb2303a",
           "marker": "## B2"
         }
       ]
@@ -41,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
-          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
+          "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B1_B5_20261105.md",
+          "blob_sha": "068a6e32c24ad694d7fa43ab9537580bcfb2303a",
           "marker": "## B3"
         }
       ]
@@ -51,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
-          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
+          "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B1_B5_20261105.md",
+          "blob_sha": "068a6e32c24ad694d7fa43ab9537580bcfb2303a",
           "marker": "## B4"
         }
       ]
@@ -61,29 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
-          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
+          "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B1_B5_20261105.md",
+          "blob_sha": "068a6e32c24ad694d7fa43ab9537580bcfb2303a",
           "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_B7_RED_FIX_20261105.md",
-          "blob_sha": "2685e56b4829e4c559c07af175276a3206760612",
-          "marker": "## B5 RED_FIX"
-        },
-        {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_G4_B7_RED_FIX_20261105.md",
-          "blob_sha": "26d81030e6addebeee413dcc639d05ff8cdd405f",
-          "marker": "## B5 RED_FIX"
-        },
-        {
-          "path": "docs/s3-night/S3_A1_N015_G4_XML_SCOPE_ADDENDUM_20261105.md",
-          "blob_sha": "b3e295df2706f2d8ba05319b71547cf77e58da14",
-          "marker": "## B5 RED_FIX"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_55EF7EDD",
-    "B7": "PASS_SCOPED_INDEPENDENT"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "55ef7edd9373a020309df427de16e17ddae9eb0c",
@@ -97,9 +74,9 @@
       }
     ]
   },
-  "why": "Reality schema7 nullable receipt time and legacy FBS1/FBS2 codec B7 PASS_SCOPED; Home federation/ACL N015, N031, Guardados still missing",
-  "how": "Fail-closed BLOCKED after exact CI XML; new code needs separate B1-B5 and READY bounded permit",
+  "why": "Scoped owner-admitted Reality timed history read; NOT Home, not federated, no global count",
+  "how": "B6 code+tests+XML exact; B7 then BLOCKED, no other new code",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A1 OPEN. Integrate authorized multiowner history.query / N031 real combined planning owner; Guardados +8 not approved"
+  "next": "Implement bounded reader only after preflight"
 }
