@@ -318,16 +318,12 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
-    "commit_sha": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
+    "source": "docs/s3-night/S3_A1_NOCHE_A_B1_B2_RECOVERY_20261105.md",
+    "commit_sha": "e4c1c8075fe946ca68a410ff280b6f0f61f17560",
     "task_id": "S3-A1",
-    "status": "A2_CLOSED_AUTOMATED_SCOPE_A1_NEXT",
-    "writer_epoch": 273,
-    "action_run_ids": [
-      42071443306,
-      42071443729,
-      42072933660
-    ]
+    "status": "B1_B2_RECORDED_B3_B5_PENDING_NO_FUNCTIONAL_CODE",
+    "writer_epoch": 276,
+    "action_run_ids": []
   },
   "owner": null,
   "writer_ref": "refs/heads/faro-v5-writer-lock",
@@ -506,29 +502,24 @@
     "S3-A1": {
       "goal_id": "G-S3-AUTO",
       "unit_id": "S3-A1",
-      "block_id": 1,
+      "block_id": 3,
       "block_status": "READY",
-      "expected_head": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
-      "acceptance": "Código+pruebas de pantalla Inicio, navegación, accesibilidad",
-      "verified_blocks": {},
+      "verified_blocks": {
+        "B1": "EVIDENCE_RECORDED",
+        "B2": "COMPARISON_RECORDED"
+      },
+      "expected_head": "e4c1c8075fe946ca68a410ff280b6f0f61f17560",
+      "acceptance": "Real four Home indicator owners + safe read-only navigation and accessibility; no synthetic counts",
       "evidence": [
-        {
-          "kind": "A1_PREVIOUS_CI",
-          "code_sha": "9a7d0537138756987bbb4760068b93b7f338160e",
-          "run_id": 41656343364,
-          "scope": "S3_HOME_NOTICE_XML_PASS_5_OF_5_ONLY"
-        },
-        {
-          "kind": "SELECTOR_CI",
-          "code_sha": "1b71555dea07355b168f62ef6292823a7b6d38e4",
-          "run_id": 41732667534,
-          "scope": "FARO_NIGHT_SELECTORS_36_OF_36_ONLY"
-        }
+        "docs/s3-night/S3_A1_NOCHE_A_B1_B2_RECOVERY_20261105.md",
+        "docs/s3-night/RUN_STATE.json",
+        "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md"
       ],
-      "next_step": "Inspect S3.A1 real owners and newest code; B1-B5 permit mandatory before new functional writes; reuse existing verified blocks",
-      "blocker": null,
-      "writer_release_epoch": 60,
-      "last_observed_at": "2026-11-03T21:10:00-03:00"
+      "next_step": "Complete A1-specific B3 external alternatives, B4, B5; obtain matching permit before any B6 functional code. Focus N015/N031 canonical owners and Guardados bounded approval.",
+      "blocker": "S3_A1_SPECIFIC_B1_B5_PERMIT_NOT_READY; 3 of 4 canonical Home indicators unavailable",
+      "writer_release_epoch": 277,
+      "last_observed_at": "2026-11-05T15:03:49-03:00",
+      "time_breakdown": "NO_REGISTRADO"
     }
   },
   "dynamic_preparation": {
