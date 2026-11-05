@@ -43,11 +43,11 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A1 OPEN: N015 Reality-only timed activity source B7 PASS_SCOPED code 9d2491f, CI 42110935335 SUCCESS XML 6/6, protocol 42110935072 SUCCESS. NOT Home/federated. N031 combined Reminder/MonthlyPlan/priority/snooze and Guardados owner missing. Permit BLOCKED. S3.A2 5/5 scoped; S2 frozen; S4/V2 prod/Noche/Auto OFF.",
+  "next": "S3.A1 OPEN. N015 Reality-only Activity 6/6 B7 PASS. Schema7 five-owner DEV graph compatibility code dc06c01d CI WAIT and B7 pending; prior DEV CI 11/11 RED. Next exact CI and B7; other N031/Guardados/Activity federation open; S2 frozen S4/V2 prod/Auto/Noche OFF.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
-  "last_code_sha": "9d2491f6a03114753e68cdb4c37fb2f0a4c6b046",
+  "last_code_sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
   "last_ci_run_id": 42110935335,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 307,
+  "last_writer_epoch_observed": 309,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -964,7 +964,7 @@
       "checkpoint_release_epoch_expected": 286,
       "exception_approved": true
     },
-    "next": "B1-B5 next distinct unit needed; A1 OPEN. No new code until READY.",
+    "next": "Inspect exact 11 DEV tests after schema7 hotfix. B7 PASS/RED_FIX mandatory. A1 OPEN.",
     "physical": "S3_A5_ONLY",
     "pointer_fence": {
       "unit": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
@@ -1022,6 +1022,19 @@
         "GUARDADOS_CANONICAL_OWNER"
       ],
       "physical": "NOT_RUN"
+    },
+    "schema7_v2_dev_compat": {
+      "unit": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
+      "code_sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
+      "reason": "V2 CI 11/11 failed at schema6 preflight after Reality schema7",
+      "ci": "WAIT_CI",
+      "b7": "PENDING",
+      "expected": "V2_DEV_XML_10_PLUS_1_AND_GRAPH_TESTS",
+      "paths": [
+        "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+        "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt"
+      ],
+      "auto": "OFF"
     }
   }
 }

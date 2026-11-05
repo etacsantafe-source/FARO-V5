@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 OPEN: N015 Reality-only timed activity source B7 PASS_SCOPED code 9d2491f, CI 42110935335 SUCCESS XML 6/6, protocol 42110935072 SUCCESS. NOT Home/federated. N031 combined Reminder/MonthlyPlan/priority/snooze and Guardados owner missing. Permit BLOCKED. S3.A2 5/5 scoped; S2 frozen; S4/V2 prod/Noche/Auto OFF.",
+  "next": "S3.A1 OPEN. N015 Reality-only Activity 6/6 B7 PASS. Schema7 five-owner DEV graph compatibility code dc06c01d CI WAIT and B7 pending; prior DEV CI 11/11 RED. Next exact CI and B7; other N031/Guardados/Activity federation open; S2 frozen S4/V2 prod/Auto/Noche OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -362,6 +362,11 @@
       "b7": "PASS_SCOPED",
       "home": "UNBOUND",
       "global": "NOT_FEDERATED"
+    },
+    "schema7_hotfix": {
+      "code_sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
+      "ci": "WAIT_CI",
+      "b7": "PENDING"
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
