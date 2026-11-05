@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 243
+    "expected_release_epoch": 248
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B7_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B7_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G4 contracts for Objetivos/Asuntos CLOSED B7 (8/8 tests) but NO durable owners. Next: strict bounded B1-B5 for Objective/Matter persistence respecting Reality SQLite schema 5 migrations, Atomic Apply single writer, semantic snapshot FBS1/FBS2 backup/restore without breaking frozen S2. Then Finance ACL/navigation host and typed federated Results; do not mark G4 CLOSED without real canonical owner/permission/navigation. G1/G2/G3 CLOSED, A2 3/5=60%, G5 physical later. V2 productive/S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B7_PASS_GLOBAL_OPEN",
+  "next": "G4 GLOBAL OPEN. Contracts Objetivos/Asuntos B7 8/8 (85efd609); Finance source 4/4 and canonical target 6/6 B7 (6303c6f) but NO owner-backed host ACL/nav. Next critical path: versioned SQLite owner persistence for Objetivos/Asuntos with non-destructive Reality schema migration and FBS1/FBS2 legacy compatibility; then owner search+host+typed navigation+G4 final B7; G5 manual physical later. A2 3/5 formal=60%, S3 0/5 formal, S3 ≈40% heuristic, S2 8/8. No V2 productive, S4, Auto, Noche activation.",
+  "checkpoint_status": "S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B7_PASS_G4_GLOBAL_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B7_20261105.md",
-  "last_code_sha": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
-  "last_ci_run_id": 41968020623,
+  "last_handoff": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B7_20261105.md",
+  "last_code_sha": "6303c6f77db08832b427bedefa1d718df3cc08c5",
+  "last_ci_run_id": 41969650431,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "G4_OWNER_CONTRACTS_JVM_XML_8_8_41968020623_SUCCESS_GUARD_41968020667_SUCCESS_B7_7FCD455_SUCCESS",
+  "last_ci_conclusion": "G4_FINANCE_ENTRY_TARGET_6_6_XML_SUCCESS_41969650431_GUARD_41969650411_SUCCESS_OTHER_ANDROID_RUNS_IN_PROGRESS_AT_B7",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -296,16 +296,16 @@
         "G5"
       ],
       "g3": "CLOSED_B7_G3_CANONICAL_MESSAGE_ANCHOR_4EB0F24",
-      "status": "G1_G2_G3_CLOSED;G4_OWNER_CONTRACT_FOUNDATION_B7_PASS_ONLY;G4_GLOBAL_OPEN;G5_OPEN"
+      "status": "G1_G2_G3_CLOSED;G4_CONTRACT_8_8_AND_FINANCE_TARGET_6_6_SUBUNITS_PASS_G4_GLOBAL_OPEN;G5_OPEN"
     },
     "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
     "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
     "safeguard": "ESTIMATED_PCT_MUST_BE_EXPLICITLY_LABELED_APPROXIMATE; DO_NOT_CONFUSE_WITH_CI_OR_FORMAL_CLOSURE; DO_NOT_FAKE_STAGE_WEIGHTS_OR_PROGRESS",
     "recent_ci": {
-      "run_id": 41968020623,
-      "sha": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
+      "run_id": 41969650431,
+      "sha": "6303c6f77db08832b427bedefa1d718df3cc08c5",
       "status": "SUCCESS",
-      "xml": "G4_OBJECTIVES_4_4;G4_MATTERS_4_4;G4_CONTRACTS_ONLY_8_8"
+      "xml": "G4_FINANCE_SOURCE_6_6;HOME_9_9;G2_HOST_10_10;MERGED_MANIFEST_2"
     },
     "carry_forward": "On new chat triggered by Continuar FARO V5, recover pointer, ALWAYS report approximate S3 progress (currently 40%, heuristic 35-45), formal S3 closure (currently 0% 0/5), S2 closure 100%, qualitative chat thermometer, and changes on actual code evidence.",
     "stage_s3_approximate_development": {
@@ -847,5 +847,16 @@
     "tests": "OBJECTIVES_4_4_MATTERS_4_4",
     "physical": "NOT_RUN",
     "global_g4": "OPEN_REALITY_OWNERS_AND_FINANCE_HOST_MISSING"
+  },
+  "g4_finance_canonical_entry_target": {
+    "status": "B7_PASS_INTERNAL_LOCATOR_ONLY",
+    "code_sha": "6303c6f77db08832b427bedefa1d718df3cc08c5",
+    "b7_commit": "03b0723e3dae57e0ce741d2a47a84fff37000bac",
+    "ci_run_id": 41969650431,
+    "protocol_run_id": 41969650411,
+    "xml": "FINANCE_6_6",
+    "external_regressions": "M5_APK_41969650417_AND_V2_CORE_41969650437_IN_PROGRESS_AT_B7",
+    "g4_global": "OPEN_REAL_OWNER_HOST_NAV_MISSING",
+    "physical": "NOT_RUN"
   }
 }
