@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
   "reviewed_head": "ee65cc61cf474c627ff3d90d1c5b3b214db92833",
   "paths": [
@@ -82,24 +82,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_55EF7EDD",
+    "B7": "PASS_SCOPED_INDEPENDENT"
   },
   "last_code_review": {
-    "sha": "18bd27b210347e9355628eb1836aa36211435d54",
-    "result": "RED_FIX",
+    "sha": "55ef7edd9373a020309df427de16e17ddae9eb0c",
+    "result": "PASS",
     "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N015_SCHEMA7_G4_B7_RED_FIX_20261105.md",
-        "blob_sha": "26d81030e6addebeee413dcc639d05ff8cdd405f",
-        "marker": "## B7 AUDITORÍA RED_FIX"
+        "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
+        "blob_sha": "8d45bc008e71703d5bb487fe50f8a34f20000ed3",
+        "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "N015 FBS and Reality CI success 3/3+4/4+7/7, G4 3 obsolete schema6 asserts after migration schema7; one domain backup expectation also must update",
-  "how": "Same-unit RED_FIX G4 domain test schema7 + explicit schema6-to7 legacy receipt migration; preserve FBS1 v5 snapshot and production",
+  "why": "Reality schema7 nullable receipt time and legacy FBS1/FBS2 codec B7 PASS_SCOPED; Home federation/ACL N015, N031, Guardados still missing",
+  "how": "Fail-closed BLOCKED after exact CI XML; new code needs separate B1-B5 and READY bounded permit",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Correct G4 schema7 assertions and real v6->v7 fixture; strict XML 9/9; B7 after exact CI"
+  "next": "S3.A1 OPEN. Integrate authorized multiowner history.query / N031 real combined planning owner; Guardados +8 not approved"
 }

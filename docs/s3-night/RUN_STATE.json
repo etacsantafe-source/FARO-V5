@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 MANUAL OPEN: N032 pointer B7 PASS 11/11. N015 storage+backup B1-B5 VERIFIED_SCOPED, NOT_IMPLEMENTED: issue separate READY permit and B6 schema migration+FBS1v1/v2+FBS2 directed tests, then independent B7; global history.query/ACL federation still separately blocked. N031 canonical reminder/monthly-plan owner absent; Guardados +8 not approved. S3.A2 CLOSED 5/5 scoped; S2 8/8 FROZEN; V2 shipping/Auto/Noche/S4 OFF.",
+  "next": "S3.A1 MANUAL OPEN. N032 pointer ABA B7 PASS CI Home 11/11. N015 durable Reality chronology+FBS1/FBS2 B7 PASS_SCOPED HEAD 55ef7edd, G4 9/9 and receipt3/3+FBS1 4/4+FBS2 7/7; NOT federated history.query nor Home ACL. N031 lacks real unified Reminder/MonthlyPlan/priority/snooze owner and ACL; Guardados +8 candidates NOT APPROVED, 172 official unchanged. No new code without separate B1–B5 and READY. S3.A2 5/5 scoped closed; S2 8/8 frozen; A5 X01-X12 and one Moto G15 campaign pending; V2 prod/Auto/Noche/S4 OFF. Writer expected RELEASED epoch304.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +59,7 @@
   "last_completed_gate": "S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N032_POINTER_SEQUENCE_B7_PASS_SCOPED_OTHER_OWNERS_MISSING",
+    "status": "PARTIAL_N032_POINTER_B7_PASS_N015_STORAGE_B7_PASS_OTHER_OWNERS_MISSING",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -337,14 +337,23 @@
       ]
     },
     "n015_chronology_preaudit": {
-      "status": "B1_B5_VERIFIED_SCOPED_STORAGE_ONLY_NO_PERMIT_B6_NOT_RUN",
+      "status": "B7_PASS_SCOPED_REALITY_STORAGE_FBS_BACKUP_NO_HOME_FEDERATION",
       "document": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
       "reviewed_head": "48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761",
       "schema_version": 6,
       "required": "SCHEMA_7_AND_LEGACY_FBS1_FBS2_COMPAT_TESTS_WITH_REAL_ACL",
       "run": "NOT_RUN",
       "unit": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
-      "next": "Issue bounded READY permit from B1-B5 evidence then implement tests in B6 and B7; no Home integration"
+      "next": "Issue bounded READY permit from B1-B5 evidence then implement tests in B6 and B7; no Home integration",
+      "code_sha": "55ef7edd9373a020309df427de16e17ddae9eb0c",
+      "ci_runs": {
+        "g4": 42107761539,
+        "receipt": 42107761716,
+        "guard": 42107761450
+      },
+      "xml": "G4 9/9, REALITY 3/3, FINANCE 3/3, FBS1 4/4, FBS2 7/7",
+      "review": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
+      "physical": "NOT_RUN_S3_A5"
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
