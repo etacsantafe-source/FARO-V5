@@ -1,16 +1,26 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G3_CANONICAL_MESSAGE_ANCHOR",
+  "reviewed_head": "b50dc4ada45cd9248ca9de8f080a52e6411d7865",
+  "paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SearchSurface.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5InChatSearchPolicy.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatTimeline.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5WorkspaceSearchReadSource.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5WorkspaceSearchSurfaceAdapter.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5WorkspaceSearchSurfaceAdapterTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
-          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "path": "docs/s3-night/S3_A2_G3_CANONICAL_MESSAGE_ANCHOR_B1_B5_20261105.md",
+          "blob_sha": "dd2929ce4ea9e65b123b4e78cdaa0df03c7baf6e",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +29,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
-          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "path": "docs/s3-night/S3_A2_G3_CANONICAL_MESSAGE_ANCHOR_B1_B5_20261105.md",
+          "blob_sha": "dd2929ce4ea9e65b123b4e78cdaa0df03c7baf6e",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +39,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
-          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "path": "docs/s3-night/S3_A2_G3_CANONICAL_MESSAGE_ANCHOR_B1_B5_20261105.md",
+          "blob_sha": "dd2929ce4ea9e65b123b4e78cdaa0df03c7baf6e",
           "marker": "## B3 INVESTIGACIÓN"
         }
       ]
@@ -39,8 +49,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
-          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "path": "docs/s3-night/S3_A2_G3_CANONICAL_MESSAGE_ANCHOR_B1_B5_20261105.md",
+          "blob_sha": "dd2929ce4ea9e65b123b4e78cdaa0df03c7baf6e",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +59,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
-          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "path": "docs/s3-night/S3_A2_G3_CANONICAL_MESSAGE_ANCHOR_B1_B5_20261105.md",
+          "blob_sha": "dd2929ce4ea9e65b123b4e78cdaa0df03c7baf6e",
           "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "VERIFIED_G2_CODE_6EA5F223_S3_XML_52_52_41959201283_V2CORE_41959201284_APK_41959201293_PROTOCOL_41959201264",
-    "B7": "PASS_G2_CLOSED_ACTIVE_HOST_SEARCH_WIRING_V2_PRODUCTIVE_OFF"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
@@ -70,8 +80,8 @@
       }
     ]
   },
-  "why": "G2 closed on six-path host UI admission to real G1 authority, S3 52/52 PASS and single-process manifests 2/2; V2 core directed and isolated APK workflows SUCCESS; V2 productive OFF.",
-  "how": "Next G3 bounded canonical message content/language/navigation and restore; B1-B5 and new scoped permit before new functional code; no G1 or G2 repetition.",
+  "why": "G3 focused canonical-message navigation after G1/G2 B7 closed, no V2 production, no new index/schema",
+  "how": "Use exact existing 9 paths; runtime code only in following commit after preflight",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
