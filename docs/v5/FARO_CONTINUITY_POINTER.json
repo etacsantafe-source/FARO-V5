@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 200
+    "expected_release_epoch": 202
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G1_HOST_GRANT_B6_PREPARED_WAIT_COMMIT_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A2-G1: prior host mutation ABA B7 already PASS and must NOT be repeated. B1-B5 host scoped Search grant PASS @7b27f27e; READY permit @4ac4dc1e, preflight #41948833339 PASS. Four code/test/workflow blobs PREPARED but NOT COMMITTED (list in current handoff). GitHub create_tree for v5/ code blocked by security control; do not bypass. Revalidate current HEAD/writer, and publish ONLY if safe atomic one-unit commit becomes available; then CI XML 4/4 and B7. Otherwise inspect cross-process/restart/restore ACL architecture READ_ONLY; no repeated broad audit, productive V2/S4/Auto/Noche OFF. S3 approx40% development estimated, formal 0/5; A2 gates0/5.",
-  "checkpoint_status": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_B1_B5_READY_PREFLIGHT_PASS_B6_OBJECTS_PREPARED_NOT_COMMITTED",
+  "next": "S3.A2-G1 same unit RED_FIX: CI #41950439570 36/36, V2 core #41950439621 PASS, APK #41950439584 PASS, guard #41950439595 PASS at e72b6471. B7 RED_FIX after static finding: readiness false->true restores old ACL epoch without Search subscriber; do not label PASS. Follow-up B1-B5 in current handoff. Next: separate READY permit for 4 original paths, preflight, writer CAS, fix owner invalidation and real startup readiness listener, +2 JVM negative tests XML 6/6, then B7. No shipping UI activation. Writer released202 after checkpoint.",
+  "checkpoint_status": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_INITIAL_CODE_CI_4_4_SUCCESS_B7_REDFIX_READINESS_ABA",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G1_HOST_GRANT_B6_PREPARED_WAIT_COMMIT_20261104.md",
-  "last_code_sha": "29a295adbfab89dfafbc182e55aa9f0693a2895d",
-  "last_ci_run_id": 41944487110,
+  "last_handoff": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+  "last_code_sha": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
+  "last_ci_run_id": 41950439570,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",

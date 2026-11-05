@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
-  "reviewed_head": "7b27f27eef4b9804e25ffd0495594d2c1ce0b00e",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwner.kt",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwnerTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "INITIAL_CODE_VERIFIED_CI_41950439570_41950439621_41950439584_BUT_B7_REDFIX",
+    "B7": "RED_FIX_READINESS_ABA_NO_SUBSCRIBER"
   },
   "last_code_review": {
-    "sha": "29a295adbfab89dfafbc182e55aa9f0693a2895d",
-    "result": "PASS",
-    "unit_id": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA",
+    "sha": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
+    "result": "RED_FIX",
+    "unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B7_PASS_20261104.md",
-        "blob_sha": "ba1e0666a2fcc034b3f7715f1a1096adbfccc08d",
+        "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+        "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Single-user local active V2 host: real session-scoped Search grant/revoke with unique per-grant epoch and observable invalidations, no shipping UI mount, no durable ACL impersonation; G1 formal remains OPEN for cross-process/restore boundary.",
-  "how": "One 4-path functional delta after GitHub preflight; JUnit XML exact and previous suites; B7 audit; continue G1 boundary, do not activate productive V2 or open S4.",
+  "why": "Initial host Search grant 4/4 directed + four CI SUCCESS but readiness admission A-B-A may revive old ACL epoch without read/subscriber. B7 RED_FIX. Same unit needs bounded 4-path fix and new READY permit.",
+  "how": "B1-B5 RED_FIX documented with real host readiness listener, durable pointer, invalidate on admission lost, JUnit +2, exact XML 6/6, CI, B7. V2 productive OFF; no other unit.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
