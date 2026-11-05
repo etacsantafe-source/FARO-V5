@@ -13,7 +13,8 @@
     "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt",
     ".github/workflows/faro-v5-s3-receipt-history-directed.yml",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityDomainOwnersT2Test.kt"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityDomainOwnersT2Test.kt",
+    ".github/workflows/faro-v5-g4-reality-domains-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -73,6 +74,11 @@
           "path": "docs/s3-night/S3_A1_N015_SCHEMA7_G4_B7_RED_FIX_20261105.md",
           "blob_sha": "26d81030e6addebeee413dcc639d05ff8cdd405f",
           "marker": "## B5 RED_FIX"
+        },
+        {
+          "path": "docs/s3-night/S3_A1_N015_G4_XML_SCOPE_ADDENDUM_20261105.md",
+          "blob_sha": "b3e295df2706f2d8ba05319b71547cf77e58da14",
+          "marker": "## B5 RED_FIX"
         }
       ]
     },
@@ -95,5 +101,5 @@
   "how": "Same-unit RED_FIX G4 domain test schema7 + explicit schema6-to7 legacy receipt migration; preserve FBS1 v5 snapshot and production",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 RED_FIX under same READY permit; B7 independent only after exact SHA CI and FBS compatibility"
+  "next": "Correct G4 schema7 assertions and real v6->v7 fixture; strict XML 9/9; B7 after exact CI"
 }
