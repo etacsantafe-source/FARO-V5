@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.ABA_PERMIT.20261104",
-  "token_hash": "edd10f814df2d4559604f5c85f4d05599430b7d3c51a17a517933087011374e3",
-  "target_head": "3b249e7c04b81b6a40a6bdf143ea809e6cb5cd9d",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.ABA_CODE.20261104",
+  "token_hash": "c3fa0851fb2d4c92d3763a9d1a485a1d2356e592045172d9589e39c75df394b7",
+  "target_head": "e573166c6086825fcaa857ce8b1d92074b2c3ce7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 195,
-  "timestamp": 1793839773,
-  "purpose": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA_READY_PERMIT"
+  "epoch": 196,
+  "timestamp": 1793839817,
+  "purpose": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA_CODE"
 }
