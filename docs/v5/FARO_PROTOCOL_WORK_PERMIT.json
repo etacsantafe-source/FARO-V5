@@ -12,7 +12,8 @@
     "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
     "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt",
-    ".github/workflows/faro-v5-s3-receipt-history-directed.yml"
+    ".github/workflows/faro-v5-s3-receipt-history-directed.yml",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityDomainOwnersT2Test.kt"
   ],
   "stages": {
     "B1": {
@@ -67,6 +68,11 @@
           "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_B7_RED_FIX_20261105.md",
           "blob_sha": "2685e56b4829e4c559c07af175276a3206760612",
           "marker": "## B5 RED_FIX"
+        },
+        {
+          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_G4_B7_RED_FIX_20261105.md",
+          "blob_sha": "26d81030e6addebeee413dcc639d05ff8cdd405f",
+          "marker": "## B5 RED_FIX"
         }
       ]
     },
@@ -74,19 +80,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "78a5e9beaa3a2ef946fd6b27d7c3def36a274adf",
+    "sha": "18bd27b210347e9355628eb1836aa36211435d54",
     "result": "RED_FIX",
     "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_B7_RED_FIX_20261105.md",
-        "blob_sha": "2685e56b4829e4c559c07af175276a3206760612",
+        "path": "docs/s3-night/S3_A1_N015_SCHEMA7_G4_B7_RED_FIX_20261105.md",
+        "blob_sha": "26d81030e6addebeee413dcc639d05ff8cdd405f",
         "marker": "## B7 AUDITORÍA RED_FIX"
       }
     ]
   },
-  "why": "RED_FIX: Kotlin test missing assertTrue import at line165, XML expectation 2 stale vs 3; scoped B6 FBS tests",
-  "how": "Same N015 unit only: fix test import & strict XML count; directed migration+FBS backup tests before B7",
+  "why": "N015 FBS and Reality CI success 3/3+4/4+7/7, G4 3 obsolete schema6 asserts after migration schema7; one domain backup expectation also must update",
+  "how": "Same-unit RED_FIX G4 domain test schema7 + explicit schema6-to7 legacy receipt migration; preserve FBS1 v5 snapshot and production",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "B6 RED_FIX under same READY permit; B7 independent only after exact SHA CI and FBS compatibility"
