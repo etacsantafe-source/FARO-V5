@@ -1,0 +1,15 @@
+# FARO V5 — S3.A2 G4 Objetivos/Asuntos contract foundation · B7 (05/11/2026)
+
+**Unidad:** `S3_A2_G4_OWNER_CONTRACT_FOUNDATION`. **Código exacto:** `85efd609988fed4bc1e520e86a0b8fc0c1ab8954`, padre preautorizado `9bca8c371d605845aa0fca5e28a7acb5cda4a388`. B1–B5: `docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md`, blob `6ba369f2f26460db766596bdefc06079dfa08fe7`.
+
+## B7 AUDITORÍA FINAL
+- Diff de GitHub inspeccionado: **ocho rutas exactamente preauditadas**, 372 adiciones, 0 eliminaciones; dos nuevas bibliotecas `:owner:objectives` y `:owner:matters`, su `settings.gradle.kts`, dos contratos JVM, dos tests JUnit, un workflow dirigido. No se alteró `RealityStore`, schema v5, backup/restore, catálogo 172, composición, permisos, código G1–G3, S4, V2 productiva o repos históricos.
+- Las clases contienen IDs, títulos, detalles, enums de estado, revisión no negativa, identidad única y fechas no negativas. `ObjectiveSnapshotReadApi` y `MatterSnapshotReadApi` son **interfaces**; no se montaron stores ni búsqueda; una implementación de tests en memoria no prueba owner persistente.
+- Guardia obligatorio del protocolo [#41968020667](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41968020667): SUCCESS, mismo SHA y autorización previa READY acotada; permiso generado tras `FARO_PROTOCOL_PREFLIGHT_PASS` en [#41967738898](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41967738898). Sin repetir G1–G3.
+- CI JVM de contratos [#41968020623](https://github.com/etacsantafe-source/FARO-V5/actions/runs/41968020623): SUCCESS, `BUILD SUCCESSFUL in 2m 45s`, JUnit XML exacto **Objetivos 4/4 + Asuntos 4/4 = 8/8**, sin errores/skip; marcadores `S3_G4_OBJECTIVES_CONTRACT_XML_PASS`, `S3_G4_MATTERS_CONTRACT_XML_PASS`.
+- Negativas: no se inventan persistencia, ACL, recovery, eventos, navegación ni cobertura COMPLETE. Los tipos no son fuente canónica hasta que una migración de Reality preserve WAL/FULL, AtomicApply y semántica de backup/restore. `SearchCanonicalDocument.Kind` aún no contempla OBJECTIVE; `FaroV5SearchScreen` abre exclusivamente conversación, no otros tipos. No registrar adaptadores sin navegación autorizada por tipo.
+- Pruebas físicas: NOT_RUN, reservadas para G5. Writer epoch 241 RELEASED al completar CI; la firma GitHub no certifica instalación física.
+
+**Resultado:** `PASS_ONLY_G4_OBJECTIVE_MATTER_CONTRACT_FOUNDATION_B7_8_OF_8`. **G4 global OPEN**, faltan fuentes persistentes reales y autorizadas para ambos dominios; Finance Search permanece B7 PASS como fuente no montada, sin ACL host/navegación. S3.A2 G1/G2/G3 CLOSED = 3/5 60%; S2 8/8; S3 formal 0/5, estimación funcional ≈40% (35–45%; sin nueva ponderación). S4, V2 productiva, Auto/Noche OFF.
+
+**Siguiente unidad sin repetir lo certificado:** `S3_A2_G4_REALITY_DURABLE_DOMAIN_OWNERS` B1–B5 sobre migración 5→6, persistencia/revisión genuinas, semántica FBS2 y backups, writes únicamente por gate/AtomicApply. Después búsquedas de Objetivos/Asuntos y host Finance con revalidación y navegación tipada, luego B7 global. En caso de bloqueo técnico demostrado, no falsear el contrato.

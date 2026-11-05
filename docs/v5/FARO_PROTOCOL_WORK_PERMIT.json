@@ -1,18 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_OWNER_CONTRACT_FOUNDATION",
-  "reviewed_head": "80448ce9c6272276fef32d6f124b0a79e9eec809",
-  "paths": [
-    "v5/settings.gradle.kts",
-    "v5/owner/objectives/build.gradle.kts",
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt",
-    "v5/owner/objectives/src/test/kotlin/ar/com/faro/v5/owner/objectives/ObjectiveModelTest.kt",
-    "v5/owner/matters/build.gradle.kts",
-    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterModel.kt",
-    "v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt",
-    ".github/workflows/faro-v5-g4-owner-contracts-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -64,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_CONTRACTS_ONLY_85EFD609_G4_8_8_41968020623",
+    "B7": "PASS_CONTRACT_FOUNDATION_ONLY_G4_GLOBAL_OPEN"
   },
   "last_code_review": {
-    "sha": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
+    "sha": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
     "result": "PASS",
-    "unit_id": "S3_A2_G4_FINANCE_SOURCE_UNMOUNTED",
+    "unit_id": "S3_A2_G4_OWNER_CONTRACT_FOUNDATION",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G4_FINANCE_SOURCE_B7_20261105.md",
-        "blob_sha": "19d93293995775996691b3a1ba40b045633e8878",
+        "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B7_20261105.md",
+        "blob_sha": "7a50d9f89ecc50570c5816f220aa73a3af140f11",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Isolated, tested objective/matter JVM contracts only; no persisted owner or G4 closure",
-  "how": "Code only listed eight functional paths in one commit, directed XML CI, B7, then BLOCKED. No RealityStore migration or UI.",
+  "why": "G4 Objectives/Matters JVM contracts 8/8 PASS only; no durable owner. G4 global still blocked",
+  "how": "Next distinct B1-B5 for Reality schema/persistence/semantic backup, bounded permit; no code without new READY.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
