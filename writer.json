@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.G1.HOST_GRANT_PERMIT.20261104",
-  "token_hash": "dcb2ac722a9b4c2d9896f0e251835ddb49571c799d935287a748527b811c0127",
-  "target_head": "7b27f27eef4b9804e25ffd0495594d2c1ce0b00e",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.G1.HOST_GRANT_CODE.20261104",
+  "token_hash": "a19938b2c48a4ab29cbf38835700465a0dfaa497853d6b20a8c9aab466cfef51",
+  "target_head": "4ac4dc1e196acba70141196c4f5a56db06af2453",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 199,
-  "timestamp": 1793842159,
-  "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_READY_PERMIT"
+  "epoch": 200,
+  "timestamp": 1793842253,
+  "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_CODE"
 }
