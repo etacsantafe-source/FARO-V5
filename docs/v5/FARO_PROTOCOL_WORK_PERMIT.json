@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
+  "reviewed_head": "92a09c91e428d1d228619914283ff2e413db8e7e",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwner.kt",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwnerTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B1_B5_20261104.md",
-          "blob_sha": "babf124eccbb98616bb2d5c4ee8a721af82c4044",
+          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,9 +24,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B1_B5_20261104.md",
-          "blob_sha": "babf124eccbb98616bb2d5c4ee8a721af82c4044",
-          "marker": "## B2 COMPARACIÓN"
+          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
+          "marker": "## B2 COMPARACIÓN Y REUTILIZACIÓN"
         }
       ]
     },
@@ -29,9 +34,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B1_B5_20261104.md",
-          "blob_sha": "babf124eccbb98616bb2d5c4ee8a721af82c4044",
-          "marker": "## B3 INVESTIGACIÓN"
+          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
+          "marker": "## B3 INVESTIGACIÓN EXTERNA Y DECISIÓN"
         }
       ]
     },
@@ -39,9 +44,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B1_B5_20261104.md",
-          "blob_sha": "babf124eccbb98616bb2d5c4ee8a721af82c4044",
-          "marker": "## B4 UNIFICACIÓN"
+          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
+          "marker": "## B4 UNIFICACIÓN DELTA MÍNIMO"
         }
       ]
     },
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B1_B5_20261104.md",
-          "blob_sha": "babf124eccbb98616bb2d5c4ee8a721af82c4044",
-          "marker": "## B5 AUDITORÍA"
+          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
+          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
+          "marker": "## B5 AUDITORÍA ADVERSARIAL PREVIA"
         }
       ]
     },
-    "B6": "INITIAL_CODE_VERIFIED_CI_41950439570_41950439621_41950439584_BUT_B7_REDFIX",
-    "B7": "RED_FIX_READINESS_ABA_NO_SUBSCRIBER"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "Initial host Search grant 4/4 directed + four CI SUCCESS but readiness admission A-B-A may revive old ACL epoch without read/subscriber. B7 RED_FIX. Same unit needs bounded 4-path fix and new READY permit.",
-  "how": "B1-B5 RED_FIX documented with real host readiness listener, durable pointer, invalidate on admission lost, JUnit +2, exact XML 6/6, CI, B7. V2 productive OFF; no other unit.",
+  "why": "B7 RED_FIX same S3_A2_G1_HOST_SCOPED_SEARCH_GRANT unit: readiness false->true can revive previous grant/epoch without UI subscriber, although all four initial CI passed. Reuse B1-B5, bounded 4-path correction.",
+  "how": "Add real startupReadinessGate listener to revoke, replay snapshot and cleanup; grant owner drops grant on lost admission; +2 negative tests, directed XML 6/6, run CI and final B7; V2 productive remains OFF.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
