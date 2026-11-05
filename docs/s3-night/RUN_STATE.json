@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 MANUAL OPEN. N032 pointer ABA B7 PASS CI Home 11/11. N015 durable Reality chronology+FBS1/FBS2 B7 PASS_SCOPED HEAD 55ef7edd, G4 9/9 and receipt3/3+FBS1 4/4+FBS2 7/7; NOT federated history.query nor Home ACL. N031 lacks real unified Reminder/MonthlyPlan/priority/snooze owner and ACL; Guardados +8 candidates NOT APPROVED, 172 official unchanged. No new code without separate B1–B5 and READY. S3.A2 5/5 scoped closed; S2 8/8 frozen; A5 X01-X12 and one Moto G15 campaign pending; V2 prod/Auto/Noche/S4 OFF. Writer expected RELEASED epoch304.",
+  "next": "S3.A1 OPEN: Reality-only timed Activity source B6 9d2491f6 CI WAIT; NOT Home/federated. Await exact CI+independent B7. N031 combined reminder/monthly plan and Guardados owner still missing. S3.A2 5/5 scoped, S2 frozen; S4/V2 prod/Noche OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +59,7 @@
   "last_completed_gate": "S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N032_POINTER_B7_PASS_N015_STORAGE_B7_PASS_OTHER_OWNERS_MISSING",
+    "status": "PARTIAL_REALITY_ACTIVITY_SOURCE_B6_WAIT_CI",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -354,6 +354,13 @@
       "xml": "G4 9/9, REALITY 3/3, FINANCE 3/3, FBS1 4/4, FBS2 7/7",
       "review": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
       "physical": "NOT_RUN_S3_A5"
+    },
+    "reality_activity_source": {
+      "code_sha": "9d2491f6a03114753e68cdb4c37fb2f0a4c6b046",
+      "ci": "WAIT_CI",
+      "expected": "6/6",
+      "b7": "PENDING",
+      "home": "UNBOUND"
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
