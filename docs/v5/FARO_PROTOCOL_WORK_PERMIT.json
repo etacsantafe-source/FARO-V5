@@ -1,22 +1,20 @@
 {
   "schema": 1,
   "status": "READY",
-  "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
-  "reviewed_head": "03da3839ce2fdd8f798f0fd3e4bd38e909459e0e",
+  "unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
+  "reviewed_head": "07e03fa732e0041858cc09dc9aed3177b46a7ea9",
   "paths": [
-    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
-    "v5/app/build.gradle.kts",
-    ".github/workflows/faro-v5-g5-android-directed.yml"
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5HomeReadCoordinator.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5HomeReadCoordinatorTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
-          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
-          "marker": "### B1"
+          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
+          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "marker": "## B1"
         }
       ]
     },
@@ -24,9 +22,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
-          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
-          "marker": "### B2"
+          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
+          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "marker": "## B2"
         }
       ]
     },
@@ -34,9 +32,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
-          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
-          "marker": "### B3"
+          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
+          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "marker": "## B3"
         }
       ]
     },
@@ -44,9 +42,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
-          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
-          "marker": "### B4"
+          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
+          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "marker": "## B4"
         }
       ]
     },
@@ -54,9 +52,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
-          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
-          "marker": "### B5"
+          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
+          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "marker": "## B5"
         }
       ]
     },
@@ -75,8 +73,8 @@
       }
     ]
   },
-  "why": "G5 emulator CI #42071443306 exact code bcb38e9 PASS 1/1; previous split-shell bug fixed without app change; physical Moto pending",
-  "how": "B7 validated emulator scope; no further functional changes to this unit authorized without new B1-B5 evidence",
+  "why": "Adversarial gap: early Home indicator can be revoked during later owner read; provenance and owner authority must be revalidated at batch end.",
+  "how": "Only stage owner-backed counters then check each real owner stamp once more before returning; tests of revocation and generation switch, no new data owner.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
