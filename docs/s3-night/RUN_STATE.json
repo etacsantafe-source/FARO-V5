@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 OPEN. Code 9d2491f Reality-only Activity CI 6/6+B7 PASS; code dc06c01d schema7 DEV 11/11, G4+Receipts+protocol SUCCESS B7 PASS_SCOPED (2 new legacy generation tests NOT_RUN). Missing N015 federated history.query + host ACL, N031 Matter/Reminder/MonthlyPlan owner/priority/snooze, Guardados canonical owner +8 NOT APPROVED. Permit BLOCKED. S2 8/8 frozen, S3.A2 5/5 automated, A5 G15 later, S4/V2 prod/Auto/Noche OFF.",
+  "next": "S3.A1 OPEN. Existing 17-generation-test gate added code 088c0e51 CI WAIT, B7 PENDING. Prior N015 Activity 6/6 and DEV 11/11 PASS scoped. After CI B7 and BLOCKED; pending real federation, N031 combined planning, Guardados owner +8 NOT APPROVED.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -378,6 +378,12 @@
       "legacy_data_migration": "NOT_CERTIFIED",
       "prod_v2": "OFF",
       "physical": "NOT_RUN"
+    },
+    "schema7_generation_xml": {
+      "code_sha": "088c0e51b478d726bfd884493d5f68173ce0250d",
+      "ci": "WAIT_CI",
+      "expected": "17/17",
+      "b7": "PENDING"
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",

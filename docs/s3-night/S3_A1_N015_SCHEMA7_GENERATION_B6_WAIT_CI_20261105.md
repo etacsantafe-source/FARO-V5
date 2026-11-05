@@ -1,0 +1,5 @@
+# FARO V5 S3.A1 N015 schema7 generation existing 17 tests · B6 WAIT_CI (05/11/2026)
+- HEAD code `088c0e51b478d726bfd884493d5f68173ce0250d`, one authorized path `.github/workflows/faro-v5-v2-core-directed.yml`, baseline B1–B5 `docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md`; permit READY separate commit `1e7acf88`.
+- Existing workflow extended with `:store:generation:test` selected `FaroV5GenerationStoreGraphV2T2Test` (17 current tests, 2 new previously NOT_RUN). XML fails if expected cases, count or 0 failures/errors/skips mismatch.
+- CI **WAIT_CI**; no claim that migration 6→7 test passes until exact SHA report observed. No user data, catalog, SQLite owner or Moto G15 touched. Previous V2 11/11 and Reality+FBS PASS scoped retained.
+- Required B7: verify exact CI for SHA `088c0e51` and 17/17, record PASS or RED_FIX, permit BLOCKED then release writer. S3.A1 remains OPEN pending N015 true federation/ACL, N031 combined attention owner and Guardados approved canonical source.
