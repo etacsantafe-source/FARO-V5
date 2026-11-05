@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "mode": "ENABLED",
-  "activation_authorized": true,
+  "mode": "STAGED",
+  "activation_authorized": false,
   "authorized_by": "USER_EXPLICIT_20261105_S3_NOCHE_AB_UNTIL_1900_AR",
-  "phase": "S3_NOCHE_AB_ACTIVE",
+  "phase": "S3_MANUAL_HANDOFF_NOCHE_CANCELLED",
   "branch": "work/s3-night-20261102",
   "timezone": "America/Argentina/Cordoba",
   "hard_stop_at": "2026-11-05T19:00:00-03:00",
@@ -382,6 +382,17 @@
       "automations": "DISABLED",
       "preserve_tasks": true,
       "physical": "NOT_RUN"
+    },
+    "latest_user_cancel_20261105": {
+      "reason": "USER_EXPLICIT_CANCEL_ALL_ACTIVE_FARO_NOCHE",
+      "automation_ids_disabled": [
+        "6aecbf6b4a9c819182b739e0a9fe358c",
+        "6aecbf6e32488191b674ac8fcb64feb5",
+        "6aecc02b37888191ade19327cfa94c74",
+        "6aecbf7102a48191ba372839600a824c"
+      ],
+      "reopen_requires_new_explicit_user_authorization": true,
+      "preserve_s3_progress": true
     }
   },
   "previous_hard_stop_at": "2026-11-02T22:00:00-03:00",
@@ -585,7 +596,7 @@
     "authority_end": "2026-11-03T21:58:00-03:00"
   },
   "night_trial_20261105": {
-    "status": "ACTIVE",
+    "status": "CANCELLED_BY_USER",
     "start": "2026-11-05T15:00:00-03:00",
     "hard_stop": "2026-11-05T19:00:00-03:00",
     "timezone": "America/Argentina/Cordoba",
@@ -602,6 +613,7 @@
     "no_new_actions_without_authorization": true,
     "blocks": "SKIP_VALIDATED_CHAIN_WORK",
     "historical_finished": "A2_G1_G5_DONE_DO_NOT_REPEAT",
-    "last_B_checkpoint": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md"
+    "last_B_checkpoint": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md",
+    "cancellation_reason": "USER_EXPLICIT_CANCEL_ALL_2026_11_05"
   }
 }
