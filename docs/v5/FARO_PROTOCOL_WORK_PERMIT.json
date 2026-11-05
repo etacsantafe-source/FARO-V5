@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G1_POLICY_RESTORE_READMISSION",
-  "reviewed_head": "5e61b0546d8d4ff09122f2b6c67cee900d306355",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwnerTest.kt"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "f5f57a04da3e494bd03f517fccc42f9ab360b09d",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_G1_CODE_DC3EEE9D_JVM_REDFIX_F5F57A04_S3_XML_42_42_41957095077_MANIFEST_SINGLE_PROCESS_2_2_PROTOCOL_41957095087",
+    "B7": "PASS_G1_CLOSED_SINGLE_PROCESS_HOST_SCOPE"
   },
   "last_code_review": {
-    "sha": "dc3eee9de857a00b07a808c3ed19f6b60acff3d6",
-    "result": "RED_FIX",
+    "sha": "f5f57a04da3e494bd03f517fccc42f9ab360b09d",
+    "result": "PASS",
     "unit_id": "S3_A2_G1_POLICY_RESTORE_READMISSION",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
-        "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+        "path": "docs/s3-night/S3_A2_G1_FORMAL_CLOSED_SINGLE_PROCESS_B7_20261104.md",
+        "blob_sha": "0df7f2d70cab8d0f112e387492d1376fedb7bf36",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Same-unit B7 RED_FIX for Kotlin ILLEGAL_SUSPEND_FUNCTION_CALL in processRestartKeepsWorkspaceButNeverRestoresGrant test at line303. One-line runBlocking test fix, no production source changes.",
-  "how": "One test path only, preflight positive, writer CAS, change method signature to : Unit = runBlocking {, exact XML 10/10 and manifest check, CI all, B7 final. V2 OFF.",
+  "why": "G1 ACTIVE Workspace local Search ACL policy/revocation/readmission/restore/restart closed for supported single-process Android host. XML S3 42/42 + 2 merged manifests single process, protocol SUCCESS; G2 UI and productive V2 remain OFF.",
+  "how": "Next S3.A2 G2 bounded wiring of Search port to authorized host only; new B1-B5 and independent READY permit after investigating V1 null and G1 identity. No repetitive G1 audit. G3-G5 still OPEN.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
