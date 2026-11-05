@@ -1,16 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G4_OWNER_CONTRACT_FOUNDATION",
+  "reviewed_head": "80448ce9c6272276fef32d6f124b0a79e9eec809",
+  "paths": [
+    "v5/settings.gradle.kts",
+    "v5/owner/objectives/build.gradle.kts",
+    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt",
+    "v5/owner/objectives/src/test/kotlin/ar/com/faro/v5/owner/objectives/ObjectiveModelTest.kt",
+    "v5/owner/matters/build.gradle.kts",
+    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterModel.kt",
+    "v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt",
+    ".github/workflows/faro-v5-g4-owner-contracts-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
-          "blob_sha": "4472efe0cb9bd344748171181b124b85568fc59b",
+          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
+          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
-          "blob_sha": "4472efe0cb9bd344748171181b124b85568fc59b",
+          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
+          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,9 +38,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
-          "blob_sha": "4472efe0cb9bd344748171181b124b85568fc59b",
-          "marker": "## B3 INVESTIGACIÓN"
+          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
+          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
+          "marker": "## B3 INVESTIGACIÓN DE ALTERNATIVAS"
         }
       ]
     },
@@ -39,9 +48,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
-          "blob_sha": "4472efe0cb9bd344748171181b124b85568fc59b",
-          "marker": "## B4 UNIFICACIÓN"
+          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
+          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
+          "marker": "## B4 UNIFICACIÓN Y PATH-SET EXACTO"
         }
       ]
     },
@@ -49,14 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
-          "blob_sha": "4472efe0cb9bd344748171181b124b85568fc59b",
-          "marker": "## B5 AUDITORÍA"
+          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
+          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
+          "marker": "## B5 AUDITORÍA ADVERSARIAL"
         }
       ]
     },
-    "B6": "VERIFIED_FINANCE_SOURCE_CODE_302B92C_S3_58_58_41965481039_V2_CORE_41965481015",
-    "B7": "PASS_FINANCE_SOURCE_UNMOUNTED_G4_GLOBAL_OPEN_MISSING_OWNERS"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
@@ -70,8 +79,8 @@
       }
     ]
   },
-  "why": "Finance source (unmounted) B7 PASS after exact S3 58/58, V2 core success and protocol success. G4 global remains OPEN until genuine Objectives/Matters owners and Finance ACL host binding.",
-  "how": "Require new distinct B1-B5 and exact path bounded permit before next functional code; do not reuse Finance source permission.",
+  "why": "Isolated, tested objective/matter JVM contracts only; no persisted owner or G4 closure",
+  "how": "Code only listed eight functional paths in one commit, directed XML CI, B7, then BLOCKED. No RealityStore migration or UI.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
