@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A1_N015_REALITY_ACTIVITY_ADMISSION",
   "reviewed_head": "b726351106970bc8ccae5d6b5d153f8bd8947c19",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_9D2491F6",
+    "B7": "PASS_SCOPED_INDEPENDENT"
   },
   "last_code_review": {
-    "sha": "55ef7edd9373a020309df427de16e17ddae9eb0c",
+    "sha": "9d2491f6a03114753e68cdb4c37fb2f0a4c6b046",
     "result": "PASS",
-    "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
+    "unit_id": "S3_A1_N015_REALITY_ACTIVITY_ADMISSION",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
-        "blob_sha": "8d45bc008e71703d5bb487fe50f8a34f20000ed3",
+        "path": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B7_PASS_20261105.md",
+        "blob_sha": "6a86b17c689757d01f6ab03f4169d84e8a7bd066",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "Scoped owner-admitted Reality timed history read; NOT Home, not federated, no global count",
-  "how": "B6 code+tests+XML exact; B7 then BLOCKED, no other new code",
+  "why": "Reality-only dated Activity source 6/6 and protocol guard PASS; HOST_NOT_BOUND, S3_A1_OPEN",
+  "how": "BLOCKED until next distinct B1-B5 and READY; global Home history, N031 owner, Guardados not yet present",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Implement bounded reader only after preflight"
+  "next": "S3.A1 N015 real federated history.query owner and host admission / N031 unified attention owner; A1 OPEN"
 }
