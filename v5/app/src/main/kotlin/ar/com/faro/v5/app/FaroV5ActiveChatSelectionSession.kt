@@ -6,16 +6,18 @@ import java.util.function.Supplier
 import kotlinx.coroutines.runBlocking
 
 /** Same active generation and material gate as Composer and human Review. */
-class FaroV5ActiveChatSelectionSession(
+class FaroV5ActiveChatSelectionSession @JvmOverloads constructor(
     private val generationId: String,
     private val workspace: ConversationWorkspaceSelectionPort,
     private val gate: MaterialWriteGate,
     private val pointer: Supplier<String>,
     private val ready: BooleanSupplier,
+    private val hostPointerStillCurrent: BooleanSupplier = BooleanSupplier { true },
 ) {
     init { require(generationId.isNotBlank()) }
     private fun requireCurrent() {
-        check(ready.getAsBoolean() && pointer.get() == generationId) {
+        check(ready.getAsBoolean() && pointer.get() == generationId &&
+            hostPointerStillCurrent.getAsBoolean()) {
             "Workspace selection is stale or recovery is incomplete"
         }
     }

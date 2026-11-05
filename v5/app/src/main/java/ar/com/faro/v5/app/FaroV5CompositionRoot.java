@@ -714,6 +714,16 @@ public final class FaroV5CompositionRoot {
                                 : new FileActiveGenerationPointer(storageRoot);
                 final ActiveGenerationPointer pinnedChatPointer =
                         chatPointer == null ? null : chatPointer.read();
+                // Shared durable identity fence for every active Chat host capability.
+                // Generation-ID equality alone does not detect A->B->A.
+                final BooleanSupplier pinnedChatPointerStillCurrent = () -> {
+                    try {
+                        return pinnedChatPointer != null && chatPointer != null
+                                && pinnedChatPointer.equals(chatPointer.read());
+                    } catch (RuntimeException unavailablePointer) {
+                        return false;
+                    }
+                };
                 FaroV5ActiveChatReadSession chatReadSession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveChatReadSession(
@@ -722,14 +732,7 @@ public final class FaroV5CompositionRoot {
                                         stores.getWorkspace(),
                                         () -> generationStorage().activeGenerationId(),
                                         () -> maintenanceRecoveryComplete,
-                                        () -> {
-                                            try {
-                                                return pinnedChatPointer != null
-                                                        && pinnedChatPointer.equals(chatPointer.read());
-                                            } catch (RuntimeException unavailablePointer) {
-                                                return false;
-                                            }
-                                        });
+                                        pinnedChatPointerStillCurrent);
                 FaroV5ActiveChatComposerSession chatComposerSession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveChatComposerSession(
@@ -737,7 +740,8 @@ public final class FaroV5CompositionRoot {
                                         stores.getWorkspace(),
                                         materialWriteGate,
                                         () -> generationStorage().activeGenerationId(),
-                                        () -> maintenanceRecoveryComplete);
+                                        () -> maintenanceRecoveryComplete,
+                                        pinnedChatPointerStillCurrent);
                 FaroV5ActiveChatReviewSession chatReviewSession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveChatReviewSession(
@@ -745,21 +749,24 @@ public final class FaroV5CompositionRoot {
                                         stores.getWorkspace(),
                                         materialWriteGate,
                                         () -> generationStorage().activeGenerationId(),
-                                        () -> maintenanceRecoveryComplete);
+                                        () -> maintenanceRecoveryComplete,
+                                        pinnedChatPointerStillCurrent);
                 FaroV5ActiveChatSelectionSession chatSelectionSession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveChatSelectionSession(
                                         activeGenerationId, stores.getWorkspace(),
                                         materialWriteGate,
                                         () -> generationStorage().activeGenerationId(),
-                                        () -> maintenanceRecoveryComplete);
+                                        () -> maintenanceRecoveryComplete,
+                                        pinnedChatPointerStillCurrent);
                 FaroV5ActiveReviewedApplySession chatApplySession =
                         stores.getWorkspace() == null ? null
                                 : new FaroV5ActiveReviewedApplySession(
                                         activeGenerationId, stores.getWorkspace(),
                                         stores.getReality(), materialWriteGate,
                                         () -> generationStorage().activeGenerationId(),
-                                        () -> maintenanceRecoveryComplete);
+                                        () -> maintenanceRecoveryComplete,
+                                        pinnedChatPointerStillCurrent);
                 FaroV5HostAcceptedTurnDispatchPort assistantDispatch = null;
                 TrustedAssistantRuntime assistantConfig = trustedAssistantRuntime;
                 if (stores.getWorkspace() != null &&

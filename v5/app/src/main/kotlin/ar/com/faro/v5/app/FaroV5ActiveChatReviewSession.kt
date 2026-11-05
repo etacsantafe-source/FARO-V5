@@ -12,15 +12,17 @@ import java.util.function.Supplier
 import kotlinx.coroutines.runBlocking
 
 /** Same active Workspace/authority, no Apply capability exported to UI. */
-class FaroV5ActiveChatReviewSession(
+class FaroV5ActiveChatReviewSession @JvmOverloads constructor(
     private val generationId: String,
     private val workspace: ConversationReviewPort,
     private val gate: MaterialWriteGate,
     private val pointer: Supplier<String>,
     private val ready: BooleanSupplier,
+    private val hostPointerStillCurrent: BooleanSupplier = BooleanSupplier { true },
 ) {
     private fun requireCurrent() {
-        check(ready.getAsBoolean() && pointer.get() == generationId) {
+        check(ready.getAsBoolean() && pointer.get() == generationId &&
+            hostPointerStillCurrent.getAsBoolean()) {
             "Review is stale or recovery is incomplete"
         }
     }

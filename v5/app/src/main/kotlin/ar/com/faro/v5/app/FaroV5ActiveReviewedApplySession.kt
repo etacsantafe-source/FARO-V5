@@ -22,18 +22,20 @@ import java.util.function.Supplier
  * from a V1-only graph. It is not a UI port or a staged/quarantined executor.
  * Shipping V2 remains disabled until the full F1-F4 activation gate passes.
  */
-class FaroV5ActiveReviewedApplySession(
+class FaroV5ActiveReviewedApplySession @JvmOverloads constructor(
     private val generationId: String,
     private val workspace: TrustedConversationApplyReviewPort,
     private val reality: RealityStore,
     private val gate: MaterialWriteGate,
     private val activeGeneration: Supplier<String>,
     private val recoveryComplete: BooleanSupplier,
+    private val hostPointerStillCurrent: BooleanSupplier = BooleanSupplier { true },
 ) {
     init { require(generationId.isNotBlank()) }
 
     private fun requireCurrent() {
-        check(recoveryComplete.getAsBoolean() && activeGeneration.get() == generationId) {
+        check(recoveryComplete.getAsBoolean() && activeGeneration.get() == generationId &&
+            hostPointerStillCurrent.getAsBoolean()) {
             "Reviewed Apply is unavailable during recovery or after generation switch"
         }
     }

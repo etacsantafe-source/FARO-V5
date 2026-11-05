@@ -19,17 +19,19 @@ import kotlinx.coroutines.runBlocking
  *
  * Shipping V1 has no Workspace and never constructs this session; V2 stays OFF.
  */
-class FaroV5ActiveChatComposerSession(
+class FaroV5ActiveChatComposerSession @JvmOverloads constructor(
     private val generationId: String,
     private val workspace: ConversationComposerPort,
     private val materialWriteGate: MaterialWriteGate,
     private val activeGenerationId: Supplier<String>,
     private val startupReady: BooleanSupplier,
+    private val hostPointerStillCurrent: BooleanSupplier = BooleanSupplier { true },
 ) {
     init { require(generationId.isNotBlank()) }
 
     private fun requireCurrent() {
-        check(startupReady.getAsBoolean() && activeGenerationId.get() == generationId) {
+        check(startupReady.getAsBoolean() && activeGenerationId.get() == generationId &&
+            hostPointerStillCurrent.getAsBoolean()) {
             "Composer authority is stale or maintenance recovery has not completed"
         }
     }
