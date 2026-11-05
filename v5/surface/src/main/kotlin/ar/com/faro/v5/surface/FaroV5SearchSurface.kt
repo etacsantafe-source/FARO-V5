@@ -51,6 +51,23 @@ data class FaroV5SearchHit(
     }
 }
 
+/**
+ * A real owner-revalidated read-only destination. Never carries mutation rights,
+ * a raw ledger/account identifier, or a forged conversation target.
+ */
+data class FaroV5SearchDomainTarget(
+    val canonicalSource: String,
+    val title: String,
+    val summary: String,
+    val asOfEpochMillis: Long,
+) {
+    init {
+        require(canonicalSource.isNotBlank() && title.isNotBlank())
+        require(title.length <= 16_000 && summary.length <= 16_000)
+        require(asOfEpochMillis >= 0L)
+    }
+}
+
 data class FaroV5SearchPage(
     val coverage: FaroV5SearchCoverage,
     val hits: List<FaroV5SearchHit>,
@@ -75,6 +92,8 @@ interface FaroV5SearchReadPort {
     suspend fun openAuthorized(hit: FaroV5SearchHit): FaroV5SearchOpenResult
     /** One-shot verified navigation hint, never permission to read or mutate. */
     fun takeConfirmedMessageTarget(): ConversationMessageId? = null
+    /** One-time owner-verified navigation to a read-only non-Chat detail. */
+    fun takeConfirmedDomainTarget(): FaroV5SearchDomainTarget? = null
 }
 
 /** Partial and unavailable results must never be announced as a definitive absence. */
@@ -95,6 +114,7 @@ private sealed interface FaroV5SearchScreenState {
     data object Idle : FaroV5SearchScreenState
     data object Loading : FaroV5SearchScreenState
     data class Ready(val page: FaroV5SearchPage) : FaroV5SearchScreenState
+    data class DomainDetail(val target: FaroV5SearchDomainTarget) : FaroV5SearchScreenState
     data object Unavailable : FaroV5SearchScreenState
 }
 
@@ -169,6 +189,15 @@ fun FaroV5SearchScreen(
                 CircularProgressIndicator()
             FaroV5SearchScreenState.Unavailable ->
                 Text("Búsqueda no disponible. No se leyeron datos.")
+            is FaroV5SearchScreenState.DomainDetail -> {
+                Text(current.target.title, style = MaterialTheme.typography.titleLarge)
+                Text("Fuente: " + current.target.canonicalSource)
+                Text(current.target.summary)
+                Text("Detalle de solo lectura. Las acciones se realizan desde Chat y Review.")
+                TextButton(onClick = { state = FaroV5SearchScreenState.Idle }) {
+                    Text("Volver a Buscar")
+                }
+            }
             is FaroV5SearchScreenState.Ready -> {
                 Text(FaroV5SearchSurfacePolicy.message(current.page))
                 if (current.page.indexDegraded &&
@@ -198,9 +227,16 @@ fun FaroV5SearchScreen(
                                         FaroV5SearchOpenResult.UNAVAILABLE
                                     }
                                     if (requestVersion == version) {
-                                        state = FaroV5SearchScreenState.Unavailable
-                                        if (opened == FaroV5SearchOpenResult.CONFIRMED) {
-                                            onOpenConversation(readPort.takeConfirmedMessageTarget())
+                                        val domain = if (opened == FaroV5SearchOpenResult.CONFIRMED) {
+                                            readPort.takeConfirmedDomainTarget()
+                                        } else null
+                                        if (domain != null) {
+                                            state = FaroV5SearchScreenState.DomainDetail(domain)
+                                        } else {
+                                            state = FaroV5SearchScreenState.Unavailable
+                                            if (opened == FaroV5SearchOpenResult.CONFIRMED) {
+                                                onOpenConversation(readPort.takeConfirmedMessageTarget())
+                                            }
                                         }
                                     }
                                 }

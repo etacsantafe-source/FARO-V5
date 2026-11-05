@@ -1,0 +1,76 @@
+name: FARO V5 G4 real four-owner federation directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5*Search*"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5*Search*Test.kt"
+      - "v5/app/src/v2CoreDev/**"
+      - "v5/control/src/main/java/ar/com/faro/v5/control/search/**"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SearchSurface.kt"
+      - ".github/workflows/faro-v5-g4-federation-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-g4-real-federation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  four-owner-federation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Ensure Android compile SDK
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile DEV five-owner Search host and run directed JVM regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileV2CoreDevKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5ObjectivesSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5MattersSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5FederatedSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5FinanceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest"
+      - name: Verify exact G4 federation and G1-G3/Finance XML
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          base = Path('v5/app/build/test-results/testDebugUnitTest')
+          cases = [
+              ('FaroV5ObjectivesSearchReadSourceTest',4),
+              ('FaroV5MattersSearchReadSourceTest',4),
+              ('FaroV5FederatedSearchSurfaceAdapterTest',6),
+              ('FaroV5FinanceSearchReadSourceTest',6),
+              ('FaroV5WorkspaceSearchSurfaceAdapterTest',7),
+          ]
+          total = 0
+          for name, expected in cases:
+              xmls = list(base.glob('TEST-*'+name+'.xml'))
+              if len(xmls) != 1:
+                  raise SystemExit('G4_FED_XML_MISSING ' + name)
+              root = ET.parse(xmls[0]).getroot()
+              counts = tuple(int(root.get(k, '-1')) for k in
+                             ('tests', 'failures', 'errors', 'skipped'))
+              if counts != (expected,0,0,0):
+                  raise SystemExit('G4_FED_XML_FAIL '+name+' '+str(counts))
+              print('G4_FED_SOURCE_XML_PASS', name, f'{expected}/{expected}')
+              total += expected
+          print('G4_FOUR_REAL_OWNER_FEDERATION_XML_PASS', f'{total}/{total}',
+                'DEV_ONLY_SHIPPING_V2_OFF')
+          PY

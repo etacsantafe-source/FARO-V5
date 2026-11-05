@@ -7,7 +7,7 @@ import java.util.Objects;
  * an index is not a permission oracle or a source of truth.
  */
 public final class SearchCanonicalDocument {
-    public enum Kind { CONVERSATION, MATTER, NOTICE, FINANCE_ENTRY, HISTORY_EVENT }
+    public enum Kind { CONVERSATION, OBJECTIVE, MATTER, NOTICE, FINANCE_ENTRY, HISTORY_EVENT }
     private final SearchProjectionKey key;
     private final Kind kind;
     private final String title;

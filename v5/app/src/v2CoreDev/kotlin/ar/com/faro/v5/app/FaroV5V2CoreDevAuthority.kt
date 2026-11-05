@@ -8,6 +8,8 @@ import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
+import ar.com.faro.v5.owner.finance.api.FinanceSnapshotReadApi
+import kotlinx.coroutines.flow.merge
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.surface.FaroV5SearchReadPort
 import java.nio.file.Files
@@ -191,7 +193,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         check(openingPointer.generationId == targetId) { "DEV active generation changed" }
         val pinnedPointerSequence = openingPointer.sequence
         val graph = FaroV5ActiveGenerationGraphOwner.open(normalized, targetId.value, gate, true)
-        var readAccess: FaroV5V2CoreDevSearchReadAuthority? = null
+        val readAccesses = mutableListOf<FaroV5V2CoreDevSearchReadAuthority>()
         var pointerObserver: Runnable? = null
         return try {
             val workspace = checkNotNull(graph.workspace)
@@ -219,9 +221,9 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val access = FaroV5V2CoreDevSearchReadAuthority {
                 ready.getAsBoolean()
             }
-            readAccess = access
+            readAccesses += access
             access.grantAfterVerifiedOpen()
-            val observer = Runnable { access.invalidate() }
+            val observer = Runnable { readAccesses.forEach { it.invalidate() } }
             pointer.addChangeListener(observer)
             pointerObserver = observer
             val canonical = FaroV5WorkspaceSearchReadSource(
@@ -230,16 +232,54 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 { access.epochOrNull() },
                 { ready.getAsBoolean() },
             )
-            val search = FaroV5WorkspaceSearchSurfaceAdapter(
+            val workspaceSearch = FaroV5WorkspaceSearchSurfaceAdapter(
                 canonical, selection.port, access.invalidations,
+            )
+            // Independent DEV-only grants for Reality Finance, Objectives and
+            // Matters; none of these epochs reuses the Workspace read grant.
+            fun grantRealityRead(): FaroV5V2CoreDevSearchReadAuthority =
+                FaroV5V2CoreDevSearchReadAuthority { ready.getAsBoolean() }.also {
+                    readAccesses += it
+                    it.grantAfterVerifiedOpen()
+                }
+            val financeGrant = grantRealityRead()
+            val objectiveGrant = grantRealityRead()
+            val matterGrant = grantRealityRead()
+            val financeSource = FaroV5FinanceSearchReadSource(
+                targetId.value,
+                FinanceSnapshotReadApi { graph.reality.financePersistence.read() },
+                { pointer.read()?.generationId?.value },
+                { financeGrant.epochOrNull() },
+                { ready.getAsBoolean() },
+            )
+            val objectiveSource = FaroV5ObjectivesSearchReadSource(
+                targetId.value, graph.reality.objectivePersistence,
+                { pointer.read()?.generationId?.value },
+                { objectiveGrant.epochOrNull() },
+                { ready.getAsBoolean() },
+            )
+            val matterSource = FaroV5MattersSearchReadSource(
+                targetId.value, graph.reality.matterPersistence,
+                { pointer.read()?.generationId?.value },
+                { matterGrant.epochOrNull() },
+                { ready.getAsBoolean() },
+            )
+            val search = FaroV5FederatedSearchSurfaceAdapter(
+                canonical, workspaceSearch, financeSource, objectiveSource, matterSource,
+                merge(
+                    workspaceSearch.invalidations,
+                    financeGrant.invalidations,
+                    objectiveGrant.invalidations,
+                    matterGrant.invalidations,
+                ),
             )
             Session(
                 graph, alive, reads.workspaceReadPort, reads.timelineReadPort,
-                selection.port, composer.port, search, access, pointer, observer,
+                selection.port, composer.port, search, readAccesses.toList(), pointer, observer,
             )
         } catch (failure: Throwable) {
             pointerObserver?.let { pointer.removeChangeListener(it) }
-            readAccess?.close()
+            readAccesses.forEach { it.close() }
             graph.close()
             throw failure
         }
@@ -253,13 +293,13 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         val selectionPort: ConversationWorkspaceSelectionPort,
         val composerPort: ConversationComposerPort,
         val searchReadPort: FaroV5SearchReadPort,
-        private val searchAccess: FaroV5V2CoreDevSearchReadAuthority,
+        private val searchAccesses: List<FaroV5V2CoreDevSearchReadAuthority>,
         private val pointer: FileActiveGenerationPointer,
         private val pointerObserver: Runnable,
     ) : AutoCloseable {
         override fun close() {
             if (alive.compareAndSet(true, false)) {
-                searchAccess.close()
+                searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)
                 graph.close()
             }
