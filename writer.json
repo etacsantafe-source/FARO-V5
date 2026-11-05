@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.G1.JVM_REDFIX_CODE.20261104",
   "token_hash": "7da6e9b73d36f7614c4e762a3321411cdb2b6035d377b034f10d513274e6dc44",
   "target_head": "b6a78ce56a9b78ae3fc71193a771b16eab7b0738",
   "target_branch": "work/s3-night-20261102",
   "epoch": 211,
-  "timestamp": 1793846584,
+  "timestamp": 1793846650,
   "purpose": "S3_A2_G1_POLICY_RESTORE_READMISSION_SUSPEND_JVM_REDFIX_CODE"
 }
