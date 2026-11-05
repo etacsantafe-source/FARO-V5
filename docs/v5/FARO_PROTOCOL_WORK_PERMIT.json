@@ -1,18 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A1_N015_SCHEMA7_GENERATION_XML_CI",
-  "reviewed_head": "d73c0131895e516a88ee17a3089ef928ace5905a",
+  "status": "READY",
+  "unit_id": "S3_A4_AVISOS_POINTER_ABA",
+  "reviewed_head": "f416f8809035fa4d7d06434941469b20ee09ec26",
   "paths": [
-    ".github/workflows/faro-v5-v2-core-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactory.kt",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactoryTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
-          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
+          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
+          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
           "marker": "## B1"
         }
       ]
@@ -21,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
-          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
+          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
+          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
           "marker": "## B2"
         }
       ]
@@ -31,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
-          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
+          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
+          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
           "marker": "## B3"
         }
       ]
@@ -41,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
-          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
+          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
+          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
           "marker": "## B4"
         }
       ]
@@ -51,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
-          "blob_sha": "ee41fcaffe4ffcdb8d8543e404e10753756bfb81",
+          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
+          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_088C0E51_GENERATION_XML_17_17",
-    "B7": "PASS_SCOPED_EXISTING_GENERATION_17_17"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "088c0e51b478d726bfd884493d5f68173ce0250d",
@@ -72,9 +74,9 @@
       }
     ]
   },
-  "why": "Generation native schema5/6/7 fixture and migration CI exact 17/17 PASS; B7 scoped, no certification of all user data or S3.A1 global",
-  "how": "B7 independent audit recorded against exact functional sha 088c0e51; code permit BLOCKED until distinct next bounded B1-B5 preaudit",
+  "why": "A4 Avisos old active graph may pass generation ID A-B-A without exact pointer sequence. Restricted to existing read-only port and existing tests.",
+  "how": "Use already proven Home pinnedPointer vs searchPointer.read, deny before/after canonical read, preserve four existing Avisos JUnit tests and directed XML 4/4; no catalog expansion, stores or UI changes.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify protocol guard CI on this permit commit; then reconcile original S3.A1 UI acceptance only, separate N015 federation/N031 planning/Guardados owner scope"
+  "next": "After READY CI/preflight exact PASS and writer CAS, apply three paths only with FARO-UNIT:S3_A4_AVISOS_POINTER_ABA; confirm CI/XML then B7, set permit BLOCKED."
 }
