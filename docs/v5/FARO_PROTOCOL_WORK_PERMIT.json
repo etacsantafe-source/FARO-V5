@@ -1,17 +1,26 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "6303c6f77db08832b427bedefa1d718df3cc08c5",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G4_REALITY_DURABLE_DOMAIN_OWNERS",
+  "reviewed_head": "dae525b8e2ff787f75db2c68ece888cffe74b3b0",
+  "paths": [
+    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/spi/ObjectivePersistencePort.kt",
+    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/spi/MatterPersistencePort.kt",
+    "v5/store/reality/build.gradle.kts",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityMaintenancePort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityDomainOwnersT2Test.kt",
+    ".github/workflows/faro-v5-g4-reality-domains-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
-          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
-          "marker": "## B1 EVIDENCIA"
+          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
+          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
+          "marker": "## B1 EVIDENCIA Y BASE VERIFICADA"
         }
       ]
     },
@@ -19,9 +28,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
-          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
-          "marker": "## B2 COMPARACIÓN"
+          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
+          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
+          "marker": "## B2 COMPARACIÓN CON PATRONES EXISTENTES Y V4.4"
         }
       ]
     },
@@ -29,9 +38,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
-          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
-          "marker": "## B3 INVESTIGACIÓN"
+          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
+          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
+          "marker": "## B3 INVESTIGACIÓN EXTERNA Y DECISIÓN"
         }
       ]
     },
@@ -39,9 +48,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
-          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
-          "marker": "## B4 UNIFICACIÓN"
+          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
+          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
+          "marker": "## B4 PLAN ACOTADO Y PATH SET"
         }
       ]
     },
@@ -49,14 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
-          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
-          "marker": "## B5 AUDITORÍA"
+          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
+          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
+          "marker": "## B5 ADVERSARIAL / ACEPTACIÓN NEGATIVA"
         }
       ]
     },
-    "B6": "VERIFIED_FINANCE_TARGET_6_6_SHA_6303C6F",
-    "B7": "PASS_FINANCE_TARGET_ONLY_G4_GLOBAL_OPEN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6303c6f77db08832b427bedefa1d718df3cc08c5",
@@ -70,8 +79,8 @@
       }
     ]
   },
-  "why": "Finance locator 6/6 only, no owner-backed finance navigation; G4 global still OPEN",
-  "how": "Next B1-B5 for Objectives/Matters Reality persistent owner with versioned S2-compatible backup; no new functional write until scoped permit.",
+  "why": "Only Reality schema version6 additive Objective/Matter owner backing, preserve legacy FBS1 v5 on empty domain; fail closed otherwise",
+  "how": "Exactly eight functional paths in one commit, seven directed tests plus legacy backup regression, JVM XML; no UI/search exposure, FBS3 export/restore separate unit.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
