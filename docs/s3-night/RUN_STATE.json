@@ -25,9 +25,11 @@
     "contract_freeze": "PASS_SPEC_ONLY_H01_H04_R0_R3_NO_IMPLEMENTATION_TESTS",
     "physical_at_end": "PARTIAL_USER_AUTHORIZED_20261105_WORKSPACE_PASS_3_DOMAINS_EMPTY",
     "s3_a2_g4": "CLOSED_B7_AUTOMATED_V2CORE_10_10_T4_7_7_MANIFEST_4_4",
-    "s3_a2_g5": "OPEN_EMULATOR_ANDROID_REAL_OS_PASS_1_1_PHYSICAL_MOTO_PENDING",
+    "s3_a2_g5": "CLOSED_B7_AUTOMATED_SCOPE_ANDROID_1_OF_1_GLOBAL_PHYSICAL_DEFERRED_S3_A5",
     "s3_a2_g5_ci_run": 42062273554,
-    "s3_a2_g5_android_ci_run": 42071443306
+    "s3_a2_g5_android_ci_run": 42071443306,
+    "s3_a2": "CLOSED_AUTOMATED_SCOPE_G1_G5_5_OF_5",
+    "s3_a5_final_integration": "OPEN_X01_X12_SINGLE_MOTO_G15_PHYSICAL_CAMPAIGN_AT_END"
   },
   "tasks": [
     "S3-N00",
@@ -38,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "G1-G4 CLOSED. G5 Android real OS emulator API35 integration PASS 1/1 on code bcb38e9, CI #42071443306, protocol #42071443729 SUCCESS. B7 PASS documented and permit exact updated; do not repeat automated owners. G5 remains OPEN due to Moto G15 physical positive Finance/Objective/Matter and adversarial security pending; save one integrated final physical campaign, no repeated ADB copy-paste. S3.A2 formal 4/5, S3 0/5, S2 frozen, V2 shipping/S4/Auto/Noche OFF.",
+  "next": "S3.A2 G1-G5 CLOSED 5/5 within DEV/automated scope with B7. S3 formal scoped closure 1/5 (A2), historical dev estimate ~40%. X01-X12 integration and ONE Moto G15 physical validation explicitly deferred to S3.A5; NOT_RUN; V2 shipping OFF. New chat 'Continuar FARO V5': recover HEAD, writer epoch 273 and mandatory protocol; resume oldest open S3.A1 real owner indicators, investigate dependencies without opening S4. Do not rerun G1-G5 passing CI, do not request Termux/ADB copy paste.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -54,7 +56,7 @@
     "report": "6ae9073eccd08191b88aec776771ca9e"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3-A2-G5_ANDROID_EMULATOR_B7_PASS_1_1_PHYSICAL_OPEN",
+  "last_completed_gate": "S3-A2-FORMAL_AUTOMATED_SCOPE_5_OF_5_RECONCILED_B7",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "PARTIAL_N032_NOTICE_OWNER_POINTER_EVENTS_CI_9_9_VERIFIED",
@@ -303,7 +305,7 @@
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
     }
   },
-  "handoff": "docs/s3-night/S3_A2_G4_FORMAL_CLOSED_B7_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "last_turn": {
     "mode": "MANUAL_S3_G4_B7",
     "code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
@@ -642,5 +644,25 @@
     "b7_document": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md",
     "physical": "MOTO_G15_THREE_REALITY_OWNER_POSITIVE_AND_ADVERSARIAL_NOT_RUN",
     "writer_release_epoch_expected": 271
+  },
+  "s3_a2_scope_closure_20261105": {
+    "status": "CLOSED_AUTOMATED_SCOPE_5_OF_5",
+    "b7_document": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+    "gates": [
+      "G1_CLOSED_B7",
+      "G2_CLOSED_B7",
+      "G3_CLOSED_B7",
+      "G4_CLOSED_B7",
+      "G5_ANDROID_EMULATOR_B7_PASS_1_OF_1"
+    ],
+    "s3_formal_closed_scoped": "1/5",
+    "s3_formal_delivery_complete": false,
+    "remaining_s3_a5": [
+      "X01_X12_NOT_CERTIFIED",
+      "ONE_PHYSICAL_MOTO_G15_CAMPAIGN",
+      "FINAL_S3_INTEGRATION_AND_PRODUCTION_APPROVAL"
+    ],
+    "next_priority": "S3_A1_HOME_INDICATORS_CANONICAL_OWNERS",
+    "new_code_committed": false
   }
 }
