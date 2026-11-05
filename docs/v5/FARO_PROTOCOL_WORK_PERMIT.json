@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
   "reviewed_head": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
   "paths": [
@@ -65,24 +65,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_04409855",
+    "B7": "PASS_SCOPED_INDEPENDENT"
   },
   "last_code_review": {
-    "sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
-    "result": "RED_FIX",
+    "sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
+    "result": "PASS",
     "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_RED_FIX_20261105.md",
-        "blob_sha": "8b13dcd4898bdba5b651b91657263228b6bfc5f7",
-        "marker": "## B7 RED_FIX"
+        "path": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md",
+        "blob_sha": "119ac5685ddf4ac7afc4000879dc5755613de88f",
+        "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "RED_FIX verified: directed Home XML 11 tests zero errors but workflow expected stale 9; same unit only",
-  "how": "Exact YAML 9->11 no weakening, preserve all other checks",
+  "why": "N032 durable pointer sequence ABA closed by directed JVM CI; N015/N031/Guardados not authorized/complete; new bounded B1-B5 required",
+  "how": "B7 independent PASS; block new code pending new specific owner preaudit",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Correct only directed XML gate under same unit; rerun exact SHA then independent B7"
+  "next": "S3.A1 OPEN. N015 durable timestamp + FBS migration design; N031 canonical combined owner; Guardados +8 candidates NOT APPROVED"
 }

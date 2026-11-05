@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "MANUAL ONLY: S3.A1 OPEN. B7 Home batch revalidation PASS_SCOPED at 18b88d1e; guard CI 42099338728 SUCCESS. Permit BLOCKED until new B1-B5 for specific real canonical N015/N031 owner path; Guardados still unapproved. Recheck writer/HEAD before every new write. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE; X01-X12 and one Moto G15 campaign remain S3.A5. No Auto/Noche/V2 production/S4.",
+  "next": "MANUAL S3.A1 OPEN: N032 Home pointer ABA fence B7 PASS at 04409855 / CI 42103685170 (11/11 + manifest); next separate bounded N015 durable chronology/backup/ACL or N031 combined planning owner. Guardados +8 CANDIDATE NOT APPROVED; 172 catalog unchanged. Writer RELEASED epoch 292 expected. S3.A2 5/5 scoped CLOSED; X01-X12 and one G15 campaign at S3.A5. S2 8/8 FROZEN; V2 production, Auto, Noche and S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +59,7 @@
   "last_completed_gate": "S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_B7_BATCH_REVALIDATION_PASS_SCOPED_OTHER_OWNERS_MISSING",
+    "status": "PARTIAL_N032_POINTER_SEQUENCE_B7_PASS_SCOPED_OTHER_OWNERS_MISSING",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -319,6 +319,22 @@
       "ci": "SUCCESS",
       "scope": "Two new JVM revocation/generation cases; owner batch revalidation; no physical and no N015/N031/Guardados binding",
       "remaining": "N015 no durable commit-time history federation; N031 no combined owner; Guardados +8 not approved"
+    },
+    "pointer_sequence_fence": {
+      "unit": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
+      "code_sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
+      "ci_workflow_sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
+      "ci_run_id": 42103685170,
+      "ci_conclusion": "SUCCESS",
+      "xml": "S3_HOME_NOTICE_XML_PASS 11/11",
+      "manifest": "S3_G1_SINGLE_PROCESS_MERGED_MANIFEST_PASS 2",
+      "guard_run": 42103685113,
+      "physical": "S3_A5_NOT_RUN",
+      "remaining": [
+        "N015_history_query",
+        "N031_attention_owner",
+        "Guardados_bounded_approval_and_owner"
+      ]
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
@@ -684,5 +700,21 @@
     "mandatory_next_gate": "NEW_B1_B5_PLUS_READY_BEFORE_FUNCTIONAL",
     "keep_catalog": 172,
     "home_pending": "N015_N031_GUARDADOS"
+  },
+  "manual_s3_a1_n032_pointer_20261105": {
+    "unit": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
+    "code_sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
+    "ci_workflow_sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
+    "ci_run_id": 42103685170,
+    "ci_conclusion": "SUCCESS",
+    "xml": "S3_HOME_NOTICE_XML_PASS 11/11",
+    "manifest": "S3_G1_SINGLE_PROCESS_MERGED_MANIFEST_PASS 2",
+    "guard_run": 42103685113,
+    "physical": "S3_A5_NOT_RUN",
+    "remaining": [
+      "N015_history_query",
+      "N031_attention_owner",
+      "Guardados_bounded_approval_and_owner"
+    ]
   }
 }

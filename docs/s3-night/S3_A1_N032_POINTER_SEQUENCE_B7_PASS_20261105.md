@@ -1,0 +1,23 @@
+# FARO V5 — S3.A1 N032 · auditoría final independiente B7 · 05/11/2026
+
+## B7 AUDITORÍA FINAL INDEPENDIENTE
+
+**Dictamen PASS_SCOPED** para la subunidad `S3_A1_N032_POINTER_SEQUENCE_FENCE`, **NO** cierre de S3.A1. B1–B5 documentado en `S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md`; último commit funcional `04409855ccfa18f0d2fb2b9f82e696def0cf9148`; commit de aplicación `bd5780fc4d7960940ecd7e906aa79f1c07e42e93`.
+
+### Evidencia exacta
+- El diff de `bd5780fc` solo toca `FaroV5CompositionRoot.java`, `FaroV5HomeNoticeBindingFactory.kt` y `FaroV5HomeNoticeBindingFactoryTest.kt`: cada graph activo **V1/V2** captura secuencia de `ActiveGenerationPointer` antes de abrir propietarios, se rechaza el cambio durante apertura y `readActiveHomePort()` verifica igualdad completa del puntero durante cada lectura; el sello del owner N032 sigue revalidándose antes/después y al fin del lote. Ninguna tabla, fuente nueva, ACL falsa, catálogo ni flags V2 cambiaron.
+- 2 pruebas JUnit nuevas: `pinnedNoticeOwnerRejectsABAEvenWhenGenerationIdReturns` (A→B→A posterior sin leer de nuevo owner revocado) y `pinnedNoticeOwnerRejectsABADuringSuspendedOwnerRead` (ABA durante consulta). `FaroV5HomeNoticeBindingFactoryTest` total **11/11**.
+- CI del código `bd5780fc`: [42102673780](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42102673780) guard SUCCESS; [42102673762](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42102673762) V2 core SUCCESS, `V2_CORE_DEV_SEARCH_SESSION_XML_PASS 10/10`, `G5_REAL_HOST_FOUR_OWNER_XML_PASS 1/1`, `M2_DEBUG_T4_RELOCATED_XML_PASS 7/7`, aislamiento M1 4/4 y M2B 4/4; [42102673789](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42102673789) M5 DEV APK SUCCESS, permisos denegados y launcher aislado verificados.
+- El primer Home CI [42102674310](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42102674310) fue FAILURE de **gate literal obsoleto 9/9**, no de tests: XML `(11,0,0,0)`, build/test exit SUCCESS, verificación exigía 9. Se emitió disposición B7 `RED_FIX` del código y preauditoría adversarial de la corrección `S3_A1_N032_POINTER_FENCE_RED_FIX_20261105.md`.
+- Commit `04409855` cambia **solo dos literales** del workflow `.github/workflows/faro-v5-s3-home-notice-directed.yml`: expectativa exacta 11 y texto PASS 11/11. [42103685113](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42103685113) guard SUCCESS. La ejecución dirigida exacta [42103685170](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42103685170) **SUCCESS**: `S3_HOME_NOTICE_XML_PASS 11/11`, Workspace Search 7/7, Finance source 6/6, Search bridge 7/7, Avisos 4/4, Chat ABA 6/6, Active host ABA 1/1, Search grant 10/10, G2 port 10/10; `S3_G1_SINGLE_PROCESS_MERGED_MANIFEST_PASS 2`. Ningún error/fallo/skipped en XML de Home.
+- CI del YAML es evidencia final para el control XML y la base de tests; no se equiparan los casos JVM a Android físico. No se lanzaron Actions manuales ni se activó V2 productiva.
+
+### Límites adversariales / aceptación
+PASS acotado: un puntero durable A→B→A ya no revalida un Home port/graph obsoleto por compartir nombre de generación. El factory de compatibilidad `create` se conserva para tests/consumidores existentes; el root productivo usa exclusivamente `createPinned`. La señal de puntero es proceso-local, no certifica cambios hechos por otro proceso ni revocación ACL externa después de retorno; esas limitaciones no se maquillan como PASS.
+
+**A1 global permanece OPEN:** `N015 history.query` carece de tiempo durable de confirmación y federación/ACL multiowner; `N031 attention.read` tiene Matter real parcial, pero faltan Reminder/MonthlyPlan, prioridad/snooze/owner completo; **Guardados** no tiene owner completo y las 8 operaciones nuevas siguen CANDIDATE NOT APPROVED, catálogo 172. Home conserva UNKNOWN/No disponible para fuentes no demostradas, nunca cero inventado. Una migración de Reality para N015 requiere ruta segura de esquema, FBS1/FBS2, respaldo y rollback antes de code; no hacerlo dentro de este N032.
+
+**Estados preservados:** S2 CLOSED 8/8; S3.A2 CLOSED_AUTOMATED_SCOPE 5/5; S3 resto pendiente; X01–X12 y campaña única Moto G15 diferidas a A5; S4, Noche, Auto y V2 productiva OFF. Desarrollo S3 ~40% histórico estimado, 1/5 etapas cerradas en alcance automatizado; no incrementar el porcentaje por pruebas de una subunidad.
+
+### Siguiente paso vinculante
+Nueva unidad B1–B5 **separada** por un propietario canónico N015 o N031; revisar timestamps persistentes, migración/backup y permisos reales, comparar V4.4 + fuentes externas. No trasladar READY de N032, no repetir sus pruebas por rutina. Writer único CAS debe estar RELEASED al terminar checkpoint.

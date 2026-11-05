@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 286
+    "expected_release_epoch": 292
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "MANUAL ONLY: S3.A1 OPEN. B7 Home batch revalidation PASS_SCOPED at 18b88d1e; guard CI 42099338728 SUCCESS. Permit BLOCKED until new B1-B5 for specific real canonical N015/N031 owner path; Guardados still unapproved. Recheck writer/HEAD before every new write. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE; X01-X12 and one Moto G15 campaign remain S3.A5. No Auto/Noche/V2 production/S4.",
+  "next": "MANUAL S3.A1 OPEN: N032 Home pointer ABA fence B7 PASS at 04409855 / CI 42103685170 (11/11 + manifest); next separate bounded N015 durable chronology/backup/ACL or N031 combined planning owner. Guardados +8 CANDIDATE NOT APPROVED; 172 catalog unchanged. Writer RELEASED epoch 292 expected. S3.A2 5/5 scoped CLOSED; X01-X12 and one G15 campaign at S3.A5. S2 8/8 FROZEN; V2 production, Auto, Noche and S4 OFF.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
-  "last_code_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
-  "last_ci_run_id": 42099338728,
+  "last_handoff": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md",
+  "last_code_sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
+  "last_ci_run_id": 42103685170,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_PROTOCOL_GUARD_B7_DOCS_BLOCKED_PERMIT",
+  "last_ci_conclusion": "SUCCESS_S3_HOME_NOTICE_11_11_MANIFEST_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 263,
+  "last_writer_epoch_observed": 291,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -946,7 +946,7 @@
     "activation_authorized": false
   },
   "manual_s3_a1_20261105": {
-    "status": "B7_PASS_SCOPED_HOME_BATCH_A1_STILL_OPEN",
+    "status": "N032_POINTER_FENCE_B7_PASS_SCOPED_A1_OPEN",
     "last_functional_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
     "review_doc": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
     "review_head_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
@@ -964,7 +964,25 @@
       "checkpoint_release_epoch_expected": 286,
       "exception_approved": true
     },
-    "next": "B1-B5 per canonical owner N015/N031; no fake counts or catalog expansion",
-    "physical": "S3_A5_ONLY"
+    "next": "N015/N031 owner B1-B5; Guardados human bounded catalog approval required; no S3.A1 global closure",
+    "physical": "S3_A5_ONLY",
+    "pointer_fence": {
+      "unit": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
+      "code_sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
+      "ci_workflow_sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
+      "ci_run_id": 42103685170,
+      "ci_conclusion": "SUCCESS",
+      "xml": "S3_HOME_NOTICE_XML_PASS 11/11",
+      "manifest": "S3_G1_SINGLE_PROCESS_MERGED_MANIFEST_PASS 2",
+      "guard_run": 42103685113,
+      "physical": "S3_A5_NOT_RUN",
+      "remaining": [
+        "N015_history_query",
+        "N031_attention_owner",
+        "Guardados_bounded_approval_and_owner"
+      ],
+      "workflow_sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
+      "review_doc": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md"
+    }
   }
 }
