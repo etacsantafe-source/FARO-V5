@@ -1,16 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G5_REAL_ACTIVE_OWNER_DIRECTED",
+  "reviewed_head": "50d89151692fbebaba4f5272fb6f3c9fd28999c7",
+  "paths": [
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5G5ActiveFourOwnerSearchTest.kt",
+    ".github/workflows/faro-v5-v2-core-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
-          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
+          "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_FOUR_OWNER_B1_B5_20261105.md",
+          "blob_sha": "a1a5f20d75cc776b74774aa434fe6e9f79244a16",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
-          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
+          "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_FOUR_OWNER_B1_B5_20261105.md",
+          "blob_sha": "a1a5f20d75cc776b74774aa434fe6e9f79244a16",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
-          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
+          "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_FOUR_OWNER_B1_B5_20261105.md",
+          "blob_sha": "a1a5f20d75cc776b74774aa434fe6e9f79244a16",
           "marker": "## B3 INVESTIGACIÓN DE ALTERNATIVAS"
         }
       ]
@@ -39,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
-          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
+          "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_FOUR_OWNER_B1_B5_20261105.md",
+          "blob_sha": "a1a5f20d75cc776b74774aa434fe6e9f79244a16",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
-          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
+          "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_FOUR_OWNER_B1_B5_20261105.md",
+          "blob_sha": "a1a5f20d75cc776b74774aa434fe6e9f79244a16",
           "marker": "## B5 AUDITORÍA ADVERSARIAL"
         }
       ]
     },
-    "B6": "VERIFIED_TEST_ONLY_B45C42C_CI_42040913961",
-    "B7": "PASS_FINAL_AUDIT_G4_CLOSED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
@@ -70,8 +73,8 @@
       }
     ]
   },
-  "why": "G4 CI #42040913961 PASS 10/10 V2Core +7/7 T4 +4/4 manifests; #42040913870 guard PASS. G4 CLOSED, no new unit permitted.",
-  "how": "Recover next focus from pointer: G5 only when physical campaign authorized; S3 A2 4/5; V2 shipping OFF.",
+  "why": "G5 physical was partial on Moto G15; three owner records absent. Test real persistent 5-owner host with canonical legal seed without touching device.",
+  "how": "Add only isolated JVM test+directed CI XML 1/1; G5 remains OPEN until physical evidence on other owners.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
