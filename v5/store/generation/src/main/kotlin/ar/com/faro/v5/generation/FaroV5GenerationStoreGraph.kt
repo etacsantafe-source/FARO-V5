@@ -175,11 +175,21 @@ class FaroV5GenerationStoreGraph private constructor(
          */
         private fun requireStrictV2StoreSchemas(directory: Path, activeGeneration: Boolean) {
             val schemas = listOf(
-                StagedSqlitePreflight.Schema(GenerationStoreFiles.REALITY, 5, listOf(
-                    "profile_state", "apply_attempt", "execution_receipt",
-                    "reality_outbox", "finance_state", "finance_account",
-                    "finance_account_opening", "finance_entry",
-                )),
+                StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.REALITY, 6, listOf(
+                        "profile_state", "apply_attempt", "execution_receipt",
+                        "reality_outbox", "finance_state", "finance_account",
+                        "finance_account_opening", "finance_entry",
+                        "objective_state", "objective_record",
+                        "matter_state", "matter_record",
+                    ),
+                    legacyVersion = 5,
+                    legacyTables = listOf(
+                        "profile_state", "apply_attempt", "execution_receipt",
+                        "reality_outbox", "finance_state", "finance_account",
+                        "finance_account_opening", "finance_entry",
+                    ),
+                ),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1, listOf("commercial_evidence")),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WEB_EVIDENCE, 2, listOf(
                     "web_evidence", "web_search_evidence",

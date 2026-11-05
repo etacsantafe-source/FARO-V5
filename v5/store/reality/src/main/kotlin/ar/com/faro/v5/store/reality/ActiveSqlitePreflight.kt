@@ -60,10 +60,8 @@ object ActiveSqlitePreflight {
                     check(statement.step()) { "missing active SQLite user_version" }
                     statement.getLong(0).toInt()
                 }
-                check(version == schema.version) {
-                    "active ${schema.name} schema mismatch: expected ${schema.version}, got $version"
-                }
-                for (table in schema.tables) {
+                val requiredTables = schema.requiredTables(version)
+                for (table in requiredTables) {
                     val found = db.prepare(
                         "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?"
                     ).use { statement ->

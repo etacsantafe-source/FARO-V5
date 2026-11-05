@@ -182,7 +182,7 @@ class FaroV5FederatedSearchSurfaceAdapterTest {
     @Test
     fun pointerSwitchRevokesAllSourcesWithoutFalseEmptyComplete() = runBlocking {
         Fixture().use { f ->
-            val old = f.search.search("nuevo").hits.single()
+            val old = f.search.search("nuevo").hits.first()
             f.generation = "unexpected-generation"
             val unavailable = f.search.search("nuevo")
             assertEquals(FaroV5SearchCoverage.UNAVAILABLE, unavailable.coverage)

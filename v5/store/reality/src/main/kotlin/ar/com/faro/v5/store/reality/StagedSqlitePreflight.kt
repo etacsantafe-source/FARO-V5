@@ -21,7 +21,27 @@ object StagedSqlitePreflight {
         val name: String,
         val version: Int,
         val tables: List<String>,
-    )
+        /** Explicit, single previous version; other stores remain exact. */
+        val legacyVersion: Int? = null,
+        val legacyTables: List<String> = emptyList(),
+    ) {
+        init {
+            require(version > 0 && tables.isNotEmpty())
+            require(tables.distinct().size == tables.size)
+            require(
+                (legacyVersion == null && legacyTables.isEmpty()) ||
+                    (legacyVersion != null && legacyVersion in 1 until version &&
+                        legacyTables.isNotEmpty() &&
+                        legacyTables.distinct().size == legacyTables.size)
+            ) { "legacy SQLite compatibility must be explicit and bounded" }
+        }
+
+        fun requiredTables(observedVersion: Int): List<String> = when {
+            observedVersion == version -> tables
+            legacyVersion != null && observedVersion == legacyVersion -> legacyTables
+            else -> error("SQLite schema version outside exact accepted versions")
+        }
+    }
 
     fun requireAll(directory: Path, schemas: List<Schema>) {
         check(schemas.isNotEmpty() && schemas.map { it.name }.distinct().size == schemas.size)
@@ -59,10 +79,8 @@ object StagedSqlitePreflight {
                     check(statement.step()) { "missing SQLite user_version: ${schema.name}" }
                     statement.getLong(0).toInt()
                 }
-                check(version == schema.version) {
-                    "staged ${schema.name} schema mismatch: expected ${schema.version}, got $version"
-                }
-                for (table in schema.tables) {
+                val requiredTables = schema.requiredTables(version)
+                for (table in requiredTables) {
                     val found = db.prepare(
                         "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?"
                     ).use { statement ->
