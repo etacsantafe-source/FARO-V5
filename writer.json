@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G5.PHYSICAL.CHECKPOINT.20261105",
   "token_hash": "b77aefee4a52b29e9b5c409deb43fb885a878e052332ed5f9137f2c48b7fd1af",
-  "target_head": "52b620b32b65c14375cda15a0d5ab25ac5543617",
+  "target_head": "50d89151692fbebaba4f5272fb6f3c9fd28999c7",
   "target_branch": "work/s3-night-20261102",
   "epoch": 264,
-  "timestamp": 1793893790,
-  "purpose": "G5_USER_PHYSICAL_PARTIAL_DOCS_ONLY"
+  "timestamp": 1793893943,
+  "purpose": "G5_PARTIAL_PHYSICAL_HANDOFF_CLEAN"
 }
