@@ -26,6 +26,9 @@ android {
     // opt-in property all historical test variants retain their defaults.
     if (providers.gradleProperty("faroG5AndroidTestV2CoreDev").orNull == "true") {
         testBuildType = "v2CoreDev"
+        // The shared src/androidTest suite targets the historical debug app.
+        // A V2-isolated G5 instrumentation build must never compile those sources.
+        sourceSets.getByName("androidTest").setRoot("src/g5AndroidTest")
     }
 
     defaultConfig {

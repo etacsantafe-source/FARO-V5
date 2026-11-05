@@ -5,7 +5,7 @@ on:
     branches:
       - work/s3-night-20261102
     paths:
-      - "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt"
+      - "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt"
       - ".github/workflows/faro-v5-g5-android-directed.yml"
   workflow_dispatch:
 
