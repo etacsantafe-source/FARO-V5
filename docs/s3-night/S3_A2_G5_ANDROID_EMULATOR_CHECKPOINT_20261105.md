@@ -1,20 +1,15 @@
-# FARO V5 — G5 Android OS · checkpoint reproducible 05/11/2026
+# FARO V5 — G5 Android emulador · checkpoint B7 PASS (05/11/2026)
 
-## Estado observado en GitHub
-- Rama `work/s3-night-20261102`, SHA `13911eacf677b0ec968fd1202b521d764bc73a1c`.
-- G1–G4: `CLOSED`. S3.A2: `4/5` (80%). S3 cierre formal `0/5`, desarrollo heurístico previo ~40%. S2 `8/8` frozen.
-- G5: `OPEN_WAIT_ANDROID_EMULATOR_CI`; no prueba Android física integral, no positivos Finance/Objective/Matter en Moto G15.
-- Prueba host DEV real JVM 1/1 PASS [#42062273554](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42062273554). Histórico Chat/Workspace físico parcial PASS. No repetir G1–G4, ni 10/10, ni acciones manuales ADB.
-- Nueva clase Android G5 bajo `v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt`, fuente separada del `src/androidTest` histórico mediante propiedad opt-in.
-- Test Android exacto [#42069366649](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42069366649) estaba `in_progress`, etapa `Assemble isolated V2 DEV and G5 instrumentation APKs`, al último chequeo; **ningún PASS de test Android declarado**.
-- Protocolo [#42069373871](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42069373871) `SUCCESS`; otras regresiones del mismo SHA deben observarse en vivo antes de afirmar PASS.
-- Primer intento [#42066291096](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42066291096) FAILURE OOME Gradle; RED_FIX `6a6076585` eliminó OOME. Segundo intento [#42067731793](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42067731793) FAILURE por A5 legacy AndroidTest incompatible con aislado DEV; se aisló source root en `13911eacf`. Esos fallos previos no son fallos de los owners ni habilitan cierre.
-- `FARO_PROTOCOL_WORK_PERMIT.json` READY `S3_A2_G5_ANDROID_EMULATOR_DIRECTED`; el próximo cambio **funcional** requiere auditoría B7 escrita sobre `13911eacf`, con PASS o RED_FIX (según CI), antes de otro código.
+## Estado verificado — no repetir pruebas cerradas
+- Branch `work/s3-night-20261102`. Último código funcional `bcb38e9ca36da7ae9df387d80bb2e911cbb71533`, modificación SOLO de la invocación bash del workflow Android. Sin cambios en código de la app ni datos de Moto G15.
+- [G5 Android API35 CI #42071443306](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42071443306) **SUCCESS**, compilación app y AndroidTest **SUCCESS**, emulador arrancó y `FaroV5G5AndroidHostIntegrationTest.fourRealOwnersSearchNavigateAndRevokeOnAndroidWithoutEgress` corrió **1/1 PASS**. Salida exacta `OK (1 test)`, `INSTRUMENTATION_CODE: -1`, `G5_ANDROID_REAL_OS_FOUR_OWNER_PASS 1/1`.
+- [Protocolo #42071443729](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42071443729) **SUCCESS**. B7 de código corregido **PASS**, documento `docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md`; permiso `docs/v5/FARO_PROTOCOL_WORK_PERMIT.json` refleja SHA exacto y revisión B7.
+- Fallos históricos ya resueltos: OOME en #42066291096; dependencia A5 legacy en #42067731793; shell dividido por línea en #42069366649. **No volver a esas hipótesis ni repetir tests ya aprobados.**
+- G1–G4 **CLOSED**. S3.A2 **4/5** (80%) aún formal, G5 **OPEN_PHYSICAL_PENDING**; S3 cierre formal **0/5**, desarrollo heurístico previo aproximado ~40%; S2 **8/8 frozen**.
+- El G5 emulado verificó búsquedas Finance/Objective/Matter, apertura tipada, miss, validez de sesion/revocación de puertos y permisos/manifest dentro de sus aserciones. No equivale a UI tocada en Moto G15 ni prueba de red/IPC externa total.
 
-## Único siguiente paso
-1. Leer conclusión/logs de [#42069366649](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42069366649) y SHA exacto; si compila y ejecuta, exigir `G5_ANDROID_REAL_OS_FOUR_OWNER_PASS 1/1` y ausencia de fallos/skips. Nunca convertir `in_progress` en verde.
-2. Si FAILURE, B7 RED_FIX circunscrito a causa exacta y nueva autorización de la misma unidad antes de tocar código. Tras dos fallos de misma hipótesis, reevaluar B2/B3/B5. No repetir procesos históricos.
-3. Si PASS, documentar auditoría B7 de test **emulador**, todavía no Moto físico. Decidir criterio G5 formal separado; hasta completar físico `G5 OPEN`, `S3.A2 4/5`.
-4. Actualizar `docs/s3-night/RUN_STATE.json`, `docs/v5/FARO_CONTINUITY_POINTER.json`, liberar writer CAS y verificar HEAD remoto. No habilitar V2 productiva, S4 ni Auto/Noche; datos del usuario intocados.
+## Único pendiente de G5
+Una **sola campaña física final** en Moto G15 para casos positivos de Finanzas, Objetivos, Asuntos (las tres tablas estaban en cero en snapshot físico), navegación de detalle y adversariales ACL/egress/IPC pertinentes. Chat local, persistencia, búsqueda Workspace, reinicio, UID y ausencia de permisos observados ya tienen evidencia física parcial y no deben repetirse salvo requisito justificado. Sin SQL directo ni inventar datos, sin Termux copiado repetitivo ni acceso remoto ficticio al equipo. Dejar claro qué no puede certificarse físicamente desde GitHub.
 
-**Permisos y seguridad:** V2 productiva OFF, S4 OFF, Auto/Noche OFF, catálogo 172 sin expansión, sin SQL directo en teléfono, sin datos o claves de usuarios en fixtures, sin APIs pagas, no escribir `main`/V4.4.
+## Restricciones vigentes
+Writer único CAS liberado al terminar; V2 productiva OFF; S4 OFF; FARO Auto/Noche OFF; no tocar `main`, V4.4 ni datos de usuario; catálogo 172 sin expansión; sin APIs pagas ni claims de G5 CLOSED hasta la campaña física o decisión formal aprobada. El siguiente turno debe leer primero este checkpoint, el B7 PASS y el estado writer.
