@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
   "reviewed_head": "563cdffca87048a75d347eb9a6d9647f8c6a6b26",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_41937907083",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,8 +72,8 @@
       }
     ]
   },
-  "why": "Exact prior S3 CI #41936856517 red: JUnit XML 5/5 while 6 @Test source due inferred non-Unit return from runBlocking/assertThrows, previous code B7 RED_FIX.",
-  "how": "Same-unit one-line Kotlin test signature : Unit fix only; do not loosen 6/6 XML. CI exact SHA + B7 independent. No production changes.",
+  "why": "JUnit RED_FIX commit dec10244 fixes non-Unit inferred test method; exact S3 Home/Chat directed 6/6 CI #41937907083 not yet complete. Other original SHA CI V2core and APK already SUCCESS, guard new SHA SUCCESS.",
+  "how": "Verify S3 Chat pointer ABA XML 6/6 with all 4 earlier plus both ABA tests, Home/Workspace/Bridge/Avisos 25/25, exact SHA; B7 PASS only if SUCCESS. Otherwise new same-unit RED_FIX.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
