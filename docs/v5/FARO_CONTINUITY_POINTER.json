@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 230
+    "expected_release_epoch": 238
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G4_FINANCE_SOURCE_B7_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G4 B1-B5 audited at 9777ee990c697b6033b55d3905d8a99ff1ebf751. G4 NOT CLOSED: Finanzas canonical Reality finance snapshots exist but no independent search ACL/navigation; Objetivos has no proven owner; Asuntos contract N031 has no backing owner. Need bounded owner implementation and preflight; G1/G2/G3 3/5 CLOSED; G5 future physical. V2 productiva/S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A2_G4_B1_B5_AUDITED_BLOCKED_REAL_OBJECTIVES_MATTERS_OWNERS_MISSING",
+  "next": "B7 PASS only for FINANCE canonical unmounted Search source at 302b92c; G4 GLOBAL NOT CLOSED. Owners Objetivos and Asuntos missing real V5 durable backing; Finance Search ACL/nav host not bound; adapt existing V4.4 read contracts without adopting in-memory V4.4 as V5 owner. G1/G2/G3 CLOSED, A2 3/5 (60%). G5 physical single campaign later. S2 8/8; S3 formal 0/5; heuristic ~40%. V2 productiva, S4, Auto, Noche OFF.",
+  "checkpoint_status": "S3_A2_G4_FINANCE_SOURCE_UNMOUNTED_B7_PASS_G4_GLOBAL_BLOCKED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
-  "last_code_sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
-  "last_ci_run_id": 41962522467,
+  "last_handoff": "docs/s3-night/S3_A2_G4_FINANCE_SOURCE_B7_20261105.md",
+  "last_code_sha": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
+  "last_ci_run_id": 41965481039,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "G3_S3_54_54_SUCCESS_41962522467_SURFACE_59_59_SUCCESS_41962522487_V2_CORE_SUCCESS_41962522595_APK_SUCCESS_41962522468_PROTOCOL_SUCCESS_41962522527",
+  "last_ci_conclusion": "G4_FINANCE_UNMOUNTED_S3_58_58_41965481039_SUCCESS_V2_CORE_41965481015_SUCCESS_APK_41965481032_SUCCESS_PROTOCOL_41965480987_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -296,7 +296,7 @@
         "G5"
       ],
       "g3": "CLOSED_B7_G3_CANONICAL_MESSAGE_ANCHOR_4EB0F24",
-      "status": "G1_G2_G3_CLOSED_G4_G5_OPEN"
+      "status": "G1_G2_G3_CLOSED_G4_GLOBAL_OPEN_FINANCE_SUBUNIT_B7_PASS_G5_OPEN"
     },
     "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
     "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
@@ -818,17 +818,24 @@
     "writer_release_epoch_expected": 228
   },
   "progress_s3_a2_g4_20261105": {
-    "status": "BLOCKED_MISSING_REAL_OWNERS_B1_B5",
-    "evidence_doc": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
-    "baseline_head": "9777ee990c697b6033b55d3905d8a99ff1ebf751",
-    "code_changes": 0,
-    "ci_new_functional": "NOT_RUN",
-    "finance": "REAL_SNAPSHOT_EXISTS_SEARCH_ACL_NOT_VERIFIED",
-    "objectives": "OWNER_NOT_PROVEN",
-    "matters": "CONTRACT_ONLY_NO_BACKING_OWNER",
-    "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
+    "status": "FINANCE_SUBUNIT_B7_PASS_GLOBAL_G4_BLOCKED_REAL_OBJECTIVES_MATTERS_MISSING",
+    "b1_b5": "docs/s3-night/S3_A2_G4_FEDERATION_REAL_OWNERS_B1_B5_20261105.md",
+    "finance_b1_b5": "docs/s3-night/S3_A2_G4_FINANCE_SEARCH_SOURCE_B1_B5_20261105.md",
+    "finance_b7": "docs/s3-night/S3_A2_G4_FINANCE_SOURCE_B7_20261105.md",
+    "code_sha": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
+    "s3_run": 41965481039,
+    "s3_xml": "58/58 including Finance 4/4",
+    "v2core_run": 41965481015,
+    "v2core_status": "SUCCESS",
+    "apk_run": 41965481032,
+    "apk_status": "SUCCESS",
+    "protocol_run": 41965480987,
+    "protocol_status": "SUCCESS",
+    "global_g4": "OPEN_REAL_OWNERS_MISSING",
+    "b6_finance": "VERIFIED_UNMOUNTED",
+    "b7_finance": "PASS",
     "gates_closed": 3,
-    "gates_total": 5
+    "gates_total": 5,
+    "physical": "NOT_RUN"
   }
 }

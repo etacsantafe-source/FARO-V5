@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_FINANCE_SOURCE_UNMOUNTED",
-  "reviewed_head": "8209f3802d3882605eb5b5040123bee0cc08d97b",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5FinanceSearchReadSource.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5FinanceSearchReadSourceTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_FINANCE_SOURCE_CODE_302B92C_S3_58_58_41965481039_V2_CORE_41965481015",
+    "B7": "PASS_FINANCE_SOURCE_UNMOUNTED_G4_GLOBAL_OPEN_MISSING_OWNERS"
   },
   "last_code_review": {
-    "sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
+    "sha": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
     "result": "PASS",
-    "unit_id": "S3_A2_G3_CANONICAL_MESSAGE_ANCHOR",
+    "unit_id": "S3_A2_G4_FINANCE_SOURCE_UNMOUNTED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
-        "blob_sha": "5373b971f89a213f61faf3136d04626d62ff4390",
+        "path": "docs/s3-night/S3_A2_G4_FINANCE_SOURCE_B7_20261105.md",
+        "blob_sha": "19d93293995775996691b3a1ba40b045633e8878",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Only independent Finance canonical READ source with caller-provided actual ACL/admission; unmounted, G4 global BLOCKED until real Objectives and Matters owners.",
-  "how": "Three exact paths B1-B5 verified before code, CAS writer and G3 B7. CI exact XML and final B7 REQUIRED; no UI/V2 activation.",
+  "why": "Finance source (unmounted) B7 PASS after exact S3 58/58, V2 core success and protocol success. G4 global remains OPEN until genuine Objectives/Matters owners and Finance ACL host binding.",
+  "how": "Require new distinct B1-B5 and exact path bounded permit before next functional code; do not reuse Finance source permission.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
