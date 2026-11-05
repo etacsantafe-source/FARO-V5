@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.HANDOFF.20261105",
   "token_hash": "6776b72b8c73b15e84322f39aae4b98ddc6100bb247ec71f3816ce5dcb4098d3",
-  "target_head": "a49b5cea329b34d15d56891a12606cd33ab27c04",
+  "target_head": "3490855e3fb04f03a88da17bd54fd42e727c347f",
   "target_branch": "work/s3-night-20261102",
   "epoch": 261,
-  "timestamp": 1793886159,
-  "purpose": "G4_HANDOFF_AFTER_V2_CORE_9_10_RED"
+  "timestamp": 1793886542,
+  "purpose": "G4_HANDOFF_DURABLE"
 }
