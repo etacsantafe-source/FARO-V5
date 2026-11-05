@@ -1,17 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "9257e91fb5530955bdb1ade9fa2a9e8450611ca1",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G1_POLICY_RESTORE_READMISSION",
+  "reviewed_head": "ad90b8101b3c86ce8f61eb033f7834fd7f2fb267",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwner.kt",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwnerTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
-          "marker": "## B1 EVIDENCIA"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
+          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
+          "marker": "## B1 —"
         }
       ]
     },
@@ -19,9 +24,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
-          "marker": "## B2 COMPARACIÓN Y REUTILIZACIÓN"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
+          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
+          "marker": "## B2 —"
         }
       ]
     },
@@ -29,9 +34,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
-          "marker": "## B3 INVESTIGACIÓN EXTERNA Y DECISIÓN"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
+          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
+          "marker": "## B3 —"
         }
       ]
     },
@@ -39,9 +44,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
-          "marker": "## B4 UNIFICACIÓN DELTA MÍNIMO"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
+          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
+          "marker": "## B4 —"
         }
       ]
     },
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
-          "marker": "## B5 AUDITORÍA ADVERSARIAL PREVIA"
+          "path": "docs/s3-night/S3_A2_G1_FINAL_POLICY_RESTORE_READMISSION_B1_B5_20261104.md",
+          "blob_sha": "d2b4970f78b4d959a013186b842f79c8aac746af",
+          "marker": "## B5 —"
         }
       ]
     },
-    "B6": "VERIFIED_REDFIX_CODE_CI_S3_XML_38_38_41951964795_V2_CORE_41951964920_APK_41951964962_GUARD_41951964930",
-    "B7": "PASS_FINAL_AUDIT_HOST_SCOPED_LOCAL_SEARCH_GRANT_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9257e91fb5530955bdb1ade9fa2a9e8450611ca1",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "Host-scoped Search grant/revoke and readiness ABA RED_FIX B7 PASS limited single process, CI directed XML 38/38 plus V2 core, APK, protocol PASS. S3.A2 G1 formal still OPEN for policy owner cross-instance/restore and G2 UI OFF.",
-  "how": "Only next bounded B1-B5 + independently READY permit may change functional code; first READ_ONLY inspect G1 policy/restore/cross-instance/regrant, no repeat of B7 or previous CI. Shipping V2/Auto/Noche/S4 remain OFF.",
+  "why": "Close bounded S3.A2-G1 host-side ACL policy/restore/cross-instance evidence: single process Android host, durable pointer-sequence cache identity, explicit readmission after recovery, fresh epoch, stale hit denial, merged manifest assertion. G2 and productive V2 OFF.",
+  "how": "One four-path functional commit after mandatory preflight: Search owner, CompositionRoot, host authority JVM tests, exact XML and single-process merged manifest workflow; retain prior passed 38/38 plus new tests, then B7 final and G1 CLOSE only if CI and adversarial pass.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
