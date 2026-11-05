@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.ABA_HARDENING.20261104",
   "token_hash": "e23b5945ebb94000f403755778305a26e8dd1963878ad98d451528130b928d29",
   "target_head": "6ba5ed4f0479193cfc00dcc01b440f3c5f86ece6",
   "target_branch": "work/s3-night-20261102",
   "epoch": 194,
-  "timestamp": 1793839524,
+  "timestamp": 1793839678,
   "purpose": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA_PREAUDIT"
 }
