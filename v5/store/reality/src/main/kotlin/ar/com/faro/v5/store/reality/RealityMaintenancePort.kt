@@ -23,6 +23,10 @@ data class RealityMaintenanceInspection(
     val outboxEffectCount: Long,
     val profileRevision: Long = 0L,
     val financeRevision: Long = 0L,
+    val objectiveCount: Long = 0L,
+    val matterCount: Long = 0L,
+    val objectiveRevision: Long = 0L,
+    val matterRevision: Long = 0L,
 ) {
     init {
         require(schemaVersion >= 0) { "Reality schema version must be non-negative" }
@@ -34,6 +38,10 @@ data class RealityMaintenanceInspection(
             outboxEffectCount,
             profileRevision,
             financeRevision,
+            objectiveCount,
+            matterCount,
+            objectiveRevision,
+            matterRevision,
         ).forEach { count ->
             require(count >= 0L) { "Reality maintenance counts must be non-negative" }
         }
@@ -48,7 +56,11 @@ data class RealityMaintenanceInspection(
                 executionReceiptCount == 0L &&
                 outboxEffectCount == 0L &&
                 profileRevision == 0L &&
-                financeRevision == 0L
+                financeRevision == 0L &&
+                objectiveCount == 0L &&
+                matterCount == 0L &&
+                objectiveRevision == 0L &&
+                matterRevision == 0L
 }
 
 fun interface RealityMaintenancePort {

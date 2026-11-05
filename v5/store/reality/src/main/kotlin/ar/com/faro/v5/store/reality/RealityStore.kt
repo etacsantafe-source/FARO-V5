@@ -46,6 +46,20 @@ import ar.com.faro.v5.owner.finance.api.FinanceEntryKind
 import ar.com.faro.v5.owner.finance.api.FinanceEntryConcept
 import ar.com.faro.v5.owner.finance.api.FinanceEntryCategory
 import ar.com.faro.v5.owner.finance.spi.FinancePersistencePort
+import ar.com.faro.v5.owner.objectives.api.ObjectiveDetail
+import ar.com.faro.v5.owner.objectives.api.ObjectiveId
+import ar.com.faro.v5.owner.objectives.api.ObjectiveRecord
+import ar.com.faro.v5.owner.objectives.api.ObjectiveSnapshot
+import ar.com.faro.v5.owner.objectives.api.ObjectiveStatus
+import ar.com.faro.v5.owner.objectives.api.ObjectiveTitle
+import ar.com.faro.v5.owner.objectives.spi.ObjectivePersistencePort
+import ar.com.faro.v5.owner.matters.api.MatterDetail
+import ar.com.faro.v5.owner.matters.api.MatterId
+import ar.com.faro.v5.owner.matters.api.MatterRecord
+import ar.com.faro.v5.owner.matters.api.MatterSnapshot
+import ar.com.faro.v5.owner.matters.api.MatterStatus
+import ar.com.faro.v5.owner.matters.api.MatterTitle
+import ar.com.faro.v5.owner.matters.spi.MatterPersistencePort
 import java.util.UUID
 
 class RealityStore(
@@ -113,6 +127,39 @@ class RealityStore(
                 transactionScope: RealityTransactionScope,
             ): FinanceEntrySnapshot =
                 recordFinanceEntry(record, transactionScope)
+        }
+
+
+    /** Real owner ports bound to the existing single Reality transaction gate. */
+    val objectivePersistence: ObjectivePersistencePort =
+        object : ObjectivePersistencePort {
+            override fun read(): ObjectiveSnapshot = readObjectives()
+            override fun upsert(
+                record: ObjectiveRecord,
+                transactionScope: RealityTransactionScope,
+            ): ObjectiveRecord = upsertObjective(record, transactionScope)
+        }
+
+    val matterPersistence: MatterPersistencePort =
+        object : MatterPersistencePort {
+            override fun read(): MatterSnapshot = readMatters()
+            override fun upsert(
+                record: MatterRecord,
+                transactionScope: RealityTransactionScope,
+            ): MatterRecord = upsertMatter(record, transactionScope)
+        }
+
+    /** Internal-only snapshot; no export/restore contract yet. */
+    val domainBackup: RealityDomainBackupReadPort =
+        RealityDomainBackupReadPort {
+            synchronized(lock) {
+                checkOpen()
+                RealityDomainBackupSnapshot(
+                    schemaVersion = SCHEMA_VERSION,
+                    objectives = readObjectives(),
+                    matters = readMatters(),
+                )
+            }
         }
 
     val maintenance: RealityMaintenancePort =
@@ -381,6 +428,10 @@ class RealityStore(
                 outboxEffectCount = readRowCount("reality_outbox"),
                 profileRevision = readProfile().revision,
                 financeRevision = readFinance().revision,
+                objectiveCount = readRowCount("objective_record"),
+                matterCount = readRowCount("matter_record"),
+                objectiveRevision = readObjectives().revision,
+                matterRevision = readMatters().revision,
             )
         }
 
@@ -401,6 +452,8 @@ class RealityStore(
                 setOf(
                     "finance_account",
                     "finance_entry",
+                    "objective_record",
+                    "matter_record",
                     "apply_attempt",
                     "execution_receipt",
                     "reality_outbox",
@@ -657,6 +710,7 @@ class RealityStore(
                 createApplyCommitSchema()
                 createFinanceSchema()
                 createFinanceEntrySchema()
+                createDomainSchemas()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -665,6 +719,7 @@ class RealityStore(
                 createApplyCommitSchema()
                 createFinanceSchema()
                 createFinanceEntrySchema()
+                createDomainSchemas()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -672,17 +727,25 @@ class RealityStore(
                 createApplyCommitSchema()
                 createFinanceSchema()
                 createFinanceEntrySchema()
+                createDomainSchemas()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
             3 -> schemaTransaction {
                 createFinanceSchema()
                 createFinanceEntrySchema()
+                createDomainSchemas()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
             4 -> schemaTransaction {
                 createFinanceEntrySchema()
+                createDomainSchemas()
+                setSchemaVersion(SCHEMA_VERSION)
+            }
+
+            5 -> schemaTransaction {
+                createDomainSchemas()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -837,6 +900,51 @@ class RealityStore(
         )
     }
 
+
+    private fun createDomainSchemas() {
+        connection.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS objective_state (
+                singleton_id INTEGER NOT NULL PRIMARY KEY CHECK(singleton_id = 1),
+                revision INTEGER NOT NULL DEFAULT 0 CHECK(revision >= 0)
+            )
+            """.trimIndent()
+        )
+        connection.execSQL("INSERT OR IGNORE INTO objective_state VALUES (1, 0)")
+        connection.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS objective_record (
+                objective_id TEXT NOT NULL PRIMARY KEY CHECK(length(trim(objective_id)) BETWEEN 1 AND 128),
+                title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 160),
+                detail TEXT NOT NULL CHECK(length(detail) <= 4096),
+                status TEXT NOT NULL CHECK(status IN ('PLANNED','ACTIVE','PAUSED','COMPLETED','ARCHIVED')),
+                updated_at_epoch_millis INTEGER NOT NULL CHECK(updated_at_epoch_millis >= 0)
+            )
+            """.trimIndent()
+        )
+        connection.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS matter_state (
+                singleton_id INTEGER NOT NULL PRIMARY KEY CHECK(singleton_id = 1),
+                revision INTEGER NOT NULL DEFAULT 0 CHECK(revision >= 0)
+            )
+            """.trimIndent()
+        )
+        connection.execSQL("INSERT OR IGNORE INTO matter_state VALUES (1, 0)")
+        connection.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS matter_record (
+                matter_id TEXT NOT NULL PRIMARY KEY CHECK(length(trim(matter_id)) BETWEEN 1 AND 128),
+                title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 160),
+                detail TEXT NOT NULL CHECK(length(detail) <= 4096),
+                status TEXT NOT NULL CHECK(status IN ('OPEN','IN_PROGRESS','WAITING','RESOLVED','ARCHIVED')),
+                due_at_epoch_millis INTEGER CHECK(due_at_epoch_millis IS NULL OR due_at_epoch_millis >= 0),
+                updated_at_epoch_millis INTEGER NOT NULL CHECK(updated_at_epoch_millis >= 0)
+            )
+            """.trimIndent()
+        )
+    }
+
     private fun validateRequiredSchema() {
         check(readSchemaVersion() == SCHEMA_VERSION) {
             "RealityStore schema version mismatch"
@@ -850,6 +958,10 @@ class RealityStore(
             "finance_account",
             "finance_account_opening",
             "finance_entry",
+            "objective_state",
+            "objective_record",
+            "matter_state",
+            "matter_record",
         ).forEach { table ->
             check(tableExists(table)) {
                 "RealityStore required table missing: $table"
@@ -1146,9 +1258,158 @@ class RealityStore(
         )
     }
 
+
+    private fun readObjectives(): ObjectiveSnapshot = synchronized(lock) {
+        checkOpen()
+        val revision = connection.prepare(
+            "SELECT revision FROM objective_state WHERE singleton_id = 1"
+        ).use { statement ->
+            check(statement.step()) { "objective state missing" }
+            statement.getLong(0)
+        }
+        val records = buildList {
+            connection.prepare(
+                """
+                SELECT objective_id, title, detail, status, updated_at_epoch_millis
+                FROM objective_record ORDER BY objective_id
+                """.trimIndent()
+            ).use { statement ->
+                while (statement.step()) {
+                    add(ObjectiveRecord(
+                        id = ObjectiveId.of(statement.getText(0)),
+                        title = ObjectiveTitle.of(statement.getText(1)),
+                        detail = ObjectiveDetail.of(statement.getText(2)),
+                        status = ObjectiveStatus.valueOf(statement.getText(3)),
+                        updatedAtEpochMillis = statement.getLong(4),
+                    ))
+                }
+            }
+        }
+        ObjectiveSnapshot(revision, records)
+    }
+
+    private fun readMatters(): MatterSnapshot = synchronized(lock) {
+        checkOpen()
+        val revision = connection.prepare(
+            "SELECT revision FROM matter_state WHERE singleton_id = 1"
+        ).use { statement ->
+            check(statement.step()) { "matter state missing" }
+            statement.getLong(0)
+        }
+        val records = buildList {
+            connection.prepare(
+                """
+                SELECT matter_id, title, detail, status, due_at_epoch_millis,
+                       updated_at_epoch_millis
+                FROM matter_record ORDER BY matter_id
+                """.trimIndent()
+            ).use { statement ->
+                while (statement.step()) {
+                    add(MatterRecord(
+                        id = MatterId.of(statement.getText(0)),
+                        title = MatterTitle.of(statement.getText(1)),
+                        detail = MatterDetail.of(statement.getText(2)),
+                        status = MatterStatus.valueOf(statement.getText(3)),
+                        dueAtEpochMillis = if (statement.isNull(4)) null else statement.getLong(4),
+                        updatedAtEpochMillis = statement.getLong(5),
+                    ))
+                }
+            }
+        }
+        MatterSnapshot(revision, records)
+    }
+
+    private fun upsertObjective(
+        record: ObjectiveRecord,
+        transactionScope: RealityTransactionScope,
+    ): ObjectiveRecord = synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        val existing = readObjectives().objectives.firstOrNull { it.id == record.id }
+        if (existing == record) return@synchronized record
+        if (existing != null) {
+            require(record.updatedAtEpochMillis > existing.updatedAtEpochMillis) {
+                "objective update timestamp must advance"
+            }
+        }
+        connection.prepare(
+            """
+            INSERT INTO objective_record(
+                objective_id, title, detail, status, updated_at_epoch_millis
+            ) VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(objective_id) DO UPDATE SET
+                title=excluded.title, detail=excluded.detail,
+                status=excluded.status,
+                updated_at_epoch_millis=excluded.updated_at_epoch_millis
+            """.trimIndent()
+        ).use { statement ->
+            statement.bindText(1, record.id.value)
+            statement.bindText(2, record.title.value)
+            statement.bindText(3, record.detail.value)
+            statement.bindText(4, record.status.name)
+            statement.bindLong(5, record.updatedAtEpochMillis)
+            statement.step()
+        }
+        connection.execSQL(
+            "UPDATE objective_state SET revision = revision + 1 WHERE singleton_id = 1"
+        )
+        record
+    }
+
+    private fun upsertMatter(
+        record: MatterRecord,
+        transactionScope: RealityTransactionScope,
+    ): MatterRecord = synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        val existing = readMatters().matters.firstOrNull { it.id == record.id }
+        if (existing == record) return@synchronized record
+        if (existing != null) {
+            require(record.updatedAtEpochMillis > existing.updatedAtEpochMillis) {
+                "matter update timestamp must advance"
+            }
+        }
+        connection.prepare(
+            """
+            INSERT INTO matter_record(
+                matter_id, title, detail, status, due_at_epoch_millis,
+                updated_at_epoch_millis
+            ) VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(matter_id) DO UPDATE SET
+                title=excluded.title, detail=excluded.detail,
+                status=excluded.status,
+                due_at_epoch_millis=excluded.due_at_epoch_millis,
+                updated_at_epoch_millis=excluded.updated_at_epoch_millis
+            """.trimIndent()
+        ).use { statement ->
+            statement.bindText(1, record.id.value)
+            statement.bindText(2, record.title.value)
+            statement.bindText(3, record.detail.value)
+            statement.bindText(4, record.status.name)
+            record.dueAtEpochMillis?.let { statement.bindLong(5, it) }
+                ?: statement.bindNull(5)
+            statement.bindLong(6, record.updatedAtEpochMillis)
+            statement.step()
+        }
+        connection.execSQL(
+            "UPDATE matter_state SET revision = revision + 1 WHERE singleton_id = 1"
+        )
+        record
+    }
+
+    /** The unchanged FBS1 format CANNOT carry Objective/Matter data. */
+    private fun requireLegacyDomainEmpty() {
+        val inspection = inspectForMaintenance()
+        check(inspection.objectiveCount == 0L && inspection.matterCount == 0L &&
+            inspection.objectiveRevision == 0L && inspection.matterRevision == 0L) {
+            "legacy Reality/FBS1 backup cannot represent G4 rows"
+        }
+    }
+
     private fun readSemanticMigrationSnapshot(): RealitySemanticMigrationData =
         synchronized(lock) {
             checkOpen()
+            requireLegacyDomainEmpty()
             val profile = readProfile()
             val finance = readFinance()
             RealitySemanticMigrationData(
@@ -1320,6 +1581,7 @@ class RealityStore(
     private fun readBackupSnapshot(): RealityBackupSnapshot =
         synchronized(lock) {
             checkOpen()
+            requireLegacyDomainEmpty()
             val profile = readProfile()
             val finance = readFinance()
             val receipts =
@@ -1349,7 +1611,7 @@ class RealityStore(
                     }
                 }
             RealityBackupSnapshot(
-                schemaVersion = readSchemaVersion(),
+                schemaVersion = LEGACY_BACKUP_SCHEMA_VERSION,
                 profileRevision = profile.revision,
                 financeRevision = finance.revision,
                 domain = readSemanticMigrationSnapshot(),
@@ -1365,7 +1627,7 @@ class RealityStore(
             check(activeTransactionId == null) {
                 "backup restore cannot run inside an active Reality transaction"
             }
-            check(snapshot.schemaVersion == SCHEMA_VERSION) {
+            check(snapshot.schemaVersion == LEGACY_BACKUP_SCHEMA_VERSION) {
                 "Reality backup schema requires explicit migration"
             }
 
@@ -1536,6 +1798,7 @@ class RealityStore(
     ) : RealityTransactionScope
 
     companion object {
-        const val SCHEMA_VERSION: Int = 5
+        const val SCHEMA_VERSION: Int = 6
+        const val LEGACY_BACKUP_SCHEMA_VERSION: Int = 5
     }
 }

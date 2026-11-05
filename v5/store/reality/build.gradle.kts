@@ -6,6 +6,8 @@ dependencies {
     api(project(":kernel:contracts"))
     api(project(":owner:profile"))
     api(project(":owner:finance"))
+    api(project(":owner:objectives"))
+    api(project(":owner:matters"))
 
     implementation(libs.androidx.sqlite)
     implementation(libs.androidx.sqlite.bundled)

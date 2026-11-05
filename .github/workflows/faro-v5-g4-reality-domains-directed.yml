@@ -1,0 +1,61 @@
+name: FARO V5 G4 Reality domain owners directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/**"
+      - "v5/owner/objectives/**"
+      - "v5/owner/matters/**"
+      - ".github/workflows/faro-v5-g4-reality-domains-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-g4-reality-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reality-domain-owners:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exact Reality domain and legacy regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityDomainOwnersT2Test" --tests "ar.com.faro.v5.store.reality.RealityBackupFilteringT2Test" --tests "ar.com.faro.v5.store.reality.RealityStoreFinanceEntryT2Test" --tests "ar.com.faro.v5.store.reality.RealityStoreFinanceT2Test"
+      - name: Verify exact domain XML and zero legacy regressions
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          base = Path('v5/store/reality/build/test-results/test')
+          domain = list(base.glob('TEST-*RealityDomainOwnersT2Test.xml'))
+          if len(domain) != 1:
+              raise SystemExit('G4_REALITY_DOMAIN_XML_MISSING')
+          root = ET.parse(domain[0]).getroot()
+          fields = tuple(int(root.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+          if fields != (8,0,0,0):
+              raise SystemExit(f'G4_REALITY_DOMAIN_XML_FAILED {fields}')
+          print('G4_REALITY_DOMAIN_XML_PASS 8/8')
+          for name in ('RealityBackupFilteringT2Test','RealityStoreFinanceEntryT2Test','RealityStoreFinanceT2Test'):
+              xmls = list(base.glob('TEST-*'+name+'.xml'))
+              if len(xmls) != 1:
+                  raise SystemExit('G4_LEGACY_XML_MISSING '+name)
+              result = ET.parse(xmls[0]).getroot()
+              counts = tuple(int(result.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+              if counts[0] < 1 or counts[1:] != (0,0,0):
+                  raise SystemExit('G4_LEGACY_REGRESSION '+name+' '+str(counts))
+              print('G4_LEGACY_XML_PASS',name,counts[0])
+          print('G4_REALITY_STORAGE_ONLY_PASS_BACKUP_EXPORT_NEW_ROWS_BLOCKED')
+          PY
