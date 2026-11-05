@@ -1,21 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
-  "reviewed_head": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
+  "status": "READY",
+  "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
+  "reviewed_head": "ee65cc61cf474c627ff3d90d1c5b3b214db92833",
   "paths": [
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactory.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactoryTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityBackupPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityReceiptHistoryPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityBackupFilteringT2Test.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
-          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
+          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
+          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
           "marker": "## B1"
         }
       ]
@@ -24,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
-          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
+          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
+          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
           "marker": "## B2"
         }
       ]
@@ -34,8 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
-          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
+          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
+          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
           "marker": "## B3"
         }
       ]
@@ -44,8 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
-          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
+          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
+          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
           "marker": "## B4"
         }
       ]
@@ -54,19 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
-          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
+          "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
+          "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
           "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_RED_FIX_20261105.md",
-          "blob_sha": "8b13dcd4898bdba5b651b91657263228b6bfc5f7",
-          "marker": "## B5 RED_FIX"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_04409855",
-    "B7": "PASS_SCOPED_INDEPENDENT"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
@@ -80,9 +79,9 @@
       }
     ]
   },
-  "why": "N032 durable pointer sequence ABA closed by directed JVM CI; N015/N031/Guardados not authorized/complete; new bounded B1-B5 required",
-  "how": "B7 independent PASS; block new code pending new specific owner preaudit",
+  "why": "N015 Reality committed receipts lack durable recorded-at field; schema6 and FBS1v1/FBS2 must preserve chronology without inventing legacy dates",
+  "how": "N015 storage-only schema7 nullable time, atomic commit, FBS1 v1/v2 backward codec and manifest integrity, explicit coverage; no Home binding/ACL claim",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A1 OPEN. N015 durable timestamp + FBS migration design; N031 canonical combined owner; Guardados +8 candidates NOT APPROVED"
+  "next": "B6 code and migration+backup+rollback/FBS2 tests; B7 independent and BLOCKED again before any new unit"
 }
