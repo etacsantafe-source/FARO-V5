@@ -3,7 +3,7 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-04",
+  "updated_local_date": "2026-11-05",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
   "phase": "S3_OPEN_NIGHT_OFF",
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 218
+    "expected_release_epoch": 228
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G2 CLOSED B7 PASS after six-file code 6ea5f223 S3 directed #41959201283 XML 52/52+2 merged manifests, protocol #41959201264 SUCCESS, V2 core #41959201284 SUCCESS, isolated APK #41959201293 SUCCESS. DO NOT re-open G1/G2 unless changed architecture. G3 NEXT (PARTIAL canonical message content, language, restore/navigation), G4/G5 OPEN; A2 2/5 gates. V2 productive OFF, S2 CLOSED 8/8, S3 0/5 formal ~40% developed heuristic, S4/Auto/Noche OFF. Physical only G5. Writer RELEASED epoch218 after B7. New code after new B1-B5 permit/preflight and writer CAS.",
-  "checkpoint_status": "S3_A2_G2_CLOSED_B7_PASS_G3_NEXT_WRITER_RELEASE_218",
+  "next": "G3 CLOSED B7 PASS after code 4eb0f24 S3 directed 54/54 #41962522467, surface 59/59 #41962522487, V2 core #41962522595, isolated APK #41962522468, protocol #41962522527. G1/G2/G3 CLOSED, G4 NEXT federation real authorized owners, G5 OPEN physical campaign only at end. A2 3/5 gates (60%). V2 productive OFF, S2 CLOSED 8/8, S3 0/5 formal ~40% developed heuristic, S4/Auto/Noche OFF. Writer RELEASED expected epoch228. New code requires G4 B1-B5 permit/preflight and CAS.",
+  "checkpoint_status": "S3_A2_G3_CLOSED_B7_PASS_G4_NEXT_WRITER_RELEASE_228",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
-  "last_code_sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
-  "last_ci_run_id": 41959201283,
+  "last_handoff": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
+  "last_code_sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
+  "last_ci_run_id": 41962522467,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "G2_S3_XML_52_52_MANIFEST_2_2_SUCCESS_41959201283_V2_CORE_SUCCESS_41959201284_APK_SUCCESS_41959201293_PROTOCOL_SUCCESS_41959201264",
+  "last_ci_conclusion": "G3_S3_54_54_SUCCESS_41962522467_SURFACE_59_59_SUCCESS_41962522487_V2_CORE_SUCCESS_41962522595_APK_SUCCESS_41962522468_PROTOCOL_SUCCESS_41962522527",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -285,9 +285,9 @@
       "status": "OPEN_WITH_PARTIAL_PROGRESS"
     },
     "focus_s3_a2": {
-      "closed_gates": 2,
+      "closed_gates": 3,
       "total_gates": 5,
-      "percent": 40,
+      "percent": 60,
       "gates": [
         "G1",
         "G2",
@@ -295,17 +295,17 @@
         "G4",
         "G5"
       ],
-      "g3": "PARTIAL_CANONICAL_MESSAGE_SEARCH_CI_PASSED_CONTINUE_G3",
-      "status": "G1_G2_CLOSED_G3_PARTIAL_G4_G5_OPEN"
+      "g3": "CLOSED_B7_G3_CANONICAL_MESSAGE_ANCHOR_4EB0F24",
+      "status": "G1_G2_G3_CLOSED_G4_G5_OPEN"
     },
     "other_phases": "N_D_IF_NO_VERIFIABLE_DENOMINATOR",
     "delta": "REPORT_PERCENT_POINT_CHANGE_AGAINST_LAST_DURABLE_BASELINE_IF_VERIFIED",
     "safeguard": "ESTIMATED_PCT_MUST_BE_EXPLICITLY_LABELED_APPROXIMATE; DO_NOT_CONFUSE_WITH_CI_OR_FORMAL_CLOSURE; DO_NOT_FAKE_STAGE_WEIGHTS_OR_PROGRESS",
     "recent_ci": {
-      "run_id": 41837562790,
-      "sha": "09fa2b21d60011dc147971fa169829e3c8657b64",
+      "run_id": 41962522467,
+      "sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
       "status": "SUCCESS",
-      "xml": "S3_SURFACE_57_57_IN_CHAT_7_7"
+      "xml": "S3_APP_54_54;SURFACE_59_59_IN_CHAT_7_7"
     },
     "carry_forward": "On new chat triggered by Continuar FARO V5, recover pointer, ALWAYS report approximate S3 progress (currently 40%, heuristic 35-45), formal S3 closure (currently 0% 0/5), S2 closure 100%, qualitative chat thermometer, and changes on actual code evidence.",
     "stage_s3_approximate_development": {
@@ -799,5 +799,22 @@
     "audit": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
     "physical": "NOT_RUN",
     "next": "G3_PARTIAL"
+  },
+  "progress_s3_a2_g3_20261105": {
+    "status": "CLOSED_B7_PASS_SCOPE_BOUNDED_CANONICAL_MESSAGE_NAVIGATION",
+    "code_sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
+    "b7": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
+    "run_protocol": 41962522527,
+    "run_app": 41962522467,
+    "xml_app": "54/54",
+    "run_surface": 41962522487,
+    "xml_surface": "59/59 plus in-chat 7/7",
+    "run_v2_core": 41962522595,
+    "run_dev_apk": 41962522468,
+    "physical": "NOT_RUN",
+    "v2_productive": "OFF",
+    "a2_gates_closed": 3,
+    "a2_total_gates": 5,
+    "writer_release_epoch_expected": 228
   }
 }

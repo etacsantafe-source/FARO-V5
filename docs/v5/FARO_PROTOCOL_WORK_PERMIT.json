@@ -1,19 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G3_CANONICAL_MESSAGE_ANCHOR",
-  "reviewed_head": "b50dc4ada45cd9248ca9de8f080a52e6411d7865",
-  "paths": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SearchSurface.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5InChatSearchPolicy.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatTimeline.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5WorkspaceSearchReadSource.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5WorkspaceSearchSurfaceAdapter.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5WorkspaceSearchSurfaceAdapterTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -65,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_G3_CODE_4EB0F24_S3_54_54_SURFACE_59_59_V2CORE_PASS_APK_PASS_PROTOCOL_PASS",
+    "B7": "PASS_G3_CLOSED_CANONICAL_MESSAGE_ANCHOR_G4_NEXT"
   },
   "last_code_review": {
-    "sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
+    "sha": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
     "result": "PASS",
-    "unit_id": "S3_A2_G2_AUTHORIZED_HOST_UI_WIRING",
+    "unit_id": "S3_A2_G3_CANONICAL_MESSAGE_ANCHOR",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
-        "blob_sha": "c25341a43479d022419a4240d1547fb3b3a301ec",
+        "path": "docs/s3-night/S3_A2_G3_FORMAL_CLOSED_B7_20261105.md",
+        "blob_sha": "5373b971f89a213f61faf3136d04626d62ff4390",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "G3 focused canonical-message navigation after G1/G2 B7 closed, no V2 production, no new index/schema",
-  "how": "Use exact existing 9 paths; runtime code only in following commit after preflight",
+  "why": "G3 B7 closed after S3 54/54, Surface 59/59, V2 core and isolated DEV APK exact SHA success; next G4.",
+  "how": "New G4 B1-B5 and separate bounded permit before any new functional commit; writer CAS.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
