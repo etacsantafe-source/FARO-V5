@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
-  "reviewed_head": "5920f57d6184b6fdd1a3ab00bfccf21fc4714b3b",
+  "reviewed_head": "19c9830c627168caa849f03f4b528a22717c05ef",
   "paths": [
     "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
     ".github/workflows/faro-v5-g5-android-directed.yml",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "5fc626303cb53106e85b0a4a8176b3ef59dce920",
-    "result": "PASS",
-    "unit_id": "S3_A2_G5_REAL_ACTIVE_OWNER_DIRECTED",
+    "sha": "85e36b4c06e272e640467504a360b748fb9fb7f0",
+    "result": "RED_FIX",
+    "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
-        "blob_sha": "c3315bd78ca70ea60ad154cce5b0cbb3d9b79286",
+        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_OOM_REDFIX_B7_20261105.md",
+        "blob_sha": "69717f084999fd1808d6f8ea84364b32b471a1b3",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "G5 Android real OS evidence absent for Finance/Objectives/Matters; user wants hands-off test; G4/JVM verified.",
-  "how": "Only bounded AndroidTest, opt-in Gradle testBuildType and emulator workflow; strict Android 1/1 after CI and B7, no physical claim.",
+  "why": "Android CI #42066291096 OOME Gradle JVM, instrumentation NOT_RUN; M5 APK path succeeded on controlled Xmx3072 and single worker.",
+  "how": "RED_FIX same unit, only memory strategy in .github/workflows/faro-v5-g5-android-directed.yml; test exact Android 1/1 and B7 before closing.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
