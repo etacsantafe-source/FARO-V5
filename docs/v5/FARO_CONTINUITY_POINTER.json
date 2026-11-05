@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A1 OPEN: Reality-only timed Activity source B6 9d2491f6 CI WAIT; NOT Home/federated. Await exact CI+independent B7. N031 combined reminder/monthly plan and Guardados owner still missing. S3.A2 5/5 scoped, S2 frozen; S4/V2 prod/Noche OFF.",
+  "next": "S3.A1 OPEN: N015 Reality-only timed activity source B7 PASS_SCOPED code 9d2491f, CI 42110935335 SUCCESS XML 6/6, protocol 42110935072 SUCCESS. NOT Home/federated. N031 combined Reminder/MonthlyPlan/priority/snooze and Guardados owner missing. Permit BLOCKED. S3.A2 5/5 scoped; S2 frozen; S4/V2 prod/Noche/Auto OFF.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
   "last_code_sha": "9d2491f6a03114753e68cdb4c37fb2f0a4c6b046",
-  "last_ci_run_id": 42107761716,
+  "last_ci_run_id": 42110935335,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_N015_STORAGE_B7_3_3_FBS1_4_4_FBS2_7_7_G4_9_9",
+  "last_ci_conclusion": "SUCCESS_N015_REALITY_ACTIVITY_6_OF_6_B7_SCOPED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 305,
+  "last_writer_epoch_observed": 307,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -946,7 +946,7 @@
     "activation_authorized": false
   },
   "manual_s3_a1_20261105": {
-    "status": "N015_REALITY_ACTIVITY_SOURCE_B6_WAIT_CI_A1_OPEN",
+    "status": "N015_REALITY_ACTIVITY_B7_PASS_SCOPED_A1_OPEN",
     "last_functional_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
     "review_doc": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
     "review_head_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
@@ -964,7 +964,7 @@
       "checkpoint_release_epoch_expected": 286,
       "exception_approved": true
     },
-    "next": "Verify same SHA Home CI and protocol guard, independent B7, then next missing real owner. No functional writes before B7.",
+    "next": "B1-B5 next distinct unit needed; A1 OPEN. No new code until READY.",
     "physical": "S3_A5_ONLY",
     "pointer_fence": {
       "unit": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
@@ -1007,14 +1007,19 @@
       "unit": "S3_A1_N015_REALITY_ACTIVITY_ADMISSION",
       "preaudit": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B1_B5_20261105.md",
       "code_sha": "9d2491f6a03114753e68cdb4c37fb2f0a4c6b046",
-      "ci": "WAIT_CI",
-      "junit_expected": "6/6",
-      "b7": "PENDING",
+      "ci_run": 42110935335,
+      "ci": "SUCCESS",
+      "junit": "6/6",
+      "guard_run": 42110935072,
+      "guard": "SUCCESS",
+      "b7": "PASS_SCOPED",
+      "b7_doc": "docs/s3-night/S3_A1_N015_REALITY_ACTIVITY_ADMISSION_B7_PASS_20261105.md",
       "scope": "REALITY_ONLY_UNMOUNTED",
+      "home": "UNBOUND",
       "needs": [
         "N015_MULTI_OWNER_FEDERATED_HISTORY_WITH_ACL",
         "N031_UNIFIED_PLANNING_OWNER",
-        "GUARDADOS_APPROVED_CANONICAL_OWNER"
+        "GUARDADOS_CANONICAL_OWNER"
       ],
       "physical": "NOT_RUN"
     }
