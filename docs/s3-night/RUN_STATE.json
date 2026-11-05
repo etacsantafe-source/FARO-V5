@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "S3_OPEN_MANUAL_A3",
+  "phase": "S3_OPEN_MANUAL_A4",
   "date_local": "2026-11-05",
   "timezone": "America/Argentina/Cordoba",
   "branch": "work/s3-night-20261102",
@@ -31,7 +31,8 @@
     "s3_a2": "CLOSED_AUTOMATED_SCOPE_G1_G5_5_OF_5",
     "s3_a5_final_integration": "OPEN_X01_X12_SINGLE_MOTO_G15_PHYSICAL_CAMPAIGN_AT_END",
     "s3_a1": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
-    "s3_a3": "B1_B4_REVIEW_DOCUMENTED_B5_STOP_NO_CONTRACT_APPROVAL"
+    "s3_a3": "B1_B4_REVIEW_DOCUMENTED_B5_STOP_NO_CONTRACT_APPROVAL",
+    "s3_a4_avisos_pointer_aba": "PASS_SCOPED_B7_GUARD_AVISOS_XML_4_4_V2_CORE_APK_GREEN"
   },
   "tasks": [
     "S3-N00",
@@ -42,7 +43,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A3 Guardados: B1-B4 documented and B5 STOP; 8 bookmark operations reviewed but NOT APPROVED, catalog 172. Before B6 require explicit contract/owner/retention/quotas approval then route-scoped B5 and READY permit; CI/XML and B7 required. A1 and A2 CLOSED scoped 2/5, A4/A5 pending; S2 frozen, V2 productive OFF, S4 OFF, Night/Auto OFF.",
+  "next": "A4 Avisos pointer ABA B7 PASS_SCOPED, 4 CI GREEN. Next S3.A4 N015 real federated history + N031 combined attention owner; fresh B1-B5 permit. A3 Guardados eight candidates NOT APPROVED 172 unchanged; A5 X01-X12/G15 pending. S3 2/5 closed scoped, 0/5 integrated; V2 productive OFF, Night/Auto/S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -58,7 +59,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A1_FORMAL_SCOPE_RECONCILIATION_20261105",
+  "last_completed_gate": "S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -816,5 +817,22 @@
     "ci": "NOT_RUN",
     "physical": "NOT_RUN",
     "next": "Approve bounded contract separately; finish B5/permit then code CI XML and B7"
+  },
+  "a4": {
+    "status": "IN_PROGRESS",
+    "avisos_pointer_aba": {
+      "status": "PASS_SCOPED_B7",
+      "code_sha": "07f57cc8907f666b15596d2843e9d3943decb472",
+      "b7_doc": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105.md",
+      "guard_run": 42125866548,
+      "avisos_run": 42125866248,
+      "avisos_xml": "4/4",
+      "home_xml": "11/11",
+      "core_run": 42125866295,
+      "apk_run": 42125866265,
+      "physical": "NOT_RUN",
+      "catalog_change": false
+    },
+    "next": "N015 federated history/query ACL and N031 combined owner; user consent summaries only"
   }
 }
