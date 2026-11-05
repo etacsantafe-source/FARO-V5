@@ -26,11 +26,31 @@ object FaroV5ActiveAvisosBindingFactory {
         activeGeneration: Supplier<String>,
         startupReady: BooleanSupplier,
         invalidations: Flow<Unit>,
+    ): FaroV5AvisosReadPort = createPinned(
+        readCanonical, expectedGeneration, activeGeneration, startupReady,
+        BooleanSupplier { true }, invalidations,
+    )
+
+    /**
+     * Active graph route: a generation ID alone is not an authority fence.
+     * A->B->A can restore the same ID with a different durable pointer sequence.
+     * Recheck the graph's pinned pointer before and after reading the owner.
+     */
+    @JvmStatic
+    fun createPinned(
+        readCanonical: Supplier<List<NoticeSnapshot>>,
+        expectedGeneration: String,
+        activeGeneration: Supplier<String>,
+        startupReady: BooleanSupplier,
+        pinnedPointerCurrent: BooleanSupplier,
+        invalidations: Flow<Unit>,
     ): FaroV5AvisosReadPort {
         require(expectedGeneration.isNotBlank())
 
         fun admitted(): Boolean = runCatching {
-            startupReady.asBoolean && activeGeneration.get() == expectedGeneration
+            startupReady.asBoolean &&
+                activeGeneration.get() == expectedGeneration &&
+                pinnedPointerCurrent.asBoolean
         }.getOrDefault(false)
 
         return object : FaroV5AvisosReadPort {

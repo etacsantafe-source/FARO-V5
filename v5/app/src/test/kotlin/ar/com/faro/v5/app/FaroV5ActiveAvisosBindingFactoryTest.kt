@@ -68,6 +68,15 @@ class FaroV5ActiveAvisosBindingFactoryTest {
         assertEquals(FaroV5AvisoImportance.REQUIERE_ATENCION, page.items.first().importance)
         assertEquals(NoticeAttention.SEEN, seen.attention)
         assertEquals(NoticeAttention.UNSEEN, attended.attention)
+
+        // A pointer revoked during the actual owner read must suppress the page.
+        var pointerCurrent = true
+        val revokedDuringRead = FaroV5ActiveAvisosBindingFactory.createPinned(
+            Supplier { pointerCurrent = false; rows },
+            "g1", Supplier { "g1" }, BooleanSupplier { true },
+            BooleanSupplier { pointerCurrent }, emptyFlow(),
+        )
+        assertNull(revokedDuringRead.readNotices())
     }
 
     @Test
@@ -94,6 +103,23 @@ class FaroV5ActiveAvisosBindingFactoryTest {
             if (probes == 1) "g1" else "g2"
         }).readNotices())
         assertEquals(2, probes)
+
+        // Same generation ID after A->B->A is not proof that this graph is current.
+        var pointerCurrent = false
+        var oldStoreReads = 0
+        val pinned = FaroV5ActiveAvisosBindingFactory.createPinned(
+            Supplier { oldStoreReads++; listOf(notice("old")) },
+            "g1", Supplier { "g1" }, BooleanSupplier { true },
+            BooleanSupplier { pointerCurrent }, emptyFlow(),
+        )
+        assertNull(pinned.readNotices())
+        assertEquals(0, oldStoreReads)
+        pointerCurrent = true
+        assertEquals(listOf("old"), pinned.readNotices()!!.items.map { it.opaqueId })
+        assertEquals(1, oldStoreReads)
+        pointerCurrent = false
+        assertNull(pinned.readNotices())
+        assertEquals(1, oldStoreReads)
     }
 
     @Test

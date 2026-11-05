@@ -547,12 +547,15 @@ public final class FaroV5CompositionRoot {
     public ar.com.faro.v5.surface.FaroV5AvisosReadPort readActiveAvisosPort() {
         if (!maintenanceRecoveryComplete) return null;
         DeliveryGraph graph = deliveryGraph();
-        return FaroV5ActiveAvisosBindingFactory.create(
+        return FaroV5ActiveAvisosBindingFactory.createPinned(
                 () -> graph.store.readNotices(),
                 graph.generationId,
                 () -> generationStorage().activeGenerationId(),
                 () -> maintenanceRecoveryComplete
                         && startupReadinessGate.snapshot().isLocalReady(),
+                () -> graph.pinnedPointer != null
+                        && graph.searchPointer != null
+                        && graph.pinnedPointer.equals(graph.searchPointer.read()),
                 FaroV5HomeReadinessInvalidations.from(
                         startupReadinessGate, graph.store,
                         maintenanceRuntime().activePointerInvalidations()));
