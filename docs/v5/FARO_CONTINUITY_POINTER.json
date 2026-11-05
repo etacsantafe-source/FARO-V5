@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-05",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_AB_ACTIVE",
+  "phase": "S3_OPEN_MANUAL_A1",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,34 +21,34 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 275
+    "expected_release_epoch": 286
   },
   "automation": {
-    "activation_authorized": true,
+    "activation_authorized": false,
     "authorized_until": "2026-11-05T19:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "ACTIVE_AB_USER_AUTHORIZED",
+    "status": "OFF_MANUAL_USER_20261105",
     "A_id": "6aecbf6b4a9c819182b739e0a9fe358c",
     "B_id": "6aecbf6e32488191b674ac8fcb64feb5",
     "final_id": "6aecbf7102a48191ba372839600a824c",
-    "requires_new_authorization": false,
+    "requires_new_authorization": true,
     "authorized_from": "2026-11-05T14:37:00-03:00",
     "approval": "USER_EXPLICIT_20261105",
     "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
-    "previous_authorization_revoked": false,
+    "previous_authorization_revoked": true,
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "FARO Noche S3 AB active until 19:00 AR 2026-11-05; resume S3.A1 real owner indicators first, then other S3 automatable work while deferring physical X01-X12 and one Moto G15 campaign to S3.A5. Global single CAS writer, no duplicated G1-G5. Stop all mutations at cutoff and report read-only 19:05.",
+  "next": "MANUAL ONLY: S3.A1 OPEN. B7 Home batch revalidation PASS_SCOPED at 18b88d1e; guard CI 42099338728 SUCCESS. Permit BLOCKED until new B1-B5 for specific real canonical N015/N031 owner path; Guardados still unapproved. Recheck writer/HEAD before every new write. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE; X01-X12 and one Moto G15 campaign remain S3.A5. No Auto/Noche/V2 production/S4.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
-  "last_code_sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
-  "last_ci_run_id": 42071443306,
+  "last_handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
+  "last_code_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
+  "last_ci_run_id": 42099338728,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_ANDROID_API35_G5_INSTRUMENTATION_1_OF_1",
+  "last_ci_conclusion": "SUCCESS_PROTOCOL_GUARD_B7_DOCS_BLOCKED_PERMIT",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -438,7 +438,7 @@
     "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
   },
   "protocol_gate": {
-    "status": "CI_VERIFIED_PERMIT_BLOCKED_AFTER_G4_B7",
+    "status": "CI_VERIFIED_B7_PASS_SCOPED_BLOCKED_NEXT_CODE",
     "mode": "FAIL_CLOSED",
     "validator": "scripts/quality/faro-protocol-gate.py",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -452,9 +452,9 @@
     "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 42040913870,
+    "last_ci_run_id": 42099338728,
     "last_ci_conclusion": "SUCCESS",
-    "verified_source_sha": "59962008f0c78366c7a687b8974741b396c751ab",
+    "verified_source_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
   },
@@ -509,40 +509,23 @@
   },
   "guard_latest_runs": [
     {
-      "id": 41880380178,
-      "head": "b6ebe14d",
-      "status": "queued",
-      "conclusion": null
-    },
-    {
-      "id": 41880325125,
-      "head": "7ab4baec",
-      "status": "queued",
-      "conclusion": null
-    },
-    {
-      "id": 41878936448,
-      "head": "6b4c63d3",
+      "id": 42099338728,
+      "head": "18b88d1e",
       "status": "completed",
       "conclusion": "success"
     },
     {
-      "id": 41878892927,
-      "head": "763081d2",
-      "status": "in_progress",
-      "conclusion": null
+      "id": 42096308942,
+      "head": "d37f80da",
+      "status": "completed",
+      "conclusion": "failure",
+      "cause": "missing B7 in former HEAD, now corrected"
     },
     {
-      "id": 41878848206,
-      "head": "1e3cfd58",
+      "id": 42094317812,
+      "head": "2c00fc06",
       "status": "completed",
       "conclusion": "success"
-    },
-    {
-      "id": 41878817985,
-      "head": "7a063b22",
-      "status": "queued",
-      "conclusion": null
     }
   ],
   "s3_progress": {
@@ -554,7 +537,12 @@
     "formal_closed": 0,
     "formal_total": 5,
     "formal_percent": 0,
-    "unchanged_by_m1_manifest_fix": true
+    "unchanged_by_m1_manifest_fix": true,
+    "scoped_closed": 1,
+    "scoped_total": 5,
+    "scoped_percent": 20,
+    "formal_full_delivery_closed": 0,
+    "formal_full_delivery_percent": 0
   },
   "m1_checkpoint": {
     "code_sha": "5916087687d9bbfc3ac2cdabdb0dddb2df71a994",
@@ -755,7 +743,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
+  "last_unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -952,6 +940,31 @@
     "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "writer_ref": "refs/heads/faro-v5-writer-lock",
-    "physical": "ONLY_S3_A5"
+    "physical": "ONLY_S3_A5",
+    "status": "OFF_MANUAL_USER",
+    "queue_mode": "STAGED",
+    "activation_authorized": false
+  },
+  "manual_s3_a1_20261105": {
+    "status": "B7_PASS_SCOPED_HOME_BATCH_A1_STILL_OPEN",
+    "last_functional_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
+    "review_doc": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
+    "review_head_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
+    "code_ci": {
+      "surface_run": 42094317827,
+      "surface_xml": "61/61",
+      "v2_run": 42094317877,
+      "guard_run": 42094317812
+    },
+    "b7_guard_ci_run": 42099338728,
+    "b7_guard_ci": "SUCCESS",
+    "writer_recovery": {
+      "recovered_epoch": 284,
+      "manual_release_epoch": 285,
+      "checkpoint_release_epoch_expected": 286,
+      "exception_approved": true
+    },
+    "next": "B1-B5 per canonical owner N015/N031; no fake counts or catalog expansion",
+    "physical": "S3_A5_ONLY"
   }
 }

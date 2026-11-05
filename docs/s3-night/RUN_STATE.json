@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "S3_OPEN",
+  "phase": "S3_OPEN_MANUAL_A1",
   "date_local": "2026-11-05",
   "timezone": "America/Argentina/Cordoba",
   "branch": "work/s3-night-20261102",
@@ -8,9 +8,9 @@
   "s2_status": "CLOSED_8_OF_8_FROZEN",
   "app_v2": "OFF",
   "s4": "OFF",
-  "night": "ON_AB_USER_AUTHORIZED_20261105",
-  "authorization": "USER_EXPLICIT_S3_NOCHE_AB_UNTIL_1900_AR_20261105",
-  "deadline": "2026-11-05T19:00:00-03:00",
+  "night": "OFF",
+  "authorization": "MANUAL_S3_A1_USER_20261105",
+  "deadline": null,
   "writer": "SINGLE_CAS_GITHUB_REF",
   "writer_ref": "refs/heads/faro-v5-writer-lock",
   "queue_ref": "refs/heads/faro-v5-night-queue",
@@ -18,7 +18,7 @@
     "A:2026-11-05T15:00:00-03:00+HOURLYx4",
     "B:2026-11-05T15:30:00-03:00+HOURLYx4"
   ],
-  "slots_status": "SCHEDULED_ACTIVE",
+  "slots_status": "DISABLED",
   "gates": {
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "FARO Noche authorized 15-19 AR: S3.A1 first, then other automatable S3 units. S3.A2 CLOSED_AUTOMATED_SCOPE; defer X01-X12 & one Moto G15 campaign to S3.A5. Single CAS writer and hard cutoff 19:00.",
+  "next": "MANUAL ONLY: S3.A1 OPEN. B7 Home batch revalidation PASS_SCOPED at 18b88d1e; guard CI 42099338728 SUCCESS. Permit BLOCKED until new B1-B5 for specific real canonical N015/N031 owner path; Guardados still unapproved. Recheck writer/HEAD before every new write. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE; X01-X12 and one Moto G15 campaign remain S3.A5. No Auto/Noche/V2 production/S4.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -56,10 +56,10 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3-A2-FORMAL_AUTOMATED_SCOPE_5_OF_5_RECONCILED_B7",
+  "last_completed_gate": "S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N032_NOTICE_OWNER_POINTER_EVENTS_CI_9_9_VERIFIED",
+    "status": "PARTIAL_B7_BATCH_REVALIDATION_PASS_SCOPED_OTHER_OWNERS_MISSING",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -303,32 +303,43 @@
       "implemented": "Read-only RealityStore.financeActivity over actual finance_entry with recordedAt owner-date desc, stable tie cursor, optional account/kind filters, revision, no schema migration, no writes. Denies in-flight and closed store.",
       "caveat": "RecordedAt is FINANCE owner-defined date, NOT Apply commit timestamp. Entries alone do NOT certify an execution receipt or complete global history.query; no Home Actividad claim.",
       "next": "N015 global owner federation and durable commit timestamps (migration + FBS1/FBS2 backup codec/integrity versioning required before schema changes)."
+    },
+    "abcd_home_batch": {
+      "unit": "S3_A1_HOME_BATCH_REVALIDATION",
+      "preaudit_doc": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
+      "code_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
+      "b7_doc": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
+      "b7_commit": "18b88d1e8c8f897125b950d57321013c7746975e",
+      "ci_runs": [
+        42094317827,
+        42094317877,
+        42094317812
+      ],
+      "guard_doc_run": 42099338728,
+      "ci": "SUCCESS",
+      "scope": "Two new JVM revocation/generation cases; owner batch revalidation; no physical and no N015/N031/Guardados binding",
+      "remaining": "N015 no durable commit-time history federation; N031 no combined owner; Guardados +8 not approved"
     }
   },
-  "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+  "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
   "last_turn": {
-    "mode": "MANUAL_S3_G4_B7",
-    "code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
-    "baseline": "ebe538308eff5c41218b57d2ca7a4ee29c7023c3",
-    "commits": [
-      "b45c42c769ec41ad90d9aa7b17b6d843c1910c24"
-    ],
+    "mode": "MANUAL_S3_A1_B7_PASS",
+    "code_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
+    "document_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
     "ci_runs": [
-      42040913961,
-      42040913988,
-      42040913870
+      42094317827,
+      42094317877,
+      42094317812,
+      42099338728
     ],
-    "ci": "SUCCESS V2CORE_10_10 T4_7_7 MANIFEST_4_4 GUARD_PASS",
-    "writer_release_epoch_expected": 263,
-    "physical": "G5_NOT_RUN",
-    "next": "G5_ONLY_LAST_PHYSICAL_CAMPAIGN",
-    "s3": "OPEN_FORMAL_0_OF_5",
-    "a2": "G4_CLOSED_4_OF_5",
-    "a4": "PARTIAL_REAL_AVISOS_READ_ONLY_VERIFIED",
+    "ci": "SUCCESS B7_Documentary_guard_and_prior_targeted_tests",
+    "writer_release_epoch_expected": 286,
+    "next": "MANUAL ONLY: S3.A1 OPEN. B7 Home batch revalidation PASS_SCOPED at 18b88d1e; guard CI 42099338728 SUCCESS. Permit BLOCKED until new B1-B5 for specific real canonical N015/N031 owner path; Guardados still unapproved. Recheck writer/HEAD before every new write. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE; X01-X12 and one Moto G15 campaign remain S3.A5. No Auto/Noche/V2 production/S4.",
     "night": "OFF",
     "auto": "OFF",
+    "app_v2": "OFF",
     "s4": "OFF",
-    "app_v2": "OFF"
+    "s3": "OPEN_SCOPED_1_OF_5"
   },
   "automation_authorization": false,
   "queue_mode": "STAGED",
@@ -664,5 +675,14 @@
     ],
     "next_priority": "S3_A1_HOME_INDICATORS_CANONICAL_OWNERS",
     "new_code_committed": false
+  },
+  "manual_work_20261105": {
+    "status": "ACTIVE_MANUAL_NO_SCHEDULES",
+    "writer_recovery": "HUMAN_APPROVED_EPOCH_284_RELEASED",
+    "latest_b7": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
+    "latest_b7_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
+    "mandatory_next_gate": "NEW_B1_B5_PLUS_READY_BEFORE_FUNCTIONAL",
+    "keep_catalog": 172,
+    "home_pending": "N015_N031_GUARDADOS"
   }
 }
