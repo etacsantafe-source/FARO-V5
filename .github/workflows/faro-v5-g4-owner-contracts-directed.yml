@@ -1,0 +1,58 @@
+name: FARO V5 G4 owner contracts directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/settings.gradle.kts"
+      - "v5/owner/objectives/**"
+      - "v5/owner/matters/**"
+      - ".github/workflows/faro-v5-g4-owner-contracts-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-g4-contract-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  owner-contracts-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and test isolated G4 owner contracts
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :owner:objectives:test :owner:matters:test
+      - name: Verify exact G4 contract JUnit XML
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          cases = [
+              ('objectives', 'ObjectiveModelTest', 'S3_G4_OBJECTIVES_CONTRACT_XML_PASS'),
+              ('matters', 'MatterModelTest', 'S3_G4_MATTERS_CONTRACT_XML_PASS'),
+          ]
+          for module, name, marker in cases:
+              base = Path('v5/owner') / module / 'build/test-results/test'
+              files = sorted(base.glob('TEST-*' + name + '.xml'))
+              if len(files) != 1:
+                  raise SystemExit('G4_XML_MISSING ' + module)
+              root = ET.parse(files[0]).getroot()
+              actual = tuple(int(root.attrib.get(k, '-1')) for k in
+                             ('tests', 'failures', 'errors', 'skipped'))
+              if actual != (4, 0, 0, 0):
+                  raise SystemExit('G4_XML_FAILED ' + module + ' ' + str(actual))
+              print(marker + ' 4/4')
+          print('S3_G4_OWNER_CONTRACTS_ONLY_XML_PASS 8/8_NOT_DURABLE_OWNERS')
+          PY
