@@ -1,17 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "5fc626303cb53106e85b0a4a8176b3ef59dce920",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
+  "reviewed_head": "5920f57d6184b6fdd1a3ab00bfccf21fc4714b3b",
+  "paths": [
+    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
+    ".github/workflows/faro-v5-g5-android-directed.yml",
+    "v5/app/build.gradle.kts"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ACTIVE_OWNER_COMPILE_REDFIX_20261105.md",
-          "blob_sha": "ddaab430d6c839089e51e2a9ec639951a60e2c0f",
-          "marker": "## B1 EVIDENCIA"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
+          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
+          "marker": "## B1"
         }
       ]
     },
@@ -19,9 +23,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ACTIVE_OWNER_COMPILE_REDFIX_20261105.md",
-          "blob_sha": "ddaab430d6c839089e51e2a9ec639951a60e2c0f",
-          "marker": "## B2 COMPARACIÓN"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
+          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
+          "marker": "## B2"
         }
       ]
     },
@@ -29,9 +33,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ACTIVE_OWNER_COMPILE_REDFIX_20261105.md",
-          "blob_sha": "ddaab430d6c839089e51e2a9ec639951a60e2c0f",
-          "marker": "## B3 INVESTIGACIÓN DE ALTERNATIVAS"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
+          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
+          "marker": "## B3"
         }
       ]
     },
@@ -39,9 +43,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ACTIVE_OWNER_COMPILE_REDFIX_20261105.md",
-          "blob_sha": "ddaab430d6c839089e51e2a9ec639951a60e2c0f",
-          "marker": "## B4 UNIFICACIÓN"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
+          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
+          "marker": "## B4"
         }
       ]
     },
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ACTIVE_OWNER_COMPILE_REDFIX_20261105.md",
-          "blob_sha": "ddaab430d6c839089e51e2a9ec639951a60e2c0f",
-          "marker": "## B5 AUDITORÍA ADVERSARIAL"
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_B1_B5_20261105.md",
+          "blob_sha": "e8f11bf50a0b1650f696c63a0e78eae7427223bf",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_TEST_ONLY_5FC6263_CI_42062273554_10_10_PLUS_1_1_T4_7_7_MANIFESTS_PASS",
-    "B7": "PASS_UNIT_JVM_ONLY_G5_PHYSICAL_OPEN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "5fc626303cb53106e85b0a4a8176b3ef59dce920",
@@ -70,8 +74,8 @@
       }
     ]
   },
-  "why": "New G5 real host 1/1 XML PASS + V2 Core 10/10, T4 7/7, manifests 4/4 on 5fc6263; no physical closure.",
-  "how": "Wait for an approved new bounded unit to cover positive Android domain UI without user SQL or repeat manual commands. Current G5 physical OPEN.",
+  "why": "G5 Android real OS evidence absent for Finance/Objectives/Matters; user wants hands-off test; G4/JVM verified.",
+  "how": "Only bounded AndroidTest, opt-in Gradle testBuildType and emulator workflow; strict Android 1/1 after CI and B7, no physical claim.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
