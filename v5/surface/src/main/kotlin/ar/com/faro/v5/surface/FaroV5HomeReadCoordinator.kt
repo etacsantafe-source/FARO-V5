@@ -51,7 +51,10 @@ class FaroV5HomeReadCoordinator(
         }
 
     override suspend fun readIndicators(): Map<FaroV5HomeIndicator, FaroV5HomeCount> {
-        val visible = linkedMapOf<FaroV5HomeIndicator, FaroV5HomeCount>()
+        // A previously read owner can be revoked while a later owner suspends.
+        // Keep the batch provisional, then revalidate every included authority
+        // without inventing a global generation/ACL owner or a new data source.
+        val staged = linkedMapOf<FaroV5HomeIndicator, Triple<FaroV5HomeOwnerBinding, String, FaroV5HomeCount>>()
         for (indicator in FaroV5HomeIndicator.entries) {
             val binding = owners[indicator] ?: continue
             // Reject unavailable or revoked authority before touching owner data.
@@ -69,6 +72,15 @@ class FaroV5HomeReadCoordinator(
             if (after == before && count != null &&
                 count.canonicalSource == binding.expectedCanonicalSource
             ) {
+                staged[indicator] = Triple(binding, before, count)
+            }
+        }
+        val visible = linkedMapOf<FaroV5HomeIndicator, FaroV5HomeCount>()
+        for ((indicator, candidate) in staged) {
+            val (binding, initialStamp, count) = candidate
+            // A vanished/changed authority suppresses only its own count.
+            // This does not replace owner-emitted invalidations after return.
+            if (admittedStamp(binding) == initialStamp) {
                 visible[indicator] = count
             }
         }

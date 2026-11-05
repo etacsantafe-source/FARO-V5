@@ -166,4 +166,47 @@ class FaroV5HomeReadCoordinatorTest {
         Unit
     }
 
+
+    @Test
+    fun earlierOwnerRevokedByLaterOwnerIsNotReturnedFromBatch() = runBlocking {
+        var noticeGranted = true
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(
+                FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
+                    "notice.read",
+                    FaroV5HomeIndicatorOwner { FaroV5HomeCount(4, 100L, "notice.read") },
+                    FaroV5HomeAuthorityStamp { if (noticeGranted) "generation-1:acl" else null },
+                ),
+                FaroV5HomeIndicator.PENDIENTES to FaroV5HomeOwnerBinding(
+                    "attention.read",
+                    FaroV5HomeIndicatorOwner {
+                        noticeGranted = false
+                        FaroV5HomeCount(2, 101L, "attention.read")
+                    },
+                    FaroV5HomeAuthorityStamp { "generation-1:attention-acl" },
+                ),
+            ),
+        )
+        val counts = adapter.readIndicators()
+        assertTrue(FaroV5HomeIndicator.AVISOS !in counts)
+        assertEquals(2, counts[FaroV5HomeIndicator.PENDIENTES]?.count)
+    }
+
+    @Test
+    fun generationChangedAfterOwnerReadButBeforeReturnIsSuppressed() = runBlocking {
+        var probes = 0
+        val adapter = FaroV5HomeReadCoordinator(
+            mapOf(FaroV5HomeIndicator.AVISOS to FaroV5HomeOwnerBinding(
+                "notice.read",
+                FaroV5HomeIndicatorOwner { FaroV5HomeCount(8, 200L, "notice.read") },
+                FaroV5HomeAuthorityStamp {
+                    probes++
+                    if (probes <= 2) "generation-1" else "generation-2"
+                },
+            )),
+        )
+        assertTrue(adapter.readIndicators().isEmpty())
+        assertEquals(3, probes)
+    }
+
 }
