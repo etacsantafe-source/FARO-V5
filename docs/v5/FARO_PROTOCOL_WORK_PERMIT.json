@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
-  "reviewed_head": "12c4cfa5677d1ec8faf2111b88151296b1e53a62",
+  "reviewed_head": "03da3839ce2fdd8f798f0fd3e4bd38e909459e0e",
   "paths": [
     "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5G5AndroidHostIntegrationTest.kt",
@@ -14,8 +14,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
-          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
+          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
           "marker": "### B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
-          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
+          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
           "marker": "### B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
-          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
+          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
           "marker": "### B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
-          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
+          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
           "marker": "### B4"
         }
       ]
@@ -54,8 +54,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
-          "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+          "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
+          "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
           "marker": "### B5"
         }
       ]
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "6a6076585191a2eba2173a4763b30e5f13d21fe1",
+    "sha": "13911eacf677b0ec968fd1202b521d764bc73a1c",
     "result": "RED_FIX",
     "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_LEGACY_SOURCE_REDFIX_B7_20261105.md",
-        "blob_sha": "6a5688d7ef822f527acf11ba42bd58b40475f178",
+        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
+        "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "G5 CI 42067731793 compiled app but failed legacy androidTest dependency A5 in isolated V2; no emulator test executed",
-  "how": "Only move new test to opt-in isolated sourceSet and update Gradle/workflow, no editing old AndroidTests; then exact emulator run and B7",
+  "why": "G5 CI 42069366649 compiled APKs and booted emulator but runner executes each script line in independent /usr/bin/sh -c; APP and TEST variables are lost; no G5 case ran",
+  "how": "Minimal one-shell folded YAML script in same emulator workflow only; require exact instrumentation 1/1 and B7 after code",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
