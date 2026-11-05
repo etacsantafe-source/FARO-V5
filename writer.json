@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A1.N032.POINTER_FENCE.20261105.1705",
-  "token_hash": "b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A1.N032.RED_FIX.20261105",
+  "token_hash": "b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a12",
   "target_head": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 288,
-  "timestamp": 1793910000,
-  "purpose": "B6_CODE_COMMITTED_CI_IN_PROGRESS_RELEASED_FOR_USEFUL_READONLY",
+  "epoch": 289,
+  "timestamp": 1793911650,
+  "purpose": "B7_RED_FIX_EXACT_JUNIT_CI_11_OF_11",
   "last_checkpoint": "S3_A1_N032_B6_WAIT_CI@bd5780fc4d7960940ecd7e906aa79f1c07e42e93"
 }
