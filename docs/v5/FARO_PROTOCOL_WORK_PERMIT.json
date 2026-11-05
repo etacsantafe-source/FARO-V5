@@ -1,17 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA",
-  "reviewed_head": "3b249e7c04b81b6a40a6bdf143ea809e6cb5cd9d",
-  "paths": [
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatComposerSession.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatSelectionSession.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveChatReviewSession.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveReviewedApplySession.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveHostPointerABATest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "29a295adbfab89dfafbc182e55aa9f0693a2895d",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -63,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_CI_S3_XML_32_32_41944487110_CORE_41944487043_APK_41944487048_GUARD_41944487030",
+    "B7": "PASS_FINAL_AUDIT_ACTIVE_HOST_MUTATION_POINTER_ABA_ONLY"
   },
   "last_code_review": {
-    "sha": "dec1024439fdddc7367d0c98b993b4e0da207e13",
+    "sha": "29a295adbfab89dfafbc182e55aa9f0693a2895d",
     "result": "PASS",
-    "unit_id": "S3_A2_G1_ACTIVE_CHAT_READ_POINTER_ABA",
+    "unit_id": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md",
-        "blob_sha": "65013d11fd5181b696dc3c595f079987b0ebb820",
+        "path": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B7_PASS_20261104.md",
+        "blob_sha": "ba1e0666a2fcc034b3f7715f1a1096adbfccc08d",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Bounded A→B→A durable pointer hardening for host Composer/Selection/Review/Apply; reuses Chat read pinned pointer and material write gate, no shipping Search ACL or V2 activation.",
-  "how": "One permitted seven-path functional commit after positive preflight, run app S3 directed JVM with exact new JUnit XML and protocol guard, then independent B7. Writer released during CI.",
+  "why": "Composer, Selection, Review and Apply durable pointer ABA fencing certified in S3 directed JVM XML 32/32, four CI SUCCESS at code 29a295ad; shipping Search ACL remains OPEN. Next functional unit requires independent B1-B5 and READY permit.",
+  "how": "Investigate real Workspace Search shipping ACL owner with revocation/regrant, scope and epoch durability, cross-instance observable invalidation and restore/restart; do not replicate DEV-only ephemeral authority or activate productive V2.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }

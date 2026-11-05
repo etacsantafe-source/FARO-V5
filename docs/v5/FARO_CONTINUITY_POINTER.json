@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 193
+    "expected_release_epoch": 197
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B7_PASS_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Complete S3.A2 Chat read pointer-ABA small security unit: code SHA 212679f7 + one-line JUnit method return fix SHA dec10244; B7 PASS #41937907083 exact XML Chat6/6 + Home9/9 Workspace7/7 Bridge5/5 Avisos4/4, guard #41937907113 PASS. Prior core #41936856422 and APK #41936856486 success, no APK install. Do NOT repeat. NEXT focused B1-B5 compare real other app defects and V4.4, inspect active host Composer/Selection/Review/Apply pointer-ABA/material gate protection as a prerequisite, then implement real Search ACL owner/revocation/epoch observable with cross-instance semantics; no shipping V2 activation. S3.A2 G1 OPEN, S3≈40%/0 of 5 formal, S2 8/8 frozen, S4/Auto/Noche OFF, writer released193.",
-  "checkpoint_status": "S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_G1_ACL_STILL_OPEN_WRITER_RELEASE_193",
+  "next": "Do NOT repeat S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA B7 PASS @29a295ad; S3 directed #41944487110 XML 32/32, V2 core #41944487043 PASS, APK DEV #41944487048 PASS, protocol #41944487030 PASS. Writer RELEASED 197 after checkpoint. NEXT focused S3.A2-G1 B1-B5 inspect shipping Workspace authority boundary, ACL source grant/revoke ownership, independent observable epoch, process/restart/restore risk and real cross-instance behavior. Reuse DEV session-owner evidence without promoting DEV grant to shipping. New B6 only after independent READY and preflight. S2 8/8 frozen; S3≈40% estimated, 0/5 CLOSED; A2 gates 0/5; S4/V2 productive/Auto/Noche OFF.",
+  "checkpoint_status": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA_B7_PASS_CI_4_OF_4_ACL_G1_STILL_OPEN_WRITER_RELEASE_197",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md",
-  "last_code_sha": "dec1024439fdddc7367d0c98b993b4e0da207e13",
-  "last_ci_run_id": 41937907083,
+  "last_handoff": "docs/s3-night/S3_A2_ACTIVE_HOST_MUTATION_ABA_B7_PASS_20261104.md",
+  "last_code_sha": "29a295adbfab89dfafbc182e55aa9f0693a2895d",
+  "last_ci_run_id": 41944487110,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "S3_A2_ACTIVE_CHAT_READ_ABA_REDFIX_B7_PASS_XML_6_OF_6_PLUS_25_OF_25_CI_41937907083",
+  "last_ci_conclusion": "S3_HOME_CHAT_SUCCESS_XML_32_OF_32_CORE_SUCCESS_APK_SUCCESS_GUARD_SUCCESS_29a295ad",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
