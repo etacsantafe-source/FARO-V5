@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A1.B7_RECOVERY_CI.20261105",
   "token_hash": "3d72a9d5339faad358a16913a56473714b238ef7fcf01215cc64df5b9c9dd887",
-  "target_head": "a2b926703583a09fb04083fc6c510c10186e94bc",
+  "target_head": "2960cff8bada80125818008d61c5cacf80ea83ab",
   "target_branch": "work/s3-night-20261102",
   "epoch": 316,
-  "timestamp": 1793916676,
-  "purpose": "B7_PERMIT_DISPOSITION_AND_PROTOCOL_GUARD_GREEN",
-  "last_checkpoint": "S3_A1_GENERATION_CI_B7_DOCUMENTED@a2b926703583a09fb04083fc6c510c10186e94bc"
+  "timestamp": 1793916770,
+  "purpose": "B7_PERMIT_17_OF_17_DOCUMENTED_WAIT_CI",
+  "last_checkpoint": "S3_A1_N015_GENERATION_B7_PERMIT_COMMIT@2960cff8bada80125818008d61c5cacf80ea83ab"
 }
