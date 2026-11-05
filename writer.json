@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.NOCHE.ACTIVATION.20261105",
-  "token_hash": "noche-20261105-activation-no-secret",
+  "status": "HELD",
+  "owner": "FARO.NOCHE.A.20261105.1500",
+  "token_hash": "noche-A-1500-no-secret",
   "target_head": "a5d6d0401d3593bf0c571a2fe90e5a3213b08bd2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 275,
+  "epoch": 276,
   "timestamp": 1793897000,
-  "purpose": "NOCHE_AB_ACTIVATION_CONFIGURED_RELEASED_FOR_TURN_A"
+  "purpose": "S3_A1_B1_B2_EVIDENCE_ONLY_NO_FUNCTIONAL_WRITES"
 }
