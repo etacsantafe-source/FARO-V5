@@ -1,16 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "f5f57a04da3e494bd03f517fccc42f9ab360b09d",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G2_AUTHORIZED_HOST_UI_WIRING",
+  "reviewed_head": "87347037e79a713330c0254250fafe0d189ef2ce",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5SearchHostPortAdmission.kt",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5Application.java",
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5BootstrapActivity.java",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5SearchHostPortAdmissionTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
+          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
+          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,9 +26,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
-          "marker": "## B2 COMPARACIÓN Y REUTILIZACIÓN"
+          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
+          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "marker": "## B2 COMPARACIÓN"
         }
       ]
     },
@@ -29,9 +36,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
-          "marker": "## B3 INVESTIGACIÓN EXTERNA Y ALTERNATIVAS"
+          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
+          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "marker": "## B3 INVESTIGACIÓN"
         }
       ]
     },
@@ -39,9 +46,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
-          "marker": "## B4 DELTA MÍNIMO, MISMA UNIDAD"
+          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
+          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "marker": "## B4 UNIFICACIÓN"
         }
       ]
     },
@@ -49,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
-          "blob_sha": "1f1c72a5aa89f4dcd54cab22cdb65f715954a798",
-          "marker": "## B5 AUDITORÍA ADVERSARIAL ANTES DE APLICAR"
+          "path": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
+          "blob_sha": "dd223087c1811a861da0179e6a8a2fbdd8f099ed",
+          "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "VERIFIED_G1_CODE_DC3EEE9D_JVM_REDFIX_F5F57A04_S3_XML_42_42_41957095077_MANIFEST_SINGLE_PROCESS_2_2_PROTOCOL_41957095087",
-    "B7": "PASS_G1_CLOSED_SINGLE_PROCESS_HOST_SCOPE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "f5f57a04da3e494bd03f517fccc42f9ab360b09d",
@@ -70,8 +77,8 @@
       }
     ]
   },
-  "why": "G1 ACTIVE Workspace local Search ACL policy/revocation/readmission/restore/restart closed for supported single-process Android host. XML S3 42/42 + 2 merged manifests single process, protocol SUCCESS; G2 UI and productive V2 remain OFF.",
-  "how": "Next S3.A2 G2 bounded wiring of Search port to authorized host only; new B1-B5 and independent READY permit after investigating V1 null and G1 identity. No repetitive G1 audit. G3-G5 still OPEN.",
+  "why": "G2 preaudit on actual host graph, UI null, certified V2 gating, G1 real grant and restart/ACL tests; six paths reviewed for no product V2 enable.",
+  "how": "Bind only if V2 certified, recovery LOCAL_READY and real G1 grant epoch still active; separate pure policy JVM negatives and workflow XML 42+G2; B7 after exact CI.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
