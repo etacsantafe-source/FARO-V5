@@ -1,16 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G2_AUTHORIZED_HOST_UI_WIRING",
-  "reviewed_head": "87347037e79a713330c0254250fafe0d189ef2ce",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5SearchHostPortAdmission.kt",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5Application.java",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5BootstrapActivity.java",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5SearchHostPortAdmissionTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -62,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_G2_CODE_6EA5F223_S3_XML_52_52_41959201283_V2CORE_41959201284_APK_41959201293_PROTOCOL_41959201264",
+    "B7": "PASS_G2_CLOSED_ACTIVE_HOST_SEARCH_WIRING_V2_PRODUCTIVE_OFF"
   },
   "last_code_review": {
-    "sha": "f5f57a04da3e494bd03f517fccc42f9ab360b09d",
+    "sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
     "result": "PASS",
-    "unit_id": "S3_A2_G1_POLICY_RESTORE_READMISSION",
+    "unit_id": "S3_A2_G2_AUTHORIZED_HOST_UI_WIRING",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G1_FORMAL_CLOSED_SINGLE_PROCESS_B7_20261104.md",
-        "blob_sha": "0df7f2d70cab8d0f112e387492d1376fedb7bf36",
+        "path": "docs/s3-night/S3_A2_G2_FORMAL_CLOSED_B7_20261105.md",
+        "blob_sha": "c25341a43479d022419a4240d1547fb3b3a301ec",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "G2 preaudit on actual host graph, UI null, certified V2 gating, G1 real grant and restart/ACL tests; six paths reviewed for no product V2 enable.",
-  "how": "Bind only if V2 certified, recovery LOCAL_READY and real G1 grant epoch still active; separate pure policy JVM negatives and workflow XML 42+G2; B7 after exact CI.",
+  "why": "G2 closed on six-path host UI admission to real G1 authority, S3 52/52 PASS and single-process manifests 2/2; V2 core directed and isolated APK workflows SUCCESS; V2 productive OFF.",
+  "how": "Next G3 bounded canonical message content/language/navigation and restore; B1-B5 and new scoped permit before new functional code; no G1 or G2 repetition.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
