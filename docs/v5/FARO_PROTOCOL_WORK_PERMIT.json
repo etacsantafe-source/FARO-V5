@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "13911eacf677b0ec968fd1202b521d764bc73a1c",
-    "result": "RED_FIX",
+    "sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
+    "result": "PASS",
     "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_RUNNER_REDFIX_B7_20261105.md",
-        "blob_sha": "fa482b580428e339b0320060c831532d7a62f2b3",
+        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md",
+        "blob_sha": "a1b6e3c8faac40fb247c73503f50ac4b7a9f6897",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "G5 CI 42069366649 compiled APKs and booted emulator but runner executes each script line in independent /usr/bin/sh -c; APP and TEST variables are lost; no G5 case ran",
-  "how": "Minimal one-shell folded YAML script in same emulator workflow only; require exact instrumentation 1/1 and B7 after code",
+  "why": "G5 emulator CI #42071443306 exact code bcb38e9 PASS 1/1; previous split-shell bug fixed without app change; physical Moto pending",
+  "how": "B7 validated emulator scope; no further functional changes to this unit authorized without new B1-B5 evidence",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
