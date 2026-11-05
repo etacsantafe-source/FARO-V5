@@ -318,11 +318,11 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md",
-    "commit_sha": "c2fdfe607d9da1040d17ce6ae88f4733d3660046",
+    "source": "docs/s3-night/S3_A1_NOCHE_A_1600_OWNER_CODE_AUDIT_20261105.md",
+    "commit_sha": "07e03fa732e0041858cc09dc9aed3177b46a7ea9",
     "task_id": "S3-A1",
-    "status": "B1_B2_RECORDED_B3_B4_RESEARCHED_B5_DRAFT_NOT_PERMIT_READY",
-    "writer_epoch": 278,
+    "status": "B5_PARTIAL_CODE_VERIFIED_NO_A1_PERMIT_NO_FUNCTIONAL_WRITE",
+    "writer_epoch": 280,
     "action_run_ids": []
   },
   "owner": null,
@@ -509,20 +509,25 @@
         "B2": "COMPARISON_RECORDED",
         "B3": "RESEARCH_DOCUMENTED",
         "B4": "PLAN_RECONCILED",
-        "B5": "MATRIX_DRAFT_NOT_VERIFIED"
+        "B5": "PARTIAL_CODE_VERIFIED_OWNER_ACL_NOT_PROVEN"
       },
-      "expected_head": "c2fdfe607d9da1040d17ce6ae88f4733d3660046",
+      "expected_head": "07e03fa732e0041858cc09dc9aed3177b46a7ea9",
       "acceptance": "Real four Home indicator owners + safe read-only navigation and accessibility; no synthetic counts",
       "evidence": [
         {
           "kind": "B3_B5_DOC",
           "path": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md",
           "sha": "c2fdfe607d9da1040d17ce6ae88f4733d3660046"
+        },
+        {
+          "kind": "A1_OWNER_PATH_AUDIT",
+          "path": "docs/s3-night/S3_A1_NOCHE_A_1600_OWNER_CODE_AUDIT_20261105.md",
+          "sha": "07e03fa732e0041858cc09dc9aed3177b46a7ea9"
         }
       ],
-      "next_step": "Inspect exact owner code paths for N015/N031, complete B5 ACL/authority tests and per-unit permit before any B6 functional code; continue other S3 unit if owner missing",
-      "blocker": "A1_NO_PER_UNIT_B1_B5_PERMIT_OWNER_PATHS_UNVERIFIED",
-      "writer_release_epoch": 279,
+      "next_step": "Find composition root and real ACL/owner emitters N015/N031, or move to other S3 unit with fresh permit; no functional A1 writes",
+      "blocker": "NO_A1_PER_UNIT_PERMIT; RECEIPT_COMMIT_TIMESTAMP_ABSENT; FULL_ATTENTION_OWNER_UNPROVEN",
+      "writer_release_epoch": 281,
       "last_observed_at": "2026-11-05T15:3x:00-03:00",
       "time_breakdown": "NO_REGISTRADO"
     }
