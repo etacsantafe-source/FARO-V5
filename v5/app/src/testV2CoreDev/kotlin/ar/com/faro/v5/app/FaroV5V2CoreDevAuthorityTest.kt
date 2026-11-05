@@ -17,6 +17,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.yield
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -371,17 +373,23 @@ class FaroV5V2CoreDevAuthorityTest {
             ) is ConversationSelectionResult.Saved)
             val hit = session.searchReadPort.search("nuevo").hits.single()
             val observed = mutableListOf<Unit>()
+            // G4 has four independently replaying grant StateFlows. Wait for all
+            // four initial notifications BEFORE the pointer changes, then require
+            // a fifth notification caused by the durable switch itself.
             val collector = launch(start = CoroutineStart.UNDISPATCHED) {
-                session.searchReadPort.invalidations.take(2).collect { observed.add(it) }
+                session.searchReadPort.invalidations.take(5).collect { observed.add(it) }
             }
-            assertEquals(1, observed.size)
+            withTimeout(10_000L) {
+                while (observed.size < 4) yield()
+            }
+            assertEquals(4, observed.size)
             val previous = StorageGenerationId("v2-core-dev-workspace-1")
             val switched = FileActiveGenerationPointer(root).compareAndSet(
                 previous, StorageGenerationId("dev-search-test-stale-pointer"),
             )
             assertNotNull(switched)
-            collector.join()
-            assertEquals(2, observed.size)
+            withTimeout(10_000L) { collector.join() }
+            assertEquals(5, observed.size)
             assertEquals(ar.com.faro.v5.surface.FaroV5SearchCoverage.UNAVAILABLE,
                 session.searchReadPort.search("nuevo").coverage)
             assertEquals(ar.com.faro.v5.surface.FaroV5SearchOpenResult.UNAVAILABLE,
