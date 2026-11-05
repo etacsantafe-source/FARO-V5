@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 212
+    "expected_release_epoch": 216
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G1_FORMAL_CLOSED_SINGLE_PROCESS_B7_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_G2_B6_WAIT_CI_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G1 CLOSED for current single-process host: final code dc3eee9d+JVM RED_FIX f5f57a04, S3 directed #41957095077 XML 42/42, merged manifest single-process PASS 2, guard #41957095087 SUCCESS, B7 doc current handoff. DO NOT repeat or re-open G1 without changed architecture. A2 1/5 gates CLOSED; G2 NEXT connect SearchReadPort to genuinely authorized host without enabling V2 productive, G3 PARTIAL, G4 and G5 OPEN. V2 core variant full workflow on first commit failed only due JVM suspend test which was fixed in f5f; this test-only fix did not trigger V2 core workflow. Isolated APK #41955987191 SUCCESS on same production code. Physical campaign still G5. S3≈40% developed 0/5 A1-A5 formal, S2 8/8, S4/Auto/Noche OFF. Writer RELEASED epoch212 after B7. New code only after B1-B5 READY preflight writer CAS.",
-  "checkpoint_status": "S3_A2_G1_CLOSED_SINGLE_PROCESS_B7_PASS_G2_NEXT_WRITER_RELEASE_212",
+  "next": "G2 code B6 published 6ea5f223; protocol SUCCESS #41959201264; directed S3 #41959201283, V2 core #41959201284, isolated APK #41959201293 were RUNNING when recorded, NOT PASS. FIRST inspect exact terminal CI/XML; then B7 same unit PASS or RED_FIX. G1 CLOSED do not repeat. G2 WAIT_CI, G3 PARTIAL G4/G5 OPEN; V2 PRODUCTIVE OFF, Auto/Noche/S4 OFF. Release writer epoch216 and revalidate before B7.",
+  "checkpoint_status": "S3_A2_G2_B6_WAIT_CI_CODE_PUBLISHED_NOT_CERTIFIED",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G1_FORMAL_CLOSED_SINGLE_PROCESS_B7_20261104.md",
-  "last_code_sha": "f5f57a04da3e494bd03f517fccc42f9ab360b09d",
-  "last_ci_run_id": 41957095077,
+  "last_handoff": "docs/s3-night/S3_A2_G2_B6_WAIT_CI_20261105.md",
+  "last_code_sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
+  "last_ci_run_id": 41959201283,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "S3_XML_42_42_SINGLE_PROCESS_MANIFEST_2_2_SUCCESS_41957095077_PROTOCOL_SUCCESS_41957095087",
+  "last_ci_conclusion": "WAIT_CI_S3_41959201283_V2_41959201284_APK_41959201293_PROTOCOL_SUCCESS_41959201264",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -756,14 +756,26 @@
   },
   "last_preflight_run_id": 41948833339,
   "last_unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
-  "pending_code_publication": true,
+  "pending_code_publication": false,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
-    "G2": "OPEN",
+    "G2": "B6_WAIT_CI",
     "G3": "PARTIAL",
     "G4": "OPEN",
     "G5": "OPEN"
   },
   "s3_a2_gates_closed": 1,
-  "s3_a2_gates_total": 5
+  "s3_a2_gates_total": 5,
+  "s3_a2_g2_b6": {
+    "status": "WAIT_CI_NOT_PASS",
+    "code_sha": "6ea5f223df720e0aeec0bda36a1ef671746dbd01",
+    "protocol_run": 41959201264,
+    "directed_s3_run": 41959201283,
+    "v2_core_run": 41959201284,
+    "apk_run": 41959201293,
+    "preaudit": "docs/s3-night/S3_A2_G2_HOST_SEARCH_UI_WIRING_B1_B5_20261104.md",
+    "checkpoint": "docs/s3-night/S3_A2_G2_B6_WAIT_CI_20261105.md",
+    "physical": "NOT_RUN",
+    "v2_productive": false
+  }
 }
