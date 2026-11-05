@@ -23,9 +23,9 @@
     "shared_queue_two_sessions": "PASS_WITH_GENERIC_STALE_ERROR_CAVEAT",
     "competing_writer_safe_stop": "PASS_LOCAL_GUARD_NOT_SIMULTANEOUS_RACE",
     "contract_freeze": "PASS_SPEC_ONLY_H01_H04_R0_R3_NO_IMPLEMENTATION_TESTS",
-    "physical_at_end": "NOT_RUN",
+    "physical_at_end": "PARTIAL_USER_AUTHORIZED_20261105_WORKSPACE_PASS_3_DOMAINS_EMPTY",
     "s3_a2_g4": "CLOSED_B7_AUTOMATED_V2CORE_10_10_T4_7_7_MANIFEST_4_4",
-    "s3_a2_g5": "PENDING_PHYSICAL_LAST_CAMPAIGN"
+    "s3_a2_g5": "PARTIAL_PHYSICAL_WORKSPACE_PASS_DOMAIN_POSITIVES_NOT_RUN"
   },
   "tasks": [
     "S3-N00",
@@ -36,7 +36,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "G4 B7 CLOSED verified CI #42040913961. S3-A2 G1-G4 4/5 (80%) with only G5 physical pending; respect single physical campaign at end. S3 formal 0/5, V2 productive OFF, Noche/Auto OFF, S4 not open. Do not repeat G1-G4 or treat portable FBS1/FBS2 backup as available.",
+  "next": "G4 CLOSED. G5 Android físico PARCIAL: recuperación de Chat, Search Workspace, consulta negativa y tras force-stop, aislamiento por UID/permisos observado PASS; Realidad esquema v6 presente pero finance/objectives/matters 0 filas, falta certificar búsqueda positiva/navegación de esos 3 owners, más negativos restantes. No pedir más copy/paste ADB al usuario; no cerrar G5 ni alterar S3.A2 4/5. Reanudar desde documento físico de 2026-11-05.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -623,5 +623,6 @@
     "s3_formal": "0/5",
     "v2_production": "OFF",
     "portable_backup": "LEGACY_FAIL_CLOSED_G4_NOT_PORTABLE"
-  }
+  },
+  "s3_a2_g5_physical_handoff": "docs/s3-night/S3_A2_G5_ANDROID_PHYSICAL_PARTIAL_20261105.md"
 }
