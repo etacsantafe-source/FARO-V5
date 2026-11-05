@@ -2,11 +2,12 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
-  "reviewed_head": "f053ad278dfc7ee28a63141498da6f7993bbf757",
+  "reviewed_head": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
   "paths": [
     "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactory.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactoryTest.kt"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactoryTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -56,6 +57,11 @@
           "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
           "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_RED_FIX_20261105.md",
+          "blob_sha": "8b13dcd4898bdba5b651b91657263228b6bfc5f7",
+          "marker": "## B5 RED_FIX"
         }
       ]
     },
@@ -63,20 +69,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
-    "result": "PASS",
-    "unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
+    "sha": "bd5780fc4d7960940ecd7e906aa79f1c07e42e93",
+    "result": "RED_FIX",
+    "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
-        "blob_sha": "30598bc40619cd8563125d9d4af33dd3a58ad48f",
-        "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
+        "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_RED_FIX_20261105.md",
+        "blob_sha": "8b13dcd4898bdba5b651b91657263228b6bfc5f7",
+        "marker": "## B7 RED_FIX"
       }
     ]
   },
-  "why": "N032 generation-ID-only stamp accepts A->B->A stale durable-pointer sequence; V1 delivery graph also lacks pinned pointer identity",
-  "how": "Pin existing durable pointer for active graphs, admit Home notices only with exact pinned pointer, verify ABA negative tests; no owner, schema or catalog change",
+  "why": "RED_FIX verified: directed Home XML 11 tests zero errors but workflow expected stale 9; same unit only",
+  "how": "Exact YAML 9->11 no weakening, preserve all other checks",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 pointer fence with exact directed CI; B7 independent; N015/N031/Guardados still BLOCKED"
+  "next": "Correct only directed XML gate under same unit; rerun exact SHA then independent B7"
 }
