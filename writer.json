@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.NOCHE.ACTIVATION.20261105",
   "token_hash": "noche-20261105-activation-no-secret",
-  "target_head": "b83d00814ae17408ead534eede21ca7cb03d5f9a",
+  "target_head": "a5d6d0401d3593bf0c571a2fe90e5a3213b08bd2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 274,
+  "epoch": 275,
   "timestamp": 1793897000,
-  "purpose": "ACTIVATE_S3_NOCHE_AB_20261105_CUTOFF_1900_AR"
+  "purpose": "NOCHE_AB_ACTIVATION_CONFIGURED_RELEASED_FOR_TURN_A"
 }
