@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A4.ABA.PERMIT.20261105",
   "token_hash": "bdfe89db170e9f43036c64f866126803ee821bb3606c760d3dbf9740b5ea4184",
-  "target_head": "f416f8809035fa4d7d06434941469b20ee09ec26",
+  "target_head": "9ba2980e7b0fe52540ea39577ed7e66c6e1e0835",
   "target_branch": "work/s3-night-20261102",
   "epoch": 321,
-  "timestamp": 1793919316,
-  "purpose": "S3_A4_AVISOS_POINTER_ABA_READY_PERMIT_DOC_ONLY",
-  "last_checkpoint": "A4_PREAUDIT_PASS@f416f8809035fa4d7d06434941469b20ee09ec26"
+  "timestamp": 1793919358,
+  "purpose": "A4_AVISOS_PERMIT_READY_WAIT_CI",
+  "last_checkpoint": "S3_A4_READY_PERMIT_WAIT_CI@9ba2980e7b0fe52540ea39577ed7e66c6e1e0835"
 }
