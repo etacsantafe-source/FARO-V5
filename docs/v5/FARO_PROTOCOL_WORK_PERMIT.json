@@ -1,19 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
-  "reviewed_head": "07e03fa732e0041858cc09dc9aed3177b46a7ea9",
+  "status": "READY",
+  "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
+  "reviewed_head": "f053ad278dfc7ee28a63141498da6f7993bbf757",
   "paths": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5HomeReadCoordinator.kt",
-    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5HomeReadCoordinatorTest.kt"
+    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactory.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5HomeNoticeBindingFactoryTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
-          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
+          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
           "marker": "## B1"
         }
       ]
@@ -22,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
-          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
+          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
           "marker": "## B2"
         }
       ]
@@ -32,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
-          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
+          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
           "marker": "## B3"
         }
       ]
@@ -42,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
-          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
+          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
           "marker": "## B4"
         }
       ]
@@ -52,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A1_ABCD_HOME_BATCH_B1_B5_20261105.md",
-          "blob_sha": "982caacacce156bf02afe9ebf8b9491b86a62ead",
+          "path": "docs/s3-night/S3_A1_N032_POINTER_FENCE_B1_B5_20261105.md",
+          "blob_sha": "504bd0832fee3b9d97231ab32a1326d5eb33f687",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_2C00FC06",
-    "B7": "PASS_SCOPED_INDEPENDENT"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
@@ -73,9 +74,9 @@
       }
     ]
   },
-  "why": "B7 independently audited: batch-end owner stamp revalidation PASS JVM directed; next functional S3.A1 unit needs own B1-B5 and separate READY permit; N015/N031/Guardados owners incomplete.",
-  "how": "Document-only B7 and fail-closed BLOCKED permit; no functional change, no unreviewed follow-up code.",
+  "why": "N032 generation-ID-only stamp accepts A->B->A stale durable-pointer sequence; V1 delivery graph also lacks pinned pointer identity",
+  "how": "Pin existing durable pointer for active graphs, admit Home notices only with exact pinned pointer, verify ABA negative tests; no owner, schema or catalog change",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A1 remains OPEN. Investigate canonical N015/N031 owners, timestamps, ACL, federation, then issue new bounded preaudit and READY; S3.A5 physical campaign later."
+  "next": "B6 pointer fence with exact directed CI; B7 independent; N015/N031/Guardados still BLOCKED"
 }
