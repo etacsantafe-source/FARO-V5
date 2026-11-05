@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G4.FINANCE.PERMIT.20261105",
-  "token_hash": "72933294f814c6aa7c7777bea1fc59a2323fde77115124ca3d465bf0039df9ef",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G4.FINANCE.B6.20261105",
+  "token_hash": "bc731a486c93ceb8d9d4910da9ef12ae67be729a04ecec48eac51560188dd901",
   "target_head": "9185cd1b3990667064cbd03c43b186e8ff982356",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 234,
-  "timestamp": 1793851330,
-  "purpose": "G4_FINANCE_SCOPED_PERMIT_RELEASED"
+  "epoch": 235,
+  "timestamp": 1793851350,
+  "purpose": "G4_FINANCE_BOUNDED_B6_CODE"
 }
