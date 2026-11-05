@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G3.B7.20261105",
   "token_hash": "8ad0fcdd87b0a7d78c6f0b7bcc9e84e12be66c243b297614aaa1c1264aa73a89",
-  "target_head": "4eb0f24a9cf6f686903259984db54db4aee58c4f",
+  "target_head": "9777ee990c697b6033b55d3905d8a99ff1ebf751",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 227,
-  "timestamp": 1793850146,
-  "purpose": "G3_FINAL_B7_DOC_PERMIT_BLOCKED_POINTER"
+  "epoch": 228,
+  "timestamp": 1793850291,
+  "purpose": "G3_B7_PASS_G4_NEXT_WRITER_RELEASED"
 }
