@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A1_N015_SCHEMA7_GENERATION_XML_CI",
   "reviewed_head": "d73c0131895e516a88ee17a3089ef928ace5905a",
   "paths": [
@@ -57,24 +57,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_088C0E51_GENERATION_XML_17_17",
+    "B7": "PASS_SCOPED_EXISTING_GENERATION_17_17"
   },
   "last_code_review": {
-    "sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
+    "sha": "088c0e51b478d726bfd884493d5f68173ce0250d",
     "result": "PASS",
-    "unit_id": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
+    "unit_id": "S3_A1_N015_SCHEMA7_GENERATION_XML_CI",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_B7_PASS_SCOPED_20261105.md",
-        "blob_sha": "25abe5be7e0eef4743f6dbeee84f7875f1bbe3ac",
+        "path": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B7_PASS_20261105.md",
+        "blob_sha": "338debdc4b0b75fba7c2fd6b374519470854f8ee",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "Execute 17 already-authored native Generation tests (including 2 never run) with exact XML, preserve existing M2 11/11",
-  "how": "Only add :store:generation:test and XML assert 17/17 to already-triggered V2 workflow; scope no data code",
+  "why": "Generation native schema5/6/7 fixture and migration CI exact 17/17 PASS; B7 scoped, no certification of all user data or S3.A1 global",
+  "how": "B7 independent audit recorded against exact functional sha 088c0e51; code permit BLOCKED until distinct next bounded B1-B5 preaudit",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Inspect CI exact SHA; B7 independent; leave permit BLOCKED"
+  "next": "Verify protocol guard CI on this permit commit; then reconcile original S3.A1 UI acceptance only, separate N015 federation/N031 planning/Guardados owner scope"
 }
