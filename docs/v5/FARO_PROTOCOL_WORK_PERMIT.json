@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_REAL_FEDERATION_TYPED_NAV",
-  "reviewed_head": "05de1c6d22deed15ab5094ce4af5c3e091ffee4d",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5FederatedSearchSurfaceAdapterTest.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/ActiveSqlitePreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "40ceb0c818ac76ebe0feee8f20224e1256d51809",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_FOUR_OWNER_G4_27_27_40CEB0C_42016712209",
+    "B7": "PASS_FEDERATION_READ_ONLY_DEV_RUNTIME_V2_CORE_STILL_NOT_RUN"
   },
   "last_code_review": {
-    "sha": "05de1c6d22deed15ab5094ce4af5c3e091ffee4d",
-    "result": "RED_FIX",
+    "sha": "40ceb0c818ac76ebe0feee8f20224e1256d51809",
+    "result": "PASS",
     "unit_id": "S3_A2_G4_REAL_FEDERATION_TYPED_NAV",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_RED_FIX_B1_B7_20261105.md",
-        "blob_sha": "815d354e599cce9396b58d4dab0008107fb388fc",
-        "marker": "## B7 RED_FIX AUDITORÍA DEL COMMIT PREVIO"
+        "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B7_20261105.md",
+        "blob_sha": "7206f3513fe3cdd678987a34c5c881f8854dfd47",
+        "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Only 4 paths RED_FIX of same G4 unit: test cardinality + version5/6 preflight mismatch",
-  "how": "Amend preflight only for explicit REALITY 5/6 with different required tables, fix single test. Re-run directed 27/27 plus V2 Core.",
+  "why": "Four-source Search B7 PASS 27/27 and Reality 21/21; G4 global open until corrected V2 Core lifecycle runtime XML",
+  "how": "Issue new single-workflow READY permit after B1-B5, add two globs and verify V2 Core 10/10 + T4 7/7; then final G4 closure.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
