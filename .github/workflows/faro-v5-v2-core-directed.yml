@@ -51,7 +51,7 @@ jobs:
         run: |
           # AGP 9 defaults to only the debug UnitTest component. Explicitly enable
           # non-debug unit tests for this isolated CI invocation, not production.
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevAuthorityTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevAuthorityTest" --tests "ar.com.faro.v5.app.FaroV5G5ActiveFourOwnerSearchTest"
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5T4PostPickerGateTest" --tests "ar.com.faro.v5.app.FaroV5T4SyntheticCleanupTest"
       - name: Verify exact M2 JVM tests
         run: |
@@ -65,6 +65,14 @@ jobs:
           values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
           if values!=(10,0,0,0): raise SystemExit(f"V2_CORE_M4_TESTS_FAILED {values}")
           print("V2_CORE_DEV_SEARCH_SESSION_XML_PASS 10/10")
+          g5 = list(base.glob("TEST-*FaroV5G5ActiveFourOwnerSearchTest.xml"))
+          if len(g5) != 1:
+              raise SystemExit(f"G5_REAL_HOST_XML_MISSING {len(g5)}")
+          actual = ET.parse(g5[0]).getroot()
+          g5_values = tuple(int(actual.get(k, "-1")) for k in ("tests", "failures", "errors", "skipped"))
+          if g5_values != (1, 0, 0, 0):
+              raise SystemExit(f"G5_REAL_HOST_XML_FAILED {g5_values}")
+          print("G5_REAL_HOST_FOUR_OWNER_XML_PASS 1/1")
           PY
       - name: Verify relocated historical debug-only T4 gate tests
         run: |
