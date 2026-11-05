@@ -303,4 +303,60 @@ class FaroV5HomeNoticeBindingFactoryTest {
             .readIndicators()
         assertTrue(result.isEmpty())
     }
+
+    @Test
+    fun pinnedNoticeOwnerRejectsABAEvenWhenGenerationIdReturns() = runBlocking {
+        val dir = Files.createTempDirectory("faro-home-pointer-aba")
+        try {
+            val pointer = FileActiveGenerationPointer(dir)
+            val a = StorageGenerationId("gen-1")
+            val b = StorageGenerationId("gen-2")
+            val pinned = pointer.compareAndSet(null, a)!!
+            var reads = 0
+            val port = FaroV5HomeNoticeBindingFactory.createPinned(
+                Supplier { reads++; listOf(notice("a")) },
+                "gen-1",
+                Supplier { pointer.read()!!.generationId.value },
+                BooleanSupplier { true },
+                LongSupplier { 123L },
+                BooleanSupplier { pinned == pointer.read() },
+                kotlinx.coroutines.flow.emptyFlow(),
+            )
+            assertEquals(1, port.readIndicators()[FaroV5HomeIndicator.AVISOS]?.count)
+            assertEquals(b, pointer.compareAndSet(a, b)?.generationId)
+            assertEquals(a, pointer.compareAndSet(b, a)?.generationId)
+            assertTrue(port.readIndicators().isEmpty())
+            assertEquals(1, reads) // revoked sequence never touches canonical store
+        } finally {
+            dir.toFile().deleteRecursively()
+        }
+    }
+
+    @Test
+    fun pinnedNoticeOwnerRejectsABADuringSuspendedOwnerRead() = runBlocking {
+        val dir = Files.createTempDirectory("faro-home-pointer-aba-during-read")
+        try {
+            val pointer = FileActiveGenerationPointer(dir)
+            val a = StorageGenerationId("gen-1")
+            val b = StorageGenerationId("gen-2")
+            val pinned = pointer.compareAndSet(null, a)!!
+            val port = FaroV5HomeNoticeBindingFactory.createPinned(
+                Supplier {
+                    pointer.compareAndSet(a, b)
+                    pointer.compareAndSet(b, a)
+                    listOf(notice("a"))
+                },
+                "gen-1",
+                Supplier { pointer.read()!!.generationId.value },
+                BooleanSupplier { true },
+                LongSupplier { 123L },
+                BooleanSupplier { pinned == pointer.read() },
+                kotlinx.coroutines.flow.emptyFlow(),
+            )
+            assertTrue(port.readIndicators().isEmpty())
+            assertEquals(a, pointer.read()?.generationId)
+        } finally {
+            dir.toFile().deleteRecursively()
+        }
+    }
 }

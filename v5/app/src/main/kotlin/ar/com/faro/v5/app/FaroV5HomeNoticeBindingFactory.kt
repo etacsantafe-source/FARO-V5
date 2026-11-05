@@ -42,6 +42,25 @@ object FaroV5HomeNoticeBindingFactory {
         startupReady: BooleanSupplier,
         clock: LongSupplier,
         invalidations: Flow<Unit> = emptyFlow(),
+    ): FaroV5HomeReadPort = createPinned(
+        readNotices, expectedGeneration, activeGeneration, startupReady,
+        clock, BooleanSupplier { true }, invalidations,
+    )
+
+    /**
+     * Production Home binding: the graph owner pins the durable pointer
+     * sequence. Generation ID alone is insufficient after A->B->A.
+     * The supplier must be owner-backed; this factory grants no authority.
+     */
+    @JvmStatic
+    fun createPinned(
+        readNotices: Supplier<List<NoticeSnapshot>>,
+        expectedGeneration: String,
+        activeGeneration: Supplier<String>,
+        startupReady: BooleanSupplier,
+        clock: LongSupplier,
+        pinnedPointerCurrent: BooleanSupplier,
+        invalidations: Flow<Unit>,
     ): FaroV5HomeReadPort {
         require(expectedGeneration.isNotBlank())
         return FaroV5HomeReadCoordinator(
@@ -57,7 +76,8 @@ object FaroV5HomeNoticeBindingFactory {
                         )
                     },
                     authorityStamp = FaroV5HomeAuthorityStamp {
-                        if (startupReady.asBoolean && activeGeneration.get() == expectedGeneration) {
+                        if (startupReady.asBoolean && activeGeneration.get() == expectedGeneration &&
+                            pinnedPointerCurrent.asBoolean) {
                             expectedGeneration
                         } else {
                             null

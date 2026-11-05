@@ -561,13 +561,16 @@ public final class FaroV5CompositionRoot {
     public FaroV5HomeReadPort readActiveHomePort() {
         if (!maintenanceRecoveryComplete) return null;
         DeliveryGraph graph = deliveryGraph();
-        return FaroV5HomeNoticeBindingFactory.create(
+        return FaroV5HomeNoticeBindingFactory.createPinned(
                 () -> graph.store.readNotices(),
                 graph.generationId,
                 () -> generationStorage().activeGenerationId(),
                 () -> maintenanceRecoveryComplete
                         && startupReadinessGate.snapshot().isLocalReady(),
                 System::currentTimeMillis,
+                () -> graph.pinnedPointer != null
+                        && graph.searchPointer != null
+                        && graph.pinnedPointer.equals(graph.searchPointer.read()),
                 FaroV5HomeReadinessInvalidations.from(
                         startupReadinessGate, graph.store,
                         maintenanceRuntime().activePointerInvalidations()));
@@ -729,12 +732,24 @@ public final class FaroV5CompositionRoot {
             if (current == null) {
                 // Version-aware runtime selection, but the production host
                 // STILL denies V2 activation until F1-F4 are certified.
+                // Pin the durable generation sequence BEFORE opening a graph.
+                // A->B->A must invalidate V1 as well as V2 cached owners.
+                final FileActiveGenerationPointer chatPointer =
+                        new FileActiveGenerationPointer(storageRoot);
+                final ActiveGenerationPointer pinnedChatPointer = chatPointer.read();
+                if (pinnedChatPointer == null) {
+                    throw new IllegalStateException("active generation pointer missing");
+                }
                 FaroV5GenerationStoreGraph stores =
                         FaroV5ActiveGenerationGraphOwner.open(
                                 storageRoot,
                                 activeGenerationId,
                                 materialWriteGate,
                                 FaroV5HostCertification.V2_ACTIVE_ENABLED);
+                if (!pinnedChatPointer.equals(chatPointer.read())) {
+                    stores.close();
+                    throw new IllegalStateException("active pointer changed while opening owner graph");
+                }
                 AuxiliaryDeliveryStore store = stores.getAuxiliary();
                 AndroidNotificationDeliverySink sink =
                         new AndroidNotificationDeliverySink(
@@ -752,11 +767,6 @@ public final class FaroV5CompositionRoot {
                 // Freeze the full durable active-pointer identity once per V2 graph.
                 // A->B->A must not revive old Chat ports if the graph is cached
                 // and no UI listener observed the intervening switch.
-                final FileActiveGenerationPointer chatPointer =
-                        stores.getWorkspace() == null ? null
-                                : new FileActiveGenerationPointer(storageRoot);
-                final ActiveGenerationPointer pinnedChatPointer =
-                        chatPointer == null ? null : chatPointer.read();
                 // Shared durable identity fence for every active Chat host capability.
                 // Generation-ID equality alone does not detect A->B->A.
                 final BooleanSupplier pinnedChatPointerStillCurrent = () -> {
@@ -1013,8 +1023,8 @@ public final class FaroV5CompositionRoot {
         }
 
         /**
-         * V1 graphs without Workspace preserve legacy caching. Active Workspace
-         * must match the full durable sequence, not only generation ID.
+         * Every active graph, including V1, is pinned to the full durable
+         * pointer sequence. The same generation ID after A->B->A is stale.
          */
         boolean matchesActivePointer(String activeGenerationId) {
             if (!generationId.equals(activeGenerationId)) return false;
