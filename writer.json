@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G3.PERMIT.20261105",
   "token_hash": "8ad0fcdd87b0a7d78c6f0b7bcc9e84e12be66c243b297614aaa1c1264aa73a89",
-  "target_head": "b50dc4ada45cd9248ca9de8f080a52e6411d7865",
+  "target_head": "64572ea3912670c5608aabdca27eaf981eea65d7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 221,
-  "timestamp": 1793849356,
-  "purpose": "G3_APPROVE_PREAUDITED_PATHS"
+  "epoch": 222,
+  "timestamp": 1793849372,
+  "purpose": "G3_PERMIT_READY_RELEASED"
 }
