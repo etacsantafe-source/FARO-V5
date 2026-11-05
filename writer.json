@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.ABA_CODE.20261104",
   "token_hash": "c3fa0851fb2d4c92d3763a9d1a485a1d2356e592045172d9589e39c75df394b7",
   "target_head": "e573166c6086825fcaa857ce8b1d92074b2c3ce7",
   "target_branch": "work/s3-night-20261102",
   "epoch": 196,
-  "timestamp": 1793839817,
+  "timestamp": 1793839924,
   "purpose": "S3_A2_ACTIVE_HOST_MUTATION_POINTER_ABA_CODE"
 }
