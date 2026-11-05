@@ -1,11 +1,17 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.ABCD.B.EARLY.20261105",
   "token_hash": "abcd-b-early-no-secret",
   "target_head": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
   "target_branch": "work/s3-night-20261102",
   "epoch": 284,
   "timestamp": 1793907677,
-  "purpose": "ABCD_B_DOCUMENTED_NO_NEXT_FUNCTIONAL_UNTIL_B7"
+  "purpose": "ABCD_B_DOCUMENTED_NO_NEXT_FUNCTIONAL_UNTIL_B7",
+  "recovery": {
+    "authorization": "human-approved-in-chat-20261105",
+    "previous_writer_commit": "0046981437a58330540a24f1e9054d7146432a94",
+    "verified_target_head": "d37f80da1c4db1233aa3d8c2929a22b085635623",
+    "note": "No enabled automations or active branch workflow runs. Recovery from stale invalid release credential; no data branch changes."
+  }
 }
