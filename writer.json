@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G4.V2.COVERAGE.CODE.20261105",
-  "token_hash": "91a1a2ff3abc04ddc8146c840de4b218f3a738b4304927e65d2df3bd0f50f11a",
-  "target_head": "f6e4af0e0d464e1f2e37e78d6f055abe57eb5275",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G4.HANDOFF.20261105",
+  "token_hash": "6776b72b8c73b15e84322f39aae4b98ddc6100bb247ec71f3816ce5dcb4098d3",
+  "target_head": "a49b5cea329b34d15d56891a12606cd33ab27c04",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 260,
-  "timestamp": 1793877642,
-  "purpose": "G4_V2_CI_COVERAGE_CODE_CI_PENDING"
+  "epoch": 261,
+  "timestamp": 1793886159,
+  "purpose": "G4_HANDOFF_AFTER_V2_CORE_9_10_RED"
 }
