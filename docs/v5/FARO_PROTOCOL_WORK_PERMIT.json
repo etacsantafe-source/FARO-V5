@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
-  "reviewed_head": "fe1c9e159e5d2fd6e2c5f3e58f5185817c21ecdf",
-  "paths": [
-    ".github/workflows/faro-v5-v2-core-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "a49b5cea329b34d15d56891a12606cd33ab27c04",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_WORKFLOW_TRIGGER_A49B5CEA",
+    "B7": "RED_FIX_V2CORE_LIFECYCLE_9_OF_10_RUN_42018187304"
   },
   "last_code_review": {
-    "sha": "40ceb0c818ac76ebe0feee8f20224e1256d51809",
-    "result": "PASS",
-    "unit_id": "S3_A2_G4_REAL_FEDERATION_TYPED_NAV",
+    "sha": "a49b5cea329b34d15d56891a12606cd33ab27c04",
+    "result": "RED_FIX",
+    "unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B7_20261105.md",
-        "blob_sha": "7206f3513fe3cdd678987a34c5c881f8854dfd47",
-        "marker": "## B7 AUDITORÍA FINAL"
+        "path": "docs/s3-night/S3_A2_G4_HANDOFF_V2_CORE_9_OF_10_20261105.md",
+        "blob_sha": "4042057e056f809bb17edbbae219aa19aea7a879",
+        "marker": "## RED — last CI"
       }
     ]
   },
-  "why": "Close G4 validation hole: corrected Reality 5→6 DEV lifecycle lacks exact V2CoreDev tests on new SHA; no real G4 closure yet",
-  "how": "Add two narrowly scoped storage/generation path filters to V2 Core workflow, preserve jobs, assert 10/10 and 7/7 plus manifests and protocol PASS",
+  "why": "V2 Core #42018187304: 9/10, failed pointer-switch search invalidation test. G4 OPEN.",
+  "how": "Follow G4 handoff; new scoped B1-B5 and permit before red-fix code; rerun V2 Core 10/10, T4 7/7, manifests; final B7.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
