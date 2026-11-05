@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET",
-  "reviewed_head": "cf796dee0c6287c902463741bdb5b3b1d607379a",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5FinanceSearchReadSource.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5FinanceSearchReadSourceTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "6303c6f77db08832b427bedefa1d718df3cc08c5",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_FINANCE_TARGET_6_6_SHA_6303C6F",
+    "B7": "PASS_FINANCE_TARGET_ONLY_G4_GLOBAL_OPEN"
   },
   "last_code_review": {
-    "sha": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
+    "sha": "6303c6f77db08832b427bedefa1d718df3cc08c5",
     "result": "PASS",
-    "unit_id": "S3_A2_G4_OWNER_CONTRACT_FOUNDATION",
+    "unit_id": "S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B7_20261105.md",
-        "blob_sha": "7a50d9f89ecc50570c5816f220aa73a3af140f11",
+        "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B7_20261105.md",
+        "blob_sha": "430ee41d2905b6128a380af34c979ff1f9f26c62",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "Only explicit-authority Finance canonical entry ID resolution; source still unmounted, G4 open",
-  "how": "One 3-path functional commit, 2 new tests with directed 6/6 Finance XML, B7 before next code. No real host permission/navigation or schema.",
+  "why": "Finance locator 6/6 only, no owner-backed finance navigation; G4 global still OPEN",
+  "how": "Next B1-B5 for Objectives/Matters Reality persistent owner with versioned S2-compatible backup; no new functional write until scoped permit.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
