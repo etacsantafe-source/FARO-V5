@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET",
+  "reviewed_head": "cf796dee0c6287c902463741bdb5b3b1d607379a",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5FinanceSearchReadSource.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5FinanceSearchReadSourceTest.kt",
+    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
-          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
+          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
+          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
-          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
+          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
+          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,9 +33,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
-          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
-          "marker": "## B3 INVESTIGACIÓN DE ALTERNATIVAS"
+          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
+          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
+          "marker": "## B3 INVESTIGACIÓN"
         }
       ]
     },
@@ -39,9 +43,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
-          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
-          "marker": "## B4 UNIFICACIÓN Y PATH-SET EXACTO"
+          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
+          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
+          "marker": "## B4 UNIFICACIÓN"
         }
       ]
     },
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_OWNER_CONTRACT_FOUNDATION_B1_B5_20261105.md",
-          "blob_sha": "6ba369f2f26460db766596bdefc06079dfa08fe7",
-          "marker": "## B5 AUDITORÍA ADVERSARIAL"
+          "path": "docs/s3-night/S3_A2_G4_FINANCE_CANONICAL_ENTRY_TARGET_B1_B5_20261105.md",
+          "blob_sha": "74c15ecc1ccb619c44aa924903e9b9904dfb962d",
+          "marker": "## B5 AUDITORÍA"
         }
       ]
     },
-    "B6": "VERIFIED_CONTRACTS_ONLY_85EFD609_G4_8_8_41968020623",
-    "B7": "PASS_CONTRACT_FOUNDATION_ONLY_G4_GLOBAL_OPEN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "85efd609988fed4bc1e520e86a0b8fc0c1ab8954",
@@ -70,8 +74,8 @@
       }
     ]
   },
-  "why": "G4 Objectives/Matters JVM contracts 8/8 PASS only; no durable owner. G4 global still blocked",
-  "how": "Next distinct B1-B5 for Reality schema/persistence/semantic backup, bounded permit; no code without new READY.",
+  "why": "Only explicit-authority Finance canonical entry ID resolution; source still unmounted, G4 open",
+  "how": "One 3-path functional commit, 2 new tests with directed 6/6 Finance XML, B7 before next code. No real host permission/navigation or schema.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
