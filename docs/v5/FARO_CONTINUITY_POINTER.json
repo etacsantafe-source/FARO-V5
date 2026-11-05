@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-05",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_MANUAL_A1",
+  "phase": "S3_OPEN_MANUAL_A3",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 304
+    "expected_release_epoch": 317
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A1 OPEN. Existing 17-generation-test gate added code 088c0e51 CI WAIT, B7 PENDING. Prior N015 Activity 6/6 and DEV 11/11 PASS scoped. After CI B7 and BLOCKED; pending real federation, N031 combined planning, Guardados owner +8 NOT APPROVED.",
+  "next": "S3.A1 CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY (four cards, Chat-first drawer, accessibility, state/rollback); N031 & N015 owner integration remain A4, Guardados real owner remains A3, X01-X12/Moto G15 remain A5. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE. Generation 17/17 + V2 DEV 11/11 + mandatory guard SUCCESS; permit BLOCKED. S3 scoped 2/5, full integrated 0/5. V2 OFF.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
@@ -538,9 +538,9 @@
     "formal_total": 5,
     "formal_percent": 0,
     "unchanged_by_m1_manifest_fix": true,
-    "scoped_closed": 1,
+    "scoped_closed": 2,
     "scoped_total": 5,
-    "scoped_percent": 20,
+    "scoped_percent": 40,
     "formal_full_delivery_closed": 0,
     "formal_full_delivery_percent": 0
   },
@@ -919,10 +919,10 @@
   },
   "g5_physical_remaining": "S3_A5_FINAL_SINGLE_CAMPAIGN_NOT_RUN",
   "s3_a2_stage_status": "CLOSED_AUTOMATED_SCOPE_PENDING_FINAL_INTEGRATION",
-  "s3_scoped_stages_closed": 1,
+  "s3_scoped_stages_closed": 2,
   "s3_total_stages": 5,
   "s3_formal_full_release": "NOT_APPROVED",
-  "current_s3_priority": "S3_A1_HOME_REAL_OWNERS",
+  "current_s3_priority": "S3_A3_GUARDADOS_OWNER_BOUNDED_REVIEW",
   "s3_a5_final_acceptance": {
     "status": "PENDING_NOT_CERTIFIED",
     "x01_x12": "PENDING_FULL_INTEGRATION",
@@ -946,7 +946,7 @@
     "activation_authorized": false
   },
   "manual_s3_a1_20261105": {
-    "status": "N015_SCHEMA7_GENERATION_17_CI_WAIT_A1_OPEN",
+    "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY",
     "last_functional_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
     "review_doc": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
     "review_head_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
@@ -1044,10 +1044,26 @@
       "code_sha": "088c0e51b478d726bfd884493d5f68173ce0250d",
       "b1_b5": "docs/s3-night/S3_A1_N015_SCHEMA7_GENERATION_XML_B1_B5_20261105.md",
       "expected": "17/17_XML",
-      "ci": "WAIT_CI",
-      "b7": "PENDING",
+      "ci": "SUCCESS",
+      "b7": "PASS_SCOPED",
       "scope": "CI_ONLY_EXISTING_WORKFLOW",
-      "physical": "NOT_RUN"
-    }
-  }
+      "physical": "NOT_RUN",
+      "ci_run": 42115722898,
+      "junit": "17/17",
+      "guard_run": 42119458698
+    },
+    "scope_doc": "docs/s3-night/S3_A1_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+    "b7_protocol": {
+      "commit": "2960cff8bada80125818008d61c5cacf80ea83ab",
+      "guard_run": 42119458698,
+      "result": "SUCCESS",
+      "permit": "BLOCKED"
+    },
+    "pending_data_owners": [
+      "N031_A4",
+      "N015_A4",
+      "GUARDADOS_A3"
+    ]
+  },
+  "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5"
 }

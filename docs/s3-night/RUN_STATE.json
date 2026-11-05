@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "S3_OPEN_MANUAL_A1",
+  "phase": "S3_OPEN_MANUAL_A3",
   "date_local": "2026-11-05",
   "timezone": "America/Argentina/Cordoba",
   "branch": "work/s3-night-20261102",
@@ -29,7 +29,8 @@
     "s3_a2_g5_ci_run": 42062273554,
     "s3_a2_g5_android_ci_run": 42071443306,
     "s3_a2": "CLOSED_AUTOMATED_SCOPE_G1_G5_5_OF_5",
-    "s3_a5_final_integration": "OPEN_X01_X12_SINGLE_MOTO_G15_PHYSICAL_CAMPAIGN_AT_END"
+    "s3_a5_final_integration": "OPEN_X01_X12_SINGLE_MOTO_G15_PHYSICAL_CAMPAIGN_AT_END",
+    "s3_a1": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5"
   },
   "tasks": [
     "S3-N00",
@@ -40,7 +41,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 OPEN. Existing 17-generation-test gate added code 088c0e51 CI WAIT, B7 PENDING. Prior N015 Activity 6/6 and DEV 11/11 PASS scoped. After CI B7 and BLOCKED; pending real federation, N031 combined planning, Guardados owner +8 NOT APPROVED.",
+  "next": "S3.A1 CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY; S3.A2 CLOSED_AUTOMATED_SCOPE. Next S3.A3 owner/review, then S3.A4 N015/N031, S3.A5 integration+Moto G15. All three absent Home counts remain No disponible. Catalog 172; V2 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -56,10 +57,10 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_SCOPED",
+  "last_completed_gate": "S3_A1_FORMAL_SCOPE_RECONCILIATION_20261105",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N015_ACTIVITY_AND_V2_SCHEMA7_DEV_B7_SCOPED_A1_OPEN",
+    "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -384,6 +385,44 @@
       "ci": "WAIT_CI",
       "expected": "17/17",
       "b7": "PENDING"
+    },
+    "scope_reconciliation_20261105": {
+      "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY",
+      "doc": "docs/s3-night/S3_A1_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+      "criteria": "ORIGINAL_S3_BACKLOG_UI_NAVIGATION_ACCESSIBILITY_STATE_ROLLBACK",
+      "surface_ci": {
+        "run": 42094317827,
+        "xml": "61/61",
+        "conclusion": "SUCCESS"
+      },
+      "home_notice_ci": {
+        "run": 42103685170,
+        "xml": "11/11",
+        "conclusion": "SUCCESS"
+      },
+      "generation_ci": {
+        "run": 42115722898,
+        "xml": "17/17",
+        "conclusion": "SUCCESS"
+      },
+      "dev_ci": {
+        "run": 42115722898,
+        "xml": "11/11",
+        "conclusion": "SUCCESS"
+      },
+      "protocol_ci": {
+        "run": 42119458698,
+        "conclusion": "SUCCESS",
+        "permit": "BLOCKED"
+      },
+      "unavailable_by_design": [
+        "PENDIENTES_N031_OWNER_A4",
+        "ACTIVIDAD_RECIENTE_N015_FEDERATION_A4",
+        "GUARDADOS_OWNER_A3"
+      ],
+      "no_approved_new_operations": true,
+      "physical": "S3_A5_NOT_RUN",
+      "full_delivery": "NOT_CLOSED"
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
@@ -742,13 +781,13 @@
     "new_code_committed": false
   },
   "manual_work_20261105": {
-    "status": "ACTIVE_MANUAL_NO_SCHEDULES",
+    "status": "S3_A1_CLOSED_AUTOMATED_SCOPE_UI_ONLY",
     "writer_recovery": "HUMAN_APPROVED_EPOCH_284_RELEASED",
-    "latest_b7": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
+    "latest_b7": "docs/s3-night/S3_A1_FORMAL_SCOPE_RECONCILIATION_20261105.md",
     "latest_b7_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
-    "mandatory_next_gate": "NEW_B1_B5_PLUS_READY_BEFORE_FUNCTIONAL",
+    "mandatory_next_gate": "NEW_B1_B5_PLUS_READY_FOR_NEXT_FUNCTIONAL",
     "keep_catalog": 172,
-    "home_pending": "N015_N031_GUARDADOS"
+    "home_pending": "A3_GUARDADOS_A4_N015_N031"
   },
   "manual_s3_a1_n032_pointer_20261105": {
     "unit": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
