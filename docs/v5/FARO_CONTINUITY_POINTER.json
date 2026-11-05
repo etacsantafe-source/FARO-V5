@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 264
+    "expected_release_epoch": 265
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G5_ANDROID_PHYSICAL_PARTIAL_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G4 CLOSED. G5 Android físico PARCIAL: recuperación de Chat, Search Workspace, consulta negativa y tras force-stop, aislamiento por UID/permisos observado PASS; Realidad esquema v6 presente pero finance/objectives/matters 0 filas, falta certificar búsqueda positiva/navegación de esos 3 owners, más negativos restantes. No pedir más copy/paste ADB al usuario; no cerrar G5 ni alterar S3.A2 4/5. Reanudar desde documento físico de 2026-11-05.",
-  "checkpoint_status": "G5_PARTIAL_PHYSICAL_WORKSPACE_PASS_THREE_DOMAINS_EMPTY",
+  "next": "S3-A2 G4 CLOSED; G5 remains OPEN physical: Moto Chat/Workspace Search pass, 3 Reality domain tables empty. Real five-store DEV host four-owner legal seed with three positive typed read-only navigations JVM G5 XML 1/1 PASS Actions #42062273554 on 5fc6263, existing 10/10+T4 7/7+isolation 4/4. G5 Android/real phone positives and adversarial ACL/egress/IPC remain NOT_RUN. No ADB bridge from this chat; do not demand copy/paste. Do not repeat PASS gates.",
+  "checkpoint_status": "G5_PARTIAL_PHYSICAL_HOST_FOUR_OWNER_1_1_PASS",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G5_ANDROID_PHYSICAL_PARTIAL_20261105.md",
+  "last_handoff": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
   "last_code_sha": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
   "last_ci_run_id": 42040913961,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -909,5 +909,14 @@
     "permissions": "NO_PERMISSIONS_REPORTED",
     "backup": "DEV_RUN_AS_TAR_ONLY_NOT_PORTABLE_CERTIFIED",
     "device_adb_direct_from_chat": false
+  },
+  "s3_a2_g5_real_owner_ci_20261105": {
+    "sha": "5fc626303cb53106e85b0a4a8176b3ef59dce920",
+    "run": 42062273554,
+    "status": "B7_PASS_JVM_ONLY",
+    "unit": "S3_A2_G5_REAL_ACTIVE_OWNER_DIRECTED",
+    "xml": "1/1",
+    "doc": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
+    "phone_physical": "NOT_RUN_FOR_FINANCE_OBJECTIVE_MATTER"
   }
 }

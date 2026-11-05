@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G5_REAL_ACTIVE_OWNER_DIRECTED",
-  "reviewed_head": "d1a9c68bab7d99e93c1aae60c022a40c4955848f",
-  "paths": [
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5G5ActiveFourOwnerSearchTest.kt"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "5fc626303cb53106e85b0a4a8176b3ef59dce920",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_TEST_ONLY_5FC6263_CI_42062273554_10_10_PLUS_1_1_T4_7_7_MANIFESTS_PASS",
+    "B7": "PASS_UNIT_JVM_ONLY_G5_PHYSICAL_OPEN"
   },
   "last_code_review": {
-    "sha": "d1a9c68bab7d99e93c1aae60c022a40c4955848f",
-    "result": "RED_FIX",
+    "sha": "5fc626303cb53106e85b0a4a8176b3ef59dce920",
+    "result": "PASS",
     "unit_id": "S3_A2_G5_REAL_ACTIVE_OWNER_DIRECTED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G5_ACTIVE_OWNER_COMPILE_REDFIX_20261105.md",
-        "blob_sha": "ddaab430d6c839089e51e2a9ec639951a60e2c0f",
-        "marker": "## B5 AUDITORÍA ADVERSARIAL"
+        "path": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
+        "blob_sha": "c3315bd78ca70ea60ad154cce5b0cbb3d9b79286",
+        "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "Compilation #42061296590 failed at one wrong StorageGenerationId import, no test executed.",
-  "how": "Correct one import; exact CI V2 10/10 and G5 1/1 required.",
+  "why": "New G5 real host 1/1 XML PASS + V2 Core 10/10, T4 7/7, manifests 4/4 on 5fc6263; no physical closure.",
+  "how": "Wait for an approved new bounded unit to cover positive Android domain UI without user SQL or repeat manual commands. Current G5 physical OPEN.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
