@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.G1.REDFIX_CODE.20261104",
   "token_hash": "086bc57e44dc538045bfedb833b1b04cad8db8750eb2137befb450b86d2678ad",
   "target_head": "ccb28cc90a7bb0e3c4dc72ccad63b56bded281cb",
   "target_branch": "work/s3-night-20261102",
   "epoch": 204,
-  "timestamp": 1793843682,
+  "timestamp": 1793843859,
   "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_RECOVERY_ABA_REDFIX_CODE"
 }
