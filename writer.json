@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
+  "status": "HELD",
   "owner": "FARO.V5.MANUAL.G3.CODE.20261105",
   "token_hash": "8ad0fcdd87b0a7d78c6f0b7bcc9e84e12be66c243b297614aaa1c1264aa73a89",
   "target_head": "64572ea3912670c5608aabdca27eaf981eea65d7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 224,
-  "timestamp": 1793849586,
-  "purpose": "G3_SCRIPT_ERROR_NO_CODE_RELEASED"
+  "epoch": 225,
+  "timestamp": 1793849623,
+  "purpose": "G3_AUTHORIZED_CODE_DELTA_RETRY"
 }
