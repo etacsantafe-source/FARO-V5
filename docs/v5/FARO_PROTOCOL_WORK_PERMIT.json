@@ -1,17 +1,28 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "0fab63a04de055e3479b33c6d38e1072646f42e3",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G4_REAL_FEDERATION_TYPED_NAV",
+  "reviewed_head": "b5fb91b976ae9941d05cf2250cfbcaf24a19c988",
+  "paths": [
+    "v5/control/src/main/java/ar/com/faro/v5/control/search/SearchCanonicalDocument.java",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ObjectivesSearchReadSource.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5MattersSearchReadSource.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5FederatedSearchSurfaceAdapter.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SearchSurface.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ObjectivesSearchReadSourceTest.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5MattersSearchReadSourceTest.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5FederatedSearchSurfaceAdapterTest.kt",
+    ".github/workflows/faro-v5-g4-federation-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
-          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
-          "marker": "## B1 EVIDENCIA Y BASE VERIFICADA"
+          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B1_B5_20261105.md",
+          "blob_sha": "828fd1dfee34a3d379035e331df20117578e1617",
+          "marker": "## B1 EVIDENCIA"
         }
       ]
     },
@@ -19,9 +30,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
-          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
-          "marker": "## B2 COMPARACIÓN CON PATRONES EXISTENTES Y V4.4"
+          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B1_B5_20261105.md",
+          "blob_sha": "828fd1dfee34a3d379035e331df20117578e1617",
+          "marker": "## B2 COMPARACIÓN"
         }
       ]
     },
@@ -29,9 +40,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
-          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
-          "marker": "## B3 INVESTIGACIÓN EXTERNA Y DECISIÓN"
+          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B1_B5_20261105.md",
+          "blob_sha": "828fd1dfee34a3d379035e331df20117578e1617",
+          "marker": "## B3 INVESTIGACIÓN Y ELECCIÓN"
         }
       ]
     },
@@ -39,9 +50,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
-          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
-          "marker": "## B4 PLAN ACOTADO Y PATH SET"
+          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B1_B5_20261105.md",
+          "blob_sha": "828fd1dfee34a3d379035e331df20117578e1617",
+          "marker": "## B4 PLAN UNIFICADO / EXACT PATH SET"
         }
       ]
     },
@@ -49,14 +60,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_REALITY_DURABLE_OWNER_B1_B5_20261105.md",
-          "blob_sha": "2dc79b5193181e386e144aca9d222a7d533299d8",
-          "marker": "## B5 ADVERSARIAL / ACEPTACIÓN NEGATIVA"
+          "path": "docs/s3-night/S3_A2_G4_REAL_FEDERATION_TYPED_NAV_B1_B5_20261105.md",
+          "blob_sha": "828fd1dfee34a3d379035e331df20117578e1617",
+          "marker": "## B5 AUDITORÍA ADVERSARIAL"
         }
       ]
     },
-    "B6": "VERIFIED_REALITY_STORAGE_8_OF_8_13_LEGACY_0FAB63A",
-    "B7": "PASS_STORAGE_CORE_ONLY_G4_GLOBAL_OPEN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0fab63a04de055e3479b33c6d38e1072646f42e3",
@@ -70,8 +81,8 @@
       }
     ]
   },
-  "why": "Reality-backed objectives/matters pass 8/8 and 13 legacy regressions, G4 global remains OPEN without registered real Search and typed navigation",
-  "how": "Next distinct B1-B5 doc ready, issue separately scoped READY permit and new code; no FBS1 export of G4 rows",
+  "why": "Only real four-owner canonical federation plus typed read-only DEV navigation, preserving G1-G3 and V2 shipping OFF",
+  "how": "One bounded 10-path code commit, directed XML + DEV compile, B7 and BLOCKED before additional code; do not mount in shipping",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
