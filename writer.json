@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G5",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G5.B7.PASS",
   "token_hash": "g5-android-instrumentation-exclusive-20261105-no-secret",
   "target_head": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 269,
+  "epoch": 270,
   "timestamp": 1793898000,
-  "purpose": "G5 EMULATOR REPAIR COMMITTED; CI_42071443306 IN_PROGRESS; WRITER FREE"
+  "purpose": "G5 EMULATOR CI SUCCESS B7 PASS EVIDENCE AND CHECKPOINT"
 }
