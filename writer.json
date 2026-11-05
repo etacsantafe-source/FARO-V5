@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.NOCHE.B.20261105.1530",
   "token_hash": "noche-B-1530-no-secret",
-  "target_head": "e4c1c8075fe946ca68a410ff280b6f0f61f17560",
+  "target_head": "c2fdfe607d9da1040d17ce6ae88f4733d3660046",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 278,
+  "epoch": 279,
   "timestamp": 1793897000,
-  "purpose": "S3_A1_B3_B5_READ_RESEARCH_AND_CHECKPOINT"
+  "purpose": "NOCHE_B_1530_B3_B5_HANDOFF_RELEASED"
 }
