@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.ABCD.MANUAL.20261105.T01",
-  "token_hash": "abcd-manual-t01-no-secret",
+  "status": "HELD",
+  "owner": "FARO.ABCD.B.EARLY.20261105",
+  "token_hash": "abcd-b-early-no-secret",
   "target_head": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 283,
-  "timestamp": 1793906958,
-  "purpose": "S3_A1_ABCD_BATCH_CODE_PUBLISHED_WRITER_FREE_BEFORE_CI"
+  "epoch": 284,
+  "timestamp": 1793907677,
+  "purpose": "ABCD_B_DOCUMENTED_NO_NEXT_FUNCTIONAL_UNTIL_B7"
 }
