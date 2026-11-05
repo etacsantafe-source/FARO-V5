@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.RED_FIX.20261105",
   "token_hash": "71e4f3109d8e3317492daf8279f813b74b97b89114b90df293e08c4d59a3a83b",
-  "target_head": "e3960eb5597b80a066e66a36a689853c49cc4786",
+  "target_head": "b45c42c769ec41ad90d9aa7b17b6d843c1910c24",
   "target_branch": "work/s3-night-20261102",
   "epoch": 262,
-  "timestamp": 1793887204,
-  "purpose": "G4_SCOPED_V2CORE_INVALIDATION_RED_FIX"
+  "timestamp": 1793887269,
+  "purpose": "G4_REDFIX_WAIT_CI"
 }
