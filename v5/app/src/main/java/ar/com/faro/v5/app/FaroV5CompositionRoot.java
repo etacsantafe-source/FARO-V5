@@ -773,10 +773,12 @@ public final class FaroV5CompositionRoot {
                 FaroV5ActiveWorkspaceSearchGrantOwner activeSearchGrant = null;
                 FaroV5SearchReadPort activeSearchReadPort = null;
                 Runnable searchPointerListener = null;
+                Runnable searchReadinessCleanup = null;
                 if (stores.getWorkspace() != null &&
                         FaroV5HostCertification.V2_ACTIVE_ENABLED) {
                     final BooleanSupplier searchAdmitted = () ->
                             maintenanceRecoveryComplete &&
+                            startupReadinessGate.snapshot().isLocalReady() &&
                             FaroV5HostCertification.V2_ACTIVE_ENABLED &&
                             pinnedChatPointerStillCurrent.getAsBoolean();
                     final FaroV5ActiveWorkspaceSearchGrantOwner grant =
@@ -784,11 +786,20 @@ public final class FaroV5CompositionRoot {
                                     activeGenerationId + ":" + pinnedChatPointer.getSequence(),
                                     searchAdmitted);
                     final Runnable observer = grant::revoke;
+                    final FaroV5StartupReadinessListener readinessObserver = readiness -> {
+                        if (!readiness.isLocalReady()) grant.revoke();
+                    };
                     try {
+                        // Subscribe to BOTH actual owners before granting. A
+                        // missed readiness transition must never revive a prior
+                        // Search grant, even without a UI Flow collector.
+                        startupReadinessGate.addListener(readinessObserver);
+                        chatPointer.addChangeListener(observer);
+                        // Reconcile after subscription, as with Home notices.
+                        if (!startupReadinessGate.snapshot().isLocalReady()) grant.revoke();
                         // An active, healthy Workspace and pinned pointer were
                         // verified by FaroV5ActiveGenerationGraphOwner.open().
                         grant.grantAfterVerifiedHostOpen();
-                        chatPointer.addChangeListener(observer);
                         FaroV5WorkspaceSearchReadSource canonical =
                                 new FaroV5WorkspaceSearchReadSource(
                                         activeGenerationId, stores.getWorkspace(),
@@ -800,7 +811,10 @@ public final class FaroV5CompositionRoot {
                                 grant.getInvalidations());
                         activeSearchGrant = grant;
                         searchPointerListener = observer;
+                        searchReadinessCleanup = () ->
+                                startupReadinessGate.removeListener(readinessObserver);
                     } catch (RuntimeException failure) {
+                        startupReadinessGate.removeListener(readinessObserver);
                         chatPointer.removeChangeListener(observer);
                         grant.close();
                         stores.close();
@@ -859,7 +873,8 @@ public final class FaroV5CompositionRoot {
                                 activeSearchReadPort,
                                 activeSearchGrant,
                                 chatPointer,
-                                searchPointerListener);
+                                searchPointerListener,
+                                searchReadinessCleanup);
                 deliveryGraph = current;
             }
             return current;
@@ -916,6 +931,7 @@ public final class FaroV5CompositionRoot {
         final FaroV5ActiveWorkspaceSearchGrantOwner searchGrantOwner;
         final FileActiveGenerationPointer searchPointer;
         final Runnable searchPointerListener;
+        final Runnable searchReadinessCleanup;
 
         DeliveryGraph(
                 String generationId,
@@ -931,7 +947,8 @@ public final class FaroV5CompositionRoot {
                 FaroV5SearchReadPort searchReadPort,
                 FaroV5ActiveWorkspaceSearchGrantOwner searchGrantOwner,
                 FileActiveGenerationPointer searchPointer,
-                Runnable searchPointerListener) {
+                Runnable searchPointerListener,
+                Runnable searchReadinessCleanup) {
             this.generationId = generationId;
             this.stores = stores;
             this.store = store;
@@ -946,11 +963,13 @@ public final class FaroV5CompositionRoot {
             this.searchGrantOwner = searchGrantOwner;
             this.searchPointer = searchPointer;
             this.searchPointerListener = searchPointerListener;
+            this.searchReadinessCleanup = searchReadinessCleanup;
         }
 
         void close() {
             try {
                 if (searchGrantOwner != null) searchGrantOwner.close();
+                if (searchReadinessCleanup != null) searchReadinessCleanup.run();
                 if (searchPointer != null && searchPointerListener != null)
                     searchPointer.removeChangeListener(searchPointerListener);
                 if (chatAssistantDispatch != null) chatAssistantDispatch.close();

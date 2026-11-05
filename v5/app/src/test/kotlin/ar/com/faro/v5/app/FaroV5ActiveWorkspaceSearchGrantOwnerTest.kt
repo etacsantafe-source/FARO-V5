@@ -2,6 +2,7 @@ package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
+import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.surface.FaroV5SearchCoverage
@@ -125,6 +126,53 @@ class FaroV5ActiveWorkspaceSearchGrantOwnerTest {
             assertNull(oldOwner.epochOrNull())
         } finally {
             reopened.close()
+        }
+    }
+
+    @Test fun observedAdmissionLossRevokesInsteadOfSuspendingPriorGrant(): Unit {
+        val admitted = AtomicBoolean(true)
+        val owner = FaroV5ActiveWorkspaceSearchGrantOwner(
+            "recovery-aba", BooleanSupplier { admitted.get() },
+        )
+        try {
+            val original = owner.grantAfterVerifiedHostOpen()
+            admitted.set(false)
+            assertNull(owner.epochOrNull())
+            admitted.set(true)
+            // Returning to true is NOT a regrant: old ACL epoch stays revoked.
+            assertNull(owner.epochOrNull())
+            val fresh = owner.grantAfterVerifiedHostOpen()
+            assertNotEquals(original, fresh)
+            assertEquals(fresh, owner.epochOrNull())
+        } finally {
+            owner.close()
+        }
+    }
+
+    @Test fun readinessOwnerRevokesAcrossFalseTrueWithoutAnySearchSubscriber(): Unit {
+        val writeGate = SingleProcessMaterialWriteGate()
+        val readiness = FaroV5StartupReadinessGate(writeGate)
+        readiness.localReady()
+        val owner = FaroV5ActiveWorkspaceSearchGrantOwner(
+            "readiness-lifecycle", BooleanSupplier { readiness.snapshot().isLocalReady() },
+        )
+        val observer = FaroV5StartupReadinessListener { state ->
+            if (!state.isLocalReady()) owner.revoke()
+        }
+        readiness.addListener(observer)
+        try {
+            val original = owner.grantAfterVerifiedHostOpen()
+            assertEquals(original, owner.epochOrNull())
+            // No Flow collector and no call to epochOrNull() while not-ready.
+            readiness.beginRecovery()
+            readiness.localReady()
+            assertNull(owner.epochOrNull())
+            val renewed = owner.grantAfterVerifiedHostOpen()
+            assertNotEquals(original, renewed)
+            assertEquals(renewed, owner.epochOrNull())
+        } finally {
+            readiness.removeListener(observer)
+            owner.close()
         }
     }
 }

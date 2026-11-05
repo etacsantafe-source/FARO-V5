@@ -102,7 +102,7 @@ jobs:
               raise SystemExit(f'S3_SEARCH_HOST_GRANT_XML_MISSING {len(grant)}')
           grant_root = ET.parse(grant[0]).getroot()
           grant_counts = tuple(int(grant_root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
-          if grant_counts != (4,0,0,0):
+          if grant_counts != (6,0,0,0):
               raise SystemExit(f'S3_SEARCH_HOST_GRANT_XML_FAIL {grant_counts}')
-          print('S3_SEARCH_HOST_GRANT_XML_PASS 4/4')
+          print('S3_SEARCH_HOST_GRANT_XML_PASS 6/6')
           PY

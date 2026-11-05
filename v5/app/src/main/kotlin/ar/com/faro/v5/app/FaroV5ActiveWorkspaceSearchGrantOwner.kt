@@ -51,16 +51,26 @@ class FaroV5ActiveWorkspaceSearchGrantOwner(
     /** The actual grant + host authority must still match on every read/open. */
     fun epochOrNull(): String? {
         val initially = synchronized(lock) { if (closed) null else grant } ?: return null
-        if (!admitted()) return null
+        if (!admitted()) {
+            // Recovery denial is a REVOCATION, not a temporary suppression.
+            // Otherwise false->true could resurrect the same ACL epoch.
+            revoke()
+            return null
+        }
         return synchronized(lock) {
-            if (closed || grant != initially || !admitted()) null else initially
+            if (closed || grant != initially) null
+            else if (!admitted()) {
+                grant = null
+                stateVersion.value = Math.addExact(stateVersion.value, 1L)
+                null
+            } else initially
         }
     }
 
     /** Invalidates old hits, independent of any subscriber or UI lifecycle. */
     fun revoke() {
         synchronized(lock) {
-            if (!closed) {
+            if (!closed && grant != null) {
                 grant = null
                 stateVersion.value = Math.addExact(stateVersion.value, 1L)
             }
