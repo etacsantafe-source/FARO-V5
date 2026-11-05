@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A3.CHECKPOINT.20261105",
   "token_hash": "448460429f72ea335d9838318c4a2f7e95adf8d9da83ff3d69d01b893a996de6",
-  "target_head": "f02e8487a9461fd9e6c57624fa62ca3e9dbf1cf4",
+  "target_head": "ed20b456b9260ff4d50c6e70c2cbf6c0df18162e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 319,
-  "timestamp": 1793917941,
-  "purpose": "UPDATE_DURABLE_S3_A3_RUN_STATE_AND_POINTER",
-  "last_checkpoint": "S3_A3_RESEARCH_DOC@f02e8487a9461fd9e6c57624fa62ca3e9dbf1cf4"
+  "timestamp": 1793918026,
+  "purpose": "S3_A3_B1_B4_DURABLE_RESEARCH_B5_STOP",
+  "last_checkpoint": "S3_A3_REVIEW_ONLY_B5_BLOCKED@ed20b456b9260ff4d50c6e70c2cbf6c0df18162e"
 }
