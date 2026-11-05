@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
-  "reviewed_head": "92a09c91e428d1d228619914283ff2e413db8e7e",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwner.kt",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveWorkspaceSearchGrantOwnerTest.kt",
-    ".github/workflows/faro-v5-s3-home-notice-directed.yml"
-  ],
+  "status": "BLOCKED",
+  "unit_id": null,
+  "reviewed_head": "9257e91fb5530955bdb1ade9fa2a9e8450611ca1",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_REDFIX_CODE_CI_S3_XML_38_38_41951964795_V2_CORE_41951964920_APK_41951964962_GUARD_41951964930",
+    "B7": "PASS_FINAL_AUDIT_HOST_SCOPED_LOCAL_SEARCH_GRANT_ONLY"
   },
   "last_code_review": {
-    "sha": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
-    "result": "RED_FIX",
+    "sha": "9257e91fb5530955bdb1ade9fa2a9e8450611ca1",
+    "result": "PASS",
     "unit_id": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_REDFIX_B1_B5_20261104.md",
-        "blob_sha": "a940cd0221ea0cc9efdd8e1bcf41ee43b1d24e47",
+        "path": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B7_PASS_20261104.md",
+        "blob_sha": "c7fd13ef2e66686745546cee36bab2d075ee1157",
         "marker": "## B7 AUDITORÍA FINAL"
       }
     ]
   },
-  "why": "B7 RED_FIX same S3_A2_G1_HOST_SCOPED_SEARCH_GRANT unit: readiness false->true can revive previous grant/epoch without UI subscriber, although all four initial CI passed. Reuse B1-B5, bounded 4-path correction.",
-  "how": "Add real startupReadinessGate listener to revoke, replay snapshot and cleanup; grant owner drops grant on lost admission; +2 negative tests, directed XML 6/6, run CI and final B7; V2 productive remains OFF.",
+  "why": "Host-scoped Search grant/revoke and readiness ABA RED_FIX B7 PASS limited single process, CI directed XML 38/38 plus V2 core, APK, protocol PASS. S3.A2 G1 formal still OPEN for policy owner cross-instance/restore and G2 UI OFF.",
+  "how": "Only next bounded B1-B5 + independently READY permit may change functional code; first READ_ONLY inspect G1 policy/restore/cross-instance/regrant, no repeat of B7 or previous CI. Shipping V2/Auto/Noche/S4 remain OFF.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
