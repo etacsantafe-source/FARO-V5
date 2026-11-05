@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G4.REALITY.DOMAIN.CODE.RESUME.20261105",
-  "token_hash": "09a4f68cc8aaaf86bd6df3e993f2f9a7424d107db32c47c3d71f034cb7965a3",
-  "target_head": "24e8f55a4e6578c89d19fe5ff024b8a9d1bb6f9c",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G4.STORAGE.B7.FED.PREAUDIT.20261105",
+  "token_hash": "d7590fc4bd32e8ec9a1063f157b0a1fd77d638a34bf54af56bd5e2b225ba95f",
+  "target_head": "0fab63a04de055e3479b33c6d38e1072646f42e3",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 252,
-  "timestamp": 1793874901,
-  "purpose": "G4_REALITY_DOMAIN_OWNERS_CI_PENDING"
+  "epoch": 253,
+  "timestamp": 1793875307,
+  "purpose": "G4_STORAGE_B7_AND_FEDERATION_PREEVIDENCE"
 }
