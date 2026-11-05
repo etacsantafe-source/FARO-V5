@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A1.HANDOFF.20261105",
-  "token_hash": "15671c2d1f75210b59ee728e1d09f231030ac49e8c418a7f2d559ee5cddcd9c1",
-  "target_head": "18b88d1e8c8f897125b950d57321013c7746975e",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A1.N032.POINTER_FENCE.20261105.1705",
+  "token_hash": "b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11",
+  "target_head": "f053ad278dfc7ee28a63141498da6f7993bbf757",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 286,
-  "timestamp": 1793909004,
-  "purpose": "DOCUMENT_MANUAL_S3_A1_CONTINUITY_AFTER_B7",
+  "epoch": 287,
+  "timestamp": 1793909100,
+  "purpose": "S3_A1_N032_POINTER_SEQUENCE_FENCE_B1_B7",
   "last_checkpoint": "S3_A1_MANUAL_DURABLE@f053ad278dfc7ee28a63141498da6f7993bbf757"
 }
