@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 267
+    "expected_release_epoch": 271
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G1-G4 CLOSED. G5 Android emulator CI #42069366649 on 13911eacf is in progress; mandatory protocol guard #42069373871 SUCCESS. Await exact result and B7; physical Moto G15 positive Finance/Objectives/Matters and negatives remain NOT_RUN. Do not request user ADB copy/paste. No G5 CLOSED yet. Work exclusively in S3 G5; keep V2 productive OFF, S4 OFF, Auto/Noche OFF.",
-  "checkpoint_status": "G5_ANDROID_EMULATOR_CI_WAIT_PHYSICAL_OPEN",
+  "next": "G1-G4 CLOSED. G5 Android emulator API35 exact test 1/1 PASS (#42071443306 on bcb38e9); protocol guard #42071443729 SUCCESS; B7 PASS at docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md and permit updated. No more emulator regression requested. G5 remains OPEN for final Moto G15 three Reality-domain positive navigation and adversarial ACL/security campaign. Avoid Termux copy/paste, no touch real user data; V2 shipping, S4, Auto and Noche OFF.",
+  "checkpoint_status": "G5_ANDROID_EMULATOR_PASS_B7_PHYSICAL_ONLY_OPEN",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
   "last_handoff": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md",
-  "last_code_sha": "13911eacf677b0ec968fd1202b521d764bc73a1c",
-  "last_ci_run_id": 42069366649,
+  "last_code_sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
+  "last_ci_run_id": 42071443306,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "IN_PROGRESS_LAST_CHECK_AT_CHECKPOINT_NO_PASS",
+  "last_ci_conclusion": "SUCCESS_ANDROID_API35_G5_INSTRUMENTATION_1_OF_1",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -928,5 +928,6 @@
     "guard": "SUCCESS",
     "phone_real_owners": "NOT_RUN",
     "checkpoint": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md"
-  }
+  },
+  "g5_physical_remaining": "ONE_FINAL_CAMPAIGN_POSITIVE_FINANCE_OBJECTIVE_MATTER_AND_ADVERSARIAL_SECURITY"
 }
