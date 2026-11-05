@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G5.ACTIVE_FOUR_OWNER.TEST.20261105",
-  "token_hash": "94330b04f46f14abb7967bca6f7f1ba229a31be2686f35d7aef48a2f646d6ba8",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G5.ANDROID.INSTRUMENTATION.20261105",
+  "token_hash": "g5-android-instrumentation-exclusive-20261105-no-secret",
   "target_head": "5920f57d6184b6fdd1a3ab00bfccf21fc4714b3b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 265,
-  "timestamp": 1793896190,
-  "purpose": "G5_REAL_HOST_B7_PASS_PHYSICAL_OPEN_HANDOFF_CLEAN"
+  "epoch": 266,
+  "timestamp": 1793896250,
+  "purpose": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED_TEST_ONLY_B1_B7"
 }
