@@ -30,7 +30,8 @@
     "s3_a2_g5_android_ci_run": 42071443306,
     "s3_a2": "CLOSED_AUTOMATED_SCOPE_G1_G5_5_OF_5",
     "s3_a5_final_integration": "OPEN_X01_X12_SINGLE_MOTO_G15_PHYSICAL_CAMPAIGN_AT_END",
-    "s3_a1": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5"
+    "s3_a1": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
+    "s3_a3": "B1_B4_REVIEW_DOCUMENTED_B5_STOP_NO_CONTRACT_APPROVAL"
   },
   "tasks": [
     "S3-N00",
@@ -41,7 +42,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY; S3.A2 CLOSED_AUTOMATED_SCOPE. Next S3.A3 owner/review, then S3.A4 N015/N031, S3.A5 integration+Moto G15. All three absent Home counts remain No disponible. Catalog 172; V2 OFF.",
+  "next": "S3.A3 Guardados: B1-B4 documented and B5 STOP; 8 bookmark operations reviewed but NOT APPROVED, catalog 172. Before B6 require explicit contract/owner/retention/quotas approval then route-scoped B5 and READY permit; CI/XML and B7 required. A1 and A2 CLOSED scoped 2/5, A4/A5 pending; S2 frozen, V2 productive OFF, S4 OFF, Night/Auto OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -804,5 +805,16 @@
       "N031_attention_owner",
       "Guardados_bounded_approval_and_owner"
     ]
+  },
+  "a3": {
+    "status": "IN_PROGRESS_REVIEW_ONLY_B1_B4_RECORDED_B5_BLOCKED",
+    "document": "docs/s3-night/S3_A3_BOOKMARKS_B1_B5_PREAUDIT_20261105.md",
+    "document_commit": "f02e8487a9461fd9e6c57624fa62ca3e9dbf1cf4",
+    "catalog": 172,
+    "approval": "EIGHT_CANDIDATES_REVIEWED_NOT_APPROVED",
+    "code": "NOT_RUN",
+    "ci": "NOT_RUN",
+    "physical": "NOT_RUN",
+    "next": "Approve bounded contract separately; finish B5/permit then code CI XML and B7"
   }
 }

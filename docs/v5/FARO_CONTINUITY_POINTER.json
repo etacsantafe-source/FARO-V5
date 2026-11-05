@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 317
+    "expected_release_epoch": 319
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_B1_B5_PREAUDIT_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A1 CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY (four cards, Chat-first drawer, accessibility, state/rollback); N031 & N015 owner integration remain A4, Guardados real owner remains A3, X01-X12/Moto G15 remain A5. S3.A2 5/5 CLOSED_AUTOMATED_SCOPE. Generation 17/17 + V2 DEV 11/11 + mandatory guard SUCCESS; permit BLOCKED. S3 scoped 2/5, full integrated 0/5. V2 OFF.",
-  "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
+  "next": "S3.A3 Guardados: B1-B4 documented and B5 STOP; 8 bookmark operations reviewed but NOT APPROVED, catalog 172. Before B6 require explicit contract/owner/retention/quotas approval then route-scoped B5 and READY permit; CI/XML and B7 required. A1 and A2 CLOSED scoped 2/5, A4/A5 pending; S2 frozen, V2 productive OFF, S4 OFF, Night/Auto OFF.",
+  "checkpoint_status": "S3_A3_B1_B4_RESEARCH_DOCUMENTED_B5_STOP_NO_CATALOG_APPROVAL",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_B1_B5_PREAUDIT_20261105.md",
   "last_code_sha": "088c0e51b478d726bfd884493d5f68173ce0250d",
   "last_ci_run_id": 42113189767,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -1065,5 +1065,16 @@
       "GUARDADOS_A3"
     ]
   },
-  "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5"
+  "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
+  "a3_checkpoint": {
+    "status": "IN_PROGRESS_REVIEW_ONLY_B1_B4_RECORDED_B5_STOP",
+    "doc": "docs/s3-night/S3_A3_BOOKMARKS_B1_B5_PREAUDIT_20261105.md",
+    "document_commit": "f02e8487a9461fd9e6c57624fa62ca3e9dbf1cf4",
+    "catalog": 172,
+    "approved_eight_new_operations": false,
+    "owner_implementation": "NOT_RUN",
+    "ci_a3": "NOT_RUN",
+    "physical": "NOT_RUN",
+    "next": "Separate human bounded approval required, then B5 and permit READY"
+  }
 }
