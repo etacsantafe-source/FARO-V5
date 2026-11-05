@@ -21,6 +21,13 @@ android {
     namespace = "ar.com.faro.v5.app"
     compileSdk = 37
 
+    // Explicit G5 Android CI only: instrumentation must target the isolated DEV
+    // build type, never the ordinary debug/shipping application. Without this
+    // opt-in property all historical test variants retain their defaults.
+    if (providers.gradleProperty("faroG5AndroidTestV2CoreDev").orNull == "true") {
+        testBuildType = "v2CoreDev"
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(
