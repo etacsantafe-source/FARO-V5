@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A1.N015.PREAUDIT.20261105",
   "token_hash": "b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a11b9a1fa305a14",
-  "target_head": "48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761",
+  "target_head": "e228ea34ec8449f9ff919eb4cda440dc340a2885",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 293,
-  "timestamp": 1793912160,
-  "purpose": "N015_READONLY_CODE_TRACE_AND_BACKUP_MIGRATION_PREAUDIT",
-  "last_checkpoint": "S3_A1_N032_B7_DURABLE@48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761"
+  "epoch": 294,
+  "timestamp": 1793912400,
+  "purpose": "S3_A1_N015_B5_BLOCKED_DOCUMENTED_WRITER_RELEASED",
+  "last_checkpoint": "S3_A1_MANUAL_N015_B5_BLOCKED@e228ea34ec8449f9ff919eb4cda440dc340a2885"
 }
