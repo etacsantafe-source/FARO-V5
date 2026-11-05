@@ -42,7 +42,7 @@ jobs:
       - name: Compile app and run Home notice tests
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveHostPointerABATest" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5SearchHostPortAdmissionTest"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5FinanceSearchReadSourceTest" --tests "ar.com.faro.v5.app.FaroV5WorkspaceSearchSurfaceAdapterTest" --tests "ar.com.faro.v5.app.FaroV5ActiveAvisosBindingFactoryTest" --tests "ar.com.faro.v5.app.FaroV5ActiveChatReadSessionT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveHostPointerABATest" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5SearchHostPortAdmissionTest"
       - name: Verify exact Home notice JUnit XML
         run: |
           python3 - <<'PY'
@@ -65,6 +65,14 @@ jobs:
           if cases != (7,0,0,0):
               raise SystemExit(f'S3_WORKSPACE_SEARCH_XML_FAIL {cases}')
           print('S3_WORKSPACE_SEARCH_XML_PASS 7/7')
+          finance = sorted(base.glob('TEST-*FaroV5FinanceSearchReadSourceTest.xml'))
+          if len(finance) != 1:
+              raise SystemExit(f'S3_G4_FINANCE_SOURCE_XML_MISSING {len(finance)}')
+          froot = ET.parse(finance[0]).getroot()
+          fcounts = tuple(int(froot.attrib.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+          if fcounts != (4,0,0,0):
+              raise SystemExit(f'S3_G4_FINANCE_SOURCE_XML_FAIL {fcounts}')
+          print('S3_G4_FINANCE_SOURCE_XML_PASS 4/4_UNMOUNTED')
           bridge = sorted(base.glob('TEST-*FaroV5WorkspaceSearchSurfaceAdapterTest.xml'))
           if len(bridge) != 1:
               raise SystemExit(f'S3_SEARCH_BRIDGE_XML_MISSING {len(bridge)}')
