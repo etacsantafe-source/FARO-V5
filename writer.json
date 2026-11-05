@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.FEDERATION.RED_FIX.PERMIT.20261105",
   "token_hash": "919b85df6a6cd188c37e74c1779a6ea2046a376ff6c9100d395c73f34a7bba18",
   "target_head": "05de1c6d22deed15ab5094ce4af5c3e091ffee4d",
   "target_branch": "work/s3-night-20261102",
   "epoch": 256,
-  "timestamp": 1793876780,
-  "purpose": "G4_RED_FIX_TEST_EXPECTATION_AND_SCHEMA_VERSION_FENCE"
+  "timestamp": 1793876883,
+  "purpose": "G4_RED_FIX_READY_CI"
 }
