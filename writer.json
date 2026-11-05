@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G5.PHYSICAL.CHECKPOINT.20261105",
-  "token_hash": "b77aefee4a52b29e9b5c409deb43fb885a878e052332ed5f9137f2c48b7fd1af",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G5.ACTIVE_FOUR_OWNER.TEST.20261105",
+  "token_hash": "94330b04f46f14abb7967bca6f7f1ba229a31be2686f35d7aef48a2f646d6ba8",
   "target_head": "50d89151692fbebaba4f5272fb6f3c9fd28999c7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 264,
-  "timestamp": 1793893943,
-  "purpose": "G5_PARTIAL_PHYSICAL_HANDOFF_CLEAN"
+  "epoch": 265,
+  "timestamp": 1793898000,
+  "purpose": "G5_B1_B7_FOUR_OWNER_REAL_ACTIVE_GRAPH_TEST"
 }
