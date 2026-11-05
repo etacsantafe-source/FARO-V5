@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A1 OPEN. N015 Reality-only Activity 6/6 B7 PASS. Schema7 five-owner DEV graph compatibility code dc06c01d CI WAIT and B7 pending; prior DEV CI 11/11 RED. Next exact CI and B7; other N031/Guardados/Activity federation open; S2 frozen S4/V2 prod/Auto/Noche OFF.",
+  "next": "S3.A1 OPEN. Code 9d2491f Reality-only Activity CI 6/6+B7 PASS; code dc06c01d schema7 DEV 11/11, G4+Receipts+protocol SUCCESS B7 PASS_SCOPED (2 new legacy generation tests NOT_RUN). Missing N015 federated history.query + host ACL, N031 Matter/Reminder/MonthlyPlan owner/priority/snooze, Guardados canonical owner +8 NOT APPROVED. Permit BLOCKED. S2 8/8 frozen, S3.A2 5/5 automated, A5 G15 later, S4/V2 prod/Auto/Noche OFF.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_STORAGE_B7_PASS_20261105.md",
   "last_code_sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
-  "last_ci_run_id": 42110935335,
+  "last_ci_run_id": 42113189767,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_N015_REALITY_ACTIVITY_6_OF_6_B7_SCOPED",
+  "last_ci_conclusion": "SUCCESS_SCHEMA7_DEV_11_OF_11_B7_SCOPED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 309,
+  "last_writer_epoch_observed": 311,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -946,7 +946,7 @@
     "activation_authorized": false
   },
   "manual_s3_a1_20261105": {
-    "status": "N015_REALITY_ACTIVITY_B7_PASS_SCOPED_A1_OPEN",
+    "status": "N015_ACTIVITY_6_6_PASS_AND_SCHEMA7_DEV_11_11_PASS_A1_OPEN",
     "last_functional_sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
     "review_doc": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
     "review_head_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
@@ -1026,15 +1026,18 @@
     "schema7_v2_dev_compat": {
       "unit": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
       "code_sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
-      "reason": "V2 CI 11/11 failed at schema6 preflight after Reality schema7",
-      "ci": "WAIT_CI",
-      "b7": "PENDING",
-      "expected": "V2_DEV_XML_10_PLUS_1_AND_GRAPH_TESTS",
-      "paths": [
-        "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-        "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt"
-      ],
-      "auto": "OFF"
+      "ci": "SUCCESS",
+      "v2_run": 42113189767,
+      "v2_tests": "11/11",
+      "reality_run": 42113190102,
+      "receipt_run": 42113189882,
+      "guard_run": 42113190220,
+      "b7": "PASS_SCOPED_NEW_SCHEMA7",
+      "b7_doc": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_B7_PASS_SCOPED_20261105.md",
+      "generation_new_tests": "2_NOT_RUN",
+      "legacy_data_migration": "NOT_CERTIFIED",
+      "prod_v2": "OFF",
+      "physical": "NOT_RUN"
     }
   }
 }

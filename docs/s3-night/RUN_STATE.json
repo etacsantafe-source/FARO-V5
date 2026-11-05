@@ -40,7 +40,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A1 OPEN. N015 Reality-only Activity 6/6 B7 PASS. Schema7 five-owner DEV graph compatibility code dc06c01d CI WAIT and B7 pending; prior DEV CI 11/11 RED. Next exact CI and B7; other N031/Guardados/Activity federation open; S2 frozen S4/V2 prod/Auto/Noche OFF.",
+  "next": "S3.A1 OPEN. Code 9d2491f Reality-only Activity CI 6/6+B7 PASS; code dc06c01d schema7 DEV 11/11, G4+Receipts+protocol SUCCESS B7 PASS_SCOPED (2 new legacy generation tests NOT_RUN). Missing N015 federated history.query + host ACL, N031 Matter/Reminder/MonthlyPlan owner/priority/snooze, Guardados canonical owner +8 NOT APPROVED. Permit BLOCKED. S2 8/8 frozen, S3.A2 5/5 automated, A5 G15 later, S4/V2 prod/Auto/Noche OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +59,7 @@
   "last_completed_gate": "S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
-    "status": "PARTIAL_N015_ACTIVITY_SOURCE_B7_PASS_SCOPED_HOME_FEDERATION_OPEN",
+    "status": "PARTIAL_N015_ACTIVITY_AND_V2_SCHEMA7_DEV_B7_SCOPED_A1_OPEN",
     "navigation_commit": "bae8a1a58cdff50c9783275cec17268143bef466",
     "home_commit": "67fda3b32f8405685bf7bf62365dbcd063806b97",
     "ci": [
@@ -364,9 +364,20 @@
       "global": "NOT_FEDERATED"
     },
     "schema7_hotfix": {
+      "unit": "S3_A1_N015_SCHEMA7_DEV_GRAPH_PREFLIGHT",
       "code_sha": "dc06c01da9597c6642d7e4055f0d71cb11fb217e",
-      "ci": "WAIT_CI",
-      "b7": "PENDING"
+      "ci": "SUCCESS",
+      "v2_run": 42113189767,
+      "v2_tests": "11/11",
+      "reality_run": 42113190102,
+      "receipt_run": 42113189882,
+      "guard_run": 42113190220,
+      "b7": "PASS_SCOPED_NEW_SCHEMA7",
+      "b7_doc": "docs/s3-night/S3_A1_N015_SCHEMA7_DEV_GRAPH_B7_PASS_SCOPED_20261105.md",
+      "generation_new_tests": "2_NOT_RUN",
+      "legacy_data_migration": "NOT_CERTIFIED",
+      "prod_v2": "OFF",
+      "physical": "NOT_RUN"
     }
   },
   "handoff": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
