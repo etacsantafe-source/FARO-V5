@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 205
+    "expected_release_epoch": 209
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B7_PASS_20261104.md",
+  "handoff": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "DO NOT repeat S3.A2 G1 host-scoped Search grant RED_FIX B7 PASS @9257e91f: protocol #41951964930, S3 directed #41951964795 XML 38/38, core #41951964920, APK #41951964962 all SUCCESS. Host grant state/ready/pointer ABA tested, UI Search remains null, V2 productive OFF. Writer RELEASED epoch205. NEXT READ_ONLY G1 policy/restore/cross-instance and explicit regrant after maintenance; determine single-user single-process policy owner boundary before any new code; G1 formal OPEN, G2/G4/G5 pending, S3≈40% developed 0/5 formally closed, S2 frozen 8/8, S4/Auto/Noche OFF. New code only after B1-B5 READY preflight writer CAS.",
-  "checkpoint_status": "S3_A2_G1_HOST_SCOPED_GRANT_REDFIX_B7_PASS_G1_FORMAL_STILL_OPEN_WRITER_RELEASE_205",
+  "next": "Same unit S3_A2_G1_POLICY_RESTORE_READMISSION: functional HEAD dc3eee9d main code compiles but CI S3 #41955986988 and V2 core #41955987005 fail ILLEGAL_SUSPEND_FUNCTION_CALL in new JVM test line303 (createAndSelect outside runBlocking). B7 RED_FIX, do not certify G1. Reuse final preaudit and bounded RED_FIX B1-B5 doc. Next one-file READY permit, preflight, writer CAS, change @Test fun processRestartKeepsWorkspaceButNeverRestoresGrant(): Unit -> : Unit = runBlocking {, CI S3 XML G1 10/10 and single process merged manifest proof, V2 core and APK, B7. V2 productive/S4/Auto/Noche OFF. S2 closed8/8; S3≈40%, 0/5 formal; A2 G1 open.",
+  "checkpoint_status": "S3_A2_G1_FINAL_POLICY_RESTORE_B6_RED_FIX_JVM_SUSPEND_LINE303",
   "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G1_HOST_SEARCH_GRANT_B7_PASS_20261104.md",
-  "last_code_sha": "9257e91fb5530955bdb1ade9fa2a9e8450611ca1",
-  "last_ci_run_id": 41951964795,
+  "last_handoff": "docs/s3-night/S3_A2_G1_FINAL_JVM_SUSPEND_REDFIX_B1_B5_20261104.md",
+  "last_code_sha": "dc3eee9de857a00b07a808c3ed19f6b60acff3d6",
+  "last_ci_run_id": 41955986988,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "S3_XML_38_38_CORE_SUCCESS_DEV_APK_SUCCESS_GUARD_SUCCESS_AT_9257e91f",
+  "last_ci_conclusion": "S3_COMPILE_DEBUG_UNIT_TEST_KOTLIN_FAILURE_LINE303_AND_V2_CORE_TEST_KOTLIN_FAILURE",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
