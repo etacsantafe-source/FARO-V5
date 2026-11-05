@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.V2.COVERAGE.PERMIT.20261105",
   "token_hash": "91a1a2ff3abc04ddc8146c840de4b218f3a738b4304927e65d2df3bd0f50f11a",
   "target_head": "fe1c9e159e5d2fd6e2c5f3e58f5185817c21ecdf",
   "target_branch": "work/s3-night-20261102",
   "epoch": 259,
-  "timestamp": 1793877509,
-  "purpose": "G4_V2_CORE_CI_COVERAGE_PERMIT"
+  "timestamp": 1793877561,
+  "purpose": "G4_V2_CI_COVERAGE_READY"
 }
