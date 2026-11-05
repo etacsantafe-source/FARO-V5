@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A1.HANDOFF.20261105",
   "token_hash": "15671c2d1f75210b59ee728e1d09f231030ac49e8c418a7f2d559ee5cddcd9c1",
   "target_head": "18b88d1e8c8f897125b950d57321013c7746975e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 286,
-  "timestamp": 1793908928,
-  "purpose": "DOCUMENT_MANUAL_S3_A1_CONTINUITY_AFTER_B7"
+  "timestamp": 1793909004,
+  "purpose": "DOCUMENT_MANUAL_S3_A1_CONTINUITY_AFTER_B7",
+  "last_checkpoint": "S3_A1_MANUAL_DURABLE@f053ad278dfc7ee28a63141498da6f7993bbf757"
 }
