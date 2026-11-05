@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-05",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_NIGHT_OFF",
+  "phase": "S3_OPEN_NIGHT_AB_ACTIVE",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,29 +21,29 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 273
+    "expected_release_epoch": 275
   },
   "automation": {
-    "activation_authorized": false,
-    "authorized_until": null,
+    "activation_authorized": true,
+    "authorized_until": "2026-11-05T19:00:00-03:00",
     "time_zone": "America/Argentina/Cordoba",
     "activation_condition": "A/B SAME CLOUD QUEUE AND WRITER DEMONSTRATED",
-    "status": "DISABLED_MANUAL_MODE",
-    "A_id": "6ae9072890248191b886a790cf456be6",
-    "B_id": "6ae9072a7b6c8191b9e107fe6d6c6940",
-    "final_id": "6ae9073eccd08191b88aec776771ca9e",
-    "requires_new_authorization": true,
-    "authorized_from": null,
-    "approval": "EXPIRED_PILOT_HISTORICAL_ONLY",
-    "protocol": "docs/s3-night/S3_NIGHT_SIMPLIFIED_CHAIN_20261103.md",
-    "previous_authorization_revoked": true,
+    "status": "ACTIVE_AB_USER_AUTHORIZED",
+    "A_id": "6aecbf6b4a9c819182b739e0a9fe358c",
+    "B_id": "6aecbf6e32488191b674ac8fcb64feb5",
+    "final_id": "6aecbf7102a48191ba372839600a824c",
+    "requires_new_authorization": false,
+    "authorized_from": "2026-11-05T14:37:00-03:00",
+    "approval": "USER_EXPLICIT_20261105",
+    "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
+    "previous_authorization_revoked": false,
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A2 CLOSED_B7_AUTOMATED_SCOPE G1-G5 5/5. Exact G5 Android emulator CI #42071443306 1/1 and guard #42071443729 SUCCESS, latest checkpoint guard #42072933660 SUCCESS. User explicitly agreed to defer X01-X12 + ONE Moto G15 physical campaign to S3.A5, not PASS. S3 scoped closure A2 1/5, historical ~40% implementation estimate, shipping V2 OFF. In NEW chat with 'Continuar FARO V5', verify HEAD, writer RELEASED epoch 273, protocol permit and queue, then resume S3 (prefer oldest unfinished A1, real Home owners). Do not repeat G1-G5 or start S4/Auto/Noche.",
+  "next": "FARO Noche S3 AB active until 19:00 AR 2026-11-05; resume S3.A1 real owner indicators first, then other S3 automatable work while deferring physical X01-X12 and one Moto G15 campaign to S3.A5. Global single CAS writer, no duplicated G1-G5. Stop all mutations at cutoff and report read-only 19:05.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
@@ -940,5 +940,18 @@
     "x01_x12": "PENDING_FULL_INTEGRATION",
     "physical": "PENDING_ONE_MOTO_G15_CAMPAIGN",
     "no_claim_of_productive_v2": true
+  },
+  "night_trial_20261105": {
+    "start": "2026-11-05T15:00:00-03:00",
+    "stop": "2026-11-05T19:00:00-03:00",
+    "ids": {
+      "A": "6aecbf6b4a9c819182b739e0a9fe358c",
+      "B": "6aecbf6e32488191b674ac8fcb64feb5",
+      "final": "6aecbf7102a48191ba372839600a824c"
+    },
+    "protocol": "docs/s3-night/FARO_S3_NOCHE_BLOQUES_DINAMICOS_V1_20261103.md",
+    "queue_ref": "refs/heads/faro-v5-night-queue",
+    "writer_ref": "refs/heads/faro-v5-writer-lock",
+    "physical": "ONLY_S3_A5"
   }
 }
