@@ -102,7 +102,33 @@ jobs:
               raise SystemExit(f'S3_SEARCH_HOST_GRANT_XML_MISSING {len(grant)}')
           grant_root = ET.parse(grant[0]).getroot()
           grant_counts = tuple(int(grant_root.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
-          if grant_counts != (6,0,0,0):
+          if grant_counts != (10,0,0,0):
               raise SystemExit(f'S3_SEARCH_HOST_GRANT_XML_FAIL {grant_counts}')
-          print('S3_SEARCH_HOST_GRANT_XML_PASS 6/6')
+          print('S3_SEARCH_HOST_GRANT_XML_PASS 10/10')
+          PY
+      - name: Verify supported single-process Search host in merged manifest
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          root = Path('v5/app/build/intermediates')
+          manifests = sorted(
+              p for p in root.rglob('AndroidManifest.xml')
+              if ('merged_manifest' in p.parts or 'merged_manifests' in p.parts)
+              and 'debug' in p.parts
+          )
+          if not manifests:
+              raise SystemExit('S3_G1_MERGED_MANIFEST_MISSING')
+          android = '{http://schemas.android.com/apk/res/android}'
+          for file in manifests:
+              xml = ET.parse(file).getroot()
+              app = xml.find('application')
+              if app is None or app.attrib.get(android+'allowBackup') != 'false':
+                  raise SystemExit('S3_G1_MANIFEST_BACKUP_BOUNDARY_FAIL')
+              for component in [app, *list(app)]:
+                  if android+'process' in component.attrib:
+                      raise SystemExit(
+                          'S3_G1_MULTIPROCESS_OUTSIDE_AUTHORIZED_SCOPE ' + str(file)
+                      )
+          print('S3_G1_SINGLE_PROCESS_MERGED_MANIFEST_PASS', len(manifests))
           PY

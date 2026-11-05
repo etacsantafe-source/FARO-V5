@@ -437,6 +437,7 @@ public final class FaroV5CompositionRoot {
         }
         // The gate opens write admission before notifying presentation.
         startupReadinessGate.localReady();
+        renewSearchGrantAfterRecovery();
     }
 
     private void completeMaintenanceOperation() {
@@ -445,6 +446,25 @@ public final class FaroV5CompositionRoot {
         }
         // Publish the genuine owner transition; not an invented ACL event.
         startupReadinessGate.localReady();
+        renewSearchGrantAfterRecovery();
+    }
+
+    /**
+     * Recovery completed, not merely resumed UI visibility. Only the same
+     * durable host identity may receive a NEW grant; stale graphs stay denied.
+     */
+    private void renewSearchGrantAfterRecovery() {
+        DeliveryGraph current = deliveryGraph;
+        if (current == null || current.searchGrantOwner == null) return;
+        try {
+            if (current.matchesActivePointer(generationStorage().activeGenerationId())) {
+                current.searchGrantOwner.renewAfterVerifiedRecovery();
+            } else {
+                current.searchGrantOwner.revoke();
+            }
+        } catch (RuntimeException unavailableAuthority) {
+            current.searchGrantOwner.revoke();
+        }
     }
 
     private static boolean resetResultAllowsMaterialWrites(ResetExecutionResult result) {
@@ -673,13 +693,15 @@ public final class FaroV5CompositionRoot {
     private DeliveryGraph deliveryGraph() {
         String activeGenerationId = generationStorage().activeGenerationId();
         DeliveryGraph current = deliveryGraph;
-        if (current != null && current.generationId.equals(activeGenerationId)) {
+        if (current != null && current.matchesActivePointer(activeGenerationId)) {
             return current;
         }
         synchronized (this) {
             activeGenerationId = generationStorage().activeGenerationId();
             current = deliveryGraph;
-            if (current != null && !current.generationId.equals(activeGenerationId)) {
+            if (current != null && !current.matchesActivePointer(activeGenerationId)) {
+                // A->B->A has the same generation ID but a DIFFERENT durable
+                // sequence; dispose the old graph, not reuse stale ports.
                 current.close();
                 current = null;
                 deliveryGraph = null;
@@ -873,6 +895,7 @@ public final class FaroV5CompositionRoot {
                                 activeSearchReadPort,
                                 activeSearchGrant,
                                 chatPointer,
+                                pinnedChatPointer,
                                 searchPointerListener,
                                 searchReadinessCleanup);
                 deliveryGraph = current;
@@ -930,6 +953,7 @@ public final class FaroV5CompositionRoot {
         final FaroV5SearchReadPort searchReadPort;
         final FaroV5ActiveWorkspaceSearchGrantOwner searchGrantOwner;
         final FileActiveGenerationPointer searchPointer;
+        final ActiveGenerationPointer pinnedPointer;
         final Runnable searchPointerListener;
         final Runnable searchReadinessCleanup;
 
@@ -947,6 +971,7 @@ public final class FaroV5CompositionRoot {
                 FaroV5SearchReadPort searchReadPort,
                 FaroV5ActiveWorkspaceSearchGrantOwner searchGrantOwner,
                 FileActiveGenerationPointer searchPointer,
+                ActiveGenerationPointer pinnedPointer,
                 Runnable searchPointerListener,
                 Runnable searchReadinessCleanup) {
             this.generationId = generationId;
@@ -962,8 +987,24 @@ public final class FaroV5CompositionRoot {
             this.searchReadPort = searchReadPort;
             this.searchGrantOwner = searchGrantOwner;
             this.searchPointer = searchPointer;
+            this.pinnedPointer = pinnedPointer;
             this.searchPointerListener = searchPointerListener;
             this.searchReadinessCleanup = searchReadinessCleanup;
+        }
+
+        /**
+         * V1 graphs without Workspace preserve legacy caching. Active Workspace
+         * must match the full durable sequence, not only generation ID.
+         */
+        boolean matchesActivePointer(String activeGenerationId) {
+            if (!generationId.equals(activeGenerationId)) return false;
+            if (pinnedPointer == null) return searchPointer == null;
+            try {
+                return searchPointer != null
+                        && pinnedPointer.equals(searchPointer.read());
+            } catch (RuntimeException unavailablePointer) {
+                return false;
+            }
         }
 
         void close() {

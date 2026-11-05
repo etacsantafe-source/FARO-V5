@@ -48,6 +48,27 @@ class FaroV5ActiveWorkspaceSearchGrantOwner(
         }
     }
 
+    /**
+     * Explicit HOST readmission after verified recovery. Idempotent while the
+     * existing grant is still valid, but a revoked epoch can NEVER return.
+     * The UI, Search requests and invalidation subscribers do not call this.
+     */
+    fun renewAfterVerifiedRecovery(): String? {
+        if (!admitted()) return null
+        return synchronized(lock) {
+            if (closed || !admitted()) null
+            else {
+                grant ?: run {
+                    val next = Math.addExact(stateVersion.value, 1L)
+                    val issued = "${scope}:${next}:${UUID.randomUUID()}"
+                    grant = issued
+                    stateVersion.value = next
+                    issued
+                }
+            }
+        }
+    }
+
     /** The actual grant + host authority must still match on every read/open. */
     fun epochOrNull(): String? {
         val initially = synchronized(lock) { if (closed) null else grant } ?: return null
