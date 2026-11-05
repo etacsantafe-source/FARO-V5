@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.S3A2.G1.HOST_GRANT_B7_FINAL.20261104",
   "token_hash": "23769d6daf061676b159cf0c1e04ced4325665b14fe58fc68a375081397bf802",
   "target_head": "9257e91fb5530955bdb1ade9fa2a9e8450611ca1",
   "target_branch": "work/s3-night-20261102",
   "epoch": 205,
-  "timestamp": 1793844297,
+  "timestamp": 1793844448,
   "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_B7_FINAL_AFTER_REDFIX"
 }
