@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
   "reviewed_head": "07e03fa732e0041858cc09dc9aed3177b46a7ea9",
   "paths": [
@@ -58,23 +58,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_2C00FC06",
+    "B7": "PASS_SCOPED_INDEPENDENT"
   },
   "last_code_review": {
-    "sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
+    "sha": "2c00fc06100c0856812b1bd5a8cec357e39713f2",
     "result": "PASS",
-    "unit_id": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
+    "unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md",
-        "blob_sha": "a1b6e3c8faac40fb247c73503f50ac4b7a9f6897",
+        "path": "docs/s3-night/S3_A1_HOME_BATCH_REVALIDATION_B7_PASS_20261105.md",
+        "blob_sha": "30598bc40619cd8563125d9d4af33dd3a58ad48f",
         "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
       }
     ]
   },
-  "why": "Adversarial gap: early Home indicator can be revoked during later owner read; provenance and owner authority must be revalidated at batch end.",
-  "how": "Only stage owner-backed counters then check each real owner stamp once more before returning; tests of revocation and generation switch, no new data owner.",
+  "why": "B7 independently audited: batch-end owner stamp revalidation PASS JVM directed; next functional S3.A1 unit needs own B1-B5 and separate READY permit; N015/N031/Guardados owners incomplete.",
+  "how": "Document-only B7 and fail-closed BLOCKED permit; no functional change, no unreviewed follow-up code.",
   "no_auto_night": true,
-  "productive_v2_enabled": false
+  "productive_v2_enabled": false,
+  "next": "S3.A1 remains OPEN. Investigate canonical N015/N031 owners, timestamps, ACL, federation, then issue new bounded preaudit and READY; S3.A5 physical campaign later."
 }
