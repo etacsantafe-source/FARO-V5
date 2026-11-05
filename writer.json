@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.FEDERATION.PERMIT.20261105",
   "token_hash": "919b85df6a6cd188c37e74c1779a6ea2046a376ff6c9100d395c73f34a7bba18",
   "target_head": "b5fb91b976ae9941d05cf2250cfbcaf24a19c988",
   "target_branch": "work/s3-night-20261102",
   "epoch": 254,
-  "timestamp": 1793875531,
-  "purpose": "G4_REAL_FEDERATION_TYPED_NAV_READY_PERMIT"
+  "timestamp": 1793875629,
+  "purpose": "G4_FEDERATION_PERMIT_READY_CI"
 }
