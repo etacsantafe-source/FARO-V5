@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G5.B7.PASS",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3.A2",
   "token_hash": "g5-android-instrumentation-exclusive-20261105-no-secret",
   "target_head": "5e292a00c1fcdd0e6c2cc86c6f4e661d3e3b459d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 271,
+  "epoch": 272,
   "timestamp": 1793898000,
-  "purpose": "G5_EMULATOR_B7_PASS_1_1_FINAL_PHYSICAL_PENDING_CHECKPOINT_DURABLE"
+  "purpose": "S3 A2 scope closure"
 }
