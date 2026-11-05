@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.V2.COVERAGE.CODE.20261105",
   "token_hash": "91a1a2ff3abc04ddc8146c840de4b218f3a738b4304927e65d2df3bd0f50f11a",
   "target_head": "f6e4af0e0d464e1f2e37e78d6f055abe57eb5275",
   "target_branch": "work/s3-night-20261102",
   "epoch": 260,
-  "timestamp": 1793877594,
-  "purpose": "G4_V2_CORE_CI_COVERAGE_CODE"
+  "timestamp": 1793877642,
+  "purpose": "G4_V2_CI_COVERAGE_CODE_CI_PENDING"
 }
