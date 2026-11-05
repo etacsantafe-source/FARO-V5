@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.G1.ABA_JUNIT_REDFIX.20261104",
-  "token_hash": "bd2c0a920297f35770a5a2603e762481e54f1b4651e9ef3c37eba6fcb0d7062c",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.G1.ABA_B7_PASS.20261104",
+  "token_hash": "aef3cda39aa7c1aa3576cba34cc8ae7c8ebfbef3ce21d0babeb272fe41c84c3c",
   "target_head": "9aad6bfa762cd26a244c7a9d87168d1b57e977d2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 192,
-  "timestamp": 1793836847,
-  "purpose": "S3_A2_G1_POINTER_ABA_JUNIT_REDFIX_WAIT_CI_CHECKPOINT"
+  "epoch": 193,
+  "timestamp": 1793837061,
+  "purpose": "S3_A2_G1_CHAT_POINTER_ABA_B7_PASS_CI_XML_DOC_PERMIT_POINTER"
 }
