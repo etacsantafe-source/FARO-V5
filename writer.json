@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.OWNER.FOUNDATION.20261105",
   "token_hash": "ec3046c83687620e6933599cd8ea940653a5b97ecc527b79f475b85ec0dc20f2",
   "target_head": "63bb02e8575e82700644a411c95ce699753c7973",
   "target_branch": "work/s3-night-20261102",
   "epoch": 239,
-  "timestamp": 1793852200,
-  "purpose": "G4_OWNER_FOUNDATION_PREAUDIT_DOC"
+  "timestamp": 1793852250,
+  "purpose": "G4_CONTRACT_PREAUDIT_DOC_COMMITTED"
 }
