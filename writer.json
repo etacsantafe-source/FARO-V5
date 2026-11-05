@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.CONTRACT.POINTER.20261105",
   "token_hash": "810022d48c83dceaff4564e8c2dde0504c04435564c255546d49fa10f0f9da9f",
   "target_head": "7fcd4557ab89957fcaaf212b55abaa4d31639628",
   "target_branch": "work/s3-night-20261102",
   "epoch": 243,
-  "timestamp": 1793853365,
-  "purpose": "G4_B7_CONTRACTS_CONTINUITY_POINTER"
+  "timestamp": 1793853410,
+  "purpose": "G4_CONTRACTS_B7_POINTER_HANDOFF"
 }
