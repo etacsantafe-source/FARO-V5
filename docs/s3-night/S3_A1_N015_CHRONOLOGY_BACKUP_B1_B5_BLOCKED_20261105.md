@@ -1,6 +1,6 @@
 # FARO V5 — S3.A1 / N015 cronología y FBS · B1–B5 auditable (05/11/2026)
 
-**Estado: PREAUDITORÍA DOCUMENTAL COMPLETADA, B5 BLOCKED PARA CÓDIGO.** No es un permiso, una migración ejecutada ni un cierre de S3.A1. HEAD de base `48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761`, S2 8/8 congelada. Unidad tentativa `S3_A1_N015_DURABLE_REALITY_CHRONOLOGY`. Retener el B7 anterior N032 y no repetirlo.
+**Estado: PREAUDITORÍA B1–B5 ACOTADA COMPLETA PARA STORAGE-ONLY; NO PERMISO READY PUBLICADO, B6/B7 NOT_RUN.** No es un permiso, una migración ejecutada ni un cierre de S3.A1. HEAD de base `48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761`, S2 8/8 congelada. Unidad acotada `S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP`, distinta del futuro owner federado `history.query`. Retener el B7 anterior N032 y no repetirlo.
 
 ## B1 — evidencia concreta de fuentes y respaldos
 - `v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt`: `SCHEMA_VERSION=6`, tabla `execution_receipt(receipt_id, transaction_id, plan_fingerprint)` sin marca temporal; `commit()` inserta recibo durante `run()`, que COMMIT/ROLLBACK en SQLite. `receiptHistory.queryCommittedReceipts` filtra `COMMITTED` y pagina por `transaction_id` lexicográfico ascendente. Un ID opaco no es fecha.
@@ -31,11 +31,17 @@ No se incorporan dependencias ni código externo, licencias o API pagas.
 4. Extender `RealityCommittedReceiptBackup` y codec FBS1 versión 2, con decodificación de versión 1, huella de recibo incluida para metadata nueva sin cambiar fingerprint histórico de datos v1; FBS2 contenedor y restore deben preservar bytes/versiones. No permitir timestamp forjado desde la UI.
 5. Mínimos paths: `RealityStore.kt`, `RealityBackupPort.kt`, `RealityReceiptHistoryPort.kt`, `SemanticBackupSetCodec.kt`, `SemanticBackupRestore.kt`, pruebas de Reality + Backup/Restore/FBS2. Sin S4, V2 productiva ni catálogo.
 
-## B5 — auditoría adversarial y salida
-- **BLOCKED** hasta detallar y demostrar en tests de migración: v0/v1/v2/v3/v4/v5/v6→nuevo esquema, reopen sin pérdida, columnas duplicadas, integrity+FK, sello de generation/pointer, backup de recibos antiguos, FBS1 v1 decode/encode con identidad y FBS1 v2/FBS2 con timestamps.
-- Tests de crash/rollback PREPARED sin fecha visible; fecha registrada sólo junto a COMMITTED; backup+restore idempotente y material gate; tamper en timestamp detectado por manifest; límites de entradas; reloj inválido/reloj retrocediendo sin mentir sobre recencia.
-- Probar que fuente legacy sin fecha no transforma datos desconocidos en 0 ni los ordena por UUID. ACL revocada, generación cambiada entre páginas, cobertura incompleta y ausencia de federation mantienen `Actividad reciente = No disponible`.
-- **Criterio READY posterior:** rutas y tests nuevos acotados, diseño FBS1/FBS2 compatible y admisión segura con B5 plenamente verificado; permiso nuevo de esa unidad, no reusar N032. Si respaldo no queda demostrablemente seguro, STOP antes de B6.
-- Pendientes N031 sigue sin Reminder/MonthlyPlan y campos de prioridad/snooze/owner; Guardados +8 aún CANDIDATE NOT APPROVED. No se puede cerrar S3.A1 por este documento.
+## B5 — auditoría adversarial previa y salida sin bucle
 
-**Dictamen:** B1/B2 constatados en código; B3 comparó soluciones reales; B4 diseño candidato; B5 **BLOCKED** por compatibilidad y pruebas todavía no autorizadas por permiso de unidad. No se escribió código ni corrió CI para N015. S3 desarrollo ~40% histórico estimado, 1/5 etapas con cierre automatizado, S3.A1 OPEN.
+**B5 PREAUDITORÍA DE DISEÑO: VERIFIED para la subunidad `S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP`**, con alcance **únicamente de persistencia Reality + backup versionado**; nunca equivale al cierre de `history.query` ni de A1. Es lícito abrir un permiso READY separado después de verificar HEAD, rutas y evidencia; **no** es lícito ejecutar B6 sin ese permiso. Las pruebas siguientes se ejecutan en **B6**, no son precondición circular de B5.
+
+- B6-N015-01: esquema nuevo con `committedAtEpochMillis` nullable; migraciones reales de esquemas legados 0..6 y reapertura; versiones antiguas mantienen `null` explícito, no fecha inventada. Verificar integridad, claves foráneas y conservación de receipts.
+- B6-N015-02: capturar el reloj observado **dentro de la misma transacción COMMITTED**; rollback, PREPARED, crash antes de COMMIT y reopen no exponen metadata falsa. Reloj inválido se rechaza; empates/retrocesos usan orden y cobertura tipados, sin prometer monotonicidad de pared no comprobada.
+- B6-N015-03: backup `RealityCommittedReceiptBackup` transporta timestamp nullable con codec **FBS1 versión 2 para datos con tiempo**, y sigue decodificando FBS1 versión 1. Probar roundtrip, identidad exacta de bytes legacy, codec v2, restauración idempotente y manifest nuevo con tiempo vinculado a huella.
+- B6-N015-04: FBS2 aloja FBS1 interno versionado sin cambiar su contenedor; probar FBS2 roundtrip con timestamp, truncamientos, version mismatch, tamper/timestamp modificado, límite de registros, exact restore.
+- B6-N015-05: vista de recibos cronológicos **Reality-only** sin mezclar cursor lexicográfico histórico, con `legacyUndated=true` si hay registros anteriores; paginación estable con desempate. No montar Home ni afirmar cobertura global, sin nuevo ACL propietario.
+- B6-N015-06: regresiones dirigidas de S2/S3, G5 y FBS2. Si falla una hipótesis, B7 RED_FIX específica y corregir sin repetir lo aprobado. No tocar V4.4, S4, V2 productiva, catálogo 172 ni datos reales.
+
+**Diferencia obligatoria de alcance:** el futuro `history.query` federado, la admisión ACL del usuario, invalidaciones de permisos, cobertura entre dominios y los registros sin fecha requieren otra unidad B1–B5. No convertir a Home `Actividad reciente` desde la subunidad de storage. N031 continúa sin owner combinado y Guardados +8 sigue sin aprobación.
+
+**Salida:** `B1–B5 VERIFIED_SCOPED_STORAGE_ONLY`, `B6 NOT_RUN`, `B7 NOT_RUN`, permiso actual `BLOCKED` **hasta emitir READY de esta unidad por rutas y SHA**. Este estado no exige ejecutar pruebas antes de autorizar B6; exige correrlas y verificarlas **para** B7. S3.A1 sigue OPEN y porcentajes sin cambio.

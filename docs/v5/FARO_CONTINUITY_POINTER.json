@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 294
+    "expected_release_epoch": 296
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A1 MANUAL OPEN. N032 durable-pointer B7 PASS at 48e4d7fb (11/11, guard, manifest). N015 B1-B4 recovered and B5 BLOCKED: schema/backup FBS1/FBS2 migration and ACL/federation unresolved (see N015 preaudit). N031 missing genuine combined Reminder/MonthlyPlan/priority owner. Guardados +8 candidate not approved, catalog 172. New code needs unit-specific B1-B5+READY; S3.A2 CLOSED 5/5 scoped, S2 FROZEN, V2 shipping/Noche/Auto/S4 OFF, G15 at A5.",
+  "next": "S3.A1 MANUAL OPEN: N032 pointer B7 PASS 11/11. N015 storage+backup B1-B5 VERIFIED_SCOPED, NOT_IMPLEMENTED: issue separate READY permit and B6 schema migration+FBS1v1/v2+FBS2 directed tests, then independent B7; global history.query/ACL federation still separately blocked. N031 canonical reminder/monthly-plan owner absent; Guardados +8 not approved. S3.A2 CLOSED 5/5 scoped; S2 8/8 FROZEN; V2 shipping/Auto/Noche/S4 OFF.",
   "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
@@ -985,12 +985,14 @@
       "review_doc": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md"
     },
     "n015_chronology_preaudit": {
-      "status": "B1_B4_DOCUMENTED_B5_BLOCKED_NO_CODE",
+      "status": "B1_B5_VERIFIED_SCOPED_STORAGE_ONLY_NO_PERMIT_B6_NOT_RUN",
       "document": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
       "reviewed_head": "48e4d7fbb00df5cca5dcaf5553c7dad1ff5af761",
       "schema_version": 6,
       "required": "SCHEMA_7_AND_LEGACY_FBS1_FBS2_COMPAT_TESTS_WITH_REAL_ACL",
-      "run": "NOT_RUN"
+      "run": "NOT_RUN",
+      "unit": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
+      "next": "Issue bounded READY permit from B1-B5 evidence then implement tests in B6 and B7; no Home integration"
     }
   }
 }
