@@ -1,16 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "a49b5cea329b34d15d56891a12606cd33ab27c04",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A2_G4_V2_CORE_CI_COVERAGE",
+  "reviewed_head": "3490855e3fb04f03a88da17bd54fd42e727c347f",
+  "paths": [
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthorityTest.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
-          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
+          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
           "marker": "## B1 EVIDENCIA"
         }
       ]
@@ -19,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
-          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
+          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
           "marker": "## B2 COMPARACIÓN"
         }
       ]
@@ -29,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
-          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
+          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
           "marker": "## B3 INVESTIGACIÓN DE ALTERNATIVAS"
         }
       ]
@@ -39,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
-          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
+          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
           "marker": "## B4 UNIFICACIÓN"
         }
       ]
@@ -49,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A2_G4_V2_CORE_CI_COVERAGE_B1_B5_20261105.md",
-          "blob_sha": "aadea0218d4ad452ff58104104e659710342186e",
+          "path": "docs/s3-night/S3_A2_G4_V2_CORE_INVALIDATION_REDFIX_B1_B5_20261105.md",
+          "blob_sha": "5d73926004c26b9416d9b42372d6d4497eb18c0e",
           "marker": "## B5 AUDITORÍA ADVERSARIAL"
         }
       ]
     },
-    "B6": "VERIFIED_WORKFLOW_TRIGGER_A49B5CEA",
-    "B7": "RED_FIX_V2CORE_LIFECYCLE_9_OF_10_RUN_42018187304"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a49b5cea329b34d15d56891a12606cd33ab27c04",
@@ -70,8 +72,8 @@
       }
     ]
   },
-  "why": "V2 Core #42018187304: 9/10, failed pointer-switch search invalidation test. G4 OPEN.",
-  "how": "Follow G4 handoff; new scoped B1-B5 and permit before red-fix code; rerun V2 Core 10/10, T4 7/7, manifests; final B7.",
+  "why": "RED_FIX the G4 V2 Core test invalidation count for four replaying StateFlow grants: #42018187304 failed 9/10.",
+  "how": "Only test change; V2 Core 10/10 plus T4 7/7, manifests, protocol guard; B7 then close G4 if verified.",
   "no_auto_night": true,
   "productive_v2_enabled": false
 }
