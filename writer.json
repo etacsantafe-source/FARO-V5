@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.V5.MANUAL.G4.FEDERATION.B7.20261105",
   "token_hash": "3e25ac7bd4b602f9a26da7c05444cbda971b958e91d3ed79f8a2d792961325fa",
   "target_head": "40ceb0c818ac76ebe0feee8f20224e1256d51809",
   "target_branch": "work/s3-night-20261102",
   "epoch": 258,
-  "timestamp": 1793877359,
-  "purpose": "G4_FEDERATION_B7_AND_V2_CI_TRIGGER_PREAUDIT"
+  "timestamp": 1793877481,
+  "purpose": "G4_FEDERATION_B7_PASS_CI_TRIGGER_PREEVIDENCE"
 }
