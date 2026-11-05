@@ -11,7 +11,8 @@
     "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt",
     "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
     "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt"
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt",
+    ".github/workflows/faro-v5-s3-receipt-history-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -61,6 +62,11 @@
           "path": "docs/s3-night/S3_A1_N015_CHRONOLOGY_BACKUP_B1_B5_BLOCKED_20261105.md",
           "blob_sha": "cc81be2c339a3202af5826c310529acd402a653a",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_B7_RED_FIX_20261105.md",
+          "blob_sha": "2685e56b4829e4c559c07af175276a3206760612",
+          "marker": "## B5 RED_FIX"
         }
       ]
     },
@@ -68,20 +74,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "04409855ccfa18f0d2fb2b9f82e696def0cf9148",
-    "result": "PASS",
-    "unit_id": "S3_A1_N032_POINTER_SEQUENCE_FENCE",
+    "sha": "78a5e9beaa3a2ef946fd6b27d7c3def36a274adf",
+    "result": "RED_FIX",
+    "unit_id": "S3_A1_N015_RECEIPT_TIME_STORAGE_BACKUP",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A1_N032_POINTER_SEQUENCE_B7_PASS_20261105.md",
-        "blob_sha": "119ac5685ddf4ac7afc4000879dc5755613de88f",
-        "marker": "## B7 AUDITORÍA FINAL INDEPENDIENTE"
+        "path": "docs/s3-night/S3_A1_N015_RECEIPT_TIME_B7_RED_FIX_20261105.md",
+        "blob_sha": "2685e56b4829e4c559c07af175276a3206760612",
+        "marker": "## B7 AUDITORÍA RED_FIX"
       }
     ]
   },
-  "why": "N015 Reality committed receipts lack durable recorded-at field; schema6 and FBS1v1/FBS2 must preserve chronology without inventing legacy dates",
-  "how": "N015 storage-only schema7 nullable time, atomic commit, FBS1 v1/v2 backward codec and manifest integrity, explicit coverage; no Home binding/ACL claim",
+  "why": "RED_FIX: Kotlin test missing assertTrue import at line165, XML expectation 2 stale vs 3; scoped B6 FBS tests",
+  "how": "Same N015 unit only: fix test import & strict XML count; directed migration+FBS backup tests before B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 code and migration+backup+rollback/FBS2 tests; B7 independent and BLOCKED again before any new unit"
+  "next": "B6 RED_FIX under same READY permit; B7 independent only after exact SHA CI and FBS compatibility"
 }
