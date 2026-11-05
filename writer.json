@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.G4.FINANCE.B6.20261105",
-  "token_hash": "bc731a486c93ceb8d9d4910da9ef12ae67be729a04ecec48eac51560188dd901",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.G4.FINANCE.B7.20261105",
+  "token_hash": "8eb1f446ad25ba529318d04c70ba5eb81ac2f064f48ab383d07ee87031d22a802",
   "target_head": "302b92c90949d3883c7ecd2713bb4ae3f5a2c4ee",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 236,
-  "timestamp": 1793851433,
-  "purpose": "G4_FINANCE_B6_COMMITTED_WAIT_CI"
+  "epoch": 237,
+  "timestamp": 1793851755,
+  "purpose": "G4_FINANCE_FINAL_B7_DOC"
 }
