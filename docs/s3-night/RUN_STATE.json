@@ -25,8 +25,9 @@
     "contract_freeze": "PASS_SPEC_ONLY_H01_H04_R0_R3_NO_IMPLEMENTATION_TESTS",
     "physical_at_end": "PARTIAL_USER_AUTHORIZED_20261105_WORKSPACE_PASS_3_DOMAINS_EMPTY",
     "s3_a2_g4": "CLOSED_B7_AUTOMATED_V2CORE_10_10_T4_7_7_MANIFEST_4_4",
-    "s3_a2_g5": "OPEN_PARTIAL_PHYSICAL_PLUS_JVM_REAL_HOST_1_1_PASS",
-    "s3_a2_g5_ci_run": 42062273554
+    "s3_a2_g5": "OPEN_ANDROID_EMULATOR_CI_WAIT_PHYSICAL_NOT_RUN",
+    "s3_a2_g5_ci_run": 42062273554,
+    "s3_a2_g5_android_ci_run": 42069366649
   },
   "tasks": [
     "S3-N00",
@@ -37,7 +38,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3-A2 G4 CLOSED; G5 remains OPEN physical: Moto Chat/Workspace Search pass, 3 Reality domain tables empty. Real five-store DEV host four-owner legal seed with three positive typed read-only navigations JVM G5 XML 1/1 PASS Actions #42062273554 on 5fc6263, existing 10/10+T4 7/7+isolation 4/4. G5 Android/real phone positives and adversarial ACL/egress/IPC remain NOT_RUN. No ADB bridge from this chat; do not demand copy/paste. Do not repeat PASS gates.",
+  "next": "G1-G4 CLOSED. G5 Android emulator exact CI #42069366649 on 13911eacf is in progress at last observation, protocol guard #42069373871 PASS. Check exact Android instrumented 1/1 in CI and B7 (PASS/RED_FIX) before new code. Moto G15 three Reality-domain positive flows and adversarial negatives still NOT_RUN; do not claim G5 CLOSED. No Termux copy-paste; no new S4/V2 productive/Auto/Noche.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -53,7 +54,7 @@
     "report": "6ae9073eccd08191b88aec776771ca9e"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3-A2-G5_REAL_HOST_TEST_B7_ONLY_NOT_G5_CLOSED",
+  "last_completed_gate": "S3-A2-G5_ANDROID_EMULATOR_B5_READY_CI_WAIT",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "PARTIAL_N032_NOTICE_OWNER_POINTER_EVENTS_CI_9_9_VERIFIED",
@@ -626,5 +627,6 @@
     "portable_backup": "LEGACY_FAIL_CLOSED_G4_NOT_PORTABLE"
   },
   "s3_a2_g5_physical_handoff": "docs/s3-night/S3_A2_G5_ANDROID_PHYSICAL_PARTIAL_20261105.md",
-  "s3_a2_g5_real_host_doc": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md"
+  "s3_a2_g5_real_host_doc": "docs/s3-night/S3_A2_G5_REAL_ACTIVE_HOST_B7_PASS_20261105.md",
+  "s3_a2_g5_android_checkpoint": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md"
 }
