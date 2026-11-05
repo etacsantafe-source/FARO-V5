@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 271
+    "expected_release_epoch": 273
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md",
+  "handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "G1-G4 CLOSED. G5 Android emulator API35 exact test 1/1 PASS (#42071443306 on bcb38e9); protocol guard #42071443729 SUCCESS; B7 PASS at docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_PASS_B7_20261105.md and permit updated. No more emulator regression requested. G5 remains OPEN for final Moto G15 three Reality-domain positive navigation and adversarial ACL/security campaign. Avoid Termux copy/paste, no touch real user data; V2 shipping, S4, Auto and Noche OFF.",
-  "checkpoint_status": "G5_ANDROID_EMULATOR_PASS_B7_PHYSICAL_ONLY_OPEN",
-  "notes": "No automatic permission extension after 22:00; old S2 and Noche V1.5 are historical. Percentage reporting user-authorized 2026-11-04: see docs/v5/FARO_PROGRESS_PERCENT_REPORTING_V1_20261104.md; objective verified stage closure count, never fake percentage. 2026-11-04: User wants approximate S3 development percent (baseline ≈40%, range 35-45) and formal closure (0/5), both at every turn, separate from thermometer.",
-  "last_handoff": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md",
+  "next": "S3.A2 CLOSED_B7_AUTOMATED_SCOPE G1-G5 5/5. Exact G5 Android emulator CI #42071443306 1/1 and guard #42071443729 SUCCESS, latest checkpoint guard #42072933660 SUCCESS. User explicitly agreed to defer X01-X12 + ONE Moto G15 physical campaign to S3.A5, not PASS. S3 scoped closure A2 1/5, historical ~40% implementation estimate, shipping V2 OFF. In NEW chat with 'Continuar FARO V5', verify HEAD, writer RELEASED epoch 273, protocol permit and queue, then resume S3 (prefer oldest unfinished A1, real Home owners). Do not repeat G1-G5 or start S4/Auto/Noche.",
+  "checkpoint_status": "S3_A2_5_OF_5_CLOSED_AUTOMATED_SCOPE_X01_X12_PHYSICAL_DEFERRED_S3_A5",
+  "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
+  "last_handoff": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md",
   "last_code_sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
   "last_ci_run_id": 42071443306,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -762,9 +762,9 @@
     "G2": "CLOSED_AUTHORIZED_HOST_UI_WIRING_V2_OFF",
     "G3": "CLOSED_B7_CANONICAL_MESSAGE_ANCHOR",
     "G4": "CLOSED_B7_FOUR_REAL_OWNERS_V2CORE_10_10",
-    "G5": "OPEN_PHYSICAL_CAMPAIGN_LATER"
+    "G5": "CLOSED_B7_AUTOMATED_SCOPE_PHYSICAL_DEFERRED_TO_S3_A5"
   },
-  "s3_a2_gates_closed": 4,
+  "s3_a2_gates_closed": 5,
   "s3_a2_gates_total": 5,
   "s3_a2_g2_b6": {
     "status": "PASS_B7_G2_CLOSED",
@@ -921,13 +921,24 @@
   },
   "g5_android_emulator_20261105": {
     "unit": "S3_A2_G5_ANDROID_EMULATOR_DIRECTED",
-    "code_sha": "13911eacf677b0ec968fd1202b521d764bc73a1c",
-    "run": 42069366649,
-    "status": "WAIT_CI",
-    "guard_run": 42069373871,
+    "code_sha": "bcb38e9ca36da7ae9df387d80bb2e911cbb71533",
+    "run": 42071443306,
+    "status": "PASS_ANDROID_1_OF_1_B7",
+    "guard_run": 42071443729,
     "guard": "SUCCESS",
-    "phone_real_owners": "NOT_RUN",
-    "checkpoint": "docs/s3-night/S3_A2_G5_ANDROID_EMULATOR_CHECKPOINT_20261105.md"
+    "phone_real_owners": "DEFERRED_S3_A5_NOT_RUN",
+    "checkpoint": "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md"
   },
-  "g5_physical_remaining": "ONE_FINAL_CAMPAIGN_POSITIVE_FINANCE_OBJECTIVE_MATTER_AND_ADVERSARIAL_SECURITY"
+  "g5_physical_remaining": "S3_A5_FINAL_SINGLE_CAMPAIGN_NOT_RUN",
+  "s3_a2_stage_status": "CLOSED_AUTOMATED_SCOPE_PENDING_FINAL_INTEGRATION",
+  "s3_scoped_stages_closed": 1,
+  "s3_total_stages": 5,
+  "s3_formal_full_release": "NOT_APPROVED",
+  "current_s3_priority": "S3_A1_HOME_REAL_OWNERS",
+  "s3_a5_final_acceptance": {
+    "status": "PENDING_NOT_CERTIFIED",
+    "x01_x12": "PENDING_FULL_INTEGRATION",
+    "physical": "PENDING_ONE_MOTO_G15_CAMPAIGN",
+    "no_claim_of_productive_v2": true
+  }
 }
