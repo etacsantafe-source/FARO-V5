@@ -296,7 +296,7 @@ class FaroV5ActiveWorkspaceSearchGrantOwnerTest {
         }
     }
 
-    @Test fun processRestartKeepsWorkspaceButNeverRestoresGrant(): Unit {
+    @Test fun processRestartKeepsWorkspaceButNeverRestoresGrant(): Unit = runBlocking {
         val file = root.resolve("restart-workspace.db").toString()
         var oldGrant = ""
         ConversationWorkspaceStore(file).use { workspace ->
