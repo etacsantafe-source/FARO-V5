@@ -6,6 +6,8 @@ import ar.com.faro.v5.control.search.SearchCanonicalReadPort
 import ar.com.faro.v5.control.search.SearchCanonicalSnapshot
 import ar.com.faro.v5.control.search.SearchProjectionKey
 import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
+import ar.com.faro.v5.surface.FaroV5InChatSearchPolicy
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import java.security.MessageDigest
 
@@ -100,6 +102,24 @@ class FaroV5WorkspaceSearchReadSource(
             opaqueKey(conversation.id) == key.documentId
         }?.id
         return if (before == authorityStamp()) resolved else null
+    }
+
+    /**
+     * One-shot advisory message target for a verified canonical conversation.
+     * Destination Chat must validate ID against its own fresh timeline.
+     */
+    suspend fun resolveAuthorizedMessageTarget(
+        conversationId: ConversationId,
+        query: String,
+    ): ConversationMessageId? {
+        if (query.isBlank() || query.length > FaroV5InChatSearchPolicy.MAX_QUERY_CHARS) return null
+        val before = authorityStamp() ?: return null
+        val timeline = store.readTimeline(conversationId) ?: return null
+        if (timeline.conversationId != conversationId ||
+            timeline.revision != before.ownerRevision ||
+            before != authorityStamp()) return null
+        val target = FaroV5InChatSearchPolicy.search(timeline, query).messageIds.lastOrNull()
+        return target?.takeIf { before == authorityStamp() }
     }
 
     private fun opaqueKey(id: ConversationId): String = "c:" + sha256(id.value)

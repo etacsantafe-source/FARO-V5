@@ -13,12 +13,12 @@ import java.util.Locale
  * The caller owns live generation/readiness admission and refresh; a failed
  * canonical read must not render an old result as a new successful query.
  */
-internal data class FaroV5InChatSearchResult(
+data class FaroV5InChatSearchResult(
     val messageIds: List<ConversationMessageId>,
     val complete: Boolean,
 )
 
-internal object FaroV5InChatSearchPolicy {
+object FaroV5InChatSearchPolicy {
     const val MAX_QUERY_CHARS = 200
     private const val MAX_SCANNED_MESSAGES = 250
     private const val MAX_SCANNED_CHARS = 64_000

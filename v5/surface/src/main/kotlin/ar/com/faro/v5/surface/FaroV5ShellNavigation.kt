@@ -45,6 +45,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.font.FontWeight
 import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceDrawerProjection
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceEntry
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceProjector
@@ -233,6 +234,10 @@ fun FaroV5ShellScaffold(
     var searchSelectionAwaitingRead by remember(workspaceReadPort, searchReadPort) {
         mutableStateOf(false)
     }
+    // Ephemeral target: never persist or reuse across owner/port changes.
+    var searchConfirmedTarget by remember(workspaceReadPort, searchReadPort) {
+        mutableStateOf<ConversationMessageId?>(null)
+    }
     // Keyed state prevents stale data from a previously bound Workspace reader.
     var workspaceReadState by remember(workspaceReadPort) {
         mutableStateOf<FaroV5WorkspaceReadState>(
@@ -270,6 +275,7 @@ fun FaroV5ShellScaffold(
                 backStack.add(FaroV5ShellDestination.CHAT)
                 if (drawerMode == FaroV5DrawerMode.MODAL) drawerState.close()
             } else {
+                searchConfirmedTarget = null
                 transientMessageHostState.showSnackbar(
                     "No se pudo verificar la conversación seleccionada."
                 )
@@ -286,6 +292,7 @@ fun FaroV5ShellScaffold(
     fun selectChat(newChat: Boolean, id: ConversationId? = null) {
         if (selectionBusy || selectionUncertain || workspaceProjection == null ||
             selectionPort == null || (!newChat && id == null)) return
+        searchConfirmedTarget = null
         selectionBusy = true
         scope.launch {
             try {
@@ -339,6 +346,7 @@ fun FaroV5ShellScaffold(
     }
 
     fun navigate(target: FaroV5ShellDestination) {
+        if (target != FaroV5ShellDestination.CHAT) searchConfirmedTarget = null
         val next = faroV5NextShellStack(backStack, target)
         if (next != backStack.toList()) {
             backStack.clear()
@@ -399,11 +407,12 @@ fun FaroV5ShellScaffold(
                         if (key == FaroV5ShellDestination.BUSCAR) {
                             FaroV5SearchScreen(
                                 readPort = searchReadPort,
-                                onOpenConversation = {
+                                onOpenConversation = { target ->
                                     // Selection is committed by the Workspace owner in
                                     // SearchAdapter, but the shell still has the old
                                     // active ID. Invalidate that UI cache BEFORE read.
                                     if (!searchSelectionAwaitingRead) {
+                                        searchConfirmedTarget = target
                                         workspaceReadState = FaroV5WorkspaceReadState.Loading
                                         searchSelectionAwaitingRead = true
                                         workspaceRefresh++
@@ -426,6 +435,7 @@ fun FaroV5ShellScaffold(
                                 applyRequestPort = applyRequestPort,
                                 assistantTurnPort = assistantTurnPort,
                                 attachmentIngress = attachmentIngress,
+                                focusMessageId = searchConfirmedTarget,
                             )
                         } else if (key == FaroV5ShellDestination.AJUSTES &&
                             onOpenAiSettings != null) {

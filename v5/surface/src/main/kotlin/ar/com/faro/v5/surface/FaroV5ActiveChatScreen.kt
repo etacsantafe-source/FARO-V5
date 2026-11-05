@@ -63,6 +63,7 @@ fun FaroV5ActiveChatScreen(
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
+    focusMessageId: ConversationMessageId? = null,
 ) {
     key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress) {
         FaroV5ActiveChatScreenSession(
@@ -73,6 +74,7 @@ fun FaroV5ActiveChatScreen(
             applyRequestPort = applyRequestPort,
             assistantTurnPort = assistantTurnPort,
             attachmentIngress = attachmentIngress,
+            focusMessageId = focusMessageId,
         )
     }
 }
@@ -91,6 +93,7 @@ private fun FaroV5ActiveChatScreenSession(
     applyRequestPort: ConversationApplyRequestPort? = null,
     assistantTurnPort: ConversationAssistantTurnDispatchPort? = null,
     attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
+    focusMessageId: ConversationMessageId? = null,
 ) {
     val scope = rememberCoroutineScope()
     var editor by remember(activeConversationId, composerPort) {
@@ -155,6 +158,7 @@ private fun FaroV5ActiveChatScreenSession(
                 activeConversationId = activeConversationId,
                 timelineReadPort = timelineReadPort,
                 refreshRevision = timelineVersion,
+                focusMessageId = focusMessageId,
             )
         }
         if (activeConversationId != null && reviewPort != null) {

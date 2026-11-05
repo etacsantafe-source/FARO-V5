@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineReadPort
 import ar.com.faro.v5.kernel.contracts.ConversationTimelineSnapshot
 import kotlinx.coroutines.CancellationException
@@ -38,6 +39,7 @@ fun FaroV5ActiveChatTimeline(
     activeConversationId: ConversationId?,
     timelineReadPort: ConversationTimelineReadPort,
     refreshRevision: Long = 0L,
+    focusMessageId: ConversationMessageId? = null,
 ) {
     var query by remember(activeConversationId, timelineReadPort) { mutableStateOf("") }
     var projection by remember(activeConversationId, timelineReadPort, refreshRevision) {
@@ -112,7 +114,10 @@ fun FaroV5ActiveChatTimeline(
                 FaroV5MessageTimeline(
                     timeline = state.value,
                     modifier = Modifier.weight(1f),
-                    focusMessageId = matches.getOrNull(position),
+                    focusMessageId = if (query.isNotBlank()) matches.getOrNull(position)
+                    else focusMessageId?.takeIf { target ->
+                        state.value.messages.any { it.id == target }
+                    },
                 )
             }
         }

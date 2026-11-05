@@ -1,5 +1,6 @@
 package ar.com.faro.v5.surface
 
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -72,6 +73,8 @@ interface FaroV5SearchReadPort {
     val invalidations: Flow<Unit>
     suspend fun search(query: String): FaroV5SearchPage
     suspend fun openAuthorized(hit: FaroV5SearchHit): FaroV5SearchOpenResult
+    /** One-shot verified navigation hint, never permission to read or mutate. */
+    fun takeConfirmedMessageTarget(): ConversationMessageId? = null
 }
 
 /** Partial and unavailable results must never be announced as a definitive absence. */
@@ -98,7 +101,7 @@ private sealed interface FaroV5SearchScreenState {
 @Composable
 fun FaroV5SearchScreen(
     readPort: FaroV5SearchReadPort?,
-    onOpenConversation: () -> Unit,
+    onOpenConversation: (ConversationMessageId?) -> Unit,
 ) {
     var query by remember(readPort) { mutableStateOf("") }
     var requestVersion by remember(readPort) { mutableLongStateOf(0L) }
@@ -197,7 +200,7 @@ fun FaroV5SearchScreen(
                                     if (requestVersion == version) {
                                         state = FaroV5SearchScreenState.Unavailable
                                         if (opened == FaroV5SearchOpenResult.CONFIRMED) {
-                                            onOpenConversation()
+                                            onOpenConversation(readPort.takeConfirmedMessageTarget())
                                         }
                                     }
                                 }

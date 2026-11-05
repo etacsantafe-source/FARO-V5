@@ -5,6 +5,7 @@ import ar.com.faro.v5.control.search.SearchAuthorityStamp
 import ar.com.faro.v5.control.search.SearchProjectionKey
 import ar.com.faro.v5.control.search.SearchProjectionQuery
 import ar.com.faro.v5.kernel.contracts.ConversationSelectionResult
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
 import ar.com.faro.v5.kernel.contracts.ConversationWorkspaceSelectionPort
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.surface.FaroV5SearchCoverage
@@ -37,10 +38,19 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
     private data class Publication(
         val authority: SearchAuthorityStamp,
         val issuedHits: Set<FaroV5SearchHit>,
+        val query: String,
     )
     private val publicationLock = Any()
     private var searchSerial = 0L
     private var publication: Publication? = null
+    private var confirmedMessageTarget: ConversationMessageId? = null
+
+    override fun takeConfirmedMessageTarget(): ConversationMessageId? =
+        synchronized(publicationLock) {
+            val issued = confirmedMessageTarget
+            confirmedMessageTarget = null
+            issued
+        }
 
     // Only the *real owner's* invalidation flow can revoke visible content.
     // A transient recovery/pointer change also invalidates in-flight queries,
@@ -49,6 +59,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
         synchronized(publicationLock) {
             searchSerial += 1
             publication = null
+            confirmedMessageTarget = null
         }
     }
 
@@ -56,6 +67,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
         val requestSerial = synchronized(publicationLock) {
             searchSerial += 1
             publication = null
+            confirmedMessageTarget = null
             searchSerial
         }
         return try {
@@ -94,7 +106,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
             val published = synchronized(publicationLock) {
                 if (searchSerial != requestSerial) false
                 else {
-                    publication = Publication(before, page.hits.toSet())
+                    publication = Publication(before, page.hits.toSet(), query)
                     true
                 }
             }
@@ -114,6 +126,7 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
      * only the existing selected-generation write gate may mutate selection.
      */
     override suspend fun openAuthorized(hit: FaroV5SearchHit): FaroV5SearchOpenResult {
+        synchronized(publicationLock) { confirmedMessageTarget = null }
         return try {
         val namespace = FaroV5WorkspaceSearchReadSource.NAMESPACE
         if (hit.namespace != namespace || hit.canonicalSource != namespace) {
@@ -121,7 +134,8 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
         } else {
             val before = source.authorityStamp()
                 ?: return FaroV5SearchOpenResult.UNAVAILABLE
-            if (!isPublished(hit, before)) return FaroV5SearchOpenResult.UNAVAILABLE
+            val issuedQuery = publishedQuery(hit, before)
+                ?: return FaroV5SearchOpenResult.UNAVAILABLE
             val key = SearchProjectionKey(hit.namespace, hit.opaqueId)
             val snapshot = source.readAuthorized(namespace, CanonicalSearchCoordinator.MAX_CANONICAL_DOCUMENTS)
             if (before != snapshot.authority || !sameAuthority(before, source.authorityStamp())) {
@@ -151,9 +165,23 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
                             FaroV5SearchOpenResult.UNAVAILABLE
                         } else when (outcome) {
                             is ConversationSelectionResult.Saved ->
-                                if (outcome.snapshot.activeConversationId == id)
-                                    FaroV5SearchOpenResult.CONFIRMED
-                                else FaroV5SearchOpenResult.UNAVAILABLE
+                                if (outcome.snapshot.activeConversationId == id) {
+                                    val target = source.resolveAuthorizedMessageTarget(id, issuedQuery)
+                                    if (!sameAuthority(before, source.authorityStamp())) {
+                                        FaroV5SearchOpenResult.UNAVAILABLE
+                                    } else {
+                                        val stillPublished = synchronized(publicationLock) {
+                                            val current = publication
+                                            if (current?.authority == before &&
+                                                hit in current.issuedHits) {
+                                                confirmedMessageTarget = target
+                                                true
+                                            } else false
+                                        }
+                                        if (stillPublished) FaroV5SearchOpenResult.CONFIRMED
+                                        else FaroV5SearchOpenResult.UNAVAILABLE
+                                    }
+                                } else FaroV5SearchOpenResult.UNAVAILABLE
                             is ConversationSelectionResult.Stale ->
                                 FaroV5SearchOpenResult.STALE
                             else -> FaroV5SearchOpenResult.UNAVAILABLE
@@ -167,6 +195,13 @@ class FaroV5WorkspaceSearchSurfaceAdapter(
     } catch (_: Exception) {
         FaroV5SearchOpenResult.UNAVAILABLE
     }
+    }
+
+    private fun publishedQuery(
+        hit: FaroV5SearchHit,
+        authority: SearchAuthorityStamp,
+    ): String? = synchronized(publicationLock) {
+        publication?.takeIf { it.authority == authority && hit in it.issuedHits }?.query
     }
 
     private fun isPublished(

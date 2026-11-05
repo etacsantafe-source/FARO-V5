@@ -1,6 +1,14 @@
 package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationMessage
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
+import ar.com.faro.v5.kernel.contracts.ConversationMessageRole
+import ar.com.faro.v5.kernel.contracts.ConversationMessageState
+import ar.com.faro.v5.kernel.contracts.ConversationTimelineIntent
+import ar.com.faro.v5.kernel.contracts.ConversationTimelineWriteRequest
+import ar.com.faro.v5.kernel.contracts.ConversationTimelineWriteResult
+import ar.com.faro.v5.kernel.contracts.ConversationTurnId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.surface.FaroV5SearchCoverage
 import ar.com.faro.v5.surface.FaroV5SearchOpenResult
@@ -12,6 +20,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -132,6 +141,59 @@ class FaroV5WorkspaceSearchSurfaceAdapterTest {
                 adapter.openAuthorized(hit.copy(namespace = "untrusted")))
             assertEquals(FaroV5SearchOpenResult.UNAVAILABLE,
                 adapter.openAuthorized(hit.copy(opaqueId = "c:unknown")))
+        }
+    }
+
+    @Test
+    fun canonicalSpanishMessageAnchorIsConsumedOnceAfterAuthorizedSelection() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            val id = ConversationId("anchor-conversation")
+            store.createAndSelect(id, 100L, IdempotencyKey("anchor-create"))
+            val before = checkNotNull(store.readTimeline(id))
+            val accepted = store.writeTimeline(ConversationTimelineWriteRequest(
+                id, before.authorityToken, before.revision, IdempotencyKey("anchor-accept"),
+                ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                    ConversationMessageId("anchor-message"), id, ConversationTurnId("anchor-turn"),
+                    ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
+                    "Pagué las expénsas del departamento", 200L,
+                )),
+            ))
+            assertTrue(accepted is ConversationTimelineWriteResult.Saved)
+            val adapter = FaroV5WorkspaceSearchSurfaceAdapter(
+                source(store, { "g1" }, { "acl-real-test" }), store, MutableSharedFlow(),
+            )
+            val hit = adapter.search("EXPENSAS").hits.single()
+            assertEquals(FaroV5SearchOpenResult.CONFIRMED, adapter.openAuthorized(hit))
+            assertEquals(ConversationMessageId("anchor-message"), adapter.takeConfirmedMessageTarget())
+            assertNull(adapter.takeConfirmedMessageTarget())
+        }
+    }
+
+    @Test
+    fun revokedSearchResultNeverProducesAStaleMessageAnchor() = runBlocking {
+        ConversationWorkspaceStore(":memory:").use { store ->
+            val id = ConversationId("revoked-anchor")
+            store.createAndSelect(id, 100L, IdempotencyKey("revoked-create"))
+            val before = checkNotNull(store.readTimeline(id))
+            store.writeTimeline(ConversationTimelineWriteRequest(
+                id, before.authorityToken, before.revision, IdempotencyKey("revoked-accept"),
+                ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                    ConversationMessageId("revoked-message"), id, ConversationTurnId("revoked-turn"),
+                    ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
+                    "Expensas comprobadas", 200L,
+                )),
+            ))
+            var acl: String? = "acl-1"
+            val adapter = FaroV5WorkspaceSearchSurfaceAdapter(
+                source(store, { "g1" }, { acl }), store, MutableSharedFlow(),
+            )
+            val hit = adapter.search("expensas").hits.single()
+            acl = null
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
+            assertNull(adapter.takeConfirmedMessageTarget())
+            acl = "acl-2"
+            assertEquals(FaroV5SearchOpenResult.UNAVAILABLE, adapter.openAuthorized(hit))
+            assertNull(adapter.takeConfirmedMessageTarget())
         }
     }
 }
