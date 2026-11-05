@@ -88,6 +88,31 @@ jobs:
               if c!=(count,0,0,0): raise SystemExit(f"M2_DEBUG_T4_XML_FAIL {cls} {c}")
           print("M2_DEBUG_T4_RELOCATED_XML_PASS 7/7")
           PY
+      - name: Run existing schema7 and legacy six-to-seven five-store JVM tests
+        working-directory: v5
+        run: |
+          # All 17 generation fixtures, including two not previously run.
+          # Strictly local SQLite fixtures; no APK or user data touched.
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5GenerationStoreGraphV2T2Test"
+      - name: Verify exact schema7 generation JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          suite = Path('v5/store/generation/build/test-results/test/TEST-ar.com.faro.v5.generation.FaroV5GenerationStoreGraphV2T2Test.xml')
+          if not suite.is_file():
+              raise SystemExit('S3_A1_SCHEMA7_GENERATION_XML_MISSING')
+          root = ET.parse(suite).getroot()
+          values = tuple(int(root.get(k, '-1')) for k in ('tests','failures','errors','skipped'))
+          if values != (17, 0, 0, 0):
+              raise SystemExit(f'S3_A1_SCHEMA7_GENERATION_XML_FAIL {values}')
+          actual = {test.get('name') for test in root.findall('testcase')}
+          required = {'exactRealityPreflightAllowsOnlyFiveSixSeven()',
+                      'existingSchemaSixRealityIsAdmittedAndUpgradedToSeven()'}
+          if not all(any(test.startswith(name[:-2]) for test in actual) for name in required):
+              raise SystemExit(f'S3_A1_SCHEMA7_REQUIRED_CASE_MISSING {sorted(actual)}')
+          print('S3_A1_SCHEMA7_GENERATION_XML_PASS 17/17')
+          PY
       - name: Verify package isolation, no backup and offline mode
         run: |
           python3 - <<'PY'
