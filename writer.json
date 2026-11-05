@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.V5.MANUAL.S3A2.HOST_GRANT_REDFIX_DOC.20261104",
-  "token_hash": "0cfcc7932e86cd053769a10d28584a0d9856f4d39e117da8cb987b7bb2f7242c",
-  "target_head": "e72b6471a50d9d9482dcfcf0040781d94efed3ee",
+  "status": "HELD",
+  "owner": "FARO.V5.MANUAL.S3A2.G1.REDFIX_PERMIT.20261104",
+  "token_hash": "bd7f0a9b0f5794fbdd1178f4f4a087f8b07c64835bb49865b76c8fe995e8e6cb",
+  "target_head": "92a09c91e428d1d228619914283ff2e413db8e7e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 202,
-  "timestamp": 1793843538,
-  "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_B7_REDFIX_PREAUDIT"
+  "epoch": 203,
+  "timestamp": 1793843575,
+  "purpose": "S3_A2_G1_HOST_SCOPED_SEARCH_GRANT_REDFIX_READY_PERMIT"
 }
