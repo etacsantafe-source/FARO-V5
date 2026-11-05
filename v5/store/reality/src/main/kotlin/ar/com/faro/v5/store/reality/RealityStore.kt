@@ -72,6 +72,7 @@ class RealityStore(
         ReceiptId("receipt-" + UUID.randomUUID())
     },
     private val materialWriteGate: MaterialWriteGate? = null,
+    private val receiptClockEpochMillis: () -> Long = System::currentTimeMillis,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -107,6 +108,10 @@ class RealityStore(
      */
     val receiptHistory: RealityReceiptHistoryReadPort =
         RealityReceiptHistoryReadPort(::queryCommittedReceipts)
+
+    /** Reality-only dated projection. No global history or Home ACL admission. */
+    val timedReceiptHistory: RealityTimedReceiptHistoryReadPort =
+        RealityTimedReceiptHistoryReadPort(::queryTimedReceipts)
 
     /** N015 owner feed: finance ledger dates, not globally completed Apply. */
     val financeActivity: RealityFinanceActivityReadPort =
@@ -308,6 +313,8 @@ class RealityStore(
             "Reality Outbox source transaction mismatch"
         }
 
+        val receiptRecordedAt = receiptClockEpochMillis()
+        require(receiptRecordedAt >= 0L) { "receipt clock must be nonnegative" }
         val receipt = ExecutionReceipt(
             receiptId = receiptIdFactory(),
             transactionId = identity.transactionId,
@@ -319,13 +326,15 @@ class RealityStore(
             INSERT INTO execution_receipt(
                 receipt_id,
                 transaction_id,
-                plan_fingerprint
-            ) VALUES (?, ?, ?)
+                plan_fingerprint,
+                commit_recorded_at_epoch_millis
+            ) VALUES (?, ?, ?, ?)
             """.trimIndent()
         ).use { statement ->
             statement.bindText(1, receipt.receiptId.value)
             statement.bindText(2, receipt.transactionId.value)
             statement.bindText(3, receipt.planFingerprint.value)
+            statement.bindLong(4, receiptRecordedAt)
             statement.step()
         }
 
@@ -640,6 +649,71 @@ class RealityStore(
         )
     }
 
+    /** Receipt times are observed within the same COMMITTED Reality transaction. */
+    private fun queryTimedReceipts(
+        query: RealityTimedReceiptQuery,
+    ): RealityTimedReceiptPage = synchronized(lock) {
+        checkOpen()
+        check(activeTransactionId == null) {
+            "timed receipt history is unavailable inside an uncommitted transaction"
+        }
+        val legacyUndated = connection.prepare(
+            """
+            SELECT 1 FROM execution_receipt r
+            JOIN apply_attempt a ON a.transaction_id = r.transaction_id
+                AND a.plan_fingerprint = r.plan_fingerprint
+            WHERE a.state = 'COMMITTED' AND r.commit_recorded_at_epoch_millis IS NULL
+            LIMIT 1
+            """.trimIndent()
+        ).use { it.step() }
+        val rows = mutableListOf<RealityTimedReceipt>()
+        connection.prepare(
+            """
+            SELECT r.receipt_id, r.transaction_id, r.plan_fingerprint,
+                   r.commit_recorded_at_epoch_millis
+            FROM execution_receipt r
+            JOIN apply_attempt a ON a.transaction_id = r.transaction_id
+                AND a.plan_fingerprint = r.plan_fingerprint
+            WHERE a.state = 'COMMITTED'
+              AND r.commit_recorded_at_epoch_millis IS NOT NULL
+              AND (? IS NULL OR r.commit_recorded_at_epoch_millis < ?
+                   OR (r.commit_recorded_at_epoch_millis = ? AND r.transaction_id > ?))
+            ORDER BY r.commit_recorded_at_epoch_millis DESC, r.transaction_id ASC
+            LIMIT ?
+            """.trimIndent()
+        ).use { statement ->
+            val cursor = query.before
+            if (cursor == null) {
+                for (index in 1..4) statement.bindNull(index)
+            } else {
+                statement.bindLong(1, cursor.recordedAtEpochMillis)
+                statement.bindLong(2, cursor.recordedAtEpochMillis)
+                statement.bindLong(3, cursor.recordedAtEpochMillis)
+                statement.bindText(4, cursor.transactionId)
+            }
+            statement.bindLong(5, query.limit.toLong() + 1L)
+            while (statement.step()) {
+                rows += RealityTimedReceipt(
+                    receipt = ExecutionReceipt(
+                        receiptId = ReceiptId(statement.getText(0)),
+                        transactionId = TransactionId(statement.getText(1)),
+                        planFingerprint = PlanFingerprint(statement.getText(2)),
+                    ),
+                    recordedAtEpochMillis = statement.getLong(3),
+                )
+            }
+        }
+        val page = rows.take(query.limit)
+        val last = page.lastOrNull()
+        RealityTimedReceiptPage(
+            receipts = page,
+            nextCursor = if (rows.size > query.limit && last != null)
+                RealityTimedReceiptCursor(last.recordedAtEpochMillis, last.receipt.transactionId.value)
+                else null,
+            legacyUndated = legacyUndated,
+        )
+    }
+
     private fun queryFinanceActivity(
         query: RealityFinanceActivityQuery,
     ): RealityFinanceActivityPage = synchronized(lock) {
@@ -711,6 +785,7 @@ class RealityStore(
                 createFinanceSchema()
                 createFinanceEntrySchema()
                 createDomainSchemas()
+                ensureReceiptTimeColumn()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -720,6 +795,7 @@ class RealityStore(
                 createFinanceSchema()
                 createFinanceEntrySchema()
                 createDomainSchemas()
+                ensureReceiptTimeColumn()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -728,6 +804,7 @@ class RealityStore(
                 createFinanceSchema()
                 createFinanceEntrySchema()
                 createDomainSchemas()
+                ensureReceiptTimeColumn()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -735,20 +812,27 @@ class RealityStore(
                 createFinanceSchema()
                 createFinanceEntrySchema()
                 createDomainSchemas()
+                ensureReceiptTimeColumn()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
             4 -> schemaTransaction {
                 createFinanceEntrySchema()
                 createDomainSchemas()
+                ensureReceiptTimeColumn()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
             5 -> schemaTransaction {
                 createDomainSchemas()
+                ensureReceiptTimeColumn()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
+            6 -> schemaTransaction {
+                ensureReceiptTimeColumn()
+                setSchemaVersion(SCHEMA_VERSION)
+            }
             SCHEMA_VERSION -> Unit
         }
 
@@ -945,10 +1029,32 @@ class RealityStore(
         )
     }
 
+    /** Existing rows remain NULL: no historical commit time can be recovered from IDs. */
+    private fun ensureReceiptTimeColumn() {
+        check(tableExists("execution_receipt")) { "receipt history schema missing" }
+        if (!receiptTimeColumnExists()) {
+            connection.execSQL(
+                "ALTER TABLE execution_receipt ADD COLUMN " +
+                    "commit_recorded_at_epoch_millis INTEGER " +
+                    "CHECK(commit_recorded_at_epoch_millis IS NULL OR commit_recorded_at_epoch_millis >= 0)"
+            )
+        }
+    }
+
+    private fun receiptTimeColumnExists(): Boolean =
+        connection.prepare("PRAGMA table_info(execution_receipt)").use { statement ->
+            var found = false
+            while (statement.step()) {
+                if (statement.getText(1) == "commit_recorded_at_epoch_millis") found = true
+            }
+            found
+        }
+
     private fun validateRequiredSchema() {
         check(readSchemaVersion() == SCHEMA_VERSION) {
             "RealityStore schema version mismatch"
         }
+        check(receiptTimeColumnExists()) { "Reality receipt time column missing" }
         listOf(
             "profile_state",
             "apply_attempt",
@@ -1590,7 +1696,8 @@ class RealityStore(
                         """
                         SELECT r.receipt_id,
                                r.transaction_id,
-                               r.plan_fingerprint
+                               r.plan_fingerprint,
+                               r.commit_recorded_at_epoch_millis
                         FROM execution_receipt r
                         JOIN apply_attempt a
                           ON a.transaction_id = r.transaction_id
@@ -1605,6 +1712,7 @@ class RealityStore(
                                     receiptId = statement.getText(0),
                                     transactionId = statement.getText(1),
                                     planFingerprint = statement.getText(2),
+                                    commitRecordedAtEpochMillis = if (statement.isNull(3)) null else statement.getLong(3),
                                 )
                             )
                         }
@@ -1746,13 +1854,16 @@ class RealityStore(
                     connection.prepare(
                         """
                         INSERT INTO execution_receipt(
-                            receipt_id, transaction_id, plan_fingerprint
-                        ) VALUES (?, ?, ?)
+                            receipt_id, transaction_id, plan_fingerprint,
+                            commit_recorded_at_epoch_millis
+                        ) VALUES (?, ?, ?, ?)
                         """.trimIndent()
                     ).use { statement ->
                         statement.bindText(1, receipt.receiptId)
                         statement.bindText(2, receipt.transactionId)
                         statement.bindText(3, receipt.planFingerprint)
+                        receipt.commitRecordedAtEpochMillis?.let { statement.bindLong(4, it) }
+                            ?: statement.bindNull(4)
                         statement.step()
                     }
                 }
@@ -1798,7 +1909,7 @@ class RealityStore(
     ) : RealityTransactionScope
 
     companion object {
-        const val SCHEMA_VERSION: Int = 6
+        const val SCHEMA_VERSION: Int = 7
         const val LEGACY_BACKUP_SCHEMA_VERSION: Int = 5
     }
 }

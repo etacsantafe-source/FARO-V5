@@ -31,3 +31,38 @@ data class RealityReceiptHistoryPage(
 fun interface RealityReceiptHistoryReadPort {
     fun query(query: RealityReceiptHistoryQuery): RealityReceiptHistoryPage
 }
+
+/** Reality-only chronologically indexed *known* receipt times; NOT global history.query. */
+data class RealityTimedReceiptCursor(
+    val recordedAtEpochMillis: Long,
+    val transactionId: String,
+) {
+    init {
+        require(recordedAtEpochMillis >= 0L)
+        require(transactionId.isNotBlank())
+    }
+}
+
+data class RealityTimedReceipt(val receipt: ExecutionReceipt, val recordedAtEpochMillis: Long) {
+    init { require(recordedAtEpochMillis >= 0L) }
+}
+
+data class RealityTimedReceiptQuery(
+    val before: RealityTimedReceiptCursor? = null,
+    val limit: Int = 50,
+) {
+    init { require(limit in 1..100) }
+}
+
+data class RealityTimedReceiptPage(
+    val receipts: List<RealityTimedReceipt>,
+    val nextCursor: RealityTimedReceiptCursor?,
+    val legacyUndated: Boolean,
+) {
+    val canonicalSource: String get() = "reality.execution_receipt"
+    val globallyFederated: Boolean get() = false
+}
+
+fun interface RealityTimedReceiptHistoryReadPort {
+    fun query(query: RealityTimedReceiptQuery): RealityTimedReceiptPage
+}

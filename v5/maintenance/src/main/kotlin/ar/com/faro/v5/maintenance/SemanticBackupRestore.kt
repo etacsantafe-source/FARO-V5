@@ -704,6 +704,9 @@ private object BackupManifestBuilder {
             .string("receipt.$index.id", receipt.receiptId)
             .string("receipt.$index.transaction", receipt.transactionId)
             .string("receipt.$index.plan", receipt.planFingerprint)
+        receipt.commitRecordedAtEpochMillis?.let {
+            hash.string("receipt.$index.commitRecordedAt", it.toString())
+        }
     }
 
     private fun addCommercialRecord(

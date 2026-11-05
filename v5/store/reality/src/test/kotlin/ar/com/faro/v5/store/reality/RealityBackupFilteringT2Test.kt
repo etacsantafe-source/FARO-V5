@@ -48,6 +48,7 @@ class RealityBackupFilteringT2Test {
             fileName = sourceDb.toString(),
             transactionIdFactory = { ids.removeFirst() },
             receiptIdFactory = { ReceiptId("receipt-committed") },
+            receiptClockEpochMillis = { 5_432L },
         ).use { source ->
             val preparedOnly =
                 source.applyAttemptIdentities.resolve(
@@ -100,12 +101,16 @@ class RealityBackupFilteringT2Test {
             assertEquals("receipt-committed", committedPage.receipts.single().receiptId.value)
             assertEquals("reality.execution_receipt", committedPage.canonicalSource)
             assertFalse(committedPage.hasCommitTimestamps)
+            val timed = source.timedReceiptHistory.query(RealityTimedReceiptQuery())
+            assertEquals(5_432L, timed.receipts.single().recordedAtEpochMillis)
+            assertFalse(timed.legacyUndated)
             assertNull(committedPage.nextCursor)
 
             snapshot = source.backup.snapshot()
             assertEquals(1, snapshot.committedReceipts.size)
             assertEquals("tx-committed", snapshot.committedReceipts.single().transactionId)
             assertEquals("receipt-committed", snapshot.committedReceipts.single().receiptId)
+            assertEquals(5_432L, snapshot.committedReceipts.single().commitRecordedAtEpochMillis)
             assertEquals(
                 preparedOnly.transactionId,
                 source.applyAttemptLookup.find(preparedOnly.transactionId)?.transactionId,
@@ -131,6 +136,8 @@ class RealityBackupFilteringT2Test {
                     ?.value,
             )
             assertEquals(snapshot, target.backup.snapshot())
+            assertEquals(5_432L, target.timedReceiptHistory.query(RealityTimedReceiptQuery())
+                .receipts.single().recordedAtEpochMillis)
             assertEquals(
                 listOf("tx-committed"),
                 target.receiptHistory.query(RealityReceiptHistoryQuery())
@@ -154,6 +161,9 @@ class RealityBackupFilteringT2Test {
             store.backup.restoreOrVerify(restored)
             val first = store.receiptHistory.query(RealityReceiptHistoryQuery(limit = 2))
             assertEquals(listOf("tx-a", "tx-b"), first.receipts.map { it.transactionId.value })
+            val legacy = store.timedReceiptHistory.query(RealityTimedReceiptQuery())
+            assertTrue(legacy.legacyUndated)
+            assertTrue(legacy.receipts.isEmpty())
             assertEquals("tx-b", first.nextCursor)
             assertFalse(first.hasCommitTimestamps)
             val second = store.receiptHistory.query(
@@ -177,6 +187,32 @@ class RealityBackupFilteringT2Test {
         }
         assertThrows(IllegalStateException::class.java) {
             store.receiptHistory.query(RealityReceiptHistoryQuery())
+        }
+    }
+
+
+    @Test
+    fun rollbackNeverExposesRecordedReceiptTime() {
+        RealityStore(":memory:", receiptClockEpochMillis = { 900L },
+            transactionIdFactory = { TransactionId("tx-rollback") },
+            receiptIdFactory = { ReceiptId("receipt-rollback") }).use { store ->
+            val identity = store.applyAttemptIdentities.resolve(
+                preparedPlan(
+                    planFingerprint = PlanFingerprint("plan-rollback"),
+                    idempotencyKey = IdempotencyKey("idem-rollback"),
+                )
+            )
+            store.run(identity.transactionId) { scope ->
+                store.commit(scope, identity, emptyList())
+                assertThrows(IllegalStateException::class.java) {
+                    store.timedReceiptHistory.query(RealityTimedReceiptQuery())
+                }
+                AtomicApplyTransactionDecision.Rollback(Unit)
+            }
+            val result = store.timedReceiptHistory.query(RealityTimedReceiptQuery())
+            assertTrue(result.receipts.isEmpty())
+            assertFalse(result.legacyUndated)
+            assertNull(store.executionReceiptLookup.find(identity.transactionId))
         }
     }
 

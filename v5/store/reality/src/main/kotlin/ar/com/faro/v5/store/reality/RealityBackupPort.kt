@@ -4,11 +4,15 @@ data class RealityCommittedReceiptBackup(
     val receiptId: String,
     val transactionId: String,
     val planFingerprint: String,
+    val commitRecordedAtEpochMillis: Long? = null,
 ) {
     init {
         require(receiptId.isNotBlank()) { "backup receipt id must not be blank" }
         require(transactionId.isNotBlank()) { "backup transaction id must not be blank" }
         require(planFingerprint.isNotBlank()) { "backup plan fingerprint must not be blank" }
+        require(commitRecordedAtEpochMillis == null || commitRecordedAtEpochMillis >= 0L) {
+            "backup receipt time must be nonnegative"
+        }
     }
 }
 

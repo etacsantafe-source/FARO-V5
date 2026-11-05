@@ -55,7 +55,8 @@ import java.nio.charset.StandardCharsets
  */
 object SemanticBackupSetCodec {
     private const val MAGIC = 0x46425331 // FBS1
-    private const val VERSION = 1
+    private const val LEGACY_VERSION = 1
+    private const val TIMED_VERSION = 2
     const val MAX_PLAINTEXT_BYTES: Int = 64 * 1024 * 1024
     private const val MAX_STRING_BYTES = 64 * 1024
     private const val MAX_RECORDS = 100_000
@@ -75,9 +76,12 @@ object SemanticBackupSetCodec {
             BoundedByteArrayOutputStream(maxBytes).use { buffer ->
                 DataOutputStream(buffer).use { output ->
                     output.writeInt(MAGIC)
-                    output.writeInt(VERSION)
+                    val version = if (backupSet.reality.committedReceipts.any {
+                        it.commitRecordedAtEpochMillis != null
+                    }) TIMED_VERSION else LEGACY_VERSION
+                    output.writeInt(version)
                     writeManifest(output, backupSet.manifest)
-                    writeReality(output, backupSet.reality)
+                    writeReality(output, backupSet.reality, version)
                     writeCommercial(output, backupSet.commercialEvidence)
                     writeWeb(output, backupSet.webEvidence)
                     writeAuxiliary(output, backupSet.auxiliary)
@@ -96,11 +100,14 @@ object SemanticBackupSetCodec {
         }
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "semantic backup magic mismatch" }
-            check(input.readInt() == VERSION) { "unsupported semantic backup codec version" }
+            val version = input.readInt()
+            check(version == LEGACY_VERSION || version == TIMED_VERSION) {
+                "unsupported semantic backup codec version"
+            }
             val decoded =
                 SemanticBackupSet(
                     manifest = readManifest(input),
-                    reality = readReality(input),
+                    reality = readReality(input, version),
                     commercialEvidence = readCommercial(input),
                     webEvidence = readWeb(input),
                     auxiliary = readAuxiliary(input),
@@ -165,7 +172,7 @@ object SemanticBackupSetCodec {
         )
     }
 
-    private fun writeReality(output: DataOutputStream, snapshot: RealityBackupSnapshot) {
+    private fun writeReality(output: DataOutputStream, snapshot: RealityBackupSnapshot, version: Int) {
         output.writeInt(snapshot.schemaVersion)
         output.writeLong(snapshot.profileRevision)
         output.writeLong(snapshot.financeRevision)
@@ -198,10 +205,15 @@ object SemanticBackupSetCodec {
             writeString(output, receipt.receiptId)
             writeString(output, receipt.transactionId)
             writeString(output, receipt.planFingerprint)
+            if (version == TIMED_VERSION) {
+                val time = receipt.commitRecordedAtEpochMillis
+                output.writeBoolean(time != null)
+                if (time != null) output.writeLong(time)
+            }
         }
     }
 
-    private fun readReality(input: DataInputStream): RealityBackupSnapshot {
+    private fun readReality(input: DataInputStream, version: Int): RealityBackupSnapshot {
         val schemaVersion = input.readInt()
         val profileRevision = input.readLong()
         val financeRevision = input.readLong()
@@ -252,6 +264,13 @@ object SemanticBackupSetCodec {
                             receiptId = readString(input),
                             transactionId = readString(input),
                             planFingerprint = readString(input),
+                            commitRecordedAtEpochMillis = if (version == TIMED_VERSION) {
+                                when (input.readUnsignedByte()) {
+                                    0 -> null
+                                    1 -> input.readLong()
+                                    else -> error("invalid receipt time flag")
+                                }
+                            } else null,
                         )
                     )
                 }
