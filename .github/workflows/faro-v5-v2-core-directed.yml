@@ -10,6 +10,8 @@ on:
       - "v5/app/src/main/**"
       - "v5/surface/**"
       - "v5/app/src/testV2CoreDev/**"
+      - "v5/store/generation/src/main/**"
+      - "v5/store/reality/src/main/**"
       - ".github/workflows/faro-v5-v2-core-directed.yml"
   workflow_dispatch:
 
