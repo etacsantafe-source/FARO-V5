@@ -63,19 +63,16 @@ jobs:
           profile: pixel_5
           disable-animations: true
           emulator-boot-timeout: 600
-          script: |
-            set -euo pipefail
-            APP="$(find v5/app/build/outputs/apk/v2CoreDev -type f -name '*.apk' -print -quit)"
-            TEST="$(find v5/app/build/outputs/apk/androidTest/v2CoreDev -type f -name '*.apk' -print -quit)"
-            test -n "$APP" && test -n "$TEST"
-            adb install "$APP"
-            adb install "$TEST"
-            set +e
-            OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5G5AndroidHostIntegrationTest ar.com.faro.alpha.v2coredev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)"
-            RC=$?
-            set -e
-            printf '%s\n' "$OUT"
-            test "$RC" -eq 0
-            echo "$OUT" | grep -F "OK (1 test)"
-            echo "$OUT" | grep -F "INSTRUMENTATION_CODE: -1"
+          script: >-
+            bash -euo pipefail -c '
+            APP="$(find v5/app/build/outputs/apk/v2CoreDev -type f -name "*.apk" -print -quit)";
+            TEST="$(find v5/app/build/outputs/apk/androidTest/v2CoreDev -type f -name "*.apk" -print -quit)";
+            test -n "$APP" && test -n "$TEST";
+            adb install "$APP";
+            adb install "$TEST";
+            OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5G5AndroidHostIntegrationTest ar.com.faro.alpha.v2coredev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)" || { printf "%s\n" "$OUT"; exit 1; };
+            printf "%s\n" "$OUT";
+            printf "%s\n" "$OUT" | grep -Fq "OK (1 test)";
+            printf "%s\n" "$OUT" | grep -Fq "INSTRUMENTATION_CODE: -1";
             echo "G5_ANDROID_REAL_OS_FOUR_OWNER_PASS 1/1"
+            '
