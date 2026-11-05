@@ -318,11 +318,11 @@
   ],
   "inflight": null,
   "last_checkpoint": {
-    "source": "docs/s3-night/S3_A1_NOCHE_A_B1_B2_RECOVERY_20261105.md",
-    "commit_sha": "e4c1c8075fe946ca68a410ff280b6f0f61f17560",
+    "source": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md",
+    "commit_sha": "c2fdfe607d9da1040d17ce6ae88f4733d3660046",
     "task_id": "S3-A1",
-    "status": "B1_B2_RECORDED_B3_B5_PENDING_NO_FUNCTIONAL_CODE",
-    "writer_epoch": 276,
+    "status": "B1_B2_RECORDED_B3_B4_RESEARCHED_B5_DRAFT_NOT_PERMIT_READY",
+    "writer_epoch": 278,
     "action_run_ids": []
   },
   "owner": null,
@@ -502,23 +502,28 @@
     "S3-A1": {
       "goal_id": "G-S3-AUTO",
       "unit_id": "S3-A1",
-      "block_id": 3,
-      "block_status": "READY",
+      "block_id": 5,
+      "block_status": "BLOCKED",
       "verified_blocks": {
         "B1": "EVIDENCE_RECORDED",
-        "B2": "COMPARISON_RECORDED"
+        "B2": "COMPARISON_RECORDED",
+        "B3": "RESEARCH_DOCUMENTED",
+        "B4": "PLAN_RECONCILED",
+        "B5": "MATRIX_DRAFT_NOT_VERIFIED"
       },
-      "expected_head": "e4c1c8075fe946ca68a410ff280b6f0f61f17560",
+      "expected_head": "c2fdfe607d9da1040d17ce6ae88f4733d3660046",
       "acceptance": "Real four Home indicator owners + safe read-only navigation and accessibility; no synthetic counts",
       "evidence": [
-        "docs/s3-night/S3_A1_NOCHE_A_B1_B2_RECOVERY_20261105.md",
-        "docs/s3-night/RUN_STATE.json",
-        "docs/s3-night/S3_A2_G5_FORMAL_SCOPE_RECONCILIATION_20261105.md"
+        {
+          "kind": "B3_B5_DOC",
+          "path": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md",
+          "sha": "c2fdfe607d9da1040d17ce6ae88f4733d3660046"
+        }
       ],
-      "next_step": "Complete A1-specific B3 external alternatives, B4, B5; obtain matching permit before any B6 functional code. Focus N015/N031 canonical owners and Guardados bounded approval.",
-      "blocker": "S3_A1_SPECIFIC_B1_B5_PERMIT_NOT_READY; 3 of 4 canonical Home indicators unavailable",
-      "writer_release_epoch": 277,
-      "last_observed_at": "2026-11-05T15:03:49-03:00",
+      "next_step": "Inspect exact owner code paths for N015/N031, complete B5 ACL/authority tests and per-unit permit before any B6 functional code; continue other S3 unit if owner missing",
+      "blocker": "A1_NO_PER_UNIT_B1_B5_PERMIT_OWNER_PATHS_UNVERIFIED",
+      "writer_release_epoch": 279,
+      "last_observed_at": "2026-11-05T15:3x:00-03:00",
       "time_breakdown": "NO_REGISTRADO"
     }
   },
@@ -591,6 +596,7 @@
     "x01_x12": "DEFER_TO_S3_A5",
     "no_new_actions_without_authorization": true,
     "blocks": "SKIP_VALIDATED_CHAIN_WORK",
-    "historical_finished": "A2_G1_G5_DONE_DO_NOT_REPEAT"
+    "historical_finished": "A2_G1_G5_DONE_DO_NOT_REPEAT",
+    "last_B_checkpoint": "docs/s3-night/S3_A1_NOCHE_B_B3_B5_RESEARCH_20261105.md"
   }
 }
