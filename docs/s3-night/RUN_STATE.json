@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 OPEN. Private N031 planning codec B7 PASS_SCOPED 6/6 and G4/FBS2 regressions 12/12, V2 core SUCCESS. The Reminder+MonthlyPlan types are not persistent owners. Next schema8 Reality migrations + FBS2v3 true capture/restore + ACL; no user write/host until certified. V2 prod/Noche/Auto/S4 OFF, A3+8 not approved 172, A5 X01-X12/G15 NOT_RUN.",
+  "next": "S3.A4 OPEN: FBS2 v3 semantic envelope B7 PASS_SCOPED 29/29, all 7 exact SHA workflows SUCCESS incl V2 core; no durable Reminder/MonthlyPlan owner or FBS2v3 complete recovery yet, public export/restore remain fenced. NEXT Reality schema8+schema5/6/7 migrations and fully backed-up owners, B1-B5 first. A3+8 not approved catalog172, A5 X01-X12/G15 NOT_RUN, V2 prod/Noche/Auto/S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -62,7 +62,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N031_PRIVATE_PLANNING_CODEC_B7_PASS_SCOPED",
+  "last_completed_gate": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -998,6 +998,25 @@
     "v2_core_run": 42257044112,
     "v2_core": "SUCCESS",
     "persistent": false,
+    "physical": "NOT_RUN"
+  },
+  "n031_fbs2v3_envelope_b7_20261106": {
+    "status": "PASS_SCOPED_SEMANTIC_V3_FENCED",
+    "sha": "8fb44d2343b58182c97c4e2c32fa8c1940db9172",
+    "b7_doc": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_20261106.md",
+    "guard_run": 42260545295,
+    "directed_run": 42260545388,
+    "xml": "29/29",
+    "other_ci_runs": [
+      42260545293,
+      42260545207,
+      42260545212,
+      42260545163,
+      42260545224
+    ],
+    "all_ci": "SUCCESS",
+    "persistent": false,
+    "host_export_restore": false,
     "physical": "NOT_RUN"
   }
 }

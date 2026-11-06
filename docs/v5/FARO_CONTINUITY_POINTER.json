@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 372
+    "expected_release_epoch": 376
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A4 OPEN. N031 typed Reminder+MonthlyPlan contracts B7 PASS_SCOPED 12/12 and new private planning semantic codec B7 PASS_SCOPED 6/6 (G4 5/5, FBS2v1 7/7, V2 core GREEN). NO REAL OWNER yet: next integrated schema8 durable Reminder/MonthlyPlan owners + schema5/6/7 migrations + FBS2v3 capture/staged restore under AEAD/identity/quiescence. B1-B5/READY independently; no persisted write before complete recovery. N031 Home and N015 Activity host after. A3+8 NOT_APPROVED catalog172; A5 X01-X12/G15 NOT_RUN; V2 prod/Noche/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_N031_PRIVATE_PLANNING_CODEC_B7_PASS_SCOPED_18_18_REAL_OWNER_OPEN",
+  "next": "S3.A4 OPEN. N031 FBS2 v3 four-section semantic ENVELOPE B7 PASS_SCOPED 29/29, mandatory guard + six regressions including V2 core ALL SUCCESS on exact SHA 8fb44d23. V3 public export/restore and internal G4 stage deliberately reject Planning to prevent silent loss. NEXT: B1-B5, Reality schema8 actual ReminderRule/Occurrence+MonthlyPlan owners, preserve schema5/6/7 migrations, FBS2v3 global five-store capture + staged authenticated replay/ACL; no persisted writes before certified complete recovery. N031 Home/N015 Activity integration after; S3 A3 Guardados+8 NOT_APPROVED, catalog172; A5 G15 X01-X12 NOT_RUN, V2 prod/Noche/Auto/S4 OFF.",
+  "checkpoint_status": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_SCOPED_29_29_REAL_OWNERS_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B7_PASS_20261106.md",
-  "last_code_sha": "39c1b2c50adae6e04ecf882f9ce69611bc8974fc",
-  "last_ci_run_id": 42257044519,
+  "last_handoff": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_20261106.md",
+  "last_code_sha": "8fb44d2343b58182c97c4e2c32fa8c1940db9172",
+  "last_ci_run_id": 42260545388,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_PRIVATE_CODEC_6_6_G4_5_5_FBS2_V1_7_7_V2_CORE_GREEN",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_FBS2V3_29_29_7_WORKFLOWS_ALL_GREEN",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1257,5 +1257,25 @@
     "fbs2_v3_integrated": false,
     "g15": "NOT_RUN",
     "next": "B1_B5_REALITY_SCHEMA8_FBS2V3_INTEGRATED_OWNERS"
+  },
+  "n031_fbs2v3_envelope_b7_20261106": {
+    "status": "PASS_SCOPED_SEMANTIC_V3_FENCED_NOT_DURABLE",
+    "sha": "8fb44d2343b58182c97c4e2c32fa8c1940db9172",
+    "b7_path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_20261106.md",
+    "guard_run": 42260545295,
+    "directed_run": 42260545388,
+    "xml": "29/29",
+    "other_success_runs": [
+      42260545293,
+      42260545207,
+      42260545212,
+      42260545163,
+      42260545224
+    ],
+    "schema8_owners": false,
+    "public_export_restore": false,
+    "stage_only_replay": false,
+    "physical": "NOT_RUN",
+    "next": "REALITY_SCHEMA8_FBS2V3_COMPLETE_OWNER_CAPTURE_RESTORE"
   }
 }

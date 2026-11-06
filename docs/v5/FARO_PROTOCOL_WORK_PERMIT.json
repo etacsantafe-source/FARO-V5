@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE",
   "reviewed_head": "489b5dabb2517c29be7356335bfd3248577ca18e",
   "paths": [
@@ -61,24 +61,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_FBS2V3_29_29_7_WORKFLOWS_GREEN",
+    "B7": "PASS_SCOPED_SEMANTIC_V3_FENCED"
   },
   "last_code_review": {
-    "sha": "39c1b2c50adae6e04ecf882f9ce69611bc8974fc",
+    "sha": "8fb44d2343b58182c97c4e2c32fa8c1940db9172",
     "result": "PASS",
-    "unit_id": "S3_A4_N031_PLANNING_SECTION_CODEC",
+    "unit_id": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B7_PASS_20261106.md",
-        "blob_sha": "265d968f87a81ae8c14ad113aac807b0b975e454",
+        "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_20261106.md",
+        "blob_sha": "bf4823f88d62d2622c87b825514d9a028f58d729",
         "marker": "## B7"
       }
     ]
   },
-  "why": "v3 semantic envelope must reject public and stage-only restore until REAL schema8 owner capture/restore exists",
-  "how": "No SQLite changes, explicit four-section FBS2 v3 and two restore fences, exact CI tests",
+  "why": "FBS2v3 semantic stage-only B7 PASS; schema8 REAL owners+capture+restoration still unimplemented",
+  "how": "FBS2v3 4-section bounded semantic and fail-closed both stage restore entries + export fence, exact directed 29/29, 7 workflows green",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 five paths, directed XML and retro regression, B7 independent, return permit BLOCKED"
+  "next": "B1-B5 complete Reality schema8 and verified durable Reminder/MonthlyPlan owner capture+staged restore before any writes/host export"
 }
