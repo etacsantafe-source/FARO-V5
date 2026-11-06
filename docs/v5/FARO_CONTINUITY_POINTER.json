@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 358
+    "expected_release_epoch": 362
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_EXPORT_FENCE_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A4 OPEN: paired Reality G4 capture FBS2v2 B7 PASS_SCOPED; external export of nonrestorable G4 blocked (B7 PASS). NEXT new B1-B5 S3_A4_N031_FBS2_G4_STAGED_RESTORE, preserve source/target archive identity, quiescence and idempotent retries; then Reminder+MonthlyPlan real owners and N031 Home/N015 Activity. V2 prod/Noche/Auto/S4 OFF, A3 +8 unapproved, G15 X01-X12 NOT_RUN.",
-  "checkpoint_status": "S3_A4_N031_FBS2_G4_CAPTURE_EXPORT_FENCE_B7_PASS_SCOPED_STAGED_RESTORE_OPEN",
+  "next": "S3.A4 OPEN. G4 FBS2 v2 internal STAGED restore B7 PASS_SCOPED 7/7 new, 20/20 directed + public fence 13/13, guard SUCCESS; PUBLIC G4 restore/export STILL BLOCKED, host not bound. NEXT new B1-B5 for canonical durable Reminder+MonthlyPlan owners with schema/migration/FBS2+ACL, then N031 Home/N015 Activity host and A4 integration. A3 +8 NOT_APPROVED catalog172, A5 X01-X12 G15 NOT_RUN. V2 productive, Noche, Auto, S4 OFF.",
+  "checkpoint_status": "S3_A4_N031_FBS2_G4_STAGE_ONLY_B7_PASS_SCOPED_PUBLIC_EXPORT_RESTORE_BLOCKED",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_EXPORT_FENCE_B7_PASS_20261106.md",
-  "last_code_sha": "006061b7a16e2e580cbc4f61dedae65bc70de21c",
-  "last_ci_run_id": 42222371671,
+  "last_handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
+  "last_code_sha": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
+  "last_ci_run_id": 42245321820,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_EXPORT_4_4_CAPTURE_5_5_RESTORE_7_7_V2_CORE_PASS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_STAGE_G4_7_7_DIRECTED_20_20_FENCE_13_13_GUARD_PASS_V2_CORE_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1195,5 +1195,24 @@
     "previous_capture_ci": 42220701444,
     "next": "S3_A4_N031_FBS2_G4_STAGED_RESTORE",
     "physical": "NOT_RUN"
+  },
+  "fbs2_g4_staged_restore_b7_20261106": {
+    "unit": "S3_A4_N031_FBS2_G4_STAGED_RESTORE",
+    "status": "PASS_SCOPED_STAGE_ONLY",
+    "sha": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
+    "b7_path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
+    "guard_run": 42245321864,
+    "directed_run": 42245321820,
+    "directed_xml": "20/20",
+    "g4_stage_xml": "7/7",
+    "fence_run": 42245321874,
+    "fence_xml": "13/13",
+    "v2_core_run": 42245321703,
+    "v2_core_conclusion": "SUCCESS",
+    "physical": "NOT_RUN",
+    "host_bound": false,
+    "public_export_enabled": false,
+    "public_restore_enabled": false,
+    "next": "B1_B5_DURABLE_REMINDER_MONTHLYPLAN"
   }
 }

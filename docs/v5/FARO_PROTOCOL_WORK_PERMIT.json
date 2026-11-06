@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_FBS2_G4_STAGED_RESTORE",
   "reviewed_head": "04fffc8ef54326e0486dff5ffbd7fb73dcc49243",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_STAGE_G4_7_7_DIRECTED_20_20_FENCE_13_13",
+    "B7": "PASS_SCOPED_STAGE_ONLY_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "006061b7a16e2e580cbc4f61dedae65bc70de21c",
+    "sha": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
     "result": "PASS",
-    "unit_id": "S3_A4_N031_FBS2_G4_CAPTURE",
+    "unit_id": "S3_A4_N031_FBS2_G4_STAGED_RESTORE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_EXPORT_FENCE_B7_PASS_20261106.md",
-        "blob_sha": "68c8bdbf6c68d82d474820cb6506729fe1d7f40e",
+        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
+        "blob_sha": "6c69c2007b426371952d906edc749d96e023ad0e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Internal-only G4 staged restore needs exact paired Reality replay; preserve public UNSUPPORTED_G4_ARCHIVE and G4 external export fence",
-  "how": "AEAD/pin/quiescent stage-only internal entry, paired snapshot exact replay, bounded tests, legacy public fence unchanged",
+  "why": "Internal G4 staged restore B7 PASS only, product G4 export and public restore remain fenced; next owners Reminder/MonthlyPlan need independent preaudit",
+  "how": "AEAD/immutable pin under lease + exact paired Reality replay, scoped 20/20 and regression 13/13",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exactly 3 scoped files then exact CI/XML and independent B7; never enable host or export"
+  "next": "NEW unit canonical Reminder+MonthlyPlan B1-B5 before functional code; N031/N015 host and A4 final, no auto-READY"
 }

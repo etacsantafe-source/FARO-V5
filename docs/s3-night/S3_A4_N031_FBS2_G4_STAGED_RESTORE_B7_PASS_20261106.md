@@ -1,0 +1,23 @@
+# FARO V5 — S3.A4 N031 FBS2 G4 staged restore B7 · PASS_SCOPED
+Fecha: 2026-11-06 AR. Unidad `S3_A4_N031_FBS2_G4_STAGED_RESTORE`. SHA funcional exacto `982181a136cd01fab39f1f2e62df24e0c9c69f4d`.
+**Veredicto independiente B7: PASS_SCOPED para recuperación FBS2 G4 exclusivamente dentro de una generación V2 staged aislada. NO es restauración G4 de producción, NO certifica un host real, NO autoriza exportación, NO cierra A4.**
+
+## B7 — Auditoría final, prueba exacta
+- B1–B5 antes de B6: `docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5_20261106.md`, blob `3fb8f53185c7ada2482495e790f965d8fbbf75ec`, commit solo docs `04fffc8ef54326e0486dff5ffbd7fb73dcc49243`. Permiso READY independiente commit solo docs `18b0989f4ea8fb21ce44364a50aae0dedd0ee6fa`; scope exacto 3 rutas.
+- B6 `982181a136cd01fab39f1f2e62df24e0c9c69f4d` contiene `FARO-UNIT:S3_A4_N031_FBS2_G4_STAGED_RESTORE`. Diff comprobado: solo `v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt`, `v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2G4StagedRestoreT2Test.kt`, `.github/workflows/faro-v5-s3-fbs2-g4-staged-restore-directed.yml`.
+- Guardia siete bloques [#42245321864](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42245321864): **SUCCESS** en SHA exacto.
+- CI dirigida stage-only [#42245321820](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42245321820): **SUCCESS**, `BUILD SUCCESSFUL in 3m 16s`; XML JUnit: **G4 staged 7/7 + public G4 fence 1/1 + legacy five-store staged 7/7 + G4 codec 5/5**, todos failures=errors=skipped=0, TOTAL 20/20.
+- CI independiente de regresión del bloqueo anterior [#42245321874](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42245321874): **SUCCESS**, `BUILD SUCCESSFUL in 2m 35s`, XML público G4 fence **1/1**, legacy staged **7/7**, G4 codec **5/5**, TOTAL 13/13.
+- Regresión transversal V2 core [#42245321703](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42245321703): **SUCCESS** al momento de este B7. No afirmar PASS core hasta verificar status+XML exactos. El B7 se limita a stage G4 y las regresiones declaradas.
+
+## Resultado y seguridad
+- `restoreAuthenticated()` sigue rechazando G4 con `UNSUPPORTED_G4_ARCHIVE` antes del pin/escritura. `FaroV5FiveStoreExportPreparation.prepare()` continúa bloqueando G4 exportable. El nuevo método `restoreAuthenticatedG4StageOnly` es `internal`, no está conectado al host, pantalla, SAF, app ni V2 productiva.
+- AEAD autenticado + versión/manifest, stage canonical no-activo, source!=target, identidad del archivo pinneada con `RestoreArchiveIdentityPort` bajo un lease inyectado; mismo archive/target/operation puede repetirse. Reality par legacy+G4 idéntico permite replay; G4 realmente fresh permite legacy restore seguido de G4 restore transaccional. Un G4 nonfresh distinto o legacy distinto bloquea. Igualdad de cinco snapshots y salud del graph validada; el puntero activo no cambia.
+- Pruebas nuevas 7/7: primer restore + replay completo, legacy parcial, G4 completo antes de terminar otros stores, G4 ajeno nofresh, crash tras Reality y recuperación, otro archivo AEAD con el mismo operation pin, archive adulterado/lease rechazado/source=target. Se conservaron 13 pruebas previas de guardas de regresión en run dirigido 20/20. No simular crash físico Android con fixture JVM.
+- El uso de `internal` no constituye capacidad criptográfica del host. No hay todavía atadura host real a `MaterialWriteQuiescencePort`, active pointer/ACL, apertura segura de exportación/importación, ni campaña G15. La exportación G4 continúa BLOCKED hasta B1–B7 separado de host de restauración real. Ningún ZIP/SAF de usuario se toca.
+- No se modificaron cinco owners, Room/SQLite schema7, FBS1, formato FBS2 v1, Reality port, catálogo172, main ni V4.4. S2 permanece 8/8 cerrado. S3 A1/A2 2/5 scoped; A4 OPEN; A3 +8 NOT_APPROVED; A5 X01–X12 físico NOT_RUN. Productive V2 OFF, Noche OFF, Auto OFF, S4 OFF.
+
+## Próximo checkpoint
+- Estado de esta unidad: **B7 PASS_SCOPED_STAGE_ONLY**; permiso debe volver a `BLOCKED`, writer liberar epoch362. `S3_A4_N031_FBS2_G4_STAGED_RESTORE` no necesita ser reimplementada.
+- Prioridad siguiente S3.A4: B1–B5 para **propietarios realmente persistentes Reminder y MonthlyPlan** con SQLite schema/migración, quiescence, FBS2 captura/restore + ACL, no falsificar como Auxiliary notices ni Matter; después N031 attention/Home y N015 Activity host. Hacer un gate de host/export independiente cuando corresponda, no usar el PASS aislado como prueba de producto.
+- Mantener `global_pending_count=UNAVAILABLE` (nunca cero falso). No cerrar A4 ni habilitar la V2 productiva.
