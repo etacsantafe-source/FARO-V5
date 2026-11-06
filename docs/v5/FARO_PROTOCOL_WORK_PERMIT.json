@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N015_WORKSPACE_HISTORY_OWNER",
   "reviewed_head": "9acd5a1e9ab1171e0a723e88f6983fb974f9e2bf",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_SQLITE_6_OF_6",
+    "B7": "PASS_SCOPED_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
+    "sha": "84f2040773e23520262da9595019b20b94532980",
     "result": "PASS",
-    "unit_id": "S3_A4_AVISOS_CONSENT_SUMMARY",
+    "unit_id": "S3_A4_N015_WORKSPACE_HISTORY_OWNER",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
-        "blob_sha": "c32d0d4dbb0a7f811ea2b907284aabce77d42f14",
+        "path": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md",
+        "blob_sha": "3be89a7702fbdaebb826f868ec777d8e5f21076e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N015 real Workspace owner history read is needed for federated history; B1-B5 scoped, no host integration/ACL grant.",
+  "why": "N015 real Workspace SQLite owner history 6/6 PASS scoped; new federation code requires separate B1-B5.",
   "how": "Bounded canonical SQLite read, filtered and sorted; tests and directed CI only; no new schema, owner, UI or operations.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 bounded Workspace owner history source; B7 independent after exact XML, then N015 federated host ACL, N031 owner."
+  "next": "S3_A4_N015_FEDERATED_HISTORY plus N031 true combined owner; no A4 closure yet."
 }
