@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_G4_DOMAIN_RESTORE",
   "reviewed_head": "30baba298215c5caf50cd820a827294f6388063f",
   "paths": [
@@ -60,24 +60,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_5_AND_9",
+    "B7": "PASS_SCOPED_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "eb83a1cd62e58929fb9a80e284b4e9f8c3fa1119",
+    "sha": "9458b4889564458529430c546afb8a311cce9342",
     "result": "PASS",
-    "unit_id": "S3_A4_N031_REALITY_MATTER_DUE_SOURCE",
+    "unit_id": "S3_A4_N031_G4_DOMAIN_RESTORE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B7_PASS_20261106.md",
-        "blob_sha": "45bb2a62d3191f2134170371b4d622f15b83beb4",
+        "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_20261106.md",
+        "blob_sha": "e28a0875d2d56a557166552f1e4f0f4f8fe07ec7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "G4 domain snapshot has no restore primitive; scoped internal transactional restore only (NOT FBS2 export/restore)",
-  "how": "Fresh or exact-idempotent private G4 restore under Reality writer/transaction, 5/5 directed XML, legacy FBS1 unchanged",
+  "why": "Internal G4 domain restore verified at exact SHA; FBS2 G4 capture/crypto/restore remains blocked pending separate preaudit",
+  "how": "Atomic fresh-or-exact G4 owner snapshot restoration with bounded keys, revisions, no external archive wiring",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Later independent FBS2 G4 versioned capture/crypto/staged restore, then Reminder/MonthlyPlan owners"
+  "next": "New unit S3_A4_N031_FBS2_G4_INTEGRATION B1-B5 then READY before code; Reminder and MonthlyPlan owners after"
 }

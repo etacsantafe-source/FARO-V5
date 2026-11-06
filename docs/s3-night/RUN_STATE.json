@@ -32,7 +32,8 @@
     "s3_a5_final_integration": "OPEN_X01_X12_SINGLE_MOTO_G15_PHYSICAL_CAMPAIGN_AT_END",
     "s3_a1": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
     "s3_a3": "B1_B4_REVIEW_DOCUMENTED_B5_STOP_NO_CONTRACT_APPROVAL",
-    "s3_a4_avisos_pointer_aba": "PASS_SCOPED_B7_GUARD_AVISOS_XML_4_4_V2_CORE_APK_GREEN"
+    "s3_a4_avisos_pointer_aba": "PASS_SCOPED_B7_GUARD_AVISOS_XML_4_4_V2_CORE_APK_GREEN",
+    "s3_a4_g4_domain_restore": "PASS_SCOPED_B7_5_5_OLD_G4_9_9_FBS2_G4_STILL_BLOCKED"
   },
   "tasks": [
     "S3-N00",
@@ -43,7 +44,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 OPEN. N015 Reality+Workspace federation B7 PASS_SCOPED 6/6; no host Activity UI or global source coverage. N031 Matter due Reality read B7 PASS_SCOPED 6/6; Reminder/MonthlyPlan durable owners ABSENT, no Home Pendientes count. NEXT new preaudit for real Reminder/MonthlyPlan owners with migration/FBS2 recovery/ACL, then N015/N031 host UI and end-to-end. A3 Guardados +8 NOT_APPROVED catalog172; A5 X01-X12/G15 pending; V2 prod/Noche/Auto/S4 OFF.",
+  "next": "S3.A4 OPEN. G4 Objective/Matter atomic internal restore B7 PASS_SCOPED (new 5/5 + old G4 9/9 + receipt/FBS1/FBS2/V2 regression SUCCESS SHA 9458b488). FBS2 nonempty G4 capture/backup/restore STILL BLOCKED. NEXT independent B1-B5 S3_A4_N031_FBS2_G4_INTEGRATION. Then Reminder + MonthlyPlan real persistence, N031 Home, N015 Activity host, A4 integration. V2 prod/Noche/Auto/S4 OFF; A3 +8 not approved 172; A5 X01-X12/G15 NOT_RUN.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +60,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N031_REALITY_MATTER_DUE_B7_PASS_20261106",
+  "last_completed_gate": "S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_SCOPED_20261106",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -890,5 +891,27 @@
       "full_attention": false,
       "physical": "NOT_RUN"
     }
+  },
+  "g4_domain_restore_20261106": {
+    "unit": "S3_A4_N031_G4_DOMAIN_RESTORE",
+    "status": "PASS_SCOPED_INTERNAL_ONLY",
+    "sha": "9458b4889564458529430c546afb8a311cce9342",
+    "preaudit": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B1_B5_20261106.md",
+    "handoff": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_20261106.md",
+    "ci_runs": [
+      42192793326,
+      42192793307,
+      42192794719,
+      42192793230,
+      42192793305
+    ],
+    "exact_xml": [
+      "G4_RESTORE_5/5",
+      "G4_OLD_OWNER_9/9",
+      "FBS1_4/4",
+      "FBS2_LEGACY_7/7"
+    ],
+    "blocked": "FBS2 G4 nonempty archive+quarantined restore, Reminder, MonthlyPlan, N015/N031 host",
+    "physical": "NOT_RUN"
   }
 }
