@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_FBS2_G4_CODEC_V2",
   "reviewed_head": "ebe2db313470fe0c11b5ebe6f69cb5717325f10c",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_FENCE_1_7_5",
+    "B7": "PASS_SCOPED_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "f33dcc24be6c5b164d0a86239ca94263fd542540",
-    "result": "RED_FIX",
+    "sha": "b6c6d77ba74f79edfc72b73c815b902c9960dc40",
+    "result": "PASS",
     "unit_id": "S3_A4_N031_FBS2_G4_CODEC_V2",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B7_RED_FIX_20261106.md",
-        "blob_sha": "2075678cc6eaa6969d0ba99576a417384de4f5b3",
+        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B7_PASS_20261106.md",
+        "blob_sha": "c86c2456cabc3c2cb79747f49ead24e199c9e8c7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Same-unit RED_FIX: old staged restore must reject unsupported v2 G4 before side effects",
+  "why": "FBS2 G4 v2 typed codec backed by AEAD and legacy staged restore rejects unsupported G4 pre-write; full G4 capture/restore not ready",
   "how": "FBS2 v1 byte-identity preserved; distinct FBS2 v2 3-section G4 typed bounded authenticated-only-use-with-FAROBAK2",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Execute fail-closed G4 v2 old staged restore gate and directed 1+7+5 XML; then scoped B7"
+  "next": "NEW unit S3_A4_N031_FBS2_G4_CAPTURE_RESTORE B1-B5 then READY; no functional edits before permit"
 }

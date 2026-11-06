@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 346
+    "expected_release_epoch": 352
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A4 OPEN. G4 Objective/Matter atomic internal restore B7 PASS_SCOPED (new 5/5 + old G4 9/9 + receipt/FBS1/FBS2/V2 regression SUCCESS SHA 9458b488). FBS2 nonempty G4 capture/backup/restore STILL BLOCKED. NEXT independent B1-B5 S3_A4_N031_FBS2_G4_INTEGRATION. Then Reminder + MonthlyPlan real persistence, N031 Home, N015 Activity host, A4 integration. V2 prod/Noche/Auto/S4 OFF; A3 +8 not approved 172; A5 X01-X12/G15 NOT_RUN.",
-  "checkpoint_status": "S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_SCOPED_5_OF_5_G4_9_OF_9_A4_OPEN",
+  "next": "S3.A4 OPEN: FBS2 G4 codec v2 + old staged restore fail-closed B7 PASS scoped at b6c6d77b; full G4 capture+restore NOT IMPLEMENTED. Next new B1-B5 S3_A4_N031_FBS2_G4_CAPTURE_RESTORE with quiescence/identity/pin/retry/partial crash. Then Reminder+MonthlyPlan real owners, Home N031/Activity N015 and A4 integration. V2 productive, Noche, Auto, S4 OFF. A3 +8 not approved. G15 X01-X12 NOT_RUN.",
+  "checkpoint_status": "S3_A4_N031_FBS2_G4_CODEC_B7_PASS_SCOPED_CAPTURE_RESTORE_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_20261106.md",
-  "last_code_sha": "9458b4889564458529430c546afb8a311cce9342",
-  "last_ci_run_id": 42192793326,
+  "last_handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B7_PASS_20261106.md",
+  "last_code_sha": "b6c6d77ba74f79edfc72b73c815b902c9960dc40",
+  "last_ci_run_id": 42215218579,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_G4_RESTORE_5_5_PLUS_PREVIOUS_G4_9_9",
+  "last_ci_conclusion": "SUCCESS_G4_V2_FENCE_1_1_LEGACY_RESTORE_7_7_CODEC_5_5_V2_CORE_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1167,6 +1167,19 @@
       "FBS2_LEGACY_7/7"
     ],
     "blocked": "FBS2 G4 nonempty archive+quarantined restore, Reminder, MonthlyPlan, N015/N031 host",
+    "physical": "NOT_RUN"
+  },
+  "fbs2_g4_codec_b7_20261106": {
+    "unit": "S3_A4_N031_FBS2_G4_CODEC_V2",
+    "sha": "b6c6d77ba74f79edfc72b73c815b902c9960dc40",
+    "status": "PASS_SCOPED_CODEC_AND_RESTORE_FENCE",
+    "ci_runs": [
+      42215218741,
+      42215218579,
+      42215218443
+    ],
+    "b7_path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B7_PASS_20261106.md",
+    "next": "S3_A4_N031_FBS2_G4_CAPTURE_RESTORE",
     "physical": "NOT_RUN"
   }
 }
