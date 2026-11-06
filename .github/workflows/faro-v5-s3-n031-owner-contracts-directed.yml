@@ -1,0 +1,52 @@
+name: FARO V5 S3 N031 typed planning contracts directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/settings.gradle.kts"
+      - "v5/owner/reminders/**"
+      - "v5/owner/monthlyplan/**"
+      - ".github/workflows/faro-v5-s3-n031-owner-contracts-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-n031-planning-contracts
+  cancel-in-progress: false
+
+jobs:
+  planning-models-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Validate isolated JVM-only models
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :owner:reminders:test :owner:monthlyplan:test
+      - name: Require exact JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          for module,name in [('reminders','ReminderModelTest'),('monthlyplan','MonthlyPlanModelTest')]:
+              files=list((Path('v5/owner')/module/'build/test-results/test').glob('TEST-*'+name+'.xml'))
+              if len(files)!=1:
+                  raise SystemExit('N031_CONTRACT_XML_MISSING '+module)
+              root=ET.parse(files[0]).getroot()
+              actual=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if actual!=(6,0,0,0):
+                  raise SystemExit('N031_CONTRACT_XML_FAIL '+module+' '+str(actual))
+              print('N031_TYPED_'+module.upper()+'_XML_PASS 6/6')
+          print('N031_TYPED_CONTRACTS_ONLY_PASS 12/12_NOT_DURABLE')
+          PY
