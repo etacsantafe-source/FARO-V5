@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.B1B5_STOP.RELEASED.20261106",
-  "token_hash": "1b1d3acefbb83f2760bb0e5d4f772d543f4ce436d01f4829175ebb6811d6cdc0",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.TYPED_CONTRACTS.20261106",
+  "token_hash": "9d5374b9f9e1a5322b0e61b3db7ab64119457aa9cb2b7d47ed67ee732d8e57ca",
   "target_head": "1a5bf50958cd6c13e44e436c31e55e98ea59e166",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 364,
-  "timestamp": 1793980290,
-  "purpose": "N031_OWNER_BACKUP_V3_B5_STOP_NO_CODE",
-  "last_checkpoint": "N031_OWNER_BACKUP_B1B5_STOP@1a5bf50958cd6c13e44e436c31e55e98ea59e166"
+  "epoch": 365,
+  "timestamp": 1793982664,
+  "purpose": "N031_TYPED_REMINDER_MONTHLYPLAN_CONTRACTS_B1B5",
+  "last_checkpoint": "OWNER_BACKUP_DELTA_B5_STOP@1a5bf50958cd6c13e44e436c31e55e98ea59e166"
 }
