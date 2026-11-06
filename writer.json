@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.TYPED_CONTRACTS.B7.RELEASED",
-  "token_hash": "f2b8c93d1e7a5c4b60d28a19e7502cf80ab924e6d31f4c6b708d5f29a1674bce",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.PLANNING_CODEC_B1B5.20261106",
+  "token_hash": "6752cfaeb49c167e2bc53d2f96c285814ecbe9a72531dc795f3e87f619f5ba43",
   "target_head": "79bee10f36722a78af2b5be4893ed1ffff56a8e5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 368,
-  "timestamp": 1793983665,
-  "purpose": "N031_TYPED_CONTRACTS_B7_PASS_SCOPED",
-  "last_checkpoint": "N031_TYPED_CONTRACTS_B7_PASS_SCOPED@79bee10f36722a78af2b5be4893ed1ffff56a8e5"
+  "epoch": 369,
+  "timestamp": 1793983787,
+  "purpose": "S3_A4_N031_PRIVATE_PLANNING_CODEC_B1B5",
+  "last_checkpoint": "N031_TYPED_CONTRACTS_B7_PASS_SCOPED"
 }
