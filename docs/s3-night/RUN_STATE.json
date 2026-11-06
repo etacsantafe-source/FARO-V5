@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 OPEN. N032 staged Planning8 transactional create with CAS+precommit budget B7 PASS_SCOPED exact SHA 8863adf3, 6/6 new, 47/47 directed, 8 exact workflows SUCCESS. NEXT N033 trusted ApplyPlan Review/ACL + receipts and Undo/recovery, fresh B1-B5; neither user Chat/Android nor V2 product. A3 Guardados+8 not approved catalog172; A5 X01-X12/G15 NOT_RUN; S4/Noche/Auto OFF.",
+  "next": "N033 B1-B5 documented STOP on nested Planning transaction. NEXT N033A same-transaction Reality8 insert bridge + receipt test, new scoped docs-only permit before functional code. N032 previous 47/47 eight workflows green remains intact. A4 OPEN.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -1074,5 +1074,16 @@
     "all_ci": "SUCCESS",
     "trusted_apply": false,
     "physical": "NOT_RUN"
+  },
+  "n033_preaudit": {
+    "unit_id": "S3_A4_N033_TRUSTED_PLANNING_APPLY",
+    "source_head": "cce57d7d74e51e514215c306d7811fa37092489e",
+    "evidence": "docs/s3-night/S3_A4_N033_TRUSTED_PLANNING_APPLY_B1_B5_STOP_20261106.md",
+    "status": "B1_B5_DOCUMENTED_STOP_FUNCTIONAL",
+    "next": "N033A_SCOPED_REALITY_TRANSACTION_BRIDGE",
+    "permit": "BLOCKED",
+    "writer_release_epoch_expected": 394,
+    "ci_new": "NOT_RUN",
+    "code_new": false
   }
 }

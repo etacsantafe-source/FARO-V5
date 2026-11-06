@@ -1,0 +1,30 @@
+# FARO V5 — S3.A4 N033 trusted Planning Review/Apply/ACL — B1–B5 (STOP antes de código)
+2026-11-06, hora AR. Rama `work/s3-night-20261102`, HEAD fuente `cce57d7d74e51e514215c306d7811fa37092489e`. Unidad `S3_A4_N033_TRUSTED_PLANNING_APPLY`. **Checkpoint exclusivamente documental**: sin código, sin CI nueva, sin permiso funcional, sin datos reales.
+
+## B1 — Evidencia y aceptación binaria
+- Autoridad: `AGENTS.md`, `docs/v5/FARO_CONTINUITY_POINTER.json`, `docs/v5/FARO_PROTOCOL_WORK_PERMIT.json` BLOCKED y protocolo manual de siete bloques. N032 código `8863adf3cf9a974fd87f27b535483164fc5a5692`, B7 scoped PASS, 47/47 y ocho workflows SUCCESS en SHA exacto. Conservar N031/N032.
+- `RealityPlanningStageMutationPort.kt` es `internal` y staged-only sin durable Apply receipt/Undo/idempotencia/ACL. `RealityStore.run(transactionId, scope)` empieza `BEGIN IMMEDIATE` y COMMIT/ROLLBACK dentro del único RealityStore, con `activeTransactionId`; `RealityStore.commit(scope, identity, outbox)` persiste receipt y journal COMMITTED en esa misma transacción, solo desde PREPARED. `ReviewedConversationApplyCoordinator` ya aplica aprobación humana canónica Workspace, retry/preflight, bindings, receipts y recuperación de efecto UNKNOWN. Host activo `FaroV5ActiveReviewedApplySession` controla generación/puntero/recovery/gate, allowlist actualmente Profile y Finance solamente.
+- Inventario canónico D-229 **172** incluye `reminder.create` (N-032) y `monthly_plan.item.add` (N-028), no hay que ampliar catálogo. `reminder.attend` ≠ dispatch; `monthly_plan.item.add` ≠ Finance pago. Crear regla NO implica materializar ocurrencias ni alarmas.
+- Criterio binario de N033 completo: solo IDs oficiales, payload canónico y dependencia/stamp, Review humano durable y ACL revocable, generación activa y puntero pre/post, transacción Reality8 owner+PREPARED+receipt+COMMITTED estrictamente atómica, UNKNOWN resuelto antes de replay, negativos crash/restart/ABA/revisión/FK/4MiB/duplicado y Undo compensatorio auditado. V2 productiva OFF; Android físico en campaña única final de A5, no aquí.
+
+## B2 — Comparación V4.4 y reutilización
+- Comparación semántica V4.4 **previamente documentada**, no nueva inspección de código, en `docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md`: regla vs ocurrencia, periodo civil mensual vs Finance efectivo, aviso vs source; NO copiar scheduler/DB/CRUD legacy.
+- Reutilizar contratos Kotlin `owner/reminders` / `owner/monthlyplan`, Reality8, FBS2v3/PLN1 (20k/4MiB), staged N032 y kernel Apply/Review existentes. DESIGN ONCE/DELTA ONLY: sin sexto store ni otro writer.
+- **Brecha bloqueante**: `RealityStore.insertPlanningStage8` abre `BEGIN IMMEDIATE` propio. Invocarlo como binding desde `AtomicApplyTransactionPort.run` produce BEGIN anidado prohibido; escribir en otro handle evitaría ese error a costa de perder atomicidad de owner+receipt. `internal` no es API de app/owner. Prohibida promoción directa a Chat/host.
+
+## B3 — Investigación independiente y alternativas
+- SQLite oficial https://www.sqlite.org/lang_transaction.html : `BEGIN` no anida; seleccionar una conexión/una transacción y comprobar rollback total. **USAR**.
+- SQLite oficial https://www.sqlite.org/lang_savepoint.html : un RELEASE anidado no equivale a COMMIT durable; `ROLLBACK TO` requiere coordinación. **REFERENCIA**, no workaround automático.
+- SQLite oficial https://www.sqlite.org/lang_attach.html : WAL no asegura commit crash-atomic entre distintos archivos. **DESCARTAR** stores paralelos para Planning/receipt.
+- Android oficial https://developer.android.com/topic/architecture/data-layer/offline-first : base local como fuente de verdad. **ADAPTAR** sin cloud sync ni WorkManager nuevo. Tasks.org https://github.com/tasks/tasks es software real de tareas GPL-3.0: **REFERENCIA** conceptual, no copiar código; Google Now in Android https://github.com/android/nowinandroid : **REFERENCIA** sobre seam de data layer/test, no nueva dependencia.
+- Hipótesis falsables: fallar luego de owner insert y antes de receipt revierte ambos; replay de misma identity no duplica; ACL/generación revocada, stale review y owner revision deniegan sin efecto; PLN1 >4MiB revierte; crash con receipt Reality y Workspace APPLYING se reconcilia sin volver a ejecutar.
+
+## B4 — Unificación en secuencia mínima
+1. **N033A**, subunidad obligatoria primero: puente transaccional interno Reality8 que exige `RealityTransactionScope` auténtico + `requireActiveScope` + owner CAS, reutiliza la validación precommit de N032, NO inicia ni confirma su propia transacción cuando lo invoca Apply. Mantiene N032 staged port sin cambio de semántica. Pruebas T2 de rollback owner+receipt, schema7 prohibido, foreign keys, dos conexiones y overflow. Preauditar rutas exactas y emitir permiso separado sólo de docs antes de B6.
+2. **N033B**: binding/revalidator de `reminder.create` y `monthly_plan.item.add` (IDs YA aprobados), sin scheduler/ocurrencia automática/pago inferido. Contrato fingerprint, payload, dependencia y stamp/ACL a revisar, sin alterar 172.
+3. **N033C**: host Review/ACL/generation y recovery, con pruebas negativas y B7. Undo compensatorio propio auditado; no fingir reversión del pasado ni declarar A4 CLOSED.
+No abrir A3/A5/S4 por esta unidad, no activar V2 productiva, Auto o Noche.
+
+## B5 — Auditoría adversarial previa y veredicto
+**STOP_FUNCTIONAL_N033**. Bloqueo concreto: falta un puente que inserte Planning en el MISMO `RealityTransactionScope` que durable receipt; N032 insert staged tiene transaction manager independiente y no puede conectarse a Apply. Permiso global continúa BLOCKED. No basta un `MaterialWriteGate` ni dos transacciones sucesivas, y la UI/LLM no aporta autenticidad. N033A debe probar cambio mínimo en capa Reality, con permiso de ruta exacta, fallos de transacción, CAS, generación y recuperación; una vez B7 scoped, seguir N033B/C.
+Checkpoints: S2 8/8 CLOSED, S3.A4 OPEN, A5/G15 X01–X12 NOT_RUN; Guardados +8 NO aprobado, catálogo 172; V2 productiva/Noche/Auto/S4 OFF. Esta evidencia NO afirma B6 ni CI nueva.
