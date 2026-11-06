@@ -70,18 +70,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "c6ec477a57515c3bc01ed15b17fce8396addc34b",
-    "result": "PASS",
-    "unit_id": "S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT",
+    "sha": "c28f61501a17f44f086599e8dcc9d9f2cf2fdec9",
+    "result": "RED_FIX",
+    "unit_id": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_20261106.md",
-        "blob_sha": "959724888d945dc74dca22200328173e52d3e7eb",
+        "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_B7_RED_FIX_20261106.md",
+        "blob_sha": "98d859ddd026c29310493b20445551f10784d4b7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Planning schema8 opt-in STAGED owner with capture+restore protected before any user-facing writes",
+  "why": "B7 RED_FIX first Planning8 code compile; same-unit two-path correction after redfix evidence",
   "how": "Strict 10-path stage-only Reality planning persistence + paired FBS2v3 capture/replay tests, legacy schema7 unchanged",
   "no_auto_night": true,
   "productive_v2_enabled": false,
