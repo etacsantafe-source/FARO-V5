@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_FBS2_G4_CAPTURE",
   "reviewed_head": "2eb72c8676790fc234c026c2e950d86dbf38c881",
   "paths": [
@@ -61,24 +61,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "CODE_CI_PASS_CAPTURE_5_CODEC_5_LEGACY_7",
+    "B7": "RED_FIX_EXTERNAL_G4_EXPORT_UNRESTORABLE"
   },
   "last_code_review": {
-    "sha": "b6c6d77ba74f79edfc72b73c815b902c9960dc40",
-    "result": "PASS",
-    "unit_id": "S3_A4_N031_FBS2_G4_CODEC_V2",
+    "sha": "7f9685450b1c4086e89eccda3f41c81a1b6a62cb",
+    "result": "RED_FIX",
+    "unit_id": "S3_A4_N031_FBS2_G4_CAPTURE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B7_PASS_20261106.md",
-        "blob_sha": "c86c2456cabc3c2cb79747f49ead24e199c9e8c7",
+        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B7_RED_FIX_20261106.md",
+        "blob_sha": "49156f731aadc1cc0d0f624d3a548ad4222f9cf2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Legacy Reality backup rejects nonempty G4; need single-mutex pair under one five-owner global quiescence without changing FBS1",
+  "why": "G4 Reality capture passes but consented export may stage FBS2 v2 not yet restorable; fail closed",
   "how": "Paired FBS2 Reality snapshot read port, legacy gate only default, coordinator adapter under lease, v1 empty G4/v2 nonempty",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exact capture tests 5+5+7; B7 before any G4 restore"
+  "next": "same-unit RED_FIX B1-B5 and READY before adding export G4 fence"
 }
