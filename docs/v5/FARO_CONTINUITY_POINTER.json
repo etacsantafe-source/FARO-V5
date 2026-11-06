@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 364
+    "expected_release_epoch": 368
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A4 OPEN. B7 G4 stage-only restore PASS_SCOPED 20/20; N031 next-owner B1-B5 dependency delta STOP: Reality schema7 and FBS2 G4 codec only Objectives+Matters, Reminder+MonthlyPlan persistent domains absent. FIRST design/version real owner contracts, schema 5/6/7→8 migrations, compatible FBS2 v3 capture+restore with negative tests; then new scoped READY before any functional code. Public G4 restore/export remains OFF. N015 host Activity and N031 Home after, A3 +8 unapproved, X01-X12/G15 NOT_RUN, productive V2/Noche/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_N031_FBS2_G4_STAGE_ONLY_B7_PASS_SCOPED_PUBLIC_EXPORT_RESTORE_BLOCKED",
+  "next": "S3.A4 OPEN. N031 typed Reminder+MonthlyPlan contracts B7 PASS_SCOPED (12/12 new + 8/8 G4 regression), no persistent owners; REAL OWNER STOP until schema7→8 with compatible FBS2v3 backup/restore and host ACL. NEXT new B1-B5 for integrated durable owner+migration+backup, then N031 Home and N015 Activity host, final A4. S3 A1/A2 2/5 scoped, A3+8 NOT_APPROVED/172, A5 X01-X12/G15 NOT_RUN, V2 prod/Noche/Auto/S4 OFF.",
+  "checkpoint_status": "S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_SCOPED_12_12_REAL_OWNERS_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
-  "last_code_sha": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
-  "last_ci_run_id": 42245321820,
+  "last_handoff": "docs/s3-night/S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_20261106.md",
+  "last_code_sha": "1bf0f03e1b507c3f187963f28af49a1173a09387",
+  "last_ci_run_id": 42254471143,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_STAGE_G4_7_7_DIRECTED_20_20_FENCE_13_13_GUARD_PASS_V2_CORE_SUCCESS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_TYPED_REMINDERS_6_6_MONTHLYPLAN_6_6_G4_REGRESSION_8_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1228,5 +1228,20 @@
       "HOST_ACL_NOT_BOUND"
     ],
     "physical": "NOT_RUN"
+  },
+  "n031_typed_contracts_b7_20261106": {
+    "status": "PASS_SCOPED_ONLY_NOT_DURABLE",
+    "unit": "S3_A4_N031_TYPED_PLANNING_CONTRACTS",
+    "sha": "1bf0f03e1b507c3f187963f28af49a1173a09387",
+    "b7_path": "docs/s3-night/S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_20261106.md",
+    "guard_run": 42254470820,
+    "tests_run": 42254471143,
+    "new_xml": "12/12",
+    "g4_regression_run": 42254470896,
+    "g4_xml": "8/8",
+    "persistent": false,
+    "host_bound": false,
+    "physical": "NOT_RUN",
+    "next": "B1_B5_SCHEMA8_FBS2V3_REAL_REMINDER_MONTHLYPLAN_OWNER"
   }
 }

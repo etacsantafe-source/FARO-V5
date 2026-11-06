@@ -1,0 +1,15 @@
+# FARO V5 — S3.A4 N031 typed Reminder/MonthlyPlan contracts B7 PASS_SCOPED
+2026-11-06 AR. Exact functional SHA `1bf0f03e1b507c3f187963f28af49a1173a09387`. Unit `S3_A4_N031_TYPED_PLANNING_CONTRACTS`.
+
+## B7 — final independent audit
+- Verdict: **PASS_SCOPED_CONTRACTS_ONLY**, NOT persistent Reminder/MonthlyPlan owners, NOT N031 complete, NOT A4 CLOSED.
+- B1–B5 before code: `docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md`, blob `a842ed6643f1879e2ec828400854490e3041dd49`; preaudit docs-only commit `0c0fd59545bac0853867c52cf921ddeed088298c`; READY docs-only `a38bfdecb400ba198729568794467d35a10e8ab6`.
+- B6 exact code SHA `1bf0f03e1b507c3f187963f28af49a1173a09387`, message includes `FARO-UNIT:S3_A4_N031_TYPED_PLANNING_CONTRACTS`; diff is precisely 8 paths from scoped READY: settings, 2 model modules, 2 Gradle files, 2 tests and directed workflow. No RealityStore, backup, S2, app host, main, V4.4, Android data touched.
+- Mandatory seven-block guard [#42254470820](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42254470820) **SUCCESS** exact SHA.
+- [#42254471143](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42254471143) **SUCCESS**, build in 2m 48s, JUnit XML `N031_TYPED_REMINDERS_XML_PASS 6/6` and `N031_TYPED_MONTHLYPLAN_XML_PASS 6/6` (12/12, failures/errors/skipped=0). These are contract validation tests, NOT SQLite or physical tests.
+- Independent existing G4 owner contracts [#42254470896](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42254470896) **SUCCESS**, `S3_G4_OBJECTIVES_CONTRACT_XML_PASS 4/4` + `S3_G4_MATTERS_CONTRACT_XML_PASS 4/4` (8/8). Build in 3m 36s. Total 20/20 across new contract and old G4 regression, not a unified A4 acceptance count.
+- New Reminder API defines distinct rule/occurrence with explicit civil zone and concrete occurrence timestamp/status; no inferred OS delivery. New MonthlyPlan API distinguishes expected amount/dueDate from explicit PAID_CONFIRMED timestamp; does NOT infer payment from Finance. Both validate IDs/snapshot revisions/dedup; neither has persistent port implementations.
+- Guardrail: `ReminderSnapshotReadApi` and `MonthlyPlanSnapshotReadApi` are **unbound interfaces**. No Kotlin/Android host binding, no durable owner, ACL epoch, schema8, FBS2v3, migration, export or restore; N031 global pending remains UNAVAILABLE. Do not report newly added modules as real on-device features.
+- Existing FBS2 G4 stage-only restore B7 [previous exact SHA `982181a1`] remains; the public G4 restore and external export **remain BLOCKED**. No secret, paid API, G15 test, V2 productive, Night/Auto or S4.
+- S2 closed 8/8. S3 scoped A1/A2 2/5, final integrated acceptance NOT RUN; A3 +8 Guardados NOT APPROVED, catalog 172. A4 OPEN; A5 X01–X12/G15 NOT_RUN.
+- NEXT: return protocol permit to BLOCKED and release global writer. Reuse this verified contract to preaudit durable Reality schema7→8 and full compatible FBS2 v3 archive/restore before **any** persisted Reminder/MonthlyPlan writes; then N031 real ACL/Home and N015 Activity host, final A4.

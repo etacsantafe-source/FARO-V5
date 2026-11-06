@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_TYPED_PLANNING_CONTRACTS",
   "reviewed_head": "0c0fd59545bac0853867c52cf921ddeed088298c",
   "paths": [
@@ -64,24 +64,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_NEW_CONTRACT_12_12_OLD_G4_8_8",
+    "B7": "PASS_SCOPED_CONTRACTS_ONLY"
   },
   "last_code_review": {
-    "sha": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
+    "sha": "1bf0f03e1b507c3f187963f28af49a1173a09387",
     "result": "PASS",
-    "unit_id": "S3_A4_N031_FBS2_G4_STAGED_RESTORE",
+    "unit_id": "S3_A4_N031_TYPED_PLANNING_CONTRACTS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B7_PASS_20261106.md",
-        "blob_sha": "6c69c2007b426371952d906edc749d96e023ad0e",
+        "path": "docs/s3-night/S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_20261106.md",
+        "blob_sha": "d308bc1317295d20cd126ec6a74b09d1ed035d8a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Only pure contract models for two absent N031 owners; Reality schema8/FBS2v3 durable owner migration remains STOP and requires separate B1-B5",
-  "how": "Two independent JVM model modules with strict validated immutable types and 12 directed tests; no SQLite, export, host registration or write operations",
+  "why": "N031 typed contracts B7 PASS scoped; SQLite8+FBS2v3 durable owners NOT implemented, remain blocked by prior B5",
+  "how": "Two isolated models and JUnit 12/12; G4 old contracts 8/8 regression",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exactly 8 scoped paths, CI exact 6+6, B7 independent then return BLOCKED; next SQLite8+FBS2v3 persistence unit"
+  "next": "NEW B1-B5 for complete durable Reminder/MonthlyPlan Reality + schema migration + FBS2v3 restore, never fake pending count"
 }
