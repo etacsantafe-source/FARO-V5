@@ -32,3 +32,7 @@ Alternativas evaluadas: A) puente interno de mismo scope **ADAPTAR**; B) inserta
 **READY_FOR_SCOPED_PERMIT_ONLY** tras comprobar HEAD exacto y B1–B4, **NO B6 realizado**.
 Negativos: (a) excepción entre insert y receipt no persiste owner; (b) excepción tras receipt antes de COMMIT no deja receipt ni owner; (c) intento schema7 aborta; (d) scope inventado/ajeno aborta; (e) owner version ABA o duplicado aborta; (f) FK huérfana revierte; (g) overflow 4MiB revierte; (h) N032 no puede insertarse dentro de `run`; (i) fallo CI retiene bloqueo. El puente no acredita Undo, UI, ACL, recovery Workspace ni completitud A4: esos son N033B/C.
 No V2 productiva, S4, Noche ni Auto; catálogo 172 sin cambios; S2 8/8 frozen; física G15 pospuesta a A5. Solo autorizar archivos exactos por permiso documental nuevo.
+
+
+### Addendum de B4/B5 — CI aislada para N033A
+La prueba nueva `RealityPlanningApplyBridgeT2Test` no figura en los filtros `--tests` del workflow N032. Ejecutar solo ese workflow daría falsos verdes: confirma N032, NO puente N033A. En consecuencia se autoriza **una** cuarta ruta funcional exacta `.github/workflows/faro-v5-s3-a4-n033a-bridge-directed.yml`, workflow separado con test nuevo + N032 y verificaciones XML de casos exactos. No modificar los tests, XML ni workflows previamente certificados de N032. Permiso B6 específico debe incluir esta cuarta ruta. B7 rechazará PASS si la prueba nueva no corrió bajo SHA de código.

@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 396
+    "expected_release_epoch": 402
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033A B1-B5 scoped preaudit READY_FOR_DOCS_ONLY_PERMIT. Next emit exact path permit as independent docs-only commit, B6 code then CI+XML+B7; N032 47/47 remains verified. A4 OPEN; N033B/C pending. V2 production/Noche/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_N033A_B1_B5_PREAUDIT_READY_PERMIT_BLOCKED",
+  "next": "N033A B1-B5 verified. Exact four-path READY permit including new dedicated CI workflow; B6 not yet committed, B7 pending. No N032 regressions. A4 OPEN; N033B/C next. V2 productive/Noche/Auto/S4 OFF.",
+  "checkpoint_status": "S3_A4_N033A_B1_B5_READY_4PATH_PERMIT_AWAIT_B6",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
   "last_code_sha": "8863adf3cf9a974fd87f27b535483164fc5a5692",

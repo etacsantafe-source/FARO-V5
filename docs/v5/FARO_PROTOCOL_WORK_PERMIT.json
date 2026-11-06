@@ -2,11 +2,12 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
-  "reviewed_head": "22f513b6d5c51119b0b80ab0d9abd17759523865",
+  "reviewed_head": "c29f9796e8092bead4275d24ff72546039becee0",
   "paths": [
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningApplyBridgeT2Test.kt"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningApplyBridgeT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033a-bridge-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -14,7 +15,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
+          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
           "marker": "## B1"
         }
       ]
@@ -24,7 +25,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
+          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
           "marker": "## B2"
         }
       ]
@@ -34,7 +35,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
+          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
           "marker": "## B3"
         }
       ]
@@ -44,7 +45,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
+          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
           "marker": "## B4"
         }
       ]
@@ -54,7 +55,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
+          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
           "marker": "## B5"
         }
       ]
@@ -75,8 +76,8 @@
     ]
   },
   "why": "N033A bounded internal bridge uses same RealityTransactionScope and existing RealityStore receipt transaction; no user binding",
-  "how": "3 exact scoped files; reuse N032 precommit checks; B7 must verify exact SHA CI/XML; N033B/C untouched",
+  "how": "N033A 4 exact files including new isolated directed CI; legacy N032 workflows and tests unchanged",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 code then CI/XML and independent B7; no V2 productive activation"
+  "next": "B6 4-path code+JVM workflow, verify exact SHA XML and B7"
 }
