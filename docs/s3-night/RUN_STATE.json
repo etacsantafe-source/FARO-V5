@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "N033 B1-B5 documented STOP on nested Planning transaction. NEXT N033A same-transaction Reality8 insert bridge + receipt test, new scoped docs-only permit before functional code. N032 previous 47/47 eight workflows green remains intact. A4 OPEN.",
+  "next": "N033A B1-B5 READY scoped documentation; new independent permit is required before code. Then B6 and exact CI/XML B7. A4 OPEN, no production activation.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -1085,5 +1085,15 @@
     "writer_release_epoch_expected": 394,
     "ci_new": "NOT_RUN",
     "code_new": false
+  },
+  "n033a_preaudit": {
+    "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
+    "source_head": "827cb89a01f5dfc1e364e075860477d1ac04507b",
+    "evidence": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+    "status": "B1_B5_DOCUMENTED_READY_TO_AUTHORIZE_SCOPED_DOCS_ONLY",
+    "permit": "BLOCKED",
+    "writer_release_epoch_expected": 396,
+    "code_new": false,
+    "ci_new": "NOT_RUN"
   }
 }
