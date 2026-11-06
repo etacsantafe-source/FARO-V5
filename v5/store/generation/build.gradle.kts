@@ -6,6 +6,8 @@ dependencies {
     implementation(project(":maintenance"))
     implementation(project(":workspace"))
     implementation(project(":store:reality"))
+    implementation(project(":owner:reminders"))
+    implementation(project(":owner:monthlyplan"))
     implementation(project(":store:auxiliary"))
     implementation(project(":evidence"))
 
