@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A4_N031_FBS2_G4_CODEC_V2",
-  "reviewed_head": "754ed4367f3ca782292b4b8b97becb1219871afe",
+  "reviewed_head": "ebe2db313470fe0c11b5ebe6f69cb5717325f10c",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodec.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2G4CodecTest.kt",
-    ".github/workflows/faro-v5-s3-fbs2-g4-codec-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2G4RestoreFenceTest.kt",
+    ".github/workflows/faro-v5-s3-fbs2-g4-restore-fence-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B1_B5_20261106.md",
-          "blob_sha": "8fcaccb46c1b11609a893700d0ab65d48179968d",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B1_B5_20261106.md",
+          "blob_sha": "60e06995220242534d6cb3f00c9fa0913f07006b",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B1_B5_20261106.md",
-          "blob_sha": "8fcaccb46c1b11609a893700d0ab65d48179968d",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B1_B5_20261106.md",
+          "blob_sha": "60e06995220242534d6cb3f00c9fa0913f07006b",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B1_B5_20261106.md",
-          "blob_sha": "8fcaccb46c1b11609a893700d0ab65d48179968d",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B1_B5_20261106.md",
+          "blob_sha": "60e06995220242534d6cb3f00c9fa0913f07006b",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B1_B5_20261106.md",
-          "blob_sha": "8fcaccb46c1b11609a893700d0ab65d48179968d",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B1_B5_20261106.md",
+          "blob_sha": "60e06995220242534d6cb3f00c9fa0913f07006b",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B1_B5_20261106.md",
-          "blob_sha": "8fcaccb46c1b11609a893700d0ab65d48179968d",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_RESTORE_FENCE_B1_B5_20261106.md",
+          "blob_sha": "60e06995220242534d6cb3f00c9fa0913f07006b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "CODE_CI_PASS_5_NEW_7_LEGACY",
-    "B7": "RED_FIX_OLD_RESTORE_UNGUARDED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "f33dcc24be6c5b164d0a86239ca94263fd542540",
@@ -75,9 +74,9 @@
       }
     ]
   },
-  "why": "V2 G4 section codec passes, but legacy staged restore needs prewrite unsupported-G4 reject",
+  "why": "Same-unit RED_FIX: old staged restore must reject unsupported v2 G4 before side effects",
   "how": "FBS2 v1 byte-identity preserved; distinct FBS2 v2 3-section G4 typed bounded authenticated-only-use-with-FAROBAK2",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Same-unit corrective B1-B5, READY then guarded staged restore and regression"
+  "next": "Execute fail-closed G4 v2 old staged restore gate and directed 1+7+5 XML; then scoped B7"
 }
