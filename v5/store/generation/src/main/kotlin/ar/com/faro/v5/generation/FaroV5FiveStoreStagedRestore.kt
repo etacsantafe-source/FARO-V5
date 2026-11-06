@@ -193,15 +193,18 @@ class FaroV5FiveStoreStagedRestore(
                             check(g4Fresh || currentG4 == expectedG4) {
                                 "foreign nonfresh G4 owner cannot be replaced"
                             }
-                            check(current.planningDomains == null ||
-                                current.planningDomains.isFresh ||
-                                current.planningDomains == expectedPlanning
+                            // Local immutable snapshot avoids cross-module
+                            // smart-cast instability on public nullable property.
+                            val currentPlanning = current.planningDomains
+                            check(currentPlanning == null ||
+                                currentPlanning.isFresh ||
+                                currentPlanning == expectedPlanning
                             ) { "foreign nonfresh Planning owner cannot be replaced" }
                             // Crash replay: legacy->G4->Planning; skip any already
                             // restored section and retain the old FBS1 no-G4 gate.
                             if (current.legacy != expected.legacy) {
                                 check(g4Fresh &&
-                                    (current.planningDomains?.isFresh != false)
+                                    (currentPlanning?.isFresh != false)
                                 ) { "legacy Reality cannot overwrite restored owners" }
                                 graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
                             }
@@ -209,7 +212,7 @@ class FaroV5FiveStoreStagedRestore(
                                 graph.reality.domainBackupRestore.restoreOrVerify(expectedG4)
                             }
                             if (expectedPlanning != null &&
-                                current.planningDomains != expectedPlanning
+                                currentPlanning != expectedPlanning
                             ) {
                                 graph.reality.planningBackupRestore.restoreOrVerify(expectedPlanning)
                             }

@@ -201,7 +201,7 @@ class FaroV5Fbs2V3PlanningStageT2Test {
             val (_,archive)=capture(source)
             fresh("dst-foreign").use { target ->
                 val foreign=RealityPlanningBackupSnapshot(
-                    8, ReminderSnapshot(0L,emptyList()),MonthlyPlanSnapshot(1L,emptyList()))
+                    8, ReminderSnapshot(0L,emptyList(),emptyList()),MonthlyPlanSnapshot(1L,emptyList()))
                 target.graph.reality.planningBackupRestore.restoreOrVerify(foreign)
                 val before=target.graph.reality.fbs2Backup.snapshot()
                 assertEquals(FiveStoreStagedRestoreResult.Blocked(
