@@ -43,7 +43,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "A4 Avisos pointer ABA B7 PASS_SCOPED, 4 CI GREEN. Next S3.A4 N015 real federated history + N031 combined attention owner; fresh B1-B5 permit. A3 Guardados eight candidates NOT APPROVED 172 unchanged; A5 X01-X12/G15 pending. S3 2/5 closed scoped, 0/5 integrated; V2 productive OFF, Night/Auto/S4 OFF.",
+  "next": "A4 Avisos ABA + resumen local con consentimiento B7 PASS_SCOPED (surface 63/63, core y guard verdes). A4 sigue OPEN: N015 history.query federado ACL + N031 owner Matter/Reminder/MonthlyPlan y admisión pendientes. A3 Guardados +8 NO aprobadas, catálogo 172; A5 X01-X12/G15 pendientes; S3 2/5 cerradas scoped, 0/5 integradas; V2 productiva, Noche/Auto/S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +59,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105",
+  "last_completed_gate": "S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -833,6 +833,18 @@
       "physical": "NOT_RUN",
       "catalog_change": false
     },
-    "next": "N015 federated history/query ACL and N031 combined owner; user consent summaries only"
+    "next": "N015 federated history/query ACL + N031 combined owner; summary is LOCAL_OPT_IN_SCOPED, not IA.",
+    "consent_summary": {
+      "status": "PASS_SCOPED_B7",
+      "code_sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
+      "preaudit_doc": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B1_B5_20261105.md",
+      "b7_doc": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
+      "guard_run": 42145119178,
+      "surface_run": 42145119122,
+      "surface_xml": "63/63",
+      "core_run": 42145119257,
+      "physical": "NOT_RUN",
+      "catalog_change": false
+    }
   }
 }

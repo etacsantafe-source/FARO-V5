@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_AVISOS_CONSENT_SUMMARY",
   "reviewed_head": "727a3254c33f96c52b6e6806b4424e419feaf427",
   "paths": [
@@ -58,24 +58,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_SURFACE_63_OF_63_V2_CORE_SUCCESS",
+    "B7": "PASS_SCOPED_ALL_THREE_WORKFLOWS_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "07f57cc8907f666b15596d2843e9d3943decb472",
+    "sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
     "result": "PASS",
-    "unit_id": "S3_A4_AVISOS_POINTER_ABA",
+    "unit_id": "S3_A4_AVISOS_CONSENT_SUMMARY",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105.md",
-        "blob_sha": "3748b9136d72c298c41565fc4b89a329c6960449",
+        "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
+        "blob_sha": "c32d0d4dbb0a7f811ea2b907284aabce77d42f14",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1-B5 scoped consent-only local summary of authorized Avisos page; no new owner/API/storage. Previous Avisos ABA B7 passed.",
+  "why": "Avisos consent-only local summary B7 PASS_SCOPED; next N015 and N031 need fresh unit B1-B5 and READY.",
   "how": "Only surface policy/button and related tests. Invalidate ephemeral consent on page/port changes; CI surface exact XML, then independent B7.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 bounded two-file code with FARO-UNIT:S3_A4_AVISOS_CONSENT_SUMMARY; N015 and N031 still open."
+  "next": "S3.A4 N015 real history/query federation and N031 combined attention; no A4 stage closure yet."
 }

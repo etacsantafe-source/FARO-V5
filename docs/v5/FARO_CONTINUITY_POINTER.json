@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 323
+    "expected_release_epoch": 327
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105.md",
+  "handoff": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "A4 Avisos pointer ABA B7 PASS_SCOPED, 4 CI GREEN. Next S3.A4 N015 real federated history + N031 combined attention owner; fresh B1-B5 permit. A3 Guardados eight candidates NOT APPROVED 172 unchanged; A5 X01-X12/G15 pending. S3 2/5 closed scoped, 0/5 integrated; V2 productive OFF, Night/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_AVISOS_POINTER_ABA_PASS_SCOPED_B7_ALL_FOUR_CI_SUCCESS",
+  "next": "A4 Avisos ABA + resumen local con consentimiento B7 PASS_SCOPED (surface 63/63, core y guard verdes). A4 sigue OPEN: N015 history.query federado ACL + N031 owner Matter/Reminder/MonthlyPlan y admisión pendientes. A3 Guardados +8 NO aprobadas, catálogo 172; A5 X01-X12/G15 pendientes; S3 2/5 cerradas scoped, 0/5 integradas; V2 productiva, Noche/Auto/S4 OFF.",
+  "checkpoint_status": "S3_A4_AVISOS_CONSENT_SUMMARY_PASS_SCOPED_B7_ALL_THREE_CI_SUCCESS",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105.md",
-  "last_code_sha": "07f57cc8907f666b15596d2843e9d3943decb472",
-  "last_ci_run_id": 42125866248,
+  "last_handoff": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
+  "last_code_sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
+  "last_ci_run_id": 42145119122,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_S3_AVISOS_XML_4_OF_4_WITH_V2_CORE_AND_APK_GREEN",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_SURFACE_63_OF_63_PLUS_CORE_AND_PROTOCOL",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -452,9 +452,9 @@
     "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 42099338728,
+    "last_ci_run_id": 42145119178,
     "last_ci_conclusion": "SUCCESS",
-    "verified_source_sha": "18b88d1e8c8f897125b950d57321013c7746975e",
+    "verified_source_sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
   },
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 313,
+  "last_writer_epoch_observed": 327,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -1078,19 +1078,18 @@
     "next": "Separate human bounded approval required, then B5 and permit READY"
   },
   "a4_checkpoint": {
-    "status": "IN_PROGRESS_AVISOS_ABA_B7_PASS_SCOPED",
-    "unit": "S3_A4_AVISOS_POINTER_ABA",
-    "code_sha": "07f57cc8907f666b15596d2843e9d3943decb472",
-    "b7_doc": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B7_PASS_20261105.md",
-    "ci_runs": [
-      42125866548,
-      42125866248,
-      42125866265,
-      42125866295
+    "status": "IN_PROGRESS",
+    "avisos_pointer_aba": "PASS_SCOPED_B7",
+    "avisos_summary": "PASS_SCOPED_B7_LOCAL_OPT_IN",
+    "code_sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
+    "b7_doc": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
+    "guard_run": 42145119178,
+    "surface_run": 42145119122,
+    "core_run": 42145119257,
+    "remaining": [
+      "N015_FEDERATED_HISTORY_ACL",
+      "N031_COMBINED_ATTENTION_OWNER"
     ],
-    "ci": "ALL_SUCCESS",
-    "avisos_xml": "4/4",
-    "physical": "NOT_RUN",
-    "next": "N015 federation or N031 combined owner; new B1-B5/permit required"
+    "physical": "NOT_RUN"
   }
 }
