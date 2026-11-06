@@ -8,6 +8,7 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.RestoreArchiveIdentityPort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.store.reality.RealityFbs2BackupSnapshot
 import java.nio.file.Path
 
 enum class FiveStoreStagedRestoreBlock {
@@ -61,6 +62,26 @@ class FaroV5FiveStoreStagedRestore(
         operationId: MaintenanceOperationId,
         encryptedArchive: ByteArray,
         passphrase: CharArray,
+    ): FiveStoreStagedRestoreResult =
+        restoreAuthenticatedImpl(operationId, encryptedArchive, passphrase, allowG4StageOnly = false)
+
+    /**
+     * Deliberately module-internal: isolated staged-restore tests only.
+     * This is NOT wired to Android host, public restore or external G4 export.
+     * The public method above retains the UNSUPPORTED_G4_ARCHIVE fence.
+     */
+    internal fun restoreAuthenticatedG4StageOnly(
+        operationId: MaintenanceOperationId,
+        encryptedArchive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreStagedRestoreResult =
+        restoreAuthenticatedImpl(operationId, encryptedArchive, passphrase, allowG4StageOnly = true)
+
+    private fun restoreAuthenticatedImpl(
+        operationId: MaintenanceOperationId,
+        encryptedArchive: ByteArray,
+        passphrase: CharArray,
+        allowG4StageOnly: Boolean,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
@@ -89,7 +110,7 @@ class FaroV5FiveStoreStagedRestore(
                 // restore only knows the old Reality four-store segment, so accepting
                 // the new section would silently lose canonical owner data.
                 // Reject BEFORE archive pinning, SQLite writes or any UI state change.
-                if (backup.g4Domains != null) {
+                if (backup.g4Domains != null && !allowG4StageOnly) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.UNSUPPORTED_G4_ARCHIVE,
                     )
@@ -115,7 +136,34 @@ class FaroV5FiveStoreStagedRestore(
                     // All semantic bytes are authenticated/decoded before the
                     // first store changes. Each store refuses nonfresh targets,
                     // except exact idempotent replays of its prior restore.
-                    graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
+                    val expectedG4 = backup.g4Domains
+                    if (expectedG4 == null) {
+                        graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
+                    } else {
+                        // Stage-only paired replay. The FBS1 legacy port deliberately
+                        // refuses ANY nonempty G4 owner, even for an exact retry.
+                        // Preserve that guard: bypass it ONLY when the complete
+                        // paired Reality snapshot already equals this archive.
+                        val current = graph.reality.fbs2Backup.snapshot()
+                        val expected = RealityFbs2BackupSnapshot(
+                            legacy = backup.fourStore.reality, g4Domains = expectedG4,
+                        )
+                        if (current != expected) {
+                            val currentG4 = current.g4Domains
+                            check(currentG4.objectives.objectives.isEmpty() &&
+                                currentG4.matters.matters.isEmpty() &&
+                                currentG4.objectives.revision == 0L &&
+                                currentG4.matters.revision == 0L
+                            ) { "foreign nonfresh G4 owner cannot be replaced" }
+                            // A crash between these calls leaves legacy exact and
+                            // G4 fresh; retry may safely resume with the same pin.
+                            graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
+                            graph.reality.domainBackupRestore.restoreOrVerify(expectedG4)
+                        }
+                        check(graph.reality.fbs2Backup.snapshot() == expected) {
+                            "paired G4 Reality restore differs from authenticated archive"
+                        }
+                    }
                     afterSection(FiveStoreStagedRestoreSection.REALITY)
                     graph.commercialEvidence.backup.restoreOrVerify(backup.fourStore.commercialEvidence)
                     afterSection(FiveStoreStagedRestoreSection.COMMERCIAL_EVIDENCE)
@@ -127,7 +175,13 @@ class FaroV5FiveStoreStagedRestore(
                     afterSection(FiveStoreStagedRestoreSection.WORKSPACE)
 
                     check(graph.verifyHealthy()) { "staged V2 graph not healthy after restore" }
-                    check(graph.reality.backup.snapshot() == backup.fourStore.reality &&
+                    val realityMatches = if (expectedG4 == null) {
+                        graph.reality.backup.snapshot() == backup.fourStore.reality
+                    } else {
+                        graph.reality.fbs2Backup.snapshot() ==
+                            RealityFbs2BackupSnapshot(backup.fourStore.reality, expectedG4)
+                    }
+                    check(realityMatches &&
                         graph.commercialEvidence.backup.snapshot() == backup.fourStore.commercialEvidence &&
                         graph.webEvidence.backup.snapshot() == backup.fourStore.webEvidence &&
                         graph.auxiliary.backup.snapshot() == backup.fourStore.auxiliary &&
