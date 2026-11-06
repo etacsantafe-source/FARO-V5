@@ -1,27 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE",
-  "reviewed_head": "b86c1fdc564ca4db5ff83add3a4a59efb09c5057",
+  "status": "READY",
+  "unit_id": "S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT",
+  "reviewed_head": "b0f27cd0fd5040252af46599082bc327aa96eaf5",
   "paths": [
-    "v5/store/reality/build.gradle.kts",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningBackupPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStage8BackupT2Test.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2V3PlanningStageT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-planning-stage8-directed.yml"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n032-planning-insert-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
+          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
+          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
           "marker": "## B1"
         }
       ]
@@ -30,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
+          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
+          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
           "marker": "## B2"
         }
       ]
@@ -40,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
+          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
+          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
           "marker": "## B3"
         }
       ]
@@ -50,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
+          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
+          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
           "marker": "## B4"
         }
       ]
@@ -60,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
+          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
+          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_STAGE8_FBS2V3_48_48_SIX_WORKFLOWS_GREEN",
-    "B7": "PASS_SCOPED_ISOLATED_REALITY8_FULL_FBS2V3_RECOVERY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0b2cee7cc778e6bdac50aa08790cee54d6041ce9",
@@ -81,9 +75,9 @@
       }
     ]
   },
-  "why": "Reality8 opt-in staged owner backed by complete FBS2v3 paired capture and authenticated stage replay; still no user writes/host permissions",
-  "how": "History repaired via B7 RED_FIX before corrected B6; six exact-SHA workflows success, 48/48 directed and 29/29 codec",
+  "why": "N032 stage-only real transactional Planning inserts with precommit PLN1 size bound and optimistic owner revision",
+  "how": "Four exact paths, isolated schema8, original schema7 and FBS2v3 intact, 6 new tests + 41 legacy directed",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5 bounded Planning operation catalog+WriteCoordinator/ACL end-to-end host. No V2 activation or public FBS2v3 until certified."
+  "next": "B6 insert 3 typed records with revision CAS and rollback, CI direct 47/47+guard+V2; B7 independent only if all green"
 }
