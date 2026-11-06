@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 331
+    "expected_release_epoch": 336
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md",
+  "handoff": "docs/s3-night/S3_A4_N015_TWO_OWNER_FEDERATED_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A4 N015 Workspace owner history read B7 PASS_SCOPED 6/6 SHA 84f2040; Reality timed receipts prior PASS; next ACTUAL N015 federation with host ACL/pointer/coverage + N031 Matter/Reminder/MonthlyPlan owner. A4 OPEN. A3 Guardados +8 NOT APPROVED 172 unchanged. A5 X01-X12/Moto G15 pending; S3 A1/A2 2/5 scoped, final 0/5. V2 productive, Night/Auto, S4 OFF.",
-  "checkpoint_status": "S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_SCOPED_EXACT_SQLITE_6_6",
+  "next": "S3.A4 N015 two-owner Reality+Workspace federator B7 PASS_SCOPED (app 6/6, guard and Home green). Not host-bound nor all-domain global. N031 BLOCKER: Matter owner real Reality; Reminder and MonthlyPlan owner NOT IMPLEMENTED; no fake zero. Next scoped N031 true persistent planning owner and ACL, then Activity host + UI, A4 closure. A3 +8 NOT APPROVED/172, A5 physical X01-X12 pending. V2 productive, Night/Auto, S4 OFF.",
+  "checkpoint_status": "S3_A4_N015_TWO_OWNER_FEDERATION_B7_PASS_SCOPED_6_6",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md",
-  "last_code_sha": "84f2040773e23520262da9595019b20b94532980",
-  "last_ci_run_id": 42148422395,
+  "last_handoff": "docs/s3-night/S3_A4_N015_TWO_OWNER_FEDERATED_B7_PASS_20261106.md",
+  "last_code_sha": "8d3f3cdbeb01e7364f235f278814a2cab97cf426",
+  "last_ci_run_id": 42166665044,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N015_WORKSPACE_SQLITE_6_OF_6_AND_PROTOCOL",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_S3_A4_N015_TWO_OWNER_FEDERATION_6_6",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -452,9 +452,9 @@
     "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 42148422350,
+    "last_ci_run_id": 42166664979,
     "last_ci_conclusion": "SUCCESS",
-    "verified_source_sha": "84f2040773e23520262da9595019b20b94532980",
+    "verified_source_sha": "8d3f3cdbeb01e7364f235f278814a2cab97cf426",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
   },
@@ -475,7 +475,7 @@
     "status": "queued",
     "conclusion": null
   },
-  "last_writer_epoch_observed": 331,
+  "last_writer_epoch_observed": 336,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -1087,13 +1087,18 @@
     "surface_run": 42145119122,
     "core_run": 42145119257,
     "remaining": [
-      "N015_FEDERATED_HISTORY_HOST_ACL",
-      "N031_COMBINED_ATTENTION_OWNER"
+      "N031_TRUE_PLANNING_OWNERS",
+      "N031_READ_ACL",
+      "N015_REAL_HOST_BINDING_AND_UI",
+      "A4_FINAL_TESTS"
     ],
     "physical": "NOT_RUN",
     "n015_workspace": "PASS_SCOPED_REAL_OWNER_NO_HOST",
     "n015_workspace_code_sha": "84f2040773e23520262da9595019b20b94532980",
-    "n015_workspace_b7": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md"
+    "n015_workspace_b7": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md",
+    "n015_two_owner": "B7_PASS_SCOPED",
+    "n015_host": "NOT_BOUND",
+    "n031": "MISSING_REMINDER_MONTHLYPLAN_DURABLE_OWNER"
   },
   "n015_workspace_history": {
     "status": "PASS_SCOPED_B7",
@@ -1105,5 +1110,16 @@
     "real_source": "workspace.message",
     "federated": false,
     "host_acl": "NOT_BOUND"
+  },
+  "n015_two_owner_federation": {
+    "status": "PASS_SCOPED_B7",
+    "code_sha": "8d3f3cdbeb01e7364f235f278814a2cab97cf426",
+    "guard_run": 42166664979,
+    "app_run": 42166665044,
+    "home_run": 42166664978,
+    "junit": "6/6",
+    "b7_doc": "docs/s3-night/S3_A4_N015_TWO_OWNER_FEDERATED_B7_PASS_20261106.md",
+    "host_bound": false,
+    "global_history_complete": false
   }
 }

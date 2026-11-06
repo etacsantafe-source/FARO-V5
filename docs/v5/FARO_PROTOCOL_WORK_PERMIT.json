@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N015_TWO_OWNER_FEDERATED_HISTORY",
   "reviewed_head": "720208e4dc73c71db0bad4b9cae28eba20f4c7e2",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_6_OF_6",
+    "B7": "PASS_SCOPED_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "84f2040773e23520262da9595019b20b94532980",
+    "sha": "8d3f3cdbeb01e7364f235f278814a2cab97cf426",
     "result": "PASS",
-    "unit_id": "S3_A4_N015_WORKSPACE_HISTORY_OWNER",
+    "unit_id": "S3_A4_N015_TWO_OWNER_FEDERATED_HISTORY",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md",
-        "blob_sha": "3be89a7702fbdaebb826f868ec777d8e5f21076e",
+        "path": "docs/s3-night/S3_A4_N015_TWO_OWNER_FEDERATED_B7_PASS_20261106.md",
+        "blob_sha": "3bdcbb47155491df507be304811405eb80393f6e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Two real canonical sources Reality receipt and Workspace messages need bounded owner-ACL gated federation, not synthetic Home history.",
+  "why": "N015 two real owner merge CI 6/6 B7 scoped, not host or all-domain history; BLOCK until another unit preaudit",
   "how": "Only new app federator, negative test suite and directed workflow. No host UI grant/mount or durable contract.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 two-owner read adapter; CI 6/6+guard; B7; then host-backed admission and N031."
+  "next": "N031 canonical Matter/Reminder/MonthlyPlan owner + host admission, N015 host Activity binding; separate B1-B5 mandatory"
 }
