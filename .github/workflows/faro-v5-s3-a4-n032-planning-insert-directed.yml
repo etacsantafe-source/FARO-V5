@@ -1,0 +1,74 @@
+name: FARO V5 S3 A4 N032 Planning STAGED bounded insert and rollback
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a4-n032-planning-insert-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n032-planning-staged-bounded-insert
+  cancel-in-progress: false
+
+jobs:
+  planning-staged-bounded-insert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for multi-project Gradle configuration only
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Exact N032 transactional insert and N031 owners backup restore regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityPlanningStageMutationT2Test" --tests "ar.com.faro.v5.store.reality.RealityPlanningStage8BackupT2Test" --tests "ar.com.faro.v5.store.reality.RealityG4DomainRestoreT2Test" :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5Fbs2V3PlanningStageT2Test" --tests "ar.com.faro.v5.generation.FaroV5GenerationStoreGraphV2T2Test" --tests "ar.com.faro.v5.generation.FaroV5Fbs2V3PlanningEnvelopeTest"
+      - name: Exact JUnit XML six classes 47 tests and zero skips
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          suites=[
+              ("v5/store/reality/build/test-results/test","RealityPlanningStageMutationT2Test",6),
+              ("v5/store/reality/build/test-results/test","RealityPlanningStage8BackupT2Test",7),
+              ("v5/store/reality/build/test-results/test","RealityG4DomainRestoreT2Test",5),
+              ("v5/store/generation/build/test-results/test","FaroV5Fbs2V3PlanningStageT2Test",6),
+              ("v5/store/generation/build/test-results/test","FaroV5GenerationStoreGraphV2T2Test",17),
+              ("v5/store/generation/build/test-results/test","FaroV5Fbs2V3PlanningEnvelopeTest",6),
+          ]
+          total=0
+          for folder,klass,expected in suites:
+              xml=list(Path(folder).glob("TEST-*"+klass+".xml"))
+              if len(xml)!=1:
+                  raise SystemExit("N032_PLANNING_XML_MISSING "+klass)
+              root=ET.parse(xml[0]).getroot()
+              counts=tuple(int(root.attrib.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+              if counts!=(expected,0,0,0):
+                  raise SystemExit("N032_PLANNING_XML_FAIL "+klass+" "+str(counts))
+              total+=expected
+              print("N032_PLANNING_XML_PASS "+klass+" "+str(expected)+"/"+str(expected))
+          if total != 47:
+              raise SystemExit("N032_PLANNING_TOTAL_MISMATCH "+str(total))
+          print("N032_PLANNING_STAGE_BOUNDED_INSERT_PASS 47/47")
+          PY
