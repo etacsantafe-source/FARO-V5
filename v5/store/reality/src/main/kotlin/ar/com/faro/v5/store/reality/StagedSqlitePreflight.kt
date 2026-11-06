@@ -27,6 +27,9 @@ object StagedSqlitePreflight {
         /** One additional older schema with its own exact table profile. */
         val olderLegacyVersion: Int? = null,
         val olderLegacyTables: List<String> = emptyList(),
+        /** Third historical profile, needed for 8 <- 7 <- 6 <- 5 without losing 5. */
+        val oldestLegacyVersion: Int? = null,
+        val oldestLegacyTables: List<String> = emptyList(),
     ) {
         init {
             require(version > 0 && tables.isNotEmpty())
@@ -44,12 +47,20 @@ object StagedSqlitePreflight {
                         olderLegacyTables.isNotEmpty() &&
                         olderLegacyTables.distinct().size == olderLegacyTables.size)
             ) { "older SQLite compatibility must be explicitly bounded below legacy" }
+            require(
+                (oldestLegacyVersion == null && oldestLegacyTables.isEmpty()) ||
+                    (oldestLegacyVersion != null && olderLegacyVersion != null &&
+                        oldestLegacyVersion in 1 until olderLegacyVersion &&
+                        oldestLegacyTables.isNotEmpty() &&
+                        oldestLegacyTables.distinct().size == oldestLegacyTables.size)
+            ) { "oldest SQLite compatibility must be explicitly bounded below older legacy" }
         }
 
         fun requiredTables(observedVersion: Int): List<String> = when {
             observedVersion == version -> tables
             legacyVersion != null && observedVersion == legacyVersion -> legacyTables
             olderLegacyVersion != null && observedVersion == olderLegacyVersion -> olderLegacyTables
+            oldestLegacyVersion != null && observedVersion == oldestLegacyVersion -> oldestLegacyTables
             else -> error("SQLite schema version outside exact accepted versions")
         }
     }
