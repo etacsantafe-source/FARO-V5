@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT",
   "reviewed_head": "ac0a88ed55d7effcf1e81c9b397991f76fd1314f",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_FOUR_VERSION_6_6_GRAPH17_17_5_CI_SUCCESS",
+    "B7": "PASS_SCOPED_READ_ONLY_FOUR_VERSION_ADMISSION"
   },
   "last_code_review": {
-    "sha": "8fb44d2343b58182c97c4e2c32fa8c1940db9172",
+    "sha": "c6ec477a57515c3bc01ed15b17fce8396addc34b",
     "result": "PASS",
-    "unit_id": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE",
+    "unit_id": "S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_20261106.md",
-        "blob_sha": "bf4823f88d62d2622c87b825514d9a028f58d729",
+        "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_20261106.md",
+        "blob_sha": "959724888d945dc74dca22200328173e52d3e7eb",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Read-only compatibility adapter for 5/6/7/8 exact profiles before migration; no RealityStore schema change",
-  "how": "Schema fourth explicit legacy with fail-closed version/table guards and isolated 6-test native SQLite suite",
+  "why": "Strict preflight supports fourth exact schema profile, Reality7 remains current; real schema8 owner upgrade and FBS2v3 durable recovery NOT IMPLEMENTED",
+  "how": "Read-only additional oldest version with strict monotonic profiles, 6/6 directed synthetic fixtures and 17/17 existing graph regression, five CI SUCCESS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exactly 3 paths, CI exact SHA/XML, B7 scoped and BLOCKED before any schema8 persistent owner work"
+  "next": "New B1-B5 on guarded schema8 Reality planning owners + 5/6/7 migration + bound-before-write + FBS2v3 full backup and staged restore; V2 prod OFF"
 }

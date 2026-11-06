@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 OPEN: FBS2 v3 semantic envelope B7 PASS_SCOPED 29/29, all 7 exact SHA workflows SUCCESS incl V2 core; no durable Reminder/MonthlyPlan owner or FBS2v3 complete recovery yet, public export/restore remain fenced. NEXT Reality schema8+schema5/6/7 migrations and fully backed-up owners, B1-B5 first. A3+8 not approved catalog172, A5 X01-X12/G15 NOT_RUN, V2 prod/Noche/Auto/S4 OFF.",
+  "next": "S3.A4 OPEN. Reality8 fourth-version strict preflight B7 PASS_SCOPED directed 23/23, five exact SHA workflows SUCCESS; Reality still schema7, no real Reminder/MonthlyPlan owner persisted. NEXT integrated B1-B5 guarded schema8 opt-in stage + 5/6/7 migrations + precommit storage budget + full FBS2v3 backup/staged restore; no persisted writes or public export until recovery verified. V2 prod/Noche/Auto/S4 OFF, A3+8 not approved catalog172, A5 X01-X12/G15 NOT_RUN.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -62,7 +62,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B7_PASS_SCOPED",
+  "last_completed_gate": "S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -1017,6 +1017,23 @@
     "all_ci": "SUCCESS",
     "persistent": false,
     "host_export_restore": false,
+    "physical": "NOT_RUN"
+  },
+  "reality8_preflight_b7_20261106": {
+    "status": "PASS_SCOPED_READ_ONLY_FOUR_VERSION",
+    "sha": "c6ec477a57515c3bc01ed15b17fce8396addc34b",
+    "b7_doc": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_20261106.md",
+    "guard_run": 42263308102,
+    "directed_run": 42263308259,
+    "xml": "23/23",
+    "other_ci_runs": [
+      42263308186,
+      42263308266,
+      42263308058
+    ],
+    "all_ci": "SUCCESS",
+    "schema8_migration": false,
+    "persistent_planning": false,
     "physical": "NOT_RUN"
   }
 }
