@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_PLANNING_SECTION_CODEC",
   "reviewed_head": "f09af004571f52933f24707667402b8f5c999d5f",
   "paths": [
@@ -60,24 +60,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_CODEC_6_G4_5_FBS2V1_7_CORE_SUCCESS",
+    "B7": "PASS_SCOPED_PRIVATE_CODEC_ONLY"
   },
   "last_code_review": {
-    "sha": "1bf0f03e1b507c3f187963f28af49a1173a09387",
+    "sha": "39c1b2c50adae6e04ecf882f9ce69611bc8974fc",
     "result": "PASS",
-    "unit_id": "S3_A4_N031_TYPED_PLANNING_CONTRACTS",
+    "unit_id": "S3_A4_N031_PLANNING_SECTION_CODEC",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_20261106.md",
-        "blob_sha": "d308bc1317295d20cd126ec6a74b09d1ed035d8a",
+        "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B7_PASS_20261106.md",
+        "blob_sha": "265d968f87a81ae8c14ad113aac807b0b975e454",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Only private planning section codec; no FBS2 v3 packaging, no Reminder/MonthlyPlan durable owner or host",
-  "how": "Canonical bounded binary typed rules/occurrences/month plan section, 6 tests + G4 and v1 regression",
+  "why": "Private planning codec B7 scoped only; real Reminder/MonthlyPlan owners schema8 and FBS2v3 capture+restore still absent",
+  "how": "Standalone pure section codec XML 6/6 plus G4 5/5 and legacy FBS2 7/7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 4 paths then CI XML and B7; keep owner durability schema8/FBS2v3 STOP"
+  "next": "B1-B5 integrated Reality schema8 owner+migration+FBS2v3 capture/restore, first verify end-to-end guards; keep public export and host OFF"
 }

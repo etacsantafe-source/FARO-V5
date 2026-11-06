@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 OPEN: N031 Reminder and MonthlyPlan typed JVM contracts B7 PASS_SCOPED 12/12, G4 contracts regression 8/8; NO durable owner yet. Next bounded schema8 migration + FBS2v3 complete authenticated recovery preaudit, then N031 Home/N015 Activity. V2 prod/Noche/Auto/S4 OFF, A3 +8 UNAPPROVED 172, A5 X01-X12/G15 NOT_RUN.",
+  "next": "S3.A4 OPEN. Private N031 planning codec B7 PASS_SCOPED 6/6 and G4/FBS2 regressions 12/12, V2 core SUCCESS. The Reminder+MonthlyPlan types are not persistent owners. Next schema8 Reality migrations + FBS2v3 true capture/restore + ACL; no user write/host until certified. V2 prod/Noche/Auto/S4 OFF, A3+8 not approved 172, A5 X01-X12/G15 NOT_RUN.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -62,7 +62,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N031_TYPED_PLANNING_CONTRACTS_B7_PASS_SCOPED",
+  "last_completed_gate": "S3_A4_N031_PRIVATE_PLANNING_CODEC_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -985,6 +985,18 @@
     "regression_run": 42254470896,
     "regression_xml": "8/8",
     "guard_run": 42254470820,
+    "persistent": false,
+    "physical": "NOT_RUN"
+  },
+  "n031_private_codec_b7_20261106": {
+    "status": "PASS_SCOPED_CODEC_ONLY",
+    "sha": "39c1b2c50adae6e04ecf882f9ce69611bc8974fc",
+    "b7_doc": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B7_PASS_20261106.md",
+    "guard_run": 42257044570,
+    "directed_run": 42257044519,
+    "xml": "18/18",
+    "v2_core_run": 42257044112,
+    "v2_core": "SUCCESS",
     "persistent": false,
     "physical": "NOT_RUN"
   }
