@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.NEWOWNERS.B1B5.20261106",
-  "token_hash": "2e6850f9e6ff08f25ead1080acaab4a2028a588b83a253cc63689bbdf52fa5d5",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.G4RESTORE.20261106",
+  "token_hash": "c96de3c894c5b4d65fe8e9935e03f109ba817a3c5cdb648941281be6d1130ec7",
   "target_head": "3e6eb27776771d582813935cddfe920f7e079d25",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 342,
-  "timestamp": 1793943767,
-  "purpose": "S3_A4_N031_REMINDER_MONTHLYPLAN_B1_B5_STOP_DURABLE",
-  "last_checkpoint": "N031_B1_B5_STOP@3e6eb27776771d582813935cddfe920f7e079d25"
+  "epoch": 343,
+  "timestamp": 1793955678,
+  "purpose": "N031_G4_DOMAIN_RESTORE_PRIMITIVE_B1_B7",
+  "last_checkpoint": "N031_B1_B5_STOP@3e6eb277"
 }
