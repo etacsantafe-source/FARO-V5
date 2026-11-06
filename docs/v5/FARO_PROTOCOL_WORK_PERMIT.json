@@ -1,25 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_TYPED_PLANNING_CONTRACTS",
-  "reviewed_head": "0c0fd59545bac0853867c52cf921ddeed088298c",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_PLANNING_SECTION_CODEC",
+  "reviewed_head": "f09af004571f52933f24707667402b8f5c999d5f",
   "paths": [
-    "v5/settings.gradle.kts",
-    "v5/owner/reminders/build.gradle.kts",
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderModel.kt",
-    "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderModelTest.kt",
-    "v5/owner/monthlyplan/build.gradle.kts",
-    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanModel.kt",
-    "v5/owner/monthlyplan/src/test/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanModelTest.kt",
-    ".github/workflows/faro-v5-s3-n031-owner-contracts-directed.yml"
+    "v5/store/generation/build.gradle.kts",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5PlanningDomainSemanticCodec.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5PlanningDomainSemanticCodecTest.kt",
+    ".github/workflows/faro-v5-s3-n031-planning-codec-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
-          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
+          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
           "marker": "## B1"
         }
       ]
@@ -28,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
-          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
+          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
           "marker": "## B2"
         }
       ]
@@ -38,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
-          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
+          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
           "marker": "## B3"
         }
       ]
@@ -48,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
-          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
+          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
           "marker": "## B4"
         }
       ]
@@ -58,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
-          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
+          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_NEW_CONTRACT_12_12_OLD_G4_8_8",
-    "B7": "PASS_SCOPED_CONTRACTS_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "1bf0f03e1b507c3f187963f28af49a1173a09387",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "N031 typed contracts B7 PASS scoped; SQLite8+FBS2v3 durable owners NOT implemented, remain blocked by prior B5",
-  "how": "Two isolated models and JUnit 12/12; G4 old contracts 8/8 regression",
+  "why": "Only private planning section codec; no FBS2 v3 packaging, no Reminder/MonthlyPlan durable owner or host",
+  "how": "Canonical bounded binary typed rules/occurrences/month plan section, 6 tests + G4 and v1 regression",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "NEW B1-B5 for complete durable Reminder/MonthlyPlan Reality + schema migration + FBS2v3 restore, never fake pending count"
+  "next": "B6 4 paths then CI XML and B7; keep owner durability schema8/FBS2v3 STOP"
 }
