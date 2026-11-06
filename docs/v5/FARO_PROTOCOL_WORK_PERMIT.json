@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_FBS2_G4_CAPTURE",
   "reviewed_head": "dbcff74a0ac6a2b2187fe26c0c7fb8c4f7d17576",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_CAPTURE_5_CODEC_5_LEGACY_7_EXPORT_4_RESTORE_7",
+    "B7": "PASS_SCOPED_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "7f9685450b1c4086e89eccda3f41c81a1b6a62cb",
-    "result": "RED_FIX",
+    "sha": "006061b7a16e2e580cbc4f61dedae65bc70de21c",
+    "result": "PASS",
     "unit_id": "S3_A4_N031_FBS2_G4_CAPTURE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B7_RED_FIX_20261106.md",
-        "blob_sha": "49156f731aadc1cc0d0f624d3a548ad4222f9cf2",
+        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_EXPORT_FENCE_B7_PASS_20261106.md",
+        "blob_sha": "68c8bdbf6c68d82d474820cb6506729fe1d7f40e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "G4 capture now real but consented export must not produce unsupported archive before staged G4 restore certified",
+  "why": "G4 internal FBS2 paired capture and external export fail-closed confirmed; G4 authenticated staged restore not yet implemented",
   "how": "Fail-closed typed G4 marker in external preparation, preserve v1 export for empty G4",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "same-unit 3 path RED_FIX and exact 4+5+7 JUnit"
+  "next": "NEW unit S3_A4_N031_FBS2_G4_STAGED_RESTORE B1-B5 then scoped docs-only READY; keep G4 export/reject fences until certified"
 }
