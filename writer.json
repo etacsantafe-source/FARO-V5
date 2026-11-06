@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.FBS2.G4.REDFIX.20261106",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.FBS2.G4.REDFIX.B7.20261106",
   "token_hash": "c96de3c894c5b4d65fe8e9935e03f109ba817a3c5cdb648941281be6d1130ec7",
   "target_head": "b6c6d77ba74f79edfc72b73c815b902c9960dc40",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 350,
-  "timestamp": 1793967900,
-  "purpose": "FBS2_G4_V2_STAGED_RESTORE_REJECT_B6_WAIT_CI",
-  "last_checkpoint": "FBS2_G4_REDFIX_B6_WAIT_CI@b6c6d77ba74f79edfc72b73c815b902c9960dc40"
+  "epoch": 351,
+  "timestamp": 1793968789,
+  "purpose": "FBS2_G4_CODEC_REDFIX_B7_EXACT_SHA",
+  "last_checkpoint": "FBS2_G4_REDFIX_B6_CI_SUCCESS@b6c6d77ba74f79edfc72b73c815b902c9960dc40"
 }
