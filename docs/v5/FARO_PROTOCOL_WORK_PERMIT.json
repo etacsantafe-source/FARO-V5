@@ -1,20 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_FBS2_G4_STAGED_RESTORE",
-  "reviewed_head": "04fffc8ef54326e0486dff5ffbd7fb73dcc49243",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_TYPED_PLANNING_CONTRACTS",
+  "reviewed_head": "0c0fd59545bac0853867c52cf921ddeed088298c",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2G4StagedRestoreT2Test.kt",
-    ".github/workflows/faro-v5-s3-fbs2-g4-staged-restore-directed.yml"
+    "v5/settings.gradle.kts",
+    "v5/owner/reminders/build.gradle.kts",
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderModel.kt",
+    "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderModelTest.kt",
+    "v5/owner/monthlyplan/build.gradle.kts",
+    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanModel.kt",
+    "v5/owner/monthlyplan/src/test/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanModelTest.kt",
+    ".github/workflows/faro-v5-s3-n031-owner-contracts-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "3fb8f53185c7ada2482495e790f965d8fbbf75ec",
+          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
+          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
           "marker": "## B1"
         }
       ]
@@ -23,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "3fb8f53185c7ada2482495e790f965d8fbbf75ec",
+          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
+          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
           "marker": "## B2"
         }
       ]
@@ -33,8 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "3fb8f53185c7ada2482495e790f965d8fbbf75ec",
+          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
+          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
           "marker": "## B3"
         }
       ]
@@ -43,8 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "3fb8f53185c7ada2482495e790f965d8fbbf75ec",
+          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
+          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
           "marker": "## B4"
         }
       ]
@@ -53,14 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5_20261106.md",
-          "blob_sha": "3fb8f53185c7ada2482495e790f965d8fbbf75ec",
+          "path": "docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md",
+          "blob_sha": "a842ed6643f1879e2ec828400854490e3041dd49",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_STAGE_G4_7_7_DIRECTED_20_20_FENCE_13_13",
-    "B7": "PASS_SCOPED_STAGE_ONLY_EXACT_SHA"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
@@ -74,9 +79,9 @@
       }
     ]
   },
-  "why": "Internal G4 staged restore B7 PASS only, product G4 export and public restore remain fenced; next owners Reminder/MonthlyPlan need independent preaudit",
-  "how": "AEAD/immutable pin under lease + exact paired Reality replay, scoped 20/20 and regression 13/13",
+  "why": "Only pure contract models for two absent N031 owners; Reality schema8/FBS2v3 durable owner migration remains STOP and requires separate B1-B5",
+  "how": "Two independent JVM model modules with strict validated immutable types and 12 directed tests; no SQLite, export, host registration or write operations",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "NEW unit canonical Reminder+MonthlyPlan B1-B5 before functional code; N031/N015 host and A4 final, no auto-READY"
+  "next": "B6 exactly 8 scoped paths, CI exact 6+6, B7 independent then return BLOCKED; next SQLite8+FBS2v3 persistence unit"
 }
