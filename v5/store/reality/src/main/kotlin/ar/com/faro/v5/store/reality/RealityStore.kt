@@ -167,6 +167,10 @@ class RealityStore(
             }
         }
 
+    /** Private G4 restore primitive; external FBS2 binding is not implemented. */
+    val domainBackupRestore: RealityDomainBackupRestorePort =
+        RealityDomainBackupRestorePort(::restoreOrVerifyG4DomainBackup)
+
     val maintenance: RealityMaintenancePort =
         RealityMaintenancePort(::inspectForMaintenance)
 
@@ -1502,6 +1506,111 @@ class RealityStore(
         )
         record
     }
+
+    /** Atomic, idempotent internal restore of the two G4 Reality domains.
+     * The caller must authenticate and pin the staged archive before invoking.
+     * This method deliberately does not modify the old FBS1 wire protocol.
+     */
+    private fun restoreOrVerifyG4DomainBackup(
+        backup: RealityDomainBackupSnapshot,
+    ): RealityDomainBackupSnapshot = withMaterialAdmission { synchronized(lock) {
+        checkOpen()
+        check(activeTransactionId == null) {
+            "G4 domain restore cannot run in an active Reality transaction"
+        }
+        check(backup.schemaVersion == SCHEMA_VERSION) { "G4 schema version mismatch" }
+        check(backup.objectives.objectives.size <= 100_000 &&
+            backup.matters.matters.size <= 100_000
+        ) { "G4 backup has too many records" }
+        check(backup.objectives.revision >= backup.objectives.objectives.size.toLong() &&
+            backup.matters.revision >= backup.matters.matters.size.toLong()
+        ) { "G4 owner revision predates record count" }
+        check(isCanonicalG4Order(backup.objectives.objectives.map { it.id.value }) &&
+            isCanonicalG4Order(backup.matters.matters.map { it.id.value })
+        ) { "G4 record order not canonical" }
+
+        val before = inspectForMaintenance()
+        check(before.integrityHealthy && before.foreignKeysHealthy) {
+            "unhealthy Reality restore target"
+        }
+        val existing = domainBackup.snapshot()
+        if (existing == backup) return@synchronized existing
+        check(before.objectiveCount == 0L && before.matterCount == 0L &&
+            before.objectiveRevision == 0L && before.matterRevision == 0L
+        ) { "nonempty G4 target cannot be replaced" }
+
+        connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+        try {
+            for (record in backup.objectives.objectives) {
+                connection.prepare(
+                    """
+                    INSERT INTO objective_record(
+                        objective_id, title, detail, status, updated_at_epoch_millis
+                    ) VALUES (?, ?, ?, ?, ?)
+                    """.trimIndent()
+                ).use { statement ->
+                    statement.bindText(1, record.id.value)
+                    statement.bindText(2, record.title.value)
+                    statement.bindText(3, record.detail.value)
+                    statement.bindText(4, record.status.name)
+                    statement.bindLong(5, record.updatedAtEpochMillis)
+                    statement.step()
+                }
+            }
+            for (record in backup.matters.matters) {
+                connection.prepare(
+                    """
+                    INSERT INTO matter_record(
+                        matter_id, title, detail, status, due_at_epoch_millis,
+                        updated_at_epoch_millis
+                    ) VALUES (?, ?, ?, ?, ?, ?)
+                    """.trimIndent()
+                ).use { statement ->
+                    statement.bindText(1, record.id.value)
+                    statement.bindText(2, record.title.value)
+                    statement.bindText(3, record.detail.value)
+                    statement.bindText(4, record.status.name)
+                    record.dueAtEpochMillis?.let { statement.bindLong(5, it) }
+                        ?: statement.bindNull(5)
+                    statement.bindLong(6, record.updatedAtEpochMillis)
+                    statement.step()
+                }
+            }
+            connection.prepare(
+                "UPDATE objective_state SET revision = ? WHERE singleton_id = 1"
+            ).use { statement ->
+                statement.bindLong(1, backup.objectives.revision)
+                statement.step()
+            }
+            connection.prepare(
+                "UPDATE matter_state SET revision = ? WHERE singleton_id = 1"
+            ).use { statement ->
+                statement.bindLong(1, backup.matters.revision)
+                statement.step()
+            }
+            connection.execSQL("COMMIT TRANSACTION")
+        } catch (failure: Throwable) {
+            runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+            throw failure
+        }
+        val after = inspectForMaintenance()
+        check(after.integrityHealthy && after.foreignKeysHealthy &&
+            domainBackup.snapshot() == backup
+        ) { "G4 domain exact restore verification failed" }
+        domainBackup.snapshot()
+    } }
+
+    /** SQLite BINARY comparison is unsigned UTF-8, not UTF-16 String ordering. */
+    private fun isCanonicalG4Order(ids: List<String>): Boolean =
+        ids.zipWithNext().all { (left, right) ->
+            val a = left.toByteArray(Charsets.UTF_8)
+            val b = right.toByteArray(Charsets.UTF_8)
+            val n = minOf(a.size, b.size)
+            var i = 0
+            while (i < n && a[i] == b[i]) i++
+            if (i == n) a.size < b.size
+            else (a[i].toInt() and 255) < (b[i].toInt() and 255)
+        }
 
     /** The unchanged FBS1 format CANNOT carry Objective/Matter data. */
     private fun requireLegacyDomainEmpty() {
