@@ -55,6 +55,12 @@ class FaroV5FiveStoreExportPreparation(
             productVersion = productVersion,
             createdAtEpochMillis = createdAtEpochMillis,
         )
+        // G4 FBS2 v2 can be captured and authenticated internally, but the
+        // existing staged restore rejects it until full G4 restore is certified.
+        // Never offer an exportable archive that cannot be restored.
+        check(snapshot.g4Domains == null) {
+            "G4 FBS2 external export blocked until matching restore is certified"
+        }
         check(activeAdmission()) {
             "generation authority changed during five-store capture"
         }

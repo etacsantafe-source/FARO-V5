@@ -1,6 +1,9 @@
 package ar.com.faro.v5.generation
 
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.kernel.contracts.AtomicApplyTransactionDecision
+import ar.com.faro.v5.kernel.contracts.TransactionId
+import ar.com.faro.v5.owner.matters.api.*
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.maintenance.BackupSetId
 import ar.com.faro.v5.maintenance.FilePortableBackupArchiveStore
@@ -133,4 +136,34 @@ class FaroV5FiveStoreExportPreparationT2Test {
             assertEquals(0L, Files.list(temp.resolve("drift-stage")).use { it.count() })
         }
     }
+
+    @Test fun nonemptyG4NeverCreatesAnExternalArchiveEvenWithConsentAndAdmission() {
+        openFive("g4-export-denied").use { graph ->
+            graph.reality.run(TransactionId("tx-g4-export-denial")) { scope ->
+                graph.reality.matterPersistence.upsert(
+                    MatterRecord(
+                        MatterId.of("matter-unexportable"),
+                        MatterTitle.of("Pago pendiente"),
+                        MatterDetail.of("Vencimiento por verificar"),
+                        MatterStatus.WAITING, 1_000L, 100L,
+                    ), scope,
+                )
+                AtomicApplyTransactionDecision.Commit(Unit)
+            }
+            val original = graph.reality.domainBackup.snapshot()
+            val lease = Lease()
+            val stage = temp.resolve("g4-export-denied-stage")
+            val store = FilePortableBackupArchiveStore(stage)
+            val coordinator = FaroV5FiveStoreExportPreparation(graph, lease, store) { true }
+            assertThrows(IllegalStateException::class.java) {
+                prepare(coordinator, FiveStoreBackupExportConsent(true, true))
+            }
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+            assertEquals(original, graph.reality.domainBackup.snapshot())
+            assertEquals(0L, Files.list(stage).use { it.count() })
+            assertTrue(graph.verifyHealthy())
+        }
+    }
+
 }
