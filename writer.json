@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.G4.STAGED_RESTORE.B1B5.20261106",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.G4.STAGED_RESTORE.B6.WAIT_CI.20261106",
   "token_hash": "1b1d3acefbb83f2760bb0e5d4f772d543f4ce436d01f4829175ebb6811d6cdc0",
-  "target_head": "97f249166ab8a0340566a6c726ef36717a552e38",
+  "target_head": "982181a136cd01fab39f1f2e62df24e0c9c69f4d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 359,
-  "timestamp": 1793979060,
-  "purpose": "S3_A4_N031_FBS2_G4_STAGED_RESTORE_B1_B5",
-  "last_checkpoint": "G4_CAPTURE_EXPORT_FENCE_B7_PASS_SCOPED@97f249166ab8a0340566a6c726ef36717a552e38"
+  "epoch": 360,
+  "timestamp": 1793979600,
+  "purpose": "S3_A4_G4_STAGE_B6_WAIT_CI",
+  "last_checkpoint": "G4_STAGE_B6_WAIT_CI@982181a136cd01fab39f1f2e62df24e0c9c69f4d"
 }
