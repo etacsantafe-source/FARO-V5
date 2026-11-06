@@ -43,7 +43,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 N015 two-owner Reality+Workspace federator B7 PASS_SCOPED (app 6/6, guard and Home green). Not host-bound nor all-domain global. N031 BLOCKER: Matter owner real Reality; Reminder and MonthlyPlan owner NOT IMPLEMENTED; no fake zero. Next scoped N031 true persistent planning owner and ACL, then Activity host + UI, A4 closure. A3 +8 NOT APPROVED/172, A5 physical X01-X12 pending. V2 productive, Night/Auto, S4 OFF.",
+  "next": "S3.A4 OPEN. N015 Reality+Workspace federation B7 PASS_SCOPED 6/6; no host Activity UI or global source coverage. N031 Matter due Reality read B7 PASS_SCOPED 6/6; Reminder/MonthlyPlan durable owners ABSENT, no Home Pendientes count. NEXT new preaudit for real Reminder/MonthlyPlan owners with migration/FBS2 recovery/ACL, then N015/N031 host UI and end-to-end. A3 Guardados +8 NOT_APPROVED catalog172; A5 X01-X12/G15 pending; V2 prod/Noche/Auto/S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -59,7 +59,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N015_TWO_OWNER_FEDERATION_B7_PASS_20261106",
+  "last_completed_gate": "S3_A4_N031_REALITY_MATTER_DUE_B7_PASS_20261106",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -833,7 +833,7 @@
       "physical": "NOT_RUN",
       "catalog_change": false
     },
-    "next": "N031 true canonical owners, then host read admission and Activity/Pendientes UI; A4 remains OPEN",
+    "next": "N031 real Reminder+MonthlyPlan domain owner and semantic recovery; N015/N031 host UI and ACL A4 final gate",
     "consent_summary": {
       "status": "PASS_SCOPED_B7",
       "code_sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
@@ -872,10 +872,23 @@
     },
     "n031": {
       "status": "BLOCKED_MISSING_DURABLE_REMINDER_MONTHLYPLAN_OWNERS",
-      "matters": "PERSISTENT_REALITY_G5",
+      "matters": "PERSISTENT_REALITY_G5_DUE_READ_B7_PASS",
       "reminder": "NOT_IMPLEMENTED",
       "monthly_plan": "NOT_IMPLEMENTED",
-      "fake_zero_forbidden": true
+      "global_pending_count": "UNAVAILABLE"
+    },
+    "n031_matter_due": {
+      "status": "PASS_SCOPED_B7",
+      "code_sha": "eb83a1cd62e58929fb9a80e284b4e9f8c3fa1119",
+      "b7_doc": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B7_PASS_20261106.md",
+      "guard_run": 42168243907,
+      "directed_run": 42168244125,
+      "junit": "6/6",
+      "home_run": 42168243952,
+      "apk_run": 42168243894,
+      "host_mounted": false,
+      "full_attention": false,
+      "physical": "NOT_RUN"
     }
   }
 }

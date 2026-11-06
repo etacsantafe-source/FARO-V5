@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_REALITY_MATTER_DUE_SOURCE",
   "reviewed_head": "87b233a6655fffdf2acb159429c681f154e9d53e",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_6_OF_6",
+    "B7": "PASS_SCOPED_EXACT_SHA"
   },
   "last_code_review": {
-    "sha": "8d3f3cdbeb01e7364f235f278814a2cab97cf426",
+    "sha": "eb83a1cd62e58929fb9a80e284b4e9f8c3fa1119",
     "result": "PASS",
-    "unit_id": "S3_A4_N015_TWO_OWNER_FEDERATED_HISTORY",
+    "unit_id": "S3_A4_N031_REALITY_MATTER_DUE_SOURCE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N015_TWO_OWNER_FEDERATED_B7_PASS_20261106.md",
-        "blob_sha": "3bdcbb47155491df507be304811405eb80393f6e",
+        "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B7_PASS_20261106.md",
+        "blob_sha": "45bb2a62d3191f2134170371b4d622f15b83beb4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Reality Matter due canonical read only",
+  "why": "N031 real Matter due contributor B7 PASS only; remaining Reminder and MonthlyPlan sources absent; BLOCK code until fresh scoped review",
   "how": "Read-only, typed and bounded ACL-protected source",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 Matter due owner; B7 then real Reminder and MonthlyPlan sources"
+  "next": "N031 real Reminder and MonthlyPlan persistence+backup+ACL, N015 host Activity, A4 integrated tests"
 }
