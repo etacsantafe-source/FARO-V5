@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT",
-  "reviewed_head": "b0f27cd0fd5040252af46599082bc327aa96eaf5",
+  "status": "READY",
+  "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
+  "reviewed_head": "22f513b6d5c51119b0b80ab0d9abd17759523865",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n032-planning-insert-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningApplyBridgeT2Test.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
-          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
+          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
-          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
+          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
-          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
+          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
-          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
+          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B1_B5_20261106.md",
-          "blob_sha": "f7b5081ae9a1f56febbc830a70ed5f0a38d57c31",
+          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+          "blob_sha": "b890478cd3c8e9bbb7afd25e6c00bf55121eea54",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_N032_47_47_EIGHT_EXACT_SHA_WORKFLOWS_GREEN",
-    "B7": "PASS_SCOPED_STAGED_PLANNING8_INSERT_BOUNDED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "8863adf3cf9a974fd87f27b535483164fc5a5692",
@@ -75,9 +74,9 @@
       }
     ]
   },
-  "why": "N032 stage-only Planning transactional insert owner CAS and precommit FBS2v3 bound passed 47/47; not trusted Chat Apply.",
-  "how": "Four scoped code paths, explicit Sqlite BEGIN IMMEDIATE and complete rollback, exact eight CI SUCCESS same SHA, no physical",
+  "why": "N033A bounded internal bridge uses same RealityTransactionScope and existing RealityStore receipt transaction; no user binding",
+  "how": "3 exact scoped files; reuse N032 precommit checks; B7 must verify exact SHA CI/XML; N033B/C untouched",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5 trusted Review/Apply/ACL and durable Planning execution receipts with generation guard, no production V2 activation before approved."
+  "next": "B6 code then CI/XML and independent B7; no V2 productive activation"
 }
