@@ -1,0 +1,33 @@
+# FARO V5 S3.A4 / N031 — Reality G4 Objective/Matter restore primitive · B1–B5
+Fecha 2026-11-06, HEAD inspeccionado `3e6eb27776771d582813935cddfe920f7e079d25`.
+Unidad estricta `S3_A4_N031_G4_DOMAIN_RESTORE`, **NO** equivale a FBS2 listo, N031 listo ni A4 cerrado. Etapa mínima de `N031_G4_BACKUP_PRESERVATION` antes de versionar/enlazar el contenedor externo.
+
+## B1 — Evidencia real + aceptación binaria
+- `RealityStore.kt`: SCHEMA_VERSION=7, Owner `objective_state/objective_record` y `matter_state/matter_record`, y `domainBackup.snapshot()` interno con ambos owners G4. Las lecturas están ordenadas por ID y preservan revisiones. El esquema 7 ya está probado; NO crear tablas, migrar ni copiar V4.
+- `RealityDomainBackupPort.kt`: solo `RealityDomainBackupReadPort`, explícitamente prohibido llamarlo backup exportable/restaurable. Falta el primitivo acotado de restore.
+- `RealityStore.kt`: `requireLegacyDomainEmpty()` bloquea FBS1 ante G4 existente. `RealityBackupSnapshot` y `SemanticBackupSetCodec` no representan G4; el contenedor FBS2 encapsula ese FBS1 y Workspace, no integra restauración G4. Fallar cerrado preserva datos pero no habilita backup completo.
+- Reusar sin repetir `RealityDomainOwnersT2Test`: creación SQLite G4, reapertura, escritura atómica, rollback, migración 5/6→7 y bloqueo de FBS1 cuando G4 existe ya probados históricamente. Nueva aceptación: **primitivo interno G4** capaz de restaurar EXACTOS registros y revisiones a dominio vacío; reintento exacto idéntico; distinto payload o dominio ya ocupado rechaza sin mutación; version/orden/cota/reentrancia inválida abortan; ninguna exportación, UI, FBS1 o reactivación.
+- Paths estrictos (3): `v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt`; `v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt`; `v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityG4DomainRestoreT2Test.kt`. No workflow nuevo: CI existente `faro-v5-s3-receipt-history-directed.yml` cubre cambios en `v5/store/reality/**`; además revisar XML concreto de la nueva clase vía Actions.
+
+## B2 — Reutilización V4.4 / V5
+- V4.4 `etacsantafe-source/FARO` SHA `44f1e6eb`, `FaroV4FollowUpGateway.readBlocking()` consulta dos owner domains adicionales (ReminderRule+Occurrence y MonthlyPlan). Los datos legítimos de Matter/Objetivos deben sobrevivir actualización/backup; no se deriva backup de contadores o UI.
+- V5 integra G4 en el único `RealityStore` y en transacciones `BEGIN IMMEDIATE/COMMIT/ROLLBACK`, con gate opcional `MaterialWriteGate`; reusar exactamente esos límites. `RealityDomainBackupSnapshot` es interno, no una autoridad paralela ni un sexto store. No cambiar `Legacy RealityBackupSnapshot`, manifest, FBS1, WSB2, FBS2, V4, S2 ni fingerprints antiguos.
+- No ejecutar dos commits funcionales bajo el mismo permiso: se entrega solo el restore primitivo. La posterior integración en FBS2 será una **nueva unidad** con B1–B5 propios.
+
+## B3 — Investigación externa, comparación y clasificación
+- Android Developers https://developer.android.com/training/data-storage/room/migrating-db-versions : **REFERENCIA/ADAPTAR** preservar filas existentes y probar migraciones, no auto-migrar ni usar `fallbackToDestructiveMigration` (el código actual es SQLiteDriver + migrador propio, no Room generado).
+- SQLite https://www.sqlite.org/lang_transaction.html : **USAR** una transacción única y rollback sobre excepción para que filas+revision sean atómicos; no trocear por owner. **RECHAZAR** dos autocommits o generar revision reconstruida.
+- Android Developers https://developer.android.com/identity/data/autobackup : **REFERENCIA** separar fuente interna de exportación/copia externa; secretos no presentes ni nuevos. **RECHAZAR** exponer el snapshot interno, crear archivo externo o enviar datos a nube.
+- Patrones de snapshot inmutable, content idempotence y destination-empty restore son apropiados; librerías externas de migración/serialización se **DESCARTAN** por dependencia/costo/superficie para una subunidad Kotlin/SQLite pequeña. Nada de ISO/IRAM ni APIs pagas.
+
+## B4 — Delta exacto y pruebas
+1. Agregar `RealityDomainBackupRestorePort` *separado* del puerto read-only existente, con `restoreOrVerify(snapshot)`: explícitamente INTERNAL, requiere autenticación/quiescencia/identidad de archivo externa para cualquier enlace futuro.
+2. Exponer `RealityStore.domainBackupRestore`, que delega a método privado bajo `withMaterialAdmission` y `synchronized(lock)`. Validar schema7, snapshots ordenados, cota 100000 por tipo, no transacción activa, integridad y claves foráneas, dominio objetivo y Matter vacío (0 revisiones y filas), permitir idempotencia SOLO con igualdad exacta, `BEGIN IMMEDIATE` para inserción de filas + revisiones y `ROLLBACK` ante error. Releer y verificar igualdad tras `COMMIT`. No permitir borrado/reemplazo.
+3. Nueva clase `RealityG4DomainRestoreT2Test` 5 tests: roundtrip durable exacto de Objetivos+Asuntos/revisiones, idempotencia, reject destination ocupado/payload diferente, version/orden/cota inválidos pre-write, rechazo dentro de transacción activa y datos sin cambios. Ejecutar `:store:reality:test --tests "ar.com.faro.v5.store.reality.RealityG4DomainRestoreT2Test"` con XML 5/5; `:store:reality:test` completo si disponible. CI no implica Android física.
+
+## B5 — Auditoría adversarial previa
+- Un `read()` puede devolver datos cuando el destino tiene otra identidad; se admite `restore` solo para dominio vacío o replay exacto, **sin** alterar cuentas/finanzas/receipts; el host FBS2 deberá fijar identidad de archivo y generación antes de llamar. No declarar exportación segura por crear el primitivo.
+- Revision/filas deben entrar en la MISMA transacción. Crash antes de COMMIT deja ambos vacíos; corrupción/constraint produce rollback. Test de interrupción de proceso Android aún NO_RUN; B7 solo valida alcance de JVM.
+- No mostrar titulares/descripciones a UI ni cloud; no modificar Home, OperationId 172, catálogos, teléfono, S4, V2 productiva o autorizaciones. FBS1 seguirá fallando cerrado para G4 no vacío, intencional.
+- Negativos: recibir snapshot con schema incompatible, IDs duplicados, orden inconsistente, >=100001 registros, destino distinto, transacción activa y cancelación de acceso/quiescencia; no usar un `MaterialWriteGate` falso como prueba de host.
+- **Veredicto B5:** READY exclusivamente para primitivo interno de restauración G4 en los 3 paths citados. La integración/exportación/restauración FBS2 aún **BLOCKED**. Permiso READY debe publicarse en un segundo commit SOLO documental antes de cualquier funcional; B7 independiente tras CI exacto.
