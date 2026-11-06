@@ -1,20 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_AVISOS_POINTER_ABA",
-  "reviewed_head": "f416f8809035fa4d7d06434941469b20ee09ec26",
+  "status": "READY",
+  "unit_id": "S3_A4_AVISOS_CONSENT_SUMMARY",
+  "reviewed_head": "727a3254c33f96c52b6e6806b4424e419feaf427",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactory.kt",
-    "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactoryTest.kt"
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AvisosSurface.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5AvisosSurfaceContractTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
-          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
+          "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B1_B5_20261105.md",
+          "blob_sha": "4225a094008ffd909381fa685dd463738ad08846",
           "marker": "## B1"
         }
       ]
@@ -23,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
-          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
+          "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B1_B5_20261105.md",
+          "blob_sha": "4225a094008ffd909381fa685dd463738ad08846",
           "marker": "## B2"
         }
       ]
@@ -33,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
-          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
+          "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B1_B5_20261105.md",
+          "blob_sha": "4225a094008ffd909381fa685dd463738ad08846",
           "marker": "## B3"
         }
       ]
@@ -43,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
-          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
+          "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B1_B5_20261105.md",
+          "blob_sha": "4225a094008ffd909381fa685dd463738ad08846",
           "marker": "## B4"
         }
       ]
@@ -53,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_AVISOS_POINTER_ABA_B1_B5_20261105.md",
-          "blob_sha": "dee66b089b6c457561f36ac8d4bfecb40779cefd",
+          "path": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B1_B5_20261105.md",
+          "blob_sha": "4225a094008ffd909381fa685dd463738ad08846",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_07F57_AVISOS_4_4_APP_V2_DEV_PASS",
-    "B7": "PASS_SCOPED_ALL_FOUR_WORKFLOWS_EXACT_SHA"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "07f57cc8907f666b15596d2843e9d3943decb472",
@@ -74,9 +73,9 @@
       }
     ]
   },
-  "why": "A4 Avisos ABA fence verified and B7 scoped; new functional changes BLOCKED pending fresh bounded B1-B5 preaudit.",
-  "how": "Exact code sha 07f57, 3 allowed paths, 4 green workflows; no catalog/V2 production expansion.",
+  "why": "B1-B5 scoped consent-only local summary of authorized Avisos page; no new owner/API/storage. Previous Avisos ABA B7 passed.",
+  "how": "Only surface policy/button and related tests. Invalidate ephemeral consent on page/port changes; CI surface exact XML, then independent B7.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A4 next bounded N015 federated history and N031 true attention owner, fresh preaudit and permit required. A3 remains review-only with 172 operations."
+  "next": "B6 bounded two-file code with FARO-UNIT:S3_A4_AVISOS_CONSENT_SUMMARY; N015 and N031 still open."
 }
