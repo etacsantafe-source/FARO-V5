@@ -17,6 +17,8 @@ enum class FiveStoreStagedRestoreBlock {
     SOURCE_TARGET_IDENTITY_CONFLICT,
     STAGED_RESTORE_FAILED,
     ARCHIVE_IDENTITY_CONFLICT,
+    /** A valid FBS2 v2 G4 section cannot be dropped by this legacy restore. */
+    UNSUPPORTED_G4_ARCHIVE,
 }
 
 sealed interface FiveStoreStagedRestoreResult {
@@ -83,6 +85,15 @@ class FaroV5FiveStoreStagedRestore(
                     )
                 }
                 val backup = (opened as FiveStorePortableBackupOpenResult.Opened).backupSet
+                // FBS2 v2 can carry G4 Objective/Matter data. This legacy staged
+                // restore only knows the old Reality four-store segment, so accepting
+                // the new section would silently lose canonical owner data.
+                // Reject BEFORE archive pinning, SQLite writes or any UI state change.
+                if (backup.g4Domains != null) {
+                    return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
+                        FiveStoreStagedRestoreBlock.UNSUPPORTED_G4_ARCHIVE,
+                    )
+                }
                 if (backup.fourStore.manifest.sourceGenerationId == target.descriptor.generationId) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.SOURCE_TARGET_IDENTITY_CONFLICT,

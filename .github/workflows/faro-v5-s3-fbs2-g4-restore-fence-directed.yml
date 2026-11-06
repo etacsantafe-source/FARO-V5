@@ -1,0 +1,60 @@
+name: FARO V5 S3 FBS2 G4 legacy restore fail closed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2G4RestoreFenceTest.kt"
+      - ".github/workflows/faro-v5-s3-fbs2-g4-restore-fence-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-fbs2-g4-restore-fence
+  cancel-in-progress: false
+
+jobs:
+  reject-unsupported-g4-before-write:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for Gradle configuration
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Restore negative test, old restore regression and G4 codec
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5Fbs2G4RestoreFenceTest" --tests "ar.com.faro.v5.generation.FaroV5FiveStoreStagedRestoreT2Test" --tests "ar.com.faro.v5.generation.FaroV5Fbs2G4CodecTest"
+      - name: Verify directed JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root=Path('v5/store/generation/build/test-results/test')
+          for name,num in [('FaroV5Fbs2G4RestoreFenceTest',1),('FaroV5FiveStoreStagedRestoreT2Test',7),('FaroV5Fbs2G4CodecTest',5)]:
+              matches=list(root.glob('TEST-*'+name+'.xml'))
+              if len(matches)!=1:
+                  raise SystemExit('FBS2_G4_RESTORE_FENCE_XML_MISSING '+name+' '+str(len(matches)))
+              counts=tuple(int(ET.parse(matches[0]).getroot().attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if counts!=(num,0,0,0):
+                  raise SystemExit('FBS2_G4_RESTORE_FENCE_XML_FAIL '+name+' '+str(counts))
+              print('FBS2_G4_RESTORE_FENCE_XML_PASS '+name+' '+str(num)+'/'+str(num))
+          PY
