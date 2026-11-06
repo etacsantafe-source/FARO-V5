@@ -1,22 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A4_N031_FBS2_G4_CAPTURE",
-  "reviewed_head": "2eb72c8676790fc234c026c2e950d86dbf38c881",
+  "reviewed_head": "dbcff74a0ac6a2b2187fe26c0c7fb8c4f7d17576",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCaptureT2Test.kt",
-    ".github/workflows/faro-v5-s3-fbs2-g4-capture-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreExportPreparation.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreExportPreparationT2Test.kt",
+    ".github/workflows/faro-v5-s3-fbs2-g4-export-fence-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B1_B5_20261106.md",
-          "blob_sha": "c9c80b4aadc2c84fab9c85279092a186b7c0e161",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_EXPORT_FENCE_B1_B5_20261106.md",
+          "blob_sha": "38989a419c666b25a106027824aa480b9ac3879d",
           "marker": "## B1"
         }
       ]
@@ -25,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B1_B5_20261106.md",
-          "blob_sha": "c9c80b4aadc2c84fab9c85279092a186b7c0e161",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_EXPORT_FENCE_B1_B5_20261106.md",
+          "blob_sha": "38989a419c666b25a106027824aa480b9ac3879d",
           "marker": "## B2"
         }
       ]
@@ -35,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B1_B5_20261106.md",
-          "blob_sha": "c9c80b4aadc2c84fab9c85279092a186b7c0e161",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_EXPORT_FENCE_B1_B5_20261106.md",
+          "blob_sha": "38989a419c666b25a106027824aa480b9ac3879d",
           "marker": "## B3"
         }
       ]
@@ -45,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B1_B5_20261106.md",
-          "blob_sha": "c9c80b4aadc2c84fab9c85279092a186b7c0e161",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_EXPORT_FENCE_B1_B5_20261106.md",
+          "blob_sha": "38989a419c666b25a106027824aa480b9ac3879d",
           "marker": "## B4"
         }
       ]
@@ -55,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CAPTURE_B1_B5_20261106.md",
-          "blob_sha": "c9c80b4aadc2c84fab9c85279092a186b7c0e161",
+          "path": "docs/s3-night/S3_A4_N031_FBS2_G4_EXPORT_FENCE_B1_B5_20261106.md",
+          "blob_sha": "38989a419c666b25a106027824aa480b9ac3879d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "CODE_CI_PASS_CAPTURE_5_CODEC_5_LEGACY_7",
-    "B7": "RED_FIX_EXTERNAL_G4_EXPORT_UNRESTORABLE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "7f9685450b1c4086e89eccda3f41c81a1b6a62cb",
@@ -76,9 +74,9 @@
       }
     ]
   },
-  "why": "G4 Reality capture passes but consented export may stage FBS2 v2 not yet restorable; fail closed",
-  "how": "Paired FBS2 Reality snapshot read port, legacy gate only default, coordinator adapter under lease, v1 empty G4/v2 nonempty",
+  "why": "G4 capture now real but consented export must not produce unsupported archive before staged G4 restore certified",
+  "how": "Fail-closed typed G4 marker in external preparation, preserve v1 export for empty G4",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "same-unit RED_FIX B1-B5 and READY before adding export G4 fence"
+  "next": "same-unit 3 path RED_FIX and exact 4+5+7 JUnit"
 }
