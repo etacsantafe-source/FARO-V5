@@ -5,6 +5,9 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.SemanticBackupCaptureCoordinator
 import ar.com.faro.v5.maintenance.StorageGenerationId
+import ar.com.faro.v5.store.reality.RealityBackupPort
+import ar.com.faro.v5.store.reality.RealityBackupSnapshot
+import ar.com.faro.v5.store.reality.RealityDomainBackupSnapshot
 
 /**
  * Stage-only semantic capture of all five stores from ONE validated V2 graph.
@@ -28,9 +31,25 @@ class FaroV5FiveStoreBackupCapture(
         val workspace = checkNotNull(graph.workspace) {
             "complete five-store capture requires the canonical Workspace owner"
         }
+        var observedG4: RealityDomainBackupSnapshot? = null
+        // The coordinator invokes this adapter only INSIDE one global lease.
+        // A single Reality mutex acquisition reads legacy data and G4 owners
+        // together; the old FBS1 backup port retains its fail-closed G4 gate.
+        val pairedReality = object : RealityBackupPort {
+            override fun snapshot(): RealityBackupSnapshot {
+                check(observedG4 == null) { "FBS2 Reality owner snapshot read twice" }
+                val paired = graph.reality.fbs2Backup.snapshot()
+                observedG4 = paired.g4Domains
+                return paired.legacy
+            }
+
+            override fun restoreOrVerify(
+                snapshot: RealityBackupSnapshot,
+            ): RealityBackupSnapshot = error("capture-only Reality adapter cannot restore")
+        }
         val capture = SemanticBackupCaptureCoordinator(
             quiescence = quiescence,
-            reality = graph.reality.backup,
+            reality = pairedReality,
             commercialEvidence = graph.commercialEvidence.backup,
             webEvidence = graph.webEvidence.backup,
             auxiliary = graph.auxiliary.backup,
@@ -44,6 +63,17 @@ class FaroV5FiveStoreBackupCapture(
         ) {
             workspace.backup.snapshot().also { it.validateForRestore() }
         }
-        return FaroV5FiveStoreSemanticSet(four, workspaceSnapshot)
+        val g4 = checkNotNull(observedG4) {
+            "FBS2 Reality owner was not captured under global quiescence"
+        }
+        // Reuse unchanged FBS2 v1 when G4 is *genuinely* untouched.
+        // Nonzero revisions with zero rows still require v2.
+        val hasG4Authority = g4.objectives.objectives.isNotEmpty() ||
+            g4.matters.matters.isNotEmpty() ||
+            g4.objectives.revision != 0L || g4.matters.revision != 0L
+        return FaroV5FiveStoreSemanticSet(
+            four, workspaceSnapshot,
+            g4Domains = if (hasG4Authority) g4 else null,
+        )
     }
 }

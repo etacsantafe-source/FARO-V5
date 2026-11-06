@@ -1,6 +1,12 @@
 package ar.com.faro.v5.generation
 
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.kernel.contracts.AtomicApplyTransactionDecision
+import ar.com.faro.v5.kernel.contracts.TransactionId
+import ar.com.faro.v5.owner.objectives.api.*
+import ar.com.faro.v5.owner.matters.api.*
+import ar.com.faro.v5.store.reality.RealityDomainBackupSnapshot
+import java.nio.ByteBuffer
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.maintenance.BackupSetId
 import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
@@ -130,4 +136,73 @@ class FaroV5FiveStoreBackupCaptureT2Test {
             assertTrue(graph.verifyHealthy())
         }
     }
+
+    @Test fun realObjectiveAndMatterOwnersCaptureInOneLeaseWithoutChangingFbs1() {
+        openFive("g4-real").use { graph ->
+            graph.reality.run(TransactionId("tx-g4-capture-real")) { scope ->
+                graph.reality.objectivePersistence.upsert(
+                    ObjectiveRecord(
+                        ObjectiveId.of("goal-one"),
+                        ObjectiveTitle.of("Reserva de emergencia"),
+                        ObjectiveDetail.of("Monto mensual"),
+                        ObjectiveStatus.ACTIVE, 100L,
+                    ), scope,
+                )
+                graph.reality.matterPersistence.upsert(
+                    MatterRecord(
+                        MatterId.of("matter-one"),
+                        MatterTitle.of("Revisar factura"),
+                        MatterDetail.of("Vencimiento de servicio"),
+                        MatterStatus.WAITING, 200L, 100L,
+                    ), scope,
+                )
+                AtomicApplyTransactionDecision.Commit(Unit)
+            }
+            assertThrows(IllegalStateException::class.java) {
+                graph.reality.backup.snapshot()
+            }
+            assertThrows(IllegalStateException::class.java) {
+                graph.reality.semanticMigration.snapshot()
+            }
+            val lease = Lease()
+            val set = capture(graph, lease)
+            val expected = graph.reality.domainBackup.snapshot()
+            assertEquals(expected, set.g4Domains)
+            assertEquals(1L, expected.objectives.revision)
+            assertEquals(1L, expected.matters.revision)
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+            assertFalse(lease.active)
+            assertEquals(2, ByteBuffer.wrap(FaroV5FiveStoreSemanticCodec.encode(set)).getInt(4))
+            assertEquals(set, FaroV5FiveStoreSemanticCodec.decode(
+                FaroV5FiveStoreSemanticCodec.encode(set),
+            ))
+            assertTrue(graph.verifyHealthy())
+        }
+    }
+
+    @Test fun nonzeroG4RevisionWithoutRowsCannotFallBackToV1() {
+        openFive("g4-revision").use { graph ->
+            val original = graph.reality.domainBackup.snapshot()
+            graph.reality.domainBackupRestore.restoreOrVerify(
+                RealityDomainBackupSnapshot(
+                    schemaVersion = original.schemaVersion,
+                    objectives = original.objectives.copy(revision = 1L),
+                    matters = original.matters,
+                )
+            )
+            assertEquals(emptyList<ObjectiveRecord>(),
+                graph.reality.objectivePersistence.read().objectives)
+            assertThrows(IllegalStateException::class.java) {
+                graph.reality.backup.snapshot()
+            }
+            val lease = Lease()
+            val set = capture(graph, lease)
+            assertEquals(1L, set.g4Domains?.objectives?.revision)
+            assertEquals(2, ByteBuffer.wrap(FaroV5FiveStoreSemanticCodec.encode(set)).getInt(4))
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+        }
+    }
+
 }

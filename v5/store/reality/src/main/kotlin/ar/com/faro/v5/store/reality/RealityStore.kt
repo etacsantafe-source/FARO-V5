@@ -167,6 +167,20 @@ class RealityStore(
             }
         }
 
+    /** Atomic paired read for FBS2 only; never use it to export FBS1. */
+    val fbs2Backup: RealityFbs2BackupReadPort = RealityFbs2BackupReadPort {
+        synchronized(lock) {
+            checkOpen()
+            check(activeTransactionId == null) {
+                "FBS2 Reality snapshot cannot read an active write transaction"
+            }
+            RealityFbs2BackupSnapshot(
+                legacy = readBackupSnapshot(allowG4 = true),
+                g4Domains = domainBackup.snapshot(),
+            )
+        }
+    }
+
     /** Private G4 restore primitive; external FBS2 binding is not implemented. */
     val domainBackupRestore: RealityDomainBackupRestorePort =
         RealityDomainBackupRestorePort(::restoreOrVerifyG4DomainBackup)
@@ -1621,10 +1635,12 @@ class RealityStore(
         }
     }
 
-    private fun readSemanticMigrationSnapshot(): RealitySemanticMigrationData =
+    private fun readSemanticMigrationSnapshot(
+        allowG4: Boolean = false,
+    ): RealitySemanticMigrationData =
         synchronized(lock) {
             checkOpen()
-            requireLegacyDomainEmpty()
+            if (!allowG4) requireLegacyDomainEmpty()
             val profile = readProfile()
             val finance = readFinance()
             RealitySemanticMigrationData(
@@ -1793,10 +1809,12 @@ class RealityStore(
         } }
 
 
-    private fun readBackupSnapshot(): RealityBackupSnapshot =
+    private fun readBackupSnapshot(
+        allowG4: Boolean = false,
+    ): RealityBackupSnapshot =
         synchronized(lock) {
             checkOpen()
-            requireLegacyDomainEmpty()
+            if (!allowG4) requireLegacyDomainEmpty()
             val profile = readProfile()
             val finance = readFinance()
             val receipts =
@@ -1831,7 +1849,7 @@ class RealityStore(
                 schemaVersion = LEGACY_BACKUP_SCHEMA_VERSION,
                 profileRevision = profile.revision,
                 financeRevision = finance.revision,
-                domain = readSemanticMigrationSnapshot(),
+                domain = readSemanticMigrationSnapshot(allowG4 = allowG4),
                 committedReceipts = receipts,
             )
         }

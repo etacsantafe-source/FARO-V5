@@ -1,0 +1,60 @@
+name: FARO V5 S3 FBS2 G4 paired Reality capture directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCaptureT2Test.kt"
+      - ".github/workflows/faro-v5-s3-fbs2-g4-capture-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-fbs2-g4-paired-capture
+  cancel-in-progress: false
+
+jobs:
+  paired-reality-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install SDK platform needed by Gradle
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Paired capture plus legacy G4 and codec regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5FiveStoreBackupCaptureT2Test" --tests "ar.com.faro.v5.generation.FaroV5Fbs2G4CodecTest" --tests "ar.com.faro.v5.generation.FaroV5FiveStoreSemanticCodecT2Test"
+      - name: Assert exact JUnit results
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root=Path("v5/store/generation/build/test-results/test")
+          for name,expected in [("FaroV5FiveStoreBackupCaptureT2Test",5),("FaroV5Fbs2G4CodecTest",5),("FaroV5FiveStoreSemanticCodecT2Test",7)]:
+              xml=list(root.glob("TEST-*"+name+".xml"))
+              if len(xml)!=1: raise SystemExit("G4_CAPTURE_XML_MISSING "+name)
+              counts=tuple(int(ET.parse(xml[0]).getroot().attrib.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+              if counts!=(expected,0,0,0): raise SystemExit("G4_CAPTURE_XML_FAIL "+name+" "+str(counts))
+              print("G4_CAPTURE_XML_PASS "+name+" "+str(expected)+"/"+str(expected))
+          PY

@@ -21,3 +21,18 @@ fun interface RealityDomainBackupReadPort {
 fun interface RealityDomainBackupRestorePort {
     fun restoreOrVerify(snapshot: RealityDomainBackupSnapshot): RealityDomainBackupSnapshot
 }
+
+/**
+ * Paired FBS2-only Reality snapshot. Both components are read under the same
+ * Reality mutex while the caller holds the global five-owner quiescence.
+ * Never serialize the legacy component alone when G4 owners are nonempty.
+ */
+data class RealityFbs2BackupSnapshot(
+    val legacy: RealityBackupSnapshot,
+    val g4Domains: RealityDomainBackupSnapshot,
+)
+
+/** Internal capture-only source; not an FBS1 backup or restore entry point. */
+fun interface RealityFbs2BackupReadPort {
+    fun snapshot(): RealityFbs2BackupSnapshot
+}
