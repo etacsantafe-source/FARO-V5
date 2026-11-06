@@ -1,21 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_PLANNING_SECTION_CODEC",
-  "reviewed_head": "f09af004571f52933f24707667402b8f5c999d5f",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE",
+  "reviewed_head": "489b5dabb2517c29be7356335bfd3248577ca18e",
   "paths": [
-    "v5/store/generation/build.gradle.kts",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5PlanningDomainSemanticCodec.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5PlanningDomainSemanticCodecTest.kt",
-    ".github/workflows/faro-v5-s3-n031-planning-codec-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodec.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreExportPreparation.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2V3PlanningEnvelopeTest.kt",
+    ".github/workflows/faro-v5-s3-n031-fbs2-v3-envelope-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
-          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
+          "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B1_B5_20261106.md",
+          "blob_sha": "733b89cfef854279e10056a5b3516f52f4a82cf7",
           "marker": "## B1"
         }
       ]
@@ -24,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
-          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
+          "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B1_B5_20261106.md",
+          "blob_sha": "733b89cfef854279e10056a5b3516f52f4a82cf7",
           "marker": "## B2"
         }
       ]
@@ -34,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
-          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
+          "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B1_B5_20261106.md",
+          "blob_sha": "733b89cfef854279e10056a5b3516f52f4a82cf7",
           "marker": "## B3"
         }
       ]
@@ -44,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
-          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
+          "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B1_B5_20261106.md",
+          "blob_sha": "733b89cfef854279e10056a5b3516f52f4a82cf7",
           "marker": "## B4"
         }
       ]
@@ -54,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_SECTION_CODEC_B1_B5_20261106.md",
-          "blob_sha": "bd95a61d5a2f8b94f6dbcaf3f161ee5fe8480f4f",
+          "path": "docs/s3-night/S3_A4_N031_FBS2V3_SEMANTIC_ENVELOPE_B1_B5_20261106.md",
+          "blob_sha": "733b89cfef854279e10056a5b3516f52f4a82cf7",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_CODEC_6_G4_5_FBS2V1_7_CORE_SUCCESS",
-    "B7": "PASS_SCOPED_PRIVATE_CODEC_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "39c1b2c50adae6e04ecf882f9ce69611bc8974fc",
@@ -75,9 +76,9 @@
       }
     ]
   },
-  "why": "Private planning codec B7 scoped only; real Reminder/MonthlyPlan owners schema8 and FBS2v3 capture+restore still absent",
-  "how": "Standalone pure section codec XML 6/6 plus G4 5/5 and legacy FBS2 7/7",
+  "why": "v3 semantic envelope must reject public and stage-only restore until REAL schema8 owner capture/restore exists",
+  "how": "No SQLite changes, explicit four-section FBS2 v3 and two restore fences, exact CI tests",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B1-B5 integrated Reality schema8 owner+migration+FBS2v3 capture/restore, first verify end-to-end guards; keep public export and host OFF"
+  "next": "B6 five paths, directed XML and retro regression, B7 independent, return permit BLOCKED"
 }
