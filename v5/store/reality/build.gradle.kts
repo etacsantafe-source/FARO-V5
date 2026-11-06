@@ -8,6 +8,8 @@ dependencies {
     api(project(":owner:finance"))
     api(project(":owner:objectives"))
     api(project(":owner:matters"))
+    api(project(":owner:reminders"))
+    api(project(":owner:monthlyplan"))
 
     implementation(libs.androidx.sqlite)
     implementation(libs.androidx.sqlite.bundled)

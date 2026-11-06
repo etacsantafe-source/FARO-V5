@@ -30,6 +30,8 @@ fun interface RealityDomainBackupRestorePort {
 data class RealityFbs2BackupSnapshot(
     val legacy: RealityBackupSnapshot,
     val g4Domains: RealityDomainBackupSnapshot,
+    /** Null is NOT a verified empty Planning owner; only schema8 exposes it. */
+    val planningDomains: RealityPlanningBackupSnapshot? = null,
 )
 
 /** Internal capture-only source; not an FBS1 backup or restore entry point. */

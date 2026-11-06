@@ -60,6 +60,11 @@ import ar.com.faro.v5.owner.matters.api.MatterSnapshot
 import ar.com.faro.v5.owner.matters.api.MatterStatus
 import ar.com.faro.v5.owner.matters.api.MatterTitle
 import ar.com.faro.v5.owner.matters.spi.MatterPersistencePort
+import ar.com.faro.v5.owner.reminders.api.*
+import ar.com.faro.v5.owner.monthlyplan.api.*
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.YearMonth
 import java.util.UUID
 
 class RealityStore(
@@ -73,6 +78,8 @@ class RealityStore(
     },
     private val materialWriteGate: MaterialWriteGate? = null,
     private val receiptClockEpochMillis: () -> Long = System::currentTimeMillis,
+    /** Explicit quarantined STAGED schema8 only; default schema7 remains untouched. */
+    private val planningStage8: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -177,6 +184,7 @@ class RealityStore(
             RealityFbs2BackupSnapshot(
                 legacy = readBackupSnapshot(allowG4 = true),
                 g4Domains = domainBackup.snapshot(),
+                planningDomains = if (planningStage8) readPlanningSnapshot() else null,
             )
         }
     }
@@ -184,6 +192,17 @@ class RealityStore(
     /** Private G4 restore primitive; external FBS2 binding is not implemented. */
     val domainBackupRestore: RealityDomainBackupRestorePort =
         RealityDomainBackupRestorePort(::restoreOrVerifyG4DomainBackup)
+
+    /** Only available in isolated schema8 STAGED mode; NEVER a user CRUD API. */
+    val planningBackup: RealityPlanningBackupReadPort =
+        RealityPlanningBackupReadPort { synchronized(lock) {
+            check(planningStage8) { "Planning Reality owner not mounted" }
+            readPlanningSnapshot()
+        } }
+
+    /** Stage-only, authenticated caller must pin archive before this port is used. */
+    val planningBackupRestore: RealityPlanningBackupRestorePort =
+        RealityPlanningBackupRestorePort(::restoreOrVerifyPlanningStage8)
 
     val maintenance: RealityMaintenancePort =
         RealityMaintenancePort(::inspectForMaintenance)
@@ -212,7 +231,7 @@ class RealityStore(
         withMaterialAdmission {
             synchronized(lock) {
                 configure(fileName)
-                initializeSchema()
+                if (planningStage8) initializePlanningStage8() else initializeSchema()
             }
         }
     }
@@ -855,6 +874,104 @@ class RealityStore(
         }
 
         validateRequiredSchema()
+    }
+
+    /**
+     * Stage-only opt-in. From historical 5/6/7 migrate to 7 with the existing
+     * tested semantics first, then add 8. A crash after the first transaction
+     * leaves valid schema7 and the explicit staged opener may resume.
+     * Ordinary RealityStore remains schema7 and rejects schema8.
+     */
+    private fun initializePlanningStage8() {
+        val observed = readSchemaVersion()
+        check(observed in 0..PLANNING_SCHEMA_VERSION) {
+            "unknown Reality schema for isolated Planning stage"
+        }
+        if (observed != PLANNING_SCHEMA_VERSION) {
+            initializeSchema()
+            schemaTransaction {
+                createPlanningStage8Tables()
+                setSchemaVersion(PLANNING_SCHEMA_VERSION)
+            }
+        }
+        validatePlanningStage8Tables()
+    }
+
+    private fun createPlanningStage8Tables() {
+        connection.execSQL("""
+            CREATE TABLE IF NOT EXISTS reminder_state (
+                singleton_id INTEGER NOT NULL PRIMARY KEY CHECK(singleton_id=1),
+                revision INTEGER NOT NULL DEFAULT 0 CHECK(revision>=0)
+            )
+        """.trimIndent())
+        connection.execSQL("INSERT OR IGNORE INTO reminder_state VALUES (1,0)")
+        connection.execSQL("""
+            CREATE TABLE IF NOT EXISTS reminder_rule (
+                rule_id TEXT NOT NULL PRIMARY KEY CHECK(length(trim(rule_id)) BETWEEN 1 AND 128),
+                title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 160),
+                zone_id TEXT NOT NULL CHECK(length(zone_id) BETWEEN 1 AND 128),
+                anchor_local_date TEXT NOT NULL,
+                anchor_local_time TEXT NOT NULL,
+                recurrence TEXT NOT NULL CHECK(recurrence IN ('ONCE','DAILY','WEEKLY','MONTHLY')),
+                enabled INTEGER NOT NULL CHECK(enabled IN (0,1)),
+                linked_matter_id TEXT,
+                updated_at_epoch_millis INTEGER NOT NULL CHECK(updated_at_epoch_millis>=0),
+                FOREIGN KEY(linked_matter_id) REFERENCES matter_record(matter_id) ON DELETE RESTRICT
+            )
+        """.trimIndent())
+        connection.execSQL("""
+            CREATE TABLE IF NOT EXISTS reminder_occurrence (
+                occurrence_id TEXT NOT NULL PRIMARY KEY CHECK(length(trim(occurrence_id)) BETWEEN 1 AND 128),
+                rule_id TEXT NOT NULL,
+                due_at_epoch_millis INTEGER NOT NULL CHECK(due_at_epoch_millis>=0),
+                status TEXT NOT NULL CHECK(status IN ('PENDING','ACKNOWLEDGED','CANCELLED')),
+                acknowledged_at_epoch_millis INTEGER CHECK(acknowledged_at_epoch_millis IS NULL OR acknowledged_at_epoch_millis>=0),
+                updated_at_epoch_millis INTEGER NOT NULL CHECK(updated_at_epoch_millis>=0),
+                CHECK((status='ACKNOWLEDGED')=(acknowledged_at_epoch_millis IS NOT NULL)),
+                FOREIGN KEY(rule_id) REFERENCES reminder_rule(rule_id) ON DELETE RESTRICT
+            )
+        """.trimIndent())
+        connection.execSQL("""
+            CREATE TABLE IF NOT EXISTS monthly_plan_state (
+                singleton_id INTEGER NOT NULL PRIMARY KEY CHECK(singleton_id=1),
+                revision INTEGER NOT NULL DEFAULT 0 CHECK(revision>=0)
+            )
+        """.trimIndent())
+        connection.execSQL("INSERT OR IGNORE INTO monthly_plan_state VALUES (1,0)")
+        connection.execSQL("""
+            CREATE TABLE IF NOT EXISTS monthly_plan_item (
+                item_id TEXT NOT NULL PRIMARY KEY CHECK(length(trim(item_id)) BETWEEN 1 AND 128),
+                title TEXT NOT NULL CHECK(length(trim(title)) BETWEEN 1 AND 160),
+                period TEXT NOT NULL,
+                due_local_date TEXT NOT NULL,
+                status TEXT NOT NULL CHECK(status IN ('PLANNED','PAID_CONFIRMED','CANCELLED')),
+                expected_amount_minor INTEGER CHECK(expected_amount_minor IS NULL OR expected_amount_minor>=0),
+                currency_code TEXT CHECK(currency_code IS NULL OR currency_code GLOB '[A-Z][A-Z][A-Z]'),
+                payment_confirmed_at_epoch_millis INTEGER CHECK(payment_confirmed_at_epoch_millis IS NULL OR payment_confirmed_at_epoch_millis>=0),
+                updated_at_epoch_millis INTEGER NOT NULL CHECK(updated_at_epoch_millis>=0),
+                CHECK((expected_amount_minor IS NULL)=(currency_code IS NULL)),
+                CHECK((status='PAID_CONFIRMED')=(payment_confirmed_at_epoch_millis IS NOT NULL))
+            )
+        """.trimIndent())
+    }
+
+    private fun validatePlanningStage8Tables() {
+        check(readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "isolated Reality Planning schema must be exactly 8"
+        }
+        check(receiptTimeColumnExists()) { "historical commit-time column missing" }
+        listOf("profile_state", "apply_attempt", "execution_receipt", "reality_outbox",
+            "finance_state", "finance_account", "finance_account_opening", "finance_entry",
+            "objective_state", "objective_record", "matter_state", "matter_record",
+            "reminder_state", "reminder_rule", "reminder_occurrence",
+            "monthly_plan_state", "monthly_plan_item"
+        ).forEach { table ->
+            check(tableExists(table)) { "Reality8 staged table missing: $table" }
+        }
+        check(readIntegrityCheck() == "ok" && readForeignKeysHealthy()) {
+            "isolated Reality8 stage integrity or FK invalid"
+        }
+        readPlanningSnapshot().requireRestorable()
     }
 
     private fun createProfileSchema() {
@@ -1614,6 +1731,164 @@ class RealityStore(
         domainBackup.snapshot()
     } }
 
+    /** Direct SQL snapshot under the SAME Reality mutex as legacy and G4. */
+    private fun readPlanningSnapshot(): RealityPlanningBackupSnapshot = synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Planning snapshot only available in isolated Reality8 stage"
+        }
+        fun revision(table: String): Long =
+            connection.prepare("SELECT revision FROM $table WHERE singleton_id=1").use { st ->
+                check(st.step()) { "planning owner revision row missing" }
+                st.getLong(0)
+            }
+        val rules = buildList {
+            connection.prepare("""
+                SELECT rule_id,title,zone_id,anchor_local_date,anchor_local_time,
+                    recurrence,enabled,linked_matter_id,updated_at_epoch_millis
+                FROM reminder_rule ORDER BY rule_id COLLATE BINARY
+            """.trimIndent()).use { st ->
+                while (st.step()) {
+                    val enabled = st.getLong(6)
+                    check(enabled in 0L..1L)
+                    add(ReminderRule(
+                        ReminderRuleId.of(st.getText(0)), st.getText(1), st.getText(2),
+                        LocalDate.parse(st.getText(3)), LocalTime.parse(st.getText(4)),
+                        ReminderRecurrence.valueOf(st.getText(5)), enabled == 1L,
+                        if (st.isNull(7)) null else st.getText(7), st.getLong(8),
+                    ))
+                }
+            }
+        }
+        val occurrences = buildList {
+            connection.prepare("""
+                SELECT occurrence_id,rule_id,due_at_epoch_millis,status,
+                    acknowledged_at_epoch_millis,updated_at_epoch_millis
+                FROM reminder_occurrence ORDER BY occurrence_id COLLATE BINARY
+            """.trimIndent()).use { st ->
+                while (st.step()) {
+                    add(ReminderOccurrence(
+                        ReminderOccurrenceId.of(st.getText(0)), ReminderRuleId.of(st.getText(1)),
+                        st.getLong(2), ReminderOccurrenceStatus.valueOf(st.getText(3)),
+                        if (st.isNull(4)) null else st.getLong(4), st.getLong(5),
+                    ))
+                }
+            }
+        }
+        val items = buildList {
+            connection.prepare("""
+                SELECT item_id,title,period,due_local_date,status,expected_amount_minor,
+                    currency_code,payment_confirmed_at_epoch_millis,updated_at_epoch_millis
+                FROM monthly_plan_item ORDER BY item_id COLLATE BINARY
+            """.trimIndent()).use { st ->
+                while (st.step()) {
+                    add(MonthlyPlanItem(
+                        MonthlyPlanItemId.of(st.getText(0)), st.getText(1),
+                        YearMonth.parse(st.getText(2)), LocalDate.parse(st.getText(3)),
+                        MonthlyPlanItemStatus.valueOf(st.getText(4)),
+                        if (st.isNull(5)) null else st.getLong(5),
+                        if (st.isNull(6)) null else st.getText(6),
+                        if (st.isNull(7)) null else st.getLong(7), st.getLong(8),
+                    ))
+                }
+            }
+        }
+        RealityPlanningBackupSnapshot(
+            PLANNING_SCHEMA_VERSION,
+            ReminderSnapshot(revision("reminder_state"), rules, occurrences),
+            MonthlyPlanSnapshot(revision("monthly_plan_state"), items),
+        )
+    }
+
+    /** Private stage-only port, always invoked AFTER an authenticated archive pin. */
+    private fun restoreOrVerifyPlanningStage8(
+        backup: RealityPlanningBackupSnapshot,
+    ): RealityPlanningBackupSnapshot = withMaterialAdmission { synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Planning restore requires isolated Reality8 stage"
+        }
+        check(activeTransactionId == null) { "Planning stage restore inside active Apply" }
+        backup.requireRestorable() // wire size, row limits, revisions, FK intent, order
+        val existing = readPlanningSnapshot()
+        if (existing == backup) return@synchronized existing
+        check(existing.isFresh) { "foreign or nonfresh Planning owner cannot be overwritten" }
+        val before = inspectForMaintenance()
+        check(before.integrityHealthy && before.foreignKeysHealthy) {
+            "unhealthy Reality staged target"
+        }
+        connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+        try {
+            for (rule in backup.reminders.rules) {
+                connection.prepare("""
+                    INSERT INTO reminder_rule(rule_id,title,zone_id,anchor_local_date,
+                        anchor_local_time,recurrence,enabled,linked_matter_id,updated_at_epoch_millis)
+                    VALUES(?,?,?,?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1,rule.id.value)
+                    st.bindText(2,rule.title)
+                    st.bindText(3,rule.zoneId)
+                    st.bindText(4,rule.anchorLocalDate.toString())
+                    st.bindText(5,rule.anchorLocalTime.toString())
+                    st.bindText(6,rule.recurrence.name)
+                    st.bindLong(7,if(rule.enabled) 1L else 0L)
+                    rule.linkedMatterId?.let { st.bindText(8,it) } ?: st.bindNull(8)
+                    st.bindLong(9,rule.updatedAtEpochMillis)
+                    st.step()
+                }
+            }
+            for (occ in backup.reminders.occurrences) {
+                connection.prepare("""
+                    INSERT INTO reminder_occurrence(occurrence_id,rule_id,due_at_epoch_millis,
+                        status,acknowledged_at_epoch_millis,updated_at_epoch_millis)
+                    VALUES(?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1,occ.id.value)
+                    st.bindText(2,occ.ruleId.value)
+                    st.bindLong(3,occ.dueAtEpochMillis)
+                    st.bindText(4,occ.status.name)
+                    occ.acknowledgedAtEpochMillis?.let { st.bindLong(5,it) } ?: st.bindNull(5)
+                    st.bindLong(6,occ.updatedAtEpochMillis)
+                    st.step()
+                }
+            }
+            for (item in backup.monthlyPlan.items) {
+                connection.prepare("""
+                    INSERT INTO monthly_plan_item(item_id,title,period,due_local_date,status,
+                        expected_amount_minor,currency_code,payment_confirmed_at_epoch_millis,
+                        updated_at_epoch_millis)
+                    VALUES(?,?,?,?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1,item.id.value)
+                    st.bindText(2,item.title)
+                    st.bindText(3,item.period.toString())
+                    st.bindText(4,item.dueDate.toString())
+                    st.bindText(5,item.status.name)
+                    item.expectedAmountMinor?.let { st.bindLong(6,it) } ?: st.bindNull(6)
+                    item.currencyCode?.let { st.bindText(7,it) } ?: st.bindNull(7)
+                    item.paymentConfirmedAtEpochMillis?.let { st.bindLong(8,it) } ?: st.bindNull(8)
+                    st.bindLong(9,item.updatedAtEpochMillis)
+                    st.step()
+                }
+            }
+            connection.prepare("UPDATE reminder_state SET revision=? WHERE singleton_id=1").use {
+                it.bindLong(1,backup.reminders.revision)
+                it.step()
+            }
+            connection.prepare("UPDATE monthly_plan_state SET revision=? WHERE singleton_id=1").use {
+                it.bindLong(1,backup.monthlyPlan.revision)
+                it.step()
+            }
+            connection.execSQL("COMMIT TRANSACTION")
+        } catch (failure: Throwable) {
+            runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+            throw failure
+        }
+        check(readIntegrityCheck()=="ok" && readForeignKeysHealthy() &&
+            readPlanningSnapshot()==backup) { "Planning stage restore failed exact verification" }
+        readPlanningSnapshot()
+    } }
+
     /** SQLite BINARY comparison is unsigned UTF-8, not UTF-16 String ordering. */
     private fun isCanonicalG4Order(ids: List<String>): Boolean =
         ids.zipWithNext().all { (left, right) ->
@@ -1628,6 +1903,11 @@ class RealityStore(
 
     /** The unchanged FBS1 format CANNOT carry Objective/Matter data. */
     private fun requireLegacyDomainEmpty() {
+        if (planningStage8) {
+            check(readPlanningSnapshot().isFresh) {
+                "FBS1/legacy Reality backup cannot represent Planning rows"
+            }
+        }
         val inspection = inspectForMaintenance()
         check(inspection.objectiveCount == 0L && inspection.matterCount == 0L &&
             inspection.objectiveRevision == 0L && inspection.matterRevision == 0L) {
@@ -2037,6 +2317,7 @@ class RealityStore(
 
     companion object {
         const val SCHEMA_VERSION: Int = 7
+        const val PLANNING_SCHEMA_VERSION: Int = 8
         const val LEGACY_BACKUP_SCHEMA_VERSION: Int = 5
     }
 }

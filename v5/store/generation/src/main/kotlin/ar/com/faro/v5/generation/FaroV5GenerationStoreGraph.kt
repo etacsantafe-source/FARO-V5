@@ -6,6 +6,8 @@ import ar.com.faro.v5.maintenance.ExistingGenerationFormatReader
 import ar.com.faro.v5.maintenance.GenerationStoreFiles
 import ar.com.faro.v5.maintenance.GenerationStoreFormat
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
+import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.kernel.contracts.PreparedPlanEnvelopeVerificationPort
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
@@ -113,12 +115,43 @@ class FaroV5GenerationStoreGraph private constructor(
                 staged, planVerifier, materialWriteGate, activeGeneration = true,
             )
 
+        /**
+         * ISOLATED, INTERNAL staged Planning8 upgrade. No Android host, no active
+         * generation, no public export/restore. Validates the durable descriptor
+         * and non-active pointer BEFORE any SQLite schema migration is possible.
+         */
+        internal fun openValidatedV2PlanningStage8(
+            staged: StagedStorageGeneration,
+        ): FaroV5GenerationStoreGraph {
+            val generationsDir = staged.directory.toAbsolutePath().normalize().parent
+            check(generationsDir.fileName.toString() == "generations") {
+                "Planning8 requires an isolated canonical staged generation path"
+            }
+            val root = generationsDir.parent
+            val canonical = FileStorageGenerationLayout(root)
+                .requireStaged(staged.descriptor.generationId)
+            check(canonical.descriptor == staged.descriptor &&
+                canonical.directory.toAbsolutePath().normalize() ==
+                    staged.directory.toAbsolutePath().normalize()
+            ) { "Planning8 stage descriptor identity mismatch" }
+            check(FileActiveGenerationPointer(root).read()?.generationId !=
+                staged.descriptor.generationId
+            ) { "Planning8 cannot migrate an active generation" }
+            return openValidatedV2Internal(
+                staged, planVerifier = null, planningStage8 = true,
+            )
+        }
+
         private fun openValidatedV2Internal(
             staged: StagedStorageGeneration,
             planVerifier: PreparedPlanEnvelopeVerificationPort?,
             materialWriteGate: MaterialWriteGate? = null,
             activeGeneration: Boolean = false,
+            planningStage8: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!planningStage8 || !activeGeneration) {
+                "Planning8 may only open a quarantined staged generation"
+            }
             check(
                 ExistingGenerationFormatReader.requireAndRead(staged) ==
                     GenerationStoreFormat.WORKSPACE_V2
@@ -144,7 +177,7 @@ class FaroV5GenerationStoreGraph private constructor(
             }
             // A1.3c: fail without writes before ANY existing store's normal
             // initializer can run schema migrations or create WAL sidecars.
-            requireStrictV2StoreSchemas(normalized, activeGeneration)
+            requireStrictV2StoreSchemas(normalized, activeGeneration, planningStage8)
             val workspacePath = normalized.resolve(GenerationStoreFiles.WORKSPACE).toString()
             val workspace = if (planVerifier == null) {
                 // The historic one-argument opener stays deny-all for plans.
@@ -157,7 +190,10 @@ class FaroV5GenerationStoreGraph private constructor(
                 // instead of discovering malformed/unverified plans later in UI.
                 // This semantic validation is bounded by WorkspaceBackupSnapshot.
                 workspace.backup.snapshot().validateForRestore()
-                return openStores(normalized, staged.descriptor.generationId.value, workspace, materialWriteGate)
+                return openStores(
+                    normalized, staged.descriptor.generationId.value, workspace,
+                    materialWriteGate, planningStage8,
+                )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
                 throw failure
@@ -173,7 +209,11 @@ class FaroV5GenerationStoreGraph private constructor(
          * Staged sets must be quiesced/checkpointed; a hot WAL or leftover SHM
          * cannot be inspected as a self-contained sealed generation.
          */
-        private fun requireStrictV2StoreSchemas(directory: Path, activeGeneration: Boolean) {
+        private fun requireStrictV2StoreSchemas(
+            directory: Path,
+            activeGeneration: Boolean,
+            planningStage8: Boolean = false,
+        ) {
             // Reality schema7 adds nullable, durable receipt commit time.
             // The only admitted older layouts are exact schema6 (full domains)
             // and schema5 (historical base); RealityStore owns migration after
@@ -185,18 +225,31 @@ class FaroV5GenerationStoreGraph private constructor(
                 "objective_state", "objective_record",
                 "matter_state", "matter_record",
             )
-            val schemas = listOf(
+            val historicalBase = listOf(
+                "profile_state", "apply_attempt", "execution_receipt",
+                "reality_outbox", "finance_state", "finance_account",
+                "finance_account_opening", "finance_entry",
+            )
+            val realityProfile = if (planningStage8) {
+                StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.REALITY, 8,
+                    realityCurrentTables + listOf(
+                        "reminder_state", "reminder_rule", "reminder_occurrence",
+                        "monthly_plan_state", "monthly_plan_item",
+                    ),
+                    legacyVersion = 7, legacyTables = realityCurrentTables,
+                    olderLegacyVersion = 6, olderLegacyTables = realityCurrentTables,
+                    oldestLegacyVersion = 5, oldestLegacyTables = historicalBase,
+                )
+            } else {
                 StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.REALITY, 7, realityCurrentTables,
-                    legacyVersion = 6,
-                    legacyTables = realityCurrentTables,
-                    olderLegacyVersion = 5,
-                    olderLegacyTables = listOf(
-                        "profile_state", "apply_attempt", "execution_receipt",
-                        "reality_outbox", "finance_state", "finance_account",
-                        "finance_account_opening", "finance_entry",
-                    ),
-                ),
+                    legacyVersion = 6, legacyTables = realityCurrentTables,
+                    olderLegacyVersion = 5, olderLegacyTables = historicalBase,
+                )
+            }
+            val schemas = listOf(
+                realityProfile,
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1, listOf("commercial_evidence")),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WEB_EVIDENCE, 2, listOf(
                     "web_evidence", "web_search_evidence",
@@ -219,6 +272,7 @@ class FaroV5GenerationStoreGraph private constructor(
             generationId: String,
             workspace: ConversationWorkspaceStore?,
             materialWriteGate: MaterialWriteGate? = null,
+            planningStage8: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -227,7 +281,11 @@ class FaroV5GenerationStoreGraph private constructor(
 
             try {
                 val openedReality =
-                    RealityStore(normalized.resolve(GenerationStoreFiles.REALITY).toString(), materialWriteGate = materialWriteGate)
+                    RealityStore(
+                        normalized.resolve(GenerationStoreFiles.REALITY).toString(),
+                        materialWriteGate = materialWriteGate,
+                        planningStage8 = planningStage8,
+                    )
                 reality = openedReality
                 commercial =
                     CommercialEvidenceStore(

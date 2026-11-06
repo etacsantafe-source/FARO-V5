@@ -8,6 +8,7 @@ import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.store.reality.RealityBackupPort
 import ar.com.faro.v5.store.reality.RealityBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityDomainBackupSnapshot
+import ar.com.faro.v5.store.reality.RealityPlanningBackupSnapshot
 
 /**
  * Stage-only semantic capture of all five stores from ONE validated V2 graph.
@@ -32,6 +33,7 @@ class FaroV5FiveStoreBackupCapture(
             "complete five-store capture requires the canonical Workspace owner"
         }
         var observedG4: RealityDomainBackupSnapshot? = null
+        var observedPlanning: RealityPlanningBackupSnapshot? = null
         // The coordinator invokes this adapter only INSIDE one global lease.
         // A single Reality mutex acquisition reads legacy data and G4 owners
         // together; the old FBS1 backup port retains its fail-closed G4 gate.
@@ -40,6 +42,7 @@ class FaroV5FiveStoreBackupCapture(
                 check(observedG4 == null) { "FBS2 Reality owner snapshot read twice" }
                 val paired = graph.reality.fbs2Backup.snapshot()
                 observedG4 = paired.g4Domains
+                observedPlanning = paired.planningDomains
                 return paired.legacy
             }
 
@@ -73,7 +76,13 @@ class FaroV5FiveStoreBackupCapture(
             g4.objectives.revision != 0L || g4.matters.revision != 0L
         return FaroV5FiveStoreSemanticSet(
             four, workspaceSnapshot,
-            g4Domains = if (hasG4Authority) g4 else null,
+            // Schema8 STAGED always needs a complete four-section FBS2v3
+            // even when there are zero Planning rows/revisions. Never
+            // downgrade to v1/v2 based on an empty-looking new owner.
+            g4Domains = if (observedPlanning != null || hasG4Authority) g4 else null,
+            planningDomains = observedPlanning?.let {
+                PlanningDomainSectionSnapshot(it.schemaVersion,it.reminders,it.monthlyPlan)
+            },
         )
     }
 }

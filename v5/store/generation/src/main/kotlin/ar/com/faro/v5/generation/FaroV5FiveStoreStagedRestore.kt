@@ -9,6 +9,7 @@ import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.RestoreArchiveIdentityPort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
 import ar.com.faro.v5.store.reality.RealityFbs2BackupSnapshot
+import ar.com.faro.v5.store.reality.RealityPlanningBackupSnapshot
 import java.nio.file.Path
 
 enum class FiveStoreStagedRestoreBlock {
@@ -79,11 +80,23 @@ class FaroV5FiveStoreStagedRestore(
     ): FiveStoreStagedRestoreResult =
         restoreAuthenticatedImpl(operationId, encryptedArchive, passphrase, allowG4StageOnly = true)
 
+    /** Private, isolated schema8 stage-only replay; NEVER bound to public host. */
+    internal fun restoreAuthenticatedPlanningStageOnly(
+        operationId: MaintenanceOperationId,
+        encryptedArchive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreStagedRestoreResult =
+        restoreAuthenticatedImpl(
+            operationId, encryptedArchive, passphrase,
+            allowG4StageOnly = true, allowPlanningStageOnly = true,
+        )
+
     private fun restoreAuthenticatedImpl(
         operationId: MaintenanceOperationId,
         encryptedArchive: ByteArray,
         passphrase: CharArray,
         allowG4StageOnly: Boolean,
+        allowPlanningStageOnly: Boolean = false,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
@@ -114,7 +127,15 @@ class FaroV5FiveStoreStagedRestore(
                 // Reject BEFORE archive pinning, SQLite writes or any UI state change.
                 // FBS2 v3 Planning MUST NOT reach archive pin, Reality or Workspace.
                 // This also applies to the internal G4-stage-only entrypoint.
-                if (backup.planningDomains != null) {
+                val realityStage8 = graph.reality.maintenance.inspect().schemaVersion == 8
+                // Never silently drop a v3 section, and never interpret v1/v2
+                // as a certified empty Planning owner of a schema8 target.
+                if ((backup.planningDomains != null && !allowPlanningStageOnly) ||
+                    (realityStage8 && !allowPlanningStageOnly) ||
+                    (allowPlanningStageOnly && (
+                        !realityStage8 || backup.planningDomains == null ||
+                            backup.g4Domains == null))
+                ) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.UNSUPPORTED_PLANNING_ARCHIVE,
                     )
@@ -154,20 +175,44 @@ class FaroV5FiveStoreStagedRestore(
                         // Preserve that guard: bypass it ONLY when the complete
                         // paired Reality snapshot already equals this archive.
                         val current = graph.reality.fbs2Backup.snapshot()
+                        val expectedPlanning = backup.planningDomains?.let { planning ->
+                            RealityPlanningBackupSnapshot(
+                                planning.schemaVersion, planning.reminders, planning.monthlyPlan,
+                            )
+                        }
                         val expected = RealityFbs2BackupSnapshot(
                             legacy = backup.fourStore.reality, g4Domains = expectedG4,
+                            planningDomains = expectedPlanning,
                         )
                         if (current != expected) {
                             val currentG4 = current.g4Domains
-                            check(currentG4.objectives.objectives.isEmpty() &&
+                            val g4Fresh = currentG4.objectives.objectives.isEmpty() &&
                                 currentG4.matters.matters.isEmpty() &&
                                 currentG4.objectives.revision == 0L &&
                                 currentG4.matters.revision == 0L
-                            ) { "foreign nonfresh G4 owner cannot be replaced" }
-                            // A crash between these calls leaves legacy exact and
-                            // G4 fresh; retry may safely resume with the same pin.
-                            graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
-                            graph.reality.domainBackupRestore.restoreOrVerify(expectedG4)
+                            check(g4Fresh || currentG4 == expectedG4) {
+                                "foreign nonfresh G4 owner cannot be replaced"
+                            }
+                            check(current.planningDomains == null ||
+                                current.planningDomains.isFresh ||
+                                current.planningDomains == expectedPlanning
+                            ) { "foreign nonfresh Planning owner cannot be replaced" }
+                            // Crash replay: legacy->G4->Planning; skip any already
+                            // restored section and retain the old FBS1 no-G4 gate.
+                            if (current.legacy != expected.legacy) {
+                                check(g4Fresh &&
+                                    (current.planningDomains?.isFresh != false)
+                                ) { "legacy Reality cannot overwrite restored owners" }
+                                graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
+                            }
+                            if (currentG4 != expectedG4) {
+                                graph.reality.domainBackupRestore.restoreOrVerify(expectedG4)
+                            }
+                            if (expectedPlanning != null &&
+                                current.planningDomains != expectedPlanning
+                            ) {
+                                graph.reality.planningBackupRestore.restoreOrVerify(expectedPlanning)
+                            }
                         }
                         check(graph.reality.fbs2Backup.snapshot() == expected) {
                             "paired G4 Reality restore differs from authenticated archive"
@@ -188,7 +233,14 @@ class FaroV5FiveStoreStagedRestore(
                         graph.reality.backup.snapshot() == backup.fourStore.reality
                     } else {
                         graph.reality.fbs2Backup.snapshot() ==
-                            RealityFbs2BackupSnapshot(backup.fourStore.reality, expectedG4)
+                            RealityFbs2BackupSnapshot(
+                                backup.fourStore.reality, expectedG4,
+                                backup.planningDomains?.let {
+                                    RealityPlanningBackupSnapshot(
+                                        it.schemaVersion, it.reminders, it.monthlyPlan,
+                                    )
+                                },
+                            )
                     }
                     check(realityMatches &&
                         graph.commercialEvidence.backup.snapshot() == backup.fourStore.commercialEvidence &&
