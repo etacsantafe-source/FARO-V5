@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.REALITY8_PREFLIGHT.B7.20261106",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.REALITY8_PREFLIGHT.B7.RELEASED",
   "token_hash": "b35a70875e28c70a3f542c0d6e457a18b0d26703e341906a8f5127d4f8650c29",
-  "target_head": "c6ec477a57515c3bc01ed15b17fce8396addc34b",
+  "target_head": "ed4889c96831bb47333bd2a88a1b3dbd38835a4f",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 379,
-  "timestamp": 1793987081,
-  "purpose": "REALITY8_FOUR_VERSION_PREFLIGHT_B7_5_GREEN_CI",
-  "last_checkpoint": "REALITY8_PRELIM_B6_ALL_CI_GREEN@c6ec477a57515c3bc01ed15b17fce8396addc34b"
+  "epoch": 380,
+  "timestamp": 1793987201,
+  "purpose": "REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_SCOPED",
+  "last_checkpoint": "REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_SCOPED@ed4889c96831bb47333bd2a88a1b3dbd38835a4f"
 }
