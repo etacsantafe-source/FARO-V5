@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033A.PERMIT.RETRY.20261106",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033A.PERMIT.RETRY.20261106.RELEASED",
   "token_hash": "b89f373f9d53d0e5718a222bc0b08a3462e3d56eead2e2d33a9e51c78d475148",
-  "target_head": "22f513b6d5c51119b0b80ab0d9abd17759523865",
+  "target_head": "c29f9796e8092bead4275d24ff72546039becee0",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 399,
-  "timestamp": 1794008794,
-  "purpose": "N033A_DOCS_PERMIT_RETRY",
-  "last_checkpoint": "N033A_B1_B5@22f513b6"
+  "epoch": 400,
+  "timestamp": 1794008821,
+  "purpose": "N033A_EXACT_PATH_PERMIT_READY",
+  "last_checkpoint": "N033A_PERMIT_READY@c29f9796"
 }
