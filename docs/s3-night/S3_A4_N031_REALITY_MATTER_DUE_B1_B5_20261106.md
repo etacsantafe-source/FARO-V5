@@ -1,0 +1,34 @@
+# FARO V5 S3.A4 N031 · Reality Matter due source · B1–B5 (2026-11-06)
+
+**Unit:** `S3_A4_N031_REALITY_MATTER_DUE_SOURCE`. Baseline `ded3a32c37a3038b185ea32ea38d57031f82e5be`. **Strict scope:** read-only, genuine persistent Matter source of pending-due items; NOT combined pending owner, NOT Home Pendientes, NOT A4 closure, V2 prod OFF. Prohibited: any catalog/OperationId change, new table, new persistence, V4/main, Night/Auto/S4 and physical tests outside A5.
+
+## B1 — Concrete source evidence and acceptance
+- `v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterModel.kt`: `MatterRecord(id,title,detail,status,dueAtEpochMillis,updatedAtEpochMillis)`, statuses OPEN, IN_PROGRESS, WAITING, RESOLVED, ARCHIVED; **no priority/snooze/createdOn**. `MatterSnapshot(revision, matters)` is owner data, with unique IDs.
+- `v5/owner/matters/.../spi/MatterPersistencePort.kt` and `v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt`: Reality schema7 has actual persistent `matter_record`, `matter_state`; `matterPersistence.read()` returns snapshot with revision and typed records. Cross-gen pending read must be host admitted. No other owner stores reminders or monthly plans: full N031 is structurally **BLOCKED**.
+- `v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/MatterAttentionReadProjection.kt` has an unbound **future planning-owner** contract with `HIGH` and `reviewOn`. It is NOT a mapper from MatterRecord; using `NORMAL`/invented `createdAt` for missing fields would fabricate attention. DO NOT bind to Home.
+- **Acceptance:** read genuine `MatterSnapshot` under host-supplied pointer ABA epoch, current generation + read grant, ACL epoch; reject before/after if revoked, return null (not zero). Project only due and unfinished records (OPEN/IN_PROGRESS/WAITING), deadline no later than 7 local days from provided host `Instant`/`ZoneId`. No synthetic priority/snooze. Bounded 1–100, explicit partial if truncated, revision unchanged, no titles/detail, late/zone-boundary tested. **Coverage: MATTERS_DUE_ONLY** even when empty.
+
+## B2 — V4.4 + V5 comparison
+- V4.4 Pending quick view was described in `docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md` and `MatterAttentionReadProjection.kt` based on priority, urgency, reminders and monthly planning. Only Matter due date is now durable in V5; **cannot** invent a HIGH flag, snooze or reminder trigger from the UI.
+- Reuse existing persistent Reality owner `MatterPersistencePort`, not Auxiliary Delivery notices or Search index. No new DB/files, no mutation while reading. Real owner ACL must be host callback and pointer identity; cannot use Compose state or view selection.
+
+## B3 — Comparative research / avoid wheel re-invention
+- Tasks.org official [documentation](https://tasks.org/docs/) separates local tasks and notifications; [recurrence](https://tasks.org/docs/recurrence/) explains recurring tasks vs repeated reminders and differing monthly recurrence semantics. **ADAPT** distinct canonical Reminder vs MonthlyPlan designs in subsequent units, **REJECT** implicit conversion of MatterRecord into those types.
+- Tasks.org [notifications](https://tasks.org/docs/notifications/) makes reminder repetitions separate from task deadlines, so **DO NOT** treat Auxiliary Delivery notice as the reminder owner.
+- Android official [WorkManager guidance](https://developer.android.com/develop/background-work/background-tasks/persistent) distinguishes persistent scheduling from source-of-truth content; and [AlarmManager guide](https://developer.android.com/develop/background-work/services/alarms) has exact alarm permission rules. **REJECT** scheduled jobs as a replacement for a durable domain owner; **NO** background scheduler work is in N031 Matter read.
+- OWASP [MASVS Privacy-1](https://mas.owasp.org/MASVS/controls/MASVS-PRIVACY-1/) minimum data collection: project opaque ID/status/date only; keep title/detail in Matter owner and don't egress to models. **USE** in this unit.
+
+## B4 — Bounded implementation plan and routes
+1. `v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealityMatterDueReadSource.kt`: generation- and pointer-fenced Matter owner read. Dependencies only `MatterPersistencePort`, host-injected grant/ACL/pointer epoch, clock+zone provided per call. `Page(canonicalSource="reality.matter_record", coverage="MATTERS_DUE_ONLY", globalAttentionComplete=false)`, no Home binding. Missing admission -> null. Sorted due date then opaque ID, capped and partial coverage.
+2. `v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealityMatterDueReadSourceTest.kt`: 6 genuine typed MatterSnapshot fixture tests (denied reader; due local week+resolved statuses; overflow/partial; revoked during read & ABA; invalid bounds/closed owner exceptions/cancellation; zero vs missing, owner revision).
+3. `.github/workflows/faro-v5-s3-matter-due-directed.yml`: `:app:compileDebugKotlin :app:testDebugUnitTest --tests ...`, exact JUnit 6/6 0 failed/error/skipped. No secrets and only branch work/s3-night-20261102. No new schema or FBS migration.
+- **Do not edit** `MatterModel`, `MatterAttentionProjection`, `RealityStore`, V4.4, active root, Home counts, or notices. Out-of-scope persistence/Reminder/MonthlyPlan work requires new B1-B5+READY.
+
+## B5 — Independent adversarial preaudit / conditions for code
+- **Null vs true zero:** ACL denied, no port, owner failure or generation mismatch produce null. A real owner with 0 eligible due records returns explicit empty page with `globalAttentionComplete=false`, not aggregated Pendientes=0.
+- **No forged fields:** MatterRecord has no priority/snooze/created. Due projection cannot assign them. `updatedAt` not `dueAt`; no fake overdue, no monthly recurrence, no reminder fired flag.
+- **Date/week precision:** local civil day of host-provided `Instant` in supplied `ZoneId`, +7 days inclusive; skip invalid/absent due, terminal states. Changes in clock/zone are host-observed and must trigger fresh read (no cache).
+- **Revocation:** pre/post true generation, durable pointer ABA epoch, nonblank ACL + admitted bool; missing proof refuses to touch owner; owner revision returned for host revalidation; read does not mutate/trigger notice/WorkManager.
+- **Availability:** 1–100 page size, fixed deterministic order, truncated coverage marker. No sensitive title/detail fields; no cloud/AI.
+- **Negative coverage:** six JUnit tests mandatory, exact SHA app compilation + guard. Without other two real domain owners, **B7 may only certify Matter due subset** and S3.A4 remains OPEN, no fake Home Pendientes.
+- **B5 VERDICT:** `READY_FOR_MATTERS_DUE_SOURCE_ONLY`. Publish separate doc-only READY with **exact three paths**; B6 code+test+CI; B7 doc/blocked+checkpoint+writer RELEASED. No generic "A4 finished" by inference.
