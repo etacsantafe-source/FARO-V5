@@ -20,6 +20,8 @@ enum class FiveStoreStagedRestoreBlock {
     ARCHIVE_IDENTITY_CONFLICT,
     /** A valid FBS2 v2 G4 section cannot be dropped by this legacy restore. */
     UNSUPPORTED_G4_ARCHIVE,
+    /** v3 Planning has no schema8 durable restore port: never drop its section. */
+    UNSUPPORTED_PLANNING_ARCHIVE,
 }
 
 sealed interface FiveStoreStagedRestoreResult {
@@ -110,6 +112,13 @@ class FaroV5FiveStoreStagedRestore(
                 // restore only knows the old Reality four-store segment, so accepting
                 // the new section would silently lose canonical owner data.
                 // Reject BEFORE archive pinning, SQLite writes or any UI state change.
+                // FBS2 v3 Planning MUST NOT reach archive pin, Reality or Workspace.
+                // This also applies to the internal G4-stage-only entrypoint.
+                if (backup.planningDomains != null) {
+                    return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
+                        FiveStoreStagedRestoreBlock.UNSUPPORTED_PLANNING_ARCHIVE,
+                    )
+                }
                 if (backup.g4Domains != null && !allowG4StageOnly) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.UNSUPPORTED_G4_ARCHIVE,

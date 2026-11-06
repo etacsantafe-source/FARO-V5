@@ -18,6 +18,8 @@ data class FaroV5FiveStoreSemanticSet(
     val workspace: WorkspaceBackupSnapshot,
     /** Null means legacy FBS2 v1 did not carry G4. Null is NOT a verified empty owner. */
     val g4Domains: RealityDomainBackupSnapshot? = null,
+    /** Non-null only in FBS2 v3; absent is NOT a certified empty Planning owner. */
+    val planningDomains: PlanningDomainSectionSnapshot? = null,
 )
 
 /**
@@ -36,9 +38,11 @@ object FaroV5FiveStoreSemanticCodec {
     private const val MAGIC = 0x46425332 // FBS2, deliberately distinct from FBS1
     private const val VERSION = 1
     private const val G4_VERSION = 2
+    private const val PLANNING_VERSION = 3
     private const val DIGEST_BYTES = 32
     private const val HEADER_BYTES = (4 * 4) + (DIGEST_BYTES * 2)
     private const val G4_HEADER_BYTES = (5 * 4) + (DIGEST_BYTES * 3)
+    private const val PLANNING_HEADER_BYTES = (6 * 4) + (DIGEST_BYTES * 4)
     const val MAX_PLAINTEXT_BYTES = 16 * 1024 * 1024
 
     fun encode(set: FaroV5FiveStoreSemanticSet): ByteArray {
@@ -46,6 +50,7 @@ object FaroV5FiveStoreSemanticCodec {
             "FBS2 requires a valid FBS1 manifest/authority"
         }
         set.workspace.validateForRestore()
+        if (set.planningDomains != null) return encodePlanningV3(set)
         if (set.g4Domains != null) return encodeG4(set)
 
         val fourBytes = SemanticBackupSetCodec.encodeWithin(
@@ -86,8 +91,11 @@ object FaroV5FiveStoreSemanticCodec {
         check(bytes.size in (HEADER_BYTES + 2)..MAX_PLAINTEXT_BYTES) {
             "FBS2 outside bounded five-store plaintext"
         }
-        if (bytes.size >= 8 && java.nio.ByteBuffer.wrap(bytes).getInt(4) == G4_VERSION) {
-            return decodeG4(bytes)
+        if (bytes.size >= 8) {
+            when (java.nio.ByteBuffer.wrap(bytes).getInt(4)) {
+                G4_VERSION -> return decodeG4(bytes)
+                PLANNING_VERSION -> return decodePlanningV3(bytes)
+            }
         }
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "FBS2 magic mismatch" }
@@ -222,6 +230,110 @@ object FaroV5FiveStoreSemanticCodec {
                 expectedFour.fill(0)
                 expectedWorkspace.fill(0)
                 expectedG4.fill(0)
+            }
+        }
+    }
+
+
+    /**
+     * FBS2 version 3 SEMANTIC ONLY. Four named sections, all mandatory.
+     * This method cannot capture Reality, grant host authority or enable export.
+     * The authenticated/identity-fenced restore MUST reject this until the
+     * schema8 owner and complete Replay/ACL are implemented and tested.
+     */
+    private fun encodePlanningV3(set: FaroV5FiveStoreSemanticSet): ByteArray {
+        val g4Snapshot = checkNotNull(set.g4Domains) {
+            "FBS2 v3 cannot omit G4 owner; null is not a verified empty G4"
+        }
+        val planSnapshot = checkNotNull(set.planningDomains)
+        val g4Bytes = FaroV5G4DomainSemanticCodec.encode(g4Snapshot)
+        try {
+            val planBytes = FaroV5PlanningDomainSemanticCodec.encode(planSnapshot)
+            try {
+                val remaining = MAX_PLAINTEXT_BYTES.toLong() - PLANNING_HEADER_BYTES -
+                    g4Bytes.size - planBytes.size
+                check(remaining > 2L) { "FBS2 v3 section budget exhausted" }
+                val fourBytes = SemanticBackupSetCodec.encodeWithin(
+                    set.fourStore, (remaining - 1L).toInt(),
+                )
+                try {
+                    val workspaceBytes = WorkspaceSemanticBackupCodec.encodeWithin(
+                        set.workspace, (remaining - fourBytes.size).toInt(),
+                    )
+                    try {
+                        val total = PLANNING_HEADER_BYTES.toLong() + fourBytes.size +
+                            workspaceBytes.size + g4Bytes.size + planBytes.size
+                        check(total <= MAX_PLAINTEXT_BYTES) {
+                            "FBS2 v3 exceeds global plaintext budget"
+                        }
+                        return ByteArrayOutputStream(total.toInt()).use { buffer ->
+                            DataOutputStream(buffer).use { output ->
+                                output.writeInt(MAGIC)
+                                output.writeInt(PLANNING_VERSION)
+                                output.writeInt(fourBytes.size)
+                                output.writeInt(workspaceBytes.size)
+                                output.writeInt(g4Bytes.size)
+                                output.writeInt(planBytes.size)
+                                for (section in arrayOf(fourBytes, workspaceBytes, g4Bytes, planBytes)) {
+                                    output.write(sha256(section))
+                                }
+                                output.write(fourBytes)
+                                output.write(workspaceBytes)
+                                output.write(g4Bytes)
+                                output.write(planBytes)
+                                output.flush()
+                            }
+                            buffer.toByteArray()
+                        }
+                    } finally {
+                        workspaceBytes.fill(0)
+                    }
+                } finally {
+                    fourBytes.fill(0)
+                }
+            } finally {
+                planBytes.fill(0)
+            }
+        } finally {
+            g4Bytes.fill(0)
+        }
+    }
+
+    /** Four sections are mandatory; NEVER silently downgrade Planning to FBS2 v1/v2. */
+    private fun decodePlanningV3(bytes: ByteArray): FaroV5FiveStoreSemanticSet {
+        check(bytes.size in (PLANNING_HEADER_BYTES + 4)..MAX_PLAINTEXT_BYTES) {
+            "FBS2 v3 section header or payload truncated"
+        }
+        return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
+            check(input.readInt() == MAGIC && input.readInt() == PLANNING_VERSION) {
+                "invalid FBS2 v3 magic/version"
+            }
+            val lengths = IntArray(4) { input.readInt() }
+            check(lengths.all { it > 0 } &&
+                lengths[2] <= FaroV5G4DomainSemanticCodec.MAX_BYTES &&
+                lengths[3] <= FaroV5PlanningDomainSemanticCodec.MAX_BYTES &&
+                PLANNING_HEADER_BYTES.toLong() + lengths.sumOf { it.toLong() } ==
+                    bytes.size.toLong()
+            ) { "FBS2 v3 invalid section lengths" }
+            val expected = Array(4) { ByteArray(DIGEST_BYTES).also { input.readFully(it) } }
+            val actual = Array(4) { index -> ByteArray(lengths[index]).also { input.readFully(it) } }
+            try {
+                check(input.available() == 0) { "FBS2 v3 trailing bytes" }
+                check((0 until 4).all { i ->
+                    MessageDigest.isEqual(expected[i], sha256(actual[i]))
+                }) { "FBS2 v3 digest mismatch (not an authentication proof)" }
+                val four = SemanticBackupSetCodec.decode(actual[0])
+                val workspace = WorkspaceSemanticBackupCodec.decode(actual[1])
+                val g4 = FaroV5G4DomainSemanticCodec.decode(actual[2])
+                val planning = FaroV5PlanningDomainSemanticCodec.decode(actual[3])
+                check(SemanticBackupSetIntegrity.matches(four)) {
+                    "FBS2 v3 four-store integrity invalid"
+                }
+                workspace.validateForRestore()
+                FaroV5FiveStoreSemanticSet(four, workspace, g4, planning)
+            } finally {
+                actual.forEach { it.fill(0) }
+                expected.forEach { it.fill(0) }
             }
         }
     }

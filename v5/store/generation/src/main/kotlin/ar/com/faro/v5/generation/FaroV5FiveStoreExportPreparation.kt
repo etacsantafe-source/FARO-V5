@@ -58,6 +58,11 @@ class FaroV5FiveStoreExportPreparation(
         // G4 FBS2 v2 can be captured and authenticated internally, but the
         // existing staged restore rejects it until full G4 restore is certified.
         // Never offer an exportable archive that cannot be restored.
+        // FUTURE-PROOF: a v3 Planning section is not exportable until all new
+        // Reality owners have complete authenticated capture and staged recovery.
+        check(snapshot.planningDomains == null) {
+            "FBS2 v3 Planning external export blocked until durable owner restore"
+        }
         check(snapshot.g4Domains == null) {
             "G4 FBS2 external export blocked until matching restore is certified"
         }

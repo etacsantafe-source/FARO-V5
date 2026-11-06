@@ -1,0 +1,74 @@
+name: FARO V5 S3 N031 FBS2 v3 semantic envelope and restore fences
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodec.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreExportPreparation.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2V3PlanningEnvelopeTest.kt"
+      - ".github/workflows/faro-v5-s3-n031-fbs2-v3-envelope-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-n031-fbs2v3-semantic
+  cancel-in-progress: false
+
+jobs:
+  semantic-envelope-stage-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare native Android SDK only for Gradle graph
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Exact new FBS2v3 plus legacy codecs and both restore fences
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5Fbs2V3PlanningEnvelopeTest" --tests "ar.com.faro.v5.generation.FaroV5Fbs2G4CodecTest" --tests "ar.com.faro.v5.generation.FaroV5FiveStoreSemanticCodecT2Test" --tests "ar.com.faro.v5.generation.FaroV5Fbs2G4StagedRestoreT2Test" --tests "ar.com.faro.v5.generation.FaroV5FiveStoreExportPreparationT2Test"
+      - name: Exact JUnit XML mandatory
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path('v5/store/generation/build/test-results/test')
+          required=[
+              ('FaroV5Fbs2V3PlanningEnvelopeTest',6),
+              ('FaroV5Fbs2G4CodecTest',5),
+              ('FaroV5FiveStoreSemanticCodecT2Test',7),
+              ('FaroV5Fbs2G4StagedRestoreT2Test',7),
+              ('FaroV5FiveStoreExportPreparationT2Test',4),
+          ]
+          total=0
+          for name,num in required:
+              files=list(base.glob('TEST-*'+name+'.xml'))
+              if len(files)!=1:
+                  raise SystemExit('FBS2V3_XML_MISSING '+name)
+              root=ET.parse(files[0]).getroot()
+              actual=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if actual!=(num,0,0,0):
+                  raise SystemExit('FBS2V3_XML_FAILED '+name+' '+str(actual))
+              total+=num
+              print('FBS2V3_DIRECTED_XML_PASS '+name+' '+str(num)+'/'+str(num))
+          if total!=29: raise SystemExit('FBS2V3_XML_WRONG_TOTAL '+str(total))
+          print('FBS2V3_SEMANTIC_AND_FENCES_ONLY_PASS 29/29')
+          PY
