@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.MATTERS.PERMIT.20261106",
-  "token_hash": "e06a3eaf57c69f79aa9e32992effff61a0ff0b907feefb00b64838d23e9cb5cc",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.MATTERS.CODE.20261106",
+  "token_hash": "e901527f0d6626344b7b1bac7588bf853ef03aba1f817840270c856a7c06ef59",
   "target_head": "9b1f9ee237561d7368840a0e3191fa63bc6ad5ba",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 338,
-  "timestamp": 1793943000,
-  "purpose": "N031_MATTER_DUE_READY",
-  "last_checkpoint": "N031_MATTERS_READY@9b1f9ee237561d7368840a0e3191fa63bc6ad5ba"
+  "epoch": 339,
+  "timestamp": 1793943500,
+  "purpose": "S3_A4_N031_REALITY_MATTER_DUE_B6"
 }
