@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_REALITY_MATTER_DUE_SOURCE",
-  "reviewed_head": "87b233a6655fffdf2acb159429c681f154e9d53e",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_G4_DOMAIN_RESTORE",
+  "reviewed_head": "30baba298215c5caf50cd820a827294f6388063f",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealityMatterDueReadSource.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealityMatterDueReadSourceTest.kt",
-    ".github/workflows/faro-v5-s3-matter-due-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityG4DomainRestoreT2Test.kt",
+    ".github/workflows/faro-v5-s3-g4-domain-restore-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B1_B5_20261106.md",
-          "blob_sha": "5898de601a5d8f1488f32a00697bf1ef269712d7",
+          "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "244488da43069f9914d479212f49c46bc076843b",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B1_B5_20261106.md",
-          "blob_sha": "5898de601a5d8f1488f32a00697bf1ef269712d7",
+          "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "244488da43069f9914d479212f49c46bc076843b",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B1_B5_20261106.md",
-          "blob_sha": "5898de601a5d8f1488f32a00697bf1ef269712d7",
+          "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "244488da43069f9914d479212f49c46bc076843b",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B1_B5_20261106.md",
-          "blob_sha": "5898de601a5d8f1488f32a00697bf1ef269712d7",
+          "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "244488da43069f9914d479212f49c46bc076843b",
           "marker": "## B4"
         }
       ]
@@ -53,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY_MATTER_DUE_B1_B5_20261106.md",
-          "blob_sha": "5898de601a5d8f1488f32a00697bf1ef269712d7",
+          "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "244488da43069f9914d479212f49c46bc076843b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_6_OF_6",
-    "B7": "PASS_SCOPED_EXACT_SHA"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "eb83a1cd62e58929fb9a80e284b4e9f8c3fa1119",
@@ -74,9 +75,9 @@
       }
     ]
   },
-  "why": "N031 real Matter due contributor B7 PASS only; remaining Reminder and MonthlyPlan sources absent; BLOCK code until fresh scoped review",
-  "how": "Read-only, typed and bounded ACL-protected source",
+  "why": "G4 domain snapshot has no restore primitive; scoped internal transactional restore only (NOT FBS2 export/restore)",
+  "how": "Fresh or exact-idempotent private G4 restore under Reality writer/transaction, 5/5 directed XML, legacy FBS1 unchanged",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N031 real Reminder and MonthlyPlan persistence+backup+ACL, N015 host Activity, A4 integrated tests"
+  "next": "Later independent FBS2 G4 versioned capture/crypto/staged restore, then Reminder/MonthlyPlan owners"
 }
