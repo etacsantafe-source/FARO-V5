@@ -1,0 +1,63 @@
+name: FARO V5 S3 FBS2 G4 optional typed codec directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodec.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2G4CodecTest.kt"
+      - ".github/workflows/faro-v5-s3-fbs2-g4-codec-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-fbs2-g4-codec
+  cancel-in-progress: false
+
+jobs:
+  fbs2-g4-codec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android compile platform for Gradle configuration
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run new G4 typed codec and unchanged FBS2 v1
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5Fbs2G4CodecTest" --tests "ar.com.faro.v5.generation.FaroV5FiveStoreSemanticCodecT2Test"
+      - name: Validate exact JUnit results, not just Gradle exit
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root=Path('v5/store/generation/build/test-results/test')
+          checks=[('FaroV5Fbs2G4CodecTest',5),('FaroV5FiveStoreSemanticCodecT2Test',7)]
+          for klass,num in checks:
+              files=list(root.glob('TEST-*'+klass+'.xml'))
+              if len(files)!=1:
+                  raise SystemExit('FBS2_G4_XML_MISSING '+klass+' '+str(len(files)))
+              node=ET.parse(files[0]).getroot()
+              totals=tuple(int(node.attrib.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if totals!=(num,0,0,0):
+                  raise SystemExit('FBS2_G4_XML_FAIL '+klass+' '+str(totals))
+              print('FBS2_G4_XML_PASS '+klass+' '+str(num)+'/'+str(num))
+          PY
