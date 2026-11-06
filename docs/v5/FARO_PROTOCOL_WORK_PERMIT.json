@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE",
   "reviewed_head": "b86c1fdc564ca4db5ff83add3a4a59efb09c5057",
   "paths": [
@@ -66,24 +66,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_VERIFIED_STAGE8_FBS2V3_48_48_SIX_WORKFLOWS_GREEN",
+    "B7": "PASS_SCOPED_ISOLATED_REALITY8_FULL_FBS2V3_RECOVERY"
   },
   "last_code_review": {
-    "sha": "c28f61501a17f44f086599e8dcc9d9f2cf2fdec9",
-    "result": "RED_FIX",
+    "sha": "0b2cee7cc778e6bdac50aa08790cee54d6041ce9",
+    "result": "PASS",
     "unit_id": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_B7_RED_FIX_20261106.md",
-        "blob_sha": "98d859ddd026c29310493b20445551f10784d4b7",
+        "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B7_PASS_20261106.md",
+        "blob_sha": "bafcd7c18b7105057b24048e2d42085d7106e482",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B7 RED_FIX first Planning8 code compile; same-unit two-path correction after redfix evidence",
-  "how": "Strict 10-path stage-only Reality planning persistence + paired FBS2v3 capture/replay tests, legacy schema7 unchanged",
+  "why": "Reality8 opt-in staged owner backed by complete FBS2v3 paired capture and authenticated stage replay; still no user writes/host permissions",
+  "how": "History repaired via B7 RED_FIX before corrected B6; six exact-SHA workflows success, 48/48 directed and 29/29 codec",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exact 10 paths, directed CI/XML and regressions then B7 independent or RED_FIX"
+  "next": "New B1-B5 bounded Planning operation catalog+WriteCoordinator/ACL end-to-end host. No V2 activation or public FBS2v3 until certified."
 }

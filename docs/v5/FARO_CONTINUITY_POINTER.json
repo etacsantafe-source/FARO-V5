@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 380
+    "expected_release_epoch": 388
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A4 OPEN. Reality8 STRICT FOUR-VERSION READ_ONLY PREFLIGHT B7 PASS_SCOPED 6/6 new +17/17 v7 regression, five workflows CI SUCCESS code c6ec477a; no Reality schema8 migration or persistent Reminder/MonthlyPlan owner yet. NEXT integrated B1-B5: explicit staged/identity-guarded schema8 migration from 5/6/7, real ReminderRule/Occurrence/MonthlyPlan persistence with bound-before-write budget, same-Reality-mutex full FBS2v3 capture and idempotent authenticated staged restore, tests of crash/fail-closed/receipts. V3 public export/restore remain BLOCKED. N031 Home/N015 Activity AFTER real ACL owner; S3.A3 +8 Guardados NOT_APPROVED catalog172; A5 G15 X01-X12 NOT_RUN; V2 prod/Noche/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_SCOPED_23_23_REAL_OWNERS_OPEN",
+  "next": "S3.A4 OPEN. Reality8 STAGED-only Planning real SQLite owner + FBS2v3 complete paired Reality capture / five-store stage restore B7 PASS_SCOPED, 48/48 directed plus FBS2v3 29/29 and six workflows exact-SHA SUCCESS. Normal Reality7 untouched, V2 prod/Noche/Auto/S4 OFF. NEXT B1-B5: bounded real user Planning write operations under shared WriteCoordinator and ACL, host N031/N015, exact precommit wire limits, no public FBS2v3 yet. A3 Guardados +8 NOT_APPROVED catalog172; A5 G15 X01-X12 NOT_RUN.",
+  "checkpoint_status": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B7_PASS_SCOPED_48_48_USER_WRITE_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B7_PASS_20261106.md",
-  "last_code_sha": "c6ec477a57515c3bc01ed15b17fce8396addc34b",
-  "last_ci_run_id": 42263308259,
+  "last_handoff": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B7_PASS_20261106.md",
+  "last_code_sha": "0b2cee7cc778e6bdac50aa08790cee54d6041ce9",
+  "last_ci_run_id": 42268956036,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_REALITY8_PREFLIGHT_6_6_OLD_V7_GRAPH_17_17_5_WORKFLOWS_GREEN",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_PLANNING_STAGE8_48_48_FBS2V3_29_29_SIX_WORKFLOWS_GREEN",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1295,5 +1295,26 @@
     "fbs2v3_durable_recovery": false,
     "physical": "NOT_RUN",
     "next": "EXPLICIT_SCHEMA8_OWNER_BACKUP_RESTORE_WITH_PRECOMMIT_BUDGET"
+  },
+  "planning_stage8_b7_20261106": {
+    "status": "PASS_SCOPED_STAGED_ONLY_NOT_USER_CRUD",
+    "sha": "0b2cee7cc778e6bdac50aa08790cee54d6041ce9",
+    "b7_path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B7_PASS_20261106.md",
+    "red_fix_path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_B7_RED_FIX_20261106.md",
+    "directed_run": 42268956036,
+    "directed_xml": "48/48",
+    "v3_run": 42268956037,
+    "v3_xml": "29/29",
+    "guard_run": 42268956285,
+    "regression_runs": [
+      42268956135,
+      42268956356,
+      42268956270
+    ],
+    "all_ci": "SUCCESS",
+    "real_persistence": "ISOLATED_STAGED_ONLY",
+    "public_export_restore": false,
+    "physical": "NOT_RUN",
+    "next": "PLANNING_BOUNDED_WRITES_ACL_HOST"
   }
 }
