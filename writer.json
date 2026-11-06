@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A4.FBS2.G4.CAPTURE.20261106",
   "token_hash": "c96de3c894c5b4d65fe8e9935e03f109ba817a3c5cdb648941281be6d1130ec7",
-  "target_head": "c09ca2c2dc6211a3e1e4899c953c5cf0ad6c6415",
+  "target_head": "7f9685450b1c4086e89eccda3f41c81a1b6a62cb",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 353,
-  "timestamp": 1793969029,
-  "purpose": "S3_A4_N031_FBS2_G4_CAPTURE_B1_B7",
-  "last_checkpoint": "FBS2_G4_CODEC_B7_PASS_SCOPED@c09ca2c2dc6211a3e1e4899c953c5cf0ad6c6415"
+  "epoch": 354,
+  "timestamp": 1793969419,
+  "purpose": "FBS2_G4_CAPTURE_B6_WAIT_CI",
+  "last_checkpoint": "FBS2_G4_CAPTURE_B6_WAIT_CI@7f9685450b1c4086e89eccda3f41c81a1b6a62cb"
 }
