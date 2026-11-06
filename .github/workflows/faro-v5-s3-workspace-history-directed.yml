@@ -1,0 +1,60 @@
+name: FARO V5 S3 N015 Workspace history owner directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/workspace/**"
+      - ".github/workflows/faro-v5-s3-workspace-history-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-n015-workspace-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  workspace-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Execute owner SQLite history tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :workspace:test --tests "ar.com.faro.v5.workspace.WorkspaceHistoryReadT2Test"
+      - name: Verify exact N015 Workspace history XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base = Path('v5/workspace/build/test-results/test')
+          xmls = list(base.glob('TEST-*WorkspaceHistoryReadT2Test.xml'))
+          if len(xmls) != 1:
+              raise SystemExit(f'S3_N015_WORKSPACE_HISTORY_XML_MISSING {len(xmls)}')
+          root = ET.parse(xmls[0]).getroot()
+          counts = tuple(int(root.attrib.get(k, '-1'))
+                         for k in ('tests', 'failures', 'errors', 'skipped'))
+          if counts != (6, 0, 0, 0):
+              raise SystemExit(f'S3_N015_WORKSPACE_HISTORY_XML_FAIL {counts}')
+          print('S3_N015_WORKSPACE_HISTORY_XML_PASS 6/6')
+          PY

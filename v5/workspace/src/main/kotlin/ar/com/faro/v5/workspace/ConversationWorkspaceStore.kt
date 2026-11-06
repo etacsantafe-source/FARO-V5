@@ -98,6 +98,60 @@ private const val MAX_CANONICAL_SEARCH_MESSAGES_PER_CONVERSATION = 250
 
 data class WorkspaceSearchText(val text: String, val complete: Boolean)
 
+/**
+ * N015 read-only Workspace-origin history. Message creation time is caller-declared,
+ * NOT an Apply or assistant-completion timestamp. This source grants no host ACL.
+ */
+enum class WorkspaceHistoryEventKind { USER_ACCEPTED, FARO_COMPLETED }
+
+data class WorkspaceHistoryCursor(
+    val atEpochMillis: Long,
+    val messageId: ConversationMessageId,
+    val ownerRevision: Long,
+) {
+    init {
+        require(atEpochMillis >= 0L)
+        require(ownerRevision >= 0L)
+    }
+}
+
+data class WorkspaceHistoryQuery(
+    val conversationId: ConversationId? = null,
+    val kind: WorkspaceHistoryEventKind? = null,
+    val fromInclusiveMillis: Long? = null,
+    val toInclusiveMillis: Long? = null,
+    val before: WorkspaceHistoryCursor? = null,
+    val limit: Int = 50,
+) {
+    init {
+        require(limit in 1..100) { "Workspace history limit must be 1..100" }
+        require(fromInclusiveMillis == null || fromInclusiveMillis >= 0L)
+        require(toInclusiveMillis == null || toInclusiveMillis >= 0L)
+        require(fromInclusiveMillis == null || toInclusiveMillis == null ||
+            fromInclusiveMillis <= toInclusiveMillis)
+    }
+}
+
+data class WorkspaceHistoryEvent(
+    val messageId: ConversationMessageId,
+    val conversationId: ConversationId,
+    val kind: WorkspaceHistoryEventKind,
+    val createdAtEpochMillis: Long,
+) {
+    val timeProvenance: String get() = "workspace.message.created_ms"
+}
+
+data class WorkspaceHistoryPage(
+    val events: List<WorkspaceHistoryEvent>,
+    val nextCursor: WorkspaceHistoryCursor?,
+    val ownerRevision: Long,
+    val complete: Boolean,
+) {
+    val canonicalSource: String get() = "workspace.message"
+    val globallyComplete: Boolean get() = false
+    val hostAdmissionRequired: Boolean get() = true
+}
+
 data class WorkspaceCreateRequest(
     val entry: ConversationWorkspaceEntry,
     val expectedRevision: Long,
@@ -197,6 +251,84 @@ class ConversationWorkspaceStore private constructor(
         checkOpen()
         readCurrent()
     }
+
+    /**
+     * Canonical SQL read over committed Workspace messages. A host must still
+     * authorize the generation, pointer sequence and ACL epoch pre/post read.
+     * No text/notes/drafts are selected or copied to this history projection.
+     */
+    fun readHistoryPage(query: WorkspaceHistoryQuery = WorkspaceHistoryQuery()): WorkspaceHistoryPage =
+        synchronized(mutex) {
+            checkOpen()
+            val revision = readCurrent().revision
+            check(query.before == null || query.before.ownerRevision == revision) {
+                "Workspace history cursor is stale"
+            }
+            val bindings = mutableListOf<Any>()
+            val sql = buildString {
+                append("""SELECT id, conversation_id, role, created_ms
+                    FROM workspace_message
+                    WHERE ((role = 'USER' AND state = 'ACCEPTED')
+                        OR (role = 'FARO' AND state = 'COMPLETED'))""")
+                query.conversationId?.let {
+                    append(" AND conversation_id = ?")
+                    bindings.add(it.value)
+                }
+                query.kind?.let {
+                    append(" AND role = ?")
+                    bindings.add(if (it == WorkspaceHistoryEventKind.USER_ACCEPTED) "USER" else "FARO")
+                }
+                query.fromInclusiveMillis?.let {
+                    append(" AND created_ms >= ?")
+                    bindings.add(it)
+                }
+                query.toInclusiveMillis?.let {
+                    append(" AND created_ms <= ?")
+                    bindings.add(it)
+                }
+                query.before?.let {
+                    append(" AND (created_ms < ? OR (created_ms = ? AND id > ?))")
+                    bindings.add(it.atEpochMillis)
+                    bindings.add(it.atEpochMillis)
+                    bindings.add(it.messageId.value)
+                }
+                append(" ORDER BY created_ms DESC, id ASC LIMIT ?")
+                bindings.add((query.limit + 1).toLong())
+            }
+            val fetched = mutableListOf<WorkspaceHistoryEvent>()
+            connection.prepare(sql).use { stmt ->
+                bindings.forEachIndexed { index, binding ->
+                    when (binding) {
+                        is String -> stmt.bindText(index + 1, binding)
+                        is Long -> stmt.bindLong(index + 1, binding)
+                        else -> error("unsupported Workspace history SQL binding")
+                    }
+                }
+                while (stmt.step()) {
+                    fetched += WorkspaceHistoryEvent(
+                        messageId = ConversationMessageId(stmt.getText(0)),
+                        conversationId = ConversationId(stmt.getText(1)),
+                        kind = when (stmt.getText(2)) {
+                            "USER" -> WorkspaceHistoryEventKind.USER_ACCEPTED
+                            "FARO" -> WorkspaceHistoryEventKind.FARO_COMPLETED
+                            else -> error("unexpected Workspace history role")
+                        },
+                        createdAtEpochMillis = stmt.getLong(3),
+                    )
+                }
+            }
+            val visible = fetched.take(query.limit)
+            val hasMore = fetched.size > query.limit
+            val last = visible.lastOrNull()
+            WorkspaceHistoryPage(
+                events = visible,
+                nextCursor = if (hasMore && last != null)
+                    WorkspaceHistoryCursor(last.createdAtEpochMillis, last.messageId, revision)
+                else null,
+                ownerRevision = revision,
+                complete = !hasMore,
+            )
+        }
 
     /**
      * S3.A2 bounded canonical text for an already-authorized generation-scoped
