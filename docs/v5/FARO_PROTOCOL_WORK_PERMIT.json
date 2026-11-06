@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_FBS2_G4_CODEC_V2",
   "reviewed_head": "754ed4367f3ca782292b4b8b97becb1219871afe",
   "paths": [
@@ -60,24 +60,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "CODE_CI_PASS_5_NEW_7_LEGACY",
+    "B7": "RED_FIX_OLD_RESTORE_UNGUARDED"
   },
   "last_code_review": {
-    "sha": "9458b4889564458529430c546afb8a311cce9342",
-    "result": "PASS",
-    "unit_id": "S3_A4_N031_G4_DOMAIN_RESTORE",
+    "sha": "f33dcc24be6c5b164d0a86239ca94263fd542540",
+    "result": "RED_FIX",
+    "unit_id": "S3_A4_N031_FBS2_G4_CODEC_V2",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_G4_DOMAIN_RESTORE_B7_PASS_20261106.md",
-        "blob_sha": "e28a0875d2d56a557166552f1e4f0f4f8fe07ec7",
+        "path": "docs/s3-night/S3_A4_N031_FBS2_G4_CODEC_B7_RED_FIX_20261106.md",
+        "blob_sha": "2075678cc6eaa6969d0ba99576a417384de4f5b3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "G4 typed domain not represented in FBS2; codec v2 optional section only",
+  "why": "V2 G4 section codec passes, but legacy staged restore needs prewrite unsupported-G4 reject",
   "how": "FBS2 v1 byte-identity preserved; distinct FBS2 v2 3-section G4 typed bounded authenticated-only-use-with-FAROBAK2",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "After B7 approve separate real five-owner snapshot capture and restore with source/target pins; no host V2/SAF"
+  "next": "Same-unit corrective B1-B5, READY then guarded staged restore and regression"
 }
