@@ -1,20 +1,27 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT",
-  "reviewed_head": "ac0a88ed55d7effcf1e81c9b397991f76fd1314f",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE",
+  "reviewed_head": "b86c1fdc564ca4db5ff83add3a4a59efb09c5057",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/StagedSqliteFourVersionPreflightT2Test.kt",
-    ".github/workflows/faro-v5-s3-reality8-four-version-preflight-directed.yml"
+    "v5/store/reality/build.gradle.kts",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningBackupPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityDomainBackupPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStage8BackupT2Test.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Fbs2V3PlanningStageT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-planning-stage8-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "fbe0c1e364e4fa5d1708d7923121750538526f93",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
           "marker": "## B1"
         }
       ]
@@ -23,8 +30,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "fbe0c1e364e4fa5d1708d7923121750538526f93",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
           "marker": "## B2"
         }
       ]
@@ -33,8 +40,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "fbe0c1e364e4fa5d1708d7923121750538526f93",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
           "marker": "## B3"
         }
       ]
@@ -43,8 +50,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "fbe0c1e364e4fa5d1708d7923121750538526f93",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
           "marker": "## B4"
         }
       ]
@@ -53,14 +60,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_REALITY8_FOUR_VERSION_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "fbe0c1e364e4fa5d1708d7923121750538526f93",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B1_B5_20261106.md",
+          "blob_sha": "7e6fcf2379a98d190a43b8fc07470c7c6a88b9bc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_VERIFIED_FOUR_VERSION_6_6_GRAPH17_17_5_CI_SUCCESS",
-    "B7": "PASS_SCOPED_READ_ONLY_FOUR_VERSION_ADMISSION"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "c6ec477a57515c3bc01ed15b17fce8396addc34b",
@@ -74,9 +81,9 @@
       }
     ]
   },
-  "why": "Strict preflight supports fourth exact schema profile, Reality7 remains current; real schema8 owner upgrade and FBS2v3 durable recovery NOT IMPLEMENTED",
-  "how": "Read-only additional oldest version with strict monotonic profiles, 6/6 directed synthetic fixtures and 17/17 existing graph regression, five CI SUCCESS",
+  "why": "Planning schema8 opt-in STAGED owner with capture+restore protected before any user-facing writes",
+  "how": "Strict 10-path stage-only Reality planning persistence + paired FBS2v3 capture/replay tests, legacy schema7 unchanged",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5 on guarded schema8 Reality planning owners + 5/6/7 migration + bound-before-write + FBS2v3 full backup and staged restore; V2 prod OFF"
+  "next": "B6 exact 10 paths, directed CI/XML and regressions then B7 independent or RED_FIX"
 }
