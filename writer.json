@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A4.N015.WORKSPACE.B7.20261105",
   "token_hash": "e0bde88d4c5f6b7a108fb32a4c97ec01b5fed832a13ff68c76c4f019b788a760",
-  "target_head": "84f2040773e23520262da9595019b20b94532980",
+  "target_head": "1a5effa19132b32a2615eb50259e8f9e1a5840d9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 331,
-  "timestamp": 1793931148,
-  "purpose": "S3_A4_N015_WORKSPACE_HISTORY_B7"
+  "timestamp": 1793931321,
+  "purpose": "S3_A4_N015_WORKSPACE_HISTORY_B7_PASS",
+  "last_checkpoint": "N015_WORKSPACE_B7@1a5effa19132b32a2615eb50259e8f9e1a5840d9"
 }
