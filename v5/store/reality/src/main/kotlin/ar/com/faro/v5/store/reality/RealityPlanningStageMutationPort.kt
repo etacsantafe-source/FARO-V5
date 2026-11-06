@@ -3,6 +3,7 @@ package ar.com.faro.v5.store.reality
 import ar.com.faro.v5.owner.reminders.api.ReminderRule
 import ar.com.faro.v5.owner.reminders.api.ReminderOccurrence
 import ar.com.faro.v5.owner.monthlyplan.api.MonthlyPlanItem
+import ar.com.faro.v5.kernel.contracts.RealityTransactionScope
 
 /**
  * N032: intentionally INTERNAL staging primitive; this is NOT a Chat,
@@ -34,4 +35,12 @@ internal sealed interface RealityPlanningStageInsert {
 /** Only exposed to module-local isolated Reality8 stage code and tests. */
 internal fun interface RealityPlanningStageInsertPort {
     fun insert(command: RealityPlanningStageInsert): RealityPlanningBackupSnapshot
+}
+
+/** N033A: isolated same-Reality-transaction bridge; never a public capability. */
+internal fun interface RealityPlanningApplyInsertPort {
+    fun insert(
+        command: RealityPlanningStageInsert,
+        transactionScope: RealityTransactionScope,
+    ): RealityPlanningBackupSnapshot
 }

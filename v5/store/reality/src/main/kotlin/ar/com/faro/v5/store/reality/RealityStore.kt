@@ -93,6 +93,8 @@ class RealityStore(
     private val connection: SQLiteConnection = driver.open(fileName)
     private var closed = false
     private var activeTransactionId: TransactionId? = null
+    /** Exact lease identity prevents stale scope reuse when a transaction ID repeats. */
+    private var activeApplyScope: RealityTransactionScope? = null
 
     /**
      * Durable Apply ports are exposed as adapters instead of implemented
@@ -211,6 +213,10 @@ class RealityStore(
     internal val planningStageInsert: RealityPlanningStageInsertPort =
         RealityPlanningStageInsertPort(::insertPlanningStage8)
 
+    /** N033A isolated Reality8 scoped insert; NOT exposed to Chat or the app host. */
+    internal val planningApplyInsert: RealityPlanningApplyInsertPort =
+        RealityPlanningApplyInsertPort(::insertPlanningDuringApply)
+
     val maintenance: RealityMaintenancePort =
         RealityMaintenancePort(::inspectForMaintenance)
 
@@ -258,6 +264,7 @@ class RealityStore(
             transactionId = transactionId,
             owner = this,
         )
+        activeApplyScope = scope
 
         try {
             when (val decision = block(scope)) {
@@ -275,6 +282,7 @@ class RealityStore(
             runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
             throw failure
         } finally {
+            activeApplyScope = null
             activeTransactionId = null
         }
     } }
@@ -1813,6 +1821,11 @@ class RealityStore(
      * BEGIN IMMEDIATE precedes all revision reads; complete PLN1 size and
      * FK validation happens before COMMIT, with whole-transaction rollback.
      */
+    /**
+     * N032 staged-only caller still opens/closes its own transaction and must
+     * reject nesting within an Apply transaction. N033A shares the SQL+PLN1
+     * validator below without crossing transaction boundaries.
+     */
     private fun insertPlanningStage8(
         command: RealityPlanningStageInsert,
     ): RealityPlanningBackupSnapshot = withMaterialAdmission { synchronized(lock) {
@@ -1826,124 +1839,9 @@ class RealityStore(
         require(command.expectedOwnerRevision in 0 until Long.MAX_VALUE) {
             "Planning owner CAS revision cannot be negative or overflow"
         }
-
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         try {
-            val before = readPlanningSnapshot()
-            val stateTable = when (command) {
-                is RealityPlanningStageInsert.Rule -> {
-                    check(before.reminders.revision == command.expectedOwnerRevision) {
-                        "stale Reminder owner revision"
-                    }
-                    check(before.reminders.rules.none { it.id == command.record.id }) {
-                        "duplicate Reminder rule ID"
-                    }
-                    val rule = command.record
-                    connection.prepare("""
-                        INSERT INTO reminder_rule(
-                            rule_id,title,zone_id,anchor_local_date,anchor_local_time,
-                            recurrence,enabled,linked_matter_id,updated_at_epoch_millis
-                        ) VALUES (?,?,?,?,?,?,?,?,?)
-                    """.trimIndent()).use { st ->
-                        st.bindText(1, rule.id.value)
-                        st.bindText(2, rule.title)
-                        st.bindText(3, rule.zoneId)
-                        st.bindText(4, rule.anchorLocalDate.toString())
-                        st.bindText(5, rule.anchorLocalTime.toString())
-                        st.bindText(6, rule.recurrence.name)
-                        st.bindLong(7, if (rule.enabled) 1L else 0L)
-                        rule.linkedMatterId?.let { st.bindText(8, it) } ?: st.bindNull(8)
-                        st.bindLong(9, rule.updatedAtEpochMillis)
-                        st.step()
-                    }
-                    "reminder_state"
-                }
-                is RealityPlanningStageInsert.Occurrence -> {
-                    check(before.reminders.revision == command.expectedOwnerRevision) {
-                        "stale Reminder owner revision"
-                    }
-                    check(before.reminders.occurrences.none { it.id == command.record.id }) {
-                        "duplicate Reminder occurrence ID"
-                    }
-                    check(before.reminders.rules.any { it.id == command.record.ruleId }) {
-                        "Reminder occurrence requires a canonical source rule"
-                    }
-                    val occurrence = command.record
-                    connection.prepare("""
-                        INSERT INTO reminder_occurrence(
-                            occurrence_id,rule_id,due_at_epoch_millis,status,
-                            acknowledged_at_epoch_millis,updated_at_epoch_millis
-                        ) VALUES (?,?,?,?,?,?)
-                    """.trimIndent()).use { st ->
-                        st.bindText(1, occurrence.id.value)
-                        st.bindText(2, occurrence.ruleId.value)
-                        st.bindLong(3, occurrence.dueAtEpochMillis)
-                        st.bindText(4, occurrence.status.name)
-                        occurrence.acknowledgedAtEpochMillis?.let {
-                            st.bindLong(5, it)
-                        } ?: st.bindNull(5)
-                        st.bindLong(6, occurrence.updatedAtEpochMillis)
-                        st.step()
-                    }
-                    "reminder_state"
-                }
-                is RealityPlanningStageInsert.MonthlyItem -> {
-                    check(before.monthlyPlan.revision == command.expectedOwnerRevision) {
-                        "stale MonthlyPlan owner revision"
-                    }
-                    check(before.monthlyPlan.items.none { it.id == command.record.id }) {
-                        "duplicate MonthlyPlan item ID"
-                    }
-                    val item = command.record
-                    connection.prepare("""
-                        INSERT INTO monthly_plan_item(
-                            item_id,title,period,due_local_date,status,
-                            expected_amount_minor,currency_code,
-                            payment_confirmed_at_epoch_millis,updated_at_epoch_millis
-                        ) VALUES (?,?,?,?,?,?,?,?,?)
-                    """.trimIndent()).use { st ->
-                        st.bindText(1, item.id.value)
-                        st.bindText(2, item.title)
-                        st.bindText(3, item.period.toString())
-                        st.bindText(4, item.dueDate.toString())
-                        st.bindText(5, item.status.name)
-                        item.expectedAmountMinor?.let { st.bindLong(6, it) } ?: st.bindNull(6)
-                        item.currencyCode?.let { st.bindText(7, it) } ?: st.bindNull(7)
-                        item.paymentConfirmedAtEpochMillis?.let {
-                            st.bindLong(8, it)
-                        } ?: st.bindNull(8)
-                        st.bindLong(9, item.updatedAtEpochMillis)
-                        st.step()
-                    }
-                    "monthly_plan_state"
-                }
-            }
-            // Only the two closed, hard-coded table names selected above.
-            connection.prepare(
-                "UPDATE $stateTable SET revision=revision+1 " +
-                    "WHERE singleton_id=1 AND revision=?"
-            ).use { st ->
-                st.bindLong(1, command.expectedOwnerRevision)
-                st.step()
-            }
-            connection.prepare("SELECT changes()").use { st ->
-                check(st.step() && st.getLong(0) == 1L) {
-                    "Planning CAS update missed the expected owner revision"
-                }
-            }
-            // Read AFTER SQL but BEFORE COMMIT. Constructor validates full
-            // canonical PLN1 budget and all owner rows; failure ROLLBACKs.
-            val after = readPlanningSnapshot()
-            check(readForeignKeysHealthy()) { "Planning stage has broken foreign keys" }
-            check(
-                if (stateTable == "reminder_state") {
-                    after.reminders.revision == before.reminders.revision + 1 &&
-                        after.monthlyPlan == before.monthlyPlan
-                } else {
-                    after.monthlyPlan.revision == before.monthlyPlan.revision + 1 &&
-                        after.reminders == before.reminders
-                }
-            ) { "Planning write changed another owner or missed revision" }
+            val after = insertPlanningWithinCurrentTransaction(command)
             connection.execSQL("COMMIT TRANSACTION")
             after
         } catch (failure: Throwable) {
@@ -1951,6 +1849,152 @@ class RealityStore(
             throw failure
         }
     } }
+
+    /**
+     * N033A INTERNAL ONLY: writes under the SAME Reality8 transaction as the
+     * durable Apply attempt/receipt; never begins, commits or rolls back SQL.
+     * The transactionScope lease must be the exact object from the active run.
+     */
+    private fun insertPlanningDuringApply(
+        command: RealityPlanningStageInsert,
+        transactionScope: RealityTransactionScope,
+    ): RealityPlanningBackupSnapshot = withMaterialAdmission { synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        check(activeApplyScope === transactionScope) {
+            "Planning Apply transaction scope lease is stale"
+        }
+        insertPlanningWithinCurrentTransaction(command)
+    } }
+
+    /** SQL mutation + complete precommit owner/FK/PLN1 checks; caller owns transaction. */
+    private fun insertPlanningWithinCurrentTransaction(
+        command: RealityPlanningStageInsert,
+    ): RealityPlanningBackupSnapshot {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Planning insert requires an explicit isolated schema8 stage"
+        }
+        require(command.expectedOwnerRevision in 0 until Long.MAX_VALUE) {
+            "Planning owner CAS revision cannot be negative or overflow"
+        }
+        val before = readPlanningSnapshot()
+        val stateTable = when (command) {
+            is RealityPlanningStageInsert.Rule -> {
+                check(before.reminders.revision == command.expectedOwnerRevision) {
+                    "stale Reminder owner revision"
+                }
+                check(before.reminders.rules.none { it.id == command.record.id }) {
+                    "duplicate Reminder rule ID"
+                }
+                val rule = command.record
+                connection.prepare("""
+                    INSERT INTO reminder_rule(
+                        rule_id,title,zone_id,anchor_local_date,anchor_local_time,
+                        recurrence,enabled,linked_matter_id,updated_at_epoch_millis
+                    ) VALUES (?,?,?,?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1, rule.id.value)
+                    st.bindText(2, rule.title)
+                    st.bindText(3, rule.zoneId)
+                    st.bindText(4, rule.anchorLocalDate.toString())
+                    st.bindText(5, rule.anchorLocalTime.toString())
+                    st.bindText(6, rule.recurrence.name)
+                    st.bindLong(7, if (rule.enabled) 1L else 0L)
+                    rule.linkedMatterId?.let { st.bindText(8, it) } ?: st.bindNull(8)
+                    st.bindLong(9, rule.updatedAtEpochMillis)
+                    st.step()
+                }
+                "reminder_state"
+            }
+            is RealityPlanningStageInsert.Occurrence -> {
+                check(before.reminders.revision == command.expectedOwnerRevision) {
+                    "stale Reminder owner revision"
+                }
+                check(before.reminders.occurrences.none { it.id == command.record.id }) {
+                    "duplicate Reminder occurrence ID"
+                }
+                check(before.reminders.rules.any { it.id == command.record.ruleId }) {
+                    "Reminder occurrence requires a canonical source rule"
+                }
+                val occurrence = command.record
+                connection.prepare("""
+                    INSERT INTO reminder_occurrence(
+                        occurrence_id,rule_id,due_at_epoch_millis,status,
+                        acknowledged_at_epoch_millis,updated_at_epoch_millis
+                    ) VALUES (?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1, occurrence.id.value)
+                    st.bindText(2, occurrence.ruleId.value)
+                    st.bindLong(3, occurrence.dueAtEpochMillis)
+                    st.bindText(4, occurrence.status.name)
+                    occurrence.acknowledgedAtEpochMillis?.let {
+                        st.bindLong(5, it)
+                    } ?: st.bindNull(5)
+                    st.bindLong(6, occurrence.updatedAtEpochMillis)
+                    st.step()
+                }
+                "reminder_state"
+            }
+            is RealityPlanningStageInsert.MonthlyItem -> {
+                check(before.monthlyPlan.revision == command.expectedOwnerRevision) {
+                    "stale MonthlyPlan owner revision"
+                }
+                check(before.monthlyPlan.items.none { it.id == command.record.id }) {
+                    "duplicate MonthlyPlan item ID"
+                }
+                val item = command.record
+                connection.prepare("""
+                    INSERT INTO monthly_plan_item(
+                        item_id,title,period,due_local_date,status,
+                        expected_amount_minor,currency_code,
+                        payment_confirmed_at_epoch_millis,updated_at_epoch_millis
+                    ) VALUES (?,?,?,?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1, item.id.value)
+                    st.bindText(2, item.title)
+                    st.bindText(3, item.period.toString())
+                    st.bindText(4, item.dueDate.toString())
+                    st.bindText(5, item.status.name)
+                    item.expectedAmountMinor?.let { st.bindLong(6, it) } ?: st.bindNull(6)
+                    item.currencyCode?.let { st.bindText(7, it) } ?: st.bindNull(7)
+                    item.paymentConfirmedAtEpochMillis?.let {
+                        st.bindLong(8, it)
+                    } ?: st.bindNull(8)
+                    st.bindLong(9, item.updatedAtEpochMillis)
+                    st.step()
+                }
+                "monthly_plan_state"
+            }
+        }
+        // Only the two closed, hard-coded table names selected above.
+        connection.prepare(
+            "UPDATE $stateTable SET revision=revision+1 " +
+                "WHERE singleton_id=1 AND revision=?"
+        ).use { st ->
+            st.bindLong(1, command.expectedOwnerRevision)
+            st.step()
+        }
+        connection.prepare("SELECT changes()").use { st ->
+            check(st.step() && st.getLong(0) == 1L) {
+                "Planning CAS update missed the expected owner revision"
+            }
+        }
+        // Read AFTER SQL but BEFORE COMMIT. Constructor validates full
+        // canonical PLN1 budget and all owner rows; failure ROLLBACKs.
+        val after = readPlanningSnapshot()
+        check(readForeignKeysHealthy()) { "Planning stage has broken foreign keys" }
+        check(
+            if (stateTable == "reminder_state") {
+                after.reminders.revision == before.reminders.revision + 1 &&
+                    after.monthlyPlan == before.monthlyPlan
+            } else {
+                after.monthlyPlan.revision == before.monthlyPlan.revision + 1 &&
+                    after.reminders == before.reminders
+            }
+        ) { "Planning write changed another owner or missed revision" }
+        return after
+    }
 
     /** Private stage-only port, always invoked AFTER an authenticated archive pin. */
     private fun restoreOrVerifyPlanningStage8(

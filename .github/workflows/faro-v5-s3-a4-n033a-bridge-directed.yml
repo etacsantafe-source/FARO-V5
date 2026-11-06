@@ -1,0 +1,68 @@
+name: FARO V5 S3 A4 N033A same-Reality-transaction Planning bridge
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningApplyBridgeT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a4-n033a-bridge-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n033a-bridge
+  cancel-in-progress: false
+
+jobs:
+  same-transaction-reality8:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for Gradle multi-project configuration
+        run: |
+          set -eu
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: N033A same-transaction receipt and legacy N032 isolation tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityPlanningApplyBridgeT2Test" --tests "ar.com.faro.v5.store.reality.RealityPlanningStageMutationT2Test"
+      - name: Strict exact SHA two-class JUnit XML, six each, no skip
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path('v5/store/reality/build/test-results/test')
+          total=0
+          for cls in ('RealityPlanningApplyBridgeT2Test','RealityPlanningStageMutationT2Test'):
+              paths=list(folder.glob('TEST-*'+cls+'.xml'))
+              if len(paths)!=1:
+                  raise SystemExit('N033A_XML_MISSING '+cls)
+              root=ET.parse(paths[0]).getroot()
+              counts=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if counts!=(6,0,0,0):
+                  raise SystemExit('N033A_XML_FAIL '+cls+' '+str(counts))
+              total+=6
+              print('N033A_XML_PASS '+cls+' 6/6')
+          if total!=12:
+              raise SystemExit('N033A_TOTAL_MISMATCH '+str(total))
+          print('N033A_SAME_TRANSACTION_RECEIPT_STAGE_PASS 12/12')
+          PY
