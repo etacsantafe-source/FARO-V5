@@ -7,11 +7,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -60,26 +64,59 @@ object FaroV5AvisosSurfacePolicy {
         page.items.isEmpty() -> "No hay avisos abiertos."
         else -> "Avisos abiertos de la fuente autorizada."
     }
+
+    /**
+     * An explicit local summary of the CURRENT admitted page, not an AI summary.
+     * No item text, opaque identifiers, timestamps or new owner reads escape.
+     */
+    @JvmStatic
+    fun summary(page: FaroV5AvisosPage): String {
+        val urgent = page.items.count {
+            it.importance == FaroV5AvisoImportance.REQUIERE_ATENCION
+        }
+        val other = page.items.size - urgent
+        val coverage = if (page.complete)
+            "Cobertura completa de la fuente autorizada."
+        else
+            "Cobertura parcial: pueden existir más avisos."
+        return "Resumen solicitado: $urgent requieren atención y " +
+            "$other informativos en la página autorizada. $coverage"
+    }
 }
+
+/** Each owner invalidation changes this epoch even when the next page equals the old page. */
+private data class FaroV5AvisosReadState(
+    val page: FaroV5AvisosPage?,
+    val authorizationEpoch: Long,
+)
 
 /** Never render cached notices across generation, readiness or owner changes. */
 @Composable
 fun FaroV5AvisosScreen(readPort: FaroV5AvisosReadPort?) {
-    val page by produceState<FaroV5AvisosPage?>(initialValue = null, key1 = readPort) {
-        if (readPort == null) {
-            value = null
-        } else {
+    val readState by produceState(
+        initialValue = FaroV5AvisosReadState(null, 0L),
+        key1 = readPort,
+    ) {
+        if (readPort != null) {
+            var epoch = 0L
             readPort.invalidations.onStart { emit(Unit) }.collectLatest {
-                value = null
-                value = try {
+                epoch += 1L
+                value = FaroV5AvisosReadState(null, epoch)
+                val currentPage = try {
                     withContext(Dispatchers.IO) { readPort.readNotices() }
                 } catch (cancelled: CancellationException) {
                     throw cancelled
                 } catch (_: Exception) {
                     null
                 }
+                value = FaroV5AvisosReadState(currentPage, epoch)
             }
         }
+    }
+    val current = readState.page
+    // Consent never survives an invalidation, even if the new page is equal by value.
+    var summaryRequested by remember(readPort, current, readState.authorizationEpoch) {
+        mutableStateOf(false)
     }
     Column(
         modifier = Modifier.fillMaxSize().padding(FaroV5Spacing.large),
@@ -90,11 +127,16 @@ fun FaroV5AvisosScreen(readPort: FaroV5AvisosReadPort?) {
             modifier = Modifier.semantics { heading() },
             style = MaterialTheme.typography.headlineSmall,
         )
-        val current = page
         if (current == null) {
             Text("Avisos no disponibles. No se consultaron datos.")
         } else {
             Text(FaroV5AvisosSurfacePolicy.message(current))
+            Button(onClick = { summaryRequested = true }) {
+                Text("Ver resumen local")
+            }
+            if (summaryRequested) {
+                Text(FaroV5AvisosSurfacePolicy.summary(current))
+            }
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(FaroV5Spacing.small),
             ) {
