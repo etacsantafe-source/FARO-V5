@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "S3.A4 OPEN. Planning Reality8 STAGED real persistence+FBS2v3 stage recovery B7 PASS_SCOPED 48/48 +29/29 six exact SHA workflows green. NEED new B1-B5 bounded incremental operation catalog, WriteCoordinator/ACL, host N031/N015, no public export/restore, no V2 prod/Noche/Auto/S4, A3+8 not approved catalog172, A5 X01-X12 G15 NOT_RUN.",
+  "next": "S3.A4 OPEN. N032 staged Planning8 transactional create with CAS+precommit budget B7 PASS_SCOPED exact SHA 8863adf3, 6/6 new, 47/47 directed, 8 exact workflows SUCCESS. NEXT N033 trusted ApplyPlan Review/ACL + receipts and Undo/recovery, fresh B1-B5; neither user Chat/Android nor V2 product. A3 Guardados+8 not approved catalog172; A5 X01-X12/G15 NOT_RUN; S4/Noche/Auto OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -62,7 +62,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N031_PLANNING_STAGE8_BACKUP_RESTORE_B7_PASS_SCOPED",
+  "last_completed_gate": "S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -1053,6 +1053,26 @@
     ],
     "all_ci": "SUCCESS",
     "user_crud": false,
+    "physical": "NOT_RUN"
+  },
+  "n032_planning_bounded_insert_b7_20261106": {
+    "status": "PASS_SCOPED_STAGE_ONLY",
+    "sha": "8863adf3cf9a974fd87f27b535483164fc5a5692",
+    "b7_doc": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B7_PASS_20261106.md",
+    "guard_run": 42298175469,
+    "directed_run": 42298175424,
+    "xml": "47/47",
+    "new_tests": "6/6",
+    "other_ci_runs": [
+      42298175598,
+      42298175351,
+      42298175349,
+      42298175547,
+      42298175368,
+      42298175263
+    ],
+    "all_ci": "SUCCESS",
+    "trusted_apply": false,
     "physical": "NOT_RUN"
   }
 }
