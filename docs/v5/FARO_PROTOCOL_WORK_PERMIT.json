@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
-  "reviewed_head": "874195035e144acbfba424c912011c2c23195314",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH",
+  "reviewed_head": "7d3b4d2d865cb5231f59ee423912693977d93cde",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8RecoveryHealthOwner.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8RecoveryHealthOwnerT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b3-recovery-reality8-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
+          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
+          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
+          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
+          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
+          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
+          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
+          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
+          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
+          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
+          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_14_14_AFTER_REDFIX",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B7_PASS_20261107.md",
-          "blob_sha": "f85ef9c792ccbfbfd0b631712fc08f0c9a64780b",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "874195035e144acbfba424c912011c2c23195314",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "N033C2B2 readiness-only B7 PASS scoped; historical N033C1 XML restored after same-unit RED_FIX",
-  "how": "Directed 42390266374 SUCCESS 14/14, historical C1 42390271478 SUCCESS 14/14, guard 42390266365 SUCCESS all same SHA",
+  "why": "N033C2B3 active Reality8 health-only journal/pointer/quiescence with real read-only probe; no grant",
+  "how": "B1-B5 evidenced and scope exactly three files; 8 new plus 11+3 existing XML; no V2 shipping or ACL",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B3 host active Reality8 recovery/ACL/Review preaudit independent, then N033C3 Undo/retry; shipping V2 remains OFF"
+  "next": "B6 scoped health-only, independent B7; later N033C2B4 ACL/Review and N033C3 Undo"
 }
