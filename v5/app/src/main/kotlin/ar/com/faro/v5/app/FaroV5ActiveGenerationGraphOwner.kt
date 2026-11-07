@@ -60,4 +60,38 @@ object FaroV5ActiveGenerationGraphOwner {
             throw failure
         }
     }
+
+
+    /**
+     * N033C2B2: one-shot schema8 readiness of an ALREADY active V2 candidate.
+     * No runtime graph, ACL, Review or Apply authority escapes. This method
+     * is not wired into shipping CompositionRoot; V2_ACTIVE_ENABLED stays false.
+     * Any later operation MUST acquire fresh pointer + object authorization.
+     */
+    internal fun isActivePlanning8ReadyForCertifiedHost(
+        storageRoot: Path,
+        expectedGenerationId: String,
+        materialWriteGate: MaterialWriteGate,
+        v2HostCertified: Boolean,
+    ): Boolean {
+        // Deny before even attempting any SQLite opens when uncertified.
+        if (!v2HostCertified || expectedGenerationId.isBlank()) return false
+        return runCatching {
+            val pointer = FileActiveGenerationPointer(storageRoot)
+            val pinned = pointer.read() ?: return@runCatching false
+            if (pinned.generationId.value != expectedGenerationId) {
+                return@runCatching false
+            }
+            val staged = FileStorageGenerationLayout(storageRoot)
+                .requireStaged(pinned.generationId)
+            if (ExistingGenerationFormatReader.requireAndRead(staged) !=
+                    GenerationStoreFormat.WORKSPACE_V2) {
+                return@runCatching false
+            }
+            FaroV5GenerationStoreGraph.isActivePlanning8HealthyForHost(
+                storageRoot, staged, pinned.sequence,
+                CanonicalPreparedPlanEnvelopeVerifier, materialWriteGate,
+            ) && pointer.read() == pinned
+        }.getOrDefault(false)
+    }
 }

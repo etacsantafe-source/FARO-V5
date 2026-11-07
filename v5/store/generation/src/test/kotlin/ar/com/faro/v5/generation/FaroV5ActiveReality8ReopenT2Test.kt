@@ -124,4 +124,37 @@ class FaroV5ActiveReality8ReopenT2Test {
         }
         reopen(stage, sequence).use { assertTrue(it.verifyHealthy()) }
     }
+
+
+    @Test fun hostReadinessBooleanAcceptsOnlyHealthyExactActiveReality8() {
+        val stage = planning8("c2b2-host-ready")
+        val pinned = activate(stage)
+        val pointerBefore = FileActiveGenerationPointer(root).read()
+        assertTrue(FaroV5GenerationStoreGraph.isActivePlanning8HealthyForHost(
+            root, stage, pinned, verifier, shared,
+        ))
+        assertEquals(pointerBefore, FileActiveGenerationPointer(root).read())
+        assertFalse(FaroV5GenerationStoreGraph.isActivePlanning8HealthyForHost(
+            root, stage, pinned + 1L, verifier, shared,
+        ))
+    }
+
+    @Test fun hostReadinessRejectsSchemaSevenAndStaleAbaWithoutMigration() {
+        val legacy = fresh("c2b2-host-schema7")
+        val before = Files.readAllBytes(legacy.directory.resolve(GenerationStoreFiles.REALITY))
+        val first = activate(legacy)
+        assertFalse(FaroV5GenerationStoreGraph.isActivePlanning8HealthyForHost(
+            root, legacy, first, verifier, shared,
+        ))
+        assertTrue(before.contentEquals(
+            Files.readAllBytes(legacy.directory.resolve(GenerationStoreFiles.REALITY))
+        ))
+        val foreign = StorageGenerationId("c2b2-foreign")
+        val pointer = FileActiveGenerationPointer(root)
+        assertNotNull(pointer.compareAndSet(legacy.descriptor.generationId, foreign))
+        assertNotNull(pointer.compareAndSet(foreign, legacy.descriptor.generationId))
+        assertFalse(FaroV5GenerationStoreGraph.isActivePlanning8HealthyForHost(
+            root, legacy, first, verifier, shared,
+        ))
+    }
 }

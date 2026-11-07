@@ -168,6 +168,31 @@ class FaroV5GenerationStoreGraph private constructor(
             }
         }
 
+
+        /**
+         * N033C2B2: host-accessible *readiness only*. Never expose the active
+         * mutable graph, migrate an active schema, grant ACL or switch pointers.
+         * The fenced internal opener performs exact schema8/WAL checks and is
+         * always closed before this method returns a Boolean.
+         */
+        @JvmStatic
+        fun isActivePlanning8HealthyForHost(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expectedPointerSequence: Long,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            materialWriteGate: MaterialWriteGate,
+        ): Boolean = runCatching {
+            reopenVerifiedActivePlanning8(
+                storageRoot, staged, expectedPointerSequence, planVerifier,
+                materialWriteGate,
+            ).use { graph ->
+                graph.workspace != null &&
+                    graph.reality.maintenance.inspect().schemaVersion == 8 &&
+                    graph.verifyHealthy()
+            }
+        }.getOrDefault(false)
+
         /**
          * ISOLATED, INTERNAL staged Planning8 upgrade. No Android host, no active
          * generation, no public export/restore. Validates the durable descriptor
