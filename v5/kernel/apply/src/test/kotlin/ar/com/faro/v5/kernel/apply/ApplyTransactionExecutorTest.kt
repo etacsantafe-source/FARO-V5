@@ -325,6 +325,136 @@ class ApplyTransactionExecutorTest {
         assertEquals(1, tx.rollbacks)
     }
 
+
+    @Test
+    fun injectedAuthorizationDeniesInsideTransactionBeforeAnyBindingOrReceipt() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        var bindingCalls = 0
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance") { _, _ ->
+                bindingCalls++
+                OperationBindingExecutionResult.Completed
+            },
+            binding("fixture.b", "planning"),
+        ))
+        val authorization = ApplyTransactionAuthorizationPort { _, identity, node, scope ->
+            assertTrue(tx.active)
+            assertEquals(identity.transactionId, scope.transactionId)
+            assertEquals(PlanNodeId("a"), node.nodeId)
+            false
+        }
+
+        val actual = ApplyTransactionExecutor(tx, commits, authorization).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint), resolved
+        )
+
+        assertEquals(
+            ApplyTransactionExecution.Rejected(
+                ApplyTransactionRejection.AUTHORIZATION_REJECTED, PlanNodeId("a")
+            ),
+            actual,
+        )
+        assertEquals(0, bindingCalls)
+        assertEquals(0, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
+    @Test
+    fun revocationDuringBindingRollsBackBeforeReceipt() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        var grantCurrent = true
+        val calls = mutableListOf<String>()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance") { _, _ ->
+                calls += "a"
+                OperationBindingExecutionResult.Completed
+            },
+            binding("fixture.b", "planning") { _, _ ->
+                calls += "b"
+                grantCurrent = false
+                OperationBindingExecutionResult.Completed
+            },
+        ))
+        val auth = ApplyTransactionAuthorizationPort { _, _, _, scope ->
+            assertTrue(tx.active)
+            assertEquals(TransactionId("tx-1"), scope.transactionId)
+            grantCurrent
+        }
+
+        val result = ApplyTransactionExecutor(tx, commits, auth).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint), resolved
+        )
+
+        assertEquals(
+            ApplyTransactionExecution.Rejected(
+                ApplyTransactionRejection.AUTHORIZATION_REJECTED, PlanNodeId("a")
+            ), result
+        )
+        assertEquals(listOf("a", "b"), calls)
+        assertEquals(0, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
+    @Test
+    fun validAuthorizationRechecksEachNodeBeforeReceipt() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        val visited = mutableListOf<String>()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance"),
+            binding("fixture.b", "planning"),
+        ))
+        val auth = ApplyTransactionAuthorizationPort { plan, identity, node, scope ->
+            assertSame(prepared, plan)
+            assertEquals(TransactionId("tx-1"), identity.transactionId)
+            assertEquals(identity.transactionId, scope.transactionId)
+            assertTrue(tx.active)
+            visited += node.nodeId.value
+            true
+        }
+        val result = ApplyTransactionExecutor(tx, commits, auth).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint), resolved
+        )
+        assertTrue(result is ApplyTransactionExecution.Completed)
+        assertEquals(listOf("a", "b", "a", "b"), visited)
+        assertEquals(1, commits.calls)
+        assertEquals(1, tx.commits)
+        assertEquals(0, tx.rollbacks)
+    }
+
+    @Test
+    fun authorizationProviderExceptionFailsWithoutReceiptAndRequiresRecovery() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance"),
+            binding("fixture.b", "planning"),
+        ))
+        val auth = ApplyTransactionAuthorizationPort { _, _, _, _ ->
+            error("policy unavailable")
+        }
+        val result = ApplyTransactionExecutor(tx, commits, auth).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint), resolved
+        )
+        assertEquals(
+            ApplyTransactionExecution.RecoveryRequired(
+                TransactionId("tx-1"),
+                ApplyTransactionRecoveryReason.TRANSACTION_EXECUTION_UNCERTAIN,
+            ), result
+        )
+        assertEquals(0, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
     private fun resolve(
         plan: PreparedPlanView,
         bindings: List<OperationBindingPort>,

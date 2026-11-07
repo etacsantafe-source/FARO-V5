@@ -9,6 +9,7 @@ enum class ApplyTransactionRejection {
     BINDING_REJECTED,
     OUTBOX_TRANSACTION_MISMATCH,
     COMMIT_RECEIPT_MISMATCH,
+    AUTHORIZATION_REJECTED,
 }
 
 enum class ApplyTransactionRecoveryReason {
@@ -62,9 +63,25 @@ sealed interface ApplyTransactionExecution {
     }
 }
 
+/**
+ * Optional trusted authorization check in the real transaction scope.
+ * A false decision rolls Reality back without a receipt. The host providing
+ * this port must serialize revocation/Review and verify its own policy: this
+ * hook alone does not provide a durable or cross-process Planning8 ACL.
+ */
+fun interface ApplyTransactionAuthorizationPort {
+    fun isAuthorized(
+        preparedPlan: PreparedPlanView,
+        identity: ApplyAttemptIdentity,
+        node: ApplyPlanNode,
+        transactionScope: RealityTransactionScope,
+    ): Boolean
+}
+
 class ApplyTransactionExecutor(
     private val transactions: AtomicApplyTransactionPort,
     private val commits: ApplyCommitPort,
+    private val authorization: ApplyTransactionAuthorizationPort? = null,
 ) {
     fun execute(
         preparedPlan: PreparedPlanView,
@@ -97,6 +114,7 @@ class ApplyTransactionExecutor(
                 }
 
                 val outboxIntents = mutableListOf<OutboxEffectIntent>()
+                val checkedNodes = mutableListOf<ApplyPlanNode>()
 
                 resolvedBindings.bindingsInPlanOrder.forEach { resolved ->
                     val node = preparedPlan.applyPlan.node(resolved.nodeId)
@@ -106,6 +124,16 @@ class ApplyTransactionExecutor(
                                 resolved.nodeId,
                             )
                         )
+
+                    if (authorization?.isAuthorized(preparedPlan, identity, node, scope) == false) {
+                        return@run AtomicApplyTransactionDecision.Rollback(
+                            ApplyTransactionExecution.Rejected(
+                                ApplyTransactionRejection.AUTHORIZATION_REJECTED,
+                                node.nodeId,
+                            )
+                        )
+                    }
+                    checkedNodes += node
 
                     when (
                         val result = resolved.binding.execute(
@@ -139,6 +167,23 @@ class ApplyTransactionExecutor(
                                     result.code,
                                 )
                             )
+                    }
+                }
+
+                // Re-evaluate after the bindings and before any receipt/outbox
+                // commit. A revoke during a binding must not publish success.
+                // Host-level serialization is still required to cover the
+                // final-check-to-SQL-COMMIT interval across owners/processes.
+                if (authorization != null) {
+                    for (node in checkedNodes) {
+                        if (!authorization.isAuthorized(preparedPlan, identity, node, scope)) {
+                            return@run AtomicApplyTransactionDecision.Rollback(
+                                ApplyTransactionExecution.Rejected(
+                                    ApplyTransactionRejection.AUTHORIZATION_REJECTED,
+                                    node.nodeId,
+                                )
+                            )
+                        }
                     }
                 }
 
