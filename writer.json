@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.ANDROID_SANDBOX.20261107.467",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.ANDROID_SANDBOX.CIWAIT.RELEASED",
   "token_hash": "aa148d370ecc21f6bd62805836ab7c2ce5ad950b8ca717af833e0dbbe4d12e9",
-  "target_head": "67df7f77dac673a5dc2d1ed2cc24418a03679af6",
+  "target_head": "faba6fed7a504050999a682d77236a47a2e6f405",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 467,
-  "timestamp": 1794078673,
-  "purpose": "N033C2B4 Android sandbox principal scoped B1-B7; no productive ACL/app wiring",
-  "last_checkpoint": "S3_A4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_STOP@67df7f77dac673a5dc2d1ed2cc24418a03679af6"
+  "epoch": 468,
+  "timestamp": 1794078893,
+  "purpose": "N033C2B4 Android sandbox B6 pushed; CI 42405240480 guard 42405240382 pending",
+  "last_checkpoint": "N033C2B4_ANDROID_SANDBOX_B6_CI_PENDING@faba6fed7a504050999a682d77236a47a2e6f405"
 }
