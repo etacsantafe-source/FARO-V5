@@ -1,15 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B1_HOST_POINTER_ABA",
   "reviewed_head": "454c593ef4a104f6758ea302e68d7e7e4ce7f63f",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5PreSwitchHostAdmission.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2RecoveryRuntimeHealthOwner.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5PreSwitchHostAdmissionT2Test.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2RecoveryRuntimeHealthOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b1-host-pointer-aba-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -61,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_20_20",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B7_PASS_20261107.md",
+          "blob_sha": "389fda4f202dbcd6177a994eed6604344c412a52",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "7812ca8e1ef9b5de2b76b1fcf3b23410a7acfc01",
-    "unit_id": "S3_A4_N033C2A_PLANNING8_CUTOVER_LIFECYCLE_TEST",
+    "sha": "542d36ebf43d4540f7152e2107b030ba9cdfeb69",
+    "unit_id": "S3_A4_N033C2B1_HOST_POINTER_ABA",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B7_PASS_20261106.md",
-        "blob_sha": "c7d834d81e367cea408e6ab4509e37a63c98873b",
+        "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B7_PASS_20261107.md",
+        "blob_sha": "389fda4f202dbcd6177a994eed6604344c412a52",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C2B1 targeted pre/post recovery host pointer ABA sequence fence before Planning8 host access; no schema change or V2 enable",
-  "how": "2 production guard deltas, 2 existing tests + 3 ABA tests and one directed workflow; B6 pending CI",
+  "why": "N033C2B1 schema-independent host pointer ABA fixed in two existing owners; 20/20 XML directed and guard 68 PASS",
+  "how": "Exact CI 42369184891 SUCCESS (20/20); guard 42369184838 SUCCESS; five-path bounded diff; no schema/ACL/V2 enable",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B1 B6 5 exact paths, 20/20 target; B7, then distinct N033C2B2 for Reality8 host/Review/ACL"
+  "next": "N033C2B2 B1-B5 host Reality8 exact schema admission and readiness; new independent permit required"
 }

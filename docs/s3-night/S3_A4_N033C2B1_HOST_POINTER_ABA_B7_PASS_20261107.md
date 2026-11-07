@@ -1,0 +1,21 @@
+# FARO V5 · S3.A4 · N033C2B1 Host pointer ABA fence · B7 PASS_SCOPED
+Fecha 2026-11-07 AR. Unidad `S3_A4_N033C2B1_HOST_POINTER_ABA`. Dictamen final limitado a dos rutas de control de autoridad del host y sus pruebas; **NO se conectó Reality8 al host, Review humano, ACL por objeto ni V2 productiva**.
+
+## B7 — Auditoría independiente del commit y CI
+- B1–B5 separado ANTES de código: `docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md` blob `b3da6da6c55161f3c6565bd6a0ad66b99cf81819` en commit documental `485aff7fdd3104c7acdf8c6a44f8f488b412862d`. Permiso READY en ese padre con 5 rutas exactas. La guardia documental CI `42369032379` SUCCESS antes de funcional.
+- Commit funcional exacto **`542d36ebf43d4540f7152e2107b030ba9cdfeb69`**, padre `485aff7fdd3104c7acdf8c6a44f8f488b412862d`, mensaje `FARO-UNIT:S3_A4_N033C2B1_HOST_POINTER_ABA`. Diff GitHub REST: exactamente cinco archivos del permiso: dos controles host modificados, dos tests existentes ampliados, un workflow CI nuevo. No tocó SQLite, schema, generación, S2, catalog, V4.4, main, API/modelo, flag de V2 ni datos existentes.
+- `FaroV5PreSwitchHostAdmission`: `ActiveGenerationPointer` completo queda capturado, revalidación exacta `==` por ID + secuencia antes/después de la ruta pre- y post-switch. Evita ABA del mismo generationId.
+- `FaroV5V2RecoveryRuntimeHealthOwner`: mismo snapshot completo antes de abrir y después de health, bajo quiescence; si un pointer cambia y vuelve al ID, devuelve `Blocked`, no `Verified`.
+- CI dirigida [#42369184891](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42369184891) **completed SUCCESS** sobre SHA `542d36ebf43d4540f7152e2107b030ba9cdfeb69`, logs: Gradle `BUILD SUCCESSFUL in 4m 3s`, JUnit XML `FaroV5PreSwitchHostAdmissionT2Test` **9/9**, `FaroV5V2RecoveryRuntimeHealthOwnerT2Test` **11/11**, 0 failures/errors/skips: `N033C2B1_HOST_POINTER_ABA_PASS 20/20`. Se agregaron 3 pruebas nuevas: ABA pre, ABA post (snapshot inyectado), y ABA durante opener health + cierre.
+- Guard de protocolo [#42369184838](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42369184838) **completed SUCCESS** mismo SHA, 14 pruebas del guard PASS, `FARO_PROTOCOL_GATE_PASS 68 functional units validated`, `FARO_PROTOCOL_PREFLIGHT_PASS S3_A4_N033C2B1_HOST_POINTER_ABA 485aff7fdd3104c7acdf8c6a44f8f488b412862d`.
+- Regresión independiente Inicio/Avisos `42369184839` **SUCCESS** mismo SHA (observado antes de este cierre). Otros workflows automáticos disparados: V2 Core M1/M2 `42369184862` y M5 DEV APK `42369184863`: **IN_PROGRESS AL ÚLTIMO CHEQUEO**, no adjudicarles PASS ni RED. Una falla posterior es un hallazgo nuevo, no invalida falsamente la prueba específica verde sin análisis.
+
+## Adversarial y límites de la certificación
+- El mismo generationId con mayor pointer.sequence no conserva autoridad; el resultado correcto es `false/Blocked`, incluso si un health checker fue true. Los test verifican journal sin alteraciones y recursos cerrados al bloquear. Los casos normales permanecen verdes.
+- **La secuencia no sustituye ACL:** un puntero auténtico no permite leer o escribir un Recordatorio/Plan sin autenticidad, consentimiento y permiso de objeto. El Review/ACL revocable del usuario queda pendiente N033C2B2/B3; Undo/retry N033C3.
+- No se añadió interfaz pública para saltar `FaroV5HostCertification.V2_ACTIVE_ENABLED=false`; el selector de host activo sigue la ruta actual Reality7. N033C1 y C2A ya cubrieron Reality8 **interno** pre/post, no shipping.
+- Sin G15 físico. Cualquier antiguo dato V5 conocido era de prueba y descartable según usuario; limpieza, eliminación de legacy y agrupación de versiones postergadas hasta **S5 después de S3 y S4**, con revisión de recovery/Undo/backup antes de borrar; no se eliminó ni reseteó nada.
+
+## B7 veredicto y continuidad
+**PASS_SCOPED_N033C2B1_HOST_POINTER_SEQUENCE_ABA**. N033C2B1 CERRADA; N033C2B, N033C y S3.A4 siguen ABIERTOS.
+NEXT: **N033C2B2 B1–B5** diseñar acceso de host a Reality8 activo mediante autoridad de generación pinneada + esquema exacto, desacoplar el readiness interno sin habilitar shipping V2, y separar Review/ACL por objeto en unidad posterior si excede alcance. No abrir S4 ni Noche/Auto; S2 CLOSED 8/8, S3 desarrollado ≈40% estimado / 0% formal (0/5), A5 física NO RUN, catalog 172. Writer debe RELEASED epoch444.
