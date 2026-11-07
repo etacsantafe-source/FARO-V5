@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-  "reviewed_head": "6ce4c37ddf660c19b5dd3345ed8595e01432611a",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt"
-  ],
+  "reviewed_head": "3d116a14899161b55fa38d0badd8a10dde769af0",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_26_26",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS_20261107.md",
+          "blob_sha": "aed622165456cddc64a16af71e60b590116033a7",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "205b5632bafe6121551f3923a7eacb6221c9c125",
+    "sha": "3d116a14899161b55fa38d0badd8a10dde769af0",
     "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_2_20261107.md",
-        "blob_sha": "ea2d12301bbdd9a37191b28f8f1c37c012efd5e2",
+        "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS_20261107.md",
+        "blob_sha": "aed622165456cddc64a16af71e60b590116033a7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Second RED_FIX narrow: test used internal Workspace draftSnapshot, change to public timeline authority token only",
-  "how": "One exact new app test path; main and workflows untouched; directed 14+10+2; preserve prior B7 RED_FIX",
+  "why": "N033C2B4 guard internal-only B7 PASS_SCOPED 26/26, real object-level ACL source and in-transaction enforcement still absent",
+  "how": "CI #42396049323 EXACT_SHA 14+10+2 XML zero error/fail/skip, mandatory guard #42396049289 SUCCESS, RED_FIX attempts preserved",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
+  "next": "N033C2B4_REAL_OBJECT_ACL_AUTHORITY B1-B5, deny-by-default real grant/revoke and in-transaction ACL enforcement before any V2 shipping, then N033C3 Undo/retry."
 }
