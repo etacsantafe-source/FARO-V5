@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.GRANT.CIWAIT.RELEASED",
-  "token_hash": "4ec663aef2274e3f892a0091a1704d33e358ed0112154857f050041531dc1842",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.GRANT.B7.20261107.463",
+  "token_hash": "4fe1a65459bcc05063bba7d4006621d79bd01a768d58211c8549c2ead885a8b7",
   "target_head": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 462,
-  "timestamp": 1794076548,
-  "purpose": "N033C2B4 scoped owner code pushed; directed CI 42402036389 and guard 42402036242 pending",
-  "last_checkpoint": "N033C2B4_SESSION_GRANT_B6_CI_PENDING@d05184d9378bbfc8cbeffe3e39d49d1b38282a3a"
+  "epoch": 463,
+  "timestamp": 1794076822,
+  "purpose": "N033C2B4 session grant B7 PASS 40/40 guard PASS checkpoint",
+  "last_checkpoint": "N033C2B4_SESSION_OBJECT_GRANT_B6_CI_GREEN@d05184d9378bbfc8cbeffe3e39d49d1b38282a3a"
 }
