@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH",
-  "reviewed_head": "7d3b4d2d865cb5231f59ee423912693977d93cde",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8RecoveryHealthOwner.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8RecoveryHealthOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b3-recovery-reality8-directed.yml"
-  ],
+  "reviewed_head": "f4e86e925c4dac4919c33bda76b8c54940386130",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_22_22",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B7_PASS_20261107.md",
+          "blob_sha": "26ce352213779a8f9687d1e415cc75aff6e0431d",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "874195035e144acbfba424c912011c2c23195314",
-    "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
+    "sha": "f4e86e925c4dac4919c33bda76b8c54940386130",
+    "unit_id": "S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B7_PASS_20261107.md",
-        "blob_sha": "f85ef9c792ccbfbfd0b631712fc08f0c9a64780b",
+        "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B7_PASS_20261107.md",
+        "blob_sha": "26ce352213779a8f9687d1e415cc75aff6e0431d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C2B3 active Reality8 health-only journal/pointer/quiescence with real read-only probe; no grant",
-  "how": "B1-B5 evidenced and scope exactly three files; 8 new plus 11+3 existing XML; no V2 shipping or ACL",
+  "why": "N033C2B3 recovery health-only B7 PASS scoped 22/22 + guard; no user ACL/Review",
+  "how": "CI 42391349404 SUCCESS XML 8+11+3=22; guard 42391349264 SUCCESS same SHA",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 scoped health-only, independent B7; later N033C2B4 ACL/Review and N033C3 Undo"
+  "next": "N033C2B4 B1-B5 ACL/Review explicit object authorization; N033C3 Undo/retry"
 }
