@@ -2,12 +2,12 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
-  "reviewed_head": "e48f993cab7b5e8f43692bd95c0ae297b89b74e0",
+  "reviewed_head": "d4cbfb1a1c26c9a44e625029ad1fced24126b969",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwner.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8ReopenT2Test.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerT2Test.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8HostReadinessT2Test.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerPlanning8ReadinessT2Test.kt",
     ".github/workflows/faro-v5-s3-a4-n033c2b2-host-reality8-readiness-directed.yml"
   ],
   "stages": {
@@ -15,8 +15,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
-          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
-          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
-          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
-          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
           "marker": "## B4"
         }
       ]
@@ -55,8 +55,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
-          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "1d39ac87b549b4fbaa11a73af092431202ecb590",
           "marker": "## B5"
         }
       ]
@@ -65,20 +65,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "542d36ebf43d4540f7152e2107b030ba9cdfeb69",
-    "unit_id": "S3_A4_N033C2B1_HOST_POINTER_ABA",
-    "result": "PASS",
+    "sha": "d4cbfb1a1c26c9a44e625029ad1fced24126b969",
+    "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B7_PASS_20261107.md",
-        "blob_sha": "389fda4f202dbcd6177a994eed6604344c412a52",
+        "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B7_RED_FIX_20261107.md",
+        "blob_sha": "4c057af07144675976a51eab04741089bfa1c059",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1-B5 verified scoped; active Planning8 host readiness-only, no graph exposure/ACL/Review or shipping",
-  "how": "Evidence docs prior to any functional code; five exact paths, previous N033C2B1 B7 20/20; preflight and CI required",
+  "why": "N033C2B2 RED_FIX old N033C1 XML expected6 got8; isolate new tests with unchanged historical suites",
+  "how": "B1-B5 RED_FIX reviewed; exactly five paths, same unit, prior B7 RED_FIX before correcting code",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B2 B6 directed with exact SHA; B7 independent; later recovery/ACL/Review and N033C3 Undo"
+  "next": "RED_FIX B6 tests isolation; directed 14/14 and historic C1 14/14, B7 independent"
 }
