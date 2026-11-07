@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-  "reviewed_head": "96fe2c05cc524f11f4766a375c070b3795a59ceb",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-object-review-directed.yml"
-  ],
+  "reviewed_head": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,32 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "INITIAL_IMPLEMENTATION_CI_PENDING_B7_RED_FIX",
+    "B7": {
+      "status": "RED_FIX",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_20261107.md",
+          "blob_sha": "a55de158712761ddef5e15eef12842034318b9d7",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "f4e86e925c4dac4919c33bda76b8c54940386130",
-    "unit_id": "S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH",
-    "result": "PASS",
+    "sha": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
+    "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B7_PASS_20261107.md",
-        "blob_sha": "26ce352213779a8f9687d1e415cc75aff6e0431d",
+        "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_20261107.md",
+        "blob_sha": "a55de158712761ddef5e15eef12842034318b9d7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C2B4 isolated read-only preflight guard: canonical Workspace approved review + exact operation/object + pointer and revocable ACL port, default-deny; no real ACL issuer or Apply",
-  "how": "B1-B5 doc exact blob; code only permitted three new paths; require directed XML and B7; production stays blocked",
+  "why": "B7 independently detects stale human approval after ACL read; must re-load canonical Workspace before any true result",
+  "how": "N033C2B4 corrective B1-B5 and new code commit, new exact XML required; initial CI 42394955364 not claimed PASS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
