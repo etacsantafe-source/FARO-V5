@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-  "reviewed_head": "fd091938f139f9deba43a4406a4ee4d1de657366",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-object-review-directed.yml"
-  ],
+  "reviewed_head": "205b5632bafe6121551f3923a7eacb6221c9c125",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,32 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "COMPILED_MAIN_TEST_COMPILE_FAILURE",
+    "B7": {
+      "status": "RED_FIX",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_2_20261107.md",
+          "blob_sha": "ea2d12301bbdd9a37191b28f8f1c37c012efd5e2",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
+    "sha": "205b5632bafe6121551f3923a7eacb6221c9c125",
     "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_20261107.md",
-        "blob_sha": "a55de158712761ddef5e15eef12842034318b9d7",
+        "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_2_20261107.md",
+        "blob_sha": "ea2d12301bbdd9a37191b28f8f1c37c012efd5e2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Corrective exact same-unit after B7 RED_FIX: canonical Workspace Review must be reloaded after ACL callback",
-  "how": "Workspace public suspend createAndSelect + decide Approve/Discard (not internal create/transition), final canonical Review reload; 14+10+2 XML",
+  "why": "Second B7 RED_FIX: app fixture used Workspace internal draftSnapshot, compiled functional code but directed test compile failed",
+  "how": "CI 42395535331 FAILURE at app compileDebugUnitTestKotlin; guard 42395535340 PASS; 26/26 NOT_RUN; must use public readTimeline token.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
