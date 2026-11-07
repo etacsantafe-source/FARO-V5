@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C1.RED_FIX.20261106.RELEASED",
-  "token_hash": "0d09226d2ff513e4287805cf626a3a0ef570f3b34a964ce1e98ac2d6e30caa4d",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C1.PROTOCOL_SEQUENCE_REPAIR.20261106",
+  "token_hash": "8d82a750565342debf7e1068df475bd5ae36a4cc1d182c423ebf9f735d7a1887",
   "target_head": "6415d3bf127091c4bac47aeee681aacda9407b7c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 424,
-  "timestamp": 1794015923,
-  "purpose": "N033C1_RED_FIX_SUBMITTED_CI_WAIT",
-  "last_checkpoint": "N033C1_REDFIX@6415d3bf127091c4bac47aeee681aacda9407b7c"
+  "epoch": 425,
+  "timestamp": 1794016150,
+  "purpose": "N033C1_RED_FIX_AUDIT_COMMIT_SEQUENCE_CAS_REPAIR_PRESERVE_BACKUP",
+  "last_checkpoint": "N033C1_DIRECTED_14_14_GREEN_GUARD_RED_SEQUENCE"
 }
