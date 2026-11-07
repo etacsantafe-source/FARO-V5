@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.MODULAR_EVOLUTION_POLICY.DOCS.20261106",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.MODULAR_EVOLUTION_POLICY.DOCS.20261106.RELEASED",
   "token_hash": "1e17dd31e8855b902bb0223509130df12a504c8b2ae5419c7a81c21340083f6d",
-  "target_head": "6df24a086f29b6a9466fa7370e38afe7866626b8",
+  "target_head": "e31a7632847b612ee5858cc84d285aa99dfe4e85",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 429,
-  "timestamp": 1794017724,
-  "purpose": "DOC_ONLY_ARCHITECTURE_DECISION_MODULAR_EVOLUTION_AND_NEXT_HANDOFF",
-  "last_checkpoint": "S3_A4_N033C1_B7_PASS_SCOPED"
+  "epoch": 430,
+  "timestamp": 1794017819,
+  "purpose": "MODULAR_EVOLUTION_POLICY_RATIFIED_DOCS_ONLY_N033C2_B1_B5_NEXT",
+  "last_checkpoint": "N033C1_B7_PASS_POLICY_DOCS_NEXT_N033C2@e31a7632847b612ee5858cc84d285aa99dfe4e85"
 }
