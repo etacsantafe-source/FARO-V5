@@ -1,22 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033B1_CANONICAL_PLANNING_CODEC",
-  "reviewed_head": "fd8551a7013daf9d9d7d81c480786861f194db80",
+  "status": "READY",
+  "unit_id": "S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS",
+  "reviewed_head": "e5a7e1ad79422a8adf9b8c311052de6b4ceb75c0",
   "paths": [
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCanonicalOperation.kt",
-    "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCanonicalOperationTest.kt",
-    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanCanonicalOperation.kt",
-    "v5/owner/monthlyplan/src/test/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanCanonicalOperationTest.kt",
-    ".github/workflows/faro-v5-s3-a4-n033b1-codecs-directed.yml"
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/spi/ReminderPersistencePort.kt",
+    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/spi/MonthlyPlanPersistencePort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningOwnerSpiT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033b2-owner-spi-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
-          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
+          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
+          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
-          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
+          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
+          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
-          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
+          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
+          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
-          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
+          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
+          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
           "marker": "## B4"
         }
       ]
@@ -55,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
-          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
+          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
+          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_EXACT_SHA_N033B1_24_OF_24_AND_N031_12_OF_12_GUARD_62_SUCCESS",
-    "B7": "PASS_SCOPED_N033B1_CANONICAL_OWNER_CODECS_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a3a033d88b95cdfe9eaba165a0d1e633500d675e",
@@ -76,9 +76,9 @@
       }
     ]
   },
-  "why": "N033B1 B7 PASS_SCOPED with exact CI and no host; N033B2 separate preaudit required",
-  "how": "N033B1 XML 24/24 + N031 regression 12/12, guard 62 units; latest B7 independent audit recorded",
+  "why": "N033B2 owner SPI and current stamp only; no operation binding/host/ACL or shipping",
+  "how": "N033A exact same SQLite transaction and N033B1 typed codecs preserved; B1-B5 independently documented",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033B2 owner Reality SPI/revision stamps B1-B5 and docs-only limited permit before any new functional code; N033B full still STOP"
+  "next": "N033B2 five-path B6 exact CI and B7, then N033B3 new preaudit"
 }
