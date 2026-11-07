@@ -1,0 +1,39 @@
+# FARO V5 — S3.A4 / N033B3 bindings de Planning, contrato y preflight — B1–B5
+
+Fecha AR 2026-11-06. Unidad S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT. Baseline exacto work/s3-night-20261102@66b26d9b599c817ef8c29d3adab76f4676a59c81. AUDITORÍA ANTES DE CÓDIGO. Writer global epoch417 exclusivo. N033B2 B7 PASS_SCOPED no se reabre. AUTO de espera manual ON, ninguna automatización agendada.
+
+## B1 — Evidencia concreta, objetivo y límites
+- Estado HEAD: N033B2 Reality8 owner SPI Reminders/MonthlyPlan y stamps owner reales, B7 PASS_SCOPED, SHA funcional 17413718; 12/12 workflows del SHA SUCCESS, owner T2 XML 18/18, N033B1 codec 24/24, guard 63 unidades. Permiso de nuevo código BLOCKED. S2 CLOSED 8/8; A4 OPEN, A5 física NOT_RUN; V2 productiva OFF.
+- D-229 fijo v5/spec/generated/contract-baseline.tsv contiene EXACTAMENTE N-032 reminder.create planning REALITY_MUTATION BINDABLE ADAPT y N-028 monthly_plan.item.add planning REALITY_MUTATION BINDABLE ADAPT entre 172; NO cambiar catálogo ni regenerar IDs.
+- N033B1: ReminderCreatePayload / MonthlyPlanItemAddPayload son codecs canónicos versionados con límites, no user operations. N033B2: ReminderPersistencePort, MonthlyPlanPersistencePort read+create, owner-wide stamps revision:n; RealityStore.planningApplyInsert INTERNAL inserta bajo scope genuino y CAS SQL; y RealityStore.current() resuelve stamps solo en Reality8 STAGED. Estos son los únicos dependientes reales de esta unidad.
+- N033B3 B6 mínimo: dos OperationBindingPort para IDs oficiales y dos OperationRevalidationPort, construido sin tocar host ni registro; INYECTAR OperationContractLookupPort externo de catálogo, exige igualdad COMPLETA (capability, versión, fingerprint, exposure, executor y profile) y estado actual del contrato en ambos momentos. NO inventar SHA oficial de fingerprint: tests usan descriptores fixtures inyectados y comprueban igualdad exacta.
+- Precondiciones: dependencia de owner estrictamente SINGLETON exacta (boundary/key/value revision:n), sin permitir stamp vacío/cambiado de otro owner; lectura real fail-closed; payload canónico válido; ID no duplicado; ningún link a Matter sin ACL concreta; monthly_plan.item.add SOLO status PLANNED, jamás payload PAID_CONFIRMED ni pago Finance.
+- Revalidator debe volver a leer fuente canónica y rechazar cambios de stamp/contrato y payload. Binding revalida dentro de Reality.run() y pasa expectedOwnerRevision al SPI (CAS auténtico). No asumir que un revalidator ya autoriza actor/ACL ni que la revisión resuelve ABA de generación.
+
+## B2 — V4.4 y reutilización sin reinventar
+- Revisiones V4.4 ya preservadas en S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md y S3_A4_N033_TRUSTED_PLANNING_APPLY_B1_B5_STOP_20261106.md; reutilizar conclusión: regla ≠ ocurrencia/dispatch, mensualidad ≠ pago Finance, sin trasplantar scheduler, tablas o lógica de cron.
+- Reusar FinanceEntryRecordBinding y FinanceAccountCreateBinding como patrón, ApplyPreflightGate para contrato/version/fingerprint/stamps y OperationRevalidationPort, ApplyBindingResolutionGate, N033A scope/receipt. No modificar esos kernels ni escribir otra DB/transaction. La nueva resolución NO se monta en FaroV5ActiveReviewedApplySession.
+- Revisión owner local es precondición de concurrencia, no clave global de generación; N033C conserva fencing por puntero, ACL revocable/Review, retry/receipt y Undo compensatorio.
+
+## B3 — Investigación ajena verificable
+1. Android guía oficial offline first https://developer.android.com/topic/architecture/data-layer/offline-first: fuente local canónica leída a través de capa de datos y consistencia de repositorio. **ADAPTAR** SPI Reality ya existente; sin network/WorkManager, sin servicios pagos ni API.
+2. OWASP API1:2023 BOLA https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/: identificador en request NO autoriza objeto. **USAR EL PRINCIPIO**, rechazar linkedMatterId mientras no existe ACL real, no montar bindings en host. OWASP se refiere a API pero el problema de autorización es aplicable a acciones por ID en app.
+3. SQLite transacciones https://www.sqlite.org/lang_transaction.html : un solo writer y BEGIN IMMEDIATE; no anidar transacciones. **USAR** puente N033A/RalityStore.run; compare-and-swap en tabla del owner dentro de transactionScope, no actualización fuera de commit.
+4. Software de tareas Tasks.org https://github.com/tasks/tasks referencia de separación funcional regla/acción/scheduler; GPL-3.0, NO copiar código ni introducir scheduler, notificación o cron en esta unidad.
+5. Alternativas: (A) bindings owners aislados, contrato inyectado y preflight de stamp/semántica, no registrados = **ADAPTAR**; (B) poner port staged en host directamente = **DESCARTAR**, elude Review/ACL; (C) confiar en revision:n como autorización global y no validar contrato en execute = **DESCARTAR**, ABA/contrato stale; (D) nueva tabla o segundo SQLite = **DESCARTAR** por atomicidad y complejidad.
+
+## B4 — Alcance exacto y aceptación binaria
+- Cuatro rutas funcionales autorizables; ningún cambio de build.gradle, RealityStore, kernel, spec o app:
+  1. v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCreateBinding.kt
+  2. v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanItemAddBinding.kt
+  3. v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningBindingsPreflightT2Test.kt
+  4. .github/workflows/faro-v5-s3-a4-n033b3-bindings-directed.yml
+- Contrato de cada Binding: descriptor EXACT operation+executor+REALITY_MUTATION. Constructor recibe SPI y OperationContractLookupPort; contract must match completo current, capability, BINDABLE. Execute debe chequear payload, no link Matter ni status PAID, stamp singleton exacto contra owner read dentro de scope, duplicate ID, rev CAS. Completed NO significa SQLite commit; receipt lo gestiona RealityStore.
+- Cada Revalidation devuelve tipo Rejected POLICY_REJECTED/PRECONDITION_FAILED con código estable y sin escritura: contrato stale, payload corrupto, owner fuera de schema8, owner stamp stale/missing, duplicate, link sin Matter ACL, status PAID.
+- Tests JVM con Reality8 auténtica verifican integración singleton preflight/receipt, versiones/fingerprint falsos, stamps inexistentes/stale/otro owner, payload inválido, ID duplicado, vínculo Matter bloqueado, PAID_CONFIRMATION bloqueada, schema7 fail closed y scope CAS; evitar tests que impliquen host real. Workflow XML estricto clase nueva y regresión N033B2/N033A; 0 skips/errors/failures; CI SHA exacto + guard protocol.
+- No registrar los bindings en shipping/Android, no alterar catálogo de 172, no habilitar nuevos permisos, no activar FARO Noche/tareas/Auto programada, V2 producción OFF, sin Android G15 en esta unidad.
+
+## B5 — Auditoría adversarial anterior a B6
+- Amenazas cubiertas: prepared contract con version/fingerprint diferente pese a mismo ID; spoof de capability/executor/exposure; deps ausentes/adicionales/cruzadas; blob canónico truncado/invalid; CAS stale entre preflight y SQL; duplicados; Matter de tercero; PAID_CONFIRMED forjado como factura; schema7/owner no disponible. Todas deben rechazar antes de efecto o provocar rollback por el único scope.
+- Limitaciones no resueltas: B3 no puede probar Review humano, user ACL, revocación, puntero/generación y ABA entre restored snapshots, Undo, receipt-first retry seguro de host ni entrega de alarmas. Estos permanecen obligatorios para N033C, NO simularlos con fixtures.
+- Veredicto **READY_SCOPED_N033B3_BINDINGS_AND_LOCAL_PREFLIGHT_ONLY**, condicionado a doc de permiso READY separado con SHAs/5 marcadores y preflight 4 rutas ANTES del primer código. Un CI rojo será RED_FIX/STOP, nunca B7 PASS por construcción. Después de CI exacta B7 propio y checkpoint, permiso BLOCKED. N033C siguiente; A4 OPEN y V2 productiva OFF.
