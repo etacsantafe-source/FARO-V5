@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C1.20261106",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C1.20261106.RELEASED",
   "token_hash": "c9f650b4e7e2a2f93268b5cc00d238043a24b3b9476642b61f302ebca2647c3d",
-  "target_head": "de5d35e7e7d96e08cb1959dfe3a4dabac4b12310",
+  "target_head": "c643289d266e8ccb56e9647d976026941a5a659e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 421,
-  "timestamp": 1794015504,
-  "purpose": "N033C1_ACTIVE_REALITY8_FENCED_REOPEN_B1_B5_AND_B6",
-  "last_checkpoint": "N033C1_CAS_ACQUIRED"
+  "epoch": 422,
+  "timestamp": 1794015687,
+  "purpose": "N033C1_B6_CI_PENDING_AUTO_WAIT_READ_ONLY",
+  "last_checkpoint": "N033C1_B6@c643289d266e8ccb56e9647d976026941a5a659e"
 }
