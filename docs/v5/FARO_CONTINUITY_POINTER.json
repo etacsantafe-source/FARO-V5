@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 406
+    "expected_release_epoch": 408
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033B_OFFICIAL_PLANNING_BINDINGS_B1_B5_STOP_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033A B7 PASS_SCOPED internal Reality8 shared transaction bridge, code 14af4032, 9/9 CI SUCCESS exact SHA; NEXT N033B fresh B1-B5 official reminder.create/monthly_plan.item.add bindings/Review/ACL without new catalog. S3.A4 OPEN; N033C later. V2 productive/Noche/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_N033A_B7_PASS_SCOPED_N033B_PREAUDIT_NEXT",
+  "next": "N033B B1-B5 documented STOP full binding: absent canonical payloads, Reminder/MonthlyPlan dependency stamps and authenticated Reality owner SPI. NEXT N033B1 pure canonical codec+typed existing D-229 OperationIds with new scoped B1-B5 and docs-only permit before any code. N033A B7 PASS_SCOPED; N033C/A4 OPEN. No shipping/V2 activation.",
+  "checkpoint_status": "S3_A4_N033B_B1_B5_STOP_N033B1_NEXT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
+  "last_handoff": "docs/s3-night/S3_A4_N033B_OFFICIAL_PLANNING_BINDINGS_B1_B5_STOP_20261106.md",
   "last_code_sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
   "last_ci_run_id": 42314685064,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -1364,5 +1364,17 @@
     "physical": "NOT_RUN",
     "next": "N033B_B1_B5",
     "writer_release_epoch_expected": 406
+  },
+  "n033b_preaudit": {
+    "unit_id": "S3_A4_N033B_OFFICIAL_PLANNING_BINDINGS",
+    "status": "B1_B5_DOCUMENTED_STOP_FULL_BINDING",
+    "evidence": "docs/s3-night/S3_A4_N033B_OFFICIAL_PLANNING_BINDINGS_B1_B5_STOP_20261106.md",
+    "evidence_blob_sha": "c63ba2de77574f28eac4873cd8015c8a73db2b2e",
+    "source_head": "012f1381af4ccb1df576945c9964c03f2745a748",
+    "code_new": false,
+    "ci_new": "NOT_RUN",
+    "permit": "BLOCKED",
+    "next": "N033B1_PURE_CANONICAL_PAYLOAD_PREAUDIT_SCOPED",
+    "writer_release_epoch_expected": 408
   }
 }

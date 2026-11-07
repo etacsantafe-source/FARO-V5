@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "N033A B7 PASS_SCOPED code 14af4032, 9/9 CI SUCCESS exact SHA, XML 12/12+47/47+48/48. N033B fresh B1-B5 NEXT; N033C/A4 OPEN. S4/V2 productiva/Auto/Noche OFF.",
+  "next": "N033B full binding B1-B5 documented STOP (canonical payload/stamps/Reality owner SPI missing). Next N033B1 pure canonical codec and 2 official OperationIds, new preflight+permit; no code yet. N033A B7 PASS_SCOPED remains. S3.A4 OPEN.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -1098,5 +1098,16 @@
     "evidence_blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
     "code_sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
     "b7_evidence": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md"
+  },
+  "n033b_preaudit": {
+    "unit_id": "S3_A4_N033B_OFFICIAL_PLANNING_BINDINGS",
+    "evidence": "docs/s3-night/S3_A4_N033B_OFFICIAL_PLANNING_BINDINGS_B1_B5_STOP_20261106.md",
+    "source_head": "012f1381af4ccb1df576945c9964c03f2745a748",
+    "status": "B1_B5_DOCUMENTED_STOP_FULL_BINDING",
+    "next": "N033B1_PURE_CANONICAL_PAYLOAD",
+    "permit": "BLOCKED",
+    "code_new": false,
+    "ci_new": "NOT_RUN",
+    "writer_release_epoch_expected": 408
   }
 }

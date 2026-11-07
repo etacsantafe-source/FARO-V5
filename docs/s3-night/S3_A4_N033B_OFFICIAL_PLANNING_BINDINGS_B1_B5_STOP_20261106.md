@@ -1,0 +1,31 @@
+# FARO V5 — S3.A4 N033B official Planning bindings / Review / stamps — B1–B5 (STOP full binding)
+2026-11-06 AR. Rama `work/s3-night-20261102`, fuente `012f1381af4ccb1df576945c9964c03f2745a748`. **Checkpoint documental**. Nuevo código, permiso funcional y CI de N033B: **NO EJECUTADOS**. N033A B7 PASS_SCOPED conserva autoridad exacta.
+
+## B1 — Evidencia y aceptación
+- Baseline `v5/spec/generated/contract-baseline.tsv` D-229: 172 contratos inmutables, incluye exactamente `N-032 reminder.create planning REALITY_MUTATION BINDABLE ADAPT` y `N-028 monthly_plan.item.add planning REALITY_MUTATION BINDABLE ADAPT`. No agregar IDs, cambiar executor/profile, ni suponer catálogo expandido. `V5_OPERATION_CONTRACT_INVENTORY.md` lo corrobora.
+- Contratos modelo `ReminderModel.kt` y `MonthlyPlanModel.kt` actualmente tienen tipos fuertes/read API pero **no** `OperationId`, `CanonicalPayload`/encoder-decode, `OperationBindingPort`, revalidator o SPI de persistencia Apply. `RealityStore.current()` solo admite stamps de Profile y Finance; no hay stamps Reminder/MonthlyPlan en Apply.
+- N033A `RealityStore.planningApplyInsert` es `internal` al módulo Reality, usa scope auténtico+CAS y receipt bajo `run`; **no** es exposición externa. `FaroV5ActiveReviewedApplySession` allowlist explícita solo Profile/Finance (tres operaciones), valida generación/recovery/puntero y tiene V2 shipping OFF. Por tanto ni interfaz pública real ni ACL de Planning revocable están listas para bindear.
+- Aceptación de N033B **completo**: IDs EXACTOS, payload canónico con límites, full fingerprint/dependency, consentimiento Review humano canónico y ACL revocable revalidado, mismo scope N033A, receipt, retry idempotente y rechazo de stale revision/ABA/generation. Su cobertura debe excluir scheduler/ocurrencia automática, pago Finance, y un D-229 173º.
+
+## B2 — V4.4 y reutilización
+- V4.4 comparación ya durable en `S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md` y `S3_A4_N033_TRUSTED_PLANNING_APPLY_B1_B5_STOP_20261106.md`: una regla no es ocurrencia/disparo; plan de mes no es transacción Finance; no copiar scheduler legacy ni su DB.
+- V5 reutiliza `FinanceEntryRecordPayload` (codificación acotada), `FinanceEntryRecordBinding`/Revalidation (contrato+decode), `ApplyPreflightGate`, `ReviewedConversationApplyCoordinator`, `ApplyRetryReceiptGate`, `RealityStore.commit` y N033A transacción; NO duplicar kernel Apply ni usar un segundo SQLite.
+- El adaptador adecuado debe exponer **un SPI explícito de owner** que la capa Reality implemente usando el puente interno N033A. No exponer `planningStageInsert` a Chat ni enseñar al host a saltar `requireActiveScope`. Revisión en binding no sustituye ACL preflight y host revocable.
+
+## B3 — Investigación ajena verificable
+1. OWASP API1:2023 Broken Object Level Authorization, https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/ — exige autorización sobre el objeto concreto, no confiar en ID del request. **USAR principio** en subject/owner + generation + ACL; no afirmar que API web equivale a app local, adoptar pruebas de ID ajeno/revocado.
+2. Android official offline-first data layer https://developer.android.com/topic/architecture/data-layer/offline-first — datos locales fuente canónica y control explícito de conflictos/stale versions. **ADAPTAR** sin red/cloud/pago ni WorkManager.
+3. SQLite https://www.sqlite.org/lang_transaction.html — mantener una sola transacción/una conexión y CAS precommit. **USAR** N033A sin segunda transacción.
+4. Tasks.org https://github.com/tasks/tasks — app real de tareas, GPL-3.0; **REFERENCIA funcional** para separar recordatorio de entrega, no copiar código GPL ni crear scheduler.
+5. Comparativa: (A) codec/modelos owner `internal` + SPI Reality posterior + preflight ACL = **ADAPTAR**; (B) ligar stage-only port directamente a UI = **DESCARTAR**, evita receipt/review/revocación; (C) clon de SQLite o nueva base Planning= **DESCARTAR**, rompe atomicidad. Coste de dependencias/servicios 0.
+
+## B4 — Diseño mínimo dividido sin falso PASS
+1. **N033B1 (próxima unidad, antes de más código):** payload canónico puro JVM para `ReminderRule` y `MonthlyPlanItem`, dos OperationIds tipados `reminder.create`/`monthly_plan.item.add` con `ExecutorId("planning")` y capability N-032/N-028. Formato versionado, bytes máximos, UUID/ID de regla provisto explícitamente, civil time + timezone o period/fecha+dinero opcional; decode con exact byte consumption, re-encode igualdad y rechazo de UTF-8 corrupto/overflow/trailing bytes. Solo nuevas clases owner+tests+CI exacta; **sin registrar binding, permisos, persistencia ni host**. Requiere preaudit y permiso por rutas propio antes de B6.
+2. **N033B2:** SPI owner y adaptador Reality al `planningApplyInsert` interno; read revision/stamp de Reminders y MonthlyPlan implementado en `RealityStore.current()`. B1–B5 propios y negative tests scope, stale CAS, orphan Matter, budget 4MiB. No crear dos transacciones.
+3. **N033B3:** `OperationBindingPort`/revalidators reales, fingerprint del catálogo y stamps; contrato/preflight dirigido con receipt-first retry, rechazo de versión, IDs/contratos falsos; sin habilitar host aún.
+4. **N033C:** generación/Review/ACL/puntero y Undo compensatorio contra host activo. No permitir que un READY de B1 autorice N033B2/B3 o N033C de forma implícita. Mantener D-229 172.
+
+## B5 — Auditoría adversarial y veredicto
+**STOP_FUNCTIONAL_FULL_N033B:** ausencia de payloads canónicos, stamps Reminder/MonthlyPlan y SPI de persistencia Apply autorizado. `planningApplyInsert` `internal` no se registra en host; el código N033A no cambia el veto de Review/ACL/Undo.
+**NEXT N033B1** puro codec/IDs, alcance aislado sin writer de DB ni cambios al host; emitir preaudit completo de rutas exactas y permiso docs-only independiente. Pruebas negativas mínimas: decode byte no canónico, ID duplicado, DST/fin de mes no materializado, precio esperado no interpretado como pago, stale stamp no silenciado, privilege BOLA/revocado negado a la fase B2/B3, fingerprints y replay no inventados. Sin datos reales/Android física.
+S2 CLOSED 8/8; S3.A4 OPEN, A3 +8 Guardados NO aprobado, A5 X01–X12 NOT_RUN, S4/V2 productiva/Noche/Auto OFF; CLOUD STAGED, catálogo 172 inalterado.
