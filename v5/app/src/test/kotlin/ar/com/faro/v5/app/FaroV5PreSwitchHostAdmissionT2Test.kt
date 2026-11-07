@@ -110,4 +110,37 @@ class FaroV5PreSwitchHostAdmissionT2Test {
         assertEquals(id, pointer.read()!!.generationId)
     }
 
+    @Test fun preSwitchRoundTripAbaToSameIdFailsClosed() {
+        stageV2()
+        val original = checkNotNull(pointer.read())
+        val admission = FaroV5PreSwitchHostAdmission(layout, pointer, true) {
+            checkNotNull(pointer.compareAndSet(previous, id))
+            checkNotNull(pointer.compareAndSet(id, previous))
+            true
+        }
+        assertFalse(admission.canOpenAsActive(MaintenanceOperationKind.RESTORE, id))
+        assertEquals(previous, pointer.read()?.generationId)
+        assertTrue(checkNotNull(pointer.read()).sequence > original.sequence)
+    }
+
+    @Test fun postSwitchSameIdNewSequenceDoesNotAuthorizeHost() {
+        stageV2()
+        var reads = 0
+        val changing = object : ActiveGenerationPointerPort {
+            override fun read(): ActiveGenerationPointer {
+                reads++
+                return ActiveGenerationPointer(if (reads == 1) 2L else 4L, id)
+            }
+            override fun compareAndSet(
+                expectedGenerationId: StorageGenerationId?,
+                targetGenerationId: StorageGenerationId,
+            ): ActiveGenerationPointer? = null
+        }
+        val admission = FaroV5PreSwitchHostAdmission(layout, changing, true) {
+            error("post-switch must never call quarantined opener")
+        }
+        assertFalse(admission.canOpenAsActive(MaintenanceOperationKind.RESTORE, id))
+        assertEquals(2, reads)
+    }
+
 }

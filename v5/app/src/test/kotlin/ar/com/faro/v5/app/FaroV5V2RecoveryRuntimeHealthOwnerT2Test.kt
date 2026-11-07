@@ -22,6 +22,7 @@ class FaroV5V2RecoveryRuntimeHealthOwnerT2Test {
     private var workspace = true
     private var reportedId: String? = null
     private var failOpen = false
+    private var afterOpen: () -> Unit = {}
 
     private val quiescence = object : MaterialWriteQuiescencePort {
         override fun <T> withMaterialWritesQuiesced(
@@ -35,6 +36,7 @@ class FaroV5V2RecoveryRuntimeHealthOwnerT2Test {
     private val opener = V2RuntimeOpener { staged ->
         if (failOpen) error("failed to open")
         opens++
+        afterOpen()
         object : V2RuntimeGraph {
             override val generationId = reportedId ?: staged.descriptor.generationId.value
             override val hasWorkspace get() = workspace
@@ -153,4 +155,21 @@ class FaroV5V2RecoveryRuntimeHealthOwnerT2Test {
         assertEquals(V2RuntimeHealth.Blocked, owner.verify(op))
         assertEquals(0, opens)
     }
+    @Test fun pointerRoundTripAbaDuringOpenBlocksAndClosesGraph() {
+        prepare()
+        val original = checkNotNull(pointer.read())
+        val journalBefore = journal.read(op)
+        val foreign = StorageGenerationId("c123-aba-foreign")
+        afterOpen = {
+            checkNotNull(pointer.compareAndSet(target, foreign))
+            checkNotNull(pointer.compareAndSet(foreign, target))
+        }
+        assertEquals(V2RuntimeHealth.Blocked, owner.verify(op))
+        assertEquals(1, opens)
+        assertEquals(1, closes)
+        assertEquals(journalBefore, journal.read(op))
+        assertEquals(target, pointer.read()?.generationId)
+        assertTrue(checkNotNull(pointer.read()).sequence > original.sequence)
+    }
+
 }

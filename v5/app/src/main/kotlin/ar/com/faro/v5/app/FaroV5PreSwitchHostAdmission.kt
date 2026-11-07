@@ -39,19 +39,21 @@ internal class FaroV5PreSwitchHostAdmission(
             if (ExistingGenerationFormatReader.requireAndRead(staged) !=
                     GenerationStoreFormat.WORKSPACE_V2) return@runCatching false
 
-            val pointerBefore = activePointer.read()?.generationId
+            // Capture BOTH generation identity and durable pointer sequence.
+            // A switch-away/back to the same ID must revoke prior admission.
+            val pointerBefore = activePointer.read()
                 ?: return@runCatching false
-            if (pointerBefore == targetGenerationId) {
+            if (pointerBefore.generationId == targetGenerationId) {
                 // Already post-switch: coordinator has verified the ACTUAL active
                 // runtime health before calling this policy at HEALTH_VERIFIED.
                 // The quarantined opener is forbidden here: it would reject
                 // the active graph and force an erroneous rollback.
-                activePointer.read()?.generationId == targetGenerationId
+                activePointer.read() == pointerBefore
             } else {
                 // Still pre-pointer: prove five-owner health on the isolated
                 // candidate, then refuse a concurrent pointer change.
                 verifyQuarantinedV2(staged) &&
-                    activePointer.read()?.generationId == pointerBefore
+                    activePointer.read() == pointerBefore
             }
         }.getOrDefault(false)
     }

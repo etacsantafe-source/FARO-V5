@@ -33,25 +33,29 @@ internal class FaroV5V2RecoveryRuntimeHealthOwner(
             quiescence.withMaterialWritesQuiesced(id) {
                 val entry = journal.read(id)
                     ?: return@withMaterialWritesQuiesced V2RuntimeHealth.Blocked
+                // The complete pointer is the authority: generation ID alone
+                // misses ABA when a switch leaves and re-enters the same ID.
+                val pointerBefore = pointer.read()
+                    ?: return@withMaterialWritesQuiesced V2RuntimeHealth.Blocked
                 if (entry.kind != MaintenanceOperationKind.RESTORE ||
                     entry.previousGenerationId == null ||
                     entry.phase !in setOf(BootstrapPhase.SWITCHED, BootstrapPhase.HEALTH_VERIFIED) ||
                     entry.materialWritesAccepted ||
-                    pointer.read()?.generationId != entry.targetGenerationId ||
+                    pointerBefore.generationId != entry.targetGenerationId ||
                     journal.pending().any { it.operationId != id }
                 ) return@withMaterialWritesQuiesced V2RuntimeHealth.Blocked
 
                 val staged = layout.requireStaged(entry.targetGenerationId)
                 if (ExistingGenerationFormatReader.requireAndRead(staged) !=
                         GenerationStoreFormat.WORKSPACE_V2 ||
-                    pointer.read()?.generationId != entry.targetGenerationId
+                    pointer.read() != pointerBefore
                 ) return@withMaterialWritesQuiesced V2RuntimeHealth.Blocked
 
                 opener.open(staged).use { graph ->
                     if (graph.generationId != entry.targetGenerationId.value ||
                         !graph.hasWorkspace ||
                         !graph.isHealthy() ||
-                        pointer.read()?.generationId != entry.targetGenerationId ||
+                        pointer.read() != pointerBefore ||
                         journal.read(id) != entry) V2RuntimeHealth.Blocked
                     else V2RuntimeHealth.Verified(entry.targetGenerationId.value)
                 }
