@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL",
-  "reviewed_head": "e4c1b27d33903234f4b82bd9a87e6336d424b651",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5AndroidSandboxPrincipal.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5AndroidSandboxPrincipalT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-android-principal-directed.yml"
-  ],
+  "reviewed_head": "faba6fed7a504050999a682d77236a47a2e6f405",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_56_56",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B7_PASS_20261107.md",
+          "blob_sha": "b5f4b160354bd9da967d91dcec408eb5a851793f",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
-    "unit_id": "S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER",
+    "sha": "faba6fed7a504050999a682d77236a47a2e6f405",
+    "unit_id": "S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
-        "blob_sha": "71fb8a6fa00698141c8f6036e4e881f8270ac6db",
+        "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B7_PASS_20261107.md",
+        "blob_sha": "b5f4b160354bd9da967d91dcec408eb5a851793f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Only scoped technical Android sandbox process evidence, not human principal, not owner policy or transaction grant",
-  "how": "Verified Android Process SDK signatures + current FARO app gradle/manifest/pointer and independent B1-B5, exact 3 paths, 16+14+14+10+2 XML",
+  "why": "Scoped Android app sandbox technical process evidence only B7 PASS 56/56; no genuine human identity, owner policy or transaction ACL",
+  "how": "CI #42405240480 XML 16+14+14+10+2 all PASS, mandatory seven-block guard #42405240382 SUCCESS exact SHA, no shipping wiring",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "After B7: N033C2B4_LOCAL_OWNER_OBJECT_POLICY B1-B5, transactional ACL, N033C3 Undo/retry; shipping V2 OFF"
+  "next": "N033C2B4_LOCAL_OWNER_OBJECT_POLICY B1-B5, then TRANSACTIONAL_PLANNING_ACL, N033C3 Undo/retry"
 }
