@@ -84,20 +84,19 @@ class FaroV5Planning8ApprovedObjectGateT2Test {
         )
         try {
             val conversationId = ConversationId("planning-chat")
-            assertTrue(ws.create(WorkspaceCreateRequest(
-                ConversationWorkspaceEntry(conversationId, "Planificación", 100L),
-                0L, IdempotencyKey("create-chat"),
-            )) is WorkspaceWriteResult.Committed)
+            assertTrue(kotlinx.coroutines.runBlocking {
+                ws.createAndSelect(conversationId, 100L, IdempotencyKey("create-chat"))
+            } is ConversationSelectionResult.Saved)
             val proposal = ws.createPlanReview(WorkspacePlanReviewCreateRequest(
                 conversationId, "review-planning", ws.draftSnapshot(conversationId)!!.authorityToken,
                 ws.snapshot().revision, plan.planFingerprint, "Confirmar alta planificada",
                 PreparedPlanEnvelopeCodec.encode(plan), IdempotencyKey("create-review"),
             )) as WorkspacePlanReviewWriteResult.Saved
             val review = if (approve) {
-                (ws.transitionPlanReview(WorkspacePlanReviewTransitionRequest(
-                    ConversationPlanReviewIntent.Approve(proposal.review.context()),
-                    IdempotencyKey("human-approval"),
-                )) as WorkspacePlanReviewWriteResult.Saved).review
+                (kotlinx.coroutines.runBlocking {
+                    ws.decide(ConversationPlanReviewIntent.Approve(proposal.review.context()),
+                        IdempotencyKey("human-approval"))
+                } as ConversationReviewDecision.Saved).review
             } else proposal.review
             return Case(ws, review, pointer)
         } catch (failure: Throwable) {
@@ -243,6 +242,33 @@ class FaroV5Planning8ApprovedObjectGateT2Test {
         openCase(plan).use { c ->
             assertFalse(guard(c, plan, grantFor("bill-a", MonthlyPlanOperations.ITEM_ADD))
                 .hasCurrentApprovedObjectReview(c.review.context()))
+        }
+    }
+
+    @Test fun discardedHumanReviewDuringAclReadIsDenied() {
+        val plan = reminderPlan()
+        openCase(plan).use { c ->
+            var discarded = false
+            val acl = Planning8ObjectAclReadPort { _, _ ->
+                if (!discarded) {
+                    val decision = kotlinx.coroutines.runBlocking {
+                        c.workspace.decide(
+                            ConversationPlanReviewIntent.Discard(c.review.context()),
+                            IdempotencyKey("discard-during-acl"),
+                        )
+                    }
+                    assertTrue(decision is ConversationReviewDecision.Saved)
+                    discarded = true
+                }
+                "owner-epoch-1"
+            }
+            assertFalse(guard(c, plan, acl)
+                .hasCurrentApprovedObjectReview(c.review.context()))
+            assertTrue(discarded)
+            assertEquals(ConversationPlanReviewState.DISCARDED,
+                kotlinx.coroutines.runBlocking {
+                    c.workspace.reviews(c.review.conversationId).single().state
+                })
         }
     }
 

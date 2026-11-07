@@ -96,11 +96,17 @@ internal class FaroV5Planning8ApprovedObjectGate(
             if (pointer.read() != pinned || !hostReady()) return@runCatching false
             val epoch = owner.epochOrNull(scope, pinned)?.takeIf { it.isNotBlank() }
                 ?: return@runCatching false
-            // Recheck ALL authorities; no result may be cached for execution.
-            pointer.read() == pinned &&
-                hostReady() &&
-                catalog.current(contract.operationId) == contract &&
-                owner.epochOrNull(scope, pinned) == epoch &&
-                pointer.read() == pinned && hostReady()
+            // Check ACL again, then re-read the canonical human decision:
+            // a real user can DISCARD an approved Review while ACL is read.
+            if (pointer.read() != pinned || !hostReady() ||
+                catalog.current(contract.operationId) != contract ||
+                owner.epochOrNull(scope, pinned) != epoch
+            ) return@runCatching false
+            val latest = workspace.load(context) ?: return@runCatching false
+            latest.review == review &&
+                latest.review.state == ConversationPlanReviewState.APPROVED &&
+                latest.envelope().contentEquals(approved.envelope()) &&
+                pointer.read() == pinned && hostReady() &&
+                catalog.current(contract.operationId) == contract
         }.getOrDefault(false)
 }

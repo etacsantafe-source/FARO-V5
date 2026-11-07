@@ -44,14 +44,14 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5Planning8ApprovedObjectGateT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test"
-      - name: Verify exact JUnit XML 13 plus 10 plus 2
+      - name: Verify exact JUnit XML 14 plus 10 plus 2
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
           folder=Path('v5/app/build/test-results/testDebugUnitTest')
           expected={
-            'FaroV5Planning8ApprovedObjectGateT2Test':13,
+            'FaroV5Planning8ApprovedObjectGateT2Test':14,
             'FaroV5ActiveWorkspaceSearchGrantOwnerTest':10,
             'FaroV5ChatToReviewedApplyFlowT2Test':2,
           }
@@ -66,7 +66,7 @@ jobs:
                   raise SystemExit('N033C2B4_XML_FAIL '+name+' '+str(observed))
               print('N033C2B4_XML_PASS '+name+' '+str(n)+'/'+str(n))
               total+=n
-          if total!=25:
+          if total!=26:
               raise SystemExit('N033C2B4_TOTAL_FAIL '+str(total))
-          print('N033C2B4_OBJECT_REVIEW_GUARD_PASS 25/25')
+          print('N033C2B4_OBJECT_REVIEW_GUARD_PASS 26/26')
           PY
