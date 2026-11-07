@@ -1,0 +1,71 @@
+name: FARO V5 S3 A4 N033B3 official Planning bindings and preflight
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCreateBinding.kt"
+      - "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanItemAddBinding.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningBindingsPreflightT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a4-n033b3-bindings-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n033b3-bindings
+  cancel-in-progress: false
+
+jobs:
+  planning-bindings-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for multi-project Gradle configuration
+        run: |
+          set -eu
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run N033B3 local preflight and N033B2 N033A regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityPlanningBindingsPreflightT2Test" --tests "ar.com.faro.v5.store.reality.RealityPlanningOwnerSpiT2Test" --tests "ar.com.faro.v5.store.reality.RealityPlanningApplyBridgeT2Test"
+      - name: Enforce exact XML counts no skips
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path('v5/store/reality/build/test-results/test')
+          expected={'RealityPlanningBindingsPreflightT2Test':10,
+                    'RealityPlanningOwnerSpiT2Test':6,
+                    'RealityPlanningApplyBridgeT2Test':6}
+          total=0
+          for name,count in expected.items():
+              matches=list(folder.glob('TEST-*'+name+'.xml'))
+              if len(matches)!=1:
+                  raise SystemExit('N033B3_XML_MISSING '+name)
+              root=ET.parse(matches[0]).getroot()
+              actual=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if actual!=(count,0,0,0):
+                  raise SystemExit('N033B3_XML_FAIL '+name+' '+str(actual))
+              print('N033B3_XML_PASS '+name+' '+str(count)+'/'+str(count))
+              total+=count
+          if total!=22:
+              raise SystemExit('N033B3_TOTAL_FAIL '+str(total))
+          print('N033B3_PLANNING_BINDINGS_PREFLIGHT_PASS 22/22')
+          PY
