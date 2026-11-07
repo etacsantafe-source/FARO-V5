@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH",
-  "reviewed_head": "f4e86e925c4dac4919c33bda76b8c54940386130",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
+  "reviewed_head": "96fe2c05cc524f11f4766a375c070b3795a59ceb",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-object-review-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
-          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
+          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
-          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
+          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
-          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
+          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
-          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
+          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B1_B5_20261107.md",
-          "blob_sha": "232f549d9529130eb78154cc238b0ca4621909d2",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
+          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_22_22",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B3_PLANNING8_RECOVERY_HEALTH_B7_PASS_20261107.md",
-          "blob_sha": "26ce352213779a8f9687d1e415cc75aff6e0431d",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "f4e86e925c4dac4919c33bda76b8c54940386130",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "N033C2B3 recovery health-only B7 PASS scoped 22/22 + guard; no user ACL/Review",
-  "how": "CI 42391349404 SUCCESS XML 8+11+3=22; guard 42391349264 SUCCESS same SHA",
+  "why": "N033C2B4 isolated read-only preflight guard: canonical Workspace approved review + exact operation/object + pointer and revocable ACL port, default-deny; no real ACL issuer or Apply",
+  "how": "B1-B5 doc exact blob; code only permitted three new paths; require directed XML and B7; production stays blocked",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B4 B1-B5 ACL/Review explicit object authorization; N033C3 Undo/retry"
+  "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
 }
