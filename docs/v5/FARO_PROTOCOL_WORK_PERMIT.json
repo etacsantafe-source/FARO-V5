@@ -1,16 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-  "reviewed_head": "205b5632bafe6121551f3923a7eacb6221c9c125",
-  "paths": [],
+  "reviewed_head": "6ce4c37ddf660c19b5dd3345ed8595e01432611a",
+  "paths": [
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX2_B1_B5_20261107.md",
+          "blob_sha": "a8afe1f0ab357453637cd1fec728af56217f36be",
           "marker": "## B1"
         }
       ]
@@ -19,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX2_B1_B5_20261107.md",
+          "blob_sha": "a8afe1f0ab357453637cd1fec728af56217f36be",
           "marker": "## B2"
         }
       ]
@@ -29,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX2_B1_B5_20261107.md",
+          "blob_sha": "a8afe1f0ab357453637cd1fec728af56217f36be",
           "marker": "## B3"
         }
       ]
@@ -39,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX2_B1_B5_20261107.md",
+          "blob_sha": "a8afe1f0ab357453637cd1fec728af56217f36be",
           "marker": "## B4"
         }
       ]
@@ -49,23 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX2_B1_B5_20261107.md",
+          "blob_sha": "a8afe1f0ab357453637cd1fec728af56217f36be",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "COMPILED_MAIN_TEST_COMPILE_FAILURE",
-    "B7": {
-      "status": "RED_FIX",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_2_20261107.md",
-          "blob_sha": "ea2d12301bbdd9a37191b28f8f1c37c012efd5e2",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "205b5632bafe6121551f3923a7eacb6221c9c125",
@@ -79,8 +72,8 @@
       }
     ]
   },
-  "why": "Second B7 RED_FIX: app fixture used Workspace internal draftSnapshot, compiled functional code but directed test compile failed",
-  "how": "CI 42395535331 FAILURE at app compileDebugUnitTestKotlin; guard 42395535340 PASS; 26/26 NOT_RUN; must use public readTimeline token.",
+  "why": "Second RED_FIX narrow: test used internal Workspace draftSnapshot, change to public timeline authority token only",
+  "how": "One exact new app test path; main and workflows untouched; directed 14+10+2; preserve prior B7 RED_FIX",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
