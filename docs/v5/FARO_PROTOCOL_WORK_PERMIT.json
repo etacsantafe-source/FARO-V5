@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL",
-  "reviewed_head": "faba6fed7a504050999a682d77236a47a2e6f405",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_TXN_AUTH_HOOK",
+  "reviewed_head": "9830c95711acc997d2355e51d76949a17076593c",
+  "paths": [
+    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
+    "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-txn-hook-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
-          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
+          "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
+          "blob_sha": "3c3c0ecaf76122b3c69bfe116108578d9c6eddd8",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
-          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
+          "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
+          "blob_sha": "3c3c0ecaf76122b3c69bfe116108578d9c6eddd8",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
-          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
+          "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
+          "blob_sha": "3c3c0ecaf76122b3c69bfe116108578d9c6eddd8",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
-          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
+          "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
+          "blob_sha": "3c3c0ecaf76122b3c69bfe116108578d9c6eddd8",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
-          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
+          "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
+          "blob_sha": "3c3c0ecaf76122b3c69bfe116108578d9c6eddd8",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_56_56",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B7_PASS_20261107.md",
-          "blob_sha": "b5f4b160354bd9da967d91dcec408eb5a851793f",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "faba6fed7a504050999a682d77236a47a2e6f405",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "Scoped Android app sandbox technical process evidence only B7 PASS 56/56; no genuine human identity, owner policy or transaction ACL",
-  "how": "CI #42405240480 XML 16+14+14+10+2 all PASS, mandatory seven-block guard #42405240382 SUCCESS exact SHA, no shipping wiring",
+  "why": "Scoped kernel transactional authorization seam (not Planning ACL). Full ACL remains STOP; do not activate V2",
+  "how": "Only deltas in ApplyTransactionExecutor.kt, matching tests, dedicated CI; mandate 7-block guard and B7 after exact SHA",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B4_LOCAL_OWNER_OBJECT_POLICY B1-B5, then TRANSACTIONAL_PLANNING_ACL, N033C3 Undo/retry"
+  "next": "Run B6 minimal hook and exact CI then B7; then separate real transactional Planning ACL, N033C3 Undo/retry"
 }
