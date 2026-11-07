@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 460
+    "expected_release_epoch": 464
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033C2B4 OBJECT_REVIEW_GUARD CLOSED B7 PASS_SCOPED 26/26 (CI 42396049323, guard 42396049289) on 3d116a14; next N033C2B4_REAL_OBJECT_ACL_AUTHORITY B1-B5 for real actor-object-operation grant/revoke and transactional recheck, no fake Search ACL. Then N033C3 Undo/retry. S3 A4 and S3 formal 0/5 still OPEN. S2 8/8; V2 shipping/S4/Auto/Noche OFF; A5 G15 NOT_RUN; catalog172. S5 modular/legacy cleanup deferred; no silent test data deletion.",
-  "checkpoint_status": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS_SCOPED_NEXT_REAL_ACL",
+  "next": "N033C2B4 SESSION_OBJECT_GRANT_OWNER CLOSED B7 PASS_SCOPED 40/40 (CI 42402036389, guard 42402036242), code d05184d9. REAL_OBJECT_ACL complete remains STOP: next N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY B1-B5 for genuine trusted local actor/ownership and nonreusable policy epoch, then TRANSACTIONAL_PLANNING_ACL under coordinated revocation and Reality transaction; then N033C3 Undo/retry. Current grants are session-only not shipped, no Review/Apply/wiring or authorization! S3.A4 OPEN, S2 8/8, S3 dev ~40% heuristic/formal 0/5, S4/V2 shipping/Auto/Noche OFF, G15 A5 NOT_RUN, catalog 172; defer S5 legacy/schema cleanup and no silent test data deletion.",
+  "checkpoint_status": "S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_SCOPED_NEXT_HOST_POLICY",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS_20261107.md",
-  "last_code_sha": "3d116a14899161b55fa38d0badd8a10dde769af0",
-  "last_ci_run_id": 42396049323,
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
+  "last_code_sha": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
+  "last_ci_run_id": 42402036389,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033C2B4_GUARD_26_26_GUARD_42396049289_SUCCESS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033C2B4_SESSION_GRANT_40_40_GUARD_42402036242_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
