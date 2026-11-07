@@ -116,6 +116,59 @@ class FaroV5GenerationStoreGraph private constructor(
             )
 
         /**
+         * N033C1 INTERNAL ONLY: reopen an ALREADY active, exactly schema8 V2
+         * generation. Does NOT switch pointers, migrate schema7, certify host,
+         * grant user ACL or bind any Planning operation to Android/Chat.
+         *
+         * The caller supplies a generation identity plus the monotonic durable
+         * pointer sequence; switching away/back to the same ID invalidates it.
+         * Read-only WAL-aware exact-schema preflight precedes writable opens.
+         */
+        internal fun reopenVerifiedActivePlanning8(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expectedPointerSequence: Long,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            materialWriteGate: MaterialWriteGate,
+        ): FaroV5GenerationStoreGraph {
+            require(expectedPointerSequence > 0L) {
+                "Active Reality8 requires a positive durable pointer sequence"
+            }
+            val pointer = FileActiveGenerationPointer(storageRoot)
+            val observed = checkNotNull(pointer.read()) {
+                "Active Reality8 requires an existing durable generation pointer"
+            }
+            check(observed.generationId == staged.descriptor.generationId &&
+                observed.sequence == expectedPointerSequence
+            ) { "Active Reality8 generation pointer identity/sequence mismatch" }
+            val canonical = FileStorageGenerationLayout(storageRoot)
+                .requireStaged(staged.descriptor.generationId)
+            check(canonical.descriptor == staged.descriptor &&
+                canonical.directory.toAbsolutePath().normalize() ==
+                    staged.directory.toAbsolutePath().normalize()
+            ) { "Active Reality8 requires an exact canonical immutable descriptor" }
+            // Header, marker, exact schema8 and all five read-only WAL checks are
+            // inside openValidatedV2Internal, before any writable SQLite open.
+            val graph = openValidatedV2Internal(
+                canonical, planVerifier, materialWriteGate,
+                activeGeneration = true, planningStage8 = true,
+                checkedPlanning8Active = true,
+            )
+            try {
+                check(pointer.read() == observed) {
+                    "Active Reality8 generation pointer changed during store open"
+                }
+                check(graph.generationId == observed.generationId.value &&
+                    graph.verifyHealthy()
+                ) { "Active Reality8 reopened graph health/identity mismatch" }
+                return graph
+            } catch (failure: Throwable) {
+                graph.close()
+                throw failure
+            }
+        }
+
+        /**
          * ISOLATED, INTERNAL staged Planning8 upgrade. No Android host, no active
          * generation, no public export/restore. Validates the durable descriptor
          * and non-active pointer BEFORE any SQLite schema migration is possible.
@@ -148,9 +201,13 @@ class FaroV5GenerationStoreGraph private constructor(
             materialWriteGate: MaterialWriteGate? = null,
             activeGeneration: Boolean = false,
             planningStage8: Boolean = false,
+            checkedPlanning8Active: Boolean = false,
         ): FaroV5GenerationStoreGraph {
-            check(!planningStage8 || !activeGeneration) {
-                "Planning8 may only open a quarantined staged generation"
+            check(!planningStage8 || !activeGeneration || checkedPlanning8Active) {
+                "Planning8 active open requires exact internal pointer/reopen admission"
+            }
+            check(!checkedPlanning8Active || (planningStage8 && activeGeneration)) {
+                "Planning8 active admission cannot be used in another generation path"
             }
             check(
                 ExistingGenerationFormatReader.requireAndRead(staged) ==
@@ -231,16 +288,23 @@ class FaroV5GenerationStoreGraph private constructor(
                 "finance_account_opening", "finance_entry",
             )
             val realityProfile = if (planningStage8) {
-                StagedSqlitePreflight.Schema(
-                    GenerationStoreFiles.REALITY, 8,
-                    realityCurrentTables + listOf(
-                        "reminder_state", "reminder_rule", "reminder_occurrence",
-                        "monthly_plan_state", "monthly_plan_item",
-                    ),
-                    legacyVersion = 7, legacyTables = realityCurrentTables,
-                    olderLegacyVersion = 6, olderLegacyTables = realityCurrentTables,
-                    oldestLegacyVersion = 5, oldestLegacyTables = historicalBase,
+                val required = realityCurrentTables + listOf(
+                    "reminder_state", "reminder_rule", "reminder_occurrence",
+                    "monthly_plan_state", "monthly_plan_item",
                 )
+                if (activeGeneration) {
+                    // N033C1: absolutely NO Reality7->8 migration on ACTIVE.
+                    // Reject version 5/6/7 before any writable RealityStore opens.
+                    StagedSqlitePreflight.Schema(GenerationStoreFiles.REALITY, 8, required)
+                } else {
+                    // Keep the existing isolated STAGED restore/migration semantics.
+                    StagedSqlitePreflight.Schema(
+                        GenerationStoreFiles.REALITY, 8, required,
+                        legacyVersion = 7, legacyTables = realityCurrentTables,
+                        olderLegacyVersion = 6, olderLegacyTables = realityCurrentTables,
+                        oldestLegacyVersion = 5, oldestLegacyTables = historicalBase,
+                    )
+                }
             } else {
                 StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.REALITY, 7, realityCurrentTables,
