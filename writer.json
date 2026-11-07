@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.B7FINAL.RELEASED",
-  "token_hash": "d3a9640b5708c990d82d7bb940b621a33e0fb390c7f3955c4676a7f7ed21f0c4",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.OBJECT_GRANT.20261107.461",
+  "token_hash": "4ec663aef2274e3f892a0091a1704d33e358ed0112154857f050041531dc1842",
   "target_head": "47dfdeb7d3f78773d90666d64ea97d64b88e5c4d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 460,
-  "timestamp": 1794072562,
-  "purpose": "N033C2B4 OBJECT_REVIEW_GUARD B7 PASS_SCOPED 26/26 and mandatory guard, permit BLOCKED, pointer durable",
-  "last_checkpoint": "N033C2B4_B7_PASS_26_26@47dfdeb7d3f78773d90666d64ea97d64b88e5c4d"
+  "epoch": 461,
+  "timestamp": 1794076128,
+  "purpose": "N033C2B4 scoped host object grant owner B1-B7 with protocol gates; no shipping ACL grant",
+  "last_checkpoint": "N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS@47dfdeb7d3f78773d90666d64ea97d64b88e5c4d"
 }
