@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER",
-  "reviewed_head": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL",
+  "reviewed_head": "e4c1b27d33903234f4b82bd9a87e6336d424b651",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5AndroidSandboxPrincipal.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5AndroidSandboxPrincipalT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-android-principal-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B1_B5_20261107.md",
-          "blob_sha": "a403538897e6aaa216e27437dcf0ed93dcd3eace",
+          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
+          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B1_B5_20261107.md",
-          "blob_sha": "a403538897e6aaa216e27437dcf0ed93dcd3eace",
+          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
+          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B1_B5_20261107.md",
-          "blob_sha": "a403538897e6aaa216e27437dcf0ed93dcd3eace",
+          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
+          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B1_B5_20261107.md",
-          "blob_sha": "a403538897e6aaa216e27437dcf0ed93dcd3eace",
+          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
+          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B1_B5_20261107.md",
-          "blob_sha": "a403538897e6aaa216e27437dcf0ed93dcd3eace",
+          "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B1_B5_20261107.md",
+          "blob_sha": "4981ea300c71cacb07a9713ef2648881cee7d8aa",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_40_40",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
-          "blob_sha": "71fb8a6fa00698141c8f6036e4e881f8270ac6db",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "Scoped session object grant owner B7 PASS 40/40; actor/ownership authentic host policy and transactional enforcement still ABSENT",
-  "how": "CI 42402036389 SUCCESS exact SHA XML 14+14+10+2, guard 42402036242 SUCCESS; 3 new exact code paths",
+  "why": "Only scoped technical Android sandbox process evidence, not human principal, not owner policy or transaction grant",
+  "how": "Verified Android Process SDK signatures + current FARO app gradle/manifest/pointer and independent B1-B5, exact 3 paths, 16+14+14+10+2 XML",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY B1-B5 (verify authentic local actor/owner epoch); N033C2B4_TRANSACTIONAL_PLANNING_ACL, then N033C3 Undo/retry"
+  "next": "After B7: N033C2B4_LOCAL_OWNER_OBJECT_POLICY B1-B5, transactional ACL, N033C3 Undo/retry; shipping V2 OFF"
 }
