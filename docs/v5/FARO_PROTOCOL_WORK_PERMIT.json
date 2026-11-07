@@ -1,15 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
-  "reviewed_head": "d4cbfb1a1c26c9a44e625029ad1fced24126b969",
-  "paths": [
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8ReopenT2Test.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerT2Test.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8HostReadinessT2Test.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerPlanning8ReadinessT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b2-host-reality8-readiness-directed.yml"
-  ],
+  "reviewed_head": "874195035e144acbfba424c912011c2c23195314",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -61,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_14_14_AFTER_REDFIX",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B7_PASS_20261107.md",
+          "blob_sha": "f85ef9c792ccbfbfd0b631712fc08f0c9a64780b",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "d4cbfb1a1c26c9a44e625029ad1fced24126b969",
+    "sha": "874195035e144acbfba424c912011c2c23195314",
     "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B7_RED_FIX_20261107.md",
-        "blob_sha": "4c057af07144675976a51eab04741089bfa1c059",
+        "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B7_PASS_20261107.md",
+        "blob_sha": "f85ef9c792ccbfbfd0b631712fc08f0c9a64780b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C2B2 RED_FIX old N033C1 XML expected6 got8; isolate new tests with unchanged historical suites",
-  "how": "B1-B5 RED_FIX reviewed; exactly five paths, same unit, prior B7 RED_FIX before correcting code",
+  "why": "N033C2B2 readiness-only B7 PASS scoped; historical N033C1 XML restored after same-unit RED_FIX",
+  "how": "Directed 42390266374 SUCCESS 14/14, historical C1 42390271478 SUCCESS 14/14, guard 42390266365 SUCCESS all same SHA",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "RED_FIX B6 tests isolation; directed 14/14 and historic C1 14/14, B7 independent"
+  "next": "N033C2B3 host active Reality8 recovery/ACL/Review preaudit independent, then N033C3 Undo/retry; shipping V2 remains OFF"
 }
