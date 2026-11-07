@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.CIWAIT.RELEASED",
-  "token_hash": "febfb7bcdade89a48df92f18b16893e4b90ce37d8c019fb67713ea25da8a1992",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.REDFIX.20261107.455",
+  "token_hash": "8e6f872c54e85a14aebc39d2f3d8f0e00a5bd13a7d7a6f227e409331b8cb5834",
   "target_head": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 454,
-  "timestamp": 1794071436,
-  "purpose": "N033C2B4 B6 pushed; CI 42394955364 IN_PROGRESS; mandatory guard 42394955153 SUCCESS",
-  "last_checkpoint": "N033C2B4_B6_CI_PENDING@d2ac220d58023d225a82f90f74cf44a4f11ed8f1"
+  "epoch": 455,
+  "timestamp": 1794071538,
+  "purpose": "B7 RED_FIX security TOCTOU: stale approved Workspace after ACL",
+  "last_checkpoint": "N033C2B4_B6_PENDING_AUDIT@d2ac220d58023d225a82f90f74cf44a4f11ed8f1"
 }
