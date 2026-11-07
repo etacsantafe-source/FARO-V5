@@ -1,0 +1,33 @@
+# FARO V5 — Política de evolución modular independiente (v1)
+Estado: **DECISIÓN ARQUITECTÓNICA APROBADA POR EL USUARIO, DOCUMENTAL**. Fecha: 2026-11-06, Argentina. Repo `etacsantafe-source/FARO-V5` rama `work/s3-night-20261102`.
+Alcance: todos los componentes FARO V5 presentes y futuros; no autoriza por sí sola ninguna modificación funcional ni activación productiva.
+
+## Intención vinculante
+**FARO evoluciona reemplazando la implementación de cada componente mediante contratos estables; no arrastra versiones históricas sin razón ni obliga a reconstruir el resto del sistema.** Por ejemplo, Reality puede evolucionar 8→10 mientras Workspace, Auxiliary y Evidence permanecen intactos si sus contratos públicos no cambian. Una actualización Android podrá distribuir un APK completo aunque internamente cambie un solo módulo.
+
+## Reglas de arquitectura (aplicación permanente)
+1. **Tres versionados independientes:** versión del componente/implementación, versión de su esquema persistente y versión del contrato público no son sinónimos ni deben llevar el mismo número. Usar contratos tipados explícitos, con semántica y capacidades claras; ninguna capa ajena depende de tablas internas.
+2. **Una autoridad activa por componente/generación:** evitar dos Reality activos, caminos duplicados, bases paralelas o versiones legacy que ejecuten el mismo servicio a la vez. La generación/puntero, el writer único, el WAL, los recibos y el recovery siguen siendo la única fuente de autoridad en su ámbito; Evidence nunca se convierte en Reality.
+3. **Frescura canónica:** una instalación V5 limpia inicia directamente con el esquema objetivo completo vigente; no reproduce migraciones antiguas artificialmente. Candidato actual para `Reality` = esquema **8** (Planning incluido), `Workspace` = **4**, `Auxiliary` = **2**, `Web Evidence` = **2**, `Commercial Evidence` = **1**. Esto es objetivo de **N033C2**, NO una afirmación de que la ruta Android activa ya soporte Reality8.
+4. **Sin compatibilidad histórica por costumbre:** el usuario declara que los datos de esquemas anteriores son solo de pruebas y que no necesita preservarlos. Se podrá retirar código de migraciones/backups legacy cuya utilidad real resulte nula, pero **solo** después de auditar dependencias, restauración, seguridad del downgrade, corrupción de datos, recuperación de fallos, generación y pruebas de regresión. Una instalación de prueba obsoleta puede exigir un reset explícito, nunca borrado silencioso. No borrar hoy rutas usadas por S2 ni backups válidos sin inventario.
+5. **Migración temporal solo cuando corresponda:** si FARO almacena datos reales más adelante, las actualizaciones del esquema se harán de forma verificable, atómica/idempotente y recuperable, con backup cuando sea necesario. Tras demostrar migración/restore y adoptar esquema nuevo, retirar el adaptador obsoleto según política de soporte acotada. No forzar perpetua compatibilidad de ida y vuelta.
+6. **Pruebas de impacto según contratos:** prueba dirigida de la unidad modificada, contract tests entre componentes, regresiones de writer único, Atomic Apply PREPARED/COMMITTED, receipts, Undo, journal/startup recovery, pointer monotónico/ABA y egress policy. Las interfaces no afectadas no se recertifican desde cero sin un cambio material, aunque la integración final sea obligatoria.
+7. **Gradualidad bajo protocolo:** cada cambio funcional requiere B1 evidencia exacta, B2 comparación/reuso V4.4, B3 investigación externa y tradeoffs, B4 diseño mínimo/rutas, B5 preauditoría adversarial, B6 CI sobre SHA exacto y B7 cierre independiente, con writer CAS. Se aplica DESIGN ONCE/DELTA ONLY; ningún cambio rompe guardias existentes para simplificar.
+8. **Compatibilidad = decisión motivada, no defecto:** si cambia un contrato compartido, versionar y adaptar solo consumidores afectados. Las excepciones se documentan con responsable, ventana de caducidad, tests y criterio de eliminación.
+
+## Delimitación del estado actual
+- `RealityStore` default aún crea/abre **schema7** y su `planningStage8` tiene ruta aislada; N033C1 cerró solamente reapertura interna de Reality8 ACTIVA con exact pointer sequence y schema8, no conectó Android ni cambió V2 productiva.
+- N033C1 código `c95aec5c65e3da4aa6f34a033523c2780f7ef5c8` CI dirigido 14/14 y guard 66 PASS; B7 `docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md`; checkpoint base `6df24a086f29b6a9466fa7370e38afe7866626b8`.
+- S3.A4 OPEN; S2 CLOSED congelado; S3 aproximado ~40% histórico (0/5 cierres formales); A5 prueba G15 diferida a campaña única, V2 productiva OFF; S4/Noche/Auto agendada OFF; queue CLOUD STAGED; AUTO espera CI solo manual cuando corresponda.
+- Solo se aprueba aquí el **principio arquitectónico**, NO borrar migraciones, eliminar pruebas, cambiar esquemas, publicar Actions, actualizar instalación o habilitar V2.
+
+## Tarea de continuidad — N033C2 B1–B5 ANTES DE CÓDIGO
+En el **siguiente chat** basta escribir «Continuar FARO V5». Recuperar HEAD, última guardia, pointer, permiso BLOCKED y writer RELEASED (epoch 430 esperado). **Primero** preauditar una consolidación modular mínima:
+1. Inventariar fuentes de esquema/migración y todos sus consumidores: Reality, Workspace, generación, cinco stores, FBS2/backup/restore, Android active/pre/post switch, tests; distinguir compatibilidad de prueba de seguridad funcional indispensable.
+2. Comparar cuatro rutas: mantener 7/8 dual; crear schema8 directamente para NUEVA generación; migrar staged7→8 con switch certificado; reset explícito de dev obsolete. Elegir ruta más simple que preserve Atomic Apply, receipt, journal, recovery y rollback.
+3. Definir contrato estable entre componentes y prueba de Reality8 como owner único en instancias NUEVAS; revisar impactos de remove/deprecate en `v5/store/reality`, `v5/store/generation`, `v5/app` sin ampliar alcance de una sola unidad.
+4. Proponer N033C2 subunidades acotadas con permisos separados si hace falta: activar schema8 *interno canónico* y demostrar pre/post switch; luego Review/ACL revocable / Undo compensatorio y B7 respectivos. No prometer terminar A4 hasta integrar y probar.
+5. Publicar B1–B5 en docs, investigar referencias oficiales SQLite/Android/OWASP, hacer auditoría de pérdida de datos y crash, emitir un permiso independiente EXACT_PATH antes del primer commit funcional. No invadir V4.4/S2, D-229 sigue 172, no APIs pagas.
+
+## Veredicto
+**POLICY_RATIFIED_DOCS_ONLY_NEXT_N033C2_PREAUDIT.** La política guía decisiones futuras; requiere implantación progresiva y CI. **No confundir documentación con implementación.**
