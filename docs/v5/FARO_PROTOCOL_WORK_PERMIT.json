@@ -1,12 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2A_PLANNING8_CUTOVER_LIFECYCLE_TEST",
   "reviewed_head": "c251bfb2a060d88885a4625c63619cdd8f23d6d8",
-  "paths": [
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5PlanningEightActivationLifecycleT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2a-planning8-lifecycle-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -58,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_17_17",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B7_PASS_20261106.md",
+          "blob_sha": "c7d834d81e367cea408e6ab4509e37a63c98873b",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
-    "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
+    "sha": "7812ca8e1ef9b5de2b76b1fcf3b23410a7acfc01",
+    "unit_id": "S3_A4_N033C2A_PLANNING8_CUTOVER_LIFECYCLE_TEST",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
-        "blob_sha": "8f732d7952855dac53dde9cd7ec6ad1ac81bddf0",
+        "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B7_PASS_20261106.md",
+        "blob_sha": "c7d834d81e367cea408e6ab4509e37a63c98873b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Prove Reality8 full 5-store pre/post durable cutover and crash recovery using existing coordinator; no schema consolidation or legacy code cleanup until S5",
-  "how": "Only new JVM test and one scoped GitHub Actions workflow; 3 new + 14 existing XML expected; B7 exact SHA pending",
+  "why": "N033C2A 3/3 new Reality8 cutover plus 14/14 regressions PASS exact SHA and guard 67 PASS; no host/shipping V2",
+  "how": "Directed 42330841932 SUCCESS (17/17 XML) and guard 42330841858 SUCCESS (14 selftests, 67 functional units), tests only",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "After CI preflight passes, implement N033C2A in two exact paths only; no host binding or V2 enabling"
+  "next": "N033C2B B1-B5 independent host Reality8 pre/post admission and owner Review/ACL; no code until new permit"
 }
