@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B1_HOST_POINTER_ABA",
-  "reviewed_head": "454c593ef4a104f6758ea302e68d7e7e4ce7f63f",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B2_HOST_REALITY8_READINESS",
+  "reviewed_head": "e48f993cab7b5e8f43692bd95c0ae297b89b74e0",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwner.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8ReopenT2Test.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b2-host-reality8-readiness-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
-          "blob_sha": "b3da6da6c55161f3c6565bd6a0ad66b99cf81819",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
+          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
           "marker": "## B1"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
-          "blob_sha": "b3da6da6c55161f3c6565bd6a0ad66b99cf81819",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
+          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
           "marker": "## B2"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
-          "blob_sha": "b3da6da6c55161f3c6565bd6a0ad66b99cf81819",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
+          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
           "marker": "## B3"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
-          "blob_sha": "b3da6da6c55161f3c6565bd6a0ad66b99cf81819",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
+          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
           "marker": "## B4"
         }
       ]
@@ -49,23 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
-          "blob_sha": "b3da6da6c55161f3c6565bd6a0ad66b99cf81819",
+          "path": "docs/s3-night/S3_A4_N033C2B2_HOST_REALITY8_READINESS_B1_B5_20261107.md",
+          "blob_sha": "6d8e1a87fe97d1df054404ebb4b1398a26e80de7",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_20_20",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B7_PASS_20261107.md",
-          "blob_sha": "389fda4f202dbcd6177a994eed6604344c412a52",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "542d36ebf43d4540f7152e2107b030ba9cdfeb69",
@@ -79,9 +76,9 @@
       }
     ]
   },
-  "why": "N033C2B1 schema-independent host pointer ABA fixed in two existing owners; 20/20 XML directed and guard 68 PASS",
-  "how": "Exact CI 42369184891 SUCCESS (20/20); guard 42369184838 SUCCESS; five-path bounded diff; no schema/ACL/V2 enable",
+  "why": "B1-B5 verified scoped; active Planning8 host readiness-only, no graph exposure/ACL/Review or shipping",
+  "how": "Evidence docs prior to any functional code; five exact paths, previous N033C2B1 B7 20/20; preflight and CI required",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2B2 B1-B5 host Reality8 exact schema admission and readiness; new independent permit required"
+  "next": "N033C2B2 B6 directed with exact SHA; B7 independent; later recovery/ACL/Review and N033C3 Undo"
 }
