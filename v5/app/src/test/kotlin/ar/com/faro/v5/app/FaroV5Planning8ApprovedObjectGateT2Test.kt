@@ -88,7 +88,7 @@ class FaroV5Planning8ApprovedObjectGateT2Test {
                 ws.createAndSelect(conversationId, 100L, IdempotencyKey("create-chat"))
             } is ConversationSelectionResult.Saved)
             val proposal = ws.createPlanReview(WorkspacePlanReviewCreateRequest(
-                conversationId, "review-planning", ws.draftSnapshot(conversationId)!!.authorityToken,
+                conversationId, "review-planning", kotlinx.coroutines.runBlocking { ws.readTimeline(conversationId) }!!.authorityToken,
                 ws.snapshot().revision, plan.planFingerprint, "Confirmar alta planificada",
                 PreparedPlanEnvelopeCodec.encode(plan), IdempotencyKey("create-review"),
             )) as WorkspacePlanReviewWriteResult.Saved
