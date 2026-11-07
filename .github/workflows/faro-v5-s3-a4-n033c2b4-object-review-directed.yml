@@ -1,0 +1,72 @@
+name: FARO V5 S3 A4 N033C2B4 Planning8 approved object read gate
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a4-n033c2b4-object-review-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n033c2b4-object-review
+  cancel-in-progress: false
+
+jobs:
+  planning8-review-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK
+        run: |
+          set -eu
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Directed planning8 Review plus existing grant and Apply regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5Planning8ApprovedObjectGateT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test"
+      - name: Verify exact JUnit XML 13 plus 10 plus 2
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path('v5/app/build/test-results/testDebugUnitTest')
+          expected={
+            'FaroV5Planning8ApprovedObjectGateT2Test':13,
+            'FaroV5ActiveWorkspaceSearchGrantOwnerTest':10,
+            'FaroV5ChatToReviewedApplyFlowT2Test':2,
+          }
+          total=0
+          for name,n in expected.items():
+              matches=list(folder.glob('TEST-*'+name+'.xml'))
+              if len(matches)!=1:
+                  raise SystemExit('N033C2B4_XML_MISSING '+name)
+              root=ET.parse(matches[0]).getroot()
+              observed=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if observed!=(n,0,0,0):
+                  raise SystemExit('N033C2B4_XML_FAIL '+name+' '+str(observed))
+              print('N033C2B4_XML_PASS '+name+' '+str(n)+'/'+str(n))
+              total+=n
+          if total!=25:
+              raise SystemExit('N033C2B4_TOTAL_FAIL '+str(total))
+          print('N033C2B4_OBJECT_REVIEW_GUARD_PASS 25/25')
+          PY
