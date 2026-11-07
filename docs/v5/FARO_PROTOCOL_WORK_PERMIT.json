@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-  "reviewed_head": "bc8b73b3ea0bd3fbbfab79c2a78009f4b698419f",
+  "reviewed_head": "fd091938f139f9deba43a4406a4ee4d1de657366",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt",
@@ -14,7 +14,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "0295f6b448458ab354a8cdfe6dab0113d21fc4a4",
+          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
           "marker": "## B1"
         }
       ]
@@ -24,7 +24,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "0295f6b448458ab354a8cdfe6dab0113d21fc4a4",
+          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
           "marker": "## B2"
         }
       ]
@@ -34,7 +34,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "0295f6b448458ab354a8cdfe6dab0113d21fc4a4",
+          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
           "marker": "## B3"
         }
       ]
@@ -44,7 +44,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "0295f6b448458ab354a8cdfe6dab0113d21fc4a4",
+          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
           "marker": "## B4"
         }
       ]
@@ -54,7 +54,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "0295f6b448458ab354a8cdfe6dab0113d21fc4a4",
+          "blob_sha": "ef5d3a3c90d8f29bd0a6d3873c182f8e6503f126",
           "marker": "## B5"
         }
       ]
@@ -75,7 +75,7 @@
     ]
   },
   "why": "Corrective exact same-unit after B7 RED_FIX: canonical Workspace Review must be reloaded after ACL callback",
-  "how": "Corrective B1-B5 updated with compile failure; replace internal Workspace.create with public suspend createAndSelect; add revocation test and final Review re-read; XML 14+10+2",
+  "how": "Workspace public suspend createAndSelect + decide Approve/Discard (not internal create/transition), final canonical Review reload; 14+10+2 XML",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
