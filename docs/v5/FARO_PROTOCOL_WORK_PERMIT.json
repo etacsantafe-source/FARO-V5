@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER",
-  "reviewed_head": "2f2ad0127f1e3aa4832aac805f513d4b966b3dfd",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwner.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-session-grant-directed.yml"
-  ],
+  "reviewed_head": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_40_40",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
+          "blob_sha": "71fb8a6fa00698141c8f6036e4e881f8270ac6db",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "3d116a14899161b55fa38d0badd8a10dde769af0",
-    "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
+    "sha": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
+    "unit_id": "S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_PASS_20261107.md",
-        "blob_sha": "aed622165456cddc64a16af71e60b590116033a7",
+        "path": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
+        "blob_sha": "71fb8a6fa00698141c8f6036e4e881f8270ac6db",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C2B4 scoped internal revocable session object grant owner, no authentic shipping policy actor or transaction PEP",
-  "how": "B1-B5 scoped document, three exact new paths, 14+14+10+2 XML, no shipping binding; prior B7 PASS preserved",
+  "why": "Scoped session object grant owner B7 PASS 40/40; actor/ownership authentic host policy and transactional enforcement still ABSENT",
+  "how": "CI 42402036389 SUCCESS exact SHA XML 14+14+10+2, guard 42402036242 SUCCESS; 3 new exact code paths",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "After B7 of session owner: N033C2B4 host actor/object policy and transactional ACL as separate units, then N033C3 Undo/retry"
+  "next": "N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY B1-B5 (verify authentic local actor/owner epoch); N033C2B4_TRANSACTIONAL_PLANNING_ACL, then N033C3 Undo/retry"
 }
