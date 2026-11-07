@@ -1,0 +1,70 @@
+name: FARO V5 S3 A4 N033C2A Planning8 lifecycle cutover
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5PlanningEightActivationLifecycleT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a4-n033c2a-planning8-lifecycle-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n033c2a-active-reality8
+  cancel-in-progress: false
+
+jobs:
+  verified-active-reality8:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for multi-project Gradle configuration
+        run: |
+          set -eu
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run N033C2A real five-store Planning8 cutover and N033C1 regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5PlanningEightActivationLifecycleT2Test" --tests "ar.com.faro.v5.generation.FaroV5ActiveReality8ReopenT2Test" --tests "ar.com.faro.v5.generation.FaroV5Fbs2V3PlanningStageT2Test" --tests "ar.com.faro.v5.generation.FaroV5ActiveWalRecoveryT2Test"
+      - name: Require exact JUnit XML and zero skips/failures/errors
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path('v5/store/generation/build/test-results/test')
+          expected={'FaroV5PlanningEightActivationLifecycleT2Test':3,
+                    'FaroV5ActiveReality8ReopenT2Test':6,
+                    'FaroV5Fbs2V3PlanningStageT2Test':6,
+                    'FaroV5ActiveWalRecoveryT2Test':2}
+          total=0
+          for name,n in expected.items():
+              matches=list(folder.glob('TEST-*'+name+'.xml'))
+              if len(matches)!=1:
+                  raise SystemExit('N033C2A_XML_MISSING '+name)
+              root=ET.parse(matches[0]).getroot()
+              observed=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if observed!=(n,0,0,0):
+                  raise SystemExit('N033C2A_XML_FAIL '+name+' '+str(observed))
+              total+=n
+              print('N033C2A_XML_PASS '+name+' '+str(n)+'/'+str(n))
+          if total!=17:
+              raise SystemExit('N033C2A_TOTAL_FAIL '+str(total))
+          print('N033C2A_PLANNING8_CUTOVER_LIFECYCLE_PASS 17/17')
+          PY
