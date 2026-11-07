@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B2.REDFIX.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B2.REDFIX.B6.20261107.RELEASED",
   "token_hash": "62ec39a707441eb15bd694443fbdefd47006e7697e26b3c007d6a90189838dcf",
-  "target_head": "50e6910f357acd8a25e51167e6fe122c1cdb3c34",
+  "target_head": "874195035e144acbfba424c912011c2c23195314",
   "target_branch": "work/s3-night-20261102",
   "epoch": 448,
   "timestamp": 1794057600,
-  "purpose": "N033C2B2_REDFIX_CODE_TEST_SUITE_ISOLATION",
-  "last_checkpoint": "N033C2B2_REDFIX_PERMIT_READY@50e6910f357acd8a25e51167e6fe122c1cdb3c34"
+  "purpose": "N033C2B2_REDFIX_B6_TEST_SUITE_ISOLATION_CI_PENDING",
+  "last_checkpoint": "N033C2B2_REDFIX_B6_CI_PENDING@874195035e144acbfba424c912011c2c23195314"
 }
