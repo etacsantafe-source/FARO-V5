@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A4_N033C2B4_OBJECT_REVIEW_GUARD",
-  "reviewed_head": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
-  "paths": [],
+  "reviewed_head": "c090a1ad7445da83737b533520233469c104615a",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGateT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-object-review-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
-          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "bf23bf167d3164ed06b7d10e60fcae5080e554f2",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
-          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "bf23bf167d3164ed06b7d10e60fcae5080e554f2",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
-          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "bf23bf167d3164ed06b7d10e60fcae5080e554f2",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
-          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "bf23bf167d3164ed06b7d10e60fcae5080e554f2",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B1_B5_20261107.md",
-          "blob_sha": "f680e68693feca6b180ad09dde18bce82d917239",
+          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "bf23bf167d3164ed06b7d10e60fcae5080e554f2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "INITIAL_IMPLEMENTATION_CI_PENDING_B7_RED_FIX",
-    "B7": {
-      "status": "RED_FIX",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_OBJECT_REVIEW_GUARD_B7_RED_FIX_20261107.md",
-          "blob_sha": "a55de158712761ddef5e15eef12842034318b9d7",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
@@ -79,8 +74,8 @@
       }
     ]
   },
-  "why": "B7 independently detects stale human approval after ACL read; must re-load canonical Workspace before any true result",
-  "how": "N033C2B4 corrective B1-B5 and new code commit, new exact XML required; initial CI 42394955364 not claimed PASS",
+  "why": "Corrective exact same-unit after B7 RED_FIX: canonical Workspace Review must be reloaded after ACL callback",
+  "how": "Only three exact paths, 14+10+2 directed XML, previous B7 RED_FIX retained in last_code_review, no shipping activation",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "B7 scoped guard then N033C2B4 real per-object ACL source/revocation and in-transaction recheck, then N033C3 Undo/retry"
