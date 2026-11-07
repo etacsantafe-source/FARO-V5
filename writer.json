@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.REDFIX2.CIWAIT.RELEASED",
-  "token_hash": "71f4aaef70f650cedcafba56994665f53e84043b4b8df54e1b254b93e0836917",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.B7FINAL.20261107.459",
+  "token_hash": "d3a9640b5708c990d82d7bb940b621a33e0fb390c7f3955c4676a7f7ed21f0c4",
   "target_head": "3d116a14899161b55fa38d0badd8a10dde769af0",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 458,
-  "timestamp": 1794072212,
-  "purpose": "N033C2B4 test-only correction pushed; directed CI 42396049323 and guard 42396049289 in_progress",
-  "last_checkpoint": "N033C2B4_THIRD_B6_CI_PENDING@3d116a14899161b55fa38d0badd8a10dde769af0"
+  "epoch": 459,
+  "timestamp": 1794072448,
+  "purpose": "N033C2B4 B7 PASS 26/26 and final permit pointer checkpoint",
+  "last_checkpoint": "N033C2B4_B7_CLOSING_26_26@3d116a14899161b55fa38d0badd8a10dde769af0"
 }
