@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 432
+    "expected_release_epoch": 434
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Decision latest: postpone dead-code removal, component version consolidation, schema migration pruning until S5 after S3/S4. V5 clean; all historical data test-only and disposable, but no silent deletion. Continue S3.A4 focused N033C2A Planning8 cutover lifecycle existing coordinator and exact pointer, test-only; B1-B5 doc published, permission still BLOCKED; no functional changes until exact-path permit.",
-  "checkpoint_status": "S3_A4_N033C2A_B1_B5_DOCS_ONLY_S5_CLEANUP_DEFERRED_PERMIT_BLOCKED",
+  "next": "N033C2A B1-B5 prepared and exact-path functional permit READY at this HEAD: two new paths only, 3 new cutover lifecycle tests + 14 existing regressions, preserve Reality7 default and all legacy versions until S5. Implement B6 with FARO-UNIT exact, await exact CI/guard, B7 independent; no host or V2 productive.",
+  "checkpoint_status": "S3_A4_N033C2A_B1_B5_PERMIT_READY_B6_NEXT_DEFER_MODULAR_CLEANUP_S5",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
   "last_code_sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",

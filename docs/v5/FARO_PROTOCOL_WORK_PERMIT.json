@@ -1,16 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
-  "reviewed_head": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2A_PLANNING8_CUTOVER_LIFECYCLE_TEST",
+  "reviewed_head": "c251bfb2a060d88885a4625c63619cdd8f23d6d8",
+  "paths": [
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5PlanningEightActivationLifecycleT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2a-planning8-lifecycle-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
-          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
+          "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
+          "blob_sha": "5450853778657c93b782d8b798ffc588a85f1868",
           "marker": "## B1"
         }
       ]
@@ -19,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
-          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
+          "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
+          "blob_sha": "5450853778657c93b782d8b798ffc588a85f1868",
           "marker": "## B2"
         }
       ]
@@ -29,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
-          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
+          "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
+          "blob_sha": "5450853778657c93b782d8b798ffc588a85f1868",
           "marker": "## B3"
         }
       ]
@@ -39,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
-          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
+          "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
+          "blob_sha": "5450853778657c93b782d8b798ffc588a85f1868",
           "marker": "## B4"
         }
       ]
@@ -49,23 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
-          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
+          "path": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
+          "blob_sha": "5450853778657c93b782d8b798ffc588a85f1868",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_14_14_AFTER_REDFIX",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
-          "blob_sha": "8f732d7952855dac53dde9cd7ec6ad1ac81bddf0",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
@@ -79,9 +73,9 @@
       }
     ]
   },
-  "why": "N033C1 B7 PASS scoped verified existing ACTIVE schema8 pointer-reopen only; no Chat, ACL, undo or V2 production",
-  "how": "Exact final SHA 14/14 XML and guard 66 units PASS; RED_FIX history preserved in audit branch and correct first-parent sequence",
+  "why": "Prove Reality8 full 5-store pre/post durable cutover and crash recovery using existing coordinator; no schema consolidation or legacy code cleanup until S5",
+  "how": "Only new JVM test and one scoped GitHub Actions workflow; 3 new + 14 existing XML expected; B7 exact SHA pending",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C2 B1-B5 certified schema8 pre/post cutover and host ACL/Review; no code until independent permission"
+  "next": "After CI preflight passes, implement N033C2A in two exact paths only; no host binding or V2 enabling"
 }
