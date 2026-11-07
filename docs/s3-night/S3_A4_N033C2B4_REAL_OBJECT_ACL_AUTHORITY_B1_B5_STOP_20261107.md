@@ -1,0 +1,31 @@
+# FARO V5 — S3.A4 N033C2B4 · ACL auténtica por objeto · B1–B5, STOP productivo
+Fecha 2026-11-07 AR. Rama `work/s3-night-20261102` inspeccionada en HEAD `47dfdeb7d3f78773d90666d64ea97d64b88e5c4d`. Esta investigación es SOLO documental: no habilita V2, no decide roles/identidad que FARO aún no tenga, no reimplementa Apply. La subunidad independiente `S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER` puede avanzar con B1–B5 propio porque NO pretende certificar toda la ACL.
+
+## B1 — Estado real y ausencias
+- N033C2B4 objeto+Review B7 PASS_SCOPED `3d116a14`, dirigida #42396049323 26/26 y guard #42396049289; `FaroV5Planning8ApprovedObjectGate` exige `TrustedConversationApplyReviewPort.load` y `Planning8ObjectAclReadPort.epochOrNull(scope,pointer)`. El puerto tiene **solo tests fixtures**, ninguna implementación host que emita o revoque permisos.
+- `FaroV5ActiveWorkspaceSearchGrantOwner` emite un grant revocable **de Search**, local a sesión y no persistido; no es ACL de objetos Planning, ni fuente de identidad. No copiar ese grant como autorización a toda Reality8.
+- `FaroV5ActiveReviewedApplySession` admite solo Profile/Finance; `FaroV5HostCertification.V2_ACTIVE_ENABLED=false`; operaciones ReminderCreate y MonthlyPlanAdd no están montadas. `RealityStore` impone scope transaccional, pero owner SPI de Planning sigue interno a `:store:reality`. `ApplyTransactionExecutor` ejecuta bindings dentro de `AtomicApplyTransactionPort.run`; ACL externa comprobada solo antes no garantiza revocación concurrente.
+- No se identificó una autoridad productiva verificada de **principal/actor de sesión + política de ownership por objeto** de Planning8, ni una capacidad de emisión legítima en el host, ni un fence de política que garantice no reuse tras reinicio/restauración. Profile muestra nombre declarado, no identificador de seguridad. Sin eso una ACL «real» que permita acceso sería inventada.
+- Resultado que debe existir antes de shipping: propietario auténtico y revocable del grant, verificador actor/objeto/operación, revisión humana independiente, pointer ID+sequence, epoch de policy y host, check justo ANTES y DENTRO de la única transacción de Reality8, receipt/recovery/Undo. No tratar Review ni una pantalla como seguridad.
+
+## B2 — V4.4 y contratos reutilizables
+- V4.4 `FaroV4FollowUpGateway` junta reglas+ocurrencias Reminder y MonthlyPlan por dominio; la pertenencia del objeto y la autorización no pueden inferirse de un contador Home. Reusar el diseño owner local, no copiar DB/código V4.4.
+- V5 ya ofrece `Planning8ObjectScope(operationId,objectId)`, pointer durable `ActiveGenerationPointer(sequence,generationId)`, `MaterialWriteGate`, Review canónico en Workspace y SQL dentro de Reality8. Reusar fronteras; no agregar sexto store ni migración S5. La generación activa no implica consentimiento de escritura.
+
+## B3 — Investigación externa y decisión
+- OWASP API1 BOLA https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/ : ID puede manipularse; chequear actor/autorización y objeto en cada operación. **ADAPTAR** pruebas «otro objeto/mismo tipo», nunca grant global.
+- OWASP Authorization https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html : deny-by-default y en cada pedido, fallos cerrados. **ADAPTAR** epoch revocable con rechecks.
+- OWASP Authorization Patterns https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Patterns_Cheat_Sheet.html : decisión PDP y aplicación PEP cerca del recurso protegido. **USAR** al integrar futura capa transaccional, no confundir preflight con commit.
+- Zanzibar Google paper https://research.google/pubs/zanzibar-googles-consistent-global-authorization-system/ : relación actor/objeto y causalidad de revocación; **REFERENCIA de semántica**, NO integrar servicio global por coste/complejidad para app local.
+- Kotlin concurrency https://kotlinlang.org/docs/shared-mutable-state-and-concurrency.html : estado multihilo bajo exclusión mutua; **USAR** synchronized propio para emisión/consulta/revocación, sin saltar el único MaterialWriteGate. Cero licencias copiadas, cero cloud/API paga.
+
+## B4 — Separación mínima, sin falso cierre
+1. Unidad **independiente** `N033C2B4_SESSION_OBJECT_GRANT_OWNER` con B1–B5/READY propio: owner interno host, grant por actor (actor provisto por host, no autovalidado), operación+objeto, pointer exacto, host lifecycle epoch y **política confiable externa obligatoria**; deny sin política, regrant revoca old epoch, proceso nuevo no restaura grants; pruebas JVM. No montado en shipping; NO declara identidad/ownership auténticos sin binding.
+2. Unidad futura `N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY`: localizar y acreditar una fuente host auténtica del actor y autorización de dominio, ciclo de vida de policy epoch, revocación y eventos durable/rehidratación, sin falsificar datos. Si no existe, B5 STOP hasta decisión de producto; no crear esquema nuevo solo porque sí.
+3. Unidad futura `N033C2B4_TRANSACTIONAL_PLANNING_ACL`: verificar en el motor central **dentro** de la transacción de Reality8, integrando owner SPI y Review exacto, test de revocación entre preflight y escritura y rollback sin receipt, y recovery no replay. No cambiar el executor genérico fuera de la unidad mínima auditada.
+4. Luego `N033C3` Undo/retry compensatorio, A4 integrada, S3.A5 campaña G15 única.
+
+## B5 — Auditoría adversarial y STOP
+- **STOP de autorización real productiva**: no fuente de actor ni policy de ownership verificada en host; grants emitidos únicamente por test/caller fake no prueban permiso. `hostReady=true` / pointer válido / `APPROVED` no emiten ACL por sí mismos. Denegar si trustedPolicy=null, actor no verificado, policyEpoch ausente, hostEpoch ausente, objeto/operación distintos, ABA de pointer, reinicio, revocación o excepción.
+- Ningún token de lectura autoriza una transacción futura sin revalidación bajo write fence y SQL scope. No tocar `FaroV5ActiveReviewedApplySession`, `V2_ACTIVE_ENABLED`, catálogo 172, S2/V4.4/main, S4, Auto/Noche, G15, S5. No limpiar ni borrar datos de pruebas.
+- **Dictamen**: ACL real COMPLETA permanece **STOP / OPEN**. Se autoriza solo evaluar por separado la **infraestructura de grants local y revocable**, sin devolver permisos a producción. B6 del siguiente código exige B1–B5 independiente, permiso exacto, guard y B7.
