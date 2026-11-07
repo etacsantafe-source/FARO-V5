@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 438
+    "expected_release_epoch": 440
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033C2A B7 PASS_SCOPED native five-owner Reality8 cutover/recovery/rollback 17/17, guard 67; all previous code intact. N033C2B B1-B5 first for host pre/post admission, Review/ACL, separate permit; then N033C3 Undo/retry. S5 AFTER S3/S4 reserved for code dead removal and version consolidation; V5 data historically disposable test-only, no silent delete. V2 shipping OFF.",
-  "checkpoint_status": "S3_A4_N033C2A_B7_PASS_SCOPED_17_17_N033C2B_B1_B5_NEXT_S5_DEFER_CLEANUP",
+  "next": "Continue N033C2B1: B1-B5 exact-proof document and permit READY, 5 bounded paths. B6 must check pointer full snapshot in PreSwitchHostAdmission and V2RecoveryRuntimeHealthOwner, add 3 ABA negative tests, targeted XML 20/20; B7 independent. Reality8 host and Review/ACL separate N033C2B2, Undo N033C3. S5 after S3/S4 for cleanup; test-only old data disposable but no silent delete. V2/Noche/Auto OFF.",
+  "checkpoint_status": "S3_A4_N033C2B1_B1_B5_READY_EXACT_5_PATHS_B6_NEXT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B7_PASS_20261106.md",
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B1_HOST_POINTER_ABA_B1_B5_20261107.md",
   "last_code_sha": "7812ca8e1ef9b5de2b76b1fcf3b23410a7acfc01",
   "last_ci_run_id": 42330841932,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
