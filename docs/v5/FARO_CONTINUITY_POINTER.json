@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 412
+    "expected_release_epoch": 416
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033B1 B7 PASS_SCOPED exact SHA a3a033d88b95: canonical Reminder/MonthlyPlan payload and typed D-229 IDs, directed 24/24, N031 regression 12/12, guard 62 functional units success. NEXT N033B2 B1-B5 owner Reality SPI and read revision/dependency stamps, followed by docs-only scoped permit. N033B3 binding/ACL and N033C Review/Undo later; N033B full/A4 OPEN. No shipping or V2 activation.",
-  "checkpoint_status": "S3_A4_N033B1_B7_PASS_SCOPED_N033B2_B1_B5_NEXT",
+  "next": "N033B2 B7 PASS_SCOPED exact SHA 17413718, owner Reminders/MonthlyPlan internal SPI + Reality8 revision stamps, N033B2 18/18 and all 12/12 workflows SUCCESS, guard 63 functional units. AUTO de ESPERA manual ENABLED for useful READ_ONLY independent B1-B5 work while CI runs, no background after end of turn. NEXT N033B3 B1-B5 independent binding/revalidator/preflight then docs-only permission; N033C Review/ACL/Undo later. N033B complete/A4 OPEN; V2 production/Noche/Auto scheduled OFF.",
+  "checkpoint_status": "S3_A4_N033B2_B7_PASS_SCOPED_AUTO_ESPERA_MANUAL_ON_N033B3_NEXT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B7_PASS_20261106.md",
-  "last_code_sha": "a3a033d88b95cdfe9eaba165a0d1e633500d675e",
-  "last_ci_run_id": 42317120898,
+  "last_handoff": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
+  "last_code_sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
+  "last_ci_run_id": 42321928138,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033B1_24_24_N031_12_12_GUARD_62",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033B2_18_18_N033B1_24_24_GUARD_63_ALL_12_WORKFLOWS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1408,6 +1408,52 @@
       "NO_APPLY_USER",
       "NO_ANDROID_PHYSICAL",
       "V2_PROD_OFF"
+    ]
+  },
+  "manual_auto_wait": {
+    "enabled": true,
+    "mode": "ACTIVE_WHEN_CI_PENDING_WITHIN_MANUAL_TURN",
+    "authorized_by": "USER_EXPLICIT_20261106",
+    "protocol": "docs/v5/FARO_AUTO_ESPERA_CI_MANUAL_V1_20261106.md",
+    "trigger": "GitHub Actions pending for code SHA; release writer then useful independent READ_ONLY work",
+    "on_green": "VERIFY_EXACT_SHA_LOGS_XML_B7_CHECKPOINT_AND_RESUME",
+    "on_red": "PRIORITIZE_FAILED_UNIT_LOGS_RED_FIX_STOP_NEW_FUNCTIONAL",
+    "on_user_interruption": "REVALIDATE_SOURCE_NOT_USER_COLOR_ALONE",
+    "scope": "MANUAL_TURN_ONLY_NO_BACKGROUND",
+    "changes_scheduled_automation": false,
+    "changes_v2_productive": false,
+    "changes_night": false,
+    "queue_mode": "STAGED"
+  },
+  "progress_s3_a4_n033b2_20261106": {
+    "unit_id": "S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS",
+    "status": "B7_PASS_SCOPED_OWNER_SPI_AND_STAMPS_ONLY",
+    "code_sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
+    "preaudit": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
+    "b7": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
+    "directed_ci": {
+      "run": 42321928138,
+      "xml": "18/18",
+      "conclusion": "SUCCESS"
+    },
+    "guard_ci": {
+      "run": 42321928078,
+      "units": 63,
+      "conclusion": "SUCCESS"
+    },
+    "full_regression": {
+      "workflow_count": 12,
+      "success_count": 12,
+      "sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71"
+    },
+    "next": "N033B3_B1_B5_BINDINGS_REVALIDATORS_PREFLIGHT",
+    "limitations": [
+      "NO_OPERATION_BINDINGS",
+      "NO_USER_ACL",
+      "NO_CHAT_REVIEW",
+      "NO_UNDO",
+      "NO_ANDROID_PHYSICAL",
+      "NO_V2_PRODUCTION"
     ]
   }
 }

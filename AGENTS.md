@@ -14,10 +14,13 @@
 
 ## Objetivo y límites actuales
 - PRIORIDAD: auditar retrospectivamente **M0/M1/M2A/M2B/M3** (B1–B5 faltantes) antes de nueva escritura funcional; V2 mínima **aislada de desarrollo** → `V2_DEV_CORE_READY` probado → cierres S3 → S4; no dispersarse.
-- S2 CLOSED 8/8 sin repetir. S3 ≈40% desarrollado **estimado** y 0/5 cerrado; S4 **no abierta**. App V2 productiva OFF, Noche OFF, Auto OFF, cola CLOUD STAGED.
+- S2 CLOSED 8/8 sin repetir. S3 ≈40% desarrollado **estimado** y 0/5 cerrado; S4 **no abierta**. App V2 productiva OFF, Noche OFF, Auto **programada** OFF, cola CLOUD STAGED. **AUTO de espera CI manual ACTIVO**: ver `docs/v5/FARO_AUTO_ESPERA_CI_MANUAL_V1_20261106.md`; no equivale a automatización ni a ejecución en segundo plano.
 - Cinco owners, AtomicApply/receipts/Undo/recovery, Evidence≠Reality, único writer, LOCAL_ONLY sin APIs pagas, catálogo de 172 (Guardados +8 **no aprobados**). No ISO/IRAM, secretos, credenciales, firmas, datos del usuario, promociones ni cambios de teléfono sin autorización.
 - CI exacta por SHA + logs/XML; una sola campaña Android física cuando sea procedente. Mantener checkpoints, % S3 estimado y cerrado, y termómetro cualitativo al terminar turno.
 - «Continuar FARO V5» basta para reanudar **trabajo manual previamente autorizado y acotado**, sin habilitar V2 productiva, Auto/Noche, pagos o escrituras fuera de rama. El guardia prevalece frente a una sugerencia improvisada de programar sin B1–B5.
 
 ## Limitaciones no ocultables
 Un agente autorizado a reescribir las propias reglas o un administrador que desactive Actions puede eludir un status check si no es required. El usuario debe configurar `seven-block-evidence` como required status check en la rama para que GitHub bloquee la integración de cambios rojos. No afirmar protección obligatoria del servidor hasta verificarla.
+
+## AUTO de espera CI — autorización manual 2026-11-06
+Cuando una GitHub Action está en curso, liberar writer y continuar dentro del mismo turno con investigación/alternativas/B1–B5 independientes y READ_ONLY. Una señal rojo/verde del usuario puede interrumpir para revisar la CI **del SHA real**. Verde: B7 y checkpoint; rojo: logs/RED_FIX prioridad. Nunca declarar PASS por aviso sin verificar, ni programar tareas, ni ejecutar fuera del chat tras finalizar respuesta. Detalles y límites en `docs/v5/FARO_AUTO_ESPERA_CI_MANUAL_V1_20261106.md`. Esta regla sobrevive a nuevos chats vía pointer; no modifica la prohibición de V2 productiva/Noche/Auto programada.

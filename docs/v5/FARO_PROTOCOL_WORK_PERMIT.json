@@ -1,15 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS",
-  "reviewed_head": "e5a7e1ad79422a8adf9b8c311052de6b4ceb75c0",
-  "paths": [
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/spi/ReminderPersistencePort.kt",
-    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/spi/MonthlyPlanPersistencePort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningOwnerSpiT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033b2-owner-spi-directed.yml"
-  ],
+  "reviewed_head": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -61,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_12_WORKFLOWS",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
+          "blob_sha": "1bd636eb7c21c773e78ac8140eacf279fe79d42f",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "a3a033d88b95cdfe9eaba165a0d1e633500d675e",
-    "unit_id": "S3_A4_N033B1_CANONICAL_PLANNING_CODEC",
+    "sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
+    "unit_id": "S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B7_PASS_20261106.md",
-        "blob_sha": "8c476e77a33a6f5febd9b5c3e9d2cbe4930e6694",
+        "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
+        "blob_sha": "1bd636eb7c21c773e78ac8140eacf279fe79d42f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033B2 owner SPI and current stamp only; no operation binding/host/ACL or shipping",
-  "how": "N033A exact same SQLite transaction and N033B1 typed codecs preserved; B1-B5 independently documented",
+  "why": "N033B2 B7 PASS scoped; next N033B3 requires independent B1-B5 and docs-only READY permit",
+  "how": "AUTO manual CI wait enabled only for useful independent work during pending CI; no new functional permission",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033B2 five-path B6 exact CI and B7, then N033B3 new preaudit"
+  "next": "N033B3 independent B1-B5, then scoped permit; N033C host/ACL later"
 }
