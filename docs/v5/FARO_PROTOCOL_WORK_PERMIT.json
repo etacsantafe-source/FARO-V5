@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
-  "reviewed_head": "d6831e2cebda0f66d8a2c0a09fb51921d623969f",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8ReopenT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c1-active-reality8-directed.yml"
-  ],
+  "reviewed_head": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_14_14_AFTER_REDFIX",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
+          "blob_sha": "8f732d7952855dac53dde9cd7ec6ad1ac81bddf0",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "c643289d266e8ccb56e9647d976026941a5a659e",
+    "sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
     "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_RED_FIX_20261106.md",
-        "blob_sha": "ec0330d6ca6353b5db0e510dd245d69b60399b4b",
+        "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
+        "blob_sha": "8f732d7952855dac53dde9cd7ec6ad1ac81bddf0",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C1 same-unit RED_FIX compileTestKotlin cross-module internal schemaVersion; no host or prod activation; repair chronological pre-commit B7",
-  "how": "Audit true red runs and previously failed guard; keep old branch ref; one-file API public inspector test correction; rerun exact CI/guard",
+  "why": "N033C1 B7 PASS scoped verified existing ACTIVE schema8 pointer-reopen only; no Chat, ACL, undo or V2 production",
+  "how": "Exact final SHA 14/14 XML and guard 66 units PASS; RED_FIX history preserved in audit branch and correct first-parent sequence",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C1 test visibility RED_FIX, then B7 PASS only after exact new SHA CI; N033C2 still blocked"
+  "next": "N033C2 B1-B5 certified schema8 pre/post cutover and host ACL/Review; no code until independent permission"
 }

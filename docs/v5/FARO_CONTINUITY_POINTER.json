@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 420
+    "expected_release_epoch": 428
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033B3 B7 PASS_SCOPED code d57c9578b6f034a37a79014ee7ad1a857ae326bb; 22/22 new directed XML incl prior B2/A regressions and all 6 workflows green, guard 64. NEXT N033C B1-B5 investigate Reality8 schema8 STAGED-only versus active V2 Reality7, trusted SPI in Android app and revocable ACL/Review/Undo; new scoped permit only after STOP resolved. N033C/A4 OPEN, V2 productiva OFF. AUTO de espera manual ON.",
-  "checkpoint_status": "S3_A4_N033B3_B7_PASS_SCOPED_N033C_B1_B5_NEXT",
+  "next": "N033C1 B7 PASS_SCOPED on code c95aec5c65e3da4aa6f34a033523c2780f7ef5c8 (directed 14/14, guard 66 and repaired RED_FIX chronology); internal Reality8 active pointer-sequence reopen only. NEXT N033C2 independent B1-B5: schema8 staged→active pre/post switch health and replay, then real host owner SPI Review/ACL generation/Undo in later bounded units. N033C/A4 OPEN. V2 productiva/Noche/Auto scheduled OFF; AUTO de espera MANUAL ON.",
+  "checkpoint_status": "S3_A4_N033C1_B7_PASS_SCOPED_N033C2_B1_B5_NEXT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
-  "last_code_sha": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
-  "last_ci_run_id": 42324271769,
+  "last_handoff": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
+  "last_code_sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
+  "last_ci_run_id": 42326218395,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033B3_22_22_GUARD_64_ALL_6_WORKFLOWS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033C1_14_14_GUARD_66_RED_FIX_SEQUENCE_COMPLIANT",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1490,6 +1490,38 @@
       "NO_REAL_ACL",
       "NO_USER_REVIEW_FOR_PLANNING",
       "NO_UNDO_COMPENSATION",
+      "NO_ANDROID_PHYSICAL",
+      "V2_PROD_OFF"
+    ]
+  },
+  "progress_s3_a4_n033c1_20261106": {
+    "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
+    "status": "B7_PASS_SCOPED_INTERNAL_ACTIVE_REALITY8_REOPEN_ONLY",
+    "code_sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
+    "red_fix": {
+      "original_code_sha": "c643289d266e8ccb56e9647d976026941a5a659e",
+      "backup_ref": "audit/n033c1-redfix-original-sequence-20261106",
+      "b7_path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_RED_FIX_20261106.md",
+      "repaired_parent": "40b0988811f87105ba1131fb559e2b52bd8c6307"
+    },
+    "b7": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_PASS_20261106.md",
+    "ci": {
+      "directed": {
+        "run": 42326218395,
+        "xml": "14/14",
+        "conclusion": "SUCCESS"
+      },
+      "guard": {
+        "run": 42326218389,
+        "units": 66,
+        "conclusion": "SUCCESS"
+      }
+    },
+    "next": "N033C2_B1_B5_REALITY8_PREPOST_SWITCH_HOST_AUTHORITY",
+    "limitations": [
+      "SCHEMA8_HOST_CUTOVER_UNWIRED",
+      "N033C2_TRUSTED_HOST_REVIEW_ACL_MISSING",
+      "N033C3_UNDO_RECOVERY_MISSING",
       "NO_ANDROID_PHYSICAL",
       "V2_PROD_OFF"
     ]
