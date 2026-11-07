@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT",
-  "reviewed_head": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
+  "reviewed_head": "d6831e2cebda0f66d8a2c0a09fb51921d623969f",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8ReopenT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c1-active-reality8-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
+          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
+          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
+          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
+          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
+          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
+          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
+          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
+          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
-          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
+          "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B1_B5_20261106.md",
+          "blob_sha": "683a4a67f94082782e376c014c8c025baf862fe3",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_6_WORKFLOWS",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
-          "blob_sha": "50db2afd2f44dd783521576339e78b4c101eb7a3",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "N033B3 scoped B7 PASS only for owner bindings and local preflight; next N033C new B1-B5 required",
-  "how": "6/6 exact SHA workflows green, 22/22 targeted XML, no host/ACL/Undo; manual AUTO wait persists",
+  "why": "N033C1 internal verified ACTIVE Reality8 reopen only; no host, ACL or production activation",
+  "how": "staged schema8 exact read-only active preflight, pointer generation + monotonic sequence pre/post, single shared gate, no migration",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033C B1-B5 Reality8 active generation admission and trusted host Review/ACL/Undo; no code until new permit"
+  "next": "B6 3 paths directed CI, B7, next N033C2 host ACL/Review new preaudit"
 }
