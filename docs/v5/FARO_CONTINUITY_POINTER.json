@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 464
+    "expected_release_epoch": 466
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033C2B4 SESSION_OBJECT_GRANT_OWNER CLOSED B7 PASS_SCOPED 40/40 (CI 42402036389, guard 42402036242), code d05184d9. REAL_OBJECT_ACL complete remains STOP: next N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY B1-B5 for genuine trusted local actor/ownership and nonreusable policy epoch, then TRANSACTIONAL_PLANNING_ACL under coordinated revocation and Reality transaction; then N033C3 Undo/retry. Current grants are session-only not shipped, no Review/Apply/wiring or authorization! S3.A4 OPEN, S2 8/8, S3 dev ~40% heuristic/formal 0/5, S4/V2 shipping/Auto/Noche OFF, G15 A5 NOT_RUN, catalog 172; defer S5 legacy/schema cleanup and no silent test data deletion.",
-  "checkpoint_status": "S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_SCOPED_NEXT_HOST_POLICY",
+  "next": "N033C2B4_SESSION_OBJECT_GRANT_OWNER CLOSED B7 PASS_SCOPED 40/40 (CI 42402036389 guard 42402036242) code d05184d9. B1-B5 host principal/object policy documentary STOP for productive authorization (docs/s3-night/S3_A4_N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_20261107.md). NEXT independent N033C2B4_ANDROID_SANDBOX_PRINCIPAL B1-B5 scoped only: verify process/app UID and package/pointer without mistaking UID for human identity, then owner-object policy and coordinated transactional ACL; then N033C3 Undo/retry. Do not activate shipping V2/S4/Auto/Noche or user permissions, writer release epoch466, permit BLOCKED. S2 8/8; S3 dev ~40% heuristic/formal 0/5; G15 A5 NOT_RUN, catalog172, S5 cleanup deferred.",
+  "checkpoint_status": "S3_A4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_STOP_NEXT_ANDROID_SANDBOX_PRINCIPAL",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_SESSION_OBJECT_GRANT_OWNER_B7_PASS_20261107.md",
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_20261107.md",
   "last_code_sha": "d05184d9378bbfc8cbeffe3e39d49d1b38282a3a",
   "last_ci_run_id": 42402036389,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
