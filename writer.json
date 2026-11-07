@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.ANDROID_SANDBOX.B7.RELEASED",
-  "token_hash": "76f6ad0d6a1cf493099405269c598a48a73118e906924f1349d0e8b8fb84079e",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.LOCAL_POLICY.B1B5.20261107.471",
+  "token_hash": "d48731a627fb0c4059c0ed3b914f1ae6bb9fbd2c61a13acdd4b76944be92c95",
   "target_head": "23b82c22747bd6c0d9a499c7ec24d4a21df5ca8b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 470,
-  "timestamp": 1794079219,
-  "purpose": "N033C2B4 Android sandbox technical evidence B7 PASS 56/56 + mandatory guard; permit BLOCKED and pointer durable",
-  "last_checkpoint": "N033C2B4_ANDROID_SANDBOX_B7_PASS_56_56@23b82c22747bd6c0d9a499c7ec24d4a21df5ca8b"
+  "epoch": 471,
+  "timestamp": 1794079314,
+  "purpose": "N033C2B4 local owner create target policy B1-B5 read-only architecture after Android sandbox PASS 56/56",
+  "last_checkpoint": "N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B7_PASS@23b82c22747bd6c0d9a499c7ec24d4a21df5ca8b"
 }
