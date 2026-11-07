@@ -1,0 +1,59 @@
+name: FARO V5 S3 A4 N033B1 canonical Planning codecs directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/owner/reminders/**"
+      - "v5/owner/monthlyplan/**"
+      - ".github/workflows/faro-v5-s3-a4-n033b1-codecs-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n033b1-codecs
+  cancel-in-progress: false
+
+jobs:
+  strict-planning-codecs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run isolated owner model and canonical payload tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :owner:reminders:test :owner:monthlyplan:test
+      - name: Require exact JUnit XML no errors or skips
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          all_count=0
+          for mod, classes in (
+              ('reminders',('ReminderModelTest','ReminderCanonicalOperationTest')),
+              ('monthlyplan',('MonthlyPlanModelTest','MonthlyPlanCanonicalOperationTest'))):
+              directory=Path('v5/owner')/mod/'build/test-results/test'
+              for cls in classes:
+                  files=list(directory.glob('TEST-*'+cls+'.xml'))
+                  if len(files)!=1:
+                      raise SystemExit('N033B1_XML_MISSING '+mod+'/'+cls)
+                  root=ET.parse(files[0]).getroot()
+                  counts=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+                  if counts!=(6,0,0,0):
+                      raise SystemExit('N033B1_XML_FAIL '+mod+'/'+cls+' '+str(counts))
+                  all_count+=6
+                  print('N033B1_XML_PASS '+mod+'/'+cls+' 6/6')
+          if all_count!=24:
+              raise SystemExit('N033B1_TOTAL_FAIL '+str(all_count))
+          print('N033B1_CANONICAL_OWNER_CODECS_PASS 24/24')
+          PY
