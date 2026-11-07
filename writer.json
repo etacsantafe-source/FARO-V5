@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.TXN_HOOK.B1B5.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.TXN_HOOK.B1B5.RELEASED",
   "token_hash": "cea3c36cca2080ec48adecf3aae8faba48a9e9fe6a1debf8cc257a0980d980e2",
-  "target_head": "9830c95711acc997d2355e51d76949a17076593c",
+  "target_head": "67c7a5977bf1951f4c40a9df9e7278b6c668a8a2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 473,
-  "timestamp": 1794095460,
-  "purpose": "S3 A4 B1-B5 preaudit scoped transactional auth hook; docs only",
-  "last_checkpoint": "A4_TXN_HOOK_B1B5_IN_PROGRESS"
+  "epoch": 474,
+  "timestamp": 1794095520,
+  "purpose": "Scoped TXN_AUTH_HOOK B1-B5 and READY permit committed; release before CI/code; real Planning ACL still STOP",
+  "last_checkpoint": "A4_TXN_AUTH_HOOK_PREAUDIT@67c7a5977bf1951f4c40a9df9e7278b6c668a8a2"
 }
