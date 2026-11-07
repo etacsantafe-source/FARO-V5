@@ -35,7 +35,7 @@ class FaroV5ActiveReality8ReopenT2Test {
 
     private fun planning8(id: String): StagedStorageGeneration = fresh(id).also { stage ->
         FaroV5GenerationStoreGraph.openValidatedV2PlanningStage8(stage).use { graph ->
-            assertEquals(8, graph.reality.schemaVersion())
+            assertEquals(8, graph.reality.maintenance.inspect().schemaVersion)
             assertTrue(graph.verifyHealthy())
         }
     }
@@ -55,7 +55,7 @@ class FaroV5ActiveReality8ReopenT2Test {
         assertThrows(IllegalStateException::class.java) { reopen(stage, 1L).use { } }
         assertThrows(IllegalArgumentException::class.java) { reopen(stage, 0L).use { } }
         FaroV5GenerationStoreGraph.openValidatedV2PlanningStage8(stage).use {
-            assertEquals(8, it.reality.schemaVersion())
+            assertEquals(8, it.reality.maintenance.inspect().schemaVersion)
         }
     }
 
@@ -64,7 +64,7 @@ class FaroV5ActiveReality8ReopenT2Test {
         val sequence = activate(stage)
         reopen(stage, sequence).use { graph ->
             assertEquals(stage.descriptor.generationId.value, graph.generationId)
-            assertEquals(8, graph.reality.schemaVersion())
+            assertEquals(8, graph.reality.maintenance.inspect().schemaVersion)
             assertNotNull(graph.workspace)
             assertEquals(0L, graph.reality.planningBackup.snapshot().reminders.revision)
             assertEquals(0L, graph.reality.planningBackup.snapshot().monthlyPlan.revision)
@@ -80,7 +80,7 @@ class FaroV5ActiveReality8ReopenT2Test {
         val sequence = activate(stage)
         assertThrows(IllegalStateException::class.java) { reopen(stage, sequence).use { } }
         assertTrue(before.contentEquals(Files.readAllBytes(realityFile)))
-        RealityStore(realityFile.toString()).use { assertEquals(7, it.schemaVersion()) }
+        RealityStore(realityFile.toString()).use { assertEquals(7, it.maintenance.inspect().schemaVersion) }
         assertEquals(sequence, FileActiveGenerationPointer(root).read()?.sequence)
     }
 
@@ -95,7 +95,7 @@ class FaroV5ActiveReality8ReopenT2Test {
         assertTrue(checkNotNull(pointer.read()).sequence > original)
         assertThrows(IllegalStateException::class.java) { reopen(stage, original).use { } }
         reopen(stage, checkNotNull(pointer.read()).sequence).use {
-            assertEquals(8, it.reality.schemaVersion())
+            assertEquals(8, it.reality.maintenance.inspect().schemaVersion)
         }
     }
 
