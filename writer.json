@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.B7FINAL.20261107.459",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.B7FINAL.RELEASED",
   "token_hash": "d3a9640b5708c990d82d7bb940b621a33e0fb390c7f3955c4676a7f7ed21f0c4",
-  "target_head": "3d116a14899161b55fa38d0badd8a10dde769af0",
+  "target_head": "47dfdeb7d3f78773d90666d64ea97d64b88e5c4d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 459,
-  "timestamp": 1794072448,
-  "purpose": "N033C2B4 B7 PASS 26/26 and final permit pointer checkpoint",
-  "last_checkpoint": "N033C2B4_B7_CLOSING_26_26@3d116a14899161b55fa38d0badd8a10dde769af0"
+  "epoch": 460,
+  "timestamp": 1794072562,
+  "purpose": "N033C2B4 OBJECT_REVIEW_GUARD B7 PASS_SCOPED 26/26 and mandatory guard, permit BLOCKED, pointer durable",
+  "last_checkpoint": "N033C2B4_B7_PASS_26_26@47dfdeb7d3f78773d90666d64ea97d64b88e5c4d"
 }
