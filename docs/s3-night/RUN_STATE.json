@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "N033A preaudit 4-path permit READY. NEXT code B6 + new isolated workflow and exact XML, then B7. N032 legacy 47/47 untouched, A4 OPEN.",
+  "next": "N033A B7 PASS_SCOPED code 14af4032, 9/9 CI SUCCESS exact SHA, XML 12/12+47/47+48/48. N033B fresh B1-B5 NEXT; N033C/A4 OPEN. S4/V2 productiva/Auto/Noche OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -1090,11 +1090,13 @@
     "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
     "source_head": "827cb89a01f5dfc1e364e075860477d1ac04507b",
     "evidence": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-    "status": "B1_B5_DOCUMENTED_READY_TO_AUTHORIZE_SCOPED_DOCS_ONLY",
-    "permit": "READY_4_PATHS_B6_PENDING",
-    "writer_release_epoch_expected": 402,
-    "code_new": false,
-    "ci_new": "NOT_RUN",
-    "evidence_blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb"
+    "status": "B7_PASS_SCOPED_REALITY_BRIDGE",
+    "permit": "BLOCKED_NEXT_UNIT",
+    "writer_release_epoch_expected": 406,
+    "code_new": true,
+    "ci_new": "SUCCESS_9_OF_9_EXACT_SHA_N033A_12_12",
+    "evidence_blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
+    "code_sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
+    "b7_evidence": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md"
   }
 }

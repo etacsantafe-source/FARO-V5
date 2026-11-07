@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
   "reviewed_head": "c29f9796e8092bead4275d24ff72546039becee0",
   "paths": [
@@ -60,24 +60,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_N033A_12_12_N032_47_47_N031_48_48_ALL_NINE_EXACT_SHA_WORKFLOWS_SUCCESS",
+    "B7": "PASS_SCOPED_N033A_INTERNAL_REALITY_BRIDGE"
   },
   "last_code_review": {
-    "sha": "8863adf3cf9a974fd87f27b535483164fc5a5692",
+    "sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
     "result": "PASS",
-    "unit_id": "S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT",
+    "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B7_PASS_20261106.md",
-        "blob_sha": "b2dd9a2d6c8dd8cbe2e9dbf9f99e6a22e44fc4bb",
+        "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
+        "blob_sha": "050bbfcb85878be26fa3a117082ea56a66354b19",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033A bounded internal bridge uses same RealityTransactionScope and existing RealityStore receipt transaction; no user binding",
-  "how": "N033A 4 exact files including new isolated directed CI; legacy N032 workflows and tests unchanged",
+  "why": "N033A Reality8 same-transaction bridge PASS_SCOPED exact 9 workflows, no Chat/Android",
+  "how": "B1-B5 verified, 4-path B6, strict XML 12/12 new+legacy, 47/47 N032, 48/48 N031; B7 independent audit",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 4-path code+JVM workflow, verify exact SHA XML and B7"
+  "next": "N033B fresh B1-B5 Review/ACL/canonical official operation IDs before any functional code. N033A PASS_SCOPED, N033C and A4 OPEN; code permit BLOCKED."
 }

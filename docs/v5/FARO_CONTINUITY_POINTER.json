@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 402
+    "expected_release_epoch": 406
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033A B1-B5 verified. Exact four-path READY permit including new dedicated CI workflow; B6 not yet committed, B7 pending. No N032 regressions. A4 OPEN; N033B/C next. V2 productive/Noche/Auto/S4 OFF.",
-  "checkpoint_status": "S3_A4_N033A_B1_B5_READY_4PATH_PERMIT_AWAIT_B6",
+  "next": "N033A B7 PASS_SCOPED internal Reality8 shared transaction bridge, code 14af4032, 9/9 CI SUCCESS exact SHA; NEXT N033B fresh B1-B5 official reminder.create/monthly_plan.item.add bindings/Review/ACL without new catalog. S3.A4 OPEN; N033C later. V2 productive/Noche/Auto/S4 OFF.",
+  "checkpoint_status": "S3_A4_N033A_B7_PASS_SCOPED_N033B_PREAUDIT_NEXT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-  "last_code_sha": "8863adf3cf9a974fd87f27b535483164fc5a5692",
-  "last_ci_run_id": 42298175424,
+  "last_handoff": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
+  "last_code_sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
+  "last_ci_run_id": 42314685064,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N032_47_47_EIGHT_WORKFLOWS_ALL_GREEN",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033A_12_12_N032_47_47_N031_48_48_NINE_WORKFLOWS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1338,5 +1338,31 @@
     "catalog_172_unchanged": true,
     "physical": "NOT_RUN",
     "next": "N033_APPLYPLAN_ACL_RECEIPTS"
+  },
+  "n033a_b7": {
+    "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
+    "sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
+    "status": "PASS_SCOPED_INTERNAL_ONLY",
+    "b7_document": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
+    "ci_exact_runs": [
+      42314685064,
+      42314684906,
+      42314684922,
+      42314684904,
+      42314684943,
+      42314684900,
+      42314684957,
+      42314685052,
+      42314684924
+    ],
+    "ci_conclusion": "SUCCESS_9_OF_9_EXACT_SHA",
+    "tests_new": "6/6",
+    "xml_n033a": "12/12",
+    "xml_n032": "47/47",
+    "xml_n031": "48/48",
+    "code_paths": 4,
+    "physical": "NOT_RUN",
+    "next": "N033B_B1_B5",
+    "writer_release_epoch_expected": 406
   }
 }
