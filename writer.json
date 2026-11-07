@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.HOSTPOLICY.B1B5.20261107.465",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.HOSTPOLICY.B1B5.RELEASED",
   "token_hash": "e1a16ad15fa9b44c522aa1dd878839a07e9f06ce289e08bd6a8806615a42b38b",
-  "target_head": "555df8f380d764cf4560fb73d6931ccd01cc59fa",
+  "target_head": "67df7f77dac673a5dc2d1ed2cc24418a03679af6",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 465,
-  "timestamp": 1794077092,
-  "purpose": "N033C2B4 real host principal/object policy B1-B5 read-only architecture",
-  "last_checkpoint": "N033C2B4_SESSION_GRANT_B7_PASS_40_40@555df8f380d764cf4560fb73d6931ccd01cc59fa"
+  "epoch": 466,
+  "timestamp": 1794077203,
+  "purpose": "N033C2B4 session grants B7 PASS + host principal/object policy B1-B5 STOP durable; no code pending",
+  "last_checkpoint": "N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_STOP@67df7f77dac673a5dc2d1ed2cc24418a03679af6"
 }
