@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.LOCAL_POLICY.B1B5.RELEASED",
-  "token_hash": "d48731a627fb0c4059c0ed3b914f1ae6bb9fbd2c61a13acdd4b76944be92c95",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.TXN_HOOK.B1B5.20261107",
+  "token_hash": "cea3c36cca2080ec48adecf3aae8faba48a9e9fe6a1debf8cc257a0980d980e2",
   "target_head": "9830c95711acc997d2355e51d76949a17076593c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 472,
-  "timestamp": 1794079445,
-  "purpose": "Android sandbox B7 PASS 56/56; local owner policy B1-B5 reuse existing Reality8 bindings, next transactional ACL; no code pending",
-  "last_checkpoint": "N033C2B4_LOCAL_POLICY_B1_B5_REUSE_NEXT_TRANSACTIONAL@9830c95711acc997d2355e51d76949a17076593c"
+  "epoch": 473,
+  "timestamp": 1794095460,
+  "purpose": "S3 A4 B1-B5 preaudit scoped transactional auth hook; docs only",
+  "last_checkpoint": "A4_TXN_HOOK_B1B5_IN_PROGRESS"
 }
