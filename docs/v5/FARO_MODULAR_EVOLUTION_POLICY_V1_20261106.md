@@ -31,3 +31,6 @@ En el **siguiente chat** basta escribir «Continuar FARO V5». Recuperar HEAD, �
 
 ## Veredicto
 **POLICY_RATIFIED_DOCS_ONLY_NEXT_N033C2_PREAUDIT.** La política guía decisiones futuras; requiere implantación progresiva y CI. **No confundir documentación con implementación.**
+
+## Decisión posterior del usuario — aplazar consolidación global a S5 (06/11/2026)
+La política anterior continúa como principio de diseño, pero **SU IMPLEMENTACIÓN GENERAL SE POSPONE**. El desarrollo seguirá desde S3.A4 y después S4 sin frenar por agrupar versiones, eliminar código muerto, rediseñar módulos ni retirar rutas históricas. Al terminar FARO funcional se abrirá **S5: limpieza, código muerto y consolidación de versiones por componente**, con pruebas de regression/rollback/backup/Undo antes de suprimir. V5 es limpia y los datos heredados conocidos son *solo de prueba y sin valor para preservar*, no existe compromiso de migración histórica de esos fixtures. Eso **no** equivale a autorización para borrar en silencio instalaciones ni componentes necesarios para recuperación; los tests e integridad siguen vigentes. N033C2A se restringe a prueba de integración de Reality8 necesaria para Planning, sin generalizar el esquema ni modificar defaults. **Esta decisión posterior prevalece sobre la antigua propuesta de ejecutar una consolidación modular inmediata en N033C2.**

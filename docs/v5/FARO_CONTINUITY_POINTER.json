@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 430
+    "expected_release_epoch": 432
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_MODULAR_EVOLUTION_POLICY_V1_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "USER APPROVED MODULAR EVOLUTION POLICY docs/v5/FARO_MODULAR_EVOLUTION_POLICY_V1_20261106.md (DOCS ONLY). Next N033C2 B1-B5 first: adopt Reality8 canonical for fresh FARO V5, independent component/schema/contract versions, audit safe retirement of obsolete test-only schema migration paths and verify active pre/post switch, review ACL, Undo later. S3.A4 OPEN, S2 CLOSED, V2 productiva OFF, protocol B1-B7 strict. 'Continuar FARO V5' should resume without restating.",
-  "checkpoint_status": "S3_A4_N033C1_B7_PASS_SCOPED_MODULAR_EVOLUTION_POLICY_RATIFIED_N033C2_B1_B5_NEXT",
+  "next": "Decision latest: postpone dead-code removal, component version consolidation, schema migration pruning until S5 after S3/S4. V5 clean; all historical data test-only and disposable, but no silent deletion. Continue S3.A4 focused N033C2A Planning8 cutover lifecycle existing coordinator and exact pointer, test-only; B1-B5 doc published, permission still BLOCKED; no functional changes until exact-path permit.",
+  "checkpoint_status": "S3_A4_N033C2A_B1_B5_DOCS_ONLY_S5_CLEANUP_DEFERRED_PERMIT_BLOCKED",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/v5/FARO_MODULAR_EVOLUTION_POLICY_V1_20261106.md",
+  "last_handoff": "docs/s3-night/S3_A4_N033C2A_PLANNING8_CUTOVER_B1_B5_20261106.md",
   "last_code_sha": "c95aec5c65e3da4aa6f34a033523c2780f7ef5c8",
   "last_ci_run_id": 42326218395,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -1543,5 +1543,18 @@
     },
     "old_data": "ONLY_TEST_DATA_USER_DECLARED",
     "no_automatic_deletion": true
+  },
+  "clean_v5_test_data_policy": {
+    "confirmed_by_user": "2026-11-06",
+    "historical_data": "TEST_ONLY_NO_PRESERVATION_VALUE",
+    "defer_to": "S5_AFTER_S3_AND_S4",
+    "defer_actions": [
+      "DEAD_CODE_REMOVAL",
+      "COMPONENT_VERSION_CONSOLIDATION",
+      "LEGACY_SCHEMA_CLEANUP",
+      "CROSS_MODULE_REFACTOR"
+    ],
+    "no_silent_delete": true,
+    "continue": "S3_A4_N033C2A_MINIMUM_REQUIRED_FEATURE_TEST_ONLY"
   }
 }

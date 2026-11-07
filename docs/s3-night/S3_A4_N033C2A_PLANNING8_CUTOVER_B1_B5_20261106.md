@@ -1,0 +1,37 @@
+# FARO V5 · S3.A4 · N033C2A · prueba de cutover Reality8 · B1–B5
+Fecha: 2026-11-06 (AR). Referencia: `work/s3-night-20261102@e31a7632847b612ee5858cc84d285aa99dfe4e85`. Unidad futura exacta `S3_A4_N033C2A_PLANNING8_CUTOVER_LIFECYCLE_TEST`. **Solo preauditoría documental, no autorización de código todavía.**
+
+## Decisión humana vigente / alcance
+El usuario confirma que FARO V5 está limpio: datos de instalaciones/esquemas anteriores fueron pruebas y no tienen valor para conservar. **Difiere la consolidación de versiones de componentes y la eliminación de código muerto a una fase final S5, después de terminar S3 y S4.** No realizar refactorización, migración general, retención innecesaria nueva ni borrado automático en esta unidad. Código histórico que participa en rollback/journal/restore/Undo no se considera muerto sin prueba. No confundir datos descartables con permiso para borrar silenciosamente una instalación o datos futuros. Mantener política modular como orientación de interfaces, no proyecto transversal ahora.
+
+## B1 — Evidencia exacta y brecha
+- N033C1 B7 PASS_SCOPED código `c95aec5c65e3da4aa6f34a033523c2780f7ef5c8`, CI dirigida [42326218395](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42326218395) SUCCESS 14/14; guard 42326218389 PASS. Método `FaroV5GenerationStoreGraph.reopenVerifiedActivePlanning8(root,stage,pointer.sequence,planVerifier,gate)` verifica puntero ID+secuencia antes y después y Reality8 exacta, pero N033C1 no integró ciclo de cutover.
+- `FaroV5WorkspaceV2StageOwner.stageFreshAndVerify` prepara actualmente Reality7. Para ensayos internos exclusivamente, `openValidatedV2PlanningStage8(stage)` convierte el STAGED inactivo a Reality8 y valida los cinco stores. NO cambiar ahora el constructor por defecto ni limpiar migraciones. Se reutiliza la ruta de prueba ya probada N031.
+- `GenerationSwitchCoordinator` y `ValidatedGenerationActivationCoordinator` ya poseen journal duradero, CAS de puntero, replay fence y rollback anterior a writes. `FaroV5FiveOwnerRestoreLifecycleT2Test` verifica tres casos pero con Reality7 y `openValidatedV2WithSharedGate`; faltan esos mismos límites integrados para Reality8 y reapertura exacta con secuencia.
+- `FaroV5PreSwitchHostAdmission`, `FaroV5V2RecoveryRuntimeHealthOwner` y `FaroV5ActiveGenerationGraphOwner` del host siguen exclusivamente Reality7; `V2_ACTIVE_ENABLED=false`. No tocarlos aquí. A4, N033C2 total y N033C3 siguen abiertos.
+- Aceptación binaria: tres pruebas dirigidas con cinco bases SQLite reales de **Reality8 STAGED** + generación anterior, journal, CAS, fence y coordenador existentes: (1) cutover correcto y reabrir active8 exacta solo después del puntero; (2) crash después de publicar puntero recupera journal y escribe fence antes de proyecciones/material writes; (3) fallo de health vuelve a generación anterior antes de writes y no instala fence. Además prueba negativa de ruta staged8 bloqueada una vez activa. Nada de host real ni físico.
+
+## B2 — Comparación V4.4 / reuso V5
+- En V4.4 recordar/reglas y plan mensual son dominios, no permisos globales de escritura; contratos comparados en `docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md`. V4.4 no es autoridad sobre punteros V5: no copiar bases ni reimplementar coordenador.
+- Reusar SIN alteración el contrato `GenerationSwitchCoordinator`, `FileBootstrapJournal`, `FileActiveGenerationPointer`, `FileGenerationReplayFence`, `MaterialWriteGateQuiescence` y `FaroV5GenerationStoreGraph`. Patrón de fixture del test C128, adaptado a Reality8 con abridor distinto antes/después del switch. No agregar sexto store ni otro owner.
+
+## B3 — Investigación externa / alternativas
+1. SQLite WAL https://www.sqlite.org/wal.html y PRAGMA https://sqlite.org/pragma.html#pragma_user_version: WAL activo contiene transacciones comprometidas; `user_version` lo gestiona la app. **USAR** preflight real WAL-aware schema8 exacto; descartar lecturas `immutable=1` de ACTIVE.
+2. Android offline-first https://developer.android.com/topic/architecture/data-layer/offline-first: **USAR** owner local como única fuente para materializar datos; no inventar servicio remoto.
+3. Proyecto real oficial Google Now in Android https://github.com/android/nowinandroid/blob/main/docs/ArchitectureLearningJourney.md: repositories son API hacia capas superiores, Room local fuente de verdad; **REFERENCIA** de frontera, no copiar Room ni migrar las cinco DB. Licencia/mantenimiento: repo Android oficial, solo patrón (sin código tercero copiado), costo 0.
+4. Room migrations https://developer.android.com/training/data-storage/room/migrating-db-versions: fallback destructivo borra tablas del usuario; **DESCARTAR** fallback silencioso y aprovechar que V5 test-only se puede resetear explícitamente en un futuro sin preservar test fixtures.
+5. OWASP BOLA https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/: **REFERENCIA** para separación de generación/ID de permisos por objeto. Un pointer válido NO concede ACL. Host Review/ACL se audita en otra subunidad.
+- Alternativa A: **ADAPTAR** prueba cruzada con coordenador existente y dos abridores; sin tocar producción. B: duplicar switcher específico para schema8 **DESCARTAR** por doble autoridad. C: migrar TODO a esquema8 / retirar legacy ahora **POSPONER S5** por decisión del usuario. D: certificar host y habilitar V2 para probar **DESCARTAR** por falta de ACL/Review/Undo.
+
+## B4 — Plan mínimo de B6 sujeto a permiso EXACT_PATH
+Solo dos archivos nuevos, ambos independientes del host shipping:
+1. `v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5PlanningEightActivationLifecycleT2Test.kt`
+2. `.github/workflows/faro-v5-s3-a4-n033c2a-planning8-lifecycle-directed.yml`
+Tres pruebas nativas nuevas en `:store:generation:test` más tres suites dirigidas de regresión N033C1 (6/6), FBS2v3 Planning (6/6) y WAL activo (2/2): objetivo 17/17 (si quedan tres nuevas). Exigir XML exacto cero failures/errors/skips. Guard B1–B7 obligatorio, `FARO-UNIT` exacto y SHA funcional. Ningún permiso READY ni CI PASS se afirma en este documento. Si las pruebas revelan un hueco de producción, detenerse y abrir B1–B5 independiente para la corrección mínima, no ampliar esta unidad.
+
+## B5 — Adversarial y STOP
+- STAGED no debe convertirse en ACTIVE antes del switch CAS. En post-switch no abrir con `openValidatedV2PlanningStage8` (rechazo correcto); reapertura activa usa puntero ID+secuencia exactos. Validar identity/descriptor y nueva secuencia; no confiar solo en generation ID por ABA.
+- Inyección de crash: journal queda SWITCH_PREPARED con pointer nuevo; `recover()` debe llegar COMPLETED con replay fence antes de proyectar/writes; sin ejecución duplicada. Rollback posible sólo antes de materialWritesAccepted.
+- Falla de health de REALITY8: retornar a generación anterior; no dejar target como autoridad. Sin cambio de schema7 ACTIVE, sin backup/restore público v3, sin migración in-place de ACTIVE.
+- La prueba no prueba el permiso de usuario, ACL por objeto, revisión humana, Undo, host, Android ni campaña física; no vender como cierre A4 o V2 productiva. Sin S2/S4/main/V4.4/172-catalog/Auto/Noche/costos ni políticas de borrado nuevas.
+- **Veredicto documental:** B1–B5 preparado para una **prueba mínima de integración interna**. Permiso BLOCKED hasta publicarse expediente EXACT_PATH con blobs y reviewed_head y pasar su preflight. Siguiente subunidad distinta integrará host/Review/ACL si el ciclo cutover resulta verde.
