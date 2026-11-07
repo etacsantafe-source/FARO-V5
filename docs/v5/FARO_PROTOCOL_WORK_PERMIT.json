@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT",
-  "reviewed_head": "2df84a995e04470425ad9f27c9eea2f20b122c62",
-  "paths": [
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCreateBinding.kt",
-    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanItemAddBinding.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningBindingsPreflightT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033b3-bindings-directed.yml"
-  ],
+  "reviewed_head": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_6_WORKFLOWS",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
+          "blob_sha": "50db2afd2f44dd783521576339e78b4c101eb7a3",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
-    "unit_id": "S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS",
+    "sha": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
+    "unit_id": "S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
-        "blob_sha": "1bd636eb7c21c773e78ac8140eacf279fe79d42f",
+        "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
+        "blob_sha": "50db2afd2f44dd783521576339e78b4c101eb7a3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033B3 two official D-229 planning operation bindings with strict catalog fingerprint and exact owner stamps; host/ACL/generation/Undo not enabled",
-  "how": "Local Reality8 owner preflight + N033A transaction+CAS, no changes to registry, app, spec or catalog",
+  "why": "N033B3 scoped B7 PASS only for owner bindings and local preflight; next N033C new B1-B5 required",
+  "how": "6/6 exact SHA workflows green, 22/22 targeted XML, no host/ACL/Undo; manual AUTO wait persists",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033B3 exact four paths B6 CI, B7, then new N033C preaudit"
+  "next": "N033C B1-B5 Reality8 active generation admission and trusted host Review/ACL/Undo; no code until new permit"
 }

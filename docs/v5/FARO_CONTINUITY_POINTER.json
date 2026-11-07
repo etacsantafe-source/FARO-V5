@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 416
+    "expected_release_epoch": 420
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
+  "handoff": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033B2 B7 PASS_SCOPED exact SHA 17413718, owner Reminders/MonthlyPlan internal SPI + Reality8 revision stamps, N033B2 18/18 and all 12/12 workflows SUCCESS, guard 63 functional units. AUTO de ESPERA manual ENABLED for useful READ_ONLY independent B1-B5 work while CI runs, no background after end of turn. NEXT N033B3 B1-B5 independent binding/revalidator/preflight then docs-only permission; N033C Review/ACL/Undo later. N033B complete/A4 OPEN; V2 production/Noche/Auto scheduled OFF.",
-  "checkpoint_status": "S3_A4_N033B2_B7_PASS_SCOPED_AUTO_ESPERA_MANUAL_ON_N033B3_NEXT",
+  "next": "N033B3 B7 PASS_SCOPED code d57c9578b6f034a37a79014ee7ad1a857ae326bb; 22/22 new directed XML incl prior B2/A regressions and all 6 workflows green, guard 64. NEXT N033C B1-B5 investigate Reality8 schema8 STAGED-only versus active V2 Reality7, trusted SPI in Android app and revocable ACL/Review/Undo; new scoped permit only after STOP resolved. N033C/A4 OPEN, V2 productiva OFF. AUTO de espera manual ON.",
+  "checkpoint_status": "S3_A4_N033B3_B7_PASS_SCOPED_N033C_B1_B5_NEXT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
-  "last_code_sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
-  "last_ci_run_id": 42321928138,
+  "last_handoff": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
+  "last_code_sha": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
+  "last_ci_run_id": 42324271769,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033B2_18_18_N033B1_24_24_GUARD_63_ALL_12_WORKFLOWS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033B3_22_22_GUARD_64_ALL_6_WORKFLOWS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1454,6 +1454,44 @@
       "NO_UNDO",
       "NO_ANDROID_PHYSICAL",
       "NO_V2_PRODUCTION"
+    ]
+  },
+  "progress_s3_a4_n033b3_20261106": {
+    "unit_id": "S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT",
+    "status": "B7_PASS_SCOPED_BINDINGS_PREFLIGHT_ONLY",
+    "code_sha": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
+    "preaudit": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
+    "b7": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
+    "ci": {
+      "directed": {
+        "run": 42324271769,
+        "xml": "22/22",
+        "conclusion": "SUCCESS"
+      },
+      "guard": {
+        "run": 42324271710,
+        "units": 64,
+        "conclusion": "SUCCESS"
+      },
+      "regressions": {
+        "runs": [
+          42324271712,
+          42324271750,
+          42324271751,
+          42324271828
+        ],
+        "all": "SUCCESS"
+      }
+    },
+    "next": "N033C_B1_B5_ACTIVE_SCHEMA8_HOST_ACL_REVIEW_UNDO",
+    "limitations": [
+      "NO_ACTIVE_SCHEMA8",
+      "NO_REGISTERED_APP_BINDINGS",
+      "NO_REAL_ACL",
+      "NO_USER_REVIEW_FOR_PLANNING",
+      "NO_UNDO_COMPENSATION",
+      "NO_ANDROID_PHYSICAL",
+      "V2_PROD_OFF"
     ]
   }
 }
