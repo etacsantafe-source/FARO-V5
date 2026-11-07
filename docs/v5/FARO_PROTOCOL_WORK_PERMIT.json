@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033B1_CANONICAL_PLANNING_CODEC",
-  "reviewed_head": "5e78ce72866a0558f5349795c61333b61ff8f429",
+  "reviewed_head": "fd8551a7013daf9d9d7d81c480786861f194db80",
   "paths": [
     "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCanonicalOperation.kt",
     "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCanonicalOperationTest.kt",
@@ -61,24 +61,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_EXACT_SHA_N033B1_24_OF_24_AND_N031_12_OF_12_GUARD_62_SUCCESS",
+    "B7": "PASS_SCOPED_N033B1_CANONICAL_OWNER_CODECS_ONLY"
   },
   "last_code_review": {
-    "sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
+    "sha": "a3a033d88b95cdfe9eaba165a0d1e633500d675e",
+    "unit_id": "S3_A4_N033B1_CANONICAL_PLANNING_CODEC",
     "result": "PASS",
-    "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B7_PASS_20261106.md",
-        "blob_sha": "050bbfcb85878be26fa3a117082ea56a66354b19",
+        "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B7_PASS_20261106.md",
+        "blob_sha": "8c476e77a33a6f5febd9b5c3e9d2cbe4930e6694",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033B1 isolated canonical codecs + typed existing D-229 operation IDs; no binding, host or Reality write",
-  "how": "B1-B5 documented on exact preaudit blob and prior N033A B7",
+  "why": "N033B1 B7 PASS_SCOPED with exact CI and no host; N033B2 separate preaudit required",
+  "how": "N033B1 XML 24/24 + N031 regression 12/12, guard 62 units; latest B7 independent audit recorded",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exact five functional paths, directed XML+guard; B7 independent; N033B2/B3/C remain STOP"
+  "next": "N033B2 owner Reality SPI/revision stamps B1-B5 and docs-only limited permit before any new functional code; N033B full still STOP"
 }
