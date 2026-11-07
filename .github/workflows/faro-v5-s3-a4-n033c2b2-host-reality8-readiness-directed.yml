@@ -8,7 +8,9 @@ on:
       - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
       - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwner.kt"
       - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8ReopenT2Test.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ActiveReality8HostReadinessT2Test.kt"
       - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerT2Test.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerPlanning8ReadinessT2Test.kt"
       - ".github/workflows/faro-v5-s3-a4-n033c2b2-host-reality8-readiness-directed.yml"
   workflow_dispatch:
 
@@ -45,15 +47,17 @@ jobs:
       - name: Directed generation and Android JVM host gates
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5ActiveReality8ReopenT2Test" :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5ActiveGenerationGraphOwnerT2Test"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5ActiveReality8ReopenT2Test" --tests "ar.com.faro.v5.generation.FaroV5ActiveReality8HostReadinessT2Test" :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5ActiveGenerationGraphOwnerT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveGenerationGraphOwnerPlanning8ReadinessT2Test"
       - name: Require exact JUnit XML without skips/failures
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
           cases=[
-            (Path('v5/store/generation/build/test-results/test'), 'FaroV5ActiveReality8ReopenT2Test', 8),
-            (Path('v5/app/build/test-results/testDebugUnitTest'), 'FaroV5ActiveGenerationGraphOwnerT2Test', 6),
+            (Path('v5/store/generation/build/test-results/test'), 'FaroV5ActiveReality8ReopenT2Test', 6),
+            (Path('v5/store/generation/build/test-results/test'), 'FaroV5ActiveReality8HostReadinessT2Test', 2),
+            (Path('v5/app/build/test-results/testDebugUnitTest'), 'FaroV5ActiveGenerationGraphOwnerT2Test', 3),
+            (Path('v5/app/build/test-results/testDebugUnitTest'), 'FaroV5ActiveGenerationGraphOwnerPlanning8ReadinessT2Test', 3),
           ]
           count=0
           for folder,name,expected in cases:
