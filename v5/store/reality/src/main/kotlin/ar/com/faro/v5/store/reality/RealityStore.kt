@@ -62,6 +62,10 @@ import ar.com.faro.v5.owner.matters.api.MatterTitle
 import ar.com.faro.v5.owner.matters.spi.MatterPersistencePort
 import ar.com.faro.v5.owner.reminders.api.*
 import ar.com.faro.v5.owner.monthlyplan.api.*
+import ar.com.faro.v5.owner.reminders.spi.ReminderPersistencePort
+import ar.com.faro.v5.owner.reminders.spi.ReminderOwnerDependency
+import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanPersistencePort
+import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanOwnerDependency
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.YearMonth
@@ -217,6 +221,41 @@ class RealityStore(
     internal val planningApplyInsert: RealityPlanningApplyInsertPort =
         RealityPlanningApplyInsertPort(::insertPlanningDuringApply)
 
+    /**
+     * N033B2: typed owner SPI adapters, INTERNAL to Reality and not installed
+     * in any operation registry, Chat host or Android entry point.
+     * N033A authenticates the active Apply lease and reuses one SQL transaction.
+     */
+    internal val reminderPersistence: ReminderPersistencePort =
+        object : ReminderPersistencePort {
+            override fun read(): ReminderSnapshot = planningBackup.snapshot().reminders
+
+            override fun createRule(
+                rule: ReminderRule,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): ReminderSnapshot =
+                planningApplyInsert.insert(
+                    RealityPlanningStageInsert.Rule(rule, expectedOwnerRevision),
+                    transactionScope,
+                ).reminders
+        }
+
+    internal val monthlyPlanPersistence: MonthlyPlanPersistencePort =
+        object : MonthlyPlanPersistencePort {
+            override fun read(): MonthlyPlanSnapshot = planningBackup.snapshot().monthlyPlan
+
+            override fun createItem(
+                item: MonthlyPlanItem,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): MonthlyPlanSnapshot =
+                planningApplyInsert.insert(
+                    RealityPlanningStageInsert.MonthlyItem(item, expectedOwnerRevision),
+                    transactionScope,
+                ).monthlyPlan
+        }
+
     val maintenance: RealityMaintenancePort =
         RealityMaintenancePort(::inspectForMaintenance)
 
@@ -333,6 +372,21 @@ class RealityStore(
             authorityBoundary == FinanceSnapshot.FINANCE_AUTHORITY &&
                 dependencyKey.value.startsWith("finance:account:") ->
                 readFinanceAccountDependencyValue(dependencyKey)
+
+            // N033B2: real schema8-only owner revisions, never ACL/host grants.
+            planningStage8 &&
+                authorityBoundary == ReminderOwnerDependency.AUTHORITY &&
+                dependencyKey == ReminderOwnerDependency.STATE_KEY ->
+                ReminderOwnerDependency.stamp(
+                    readPlanningSnapshot().reminders
+                ).observedValue
+
+            planningStage8 &&
+                authorityBoundary == MonthlyPlanOwnerDependency.AUTHORITY &&
+                dependencyKey == MonthlyPlanOwnerDependency.STATE_KEY ->
+                MonthlyPlanOwnerDependency.stamp(
+                    readPlanningSnapshot().monthlyPlan
+                ).observedValue
 
             else -> null
         }
