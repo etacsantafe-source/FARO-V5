@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.LOCAL_POLICY.B1B5.20261107.471",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.LOCAL_POLICY.B1B5.RELEASED",
   "token_hash": "d48731a627fb0c4059c0ed3b914f1ae6bb9fbd2c61a13acdd4b76944be92c95",
-  "target_head": "23b82c22747bd6c0d9a499c7ec24d4a21df5ca8b",
+  "target_head": "9830c95711acc997d2355e51d76949a17076593c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 471,
-  "timestamp": 1794079314,
-  "purpose": "N033C2B4 local owner create target policy B1-B5 read-only architecture after Android sandbox PASS 56/56",
-  "last_checkpoint": "N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B7_PASS@23b82c22747bd6c0d9a499c7ec24d4a21df5ca8b"
+  "epoch": 472,
+  "timestamp": 1794079445,
+  "purpose": "Android sandbox B7 PASS 56/56; local owner policy B1-B5 reuse existing Reality8 bindings, next transactional ACL; no code pending",
+  "last_checkpoint": "N033C2B4_LOCAL_POLICY_B1_B5_REUSE_NEXT_TRANSACTIONAL@9830c95711acc997d2355e51d76949a17076593c"
 }
