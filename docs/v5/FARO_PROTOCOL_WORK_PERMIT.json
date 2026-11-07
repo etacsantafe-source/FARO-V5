@@ -63,20 +63,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "d57c9578b6f034a37a79014ee7ad1a857ae326bb",
-    "unit_id": "S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT",
-    "result": "PASS",
+    "sha": "c643289d266e8ccb56e9647d976026941a5a659e",
+    "unit_id": "S3_A4_N033C1_ACTIVE_REALITY8_FENCED_REOPEN",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B7_PASS_20261106.md",
-        "blob_sha": "50db2afd2f44dd783521576339e78b4c101eb7a3",
+        "path": "docs/s3-night/S3_A4_N033C1_ACTIVE_REALITY8_REOPEN_B7_RED_FIX_20261106.md",
+        "blob_sha": "ec0330d6ca6353b5db0e510dd245d69b60399b4b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C1 internal verified ACTIVE Reality8 reopen only; no host, ACL or production activation",
-  "how": "staged schema8 exact read-only active preflight, pointer generation + monotonic sequence pre/post, single shared gate, no migration",
+  "why": "N033C1 same-unit RED_FIX compileTestKotlin cross-module internal schemaVersion; no host or prod activation; repair chronological pre-commit B7",
+  "how": "Audit true red runs and previously failed guard; keep old branch ref; one-file API public inspector test correction; rerun exact CI/guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 3 paths directed CI, B7, next N033C2 host ACL/Review new preaudit"
+  "next": "N033C1 test visibility RED_FIX, then B7 PASS only after exact new SHA CI; N033C2 still blocked"
 }
