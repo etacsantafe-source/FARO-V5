@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.REDFIX.20261107.455",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.CORRECTIVE.CIWAIT.RELEASED",
   "token_hash": "8e6f872c54e85a14aebc39d2f3d8f0e00a5bd13a7d7a6f227e409331b8cb5834",
-  "target_head": "d2ac220d58023d225a82f90f74cf44a4f11ed8f1",
+  "target_head": "205b5632bafe6121551f3923a7eacb6221c9c125",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 455,
-  "timestamp": 1794071538,
-  "purpose": "B7 RED_FIX security TOCTOU: stale approved Workspace after ACL",
-  "last_checkpoint": "N033C2B4_B6_PENDING_AUDIT@d2ac220d58023d225a82f90f74cf44a4f11ed8f1"
+  "epoch": 456,
+  "timestamp": 1794071843,
+  "purpose": "N033C2B4 corrected code; CI 42395535331 and mandatory 42395535340 pending",
+  "last_checkpoint": "N033C2B4_CORRECTIVE_B6_CI_PENDING@205b5632bafe6121551f3923a7eacb6221c9c125"
 }
