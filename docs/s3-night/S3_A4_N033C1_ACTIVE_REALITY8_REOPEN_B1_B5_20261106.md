@@ -10,7 +10,7 @@ Fecha: 2026-11-06 AR. Baseline exacto `work/s3-night-20261102@de5d35e7e7d96e08cb
 - El head `N033B3` ya tiene ID de D-229 172 canónicos, codec, SPI, local preflight, Apply/receipt en dev: todo preservado. N033C completa aún requiere N033C2 host SPI/ACL/Review/generation y N033C3 Undo/recovery y campaña física; no mezclarlas con C1.
 
 ## B2 — Comparación y DESIGN ONCE
-- Las comparaciones con V4.4 están preservadas en `docs/s3-night/S3_A4_N031_TYPED_PLANNING_CONTRACTS_B1_B5_20261106.md` y `docs/s3-night/S3_A4_N033_TRUSTED_PLANNING_APPLY_B1_B5_STOP_20261106.md`: reminder rule != occurrence/dispatch; plan mensual != pago Finance; ninguna migración/copiar bases legacy en esta unidad.
+- Las comparaciones con V4.4 están preservadas en `docs/s3-night/S3_A4_N031_REMINDER_MONTHLYPLAN_TYPED_CONTRACTS_B1_B5_20261106.md` y `docs/s3-night/S3_A4_N033_TRUSTED_PLANNING_APPLY_B1_B5_STOP_20261106.md`: reminder rule != occurrence/dispatch; plan mensual != pago Finance; ninguna migración/copiar bases legacy en esta unidad.
 - Usar `FaroV5GenerationStoreGraph`, `FileStorageGenerationLayout.requireStaged`, `FileActiveGenerationPointer`, `ActiveSqlitePreflight`, `RealityStore(planningStage8=true)`, `FaroV5Fbs2V3PlanningStageT2Test` y `FaroV5ActiveWalRecoveryT2Test`. NO crear sexto store, no nuevas tablas, no cambiar default Reality7 ni `FaroV5ActiveGenerationGraphOwner`, no alterar bootstrap/cutover ni FBS2 v3.
 - V4.4 es precedente funcional, no autoridad de esquema o autorización V5. El guard anterior `planningStage8 && activeGeneration` sólo se exceptúa para un **nuevo método interno** y su token de ámbito, no para todas las rutas activas.
 
