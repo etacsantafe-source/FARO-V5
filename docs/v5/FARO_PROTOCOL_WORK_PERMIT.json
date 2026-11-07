@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS",
-  "reviewed_head": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033B3_PLANNING_BINDINGS_PREFLIGHT",
+  "reviewed_head": "2df84a995e04470425ad9f27c9eea2f20b122c62",
+  "paths": [
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCreateBinding.kt",
+    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanItemAddBinding.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningBindingsPreflightT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033b3-bindings-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
-          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
+          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
+          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
-          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
+          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
+          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
-          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
+          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
+          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
-          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
+          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
+          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B1_B5_20261106.md",
-          "blob_sha": "b9554091d1b9fa7db523212fca5408bfbfca73bd",
+          "path": "docs/s3-night/S3_A4_N033B3_BINDINGS_PREFLIGHT_B1_B5_20261106.md",
+          "blob_sha": "acf1caa279bbd97acb5e25c6f7654494a18899e4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_12_WORKFLOWS",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033B2_REALITY_OWNER_SPI_STAMPS_B7_PASS_20261106.md",
-          "blob_sha": "1bd636eb7c21c773e78ac8140eacf279fe79d42f",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "17413718fded2a7ade7b4fa42af06bd3b8482c71",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "N033B2 B7 PASS scoped; next N033B3 requires independent B1-B5 and docs-only READY permit",
-  "how": "AUTO manual CI wait enabled only for useful independent work during pending CI; no new functional permission",
+  "why": "N033B3 two official D-229 planning operation bindings with strict catalog fingerprint and exact owner stamps; host/ACL/generation/Undo not enabled",
+  "how": "Local Reality8 owner preflight + N033A transaction+CAS, no changes to registry, app, spec or catalog",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033B3 independent B1-B5, then scoped permit; N033C host/ACL later"
+  "next": "N033B3 exact four paths B6 CI, B7, then new N033C preaudit"
 }
