@@ -1,21 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033A_REALITY_TRANSACTION_BRIDGE",
-  "reviewed_head": "c29f9796e8092bead4275d24ff72546039becee0",
+  "status": "READY",
+  "unit_id": "S3_A4_N033B1_CANONICAL_PLANNING_CODEC",
+  "reviewed_head": "5e78ce72866a0558f5349795c61333b61ff8f429",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningApplyBridgeT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033a-bridge-directed.yml"
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCanonicalOperation.kt",
+    "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCanonicalOperationTest.kt",
+    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanCanonicalOperation.kt",
+    "v5/owner/monthlyplan/src/test/kotlin/ar/com/faro/v5/owner/monthlyplan/api/MonthlyPlanCanonicalOperationTest.kt",
+    ".github/workflows/faro-v5-s3-a4-n033b1-codecs-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
+          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
+          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
           "marker": "## B1"
         }
       ]
@@ -24,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
+          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
+          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
           "marker": "## B2"
         }
       ]
@@ -34,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
+          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
+          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
           "marker": "## B3"
         }
       ]
@@ -44,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
+          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
+          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
           "marker": "## B4"
         }
       ]
@@ -54,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033A_REALITY_TRANSACTION_BRIDGE_B1_B5_20261106.md",
-          "blob_sha": "280e500859040a9d97ca092c6ffc2027c4227bcb",
+          "path": "docs/s3-night/S3_A4_N033B1_CANONICAL_PLANNING_CODEC_B1_B5_20261106.md",
+          "blob_sha": "16533c1db978185fb76f0b79d1c4e9bfa58741f7",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_N033A_12_12_N032_47_47_N031_48_48_ALL_NINE_EXACT_SHA_WORKFLOWS_SUCCESS",
-    "B7": "PASS_SCOPED_N033A_INTERNAL_REALITY_BRIDGE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "14af40329004a9bc063267c9e20fd64ecc3e78ba",
@@ -75,9 +76,9 @@
       }
     ]
   },
-  "why": "N033A Reality8 same-transaction bridge PASS_SCOPED exact 9 workflows, no Chat/Android",
-  "how": "B1-B5 verified, 4-path B6, strict XML 12/12 new+legacy, 47/47 N032, 48/48 N031; B7 independent audit",
+  "why": "N033B1 isolated canonical codecs + typed existing D-229 operation IDs; no binding, host or Reality write",
+  "how": "B1-B5 documented on exact preaudit blob and prior N033A B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N033B fresh B1-B5 Review/ACL/canonical official operation IDs before any functional code. N033A PASS_SCOPED, N033C and A4 OPEN; code permit BLOCKED."
+  "next": "B6 exact five functional paths, directed XML+guard; B7 independent; N033B2/B3/C remain STOP"
 }
