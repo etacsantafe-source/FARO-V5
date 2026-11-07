@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4.HOSTPOLICY.B1B5.RELEASED",
-  "token_hash": "e1a16ad15fa9b44c522aa1dd878839a07e9f06ce289e08bd6a8806615a42b38b",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4.ANDROID_SANDBOX.20261107.467",
+  "token_hash": "aa148d370ecc21f6bd62805836ab7c2ce5ad950b8ca717af833e0dbbe4d12e9",
   "target_head": "67df7f77dac673a5dc2d1ed2cc24418a03679af6",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 466,
-  "timestamp": 1794077203,
-  "purpose": "N033C2B4 session grants B7 PASS + host principal/object policy B1-B5 STOP durable; no code pending",
-  "last_checkpoint": "N033C2B4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_STOP@67df7f77dac673a5dc2d1ed2cc24418a03679af6"
+  "epoch": 467,
+  "timestamp": 1794078673,
+  "purpose": "N033C2B4 Android sandbox principal scoped B1-B7; no productive ACL/app wiring",
+  "last_checkpoint": "S3_A4_HOST_PRINCIPAL_OBJECT_POLICY_B1_B5_STOP@67df7f77dac673a5dc2d1ed2cc24418a03679af6"
 }
