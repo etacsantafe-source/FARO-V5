@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL",
-  "reviewed_head": "00c6d09385f0f7eef324a45454b9eae4e8401867",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC",
+  "reviewed_head": "be2453252ab739237f02cc1e580ff0f5f253bfc7",
+  "paths": [
+    "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/UndoExecuteIntent.kt",
+    "v5/kernel/contracts/src/test/kotlin/ar/com/faro/v5/kernel/contracts/UndoExecuteIntentTest.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c3-undo-intent-codec-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
-          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
+          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
-          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
+          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
-          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
+          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
-          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
+          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
-          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
+          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_EXACT_SHA_INTERNAL_SQL_6_OF_6",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B7_PASS_20261108.md",
-          "blob_sha": "0e6d95c283bc0afef844270eac140d5bd0cbfd4f",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "61b16c94a8baa3b3d1a3d0fdc6283c2a3498a61e",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "N033C3 internal owner SQL cancel PASS 6/6 and all 14 exact SHA workflows; Undo user execution still not implemented",
-  "how": "Reality8 same transaction lease, CAS, row preserved, receipts independent, no paid record, rollback+retry; no user-facing binding",
+  "why": "New Undo human Review requires a non-authorizing canonical payload fixing exact COMMITTED source + original CREATE bytes and target",
+  "how": "3 exact functional paths, 8/8 directed JVM tests, no runtime binding/owner write",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5 scope: S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST; fresh human Review, source COMMITTED provenance, trusted ACL and new receipt"
+  "next": "B6 codec then B7 exact SHA; only afterward review-host integration"
 }
