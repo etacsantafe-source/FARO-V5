@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B1B5.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B1B5.RELEASED",
   "token_hash": "52a1f2c1abfb31e8635a39d881530e90c7de33a242c123abae571563c9c559f5",
-  "target_head": "8e3da9712106dd5c5fd389d81c02f15c90a5c518",
+  "target_head": "50921d3a1a9c15256edf76be0ebcba80bb120105",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 523,
-  "timestamp": 1794103360,
-  "purpose": "N033C3 B1–B5 canonical Workspace receipt-only recovery, no replay, no new Undo",
-  "last_checkpoint": "N033C3_RECEIPT_ONLY_B1B5"
+  "epoch": 524,
+  "timestamp": 1794103460,
+  "purpose": "N033C3 receipt-only B1-B5 scoped READY and guard #42436753241 success",
+  "last_checkpoint": "N033C3_RECEIPT_ONLY_B1B5_READY@50921d3a1a9c15256edf76be0ebcba80bb120105"
 }
