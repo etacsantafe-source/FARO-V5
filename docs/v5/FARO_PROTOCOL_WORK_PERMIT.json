@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
-  "reviewed_head": "ac9f00f56eb8b280fd1a4e321a32fafce7b26f03",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_SOURCE",
+  "reviewed_head": "37cf5bfb35b5dde490cd4f7f2c084b08d3a3e3ea",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealityPlanningDueReadSource.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealityPlanningDueReadSourceTest.kt",
+    ".github/workflows/faro-v5-s3-planning-due-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
-          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
+          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
-          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
+          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
-          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
+          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
-          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
+          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
           "marker": "## B4"
         }
       ]
@@ -49,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
-          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
+          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_NEW6_OLD12_KERNEL38_EXACT_SHA",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_PASS_20261108.md",
-          "blob_sha": "f6487fda8f21d05db0a27ea6ffb8741e35706da5",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
@@ -79,9 +74,9 @@
       }
     ]
   },
-  "why": "N033C3 new human reviewed Undo isolated JVM host B7 passed exact 56/56 tests and guard, no user-facing Android activation",
-  "how": "CI #42499635004 6 new+12 old host+38 kernel; #42499635018 guard, exact SHA, no skipped",
+  "why": "Reality8 has real persisted Reminder+MonthlyPlan owners but lacks pending read-only projection; deny without host ACL",
+  "how": "Typed occurrence and civil due-date source, independent per owner grants, pointer epoch + revoke checks, isolated JVM 6 tests only",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B1-B5 S3_A4_N033C3_UNDO_HOST_E2E_AUTHORIZATION: audit N015/N031 and final A4 gate, no repetition or production activation"
+  "next": "B6 functional unit, run directed exact XML + protocol guard, B7 then BLOCKED"
 }
