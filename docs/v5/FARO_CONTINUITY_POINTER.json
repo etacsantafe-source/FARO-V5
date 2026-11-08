@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 594
+    "expected_release_epoch": 595
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS_SCOPED_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B6_WAIT_CI_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A5 DEV journal VALIDATED -> canonical Reality8 cutover/recovery 4/4 B7 PASS, not mounted. Next new B1–B5: bind V2CoreDevAuthority to active8 under shared gate, restart/recovery, epoch session revocation + authorized Pendientes UI; then one G15 X01-X12 physical campaign last. A3 approval still blocked.",
-  "checkpoint_status": "S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS_4_OF_4_A5_OPEN",
+  "next": "S3.A5 DEV host Reality8 new code SHA 60250bce, exact CI #42534451918 not yet terminal/XML verified; guard #42534452161 SUCCESS. Verify CI and B7; if red narrow RED_FIX. No G15 until final X01-X12 campaign.",
+  "checkpoint_status": "S3_A5_REALITY8_DEV_HOST_B6_WAIT_CI_B7_PENDING_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS_SCOPED_20261108.md",
-  "last_code_sha": "a7eeccdeed2f5f3bf36754d793221a4c05ad788f",
-  "last_ci_run_id": 42531064127,
+  "last_handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B6_WAIT_CI_20261108.md",
+  "last_code_sha": "60250bcede299c9ddb3028bb0b948ac1b700bcdd",
+  "last_ci_run_id": 42534451918,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "S3_A5_DEV_VALIDATED8_CUTOVER_REAL_SQLITE_XML_PASS_4_OF_4_GUARD_PASS",
+  "last_ci_conclusion": "WAIT_CI_NO_JUNIT_XML_VERIFIED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1793,5 +1793,19 @@
     "active8_host_open": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV",
     "stage8_journal": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV",
     "cutover_owner": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV"
+  },
+  "a5_host_mount_checkpoint": {
+    "status": "WAIT_CI",
+    "unit": "S3_A5_REALITY8_DEV_HOST_MOUNT",
+    "b1_b5": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
+    "b5_origin": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B5_ORIGIN_BINDING_20261108.md",
+    "functional_sha": "60250bcede299c9ddb3028bb0b948ac1b700bcdd",
+    "directed_ci_id": 42534451918,
+    "protocol_ci_id": 42534452161,
+    "protocol_ci_conclusion": "SUCCESS",
+    "functional_ci_conclusion": "NOT_YET_VERIFIED",
+    "physical": "NOT_RUN_G15_FINAL_ONLY",
+    "production_v2": false,
+    "next": "Exact directed Android compile and JUnit XML 8/8 then B7."
   }
 }
