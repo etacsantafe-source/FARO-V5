@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 472
+    "expected_release_epoch": 478
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B7_PASS_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "B1-B5 dedicated kernel authorization hook preaudit complete at 9830c957. READY only scoped hook and directed tests, NOT real Planning8 ACL. B6 next with guarded code commit and exact XML, B7 before following functional work. Then real transactional Planning8 ACL and N033C3 Undo/retry. V2 OFF, S4 OFF, Auto/Noche OFF, G15 NOT_RUN.",
-  "checkpoint_status": "A4_TXN_AUTH_HOOK_B1_B5_PREAUDITED_READY",
+  "next": "TXN_AUTH_HOOK B7 PASS_SCOPED 13/13 exact code SHA 66d581ff (#42427565628), guard #42427565595 SUCCESS. Hook opt-in, no host wiring, cannot close A4. NEXT N033C2B4_TRANSACTIONAL_PLANNING_ACL B1-B5 and real policy/Review/revocation across transaction, then N033C3 Undo/retry, A4 close. Work permit BLOCKED, S3 0/5 formal, V2 OFF, S4 OFF, Auto/Noche OFF, G15 A5 NOT_RUN.",
+  "checkpoint_status": "S3_A4_TXN_AUTH_HOOK_B7_PASS_SCOPED_NEXT_REAL_ACL",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B1_B5_20261107.md",
-  "last_code_sha": "faba6fed7a504050999a682d77236a47a2e6f405",
-  "last_ci_run_id": 42405240480,
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B7_PASS_20261107.md",
+  "last_code_sha": "66d581ffded00534745f59845afbab035867fee1",
+  "last_ci_run_id": 42427565628,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033C2B4_ANDROID_SANDBOX_56_56_GUARD_42405240382_SUCCESS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_TXN_AUTH_HOOK_13_OF_13_GUARD_42427565595_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",

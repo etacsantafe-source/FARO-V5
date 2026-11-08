@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_TXN_AUTH_HOOK",
-  "reviewed_head": "9830c95711acc997d2355e51d76949a17076593c",
-  "paths": [
-    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
-    "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-txn-hook-directed.yml"
-  ],
+  "reviewed_head": "66d581ffded00534745f59845afbab035867fee1",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_13_13",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B7_PASS_20261107.md",
+          "blob_sha": "bd7aab304297222c8baa8dbe1aff44fc95f154eb",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "faba6fed7a504050999a682d77236a47a2e6f405",
-    "unit_id": "S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL",
+    "sha": "66d581ffded00534745f59845afbab035867fee1",
+    "unit_id": "S3_A4_N033C2B4_TXN_AUTH_HOOK",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_ANDROID_SANDBOX_PRINCIPAL_B7_PASS_20261107.md",
-        "blob_sha": "b5f4b160354bd9da967d91dcec408eb5a851793f",
+        "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B7_PASS_20261107.md",
+        "blob_sha": "bd7aab304297222c8baa8dbe1aff44fc95f154eb",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Scoped kernel transactional authorization seam (not Planning ACL). Full ACL remains STOP; do not activate V2",
-  "how": "Only deltas in ApplyTransactionExecutor.kt, matching tests, dedicated CI; mandate 7-block guard and B7 after exact SHA",
+  "why": "B7 PASS_SCOPED kernel hook, real Planning8 transactional ACL/Undo not implemented; no functional code without next preaudit",
+  "how": "Exact SHA 66d581ffded00534745f59845afbab035867fee1 directed #42427565628 XML 13/13 and protocol #42427565595 SUCCESS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run B6 minimal hook and exact CI then B7; then separate real transactional Planning ACL, N033C3 Undo/retry"
+  "next": "N033C2B4_TRANSACTIONAL_PLANNING_ACL B1-B5 independent, then N033C3 Undo/retry"
 }
