@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
   "reviewed_head": "8911a02c121ff479ca5107d29772a842dc750dc1",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBindingT2Test.kt"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_NEW_HOST6_PLUS_OLD_SOURCE6_PLUS_REALITY_SPI6_EXACT_SHA",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B7_PASS_20261108.md",
+          "blob_sha": "8f53a4dac28826f8b974ff09775c013125e184f5",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "e2bd195cb17ad114ace884324e9bda9a7936f7cc",
+    "sha": "7184dd702b8dce0977f4640bf81489e3c3f03200",
     "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_B7_RED_FIX_20261108.md",
-        "blob_sha": "a53aee8787eaeab8225226bb933032a3429b9821",
+        "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B7_PASS_20261108.md",
+        "blob_sha": "8f53a4dac28826f8b974ff09775c013125e184f5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Initial CI #42510398640 compileDebugUnitTestKotlin ERROR invisible internal RealityStore.integrityCheck",
-  "how": "One test file only, use public maintenance.inspect() instead of internal diagnostics; rerun new 6+old6+RealitySPI6 exact SHA",
+  "why": "N031 dormant Reality8 read-only host binding real SQLite tests 18/18, guard and Home success; production read policy not implemented",
+  "how": "Initial e2bd RED_FIX static internal app test access, corrected test-only SHA 7184 with CI #42510903272 XML 18/18 and #42510903270 guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "RED_FIX test only then exact XML CI and B7"
+  "next": "B1-B5 N031 real read policy principal/object lifecycle, host admission, UI/N015 integration; no shipping or duplicating read tests"
 }
