@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N015_ACTIVITY_AUTHORIZED_SURFACE",
-  "reviewed_head": "50fcff15ce9e82c71d68268fbd230e6f4e646515",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
+  "reviewed_head": "d7b25d37b7f241eb0f4fe1feb21cdf8bb64b2bbb",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBindingT2Test.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    ".github/workflows/faro-v5-s3-a4-n015-real-host-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
-          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
+          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
           "marker": "## B1"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
-          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
+          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
           "marker": "## B2"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
-          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
+          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
           "marker": "## B3"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
-          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
+          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
           "marker": "## B4"
         }
       ]
@@ -49,23 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
-          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
+          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_ACTIVITY5_AVISOS4_NAV11_AND_SURFACE68",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_20261108.md",
-          "blob_sha": "910e847a031d76b9e0ffcdd310eed34b9ec6f9ae",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "8bea3d101643c1e72f881972a40804f9c11ecbd4",
@@ -79,9 +76,9 @@
       }
     ]
   },
-  "why": "Activity read-only Surface and drawer branch tested; real host source ACL not yet installed",
-  "how": "Isolated Surface Compose + policy + 5 JUnit tests + exact directed XML; source binding still separate",
+  "why": "N015 real Reality+Workspace history requires dormant read host with two independent owner ACLs and UI optional forwarding",
+  "how": "Five bounded paths, 6 SQLite tests + 11 existing regressions, exact XML+guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Next N015 read-only trusted host binding, Activity adapter and authorized integration; A4 OPEN"
+  "next": "B6 code then CI/B7; no V2 product"
 }
