@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.REAL_ACL.B1B5.RELEASED",
-  "token_hash": "29bfc33d928120ea79fa16c7fc99419be24e6fd6e746dbcd1f1707f07126cb02",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.B1B5.20261107",
+  "token_hash": "76eed09950f9422099c6c6ec232a3d6e077b8c93b7bf2e74da8b21a04eaf65b",
   "target_head": "a96bae33f6f5cec831f90495352db411c95e5f0c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 480,
-  "timestamp": 1794096480,
-  "purpose": "Real ACL B1-B5 audited; B6 unsafe without concrete policy/fence; no code; scoped next task",
-  "last_checkpoint": "A4_REAL_ACL_B1B5_STOP@a96bae33f6f5cec831f90495352db411c95e5f0c"
+  "epoch": 481,
+  "timestamp": 1794096780,
+  "purpose": "B1-B5 bounded grant-owner lease preaudit (not real ACL activation)",
+  "last_checkpoint": "A4_GRANT_COMMIT_LEASE_PREAUDIT"
 }
