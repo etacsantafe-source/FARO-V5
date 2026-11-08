@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
-  "reviewed_head": "2cd4619e18a5300187c116fe3b91f41a02eccace",
+  "status": "READY",
+  "unit_id": "S3_A5_DEV_VALIDATED8_CUTOVER",
+  "reviewed_head": "1f463bef39aa70231520033b8e409ae9ab7e7706",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevStageJournalOwner.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevStageJournalOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a5-dev-stage8-journal-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevCutoverOwner.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevCutoverOwnerT2Test.kt",
+    ".github/workflows/faro-v5-s3-a5-dev-validated8-cutover-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
-          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
+          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
+          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
-          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
+          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
+          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
-          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
+          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
+          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
-          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
+          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
+          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
           "marker": "## B4"
         }
       ]
@@ -53,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
-          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
+          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
+          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_FIVE_REAL_SQLITE_JOURNAL_STAGE8_XML_5_5",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "7071cab04f87648fcc8733cb9aa3499ea17a96dc",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "8e1cdac498c8ec607bf34ee12cb1d978241a5f05",
@@ -83,9 +74,9 @@
       }
     ]
   },
-  "why": "A5 DEV journal STAGED8 validation and recovery 5/5 B7 PASS; cutover+V2 DEV host integration not yet implemented",
-  "how": "Reused one canonical file journal, global quiescence injection and exact schema8 STAGED preflight; no pointer switch",
+  "why": "A5 journal VALIDATED stage8 5/5 is certified, but DEV owner does not yet connect it to canonical pointer cutover/recovery with replay fence",
+  "how": "New narrowly scoped composition of existing validated generation coordinator with exact prior/full-pointer and active8 health, no Android wiring",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New scoped B1-B5 before B6 cutover/recovery and DEV host integration; maintain V2 productiva OFF; G15 last"
+  "next": "B6 3 exact paths; 4 new integrated SQLite tests then independent B7; Android DEV session UI still separate"
 }
