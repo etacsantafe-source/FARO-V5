@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5.ACTIVE8.B7.PASS",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.ACTIVE8.HOST.B7.RELEASED",
   "token_hash": "26cf1a12cb30668b359d47d69226a43d9887d58f3fdad600f7754b88f36a4ce9",
-  "target_head": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
+  "target_head": "8756d011c015894948ece2c2f8f567cb0b5ba95e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 588,
-  "timestamp": 1794172362,
-  "purpose": "B7 exact scoped CI PASS, update permit continuity, no productive activation",
-  "last_checkpoint": "S3_A5_ACTIVE8_HOST_OPEN_REAL_SQLITE_6_OF_6@d0fc1ad2"
+  "timestamp": 1794172521,
+  "purpose": "A5 certified active schema8 graph open 6/6 and M5 APK PASS; A5 OPEN staged cutover+physical; V2 OFF",
+  "last_checkpoint": "S3_A5_ACTIVE8_HOST_OPEN_6_6_B7_PASS@8756d011"
 }
