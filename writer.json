@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.B7_VALIDATION",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.CI.RELEASED",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
-  "target_head": "ac9f00f56eb8b280fd1a4e321a32fafce7b26f03",
+  "target_head": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 553,
+  "epoch": 554,
   "timestamp": 1794137160,
-  "purpose": "New Undo host 6/6 PASS but old host12 + kernel38 unverified at new SHA; bounded CI validation RED_FIX same unit",
-  "last_checkpoint": "N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_WAIT_CI@ac9f00f56eb8b280fd1a4e321a32fafce7b26f03"
+  "purpose": "Workflow-only B7 validation new6+old12+kernel38; no runtime diff; writer released during Actions",
+  "last_checkpoint": "N033C3_UNDO_REVIEW_HOST_B7_WAIT_CI@035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015"
 }
