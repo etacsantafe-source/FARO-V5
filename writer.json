@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B6.RELEASED",
   "token_hash": "29183c64c0b7d1c96566eeb8912685d72bb65f222658f6b3342d3fd071b8b098",
-  "target_head": "766fcf1bbd91a90a317f31e2a9ea7b0c03413bf5",
+  "target_head": "7b13660194eb0f832efff18fae6af5f237d1cffc",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 509,
-  "timestamp": 1794101550,
-  "purpose": "B6 dormant certified local host executes canonical Review and Planning8 official Reality8 bindings within one owner lease and SQL COMMIT",
-  "last_checkpoint": "REALITY8_TRANSACTION_HOST_B6"
+  "epoch": 510,
+  "timestamp": 1794101660,
+  "purpose": "B6 real dormant Planning8 host commit with real SQLite tests and official bindings, CI pending, release writer",
+  "last_checkpoint": "REALITY8_TRANSACTION_HOST_B6_WAIT_CI@7b13660194eb0f832efff18fae6af5f237d1cffc"
 }
