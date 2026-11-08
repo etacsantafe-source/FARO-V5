@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "BLOCKED",
   "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
-  "reviewed_head": "ce9d8e9ab185f27ce0c6e0fd3a311870f4b9f726",
+  "reviewed_head": "40fd9f8272c1231407f76cba92b07253fde31e2a",
   "paths": [
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
@@ -66,24 +66,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_AGP9_RETRY_42534927828",
-    "B7": "PENDING_FINAL_AUDIT_AFTER_TERMINAL_XML"
+    "B6": "PASS_ANDROID_DEV_COMPILATION_REAL_JUNIT_XML_8_OF_8",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "585f23e5017d86a421497ba52091fe64b51be699",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "60250bcede299c9ddb3028bb0b948ac1b700bcdd",
+    "sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
     "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_RED_FIX_20261108.md",
-        "blob_sha": "865e8c7077b77b25d57c790a3b298768cdf8a76c",
+        "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "585f23e5017d86a421497ba52091fe64b51be699",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Workflow-only AGP9 fix 6c3c0947 published; new directed CI 42534927828 still running, not 8/8 certified.",
-  "how": "Follow existing v2-core-directed workflow property -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false, no Kotlin source change",
+  "why": "S3.A5 fifth DEV Reality8 host subunit B7 PASS_SCOPED 8/8; further S3.A5 acceptance and final physical G15 not done",
+  "how": "Reused one global DEV gate, immutable exact origin pointer, journal StageOwner+CutoverOwner, runtime Reality8, Android-only explicit upgrade, real ACL",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Read CI #42534927828 and protocol #42534927840 exact SHA; if green independent B7; if red targeted evidence-driven fix; no G15"
+  "next": "New B1-B5 scoped acceptance follow-up if functional code needed; no automatic reuse of completed permit; G15 only final X01-X12"
 }
