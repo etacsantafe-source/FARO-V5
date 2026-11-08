@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION",
-  "reviewed_head": "72039fce1ce02256c960dc6dfd06bad45ea37cba",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8LocalUserRequestPolicy.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8LocalUserRequestPolicyT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-local-user-request-policy-directed.yml"
-  ],
+  "reviewed_head": "0895918851385a411a8b77f726772e253aa2ff37",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_63_63",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B7_PASS_20261107.md",
+          "blob_sha": "ecf8f3f95b75a0fe85771ed46f9bafa2b6c71c94",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "6f1659a40bf6de691e10f74ad108a92117b14903",
+    "sha": "0895918851385a411a8b77f726772e253aa2ff37",
     "result": "PASS",
-    "unit_id": "S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY",
+    "unit_id": "S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B7_PASS_20261107.md",
-        "blob_sha": "f441bae2933bd4724dfc33bd33d2749556a1b9ff",
+        "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B7_PASS_20261107.md",
+        "blob_sha": "ecf8f3f95b75a0fe85771ed46f9bafa2b6c71c94",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Pin existing one-shot request to true Workspace APPLYING and same Reality journal transaction identity without broadening permissions",
-  "how": "Four exact paths, five additional tests (12 policy,63 directed XML), no external APIs or host wiring",
+  "why": "Canonical approved local request promoted to exact Workspace APPLYING/Reality transaction identity; no external host or Reality8 COMMIT yet",
+  "how": "63/63 XML #42433781042, seven exact SHA workflows SUCCESS, scope only four files, final B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6, B7 scoped; then transaction-bounded official Planning8 Apply Reality8 under same lease"
+  "next": "New B1–B5 REALITY8_TRANSACTION_BOUND_HOST, independent production policy/COMMIT fencing; then N033C3 Undo/retry"
 }
