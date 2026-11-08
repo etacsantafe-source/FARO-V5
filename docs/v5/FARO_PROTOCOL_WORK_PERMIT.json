@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
   "reviewed_head": "2ff4b33ac48ae7073bf9089cb0485746724959f8",
   "paths": [
@@ -61,24 +61,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_DEV_PENDING_XML_6_6_AND_M5_APK",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "6b172c26e1c391c8f03244624b297512a699fd6f",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "77d5bfa19bf9bc191d44b364a45955e03672f5e2",
+    "sha": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
     "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_RED_FIX_20261108.md",
-        "blob_sha": "c0d1a4f4f92f88768b7e27d09b3ce94bbc68e62f",
+        "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "6b172c26e1c391c8f03244624b297512a699fd6f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Run #42521187552 failed at task selection; not test; RED_FIX sources",
-  "how": "move DEV read-only pure renderer to canonical main/test source sets, use confirmed testDebugUnitTest",
+  "why": "S3.A4 automated Seguimiento scope B7 PASS; Reality8 DEV active absent; no product claim",
+  "how": "N031 source 8/8 earlier, new formatter 6/6 plus signed DEV APK and guard; revoked reads fail-closed",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "RED_FIX code, verify XML6/6 and M5, then B7 audit"
+  "next": "S3.A3 bounded owner approval; S3.A5 Reality8 staged cutover + host E2E G15 physical; V2 productive OFF"
 }

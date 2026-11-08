@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-08",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_MANUAL_A4",
+  "phase": "S3_OPEN_MANUAL_A3_A5",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 583
+    "expected_release_epoch": 586
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_STAGE_CLOSURE_AUTOMATED_SCOPE_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3_A4_N031_DEV_PENDING_UI_MOUNT B1-B5: explicit trusted foreground read, source partial only; no Home global count. Then A4 E2E closure check. Shipping V2 OFF; S3.A5 physical last.",
-  "checkpoint_status": "S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_A4_OPEN",
+  "next": "S3.A3 separate bounded approval and owner code; S3.A5 staged Reality8 cutover + authorized host UI and single G15 physical campaign. Do not auto-enable V2 or fabricate complete Pending counts.",
+  "checkpoint_status": "S3_A4_CLOSED_AUTOMATED_SCOPE_READ_ONLY_DEV",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
-  "last_code_sha": "9a6f6e467c6f25cd5680c7398e81a6898086f3ff",
-  "last_ci_run_id": 42519854632,
+  "last_handoff": "docs/s3-night/S3_A4_STAGE_CLOSURE_AUTOMATED_SCOPE_20261108.md",
+  "last_code_sha": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
+  "last_ci_run_id": 42521651643,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "N015_REAL_SQLITE_HISTORY_HOST_AND_UI_28_28_GUARD_HOME_PASS",
+  "last_ci_conclusion": "S3_A4_N031_DEV_PENDING_6_OF_6_APK_M5_AND_PROTOCOL_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -538,9 +538,9 @@
     "formal_total": 5,
     "formal_percent": 0,
     "unchanged_by_m1_manifest_fix": true,
-    "scoped_closed": 2,
+    "scoped_closed": 3,
     "scoped_total": 5,
-    "scoped_percent": 40,
+    "scoped_percent": 60,
     "formal_full_delivery_closed": 0,
     "formal_full_delivery_percent": 0
   },
@@ -919,7 +919,7 @@
   },
   "g5_physical_remaining": "S3_A5_FINAL_SINGLE_CAMPAIGN_NOT_RUN",
   "s3_a2_stage_status": "CLOSED_AUTOMATED_SCOPE_PENDING_FINAL_INTEGRATION",
-  "s3_scoped_stages_closed": 2,
+  "s3_scoped_stages_closed": 3,
   "s3_total_stages": 5,
   "s3_formal_full_release": "NOT_APPROVED",
   "current_s3_priority": "S3_A3_GUARDADOS_OWNER_BOUNDED_REVIEW",
@@ -1078,30 +1078,28 @@
     "next": "Separate human bounded approval required, then B5 and permit READY"
   },
   "a4_checkpoint": {
-    "status": "IN_PROGRESS",
-    "avisos_pointer_aba": "PASS_SCOPED_B7",
-    "avisos_summary": "PASS_SCOPED_B7_LOCAL_OPT_IN",
-    "code_sha": "e8ad4f947d473f5ca37bff96787cafc82c300a1a",
-    "b7_doc": "docs/s3-night/S3_A4_AVISOS_CONSENT_SUMMARY_B7_PASS_20261105.md",
-    "guard_run": 42145119178,
-    "surface_run": 42145119122,
-    "core_run": 42145119257,
-    "remaining": [
-      "DURABLE_REMINDER_MONTHLYPLAN_OWNER_AND_RECOVERY",
-      "N015_ACTIVITY_HOST_ACL_UI",
-      "N031_FULL_ATTENTION_ACL_AND_HOME",
-      "A4_FINAL_END_TO_END"
-    ],
-    "physical": "NOT_RUN",
-    "n015_workspace": "PASS_SCOPED_REAL_OWNER_NO_HOST",
-    "n015_workspace_code_sha": "84f2040773e23520262da9595019b20b94532980",
-    "n015_workspace_b7": "docs/s3-night/S3_A4_N015_WORKSPACE_HISTORY_B7_PASS_20261105.md",
-    "n015_two_owner": "B7_PASS_SCOPED",
-    "n015_host": "NOT_BOUND",
-    "n031": "MISSING_REMINDER_MONTHLYPLAN_DURABLE_OWNER",
-    "n031_matter_due": "B7_PASS_SCOPED",
-    "n031_reminder_owner": "MISSING",
-    "n031_monthly_plan_owner": "MISSING"
+    "status": "CLOSED_AUTOMATED_SCOPE_READ_ONLY_DEV",
+    "unit": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
+    "code_sha": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
+    "first_code_sha": "77d5bfa19bf9bc191d44b364a45955e03672f5e2",
+    "red_fix": "MISSING_TEST_V2_CORE_DEV_GRADLE_TASK_RESOLVED",
+    "b7_doc": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_PASS_SCOPED_20261108.md",
+    "stage_closure_doc": "docs/s3-night/S3_A4_STAGE_CLOSURE_AUTOMATED_SCOPE_20261108.md",
+    "directed_run": 42521651643,
+    "directed_xml": "6/6",
+    "apk_run": 42521651660,
+    "apk_sha256": "07c5658f7b270850059c65310558bccca28117fe8ea6db93c807b3ac212ccac6",
+    "protocol_run": 42521651652,
+    "dev_reality8": "NOT_AVAILABLE_IN_CURRENT_ACTIVE_DEV_SCHEMA7",
+    "global_pending_count": "UNAVAILABLE_BY_DESIGN",
+    "shipping_v2": "OFF",
+    "physical": "NOT_RUN_S3_A5_ONLY",
+    "product_delivery": "NOT_CERTIFIED",
+    "remaining_at_a5": [
+      "SAFE_STAGED_REALITY8_CUTOVER_AND_ADMITTED_ACTIVE_HOST",
+      "ACTUAL_UI_CLICK_AND_REVOKE_E2E",
+      "CANONICAL_HOME_SOURCE_COVERAGE"
+    ]
   },
   "n015_workspace_history": {
     "status": "PASS_SCOPED_B7",
