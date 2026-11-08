@@ -2,20 +2,17 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
-  "reviewed_head": "49c6a26394dfe6915f36b87eb5a1c8f7c733f2ca",
+  "reviewed_head": "8911a02c121ff479ca5107d29772a842dc750dc1",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBinding.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBindingT2Test.kt",
-    ".github/workflows/faro-v5-s3-reality8-planning-due-host-directed.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBindingT2Test.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
-          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
           "marker": "## B1"
         }
       ]
@@ -24,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
-          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
           "marker": "## B2"
         }
       ]
@@ -34,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
-          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
           "marker": "## B3"
         }
       ]
@@ -44,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
-          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
           "marker": "## B4"
         }
       ]
@@ -54,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
-          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
           "marker": "## B5"
         }
       ]
@@ -64,20 +61,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
-    "unit_id": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_SOURCE",
-    "result": "PASS",
+    "sha": "e2bd195cb17ad114ace884324e9bda9a7936f7cc",
+    "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_20261108.md",
-        "blob_sha": "3d2e0ca7dd6cc45842c70ba2a6b17d90ba821722",
+        "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_B7_RED_FIX_20261108.md",
+        "blob_sha": "a53aee8787eaeab8225226bb933032a3429b9821",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Canonical Reality8 read ports absent from host; dormant host must fail closed without independent read ACL",
-  "how": "Four exact paths: Reality8 read-only SPI, host composition, six SQLite tests, directed XML+regressions. No user-facing wiring.",
+  "why": "Initial CI #42510398640 compileDebugUnitTestKotlin ERROR invisible internal RealityStore.integrityCheck",
+  "how": "One test file only, use public maintenance.inspect() instead of internal diagnostics; rerun new 6+old6+RealitySPI6 exact SHA",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 code and exact CI, then B7; writer epoch559"
+  "next": "RED_FIX test only then exact XML CI and B7"
 }
