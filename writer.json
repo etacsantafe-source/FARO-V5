@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B6.RELEASED",
   "token_hash": "7ef6134d72674a7dab775902b3da3e193e2c2c2ef9267383c01ad5b970291ea6",
-  "target_head": "50921d3a1a9c15256edf76be0ebcba80bb120105",
+  "target_head": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 525,
-  "timestamp": 1794103550,
-  "purpose": "B6 one-shot receipt-only Workspace reconciliation no Reality Apply/retry, real crash SQLite tests",
-  "last_checkpoint": "N033C3_RECEIPT_ONLY_B6"
+  "epoch": 526,
+  "timestamp": 1794103690,
+  "purpose": "N033C3 receipt-only recovery B6 code CI 9/9 + full kernel pending, release writer",
+  "last_checkpoint": "N033C3_RECEIPT_ONLY_B6_WAIT_CI@dffd441f2f242d57dc0876916bdf4b37a5faf912"
 }
