@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N015.REAL_ACTIVITY_HOST_B7.RELEASED",
-  "token_hash": "b27c8ff013e21b1d809f6f3874a308da26d799f317c5ca93194ed368a42f9619",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.CLOSURE_GATE",
+  "token_hash": "03b4f1f779edc657388af2ca9377fa741749e060d42efb91c6ed67e83404e452",
   "target_head": "760498c8f2f435dc53264241ccb88a4ab957143b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 566,
-  "timestamp": 1794166731,
-  "purpose": "S3.A4 N015 real Activity SQLite host 28/28 B7 scoped; shipping read policy and N031 OPEN",
+  "epoch": 567,
+  "timestamp": 1794166942,
+  "purpose": "S3.A4 authoritative scope closure matrix, documentary evidence and STOP for shipping ACL; no code changes",
   "last_checkpoint": "N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS@760498c8f2f435dc53264241ccb88a4ab957143b"
 }
