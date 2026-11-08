@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-  "reviewed_head": "a63ff994ac8ef7d241840884c66f6c047591f1e3",
+  "reviewed_head": "86d8e54fc21acf046dc8012e724b5be3a9c1316c",
   "paths": [
     "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A5PostCutoverIntegrationTest.kt",
     ".github/workflows/faro-v5-s3-a5-post-cutover-dev-integration-directed.yml"
@@ -58,24 +58,24 @@
         }
       ]
     },
-    "B6": "WAIT_CI_POST_CUTOVER_5_OF_5_NOT_YET_VERIFIED",
-    "B7": "PENDING_INDEPENDENT_AUDIT"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
-    "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
-    "result": "PASS",
+    "sha": "03f5af2ae9e1382c7a2f0ff0b9d51049868e374d",
+    "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "585f23e5017d86a421497ba52091fe64b51be699",
+        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RED_FIX_20261108.md",
+        "blob_sha": "1cdc2d2162c5a4dcc4b540a6b9aac3e2e0fd78d6",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Five new post-cutover DEV tests are queued; exact run/XML not terminal, cannot claim PASS",
-  "how": "No production code mutation: dedicated testV2CoreDev 5 real five-store tests + directed XML and protocol guard",
+  "why": "Exact CI #42536498612 failed Kotlin unit-test compile on suspend search called without coroutine; B7 RED_FIX only three test functions",
+  "how": "Wrap three new test functions in runBlocking; all production code and previous five certified S3.A5 subunits unchanged",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Read #42536498612 exact SHA 03f5af2a, XML 5/5, guard; audit B7 or scoped RED_FIX"
+  "next": "Single new test-only commit; JUnit XML 5/5 and guard on SHA; independent B7"
 }
