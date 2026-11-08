@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
-  "reviewed_head": "b7a6f89c42fc42ba36d0a18a11752da693eb395b",
+  "status": "READY",
+  "unit_id": "S3_A5_FRESH_PLANNING8_STAGED_OWNER",
+  "reviewed_head": "91d135f3b8f47880ba63067d0bdab8c40fcadbf8",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwner.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerPlanning8OpenT2Test.kt",
-    ".github/workflows/faro-v5-s3-a5-active8-open-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceV2StageOwner.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceV2Planning8StageOwnerT2Test.kt",
+    ".github/workflows/faro-v5-s3-a5-planning8-fresh-stage-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
-          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
+          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
+          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
-          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
+          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
+          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
-          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
+          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
+          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
-          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
+          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
+          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
           "marker": "## B4"
         }
       ]
@@ -54,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
-          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
+          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
+          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_REAL_SQLITE_ACTIVE8_HOST_XML_6_6_SIGNED_DEV_APK",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "490d09e356ce78e19632223fb9f003e72ba3be50",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
@@ -84,9 +74,9 @@
       }
     ]
   },
-  "why": "Certified active Reality8 host graph open B7 PASS; no DEV staged8 activation yet",
-  "how": "New 6/6 real SQLite tests, strict pointer/revision, schema7 reject, M5 signed APK PASS",
+  "why": "Need fresh Planning8 STAGED owner, not active migration; N033C2A only fixture",
+  "how": "Compose existing canonical stage7 owner + internal stage8 validator with full pointer freeze",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "A5 new STAGED schema8 DEV candidate and safe cutover under separate B1-B5; A3 not yet approved"
+  "next": "B6 new real SQLite stage8 tests 5/5 then B7; no pointer switch or G15"
 }
