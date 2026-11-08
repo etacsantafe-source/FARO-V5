@@ -177,11 +177,14 @@ class FaroV5LocalInstallReadAuthorityT2Test {
             assertFalse(authority.grantAfterTrustedForegroundReadAction(
                 setOf(FaroV5LocalReadDomain.MONTHLY_PLAN_ITEM)))
         }
-        f.owner().use { fresh ->
-            assertNotNull(f.principal(fresh))
-            f.hostEpoch = "host-B"
+        // A->B->A permanently revokes f's original pinned session.
+        // Host lifecycle is an independent hypothesis and needs a fresh root.
+        val hostCase = Case("host-epoch")
+        hostCase.owner().use { fresh ->
+            assertNotNull(hostCase.principal(fresh))
+            hostCase.hostEpoch = "host-B"
             assertNull(fresh.technicalPrincipalOrNull())
-            f.hostEpoch = "host-A"
+            hostCase.hostEpoch = "host-A"
             assertNull(fresh.technicalPrincipalOrNull())
         }
     }
