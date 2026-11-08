@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B7.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B7.RELEASED",
   "token_hash": "b8276b7b31cc4bd0a7d5cefb78bcdd037ab1ea1f88dcf9b45d0b7a77df77f749",
-  "target_head": "a09ed82abb8981fb057475412439d7416eeedb9b",
+  "target_head": "8e3da9712106dd5c5fd389d81c02f15c90a5c518",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 521,
-  "timestamp": 1794103000,
-  "purpose": "B7 scoped real Workspace4 Reality8 SQL host6/6 plus kernel38/38 and exact protocol guard",
-  "last_checkpoint": "REALITY8_HOST_B7_PASS_IN_PROGRESS"
+  "epoch": 522,
+  "timestamp": 1794103200,
+  "purpose": "B7 scoped host6/6 kernel38/38 and guards passed, next N033C3 Undo/retry",
+  "last_checkpoint": "REALITY8_HOST_B7_PASS@8e3da9712106dd5c5fd389d81c02f15c90a5c518"
 }
