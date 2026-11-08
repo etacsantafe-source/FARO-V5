@@ -1,22 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
-  "reviewed_head": "40fd9f8272c1231407f76cba92b07253fde31e2a",
+  "status": "READY",
+  "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
+  "reviewed_head": "a63ff994ac8ef7d241840884c66f6c047591f1e3",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHost.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHostTest.kt",
-    ".github/workflows/faro-v5-s3-a5-dev-host-reality8-directed.yml"
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A5PostCutoverIntegrationTest.kt",
+    ".github/workflows/faro-v5-s3-a5-post-cutover-dev-integration-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
+          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
+          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
           "marker": "## B1"
         }
       ]
@@ -25,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
+          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
+          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
           "marker": "## B2"
         }
       ]
@@ -35,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
+          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
+          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
           "marker": "## B3"
         }
       ]
@@ -45,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
+          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
+          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
           "marker": "## B4"
         }
       ]
@@ -55,28 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B5_ORIGIN_BINDING_20261108.md",
-          "blob_sha": "4d06bc87a9be4fa567d19a527bf829d187db954a",
+          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
+          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_ANDROID_DEV_COMPILATION_REAL_JUNIT_XML_8_OF_8",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "585f23e5017d86a421497ba52091fe64b51be699",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
@@ -90,9 +73,9 @@
       }
     ]
   },
-  "why": "S3.A5 fifth DEV Reality8 host subunit B7 PASS_SCOPED 8/8; further S3.A5 acceptance and final physical G15 not done",
-  "how": "Reused one global DEV gate, immutable exact origin pointer, journal StageOwner+CutoverOwner, runtime Reality8, Android-only explicit upgrade, real ACL",
+  "why": "Verify five NEW post-Reality8 integration paths without rerunning five certified A5 units; JVM only",
+  "how": "No production code mutation: dedicated testV2CoreDev 5 real five-store tests + directed XML and protocol guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5 scoped acceptance follow-up if functional code needed; no automatic reuse of completed permit; G15 only final X01-X12"
+  "next": "B6 new 5-test suite and workflow; exact XML + guard; B7 independent then S3.A5 acceptance matrix; G15 reserved"
 }
