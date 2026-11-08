@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
   "reviewed_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_10_NEW_T2_EXACT_SHA_NOT_YET_VERIFIED",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "New in-memory local install read authority core, no host or productive V2 activation",
+  "why": "CI in progress on local install read policy core commit 50eeed8401db4083eee0885dd671c90e81931b8a; prohibit subsequent functional write without B7",
   "how": "One local read authority, one bounded T2 test, one directed workflow XML; shipping host/mount excluded",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Build local read core and directed tests; B7 then separate mount policy/host unit"
+  "next": "Verify workflow #42517567960 exact XML 10/10 and guard #42517567816; document B7 and next mount unit."
 }
