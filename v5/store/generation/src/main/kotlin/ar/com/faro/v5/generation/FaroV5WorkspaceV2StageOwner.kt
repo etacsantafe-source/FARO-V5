@@ -31,6 +31,39 @@ class FaroV5WorkspaceV2StageOwner internal constructor(
     private val pointer = FileActiveGenerationPointer(storageRoot)
     private val layout = FileStorageGenerationLayout(storageRoot)
 
+    /**
+     * A5: create one NEW quarantined five-owner Reality8 generation.
+     * No active pointer publication, migration of ACTIVE7, data deletion or
+     * implicit recovery of a partially initialized target is permitted.
+     *
+     * Pointer ABA, even a switch-away-and-back, invalidates this attempt.
+     * Failure leaves the candidate staged for explicit owner reconciliation.
+     */
+    @Synchronized
+    fun stageFreshPlanning8AndVerify(
+        descriptor: StorageGenerationDescriptor,
+    ): StagedStorageGeneration {
+        val initialPointer = pointer.read()
+        check(initialPointer?.generationId != descriptor.generationId) {
+            "Planning8 fresh staging must never target the active generation"
+        }
+        val candidate = stageFreshAndVerify(descriptor)
+        check(pointer.read() == initialPointer) {
+            "Active generation changed during fresh five-owner staging"
+        }
+        FaroV5GenerationStoreGraph.openValidatedV2PlanningStage8(candidate).use { graph ->
+            check(graph.workspace != null &&
+                graph.reality.maintenance.inspect().schemaVersion == 8 &&
+                graph.verifyHealthy()) {
+                "Fresh STAGED Reality8 failed exact five-owner validation"
+            }
+        }
+        check(pointer.read() == initialPointer) {
+            "Active generation changed during quarantined Reality8 upgrade"
+        }
+        return candidate
+    }
+
     @Synchronized
     fun stageFreshAndVerify(descriptor: StorageGenerationDescriptor): StagedStorageGeneration {
         check(pointer.read()?.generationId != descriptor.generationId) {
