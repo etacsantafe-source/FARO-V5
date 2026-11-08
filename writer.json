@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.THREE_OWNER.WAIT_CI.RELEASED",
-  "token_hash": "3c22191032a3e4ea48be9700dd31a3c64c052a785ec1c6a778b6241944e819a5",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.THREE_OWNER.B7_FINAL",
+  "token_hash": "b88a332113e56282c346264a2139b2b15438d219427c6a8567ee17e22f10a5e3",
   "target_head": "e7c7205d0bd972d6fba247cd25655bba97b61993",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 581,
-  "timestamp": 1794169446,
-  "purpose": "N031 three-owner due B6 committed while directed real SQLite CI pending",
-  "last_checkpoint": "S3_A4_N031_THREE_OWNER_B6_WAIT_CI@e7c7205d"
+  "epoch": 582,
+  "timestamp": 1794169632,
+  "purpose": "Finalize exact 8/8 real SQLite + guard B7 N031 three-owner source, mark A4 OPEN UI mount",
+  "last_checkpoint": "S3_A4_N031_THREE_OWNER_B7_START@e7c7205d"
 }
