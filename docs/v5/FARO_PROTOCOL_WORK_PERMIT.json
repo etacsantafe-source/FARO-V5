@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
   "reviewed_head": "e5b97e69c4569ed559ce89eae32f005ad4b0d7e0",
-  "paths": [
-    "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/ConversationReviewPort.kt",
-    "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/ConversationWorkspaceStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "RED_FIX_IMPLEMENTED_SUCCESS_EXACT_SHA_HOST12_KERNEL38",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
+          "blob_sha": "af6704fbea2acb35d51dbbf94cb57776a715e2de",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "e5b97e69c4569ed559ce89eae32f005ad4b0d7e0",
+    "sha": "52455e3d43dc8e892452847c8341e1f0d8d2a0d0",
     "unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_RED_FIX_20261108.md",
-        "blob_sha": "5d151b27d0a894863295befa3a27fc93cb1b4568",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
+        "blob_sha": "af6704fbea2acb35d51dbbf94cb57776a715e2de",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Two positive committed origin tests fail because Apply-only Workspace.load refuses COMMITTED by design; keep Apply boundary unchanged and introduce a separate read-only historical port",
-  "how": "RED_FIX #42491100997 12 run 2 failed, scoped contract/store/host/test same unit + guard and 12/12 host XML",
+  "why": "N033C3 Undo origin inspection RED_FIX confirmed exact 12/12 host +38/38 kernel, guard and regressions; no Undo mutation implemented",
+  "how": "Two failed previews in e5b documented B7 RED_FIX; corrected historical read port 52455e3d, directed CI #42491748066 PASS, 6 workflows success",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "RED_FIX code same unit; B7 after exact directed CI"
+  "next": "New scoped B1–B5 for owner cancellation and canonical undo.execute with fresh human Review and separate receipt"
 }
