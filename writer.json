@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N015.DEV_MOUNT.WAIT_CI.RELEASED",
-  "token_hash": "a440b15de7890f1326f6c88c611741424a3699687d75e990a43380b33c681015",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.PENDING_B1_B5_DOC",
+  "token_hash": "f5e9d3a8d70878c207a81add307edc5c0e83fa22425978332c661208566eaee5",
   "target_head": "6a8bd3b72b72f5914cc2902ff6807072d7bda58b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 575,
-  "timestamp": 1794168817,
-  "purpose": "DEV activity mount B6 pushed with M5 APK CI pending; A4 open, writer released",
-  "last_checkpoint": "S3_A4_N015_DEV_ACTIVITY_MOUNT_WAIT_CI@6a8bd3b7"
+  "epoch": 576,
+  "timestamp": 1794168923,
+  "purpose": "Document next N031 three-owner integrated due unit B1-B5 read-only while DEV Activity mount CI runs",
+  "last_checkpoint": "S3_A4_N031_TRIPLE_DUE_B1_B5_START@6a8bd3b7"
 }
