@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.RED_FIX_CODE.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.RED_FIX_CODE.RELEASED",
   "token_hash": "1a92c8e731b62b8061d3f3cc05c0d09bb0e452f38a31fdaf4bf7bb3938a5c506",
-  "target_head": "542d003d4f3c76e9785e484644f450c75175f781",
+  "target_head": "8c6110ecf25db3a510bcead29bad273cd48d62b7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 515,
-  "timestamp": 1794102210,
-  "purpose": "One-file Kotlin nullable callback redfix after exact protocol guard success",
-  "last_checkpoint": "REALITY8_HOST_REDFIX_ONE_SOURCE"
+  "epoch": 516,
+  "timestamp": 1794102260,
+  "purpose": "One-file Kotlin callback smartcast redfix code, await exact CI and independent B7",
+  "last_checkpoint": "REALITY8_HOST_REDFIX_WAIT_CI@8c6110ecf25db3a510bcead29bad273cd48d62b7"
 }
