@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.RED_FIX.CI_WAIT.RELEASED",
-  "token_hash": "582aa40981db79d962963eb14d09c286b8bf4a962a815b9dc32e136692cf68e",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.B7.FINAL",
+  "token_hash": "9e14024a7f28ac5b7428ec835d14c008b2d197152cd2afe7d79502e04f9e31c6",
   "target_head": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 585,
-  "timestamp": 1794170677,
-  "purpose": "B7 RED_FIX case task corrected, new CI M5+6 XML+guard pending",
-  "last_checkpoint": "S3_A4_N031_DEV_UI_RED_FIX@715d1069_CI_PENDING"
+  "epoch": 586,
+  "timestamp": 1794171072,
+  "purpose": "B7 six JUnit + M5 APK signed + protocol success, stage S3.A4 scoped closure docs",
+  "last_checkpoint": "N031_DEV_UI_RED_FIX_6_6_M5_SUCCESS@715d1069"
 }
