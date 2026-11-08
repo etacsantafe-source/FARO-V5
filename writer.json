@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N015.DEV_ACTIVITY_MOUNT.B7.PASS.RELEASED",
-  "token_hash": "be51c625c6e0802f3376c52e8b3c5de9c456e04c7bbcedc2c7f94bba9305f45a",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.THREE_OWNER_PENDING",
+  "token_hash": "3c22191032a3e4ea48be9700dd31a3c64c052a785ec1c6a778b6241944e819a5",
   "target_head": "d2657824d1f0c7ad28ed55ab5fab027bc0889b3c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 579,
-  "timestamp": 1794169244,
-  "purpose": "N015 DEV mount B7 PASS scoped signed APK; N031 triple B1-B5 already documented; A4 OPEN",
-  "last_checkpoint": "S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS@d2657824"
+  "epoch": 580,
+  "timestamp": 1794169265,
+  "purpose": "N031 three source integrated due host B6 + directed tests after B7 DEV PASS",
+  "last_checkpoint": "S3_A4_N031_THREE_OWNER_PENDING_B6_START@d2657824"
 }
