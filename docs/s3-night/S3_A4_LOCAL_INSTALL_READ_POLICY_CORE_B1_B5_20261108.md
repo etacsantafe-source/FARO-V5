@@ -1,6 +1,6 @@
 # FARO V5 — S3.A4 política de lectura local por instalación (CORE) · B1–B5
 Fecha AR: 2026-11-08. Rama: `work/s3-night-20261102`. Base auditada: `1c2bed55ca9872ed1dbedb67f2e6568d45b92690`.
-Unidad propuesta: `S3_A4_LOCAL_INSTALL_READ_POLICY_CORE`; solo dos nuevos archivos Kotlin (clase y prueba); NO montaje, NO V2 activa, NO A4 CLOSED.
+Unidad propuesta: `S3_A4_LOCAL_INSTALL_READ_POLICY_CORE`; dos nuevos archivos Kotlin y un workflow CI dirigido (clase, prueba, verificador XML); NO montaje, NO V2 activa, NO A4 CLOSED.
 La decisión de producto está limitada a **una instalación Android local, un perfil de app, datos privados de esa instalación, sin cuentas multiusuario ni sincronización**. Un UID no identifica a una persona. Toda lectura necesita además acción explícita de primer plano desde host confiable; este core no prueba ni suministra esa acción (se audita en la futura unidad de montaje).
 
 ## B1 — Evidencia exacta y aceptación acotada
@@ -27,11 +27,12 @@ La decisión de producto está limitada a **una instalación Android local, un p
 ## B4 — Unificación DELTA ONLY
 - Crear `v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt`: fachada interna de solo lectura sobre el **probe Android existente**, fuente de estado host+puntero y entrada de acción de primer plano inyectada por futuro host; grant independiente con nonce no persistente por dominio; puertos N015 y Planning8 + Matter, invalidations.
 - Crear `v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthorityT2Test.kt` con hechos sandbox simulados para JVM. Fixtures jamás prueban Application real, ni autorización humana, ni shipping.
-- No cambiar `FaroV5CompositionRoot`, Bootstrap, Surface, SQLite, esquema, manifiesto, permisos, workflows, contratos de Apply/Undo ni contador de Inicio con esta unidad. El montaje será posterior a B7 y nuevo B1–B5.
+- Crear `.github/workflows/faro-v5-s3-a4-local-read-authority-directed.yml`, restringido a ambos archivos más su propia ruta, compilación de app y XML exacto de la nueva suite. No repetir suites históricas.
+- No cambiar `FaroV5CompositionRoot`, Bootstrap, Surface, SQLite, esquema, manifiesto, permisos, workflows ajenos, contratos de Apply/Undo ni contador de Inicio con esta unidad. El montaje será posterior a B7 y nuevo B1–B5.
 
 ## B5 — Auditoría previa adversarial / STOP
 - La instancia **latch** fallos de host, ABA y sandbox: no revive al volver a A ni al primer plano; la sesión nueva obtiene nonce distinto. Pointer completo = ID + sequence, nunca solo ID.
 - Cada solicitud de epoch compara principal técnico por sesión, dominio exacto, pinned pointer y estado vigente; cualquier error/exception DENY. Revocación emite invalidation para el observador, pero la invalidation NO sustituye la reválida antes/después de SQL. Se prohíbe autorizar desde worker, texto/modelo o intento de búsqueda; el futuro host debe verificar evento real.
 - La interfaz `grantAfterTrustedForegroundReadAction` es una capacidad interna, no prueba por sí misma que una persona hizo clic. Si el host la invoca automáticamente, B5 de montaje debe STOP. Sin ruta de montaje, ningún dato se vuelve accesible.
 - Negativas nuevas T2: no click; principal incorrecto; dominio no autorizado; revocación parcial; regrant con epoch diferente; background; host loss/recovery; pointer A→B→A; sandbox facts invalidados; close/restart; invalidation; no unión implícita N031.
-- **READY TO IMPLEMENT solo CORE** con los dos paths anteriores y pruebas dirigidas. Estado productivo deliberadamente BLOCKED hasta probar Application-backed root+trusted UI gesture y Android. N031 total global sigue UNKNOWN si faltan fuentes/recurrencias.
+- **READY TO IMPLEMENT solo CORE** con los tres paths anteriores y pruebas dirigidas. Estado productivo deliberadamente BLOCKED hasta probar Application-backed root+trusted UI gesture y Android. N031 total global sigue UNKNOWN si faltan fuentes/recurrencias.
