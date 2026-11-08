@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.DEV_HOST.B7.PASS_SCOPED.RELEASED",
+  "status": "ACTIVE",
+  "owner": "FARO.MANUAL.S3A5.INTEGRATED_DEV_ACCEPTANCE.B1_B5.EPOCH598",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
   "target_head": "feb7a6969c1307187ec3d80e795addd76f96f202",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 597,
-  "timestamp": 1794180586,
-  "purpose": "S3.A5 fifth DEV Reality8 host B1–B7 PASS scoped 8/8 exact CI, A5 OPEN, V2 productive OFF, physical G15 NOT_RUN",
+  "epoch": 598,
+  "timestamp": 1794181187,
+  "purpose": "S3.A5 scoped new cross-owner after Reality8 cutover tests. B1-B5/permit first, no G15, V2 OFF",
   "last_checkpoint": "S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED@feb7a696"
 }
