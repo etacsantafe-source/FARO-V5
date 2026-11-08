@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.B7.PASS.RELEASED",
-  "token_hash": "b88a332113e56282c346264a2139b2b15438d219427c6a8567ee17e22f10a5e3",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.DEV.PENDING.UI",
+  "token_hash": "7ba1df628e94b5a2e02dabf321416bca5979fa432153c5ac51a8a9a18470bd1f",
   "target_head": "e2b1b3795f8955ce32ea710cd7a76a40e5da7073",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 583,
-  "timestamp": 1794169727,
-  "purpose": "N031 three-owner real SQLite 8/8 B7 PASS scoped; next UI mount; A4 OPEN",
-  "last_checkpoint": "S3_A4_N031_THREE_OWNER_B7_PASS@e2b1b379"
+  "epoch": 584,
+  "timestamp": 1794170030,
+  "purpose": "S3.A4 DEV N031 Pendientes UI B1-B7: safe schema7 fallback, no shipping",
+  "last_checkpoint": "N031_THREE_OWNER_B7_PASS@e2b1b379"
 }
