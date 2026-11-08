@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 566
+    "expected_release_epoch": 567
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_CLOSURE_GATE_READ_ONLY_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3_A4_CLOSURE_BLOCKER: obtain real canonical local read authority/ACL for Reality+Workspace + process/pointer lifecycle and mount to shipping host; V2_ACTIVE_ENABLED remains false, N031 Pending partial; don't use technical UID as user auth; do not reimplement N015/Undo/N031 certified units",
-  "checkpoint_status": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_SCOPED_A4_OPEN",
+  "next": "S3_A4_LOCAL_SINGLE_INSTALL_READ_POLICY_B1_B5: establish actual local-only app ownership/read policy with verified Application sandbox + active pointer and per-domain revocable epochs; no fake UID human auth, no V2 activation; then source mounted, N031 integration, final A4 gate. Preserve certified Activity Surface, Activity host, Undo, N031 B7; no rerun unrelated tests",
+  "checkpoint_status": "S3_A4_IN_PROGRESS_STOP_PRODUCTIVE_POLICY_AFTER_N015_28_28",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_20261108.md",
+  "last_handoff": "docs/s3-night/S3_A4_CLOSURE_GATE_READ_ONLY_20261108.md",
   "last_code_sha": "ed34f8c7b30185f3542ab58212c55c7301307689",
   "last_ci_run_id": 42515455437,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -1709,5 +1709,19 @@
     "v2": "OFF",
     "a4": "OPEN",
     "physical": "NOT_RUN"
+  },
+  "closure_gate": {
+    "status": "OPEN_PRODUCTIVE_POLICY",
+    "evidence_doc": "docs/s3-night/S3_A4_CLOSURE_GATE_READ_ONLY_20261108.md",
+    "blob_sha": "cae0415dd475ccf1084cf651de3b855b89e3da21",
+    "activity_surface": "B7_PASS_20_20",
+    "surface_total": "68_68",
+    "activity_host": "B7_PASS_28_28_REAL_SQLITE",
+    "avisos": "ACTIVE_V1",
+    "n031": "REAL_OWNER_PARTIAL_SCHEMA8_DORMANT",
+    "shipping_read_policy": "ABSENT_DEFAULT_DENY",
+    "shipping_v2": false,
+    "physical": "NOT_RUN",
+    "writer_release_epoch": 567
   }
 }
