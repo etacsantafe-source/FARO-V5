@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.TXN_HOOK.B7.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.TXN_HOOK.B7.RELEASED",
   "token_hash": "7d36b2d7b4c58952cbb8e52185c9b646b74b684cf4fb00219ad1bc8884061be9",
-  "target_head": "66d581ffded00534745f59845afbab035867fee1",
+  "target_head": "d7dd8a94ce3007e77ea0a158f05de517b6b50a31",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 477,
-  "timestamp": 1794096060,
-  "purpose": "B7 audit exact CI for N033C2B4 TXN_AUTH_HOOK 13/13; documentation only",
-  "last_checkpoint": "A4_TXN_HOOK_B7_IN_PROGRESS"
+  "epoch": 478,
+  "timestamp": 1794096120,
+  "purpose": "B7 scoped PASS 13/13 exact SHA; next transactional Planning ACL blocked until B1-B5",
+  "last_checkpoint": "A4_TXN_AUTH_HOOK_B7_PASS@d7dd8a94ce3007e77ea0a158f05de517b6b50a31"
 }
