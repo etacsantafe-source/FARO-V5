@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.B7.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REVIEW_LEASE_BRIDGE.B1B5.20261107",
   "token_hash": "22e729c67959d4e52e76ab9474aba36560a021b0e4c0863dd18ff8b4309c5cf1",
   "target_head": "8431a5231bcbe482033f5919a2fc62bcc382714c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 490,
-  "timestamp": 1794098100,
-  "purpose": "B7 scoped PASS 44/44 source+workflow and all guards exact SHA, next real Planning ACL blocked for independent audit",
-  "last_checkpoint": "A4_GRANT_COMMIT_LEASE_B7_PASS@8431a5231bcbe482033f5919a2fc62bcc382714c"
+  "epoch": 491,
+  "timestamp": 1794098095,
+  "purpose": "S3_A4_N033C2B4_REVIEW_COMMIT_LEASE_BRIDGE_B1_B5",
+  "last_checkpoint": "N033C2B4_GRANT_COMMIT_LEASE_B7@8431a5231bcbe482033f5919a2fc62bcc382714c"
 }
