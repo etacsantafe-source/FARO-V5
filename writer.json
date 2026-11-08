@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B7.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B7.RELEASED",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
-  "target_head": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
+  "target_head": "a88e63a4b09155aac04e972c695f439721a409e0",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 527,
-  "timestamp": 1794103990,
-  "purpose": "B7 scoped receipt-only Workspace Reality8 crash recovery 9/9 Kernel38/38 exact SHA, Undo still open",
-  "last_checkpoint": "N033C3_RECEIPT_ONLY_B7_IN_PROGRESS"
+  "epoch": 528,
+  "timestamp": 1794137160,
+  "purpose": "B7 N033C3 receipt-only actual 9/9 + kernel38/38 exact SHA, next Undo contract-owner audit",
+  "last_checkpoint": "N033C3_RECEIPT_ONLY_B7_PASS@a88e63a4b09155aac04e972c695f439721a409e0"
 }
