@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_LOCAL_REQUEST_POLICY.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_LOCAL_REQUEST_POLICY.B6.RELEASED",
   "token_hash": "bf10f5eb56679e471dad21944455919799df2bb3907a8a2526f1a5c399252753",
-  "target_head": "9ad245ea621894976ac37c64a14570d9373f2034",
+  "target_head": "6f1659a40bf6de691e10f74ad108a92117b14903",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 497,
-  "timestamp": 1794099840,
-  "purpose": "B6 scoped local preapply one-shot request policy with canonical Review and Android sandbox; 58 strict JUnit directed",
-  "last_checkpoint": "LOCAL_USER_REQUEST_POLICY_B6"
+  "epoch": 498,
+  "timestamp": 1794099960,
+  "purpose": "B6 local user request policy code CI 58/58 pending, release writer during CI",
+  "last_checkpoint": "N033C2B4_LOCAL_REQUEST_POLICY_B6_WAIT_CI@6f1659a40bf6de691e10f74ad108a92117b14903"
 }
