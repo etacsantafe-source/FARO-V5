@@ -1,19 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N015_DEV_ACTIVITY_MOUNT",
-  "reviewed_head": "8f900cb63a73b120ef724d254c56a9ac99c19e97",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_THREE_OWNER_PENDING_FEDERATION",
+  "reviewed_head": "d2657824d1f0c7ad28ed55ab5fab027bc0889b3c",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5N031ThreeOwnerDueHostBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5N031ThreeOwnerDueHostBindingT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n031-three-owner-due-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "258a0a152509bab915ee62066e09b918e48b0989",
+          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
+          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
           "marker": "## B1"
         }
       ]
@@ -22,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "258a0a152509bab915ee62066e09b918e48b0989",
+          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
+          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
           "marker": "## B2"
         }
       ]
@@ -32,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "258a0a152509bab915ee62066e09b918e48b0989",
+          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
+          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
           "marker": "## B3"
         }
       ]
@@ -42,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "258a0a152509bab915ee62066e09b918e48b0989",
+          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
+          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
           "marker": "## B4"
         }
       ]
@@ -52,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "258a0a152509bab915ee62066e09b918e48b0989",
+          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
+          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED_M5_DEV_APK_SIGNED_COMPILATION",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED_DEV_APK",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "74a37966acfbe48bc549aa090e0ba9b482552be8",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "3010ad5f5cddffc5988d6080a3be5e67d73db480",
@@ -82,9 +74,9 @@
       }
     ]
   },
-  "why": "N015 DEV mount code compiled into verified signed isolated apk, no physical click test",
-  "how": "Two v2CoreDev files; reuse Application sandbox+read policies, exact pointer/foreground; M5 signed APK directed and protocol guard",
+  "why": "N031 actual Reality8 three owners due federation with independent domain epochs, no globally complete count, no shipping mount",
+  "how": "One new source class, one T2 real SQL test, one directed workflow XML; reuse certified source APIs, no schema changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "N031 three-owner due federation preaudited B1-B5 then permission READY and directed new tests; product V2 still OFF"
+  "next": "Implement B6 then exact CI and independent B7; keep S3.A4 OPEN until shipping/DEV integrated UI"
 }
