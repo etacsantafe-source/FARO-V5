@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REVIEW_LEASE_BRIDGE.B7.RELEASED",
-  "token_hash": "22e729c67959d4e52e76ab9474aba36560a021b0e4c0863dd18ff8b4309c5cf1",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_LOCAL_REQUEST_POLICY.B1B5.20261107",
+  "token_hash": "132d4777d1faed4d612fec47dc8fb6b3599276b69b7c88eaf4f651b197ec3f42",
   "target_head": "e49de432796910c302ec7db0c93bd834c674c320",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 494,
-  "timestamp": 1794098896,
-  "purpose": "N033_REVIEW_LEASE_B7_PASS_SCOPED",
-  "last_checkpoint": "N033C2B4_REVIEW_LEASE_B7_PASS_SCOPED@e49de432796910c302ec7db0c93bd834c674c320"
+  "epoch": 495,
+  "timestamp": 1794099660,
+  "purpose": "B1-B5 scoped local user Apply request policy, canonical Review + real Android sandbox, no production wiring",
+  "last_checkpoint": "N033C2B4_LOCAL_REQUEST_POLICY_PREAUDIT"
 }
