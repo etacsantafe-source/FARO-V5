@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 599
+    "expected_release_epoch": 600
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_RETRY_WAIT_CI_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_DIAG_WAIT_CI_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A5 five-case integrated Reality8 DEV tests Kotlin-red-fix 3eda9c27, exact CI #42536901243 running; previous #42536498612 failed due suspend outside runBlocking, corrected only in tests. Guard #42536901256; B7 pending, physical G15 final X01-X12, A3 separate approval blocked.",
-  "checkpoint_status": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_RETRY_WAIT_CI_A5_OPEN",
+  "next": "S3.A5 post-cutover five-case suite run #42537575168 pending after 2/4 runtime fail on #42536901243; code 3012c682 adds JUnit failure logs + fifth test void discovery. Check full XML errors (S3_A5_TEST_DIAGNOSTIC_CASE), not blind fix. No G15 until X01-X12 final, A3 approval separate.",
+  "checkpoint_status": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_DIAG_WAIT_CI_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_RETRY_WAIT_CI_20261108.md",
-  "last_code_sha": "3eda9c270478b6e2bae435d164664873d36665d5",
-  "last_ci_run_id": 42536901243,
+  "last_handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_DIAG_WAIT_CI_20261108.md",
+  "last_code_sha": "3012c682f558b83e360eb10246176e1a1fdbee60",
+  "last_ci_run_id": 42537575168,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "WAIT_CI_KOTLIN_RED_FIX_NO_XML_VERIFIED",
+  "last_ci_conclusion": "WAIT_CI_DIAGNOSTIC_NOT_VERIFIED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1817,19 +1817,22 @@
   },
   "a5_post_cutover_integration": {
     "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-    "status": "WAIT_CI_RETRY",
-    "code_sha": "3eda9c270478b6e2bae435d164664873d36665d5",
-    "ci_run_id": 42536901243,
+    "status": "WAIT_CI_DIAGNOSTIC",
+    "code_sha": "3012c682f558b83e360eb10246176e1a1fdbee60",
+    "ci_run_id": 42537575168,
     "ci_conclusion": "NOT_VERIFIED",
     "b1_b5": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
-    "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_RETRY_WAIT_CI_20261108.md",
+    "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_DIAG_WAIT_CI_20261108.md",
     "tests_expected": 5,
     "physical": "NOT_RUN",
     "production_v2_enabled": false,
     "initial_sha": "03f5af2ae9e1382c7a2f0ff0b9d51049868e374d",
-    "protocol_ci_id": 42536901256,
+    "protocol_ci_id": 42537575211,
     "first_failed_ci_id": 42536498612,
     "first_failed_reason": "ILLEGAL_SUSPEND_FUNCTION_CALL_TEST_ONLY",
-    "red_fix": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RED_FIX_20261108.md"
+    "red_fix": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RED_FIX_20261108.md",
+    "previous_failed_run": 42536901243,
+    "previous_failed_details": "RUNTIME_2_OF_4_FAILED_FIFTH_NOT_DISCOVERED",
+    "diagnostic_doc": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RUNTIME_RED_DIAGNOSTIC_20261108.md"
   }
 }
