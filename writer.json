@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.B7.PASS.RELEASED",
-  "token_hash": "037a78e3c5fa0c7cbd815a8202f73bbf860e4dc022e64b1e118fbad68aa6fae0",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5.DEV_JOURNAL_PREPARE",
+  "token_hash": "dfea988370e4f25e84ff6d511b5fc7e5ac99f03e7b47782bd2d600f0235e2342",
   "target_head": "9df313029c2844dcaf97ece464b8c8cd7634c8d5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 590,
-  "timestamp": 1794173113,
-  "purpose": "A5 active8 host open 6/6 + fresh staged8 5/5; no cutover or physical; permit BLOCKED; S3 A5 OPEN",
+  "epoch": 591,
+  "timestamp": 1794175800,
+  "purpose": "S3.A5 DEV staged8 journal prepare+recovery B1-B7; V2 productiva OFF; no G15; no night",
   "last_checkpoint": "S3_A5_TWO_SCOPED_B7_PASS@9df31302"
 }
