@@ -2,19 +2,20 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
-  "reviewed_head": "a88e63a4b09155aac04e972c695f439721a409e0",
+  "reviewed_head": "e5b97e69c4569ed559ce89eae32f005ad4b0d7e0",
   "paths": [
+    "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/ConversationReviewPort.kt",
+    "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/ConversationWorkspaceStore.kt",
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-reality8-transaction-host-directed.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-          "blob_sha": "bf00925b86e69b5d6581e1005de10ba5f1f4c479",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-          "blob_sha": "bf00925b86e69b5d6581e1005de10ba5f1f4c479",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-          "blob_sha": "bf00925b86e69b5d6581e1005de10ba5f1f4c479",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-          "blob_sha": "bf00925b86e69b5d6581e1005de10ba5f1f4c479",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
           "marker": "## B4"
         }
       ]
@@ -53,8 +54,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-          "blob_sha": "bf00925b86e69b5d6581e1005de10ba5f1f4c479",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
           "marker": "## B5"
         }
       ]
@@ -63,20 +64,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
-    "unit_id": "S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION",
-    "result": "PASS",
+    "sha": "e5b97e69c4569ed559ce89eae32f005ad4b0d7e0",
+    "unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION_B7_PASS_20261108.md",
-        "blob_sha": "eb3d982b03931ff3ca4b730f473814918b393fc0",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_RED_FIX_20261108.md",
+        "blob_sha": "5d151b27d0a894863295befa3a27fc93cb1b4568",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N033C3 Undo cannot assume receipt carries object identity; inspect original canonical COMMITTED Workspace plan and unchanged Reality8 owner before any separate undo mutation",
-  "how": "B1-B5 exact read-only 3 paths, 3 new SQLite JVM tests, host XML expected 12/12, no cancellation yet",
+  "why": "Two positive committed origin tests fail because Apply-only Workspace.load refuses COMMITTED by design; keep Apply boundary unchanged and introduce a separate read-only historical port",
+  "how": "RED_FIX #42491100997 12 run 2 failed, scoped contract/store/host/test same unit + guard and 12/12 host XML",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Preflight per exact path then implement dormant origin inspection only"
+  "next": "RED_FIX code same unit; B7 after exact directed CI"
 }
