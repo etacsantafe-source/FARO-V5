@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
   "reviewed_head": "1080dd13df0f88800ede6aa334bb86a01bf08ede",
   "paths": [
@@ -58,8 +58,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "WAIT_CI_DIAGNOSTIC_42537575168_NO_XML_VERIFIED",
+    "B7": "PENDING_INDEPENDENT_AUDIT_AFTER_DIAGNOSTIC"
   },
   "last_code_review": {
     "sha": "3eda9c270478b6e2bae435d164664873d36665d5",
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "CI 42536901243 runtime test FAIL 2/4 and fifth undetected; cannot diagnose failure cause from summary, add XML traces and enforce ABA test Unit return",
+  "why": "Runtime failure 2/4 in prior CI; diagnostic logs and void ABA test commit 3012c682 running; no evidence to alter product or certify",
   "how": "Tests only: explicit Unit test result + workflow failure log XML; no product source modification or assertions reduced",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run new JUnit exact 5/5; on FAIL read full XML stack and form new root-cause hypothesis, not repeated blind retries"
+  "next": "Review #42537575168 TEST_DIAGNOSTIC_CASE logs + exact JUnit XML; only new B5 evidence if red, no blind retries"
 }
