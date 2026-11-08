@@ -301,6 +301,32 @@ class RealityStore(
         }
 
     /**
+     * N033C3 Undo binding is in a separate trusted-only composition factory.
+     * It is NOT mounted in any Android Activity, shipping root or Chat.
+     * The future host MUST verify source Workspace COMMITTED Review and a
+     * distinct human-approved Undo Review + scoped owner grant first.
+     */
+    fun planningUndoBindingsForTrustedHost(
+        catalog: OperationContractLookupPort,
+    ): List<OperationBindingPort> = synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Undo bindings require explicitly mounted Reality8"
+        }
+        listOf(RealityPlanningUndoExecuteBinding(this, catalog))
+    }
+
+    fun planningUndoRevalidatorsForTrustedHost(
+        catalog: OperationContractLookupPort,
+    ): List<OperationRevalidationPort> = synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Undo revalidation requires explicitly mounted Reality8"
+        }
+        listOf(RealityPlanningUndoExecuteRevalidation(this, catalog))
+    }
+
+    /**
      * N033C2B4 trusted-host composition ONLY: exposes the two EXISTING
      * owner SPI bindings, not raw CRUD nor a write/authorization capability.
      * The Android host must supply a canonical official descriptor catalog,
