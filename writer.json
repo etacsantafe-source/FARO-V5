@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_ORIGIN_INSPECT.B1B5.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_ORIGIN_INSPECT.B6",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "aef7914ad58fe96d8274a7b3244062594b7b9142",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 530,
+  "epoch": 531,
   "timestamp": 1794137160,
-  "purpose": "B1-B5 Undo provenance doc+READY permit durable; release for preflight/CI",
+  "purpose": "S3.A4 N033C3 READ_ONLY Undo provenance 3 scoped files B6",
   "last_checkpoint": "N033C3_UNDO_ORIGIN_B1_B5_READY@aef7914ad58fe96d8274a7b3244062594b7b9142"
 }
