@@ -20,6 +20,12 @@ internal fun interface Planning8TrustedObjectPolicyPort {
     ): String?
 }
 
+/** A scope-specific, synchronous admission result; never a stored Apply ticket. */
+internal sealed interface Planning8GrantLeaseResult<out T> {
+    data class Admitted<T>(val value: T) : Planning8GrantLeaseResult<T>
+    data object Denied : Planning8GrantLeaseResult<Nothing>
+}
+
 /**
  * Session-only object grant owner for an ALREADY verified active Planning8 host.
  * Does NOT authenticate principalId, derive ownership, approve a Review, execute
@@ -120,6 +126,25 @@ internal class FaroV5Planning8ObjectGrantOwner(
             return@synchronized null
         }
         observed.nonce
+    }
+
+    /**
+     * Guard the entire synchronous transaction callback against revoke/revokeAll/close
+     * issued THROUGH THIS owner. The caller must include Reality COMMIT/ROLLBACK
+     * inside action and use the exact scoped nonce minted by a trusted policy.
+     * An external policy change, pointer swap or another process is NOT fenced
+     * by this in-memory monitor; production Planning8 ACL stays disabled.
+     */
+    fun <T> withCurrentGrantLease(
+        scope: Planning8ObjectScope,
+        pointer: ActiveGenerationPointer,
+        expectedNonce: String,
+        action: () -> T,
+    ): Planning8GrantLeaseResult<T> = synchronized(monitor) {
+        if (expectedNonce.isBlank() || epochOrNull(scope, pointer) != expectedNonce) {
+            return@synchronized Planning8GrantLeaseResult.Denied
+        }
+        Planning8GrantLeaseResult.Admitted(action())
     }
 
     /** Explicit host revocation for ONE operation+object. */

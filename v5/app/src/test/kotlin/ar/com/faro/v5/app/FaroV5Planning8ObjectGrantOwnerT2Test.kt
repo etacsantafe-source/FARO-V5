@@ -6,6 +6,9 @@ import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.owner.monthlyplan.api.MonthlyPlanOperations
 import ar.com.faro.v5.owner.reminders.api.ReminderOperations
 import java.nio.file.Path
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -193,4 +196,102 @@ class FaroV5Planning8ObjectGrantOwnerT2Test {
         }
         old.close()
     }
+
+    @Test fun leaseAdmitsOnlyExactLiveNonceAndReturnsCallbackValue() {
+        val f = Fixture()
+        f.owner().use { owner ->
+            val nonce = requireNotNull(owner.grantAfterTrustedPolicyCheck(reminder))
+            var calls = 0
+            val result = owner.withCurrentGrantLease(reminder, f.pinned, nonce) {
+                calls++
+                assertEquals(nonce, owner.epochOrNull(reminder, f.pinned))
+                "sql-commit-complete"
+            }
+            assertEquals(Planning8GrantLeaseResult.Admitted("sql-commit-complete"), result)
+            assertEquals(1, calls)
+            assertEquals(nonce, owner.epochOrNull(reminder, f.pinned))
+        }
+    }
+
+    @Test fun deniedLeaseNeverCallsActionForMissingWrongOrRevokedGrant() {
+        val f = Fixture()
+        f.owner().use { owner ->
+            var calls = 0
+            fun attempt(scope: Planning8ObjectScope, nonce: String) =
+                owner.withCurrentGrantLease(scope, f.pinned, nonce) {
+                    calls++
+                    "unexpected"
+                }
+            assertEquals(Planning8GrantLeaseResult.Denied, attempt(reminder, "fake-nonce"))
+            val nonce = requireNotNull(owner.grantAfterTrustedPolicyCheck(reminder))
+            assertEquals(Planning8GrantLeaseResult.Denied, attempt(reminder, " "))
+            assertEquals(Planning8GrantLeaseResult.Denied, attempt(otherReminder, nonce))
+            assertEquals(Planning8GrantLeaseResult.Denied, attempt(reminder, "fake-nonce"))
+            owner.revoke(reminder)
+            assertEquals(Planning8GrantLeaseResult.Denied, attempt(reminder, nonce))
+            assertEquals(0, calls)
+        }
+    }
+
+    @Test fun ownerRevocationCannotCompleteUntilLeasedTransactionCallbackExits() {
+        val f = Fixture()
+        f.owner().use { owner ->
+            val nonce = requireNotNull(owner.grantAfterTrustedPolicyCheck(reminder))
+            val entered = CountDownLatch(1)
+            val release = CountDownLatch(1)
+            val revokerStarting = CountDownLatch(1)
+            val revocationComplete = CountDownLatch(1)
+            val workerError = AtomicReference<Throwable?>(null)
+            val leasedResult = AtomicReference<Planning8GrantLeaseResult<String>?>(null)
+            val transaction = Thread {
+                try {
+                    leasedResult.set(owner.withCurrentGrantLease(reminder, f.pinned, nonce) {
+                        entered.countDown()
+                        check(release.await(5, TimeUnit.SECONDS)) { "simulated commit never released" }
+                        "committed"
+                    })
+                } catch (failure: Throwable) {
+                    workerError.set(failure)
+                }
+            }
+            val revoker = Thread {
+                revokerStarting.countDown()
+                owner.revoke(reminder)
+                revocationComplete.countDown()
+            }
+            transaction.start()
+            try {
+                assertTrue(entered.await(5, TimeUnit.SECONDS))
+                revoker.start()
+                assertTrue(revokerStarting.await(5, TimeUnit.SECONDS))
+                assertFalse(revocationComplete.await(200, TimeUnit.MILLISECONDS))
+            } finally {
+                release.countDown()
+                transaction.join(5000)
+                if (revoker.state != Thread.State.NEW) revoker.join(5000)
+            }
+            assertFalse(transaction.isAlive)
+            assertFalse(revoker.isAlive)
+            assertNull(workerError.get())
+            assertEquals(Planning8GrantLeaseResult.Admitted("committed"), leasedResult.get())
+            assertEquals(0L, revocationComplete.count)
+            assertNull(owner.epochOrNull(reminder, f.pinned))
+        }
+    }
+
+    @Test fun callbackFailureReleasesMonitorAndAllowsSafeRevocation() {
+        val f = Fixture()
+        f.owner().use { owner ->
+            val nonce = requireNotNull(owner.grantAfterTrustedPolicyCheck(reminder))
+            assertThrows(IllegalStateException::class.java) {
+                owner.withCurrentGrantLease(reminder, f.pinned, nonce) {
+                    error("transaction rollback")
+                }
+            }
+            owner.revokeAll()
+            assertEquals(Planning8GrantLeaseResult.Denied,
+                owner.withCurrentGrantLease(reminder, f.pinned, nonce) { "never" })
+        }
+    }
+
 }
