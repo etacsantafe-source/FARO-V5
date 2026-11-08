@@ -12,7 +12,6 @@ import ar.com.faro.v5.owner.monthlyplan.api.*
 import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanOwnerDependency
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.workspace.*
-import ar.com.faro.v5.kernel.apply.SingleProcessMaterialWriteGate
 import java.nio.file.Path
 import java.time.LocalDate
 import java.time.LocalTime
