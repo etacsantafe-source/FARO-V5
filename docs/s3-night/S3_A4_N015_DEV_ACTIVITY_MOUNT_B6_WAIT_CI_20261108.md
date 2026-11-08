@@ -1,0 +1,7 @@
+# S3.A4 — N015 DEV Activity mount · B6 WAIT_CI
+Fecha AR 2026-11-08. B1–B5 aprobado `docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B1_B5_20261108.md`, exact blob `258a0a152509bab915ee62066e09b918e48b0989`. Permiso READY previo `22e0b16ee31292e7fd9ac9d6056ead5fc9a6d990`.
+- Código `3010ad5f5cddffc5988d6080a3be5e67d73db480`, exactamente dos Kotlin variante v2CoreDev, un commit con trailer `FARO-UNIT:S3_A4_N015_DEV_ACTIVITY_MOUNT`.
+- Un nuevo botón **Abrir Chat y Actividad local**; Chat original no emite grant de Activity; el host sólo monta N015 con dos fuentes SQLite y el Reader Application real si sigue RESUMED, aplica policy por fuente y revoca/cierra en onPause. No API, manifest, schema, shipping/OS permissions, Apply, Undo ni Surface cambiados.
+- [M5 APK #42518963641](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42518963641): IN_PROGRESS a registrar; no se declara success. [seven-block guard #42518963595](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42518963595): IN_PROGRESS. Otros workflows exact SHA #42518963617 Home, #42518963611 federation G4, #42518963426 V2 Core: IN_PROGRESS.
+- B7 PENDING, CI y APK paquetes deben ser verificados por SHA con evidencia de salida exacta. Una certificación de APK no sustituye G15 físico/click real; S3.A4 sigue OPEN, productiva V2 OFF.
+- S2, N015 Real Host B7 28/28, core read B7 10/10, Undo N033C3, N031 due fuentes B7: NO REABRIR sin delta. Writer liberar epoch575 durante CI. Próxima unidad N031 triple owner en Reality8 con cobertura parcial.

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N015_DEV_ACTIVITY_MOUNT",
   "reviewed_head": "8f900cb63a73b120ef724d254c56a9ac99c19e97",
   "paths": [
@@ -58,7 +58,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_DEV_M5_SIGNED_APK_EXACT_SHA",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "DEV-only explicit Activity read button to real N015 sources; shipping V2 OFF; no prod or physical claim",
+  "why": "New DEV Activity native gesture + local read host mount code 3010ad5f awaiting CI, not shipping",
   "how": "Two v2CoreDev files; reuse Application sandbox+read policies, exact pointer/foreground; M5 signed APK directed and protocol guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Implement DEV host under one writer, run M5 and guard exact SHA, then B7 scoped"
+  "next": "Audit M5 APK and protocol guard exact SHA before more code, N031 composite next"
 }
