@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_DEV_VALIDATED8_CUTOVER",
   "reviewed_head": "1f463bef39aa70231520033b8e409ae9ab7e7706",
   "paths": [
@@ -59,24 +59,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_FOUR_REAL_SQLITE_VALIDATED8_CUTOVER_XML_4_4",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "94468c52768d84ddc430d589b2a3cd137d077685",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "8e1cdac498c8ec607bf34ee12cb1d978241a5f05",
-    "unit_id": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
+    "sha": "a7eeccdeed2f5f3bf36754d793221a4c05ad788f",
+    "unit_id": "S3_A5_DEV_VALIDATED8_CUTOVER",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "7071cab04f87648fcc8733cb9aa3499ea17a96dc",
+        "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "94468c52768d84ddc430d589b2a3cd137d077685",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A5 journal VALIDATED stage8 5/5 is certified, but DEV owner does not yet connect it to canonical pointer cutover/recovery with replay fence",
-  "how": "New narrowly scoped composition of existing validated generation coordinator with exact prior/full-pointer and active8 health, no Android wiring",
+  "why": "A5 DEV VALIDATED Reality8 cutover and recovery 4/4 B7 PASS, but Android V2 DEV authority/session/authorized UI not yet mounted",
+  "how": "Existing canonical generation activation coordinator, shared gate and exact pointer sequence with journal+fence, no second switcher",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 3 exact paths; 4 new integrated SQLite tests then independent B7; Android DEV session UI still separate"
+  "next": "New scoped B1-B5 before B6 V2 DEV host mount; protect session invalidation; V2 production OFF and G15 campaign only at end"
 }
