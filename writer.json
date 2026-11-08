@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.PLANNING_DUE_B7.RELEASED",
-  "token_hash": "07352c8b0a6e55894978d9c2a438b610e7b21588c3fc96c45d0aa7a105206152",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_SEAM",
+  "token_hash": "a9a47cf1bc7d9e540301733c9985d49a04e7271543e05058e06a31e78b7ad477",
   "target_head": "ccd487fe66b831f59ebad36ae2a449cca4918f6b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 558,
-  "timestamp": 1794161171,
-  "purpose": "N031 two owner stored due reader B7 6/6, guard/Home success; A4 still open, next authentic host ACL bridge",
+  "epoch": 559,
+  "timestamp": 1794162250,
+  "purpose": "N031 schema8 read-only owner seam + dormant dual-ACL Android-side host guarded integration; no production activation",
   "last_checkpoint": "N031_PLANNING_DUE_TWO_OWNER_B7_PASS@ccd487fe66b831f59ebad36ae2a449cca4918f6b"
 }
