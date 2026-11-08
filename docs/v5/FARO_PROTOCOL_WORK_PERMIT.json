@@ -5,7 +5,8 @@
   "reviewed_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthorityT2Test.kt"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthorityT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-local-read-authority-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -13,7 +14,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
-          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
+          "blob_sha": "d36da9c252076a74e2798e5ee4440303ef33f547",
           "marker": "## B1"
         }
       ]
@@ -23,7 +24,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
-          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
+          "blob_sha": "d36da9c252076a74e2798e5ee4440303ef33f547",
           "marker": "## B2"
         }
       ]
@@ -33,7 +34,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
-          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
+          "blob_sha": "d36da9c252076a74e2798e5ee4440303ef33f547",
           "marker": "## B3"
         }
       ]
@@ -43,7 +44,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
-          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
+          "blob_sha": "d36da9c252076a74e2798e5ee4440303ef33f547",
           "marker": "## B4"
         }
       ]
@@ -53,7 +54,7 @@
       "evidence": [
         {
           "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
-          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
+          "blob_sha": "d36da9c252076a74e2798e5ee4440303ef33f547",
           "marker": "## B5"
         }
       ]
@@ -74,7 +75,7 @@
     ]
   },
   "why": "New in-memory local install read authority core, no host or productive V2 activation",
-  "how": "One source and one JVM T2 test; invalidation and exact pointer/domain epochs; mount requires a separately audited unit",
+  "how": "One local read authority, one bounded T2 test, one directed workflow XML; shipping host/mount excluded",
   "no_auto_night": true,
   "productive_v2_enabled": false,
   "next": "Build local read core and directed tests; B7 then separate mount policy/host unit"
