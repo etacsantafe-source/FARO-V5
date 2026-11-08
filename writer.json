@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.B6.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.RED_FIX",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "0fec033d21ec167926d29f1e00fa888bc1b07f60",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 550,
+  "epoch": 551,
   "timestamp": 1794137160,
-  "purpose": "NEW human-approved Undo Review host, 6 SQLite tests published; B7 CI pending; no product activation",
+  "purpose": "CI#42498342148 RED compile import in test only; B7 RED_FIX + B1-B5 before same-unit correction",
   "last_checkpoint": "N033C3_UNDO_EXECUTE_REVIEW_HOST_B6_WAIT_CI@0fec033d21ec167926d29f1e00fa888bc1b07f60"
 }
