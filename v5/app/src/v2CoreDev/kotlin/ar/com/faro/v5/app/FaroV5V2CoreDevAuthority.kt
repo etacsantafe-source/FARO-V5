@@ -1,5 +1,6 @@
 package ar.com.faro.v5.app
 
+import android.app.Application
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
@@ -12,7 +13,9 @@ import ar.com.faro.v5.owner.finance.api.FinanceSnapshotReadApi
 import kotlinx.coroutines.flow.merge
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.surface.FaroV5SearchReadPort
+import ar.com.faro.v5.surface.FaroV5ActivityReadPort
 import java.nio.file.Files
+import java.util.UUID
 import java.nio.file.LinkOption
 import java.nio.file.Path
 import java.util.concurrent.atomic.AtomicBoolean
@@ -297,8 +300,102 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private val pointer: FileActiveGenerationPointer,
         private val pointerObserver: Runnable,
     ) : AutoCloseable {
+        private var historyAuthority: FaroV5LocalInstallReadAuthority? = null
+        private var historyBinding: FaroV5RealHistoryActivityHostBinding? = null
+
+        /**
+         * DEV-only entry: the caller MUST be the dedicated native button callback
+         * while this exact Activity remains RESUMED. Never called on bootstrap,
+         * normal Chat open, a model response or background task.
+         */
+        @Synchronized
+        internal fun openActivityAfterTrustedForegroundRequest(
+            application: Application,
+            foreground: () -> Boolean,
+        ): FaroV5ActivityReadPort? {
+            if (!alive.get() || historyBinding != null ||
+                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !runCatching { foreground() }.getOrDefault(false)
+            ) return null
+            val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
+            if (pinned.generationId.value != graph.generationId) return null
+            val workspace = graph.workspace ?: return null
+            val epoch = UUID.randomUUID().toString()
+            val hostReady: () -> Boolean = {
+                alive.get() && runCatching {
+                    foreground() && pointer.read() == pinned
+                }.getOrDefault(false)
+            }
+            var probe: FaroV5AndroidSandboxPrincipal? = null
+            var access: FaroV5LocalInstallReadAuthority? = null
+            var binding: FaroV5RealHistoryActivityHostBinding? = null
+            var mounted = false
+            return try {
+                probe = FaroV5AndroidSandboxPrincipal(
+                    expectedApplicationId = application.packageName,
+                    pinned = pinned,
+                    activePointer = pointer,
+                    expectedHostEpoch = epoch,
+                    hostEpochOrNull = { if (alive.get()) epoch else null },
+                    facts = AndroidPlatformSandboxFactsReader(application),
+                )
+                access = FaroV5LocalInstallReadAuthority(
+                    sandbox = probe,
+                    activePointer = pointer,
+                    hostReady = hostReady,
+                    foregroundReady = foreground,
+                )
+                val principal = access.technicalPrincipalOrNull()
+                if (principal == null || !hostReady() ||
+                    !access.grantAfterTrustedForegroundReadAction(
+                        setOf(FaroV5LocalReadDomain.REALITY_RECEIPT,
+                              FaroV5LocalReadDomain.WORKSPACE_MESSAGE)
+                    )
+                ) null else {
+                    binding = FaroV5RealHistoryActivityHostBinding(
+                        generationId = graph.generationId,
+                        pinned = pinned,
+                        activePointer = pointer,
+                        reality = graph.reality,
+                        workspace = workspace,
+                        principalId = principal,
+                        expectedHostEpoch = epoch,
+                        hostEpochOrNull = { if (alive.get()) epoch else null },
+                        hostReady = hostReady,
+                        readPolicy = access.historyReadPolicy(),
+                        invalidations = access.invalidations,
+                    )
+                    if (!hostReady()) null else {
+                        historyAuthority = access
+                        historyBinding = binding
+                        mounted = true
+                        binding
+                    }
+                }
+            } catch (_: Exception) {
+                null
+            } finally {
+                if (!mounted) {
+                    binding?.close()
+                    access?.close()
+                    probe?.close()
+                }
+            }
+        }
+
+        /** A paused or changed host cannot reuse a previous user request. */
+        @Synchronized
+        internal fun revokeActivityReadingOnPause() {
+            historyBinding?.close()
+            historyBinding = null
+            historyAuthority?.close()
+            historyAuthority = null
+        }
+
+        @Synchronized
         override fun close() {
             if (alive.compareAndSet(true, false)) {
+                revokeActivityReadingOnPause()
                 searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)
                 graph.close()

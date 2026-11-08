@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.Lifecycle
 import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.ConversationSelectionResult
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
@@ -29,9 +30,11 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val executor = Executors.newSingleThreadExecutor()
     private val opening = AtomicBoolean(false)
     private val disposed = AtomicBoolean(false)
+    private val pendingActivityReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
+    private lateinit var activityButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +67,11 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             setOnClickListener { openLocalChat() }
         }
         column.addView(openButton)
+        activityButton = Button(this).apply {
+            text = "Abrir Chat y Actividad local"
+            setOnClickListener { openLocalChat(requestActivityRead = true) }
+        }
+        column.addView(activityButton)
         setContentView(ScrollView(this).apply {
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -72,9 +80,12 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         })
     }
 
-    private fun openLocalChat() {
+    private fun openLocalChat(requestActivityRead: Boolean = false) {
         if (!opening.compareAndSet(false, true)) return
+        // Only this dedicated foreground button can request an Activity read.
+        pendingActivityReadRequest.set(requestActivityRead)
         openButton.isEnabled = false
+        activityButton.isEnabled = false
         status.text = "Verificando journal y cinco bases locales…"
         executor.execute {
             var opened: FaroV5V2CoreDevAuthority.Session? = null
@@ -103,14 +114,28 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             runOnUiThread {
                 try {
                     if (disposed.get() || isFinishing || isDestroyed) {
+                        pendingActivityReadRequest.set(false)
                         opened?.close()
                     } else if (failure != null) {
                         opened?.close()
                         status.text = "No se abrió: ${failure.javaClass.simpleName}. Los datos permanecen intactos."
+                        pendingActivityReadRequest.set(false)
                         openButton.isEnabled = true
+                        activityButton.isEnabled = true
                     } else {
                         val active = checkNotNull(opened)
                         session = active
+                        // A background transition cancels the original click: no delayed grant.
+                        val userRequestedActivity = pendingActivityReadRequest.getAndSet(false)
+                        val activityRead = if (userRequestedActivity &&
+                            lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                        ) active.openActivityAfterTrustedForegroundRequest(
+                            application = application,
+                            foreground = {
+                                !disposed.get() && !isFinishing && !isDestroyed &&
+                                    lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                            },
+                        ) else null
                         FaroV5SurfaceHost.install(
                             activity = this,
                             workspaceReadPort = active.workspaceReadPort,
@@ -118,6 +143,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             selectionPort = active.selectionPort,
                             composerPort = active.composerPort,
                             searchReadPort = active.searchReadPort,
+                            activityReadPort = activityRead,
                             // DEV-only canonical Workspace Search; no assistant, Apply or external effects.
                         )
                     }
@@ -128,8 +154,16 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         }
     }
 
+    override fun onPause() {
+        // Revoke regardless of whether Compose currently shows the Activity page.
+        pendingActivityReadRequest.set(false)
+        session?.revokeActivityReadingOnPause()
+        super.onPause()
+    }
+
     override fun onDestroy() {
         disposed.set(true)
+        pendingActivityReadRequest.set(false)
         executor.shutdown()
         session?.close()
         session = null
