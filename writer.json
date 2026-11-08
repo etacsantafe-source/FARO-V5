@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.PLANNING_DUE_READ.RELEASED",
-  "token_hash": "bd48a5b8e9968c944b975c6c6222655f36da2d13f0f5308e0183618793a36c4d",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.PLANNING_DUE_B7",
+  "token_hash": "07352c8b0a6e55894978d9c2a438b610e7b21588c3fc96c45d0aa7a105206152",
   "target_head": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 557,
-  "timestamp": 1794160807,
-  "purpose": "N031 scoped read source code committed, WAIT CI; no productive activation; next B7 after XML+guard",
-  "last_checkpoint": "N031_PLANNING_DUE_READ_WAIT_CI@c4cd95d5577a89b413df956bfbd41f0a19f6884b"
+  "epoch": 558,
+  "timestamp": 1794161074,
+  "purpose": "N031 planning due directed XML 6/6 and seven-block guard pass: B7 docs/checkpoint only",
+  "last_checkpoint": "N031_PLANNING_DUE_READ_B7_REVIEW@c4cd95d5577a89b413df956bfbd41f0a19f6884b"
 }
