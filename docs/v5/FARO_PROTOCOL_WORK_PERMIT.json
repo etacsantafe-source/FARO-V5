@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
   "reviewed_head": "ac9f00f56eb8b280fd1a4e321a32fafce7b26f03",
-  "paths": [
-    ".github/workflows/faro-v5-s3-a4-n033c3-undo-execute-review-host-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_NEW6_OLD12_KERNEL38_EXACT_SHA",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_PASS_20261108.md",
+          "blob_sha": "f6487fda8f21d05db0a27ea6ffb8741e35706da5",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "ac9f00f56eb8b280fd1a4e321a32fafce7b26f03",
+    "sha": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
     "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_REDFIX_REGRESSION_20261108.md",
-        "blob_sha": "572f03a7adac77f8f500714f4cda29b80d6419da",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_PASS_20261108.md",
+        "blob_sha": "f6487fda8f21d05db0a27ea6ffb8741e35706da5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "New Undo host 6/6 PASS on ac9f but old host12/kernel38 not tested exact SHA; CI-only RED_FIX same unit",
-  "how": "Workflow-only app dual class 6+12 and kernel Apply38 strict XML; no runtime or test changes",
+  "why": "N033C3 new human reviewed Undo isolated JVM host B7 passed exact 56/56 tests and guard, no user-facing Android activation",
+  "how": "CI #42499635004 6 new+12 old host+38 kernel; #42499635018 guard, exact SHA, no skipped",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run exact SHA CI and independent B7; production remains OFF"
+  "next": "B1-B5 S3_A4_N033C3_UNDO_HOST_E2E_AUTHORIZATION: audit N015/N031 and final A4 gate, no repetition or production activation"
 }
