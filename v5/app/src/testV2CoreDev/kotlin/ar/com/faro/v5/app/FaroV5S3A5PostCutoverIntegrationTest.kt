@@ -189,7 +189,7 @@ class FaroV5S3A5PostCutoverIntegrationTest {
         }
     }
 
-    @Test fun pointerAbaOfActiveEightRevokesChatSearchAndOldHit() = runBlocking {
+    @Test fun pointerAbaOfActiveEightRevokesChatSearchAndOldHit(): Unit = runBlocking {
         promoteToEight()
         val before = checkNotNull(pointer.read())
         val session = FaroV5V2CoreDevAuthority(root).open()

@@ -39,10 +39,33 @@ jobs:
       - name: Compile isolated DEV and five NEW post-cutover integration cases
         working-directory: v5
         run: |
+          set +e
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
             :app:compileV2CoreDevKotlin \
             :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5S3A5PostCutoverIntegrationTest"
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          d=Path("app/build/test-results/testV2CoreDevUnitTest")
+          files=list(d.glob("TEST-*FaroV5S3A5PostCutoverIntegrationTest.xml"))
+          if not files:
+              print("S3_A5_TEST_DIAGNOSTIC_XML_NOT_PRODUCED")
+          for file in files:
+              root=ET.parse(file).getroot()
+              print("S3_A5_TEST_DIAGNOSTIC_COUNTS", tuple(root.get(k) for k in ("tests","failures","errors","skipped")))
+              for case in root.findall("testcase"):
+                  for kind in ("failure","error"):
+                      for node in case.findall(kind):
+                          print("S3_A5_TEST_DIAGNOSTIC_CASE", case.get("name"), kind,
+                                node.get("type"), node.get("message"))
+                          print((node.text or "")[:7000])
+          PY
+          fi
+          exit "$rc"
       - name: Assert exact test XML without skipped cases
         run: |
           python3 - <<'PY'
