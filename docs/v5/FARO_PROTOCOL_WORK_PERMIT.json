@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-  "reviewed_head": "86d8e54fc21acf046dc8012e724b5be3a9c1316c",
+  "reviewed_head": "1080dd13df0f88800ede6aa334bb86a01bf08ede",
   "paths": [
     "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A5PostCutoverIntegrationTest.kt",
     ".github/workflows/faro-v5-s3-a5-post-cutover-dev-integration-directed.yml"
@@ -58,24 +58,24 @@
         }
       ]
     },
-    "B6": "WAIT_CI_RETRY_42536901243_NO_XML_YET",
-    "B7": "PENDING_AFTER_TERMINAL_CI"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "03f5af2ae9e1382c7a2f0ff0b9d51049868e374d",
+    "sha": "3eda9c270478b6e2bae435d164664873d36665d5",
     "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RED_FIX_20261108.md",
-        "blob_sha": "1cdc2d2162c5a4dcc4b540a6b9aac3e2e0fd78d6",
+        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RUNTIME_RED_DIAGNOSTIC_20261108.md",
+        "blob_sha": "6fe36b889fac807e6d91f5957e06120d334cbf54",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Only test runBlocking patch 3eda9c27; new 5-case directed CI not terminal",
-  "how": "Wrap three new test functions in runBlocking; all production code and previous five certified S3.A5 subunits unchanged",
+  "why": "CI 42536901243 runtime test FAIL 2/4 and fifth undetected; cannot diagnose failure cause from summary, add XML traces and enforce ABA test Unit return",
+  "how": "Tests only: explicit Unit test result + workflow failure log XML; no product source modification or assertions reduced",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Check #42536901243 SHA 3eda9c27, exact JUnit XML 5/5 and protocol #42536901256, then B7 scoped or red_fix"
+  "next": "Run new JUnit exact 5/5; on FAIL read full XML stack and form new root-cause hypothesis, not repeated blind retries"
 }
