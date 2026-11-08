@@ -1,16 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
-  "reviewed_head": "90056b3662f88fec428b7c53e2f808b307280811",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
+  "reviewed_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthorityT2Test.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
+          "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
+          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
           "marker": "## B1"
         }
       ]
@@ -19,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
+          "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
+          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
           "marker": "## B2"
         }
       ]
@@ -29,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
+          "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
+          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
           "marker": "## B3"
         }
       ]
@@ -39,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
+          "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
+          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
           "marker": "## B4"
         }
       ]
@@ -49,23 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
+          "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B1_B5_20261108.md",
+          "blob_sha": "333a3d00519590b1ae532b9e620e28d5985a7299",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_N015_REAL_HISTORY_HOST_UI_XML_28_28_EXACT_SHA",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_20261108.md",
-          "blob_sha": "baaf938388193b568dbda46e15f992396ad1edf7",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "ed34f8c7b30185f3542ab58212c55c7301307689",
@@ -79,9 +73,9 @@
       }
     ]
   },
-  "why": "N015 real Activity host+Surface forwarding 28/28 passed after RED_FIX. Shipping read ACL/mount absent",
-  "how": "Only two app files, public suspend workspace APIs in tests and exact final ACL epoch equality",
+  "why": "New in-memory local install read authority core, no host or productive V2 activation",
+  "how": "One source and one JVM T2 test; invalidation and exact pointer/domain epochs; mount requires a separately audited unit",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Scoped B1-B5 production read policy + shipping Activity/N031 host admission and integrated tests; do not reuse fixtures or declare A4 done"
+  "next": "Build local read core and directed tests; B7 then separate mount policy/host unit"
 }
