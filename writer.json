@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_APPLYING_IDENTITY_PROMOTION.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_APPLYING_IDENTITY_PROMOTION.B6.RELEASED",
   "token_hash": "4c357d9b75dc461ad439cf14b8f183a7757c9a9ea2650b59f87496a6c3806b09",
-  "target_head": "4e5134fe08b90bb2f814515d64d997ad6e0da699",
+  "target_head": "0895918851385a411a8b77f726772e253aa2ff37",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 503,
-  "timestamp": 1794100690,
-  "purpose": "B6 canonical APPLYING identity promotion from verified human request; 63 strict JUnit XML",
-  "last_checkpoint": "APPLYING_IDENTITY_PROMOTION_B6"
+  "epoch": 504,
+  "timestamp": 1794100720,
+  "purpose": "B6 transaction identity promotion code saved, 63 directed CI pending",
+  "last_checkpoint": "APPLYING_IDENTITY_PROMOTION_B6_WAIT_CI@0895918851385a411a8b77f726772e253aa2ff37"
 }
