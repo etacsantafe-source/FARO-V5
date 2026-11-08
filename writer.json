@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_LOCAL_REQUEST_POLICY.B7.RELEASED",
-  "token_hash": "e2c11288708d4e4ba8b633f67693b810d116ed8c426b22925ef65e056e099737",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_APPLYING_IDENTITY_PROMOTION.B1B5.20261107",
+  "token_hash": "6f2b470984e3c731e7a248b2b31a7aff9667b3a78a9dc08ca948183fc2e312b6",
   "target_head": "72039fce1ce02256c960dc6dfd06bad45ea37cba",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 500,
-  "timestamp": 1794100440,
-  "purpose": "B7 local one-shot policy 58/58 and all 7 exact-SHA CI success, next transaction-bound Apply and Reality8",
-  "last_checkpoint": "N033C2B4_LOCAL_USER_REQUEST_POLICY_B7_PASS@72039fce1ce02256c960dc6dfd06bad45ea37cba"
+  "epoch": 501,
+  "timestamp": 1794100570,
+  "purpose": "B1-B5 bounded canonical APPROVED->APPLYING tx identity policy, no production execution",
+  "last_checkpoint": "N033C2B4_APPLYING_IDENTITY_PROMOTION_B1B5"
 }
