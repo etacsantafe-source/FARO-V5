@@ -24,6 +24,17 @@ import ar.com.faro.v5.store.reality.RealityStore
  * Lock order: MaterialWriteGate -> owner grant -> Workspace CAS -> Reality8 SQL.
  * Never read Workspace or call owner.policyEpochOrNull inside Reality.run.
  */
+/**
+ * N033C3: inert provenance result, NEVER an Undo grant or cancellation.
+ * A future distinct Review and fresh owner permission are still required.
+ */
+internal data class Planning8UndoOriginPreview(
+    val sourceOperationId: OperationId,
+    val objectId: String,
+    val originalReceipt: ExecutionReceipt,
+    val observedOwnerRevision: Long,
+)
+
 internal class FaroV5Planning8ReviewedApplyHost(
     private val generationId: String,
     private val pinned: ActiveGenerationPointer,
@@ -161,6 +172,89 @@ internal class FaroV5Planning8ReviewedApplyHost(
                 ConversationApplyHostOutcome.Denied("planning_scope_or_review_unavailable")
         }
     }
+
+    /**
+     * Read-only N033C3 provenance inspection. The receipt alone has no object
+     * identity; prove the exact original immutable COMMITTED Review, the
+     * Reality journal/receipt, and the still-unchanged owner object.
+     *
+     * This preview does NOT authorize Undo, schedule a cancellation, create
+     * PREPARED, or expose a Surface/Chat execution port.
+     */
+    internal fun inspectCommittedUndoOriginForTrustedHost(
+        context: ConversationPlanReviewContext,
+    ): Planning8UndoOriginPreview? = runCatching {
+        if (!hostCurrent()) return@runCatching null
+        val loaded = workspace.load(context) ?: return@runCatching null
+        val review = loaded.review
+        if (review.context() != context ||
+            review.state != ConversationPlanReviewState.COMMITTED
+        ) return@runCatching null
+        val transactionId = review.transactionId ?: return@runCatching null
+        val receipt = review.receipt ?: return@runCatching null
+        if (receipt.transactionId != transactionId ||
+            receipt.planFingerprint != review.planFingerprint
+        ) return@runCatching null
+        val attempt = reality.applyAttemptLookup.find(transactionId)
+            ?: return@runCatching null
+        if (attempt.state != ApplyAttemptJournalState.COMMITTED ||
+            attempt.transactionId != transactionId ||
+            attempt.planFingerprint != review.planFingerprint ||
+            reality.executionReceiptLookup.find(transactionId) != receipt
+        ) return@runCatching null
+
+        val plan = PreparedPlanEnvelopeCodec.decode(loaded.envelope())
+        if (plan.planFingerprint != review.planFingerprint) return@runCatching null
+        val node = plan.applyPlan.nodesInTopologicalOrder().singleOrNull()
+            ?: return@runCatching null
+        if (node.dependsOn.isNotEmpty()) return@runCatching null
+        val operation = node.preparedOperation
+        val descriptor = operation.contract
+        if (catalog.current(descriptor.operationId) != descriptor ||
+            descriptor.executionProfile != ExecutionProfile.REALITY_MUTATION ||
+            descriptor.exposure != ContractExposure.BINDABLE
+        ) return@runCatching null
+
+        val snapshot = reality.planningBackup.snapshot()
+        val preview = when (descriptor.operationId) {
+            ReminderOperations.CREATE -> {
+                if (descriptor.capabilityId != ReminderOperations.CAPABILITY_ID ||
+                    descriptor.canonicalExecutor != ReminderOperations.EXECUTOR_ID
+                ) return@runCatching null
+                val original = ReminderCreatePayload.decode(operation.payload)
+                    ?: return@runCatching null
+                val actual = snapshot.reminders.rules.singleOrNull { it.id == original.id }
+                if (!original.enabled || original.linkedMatterId != null ||
+                    actual != original
+                ) return@runCatching null
+                Planning8UndoOriginPreview(
+                    descriptor.operationId, original.id.value, receipt,
+                    snapshot.reminders.revision,
+                )
+            }
+            MonthlyPlanOperations.ITEM_ADD -> {
+                if (descriptor.capabilityId != MonthlyPlanOperations.CAPABILITY_ID ||
+                    descriptor.canonicalExecutor != MonthlyPlanOperations.EXECUTOR_ID
+                ) return@runCatching null
+                val original = MonthlyPlanItemAddPayload.decode(operation.payload)
+                    ?: return@runCatching null
+                val actual = snapshot.monthlyPlan.items.singleOrNull { it.id == original.id }
+                if (original.status != MonthlyPlanItemStatus.PLANNED ||
+                    original.paymentConfirmedAtEpochMillis != null ||
+                    actual != original
+                ) return@runCatching null
+                Planning8UndoOriginPreview(
+                    descriptor.operationId, original.id.value, receipt,
+                    snapshot.monthlyPlan.revision,
+                )
+            }
+            else -> return@runCatching null
+        }
+        // No owner lock crosses Workspace access; a changed object/generation
+        // rejects this preview. A future executable Undo must recheck at SQL.
+        if (!hostCurrent() || reality.planningBackup.snapshot() != snapshot)
+            null else preview
+    }.getOrNull()
 
     /** Close waits for any admitted transaction to finish before policy loss. */
     override fun close() {

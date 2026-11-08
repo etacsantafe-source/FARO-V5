@@ -240,6 +240,50 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
         }
     }
 
+    @Test fun committedReminderUndoOriginRequiresExactReviewAndRealityReceipt() {
+        Case().use { f ->
+            val committed = f.apply() as ConversationApplyHostOutcome.Committed
+            val before = f.reality.planningBackup.snapshot()
+            val preview = f.host.inspectCommittedUndoOriginForTrustedHost(
+                committed.review.context(),
+            )
+            assertNotNull(preview)
+            assertEquals(ReminderOperations.CREATE, preview?.sourceOperationId)
+            assertEquals("remember-appointment", preview?.objectId)
+            assertEquals(committed.receipt, preview?.originalReceipt)
+            assertEquals(before.reminders.revision, preview?.observedOwnerRevision)
+            assertNull(f.host.inspectCommittedUndoOriginForTrustedHost(f.review.context()))
+            assertEquals(before, f.reality.planningBackup.snapshot())
+            assertEquals(committed.receipt, f.reality.executionReceiptLookup.find(f.tx))
+        }
+    }
+
+    @Test fun committedMonthlyUndoOriginRequiresUnmodifiedUnpaidObject() {
+        Case(monthly = true).use { f ->
+            val committed = f.apply() as ConversationApplyHostOutcome.Committed
+            val before = f.reality.planningBackup.snapshot()
+            val preview = f.host.inspectCommittedUndoOriginForTrustedHost(
+                committed.review.context(),
+            )
+            assertNotNull(preview)
+            assertEquals(MonthlyPlanOperations.ITEM_ADD, preview?.sourceOperationId)
+            assertEquals("monthly-rent", preview?.objectId)
+            assertEquals(committed.receipt, preview?.originalReceipt)
+            assertEquals(before.monthlyPlan.revision, preview?.observedOwnerRevision)
+            assertEquals(before, f.reality.planningBackup.snapshot())
+        }
+    }
+
+    @Test fun approvedWithoutReceiptCannotBeAnUndoOriginOrCreateAttempt() {
+        Case().use { f ->
+            val before = f.reality.planningBackup.snapshot()
+            assertNull(f.host.inspectCommittedUndoOriginForTrustedHost(f.review.context()))
+            assertNull(f.reality.applyAttemptLookup.find(f.tx))
+            assertNull(f.reality.executionReceiptLookup.find(f.tx))
+            assertEquals(before, f.reality.planningBackup.snapshot())
+        }
+    }
+
     @Test fun pendingHumanReviewNeverExecutesOrCreatesReceipt() {
         Case(approve = false).use { f ->
             assertTrue(f.apply() is ConversationApplyHostOutcome.Denied)
