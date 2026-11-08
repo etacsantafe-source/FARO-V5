@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
   "reviewed_head": "ce9d8e9ab185f27ce0c6e0fd3a311870f4b9f726",
   "paths": [
@@ -66,8 +66,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "WAIT_CI_AGP9_RETRY_42534927828",
+    "B7": "PENDING_FINAL_AUDIT_AFTER_TERMINAL_XML"
   },
   "last_code_review": {
     "sha": "60250bcede299c9ddb3028bb0b948ac1b700bcdd",
@@ -81,9 +81,9 @@
       }
     ]
   },
-  "why": "AGP9 did not register testV2CoreDevUnitTest under default CI property; previous B6 is not verified, B7 independent RED_FIX permits only workflow property correction",
+  "why": "Workflow-only AGP9 fix 6c3c0947 published; new directed CI 42534927828 still running, not 8/8 certified.",
   "how": "Follow existing v2-core-directed workflow property -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false, no Kotlin source change",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "One workflow-only RED_FIX push, exact compiler+XML 8/8, B7 independent audit, no G15"
+  "next": "Read CI #42534927828 and protocol #42534927840 exact SHA; if green independent B7; if red targeted evidence-driven fix; no G15"
 }
