@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_ORIGIN_INSPECT.B7.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_OWNER_CANCEL.B1B5",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "00c6d09385f0f7eef324a45454b9eae4e8401867",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 536,
+  "epoch": 537,
   "timestamp": 1794137160,
-  "purpose": "B7 exact host12 kernel38 all 6 CI success; next Undo cancellation B1–B5",
+  "purpose": "Undo owner cancellation internal Reality8 B1–B5 research and protocol docs only",
   "last_checkpoint": "N033C3_UNDO_ORIGIN_B7_PASS@00c6d09385f0f7eef324a45454b9eae4e8401867"
 }
