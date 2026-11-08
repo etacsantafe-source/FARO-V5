@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5.DEV_JOURNAL_PREPARE",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.DEV_JOURNAL.B7.PASS.RELEASED",
   "token_hash": "dfea988370e4f25e84ff6d511b5fc7e5ac99f03e7b47782bd2d600f0235e2342",
-  "target_head": "9df313029c2844dcaf97ece464b8c8cd7634c8d5",
+  "target_head": "f050832965629db73d66f24101bef2e0a300ca16",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 591,
-  "timestamp": 1794175800,
-  "purpose": "S3.A5 DEV staged8 journal prepare+recovery B1-B7; V2 productiva OFF; no G15; no night",
-  "last_checkpoint": "S3_A5_TWO_SCOPED_B7_PASS@9df31302"
+  "epoch": 592,
+  "timestamp": 1794177000,
+  "purpose": "A5 third scoped unit DEV STAGED8 journal 5/5 B7 PASS, A5 remains OPEN, cutover/host not wired",
+  "last_checkpoint": "S3_A5_DEV_STAGE8_JOURNAL_B7_PASS@f0508329"
 }
