@@ -58,24 +58,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_DEV_M5_SIGNED_APK_EXACT_SHA",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPED_M5_DEV_APK_SIGNED_COMPILATION",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED_DEV_APK",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "74a37966acfbe48bc549aa090e0ba9b482552be8",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "ea79ce776df2bab711d43c341a58a6b3e91f3a9b",
-    "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
+    "sha": "3010ad5f5cddffc5988d6080a3be5e67d73db480",
+    "unit_id": "S3_A4_N015_DEV_ACTIVITY_MOUNT",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_AUTHORITY_CORE_B7_PASS_20261108.md",
-        "blob_sha": "72ccc987bed46b4a40f3262b3031400703e3aeb9",
+        "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "74a37966acfbe48bc549aa090e0ba9b482552be8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "New DEV Activity native gesture + local read host mount code 3010ad5f awaiting CI, not shipping",
+  "why": "N015 DEV mount code compiled into verified signed isolated apk, no physical click test",
   "how": "Two v2CoreDev files; reuse Application sandbox+read policies, exact pointer/foreground; M5 signed APK directed and protocol guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Audit M5 APK and protocol guard exact SHA before more code, N031 composite next"
+  "next": "N031 three-owner due federation preaudited B1-B5 then permission READY and directed new tests; product V2 still OFF"
 }

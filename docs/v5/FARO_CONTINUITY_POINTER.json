@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 577
+    "expected_release_epoch": 579
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B6_WAIT_CI_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3_A4_N015_DEV_ACTIVITY_MOUNT exact M5 #42518963641 B7 first; then N031 three-owner pending preaudit doc at docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md, B6 only after previous B7 PASS. Productive V2 OFF.",
-  "checkpoint_status": "S3_A4_N015_DEV_ACTIVITY_MOUNT_B6_WAIT_CI_A4_OPEN",
+  "next": "S3_A4_N031_THREE_OWNER_PENDING_FEDERATION: B1-B5 already at docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md, open new permit after B7 DEV PASS. Need 3 owner real read union + accurate partial coverage. Shipping V2 remains OFF; G15 tests final S3.A5.",
+  "checkpoint_status": "S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_A4_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B6_WAIT_CI_20261108.md",
+  "last_handoff": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_20261108.md",
   "last_code_sha": "3010ad5f5cddffc5988d6080a3be5e67d73db480",
   "last_ci_run_id": 42518963641,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -1711,7 +1711,7 @@
     "physical": "NOT_RUN"
   },
   "closure_gate": {
-    "status": "OPEN_DEV_ACTIVITY_MOUNT_WAIT_CI",
+    "status": "OPEN_AFTER_DEV_ACTIVITY_MOUNT_APK_PASS",
     "evidence_doc": "docs/s3-night/S3_A4_CLOSURE_GATE_READ_ONLY_20261108.md",
     "blob_sha": "cae0415dd475ccf1084cf651de3b855b89e3da21",
     "activity_surface": "B7_PASS_20_20",
@@ -1722,14 +1722,14 @@
     "shipping_read_policy": "CORE_EXISTS_BUT_NOT_MOUNTED",
     "shipping_v2": false,
     "physical": "NOT_RUN",
-    "writer_release_epoch": 577,
+    "writer_release_epoch": 579,
     "local_read_core_code_sha": "ea79ce776df2bab711d43c341a58a6b3e91f3a9b",
     "local_read_core_ci_run_id": 42518057895,
     "local_read_core": "B7_PASS_SCOPED_JVM_10_10",
     "dev_activity_mount_sha": "3010ad5f5cddffc5988d6080a3be5e67d73db480",
     "dev_activity_mount_run_id": 42518963641,
-    "dev_activity_mount": "WAIT_CI_NOT_G15",
-    "n031_triple_preaudit": "B1_B5_DOCUMENTED_B6_BLOCKED"
+    "dev_activity_mount": "B7_PASS_SCOPED_DEV_APK_NOT_PHYSICAL",
+    "n031_triple_preaudit": "B1_B5_READY_FOR_NEXT_PERMIT"
   },
   "n031_pre_audit": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md"
 }
