@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
   "reviewed_head": "7ab67e1bcecda45e188ca8e055debfab317551fc",
   "paths": [
@@ -66,8 +66,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "WAIT_CI_HOST_REALITY8_APP8_XML_NOT_VERIFIED",
+    "B7": "PENDING_INDEPENDENT_AUDIT_AFTER_TERMINAL_CI"
   },
   "last_code_review": {
     "sha": "a7eeccdeed2f5f3bf36754d793221a4c05ad788f",
@@ -81,9 +81,9 @@
       }
     ]
   },
-  "why": "Mount canonical Reality8 cutover/recovery within the dedicated V2CoreDevAuthority, explicit DEV user upgrade only, preserve Reality7 and stale-session ACL revocation",
+  "why": "Functional host mount commit 60250bce published, but exact Android build/JUnit XML and guard still IN_PROGRESS; must not declare PASS before results.",
   "how": "DEV-only durable full origin (generation+sequence) published before StageOwner; same shared gate, exact journal 8, canonical CutoverOwner, no automatic promotion on Chat. Additional adversarial B5 origin evidence.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 allowed only with immutable origin sequence witness, strict crash/ABA guards and new exact CI XML"
+  "next": "Verify Actions #42534451918 and protocol #42534452161 at source SHA 60250bce; if green B7, if red targeted RED_FIX with new writer CAS"
 }
