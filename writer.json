@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B1B5.RELEASED",
-  "token_hash": "52a1f2c1abfb31e8635a39d881530e90c7de33a242c123abae571563c9c559f5",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B6.20261107",
+  "token_hash": "7ef6134d72674a7dab775902b3da3e193e2c2c2ef9267383c01ad5b970291ea6",
   "target_head": "50921d3a1a9c15256edf76be0ebcba80bb120105",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 524,
-  "timestamp": 1794103460,
-  "purpose": "N033C3 receipt-only B1-B5 scoped READY and guard #42436753241 success",
-  "last_checkpoint": "N033C3_RECEIPT_ONLY_B1B5_READY@50921d3a1a9c15256edf76be0ebcba80bb120105"
+  "epoch": 525,
+  "timestamp": 1794103550,
+  "purpose": "B6 one-shot receipt-only Workspace reconciliation no Reality Apply/retry, real crash SQLite tests",
+  "last_checkpoint": "N033C3_RECEIPT_ONLY_B6"
 }
