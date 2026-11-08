@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 530
+    "expected_release_epoch": 536
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Execute preflight for 3 exact paths; B6 READ_ONLY Undo origin inspection then exact 12/12 host + kernel, B7. Undo compensation still pending; A4 open.",
-  "checkpoint_status": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_READY_SCOPED_CODE_PENDING",
+  "next": "Start N033C3 Undo owner cancellation B1-B5, enforce new Review/receipt/retry; no previous tests repeated; A4 open",
+  "checkpoint_status": "S3_A4_N033C3_UNDO_ORIGIN_B7_PASS_SCOPED_EXECUTE_PENDING",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-  "last_code_sha": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
-  "last_ci_run_id": 42436932481,
+  "last_handoff": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
+  "last_code_sha": "52455e3d43dc8e892452847c8341e1f0d8d2a0d0",
+  "last_ci_run_id": 42491748066,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "N033C3_RECEIPT_ONLY_HOST9_9_KERNEL38_38_EXACT_SHA_PASS",
+  "last_ci_conclusion": "N033C3_UNDO_ORIGIN_HOST12_12_KERNEL38_38_EXACT_SHA_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1576,13 +1576,24 @@
   },
   "n033c3_undo_origin": {
     "unit": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
-    "preaudit": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
-    "baseline_sha": "a88e63a4b09155aac04e972c695f439721a409e0",
-    "permit": "READY_SCOPED_3_PATHS",
-    "B6": "NOT_RUN",
-    "B7": "NOT_RUN",
+    "preaudit": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
+    "code_sha": "52455e3d43dc8e892452847c8341e1f0d8d2a0d0",
+    "b7": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
+    "B7": "PASS_SCOPED_READ_ONLY",
+    "CI": {
+      "host": 42491748066,
+      "host_xml": "12/12",
+      "kernel_xml": "38/38",
+      "guard": 42491748096,
+      "home": 42491748095,
+      "n015": 42491748133,
+      "v2core": 42491748082,
+      "apk": 42491748114,
+      "all": "SUCCESS"
+    },
     "undo_execute": "NOT_IMPLEMENTED",
     "a4": "OPEN",
-    "physical": "NOT_RUN"
+    "physical": "NOT_RUN",
+    "v2_productive": "OFF"
   }
 }
