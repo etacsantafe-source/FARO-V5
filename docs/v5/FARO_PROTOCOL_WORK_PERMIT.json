@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY",
-  "reviewed_head": "e49de432796910c302ec7db0c93bd834c674c320",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8LocalUserRequestPolicy.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8LocalUserRequestPolicyT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-local-user-request-policy-directed.yml"
-  ],
+  "reviewed_head": "6f1659a40bf6de691e10f74ad108a92117b14903",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_58_58",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B7_PASS_20261107.md",
+          "blob_sha": "f441bae2933bd4724dfc33bd33d2749556a1b9ff",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "3aba5ebac7a60358aaf049cac269a69c84ab0e7a",
+    "sha": "6f1659a40bf6de691e10f74ad108a92117b14903",
     "result": "PASS",
-    "unit_id": "S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE",
+    "unit_id": "S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
-        "blob_sha": "620416a4ad0d1de494846c44e3f18eab0902260b",
+        "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B7_PASS_20261107.md",
+        "blob_sha": "f441bae2933bd4724dfc33bd33d2749556a1b9ff",
         "marker": "## B7"
       }
     ]
   },
-  "why": "One-shot locally verified human request policy and canonical scope extraction, no transactional ACL certification",
-  "how": "4 exact paths; 7 new + historical 51 = 58/58 directed XML; app shipping V2 OFF",
+  "why": "Single host event admission tied to canonical APPROVED Review and technical sandbox 58/58; transaction-bound APPLYING and Reality8 COMMIT not yet implemented",
+  "how": "58/58 strict directed #42432587747 SUCCESS, six other exact-SHA CI SUCCESS, guarded B7 PASS_SCOPED",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 strict helper and preapply local policy; B7 then APPLYING/fence/Reality8"
+  "next": "NEW B1–B5 S3_A4_N033C2B4_TRANSACTION_BOUND_POLICY_AND_REALITY8, then N033C3 Undo/retry and A4 close"
 }
