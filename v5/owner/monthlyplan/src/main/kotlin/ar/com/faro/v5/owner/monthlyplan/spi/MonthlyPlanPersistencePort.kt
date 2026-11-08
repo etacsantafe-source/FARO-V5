@@ -30,3 +30,13 @@ object MonthlyPlanOwnerDependency {
             observedValue = DependencyStampValue("revision:" + snapshot.revision),
         )
 }
+
+/** Internal compensation port, not a Finance payment or user-facing cancellation. */
+interface MonthlyPlanCancellationPersistencePort : MonthlyPlanSnapshotReadApi {
+    fun cancelItem(
+        original: MonthlyPlanItem,
+        cancelledAtEpochMillis: Long,
+        expectedOwnerRevision: Long,
+        transactionScope: RealityTransactionScope,
+    ): MonthlyPlanSnapshot
+}

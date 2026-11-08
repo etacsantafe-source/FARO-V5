@@ -30,3 +30,13 @@ object ReminderOwnerDependency {
             observedValue = DependencyStampValue("revision:" + snapshot.revision),
         )
 }
+
+/** Internal cancellation SPI; a distinct future Undo binding must grant authority. */
+interface ReminderCancellationPersistencePort : ReminderSnapshotReadApi {
+    fun cancelRule(
+        original: ReminderRule,
+        cancelledAtEpochMillis: Long,
+        expectedOwnerRevision: Long,
+        transactionScope: RealityTransactionScope,
+    ): ReminderSnapshot
+}

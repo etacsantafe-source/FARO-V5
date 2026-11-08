@@ -44,3 +44,33 @@ internal fun interface RealityPlanningApplyInsertPort {
         transactionScope: RealityTransactionScope,
     ): RealityPlanningBackupSnapshot
 }
+
+/**
+ * N033C3: reversal is a NEW same-Reality-transaction effect, never a
+ * historical SQL ROLLBACK or an operation authorized by a prior receipt.
+ * This primitive is INTERNAL, not exposed to the Android/Chat host.
+ */
+internal sealed interface RealityPlanningApplyCancel {
+    val expectedOwnerRevision: Long
+    val cancelledAtEpochMillis: Long
+
+    data class Rule(
+        val original: ReminderRule,
+        override val cancelledAtEpochMillis: Long,
+        override val expectedOwnerRevision: Long,
+    ) : RealityPlanningApplyCancel
+
+    data class MonthlyItem(
+        val original: MonthlyPlanItem,
+        override val cancelledAtEpochMillis: Long,
+        override val expectedOwnerRevision: Long,
+    ) : RealityPlanningApplyCancel
+}
+
+/** The caller must have a currently active REAL Reality Apply transaction scope. */
+internal fun interface RealityPlanningApplyCancelPort {
+    fun cancel(
+        command: RealityPlanningApplyCancel,
+        transactionScope: RealityTransactionScope,
+    ): RealityPlanningBackupSnapshot
+}

@@ -66,8 +66,10 @@ import ar.com.faro.v5.owner.matters.spi.MatterPersistencePort
 import ar.com.faro.v5.owner.reminders.api.*
 import ar.com.faro.v5.owner.monthlyplan.api.*
 import ar.com.faro.v5.owner.reminders.spi.ReminderPersistencePort
+import ar.com.faro.v5.owner.reminders.spi.ReminderCancellationPersistencePort
 import ar.com.faro.v5.owner.reminders.spi.ReminderOwnerDependency
 import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanPersistencePort
+import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanCancellationPersistencePort
 import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanOwnerDependency
 import java.time.LocalDate
 import java.time.LocalTime
@@ -224,6 +226,10 @@ class RealityStore(
     internal val planningApplyInsert: RealityPlanningApplyInsertPort =
         RealityPlanningApplyInsertPort(::insertPlanningDuringApply)
 
+    /** N033C3 internal cancellation lease shares the active Apply SQL transaction. */
+    internal val planningApplyCancel: RealityPlanningApplyCancelPort =
+        RealityPlanningApplyCancelPort(::cancelPlanningDuringApply)
+
     /**
      * N033B2: typed owner SPI adapters, INTERNAL to Reality and not installed
      * in any operation registry, Chat host or Android entry point.
@@ -257,6 +263,41 @@ class RealityStore(
                     RealityPlanningStageInsert.MonthlyItem(item, expectedOwnerRevision),
                     transactionScope,
                 ).monthlyPlan
+        }
+
+    /** N033C3 separate internal owner cancellation ports, NOT registered bindings. */
+    internal val reminderCancellation: ReminderCancellationPersistencePort =
+        object : ReminderCancellationPersistencePort {
+            override fun read(): ReminderSnapshot = planningBackup.snapshot().reminders
+
+            override fun cancelRule(
+                original: ReminderRule,
+                cancelledAtEpochMillis: Long,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): ReminderSnapshot = planningApplyCancel.cancel(
+                RealityPlanningApplyCancel.Rule(
+                    original, cancelledAtEpochMillis, expectedOwnerRevision,
+                ),
+                transactionScope,
+            ).reminders
+        }
+
+    internal val monthlyPlanCancellation: MonthlyPlanCancellationPersistencePort =
+        object : MonthlyPlanCancellationPersistencePort {
+            override fun read(): MonthlyPlanSnapshot = planningBackup.snapshot().monthlyPlan
+
+            override fun cancelItem(
+                original: MonthlyPlanItem,
+                cancelledAtEpochMillis: Long,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): MonthlyPlanSnapshot = planningApplyCancel.cancel(
+                RealityPlanningApplyCancel.MonthlyItem(
+                    original, cancelledAtEpochMillis, expectedOwnerRevision,
+                ),
+                transactionScope,
+            ).monthlyPlan
         }
 
     /**
@@ -2084,6 +2125,135 @@ class RealityStore(
                     after.reminders == before.reminders
             }
         ) { "Planning write changed another owner or missed revision" }
+        return after
+    }
+
+    /**
+     * N033C3 INTERNAL ONLY. Requires the exact active Apply SQL lease and
+     * material gate. It does not begin or commit a separate transaction.
+     */
+    private fun cancelPlanningDuringApply(
+        command: RealityPlanningApplyCancel,
+        transactionScope: RealityTransactionScope,
+    ): RealityPlanningBackupSnapshot = withMaterialAdmission { synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        check(activeApplyScope === transactionScope) {
+            "Undo cancellation transaction scope is stale"
+        }
+        cancelPlanningWithinCurrentTransaction(command)
+    } }
+
+    /** Change only one canonical owner row + revision; preserve all history. */
+    private fun cancelPlanningWithinCurrentTransaction(
+        command: RealityPlanningApplyCancel,
+    ): RealityPlanningBackupSnapshot {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Undo cancellation requires isolated Reality schema8"
+        }
+        require(command.expectedOwnerRevision in 0 until Long.MAX_VALUE)
+        val before = readPlanningSnapshot()
+        val stateTable = when (command) {
+            is RealityPlanningApplyCancel.Rule -> {
+                val original = command.original
+                check(before.reminders.revision == command.expectedOwnerRevision) {
+                    "stale Reminder undo owner revision"
+                }
+                check(original.enabled && original.linkedMatterId == null &&
+                    before.reminders.rules.singleOrNull { it.id == original.id } == original &&
+                    before.reminders.occurrences.none { it.ruleId == original.id }
+                ) { "Reminder undo original changed or has dependent occurrences" }
+                check(command.cancelledAtEpochMillis > original.updatedAtEpochMillis) {
+                    "Reminder undo cancellation timestamp must advance"
+                }
+                connection.prepare("""
+                    UPDATE reminder_rule SET enabled=0, updated_at_epoch_millis=?
+                    WHERE rule_id=? AND enabled=1 AND updated_at_epoch_millis=?
+                """.trimIndent()).use { st ->
+                    st.bindLong(1, command.cancelledAtEpochMillis)
+                    st.bindText(2, original.id.value)
+                    st.bindLong(3, original.updatedAtEpochMillis)
+                    st.step()
+                }
+                "reminder_state"
+            }
+            is RealityPlanningApplyCancel.MonthlyItem -> {
+                val original = command.original
+                check(before.monthlyPlan.revision == command.expectedOwnerRevision) {
+                    "stale MonthlyPlan undo owner revision"
+                }
+                check(original.status == MonthlyPlanItemStatus.PLANNED &&
+                    original.paymentConfirmedAtEpochMillis == null &&
+                    before.monthlyPlan.items.singleOrNull { it.id == original.id } == original
+                ) { "MonthlyPlan undo original changed, canceled or paid" }
+                check(command.cancelledAtEpochMillis > original.updatedAtEpochMillis) {
+                    "MonthlyPlan undo cancellation timestamp must advance"
+                }
+                connection.prepare("""
+                    UPDATE monthly_plan_item SET status='CANCELLED',
+                        updated_at_epoch_millis=?
+                    WHERE item_id=? AND status='PLANNED'
+                        AND payment_confirmed_at_epoch_millis IS NULL
+                        AND updated_at_epoch_millis=?
+                """.trimIndent()).use { st ->
+                    st.bindLong(1, command.cancelledAtEpochMillis)
+                    st.bindText(2, original.id.value)
+                    st.bindLong(3, original.updatedAtEpochMillis)
+                    st.step()
+                }
+                "monthly_plan_state"
+            }
+        }
+        connection.prepare("SELECT changes()").use { st ->
+            check(st.step() && st.getLong(0) == 1L) {
+                "Undo owner conditional UPDATE did not affect exactly one row"
+            }
+        }
+        connection.prepare(
+            "UPDATE $stateTable SET revision=revision+1 " +
+                "WHERE singleton_id=1 AND revision=?"
+        ).use { st ->
+            st.bindLong(1, command.expectedOwnerRevision)
+            st.step()
+        }
+        connection.prepare("SELECT changes()").use { st ->
+            check(st.step() && st.getLong(0) == 1L) {
+                "Undo owner revision CAS failed"
+            }
+        }
+        val after = readPlanningSnapshot()  // PLN1, owner rows and FK validation pre-COMMIT
+        check(readForeignKeysHealthy()) { "Undo cancellation broke foreign keys" }
+        when (command) {
+            is RealityPlanningApplyCancel.Rule -> {
+                val expected = before.reminders.copy(
+                    revision = before.reminders.revision + 1,
+                    rules = before.reminders.rules.map { original ->
+                        if (original.id == command.original.id)
+                            original.copy(enabled = false,
+                                updatedAtEpochMillis = command.cancelledAtEpochMillis)
+                        else original
+                    },
+                )
+                check(after.reminders == expected &&
+                    after.monthlyPlan == before.monthlyPlan
+                ) { "Undo cancellation modified another Planning owner" }
+            }
+            is RealityPlanningApplyCancel.MonthlyItem -> {
+                val expected = before.monthlyPlan.copy(
+                    revision = before.monthlyPlan.revision + 1,
+                    items = before.monthlyPlan.items.map { original ->
+                        if (original.id == command.original.id)
+                            original.copy(status = MonthlyPlanItemStatus.CANCELLED,
+                                updatedAtEpochMillis = command.cancelledAtEpochMillis)
+                        else original
+                    },
+                )
+                check(after.monthlyPlan == expected &&
+                    after.reminders == before.reminders
+                ) { "Undo cancellation modified another Planning owner" }
+            }
+        }
         return after
     }
 
