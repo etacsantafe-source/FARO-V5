@@ -2,20 +2,17 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
-  "reviewed_head": "0f5d42517c271eaa0122c0aab98dea9d014340ff",
+  "reviewed_head": "0fec033d21ec167926d29f1e00fa888bc1b07f60",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8UndoReviewedApplyHostT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c3-undo-execute-review-host-directed.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8UndoReviewedApplyHostT2Test.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
-          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
           "marker": "## B1"
         }
       ]
@@ -24,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
-          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
           "marker": "## B2"
         }
       ]
@@ -34,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
-          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
           "marker": "## B3"
         }
       ]
@@ -44,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
-          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
           "marker": "## B4"
         }
       ]
@@ -54,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
-          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
           "marker": "## B5"
         }
       ]
@@ -64,20 +61,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b",
-    "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
-    "result": "PASS",
+    "sha": "0fec033d21ec167926d29f1e00fa888bc1b07f60",
+    "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
-        "blob_sha": "398dfa86f6165188c782cf8a1cf61bf9a5caf3bf",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_RED_FIX_20261108.md",
+        "blob_sha": "33291fdb4f0b9fb864269c0b0bbf0d3f156c41b2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "New independent human-approved Undo Review needs sealed COMMITTED source validation and same scoped host lease before Reality8 cancellation",
-  "how": "4 exact paths; reuse existing creator grant/Apply and new Undo binding, 6 new real SQLite JVM tests, no production UI",
+  "why": "Directed host test failed Kotlin UNRESOLVED_IMPORT at line15, fix test import only, same unit",
+  "how": "Remove erroneous kernel.apply SingleProcessMaterialWriteGate import, contracts wildcard already imports class; rerun exact CI",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 dormant host/source review integration then B7 exact SHA"
+  "next": "B6 redfix import then B7 exact six host XML, regressions"
 }
