@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.PREAUDIT.RELEASED",
-  "token_hash": "f5e9d3a8d70878c207a81add307edc5c0e83fa22425978332c661208566eaee5",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N015.DEV_ACTIVITY_MOUNT.B7",
+  "token_hash": "be51c625c6e0802f3376c52e8b3c5de9c456e04c7bbcedc2c7f94bba9305f45a",
   "target_head": "bdd0728e3e3d2e57433a6ad51a41909ede626e54",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 577,
-  "timestamp": 1794168986,
-  "purpose": "N031 B1-B5 documented while previous DEV mount B6 CI pending; no competing writer",
-  "last_checkpoint": "S3_A4_N031_THREE_OWNER_PENDING_B1_B5@bdd0728e"
+  "epoch": 578,
+  "timestamp": 1794169179,
+  "purpose": "Record M5 signed DEV APK PASS scoped + guard for N015 Activity mount B7, then N031 next",
+  "last_checkpoint": "S3_A4_DEV_ACTIVITY_MOUNT_B7_START@bdd0728e"
 }
