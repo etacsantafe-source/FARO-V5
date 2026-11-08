@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_FRESH_PLANNING8_STAGED_OWNER",
   "reviewed_head": "91d135f3b8f47880ba63067d0bdab8c40fcadbf8",
   "paths": [
@@ -59,24 +59,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_FIVE_REAL_SQLITE_FRESH_STAGE8_XML_5_5",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "0f477e23f5693a82bd974be06332190355189836",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
-    "unit_id": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
+    "sha": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
+    "unit_id": "S3_A5_FRESH_PLANNING8_STAGED_OWNER",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "490d09e356ce78e19632223fb9f003e72ba3be50",
+        "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "0f477e23f5693a82bd974be06332190355189836",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Need fresh Planning8 STAGED owner, not active migration; N033C2A only fixture",
-  "how": "Compose existing canonical stage7 owner + internal stage8 validator with full pointer freeze",
+  "why": "Fresh quarantined Reality8 stage owner 5/5 B7 PASS; A5 DEV cutover and host UI not yet implemented",
+  "how": "New stage8 owner composes B7-certified stage7+internal stage8; exact pointer before/after; no ACTIVE mutation",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 new real SQLite stage8 tests 5/5 then B7; no pointer switch or G15"
+  "next": "S3.A5 staged8 DEV lifecycle cutover separate B1-B5; maintain V2 OFF; physical once last"
 }
