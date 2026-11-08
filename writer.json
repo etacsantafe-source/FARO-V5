@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.CI.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.B7",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 554,
+  "epoch": 555,
   "timestamp": 1794137160,
-  "purpose": "Workflow-only B7 validation new6+old12+kernel38; no runtime diff; writer released during Actions",
+  "purpose": "Final B7 exact SHA #42499635004 6+12+38 PASS, guard #42499635018 SUCCESS; checkpoint",
   "last_checkpoint": "N033C3_UNDO_REVIEW_HOST_B7_WAIT_CI@035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015"
 }
