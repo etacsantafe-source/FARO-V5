@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.DEV.UI.CI_WAIT.RELEASED",
-  "token_hash": "7ba1df628e94b5a2e02dabf321416bca5979fa432153c5ac51a8a9a18470bd1f",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.PRESENTATION.RED_FIX",
+  "token_hash": "582aa40981db79d962963eb14d09c286b8bf4a962a815b9dc32e136692cf68e",
   "target_head": "77d5bfa19bf9bc191d44b364a45955e03672f5e2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 584,
-  "timestamp": 1794170349,
-  "purpose": "Code committed; CI M5+six-renderer+guard pending; A4 remains OPEN",
-  "last_checkpoint": "S3_A4_N031_DEV_UI_CODE@77d5bfa1_CI_PENDING"
+  "epoch": 585,
+  "timestamp": 1794170580,
+  "purpose": "RED_FIX unsupported :app:testV2CoreDevUnitTest; move pure presentation + tests to canonical main/test paths",
+  "last_checkpoint": "N031_DEV_UI_TASK_NOT_FOUND_RED_FIX@77d5bfa1"
 }
