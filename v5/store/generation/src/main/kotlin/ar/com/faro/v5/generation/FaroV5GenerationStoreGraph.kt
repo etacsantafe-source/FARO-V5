@@ -170,6 +170,30 @@ class FaroV5GenerationStoreGraph private constructor(
 
 
         /**
+         * A5: active Reality8 host handoff. This never stages, migrates, activates,
+         * authenticates a human or admits any UI/Apply operation. Callers MUST
+         * provide an independently certified host; false denies before SQLite.
+         * The proven N033C1 opener pins the full durable generation sequence.
+         */
+        @JvmStatic
+        fun openActivePlanning8ForCertifiedHost(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expectedPointerSequence: Long,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            materialWriteGate: MaterialWriteGate,
+            v2HostCertified: Boolean,
+        ): FaroV5GenerationStoreGraph {
+            check(v2HostCertified) {
+                "Active Reality8 is forbidden before explicit host certification"
+            }
+            return reopenVerifiedActivePlanning8(
+                storageRoot, staged, expectedPointerSequence, planVerifier,
+                materialWriteGate,
+            )
+        }
+
+        /**
          * N033C2B2: host-accessible *readiness only*. Never expose the active
          * mutable graph, migrate an active schema, grant ACL or switch pointers.
          * The fenced internal opener performs exact schema8/WAL checks and is

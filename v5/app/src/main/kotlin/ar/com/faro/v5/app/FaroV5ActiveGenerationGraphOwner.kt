@@ -63,6 +63,52 @@ object FaroV5ActiveGenerationGraphOwner {
 
 
     /**
+     * A5: exact-schema8 / full-pointer host opener for a previously certified
+     * DEV or product host. NOT a fallback of open(), not an activation, and
+     * does not authorize person/domain reads or material writes.
+     *
+     * The ordinary shipping open() keeps its schema7 admission unchanged.
+     */
+    internal fun openExistingPlanning8ForCertifiedHost(
+        storageRoot: Path,
+        expectedGenerationId: String,
+        expectedPointerSequence: Long,
+        materialWriteGate: MaterialWriteGate,
+        v2HostCertified: Boolean,
+    ): FaroV5GenerationStoreGraph {
+        check(v2HostCertified) { "Active Reality8 requires certified host" }
+        require(expectedGenerationId.isNotBlank() && expectedPointerSequence > 0L)
+        val expected = StorageGenerationId(expectedGenerationId)
+        val pointer = FileActiveGenerationPointer(storageRoot)
+        val pinned = checkNotNull(pointer.read()) { "Active Reality8 pointer missing" }
+        check(pinned.generationId == expected &&
+            pinned.sequence == expectedPointerSequence) {
+            "Active Reality8 full pointer mismatch"
+        }
+        val staged = FileStorageGenerationLayout(storageRoot).requireStaged(expected)
+        check(ExistingGenerationFormatReader.requireAndRead(staged) ==
+            GenerationStoreFormat.WORKSPACE_V2) { "Active Reality8 requires V2 marker" }
+        val graph = FaroV5GenerationStoreGraph.openActivePlanning8ForCertifiedHost(
+            storageRoot, staged, expectedPointerSequence,
+            CanonicalPreparedPlanEnvelopeVerifier, materialWriteGate,
+            v2HostCertified = true,
+        )
+        try {
+            check(pointer.read() == pinned && graph.generationId == expectedGenerationId &&
+                graph.workspace != null &&
+                graph.reality.maintenance.inspect().schemaVersion == 8 &&
+                graph.verifyHealthy() && pointer.read() == pinned) {
+                "Active Reality8 host graph health or identity changed"
+            }
+            return graph
+        } catch (failure: Throwable) {
+            graph.close()
+            throw failure
+        }
+    }
+
+
+    /**
      * N033C2B2: one-shot schema8 readiness of an ALREADY active V2 candidate.
      * No runtime graph, ACL, Review or Apply authority escapes. This method
      * is not wired into shipping CompositionRoot; V2_ACTIVE_ENABLED stays false.
