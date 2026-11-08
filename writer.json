@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3_RECEIPT_ONLY_RECOVERY.B7.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_ORIGIN_INSPECT.B1B5",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "a88e63a4b09155aac04e972c695f439721a409e0",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 528,
+  "epoch": 529,
   "timestamp": 1794137160,
-  "purpose": "B7 N033C3 receipt-only actual 9/9 + kernel38/38 exact SHA, next Undo contract-owner audit",
+  "purpose": "N033C3 Undo provenance B1-B5 preaudit scoped, docs-only; no code",
   "last_checkpoint": "N033C3_RECEIPT_ONLY_B7_PASS@a88e63a4b09155aac04e972c695f439721a409e0"
 }
