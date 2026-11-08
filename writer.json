@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.B6.RELEASED",
   "token_hash": "2bbd3cd1e80a79b8c921e6e2698828ae7f8cbbb0b5bf748cf98e2bb947dc78c2",
-  "target_head": "f7b14709d3cdfb43aa53e3166850635cabadfb69",
+  "target_head": "986905d856f62edc2f00ef4ffefd43438b79b516",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 483,
-  "timestamp": 1794096900,
-  "purpose": "B6 grant-owner scoped commit lease + 4 concurrency negative tests, directed CI",
-  "last_checkpoint": "A4_GRANT_LEASE_B6_IN_PROGRESS"
+  "epoch": 484,
+  "timestamp": 1794096960,
+  "purpose": "B6 scoped grant-commit lease at 986905d8, directed CI 44/44 pending; release writer during CI",
+  "last_checkpoint": "A4_GRANT_COMMIT_LEASE_B6_WAIT_CI@986905d856f62edc2f00ef4ffefd43438b79b516"
 }
