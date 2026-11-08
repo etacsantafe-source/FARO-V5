@@ -1,0 +1,7 @@
+# FARO V5 — S3.A5 post-cutover integración: B6 DIAG_WAIT_CI
+Fecha 2026-11-08 AR. Unidad `S3_A5_POST_CUTOVER_DEV_INTEGRATION`, writer epoch600, rama `work/s3-night-20261102`.
+- Cierres previos A5 B7 individuales 6/6 + 5/5 + 5/5 + 4/4 + 8/8 permanecen aprobados, no repetir.
+- Test integrado nuevo inicial `03f5af2a`: CI `#42536498612` FAILURE compile suspend; correction `3eda9c27`: CI `#42536901243` FAILURE runtime `4 tests completed, 2 failed`; exceptions `oldSevenSearchHitAndContentCannotAppearInFreshEight` AssertionFailedError y `fourRealOwnerSearchAndDurableChatWorkTogetherOnlyAfterFreshEight` IllegalStateException, sin stack trace de JUnit. Guard #42536901256 SUCCESS. Causa todavía no establecida: NO inventar regresión ni PASS.
+- B7 retro `docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RUNTIME_RED_DIAGNOSTIC_20261108.md`, nuevo commit test/workflow `3012c682f558b83e360eb10246176e1a1fdbee60`: corrige firma no-void del quinto caso ABA, añade impresión XML de <failure>/<error> incluso si Gradle falla, preservando exit-code rojo.
+- CI actual `#42537575168` IN_PROGRESS; guard `#42537575211`. Esperado `tests=5 failures=0 errors=0 skipped=0` (si no, B6 rojo). Si failure leer EXACTOS logs `S3_A5_TEST_DIAGNOSTIC_CASE` y diagnosticar fuente antes de código. Solo entonces nuevo B5/fix y writer CAS propio. No reducir número de tests ni cambiar aserciones por conveniencia.
+- S3.A5 OPEN; A3 aprobación pendiente para Guardados; G15 físico X01–X12 solo final; V2 productiva OFF; S4/Auto/Noche OFF. 
