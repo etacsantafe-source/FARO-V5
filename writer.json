@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B1B5.RELEASED",
-  "token_hash": "e45a8ac7743ea07aef53a942b766244232f5a77ff963b3598e2ae91c2f06ac40",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B6.20261107",
+  "token_hash": "29183c64c0b7d1c96566eeb8912685d72bb65f222658f6b3342d3fd071b8b098",
   "target_head": "766fcf1bbd91a90a317f31e2a9ea7b0c03413bf5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 508,
-  "timestamp": 1794101430,
-  "purpose": "B1–B5 dormant Reality8 transaction host strict scoped READY, release before B6",
-  "last_checkpoint": "REALITY8_TRANSACTION_HOST_B1B5_READY@766fcf1bbd91a90a317f31e2a9ea7b0c03413bf5"
+  "epoch": 509,
+  "timestamp": 1794101550,
+  "purpose": "B6 dormant certified local host executes canonical Review and Planning8 official Reality8 bindings within one owner lease and SQL COMMIT",
+  "last_checkpoint": "REALITY8_TRANSACTION_HOST_B6"
 }
