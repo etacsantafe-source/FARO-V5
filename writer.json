@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_STATIC_REDFIX",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_REDFIX.RELEASED",
   "token_hash": "2986e723ca1c251622b4ba43ef45e4897cb351ead9e726576bb445b6f04bb1709",
-  "target_head": "e2bd195cb17ad114ace884324e9bda9a7936f7cc",
+  "target_head": "7184dd702b8dce0977f4640bf81489e3c3f03200",
   "target_branch": "work/s3-night-20261102",
   "epoch": 560,
-  "timestamp": 1794162837,
-  "purpose": "Evidence-based static test-visibility RED_FIX: app test calls internal store methods; doc and targeted fix only",
-  "last_checkpoint": "N031_REALITY8_DUE_HOST_STATIC_REDFIX@e2bd195cb17ad114ace884324e9bda9a7936f7cc"
+  "timestamp": 1794163046,
+  "purpose": "N031 host test public maintenance RED_FIX pushed, CI pending; writer released",
+  "last_checkpoint": "N031_REALITY8_DUE_HOST_TEST_REDFIX_WAIT_CI@7184dd702b8dce0977f4640bf81489e3c3f03200"
 }
