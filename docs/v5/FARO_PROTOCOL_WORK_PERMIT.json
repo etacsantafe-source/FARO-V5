@@ -2,21 +2,18 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
-  "reviewed_head": "d7b25d37b7f241eb0f4fe1feb21cdf8bb64b2bbb",
+  "reviewed_head": "90056b3662f88fec428b7c53e2f808b307280811",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBindingT2Test.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
-    ".github/workflows/faro-v5-s3-a4-n015-real-host-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
-          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
           "marker": "## B1"
         }
       ]
@@ -25,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
-          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
           "marker": "## B2"
         }
       ]
@@ -35,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
-          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
           "marker": "## B3"
         }
       ]
@@ -45,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
-          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
           "marker": "## B4"
         }
       ]
@@ -55,8 +52,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B1_B5_20261108.md",
-          "blob_sha": "ac98e87c7a958c539b5e9d60c3897ec16b8176b6",
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_REDFIX_B1_B5_20261108.md",
+          "blob_sha": "e66bda7f2587ae705dd605c4eb76854b51c3e4ff",
           "marker": "## B5"
         }
       ]
@@ -65,20 +62,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "8bea3d101643c1e72f881972a40804f9c11ecbd4",
-    "unit_id": "S3_A4_N015_ACTIVITY_AUTHORIZED_SURFACE",
-    "result": "PASS",
+    "sha": "d167d550841c223fb9b4045539c976190b2f0a8a",
+    "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_20261108.md",
-        "blob_sha": "910e847a031d76b9e0ffcdd310eed34b9ec6f9ae",
+        "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_RED_FIX_20261108.md",
+        "blob_sha": "24838d3e4909dc26e0668bc557466f12b77cb562",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N015 real Reality+Workspace history requires dormant read host with two independent owner ACLs and UI optional forwarding",
-  "how": "Five bounded paths, 6 SQLite tests + 11 existing regressions, exact XML+guard",
+  "why": "Initial CI red invisible Workspace internal create at app test; static host ACL epoch postread nonidentity",
+  "how": "Only two app files, public suspend workspace APIs in tests and exact final ACL epoch equality",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 code then CI/B7; no V2 product"
+  "next": "Correct code RED_FIX, directed XML 28/28 + seven-block guard/Home/V2 then B7"
 }
