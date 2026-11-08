@@ -82,9 +82,10 @@ class ReviewedConversationApplyCoordinator(
                 // A4: No Workspace reads inside Reality.run: promote scoped
                 // authorization now, while the caller still holds its grant
                 // owner lease. False/exception never executes a binding.
-                if (afterBeginApply != null &&
+                val afterBegin = afterBeginApply
+                if (afterBegin != null &&
                     !runCatching {
-                        afterBeginApply.invoke(start.review, observed.identity)
+                        afterBegin.invoke(start.review, observed.identity)
                     }.getOrDefault(false)
                 ) return markRecovering(start.review, observed.identity)
                 val execution = executor.execute(plan, observed.identity, resolved)
