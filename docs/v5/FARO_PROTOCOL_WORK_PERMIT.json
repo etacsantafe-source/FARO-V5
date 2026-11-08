@@ -2,12 +2,12 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
-  "reviewed_head": "5977a876defc5480b602a2720e05e7de29ddbbed",
+  "reviewed_head": "2ff4b33ac48ae7073bf9089cb0485746724959f8",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt",
     "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt",
     ".github/workflows/faro-v5-s3-a4-n031-dev-pending-ui-directed.yml"
   ],
   "stages": {
@@ -15,8 +15,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
+          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
+          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
+          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
+          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
           "marker": "## B4"
         }
       ]
@@ -55,8 +55,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
-          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
+          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
           "marker": "## B5"
         }
       ]
@@ -65,20 +65,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "9a6f6e467c6f25cd5680c7398e81a6898086f3ff",
-    "unit_id": "S3_A4_N031_THREE_OWNER_PENDING_FEDERATION",
-    "result": "PASS",
+    "sha": "77d5bfa19bf9bc191d44b364a45955e03672f5e2",
+    "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "daf5b852b8a9df30770cc4ba95459d11695d63f1",
+        "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_RED_FIX_20261108.md",
+        "blob_sha": "c0d1a4f4f92f88768b7e27d09b3ce94bbc68e62f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "DEV screen missing; true schema8 gated, schema7 fail closed",
-  "how": "dedicated foreground gesture, bounded native read-only display, new scoped renderer T2 and APK gate",
+  "why": "Run #42521187552 failed at task selection; not test; RED_FIX sources",
+  "how": "move DEV read-only pure renderer to canonical main/test source sets, use confirmed testDebugUnitTest",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Implement isolated DEV mount and CI; do not claim A4 E2E without schema8"
+  "next": "RED_FIX code, verify XML6/6 and M5, then B7 audit"
 }
