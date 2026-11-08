@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 490
+    "expected_release_epoch": 494
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033C2B4_GRANT_COMMIT_LEASE B7 PASS_SCOPED: owner source/test 986905d8 directed 44/44 and 74c4a5ae legacy XML workflow RED_FIX 44/44; both guards SUCCESS. Writer expected RELEASED epoch490, permit BLOCKED. Next N033C2B4_TRANSACTIONAL_PLANNING_ACL real local Review-backed trusted CREATE policy + full pointer/revocation/COMMIT fence integrated Workspace+Reality8, then N033C3 Undo/retry and A4 close. No fake policy or added cloud/login, V2 OFF/S4 OFF/Auto/Noche OFF/G15 A5 NOT_RUN.",
-  "checkpoint_status": "S3_A4_GRANT_COMMIT_LEASE_B7_PASS_SCOPED_NEXT_LOCAL_REVIEW_POLICY",
+  "next": "N033C2B4 Review canonical exact scope→grant lease B7 PASS_SCOPED; code 3aba5ebac7a60358aaf049cac269a69c84ab0e7a, 51/51 directed and 6 exact-SHA CI SUCCESS including APK DEV. Next REAL local Review/Apply policy/host ACL and COMMIT/rollback binding B1–B5; no fake principal/user, no new operations, then N033C3 Undo/retry and A4 close. S3 A4 OPEN, V2 productiva/S4/Noche/Auto OFF, G15 X01-X12 deferred S3.A5.",
+  "checkpoint_status": "S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_SCOPED_51_51_POLICY_HOST_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
-  "last_code_sha": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
-  "last_ci_run_id": 42429438011,
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
+  "last_code_sha": "3aba5ebac7a60358aaf049cac269a69c84ab0e7a",
+  "last_ci_run_id": 42430753094,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "GRANT_LEASE_SOURCE_44_44_PASS_LEGACY_YAML_REDFIX_44_44_PASS_GUARDS_SUCCESS",
+  "last_ci_conclusion": "SUCCESS_EXACT_SHA_N033_REVIEW_LEASE_51_51_SIX_WORKFLOWS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1556,5 +1556,22 @@
     ],
     "no_silent_delete": true,
     "continue": "S3_A4_N033C2A_MINIMUM_REQUIRED_FEATURE_TEST_ONLY"
+  },
+  "n033c2b4_review_lease_b7_20261107": {
+    "status": "PASS_SCOPED_ONLY_NOT_TRANSACTIONAL_ACL",
+    "sha": "3aba5ebac7a60358aaf049cac269a69c84ab0e7a",
+    "b7_doc": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
+    "directed_run": 42430753094,
+    "new_tests": "7/7",
+    "xml": "51/51",
+    "review_regression_run": 42430753095,
+    "core_run": 42430753070,
+    "apk_dev_run": 42430753049,
+    "home_run": 42430753046,
+    "guard_run": 42430753032,
+    "all_ci": "SUCCESS",
+    "real_local_policy": false,
+    "shipping_v2": false,
+    "physical": "NOT_RUN"
   }
 }

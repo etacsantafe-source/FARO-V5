@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE",
   "reviewed_head": "91cf88c4e8e8971a5707294281c416fa8be38e1a",
   "paths": [
@@ -60,24 +60,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_51_51_SIX_WORKFLOWS",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
+          "blob_sha": "620416a4ad0d1de494846c44e3f18eab0902260b",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
-    "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
+    "sha": "3aba5ebac7a60358aaf049cac269a69c84ab0e7a",
     "result": "PASS",
+    "unit_id": "S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
-        "blob_sha": "faa3b065f837d0d3d78199ee0c8747aaa7192c7a",
+        "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
+        "blob_sha": "620416a4ad0d1de494846c44e3f18eab0902260b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Bind canonical Workspace approved Planning scope to exact in-process revocable grant lease; no product policy or host activation",
-  "how": "Four paths; preserve existing guard validation, 7 new + 44 regression XML, exact CI",
+  "why": "Canonical Reviewed Planning exact object bound to owner grant lease with in-process revoke fencing; no real policy/host",
+  "how": "4 exact scoped paths, 7/7 new +44/44 prior tests 51/51; six exact-SHA CI SUCCESS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exact four paths; CI and B7 scoped only; genuine transactional policy/host remains STOP"
+  "next": "New B1-B5 local real Apply request and trusted policy plus Reality transaction receipt; shipping V2 OFF"
 }

@@ -46,7 +46,7 @@
     "S3-A4",
     "S3-A5"
   ],
-  "next": "N033B full binding B1-B5 documented STOP (canonical payload/stamps/Reality owner SPI missing). Next N033B1 pure canonical codec and 2 official OperationIds, new preflight+permit; no code yet. N033A B7 PASS_SCOPED remains. S3.A4 OPEN.",
+  "next": "HEAD 3aba5ebac7a60358aaf049cac269a69c84ab0e7a N033C2B4 reviewed exact object grant lease B7 PASS_SCOPED. 51/51 XML, six same SHA CI SUCCESS, guard and DEV APK PASS. Real trusted local intent/policy and host transactional Planning Apply/receipts still STOP; next B1-B5 with genuine owner/permission. N033C3 Undo/retry after. S3.A4 OPEN, V2 prod/Noche/Auto/S4 OFF.",
   "restrictions": [
     "No S4",
     "No V2 activation",
@@ -62,7 +62,7 @@
     "final": "6aecbf7102a48191ba372839600a824c"
   },
   "p00_doc": "docs/s3-night/S3_P00_CONTRACT_REVIEW_20261102.md",
-  "last_completed_gate": "S3_A4_N032_PLANNING_STAGE8_BOUNDED_INSERT_B7_PASS_SCOPED",
+  "last_completed_gate": "S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_SCOPED",
   "p00_status": "PASS_SPEC_ONLY_172_UNCHANGED_8_CANDIDATE",
   "a1": {
     "status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
@@ -1109,5 +1109,21 @@
     "code_new": false,
     "ci_new": "NOT_RUN",
     "writer_release_epoch_expected": 408
+  },
+  "n033c2b4_review_lease_b7_20261107": {
+    "status": "PASS_SCOPED_IN_PROCESS",
+    "sha": "3aba5ebac7a60358aaf049cac269a69c84ab0e7a",
+    "b7_doc": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B7_PASS_20261107.md",
+    "directed_run": 42430753094,
+    "xml": "51/51",
+    "other_green_runs": [
+      42430753095,
+      42430753070,
+      42430753049,
+      42430753046,
+      42430753032
+    ],
+    "policy_real": false,
+    "physical": "NOT_RUN"
   }
 }
