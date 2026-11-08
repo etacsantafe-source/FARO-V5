@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_LOCAL_REQUEST_POLICY.B7.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_LOCAL_REQUEST_POLICY.B7.RELEASED",
   "token_hash": "e2c11288708d4e4ba8b633f67693b810d116ed8c426b22925ef65e056e099737",
-  "target_head": "6f1659a40bf6de691e10f74ad108a92117b14903",
+  "target_head": "72039fce1ce02256c960dc6dfd06bad45ea37cba",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 499,
-  "timestamp": 1794100380,
-  "purpose": "B7 scoped one-shot user request policy, exact 58/58 directed and protocol guard success; docs only",
-  "last_checkpoint": "N033C2B4_LOCAL_REQUEST_POLICY_B7_IN_PROGRESS"
+  "epoch": 500,
+  "timestamp": 1794100440,
+  "purpose": "B7 local one-shot policy 58/58 and all 7 exact-SHA CI success, next transaction-bound Apply and Reality8",
+  "last_checkpoint": "N033C2B4_LOCAL_USER_REQUEST_POLICY_B7_PASS@72039fce1ce02256c960dc6dfd06bad45ea37cba"
 }
