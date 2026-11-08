@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.PREP",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.CI_WAIT.RELEASED",
   "token_hash": "5a3c827b3bc2858e39b43619cb3cd65a97566ace8e3b3d1789d5c84f8b3ebc36",
-  "target_head": "8756d011c015894948ece2c2f8f567cb0b5ba95e",
+  "target_head": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
   "target_branch": "work/s3-night-20261102",
   "epoch": 589,
-  "timestamp": 1794172633,
-  "purpose": "S3.A5 fresh STAGED Reality8 preparation with no pointer change, B1-B7",
-  "last_checkpoint": "S3_A5_ACTIVE8_HOST_OPEN_6_6_B7_PASS@8756d011"
+  "timestamp": 1794172806,
+  "purpose": "Fresh quarantined Reality8 stage owner five tests; CI and B7 pending",
+  "last_checkpoint": "S3_A5_FRESH_STAGE8_B6@5c9f3ef5_CI_PENDING"
 }
