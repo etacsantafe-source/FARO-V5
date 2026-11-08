@@ -1,0 +1,74 @@
+name: FARO V5 S3 A4 N015 real SQLite Activity host and surface forwarding
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBindingT2Test.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt"
+      - ".github/workflows/faro-v5-s3-a4-n015-real-host-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n015-real-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  real-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile app and test real two owner history plus existing federator
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5RealHistoryActivityHostBindingT2Test" --tests "ar.com.faro.v5.app.FaroV5FederatedHistoryReadSourceTest"
+      - name: Surface authorized Activity and navigation contracts
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :surface:compileDebugKotlin :surface:testDebugUnitTest --tests "ar.com.faro.v5.surface.FaroV5ActivitySurfaceContractTest" --tests "ar.com.faro.v5.surface.FaroV5ShellNavigationContractTest"
+      - name: Require four exact JUnit suite XMLs
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          classes=(
+            (Path('v5/app/build/test-results/testDebugUnitTest'),'FaroV5RealHistoryActivityHostBindingT2Test',6),
+            (Path('v5/app/build/test-results/testDebugUnitTest'),'FaroV5FederatedHistoryReadSourceTest',6),
+            (Path('v5/surface/build/test-results/testDebugUnitTest'),'FaroV5ActivitySurfaceContractTest',5),
+            (Path('v5/surface/build/test-results/testDebugUnitTest'),'FaroV5ShellNavigationContractTest',11),
+          )
+          total=0
+          for base,cls,expect in classes:
+              xmls=list(base.glob('TEST-*'+cls+'.xml'))
+              if len(xmls)!=1: raise SystemExit('S3_A4_REAL_ACTIVITY_XML_MISSING '+cls)
+              root=ET.parse(xmls[0]).getroot()
+              counts=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if counts!=(expect,0,0,0):
+                  raise SystemExit('S3_A4_REAL_ACTIVITY_XML_FAIL '+cls+' '+str(counts))
+              print('S3_A4_REAL_ACTIVITY_XML_PASS',cls,str(expect)+'/'+str(expect))
+              total+=expect
+          print('S3_A4_N015_REAL_HISTORY_HOST_UI_XML_PASS',str(total)+'/'+str(total))
+          PY

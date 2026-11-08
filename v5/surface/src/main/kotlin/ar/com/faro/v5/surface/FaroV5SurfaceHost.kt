@@ -29,6 +29,7 @@ object FaroV5SurfaceHost {
         homeReadPort: FaroV5HomeReadPort? = null,
         searchReadPort: FaroV5SearchReadPort? = null,
         avisosReadPort: FaroV5AvisosReadPort? = null,
+        activityReadPort: FaroV5ActivityReadPort? = null,
     ) {
         activity.setContent {
             FaroV5Theme {
@@ -45,6 +46,7 @@ object FaroV5SurfaceHost {
                     homeReadPort = homeReadPort,
                     searchReadPort = searchReadPort,
                     avisosReadPort = avisosReadPort,
+                    activityReadPort = activityReadPort,
                 )
             }
         }
