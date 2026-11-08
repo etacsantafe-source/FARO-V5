@@ -92,6 +92,13 @@ internal class FaroV5RealHistoryActivityHostBinding(
      * source provenance must match or the WHOLE read is denied.
      */
     override suspend fun readActivity(): FaroV5ActivityPage? {
+        // Pin both independent policy epochs BEFORE touching either owner.
+        // The federator rechecks during owner reads; this final host fence
+        // also denies a revoke/regrant between its return and presentation.
+        val initialReality = policyEpoch(FaroV5ActivityDomain.REALITY_RECEIPT)
+            ?: return null
+        val initialWorkspace = policyEpoch(FaroV5ActivityDomain.WORKSPACE_MESSAGE)
+            ?: return null
         val page = try {
             source.readAuthorized(limit = 50) ?: return null
         } catch (cancel: CancellationException) {
@@ -140,8 +147,8 @@ internal class FaroV5RealHistoryActivityHostBinding(
             return null
         }
         if (!hostCurrent() ||
-            policyEpoch(FaroV5ActivityDomain.REALITY_RECEIPT) == null ||
-            policyEpoch(FaroV5ActivityDomain.WORKSPACE_MESSAGE) == null
+            policyEpoch(FaroV5ActivityDomain.REALITY_RECEIPT) != initialReality ||
+            policyEpoch(FaroV5ActivityDomain.WORKSPACE_MESSAGE) != initialWorkspace
         ) return null
         // The federator rechecks exact epochs in SQL-to-DTO stage; after
         // mapping, deny if either independent admission has gone missing.

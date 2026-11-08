@@ -58,25 +58,28 @@ class FaroV5RealHistoryActivityHostBindingT2Test {
                 AtomicApplyTransactionDecision.Commit(Unit)
             }
             val chat = ConversationId("chat-" + generation.value)
-            val created = workspace.create(WorkspaceCreateRequest(
-                ConversationWorkspaceEntry(chat, "Private conversation", 100L),
-                workspace.snapshot().revision, IdempotencyKey("create-" + generation.value),
-            ))
-            assertTrue(created is WorkspaceWriteResult.Committed)
+            val created = runBlocking {
+                workspace.createAndSelect(
+                    chat, 100L, IdempotencyKey("create-" + generation.value),
+                )
+            }
+            assertTrue(created is ConversationSelectionResult.Saved)
             writeMessage(chat, "message-one", 4000L)
         }
 
         fun writeMessage(chat: ConversationId, id: String, time: Long) {
-            val before = requireNotNull(workspace.timelineSnapshot(chat))
+            val before = requireNotNull(runBlocking { workspace.readTimeline(chat) })
             val message = ConversationMessage(
                 ConversationMessageId(id), chat, ConversationTurnId("turn-" + id),
                 ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
                 "Highly confidential content for " + id, time,
             )
-            val result = workspace.saveTimeline(ConversationTimelineWriteRequest(
-                chat, before.authorityToken, before.revision, IdempotencyKey("write-" + id),
-                ConversationTimelineIntent.AcceptUser(message),
-            ))
+            val result = runBlocking {
+                workspace.writeTimeline(ConversationTimelineWriteRequest(
+                    chat, before.authorityToken, before.revision, IdempotencyKey("write-" + id),
+                    ConversationTimelineIntent.AcceptUser(message),
+                ))
+            }
             assertTrue(result is ConversationTimelineWriteResult.Saved)
         }
 
