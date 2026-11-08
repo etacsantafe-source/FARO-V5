@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
   "reviewed_head": "2cd4619e18a5300187c116fe3b91f41a02eccace",
   "paths": [
@@ -59,24 +59,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_FIVE_REAL_SQLITE_JOURNAL_STAGE8_XML_5_5",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "7071cab04f87648fcc8733cb9aa3499ea17a96dc",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
-    "unit_id": "S3_A5_FRESH_PLANNING8_STAGED_OWNER",
+    "sha": "8e1cdac498c8ec607bf34ee12cb1d978241a5f05",
+    "unit_id": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "0f477e23f5693a82bd974be06332190355189836",
+        "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "7071cab04f87648fcc8733cb9aa3499ea17a96dc",
         "marker": "## B7"
       }
     ]
   },
-  "why": "S3.A5 fresh staged8 5/5 certified but no DEV durable PREPARING/STAGED/VALIDATED journal or fail-closed recovery",
-  "how": "Minimal new isolated generation owner builds on stageFreshPlanning8AndVerify, canonical file journal, shared global quiescence, exact pointer and schema8-only recovery",
+  "why": "A5 DEV journal STAGED8 validation and recovery 5/5 B7 PASS; cutover+V2 DEV host integration not yet implemented",
+  "how": "Reused one canonical file journal, global quiescence injection and exact schema8 STAGED preflight; no pointer switch",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Only B6 on three exact paths; CI XML 5/5 then independent B7; no cutover, DEV Android/physical"
+  "next": "New scoped B1-B5 before B6 cutover/recovery and DEV host integration; maintain V2 productiva OFF; G15 last"
 }

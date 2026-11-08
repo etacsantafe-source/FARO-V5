@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 590
+    "expected_release_epoch": 592
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A5 isolated DEV Reality8 staged candidate + journal/replay cutover, admission of active8 host without migrating current active7; then single G15 physical campaign. A3 remains approval-blocked.",
-  "checkpoint_status": "S3_A5_FRESH_STAGED8_B7_PASS_5_OF_5_A5_OPEN",
+  "next": "S3.A5 DEV journal-VALIDATED stage8 5/5 B7 PASS. Next new B1-B5: connect canonical ValidatedGenerationActivationCoordinator cutover/recovery with same global gate, active8 host DEV and epoch revocation; only then physical X01-X12 once at end. A3 remains approval-blocked.",
+  "checkpoint_status": "S3_A5_DEV_STAGE8_JOURNAL_B7_PASS_5_OF_5_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md",
-  "last_code_sha": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
-  "last_ci_run_id": 42524640422,
+  "last_handoff": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
+  "last_code_sha": "8e1cdac498c8ec607bf34ee12cb1d978241a5f05",
+  "last_ci_run_id": 42530139661,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "S3_A5_FRESH_STAGE8_REAL_SQLITE_XML_PASS_5_OF_5_GUARD_PASS",
+  "last_ci_conclusion": "S3_A5_DEV_STAGE8_JOURNAL_REAL_SQLITE_XML_PASS_5_OF_5_GUARD_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1736,10 +1736,10 @@
   },
   "n031_pre_audit": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
   "a5_checkpoint": {
-    "status": "OPEN_TWO_SCOPED_UNITS_PASS",
-    "completed_unit": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
-    "code_sha": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
-    "b7_doc": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
+    "status": "OPEN_THREE_SCOPED_UNITS_PASS",
+    "completed_unit": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
+    "code_sha": "8e1cdac498c8ec607bf34ee12cb1d978241a5f05",
+    "b7_doc": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md",
     "ci_run": 42523665762,
     "ci_xml": "6/6_REAL_FIVE_SQLITE",
     "protocol_run": 42523665615,
@@ -1753,7 +1753,7 @@
     "physical": "NOT_RUN_G15_CAMPAIGN_RESERVED",
     "s3_a5": "OPEN",
     "remaining": [
-      "DEV_ISOLATED_STAGED8_JOURNAL_CUTOVER_RECOVERY",
+      "DEV_VALIDATED_STAGE8_CUTOVER_RECOVERY_COORDINATOR",
       "DEV_ACTIVE_SCHEMA8_HOST_READ_AUTHORITY_UI",
       "INTEGRATION_X01_TO_X12_PHYSICAL_LAST"
     ],
@@ -1772,9 +1772,18 @@
         "run": 42524640422,
         "guard": 42524640304,
         "b7": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md"
+      },
+      {
+        "unit": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
+        "code_sha": "8e1cdac498c8ec607bf34ee12cb1d978241a5f05",
+        "xml": "5/5",
+        "run": 42530139661,
+        "guard": 42530139602,
+        "b7": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B7_PASS_SCOPED_20261108.md"
       }
     ],
     "staged8_owner": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV",
-    "active8_host_open": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV"
+    "active8_host_open": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV",
+    "stage8_journal": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV"
   }
 }
