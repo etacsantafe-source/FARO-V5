@@ -1,0 +1,58 @@
+name: FARO V5 S3 A5 post-cutover DEV four-owner integration directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A5PostCutoverIntegrationTest.kt"
+      - ".github/workflows/faro-v5-s3-a5-post-cutover-dev-integration-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a5-post-cutover-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK setup
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile isolated DEV and five NEW post-cutover integration cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
+            :app:compileV2CoreDevKotlin \
+            :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5S3A5PostCutoverIntegrationTest"
+      - name: Assert exact test XML without skipped cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          d=Path("v5/app/build/test-results/testV2CoreDevUnitTest")
+          files=list(d.glob("TEST-*FaroV5S3A5PostCutoverIntegrationTest.xml"))
+          if len(files)!=1: raise SystemExit("S3_A5_POST_CUTOVER_XML_MISSING")
+          root=ET.parse(files[0]).getroot()
+          count=tuple(int(root.get(x,"-1")) for x in ("tests","failures","errors","skipped"))
+          if count!=(5,0,0,0): raise SystemExit("S3_A5_POST_CUTOVER_XML_RED "+str(count))
+          print("S3_A5_POST_CUTOVER_REAL_SQLITE_FOUR_OWNER_XML_PASS 5/5")
+          PY
