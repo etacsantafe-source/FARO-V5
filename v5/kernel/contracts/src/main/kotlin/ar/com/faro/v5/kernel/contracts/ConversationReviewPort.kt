@@ -34,6 +34,24 @@ class TrustedApprovedConversationPlan(
 }
 
 /**
+ * A COMMITTED historical Review, deliberately separate from human-approved
+ * Apply access. A reader of this object obtains immutable bytes only;
+ * it can NEVER advance Review or execute a prior plan.
+ */
+class TrustedCommittedConversationPlan(
+    val review: ConversationPlanReviewSnapshot,
+    encoded: ByteArray,
+) {
+    private val bytes = encoded.copyOf()
+    fun envelope(): ByteArray = bytes.copyOf()
+}
+
+/** Read-only historical Workspace proof; COMMITTED only, never an Apply grant. */
+fun interface TrustedCommittedConversationPlanReadPort {
+    fun loadCommitted(context: ConversationPlanReviewContext): TrustedCommittedConversationPlan?
+}
+
+/**
  * Host-only bridge to recover a human-approved plan and reconcile it with the
  * canonical Reality journal/receipt. UI retains only ConversationReviewPort.
  */

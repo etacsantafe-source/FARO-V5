@@ -9,6 +9,8 @@ import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import ar.com.faro.v5.kernel.contracts.ConversationReviewPort
 import ar.com.faro.v5.kernel.contracts.TrustedConversationApplyReviewPort
 import ar.com.faro.v5.kernel.contracts.TrustedApprovedConversationPlan
+import ar.com.faro.v5.kernel.contracts.TrustedCommittedConversationPlan
+import ar.com.faro.v5.kernel.contracts.TrustedCommittedConversationPlanReadPort
 import ar.com.faro.v5.kernel.contracts.ApplyAttemptLookupPort
 import ar.com.faro.v5.kernel.contracts.ExecutionReceiptLookupPort
 import ar.com.faro.v5.kernel.contracts.ApplyAttemptJournalState
@@ -212,7 +214,7 @@ class ConversationWorkspaceStore private constructor(
     private val requireExistingSchema: Boolean,
     private val planEnvelopeVerifier: PreparedPlanEnvelopeVerificationPort,
     private val materialWriteGate: MaterialWriteGate? = null,
-) : ConversationWorkspaceReadPort, ConversationComposerPort, ConversationTimelinePort, ConversationReviewPort, ConversationWorkspaceSelectionPort, TrustedConversationApplyReviewPort, AutoCloseable {
+) : ConversationWorkspaceReadPort, ConversationComposerPort, ConversationTimelinePort, ConversationReviewPort, ConversationWorkspaceSelectionPort, TrustedConversationApplyReviewPort, TrustedCommittedConversationPlanReadPort, AutoCloseable {
     constructor(
         fileName: String,
         driver: SQLiteDriver = BundledSQLiteDriver(),
@@ -1012,6 +1014,30 @@ class ConversationWorkspaceStore private constructor(
                 TrustedApprovedConversationPlan(review, bytes)
             }
         }
+
+    /**
+     * N033C3 RED_FIX: strictly historical, read-only COMMITTED evidence.
+     * Does NOT broaden TrustedConversationApplyReviewPort.load, whose
+     * authority is intentionally limited to pre-commit review states.
+     */
+    override fun loadCommitted(
+        context: ConversationPlanReviewContext,
+    ): TrustedCommittedConversationPlan? = synchronized(mutex) {
+        checkOpen()
+        val review = readPlanReviewInternal(context.reviewId) ?: return@synchronized null
+        if (review.context() != context ||
+            review.state != ConversationPlanReviewState.COMMITTED
+        ) return@synchronized null
+        connection.prepare(
+            "SELECT envelope FROM workspace_plan_review WHERE review_id = ?"
+        ).use { statement ->
+            statement.bindText(1, context.reviewId)
+            check(statement.step())
+            val bytes = statement.getBlob(0).copyOf()
+            check(planEnvelopeVerifier.verify(bytes.copyOf(), review.planFingerprint))
+            TrustedCommittedConversationPlan(review, bytes)
+        }
+    }
 
     /**
      * Host-only reconciliation. An intent is accepted only when Reality's

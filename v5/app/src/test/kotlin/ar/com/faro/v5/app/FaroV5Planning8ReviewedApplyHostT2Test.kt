@@ -154,7 +154,8 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
                 } else workspace
             host = FaroV5Planning8ReviewedApplyHost(
                 generationId = generation.value, pinned = pinned, activePointer = pointer,
-                workspace = reviewPort, reality = reality, materialGate = gate,
+                workspace = reviewPort, committedPlans = workspace,
+                reality = reality, materialGate = gate,
                 sandbox = sandbox, catalog = catalog, expectedHostEpoch = "host-epoch-1",
                 hostEpochOrNull = { epoch }, hostReady = { ready },
             )
@@ -241,9 +242,13 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
     }
 
     @Test fun committedReminderUndoOriginRequiresExactReviewAndRealityReceipt() {
+        // COMMITTED is historical evidence, NEVER an Apply approval.
+
         Case().use { f ->
             val committed = f.apply() as ConversationApplyHostOutcome.Committed
             val before = f.reality.planningBackup.snapshot()
+            assertNull(f.workspace.load(committed.review.context()))
+            assertNotNull(f.workspace.loadCommitted(committed.review.context()))
             val preview = f.host.inspectCommittedUndoOriginForTrustedHost(
                 committed.review.context(),
             )
@@ -259,9 +264,13 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
     }
 
     @Test fun committedMonthlyUndoOriginRequiresUnmodifiedUnpaidObject() {
+        // COMMITTED is historical evidence, NEVER an Apply approval.
+
         Case(monthly = true).use { f ->
             val committed = f.apply() as ConversationApplyHostOutcome.Committed
             val before = f.reality.planningBackup.snapshot()
+            assertNull(f.workspace.load(committed.review.context()))
+            assertNotNull(f.workspace.loadCommitted(committed.review.context()))
             val preview = f.host.inspectCommittedUndoOriginForTrustedHost(
                 committed.review.context(),
             )

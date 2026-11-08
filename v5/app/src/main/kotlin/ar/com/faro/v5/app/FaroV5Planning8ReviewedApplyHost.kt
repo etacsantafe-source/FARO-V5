@@ -40,6 +40,7 @@ internal class FaroV5Planning8ReviewedApplyHost(
     private val pinned: ActiveGenerationPointer,
     private val activePointer: ActiveGenerationPointerPort,
     private val workspace: TrustedConversationApplyReviewPort,
+    private val committedPlans: TrustedCommittedConversationPlanReadPort,
     private val reality: RealityStore,
     private val materialGate: MaterialWriteGate,
     private val sandbox: FaroV5AndroidSandboxPrincipal,
@@ -185,7 +186,7 @@ internal class FaroV5Planning8ReviewedApplyHost(
         context: ConversationPlanReviewContext,
     ): Planning8UndoOriginPreview? = runCatching {
         if (!hostCurrent()) return@runCatching null
-        val loaded = workspace.load(context) ?: return@runCatching null
+        val loaded = committedPlans.loadCommitted(context) ?: return@runCatching null
         val review = loaded.review
         if (review.context() != context ||
             review.state != ConversationPlanReviewState.COMMITTED
