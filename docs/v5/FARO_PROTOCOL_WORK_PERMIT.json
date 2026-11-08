@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_THREE_OWNER_PENDING_FEDERATION",
   "reviewed_head": "d2657824d1f0c7ad28ed55ab5fab027bc0889b3c",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_REAL_SQLITE_8_NEW_T2_EXACT_SHA",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "N031 actual Reality8 three owners due federation with independent domain epochs, no globally complete count, no shipping mount",
+  "why": "N031 Three Owner Read Host B6 code 9a6f6e46 pending directed XML 8/8, not Android mounted and no global count",
   "how": "One new source class, one T2 real SQL test, one directed workflow XML; reuse certified source APIs, no schema changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Implement B6 then exact CI and independent B7; keep S3.A4 OPEN until shipping/DEV integrated UI"
+  "next": "After 8/8 and mandatory guard, independent B7; then separate integration into trusted Android Pendientes UI"
 }

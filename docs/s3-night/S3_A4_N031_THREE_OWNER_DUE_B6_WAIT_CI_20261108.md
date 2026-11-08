@@ -1,0 +1,7 @@
+# S3.A4 N031 Three-owner Reality8 due — B6 WAIT_CI
+- Base prior `d2657824d1f0c7ad28ed55ab5fab027bc0889b3c`, prior N015 DEV Activity mount B7 PASS_SCOPED (signed APK, no G15). B1–B5 scoped `docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md`, blob `e37ad62f4309be00438f6c5c54e54054dea4f968`, permit READY before code `3298c00171c9212a17ebcfd16065d4a4766261f5`.
+- B6 functional SHA `9a6f6e467c6f25cd5680c7398e81a6898086f3ff`, trailer `FARO-UNIT:S3_A4_N031_THREE_OWNER_PENDING_FEDERATION`, ONLY three permitted new files: federator in app main, T2 8 real SQLite, CI directed.
+- N031 Matter + ReminderOccurrence + MonthlyPlanItem from one Reality8, three independent read epochs and pointer+host checks before/between/after owner reads, partial bounded page; no global complete, recurrence, priority or atomic cross-owner claim. No UI wiring or S3.A4 CLOSED.
+- CI [#42519854632](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42519854632) IN_PROGRESS, XML 8/8 NOT verified yet; mandatory protocol guard [#42519854564](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42519854564) SUCCESS exact code SHA; auto M5/other workflows IN_PROGRESS.
+- Next: read exact failure log if RED; B7 RED_FIX with reviewed permit and only required change. If SUCCESS, independent B7, then mount Pending UI using trusted host; V2 productive OFF, physical G15 still S3.A5.
+- Writer epoch580 acquired for code and should be RELEASED epoch581 during CI. A4 OPEN.
