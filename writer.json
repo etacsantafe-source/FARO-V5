@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N031.THREE_OWNER_PENDING",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N031.THREE_OWNER.WAIT_CI.RELEASED",
   "token_hash": "3c22191032a3e4ea48be9700dd31a3c64c052a785ec1c6a778b6241944e819a5",
-  "target_head": "d2657824d1f0c7ad28ed55ab5fab027bc0889b3c",
+  "target_head": "e7c7205d0bd972d6fba247cd25655bba97b61993",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 580,
-  "timestamp": 1794169265,
-  "purpose": "N031 three source integrated due host B6 + directed tests after B7 DEV PASS",
-  "last_checkpoint": "S3_A4_N031_THREE_OWNER_PENDING_B6_START@d2657824"
+  "epoch": 581,
+  "timestamp": 1794169446,
+  "purpose": "N031 three-owner due B6 committed while directed real SQLite CI pending",
+  "last_checkpoint": "S3_A4_N031_THREE_OWNER_B6_WAIT_CI@e7c7205d"
 }
