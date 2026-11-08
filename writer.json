@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.TEST_VISIBLE_API_REDFIX.B6.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.TEST_VISIBLE_API_REDFIX.B6.RELEASED",
   "token_hash": "b26d13a04e5349afbcf7f96ff777b6e08920bf43c24cce87297ef8ae53a88fa4",
-  "target_head": "305dbebf189f7bf655a8dc288ddbd94be5d891b5",
+  "target_head": "a09ed82abb8981fb057475412439d7416eeedb9b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 519,
-  "timestamp": 1794102640,
-  "purpose": "B6 one-test-line remove illegal cross-module RealityStore.internal integrityCheck call",
-  "last_checkpoint": "REALITY8_HOST_TEST_VISIBILITY_REDFIX_B6"
+  "epoch": 520,
+  "timestamp": 1794102710,
+  "purpose": "B6 test-only source cross-module internal fix, await host6/6 plus kernel CI",
+  "last_checkpoint": "REALITY8_HOST_TEST_REDFIX_WAIT_CI@a09ed82abb8981fb057475412439d7416eeedb9b"
 }
