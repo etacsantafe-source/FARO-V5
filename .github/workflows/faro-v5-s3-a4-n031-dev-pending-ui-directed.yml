@@ -7,8 +7,8 @@ on:
     paths:
       - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
       - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
-      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt"
-      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt"
       - ".github/workflows/faro-v5-s3-a4-n031-dev-pending-ui-directed.yml"
   workflow_dispatch:
 
@@ -45,13 +45,13 @@ jobs:
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
             -Pkotlin.compiler.execution.strategy=in-process \
             "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
-            :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevPendingPresentationT2Test"
+            :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevPendingPresentationT2Test"
       - name: Verify fresh six JUnit tests
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
-          base=Path('v5/app/build/test-results/testV2CoreDevUnitTest')
+          base=Path('v5/app/build/test-results/testDebugUnitTest')
           files=list(base.glob('TEST-*FaroV5V2CoreDevPendingPresentationT2Test.xml'))
           if len(files)!=1: raise SystemExit('N031_DEV_PENDING_XML_MISSING')
           root=ET.parse(files[0]).getroot()
