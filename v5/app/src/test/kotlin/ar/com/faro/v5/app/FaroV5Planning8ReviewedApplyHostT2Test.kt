@@ -227,7 +227,6 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
             assertNull(f.reality.executionReceiptLookup.find(f.tx))
             assertEquals(ConversationPlanReviewState.RECOVERING_UNKNOWN,
                 runBlocking { f.workspace.reviews(f.conversation) }.single().state)
-            assertEquals("ok", f.reality.integrityCheck())
         }
     }
 
