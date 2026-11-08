@@ -59,7 +59,7 @@ class FaroV5S3A5PostCutoverIntegrationTest {
         chat
     }
 
-    @Test fun fourRealOwnerSearchAndDurableChatWorkTogetherOnlyAfterFreshEight() {
+    @Test fun fourRealOwnerSearchAndDurableChatWorkTogetherOnlyAfterFreshEight() = runBlocking {
         promoteToEight()
         val active = checkNotNull(pointer.read())
         val staged = FileStorageGenerationLayout(root).requireStaged(eight)
@@ -129,7 +129,7 @@ class FaroV5S3A5PostCutoverIntegrationTest {
         }
     }
 
-    @Test fun oldSevenSearchHitAndContentCannotAppearInFreshEight() {
+    @Test fun oldSevenSearchHitAndContentCannotAppearInFreshEight() = runBlocking {
         val old = FaroV5V2CoreDevAuthority(root).open()
         val chat = sendUserMessage(old, "a5-private-old-chat", "Old7OnlyPrivateA5")
         val oldPort = old.searchReadPort
@@ -189,7 +189,7 @@ class FaroV5S3A5PostCutoverIntegrationTest {
         }
     }
 
-    @Test fun pointerAbaOfActiveEightRevokesChatSearchAndOldHit() {
+    @Test fun pointerAbaOfActiveEightRevokesChatSearchAndOldHit() = runBlocking {
         promoteToEight()
         val before = checkNotNull(pointer.read())
         val session = FaroV5V2CoreDevAuthority(root).open()
