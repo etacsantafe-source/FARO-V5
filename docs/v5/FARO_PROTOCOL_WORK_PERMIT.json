@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_THREE_OWNER_PENDING_FEDERATION",
-  "reviewed_head": "d2657824d1f0c7ad28ed55ab5fab027bc0889b3c",
+  "status": "READY",
+  "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
+  "reviewed_head": "5977a876defc5480b602a2720e05e7de29ddbbed",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5N031ThreeOwnerDueHostBinding.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5N031ThreeOwnerDueHostBindingT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n031-three-owner-due-directed.yml"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n031-dev-pending-ui-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
-          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
-          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
-          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
-          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
           "marker": "## B4"
         }
       ]
@@ -53,23 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
-          "blob_sha": "e37ad62f4309be00438f6c5c54e54054dea4f968",
+          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "e92d6ee9b89a1b337aa8c9ba774006c46f541191",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_REAL_SQLITE_N031_TRIPLE_8_8",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "daf5b852b8a9df30770cc4ba95459d11695d63f1",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9a6f6e467c6f25cd5680c7398e81a6898086f3ff",
@@ -83,9 +76,9 @@
       }
     ]
   },
-  "why": "N031 8/8 SQLite B7 PASS scoped; no actual UI count / read mount",
-  "how": "One new source class, one T2 real SQL test, one directed workflow XML; reuse certified source APIs, no schema changes",
+  "why": "DEV screen missing; true schema8 gated, schema7 fail closed",
+  "how": "dedicated foreground gesture, bounded native read-only display, new scoped renderer T2 and APK gate",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Audit new N031 DEV foreground pending UI mount, preserve partial global coverage, then A4 end-to-end gate"
+  "next": "Implement isolated DEV mount and CI; do not claim A4 E2E without schema8"
 }
