@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 486
+    "expected_release_epoch": 490
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Grant commit lease code 986905d8 directed #42428854363 44/44 PASS, guard #42428854264 PASS; old grant workflow #42428854284 FAIL only 14/40 obsolete XML expectation (observed 18/44). RED_FIX same unit scoped only old workflow YAML; B1-B5 and RED_FIX B7 now documented; next code only old workflow, CI and B7, then local Planning8 ACL. Shipping V2 OFF.",
-  "checkpoint_status": "S3_A4_GRANT_COMMIT_LEASE_B7_REDFIX_LEGACY_XML_B1_B5_READY",
+  "next": "N033C2B4_GRANT_COMMIT_LEASE B7 PASS_SCOPED: owner source/test 986905d8 directed 44/44 and 74c4a5ae legacy XML workflow RED_FIX 44/44; both guards SUCCESS. Writer expected RELEASED epoch490, permit BLOCKED. Next N033C2B4_TRANSACTIONAL_PLANNING_ACL real local Review-backed trusted CREATE policy + full pointer/revocation/COMMIT fence integrated Workspace+Reality8, then N033C3 Undo/retry and A4 close. No fake policy or added cloud/login, V2 OFF/S4 OFF/Auto/Noche OFF/G15 A5 NOT_RUN.",
+  "checkpoint_status": "S3_A4_GRANT_COMMIT_LEASE_B7_PASS_SCOPED_NEXT_LOCAL_REVIEW_POLICY",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-  "last_code_sha": "986905d856f62edc2f00ef4ffefd43438b79b516",
-  "last_ci_run_id": 42428854363,
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
+  "last_code_sha": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
+  "last_ci_run_id": 42429438011,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "GRANT_COMMIT_LEASE_44_44_PASS_OLD_XML_WORKFLOW_EXPECTED_COUNT_RED_FIX",
+  "last_ci_conclusion": "GRANT_LEASE_SOURCE_44_44_PASS_LEGACY_YAML_REDFIX_44_44_PASS_GUARDS_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",

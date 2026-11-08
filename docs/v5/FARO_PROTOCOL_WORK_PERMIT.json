@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
-  "reviewed_head": "986905d856f62edc2f00ef4ffefd43438b79b516",
-  "paths": [
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-session-grant-directed.yml"
-  ],
+  "reviewed_head": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SUCCESS_EXACT_SHA_44_44",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
+          "blob_sha": "faa3b065f837d0d3d78199ee0c8747aaa7192c7a",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "986905d856f62edc2f00ef4ffefd43438b79b516",
+    "sha": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
     "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-        "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
+        "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
+        "blob_sha": "faa3b065f837d0d3d78199ee0c8747aaa7192c7a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Previous code exact CI 44/44 PASS but historical XML workflow expects 14/40 instead of 18/44; one YAML RED_FIX same unit",
-  "how": "Change only legacy workflow YAML trigger/expected count without relaxing checks; guard plus exact CI",
+  "why": "Grant COMMIT lease scoped B7 44/44, legacy redfix 44/44; full Planning8 trusted policy and Replay/Undo still OPEN",
+  "how": "Source 986905d8 CI #42428854363 44/44 guard #42428854264 SUCCESS; YAML ${head} CI #42429438011 44/44 guard #42429437783 SUCCESS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 oldflow only, B7, then Planning8 local review-backed transactional policy"
+  "next": "Separate transactional Planning8 local Review-backed ACL B1-B5/REAL policy, then N033C3 Undo/retry"
 }
