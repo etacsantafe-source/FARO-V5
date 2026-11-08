@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.DEV_JOURNAL.B7.PASS.RELEASED",
-  "token_hash": "dfea988370e4f25e84ff6d511b5fc7e5ac99f03e7b47782bd2d600f0235e2342",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5.DEV_CUTOVER",
+  "token_hash": "33a0fb8c7f77f35d7aa9febe34e0194ff832f5f519857ebcb320fe1fea897e80",
   "target_head": "f050832965629db73d66f24101bef2e0a300ca16",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 592,
-  "timestamp": 1794177000,
-  "purpose": "A5 third scoped unit DEV STAGED8 journal 5/5 B7 PASS, A5 remains OPEN, cutover/host not wired",
+  "epoch": 593,
+  "timestamp": 1794177300,
+  "purpose": "A5 DEV journal VALIDATED -> canonical cutover/recovery fenced Reality8, no Activity/UI/G15, V2 shipping OFF",
   "last_checkpoint": "S3_A5_DEV_STAGE8_JOURNAL_B7_PASS@f0508329"
 }
