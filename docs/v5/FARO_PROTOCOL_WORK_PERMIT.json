@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_DEV_VALIDATED8_CUTOVER",
-  "reviewed_head": "1f463bef39aa70231520033b8e409ae9ab7e7706",
+  "status": "READY",
+  "unit_id": "S3_A5_REALITY8_DEV_HOST_MOUNT",
+  "reviewed_head": "7ab67e1bcecda45e188ca8e055debfab317551fc",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevCutoverOwner.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevCutoverOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a5-dev-validated8-cutover-directed.yml"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHost.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHostTest.kt",
+    ".github/workflows/faro-v5-s3-a5-dev-host-reality8-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
-          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
-          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
-          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
-          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
           "marker": "## B4"
         }
       ]
@@ -53,23 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B1_B5_20261108.md",
-          "blob_sha": "58ff124393240303d62704ecff951d9a1b8e6af9",
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
+          "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_FOUR_REAL_SQLITE_VALIDATED8_CUTOVER_XML_4_4",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "94468c52768d84ddc430d589b2a3cd137d077685",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a7eeccdeed2f5f3bf36754d793221a4c05ad788f",
@@ -83,9 +76,9 @@
       }
     ]
   },
-  "why": "A5 DEV VALIDATED Reality8 cutover and recovery 4/4 B7 PASS, but Android V2 DEV authority/session/authorized UI not yet mounted",
-  "how": "Existing canonical generation activation coordinator, shared gate and exact pointer sequence with journal+fence, no second switcher",
+  "why": "Mount canonical Reality8 cutover/recovery within the dedicated V2CoreDevAuthority, explicit DEV user upgrade only, preserve Reality7 and stale-session ACL revocation",
+  "how": "Reuse journal StageOwner+CutoverOwner, one shared process gate, full pointer and replay fence, no new authority, read-only DEV Pendientes; tests and CI exact",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New scoped B1-B5 before B6 V2 DEV host mount; protect session invalidation; V2 production OFF and G15 campaign only at end"
+  "next": "Bounded B6 five files, compile v2CoreDev and new directed JUnit XML, then B7; G15 physical remains at final campaign"
 }
