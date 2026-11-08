@@ -39,19 +39,42 @@ jobs:
           if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
             ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
           fi
-      - name: NEW human approved Undo and original COMMITTED proof REAL SQLite
+      - name: Verify NEW Undo host 6 and existing Planning8 host 12 in same JVM run
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5Planning8UndoReviewedApplyHostT2Test"
-      - name: Strict exact six new host tests
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5Planning8UndoReviewedApplyHostT2Test" --tests "ar.com.faro.v5.app.FaroV5Planning8ReviewedApplyHostT2Test"
+      - name: Verify existing kernel Apply regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :kernel:apply:test
+      - name: Strict NEW 6, old host 12 and kernel Apply 38 XML
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
-          files=list(Path('v5/app/build/test-results/testDebugUnitTest').glob('TEST-*FaroV5Planning8UndoReviewedApplyHostT2Test.xml'))
-          if len(files)!=1: raise SystemExit('N033C3_UNDO_HOST_XML_MISSING')
-          node=ET.parse(files[0]).getroot()
-          values=tuple(int(node.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
-          if values!=(6,0,0,0): raise SystemExit('N033C3_UNDO_HOST_XML_FAIL '+str(values))
-          print('N033C3_UNDO_NEW_HUMAN_REVIEW_HOST_XML_PASS 6/6')
+          app=Path('v5/app/build/test-results/testDebugUnitTest')
+          for cls,expected in (
+              ('FaroV5Planning8UndoReviewedApplyHostT2Test',6),
+              ('FaroV5Planning8ReviewedApplyHostT2Test',12),
+          ):
+              paths=list(app.glob('TEST-*'+cls+'.xml'))
+              if len(paths)!=1: raise SystemExit('N033C3_UNDO_HOST_XML_MISSING '+cls)
+              node=ET.parse(paths[0]).getroot()
+              values=tuple(int(node.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if values!=(expected,0,0,0):
+                  raise SystemExit('N033C3_UNDO_HOST_XML_FAIL '+cls+' '+str(values))
+              print('N033C3_UNDO_HOST_XML_PASS '+cls+' '+str(expected)+'/'+str(expected))
+          directory=Path('v5/kernel/apply/build/test-results/test')
+          files=sorted(directory.glob('TEST-*.xml'))
+          if not files: raise SystemExit('N033C3_KERNEL_XML_MISSING')
+          total=0
+          for path in files:
+              root=ET.parse(path).getroot()
+              values=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if values[0]<=0 or any(values[1:]):
+                  raise SystemExit('N033C3_KERNEL_XML_FAIL '+path.name+' '+str(values))
+              total+=values[0]
+          if total!=38: raise SystemExit('N033C3_KERNEL_XML_COUNT_FAIL '+str(total))
+          print('N033C3_KERNEL_APPLY_XML_PASS 38/38')
+          print('N033C3_UNDO_HOST_B7_CANDIDATE_PASS 6+12+38')
           PY
