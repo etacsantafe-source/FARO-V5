@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 544
+    "expected_release_epoch": 548
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033C3_UNDO_EXECUTE_OWNER_BINDING B1–B5 then B6/B7: canonical catalog undo.execute + Reality owner CAS compensation + new receipt under Apply, internal only; after that human host Review/ACL; A4 remains OPEN",
-  "checkpoint_status": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_OWNER_BINDING_NEXT",
+  "next": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST B1–B5: verify source COMMITTED Workspace+Reality journal+receipt original, new Approved human Review and grant, new tx receipt; no productive V2; A4 still OPEN",
+  "checkpoint_status": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_NEXT_NEW_HUMAN_REVIEW_HOST",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_20261108.md",
-  "last_code_sha": "6b5453c4737d1185af25a63a89422a7bc44c6e8e",
-  "last_ci_run_id": 42496536853,
+  "last_handoff": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
+  "last_code_sha": "520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b",
+  "last_ci_run_id": 42497238974,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "N033C3_UNDO_EXECUTE_INTENT_CODEC_8_OF_8_AND_GUARD_SUCCESS",
+  "last_ci_conclusion": "N033C3_UNDO_EXECUTE_OWNER_BINDING_7_OF_7_ALL_13_WORKFLOWS_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -743,7 +743,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC",
+  "last_unit_id": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -1622,6 +1622,19 @@
     "guard": 42496536988,
     "undo_user": "NOT_AVAILABLE",
     "next": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
+    "physical": "NOT_RUN"
+  },
+  "n033c3_undo_binding": {
+    "unit": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
+    "B7": "PASS_SCOPED_INTERNAL",
+    "code_sha": "520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b",
+    "b7": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
+    "directed_ci": 42497238974,
+    "xml": "7/7",
+    "ci_total": "13/13 SUCCESS same SHA",
+    "guard": 42497238924,
+    "production": "OFF",
+    "next": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
     "physical": "NOT_RUN"
   }
 }
