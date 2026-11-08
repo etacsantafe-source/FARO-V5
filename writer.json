@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.ACTIVITY_SURFACE.CODE.RELEASED",
-  "token_hash": "55a3d41b7d58bb0f5f7e791780b38258d2cc1a431964c07f1a480967be988320",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N015.ACTIVITY_SURFACE_B7",
+  "token_hash": "c43361ed9231ed2b05e58796f8ba26dd59e8fe514bd7cba3478e7d2eebc9d54bc",
   "target_head": "8bea3d101643c1e72f881972a40804f9c11ecbd4",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 562,
-  "timestamp": 1794165207,
-  "purpose": "N015 Activity read-only drawer Surface code shipped to dev branch; CI pending; writer released",
-  "last_checkpoint": "N015_ACTIVITY_SURFACE_WAIT_CI@8bea3d101643c1e72f881972a40804f9c11ecbd4"
+  "epoch": 563,
+  "timestamp": 1794165406,
+  "purpose": "N015 Activity Surface B7 after 20/20 new and 68/68 surface XML plus guard; docs only",
+  "last_checkpoint": "N015_ACTIVITY_SURFACE_B7_PENDING@8bea3d101643c1e72f881972a40804f9c11ecbd4"
 }
