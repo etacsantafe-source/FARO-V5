@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "ACTIVE",
-  "owner": "FARO.MANUAL.S3A5.INTEGRATED_DEV_ACCEPTANCE.B1_B5.EPOCH598",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER.B6.WAIT_CI.RELEASED",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
-  "target_head": "feb7a6969c1307187ec3d80e795addd76f96f202",
+  "target_head": "7c4e5caf2e6c97d7b6d6050da780815e1e160a42",
   "target_branch": "work/s3-night-20261102",
   "epoch": 598,
-  "timestamp": 1794181187,
-  "purpose": "S3.A5 scoped new cross-owner after Reality8 cutover tests. B1-B5/permit first, no G15, V2 OFF",
-  "last_checkpoint": "S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED@feb7a696"
+  "timestamp": 1794181439,
+  "purpose": "New S3.A5 post Reality8 four-owner integration five-case suite queued #42536498612, B6 WAIT_CI B7 pending, no G15, V2 OFF",
+  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_WAIT_CI@7c4e5caf"
 }
