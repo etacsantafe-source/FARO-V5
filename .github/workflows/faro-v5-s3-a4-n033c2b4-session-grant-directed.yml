@@ -5,8 +5,8 @@ on:
     branches:
       - work/s3-night-20261102
     paths:
-      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwner.kt"
-      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwnerT2Test.kt"
+      # Kotlin owner/test changes now run the newer 44-test directed workflow.
+      # This historical regression is retained for YAML revisions/manual checks.
       - ".github/workflows/faro-v5-s3-a4-n033c2b4-session-grant-directed.yml"
   workflow_dispatch:
 
@@ -44,14 +44,14 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5Planning8ObjectGrantOwnerT2Test" --tests "ar.com.faro.v5.app.FaroV5Planning8ApprovedObjectGateT2Test" --tests "ar.com.faro.v5.app.FaroV5ActiveWorkspaceSearchGrantOwnerTest" --tests "ar.com.faro.v5.app.FaroV5ChatToReviewedApplyFlowT2Test"
-      - name: Verify exact JUnit XML 14 plus 14 plus 10 plus 2
+      - name: Verify updated exact JUnit XML 18 plus 14 plus 10 plus 2
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
           directory=Path('v5/app/build/test-results/testDebugUnitTest')
           expected={
-            'FaroV5Planning8ObjectGrantOwnerT2Test':14,
+            'FaroV5Planning8ObjectGrantOwnerT2Test':18,
             'FaroV5Planning8ApprovedObjectGateT2Test':14,
             'FaroV5ActiveWorkspaceSearchGrantOwnerTest':10,
             'FaroV5ChatToReviewedApplyFlowT2Test':2,
@@ -67,7 +67,7 @@ jobs:
                   raise SystemExit('N033C2B4_GRANT_XML_FAIL '+name+' '+str(actual))
               print('N033C2B4_GRANT_XML_PASS '+name+' '+str(n)+'/'+str(n))
               total+=n
-          if total!=40:
+          if total!=44:
               raise SystemExit('N033C2B4_GRANT_TOTAL_BAD '+str(total))
-          print('N033C2B4_SESSION_OBJECT_GRANT_PASS 40/40')
+          print('N033C2B4_SESSION_OBJECT_GRANT_PASS 44/44')
           PY
