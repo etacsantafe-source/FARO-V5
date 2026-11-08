@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.B6.RELEASED",
-  "token_hash": "29183c64c0b7d1c96566eeb8912685d72bb65f222658f6b3342d3fd071b8b098",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.RED_FIX_PREAUDIT.20261107",
+  "token_hash": "87de55b3590e4f7998e06abfc53b19339a4e83143ea7b9e6071bcb98e64c29c7",
   "target_head": "7b13660194eb0f832efff18fae6af5f237d1cffc",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 510,
-  "timestamp": 1794101660,
-  "purpose": "B6 real dormant Planning8 host commit with real SQLite tests and official bindings, CI pending, release writer",
-  "last_checkpoint": "REALITY8_TRANSACTION_HOST_B6_WAIT_CI@7b13660194eb0f832efff18fae6af5f237d1cffc"
+  "epoch": 511,
+  "timestamp": 1794101900,
+  "purpose": "RED_FIX B1-B5 1-line kernel nullable callback Kotlin UNSAFE_CALL from exact CI",
+  "last_checkpoint": "REALITY8_TRANSACTION_HOST_RED_FIX_B1B5"
 }
