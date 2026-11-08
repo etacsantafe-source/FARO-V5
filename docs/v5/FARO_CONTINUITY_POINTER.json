@@ -3,7 +3,7 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-07",
+  "updated_local_date": "2026-11-08",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
   "phase": "S3_OPEN_MANUAL_A4",
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 528
+    "expected_release_epoch": 530
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION_B7_PASS_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "N033C3 Receipt-only B7 PASS_SCOPED: code dffd441f, run #42436932481 9/9 real SQLite+38/38 kernel, guard #42436932753 and Home #42436932411 SUCCESS. Next audit owner-backed undo.inspect/undo.execute and reminder.cancel/monthly_plan.item.cancel existing in frozen catalog172, but Reality8 execution bindings NOT certified. No historical receipt deletion. A4 OPEN; Shipping V2/S4/Auto/Noche OFF, G15 A5 deferred. Writer release epoch528.",
-  "checkpoint_status": "S3_A4_N033C3_RECEIPT_ONLY_B7_PASS_HOST9_KERNEL38_NEXT_UNDO_OWNER",
+  "next": "Execute preflight for 3 exact paths; B6 READ_ONLY Undo origin inspection then exact 12/12 host + kernel, B7. Undo compensation still pending; A4 open.",
+  "checkpoint_status": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_READY_SCOPED_CODE_PENDING",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION_B7_PASS_20261108.md",
+  "last_handoff": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
   "last_code_sha": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
   "last_ci_run_id": 42436932481,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -743,7 +743,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A1_HOME_BATCH_REVALIDATION",
+  "last_unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -1572,6 +1572,17 @@
     "all_ci": "SUCCESS",
     "real_local_policy": false,
     "shipping_v2": false,
+    "physical": "NOT_RUN"
+  },
+  "n033c3_undo_origin": {
+    "unit": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
+    "preaudit": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B1_B5_20261108.md",
+    "baseline_sha": "a88e63a4b09155aac04e972c695f439721a409e0",
+    "permit": "READY_SCOPED_3_PATHS",
+    "B6": "NOT_RUN",
+    "B7": "NOT_RUN",
+    "undo_execute": "NOT_IMPLEMENTED",
+    "a4": "OPEN",
     "physical": "NOT_RUN"
   }
 }
