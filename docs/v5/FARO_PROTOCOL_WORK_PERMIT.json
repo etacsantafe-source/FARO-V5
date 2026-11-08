@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
   "reviewed_head": "86d8e54fc21acf046dc8012e724b5be3a9c1316c",
   "paths": [
@@ -58,8 +58,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "WAIT_CI_RETRY_42536901243_NO_XML_YET",
+    "B7": "PENDING_AFTER_TERMINAL_CI"
   },
   "last_code_review": {
     "sha": "03f5af2ae9e1382c7a2f0ff0b9d51049868e374d",
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "Exact CI #42536498612 failed Kotlin unit-test compile on suspend search called without coroutine; B7 RED_FIX only three test functions",
+  "why": "Only test runBlocking patch 3eda9c27; new 5-case directed CI not terminal",
   "how": "Wrap three new test functions in runBlocking; all production code and previous five certified S3.A5 subunits unchanged",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Single new test-only commit; JUnit XML 5/5 and guard on SHA; independent B7"
+  "next": "Check #42536901243 SHA 3eda9c27, exact JUnit XML 5/5 and protocol #42536901256, then B7 scoped or red_fix"
 }
