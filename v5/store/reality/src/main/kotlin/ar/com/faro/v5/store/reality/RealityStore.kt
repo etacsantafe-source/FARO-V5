@@ -5,6 +5,9 @@ import androidx.sqlite.SQLiteDriver
 import androidx.sqlite.execSQL
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
+import ar.com.faro.v5.kernel.contracts.OperationBindingPort
+import ar.com.faro.v5.kernel.contracts.OperationRevalidationPort
+import ar.com.faro.v5.kernel.contracts.OperationContractLookupPort
 import ar.com.faro.v5.kernel.contracts.ApplyAttemptIdentity
 import ar.com.faro.v5.kernel.contracts.ApplyAttemptIdentityPort
 import ar.com.faro.v5.kernel.contracts.ApplyAttemptJournalState
@@ -255,6 +258,40 @@ class RealityStore(
                     transactionScope,
                 ).monthlyPlan
         }
+
+    /**
+     * N033C2B4 trusted-host composition ONLY: exposes the two EXISTING
+     * owner SPI bindings, not raw CRUD nor a write/authorization capability.
+     * The Android host must supply a canonical official descriptor catalog,
+     * live human Review, scoped grant lease and SQL authorization PEP.
+     * Never install in Surface, shipping or the v2CoreDev activity.
+     */
+    fun planningCreateBindingsForTrustedHost(
+        catalog: OperationContractLookupPort,
+    ): List<OperationBindingPort> = synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Planning CREATE bindings require existing Reality schema8"
+        }
+        listOf(
+            ReminderCreateBinding(reminderPersistence, catalog),
+            MonthlyPlanItemAddBinding(monthlyPlanPersistence, catalog),
+        )
+    }
+
+    /** Official owner revalidators, under the identical schema8 admission. */
+    fun planningCreateRevalidatorsForTrustedHost(
+        catalog: OperationContractLookupPort,
+    ): List<OperationRevalidationPort> = synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Planning CREATE revalidators require existing Reality schema8"
+        }
+        listOf(
+            ReminderCreateRevalidation(reminderPersistence, catalog),
+            MonthlyPlanItemAddRevalidation(monthlyPlanPersistence, catalog),
+        )
+    }
 
     val maintenance: RealityMaintenancePort =
         RealityMaintenancePort(::inspectForMaintenance)

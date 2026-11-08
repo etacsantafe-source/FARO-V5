@@ -25,6 +25,12 @@ class ReviewedConversationApplyCoordinator(
     private val executor: ApplyTransactionExecutor,
     private val attempts: ApplyAttemptLookupPort,
     private val receipts: ExecutionReceiptLookupPort,
+    /**
+     * Optional trusted host seam AFTER canonical Workspace BeginApply CAS
+     * and BEFORE the Reality mutex/SQL. The callback may read Workspace
+     * and must return false on any lost permission. Legacy hosts omit it.
+     */
+    private val afterBeginApply: ((ConversationPlanReviewSnapshot, ApplyAttemptIdentity) -> Boolean)? = null,
 ) {
     fun apply(context: ConversationPlanReviewContext): ReviewedConversationApplyResult {
         val loaded = workspace.load(context)
@@ -73,6 +79,14 @@ class ReviewedConversationApplyCoordinator(
                 if (start !is ConversationReviewDecision.Saved ||
                     start.review.state != ConversationPlanReviewState.APPLYING)
                     return ReviewedConversationApplyResult.Denied("start_not_committed")
+                // A4: No Workspace reads inside Reality.run: promote scoped
+                // authorization now, while the caller still holds its grant
+                // owner lease. False/exception never executes a binding.
+                if (afterBeginApply != null &&
+                    !runCatching {
+                        afterBeginApply.invoke(start.review, observed.identity)
+                    }.getOrDefault(false)
+                ) return markRecovering(start.review, observed.identity)
                 val execution = executor.execute(plan, observed.identity, resolved)
                 when (execution) {
                     is ApplyTransactionExecution.Completed ->
