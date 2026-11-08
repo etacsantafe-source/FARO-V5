@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
   "reviewed_head": "be9476d43fd6b9af900f2890ed835f9a311242d2",
-  "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningUndoExecuteBinding.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningUndoExecuteBindingT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c3-undo-execute-owner-binding-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_INTERNAL_UNDO_EXECUTE_BINDING_7_OF_7_ALL_13_CI",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
+          "blob_sha": "398dfa86f6165188c782cf8a1cf61bf9a5caf3bf",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "6b5453c4737d1185af25a63a89422a7bc44c6e8e",
-    "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC",
+    "sha": "520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b",
+    "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_20261108.md",
-        "blob_sha": "cbb845afde56e729c1961acd4aa951a407081b77",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
+        "blob_sha": "398dfa86f6165188c782cf8a1cf61bf9a5caf3bf",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Wire existing D-229 undo.execute to previously certified owner cancellation under Reality8 only",
-  "how": "Catalog exact, old receipt/journal COMMITTED, original CREATE payload and owner stamp; 7 directed real SQLite JVM tests",
+  "why": "N033C3 undo.execute internal owner binding B7 passed, 7/7 and 13/13 same SHA workflows, no user-host authorization yet",
+  "how": "Source receipt/journal COMMITTED + exact CREATE payload and owner stamp + Reality8 SQL CAS new receipt, disabled Android composition",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 internal owner binding then B7; afterward new human Review host"
+  "next": "New B1-B5 for S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST; verify separate new human approval and sealed source COMMITTED Workspace"
 }
