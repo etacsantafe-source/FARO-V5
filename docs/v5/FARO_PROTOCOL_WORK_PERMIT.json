@@ -59,24 +59,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_AFTER_TEST_ONLY_RED_FIX",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_LOCAL_INSTALL_POLICY_XML_10_10_EXACT_SHA",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_AUTHORITY_CORE_B7_PASS_20261108.md",
+          "blob_sha": "72ccc987bed46b4a40f3262b3031400703e3aeb9",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "50eeed8401db4083eee0885dd671c90e81931b8a",
+    "sha": "ea79ce776df2bab711d43c341a58a6b3e91f3a9b",
     "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B7_RED_FIX_20261108.md",
-        "blob_sha": "d0713f876069ed66640192705da83596ad7b4bbf",
+        "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_AUTHORITY_CORE_B7_PASS_20261108.md",
+        "blob_sha": "72ccc987bed46b4a40f3262b3031400703e3aeb9",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Redfix ea79ce77 T2 fixture pushed, expected 10/10 but CI not yet confirmed",
+  "why": "B7 PASS exact code ea79ce77 JVM 10/10, guard success; Android mounting requires separate audited unit",
   "how": "Test-only replacement of stale pointer fixture for distinct host epoch test, no behavior/owner changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B7 verify exact SHA CI XML and guard then separate host mount"
+  "next": "S3.A4 N015 active DEV host mount B1-B5, then N031 integration, no activation of V2 productiva"
 }
