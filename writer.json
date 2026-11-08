@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "ACTIVE",
-  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_TEST_RED_FIX.EPOCH599",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER.B6.RETRY_WAIT_CI.RELEASED",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
-  "target_head": "7c4e5caf2e6c97d7b6d6050da780815e1e160a42",
+  "target_head": "a2da1f53e8b3e5c55b0e0e2802c76f7e9cba5b87",
   "target_branch": "work/s3-night-20261102",
   "epoch": 599,
-  "timestamp": 1794181617,
-  "purpose": "B7 RED_FIX only: new unit tests missing runBlocking scope, product code compiles, no production changes",
-  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_RED@03f5af2a"
+  "timestamp": 1794181749,
+  "purpose": "S3.A5 new 5-case integrated DEV tests 3eda9c27 (test-only fix), CI #42536901243 WAIT_CI, guard in progress, B7 pending; V2 OFF G15 not run",
+  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_RETRY_WAIT_CI@a2da1f53"
 }
