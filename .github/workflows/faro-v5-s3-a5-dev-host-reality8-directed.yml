@@ -1,0 +1,60 @@
+name: FARO V5 S3 A5 DEV Reality8 Android host mount directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHost.kt"
+      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHostTest.kt"
+      - ".github/workflows/faro-v5-s3-a5-dev-host-reality8-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a5-dev-host-reality8-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dev-reality8-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK configuration
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile real isolated V2CoreDev variant and eight fresh JVM cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:compileV2CoreDevKotlin \
+            :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2Planning8DevHostTest"
+      - name: Verify exact newly directed XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path('v5/app/build/test-results/testV2CoreDevUnitTest')
+          found=list(folder.glob('TEST-*FaroV5V2Planning8DevHostTest.xml'))
+          if len(found)!=1: raise SystemExit('S3_A5_DEV_HOST_REALITY8_XML_MISSING')
+          root=ET.parse(found[0]).getroot()
+          vals=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if vals!=(8,0,0,0): raise SystemExit('S3_A5_DEV_HOST_REALITY8_XML_RED '+str(vals))
+          print('S3_A5_DEV_HOST_REALITY8_XML_PASS 8/8')
+          PY

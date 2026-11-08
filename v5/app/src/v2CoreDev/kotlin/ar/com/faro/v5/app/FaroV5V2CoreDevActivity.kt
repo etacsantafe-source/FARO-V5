@@ -39,6 +39,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private lateinit var openButton: Button
     private lateinit var activityButton: Button
     private lateinit var dueButton: Button
+    private lateinit var upgradeButton: Button
     private var dueDisplay: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,6 +83,19 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             setOnClickListener { openLocalChat(requestPendingRead = true) }
         }
         column.addView(dueButton)
+        column.addView(TextView(this).apply {
+            text = "Reality8 (solo DEV): crea una generación nueva y vacía. " +
+                "NO copia datos de Reality7; la generación anterior queda intacta. " +
+                "Primero debe estar inicializado el Chat local."
+        })
+        upgradeButton = Button(this).apply {
+            text = "Crear Reality8 vacía (DEV)"
+            setOnClickListener {
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+                    openLocalChat(requestPlanning8Upgrade = true)
+            }
+        }
+        column.addView(upgradeButton)
         setContentView(ScrollView(this).apply {
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -93,6 +107,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private fun openLocalChat(
         requestActivityRead: Boolean = false,
         requestPendingRead: Boolean = false,
+        requestPlanning8Upgrade: Boolean = false,
     ) {
         if (!opening.compareAndSet(false, true)) return
         // Only this dedicated foreground button can request an Activity read.
@@ -101,12 +116,25 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         openButton.isEnabled = false
         activityButton.isEnabled = false
         dueButton.isEnabled = false
-        status.text = "Verificando journal y cinco bases locales…"
+        upgradeButton.isEnabled = false
+        // Revoke all old per-session read grants and close five SQLite stores
+        // before the explicit Reality8 cutover can acquire the same global gate.
+        session?.close()
+        session = null
+        status.text = if (requestPlanning8Upgrade)
+            "Verificando origen, journal y Reality8 vacía (DEV)…"
+        else "Verificando journal y cinco bases locales…"
         executor.execute {
             var opened: FaroV5V2CoreDevAuthority.Session? = null
             val failure = runCatching {
                 val root = noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root")
-                val current = FaroV5V2CoreDevAuthority(root).open()
+                val authority = FaroV5V2CoreDevAuthority(root)
+                val current = if (requestPlanning8Upgrade) {
+                    authority.upgradePlanning8AfterExplicitForegroundRequest {
+                        !disposed.get() && !isFinishing && !isDestroyed &&
+                            lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                    }
+                } else authority.open()
                 opened = current
                 val snapshot = runBlocking { current.workspaceReadPort.readSnapshot() }
                 if (snapshot.conversations.isEmpty()) {
@@ -140,6 +168,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                         openButton.isEnabled = true
                         activityButton.isEnabled = true
                         dueButton.isEnabled = true
+                        upgradeButton.isEnabled = true
                     } else {
                         val active = checkNotNull(opened)
                         session = active

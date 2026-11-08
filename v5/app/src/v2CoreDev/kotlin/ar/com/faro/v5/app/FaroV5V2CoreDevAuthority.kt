@@ -28,7 +28,11 @@ import java.util.function.Supplier
  * No model gateway, Apply port, external action or OS-delivery port is constructed.
  */
 internal class FaroV5V2CoreDevAuthority(private val root: Path) {
-    private val gate = SingleProcessMaterialWriteGate()
+    companion object {
+        // One DEV material-write authority for all Activity sessions in this process.
+        private val sharedGate = SingleProcessMaterialWriteGate()
+    }
+    private val gate = sharedGate
     private val initialId = StorageGenerationId("v2-core-dev-legacy-base-1")
     private val targetId = StorageGenerationId("v2-core-dev-workspace-1")
     private val operationId = MaintenanceOperationId("v2-core-dev-first-activation-1")
@@ -46,6 +50,10 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 initialId.value, "v2-core-dev-recovery-base-1",
             )
         }
+        // Recovery is allowed ONLY for a previously foreground-authorized
+        // Reality8 journal. Normal Chat open never starts a new stage.
+        val planning8 = FaroV5V2Planning8DevHost(normalized, gate)
+        planning8.recoverPreviouslyAuthorizedOrFail()
         val layout = FileStorageGenerationLayout(normalized)
         val journal = FileBootstrapJournal(normalized)
         val replayFence = FileGenerationReplayFence(normalized)
@@ -180,22 +188,34 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                     }
                 }
             }
+            planning8.targetId -> {
+                // Exact Reality8 operation was already recovered or verified.
+                planning8.requireCompleted(checkNotNull(pointer.read()))
+            }
             else -> error("DEV active generation has unexpected identity")
         }
 
-        val finalEntry = checkNotNull(journal.read(operationId))
-        check(finalEntry.phase == BootstrapPhase.COMPLETED &&
-            finalEntry.materialWritesAccepted &&
-            pointer.read()?.generationId == targetId &&
-            replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)) {
-            "DEV activation lacks committed replay fence or authority"
-        }
-        // Pin the DURABLE pointer sequence, not only its reusable generation ID.
-        // A->B->A must never revive an already-mounted DEV Search/read session.
+        // Pin FULL pointer on every session: a past generation ID is never an
+        // adequate authorization token after ABA or a Reality7→8 cutover.
         val openingPointer = checkNotNull(pointer.read()) { "DEV active pointer missing" }
-        check(openingPointer.generationId == targetId) { "DEV active generation changed" }
-        val pinnedPointerSequence = openingPointer.sequence
-        val graph = FaroV5ActiveGenerationGraphOwner.open(normalized, targetId.value, gate, true)
+        val activeId = openingPointer.generationId
+        val oldFinalEntry = if (activeId == targetId) {
+            checkNotNull(journal.read(operationId)).also {
+                check(it.phase == BootstrapPhase.COMPLETED && it.materialWritesAccepted &&
+                    replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId))
+            }
+        } else {
+            check(activeId == planning8.targetId)
+            planning8.requireCompleted(openingPointer)
+            null
+        }
+        val graph = if (activeId == planning8.targetId)
+            FaroV5ActiveGenerationGraphOwner.openExistingPlanning8ForCertifiedHost(
+                normalized, activeId.value, openingPointer.sequence, gate, true,
+            )
+        else FaroV5ActiveGenerationGraphOwner.open(
+            normalized, activeId.value, gate, true,
+        )
         val readAccesses = mutableListOf<FaroV5V2CoreDevSearchReadAuthority>()
         var pointerObserver: Runnable? = null
         return try {
@@ -204,20 +224,20 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val current = Supplier { pointer.read()?.generationId?.value ?: "" }
             val ready = BooleanSupplier {
                 val observed = pointer.read()
-                alive.get() && observed != null &&
-                    observed.generationId == targetId &&
-                    observed.sequence == pinnedPointerSequence &&
-                    journal.read(operationId) == finalEntry &&
-                    replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)
+                alive.get() && observed == openingPointer &&
+                    if (activeId == targetId)
+                        journal.read(operationId) == oldFinalEntry &&
+                            replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)
+                    else planning8.isCommittedCurrent(openingPointer)
             }
             val reads = FaroV5ActiveChatReadSession(
-                targetId.value, workspace, workspace, current, ready,
+                activeId.value, workspace, workspace, current, ready,
             )
             val selection = FaroV5ActiveChatSelectionSession(
-                targetId.value, workspace, gate, current, ready,
+                activeId.value, workspace, gate, current, ready,
             )
             val composer = FaroV5ActiveChatComposerSession(
-                targetId.value, workspace, gate, current, ready,
+                activeId.value, workspace, gate, current, ready,
             )
             // DEV search authority is scoped to THIS verified host session.
             // Never persist a grant or reuse a Workspace write authority token.
@@ -230,7 +250,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             pointer.addChangeListener(observer)
             pointerObserver = observer
             val canonical = FaroV5WorkspaceSearchReadSource(
-                targetId.value, workspace,
+                activeId.value, workspace,
                 { pointer.read()?.generationId?.value },
                 { access.epochOrNull() },
                 { ready.getAsBoolean() },
@@ -249,20 +269,20 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val objectiveGrant = grantRealityRead()
             val matterGrant = grantRealityRead()
             val financeSource = FaroV5FinanceSearchReadSource(
-                targetId.value,
+                activeId.value,
                 FinanceSnapshotReadApi { graph.reality.financePersistence.read() },
                 { pointer.read()?.generationId?.value },
                 { financeGrant.epochOrNull() },
                 { ready.getAsBoolean() },
             )
             val objectiveSource = FaroV5ObjectivesSearchReadSource(
-                targetId.value, graph.reality.objectivePersistence,
+                activeId.value, graph.reality.objectivePersistence,
                 { pointer.read()?.generationId?.value },
                 { objectiveGrant.epochOrNull() },
                 { ready.getAsBoolean() },
             )
             val matterSource = FaroV5MattersSearchReadSource(
-                targetId.value, graph.reality.matterPersistence,
+                activeId.value, graph.reality.matterPersistence,
                 { pointer.read()?.generationId?.value },
                 { matterGrant.epochOrNull() },
                 { ready.getAsBoolean() },
@@ -286,6 +306,23 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             graph.close()
             throw failure
         }
+    }
+
+    /**
+     * Dedicated native foreground button only. The existing Android Session
+     * must have been closed by the caller BEFORE requesting this operation.
+     * Normal Chat/Activity/Pendientes never enter this path.
+     */
+    internal fun upgradePlanning8AfterExplicitForegroundRequest(
+        foreground: () -> Boolean,
+    ): Session {
+        check(foreground()) { "DEV upgrade denied without foreground click" }
+        val normalized = root.toAbsolutePath().normalize()
+        check(!Files.isSymbolicLink(normalized) &&
+            Files.isDirectory(normalized, LinkOption.NOFOLLOW_LINKS))
+        FaroV5V2Planning8DevHost(normalized, gate)
+            .promoteAfterExplicitForegroundRequest(foreground)
+        return open()
     }
 
     class Session internal constructor(
