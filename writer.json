@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.REAL_ACL.B1B5.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.REAL_ACL.B1B5.RELEASED",
   "token_hash": "29bfc33d928120ea79fa16c7fc99419be24e6fd6e746dbcd1f1707f07126cb02",
-  "target_head": "d7dd8a94ce3007e77ea0a158f05de517b6b50a31",
+  "target_head": "a96bae33f6f5cec831f90495352db411c95e5f0c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 479,
-  "timestamp": 1794096420,
-  "purpose": "B1-B5 independent Planning8 transactional ACL audit; docs-only, no functional permission",
-  "last_checkpoint": "A4_REAL_ACL_B1B5_IN_PROGRESS"
+  "epoch": 480,
+  "timestamp": 1794096480,
+  "purpose": "Real ACL B1-B5 audited; B6 unsafe without concrete policy/fence; no code; scoped next task",
+  "last_checkpoint": "A4_REAL_ACL_B1B5_STOP@a96bae33f6f5cec831f90495352db411c95e5f0c"
 }
