@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_OWNER_CANCEL.B6.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_OWNER_CANCEL.B7",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "61b16c94a8baa3b3d1a3d0fdc6283c2a3498a61e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 538,
+  "epoch": 539,
   "timestamp": 1794137160,
-  "purpose": "Internal Undo owner CAS Reality8 code+6 tests published, awaiting 7block guard and CI",
+  "purpose": "B7 all 14 same SHA CI SUCCESS including Undo SQL6/6; checkpoint and next host Undo execution",
   "last_checkpoint": "N033C3_UNDO_OWNER_CANCEL_B6_WAIT_CI@61b16c94a8baa3b3d1a3d0fdc6283c2a3498a61e"
 }
