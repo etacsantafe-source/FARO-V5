@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_SOURCE",
   "reviewed_head": "37cf5bfb35b5dde490cd4f7f2c084b08d3a3e3ea",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealityPlanningDueReadSource.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealityPlanningDueReadSourceTest.kt",
-    ".github/workflows/faro-v5-s3-planning-due-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_DIRECTED_XML_6_6_EXACT_SHA",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_20261108.md",
+          "blob_sha": "3d2e0ca7dd6cc45842c70ba2a6b17d90ba821722",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
-    "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
+    "sha": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
+    "unit_id": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_SOURCE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_PASS_20261108.md",
-        "blob_sha": "f6487fda8f21d05db0a27ea6ffb8741e35706da5",
+        "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_20261108.md",
+        "blob_sha": "3d2e0ca7dd6cc45842c70ba2a6b17d90ba821722",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Reality8 has real persisted Reminder+MonthlyPlan owners but lacks pending read-only projection; deny without host ACL",
-  "how": "Typed occurrence and civil due-date source, independent per owner grants, pointer epoch + revoke checks, isolated JVM 6 tests only",
+  "why": "N031 stored due typed two-owner JVM reader passed; host grants and shipping not bound",
+  "how": "CI #42507705020 6/6 XML, mandatory #42507705032 PASS; Home #42507704984 PASS; B7 scoped",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 functional unit, run directed exact XML + protocol guard, B7 then BLOCKED"
+  "next": "B1-B5 N031 authentic Reality8 read host binding + ACL; N015 Activity UI still OPEN; no V2 shipping"
 }

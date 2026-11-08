@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 556
+    "expected_release_epoch": 558
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_PASS_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3_A4_N033C3_UNDO_HOST_E2E_AUTHORIZATION: B1-B5 identify N015/N031/ACL/UI gaps toward A4 closure, no re-testing four certified Undo layers; keep V2 productive/S4/AUTO/Night OFF",
-  "checkpoint_status": "S3_A4_N033C3_UNDO_REVIEWED_HOST_B7_PASS_SCOPED_A4_OPEN",
+  "next": "S3_A4_N031_REALITY8_READ_HOST_BINDING_B1_B5: inspect genuine canonical read-only source at module boundary + independent principal/ACL owner; no false UI count, no reimplement Undo or two-owner due JVM reader; N015 Activity UI still open",
+  "checkpoint_status": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_SCOPED_A4_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_PASS_20261108.md",
-  "last_code_sha": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
-  "last_ci_run_id": 42499635004,
+  "last_handoff": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_20261108.md",
+  "last_code_sha": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
+  "last_ci_run_id": 42507705020,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "N033C3_NEW_HUMAN_REVIEW_UNDO_HOST_6_PLUS_12_PLUS_KERNEL38_SUCCESS",
+  "last_ci_conclusion": "N031_PLANNING_DUE_XML_6_6_AND_GUARD_HOME_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1649,5 +1649,19 @@
     "a4": "OPEN",
     "physical": "NOT_RUN",
     "next": "S3_A4_N033C3_UNDO_HOST_E2E_AUTHORIZATION"
+  },
+  "progress_s3_a4_n031_planning_due": {
+    "unit_id": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_SOURCE",
+    "status": "B7_PASS_SCOPED_TYPED_READER_DORMANT",
+    "code_sha": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
+    "ci_run": 42507705020,
+    "xml": "6/6",
+    "guard_run": 42507705032,
+    "home_regression_run": 42507704984,
+    "host_acl": "NOT_BOUND",
+    "reality8_owner_ports": "INTERNAL_TO_REALITY_NOT_HOST_BOUND",
+    "physical": "NOT_RUN",
+    "a4": "OPEN",
+    "app_v2": "OFF"
   }
 }
