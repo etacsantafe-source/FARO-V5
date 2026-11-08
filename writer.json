@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.B1B5.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.B1B5.RELEASED",
   "token_hash": "76eed09950f9422099c6c6ec232a3d6e077b8c93b7bf2e74da8b21a04eaf65b",
-  "target_head": "a96bae33f6f5cec831f90495352db411c95e5f0c",
+  "target_head": "f7b14709d3cdfb43aa53e3166850635cabadfb69",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 481,
-  "timestamp": 1794096780,
-  "purpose": "B1-B5 bounded grant-owner lease preaudit (not real ACL activation)",
-  "last_checkpoint": "A4_GRANT_COMMIT_LEASE_PREAUDIT"
+  "epoch": 482,
+  "timestamp": 1794096840,
+  "purpose": "B1-B5 scoped lease docs, permit READY, release before code",
+  "last_checkpoint": "A4_GRANT_LEASE_B1_B5_READY@f7b14709d3cdfb43aa53e3166850635cabadfb69"
 }
