@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 506
+    "expected_release_epoch": 508
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B7_PASS_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "APPROVED→APPLYING identity promotion B7 PASS_SCOPED: code 08959188, CI #42433781042 XML 63/63 + seven exact-SHA workflows SUCCESS. Next S3_A4_N033C2B4_TRANSACTION_BOUND_POLICY_AND_REALITY8: B1-B5 for verified user Apply host, grant lease across Workspace CAS & SQLite COMMIT, official Reminder/Monthly bindings, immutable transaction hook (no Workspace calls inside Reality), then Undo/retry N033C3. Shipping V2/S4/Auto/Noche OFF, G15 A5 deferred. Writer release epoch506, permit BLOCKED.",
-  "checkpoint_status": "S3_A4_APPLYING_IDENTITY_PROMOTION_B7_PASS_63_63_NEXT_REALITY8_TRANSACTION_HOST",
+  "next": "B1–B5 READY scoped dormant Reality8 transaction host only: 5 paths, callbacks BeginApply→policy promotion outside Reality mutex, owner lease covers Reality COMMIT, official Reminder/Monthly bindings, real SQLite commit/rollback tests. No shipping or DEV UI Apply; B6 then exact CI/B7. G15 A5 NOT_RUN. Writer release epoch508.",
+  "checkpoint_status": "S3_A4_REALITY8_TRANSACTION_HOST_B1_B5_READY",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B7_PASS_20261107.md",
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
   "last_code_sha": "0895918851385a411a8b77f726772e253aa2ff37",
   "last_ci_run_id": 42433781042,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",

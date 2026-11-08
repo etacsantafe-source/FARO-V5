@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION",
-  "reviewed_head": "0895918851385a411a8b77f726772e253aa2ff37",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST",
+  "reviewed_head": "15141c91816fad15d7de6bdb71396c8c126de90a",
+  "paths": [
+    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ReviewedConversationApplyCoordinator.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-reality8-transaction-host-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
-          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
+          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
           "marker": "## B1"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
-          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
+          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
           "marker": "## B2"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
-          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
+          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
           "marker": "## B3"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
-          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
+          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
           "marker": "## B4"
         }
       ]
@@ -49,23 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
-          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
+          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_63_63",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B7_PASS_20261107.md",
-          "blob_sha": "ecf8f3f95b75a0fe85771ed46f9bafa2b6c71c94",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0895918851385a411a8b77f726772e253aa2ff37",
@@ -79,9 +76,9 @@
       }
     ]
   },
-  "why": "Canonical approved local request promoted to exact Workspace APPLYING/Reality transaction identity; no external host or Reality8 COMMIT yet",
-  "how": "63/63 XML #42433781042, seven exact SHA workflows SUCCESS, scope only four files, final B7",
+  "why": "Dormant trusted local host binds canonical Review and scoped owner grant through one Reality8 BEGIN IMMEDIATE/COMMIT with mandatory authorization hook; no UI or shipping wiring",
+  "how": "5 exact paths, real Workspace+Reality8 JVM integration and directed XML; fail closed/no fabricated human",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1–B5 REALITY8_TRANSACTION_BOUND_HOST, independent production policy/COMMIT fencing; then N033C3 Undo/retry"
+  "next": "B6 implement scoped dormant host with official Reality8 binding adapters, B7 exact SHA CI then N033C3 Undo/retry"
 }
