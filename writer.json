@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N015.REAL_SQLITE_ACTIVITY_HOST.CODE.RELEASED",
-  "token_hash": "3ab2e7d9df361fb754c67aa230e9de7aab38b0dd0b3322fc20a48ec4f9eaa729a",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N015.REAL_ACTIVITY_HOST_REDFIX",
+  "token_hash": "efc73e1bb7f1a66dd11892de631bda14a1246b7695100f6a7ea5facb94929692",
   "target_head": "d167d550841c223fb9b4045539c976190b2f0a8a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 564,
-  "timestamp": 1794165860,
-  "purpose": "Real N015 canonical Activity host source+UI forwarding code committed; CI pending, writer released",
-  "last_checkpoint": "N015_REAL_ACTIVITY_HOST_WAIT_CI@d167d550841c223fb9b4045539c976190b2f0a8a"
+  "epoch": 565,
+  "timestamp": 1794166152,
+  "purpose": "N015 host CI red fix: cross-module internal Workspace test API + post-read ACL epoch equality; same unit only",
+  "last_checkpoint": "N015_REAL_HISTORY_HOST_B7_REDFIX@d167d550841c223fb9b4045539c976190b2f0a8a"
 }
