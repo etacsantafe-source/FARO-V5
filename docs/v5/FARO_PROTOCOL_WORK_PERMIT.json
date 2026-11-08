@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
   "reviewed_head": "a63ff994ac8ef7d241840884c66f6c047591f1e3",
   "paths": [
@@ -58,8 +58,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "WAIT_CI_POST_CUTOVER_5_OF_5_NOT_YET_VERIFIED",
+    "B7": "PENDING_INDEPENDENT_AUDIT"
   },
   "last_code_review": {
     "sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "Verify five NEW post-Reality8 integration paths without rerunning five certified A5 units; JVM only",
+  "why": "Five new post-cutover DEV tests are queued; exact run/XML not terminal, cannot claim PASS",
   "how": "No production code mutation: dedicated testV2CoreDev 5 real five-store tests + directed XML and protocol guard",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 new 5-test suite and workflow; exact XML + guard; B7 independent then S3.A5 acceptance matrix; G15 reserved"
+  "next": "Read #42536498612 exact SHA 03f5af2a, XML 5/5, guard; audit B7 or scoped RED_FIX"
 }
