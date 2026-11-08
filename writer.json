@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_POLICY.B1_B7",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_CORE.WAIT_CI.RELEASED",
   "token_hash": "3d208ceb59f7ae18d37e4837ded4b50fc373c3c0515924a250213b1d7e95b09d",
-  "target_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
+  "target_head": "e87b86f955dbae391aa6187a97ae23c73018b0b9",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 568,
-  "timestamp": 1794167538,
-  "purpose": "S3.A4 single-install read authority B1-B5 + bounded implementation, no V2 activation",
-  "last_checkpoint": "S3_A4_LOCAL_READ_POLICY_IN_PROGRESS@1c2bed55"
+  "epoch": 569,
+  "timestamp": 1794167875,
+  "purpose": "S3.A4 core committed and checkpointed, directed CI running; release early per protocol",
+  "last_checkpoint": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B6_WAIT_CI@e87b86f955dbae391aa6187a97ae23c73018b0b9"
 }
