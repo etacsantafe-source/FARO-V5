@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.LEGACY_XML_REDFIX.B1B5.RELEASED",
-  "token_hash": "e6f7264f33e9658b43a7ae0ea7bf42aba2303e0f40e3f2c53a2c33edb51be1e9",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.GRANT_COMMIT_LEASE.LEGACY_XML_REDFIX.B6.20261107",
+  "token_hash": "98a2d5cf3c1c4184a787f19045aa2e90afe044bcf04543c4c1b9c4310b28d4e5",
   "target_head": "08c5359c1ad35dd9f193d4c085ae257abdb2ff81",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 486,
-  "timestamp": 1794097500,
-  "purpose": "RED_FIX B1-B5 exact legacy XML and permit READY, release before YAML-only code",
-  "last_checkpoint": "A4_GRANT_LEGACY_REDFIX_B1B5_READY@08c5359c1ad35dd9f193d4c085ae257abdb2ff81"
+  "epoch": 487,
+  "timestamp": 1794097560,
+  "purpose": "One YAML code RED_FIX old exact 14/40 expected, update to 18/44; avoid future duplicate trigger",
+  "last_checkpoint": "A4_LEGACY_XML_REDFIX_B6"
 }
