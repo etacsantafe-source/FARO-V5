@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-08",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_MANUAL_A3_A5",
+  "phase": "S3_OPEN_MANUAL_A5",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 586
+    "expected_release_epoch": 588
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_STAGE_CLOSURE_AUTOMATED_SCOPE_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A3 separate bounded approval and owner code; S3.A5 staged Reality8 cutover + authorized host UI and single G15 physical campaign. Do not auto-enable V2 or fabricate complete Pending counts.",
-  "checkpoint_status": "S3_A4_CLOSED_AUTOMATED_SCOPE_READ_ONLY_DEV",
+  "next": "S3.A5 prepare fresh quarantined schema8 candidate; verify cutover with journal/replay, then DEV host mount and single physical G15 campaign; A3 contract approval still required",
+  "checkpoint_status": "S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_STAGE_CLOSURE_AUTOMATED_SCOPE_20261108.md",
-  "last_code_sha": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
-  "last_ci_run_id": 42521651643,
+  "last_handoff": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
+  "last_code_sha": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
+  "last_ci_run_id": 42523665762,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "S3_A4_N031_DEV_PENDING_6_OF_6_APK_M5_AND_PROTOCOL_PASS",
+  "last_ci_conclusion": "A5_REALITY8_CERTIFIED_HOST_XML_6_OF_6_APK_M5_AND_PROTOCOL_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1734,5 +1734,29 @@
     "shipping_pending_ui": "NOT_MOUNTED",
     "home_pending_global": "DENY_UNKNOWN_NOT_ZERO"
   },
-  "n031_pre_audit": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md"
+  "n031_pre_audit": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md",
+  "a5_checkpoint": {
+    "status": "OPEN_SCOPED_UNIT_PASS",
+    "completed_unit": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
+    "code_sha": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
+    "b7_doc": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
+    "ci_run": 42523665762,
+    "ci_xml": "6/6_REAL_FIVE_SQLITE",
+    "protocol_run": 42523665615,
+    "apk_run": 42523665912,
+    "apk_sha256": "c83bd362996796549508461139869c1c6fde40bb41d8a03dfa2218781241ff0b",
+    "n033c1_regression_run": 42523665745,
+    "n033c2b2_regression_run": 42523665849,
+    "fbs2_v3_regression_run": 42523665749,
+    "dev_schema8_cutover": "NOT_IMPLEMENTED",
+    "dev_android_pending_ui_real_data": "NOT_VERIFIED",
+    "physical": "NOT_RUN_G15_CAMPAIGN_RESERVED",
+    "s3_a5": "OPEN",
+    "remaining": [
+      "STAGE_FRESH_SCHEMA8_IN_ISOLATED_DEV",
+      "CUTOVER_RECOVERY_JOURNAL_FENCE",
+      "MOUNT_ACTIVE8_REAL_OWNER_WITH_AUTH",
+      "X01_TO_X12_PHYSICAL_ONCE_AT_END"
+    ]
+  }
 }

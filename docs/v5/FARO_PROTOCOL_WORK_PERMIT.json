@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
   "reviewed_head": "b7a6f89c42fc42ba36d0a18a11752da693eb395b",
   "paths": [
@@ -60,24 +60,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_REAL_SQLITE_ACTIVE8_HOST_XML_6_6_SIGNED_DEV_APK",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "490d09e356ce78e19632223fb9f003e72ba3be50",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
-    "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
+    "sha": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
+    "unit_id": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "6b172c26e1c391c8f03244624b297512a699fd6f",
+        "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "490d09e356ce78e19632223fb9f003e72ba3be50",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A5 host cannot open active Reality8 via normal schema7 GraphOwner; only internal opener exists B7",
-  "how": "Certified-host facade reusing N033C1 exact pointer+schema8 opener; 6 real SQLite tests",
+  "why": "Certified active Reality8 host graph open B7 PASS; no DEV staged8 activation yet",
+  "how": "New 6/6 real SQLite tests, strict pointer/revision, schema7 reject, M5 signed APK PASS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 tested direct active8 opening; then B7 and staging/cutover A5 unit"
+  "next": "A5 new STAGED schema8 DEV candidate and safe cutover under separate B1-B5; A3 not yet approved"
 }
