@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_FRESH_PLANNING8_STAGED_OWNER",
-  "reviewed_head": "91d135f3b8f47880ba63067d0bdab8c40fcadbf8",
+  "status": "READY",
+  "unit_id": "S3_A5_DEV_STAGE8_JOURNAL_PREPARE",
+  "reviewed_head": "2cd4619e18a5300187c116fe3b91f41a02eccace",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceV2StageOwner.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceV2Planning8StageOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a5-planning8-fresh-stage-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevStageJournalOwner.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Planning8DevStageJournalOwnerT2Test.kt",
+    ".github/workflows/faro-v5-s3-a5-dev-stage8-journal-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
-          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
+          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
+          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
-          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
+          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
+          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
-          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
+          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
+          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
-          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
+          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
+          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
           "marker": "## B4"
         }
       ]
@@ -53,23 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B1_B5_20261108.md",
-          "blob_sha": "768dbbc8248988246f8a98411c0a843ae75d5e55",
+          "path": "docs/s3-night/S3_A5_DEV_STAGE8_JOURNAL_PREPARE_B1_B5_20261108.md",
+          "blob_sha": "e6490296d17940624ab5f815393933dffc80da72",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_FIVE_REAL_SQLITE_FRESH_STAGE8_XML_5_5",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_FRESH_PLANNING8_STAGE_OWNER_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "0f477e23f5693a82bd974be06332190355189836",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
@@ -83,9 +74,9 @@
       }
     ]
   },
-  "why": "Fresh quarantined Reality8 stage owner 5/5 B7 PASS; A5 DEV cutover and host UI not yet implemented",
-  "how": "New stage8 owner composes B7-certified stage7+internal stage8; exact pointer before/after; no ACTIVE mutation",
+  "why": "S3.A5 fresh staged8 5/5 certified but no DEV durable PREPARING/STAGED/VALIDATED journal or fail-closed recovery",
+  "how": "Minimal new isolated generation owner builds on stageFreshPlanning8AndVerify, canonical file journal, shared global quiescence, exact pointer and schema8-only recovery",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A5 staged8 DEV lifecycle cutover separate B1-B5; maintain V2 OFF; physical once last"
+  "next": "Only B6 on three exact paths; CI XML 5/5 then independent B7; no cutover, DEV Android/physical"
 }
