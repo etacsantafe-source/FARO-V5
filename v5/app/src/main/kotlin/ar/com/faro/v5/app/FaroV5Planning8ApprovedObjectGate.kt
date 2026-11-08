@@ -53,8 +53,22 @@ internal class FaroV5Planning8ApprovedObjectGate(
      * An execution lease must never re-label Review(A) as authority for B.
      * Still READ_ONLY; nullable means deny.
      */
+    /**
+     * Request preadmission ONLY: returns the canonical approved object without
+     * mistaking it for a grant. This is never the Apply authorization check.
+     * The normal guard still requires a separate trusted object owner/nonce.
+     */
+    internal fun currentApprovedScopeForTrustedRequestOrNull(
+        context: ConversationPlanReviewContext,
+    ): Planning8ObjectScope? = approvedScope(context, requireGrant = false)
+
     internal fun currentApprovedObjectScopeOrNull(
         context: ConversationPlanReviewContext,
+    ): Planning8ObjectScope? = approvedScope(context, requireGrant = true)
+
+    private fun approvedScope(
+        context: ConversationPlanReviewContext,
+        requireGrant: Boolean,
     ): Planning8ObjectScope? = runCatching {
             val pinned = pointer.read() ?: return@runCatching null
             if (pinned.generationId != generation || !hostReady()) return@runCatching null
@@ -100,16 +114,24 @@ internal class FaroV5Planning8ApprovedObjectGate(
                 }
                 else -> return@runCatching null
             }
-            val owner = acl ?: return@runCatching null
-            if (pointer.read() != pinned || !hostReady()) return@runCatching null
-            val epoch = owner.epochOrNull(scope, pinned)?.takeIf { it.isNotBlank() }
-                ?: return@runCatching null
-            // Check ACL again, then re-read the canonical human decision:
-            // a real user can DISCARD an approved Review while ACL is read.
-            if (pointer.read() != pinned || !hostReady() ||
-                catalog.current(contract.operationId) != contract ||
-                owner.epochOrNull(scope, pinned) != epoch
-            ) return@runCatching null
+            if (requireGrant) {
+                val owner = acl ?: return@runCatching null
+                if (pointer.read() != pinned || !hostReady()) return@runCatching null
+                val epoch = owner.epochOrNull(scope, pinned)?.takeIf { it.isNotBlank() }
+                    ?: return@runCatching null
+                // The existing Apply-side guard MUST still recheck the owner.
+                if (pointer.read() != pinned || !hostReady() ||
+                    catalog.current(contract.operationId) != contract ||
+                    owner.epochOrNull(scope, pinned) != epoch
+                ) return@runCatching null
+            } else {
+                // Grant issuance cannot read its own not-yet-created grant.
+                // This path verifies only HUMAN Review and canonical scope.
+                if (pointer.read() != pinned || !hostReady() ||
+                    catalog.current(contract.operationId) != contract
+                ) return@runCatching null
+            }
+            // A human can DISCARD before BeginApply: always re-read Workspace.
             val latest = workspace.load(context) ?: return@runCatching null
             if (latest.review == review &&
                 latest.review.state == ConversationPlanReviewState.APPROVED &&
