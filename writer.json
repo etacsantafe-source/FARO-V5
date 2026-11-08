@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N031.PLANNING_DUE_B7",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N031.PLANNING_DUE_B7.RELEASED",
   "token_hash": "07352c8b0a6e55894978d9c2a438b610e7b21588c3fc96c45d0aa7a105206152",
-  "target_head": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
+  "target_head": "ccd487fe66b831f59ebad36ae2a449cca4918f6b",
   "target_branch": "work/s3-night-20261102",
   "epoch": 558,
-  "timestamp": 1794161074,
-  "purpose": "N031 planning due directed XML 6/6 and seven-block guard pass: B7 docs/checkpoint only",
-  "last_checkpoint": "N031_PLANNING_DUE_READ_B7_REVIEW@c4cd95d5577a89b413df956bfbd41f0a19f6884b"
+  "timestamp": 1794161171,
+  "purpose": "N031 two owner stored due reader B7 6/6, guard/Home success; A4 still open, next authentic host ACL bridge",
+  "last_checkpoint": "N031_PLANNING_DUE_TWO_OWNER_B7_PASS@ccd487fe66b831f59ebad36ae2a449cca4918f6b"
 }
