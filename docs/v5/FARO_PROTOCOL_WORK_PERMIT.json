@@ -1,12 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
   "reviewed_head": "90056b3662f88fec428b7c53e2f808b307280811",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBindingT2Test.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -58,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_N015_REAL_HISTORY_HOST_UI_XML_28_28_EXACT_SHA",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_20261108.md",
+          "blob_sha": "baaf938388193b568dbda46e15f992396ad1edf7",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "d167d550841c223fb9b4045539c976190b2f0a8a",
+    "sha": "ed34f8c7b30185f3542ab58212c55c7301307689",
     "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_RED_FIX_20261108.md",
-        "blob_sha": "24838d3e4909dc26e0668bc557466f12b77cb562",
+        "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_20261108.md",
+        "blob_sha": "baaf938388193b568dbda46e15f992396ad1edf7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Initial CI red invisible Workspace internal create at app test; static host ACL epoch postread nonidentity",
+  "why": "N015 real Activity host+Surface forwarding 28/28 passed after RED_FIX. Shipping read ACL/mount absent",
   "how": "Only two app files, public suspend workspace APIs in tests and exact final ACL epoch equality",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Correct code RED_FIX, directed XML 28/28 + seven-block guard/Home/V2 then B7"
+  "next": "Scoped B1-B5 production read policy + shipping Activity/N031 host admission and integrated tests; do not reuse fixtures or declare A4 done"
 }
