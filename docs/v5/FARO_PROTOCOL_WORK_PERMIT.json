@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B4_TRANSACTIONAL_PLANNING_ACL",
-  "reviewed_head": "d7dd8a94ce3007e77ea0a158f05de517b6b50a31",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
+  "reviewed_head": "a96bae33f6f5cec831f90495352db411c95e5f0c",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwner.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwnerT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-grant-commit-lease-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_TRANSACTIONAL_PLANNING_ACL_B1_B5_20261107.md",
-          "blob_sha": "f6988b8eacceb8ddc74da42efe618c25425a96ca",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
+          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_TRANSACTIONAL_PLANNING_ACL_B1_B5_20261107.md",
-          "blob_sha": "f6988b8eacceb8ddc74da42efe618c25425a96ca",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
+          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_TRANSACTIONAL_PLANNING_ACL_B1_B5_20261107.md",
-          "blob_sha": "f6988b8eacceb8ddc74da42efe618c25425a96ca",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
+          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_TRANSACTIONAL_PLANNING_ACL_B1_B5_20261107.md",
-          "blob_sha": "f6988b8eacceb8ddc74da42efe618c25425a96ca",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
+          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_TRANSACTIONAL_PLANNING_ACL_B1_B5_20261107.md",
-          "blob_sha": "f6988b8eacceb8ddc74da42efe618c25425a96ca",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
+          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "BLOCKED_TRUSTED_POLICY_AND_COMMIT_FENCE_MISSING",
-    "B7": "NOT_RUN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "66d581ffded00534745f59845afbab035867fee1",
@@ -70,9 +74,9 @@
       }
     ]
   },
-  "why": "B1-B5 scope identified real prerequisites missing; no live policy nor serializable revocation-to-COMMIT fence",
-  "how": "Existing hook 13/13 and guard success; no implementation for real Planning8 ACL until proof; no fake owner identity",
+  "why": "Single-owner in-process scoped lease linearizes revoke/close against transaction callback; full Planning ACL still STOP",
+  "how": "Lease only in existing grant owner, 4 negative/concurrency tests, directed JUnit XML, B7 exact SHA",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Real local app Review-backed CREATE policy + lifetime fence + Reality8/Workspace integrated race tests; then N033C3 Undo/retry"
+  "next": "B6 lease and XML then B7. Full real ACL separate, N033C3 Undo/retry after."
 }
