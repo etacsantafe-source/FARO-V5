@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_OWNER_BINDING.B6.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_OWNER_BINDING.B7",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 546,
+  "epoch": 547,
   "timestamp": 1794137160,
-  "purpose": "N033C3 undo.execute Reality8 binding/revalidator and 7 SQLite tests published; release for CI, B7 pending",
+  "purpose": "All 13 exact SHA CI success N033C3 undo.execute internal Reality8 binding; B7 scoped checkpoint",
   "last_checkpoint": "N033C3_UNDO_EXECUTE_OWNER_BINDING_B6_WAIT_CI@520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b"
 }
