@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_CORE.RED_FIX",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_CORE.REDFIX.WAIT_CI.RELEASED",
   "token_hash": "fb74b9c261ee2a7102f744553a458486d5512bd50101bbac4d80521936a7f6c2",
-  "target_head": "e87b86f955dbae391aa6187a97ae23c73018b0b9",
+  "target_head": "4bf63a521dc156581b61d0c2eeccbc8a78916528",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 570,
-  "timestamp": 1794168112,
-  "purpose": "Narrow B7 RED_FIX test ABA case based on actual CI #42517567960 (9/10)",
-  "last_checkpoint": "S3_A4_LOCAL_READ_CORE_RED_FIX_START@e87b86f9"
+  "epoch": 571,
+  "timestamp": 1794168197,
+  "purpose": "Test-only ABA redfix pushed and checkpointed; CI pending, release early",
+  "last_checkpoint": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_REDFIX_WAIT_CI@4bf63a52"
 }
