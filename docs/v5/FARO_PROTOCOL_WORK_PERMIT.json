@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY",
-  "reviewed_head": "6f1659a40bf6de691e10f74ad108a92117b14903",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION",
+  "reviewed_head": "72039fce1ce02256c960dc6dfd06bad45ea37cba",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8LocalUserRequestPolicy.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8LocalUserRequestPolicyT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-local-user-request-policy-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B1_B5_20261107.md",
-          "blob_sha": "fa43ef698cd4a0dfb9bf2bcd069879a578e67b1e",
+          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
+          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B1_B5_20261107.md",
-          "blob_sha": "fa43ef698cd4a0dfb9bf2bcd069879a578e67b1e",
+          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
+          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B1_B5_20261107.md",
-          "blob_sha": "fa43ef698cd4a0dfb9bf2bcd069879a578e67b1e",
+          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
+          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B1_B5_20261107.md",
-          "blob_sha": "fa43ef698cd4a0dfb9bf2bcd069879a578e67b1e",
+          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
+          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B1_B5_20261107.md",
-          "blob_sha": "fa43ef698cd4a0dfb9bf2bcd069879a578e67b1e",
+          "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B1_B5_20261107.md",
+          "blob_sha": "64998e348450313ecdfe5918dc4ab93b1835189c",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_58_58",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_LOCAL_USER_REQUEST_POLICY_B7_PASS_20261107.md",
-          "blob_sha": "f441bae2933bd4724dfc33bd33d2749556a1b9ff",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6f1659a40bf6de691e10f74ad108a92117b14903",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "Single host event admission tied to canonical APPROVED Review and technical sandbox 58/58; transaction-bound APPLYING and Reality8 COMMIT not yet implemented",
-  "how": "58/58 strict directed #42432587747 SUCCESS, six other exact-SHA CI SUCCESS, guarded B7 PASS_SCOPED",
+  "why": "Pin existing one-shot request to true Workspace APPLYING and same Reality journal transaction identity without broadening permissions",
+  "how": "Four exact paths, five additional tests (12 policy,63 directed XML), no external APIs or host wiring",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "NEW B1–B5 S3_A4_N033C2B4_TRANSACTION_BOUND_POLICY_AND_REALITY8, then N033C3 Undo/retry and A4 close"
+  "next": "B6, B7 scoped; then transaction-bounded official Planning8 Apply Reality8 under same lease"
 }
