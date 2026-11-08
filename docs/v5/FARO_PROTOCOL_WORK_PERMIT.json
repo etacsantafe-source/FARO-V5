@@ -2,19 +2,17 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
-  "reviewed_head": "a96bae33f6f5cec831f90495352db411c95e5f0c",
+  "reviewed_head": "986905d856f62edc2f00ef4ffefd43438b79b516",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwner.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ObjectGrantOwnerT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-grant-commit-lease-directed.yml"
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-session-grant-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
-          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
           "marker": "## B1"
         }
       ]
@@ -23,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
-          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
           "marker": "## B2"
         }
       ]
@@ -33,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
-          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
           "marker": "## B3"
         }
       ]
@@ -43,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
-          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
           "marker": "## B4"
         }
       ]
@@ -53,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B1_B5_20261107.md",
-          "blob_sha": "64a80fad0396a689883878e211305b2ee3fc1d26",
+          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
           "marker": "## B5"
         }
       ]
@@ -63,20 +61,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "66d581ffded00534745f59845afbab035867fee1",
-    "unit_id": "S3_A4_N033C2B4_TXN_AUTH_HOOK",
-    "result": "PASS",
+    "sha": "986905d856f62edc2f00ef4ffefd43438b79b516",
+    "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_TXN_AUTH_HOOK_B7_PASS_20261107.md",
-        "blob_sha": "bd7aab304297222c8baa8dbe1aff44fc95f154eb",
+        "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
+        "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Single-owner in-process scoped lease linearizes revoke/close against transaction callback; full Planning ACL still STOP",
-  "how": "Lease only in existing grant owner, 4 negative/concurrency tests, directed JUnit XML, B7 exact SHA",
+  "why": "Previous code exact CI 44/44 PASS but historical XML workflow expects 14/40 instead of 18/44; one YAML RED_FIX same unit",
+  "how": "Change only legacy workflow YAML trigger/expected count without relaxing checks; guard plus exact CI",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 lease and XML then B7. Full real ACL separate, N033C3 Undo/retry after."
+  "next": "B6 oldflow only, B7, then Planning8 local review-backed transactional policy"
 }
