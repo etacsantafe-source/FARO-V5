@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 569
+    "expected_release_epoch": 571
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B6_WAIT_CI_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_LOCAL_READ_CORE_REDFIX_WAIT_CI_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B7: verify exact SHA 50eeed84 directed XML 10/10 + guard, audit independently. If red only targeted RED_FIX. Then separate B1-B5 actual Android Application/root UI gesture mount and N031 integration. No V2 activation, A4 OPEN.",
-  "checkpoint_status": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B6_WAIT_CI_A4_OPEN",
+  "next": "S3_A4_LOCAL_READ_CORE_REDFIX: verify 10/10 exact XML and protocol guard for ea79ce77, B7 only then mount B1-B5. S3.A4 OPEN, no V2 activation.",
+  "checkpoint_status": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_REDFIX_WAIT_CI_A4_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B6_WAIT_CI_20261108.md",
-  "last_code_sha": "50eeed8401db4083eee0885dd671c90e81931b8a",
-  "last_ci_run_id": 42517567960,
+  "last_handoff": "docs/s3-night/S3_A4_LOCAL_READ_CORE_REDFIX_WAIT_CI_20261108.md",
+  "last_code_sha": "ea79ce776df2bab711d43c341a58a6b3e91f3a9b",
+  "last_ci_run_id": null,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -1711,7 +1711,7 @@
     "physical": "NOT_RUN"
   },
   "closure_gate": {
-    "status": "OPEN_LOCAL_READ_CORE_WAIT_CI",
+    "status": "OPEN_LOCAL_READ_CORE_REDFIX_WAIT_CI",
     "evidence_doc": "docs/s3-night/S3_A4_CLOSURE_GATE_READ_ONLY_20261108.md",
     "blob_sha": "cae0415dd475ccf1084cf651de3b855b89e3da21",
     "activity_surface": "B7_PASS_20_20",
@@ -1722,9 +1722,9 @@
     "shipping_read_policy": "ABSENT_DEFAULT_DENY",
     "shipping_v2": false,
     "physical": "NOT_RUN",
-    "writer_release_epoch": 569,
-    "local_read_core_code_sha": "50eeed8401db4083eee0885dd671c90e81931b8a",
+    "writer_release_epoch": 571,
+    "local_read_core_code_sha": "ea79ce776df2bab711d43c341a58a6b3e91f3a9b",
     "local_read_core_ci_run_id": 42517567960,
-    "local_read_core": "WAIT_CI_NOT_PRODUCTION"
+    "local_read_core": "WAIT_CI_TEST_FIX"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
   "reviewed_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_AFTER_TEST_ONLY_RED_FIX",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "Test fixture reused original active pointer after A-B-A and failed exactly 1 of 10 at #42517567960; original code correct fail-closed.",
+  "why": "Redfix ea79ce77 T2 fixture pushed, expected 10/10 but CI not yet confirmed",
   "how": "Test-only replacement of stale pointer fixture for distinct host epoch test, no behavior/owner changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Directed XML 10/10 + protocol guard and B7 after exact RED_FIX SHA"
+  "next": "B7 verify exact SHA CI XML and guard then separate host mount"
 }
