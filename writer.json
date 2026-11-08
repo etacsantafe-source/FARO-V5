@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_APPLYING_IDENTITY_PROMOTION.B7.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_APPLYING_IDENTITY_PROMOTION.B7.RELEASED",
   "token_hash": "8bad6143b07c987b31b4a9705083d27e5821fa594ee7017548eb6f93a417d1b7",
-  "target_head": "0895918851385a411a8b77f726772e253aa2ff37",
+  "target_head": "15141c91816fad15d7de6bdb71396c8c126de90a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 505,
-  "timestamp": 1794101130,
-  "purpose": "B7 independent exact 63/63 directed and seven SHA-matched CI SUCCESS for canonical APPLYING promotion",
-  "last_checkpoint": "APPLYING_IDENTITY_PROMOTION_B7_IN_PROGRESS"
+  "epoch": 506,
+  "timestamp": 1794101230,
+  "purpose": "B7 canonical APPLYING and exact attempt identity 63/63 7 workflows SUCCESS, next real Planning8 host",
+  "last_checkpoint": "APPLYING_IDENTITY_PROMOTION_B7_PASS@15141c91816fad15d7de6bdb71396c8c126de90a"
 }
