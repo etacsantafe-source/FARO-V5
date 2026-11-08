@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_OWNER_BINDING.B7.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.B1B5",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "0f5d42517c271eaa0122c0aab98dea9d014340ff",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 548,
+  "epoch": 549,
   "timestamp": 1794137160,
-  "purpose": "B7 PASS undo.execute internal owner binding 7/7 & all 13 CI, next human Review host. V2 productiva/S4/AUTO OFF",
+  "purpose": "N033C3 trusted NEW human Review source COMMITTED Undo host B1-B5 only; no productive Android",
   "last_checkpoint": "N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS@0f5d42517c271eaa0122c0aab98dea9d014340ff"
 }
