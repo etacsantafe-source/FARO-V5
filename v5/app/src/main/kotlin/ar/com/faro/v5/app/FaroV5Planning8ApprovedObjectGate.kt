@@ -47,66 +47,75 @@ internal class FaroV5Planning8ApprovedObjectGate(
     private val generation = StorageGenerationId(expectedGenerationId)
 
     fun hasCurrentApprovedObjectReview(context: ConversationPlanReviewContext): Boolean =
-        runCatching {
-            val pinned = pointer.read() ?: return@runCatching false
-            if (pinned.generationId != generation || !hostReady()) return@runCatching false
-            val approved = workspace.load(context) ?: return@runCatching false
+        currentApprovedObjectScopeOrNull(context) != null
+
+    /** The SAME verified canonical decision, with target scope preserved.
+     * An execution lease must never re-label Review(A) as authority for B.
+     * Still READ_ONLY; nullable means deny.
+     */
+    internal fun currentApprovedObjectScopeOrNull(
+        context: ConversationPlanReviewContext,
+    ): Planning8ObjectScope? = runCatching {
+            val pinned = pointer.read() ?: return@runCatching null
+            if (pinned.generationId != generation || !hostReady()) return@runCatching null
+            val approved = workspace.load(context) ?: return@runCatching null
             val review = approved.review
             if (review.context() != context ||
                 review.state != ConversationPlanReviewState.APPROVED
-            ) return@runCatching false
+            ) return@runCatching null
             val plan = PreparedPlanEnvelopeCodec.decode(approved.envelope())
-            if (plan.planFingerprint != review.planFingerprint) return@runCatching false
+            if (plan.planFingerprint != review.planFingerprint) return@runCatching null
             val nodes = plan.applyPlan.nodesInTopologicalOrder()
             if (nodes.size != 1 || nodes.single().dependsOn.isNotEmpty())
-                return@runCatching false
+                return@runCatching null
             val prepared = nodes.single().preparedOperation
             val contract = prepared.contract
             // A full descriptor lookup is mandatory; ID/capability alone is not authority.
             val official = catalog?.current(contract.operationId)
-                ?: return@runCatching false
+                ?: return@runCatching null
             if (official != contract ||
                 contract.executionProfile != ExecutionProfile.REALITY_MUTATION ||
                 contract.exposure != ContractExposure.BINDABLE
-            ) return@runCatching false
+            ) return@runCatching null
             val scope = when (contract.operationId) {
                 ReminderOperations.CREATE -> {
                     if (contract.capabilityId != ReminderOperations.CAPABILITY_ID ||
                         contract.canonicalExecutor != ReminderOperations.EXECUTOR_ID
-                    ) return@runCatching false
+                    ) return@runCatching null
                     val rule = ReminderCreatePayload.decode(prepared.payload)
-                        ?: return@runCatching false
-                    if (rule.linkedMatterId != null) return@runCatching false
+                        ?: return@runCatching null
+                    if (rule.linkedMatterId != null) return@runCatching null
                     Planning8ObjectScope(contract.operationId, rule.id.value)
                 }
                 MonthlyPlanOperations.ITEM_ADD -> {
                     if (contract.capabilityId != MonthlyPlanOperations.CAPABILITY_ID ||
                         contract.canonicalExecutor != MonthlyPlanOperations.EXECUTOR_ID
-                    ) return@runCatching false
+                    ) return@runCatching null
                     val item = MonthlyPlanItemAddPayload.decode(prepared.payload)
-                        ?: return@runCatching false
+                        ?: return@runCatching null
                     if (item.status != MonthlyPlanItemStatus.PLANNED ||
                         item.paymentConfirmedAtEpochMillis != null
-                    ) return@runCatching false
+                    ) return@runCatching null
                     Planning8ObjectScope(contract.operationId, item.id.value)
                 }
-                else -> return@runCatching false
+                else -> return@runCatching null
             }
-            val owner = acl ?: return@runCatching false
-            if (pointer.read() != pinned || !hostReady()) return@runCatching false
+            val owner = acl ?: return@runCatching null
+            if (pointer.read() != pinned || !hostReady()) return@runCatching null
             val epoch = owner.epochOrNull(scope, pinned)?.takeIf { it.isNotBlank() }
-                ?: return@runCatching false
+                ?: return@runCatching null
             // Check ACL again, then re-read the canonical human decision:
             // a real user can DISCARD an approved Review while ACL is read.
             if (pointer.read() != pinned || !hostReady() ||
                 catalog.current(contract.operationId) != contract ||
                 owner.epochOrNull(scope, pinned) != epoch
-            ) return@runCatching false
-            val latest = workspace.load(context) ?: return@runCatching false
-            latest.review == review &&
+            ) return@runCatching null
+            val latest = workspace.load(context) ?: return@runCatching null
+            if (latest.review == review &&
                 latest.review.state == ConversationPlanReviewState.APPROVED &&
                 latest.envelope().contentEquals(approved.envelope()) &&
                 pointer.read() == pinned && hostReady() &&
                 catalog.current(contract.operationId) == contract
-        }.getOrDefault(false)
+            ) scope else null
+        }.getOrNull()
 }
