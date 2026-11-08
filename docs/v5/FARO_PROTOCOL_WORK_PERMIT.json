@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION",
-  "reviewed_head": "8e3da9712106dd5c5fd389d81c02f15c90a5c518",
-  "paths": [
-    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ReviewedConversationApplyCoordinator.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-reality8-transaction-host-directed.yml"
-  ],
+  "reviewed_head": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_HOST9_KERNEL38",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION_B7_PASS_20261108.md",
+          "blob_sha": "eb3d982b03931ff3ca4b730f473814918b393fc0",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "a09ed82abb8981fb057475412439d7416eeedb9b",
-    "unit_id": "S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST",
+    "sha": "dffd441f2f242d57dc0876916bdf4b37a5faf912",
+    "unit_id": "S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B7_PASS_20261107.md",
-        "blob_sha": "771706b48c512b6ad5562d52f9b3fce4dc912f5a",
+        "path": "docs/s3-night/S3_A4_N033C3_RECEIPT_ONLY_RECONCILIATION_B7_PASS_20261108.md",
+        "blob_sha": "eb3d982b03931ff3ca4b730f473814918b393fc0",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Reconcile only durable COMMITTED receipt into canonical Workspace after crash; no retries or Reality mutation, no fabricated Undo",
-  "how": "3 explicit paths, host SQLite 9/9 directed + full kernel regression, protocol guard, B7",
+  "why": "N033C3 receipt-only crash reconciliation 9/9 real Workspace4+Reality8, kernel38/38, guard and Home exact SHA PASS; Undo post-COMMIT separate",
+  "how": "No replay/No new PREPARED, 3 changed paths, CI #42436932481 9/9+38/38 success, guard #42436932753 and Home #42436932411 success",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 receipt-only reconciler and crash tests, B7; then bounded Undo semantics and A4 formal"
+  "next": "New scoped B1–B5 for existing catalog undo.inspect/execute and owner cancellation binders; do not assume they already execute in Reality8"
 }
