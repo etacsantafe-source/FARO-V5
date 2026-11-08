@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.B7.PASS",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.B7.PASS.RELEASED",
   "token_hash": "037a78e3c5fa0c7cbd815a8202f73bbf860e4dc022e64b1e118fbad68aa6fae0",
-  "target_head": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
+  "target_head": "9df313029c2844dcaf97ece464b8c8cd7634c8d5",
   "target_branch": "work/s3-night-20261102",
   "epoch": 590,
-  "timestamp": 1794173022,
-  "purpose": "B7 five real SQLite staged8 tests, exact guard+diff, checkpoint and release",
-  "last_checkpoint": "S3_A5_FRESH_STAGE8_5_OF_5_XML_PASS@5c9f3ef5"
+  "timestamp": 1794173113,
+  "purpose": "A5 active8 host open 6/6 + fresh staged8 5/5; no cutover or physical; permit BLOCKED; S3 A5 OPEN",
+  "last_checkpoint": "S3_A5_TWO_SCOPED_B7_PASS@9df31302"
 }
