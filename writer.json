@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N031.THREE_OWNER.B7_FINAL",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N031.B7.PASS.RELEASED",
   "token_hash": "b88a332113e56282c346264a2139b2b15438d219427c6a8567ee17e22f10a5e3",
-  "target_head": "e7c7205d0bd972d6fba247cd25655bba97b61993",
+  "target_head": "e2b1b3795f8955ce32ea710cd7a76a40e5da7073",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 582,
-  "timestamp": 1794169632,
-  "purpose": "Finalize exact 8/8 real SQLite + guard B7 N031 three-owner source, mark A4 OPEN UI mount",
-  "last_checkpoint": "S3_A4_N031_THREE_OWNER_B7_START@e7c7205d"
+  "epoch": 583,
+  "timestamp": 1794169727,
+  "purpose": "N031 three-owner real SQLite 8/8 B7 PASS scoped; next UI mount; A4 OPEN",
+  "last_checkpoint": "S3_A4_N031_THREE_OWNER_B7_PASS@e2b1b379"
 }
