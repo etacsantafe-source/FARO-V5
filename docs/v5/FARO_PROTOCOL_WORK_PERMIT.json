@@ -1,16 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL",
   "reviewed_head": "00c6d09385f0f7eef324a45454b9eae4e8401867",
-  "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/spi/ReminderPersistencePort.kt",
-    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/spi/MonthlyPlanPersistencePort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningUndoCancelT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c3-undo-owner-cancel-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -62,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_EXACT_SHA_INTERNAL_SQL_6_OF_6",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B7_PASS_20261108.md",
+          "blob_sha": "0e6d95c283bc0afef844270eac140d5bd0cbfd4f",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "52455e3d43dc8e892452847c8341e1f0d8d2a0d0",
-    "unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
+    "sha": "61b16c94a8baa3b3d1a3d0fdc6283c2a3498a61e",
+    "unit_id": "S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
-        "blob_sha": "af6704fbea2acb35d51dbbf94cb57776a715e2de",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B7_PASS_20261108.md",
+        "blob_sha": "0e6d95c283bc0afef844270eac140d5bd0cbfd4f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Only internal Reality8 owner cancellation by new active lease and CAS, no Undo user binding or credential grant",
-  "how": "6 exact paths, 6 directed REAL SQLite tests, no shipment or production wiring",
+  "why": "N033C3 internal owner SQL cancel PASS 6/6 and all 14 exact SHA workflows; Undo user execution still not implemented",
+  "how": "Reality8 same transaction lease, CAS, row preserved, receipts independent, no paid record, rollback+retry; no user-facing binding",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Implement internal owner SQL cancellation B6 then B7 exact SHA, followed by host Review Undo unit"
+  "next": "New B1-B5 scope: S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST; fresh human Review, source COMMITTED provenance, trusted ACL and new receipt"
 }
