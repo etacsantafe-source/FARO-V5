@@ -1,5 +1,6 @@
 package ar.com.faro.v5.app
 
+import ar.com.faro.v5.kernel.contracts.ApplyAttemptIdentity
 import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewContext
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
@@ -35,10 +36,16 @@ internal class FaroV5Planning8LocalUserRequestPolicy(
     private val activePointer: ActiveGenerationPointerPort,
     private val hostReady: () -> Boolean,
 ) : Planning8TrustedObjectPolicyPort, AutoCloseable {
+    private data class BoundApply(
+        val context: ConversationPlanReviewContext,
+        val identity: ApplyAttemptIdentity,
+    )
+
     private data class Request(
         val context: ConversationPlanReviewContext,
         val pinned: ActiveGenerationPointer,
         val ticket: Planning8LocalUserRequestTicket,
+        val boundApply: BoundApply? = null,
     )
 
     private val monitor = Any()
@@ -90,10 +97,44 @@ internal class FaroV5Planning8LocalUserRequestPolicy(
     }
 
     /**
-     * Called by FaroV5Planning8ObjectGrantOwner under its monitor.
-     * An APPROVED Review must remain current when issuing/checking a grant.
-     * An APPLYING Review is deliberately NOT accepted here: transactional
-     * lifetime admission still needs its own independently audited unit.
+     * Promote exactly once only AFTER canonical Workspace BeginApply has
+     * committed a PREPARED Reality attempt for the SAME original Review.
+     * The trusted caller MUST hold the owner grant lease across this
+     * promotion and subsequent Reality COMMIT: this method alone does not
+     * fence cross-process revocation or permit running Apply.
+     *
+     * Do not invoke this method or policyEpochOrNull under Reality's mutex:
+     * they read Workspace and would invert Workspace -> Reality lock order.
+     */
+    fun promoteAfterCanonicalBeginApply(
+        applyingContext: ConversationPlanReviewContext,
+        identity: ApplyAttemptIdentity,
+    ): Boolean = synchronized(monitor) {
+        val current = request ?: return@synchronized false
+        if (closed || current.boundApply != null || !hostAndSandboxCurrent())
+            return@synchronized false
+        val prior = current.context
+        if (identity.planFingerprint != prior.planFingerprint ||
+            applyingContext.planFingerprint != prior.planFingerprint ||
+            applyingContext.conversationId != prior.conversationId ||
+            applyingContext.reviewId != prior.reviewId ||
+            applyingContext.authorityToken != prior.authorityToken ||
+            prior.expectedRevision == Long.MAX_VALUE ||
+            applyingContext.expectedRevision != prior.expectedRevision + 1
+        ) return@synchronized false
+        if (canonical.currentApplyingScopeForTrustedTransitionOrNull(
+                applyingContext, identity,
+            ) != current.ticket.scope || !hostAndSandboxCurrent()
+        ) return@synchronized false
+        request = current.copy(boundApply = BoundApply(applyingContext, identity))
+        true
+    }
+
+    /**
+     * Called by FaroV5Planning8ObjectGrantOwner under its monitor, OUTSIDE
+     * a Reality.run callback. Before BeginApply it requires APPROVED; after
+     * promotion it requires matching APPLYING + transactionId. The policy
+     * epoch never changes, so a pinned grant can survive the CAS transition.
      */
     override fun policyEpochOrNull(
         principalId: String,
@@ -105,8 +146,12 @@ internal class FaroV5Planning8LocalUserRequestPolicy(
             current.ticket.scope != scope || current.pinned != pointer ||
             !hostAndSandboxCurrent()
         ) return@synchronized null
-        val approvedScope = canonical.currentApprovedScopeForTrustedRequestOrNull(current.context)
-        if (approvedScope != scope || !hostAndSandboxCurrent()) null
+        val canonicalScope = current.boundApply?.let {
+            canonical.currentApplyingScopeForTrustedTransitionOrNull(it.context, it.identity)
+        } ?: if (current.boundApply == null) {
+            canonical.currentApprovedScopeForTrustedRequestOrNull(current.context)
+        } else null
+        if (canonicalScope != scope || !hostAndSandboxCurrent()) null
         else current.ticket.policyEpoch
     }
 

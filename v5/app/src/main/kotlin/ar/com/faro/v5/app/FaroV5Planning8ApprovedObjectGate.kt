@@ -66,16 +66,35 @@ internal class FaroV5Planning8ApprovedObjectGate(
         context: ConversationPlanReviewContext,
     ): Planning8ObjectScope? = approvedScope(context, requireGrant = true)
 
+    /**
+     * Only a trusted host after a real Workspace BeginApply may call this.
+     * It verifies the same canonical operation/object and *exact* Reality
+     * attempt identity in APPLYING, without granting any right to execute.
+     * Never call it inside a Reality transaction (Workspace mutex order).
+     */
+    internal fun currentApplyingScopeForTrustedTransitionOrNull(
+        context: ConversationPlanReviewContext,
+        identity: ApplyAttemptIdentity,
+    ): Planning8ObjectScope? = approvedScope(
+        context, requireGrant = false, applyingIdentity = identity,
+    )
+
     private fun approvedScope(
         context: ConversationPlanReviewContext,
         requireGrant: Boolean,
+        applyingIdentity: ApplyAttemptIdentity? = null,
     ): Planning8ObjectScope? = runCatching {
             val pinned = pointer.read() ?: return@runCatching null
             if (pinned.generationId != generation || !hostReady()) return@runCatching null
             val approved = workspace.load(context) ?: return@runCatching null
             val review = approved.review
-            if (review.context() != context ||
-                review.state != ConversationPlanReviewState.APPROVED
+            val requiredState = if (applyingIdentity == null)
+                ConversationPlanReviewState.APPROVED
+            else ConversationPlanReviewState.APPLYING
+            if (review.context() != context || review.state != requiredState ||
+                (applyingIdentity != null &&
+                    (review.transactionId != applyingIdentity.transactionId ||
+                        review.planFingerprint != applyingIdentity.planFingerprint))
             ) return@runCatching null
             val plan = PreparedPlanEnvelopeCodec.decode(approved.envelope())
             if (plan.planFingerprint != review.planFingerprint) return@runCatching null
@@ -134,7 +153,7 @@ internal class FaroV5Planning8ApprovedObjectGate(
             // A human can DISCARD before BeginApply: always re-read Workspace.
             val latest = workspace.load(context) ?: return@runCatching null
             if (latest.review == review &&
-                latest.review.state == ConversationPlanReviewState.APPROVED &&
+                latest.review.state == requiredState &&
                 latest.envelope().contentEquals(approved.envelope()) &&
                 pointer.read() == pinned && hostReady() &&
                 catalog.current(contract.operationId) == contract

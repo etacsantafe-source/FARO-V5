@@ -52,7 +52,7 @@ jobs:
           from xml.etree import ElementTree as ET
           folder=Path('v5/app/build/test-results/testDebugUnitTest')
           expected={
-            'FaroV5Planning8LocalUserRequestPolicyT2Test':7,
+            'FaroV5Planning8LocalUserRequestPolicyT2Test':12,
             'FaroV5Planning8ReviewGrantLeaseBridgeT2Test':7,
             'FaroV5Planning8ObjectGrantOwnerT2Test':18,
             'FaroV5Planning8ApprovedObjectGateT2Test':14,
@@ -69,6 +69,6 @@ jobs:
                   raise SystemExit('A4_LOCAL_REQUEST_XML_FAIL '+cls+' '+str(observed))
               print('A4_LOCAL_REQUEST_XML_PASS '+cls+' '+str(n)+'/'+str(n))
               total+=n
-          if total!=58: raise SystemExit('A4_LOCAL_REQUEST_TOTAL_BAD '+str(total))
-          print('A4_LOCAL_USER_REQUEST_POLICY_PASS 58/58')
+          if total!=63: raise SystemExit('A4_LOCAL_REQUEST_TOTAL_BAD '+str(total))
+          print('A4_LOCAL_USER_REQUEST_POLICY_PASS 63/63')
           PY

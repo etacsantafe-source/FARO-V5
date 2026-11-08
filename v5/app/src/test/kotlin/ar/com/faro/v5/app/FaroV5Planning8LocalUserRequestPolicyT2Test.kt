@@ -8,6 +8,7 @@ import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.owner.monthlyplan.api.MonthlyPlanOperations
 import ar.com.faro.v5.owner.reminders.api.*
+import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.workspace.*
 import java.nio.file.Path
 import java.time.LocalDate
@@ -36,6 +37,7 @@ class FaroV5Planning8LocalUserRequestPolicyT2Test {
         val workspace = ConversationWorkspaceStore.withPlanVerifier(
             root.resolve("workspace.db").toString(), CanonicalPreparedPlanEnvelopeVerifier,
         )
+        val reality = RealityStore(root.resolve("reality.db").toString(), planningStage8 = true)
         val descriptor = OperationContractDescriptor(
             ReminderOperations.CREATE, ReminderOperations.CAPABILITY_ID,
             ReminderOperations.EXECUTOR_ID, ExecutionProfile.REALITY_MUTATION,
@@ -58,6 +60,7 @@ class FaroV5Planning8LocalUserRequestPolicyT2Test {
             { hostEpoch }, facts,
         )
         val review: ConversationPlanReviewSnapshot
+        val plan: PreparedPlan
         val canonical: FaroV5Planning8ApprovedObjectGate
         val policy: FaroV5Planning8LocalUserRequestPolicy
 
@@ -75,7 +78,7 @@ class FaroV5Planning8LocalUserRequestPolicyT2Test {
                 )),
                 IdempotencyKey("local-request-operation"),
             )
-            val plan = PreparedPlan.of(
+            plan = PreparedPlan.of(
                 ApplyPlanNode(PlanNodeId("request-rule-node"), operation, emptySet())
             )
             assertTrue(runBlocking {
@@ -108,6 +111,18 @@ class FaroV5Planning8LocalUserRequestPolicyT2Test {
 
         fun issue() = policy.issueAfterTrustedHumanApplyRequest(review.context())
 
+        fun beginApply(): Pair<ConversationPlanReviewSnapshot, ApplyAttemptIdentity> {
+            val identity = reality.applyAttemptIdentities.resolve(plan)
+            val result = workspace.advance(
+                ConversationPlanReviewIntent.BeginApply(review.context(), identity),
+                IdempotencyKey("local-request-begin-apply"),
+                reality.applyAttemptLookup, reality.executionReceiptLookup,
+            )
+            val saved = result as ConversationReviewDecision.Saved
+            assertEquals(ConversationPlanReviewState.APPLYING, saved.review.state)
+            return saved.review to identity
+        }
+
         fun owner(ticket: Planning8LocalUserRequestTicket) =
             FaroV5Planning8ObjectGrantOwner(
                 ticket.principalId, pinned, pointer,
@@ -118,6 +133,7 @@ class FaroV5Planning8LocalUserRequestPolicyT2Test {
             policy.close()
             sandbox.close()
             workspace.close()
+            reality.close()
         }
     }
 
@@ -234,4 +250,94 @@ class FaroV5Planning8LocalUserRequestPolicyT2Test {
             }
         }
     }
+
+    @Test fun inventedApplyingContextCannotPromoteWithoutCanonicalBeginApply() {
+        Fixture().use { f ->
+            val ticket = requireNotNull(f.issue())
+            val identity = f.reality.applyAttemptIdentities.resolve(f.plan)
+            val forged = f.review.context().copy(expectedRevision = f.review.revision + 1)
+            assertNull(f.canonical.currentApplyingScopeForTrustedTransitionOrNull(forged, identity))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(forged, identity))
+            assertEquals(ticket.policyEpoch,
+                f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+        }
+    }
+
+    @Test fun realWorkspaceBeginApplyPromotesExactScopedRequestAndPreservesGrant() {
+        Fixture().use { f ->
+            val ticket = requireNotNull(f.issue())
+            f.owner(ticket).use { owner ->
+                val nonce = requireNotNull(owner.grantAfterTrustedPolicyCheck(scope))
+                // Production must keep this same owner monitor from BeginApply
+                // across the future Reality8 COMMIT, not release it here.
+                val result = owner.withCurrentGrantLease(scope, f.pinned, nonce) {
+                    val (applying, identity) = f.beginApply()
+                    assertNull(f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+                    assertTrue(f.policy.promoteAfterCanonicalBeginApply(applying.context(), identity))
+                    assertEquals(scope, f.canonical.currentApplyingScopeForTrustedTransitionOrNull(
+                        applying.context(), identity))
+                    assertNull(f.canonical.currentApprovedScopeForTrustedRequestOrNull(
+                        f.review.context()))
+                    assertEquals(ticket.policyEpoch,
+                        f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+                    assertEquals(nonce, owner.epochOrNull(scope, f.pinned))
+                    "transaction-identity-validated"
+                }
+                assertEquals(Planning8GrantLeaseResult.Admitted("transaction-identity-validated"), result)
+                assertNull(f.issue()) // no second request while APPLYING
+                assertTrue(f.reality.planningBackup.snapshot().reminders.rules.isEmpty())
+            }
+        }
+    }
+
+    @Test fun wrongRealityIdentityCannotPromoteEvenAfterCanonicalBeginApply() {
+        Fixture().use { f ->
+            val ticket = requireNotNull(f.issue())
+            val (applying, identity) = f.beginApply()
+            val forgedTx = ApplyAttemptIdentity(
+                TransactionId("forged-other-transaction"), identity.planFingerprint)
+            val forgedFingerprint = ApplyAttemptIdentity(
+                identity.transactionId, PlanFingerprint("forged-another-plan"))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(applying.context(), forgedTx))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(applying.context(), forgedFingerprint))
+            assertNull(f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+            assertTrue(f.policy.promoteAfterCanonicalBeginApply(applying.context(), identity))
+            assertEquals(ticket.policyEpoch,
+                f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+        }
+    }
+
+    @Test fun wrongReviewContextAndRevisionCannotPromoteOrReplay() {
+        Fixture().use { f ->
+            val ticket = requireNotNull(f.issue())
+            val (applying, identity) = f.beginApply()
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(
+                applying.context().copy(reviewId = "unrelated-review"), identity))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(
+                applying.context().copy(authorityToken = "untrusted-token"), identity))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(
+                applying.context().copy(expectedRevision = f.review.revision + 3), identity))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(
+                applying.context().copy(conversationId = ConversationId("other-chat")), identity))
+            assertTrue(f.policy.promoteAfterCanonicalBeginApply(applying.context(), identity))
+            assertFalse(f.policy.promoteAfterCanonicalBeginApply(applying.context(), identity))
+            assertNull(f.policy.policyEpochOrNull(ticket.principalId, other, f.pinned))
+            assertNull(f.policy.policyEpochOrNull(ticket.principalId, otherOperation, f.pinned))
+        }
+    }
+
+    @Test fun lossOfSandboxAfterBeginApplyStillDeniesPromotedRequest() {
+        Fixture().use { f ->
+            val ticket = requireNotNull(f.issue())
+            val (applying, identity) = f.beginApply()
+            assertTrue(f.policy.promoteAfterCanonicalBeginApply(applying.context(), identity))
+            f.processUid = 10201
+            assertNull(f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+            f.processUid = 10510
+            assertNull(f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+            f.policy.close()
+            assertNull(f.policy.policyEpochOrNull(ticket.principalId, scope, f.pinned))
+        }
+    }
+
 }
