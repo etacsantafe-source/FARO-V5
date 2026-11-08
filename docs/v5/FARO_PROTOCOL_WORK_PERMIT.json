@@ -1,16 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C3_UNDO_ORIGIN_INSPECT",
-  "reviewed_head": "e5b97e69c4569ed559ce89eae32f005ad4b0d7e0",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL",
+  "reviewed_head": "00c6d09385f0f7eef324a45454b9eae4e8401867",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningStageMutationPort.kt",
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/spi/ReminderPersistencePort.kt",
+    "v5/owner/monthlyplan/src/main/kotlin/ar/com/faro/v5/owner/monthlyplan/spi/MonthlyPlanPersistencePort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningUndoCancelT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c3-undo-owner-cancel-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
+          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
           "marker": "## B1"
         }
       ]
@@ -19,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
+          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
           "marker": "## B2"
         }
       ]
@@ -29,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
+          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
           "marker": "## B3"
         }
       ]
@@ -39,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
+          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
           "marker": "## B4"
         }
       ]
@@ -49,23 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "49d1ec2d2d548ace2b67a3928f50ae0cc0a24fc8",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B1_B5_20261108.md",
+          "blob_sha": "6933d3a9cc6fb1d896786004a77a24f052fa9afe",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "RED_FIX_IMPLEMENTED_SUCCESS_EXACT_SHA_HOST12_KERNEL38",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_ORIGIN_INSPECT_B7_PASS_20261108.md",
-          "blob_sha": "af6704fbea2acb35d51dbbf94cb57776a715e2de",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "52455e3d43dc8e892452847c8341e1f0d8d2a0d0",
@@ -79,9 +77,9 @@
       }
     ]
   },
-  "why": "N033C3 Undo origin inspection RED_FIX confirmed exact 12/12 host +38/38 kernel, guard and regressions; no Undo mutation implemented",
-  "how": "Two failed previews in e5b documented B7 RED_FIX; corrected historical read port 52455e3d, directed CI #42491748066 PASS, 6 workflows success",
+  "why": "Only internal Reality8 owner cancellation by new active lease and CAS, no Undo user binding or credential grant",
+  "how": "6 exact paths, 6 directed REAL SQLite tests, no shipment or production wiring",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New scoped B1–B5 for owner cancellation and canonical undo.execute with fresh human Review and separate receipt"
+  "next": "Implement internal owner SQL cancellation B6 then B7 exact SHA, followed by host Review Undo unit"
 }
