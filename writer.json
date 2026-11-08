@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "ACTIVE",
-  "owner": "FARO.MANUAL.S3A5.DEV_HOST.CI_RED_FIX.EPOCH596",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.DEV_HOST.B6.RETRY_WAIT_CI.RELEASED",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
-  "target_head": "5e0f5dab6eb22212df7f27883b6c222d41729a5c",
+  "target_head": "31253d17008cc8fb780d35ccc33b62ca77582e4d",
   "target_branch": "work/s3-night-20261102",
   "epoch": 596,
-  "timestamp": 1794180106,
-  "purpose": "S3.A5 B7 targeted red-fix: missing AGP9 V2CoreDev test variant property in workflow only, no product logic rewrite",
-  "last_checkpoint": "S3_A5_REALITY8_DEV_HOST_B6_CI_RED_42534451918"
+  "timestamp": 1794180267,
+  "purpose": "S3.A5 Android Reality8 DEV host code + AGP9 workflow-only RED_FIX, new exact CI #42534927828 WAIT_CI, B7 not yet verified, V2 prod OFF, G15 not tested",
+  "last_checkpoint": "S3_A5_REALITY8_DEV_HOST_B6_RETRY_WAIT_CI@31253d17"
 }
