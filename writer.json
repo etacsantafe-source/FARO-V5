@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_OWNER_CANCEL.B7.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_INTENT_CODEC.B1B5",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
   "target_head": "be2453252ab739237f02cc1e580ff0f5f253bfc7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 540,
+  "epoch": 541,
   "timestamp": 1794137160,
-  "purpose": "N033C3 origin+internal SQL Undo both B7 PASS, 14/14 workflows. Next is new human Review/undo.execute binding. V2/S4/AUTO OFF.",
+  "purpose": "N033C3 Undo execute NEW Review+source committed proof canonical intent codec B1–B5 only; no shipping binding",
   "last_checkpoint": "N033C3_UNDO_OWNER_SQL_B7_PASS@be2453252ab739237f02cc1e580ff0f5f253bfc7"
 }
