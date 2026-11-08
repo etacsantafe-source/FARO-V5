@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.B7",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_REVIEW_HOST.B7.RELEASED",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
-  "target_head": "035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015",
+  "target_head": "14a7c066a71e364a9de68a97b713c795a0a23855",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 555,
+  "epoch": 556,
   "timestamp": 1794137160,
-  "purpose": "Final B7 exact SHA #42499635004 6+12+38 PASS, guard #42499635018 SUCCESS; checkpoint",
-  "last_checkpoint": "N033C3_UNDO_REVIEW_HOST_B7_WAIT_CI@035ae0791b2b5b86ce8cf6ebf7df17f0e0caa015"
+  "purpose": "N033C3 reviewed Undo JVM host B7 56/56 PASS and protocol guard; next A4 N015/N031/UI preaudit; V2 productiva/S4 OFF",
+  "last_checkpoint": "N033C3_UNDO_REVIEW_HOST_B7_PASS@14a7c066a71e364a9de68a97b713c795a0a23855"
 }
