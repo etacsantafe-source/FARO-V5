@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.DEV_CUTOVER.B7.PASS.RELEASED",
-  "token_hash": "33a0fb8c7f77f35d7aa9febe34e0194ff832f5f519857ebcb320fe1fea897e80",
+  "status": "ACTIVE",
+  "owner": "FARO.MANUAL.S3A5.DEV_HOST.B1_B5.EPOCH595",
+  "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
   "target_head": "4601550fdcb38d35d05e52c4fadcf23f2a9b4626",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 594,
-  "timestamp": 1794179000,
-  "purpose": "S3.A5 4 scoped units: DEV staged8 journal 5/5 + canonical cutover/recovery 4/4 PASS. Host/UI NOT_MOUNTED, V2 production OFF, no G15.",
+  "epoch": 595,
+  "timestamp": 1794178825,
+  "purpose": "S3.A5 new DEV Reality8 host mount B1-B5 targeted audit, no functional code until permit READY",
   "last_checkpoint": "S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS@4601550f"
 }
