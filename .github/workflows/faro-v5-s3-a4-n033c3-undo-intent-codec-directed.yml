@@ -1,0 +1,58 @@
+name: FARO V5 S3 A4 N033C3 Undo execute canonical intent codec
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/UndoExecuteIntent.kt"
+      - "v5/kernel/contracts/src/test/kotlin/ar/com/faro/v5/kernel/contracts/UndoExecuteIntentTest.kt"
+      - ".github/workflows/faro-v5-s3-a4-n033c3-undo-intent-codec-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n033c3-undo-intent-codec
+  cancel-in-progress: false
+
+jobs:
+  undo-intent-canonical:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for Gradle project configuration
+        run: |
+          set -eu
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: JUnit canonical Undo intent codec only
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :kernel:contracts:test --tests "ar.com.faro.v5.kernel.contracts.UndoExecuteIntentTest"
+      - name: Require exact 8 tests no skip XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          path=Path('v5/kernel/contracts/build/test-results/test')
+          files=list(path.glob('TEST-*UndoExecuteIntentTest.xml'))
+          if len(files)!=1: raise SystemExit('N033C3_UNDO_INTENT_XML_MISSING')
+          root=ET.parse(files[0]).getroot()
+          values=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if values!=(8,0,0,0): raise SystemExit('N033C3_UNDO_INTENT_XML_FAIL '+str(values))
+          print('N033C3_UNDO_INTENT_XML_PASS 8/8')
+          PY
