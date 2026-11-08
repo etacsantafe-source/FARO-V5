@@ -2,21 +2,17 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST",
-  "reviewed_head": "15141c91816fad15d7de6bdb71396c8c126de90a",
+  "reviewed_head": "7b13660194eb0f832efff18fae6af5f237d1cffc",
   "paths": [
-    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ReviewedConversationApplyCoordinator.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c2b4-reality8-transaction-host-directed.yml"
+    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ReviewedConversationApplyCoordinator.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
-          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_RED_FIX_B1_B5_20261107.md",
+          "blob_sha": "5c04bcfe13982568ecffbbd7b761587af655fef6",
           "marker": "## B1"
         }
       ]
@@ -25,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
-          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_RED_FIX_B1_B5_20261107.md",
+          "blob_sha": "5c04bcfe13982568ecffbbd7b761587af655fef6",
           "marker": "## B2"
         }
       ]
@@ -35,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
-          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_RED_FIX_B1_B5_20261107.md",
+          "blob_sha": "5c04bcfe13982568ecffbbd7b761587af655fef6",
           "marker": "## B3"
         }
       ]
@@ -45,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
-          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_RED_FIX_B1_B5_20261107.md",
+          "blob_sha": "5c04bcfe13982568ecffbbd7b761587af655fef6",
           "marker": "## B4"
         }
       ]
@@ -55,30 +51,30 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B1_B5_20261107.md",
-          "blob_sha": "42b33e6884f8d20749077b62593bf2d51c2a1cdc",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_RED_FIX_B1_B5_20261107.md",
+          "blob_sha": "5c04bcfe13982568ecffbbd7b761587af655fef6",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "READY_KERNEL_NULLABLE_CALLBACK_REDFIX_ONLY",
+    "B7": "PENDING_REDFIX_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0895918851385a411a8b77f726772e253aa2ff37",
-    "result": "PASS",
-    "unit_id": "S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION",
+    "sha": "7b13660194eb0f832efff18fae6af5f237d1cffc",
+    "unit_id": "S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_APPLYING_IDENTITY_PROMOTION_B7_PASS_20261107.md",
-        "blob_sha": "ecf8f3f95b75a0fe85771ed46f9bafa2b6c71c94",
+        "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_RED_FIX_B1_B5_20261107.md",
+        "blob_sha": "5c04bcfe13982568ecffbbd7b761587af655fef6",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Dormant trusted local host binds canonical Review and scoped owner grant through one Reality8 BEGIN IMMEDIATE/COMMIT with mandatory authorization hook; no UI or shipping wiring",
-  "how": "5 exact paths, real Workspace+Reality8 JVM integration and directed XML; fail closed/no fabricated human",
+  "why": "Exact Kotlin UNSAFE_CALL in ReviewedConversationApplyCoordinator.kt:87 at first host commit, one-file RED_FIX; no test/SQLite verdict yet",
+  "how": "Capture nullable afterBeginApply in local val before runCatching; same logic, strict existing exact CI",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 implement scoped dormant host with official Reality8 binding adapters, B7 exact SHA CI then N033C3 Undo/retry"
+  "next": "B6 one-line Kotlin smart-cast fix, directed Reality8 host and kernel CI, B7 PASS or new RED_FIX"
 }
