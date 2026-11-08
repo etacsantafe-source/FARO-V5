@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N015.REAL_ACTIVITY_HOST_REDFIX.RELEASED",
-  "token_hash": "efc73e1bb7f1a66dd11892de631bda14a1246b7695100f6a7ea5facb94929692",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N015.REAL_ACTIVITY_HOST_B7",
+  "token_hash": "b27c8ff013e21b1d809f6f3874a308da26d799f317c5ca93194ed368a42f9619",
   "target_head": "ed34f8c7b30185f3542ab58212c55c7301307689",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 565,
-  "timestamp": 1794166294,
-  "purpose": "N015 real Activity host RED_FIX public Workspace API and exact epoch checks; WAIT_CI, writer released",
-  "last_checkpoint": "N015_REAL_ACTIVITY_HOST_REDFIX_WAIT_CI@ed34f8c7b30185f3542ab58212c55c7301307689"
+  "epoch": 566,
+  "timestamp": 1794166607,
+  "purpose": "B7 exact N015 REAL SQLite Activity host XML 28/28, guard/Home success; documentary closure only",
+  "last_checkpoint": "N015_REAL_HISTORY_HOST_B7_PENDING@ed34f8c7b30185f3542ab58212c55c7301307689"
 }
