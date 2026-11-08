@@ -43,6 +43,7 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
             :app:compileV2CoreDevKotlin \
             :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2Planning8DevHostTest"
       - name: Verify exact newly directed XML
