@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 518
+    "expected_release_epoch": 522
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N033C2B4_REALITY8_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261107.md",
+  "handoff": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B7_PASS_20261107.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Current host code 8c6110ec compiles main, but CI #42435471097 fails app test compile INVISIBLE_REFERENCE due internal RealityStore.integrityCheck() line230. One-line test-only RED_FIX docs B1-B5 READY, B7 RED_FIX, do not widen API. After CI 6/6 plus kernel B7 then Undo/retry N033C3. Shipping V2/S4/Auto/Noche OFF, no G15.",
-  "checkpoint_status": "S3_A4_REALITY8_HOST_RED_FIX_TEST_VISIBILITY_B1_B5_READY",
+  "next": "Reality8 transaction host B7 PASS_SCOPED: final code a09ed82a, #42435977171 real Workspace4+Reality8 SQL 6/6 and kernel Apply 38/38, guard and Home SUCCESS exact SHA. Previous two RED_FIX due Kotlin nullable and internal test access documented, no repeated passes. Next N033C3 Undo/retry/Workspace reconciliation, then S3.A4 formal closure; Shipping V2/S4/Auto/Noche OFF, A5 G15 deferred, writer release expected522.",
+  "checkpoint_status": "S3_A4_REALITY8_TRANSACTION_HOST_B7_PASS_HOST6_KERNEL38_NEXT_N033C3",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_REALITY8_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261107.md",
-  "last_code_sha": "0895918851385a411a8b77f726772e253aa2ff37",
-  "last_ci_run_id": 42433781042,
+  "last_handoff": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B7_PASS_20261107.md",
+  "last_code_sha": "a09ed82abb8981fb057475412439d7416eeedb9b",
+  "last_ci_run_id": 42435977171,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "APPLYING_PROMOTION_63_63_AND_SEVEN_SHA_WORKFLOWS_SUCCESS",
+  "last_ci_conclusion": "REALITY8_HOST6_6_KERNEL38_38_EXACT_SHA_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",

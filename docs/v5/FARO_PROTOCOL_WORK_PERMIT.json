@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST",
-  "reviewed_head": "8c6110ecf25db3a510bcead29bad273cd48d62b7",
-  "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHostT2Test.kt"
-  ],
+  "reviewed_head": "a09ed82abb8981fb057475412439d7416eeedb9b",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SUCCESS_EXACT_SHA_HOST6_KERNEL38",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B7_PASS_20261107.md",
+          "blob_sha": "771706b48c512b6ad5562d52f9b3fce4dc912f5a",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "8c6110ecf25db3a510bcead29bad273cd48d62b7",
+    "sha": "a09ed82abb8981fb057475412439d7416eeedb9b",
     "unit_id": "S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261107.md",
-        "blob_sha": "13687891aff912bfb919e43c2226340aa8369f7b",
+        "path": "docs/s3-night/S3_A4_N033C2B4_REALITY8_TRANSACTION_HOST_B7_PASS_20261107.md",
+        "blob_sha": "771706b48c512b6ad5562d52f9b3fce4dc912f5a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Exact CI compiler INVISIBLE_REFERENCE from app test accessing internal RealityStore.integrityCheck; single-test-line redfix",
-  "how": "Remove only redundant internal integrityCheck assertion; preserve rollback/receipt/review checks and strict host 6/6 plus kernel suite",
+  "why": "Dormant Planning8 Workspace4/Reality8 SQL host 6/6 plus Kernel Apply 38/38 exact SHA; no Android UI or cross-process certification",
+  "how": "Directed host #42435977171 XML 6/6 + kernel 38/38, guard #42435977227 and Home #42435977228 success; prior RED_FIXes audited",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "One-file B6 RED_FIX, exact directed CI with XML, independent B7; then N033C3 Undo/retry"
+  "next": "N033C3 Undo/retry reconciliation and idempotent activity; A4 closure after acceptance"
 }
