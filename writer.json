@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_CORE.B7_FINAL",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_CORE.B7.PASS.RELEASED",
   "token_hash": "d328486506af53f9801d7a01f5c91751cd13b287f640a24d2aed18fc149035b4",
-  "target_head": "4bf63a521dc156581b61d0c2eeccbc8a78916528",
+  "target_head": "8f900cb63a73b120ef724d254c56a9ac99c19e97",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 572,
-  "timestamp": 1794168409,
-  "purpose": "Independent B7 on exact XML10/10 + guard and next scoped checkpoint",
-  "last_checkpoint": "S3_A4_LOCAL_INSTALL_READ_CORE_B7@4bf63a52"
+  "epoch": 573,
+  "timestamp": 1794168552,
+  "purpose": "B7 10/10 exact CI certified; A4 open for host mount/N031; writer released",
+  "last_checkpoint": "S3_A4_LOCAL_INSTALL_READ_AUTHORITY_CORE_B7_PASS@8f900cb6"
 }
