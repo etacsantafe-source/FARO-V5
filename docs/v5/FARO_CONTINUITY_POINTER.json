@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 596
+    "expected_release_epoch": 597
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B6_RETRY_WAIT_CI_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A5 DEV Reality8 host code 60250bce, workflow-only task fix 6c3c0947, CI #42534927828 WAIT_CI, guard #42534927840; previous CI #42534451918 failed before compilation due AGP9 property, historical V2 core #42534451741 SUCCESS. After terminal XML, B7 independent. Physical G15 final only.",
-  "checkpoint_status": "S3_A5_REALITY8_DEV_HOST_B6_RETRY_WAIT_CI_B7_PENDING_A5_OPEN",
+  "next": "S3.A5 fifth scoped DEV Reality8 Android host mount B7 PASS 8/8, code 60250bce and workflow-only fix 6c3c0947. Continue independent S3.A5 integration acceptance without rerunning 6/6+5/5+5/5+4/4+8/8. G15 single X01-X12 physical campaign only at final, no S4, V2 productive OFF.",
+  "checkpoint_status": "S3_A5_DEV_REALITY8_HOST_B7_PASS_SCOPED_8_OF_8_FIFTH_UNIT_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B6_RETRY_WAIT_CI_20261108.md",
+  "last_handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
   "last_code_sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
   "last_ci_run_id": 42534927828,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "WAIT_CI_NO_XML_VERIFIED_AGP9_RETRY",
+  "last_ci_conclusion": "SUCCESS_JUNIT_XML_8_OF_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1795,22 +1795,24 @@
     "cutover_owner": "B7_PASS_TESTED_NOT_MOUNTED_IN_DEV"
   },
   "a5_host_mount_checkpoint": {
-    "status": "WAIT_CI_RETRY",
+    "status": "B7_PASS_SCOPED_DEV_ANDROID_BUILD_AND_JVM_8_OF_8",
     "unit": "S3_A5_REALITY8_DEV_HOST_MOUNT",
+    "unit_sequence": 5,
     "b1_b5": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
     "b5_origin": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B5_ORIGIN_BINDING_20261108.md",
-    "functional_sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
+    "code_sha": "60250bcede299c9ddb3028bb0b948ac1b700bcdd",
+    "final_sha": "6c3c0947ef9d701e1e1ab801354b8c873b1afdc9",
     "directed_ci_id": 42534927828,
     "protocol_ci_id": 42534927840,
+    "directed_ci_conclusion": "SUCCESS_JUNIT_XML_8_0_0_0",
     "protocol_ci_conclusion": "SUCCESS",
-    "functional_ci_conclusion": "NOT_YET_VERIFIED",
+    "old_core_regression_ci_id": 42534451741,
+    "old_core_ci_conclusion": "SUCCESS",
+    "dev_apk_ci_id": 42534452081,
+    "dev_apk_conclusion": "SUCCESS",
+    "b7": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_PASS_SCOPED_20261108.md",
     "physical": "NOT_RUN_G15_FINAL_ONLY",
     "production_v2": false,
-    "next": "Exact directed Android compile and JUnit XML 8/8 then B7.",
-    "initial_code_sha": "60250bcede299c9ddb3028bb0b948ac1b700bcdd",
-    "first_failed_ci_id": 42534451918,
-    "first_failed_cause": "AGP9_TEST_VARIANT_PROPERTY_MISSING",
-    "red_fix": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B7_RED_FIX_20261108.md",
-    "retry_handoff": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B6_RETRY_WAIT_CI_20261108.md"
+    "next": "S3.A5 integrated acceptance preflight, then single final device campaign."
   }
 }
