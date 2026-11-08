@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.TEST_VISIBLE_API_REDFIX.B1B5.20261107",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.TEST_VISIBLE_API_REDFIX.B1B5.RELEASED",
   "token_hash": "83a9b7f185c74689e61c180e283c7772039b34db7e5106ef9f2335269d2e144e",
-  "target_head": "8c6110ecf25db3a510bcead29bad273cd48d62b7",
+  "target_head": "305dbebf189f7bf655a8dc288ddbd94be5d891b5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 517,
-  "timestamp": 1794102500,
-  "purpose": "B1-B5 one-test-line RED_FIX: remove cross-module internal integrityCheck visibility error",
-  "last_checkpoint": "REALITY8_HOST_TEST_VISIBILITY_REDFIX_PREAUDIT"
+  "epoch": 518,
+  "timestamp": 1794102570,
+  "purpose": "Test-only RED_FIX B1-B5 docs guard #42435890777 success, release before code",
+  "last_checkpoint": "REALITY8_HOST_TEST_REDFIX_B1B5_READY@305dbebf189f7bf655a8dc288ddbd94be5d891b5"
 }
