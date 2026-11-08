@@ -302,6 +302,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
     ) : AutoCloseable {
         private var historyAuthority: FaroV5LocalInstallReadAuthority? = null
         private var historyBinding: FaroV5RealHistoryActivityHostBinding? = null
+        private var pendingAuthority: FaroV5LocalInstallReadAuthority? = null
+        private var pendingBinding: FaroV5N031ThreeOwnerDueHostBinding? = null
 
         /**
          * DEV-only entry: the caller MUST be the dedicated native button callback
@@ -383,6 +385,111 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             }
         }
 
+        /** Strictly DEV-only; called solely by the Pendientes native button. */
+        @Synchronized
+        internal fun openPendingAfterTrustedForegroundRequest(
+            application: Application,
+            foreground: () -> Boolean,
+        ): FaroV5N031ThreeOwnerDueHostBinding? {
+            if (!alive.get() || pendingBinding != null ||
+                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !runCatching { foreground() }.getOrDefault(false)
+            ) return null
+            val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
+            if (pinned.generationId.value != graph.generationId) return null
+            val epoch = UUID.randomUUID().toString()
+            val hostReady: () -> Boolean = {
+                alive.get() && runCatching {
+                    foreground() && pointer.read() == pinned
+                }.getOrDefault(false)
+            }
+            var probe: FaroV5AndroidSandboxPrincipal? = null
+            var access: FaroV5LocalInstallReadAuthority? = null
+            var binding: FaroV5N031ThreeOwnerDueHostBinding? = null
+            var mounted = false
+            return try {
+                probe = FaroV5AndroidSandboxPrincipal(
+                    expectedApplicationId = application.packageName,
+                    pinned = pinned,
+                    activePointer = pointer,
+                    expectedHostEpoch = epoch,
+                    hostEpochOrNull = { if (alive.get()) epoch else null },
+                    facts = AndroidPlatformSandboxFactsReader(application),
+                )
+                access = FaroV5LocalInstallReadAuthority(
+                    sandbox = probe,
+                    activePointer = pointer,
+                    hostReady = hostReady,
+                    foregroundReady = foreground,
+                )
+                val principal = access.technicalPrincipalOrNull()
+                if (principal == null || !hostReady() ||
+                    !access.grantAfterTrustedForegroundReadAction(
+                        setOf(
+                            FaroV5LocalReadDomain.MATTER_DUE,
+                            FaroV5LocalReadDomain.REMINDER_OCCURRENCE,
+                            FaroV5LocalReadDomain.MONTHLY_PLAN_ITEM,
+                        )
+                    )
+                ) null else {
+                    // Existing DEV Reality7 fails CLOSED inside the REALITY8 reader.
+                    // Never migrate ACTIVE data to render a screen.
+                    binding = FaroV5N031ThreeOwnerDueHostBinding(
+                        generationId = graph.generationId,
+                        pinned = pinned,
+                        activePointer = pointer,
+                        reality = graph.reality,
+                        principalId = principal,
+                        expectedHostEpoch = epoch,
+                        hostEpochOrNull = { if (alive.get()) epoch else null },
+                        hostReady = hostReady,
+                        readAuthority = access,
+                    )
+                    if (!hostReady()) null else {
+                        pendingAuthority = access
+                        pendingBinding = binding
+                        mounted = true
+                        binding
+                    }
+                }
+            } catch (_: Exception) {
+                null
+            } finally {
+                if (!mounted) {
+                    binding?.close()
+                    access?.close()
+                    probe?.close()
+                }
+            }
+        }
+
+        /** Final UI publish must revalidate three grants after async SQL. */
+        @Synchronized
+        internal fun isPendingReadCurrent(
+            binding: FaroV5N031ThreeOwnerDueHostBinding,
+            foreground: () -> Boolean,
+        ): Boolean {
+            if (!alive.get() || pendingBinding !== binding ||
+                !runCatching { foreground() }.getOrDefault(false)
+            ) return false
+            val access = pendingAuthority ?: return false
+            val principal = access.technicalPrincipalOrNull() ?: return false
+            val pinned = runCatching { pointer.read() }.getOrNull() ?: return false
+            return listOf(
+                FaroV5LocalReadDomain.MATTER_DUE,
+                FaroV5LocalReadDomain.REMINDER_OCCURRENCE,
+                FaroV5LocalReadDomain.MONTHLY_PLAN_ITEM,
+            ).all { access.epochOrNull(principal, it, pinned) != null }
+        }
+
+        @Synchronized
+        internal fun revokePendingReadingOnPause() {
+            pendingBinding?.close()
+            pendingBinding = null
+            pendingAuthority?.close()
+            pendingAuthority = null
+        }
+
         /** A paused or changed host cannot reuse a previous user request. */
         @Synchronized
         internal fun revokeActivityReadingOnPause() {
@@ -396,6 +503,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         override fun close() {
             if (alive.compareAndSet(true, false)) {
                 revokeActivityReadingOnPause()
+                revokePendingReadingOnPause()
                 searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)
                 graph.close()

@@ -1,0 +1,61 @@
+name: FARO V5 S3 A4 N031 DEV pending UI formatter directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt"
+      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a4-n031-dev-pending-ui-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-n031-dev-pending-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pending-ui-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android compile platform
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: New DEV presentation contract only
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5V2CoreDevPendingPresentationT2Test"
+      - name: Verify fresh six JUnit tests
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path('v5/app/build/test-results/testV2CoreDevUnitTest')
+          files=list(base.glob('TEST-*FaroV5V2CoreDevPendingPresentationT2Test.xml'))
+          if len(files)!=1: raise SystemExit('N031_DEV_PENDING_XML_MISSING')
+          root=ET.parse(files[0]).getroot()
+          vals=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          if vals!=(6,0,0,0): raise SystemExit('N031_DEV_PENDING_XML_FAIL '+str(vals))
+          print('S3_A4_N031_DEV_PENDING_UI_XML_PASS 6/6')
+          PY

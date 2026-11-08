@@ -14,6 +14,8 @@ import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.ConversationSelectionResult
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.surface.FaroV5SurfaceHost
+import java.time.Instant
+import java.time.ZoneId
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlinx.coroutines.runBlocking
@@ -31,10 +33,13 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val opening = AtomicBoolean(false)
     private val disposed = AtomicBoolean(false)
     private val pendingActivityReadRequest = AtomicBoolean(false)
+    private val pendingDueReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
     private lateinit var activityButton: Button
+    private lateinit var dueButton: Button
+    private var dueDisplay: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +77,11 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             setOnClickListener { openLocalChat(requestActivityRead = true) }
         }
         column.addView(activityButton)
+        dueButton = Button(this).apply {
+            text = "Consultar vencimientos registrados (DEV)"
+            setOnClickListener { openLocalChat(requestPendingRead = true) }
+        }
+        column.addView(dueButton)
         setContentView(ScrollView(this).apply {
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -80,12 +90,17 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         })
     }
 
-    private fun openLocalChat(requestActivityRead: Boolean = false) {
+    private fun openLocalChat(
+        requestActivityRead: Boolean = false,
+        requestPendingRead: Boolean = false,
+    ) {
         if (!opening.compareAndSet(false, true)) return
         // Only this dedicated foreground button can request an Activity read.
         pendingActivityReadRequest.set(requestActivityRead)
+        pendingDueReadRequest.set(requestPendingRead)
         openButton.isEnabled = false
         activityButton.isEnabled = false
+        dueButton.isEnabled = false
         status.text = "Verificando journal y cinco bases locales…"
         executor.execute {
             var opened: FaroV5V2CoreDevAuthority.Session? = null
@@ -115,13 +130,16 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                 try {
                     if (disposed.get() || isFinishing || isDestroyed) {
                         pendingActivityReadRequest.set(false)
+                        pendingDueReadRequest.set(false)
                         opened?.close()
                     } else if (failure != null) {
                         opened?.close()
                         status.text = "No se abrió: ${failure.javaClass.simpleName}. Los datos permanecen intactos."
                         pendingActivityReadRequest.set(false)
+                        pendingDueReadRequest.set(false)
                         openButton.isEnabled = true
                         activityButton.isEnabled = true
+                        dueButton.isEnabled = true
                     } else {
                         val active = checkNotNull(opened)
                         session = active
@@ -136,7 +154,10 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                                     lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
                             },
                         ) else null
-                        FaroV5SurfaceHost.install(
+                        val userRequestedPending = pendingDueReadRequest.getAndSet(false)
+                        if (userRequestedPending) {
+                            openPendingView(active)
+                        } else FaroV5SurfaceHost.install(
                             activity = this,
                             workspaceReadPort = active.workspaceReadPort,
                             timelineReadPort = active.timelineReadPort,
@@ -154,9 +175,78 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         }
     }
 
+    /** Dedicated foreground read, never triggered by Chat or Activity. */
+    private fun openPendingView(active: FaroV5V2CoreDevAuthority.Session) {
+        val foreground = {
+            !disposed.get() && !isFinishing && !isDestroyed &&
+                lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        }
+        val binding = if (foreground()) active.openPendingAfterTrustedForegroundRequest(
+            application = application, foreground = foreground,
+        ) else null
+
+        val column = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            val p = (20 * resources.displayMetrics.density).toInt()
+            setPadding(p, p, p, p)
+        }
+        column.addView(TextView(this).apply {
+            text = "Vencimientos registrados — DEV local"
+            textSize = 22f
+        })
+        column.addView(TextView(this).apply {
+            text = "Solo Asuntos, Recordatorios y Plan mensual persistidos en Reality8. " +
+                "No es el total global de Pendientes. Sin prioridad, snooze ni recurrencias inferidas."
+        })
+        val output = TextView(this).apply {
+            text = if (binding == null) FaroV5V2CoreDevPendingPresentation.unavailable
+                else "Consultando fuentes locales autorizadas…"
+            textSize = 16f
+        }
+        dueDisplay = output
+        column.addView(output)
+        column.addView(Button(this).apply {
+            text = "Volver al inicio DEV"
+            setOnClickListener {
+                dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
+                active.revokePendingReadingOnPause()
+                recreate()
+            }
+        })
+        setContentView(ScrollView(this).apply {
+            addView(column, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+            ))
+        })
+        if (binding == null) return
+        // SQL runs only on the worker. Any pause or ABA invalidates this result.
+        executor.execute {
+            val page = runCatching {
+                binding.readAuthorized(
+                    now = Instant.now(),
+                    zone = ZoneId.of("America/Argentina/Cordoba"),
+                    limit = 50,
+                )
+            }.getOrNull()
+            runOnUiThread {
+                if (session === active && foreground() &&
+                    active.isPendingReadCurrent(binding, foreground)
+                ) {
+                    dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.render(page)
+                } else {
+                    dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
+                }
+            }
+        }
+    }
+
     override fun onPause() {
         // Revoke regardless of whether Compose currently shows the Activity page.
         pendingActivityReadRequest.set(false)
+        pendingDueReadRequest.set(false)
+        dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
+        session?.revokePendingReadingOnPause()
         session?.revokeActivityReadingOnPause()
         super.onPause()
     }
@@ -164,6 +254,8 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     override fun onDestroy() {
         disposed.set(true)
         pendingActivityReadRequest.set(false)
+        pendingDueReadRequest.set(false)
+        dueDisplay = null
         executor.shutdown()
         session?.close()
         session = null
