@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C2B4_GRANT_COMMIT_LEASE",
-  "reviewed_head": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE",
+  "reviewed_head": "91cf88c4e8e8971a5707294281c416fa8be38e1a",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewGrantLeaseBridge.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewGrantLeaseBridgeT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c2b4-review-grant-lease-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B1_B5_20261107.md",
+          "blob_sha": "fc4eb004e3d2433d2b2d938945b720bfedec8962",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B1_B5_20261107.md",
+          "blob_sha": "fc4eb004e3d2433d2b2d938945b720bfedec8962",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B1_B5_20261107.md",
+          "blob_sha": "fc4eb004e3d2433d2b2d938945b720bfedec8962",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B1_B5_20261107.md",
+          "blob_sha": "fc4eb004e3d2433d2b2d938945b720bfedec8962",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_LEGACY_XML_REDFIX_B1_B5_20261107.md",
-          "blob_sha": "738554b5d3dc710a5ba4b789c54fe53d1805714a",
+          "path": "docs/s3-night/S3_A4_N033C2B4_REVIEW_GRANT_LEASE_BRIDGE_B1_B5_20261107.md",
+          "blob_sha": "fc4eb004e3d2433d2b2d938945b720bfedec8962",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SUCCESS_EXACT_SHA_44_44",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C2B4_GRANT_COMMIT_LEASE_B7_PASS_20261107.md",
-          "blob_sha": "faa3b065f837d0d3d78199ee0c8747aaa7192c7a",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "74c4a5ae336c905fad4a6c7cdf81540a881e3df2",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "Grant COMMIT lease scoped B7 44/44, legacy redfix 44/44; full Planning8 trusted policy and Replay/Undo still OPEN",
-  "how": "Source 986905d8 CI #42428854363 44/44 guard #42428854264 SUCCESS; YAML ${head} CI #42429438011 44/44 guard #42429437783 SUCCESS",
+  "why": "Bind canonical Workspace approved Planning scope to exact in-process revocable grant lease; no product policy or host activation",
+  "how": "Four paths; preserve existing guard validation, 7 new + 44 regression XML, exact CI",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Separate transactional Planning8 local Review-backed ACL B1-B5/REAL policy, then N033C3 Undo/retry"
+  "next": "B6 exact four paths; CI and B7 scoped only; genuine transactional policy/host remains STOP"
 }
