@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.RED_FIX_PREAUDIT.RELEASED",
-  "token_hash": "87de55b3590e4f7998e06abfc53b19339a4e83143ea7b9e6071bcb98e64c29c7",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.RED_FIX_B6.20261107",
+  "token_hash": "2c44c210466587c79aa4c8c554b7aef3f6a70307921a01da3e126039620e183c",
   "target_head": "4a7bbebbacc4c5ea82f524468db868c3528c88b7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 512,
-  "timestamp": 1794101980,
-  "purpose": "One-file Kotlin UNSAFE_CALL redfix B1-B5 READY, release before code",
-  "last_checkpoint": "REALITY8_HOST_RED_FIX_B1B5_READY@4a7bbebbacc4c5ea82f524468db868c3528c88b7"
+  "epoch": 513,
+  "timestamp": 1794102080,
+  "purpose": "RED_FIX one-file Kotlin nullable callback lexical capture, no changes to Reality host/tests/workflow",
+  "last_checkpoint": "REALITY8_HOST_RED_FIX_B6"
 }
