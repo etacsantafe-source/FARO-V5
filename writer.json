@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "ACTIVE",
-  "owner": "FARO.MANUAL.S3A5.DEV_HOST.B1_B5.EPOCH595",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.DEV_HOST.B6.WAIT_CI.RELEASED",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
-  "target_head": "4601550fdcb38d35d05e52c4fadcf23f2a9b4626",
+  "target_head": "5e0f5dab6eb22212df7f27883b6c222d41729a5c",
   "target_branch": "work/s3-night-20261102",
   "epoch": 595,
-  "timestamp": 1794178825,
-  "purpose": "S3.A5 new DEV Reality8 host mount B1-B5 targeted audit, no functional code until permit READY",
-  "last_checkpoint": "S3_A5_DEV_VALIDATED8_CUTOVER_B7_PASS@4601550f"
+  "timestamp": 1794179958,
+  "purpose": "Reality8 DEV host B1-B5 audited, code 60250bce published; guard SUCCESS, directed Android+8 XML WAIT_CI; no B7 PASS, V2 productiva OFF, no G15",
+  "last_checkpoint": "S3_A5_REALITY8_DEV_HOST_B6_WAIT_CI@5e0f5dab"
 }
