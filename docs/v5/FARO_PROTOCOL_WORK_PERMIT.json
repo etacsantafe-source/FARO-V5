@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N015_ACTIVITY_AUTHORIZED_SURFACE",
   "reviewed_head": "50fcff15ce9e82c71d68268fbd230e6f4e646515",
-  "paths": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActivitySurface.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
-    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5ActivitySurfaceContractTest.kt",
-    ".github/workflows/faro-v5-s3-a4-n015-activity-surface-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_ACTIVITY5_AVISOS4_NAV11_AND_SURFACE68",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_20261108.md",
+          "blob_sha": "910e847a031d76b9e0ffcdd310eed34b9ec6f9ae",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "7184dd702b8dce0977f4640bf81489e3c3f03200",
-    "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
+    "sha": "8bea3d101643c1e72f881972a40804f9c11ecbd4",
+    "unit_id": "S3_A4_N015_ACTIVITY_AUTHORIZED_SURFACE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B7_PASS_20261108.md",
-        "blob_sha": "8f53a4dac28826f8b974ff09775c013125e184f5",
+        "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_20261108.md",
+        "blob_sha": "910e847a031d76b9e0ffcdd310eed34b9ec6f9ae",
         "marker": "## B7"
       }
     ]
   },
-  "why": "S3.A4 Activity drawer currently has no read-only screen; need fail-closed optional port + presentational coverage, no fake host admission",
+  "why": "Activity read-only Surface and drawer branch tested; real host source ACL not yet installed",
   "how": "Isolated Surface Compose + policy + 5 JUnit tests + exact directed XML; source binding still separate",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 four-path Activity Surface then B7; V2 OFF"
+  "next": "Next N015 read-only trusted host binding, Activity adapter and authorized integration; A4 OPEN"
 }

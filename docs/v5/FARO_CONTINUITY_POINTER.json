@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 561
+    "expected_release_epoch": 563
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B7_PASS_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3_A4_N031_TRUSTED_READ_POLICY_B1_B5: prove real canonical principal + per-owner/per-object read authority lifecycle and pointer epoch for Android; if unavailable B5 STOP product; then N015 Activity/N031 Seguimiento UI integration; do not repeat B7 source6+host6+SPI6 or Undo",
-  "checkpoint_status": "S3_A4_N031_REALITY8_DUE_READ_HOST_B7_PASS_SCOPED_A4_OPEN",
+  "next": "S3_A4_N015_ACTIVITY_TRUSTED_READ_HOST_B1_B5: bridge Reality+Workspace real canonical two-owner read with per-source policy and pointer/host; then app->surface UI via neutral port, never activate V2 without lifecycle; after owner+read review close A4 if original contract genuinely satisfied",
+  "checkpoint_status": "S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_SCOPED_A4_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B7_PASS_20261108.md",
-  "last_code_sha": "7184dd702b8dce0977f4640bf81489e3c3f03200",
-  "last_ci_run_id": 42510903272,
+  "last_handoff": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B7_PASS_20261108.md",
+  "last_code_sha": "8bea3d101643c1e72f881972a40804f9c11ecbd4",
+  "last_ci_run_id": 42513927631,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "N031_REALITY8_DUE_HOST_XML_18_18_PLUS_GUARD_HOME_PASS",
+  "last_ci_conclusion": "ACTIVITY_XML_20_20_AND_FULL_SURFACE_XML_68_68_GUARD_SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1676,6 +1676,20 @@
     "home_regression_run": 42510903268,
     "read_policy": "NULL_DEFAULT_DENY_UNIMPLEMENTED_PRODUCTIVE",
     "host": "JVM_DORMANT",
+    "physical": "NOT_RUN",
+    "a4": "OPEN",
+    "v2": "OFF"
+  },
+  "progress_s3_a4_n015_activity_surface": {
+    "unit_id": "S3_A4_N015_ACTIVITY_AUTHORIZED_SURFACE",
+    "status": "B7_PASS_SCOPED_UI_RENDER_DORMANT",
+    "code_sha": "8bea3d101643c1e72f881972a40804f9c11ecbd4",
+    "directed_ci": 42513927631,
+    "xml": "20/20",
+    "surface_ci": 42513927622,
+    "all_surface": "68/68",
+    "guard": 42513928442,
+    "real_host_port": "UNMOUNTED",
     "physical": "NOT_RUN",
     "a4": "OPEN",
     "v2": "OFF"
