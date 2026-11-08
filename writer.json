@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.RED_FIX_CODE.RELEASED",
-  "token_hash": "1a92c8e731b62b8061d3f3cc05c0d09bb0e452f38a31fdaf4bf7bb3938a5c506",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REALITY8_TRANSACTION_HOST.TEST_VISIBLE_API_REDFIX.B1B5.20261107",
+  "token_hash": "83a9b7f185c74689e61c180e283c7772039b34db7e5106ef9f2335269d2e144e",
   "target_head": "8c6110ecf25db3a510bcead29bad273cd48d62b7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 516,
-  "timestamp": 1794102260,
-  "purpose": "One-file Kotlin callback smartcast redfix code, await exact CI and independent B7",
-  "last_checkpoint": "REALITY8_HOST_REDFIX_WAIT_CI@8c6110ecf25db3a510bcead29bad273cd48d62b7"
+  "epoch": 517,
+  "timestamp": 1794102500,
+  "purpose": "B1-B5 one-test-line RED_FIX: remove cross-module internal integrityCheck visibility error",
+  "last_checkpoint": "REALITY8_HOST_TEST_VISIBILITY_REDFIX_PREAUDIT"
 }
