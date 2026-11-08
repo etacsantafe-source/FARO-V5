@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
-  "reviewed_head": "8911a02c121ff479ca5107d29772a842dc750dc1",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N015_ACTIVITY_AUTHORIZED_SURFACE",
+  "reviewed_head": "50fcff15ce9e82c71d68268fbd230e6f4e646515",
+  "paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActivitySurface.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5ActivitySurfaceContractTest.kt",
+    ".github/workflows/faro-v5-s3-a4-n015-activity-surface-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
+          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
+          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
+          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
+          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
+          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
+          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
+          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
+          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_TEST_VISIBILITY_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "587952cbd12b331612da58bd5997bce2a6f9c36d",
+          "path": "docs/s3-night/S3_A4_N015_ACTIVITY_SURFACE_B1_B5_20261108.md",
+          "blob_sha": "b15e65f5a024755938093714aee7d722d1af1f72",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_NEW_HOST6_PLUS_OLD_SOURCE6_PLUS_REALITY_SPI6_EXACT_SHA",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B7_PASS_20261108.md",
-          "blob_sha": "8f53a4dac28826f8b974ff09775c013125e184f5",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "7184dd702b8dce0977f4640bf81489e3c3f03200",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "N031 dormant Reality8 read-only host binding real SQLite tests 18/18, guard and Home success; production read policy not implemented",
-  "how": "Initial e2bd RED_FIX static internal app test access, corrected test-only SHA 7184 with CI #42510903272 XML 18/18 and #42510903270 guard",
+  "why": "S3.A4 Activity drawer currently has no read-only screen; need fail-closed optional port + presentational coverage, no fake host admission",
+  "how": "Isolated Surface Compose + policy + 5 JUnit tests + exact directed XML; source binding still separate",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B1-B5 N031 real read policy principal/object lifecycle, host admission, UI/N015 integration; no shipping or duplicating read tests"
+  "next": "B6 four-path Activity Surface then B7; V2 OFF"
 }
