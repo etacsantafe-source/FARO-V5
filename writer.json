@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.CLOSURE_GATE",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.CLOSURE_GATE.RELEASED",
   "token_hash": "03b4f1f779edc657388af2ca9377fa741749e060d42efb91c6ed67e83404e452",
-  "target_head": "760498c8f2f435dc53264241ccb88a4ab957143b",
+  "target_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
   "target_branch": "work/s3-night-20261102",
   "epoch": 567,
-  "timestamp": 1794166942,
-  "purpose": "S3.A4 authoritative scope closure matrix, documentary evidence and STOP for shipping ACL; no code changes",
-  "last_checkpoint": "N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS@760498c8f2f435dc53264241ccb88a4ab957143b"
+  "timestamp": 1794167052,
+  "purpose": "S3.A4 original closure evidence matrix durable, genuine production read policy absent, A4 OPEN, no false completion",
+  "last_checkpoint": "S3_A4_CLOSURE_GATE_STOP_PRODUCTIVE_POLICY@1c2bed55ca9872ed1dbedb67f2e6568d45b92690"
 }
