@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.ACTIVE8.B6.CI_WAIT.RELEASED",
-  "token_hash": "187f6bd2c99e4cf5a4ddc84f96ef0e5b3b6b42aa310e4adca630080787fd1",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5.ACTIVE8.B7.PASS",
+  "token_hash": "26cf1a12cb30668b359d47d69226a43d9887d58f3fdad600f7754b88f36a4ce9",
   "target_head": "d0fc1ad29a7c67b272dcf0164a56adce6e367dff",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 587,
-  "timestamp": 1794172118,
-  "purpose": "S3.A5 certified active8 opening code and six directed tests; CI running; B7 pending",
-  "last_checkpoint": "S3_A5_ACTIVE8_HOST_OPEN_B6@d0fc1ad2_CI_PENDING"
+  "epoch": 588,
+  "timestamp": 1794172362,
+  "purpose": "B7 exact scoped CI PASS, update permit continuity, no productive activation",
+  "last_checkpoint": "S3_A5_ACTIVE8_HOST_OPEN_REAL_SQLITE_6_OF_6@d0fc1ad2"
 }
