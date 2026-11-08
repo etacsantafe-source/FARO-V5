@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
-  "reviewed_head": "be9476d43fd6b9af900f2890ed835f9a311242d2",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
+  "reviewed_head": "0f5d42517c271eaa0122c0aab98dea9d014340ff",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ApprovedObjectGate.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Planning8ReviewedApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8UndoReviewedApplyHostT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c3-undo-execute-review-host-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
-          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
+          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
-          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
+          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
-          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
+          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
-          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
+          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
-          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B1_B5_20261108.md",
+          "blob_sha": "d43a5b1b4c7e01b55b9bee1e31c72f097f7c02c9",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_INTERNAL_UNDO_EXECUTE_BINDING_7_OF_7_ALL_13_CI",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B7_PASS_20261108.md",
-          "blob_sha": "398dfa86f6165188c782cf8a1cf61bf9a5caf3bf",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "520ccbbc87a6f02d0fed1e16fbbf28f1bc9bb49b",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "N033C3 undo.execute internal owner binding B7 passed, 7/7 and 13/13 same SHA workflows, no user-host authorization yet",
-  "how": "Source receipt/journal COMMITTED + exact CREATE payload and owner stamp + Reality8 SQL CAS new receipt, disabled Android composition",
+  "why": "New independent human-approved Undo Review needs sealed COMMITTED source validation and same scoped host lease before Reality8 cancellation",
+  "how": "4 exact paths; reuse existing creator grant/Apply and new Undo binding, 6 new real SQLite JVM tests, no production UI",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5 for S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST; verify separate new human approval and sealed source COMMITTED Workspace"
+  "next": "B6 dormant host/source review integration then B7 exact SHA"
 }
