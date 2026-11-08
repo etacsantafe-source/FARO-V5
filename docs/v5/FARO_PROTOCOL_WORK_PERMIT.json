@@ -2,17 +2,17 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
-  "reviewed_head": "0fec033d21ec167926d29f1e00fa888bc1b07f60",
+  "reviewed_head": "ac9f00f56eb8b280fd1a4e321a32fafce7b26f03",
   "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Planning8UndoReviewedApplyHostT2Test.kt"
+    ".github/workflows/faro-v5-s3-a4-n033c3-undo-execute-review-host-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
+          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
+          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
+          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
+          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
           "marker": "## B4"
         }
       ]
@@ -51,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REDFIX_B1_B5_20261108.md",
-          "blob_sha": "d1e2021a222a6e27f66ec264e970341388cba5e7",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_REGRESSION_B1_B5_20261108.md",
+          "blob_sha": "4d56e7738ce1132c87e2dc7868cee94b42715b6b",
           "marker": "## B5"
         }
       ]
@@ -61,20 +61,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0fec033d21ec167926d29f1e00fa888bc1b07f60",
+    "sha": "ac9f00f56eb8b280fd1a4e321a32fafce7b26f03",
     "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_RED_FIX_20261108.md",
-        "blob_sha": "33291fdb4f0b9fb864269c0b0bbf0d3f156c41b2",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST_B7_REDFIX_REGRESSION_20261108.md",
+        "blob_sha": "572f03a7adac77f8f500714f4cda29b80d6419da",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Directed host test failed Kotlin UNRESOLVED_IMPORT at line15, fix test import only, same unit",
-  "how": "Remove erroneous kernel.apply SingleProcessMaterialWriteGate import, contracts wildcard already imports class; rerun exact CI",
+  "why": "New Undo host 6/6 PASS on ac9f but old host12/kernel38 not tested exact SHA; CI-only RED_FIX same unit",
+  "how": "Workflow-only app dual class 6+12 and kernel Apply38 strict XML; no runtime or test changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 redfix import then B7 exact six host XML, regressions"
+  "next": "Run exact SHA CI and independent B7; production remains OFF"
 }
