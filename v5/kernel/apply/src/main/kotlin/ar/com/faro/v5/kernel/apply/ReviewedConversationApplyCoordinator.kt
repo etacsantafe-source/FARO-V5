@@ -32,6 +32,49 @@ class ReviewedConversationApplyCoordinator(
      */
     private val afterBeginApply: ((ConversationPlanReviewSnapshot, ApplyAttemptIdentity) -> Boolean)? = null,
 ) {
+    /**
+     * Crash/restart reconciliation ONLY: observe an existing COMMITTED Reality
+     * attempt and its matching durable receipt, then CAS canonical Workspace
+     * to COMMITTED. Never call identity.resolve, preflight, bindings or executor.
+     *
+     * In particular, APPROVED with no started attempt cannot create PREPARED
+     * simply because recovery was queried. An unconfirmed/unknown effect is
+     * left RECOVERING, never blindly replayed.
+     */
+    fun reconcileCommittedOnly(
+        context: ConversationPlanReviewContext,
+    ): ReviewedConversationApplyResult {
+        val loaded = runCatching { workspace.load(context) }.getOrNull()
+            ?: return ReviewedConversationApplyResult.Denied("recovery_context_unavailable")
+        val review = loaded.review
+        if (review.state != ConversationPlanReviewState.APPLYING &&
+            review.state != ConversationPlanReviewState.RECOVERING_UNKNOWN
+        ) return ReviewedConversationApplyResult.Denied("recovery_not_started")
+        val plan = runCatching { decode(loaded.envelope()) }.getOrElse {
+            return ReviewedConversationApplyResult.Denied("recovery_plan_decode_failed")
+        }
+        if (plan.planFingerprint != review.planFingerprint)
+            return ReviewedConversationApplyResult.Denied("recovery_plan_mismatch")
+        val transactionId = review.transactionId
+            ?: return ReviewedConversationApplyResult.RecoveryRequired
+        val attempt = runCatching { attempts.find(transactionId) }.getOrNull()
+            ?: return ReviewedConversationApplyResult.RecoveryRequired
+        if (attempt.state != ApplyAttemptJournalState.COMMITTED ||
+            attempt.transactionId != transactionId ||
+            attempt.planFingerprint != plan.planFingerprint
+        ) return ReviewedConversationApplyResult.RecoveryRequired
+        val receipt = runCatching { receipts.find(transactionId) }.getOrNull()
+            ?: return ReviewedConversationApplyResult.RecoveryRequired
+        if (receipt.transactionId != transactionId ||
+            receipt.planFingerprint != plan.planFingerprint
+        ) return ReviewedConversationApplyResult.RecoveryRequired
+        // Workspace.advance independently verifies COMMITTED journal/receipt
+        // while holding its own CAS. No Reality mutex is retained here.
+        return reconcileCommitted(
+            review, ApplyAttemptIdentity(transactionId, plan.planFingerprint), receipt,
+        )
+    }
+
     fun apply(context: ConversationPlanReviewContext): ReviewedConversationApplyResult {
         val loaded = workspace.load(context)
             ?: return ReviewedConversationApplyResult.Denied("approved_context_unavailable")

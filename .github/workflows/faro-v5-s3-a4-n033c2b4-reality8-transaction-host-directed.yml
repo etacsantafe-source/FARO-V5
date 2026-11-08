@@ -60,8 +60,8 @@ jobs:
           if len(matches)!=1: raise SystemExit('A4_REALITY8_HOST_XML_MISSING')
           node=ET.parse(matches[0]).getroot()
           observed=tuple(int(node.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
-          if observed!=(6,0,0,0): raise SystemExit('A4_REALITY8_HOST_XML_FAIL '+str(observed))
-          print('A4_REALITY8_HOST_XML_PASS 6/6')
+          if observed!=(9,0,0,0): raise SystemExit('A4_REALITY8_HOST_XML_FAIL '+str(observed))
+          print('A4_REALITY8_HOST_XML_PASS 9/9')
           kernel=Path('v5/kernel/apply/build/test-results/test')
           files=sorted(kernel.glob('TEST-*.xml'))
           if not files: raise SystemExit('A4_REALITY8_KERNEL_XML_MISSING')
@@ -74,5 +74,5 @@ jobs:
               total+=values[0]
           if total < 13: raise SystemExit('A4_REALITY8_KERNEL_TOTAL_TOO_SMALL '+str(total))
           print('A4_REALITY8_KERNEL_XML_PASS '+str(total)+'/'+str(total))
-          print('A4_REALITY8_TRANSACTION_HOST_PASS 6/6 PLUS_KERNEL')
+          print('A4_REALITY8_TRANSACTION_HOST_PASS 9/9 PLUS_KERNEL')
           PY

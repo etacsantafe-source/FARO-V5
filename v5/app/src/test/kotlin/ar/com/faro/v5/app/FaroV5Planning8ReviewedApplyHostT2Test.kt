@@ -1,6 +1,7 @@
 package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.*
+import ar.com.faro.v5.kernel.apply.*
 import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
 import ar.com.faro.v5.kernel.runtime.PreparedPlan
 import ar.com.faro.v5.kernel.runtime.PreparedPlanEnvelopeCodec
@@ -37,6 +38,7 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
         approve: Boolean = true,
         failReceipt: Boolean = false,
         receiptClock: (() -> Long)? = null,
+        dropCommittedObservation: Boolean = false,
     ) : AutoCloseable {
         val gate = SingleProcessMaterialWriteGate()
         val generation = StorageGenerationId("n033c2b4-real-apply-generation")
@@ -132,9 +134,27 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
                     )
                 } as ConversationReviewDecision.Saved).review
             } else proposed.review
+            // Test-only simulation of a process dying after Reality COMMIT but
+            // before Workspace ObserveCommitted; approval/SQL still use the
+            // genuine trusted host and scoped grants.
+            val reviewPort: TrustedConversationApplyReviewPort =
+                if (dropCommittedObservation) object : TrustedConversationApplyReviewPort {
+                    override fun load(context: ConversationPlanReviewContext) =
+                        workspace.load(context)
+
+                    override fun advance(
+                        intent: ConversationPlanReviewIntent,
+                        key: IdempotencyKey,
+                        attempts: ApplyAttemptLookupPort,
+                        receipts: ExecutionReceiptLookupPort,
+                    ): ConversationReviewDecision =
+                        if (intent is ConversationPlanReviewIntent.ObserveCommitted)
+                            ConversationReviewDecision.Rejected
+                        else workspace.advance(intent, key, attempts, receipts)
+                } else workspace
             host = FaroV5Planning8ReviewedApplyHost(
                 generationId = generation.value, pinned = pinned, activePointer = pointer,
-                workspace = workspace, reality = reality, materialGate = gate,
+                workspace = reviewPort, reality = reality, materialGate = gate,
                 sandbox = sandbox, catalog = catalog, expectedHostEpoch = "host-epoch-1",
                 hostEpochOrNull = { epoch }, hostReady = { ready },
             )
@@ -178,6 +198,31 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
                 runBlocking { workspace.reviews(conversationId()) }.single().state)
         }
     }
+
+    /**
+     * Host-only recovery assembler for the JVM tests: intentionally supplies
+     * NO eligible binding, contract or policy so the receipt-only path cannot
+     * execute an operation even if someone accidentally calls apply().
+     */
+    private fun receiptOnlyCoordinator(
+        workspace: ConversationWorkspaceStore,
+        reality: RealityStore,
+    ) = ReviewedConversationApplyCoordinator(
+        workspace = workspace,
+        decode = PreparedPlanEnvelopeCodec::decode,
+        retry = ApplyRetryReceiptGate(
+            reality.applyAttemptIdentities, reality.executionReceiptLookup,
+        ),
+        preflight = ApplyPreflightGate(
+            contracts = OperationContractLookupPort { null },
+            dependencyStamps = reality,
+            operationRevalidators = emptyList(),
+        ),
+        bindings = ApplyBindingResolutionGate(emptyList()),
+        executor = ApplyTransactionExecutor(reality, reality),
+        attempts = reality.applyAttemptLookup,
+        receipts = reality.executionReceiptLookup,
+    )
 
     private fun conversationId() = ConversationId("real-planning8-host-chat")
 
@@ -261,4 +306,73 @@ class FaroV5Planning8ReviewedApplyHostT2Test {
             }
         }
     }
+
+    @Test fun afterSqlCommitBeforeWorkspaceObservationReconcilesAcrossReopenWithoutReplay() {
+        val realityPath = root.resolve("reality.db").toString()
+        val workspacePath = root.resolve("workspace.db").toString()
+        lateinit var original: ExecutionReceipt
+        Case(dropCommittedObservation = true).use { f ->
+            assertEquals(ConversationApplyHostOutcome.RecoveryRequired, f.apply())
+            val applying = runBlocking { f.workspace.reviews(f.conversation) }.single()
+            assertEquals(ConversationPlanReviewState.APPLYING, applying.state)
+            original = requireNotNull(f.reality.executionReceiptLookup.find(f.tx))
+            assertEquals(1, f.reality.planningBackup.snapshot().reminders.rules.size)
+            assertEquals(ApplyAttemptJournalState.COMMITTED,
+                f.reality.applyAttemptLookup.find(f.tx)!!.state)
+        }
+        RealityStore(
+            realityPath, planningStage8 = true,
+            transactionIdFactory = { error("recovery must never create an attempt") },
+            receiptIdFactory = { error("recovery must never issue another receipt") },
+        ).use { reality ->
+            ConversationWorkspaceStore.openExistingWithPlanVerifier(
+                workspacePath, CanonicalPreparedPlanEnvelopeVerifier,
+            ).use { workspace ->
+                val applying = runBlocking { workspace.reviews(conversationId()) }.single()
+                val coordinator = receiptOnlyCoordinator(workspace, reality)
+                val reconciled = coordinator.reconcileCommittedOnly(applying.context())
+                    as ReviewedConversationApplyResult.Committed
+                assertEquals(original, reconciled.receipt)
+                assertEquals(ConversationPlanReviewState.COMMITTED, reconciled.review.state)
+                assertEquals(original, reality.executionReceiptLookup.find(original.transactionId))
+                assertEquals(1, reality.planningBackup.snapshot().reminders.rules.size)
+                assertEquals(ConversationPlanReviewState.COMMITTED,
+                    runBlocking { workspace.reviews(conversationId()) }.single().state)
+                assertTrue(coordinator.reconcileCommittedOnly(applying.context())
+                    is ReviewedConversationApplyResult.Denied)
+                assertEquals(1, reality.planningBackup.snapshot().reminders.rules.size)
+            }
+        }
+    }
+
+    @Test fun preparedWithoutReceiptCannotBeReplayedByRecoveryOnly() {
+        Case(failReceipt = true).use { f ->
+            assertEquals(ConversationApplyHostOutcome.RecoveryRequired, f.apply())
+            val recovering = runBlocking { f.workspace.reviews(f.conversation) }.single()
+            assertEquals(ConversationPlanReviewState.RECOVERING_UNKNOWN, recovering.state)
+            val result = receiptOnlyCoordinator(f.workspace, f.reality)
+                .reconcileCommittedOnly(recovering.context())
+            assertEquals(ReviewedConversationApplyResult.RecoveryRequired, result)
+            assertNull(f.reality.executionReceiptLookup.find(f.tx))
+            assertEquals(ApplyAttemptJournalState.PREPARED,
+                f.reality.applyAttemptLookup.find(f.tx)!!.state)
+            assertTrue(f.reality.planningBackup.snapshot().reminders.rules.isEmpty())
+        }
+    }
+
+    @Test fun approvedButNeverStartedReviewCannotCreateAttemptThroughRecovery() {
+        Case().use { f ->
+            assertNull(f.reality.applyAttemptLookup.find(f.tx))
+            val result = receiptOnlyCoordinator(f.workspace, f.reality)
+                .reconcileCommittedOnly(f.review.context())
+            assertEquals(
+                ReviewedConversationApplyResult.Denied("recovery_not_started"), result)
+            assertNull(f.reality.applyAttemptLookup.find(f.tx))
+            assertNull(f.reality.executionReceiptLookup.find(f.tx))
+            assertTrue(f.reality.planningBackup.snapshot().reminders.rules.isEmpty())
+            assertEquals(ConversationPlanReviewState.APPROVED,
+                runBlocking { f.workspace.reviews(f.conversation) }.single().state)
+        }
+    }
+
 }
