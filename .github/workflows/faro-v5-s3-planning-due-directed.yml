@@ -1,0 +1,61 @@
+name: FARO V5 S3 N031 Reality Planning two-owner due read directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealityPlanningDueReadSource.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5RealityPlanningDueReadSourceTest.kt"
+      - ".github/workflows/faro-v5-s3-planning-due-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-n031-planning-due-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  planning-due:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile and test two canonical Planning owner due reads
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5RealityPlanningDueReadSourceTest"
+      - name: Require exact JUnit planning due XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path('v5/app/build/test-results/testDebugUnitTest')
+          xmls=list(base.glob('TEST-*FaroV5RealityPlanningDueReadSourceTest.xml'))
+          if len(xmls)!=1:
+              raise SystemExit('S3_N031_PLANNING_DUE_XML_MISSING '+str(len(xmls)))
+          suite=ET.parse(xmls[0]).getroot()
+          counts=tuple(int(suite.attrib.get(k,'-1'))
+                       for k in ('tests','failures','errors','skipped'))
+          if counts!=(6,0,0,0):
+              raise SystemExit('S3_N031_PLANNING_DUE_XML_FAIL '+str(counts))
+          print('S3_N031_PLANNING_DUE_TWO_OWNER_XML_PASS 6/6')
+          PY
