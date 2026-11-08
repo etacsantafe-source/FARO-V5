@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N015.REAL_SQLITE_HISTORY_HOST",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N015.REAL_SQLITE_ACTIVITY_HOST.CODE.RELEASED",
   "token_hash": "3ab2e7d9df361fb754c67aa230e9de7aab38b0dd0b3322fc20a48ec4f9eaa729a",
-  "target_head": "fd07886bd7efd5f6e636ef57da2159e26bb96a9c",
+  "target_head": "d167d550841c223fb9b4045539c976190b2f0a8a",
   "target_branch": "work/s3-night-20261102",
   "epoch": 564,
-  "timestamp": 1794165613,
-  "purpose": "S3.A4 N015 dormant real Reality+Workspace Activity host read binding, independent policy, Surface forwarding",
-  "last_checkpoint": "N015_ACTIVITY_SURFACE_B7_PASS@fd07886bd7efd5f6e636ef57da2159e26bb96a9c"
+  "timestamp": 1794165860,
+  "purpose": "Real N015 canonical Activity host source+UI forwarding code committed; CI pending, writer released",
+  "last_checkpoint": "N015_REAL_ACTIVITY_HOST_WAIT_CI@d167d550841c223fb9b4045539c976190b2f0a8a"
 }
