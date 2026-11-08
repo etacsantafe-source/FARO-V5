@@ -76,6 +76,15 @@ import java.time.LocalTime
 import java.time.YearMonth
 import java.util.UUID
 
+/**
+ * N031: READ ONLY owner ports from one canonical Reality8 generation.
+ * This type is not an ACL grant and is not a backup/export capability.
+ */
+data class RealityPlanningDueReadOwners(
+    val reminders: ReminderSnapshotReadApi,
+    val monthlyPlan: MonthlyPlanSnapshotReadApi,
+)
+
 class RealityStore(
     fileName: String,
     driver: SQLiteDriver = BundledSQLiteDriver(),
@@ -263,6 +272,37 @@ class RealityStore(
                     RealityPlanningStageInsert.MonthlyItem(item, expectedOwnerRevision),
                     transactionScope,
                 ).monthlyPlan
+        }
+
+    /**
+     * N031 future trusted-host seam. Exposes ONLY read APIs, not CRUD,
+     * write leases, backup-export or Apply. Never bind directly to UI.
+     * The host MUST independently authorize each domain and revalidate
+     * pointer/ACL before and after the owner's read. No built-in ACL here.
+     *
+     * Each read is synchronized with this RealityStore's SQLite connection;
+     * TWO reads are NOT a single coherent two-owner snapshot.
+     */
+    fun planningDueReadOwnersForTrustedHost(): RealityPlanningDueReadOwners =
+        synchronized(lock) {
+            checkOpen()
+            check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+                "Planning due read requires existing Reality schema8"
+            }
+            fun checkedSnapshot(): RealityPlanningBackupSnapshot = synchronized(lock) {
+                checkOpen()
+                check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+                    "Planning due source no longer schema8"
+                }
+                check(activeTransactionId == null) {
+                    "Planning due read cannot observe uncommitted Reality Apply"
+                }
+                readPlanningSnapshot()
+            }
+            RealityPlanningDueReadOwners(
+                reminders = ReminderSnapshotReadApi { checkedSnapshot().reminders },
+                monthlyPlan = MonthlyPlanSnapshotReadApi { checkedSnapshot().monthlyPlan },
+            )
         }
 
     /** N033C3 separate internal owner cancellation ports, NOT registered bindings. */

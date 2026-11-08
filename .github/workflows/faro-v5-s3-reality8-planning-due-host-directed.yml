@@ -1,0 +1,72 @@
+name: FARO V5 S3 A4 N031 real Reality8 planning due host read seam
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBinding.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBindingT2Test.kt"
+      - ".github/workflows/faro-v5-s3-reality8-planning-due-host-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-n031-reality8-due-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reality8-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile app and run real host plus canonical source regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:compileDebugKotlin :app:testDebugUnitTest --tests "ar.com.faro.v5.app.FaroV5Reality8PlanningDueHostBindingT2Test" --tests "ar.com.faro.v5.app.FaroV5RealityPlanningDueReadSourceTest"
+      - name: Real Reality8 owner SPI regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityPlanningOwnerSpiT2Test"
+      - name: Require all three JUnit suite XML counts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          suites=(
+            (Path('v5/app/build/test-results/testDebugUnitTest'), 'FaroV5Reality8PlanningDueHostBindingT2Test'),
+            (Path('v5/app/build/test-results/testDebugUnitTest'), 'FaroV5RealityPlanningDueReadSourceTest'),
+            (Path('v5/store/reality/build/test-results/test'), 'RealityPlanningOwnerSpiT2Test'),
+          )
+          for base,cls in suites:
+              xmls=list(base.glob('TEST-*'+cls+'.xml'))
+              if len(xmls)!=1:
+                  raise SystemExit('N031_REALITY8_HOST_XML_MISSING '+cls+' '+str(len(xmls)))
+              suite=ET.parse(xmls[0]).getroot()
+              counts=tuple(int(suite.attrib.get(k,'-1'))
+                           for k in ('tests','failures','errors','skipped'))
+              if counts!=(6,0,0,0):
+                  raise SystemExit('N031_REALITY8_HOST_XML_FAIL '+cls+' '+str(counts))
+              print('N031_REALITY8_HOST_XML_PASS '+cls+' 6/6')
+          print('N031_REALITY8_DUE_HOST_AND_REGRESSIONS_PASS 18/18')
+          PY
