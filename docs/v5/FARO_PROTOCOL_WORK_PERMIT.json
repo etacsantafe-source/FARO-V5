@@ -58,6 +58,11 @@
           "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_MOUNT_B1_B5_20261108.md",
           "blob_sha": "bbe0d4384fde18fb96b4f98e60cc480afce31aad",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_REALITY8_DEV_HOST_B5_ORIGIN_BINDING_20261108.md",
+          "blob_sha": "4d06bc87a9be4fa567d19a527bf829d187db954a",
+          "marker": "## B5"
         }
       ]
     },
@@ -77,8 +82,8 @@
     ]
   },
   "why": "Mount canonical Reality8 cutover/recovery within the dedicated V2CoreDevAuthority, explicit DEV user upgrade only, preserve Reality7 and stale-session ACL revocation",
-  "how": "Reuse journal StageOwner+CutoverOwner, one shared process gate, full pointer and replay fence, no new authority, read-only DEV Pendientes; tests and CI exact",
+  "how": "DEV-only durable full origin (generation+sequence) published before StageOwner; same shared gate, exact journal 8, canonical CutoverOwner, no automatic promotion on Chat. Additional adversarial B5 origin evidence.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Bounded B6 five files, compile v2CoreDev and new directed JUnit XML, then B7; G15 physical remains at final campaign"
+  "next": "B6 allowed only with immutable origin sequence witness, strict crash/ABA guards and new exact CI XML"
 }
