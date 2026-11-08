@@ -58,8 +58,12 @@ internal class FaroV5Planning8ReviewedApplyHost(
     }
 
     // Factories fail closed before granting anything if Reality is not schema8.
-    private val operationBindings = reality.planningCreateBindingsForTrustedHost(catalog)
-    private val operationRevalidators = reality.planningCreateRevalidatorsForTrustedHost(catalog)
+    private val operationBindings =
+        reality.planningCreateBindingsForTrustedHost(catalog) +
+            reality.planningUndoBindingsForTrustedHost(catalog)
+    private val operationRevalidators =
+        reality.planningCreateRevalidatorsForTrustedHost(catalog) +
+            reality.planningUndoRevalidatorsForTrustedHost(catalog)
 
     private fun hostCurrent(): Boolean = runCatching {
         !closed && hostReady() && activePointer.read() == pinned &&
@@ -99,8 +103,77 @@ internal class FaroV5Planning8ReviewedApplyHost(
                     it.status == MonthlyPlanItemStatus.PLANNED &&
                         it.paymentConfirmedAtEpochMillis == null
                 }?.let { Planning8ObjectScope(MonthlyPlanOperations.ITEM_ADD, it.id.value) }
+            OperationId("undo.execute") -> UndoExecutePayload.decode(op.payload)
+                ?.let(::planning8UndoScope)
             else -> null
         }
+    }.getOrNull()
+
+    /**
+     * N033C3: source proof is read OUTSIDE the Reality transaction mutex.
+     * Source COMMITTED is evidence only, never a second human approval.
+     * This method must be re-run after the NEW Review BeginApply CAS.
+     */
+    private fun verifiedUndoSourceForNewReviewOrNull(
+        context: ConversationPlanReviewContext,
+    ): UndoExecuteIntent? = runCatching {
+        if (!hostCurrent()) return@runCatching null
+        val current = workspace.load(context) ?: return@runCatching null
+        val review = current.review
+        if (review.context() != context || review.state !in setOf(
+                ConversationPlanReviewState.APPROVED,
+                ConversationPlanReviewState.APPLYING,
+            )
+        ) return@runCatching null
+        val proposed = PreparedPlanEnvelopeCodec.decode(current.envelope())
+        if (proposed.planFingerprint != review.planFingerprint) return@runCatching null
+        val node = proposed.applyPlan.nodesInTopologicalOrder().singleOrNull()
+            ?: return@runCatching null
+        if (node.dependsOn.isNotEmpty()) return@runCatching null
+        val prepared = node.preparedOperation
+        val contract = prepared.contract
+        if (contract.operationId != OperationId("undo.execute") ||
+            contract.capabilityId != CapabilityId("N-016") ||
+            contract.canonicalExecutor != ExecutorId("undo-coordinator") ||
+            contract.executionProfile != ExecutionProfile.REALITY_MUTATION ||
+            contract.exposure != ContractExposure.BINDABLE ||
+            catalog.current(contract.operationId) != contract
+        ) return@runCatching null
+        val undo = UndoExecutePayload.decode(prepared.payload)
+            ?: return@runCatching null
+        if (planning8UndoScope(undo) == null ||
+            undo.sourceReview.conversationId != review.conversationId ||
+            undo.sourceReview.reviewId == review.reviewId ||
+            undo.sourceReview.planFingerprint == review.planFingerprint
+        ) return@runCatching null
+
+        val source = committedPlans.loadCommitted(undo.sourceReview)
+            ?: return@runCatching null
+        val oldReview = source.review
+        if (oldReview.context() != undo.sourceReview ||
+            oldReview.state != ConversationPlanReviewState.COMMITTED ||
+            oldReview.receipt != undo.sourceReceipt
+        ) return@runCatching null
+        val sourcePlan = PreparedPlanEnvelopeCodec.decode(source.envelope())
+        if (sourcePlan.planFingerprint != oldReview.planFingerprint)
+            return@runCatching null
+        val sourceNode = sourcePlan.applyPlan.nodesInTopologicalOrder().singleOrNull()
+            ?: return@runCatching null
+        if (sourceNode.dependsOn.isNotEmpty()) return@runCatching null
+        val sourcePrepared = sourceNode.preparedOperation
+        if (sourcePrepared.contract.operationId != undo.sourceOperationId ||
+            sourcePrepared.payload != undo.originalCreatePayload ||
+            catalog.current(sourcePrepared.contract.operationId) !=
+                sourcePrepared.contract
+        ) return@runCatching null
+
+        val proven = inspectCommittedUndoOriginForTrustedHost(undo.sourceReview)
+            ?: return@runCatching null
+        if (proven.sourceOperationId != undo.sourceOperationId ||
+            proven.objectId != undo.targetObjectId ||
+            proven.originalReceipt != undo.sourceReceipt
+        ) return@runCatching null
+        if (!hostCurrent()) null else undo
     }.getOrNull()
 
     /**
@@ -114,6 +187,24 @@ internal class FaroV5Planning8ReviewedApplyHost(
         if (!hostCurrent()) {
             return@withMaterialWrite ConversationApplyHostOutcome.Denied("planning_host_unavailable")
         }
+        // A NEW approved Undo Review must point to the unchanged, sealed
+        // old COMMITTED Workspace CREATE and exact original Reality receipt.
+        // A receipt by itself never identifies the object that was created.
+        val candidateOperation = runCatching {
+            workspace.load(context)?.let {
+                PreparedPlanEnvelopeCodec.decode(it.envelope())
+                    .applyPlan.nodesInTopologicalOrder()
+                    .singleOrNull()?.preparedOperation?.contract?.operationId
+            }
+        }.getOrNull()
+        val isUndo = candidateOperation == OperationId("undo.execute")
+        val pinnedUndo = if (isUndo)
+            verifiedUndoSourceForNewReviewOrNull(context) else null
+        if (isUndo && pinnedUndo == null) {
+            return@withMaterialWrite ConversationApplyHostOutcome.Denied(
+                "planning_undo_source_not_committed_or_changed")
+        }
+
         val ticket = policy.issueAfterTrustedHumanApplyRequest(context)
             ?: return@withMaterialWrite ConversationApplyHostOutcome.Denied(
                 "planning_user_request_unavailable")
@@ -156,9 +247,15 @@ internal class FaroV5Planning8ReviewedApplyHost(
                 receipts = reality.executionReceiptLookup,
                 afterBeginApply = { applying, identity ->
                     // Workspace reads here are safe: Reality mutex is NOT held.
-                    val promoted = policy.promoteAfterCanonicalBeginApply(
-                        applying.context(), identity,
-                    )
+                    // Re-read COMMITTED source AFTER new Review BeginApply,
+                    // before entering Reality SQL. Do NOT read Workspace
+                    // through the in-SQL authorization port.
+                    val sourceStillValid = !isUndo ||
+                        verifiedUndoSourceForNewReviewOrNull(applying.context()) == pinnedUndo
+                    val promoted = sourceStillValid &&
+                        policy.promoteAfterCanonicalBeginApply(
+                            applying.context(), identity,
+                        )
                     val stillAuthorized = promoted && hostCurrent() &&
                         grants.epochOrNull(ticket.scope, pinned) == nonce
                     if (stillAuthorized) admittedIdentity = identity

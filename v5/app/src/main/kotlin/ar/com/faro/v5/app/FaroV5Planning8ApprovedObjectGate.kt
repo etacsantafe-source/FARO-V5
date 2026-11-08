@@ -10,6 +10,8 @@ import ar.com.faro.v5.owner.monthlyplan.api.MonthlyPlanItemStatus
 import ar.com.faro.v5.owner.monthlyplan.api.MonthlyPlanOperations
 import ar.com.faro.v5.owner.reminders.api.ReminderCreatePayload
 import ar.com.faro.v5.owner.reminders.api.ReminderOperations
+import java.nio.ByteBuffer
+import java.security.MessageDigest
 
 /** N033C2B4: the exact operation/object, never a host-wide or Search-only grant. */
 internal data class Planning8ObjectScope(
@@ -36,6 +38,39 @@ internal fun interface Planning8ObjectAclReadPort {
  * Actual Apply must independently enforce permission under the write gate,
  * immediately before AND inside the Reality transaction in a future unit.
  */
+/**
+ * N033C3 narrow Undo scope: source operation + source transaction + target
+ * object, length-framed before hashing to avoid ambiguous delimiters.
+ * This is ONLY a scope identifier, never proof of source or ACL.
+ */
+internal fun planning8UndoScope(intent: UndoExecuteIntent): Planning8ObjectScope? =
+    runCatching {
+        val matchingOriginal = when (intent.sourceOperationId) {
+            ReminderOperations.CREATE -> ReminderCreatePayload.decode(
+                intent.originalCreatePayload,
+            )?.let { it.id.value == intent.targetObjectId &&
+                it.enabled && it.linkedMatterId == null } == true
+            MonthlyPlanOperations.ITEM_ADD -> MonthlyPlanItemAddPayload.decode(
+                intent.originalCreatePayload,
+            )?.let { it.id.value == intent.targetObjectId &&
+                it.status == MonthlyPlanItemStatus.PLANNED &&
+                it.paymentConfirmedAtEpochMillis == null } == true
+            else -> false
+        }
+        if (!matchingOriginal) return@runCatching null
+        val digest = MessageDigest.getInstance("SHA-256")
+        listOf(
+            "n033c3-undo-object-v1", intent.sourceOperationId.value,
+            intent.sourceReceipt.transactionId.value, intent.targetObjectId,
+        ).forEach { segment ->
+            val bytes = segment.toByteArray(Charsets.UTF_8)
+            digest.update(ByteBuffer.allocate(4).putInt(bytes.size).array())
+            digest.update(bytes)
+        }
+        val hex = digest.digest().joinToString("") { "%02x".format(it) }
+        Planning8ObjectScope(OperationId("undo.execute"), "undo-" + hex)
+    }.getOrNull()
+
 internal class FaroV5Planning8ApprovedObjectGate(
     expectedGenerationId: String,
     private val pointer: ActiveGenerationPointerPort,
@@ -130,6 +165,14 @@ internal class FaroV5Planning8ApprovedObjectGate(
                         item.paymentConfirmedAtEpochMillis != null
                     ) return@runCatching null
                     Planning8ObjectScope(contract.operationId, item.id.value)
+                }
+                OperationId("undo.execute") -> {
+                    if (contract.capabilityId != CapabilityId("N-016") ||
+                        contract.canonicalExecutor != ExecutorId("undo-coordinator")
+                    ) return@runCatching null
+                    val intent = UndoExecutePayload.decode(prepared.payload)
+                        ?: return@runCatching null
+                    planning8UndoScope(intent) ?: return@runCatching null
                 }
                 else -> return@runCatching null
             }
