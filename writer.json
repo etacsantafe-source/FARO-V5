@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.CI_WAIT.RELEASED",
-  "token_hash": "5a3c827b3bc2858e39b43619cb3cd65a97566ace8e3b3d1789d5c84f8b3ebc36",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5.FRESH_STAGE8.B7.PASS",
+  "token_hash": "037a78e3c5fa0c7cbd815a8202f73bbf860e4dc022e64b1e118fbad68aa6fae0",
   "target_head": "5c9f3ef54b5250ce8b74759ac08edc4fa483b734",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 589,
-  "timestamp": 1794172806,
-  "purpose": "Fresh quarantined Reality8 stage owner five tests; CI and B7 pending",
-  "last_checkpoint": "S3_A5_FRESH_STAGE8_B6@5c9f3ef5_CI_PENDING"
+  "epoch": 590,
+  "timestamp": 1794173022,
+  "purpose": "B7 five real SQLite staged8 tests, exact guard+diff, checkpoint and release",
+  "last_checkpoint": "S3_A5_FRESH_STAGE8_5_OF_5_XML_PASS@5c9f3ef5"
 }
