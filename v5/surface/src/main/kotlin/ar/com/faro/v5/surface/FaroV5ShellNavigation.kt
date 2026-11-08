@@ -214,6 +214,7 @@ fun FaroV5ShellScaffold(
     homeReadPort: FaroV5HomeReadPort? = null,
     searchReadPort: FaroV5SearchReadPort? = null,
     avisosReadPort: FaroV5AvisosReadPort? = null,
+    activityReadPort: FaroV5ActivityReadPort? = null,
 ) {
     require(backStack.isNotEmpty()) {
         "FARO shell navigation requires a presentation root."
@@ -421,6 +422,8 @@ fun FaroV5ShellScaffold(
                             )
                         } else if (key == FaroV5ShellDestination.AVISOS) {
                             FaroV5AvisosScreen(readPort = avisosReadPort)
+                        } else if (key == FaroV5ShellDestination.ACTIVIDAD) {
+                            FaroV5ActivityScreen(readPort = activityReadPort)
                         } else if (key == FaroV5ShellDestination.INICIO) {
                             FaroV5HomeScreen(
                                 readPort = homeReadPort,

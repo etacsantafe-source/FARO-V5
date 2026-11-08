@@ -1,0 +1,65 @@
+name: FARO V5 S3 A4 N015 Activity authorized Surface directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActivitySurface.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
+      - "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5ActivitySurfaceContractTest.kt"
+      - ".github/workflows/faro-v5-s3-a4-n015-activity-surface-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a4-activity-surface-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  surface-activity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile Activity screen and run bounded Surface contract regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :surface:compileDebugKotlin :surface:testDebugUnitTest --tests "ar.com.faro.v5.surface.FaroV5ActivitySurfaceContractTest" --tests "ar.com.faro.v5.surface.FaroV5AvisosSurfaceContractTest" --tests "ar.com.faro.v5.surface.FaroV5ShellNavigationContractTest"
+      - name: Verify N015 new/old exact XML, zero skipped
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path('v5/surface/build/test-results/testDebugUnitTest')
+          suites={'FaroV5ActivitySurfaceContractTest':5,'FaroV5AvisosSurfaceContractTest':4,'FaroV5ShellNavigationContractTest':None}
+          total=0
+          for cls,expected in suites.items():
+              files=list(base.glob('TEST-*'+cls+'.xml'))
+              if len(files)!=1: raise SystemExit('S3_A4_ACTIVITY_XML_MISSING '+cls)
+              root=ET.parse(files[0]).getroot()
+              counts=tuple(int(root.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              if counts[0]<1 or counts[1:]!=(0,0,0) or (expected is not None and counts[0]!=expected):
+                  raise SystemExit('S3_A4_ACTIVITY_XML_FAIL '+cls+' '+str(counts))
+              total+=counts[0]
+              print('S3_A4_ACTIVITY_XML_PASS',cls,counts[0])
+          print('S3_A4_ACTIVITY_SURFACE_BOUNDED_XML_PASS',total)
+          PY
