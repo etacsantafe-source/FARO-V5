@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_PLANNING_DUE_TWO_OWNER_SOURCE",
-  "reviewed_head": "37cf5bfb35b5dde490cd4f7f2c084b08d3a3e3ea",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N031_REALITY8_DUE_HOST_SEAM",
+  "reviewed_head": "49c6a26394dfe6915f36b87eb5a1c8f7c733f2ca",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBindingT2Test.kt",
+    ".github/workflows/faro-v5-s3-reality8-planning-due-host-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
-          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
+          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
-          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
+          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
-          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
+          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
-          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
+          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B1_B5_20261108.md",
-          "blob_sha": "80058ee8013d71f6f236c26783697ef18e982c5b",
+          "path": "docs/s3-night/S3_A4_N031_REALITY8_DUE_HOST_SEAM_B1_B5_20261108.md",
+          "blob_sha": "137393c8dba5d7ff9c0707da6f4af7285815a168",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_DIRECTED_XML_6_6_EXACT_SHA",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N031_PLANNING_DUE_TWO_OWNER_B7_PASS_20261108.md",
-          "blob_sha": "3d2e0ca7dd6cc45842c70ba2a6b17d90ba821722",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "c4cd95d5577a89b413df956bfbd41f0a19f6884b",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "N031 stored due typed two-owner JVM reader passed; host grants and shipping not bound",
-  "how": "CI #42507705020 6/6 XML, mandatory #42507705032 PASS; Home #42507704984 PASS; B7 scoped",
+  "why": "Canonical Reality8 read ports absent from host; dormant host must fail closed without independent read ACL",
+  "how": "Four exact paths: Reality8 read-only SPI, host composition, six SQLite tests, directed XML+regressions. No user-facing wiring.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B1-B5 N031 authentic Reality8 read host binding + ACL; N015 Activity UI still OPEN; no V2 shipping"
+  "next": "B6 code and exact CI, then B7; writer epoch559"
 }
