@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 581
+    "expected_release_epoch": 583
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B6_WAIT_CI_20261108.md",
+  "handoff": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Verify #42519854632 exact 8/8 XML plus #42519854564 guard on 9a6f6e46. B7 or same-unit RED_FIX. N015 DEV Activity B7 PASS_SCOPED signed APK; N031 integration NOT yet UI-mounted; A4 OPEN and V2 productiva OFF.",
-  "checkpoint_status": "S3_A4_N031_THREE_OWNER_PENDING_B6_WAIT_CI_A4_OPEN",
+  "next": "S3_A4_N031_DEV_PENDING_UI_MOUNT B1-B5: explicit trusted foreground read, source partial only; no Home global count. Then A4 E2E closure check. Shipping V2 OFF; S3.A5 physical last.",
+  "checkpoint_status": "S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_A4_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B6_WAIT_CI_20261108.md",
+  "last_handoff": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
   "last_code_sha": "9a6f6e467c6f25cd5680c7398e81a6898086f3ff",
   "last_ci_run_id": 42519854632,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -1711,7 +1711,7 @@
     "physical": "NOT_RUN"
   },
   "closure_gate": {
-    "status": "OPEN_N031_3_OWNER_B6_WAIT_CI",
+    "status": "OPEN_AFTER_N031_THREE_OWNER_SQLITE_PASS",
     "evidence_doc": "docs/s3-night/S3_A4_CLOSURE_GATE_READ_ONLY_20261108.md",
     "blob_sha": "cae0415dd475ccf1084cf651de3b855b89e3da21",
     "activity_surface": "B7_PASS_20_20",
@@ -1722,7 +1722,7 @@
     "shipping_read_policy": "CORE_EXISTS_BUT_NOT_MOUNTED",
     "shipping_v2": false,
     "physical": "NOT_RUN",
-    "writer_release_epoch": 581,
+    "writer_release_epoch": 583,
     "local_read_core_code_sha": "ea79ce776df2bab711d43c341a58a6b3e91f3a9b",
     "local_read_core_ci_run_id": 42518057895,
     "local_read_core": "B7_PASS_SCOPED_JVM_10_10",
@@ -1732,7 +1732,9 @@
     "n031_triple_preaudit": "B1_B5_READY_FOR_NEXT_PERMIT",
     "n031_triple_code_sha": "9a6f6e467c6f25cd5680c7398e81a6898086f3ff",
     "n031_triple_run_id": 42519854632,
-    "n031_triple": "B6_WAIT_CI"
+    "n031_triple": "B7_PASS_SCOPED_REAL_SQLITE_8_OF_8",
+    "shipping_pending_ui": "NOT_MOUNTED",
+    "home_pending_global": "DENY_UNKNOWN_NOT_ZERO"
   },
   "n031_pre_audit": "docs/s3-night/S3_A4_N031_THREE_OWNER_PENDING_B1_B5_20261108.md"
 }

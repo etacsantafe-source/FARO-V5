@@ -59,24 +59,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_REAL_SQLITE_8_NEW_T2_EXACT_SHA",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_REAL_SQLITE_N031_TRIPLE_8_8",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "daf5b852b8a9df30770cc4ba95459d11695d63f1",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "3010ad5f5cddffc5988d6080a3be5e67d73db480",
-    "unit_id": "S3_A4_N015_DEV_ACTIVITY_MOUNT",
+    "sha": "9a6f6e467c6f25cd5680c7398e81a6898086f3ff",
+    "unit_id": "S3_A4_N031_THREE_OWNER_PENDING_FEDERATION",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N015_DEV_ACTIVITY_MOUNT_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "74a37966acfbe48bc549aa090e0ba9b482552be8",
+        "path": "docs/s3-night/S3_A4_N031_THREE_OWNER_DUE_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "daf5b852b8a9df30770cc4ba95459d11695d63f1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "N031 Three Owner Read Host B6 code 9a6f6e46 pending directed XML 8/8, not Android mounted and no global count",
+  "why": "N031 8/8 SQLite B7 PASS scoped; no actual UI count / read mount",
   "how": "One new source class, one T2 real SQL test, one directed workflow XML; reuse certified source APIs, no schema changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "After 8/8 and mandatory guard, independent B7; then separate integration into trusted Android Pendientes UI"
+  "next": "Audit new N031 DEV foreground pending UI mount, preserve partial global coverage, then A4 end-to-end gate"
 }
