@@ -135,15 +135,15 @@ class FaroV5Reality8PlanningDueHostBindingT2Test {
                 assertNull(page.items.last().dueAtEpochMillis)
             }
             assertEquals(stored, f.reality.planningBackup.snapshot())
-            assertEquals("ok", f.reality.integrityCheck())
+            assertTrue(f.reality.maintenance.inspect().integrityHealthy)
         }
     }
 
     @Test fun legacySchemaSevenRejectsHostReadWithoutMigratingOrReturningEmpty() {
         Case("schema-seven", schema8 = false).use { f ->
-            assertEquals(7, f.reality.schemaVersion())
+            assertEquals(7, f.reality.maintenance.inspect().schemaVersion)
             assertThrows(IllegalStateException::class.java) { f.binding() }
-            assertEquals(7, f.reality.schemaVersion())
+            assertEquals(7, f.reality.maintenance.inspect().schemaVersion)
         }
     }
 
