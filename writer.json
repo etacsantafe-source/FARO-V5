@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_INTENT_CODEC.B7",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N033C3.UNDO_EXECUTE_INTENT_CODEC.B7.RELEASED",
   "token_hash": "f0bcc7b83a16acc8d516d102c5aef77e266471d951ce5f4d76f263b9c9aad56d",
-  "target_head": "6b5453c4737d1185af25a63a89422a7bc44c6e8e",
+  "target_head": "be9476d43fd6b9af900f2890ed835f9a311242d2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 543,
+  "epoch": 544,
   "timestamp": 1794137160,
-  "purpose": "N033C3 source provenance new Undo intent 8/8 JVM and guard success; finalize B7 then next unit",
-  "last_checkpoint": "N033C3_UNDO_EXECUTE_INTENT_CODEC_B6_WAIT_CI@6b5453c4737d1185af25a63a89422a7bc44c6e8e"
+  "purpose": "N033C3 undo intent 8/8 & guard B7 PASS, next owner binding; V2 productiva/S4 OFF",
+  "last_checkpoint": "N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS@be9476d43fd6b9af900f2890ed835f9a311242d2"
 }
