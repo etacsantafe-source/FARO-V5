@@ -1,0 +1,8 @@
+# FARO V5 — Undo NEW Review host B7 RED_FIX: regresión no certificada
+Fecha AR 2026-11-08. Misma unidad `S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST`. Código último `ac9f00f56eb8b280fd1a4e321a32fafce7b26f03`.
+## B7 — Estado actual y decisión independiente
+- Primer código `0fec033d` B7 RED_FIX previo por `UNRESOLVED_IMPORT` exact CI #42498342148. Corrección `ac9f00f5` elimina solo test import erróneo, sin modificar runtime.
+- Exact SHA `ac9f00f5` guard `#42498819224` SUCCESS, nueva integración Workspace4+Reality8 `#42498819337` job `#128786877177` SUCCESS XML **`N033C3_UNDO_NEW_HUMAN_REVIEW_HOST_XML_PASS 6/6`**, Home `#42498819251` SUCCESS.
+- **FALTA B7:** B1–B5 pidió compatibilidad del host original 12/12 y kernel Apply 38/38 sobre host modificado. Esas pruebas no corrieron sobre SHA `ac9f00f5`: el workflow de host antiguo se dispara con cambios en el código host, pero esta corrección modificó sólo el import de una clase nueva; su run previo en SHA `0fec033d` había fallado en compilación de TODOS los tests por el import incorrecto. No inferir resultado verde de test histórico sobre código actual.
+- Disposición **RED_FIX_SCOPE_UNCERTIFIED** (no fallo del comportamiento nuevo 6/6): extender workflow NUEVO dirigido para ejecutar **AMBAS clases de host (6+12)** más kernel Apply y verificar XML de cada clase sin skips, suma kernel38. NO modificar lógica, fuente, SQL, permisos, catálogo, host ni pruebas.
+- Permiso para código nuevo sigue BLOCKED salvo el path del workflow después de nueva preauditoría B1–B5. Mantener las tres unidades N033C3 anteriores B7 certificadas, N033C3 humano aún OPEN, S3.A4 OPEN.
