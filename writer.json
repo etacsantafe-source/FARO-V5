@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_SEAM.CODE.RELEASED",
-  "token_hash": "a9a47cf1bc7d9e540301733c9985d49a04e7271543e05058e06a31e78b7ad477",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_STATIC_REDFIX",
+  "token_hash": "2986e723ca1c251622b4ba43ef45e4897cb351ead9e726576bb445b6f04bb1709",
   "target_head": "e2bd195cb17ad114ace884324e9bda9a7936f7cc",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 559,
-  "timestamp": 1794162714,
-  "purpose": "N031 Reality8 due host seam code pushed; WAIT_CI, writer freed; V2/S4 OFF",
-  "last_checkpoint": "N031_REALITY8_DUE_HOST_SEAM_WAIT_CI@e2bd195cb17ad114ace884324e9bda9a7936f7cc"
+  "epoch": 560,
+  "timestamp": 1794162837,
+  "purpose": "Evidence-based static test-visibility RED_FIX: app test calls internal store methods; doc and targeted fix only",
+  "last_checkpoint": "N031_REALITY8_DUE_HOST_STATIC_REDFIX@e2bd195cb17ad114ace884324e9bda9a7936f7cc"
 }
