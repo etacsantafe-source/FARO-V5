@@ -1,0 +1,8 @@
+# FARO V5 — S3.A4 N031 Reality8 host seam: B7 RED_FIX de visibilidad TEST
+Fecha AR 2026-11-08. Unidad `S3_A4_N031_REALITY8_DUE_HOST_SEAM`. SHA original `e2bd195cb17ad114ace884324e9bda9a7936f7cc`.
+
+## B7 — Auditoría estática adversarial, no declarar PASS
+- El diff original toca únicamente 4 paths permitidos: Realty read-only port, composición dormida, prueba app, workflow dirigido. Protocolo guard #42510396867 SUCCESS exact SHA. CI dirigida #42510398640 en ejecución al identificar este error: **no atribuir resultado CI fallido ni verde sin confirmación**.
+- Inspección cruzada de fuentes (mismo SHA) revela dos accesos en `v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5Reality8PlanningDueHostBindingT2Test.kt` a `RealityStore.schemaVersion()` (dos) y `RealityStore.integrityCheck()` (uno) que son métodos **internal** del módulo `:store:reality`. El test compila dentro de **otro módulo** `:app`, por lo que esa visibilidad no está contratada. No abrir estos métodos para reparar el test.
+- `RealityStore.maintenance.inspect()` ya es puerto público canónico, con `RealityMaintenanceInspection.schemaVersion` y `integrityHealthy` públicos. Corregir exclusivamente las tres referencias del test, preservando intención, asserts y seis casos. NO modificar backend, ACL, permisos, XML esperado ni fuente previa.
+- **B7 RED_FIX_REQUIRED_STATIC_VISIBILITY** para `e2bd195cb17ad114ace884324e9bda9a7936f7cc`, prueba funcional aún **NOT_VERIFIED** en este documento. Este RED_FIX es condición para una corrección acotada del MISMO `FARO-UNIT` con protocolo B1–B5 propio y CI exacta nueva. Ninguna pantalla de usuario se habilitó, V2/S4 OFF, S3.A4 OPEN.
