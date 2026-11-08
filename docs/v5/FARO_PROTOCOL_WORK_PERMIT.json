@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
   "reviewed_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "WAIT_CI_10_NEW_T2_EXACT_SHA_NOT_YET_VERIFIED",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "ed34f8c7b30185f3542ab58212c55c7301307689",
-    "unit_id": "S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_BRIDGE",
-    "result": "PASS",
+    "sha": "50eeed8401db4083eee0885dd671c90e81931b8a",
+    "unit_id": "S3_A4_LOCAL_INSTALL_READ_POLICY_CORE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N015_REAL_SQLITE_ACTIVITY_HOST_B7_PASS_20261108.md",
-        "blob_sha": "baaf938388193b568dbda46e15f992396ad1edf7",
+        "path": "docs/s3-night/S3_A4_LOCAL_INSTALL_READ_POLICY_CORE_B7_RED_FIX_20261108.md",
+        "blob_sha": "d0713f876069ed66640192705da83596ad7b4bbf",
         "marker": "## B7"
       }
     ]
   },
-  "why": "CI in progress on local install read policy core commit 50eeed8401db4083eee0885dd671c90e81931b8a; prohibit subsequent functional write without B7",
-  "how": "One local read authority, one bounded T2 test, one directed workflow XML; shipping host/mount excluded",
+  "why": "Test fixture reused original active pointer after A-B-A and failed exactly 1 of 10 at #42517567960; original code correct fail-closed.",
+  "how": "Test-only replacement of stale pointer fixture for distinct host epoch test, no behavior/owner changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify workflow #42517567960 exact XML 10/10 and guard #42517567816; document B7 and next mount unit."
+  "next": "Directed XML 10/10 + protocol guard and B7 after exact RED_FIX SHA"
 }
