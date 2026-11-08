@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_B7",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N031.REALITY8_DUE_HOST_B7.RELEASED",
   "token_hash": "82b16c5fae7365e72e7c08b614d7cb6816123b05a9f7b2264deac9216a30a60c",
-  "target_head": "7184dd702b8dce0977f4640bf81489e3c3f03200",
+  "target_head": "63092634ed4089ab7dde7b8cf0f65f3fcdf114de",
   "target_branch": "work/s3-night-20261102",
   "epoch": 561,
-  "timestamp": 1794163342,
-  "purpose": "B7 PASS after exact N031 host+source+owner XML 18/18, mandatory guard and Home; docs/checkpoint only",
-  "last_checkpoint": "N031_REALITY8_DUE_HOST_B7_PASS_PENDING@7184dd702b8dce0977f4640bf81489e3c3f03200"
+  "timestamp": 1794163500,
+  "purpose": "N031 real SQLite read host B7 scoped PASS 18/18 + seven-block guard/Home; ACL product unavailable, A4 still open",
+  "last_checkpoint": "N031_REALITY8_DUE_HOST_B7_PASS@63092634ed4089ab7dde7b8cf0f65f3fcdf114de"
 }
