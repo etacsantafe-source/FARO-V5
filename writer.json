@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.N033C2B4_REVIEW_LEASE_BRIDGE.WAIT_CI",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.N033C2B4_REVIEW_LEASE_BRIDGE.B7.20261107",
   "token_hash": "22e729c67959d4e52e76ab9474aba36560a021b0e4c0863dd18ff8b4309c5cf1",
   "target_head": "3aba5ebac7a60358aaf049cac269a69c84ab0e7a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 492,
-  "timestamp": 1794098385,
-  "purpose": "N033C2B4_REVIEW_LEASE_BRIDGE_B6_WAIT_CI",
-  "last_checkpoint": "N033C2B4_REVIEW_LEASE_BRIDGE_B6@3aba5ebac7a60358aaf049cac269a69c84ab0e7a"
+  "epoch": 493,
+  "timestamp": 1794098795,
+  "purpose": "N033C2B4_REVIEW_LEASE_B7_SIX_CI_SUCCESS",
+  "last_checkpoint": "N033C2B4_REVIEW_LEASE_B6_ALL_CI_SUCCESS@3aba5ebac7a60358aaf049cac269a69c84ab0e7a"
 }
