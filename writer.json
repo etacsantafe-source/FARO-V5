@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A4.CLOSURE_GATE.RELEASED",
-  "token_hash": "03b4f1f779edc657388af2ca9377fa741749e060d42efb91c6ed67e83404e452",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A4.LOCAL_READ_POLICY.B1_B7",
+  "token_hash": "3d208ceb59f7ae18d37e4837ded4b50fc373c3c0515924a250213b1d7e95b09d",
   "target_head": "1c2bed55ca9872ed1dbedb67f2e6568d45b92690",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 567,
-  "timestamp": 1794167052,
-  "purpose": "S3.A4 original closure evidence matrix durable, genuine production read policy absent, A4 OPEN, no false completion",
-  "last_checkpoint": "S3_A4_CLOSURE_GATE_STOP_PRODUCTIVE_POLICY@1c2bed55ca9872ed1dbedb67f2e6568d45b92690"
+  "epoch": 568,
+  "timestamp": 1794167538,
+  "purpose": "S3.A4 single-install read authority B1-B5 + bounded implementation, no V2 activation",
+  "last_checkpoint": "S3_A4_LOCAL_READ_POLICY_IN_PROGRESS@1c2bed55"
 }
