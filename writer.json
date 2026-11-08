@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A4.N031.PENDING_B1_B5_DOC",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A4.N031.PREAUDIT.RELEASED",
   "token_hash": "f5e9d3a8d70878c207a81add307edc5c0e83fa22425978332c661208566eaee5",
-  "target_head": "6a8bd3b72b72f5914cc2902ff6807072d7bda58b",
+  "target_head": "bdd0728e3e3d2e57433a6ad51a41909ede626e54",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 576,
-  "timestamp": 1794168923,
-  "purpose": "Document next N031 three-owner integrated due unit B1-B5 read-only while DEV Activity mount CI runs",
-  "last_checkpoint": "S3_A4_N031_TRIPLE_DUE_B1_B5_START@6a8bd3b7"
+  "epoch": 577,
+  "timestamp": 1794168986,
+  "purpose": "N031 B1-B5 documented while previous DEV mount B6 CI pending; no competing writer",
+  "last_checkpoint": "S3_A4_N031_THREE_OWNER_PENDING_B1_B5@bdd0728e"
 }
