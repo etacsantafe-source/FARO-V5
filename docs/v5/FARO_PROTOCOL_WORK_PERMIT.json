@@ -1,22 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N031_DEV_PENDING_UI_MOUNT",
-  "reviewed_head": "2ff4b33ac48ae7073bf9089cb0485746724959f8",
+  "status": "READY",
+  "unit_id": "S3_A5_ACTIVE8_CERTIFIED_HOST_OPEN",
+  "reviewed_head": "b7a6f89c42fc42ba36d0a18a11752da693eb395b",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentation.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevPendingPresentationT2Test.kt",
-    ".github/workflows/faro-v5-s3-a4-n031-dev-pending-ui-directed.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwner.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5ActiveGenerationGraphOwnerPlanning8OpenT2Test.kt",
+    ".github/workflows/faro-v5-s3-a5-active8-open-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
-          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
+          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
+          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
           "marker": "## B1"
         }
       ]
@@ -25,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
-          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
+          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
+          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
           "marker": "## B2"
         }
       ]
@@ -35,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
-          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
+          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
+          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
           "marker": "## B3"
         }
       ]
@@ -45,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
-          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
+          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
+          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
           "marker": "## B4"
         }
       ]
@@ -55,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_RED_FIX_B1_B5_20261108.md",
-          "blob_sha": "4b024cbe4506f3e644a765a500d27edce9596999",
+          "path": "docs/s3-night/S3_A5_ACTIVE8_HOST_OPEN_B1_B5_20261108.md",
+          "blob_sha": "f705e4b5b56d3bc26ba846776d94d4e6d98c9363",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_DEV_PENDING_XML_6_6_AND_M5_APK",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N031_DEV_PENDING_UI_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "6b172c26e1c391c8f03244624b297512a699fd6f",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "715d1069c5ea5136c336aac73542e5e25a2d6efa",
@@ -85,9 +75,9 @@
       }
     ]
   },
-  "why": "S3.A4 automated Seguimiento scope B7 PASS; Reality8 DEV active absent; no product claim",
-  "how": "N031 source 8/8 earlier, new formatter 6/6 plus signed DEV APK and guard; revoked reads fail-closed",
+  "why": "A5 host cannot open active Reality8 via normal schema7 GraphOwner; only internal opener exists B7",
+  "how": "Certified-host facade reusing N033C1 exact pointer+schema8 opener; 6 real SQLite tests",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A3 bounded owner approval; S3.A5 Reality8 staged cutover + host E2E G15 physical; V2 productive OFF"
+  "next": "B6 tested direct active8 opening; then B7 and staging/cutover A5 unit"
 }
