@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC",
-  "reviewed_head": "be2453252ab739237f02cc1e580ff0f5f253bfc7",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING",
+  "reviewed_head": "be9476d43fd6b9af900f2890ed835f9a311242d2",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityPlanningUndoExecuteBinding.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityPlanningUndoExecuteBindingT2Test.kt",
+    ".github/workflows/faro-v5-s3-a4-n033c3-undo-execute-owner-binding-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
-          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
+          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
-          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
+          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
-          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
+          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
-          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
+          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
           "marker": "## B4"
         }
       ]
@@ -49,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B1_B5_20261108.md",
-          "blob_sha": "c838a1f321f6e52d6068f5007887988cb69ecbab",
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_OWNER_BINDING_B1_B5_20261108.md",
+          "blob_sha": "0c855c4d0b87ee6c636919739f8b31055735e6c2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_CANONICAL_UNTRUSTED_INTENT_CODEC_8_OF_8",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_20261108.md",
-          "blob_sha": "cbb845afde56e729c1961acd4aa951a407081b77",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6b5453c4737d1185af25a63a89422a7bc44c6e8e",
@@ -79,9 +75,9 @@
       }
     ]
   },
-  "why": "N033C3 canonical untrusted Undo Execute intent B7 PASS exact SHA; no user grant or mutation",
-  "how": "8/8 JVM XML and guard success; source creation payload, historical receipt and review pinned, codec defensive and strict canonical",
+  "why": "Wire existing D-229 undo.execute to previously certified owner cancellation under Reality8 only",
+  "how": "Catalog exact, old receipt/journal COMMITTED, original CREATE payload and owner stamp; 7 directed real SQLite JVM tests",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B1-B5 N033C3 undo.execute owner binding, then trusted human host review and fresh receipt"
+  "next": "B6 internal owner binding then B7; afterward new human Review host"
 }
