@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC",
   "reviewed_head": "be2453252ab739237f02cc1e580ff0f5f253bfc7",
-  "paths": [
-    "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/UndoExecuteIntent.kt",
-    "v5/kernel/contracts/src/test/kotlin/ar/com/faro/v5/kernel/contracts/UndoExecuteIntentTest.kt",
-    ".github/workflows/faro-v5-s3-a4-n033c3-undo-intent-codec-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,24 +55,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_CANONICAL_UNTRUSTED_INTENT_CODEC_8_OF_8",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_20261108.md",
+          "blob_sha": "cbb845afde56e729c1961acd4aa951a407081b77",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "61b16c94a8baa3b3d1a3d0fdc6283c2a3498a61e",
-    "unit_id": "S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL",
+    "sha": "6b5453c4737d1185af25a63a89422a7bc44c6e8e",
+    "unit_id": "S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A4_N033C3_UNDO_OWNER_CANCEL_SQL_B7_PASS_20261108.md",
-        "blob_sha": "0e6d95c283bc0afef844270eac140d5bd0cbfd4f",
+        "path": "docs/s3-night/S3_A4_N033C3_UNDO_EXECUTE_INTENT_CODEC_B7_PASS_20261108.md",
+        "blob_sha": "cbb845afde56e729c1961acd4aa951a407081b77",
         "marker": "## B7"
       }
     ]
   },
-  "why": "New Undo human Review requires a non-authorizing canonical payload fixing exact COMMITTED source + original CREATE bytes and target",
-  "how": "3 exact functional paths, 8/8 directed JVM tests, no runtime binding/owner write",
+  "why": "N033C3 canonical untrusted Undo Execute intent B7 PASS exact SHA; no user grant or mutation",
+  "how": "8/8 JVM XML and guard success; source creation payload, historical receipt and review pinned, codec defensive and strict canonical",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 codec then B7 exact SHA; only afterward review-host integration"
+  "next": "B1-B5 N033C3 undo.execute owner binding, then trusted human host review and fresh receipt"
 }
