@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_OWNER_REVISION_FENCE",
-  "reviewed_head": "589d6a3cab81b166758c05522da1a37bec549758",
+  "reviewed_head": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
   "paths": [
     "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A57OwnerRevisionAcceptanceTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-owner-revision-acceptance-directed.yml"
@@ -58,7 +58,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "Unverified X07/X11 same-generation canonical owner revision fence on real Reality8; X04/X05 A3 remain blocked",
+  "why": "B6 four new cases in CI; no additional code until B7 outcome and fresh permit",
   "how": "Add four new directed JVM tests with real five-store DEV host and separate workflow; leave previous 33/33 and product untouched",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "One test-only commit, exact 4/4 JUnit XML, guard, B7 and durable release; then proceed remaining X matrix"
+  "next": "Verify run 42558390722 exact XML, produce B7; A5 global remains open"
 }

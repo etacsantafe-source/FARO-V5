@@ -3,7 +3,7 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-08",
+  "updated_local_date": "2026-11-09",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
   "phase": "S3_OPEN_MANUAL_A5",
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 602
+    "expected_release_epoch": 604
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_7_OWNER_REVISION_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "S3.A5 sixth scoped DEV post-cutover four-owner integration B7 PASS 5/5 CI #42538111669, guard #42538111719. Next independent X01–X12 integrated acceptance/lifecycle/a11y and final single Moto G15 physical campaign. A3 Guardados requires separate approval. Keep S3.A5 OPEN, production V2 OFF, no repeat previous six units.",
-  "checkpoint_status": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_5_OF_5_SIXTH_UNIT_A5_OPEN",
+  "next": "S3.A5.7 X07/X11 owner revision fence code SHA 87b1c2ed, directed CI #42558390722 RUNNING, protocol guard #42558390742 SUCCESS; verify exact JUnit 4/4 and B7. Remaining X03, X04/X05 A3 approval, review/Compose/lifecycle, G15 final only. S4 V2 productive Auto Night OFF.",
+  "checkpoint_status": "S3_A5_7_OWNER_REVISION_B6_WAIT_CI_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
-  "last_code_sha": "432a0d184ba133288c5431b16757532f9b2eab12",
-  "last_ci_run_id": 42538111669,
+  "last_handoff": "docs/s3-night/S3_A5_7_OWNER_REVISION_B6_WAIT_CI_20261109.md",
+  "last_code_sha": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
+  "last_ci_run_id": 42558390722,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_REAL_SQLITE_FOUR_OWNER_XML_5_OF_5",
+  "last_ci_conclusion": "WAIT_CI_NEW_X07_X11_4_OF_4_UNVERIFIED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1839,5 +1839,15 @@
     "xml": "tests=5 failures=0 errors=0 skipped=0",
     "b7_doc": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
     "next": "X01-X12 final acceptance and single physical G15 later; A3 approval separately"
+  },
+  "a5_7_owner_revision_fence": {
+    "status": "WAIT_CI_B6",
+    "code_sha": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
+    "ci_run_id": 42558390722,
+    "protocol_guard_run_id": 42558390742,
+    "expected_xml": "tests=4 failures=0 errors=0 skipped=0",
+    "physical": "NOT_RUN_G15_FINAL_ONLY",
+    "b1_b5": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
+    "b6_handoff": "docs/s3-night/S3_A5_7_OWNER_REVISION_B6_WAIT_CI_20261109.md"
   }
 }
