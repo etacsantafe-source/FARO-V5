@@ -58,24 +58,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_ANDROID_EMULATOR_2_TESTS",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_EMULATOR_API35_NATIVE_LIFECYCLE_2_OF_2",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B7_PASS_SCOPED_20261109.md",
+          "blob_sha": "d05d1e019144ae2d80f75c127affcdce7617a236",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
-    "unit_id": "S3_A5_7_OWNER_REVISION_FENCE",
+    "sha": "d64881dffb01576186f9cd0119a736c977629276",
+    "unit_id": "S3_A5_7_ANDROID_NATIVE_LIFECYCLE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_OWNER_REVISION_B7_PASS_SCOPED_20261109.md",
-        "blob_sha": "d452e851ccf11ad18cdad293459e4524510cb7be",
+        "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B7_PASS_SCOPED_20261109.md",
+        "blob_sha": "d05d1e019144ae2d80f75c127affcdce7617a236",
         "marker": "## B7"
       }
     ]
   },
-  "why": "X12 Native emulator two tests in CI, no further functional writes until B7 same SHA",
+  "why": "X12 scoped native Android API35 2/2 B7 PASS; A5 global still open, A3 not approved",
   "how": "ActivityScenario + existing G5 emulator-only source set with two new instrumentation tests and new workflow",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify #42559425316 instrument log and #42559425132 guard; B7 exact scoped"
+  "next": "New independent B1-B5 for X12 Compose real UI emulator if warranted. No new code until READY permit. Phone single final campaign"
 }
