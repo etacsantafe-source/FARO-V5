@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_B7.PASS_SCOPED.RELEASED",
-  "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5.ACCEPT_X01_X12.20261109",
+  "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "069f852b49b3687900e0ba287eff18d43b631fee",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 602,
-  "timestamp": 1794183016,
-  "purpose": "S3.A5 sixth scoped Reality8 cross-owner integration 5/5 CI and guard PASS. A5 OPEN, V2 productive OFF, G15 final physical NOT_RUN",
-  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED@069f852b"
+  "epoch": 603,
+  "timestamp": 1794195678,
+  "purpose": "S3.A5.7 B1-B7 integrated acceptance research+bounded code CI; G15 physical final only",
+  "last_checkpoint": "S3_A5_A5_7_IN_PROGRESS@069f852b"
 }
