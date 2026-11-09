@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER.DIAG_WAIT_CI.RELEASED",
+  "status": "ACTIVE",
+  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_FIXTURES.EPOCH601",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
   "target_head": "c99a62639a743657828fcb368c6eeb5f8cdb2e5f",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 600,
-  "timestamp": 1794182280,
-  "purpose": "S3.A5 post-cutover 5-case suite JUnit diagnostic run #42537575168 WAIT_CI, prior runtime 2/4 failed, no B7 PASS. Writer free, V2 OFF, physical G15 untouched",
-  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_DIAG_WAIT_CI@c99a6263"
+  "epoch": 601,
+  "timestamp": 1794182518,
+  "purpose": "B7 targeted test-only fixtures: use certified Reality8 graph and read old7 bytes after WAL close, derived from exact XML 2/5 failures",
+  "last_checkpoint": "S3_A5_POST_CUTOVER_XML_DIAGNOSTIC_42537575168"
 }
