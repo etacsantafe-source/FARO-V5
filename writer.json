@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "ACTIVE",
-  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_FIXTURES.EPOCH601",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER.FIXTURE_WAIT_CI.RELEASED",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
-  "target_head": "c99a62639a743657828fcb368c6eeb5f8cdb2e5f",
+  "target_head": "8406001cf6d404f327a13c85e6d9965a60414483",
   "target_branch": "work/s3-night-20261102",
   "epoch": 601,
-  "timestamp": 1794182518,
-  "purpose": "B7 targeted test-only fixtures: use certified Reality8 graph and read old7 bytes after WAL close, derived from exact XML 2/5 failures",
-  "last_checkpoint": "S3_A5_POST_CUTOVER_XML_DIAGNOSTIC_42537575168"
+  "timestamp": 1794182674,
+  "purpose": "S3.A5 integrated DEV 5-case fixture fix SHA 432a0d18 CI #42538111669 WAIT_CI. B7 not certified. No G15, V2 productive OFF",
+  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_FIXTURE_WAIT_CI@8406001c"
 }
