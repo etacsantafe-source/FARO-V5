@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_ANDROID_REAL_UI.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_ANDROID_B6_WAIT_CI.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "fd1a6f013ae8f79e9367677ae851d7a35e732393",
+  "target_head": "5ea5c93cca7da64366aafb6f17b3df8ac2e474ff",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 629,
-  "timestamp": 1794230716,
-  "purpose": "S3.A5.7 X06 scoped Search UI real Workspace hit/navigation API35, X08 partial nonclaim, no G15/A3/production",
-  "last_checkpoint": "S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED@fd1a6f013ae8f79e9367677ae851d7a35e732393"
+  "epoch": 630,
+  "timestamp": 1794230974,
+  "purpose": "X06 real Android Search two new tests CI #42625768734 pending, A5 global OPEN, G15 final only",
+  "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI@5ea5c93cca7da64366aafb6f17b3df8ac2e474ff"
 }
