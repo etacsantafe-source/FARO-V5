@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A3.BOOKMARK_CONTRACTS_B6",
-  "token_hash": "21fc69542097824cbe090b27bd561af8cc25479fc761d9fe7796c08b3a2f6411",
-  "target_head": "783d6844c51c47f557b3cd58cef564489ff9a256",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A3.BOOKMARK_CONTRACTS_B7_PASS",
+  "token_hash": "c5570f3c159975840c69475b2dc5f63fc023e4a0e5b71e7bc98107b653ceecb0",
+  "target_head": "37383b1ebb899740870eb54d98f1501175e3a7ba",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 658,
-  "timestamp": 1794266905,
-  "purpose": "S3.A3 B6 typed core BookmarkContracts + 8 JVM tests + directed CI only",
-  "last_checkpoint": "S3_A3_BOOKMARK_CONTRACTS_B6_WAIT_CI@37383b1ebb899740870eb54d98f1501175e3a7ba"
+  "epoch": 659,
+  "timestamp": 1794267110,
+  "purpose": "A3 BookmarkContracts eight JVM PASS B7 audit and durable checkpoint, no next unit code"
 }
