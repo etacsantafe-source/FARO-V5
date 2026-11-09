@@ -60,17 +60,26 @@
         }
       ]
     },
-    "B6": "WAIT_CI_ANDROID_X08_X12_1_OF_1",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "RED_ANDROID_REOPEN_TIMEOUT_1_OF_1",
+    "B7": {
+      "status": "VERIFIED_RED_FIX",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX_20261109.md",
+          "blob_sha": "02d25c3e4b632f3386c470e92d62392350a3cec8",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "f63acfe3518e3a91b1d16a2361a6c2c5db6a1d6f",
-    "unit_id": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_SCOPED",
-    "result": "PASS",
+    "sha": "dda9c3eceab6e30793432cfb829b75403783ce16",
+    "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
-        "blob_sha": "da4935e362b26b378e7e6e2fd8659247a8dce36d",
+        "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX_20261109.md",
+        "blob_sha": "02d25c3e4b632f3386c470e92d62392350a3cec8",
         "marker": "## B7"
       }
     ]
@@ -79,5 +88,5 @@
   "how": "Delta-only in DEV Authority.Session and Activity.onPause, new directed Android emulator test/workflow; exact CI instrumentation and guard B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Do not add code until exact emulator CI and B7; same unit only for RED_FIX; A5 OPEN"
+  "next": "Same unit test-only diagnostic after B1-B5 new doc; no other code until narrowed READY; global A5 OPEN"
 }
