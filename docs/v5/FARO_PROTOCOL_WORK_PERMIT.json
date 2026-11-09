@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
-  "reviewed_head": "b25f574853ce2ffd7f016e2eda1e7465c21fe7ee",
+  "reviewed_head": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchComposeUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-search-compose-android-directed.yml"
@@ -68,7 +68,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_X06_REAL_ANDROID_TWO_TESTS",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -83,9 +83,9 @@
       }
     ]
   },
-  "why": "X06 real Workspace four-owner federated Search hit reopening via Android Compose, second no-match coverage UX; X08 partial branch NOT certified",
+  "why": "X06 real Workspace hit Android integration in CI, no new functional code until B7",
   "how": "Two new API35 Android instrumentation tests, existing app DEV only, new workflow, no production modification, G15 final",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Commit 2 new test/workflow files, CI exact Android OK (2 tests) and guard same SHA, B7 scoped"
+  "next": "Verify #42625768734 and #42625768539 exact same SHA and Android 2/2"
 }

@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 628
+    "expected_release_epoch": 630
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_20261109.md",
+  "handoff": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "X01/X02 Android API35 3/3 B7 PASS scoped code 67524163 CI #42623474908 and guard #42623474973 SUCCESS same SHA. X06/X08 B1-B5 preaudit doc only; review real owner-partial fixture feasibility before READY and new code. Retain 44 directed tests cumulative without rerun. A3 X04/X05 blocked, catalog172, X03 and X09/X10 DEV not wired; G15 final only, V2/S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_3_OF_3_X06_X08_PREAUDIT_DOC_A5_OPEN",
+  "next": "X06 scoped real Android Search two new tests code e857e57a CI #42625768734 pending guard #42625768539 pending; verify OK(2 tests) instrument -1, B7. X08 partial genuine owner degradation NOT_RUN. Older 44 directed tests untouched; A3 172 blocked, G15 final only, V2/S4/Auto/Noche OFF.",
+  "checkpoint_status": "S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_X08_PARTIAL_NOT_RUN_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_20261109.md",
-  "last_code_sha": "675241634ce62e9ab4324ac178e0a9ab93318910",
-  "last_ci_run_id": 42623474908,
+  "last_handoff": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_20261109.md",
+  "last_code_sha": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
+  "last_ci_run_id": 42625768734,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_X01_X02_ANDROID_3_OF_3",
+  "last_ci_conclusion": "WAIT_CI_X06_SEARCH_ANDROID_2_OF_2_UNVERIFIED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1913,5 +1913,14 @@
     "depends_on": "X01_X02_ANDROID_B7",
     "x08_partial_branch": "NOT_RUN_NEEDS_GENUINE_OWNER_DEGRADATION",
     "code_permission": "NOT_READY"
+  },
+  "a5_7_search_scoped": {
+    "status": "B6_WAIT_CI",
+    "code_sha": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
+    "ci_run_id": 42625768734,
+    "guard_run_id": 42625768539,
+    "b1_b5": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
+    "handoff": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_20261109.md",
+    "x08_partial_branch": "NOT_RUN"
   }
 }
