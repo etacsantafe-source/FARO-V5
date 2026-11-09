@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_UI_COUNTERS_CODE",
-  "token_hash": "f4b3dd1e9778268c934d274036e57c0743f575f634691a01c1fc2c7e42cdf9a",
-  "target_head": "1d8463189e3c8a6d78e370b9ca5d773bfc3eb3f8",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_B7_PASS",
+  "token_hash": "e65fd6c4be9a30ac34fd2840bcad19e54e70b3e3a90a48c0b2e3da729ac3ca5b",
+  "target_head": "e09643c4310441d0b8afc7a810470928994d6867",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 655,
-  "timestamp": 1794265475,
-  "purpose": "Same-unit X08 UI diagnostics test-only after preflight run 42716964826",
-  "last_checkpoint": "S3_A5_7_X08_UI_COUNTERS_B6_WAIT_CI@e09643c4310441d0b8afc7a810470928994d6867"
+  "epoch": 656,
+  "timestamp": 1794265987,
+  "purpose": "B7 audit exact X08 Android 1/1 PASS and durable A3 handoff; no code changes"
 }
