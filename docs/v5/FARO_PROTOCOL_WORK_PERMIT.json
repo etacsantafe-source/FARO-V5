@@ -1,11 +1,10 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
-  "reviewed_head": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
+  "reviewed_head": "d3004be906fc5f45beaf4adca6c9e1cda4a23e01",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchComposeUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-search-compose-android-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchComposeUiTest.kt"
   ],
   "stages": {
     "B1": {
@@ -68,24 +67,24 @@
         }
       ]
     },
-    "B6": "WAIT_CI_X06_REAL_ANDROID_TWO_TESTS",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "675241634ce62e9ab4324ac178e0a9ab93318910",
-    "unit_id": "S3_A5_7_X01_X02_ANDROID_READ_ONLY_UI",
-    "result": "PASS",
+    "sha": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
+    "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_20261109.md",
-        "blob_sha": "1d04a3a10cf90aea39dfe9f5b4c8e3d41e7c4871",
+        "path": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B7_RED_FIX_AMBIGUOUS_BUTTON_20261109.md",
+        "blob_sha": "d830c3e5d89b36d840024c5d5fc8461d57b4b99a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "X06 real Workspace hit Android integration in CI, no new functional code until B7",
-  "how": "Two new API35 Android instrumentation tests, existing app DEV only, new workflow, no production modification, G15 final",
+  "why": "Android API35 Search tests failed both due 2 clickable semantics nodes Buscar (Button visible and offscreen Tab); one expression test-only selector fix",
+  "how": "Use SemanticsNodeInteractionCollection member [0] proven Role=Button in both real logs; no production changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify #42625768734 and #42625768539 exact same SHA and Android 2/2"
+  "next": "Single-file code correction then directed Android CI 2/2 and guard exact same new SHA"
 }
