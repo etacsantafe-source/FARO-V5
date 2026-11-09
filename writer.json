@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X01_X02_B1_B5_DOC_ONLY.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.COMPOSE_B7_REDFIX3_SELECTOR_API.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "cf93cf011d911c0cee18a57c7b3382ce51ca731e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 620,
-  "timestamp": 1794217157,
-  "purpose": "X01/X02 preaudit doc only, no code until Compose B7; writer released while CI #42594626211 continues",
+  "epoch": 621,
+  "timestamp": 1794217303,
+  "purpose": "B7 REDFIX3 compiler onLast unsupported without import; use documented SemanticsNodeInteractionCollection operator get index. No product code changes",
   "last_checkpoint": "S3_A5_7_X01_X02_PREAUDIT_DOC_ONLY_COMPOSE_CI_WAIT@cf93cf011d911c0cee18a57c7b3382ce51ca731e"
 }
