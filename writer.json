@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_INFRA_CHECKPOINT",
-  "token_hash": "2e122896dae3497881f467bf8ef8eb045c07a6cd48f7533ff4c1dd97267c7d04",
-  "target_head": "de7347c0266b837957e6a5e3b23fbe38f2616e62",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_COMPOSE_TIMEOUT_CAUSAL",
+  "token_hash": "32df21f38aa3a058a341850f312b239c366fa1061b2f5474c23e1e2c14b6a241",
+  "target_head": "488d2988f2f0a7492ce0c095a9bf2a40e71f9549",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 645,
-  "timestamp": 1794248789,
-  "purpose": "S3.A5.7 B7 RED_FIX CI failed 0 jobs documentation and handoff only",
-  "last_checkpoint": "S3_A5_7_X08_INFRA_STOP@488d2988f2f0a7492ce0c095a9bf2a40e71f9549"
+  "epoch": 646,
+  "timestamp": 1794250216,
+  "purpose": "Same-unit X08 X12 RED_FIX B7 real Android + narrow ComposeTimeoutException B1-B5; no A3 write"
 }
