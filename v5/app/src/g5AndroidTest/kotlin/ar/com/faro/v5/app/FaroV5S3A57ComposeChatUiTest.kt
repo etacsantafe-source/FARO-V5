@@ -83,7 +83,7 @@ class FaroV5S3A57ComposeChatUiTest {
         // semantics text action belongs to the canonical Compose composer.
         val editors = rule.onAllNodes(hasSetTextAction())
         assertTrue(editors.fetchSemanticsNodes().size >= 2)
-        editors.onLast().performTextInput(body)
+        editors[editors.fetchSemanticsNodes().lastIndex].performTextInput(body)
         rule.onNodeWithText("Enviar").assertIsEnabled()
         rule.onNodeWithText("Enviar").performClick()
         // Wait for real Workspace send/refresh to finish. An instant field echo
