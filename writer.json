@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.B7.XML4_PASS.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.B7.PASS_SCOPED.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "09fc6f2ea7357afb02a0f6c48c51c27fe611393c",
+  "target_head": "a76fc76a21bb350202afe10aba48690f159b01ab",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 605,
-  "timestamp": 1794196395,
-  "purpose": "B7 independent scoped acceptance audit after exact 4/4 and guard green; no phone, no A3",
-  "last_checkpoint": "S3_A5_7_OWNER_REVISION_B6_WAIT_CI@09fc6f2ea7357afb02a0f6c48c51c27fe611393c"
+  "epoch": 606,
+  "timestamp": 1794196475,
+  "purpose": "B7 PASS 4/4 CI #42558390722, guard SUCCESS; A5 OPEN, final G15 not run, next independent X12 B1-B5",
+  "last_checkpoint": "S3_A5_7_OWNER_REVISION_B7_PASS_SCOPED_4_OF_4@a76fc76a21bb350202afe10aba48690f159b01ab"
 }
