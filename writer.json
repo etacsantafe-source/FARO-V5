@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X12_NATIVE.B6_WAIT_CI.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X12_NATIVE.B7.PASS.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "cbafbd5d3164388dad44bb837035657418b054ea",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 608,
-  "timestamp": 1794196905,
-  "purpose": "X12 Android emulator CI #42559425316 in progress; G15 NOT_RUN and A3 approval denied",
+  "epoch": 609,
+  "timestamp": 1794197309,
+  "purpose": "B7 X12 native emulated 2/2 and protocol guard verified; A5 global open",
   "last_checkpoint": "S3_A5_7_ANDROID_NATIVE_X12_B6_WAIT_CI@cbafbd5d3164388dad44bb837035657418b054ea"
 }
