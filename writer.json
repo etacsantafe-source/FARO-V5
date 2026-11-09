@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X06_X08_B1_B5_DOC_ONLY.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X01_X02_ANDROID_B7_PASS_SCOPED.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "f7a769f402202c7f682bc4a2f49846182829aa37",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 626,
-  "timestamp": 1794230313,
-  "purpose": "X06/X08 Search B1-B5 preaudit documented only; X01/X02 Android CI #42623474908 pending; no G15, no A3",
-  "last_checkpoint": "S3_A5_7_X06_X08_PREAUDIT_X01_X02_CI_WAIT@f7a769f402202c7f682bc4a2f49846182829aa37"
+  "epoch": 627,
+  "timestamp": 1794230496,
+  "purpose": "B7 independent Android35 UI 3/3 confirmed exact code SHA 67524163 and guard, update checkpoint; no new functional code, G15 final only",
+  "last_checkpoint": "S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI@f7a769f402202c7f682bc4a2f49846182829aa37"
 }
