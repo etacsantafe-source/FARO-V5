@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X08_PARTIAL_CANONICAL_REAL_ANDROID.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X08_CANONICAL_PARTIAL_ANDROID_B6_WAIT_CI.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "d2387cec50213c302969129b02d4db38abbf7691",
+  "target_head": "35920deb3814299f0896578e715e41c91b725061",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 635,
-  "timestamp": 1794233752,
-  "purpose": "S3.A5.7 X08 real PARTIAL from >4096 Workspace canonical text in isolated API35 emulator, no product G15 A3",
-  "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED@d2387cec50213c302969129b02d4db38abbf7691"
+  "epoch": 636,
+  "timestamp": 1794233932,
+  "purpose": "X08 Workspace real canonical text truncation test CI #42633273852 pending, guard #42633273765; G15 final only",
+  "last_checkpoint": "S3_A5_7_X08_CANONICAL_PARTIAL_B6_WAIT_CI@35920deb3814299f0896578e715e41c91b725061"
 }
