@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X08_REAL_PARTIAL_PREFLIGHT.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X08_PARTIAL_REAL_FIXTURE_DOC_ONLY.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "5ea5c93cca7da64366aafb6f17b3df8ac2e474ff",
+  "target_head": "d3004be906fc5f45beaf4adca6c9e1cda4a23e01",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 631,
-  "timestamp": 1794231103,
-  "purpose": "Document genuine canonical Workspace >4096 per conversation PARTIAL coverage deterministic Android fixture, no production code and no X06 concurrent functional writes",
-  "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI@5ea5c93cca7da64366aafb6f17b3df8ac2e474ff"
+  "epoch": 632,
+  "timestamp": 1794231228,
+  "purpose": "B4/B5 genuine canonical Workspace Search PARTIAL fixture documented, no code; X06 CI #42625768734 ongoing; A5 OPEN G15 final",
+  "last_checkpoint": "S3_A5_7_X08_REAL_PARTIAL_DOC_X06_CI_WAIT@d3004be906fc5f45beaf4adca6c9e1cda4a23e01"
 }
