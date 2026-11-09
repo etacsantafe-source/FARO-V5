@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "BLOCKED",
   "unit_id": "S3_A5_7_X01_X02_ANDROID_READ_ONLY_UI",
-  "reviewed_head": "675241634ce62e9ab4324ac178e0a9ab93318910",
+  "reviewed_head": "f7a769f402202c7f682bc4a2f49846182829aa37",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityAvisosComposeUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-activity-avisos-android-directed.yml"
@@ -68,24 +68,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_X01_X02_ANDROID_3_OF_3",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_EMULATOR_REAL_ACTIVITY_AVISOS_3_OF_3",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_20261109.md",
+          "blob_sha": "1d04a3a10cf90aea39dfe9f5b4c8e3d41e7c4871",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "82e0858f6f18879aacb3d6d7d63fb9180e6eceeb",
-    "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
+    "sha": "675241634ce62e9ab4324ac178e0a9ab93318910",
+    "unit_id": "S3_A5_7_X01_X02_ANDROID_READ_ONLY_UI",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_20261109.md",
-        "blob_sha": "79bf9143a3e9a26af95187158507aaf2d7e3f53b",
+        "path": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_20261109.md",
+        "blob_sha": "1d04a3a10cf90aea39dfe9f5b4c8e3d41e7c4871",
         "marker": "## B7"
       }
     ]
   },
-  "why": "X01/X02 new Android UI tests CI in progress, do not assume pass",
+  "why": "Real Android API35 Activity Avisos 3/3 and guard same SHA B7 PASS, global A5 OPEN, no new code until next permit",
   "how": "Test-only Android API35 class with real Composer USER turn, ActivityScenario and Compose drawer, new workflow exact 3/3",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify run #42623474908 and guard #42623474973 exact SHA, then B7"
+  "next": "X06/X08 separate preaudit already saved; verify source-partial feasibility, new permit before functional code"
 }
