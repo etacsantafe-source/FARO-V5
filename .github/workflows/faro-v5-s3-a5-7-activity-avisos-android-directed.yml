@@ -1,0 +1,76 @@
+name: FARO V5 S3 A5.7 Android Activity Avisos real UI directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityAvisosComposeUiTest.kt"
+      - ".github/workflows/faro-v5-s3-a5-7-activity-avisos-android-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-a5-7-android-activity-avisos-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  activity-avisos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK 37
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile isolated DEV app and instrumentation APKs
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1800 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              -PfaroG5AndroidTestV2CoreDev=true \
+              :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest
+          test "$(find app/build/outputs/apk/v2CoreDev -name '*.apk' | wc -l)" -eq 1
+          test "$(find app/build/outputs/apk/androidTest/v2CoreDev -name '*.apk' | wc -l)" -eq 1
+          echo "S3_A5_7_ACTIVITY_AVISOS_APKS_COMPILED"
+      - name: Enable emulator VM acceleration
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Real Android API 35 Activity Avisos real UI and revocation, three new tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            APP="$(find v5/app/build/outputs/apk/v2CoreDev -type f -name "*.apk" -print -quit)";
+            TEST="$(find v5/app/build/outputs/apk/androidTest/v2CoreDev -type f -name "*.apk" -print -quit)";
+            test -n "$APP" && test -n "$TEST";
+            adb install "$APP";
+            adb install "$TEST";
+            OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5S3A57ActivityAvisosComposeUiTest ar.com.faro.alpha.v2coredev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)" || { printf "%s\n" "$OUT"; exit 1; };
+            printf "%s\n" "$OUT";
+            printf "%s\n" "$OUT" | grep -Fq "OK (3 tests)";
+            printf "%s\n" "$OUT" | grep -Fq "INSTRUMENTATION_CODE: -1";
+            echo "S3_A5_7_ACTIVITY_AVISOS_REAL_UI_PASS 3/3"
+            '
