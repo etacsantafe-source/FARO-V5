@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_ANDROID_B7_PASS_SCOPED.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_PARTIAL_CANONICAL_REAL_ANDROID.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "d2387cec50213c302969129b02d4db38abbf7691",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 634,
-  "timestamp": 1794233720,
-  "purpose": "X06 real Android Search 2/2 CI #42627471693 guard #42627471860 SUCCESS; next X08 PARTIAL fixture, G15 final only",
-  "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED_2_OF_2@d2387cec50213c302969129b02d4db38abbf7691"
+  "epoch": 635,
+  "timestamp": 1794233752,
+  "purpose": "S3.A5.7 X08 real PARTIAL from >4096 Workspace canonical text in isolated API35 emulator, no product G15 A3",
+  "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED@d2387cec50213c302969129b02d4db38abbf7691"
 }
