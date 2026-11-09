@@ -1,19 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_OWNER_REVISION_FENCE",
-  "reviewed_head": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
+  "status": "READY",
+  "unit_id": "S3_A5_7_ANDROID_NATIVE_LIFECYCLE",
+  "reviewed_head": "cecf2eb92c54f873b86bfe81963968cc4564aef4",
   "paths": [
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A57OwnerRevisionAcceptanceTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-owner-revision-acceptance-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57AndroidNativeLifecycleTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-android-native-lifecycle-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
-          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
+          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
+          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
           "marker": "## B1"
         }
       ]
@@ -22,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
-          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
+          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
+          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
           "marker": "## B2"
         }
       ]
@@ -32,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
-          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
+          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
+          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
           "marker": "## B3"
         }
       ]
@@ -42,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
-          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
+          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
+          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
           "marker": "## B4"
         }
       ]
@@ -52,23 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
-          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
+          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
+          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPE_JUNIT_XML_4_OF_4",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_7_OWNER_REVISION_B7_PASS_SCOPED_20261109.md",
-          "blob_sha": "d452e851ccf11ad18cdad293459e4524510cb7be",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
@@ -82,9 +73,9 @@
       }
     ]
   },
-  "why": "A5.7 X07/X11 scoped acceptance B7 PASS exact 4/4; A5 GLOBAL OPEN and A3 unapproved",
-  "how": "Add four new directed JVM tests with real five-store DEV host and separate workflow; leave previous 33/33 and product untouched",
+  "why": "New scoped native Android DEV shell lifecycle and accessible button test on emulator only; no Moto G15 physical",
+  "how": "ActivityScenario + existing G5 emulator-only source set with two new instrumentation tests and new workflow",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1-B5+permit for independent X12 Android emulator tests. Never rerun 33 older tests; G15 final only"
+  "next": "One test-only commit, CI emulated exact OK (2 tests), guard B7; physical G15 final only"
 }
