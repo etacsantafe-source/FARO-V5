@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
-  "reviewed_head": "02b8f00c14c39d6c97a15b9af33fd231aa68f61c",
+  "reviewed_head": "89955ede52d456cab13a96ee65c803a68cd8abd0",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt"
   ],
@@ -11,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_THROWABLE_B1_B5_20261109.md",
-          "blob_sha": "f13b15d633133499035e9027071957ce106a2ce3",
+          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
+          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_THROWABLE_B1_B5_20261109.md",
-          "blob_sha": "f13b15d633133499035e9027071957ce106a2ce3",
+          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
+          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_THROWABLE_B1_B5_20261109.md",
-          "blob_sha": "f13b15d633133499035e9027071957ce106a2ce3",
+          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
+          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_THROWABLE_B1_B5_20261109.md",
-          "blob_sha": "f13b15d633133499035e9027071957ce106a2ce3",
+          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
+          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
           "marker": "## B4"
         }
       ]
@@ -51,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_THROWABLE_B1_B5_20261109.md",
-          "blob_sha": "f13b15d633133499035e9027071957ce106a2ce3",
+          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
+          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
           "marker": "## B5"
         }
       ]
@@ -61,20 +61,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "de7347c0266b837957e6a5e3b23fbe38f2616e62",
+    "sha": "78ce6c4924b6d44af4cd5960c17815e2521c97ce",
     "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_THROWABLE_B7_RED_FIX_20261109.md",
-        "blob_sha": "82e4ce206b66068cd0cc3ee75ff6ee1b06212eda",
+        "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B7_RED_FIX_20261109.md",
+        "blob_sha": "9b5193f4f9e0b25d96e1d1fb805b07aa304f7b9a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Run 42675954072 FAILED 1/1 after second explicit reopen: ComposeTimeoutException directly extends Throwable, bypassed catch AssertionError and native diagnostics",
-  "how": "Test-only add ComposeTimeoutException import, catch exactly ComposeTimeoutException, keep original Throwable as cause plus native status; no assertions/timeout/production changes",
+  "why": "Run 42679986787 failed 1/1 after Activity recreation. Shell rememberSaveable restores Search; test incorrectly expects Chat editor after native click",
+  "how": "Test-only verify Search destination after recreate, then search real source under fresh explicit native open; preserve all revoked-grant/ACL/zero-Apply assertions",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "CI Android X08/X12 1/1 exact new test SHA; inspect native status if fails; B7 audit before any A3 code"
+  "next": "Run Android X08 1/1 exact SHA and mandatory B7 guard; if success audit same unit B7 before A3 implementation"
 }
