@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
   "reviewed_head": "1d77d71a182c2c87be3304894fd9bcfc74754166",
   "paths": [
@@ -57,24 +57,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "CI_FAILED_BEFORE_JOB_0_OF_0_NOT_EXECUTED",
+    "B7": "RED_FIX_INFRA_STOP_NO_CERTIFICATION"
   },
   "last_code_review": {
-    "sha": "0d5bba653ceb3fed1d2eb6195b2a41d32721e63d",
+    "sha": "de7347c0266b837957e6a5e3b23fbe38f2616e62",
     "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B7_RED_FIX_20261109.md",
-        "blob_sha": "d786a19abd2db56b9810abc93c1d67fd963c42c5",
+        "path": "docs/s3-night/S3_A5_7_X08_X12_ASSERTION_B7_INFRA_NO_JOBS_20261109.md",
+        "blob_sha": "95c58bdd47123b6db6ac5f915771860d11c510d1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Same-unit B7 RED_FIX: first explicitlyOpenChat timeout escaped catch(Exception); capture Compose assertion and native status without changing any safety assertion",
+  "why": "Android CI 42673273294 ended FAILURE without any jobs. Runner never executed the test. No code defect proven. Test-only AssertionError capture remains pending actual Android evidence.",
   "how": "Modify exactly one g5AndroidTest file: catch AssertionError and preserve cause/status; one directed Android 1/1 CI; no app product code; no 47 PASS replay",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run exact X08/X12 Android 1/1 and protocol guard after code, audit B7 before A3"
+  "next": "Obtain executable Android 1/1 run on exact de7347c0; current failed run cannot retry (403), no duplicate code changes just to trigger CI. A5 OPEN; A3 code blocked by B7."
 }
