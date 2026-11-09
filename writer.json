@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_CANONICAL_PARTIAL_ANDROID_B6_WAIT_CI.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "35920deb3814299f0896578e715e41c91b725061",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 636,
-  "timestamp": 1794233932,
-  "purpose": "X08 Workspace real canonical text truncation test CI #42633273852 pending, guard #42633273765; G15 final only",
+  "epoch": 637,
+  "timestamp": 1794234397,
+  "purpose": "B7 independent exact Android API35 1/1 Workspace canonical PARTIAL UI + protocol guard success; no production changes, G15 final",
   "last_checkpoint": "S3_A5_7_X08_CANONICAL_PARTIAL_B6_WAIT_CI@35920deb3814299f0896578e715e41c91b725061"
 }
