@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_ANDROID_B6_WAIT_CI.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_REAL_PARTIAL_PREFLIGHT.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "5ea5c93cca7da64366aafb6f17b3df8ac2e474ff",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 630,
-  "timestamp": 1794230974,
-  "purpose": "X06 real Android Search two new tests CI #42625768734 pending, A5 global OPEN, G15 final only",
+  "epoch": 631,
+  "timestamp": 1794231103,
+  "purpose": "Document genuine canonical Workspace >4096 per conversation PARTIAL coverage deterministic Android fixture, no production code and no X06 concurrent functional writes",
   "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI@5ea5c93cca7da64366aafb6f17b3df8ac2e474ff"
 }
