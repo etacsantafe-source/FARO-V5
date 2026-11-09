@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.COMPOSE_REAL_UI.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.COMPOSE_CHAT.B6_WAIT_CI.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "72996da3c8926225e238a2a697161b5c5947697e",
+  "target_head": "bd0ff9349ca6a2350ad5cb479a1c92b7c13a3f64",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 611,
-  "timestamp": 1794215632,
-  "purpose": "S3.A5.7 X12 Compose Chat real DEV emulator acceptance, B1-B7 only, no G15, no A3, no product writes",
-  "last_checkpoint": "S3_A5_7_COMPOSE_PREFLIGHT@72996da3"
+  "epoch": 612,
+  "timestamp": 1794215998,
+  "purpose": "New Compose real Android UI CI #42592348610 running, guard #42592348491 SUCCESS; physical G15 final only",
+  "last_checkpoint": "S3_A5_7_COMPOSE_CHAT_B6_WAIT_CI@bd0ff9349ca6a2350ad5cb479a1c92b7c13a3f64"
 }
