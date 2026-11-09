@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_UI_DIAG_AUDIT",
-  "token_hash": "7254d191901af51ec5e240966e7eabe92e4fc5a6e441cfa4b87b35f717e5f44b",
-  "target_head": "2b61c14b7295b1ce8498bb02e4009d9998d7625c",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_UI_COUNTERS_PERMIT",
+  "token_hash": "cbfb78c7541d2a0320ab0a1164fd91db138e493ee9be065c1d86eb252bd34f97",
+  "target_head": "74f60c30fc49f4e7382971dc6356c5934ea2670e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 653,
-  "timestamp": 1794252629,
-  "purpose": "B7 RED_FIX run42682116828 + B1-B5 privacy-safe Compose UI presence diagnostics, same unit",
-  "last_checkpoint": "S3_A5_7_X08_COMPOSE_UI_COUNTS_B7_B1_B5_DOC@74f60c30fc49f4e7382971dc6356c5934ea2670e"
+  "epoch": 654,
+  "timestamp": 1794265266,
+  "purpose": "Same unit X08 B7 red fix, verified B1-B5 UI structural diagnostics permit only"
 }
