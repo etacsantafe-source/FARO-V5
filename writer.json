@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_BACKGROUND_SEARCH",
-  "token_hash": "c3c80fa9e13166879f12081299b20566ff9e0720904437af1d72deb03635db6c",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_BACKGROUND_REDFIX",
+  "token_hash": "d942fd808d4b413876f55fbb8fbb6003e4a62c9b42d69f19a64c9b3fb73931ab",
   "target_head": "a7ca8362fffa0c4fe54ad7a04cbbe80f2087fb78",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 639,
-  "timestamp": 1794240800,
-  "purpose": "S3.A5.7 X08/X12 search ACL revocation on Android onPause; B1-B7 strictly bounded",
+  "epoch": 640,
+  "timestamp": 1794241020,
+  "purpose": "Exact Android emulator failure B7 RED_FIX investigation and diagnostic same unit",
   "last_checkpoint": "S3_A5_7_X08_X12_BACKGROUND_SEARCH_B6_WAIT_CI@a7ca8362fffa0c4fe54ad7a04cbbe80f2087fb78"
 }
