@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_COMPOSE_THROWABLE_TEST",
-  "token_hash": "536f3daef76a20c9b63afcaa15326f7edad3a213a626d40d187539d06a61c7ab",
-  "target_head": "79b34eaaf9130249890962aedecf724e66e4e886",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_UNIT_MARKER_REPAIR",
+  "token_hash": "1a1263798c3b52b4978f216c6e759b121d362a8ae45fae49b8f66285df7b12bc",
+  "target_head": "9cdf83fb5bc9ae950b235b6bf694e7301702f174",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 648,
-  "timestamp": 1794250429,
-  "purpose": "Test-only direct ComposeTimeoutException native status diagnostic, same X08 RED_FIX",
-  "last_checkpoint": "S3_A5_7_X08_NATIVE_STATUS_THROWABLE_TEST_B6_WAIT_CI@9cdf83fb5bc9ae950b235b6bf694e7301702f174"
+  "epoch": 649,
+  "timestamp": 1794251089,
+  "purpose": "Correct only last unverified S3 code commit message with exact FARO-UNIT marker; same tree/parent; force-with-lease exact SHA to repair protocol history"
 }
