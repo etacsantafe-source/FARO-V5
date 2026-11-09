@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A5_7.X08_SEARCH_RESTORE_PERMIT",
   "token_hash": "9870ff1329aee5dc9bfffc513c519c3552402de28cd15f5f9cdd8eb74ba22a43",
   "target_head": "89955ede52d456cab13a96ee65c803a68cd8abd0",
   "target_branch": "work/s3-night-20261102",
   "epoch": 651,
-  "timestamp": 1794251770,
-  "purpose": "Same X08 unit READY test-only Search restored state permit"
+  "timestamp": 1794251824,
+  "purpose": "Same X08 unit READY test-only Search restored state permit",
+  "last_checkpoint": "S3_A5_7_X08_SEARCH_RESTORE_PERMIT@ec0338cfee2f9dacad7ac9cf63ed8adc1f35da14"
 }
