@@ -1,18 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
-  "reviewed_head": "e09643c4310441d0b8afc7a810470928994d6867",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_CONTRACTS_CORE",
+  "reviewed_head": "77f729083100a1a9e83be73eef34254195e25cae",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt"
+    "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/BookmarkContracts.kt",
+    "v5/kernel/contracts/src/test/kotlin/ar/com/faro/v5/kernel/contracts/BookmarkContractsTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-contracts-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
-          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
+          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
           "marker": "## B1"
         }
       ]
@@ -21,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
-          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
+          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
           "marker": "## B2"
         }
       ]
@@ -31,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
-          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
+          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
           "marker": "## B3"
         }
       ]
@@ -41,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
-          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
+          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
           "marker": "## B4"
         }
       ]
@@ -51,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
-          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
+          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "ANDROID_API35_DIRECTED_1_OF_1_SUCCESS",
-    "B7": "PASS_SCOPED_REVIEWED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e09643c4310441d0b8afc7a810470928994d6867",
@@ -72,9 +74,9 @@
       }
     ]
   },
-  "why": "X08/X12 API35 real Android 42717372040 PASS 1/1 exact e09643c4; reviewed. No new functional unit READY until A3 B1-B5 and permit independent.",
-  "how": "Review A3 approved eight bookmark contracts; leave A5 integrated OPEN; keep 172 until proper generator and scope audit, all writer CAS.",
+  "why": "User approved eight Guardados operations; X08 B7 PASS; incremental pure contract models first, data owner and backup later",
+  "how": "Three paths: typed contract model + eight JVM tests + dedicated workflow, no catalog/DB/UI. Require exact 8/8 XML and B7.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3.A3 Guardados B1-B5 contractual closure and new READY permit, then bounded implementation; do not alter 47 PASS or G15 physical until final."
+  "next": "B6 S3.A3 BookmarkContracts core, verify directed JVM CI and protocol guard, B7; then Auxiliary persistent owner contract/migration, backup/restore."
 }
