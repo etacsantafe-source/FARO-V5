@@ -1,0 +1,12 @@
+# FARO V5 — S3.A5 post-cutover B7: XML preciso y corrección solo de fixtures
+Fecha AR 2026-11-08 (la CI terminó 2026-11-09 UTC). Unidad `S3_A5_POST_CUTOVER_DEV_INTEGRATION`; B1–B5 y B5 anterior se conservan.
+
+## B7 — Evidencia exacta de tercera CI
+- Código diagnóstico `3012c682f558b83e360eb10246176e1a1fdbee60`; GitHub Actions [#42537575168](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42537575168), job `128905173922`, **COMPLETED FAILURE**; build Kotlin PASS; JUnit XML **tests=5 failures=2 errors=0 skipped=0**. El quinto caso ABA fue descubierto tras firma Unit. 3 casos verdes independientes, 2 rojos.
+- `oldSevenSearchHitAndContentCannotAppearInFreshEight()`: `AssertionFailedError: cutover must not modify old7 workspace bytes ==> array contents differ at index [8196], expected <0> but was <1>`. La prueba leyó el archivo Workspace ANTES de cerrar `oldSession`; el cierre normal de SQLite/WAL cambia el archivo principal. La afirmación de invariancia debe comparar **DESPUÉS del cierre normal y ANTES del cutover**, no exigir que cierre de WAL sea byte a byte idéntico.
+- `fourRealOwnerSearchAndDurableChatWorkTogetherOnlyAfterFreshEight()`: `IllegalStateException: unsupported RealityStore schema version: 8`. La prueba abrió `RealityStore(path)` por defecto (schema7), en lugar del owner activo8 canónico. `RealityStore` opt-in `planningStage8` solo se crea por `FaroV5ActiveGenerationGraphOwner.openExistingPlanning8ForCertifiedHost(root,id,fullSequence,gate,true)`, ya verificado por unidad anterior 8/8. Es fallo de montaje test, no permite afirmar bug de productor.
+
+## B5 — Único RED_FIX de fixtures respaldado por XML
+- Modificar **solo** `FaroV5S3A5PostCutoverIntegrationTest.kt`: sustituir constructor genérico de Reality7 por graph opener canónico Reality8 con pointer ID+sequence exacto, cerrar el graph antes de nueva sesión, usar RealityStore del grafo para seed con transacción tipada; cambiar el orden `old.close()` → `Files.readAllBytes(oldDb)` y mantener comparación antes/después de cutover. Las aserciones siguen completas; 5 métodos descubiertos.
+- No modificar `RealityStore`, generation/maintenance, Authority, UI, stores, switcher, ACL o workflow; no reducir el conteo XML. Prueba posterior debe demostrar búsqueda 4/4 y aislamiento y fail-closed.
+- Si persiste rojo por causa distinta, STOP y examinar nuevo XML, no repetición de hipótesis. S3.A5 OPEN, G15 solo campaña final, S2 8/8, S4/Auto/Noche OFF, V2 productiva OFF, Guardados 172 sin cambios.
