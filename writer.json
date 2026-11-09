@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_UI_COUNTERS_PERMIT",
-  "token_hash": "cbfb78c7541d2a0320ab0a1164fd91db138e493ee9be065c1d86eb252bd34f97",
-  "target_head": "74f60c30fc49f4e7382971dc6356c5934ea2670e",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_UI_COUNTERS_CODE",
+  "token_hash": "f4b3dd1e9778268c934d274036e57c0743f575f634691a01c1fc2c7e42cdf9a",
+  "target_head": "1d8463189e3c8a6d78e370b9ca5d773bfc3eb3f8",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 654,
-  "timestamp": 1794265318,
-  "purpose": "Same unit X08 B7 red fix, verified B1-B5 UI structural diagnostics permit only",
-  "last_checkpoint": "S3_A5_7_X08_COMPOSE_UI_COUNTERS_PERMIT@1d8463189e3c8a6d78e370b9ca5d773bfc3eb3f8"
+  "epoch": 655,
+  "timestamp": 1794265380,
+  "purpose": "Same-unit X08 UI diagnostics test-only after preflight run 42716964826"
 }
