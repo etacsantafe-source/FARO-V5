@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A3.BOOKMARK_CONTRACTS_B7_PASS",
   "token_hash": "c5570f3c159975840c69475b2dc5f63fc023e4a0e5b71e7bc98107b653ceecb0",
   "target_head": "37383b1ebb899740870eb54d98f1501175e3a7ba",
   "target_branch": "work/s3-night-20261102",
   "epoch": 659,
-  "timestamp": 1794267110,
-  "purpose": "A3 BookmarkContracts eight JVM PASS B7 audit and durable checkpoint, no next unit code"
+  "timestamp": 1794267215,
+  "purpose": "A3 BookmarkContracts eight JVM PASS B7 audit and durable checkpoint, no next unit code",
+  "last_checkpoint": "S3_A3_BOOKMARK_CONTRACTS_B7_PASS@1b9df754917a55c47bd775910ef6637ccd3fa785"
 }
