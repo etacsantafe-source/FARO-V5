@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X01_X02_PREAUDIT_ONLY.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X01_X02_PREAUDIT_ABORTED.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "004b3a1c41adf6126afcdfe3d43a10778d8b7496",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 615,
-  "timestamp": 1794216665,
-  "purpose": "Document independent X01/X02 real Activity/Avisos UI B1-B5 only while Compose CI pending; NO functional code until Compose B7",
-  "last_checkpoint": "S3_A5_7_COMPOSE_REDFIX_WAIT_CI@004b3a1c41adf6126afcdfe3d43a10778d8b7496"
+  "epoch": 616,
+  "timestamp": 1794216833,
+  "purpose": "X01/X02 doc preparation deferred; Compose CI second RED must be B7-reviewed first",
+  "last_checkpoint": "S3_A5_7_COMPOSE_REDFIX2_RED@004b3a1c41adf6126afcdfe3d43a10778d8b7496"
 }
