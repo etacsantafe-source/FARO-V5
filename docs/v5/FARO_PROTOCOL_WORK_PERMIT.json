@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
-  "reviewed_head": "ceef69c20791cd430e9f7f3f79d9e03d942b39fd",
+  "reviewed_head": "d0c61074cd9631fb3f82fa0cff25fcfd1498565d",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ComposeChatUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-compose-chat-android-directed.yml"
@@ -58,7 +58,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_COMPOSE_CHAT_REAL_ANDROID_TWO_TESTS",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "X12 Compose genuine DEV host Chat, accessibility semantics and USER persistence across real Android activity recreate, G15 untouched",
+  "why": "X12 Compose real UI emulator CI in progress, no new code without B7 outcome",
   "how": "Two new dedicated AndroidComposeTestRule emulator-only instrumentation tests, reuse previous working Android35 workflow",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "test-only+workflow code commit, exact Android instrumentation OK (2 tests) and guard same SHA; B7 then checkpoint"
+  "next": "Verify run 42592348610 exact instrumentation log, B7 independent"
 }
