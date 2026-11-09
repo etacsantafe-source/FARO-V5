@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED.RELEASED",
-  "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_BACKGROUND_SEARCH",
+  "token_hash": "c3c80fa9e13166879f12081299b20566ff9e0720904437af1d72deb03635db6c",
   "target_head": "2ea8033aefd6e3d49436988bebaef07ed93d1b62",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 638,
-  "timestamp": 1794234468,
-  "purpose": "X08 true Workspace canonical partial API35 1/1 PASS CI #42633273852 guard #42633273765, global A5 OPEN G15 final only",
-  "last_checkpoint": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_1_OF_1@2ea8033aefd6e3d49436988bebaef07ed93d1b62"
+  "epoch": 639,
+  "timestamp": 1794240146,
+  "purpose": "S3.A5.7 X08/X12 search ACL revocation on Android onPause; B1-B7 strictly bounded"
 }
