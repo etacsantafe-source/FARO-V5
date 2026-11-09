@@ -5,7 +5,6 @@ import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.owner.finance.api.*
 import ar.com.faro.v5.owner.matters.api.*
 import ar.com.faro.v5.owner.objectives.api.*
-import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.surface.FaroV5SearchCoverage
 import ar.com.faro.v5.surface.FaroV5SearchOpenResult
 import java.nio.file.Files
@@ -62,8 +61,10 @@ class FaroV5S3A5PostCutoverIntegrationTest {
     @Test fun fourRealOwnerSearchAndDurableChatWorkTogetherOnlyAfterFreshEight() = runBlocking {
         promoteToEight()
         val active = checkNotNull(pointer.read())
-        val staged = FileStorageGenerationLayout(root).requireStaged(eight)
-        RealityStore(staged.directory.resolve(GenerationStoreFiles.REALITY).toString()).use { reality ->
+        FaroV5ActiveGenerationGraphOwner.openExistingPlanning8ForCertifiedHost(
+            root, eight.value, active.sequence, SingleProcessMaterialWriteGate(), true,
+        ).use { graph ->
+            val reality = graph.reality
             assertEquals(8, reality.maintenance.inspect().schemaVersion)
             reality.run(TransactionId("a5-integrated-eight-local-fixture")) { scope ->
                 val account = FinanceAccountId.of("private-a5-account")
@@ -140,8 +141,9 @@ class FaroV5S3A5PostCutoverIntegrationTest {
         val before = checkNotNull(pointer.read())
         val oldDb = FileStorageGenerationLayout(root).requireStaged(seven)
             .directory.resolve(GenerationStoreFiles.WORKSPACE)
-        val originalBytes = Files.readAllBytes(oldDb)
         old.close()
+        // WAL checkpoint on normal close is not a cutover mutation.
+        val originalBytes = Files.readAllBytes(oldDb)
         FaroV5V2CoreDevAuthority(root)
             .upgradePlanning8AfterExplicitForegroundRequest { true }.use { newSession ->
                 assertEquals(before.sequence + 1L, pointer.read()!!.sequence)
