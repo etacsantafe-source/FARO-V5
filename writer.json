@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A5_7.X08_UNIT_MARKER_REPAIR",
   "token_hash": "1a1263798c3b52b4978f216c6e759b121d362a8ae45fae49b8f66285df7b12bc",
   "target_head": "9cdf83fb5bc9ae950b235b6bf694e7301702f174",
   "target_branch": "work/s3-night-20261102",
   "epoch": 649,
-  "timestamp": 1794251089,
-  "purpose": "Correct only last unverified S3 code commit message with exact FARO-UNIT marker; same tree/parent; force-with-lease exact SHA to repair protocol history"
+  "timestamp": 1794251139,
+  "purpose": "Correct only last unverified S3 code commit message with exact FARO-UNIT marker; same tree/parent; force-with-lease exact SHA to repair protocol history",
+  "last_checkpoint": "S3_A5_7_X08_FARO_UNIT_MARKER_REPAIRED@78ce6c4924b6d44af4cd5960c17815e2521c97ce"
 }
