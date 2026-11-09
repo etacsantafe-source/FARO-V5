@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_SAVED_SEARCH_NAV_AUDIT",
-  "token_hash": "215393c03076073cd7333c577192334e1ec02a44ec70e45643f6569d7f5e3737",
-  "target_head": "78ce6c4924b6d44af4cd5960c17815e2521c97ce",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_SEARCH_RESTORE_PERMIT",
+  "token_hash": "9870ff1329aee5dc9bfffc513c519c3552402de28cd15f5f9cdd8eb74ba22a43",
+  "target_head": "89955ede52d456cab13a96ee65c803a68cd8abd0",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 650,
-  "timestamp": 1794251741,
-  "purpose": "Same-unit B7 RED_FIX exact 42679986787 and B1-B5 for Search saved-state restoration; documentation only",
-  "last_checkpoint": "S3_A5_7_X08_SEARCH_RESTORE_B7_B1_B5_DOC@89955ede52d456cab13a96ee65c803a68cd8abd0"
+  "epoch": 651,
+  "timestamp": 1794251770,
+  "purpose": "Same X08 unit READY test-only Search restored state permit"
 }
