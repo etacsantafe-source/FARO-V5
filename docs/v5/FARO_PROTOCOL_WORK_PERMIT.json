@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "BLOCKED",
   "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
-  "reviewed_head": "82e0858f6f18879aacb3d6d7d63fb9180e6eceeb",
+  "reviewed_head": "2ce3162da11434631f9a464797fdf94db8d48e17",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ComposeChatUiTest.kt"
   ],
@@ -57,24 +57,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_COMPOSE_ANDROID_REDFIX3_TWO_TESTS",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_EMULATOR_COMPOSE_CHAT_2_OF_2",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_20261109.md",
+          "blob_sha": "79bf9143a3e9a26af95187158507aaf2d7e3f53b",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "9ddd585162bc1fb6e7f3522f3149d797968f9d86",
+    "sha": "82e0858f6f18879aacb3d6d7d63fb9180e6eceeb",
     "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_REDFIX3_SELECTOR_API_20261109.md",
-        "blob_sha": "633add2edab2728c9d9e690b1faccf49ff975459",
+        "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_20261109.md",
+        "blob_sha": "79bf9143a3e9a26af95187158507aaf2d7e3f53b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Fourth test-only correction in CI; no further code before B7",
+  "why": "Compose real Android API35 two tests exact 2/2 B7 PASS, A5 GLOBAL OPEN; no new code before separate X01 X02 READY permit",
   "how": "Replace one expression onLast with indexed collection get; same two test cases",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify #42595625941 Android 2/2 and #42595625984 guard exact SHA"
+  "next": "Start X01 X02 fresh independent permit after reviewing existing B1-B5, new code only after readiness and strict writer CAS"
 }
