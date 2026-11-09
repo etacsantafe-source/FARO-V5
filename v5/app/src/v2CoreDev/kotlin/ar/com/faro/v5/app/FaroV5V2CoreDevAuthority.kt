@@ -527,6 +527,15 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             pendingAuthority = null
         }
 
+        /** Backgrounding revokes all four DEV Search owners, not only the UI.
+         * A future onResume cannot restore these grants: an explicit native
+         * user action must open a new verified host session.
+         */
+        @Synchronized
+        internal fun revokeSearchReadingOnPause() {
+            searchAccesses.forEach { it.close() }
+        }
+
         /** A paused or changed host cannot reuse a previous user request. */
         @Synchronized
         internal fun revokeActivityReadingOnPause() {

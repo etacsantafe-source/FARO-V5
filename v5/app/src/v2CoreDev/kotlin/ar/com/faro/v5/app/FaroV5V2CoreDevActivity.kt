@@ -277,6 +277,9 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
         session?.revokePendingReadingOnPause()
         session?.revokeActivityReadingOnPause()
+        // Search's four owner-specific grants must not outlive RESUMED.
+        // The existing StateFlow invalidations redact any visible result.
+        session?.revokeSearchReadingOnPause()
         super.onPause()
     }
 
