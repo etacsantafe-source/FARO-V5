@@ -1,19 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-  "reviewed_head": "db8935961c4b1000f34fa1d952be859e6cf089e8",
+  "status": "READY",
+  "unit_id": "S3_A5_7_OWNER_REVISION_FENCE",
+  "reviewed_head": "589d6a3cab81b166758c05522da1a37bec549758",
   "paths": [
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A5PostCutoverIntegrationTest.kt",
-    ".github/workflows/faro-v5-s3-a5-post-cutover-dev-integration-directed.yml"
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A57OwnerRevisionAcceptanceTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-owner-revision-acceptance-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
-          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
+          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
+          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
           "marker": "## B1"
         }
       ]
@@ -22,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
-          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
+          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
+          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
           "marker": "## B2"
         }
       ]
@@ -32,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
-          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
+          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
+          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
           "marker": "## B3"
         }
       ]
@@ -42,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
-          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
+          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
+          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
           "marker": "## B4"
         }
       ]
@@ -52,23 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
-          "blob_sha": "54deecdb5463e81c9654fc5c929554c2748de81d",
+          "path": "docs/s3-night/S3_A5_X01_X12_B1_B5_20261109.md",
+          "blob_sha": "5644c270a8d5c8b03bee41017de6a56d3624c904",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_REAL_SQLITE_FOUR_OWNER_POST_CUTOVER_JUNIT_XML_5_OF_5",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
-          "blob_sha": "67162a7093d9749e06f747a9cc200902dc048880",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "432a0d184ba133288c5431b16757532f9b2eab12",
@@ -82,9 +73,9 @@
       }
     ]
   },
-  "why": "Sixth S3.A5 subunit B7 PASS scoped post cutover four-owner JVM 5/5, no production modifications; A5 total still OPEN X01-X12 and final G15",
-  "how": "Real certified Reality8 host graph, fresh transaction/Chat, Search federation, replay/ABA and corruption denial, no repeated older suites",
+  "why": "Unverified X07/X11 same-generation canonical owner revision fence on real Reality8; X04/X05 A3 remain blocked",
+  "how": "Add four new directed JVM tests with real five-store DEV host and separate workflow; leave previous 33/33 and product untouched",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New B1–B5 for final integrated X01-X12/lifecycle acceptance, no automatic new writes, G15 final only"
+  "next": "One test-only commit, exact 4/4 JUnit XML, guard, B7 and durable release; then proceed remaining X matrix"
 }
