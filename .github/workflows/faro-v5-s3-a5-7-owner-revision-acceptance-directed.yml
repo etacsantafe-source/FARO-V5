@@ -1,0 +1,81 @@
+name: FARO V5 S3 A5 owner-revision DEV four-owner integration directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A57OwnerRevisionAcceptanceTest.kt"
+      - ".github/workflows/faro-v5-s3-a5-7-owner-revision-acceptance-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-s3-a5-owner-revision-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK setup
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile isolated DEV and four NEW owner-revision integration cases
+        working-directory: v5
+        run: |
+          set +e
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
+            :app:compileV2CoreDevKotlin \
+            :app:testV2CoreDevUnitTest --tests "ar.com.faro.v5.app.FaroV5S3A57OwnerRevisionAcceptanceTest"
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          d=Path("app/build/test-results/testV2CoreDevUnitTest")
+          files=list(d.glob("TEST-*FaroV5S3A57OwnerRevisionAcceptanceTest.xml"))
+          if not files:
+              print("S3_A5_TEST_DIAGNOSTIC_XML_NOT_PRODUCED")
+          for file in files:
+              root=ET.parse(file).getroot()
+              print("S3_A5_TEST_DIAGNOSTIC_COUNTS", tuple(root.get(k) for k in ("tests","failures","errors","skipped")))
+              for case in root.findall("testcase"):
+                  for kind in ("failure","error"):
+                      for node in case.findall(kind):
+                          print("S3_A5_TEST_DIAGNOSTIC_CASE", case.get("name"), kind,
+                                node.get("type"), node.get("message"))
+                          print((node.text or "")[:7000])
+          PY
+          fi
+          exit "$rc"
+      - name: Assert exact test XML without skipped cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          d=Path("v5/app/build/test-results/testV2CoreDevUnitTest")
+          files=list(d.glob("TEST-*FaroV5S3A57OwnerRevisionAcceptanceTest.xml"))
+          if len(files)!=1: raise SystemExit("S3_A5_OWNER_REVISION_XML_MISSING")
+          root=ET.parse(files[0]).getroot()
+          count=tuple(int(root.get(x,"-1")) for x in ("tests","failures","errors","skipped"))
+          if count!=(4,0,0,0): raise SystemExit("S3_A5_OWNER_REVISION_XML_RED "+str(count))
+          print("S3_A5_OWNER_REVISION_REALITY8_OWNER_REVISION_XML_PASS 4/4")
+          PY
