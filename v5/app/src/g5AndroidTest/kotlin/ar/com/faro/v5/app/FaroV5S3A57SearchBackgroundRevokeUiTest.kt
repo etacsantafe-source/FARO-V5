@@ -76,7 +76,9 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
                         rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
                 }.getOrDefault(false)
             }
-        } catch (failure: Exception) {
+        } catch (failure: AssertionError) {
+            // ComposeTimeoutException is an assertion failure, not Exception.
+            // Keep a native DEV status snapshot and the original failure as cause.
             throw AssertionError(
                 "DEV Chat mount failed after explicit native click: " + nativeStatusSnapshot(),
                 failure,
