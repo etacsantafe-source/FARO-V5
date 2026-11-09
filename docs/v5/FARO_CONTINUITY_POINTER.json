@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 638
+    "expected_release_epoch": 639
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
+  "handoff": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "X08 genuine Workspace canonical >4096 truncation PARTIAL Android 1/1 B7 PASS code f63acfe3 CI #42633273852 guard #42633273765 SUCCESS exact SHA. Previous 46 separate cases retained, total 47 independent scopes; no reruns. X08 owner revocation/ACL global remains OPEN. X03 AI, X09/X10 Review Apply DEV E2E pending, X04/X05 A3 permission BLOCKED, 172 unchanged. G15 only final physical, V2/S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A5_7_X08_CANONICAL_PARTIAL_B7_PASS_SCOPED_1_OF_1_A5_OPEN",
+  "next": "Android directed #42651371911 WAIT_CI exact code dda9c3ec, guard #42651371907 SUCCESS; verify OK (1 test), instrumentation -1 and marker before B7. Old 47 independent scopes retained, A5 OPEN, X04/X05 A3 blocked, X03/X09/X10 pending; G15 final only.",
+  "checkpoint_status": "S3_A5_7_X08_X12_BACKGROUND_SEARCH_B6_WAIT_CI_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
-  "last_code_sha": "f63acfe3518e3a91b1d16a2361a6c2c5db6a1d6f",
-  "last_ci_run_id": 42633273852,
+  "last_handoff": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B6_WAIT_CI_20261109.md",
+  "last_code_sha": "dda9c3eceab6e30793432cfb829b75403783ce16",
+  "last_ci_run_id": 42651371911,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_X08_CANONICAL_PARTIAL_ANDROID_1_OF_1",
+  "last_ci_conclusion": "WAIT_CI_ANDROID_X08_X12_BACKGROUND_REVOKE_1_OF_1",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",

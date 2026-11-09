@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
   "reviewed_head": "1c0c00b9248df47f11e6d8e575005095719012dc",
   "paths": [
@@ -60,7 +60,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_ANDROID_X08_X12_1_OF_1",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -79,5 +79,5 @@
   "how": "Delta-only in DEV Authority.Session and Activity.onPause, new directed Android emulator test/workflow; exact CI instrumentation and guard B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Implement strict four-path B6, exact SHA Android instrumentation 1/1 and guard, B7 scope-only; A3 locked, X03/X09/X10 pending"
+  "next": "Do not add code until exact emulator CI and B7; same unit only for RED_FIX; A5 OPEN"
 }
