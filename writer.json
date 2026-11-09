@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_ASSERTION_TEST",
-  "token_hash": "599fbf7dd34526f749bd6470c696a4afb930fd1c1f077d65e8ad32b4901eee4f",
-  "target_head": "d2da17f1474584e0d7fabca1fb7db9bf6b5a1727",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_INFRA_CHECKPOINT",
+  "token_hash": "2e122896dae3497881f467bf8ef8eb045c07a6cd48f7533ff4c1dd97267c7d04",
+  "target_head": "de7347c0266b837957e6a5e3b23fbe38f2616e62",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 644,
-  "timestamp": 1794248481,
-  "purpose": "S3.A5.7 X08 same-unit test-only AssertionError catch RED_FIX B6",
-  "last_checkpoint": "S3_A5_7_X08_ASSERTION_TEST_B6_WAIT_CI@de7347c0266b837957e6a5e3b23fbe38f2616e62"
+  "epoch": 645,
+  "timestamp": 1794248691,
+  "purpose": "S3.A5.7 B7 RED_FIX CI failed 0 jobs documentation and handoff only"
 }
