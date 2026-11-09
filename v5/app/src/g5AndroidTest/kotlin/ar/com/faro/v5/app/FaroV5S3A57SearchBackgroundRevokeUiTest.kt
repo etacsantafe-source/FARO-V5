@@ -41,6 +41,22 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
         visit(root)
     }
 
+    /** Native views remain visible when asynchronous DEV graph admission fails. */
+    private fun nativeStatusSnapshot(): String {
+        val labels = mutableListOf<String>()
+        rule.runOnUiThread {
+            fun visit(view: View) {
+                if (view is android.widget.TextView) labels.add(view.text.toString())
+                if (view is ViewGroup) for (index in 0 until view.childCount) {
+                    visit(view.getChildAt(index))
+                }
+            }
+            visit(rule.activity.findViewById<View>(android.R.id.content))
+        }
+        return labels.joinToString(" | ").take(1000)
+    }
+
+
     private fun explicitlyOpenChat() {
         rule.runOnUiThread {
             val root = rule.activity.findViewById<View>(android.R.id.content)
@@ -50,12 +66,21 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
             assertTrue(button.isEnabled)
             assertTrue(button.performClick())
         }
-        rule.waitUntil(60_000L) {
-            runCatching {
-                rule.onAllNodesWithText("Buscar en esta conversación",
-                    useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() &&
-                    rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
-            }.getOrDefault(false)
+        // Distinguish native DEV open error from a Compose mount timeout.
+        // A timeout alone is NOT evidence that Search ACL revocation is wrong.
+        try {
+            rule.waitUntil(60_000L) {
+                runCatching {
+                    rule.onAllNodesWithText("Buscar en esta conversación",
+                        useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() &&
+                        rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
+                }.getOrDefault(false)
+            }
+        } catch (failure: Exception) {
+            throw AssertionError(
+                "DEV Chat mount failed after explicit native click: " + nativeStatusSnapshot(),
+                failure,
+            )
         }
         rule.waitForIdle()
     }
