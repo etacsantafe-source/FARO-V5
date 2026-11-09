@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A3.BOOKMARK_CONTRACTS_PREAUDIT",
-  "token_hash": "8fe90e927ad1d7e06d499bf7ef8011cb8c43efa5f4b1ed588d7a1f3313a827a6",
-  "target_head": "77f729083100a1a9e83be73eef34254195e25cae",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A3.BOOKMARK_CONTRACTS_B6",
+  "token_hash": "21fc69542097824cbe090b27bd561af8cc25479fc761d9fe7796c08b3a2f6411",
+  "target_head": "783d6844c51c47f557b3cd58cef564489ff9a256",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 657,
-  "timestamp": 1794266552,
-  "purpose": "A3 eight approved Guardados contracts B1-B5 delta design and independent READY permit; no code yet",
-  "last_checkpoint": "S3_A3_BOOKMARKS_B1_B5_READY@783d6844c51c47f557b3cd58cef564489ff9a256"
+  "epoch": 658,
+  "timestamp": 1794266650,
+  "purpose": "S3.A3 B6 typed core BookmarkContracts + 8 JVM tests + directed CI only"
 }
