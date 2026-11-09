@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
   "reviewed_head": "db8935961c4b1000f34fa1d952be859e6cf089e8",
   "paths": [
@@ -58,8 +58,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "WAIT_CI_42538111669_FULL_5_TEST_XML_UNVERIFIED",
+    "B7": "PENDING_TERMINAL_CI_AND_INDEPENDENT_REVIEW"
   },
   "last_code_review": {
     "sha": "3012c682f558b83e360eb10246176e1a1fdbee60",
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "Exact JUnit 5/5 discovered 2 red test fixtures: schema7 constructor on active8 and WAL bytes sampled before old7 close; production graph not implicated",
+  "why": "Test fixture correction 432a0d18 after XML-grounded schema8 and WAL root causes; CI not terminal",
   "how": "Single test-only patch: reuse canonical active8 graph for seed and sample old7 file after closing normal SQLite; no change to asserts",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "One 5/5 directed CI XML after fixture correction, then independent B7 if green, no additional code without evidence"
+  "next": "Read #42538111669 and guard #42538111719 on exact code SHA, 5/5 JUnit, then B7 PASS scoped or red fix only if evidence"
 }
