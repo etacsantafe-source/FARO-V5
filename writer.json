@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_COMPOSE_THROWABLE_PERMIT",
-  "token_hash": "2e6ec91b8e579814a839aa846f02d40c3e59d5abafe983c4132d20f5f6962fe0",
-  "target_head": "02b8f00c14c39d6c97a15b9af33fd231aa68f61c",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_COMPOSE_THROWABLE_TEST",
+  "token_hash": "536f3daef76a20c9b63afcaa15326f7edad3a213a626d40d187539d06a61c7ab",
+  "target_head": "79b34eaaf9130249890962aedecf724e66e4e886",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 647,
-  "timestamp": 1794250359,
-  "purpose": "Same-unit X08 B1-B5 READY permit for direct ComposeTimeoutException catch only",
-  "last_checkpoint": "S3_A5_7_X08_THROWABLE_PERMIT@79b34eaaf9130249890962aedecf724e66e4e886"
+  "epoch": 648,
+  "timestamp": 1794250389,
+  "purpose": "Test-only direct ComposeTimeoutException native status diagnostic, same X08 RED_FIX"
 }
