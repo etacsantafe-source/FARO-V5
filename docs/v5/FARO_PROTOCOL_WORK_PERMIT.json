@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
-  "reviewed_head": "5845b6a74d6fb7d386948c22c2d2e8940a548227",
+  "reviewed_head": "1d77d71a182c2c87be3304894fd9bcfc74754166",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt"
   ],
@@ -11,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
-          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_DIAGNOSTIC_ASSERTION_B1_B5_20261109.md",
+          "blob_sha": "c42bcfbbb2f0a94a91a32ebf09f8ba439ff4c4d5",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
-          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_DIAGNOSTIC_ASSERTION_B1_B5_20261109.md",
+          "blob_sha": "c42bcfbbb2f0a94a91a32ebf09f8ba439ff4c4d5",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
-          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_DIAGNOSTIC_ASSERTION_B1_B5_20261109.md",
+          "blob_sha": "c42bcfbbb2f0a94a91a32ebf09f8ba439ff4c4d5",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
-          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_DIAGNOSTIC_ASSERTION_B1_B5_20261109.md",
+          "blob_sha": "c42bcfbbb2f0a94a91a32ebf09f8ba439ff4c4d5",
           "marker": "## B4"
         }
       ]
@@ -51,30 +51,30 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
-          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_DIAGNOSTIC_ASSERTION_B1_B5_20261109.md",
+          "blob_sha": "c42bcfbbb2f0a94a91a32ebf09f8ba439ff4c4d5",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "WAIT_CI_DIAGNOSTIC_REOPEN_SECOND_ATTEMPT_1_OF_1",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "dda9c3eceab6e30793432cfb829b75403783ce16",
+    "sha": "0d5bba653ceb3fed1d2eb6195b2a41d32721e63d",
     "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX_20261109.md",
-        "blob_sha": "02d25c3e4b632f3386c470e92d62392350a3cec8",
+        "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B7_RED_FIX_20261109.md",
+        "blob_sha": "d786a19abd2db56b9810abc93c1d67fd963c42c5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Same-unit RED_FIX only: Android second reopen 60s Compose timeout, capture native status on failure to identify source, no changes to original safety assertions",
-  "how": "Diagnostic-only modification to previous new instrumentation test; same workflow automatically triggered, exact 1/1 and guard; never pretend PASS",
+  "why": "Same-unit B7 RED_FIX: first explicitlyOpenChat timeout escaped catch(Exception); capture Compose assertion and native status without changing any safety assertion",
+  "how": "Modify exactly one g5AndroidTest file: catch AssertionError and preserve cause/status; one directed Android 1/1 CI; no app product code; no 47 PASS replay",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Review run #42653795115, 1/1 marker and guard, B7; if RED_FIX same unit only"
+  "next": "Run exact X08/X12 Android 1/1 and protocol guard after code, audit B7 before A3"
 }
