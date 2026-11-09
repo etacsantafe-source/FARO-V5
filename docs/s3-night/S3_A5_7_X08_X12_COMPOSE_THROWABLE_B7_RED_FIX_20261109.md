@@ -1,0 +1,11 @@
+# FARO V5 — S3.A5.7 X08/X12 — B7 RED_FIX: Compose timeout sin captura nativa (09/11/2026)
+
+**Unidad:** `S3_A5_7_X08_X12_BACKGROUND_SEARCH`. **A5 GLOBAL OPEN**. Este B7 no certifica la prueba ni modifica los 47 casos PASS históricos.
+
+## B7 — Evidencia Android real exacta
+
+- [Run 42675954072](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42675954072) fue `workflow_dispatch` desde `work/s3-night-20261102`, HEAD exacto `488d2988f2f0a7492ce0c095a9bf2a40e71f9549` (único cambio documental respecto del SHA de código `de7347c0`), job `129357255582`. Estado **COMPLETED FAILURE**, NO PASS.
+- Compilación de APK DEV e instrumentación SUCCESS, Android SDK37 con emulador API35 iniciado, dos APK instalados, instrumentación **Tests run: 1, Failures: 1**; `INSTRUMENTATION_CODE: -1` NO acredita éxito sin `OK (1 test)`, ausente. Tampoco aparece marcador `S3_A5_7_SEARCH_BACKGROUND_REVOKE_REAL_PASS 1/1`.
+- Stack real: `androidx.compose.ui.test.ComposeTimeoutException: Condition still not satisfied after 60000 ms`, `explicitlyOpenChat(...:72)`, invocado en **línea 159** de `x08ForegroundLossRevokesSearchAndRequiresNewUserClick`: **SEGUNDA apertura tras `scenario.recreate()`** (línea 158). El mismo test, en ejecución anterior [42653795115](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42653795115), había fallado en primera apertura (línea 105); los fallos no son idénticos.
+- El parche `de7347c0` atrapaba sólo `AssertionError`. `ComposeTimeoutException` hereda **directamente de `Throwable`** (Android API: https://developer.android.com/reference/kotlin/androidx/compose/ui/test/ComposeTimeoutException); por tanto tampoco es `Exception` ni `AssertionError`. Escapó de la captura y no se registró `nativeStatusSnapshot()`. El defecto demostrado es de observabilidad del diagnóstico; todavía NO se probó si falla owner, journal, callback o Compose tras recreate.
+- Dictamen **B7 RED_FIX** por prueba real roja; next único permiso: misma unidad, test-only, capturar **exactamente `ComposeTimeoutException`**, adjuntar estado nativo y conservar la excepción original como causa. Sin cambios productivos ni rebaja de assertion, sin certificación A5 ni A3. No repetir los 47 PASS antiguos.
