@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "BLOCKED",
   "unit_id": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_SCOPED",
-  "reviewed_head": "f63acfe3518e3a91b1d16a2361a6c2c5db6a1d6f",
+  "reviewed_head": "35920deb3814299f0896578e715e41c91b725061",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchPartialCanonicalUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-search-partial-canonical-android-directed.yml"
@@ -68,24 +68,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_X08_REAL_CANONICAL_PARTIAL_ANDROID_1_OF_1",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_REAL_WORKSPACE_CANONICAL_TRUNCATION_PARTIAL_ANDROID_1_OF_1",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
+          "blob_sha": "da4935e362b26b378e7e6e2fd8659247a8dce36d",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "e0978468015ab4c794272249b10d4f00dfe47a59",
-    "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
+    "sha": "f63acfe3518e3a91b1d16a2361a6c2c5db6a1d6f",
+    "unit_id": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_SCOPED",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED_20261109.md",
-        "blob_sha": "3b72deaa7887d4832aff3ee1a1192f28175c72f9",
+        "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
+        "blob_sha": "da4935e362b26b378e7e6e2fd8659247a8dce36d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "X08 genuine Workspace Search PARTIAL Android CI in progress, no new code until B7",
+  "why": "Genuine Android API35 Workspace canonical truncation PARTIAL 1/1 and protocol guard exact SHA, global X08 and A5 still open",
   "how": "One dedicated g5AndroidTest Compose UI test using actual 5000-char accepted USER turn and federated Search, no production code changes; dedicated workflow 1/1",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Check CI #42633273852 exact Android 1/1 and guard #42633273765 same SHA; B7 outcome"
+  "next": "Separate bounded unit + READY preaudit for uncovered X08 ACL/owner invalidation UI or X09/X10 design; A3 Guardados locked"
 }
