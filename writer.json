@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X01_X02_ANDROID_B6_WAIT_CI.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X06_X08_PREAUDIT_DOC_ONLY.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "fa7e7589d14e2f6a80b3ced1530c5e202d9a4252",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 624,
-  "timestamp": 1794230025,
-  "purpose": "Three new directed Android35 tests #42623474908; guard #42623474973; A5 GLOBAL OPEN; G15 final only",
+  "epoch": 625,
+  "timestamp": 1794230194,
+  "purpose": "Preaudit X06/X08 federated Search Android UI scope docs only while X01/X02 emulator CI ongoing; no functional code",
   "last_checkpoint": "S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI@fa7e7589d14e2f6a80b3ced1530c5e202d9a4252"
 }
