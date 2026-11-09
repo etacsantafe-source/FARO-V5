@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A5_7.X08_UI_COUNTERS_PERMIT",
   "token_hash": "cbfb78c7541d2a0320ab0a1164fd91db138e493ee9be065c1d86eb252bd34f97",
   "target_head": "74f60c30fc49f4e7382971dc6356c5934ea2670e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 654,
-  "timestamp": 1794265266,
-  "purpose": "Same unit X08 B7 red fix, verified B1-B5 UI structural diagnostics permit only"
+  "timestamp": 1794265318,
+  "purpose": "Same unit X08 B7 red fix, verified B1-B5 UI structural diagnostics permit only",
+  "last_checkpoint": "S3_A5_7_X08_COMPOSE_UI_COUNTERS_PERMIT@1d8463189e3c8a6d78e370b9ca5d773bfc3eb3f8"
 }
