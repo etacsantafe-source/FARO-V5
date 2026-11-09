@@ -1,0 +1,11 @@
+# FARO V5 — S3.A3 Guardados — B7 PASS contratos tipados y CI JVM dirigida
+
+Fecha AR: 2026-11-09. Unidad `S3_A3_BOOKMARKS_CONTRACTS_CORE`. SHA funcional `37383b1ebb899740870eb54d98f1501175e3a7ba`. Resultado: **PASS_SCOPED**, SOLO contratos/modelos; NO funcionalidad operativa de Guardados.
+
+## B7 — Evidencia verificable
+
+- [GitHub Actions run 42720699353](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42720699353), job `129513619424`: `completed / success`, Java21, Gradle `:kernel:contracts:test --tests ar.com.faro.v5.kernel.contracts.BookmarkContractsTest`. **BUILD SUCCESSFUL**, XML del único suite `BookmarkContractsTest` verificado como **(tests=8, failures=0, errors=0, skipped=0)**, marcador `S3_A3_BOOKMARK_CONTRACTS_JVM_PASS 8/8` en log, no sólo texto del script.
+- Guardia obligatoria B1–B7 [run 42720698685](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42720698685): **SUCCESS**, mismo SHA. Preflight [run 42719907063](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42719907063): **SUCCESS** en padre documental `783d6844`.
+- Delta funcional limitado a `BookmarkContracts.kt` + `BookmarkContractsTest.kt` + workflow JVM dirigido. Los ocho IDs candidatos y perfiles se prueban, identidad de mensaje y generación, lectura fail-closed, metadata sin duplicar texto, carpetas planas/nombre acotado, lifecycle/favorito separado, idempotencia/CAS y 8 tests exactos. No hay DB, ni UI, ni cambios de backup/portability ni incorporación al catálogo.
+- Las cuotas (32 carpetas, 1024 items, 50 página, 80 chars) son **contrato propuesto**, no enforcement de una autoridad persistente. `BookmarkReadPort` y `BookmarkMutationPort` son interfaces: aún no admiten llamadas productivas. No equiparar el PASS de tipos con soporte operativo para los ocho OperationIds.
+- **Dictamen B7 = PASS_SCOPED para `S3_A3_BOOKMARKS_CONTRACTS_CORE`**, congelar esta unidad sin volver a ejecutar los ocho tests. Próximo objetivo distinto: `S3_A3_BOOKMARKS_AUXILIARY_STORAGE` con nueva B1–B5, permiso y CAS para esquema Auxiliar v2→v3, receipt en misma transacción, owner ACL/generation, backup y restore, sin sexto store. A5.7 global sigue OPEN (X08 PASS); catálogo actual 172, V2 productiva/S4/Auto/Noche OFF, G15 físico solo al final.

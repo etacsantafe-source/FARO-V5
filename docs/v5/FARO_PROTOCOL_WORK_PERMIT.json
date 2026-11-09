@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_CONTRACTS_CORE",
-  "reviewed_head": "77f729083100a1a9e83be73eef34254195e25cae",
+  "reviewed_head": "37383b1ebb899740870eb54d98f1501175e3a7ba",
   "paths": [
     "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/BookmarkContracts.kt",
     "v5/kernel/contracts/src/test/kotlin/ar/com/faro/v5/kernel/contracts/BookmarkContractsTest.kt",
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "JVM_8_OF_8_SUCCESS",
+    "B7": "PASS_SCOPED_REVIEWED"
   },
   "last_code_review": {
-    "sha": "e09643c4310441d0b8afc7a810470928994d6867",
-    "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
+    "sha": "37383b1ebb899740870eb54d98f1501175e3a7ba",
+    "unit_id": "S3_A3_BOOKMARKS_CONTRACTS_CORE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_X12_UI_COUNTERS_B7_PASS_20261109.md",
-        "blob_sha": "de7b40dd57f0208cb85e4cfff444f0eafca430ec",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B7_PASS_20261109.md",
+        "blob_sha": "4453ec62bbc7658be1957781ddb313118fc095f5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "User approved eight Guardados operations; X08 B7 PASS; incremental pure contract models first, data owner and backup later",
-  "how": "Three paths: typed contract model + eight JVM tests + dedicated workflow, no catalog/DB/UI. Require exact 8/8 XML and B7.",
+  "why": "Typed core BookmarkContracts 8/8 PASS exact run 42720699353; future Auxiliary storage unit requires independent B1-B5 permit.",
+  "how": "Keep new typed contracts frozen, do not register eight candidates or expose UI until auxiliary store + backup migration and authority validation are implemented.",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 S3.A3 BookmarkContracts core, verify directed JVM CI and protocol guard, B7; then Auxiliary persistent owner contract/migration, backup/restore."
+  "next": "S3_A3_BOOKMARKS_AUXILIARY_STORAGE B1-B5 investigate bounded schema v3, CAS receipts, backup/restore, generation; then READY permit before functional code."
 }
