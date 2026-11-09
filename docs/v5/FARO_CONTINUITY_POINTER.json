@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 630
+    "expected_release_epoch": 632
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "X06 scoped real Android Search two new tests code e857e57a CI #42625768734 pending guard #42625768539 pending; verify OK(2 tests) instrument -1, B7. X08 partial genuine owner degradation NOT_RUN. Older 44 directed tests untouched; A3 172 blocked, G15 final only, V2/S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_X08_PARTIAL_NOT_RUN_A5_OPEN",
+  "next": "X06 Search real Android code e857e57a CI #42625768734 RUNNING, guard #42625768539 SUCCESS. New genuine deterministic X08 PARTIAL fixture via canonical Workspace USER >4096 characters documented B4-B5 in docs/s3-night/S3_A5_7_X08_CANONICAL_TRUNCATION_PARTIAL_B4_B5_20261109.md. No code until X06 B7; X08 global ACL revocation still open. Previous 44 tests pass unchanged, A3+172 blocked, G15 final only.",
+  "checkpoint_status": "S3_A5_7_X06_ANDROID_B6_WAIT_CI_X08_REAL_PARTIAL_B4_B5_DOC_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_20261109.md",
   "last_code_sha": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
@@ -1922,5 +1922,13 @@
     "b1_b5": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
     "handoff": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B6_WAIT_CI_20261109.md",
     "x08_partial_branch": "NOT_RUN"
+  },
+  "a5_7_x08_partial": {
+    "status": "B4_B5_REAL_FIXTURE_FOUND_DOC_ONLY",
+    "doc": "docs/s3-night/S3_A5_7_X08_CANONICAL_TRUNCATION_PARTIAL_B4_B5_20261109.md",
+    "mechanism": "Workspace 32k draft >4096 canonical search snippet truncation sets coverage PARTIAL",
+    "depends_on": "X06_ANDROID_B7",
+    "code_permission": "NOT_READY",
+    "physical": "NOT_RUN"
   }
 }
