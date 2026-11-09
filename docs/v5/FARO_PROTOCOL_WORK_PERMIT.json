@@ -1,19 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_ANDROID_NATIVE_LIFECYCLE",
-  "reviewed_head": "d64881dffb01576186f9cd0119a736c977629276",
+  "status": "READY",
+  "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
+  "reviewed_head": "ceef69c20791cd430e9f7f3f79d9e03d942b39fd",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57AndroidNativeLifecycleTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-android-native-lifecycle-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ComposeChatUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-compose-chat-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
-          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
+          "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REAL_ANDROID_B1_B5_20261109.md",
+          "blob_sha": "320d7895b4998f0e988266005bab9a647a169374",
           "marker": "## B1"
         }
       ]
@@ -22,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
-          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
+          "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REAL_ANDROID_B1_B5_20261109.md",
+          "blob_sha": "320d7895b4998f0e988266005bab9a647a169374",
           "marker": "## B2"
         }
       ]
@@ -32,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
-          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
+          "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REAL_ANDROID_B1_B5_20261109.md",
+          "blob_sha": "320d7895b4998f0e988266005bab9a647a169374",
           "marker": "## B3"
         }
       ]
@@ -42,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
-          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
+          "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REAL_ANDROID_B1_B5_20261109.md",
+          "blob_sha": "320d7895b4998f0e988266005bab9a647a169374",
           "marker": "## B4"
         }
       ]
@@ -52,23 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B1_B5_20261109.md",
-          "blob_sha": "9c25b3e24cf98e74d41b540cbe7f234df967c2a0",
+          "path": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REAL_ANDROID_B1_B5_20261109.md",
+          "blob_sha": "320d7895b4998f0e988266005bab9a647a169374",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_EMULATOR_API35_NATIVE_LIFECYCLE_2_OF_2",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B7_PASS_SCOPED_20261109.md",
-          "blob_sha": "d05d1e019144ae2d80f75c127affcdce7617a236",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d64881dffb01576186f9cd0119a736c977629276",
@@ -82,9 +73,9 @@
       }
     ]
   },
-  "why": "X12 scoped native Android API35 2/2 B7 PASS; A5 global still open, A3 not approved",
-  "how": "ActivityScenario + existing G5 emulator-only source set with two new instrumentation tests and new workflow",
+  "why": "X12 Compose genuine DEV host Chat, accessibility semantics and USER persistence across real Android activity recreate, G15 untouched",
+  "how": "Two new dedicated AndroidComposeTestRule emulator-only instrumentation tests, reuse previous working Android35 workflow",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "New independent B1-B5 for X12 Compose real UI emulator if warranted. No new code until READY permit. Phone single final campaign"
+  "next": "test-only+workflow code commit, exact Android instrumentation OK (2 tests) and guard same SHA; B7 then checkpoint"
 }
