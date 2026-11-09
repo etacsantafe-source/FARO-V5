@@ -58,24 +58,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI_42538111669_FULL_5_TEST_XML_UNVERIFIED",
-    "B7": "PENDING_TERMINAL_CI_AND_INDEPENDENT_REVIEW"
+    "B6": "PASS_REAL_SQLITE_FOUR_OWNER_POST_CUTOVER_JUNIT_XML_5_OF_5",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
+          "blob_sha": "67162a7093d9749e06f747a9cc200902dc048880",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "3012c682f558b83e360eb10246176e1a1fdbee60",
+    "sha": "432a0d184ba133288c5431b16757532f9b2eab12",
     "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_XML_ROOT_CAUSES_20261108.md",
-        "blob_sha": "22a7222f0bfba2f3722dc2629b32b7e0162ccca8",
+        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
+        "blob_sha": "67162a7093d9749e06f747a9cc200902dc048880",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Test fixture correction 432a0d18 after XML-grounded schema8 and WAL root causes; CI not terminal",
-  "how": "Single test-only patch: reuse canonical active8 graph for seed and sample old7 file after closing normal SQLite; no change to asserts",
+  "why": "Sixth S3.A5 subunit B7 PASS scoped post cutover four-owner JVM 5/5, no production modifications; A5 total still OPEN X01-X12 and final G15",
+  "how": "Real certified Reality8 host graph, fresh transaction/Chat, Search federation, replay/ABA and corruption denial, no repeated older suites",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Read #42538111669 and guard #42538111719 on exact code SHA, 5/5 JUnit, then B7 PASS scoped or red fix only if evidence"
+  "next": "New B1–B5 for final integrated X01-X12/lifecycle acceptance, no automatic new writes, G15 final only"
 }
