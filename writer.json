@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X01_X02_ANDROID_UI_B1_B7.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X01_X02_ANDROID_B6_WAIT_CI.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "6bfdb5a1736d71a099a500fefd40b96f8accb102",
+  "target_head": "fa7e7589d14e2f6a80b3ced1530c5e202d9a4252",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 623,
-  "timestamp": 1794229759,
-  "purpose": "X01 X02 three new directed Android35 Activity/Avisos Compose UI acceptance, no past reruns, no A3, G15 final campaign",
-  "last_checkpoint": "S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED@6bfdb5a1736d71a099a500fefd40b96f8accb102"
+  "epoch": 624,
+  "timestamp": 1794230025,
+  "purpose": "Three new directed Android35 tests #42623474908; guard #42623474973; A5 GLOBAL OPEN; G15 final only",
+  "last_checkpoint": "S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI@fa7e7589d14e2f6a80b3ced1530c5e202d9a4252"
 }
