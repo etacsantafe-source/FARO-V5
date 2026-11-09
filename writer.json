@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_SEARCH_RESTORE_PERMIT",
-  "token_hash": "9870ff1329aee5dc9bfffc513c519c3552402de28cd15f5f9cdd8eb74ba22a43",
-  "target_head": "89955ede52d456cab13a96ee65c803a68cd8abd0",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_SEARCH_RESTORE_TEST",
+  "token_hash": "fd35946b60fa7b2d026d14c2862073e1eb005a0a190a15fba7010a19bfca0fde",
+  "target_head": "ec0338cfee2f9dacad7ac9cf63ed8adc1f35da14",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 651,
-  "timestamp": 1794251824,
-  "purpose": "Same X08 unit READY test-only Search restored state permit",
-  "last_checkpoint": "S3_A5_7_X08_SEARCH_RESTORE_PERMIT@ec0338cfee2f9dacad7ac9cf63ed8adc1f35da14"
+  "epoch": 652,
+  "timestamp": 1794251861,
+  "purpose": "Same X08 test-only restore Search route after recreate; preserve fresh grant and canonical hit checks"
 }
