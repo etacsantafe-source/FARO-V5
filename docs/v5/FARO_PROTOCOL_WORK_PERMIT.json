@@ -1,21 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
-  "reviewed_head": "1c0c00b9248df47f11e6d8e575005095719012dc",
+  "reviewed_head": "5845b6a74d6fb7d386948c22c2d2e8940a548227",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-search-background-revoke-android-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
-          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
+          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
           "marker": "## B1"
         }
       ]
@@ -24,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
-          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
+          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
           "marker": "## B2"
         }
       ]
@@ -34,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
-          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
+          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
           "marker": "## B3"
         }
       ]
@@ -44,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
-          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
+          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
           "marker": "## B4"
         }
       ]
@@ -54,23 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
-          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B1_B5_20261109.md",
+          "blob_sha": "2ceabf68b8583c74f16b879f6b9f5cf317f43c00",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "RED_ANDROID_REOPEN_TIMEOUT_1_OF_1",
-    "B7": {
-      "status": "VERIFIED_RED_FIX",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX_20261109.md",
-          "blob_sha": "02d25c3e4b632f3386c470e92d62392350a3cec8",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "dda9c3eceab6e30793432cfb829b75403783ce16",
@@ -84,9 +72,9 @@
       }
     ]
   },
-  "why": "X08/X12 fresh Android onPause revocation of all 4 DEV search grants and clear stale UI; 47 previously certified cases retained",
-  "how": "Delta-only in DEV Authority.Session and Activity.onPause, new directed Android emulator test/workflow; exact CI instrumentation and guard B7",
+  "why": "Same-unit RED_FIX only: Android second reopen 60s Compose timeout, capture native status on failure to identify source, no changes to original safety assertions",
+  "how": "Diagnostic-only modification to previous new instrumentation test; same workflow automatically triggered, exact 1/1 and guard; never pretend PASS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Same unit test-only diagnostic after B1-B5 new doc; no other code until narrowed READY; global A5 OPEN"
+  "next": "Run diagnostic emulator; on red analyze native reason and only then fix minimum, A5 OPEN; A3 locked and 47 prior cases remain"
 }
