@@ -1,0 +1,15 @@
+# FARO V5 — S3.A5.7 X01/X02 aclaración de ejecución B4/B5
+Fecha AR 2026-11-09; writer HELD epoch623. Complementa, sin alterar ni reiniciar, B1–B5 existentes `docs/s3-night/S3_A5_7_X01_X02_REAL_ACTIVITY_AVISOS_UI_B1_B5_20261109.md` (blob 16998c20bb9faded5c84637752ac735ee6a37200). Baseline certificado: Compose X12 2/2 B7 `docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_20261109.md`, latest functional SHA 82e0858f6f18879aacb3d6d7d63fb9180e6eceeb.
+
+## B4 — Precisión de fixture con puertos reales
+- Mantener EXACTAMENTE tres casos para X01/X02; sin duplicar X12 2/2 ni A4 antiguo.
+- En caso positivo, generar mensaje USER accepted con el **compositor Compose REAL**, que utiliza `ConversationComposerPort` canónico para guardar y enviar: abrir Chat DEV por botón nativo, ingresar texto sintético en el último editor semántico, confirmar `Enviar`, esperar mensaje persistido y recrear Activity antes de pulsar el botón dedicado `Abrir Chat y Actividad local`. Esta ruta más estricta reemplaza la opción de fixture programático de B4 base y prueba el mismo owner con usuario real, sin INSERT SQL manual, sin falsa IA.
+- Navegar por Icon(contentDescription=`Abrir menú`) hasta ítem `Actividad` en el drawer Compose, requerir mensaje USER de Workspace, tiempo según procedencia, y verificar que resumen no existe hasta click explícito `Ver resumen local`. Nunca exponer body de Chat en Activity.
+- Tras pausa/resume real de la Activity ya autorizada exigir revocación y `Actividad no disponible. No se consultaron datos.`, sin conservar render de grant anterior. No repetir el pase positivo como segundo método.
+- Dos casos negativos independientes en Chat abierto normal sin solicitud de Actividad y en Avisos sin readPort: ambos deben mostrar textos exactos NO DISPONIBLE, no falsos ceros.
+
+## B5 — Auditoría adversarial y APIs de prueba ya verificadas
+- El test Compose X12 existente B7 PASS (código 82e0858f) ya verifica `createAndroidComposeRule<FaroV5V2CoreDevActivity>`, `onAllNodes(hasSetTextAction())`, `[collection.fetchSemanticsNodes().lastIndex]`, `performTextInput`, `Enviar`, `rule.activityRule.scenario.recreate()`. Reutilizar ese patrón, NO copiar clase ni ejecutarla otra vez.
+- Android Compose `onNodeWithContentDescription` / `onNodeWithText` para drawer; la actividad fuente real es `FaroV5ActivitySurface`. No usar `onLast()` ni imports `assertExists`/`onAllNodes` inválidos en versiones anteriores.
+- UI read-only, no Apply, no motor IA, sin network, permisos nuevos, ni datos de G15. La pausa revoca el grant mediante `FaroV5V2CoreDevActivity.onPause()`; el test debe comprobar estado fail-closed.
+- Solo 2 archivos nuevos: 3 test cases Android en `v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityAvisosComposeUiTest.kt`, workflow dirigido `.github/workflows/faro-v5-s3-a5-7-activity-avisos-android-directed.yml`, exige `OK (3 tests)`, `INSTRUMENTATION_CODE: -1`, guard exact SHA. En falla, B7 RED_FIX antes de tocar código; no relajar assertions. GLOBAL A5 OPEN y A3 X04/X05 no aprobado.
