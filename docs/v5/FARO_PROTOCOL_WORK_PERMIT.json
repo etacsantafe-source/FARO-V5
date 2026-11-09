@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
-  "reviewed_head": "cf93cf011d911c0cee18a57c7b3382ce51ca731e",
+  "reviewed_head": "82e0858f6f18879aacb3d6d7d63fb9180e6eceeb",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ComposeChatUiTest.kt"
   ],
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_COMPOSE_ANDROID_REDFIX3_TWO_TESTS",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,9 +72,9 @@
       }
     ]
   },
-  "why": "Third Android Kotlin test build fails unsupported onLast selector, official API documents collection member get index",
+  "why": "Fourth test-only correction in CI; no further code before B7",
   "how": "Replace one expression onLast with indexed collection get; same two test cases",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run exact new Android emulator CI 2 tests and protocol guard, B7 only after evidence"
+  "next": "Verify #42595625941 Android 2/2 and #42595625984 guard exact SHA"
 }
