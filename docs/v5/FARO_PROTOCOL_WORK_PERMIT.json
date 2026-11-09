@@ -58,24 +58,33 @@
         }
       ]
     },
-    "B6": "WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPE_JUNIT_XML_4_OF_4",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_OWNER_REVISION_B7_PASS_SCOPED_20261109.md",
+          "blob_sha": "d452e851ccf11ad18cdad293459e4524510cb7be",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "432a0d184ba133288c5431b16757532f9b2eab12",
-    "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
+    "sha": "87b1c2ed8d31b5385249c312bbbe7ec358838a30",
+    "unit_id": "S3_A5_7_OWNER_REVISION_FENCE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
-        "blob_sha": "67162a7093d9749e06f747a9cc200902dc048880",
+        "path": "docs/s3-night/S3_A5_7_OWNER_REVISION_B7_PASS_SCOPED_20261109.md",
+        "blob_sha": "d452e851ccf11ad18cdad293459e4524510cb7be",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B6 four new cases in CI; no additional code until B7 outcome and fresh permit",
+  "why": "A5.7 X07/X11 scoped acceptance B7 PASS exact 4/4; A5 GLOBAL OPEN and A3 unapproved",
   "how": "Add four new directed JVM tests with real five-store DEV host and separate workflow; leave previous 33/33 and product untouched",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Verify run 42558390722 exact XML, produce B7; A5 global remains open"
+  "next": "New B1-B5+permit for independent X12 Android emulator tests. Never rerun 33 older tests; G15 final only"
 }
