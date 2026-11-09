@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A5_7.X08_B7_PASS",
   "token_hash": "e65fd6c4be9a30ac34fd2840bcad19e54e70b3e3a90a48c0b2e3da729ac3ca5b",
   "target_head": "e09643c4310441d0b8afc7a810470928994d6867",
   "target_branch": "work/s3-night-20261102",
   "epoch": 656,
-  "timestamp": 1794265987,
-  "purpose": "B7 audit exact X08 Android 1/1 PASS and durable A3 handoff; no code changes"
+  "timestamp": 1794266115,
+  "purpose": "B7 audit exact X08 Android 1/1 PASS and durable A3 handoff; no code changes",
+  "last_checkpoint": "S3_A5_7_X08_B7_PASS_A3_AUTHORIZED@77f729083100a1a9e83be73eef34254195e25cae"
 }
