@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
   "reviewed_head": "5845b6a74d6fb7d386948c22c2d2e8940a548227",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_DIAGNOSTIC_REOPEN_SECOND_ATTEMPT_1_OF_1",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -76,5 +76,5 @@
   "how": "Diagnostic-only modification to previous new instrumentation test; same workflow automatically triggered, exact 1/1 and guard; never pretend PASS",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run diagnostic emulator; on red analyze native reason and only then fix minimum, A5 OPEN; A3 locked and 47 prior cases remain"
+  "next": "Review run #42653795115, 1/1 marker and guard, B7; if RED_FIX same unit only"
 }

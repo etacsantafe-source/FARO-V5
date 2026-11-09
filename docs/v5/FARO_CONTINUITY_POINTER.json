@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX_20261109.md",
+  "handoff": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Android run #42651371911 FAILURE: post-recreate second native Chat fails Compose mount at test line132 waitUntil 60s. B7 RED_FIX recorded; test-only diagnostic B1-B5 doc ready, issue bounded READY permit then diagnostic code and CI; preserve 47 prior. A5 global OPEN, A3 locked, G15 final.",
-  "checkpoint_status": "S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX",
+  "next": "After run #42651371911 FAILED 1/1 on second recreate, B7 RED_FIX; exact diagnostic code 0d5bba65 run #42653795115 and guard #42653795270 WAIT_CI. Read native error status if red; B7 only if exact Android marker succeeds. Old 47 preserved, A5 OPEN, A3 locked, G15 final.",
+  "checkpoint_status": "S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B6_WAIT_CI_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B7_RED_FIX_20261109.md",
-  "last_code_sha": "dda9c3eceab6e30793432cfb829b75403783ce16",
-  "last_ci_run_id": 42651371911,
+  "last_handoff": "docs/s3-night/S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B6_WAIT_CI_20261109.md",
+  "last_code_sha": "0d5bba653ceb3fed1d2eb6195b2a41d32721e63d",
+  "last_ci_run_id": 42653795115,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_X08_X12_REAL_ANDROID_REOPEN_COMPOSE_TIMEOUT_1_OF_1",
+  "last_ci_conclusion": "WAIT_CI_ANDROID_X08_X12_REOPEN_DIAGNOSTIC",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
