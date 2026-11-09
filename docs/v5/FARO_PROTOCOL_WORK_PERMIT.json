@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
-  "reviewed_head": "e0978468015ab4c794272249b10d4f00dfe47a59",
+  "status": "READY",
+  "unit_id": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_SCOPED",
+  "reviewed_head": "d2387cec50213c302969129b02d4db38abbf7691",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchComposeUiTest.kt"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchPartialCanonicalUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-search-partial-canonical-android-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -46,8 +47,8 @@
           "marker": "## B4"
         },
         {
-          "path": "docs/s3-night/S3_A5_7_X06_SEARCH_REAL_ANDROID_B4_B5_SCOPE_20261109.md",
-          "blob_sha": "75ee31e8cfb19ace741724d6b5623786440cddff",
+          "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_TRUNCATION_PARTIAL_B4_B5_20261109.md",
+          "blob_sha": "f8095eb62eb73a76fa1896d9ab75dccaaa6958d5",
           "marker": "## B4"
         }
       ]
@@ -61,23 +62,14 @@
           "marker": "## B5"
         },
         {
-          "path": "docs/s3-night/S3_A5_7_X06_SEARCH_REAL_ANDROID_B4_B5_SCOPE_20261109.md",
-          "blob_sha": "75ee31e8cfb19ace741724d6b5623786440cddff",
+          "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_TRUNCATION_PARTIAL_B4_B5_20261109.md",
+          "blob_sha": "f8095eb62eb73a76fa1896d9ab75dccaaa6958d5",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_EMULATOR_X06_SEARCH_UI_2_OF_2",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED_20261109.md",
-          "blob_sha": "3b72deaa7887d4832aff3ee1a1192f28175c72f9",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e0978468015ab4c794272249b10d4f00dfe47a59",
@@ -91,9 +83,9 @@
       }
     ]
   },
-  "why": "X06 Android real Workspace Search 2/2 and protocol guard SUCCESS exact SHA, global A5 OPEN",
-  "how": "Use SemanticsNodeInteractionCollection member [0] proven Role=Button in both real logs; no production changes",
+  "why": "X08 genuine canonical Workspace >4096 chars truncation results PARTIAL without false global no-match, isolated Android emulator one NEW case",
+  "how": "One dedicated g5AndroidTest Compose UI test using actual 5000-char accepted USER turn and federated Search, no production code changes; dedicated workflow 1/1",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "X08 separate READY permit after B1-B5 re-evaluation; one genuine Workspace truncation PARTIAL Android test"
+  "next": "Commit only 2 test/workflow files, verify exact Android OK (1 test) and instrumentation -1, guard same SHA; audit B7 scoped, X08 ACL remains open"
 }
