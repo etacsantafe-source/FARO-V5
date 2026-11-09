@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X01_X02_ANDROID_READ_ONLY_UI",
-  "reviewed_head": "54a3b10e488d6a8a298b0ecb17837dafd3b0a2b2",
+  "reviewed_head": "675241634ce62e9ab4324ac178e0a9ab93318910",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityAvisosComposeUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-activity-avisos-android-directed.yml"
@@ -68,7 +68,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_X01_X02_ANDROID_3_OF_3",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -83,9 +83,9 @@
       }
     ]
   },
-  "why": "X01/X02 real foreground-authorized Activity read, denial without grant and Avisos unavailable, 3 NEW emulator tests",
+  "why": "X01/X02 new Android UI tests CI in progress, do not assume pass",
   "how": "Test-only Android API35 class with real Composer USER turn, ActivityScenario and Compose drawer, new workflow exact 3/3",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Commit only new Android test/workflow, check CI exact 3/3 and guard, B7; preserve A3 and G15 final"
+  "next": "Verify run #42623474908 and guard #42623474973 exact SHA, then B7"
 }

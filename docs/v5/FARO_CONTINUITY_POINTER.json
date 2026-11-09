@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 622
+    "expected_release_epoch": 624
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_20261109.md",
+  "handoff": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Compose X12 real Android API35 2/2 B7 scoped PASS code 82e0858f, CI #42595625941 and guard #42595625984 SUCCESS exact SHA. X01/X02 B1-B5 preaudit documented but NO code permit until new READY. Preserve 33/33, X07/X11 4/4, native X12 2/2. A3 Guardados X04/X05 not authorized, 172 contracts unchanged, G15 physical one final campaign, V2/S4/Auto/Noche OFF.",
-  "checkpoint_status": "S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_2_OF_2_X01_X02_PREAUDIT_READY_NEXT_A5_OPEN",
+  "next": "X01/X02 real Android Activity Avisos three NEW UI tests commit 67524163, CI #42623474908 running, guard #42623474973 running. Verify exact Android stdout OK (3 tests), instrument -1 and B7. Older 33/33+4/4+2/2 native+2/2 Compose preserved. A3 catalog172 locked, G15 final only.",
+  "checkpoint_status": "S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_PASS_SCOPED_20261109.md",
-  "last_code_sha": "82e0858f6f18879aacb3d6d7d63fb9180e6eceeb",
-  "last_ci_run_id": 42595625941,
+  "last_handoff": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI_20261109.md",
+  "last_code_sha": "675241634ce62e9ab4324ac178e0a9ab93318910",
+  "last_ci_run_id": 42623474908,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "REVIEWED_PROVISIONAL_NOT_APPROVED",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_COMPOSE_CHAT_ANDROID_API35_2_OF_2",
+  "last_ci_conclusion": "WAIT_CI_X01_X02_ANDROID_3_TESTS_UNVERIFIED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1893,6 +1893,15 @@
     "doc": "docs/s3-night/S3_A5_7_X01_X02_REAL_ACTIVITY_AVISOS_UI_B1_B5_20261109.md",
     "sha": "21d239ae9d41054ba34efb3f418db1621cf96197",
     "depends_on": "COMPOSE_X12_B7_FINAL",
+    "physical": "NOT_RUN_G15"
+  },
+  "a5_7_activity_avisos": {
+    "status": "B6_WAIT_CI",
+    "code_sha": "675241634ce62e9ab4324ac178e0a9ab93318910",
+    "ci_run_id": 42623474908,
+    "guard_run_id": 42623474973,
+    "b1_b5": "docs/s3-night/S3_A5_7_X01_X02_REAL_ACTIVITY_AVISOS_UI_B1_B5_20261109.md",
+    "handoff": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B6_WAIT_CI_20261109.md",
     "physical": "NOT_RUN_G15"
   }
 }

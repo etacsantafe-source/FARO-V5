@@ -1,0 +1,10 @@
+# FARO V5 — S3.A5.7 X01/X02 Android real UI B6 WAIT_CI
+Fecha 2026-11-09 AR; unidad S3_A5_7_X01_X02_ANDROID_READ_ONLY_UI, global A5 OPEN.
+## B6 — Código exacto, ejecución y límites
+- B1–B5 previamente documentados `docs/s3-night/S3_A5_7_X01_X02_REAL_ACTIVITY_AVISOS_UI_B1_B5_20261109.md`, blob 16998c20bb9faded5c84637752ac735ee6a37200. Aclaración B4/B5 `docs/s3-night/S3_A5_7_X01_X02_ANDROID_B4_IMPLEMENTATION_PRECISION_20261109.md`, blob f7888b606914cc90fa8c7284b941e02f32090432. Permiso READY en padre 766c03e48dd4b5b088028e2b179d741e3d5da2f4.
+- Código SHA `675241634ce62e9ab4324ac178e0a9ab93318910`, EXACTAMENTE dos archivos nuevos: `v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityAvisosComposeUiTest.kt` y `.github/workflows/faro-v5-s3-a5-7-activity-avisos-android-directed.yml`. Solo tests/workflow, ningún fuente productivo, permiso, manifest, build ni catalog172.
+- Tres casos nuevos emulador Android API35: (1) USER real Compose→Workspace, reabrir por gesto explícito "Abrir Chat y Actividad local", navegar a Actividad, verificar evento y proveniencia local, pedir resumen y revocar en onPause; (2) sin grant, pantalla Activity unavailable nunca empty; (3) sin Avisos owner, unavailable nunca zero.
+- Nueva CI https://github.com/etacsantafe-source/FARO-V5/actions/runs/42623474908 estado inicial `IN_PROGRESS` conclusión UNVERIFIED en SHA 67524163. Protocolo guard https://github.com/etacsantafe-source/FARO-V5/actions/runs/42623474973 estado inicial `COMPLETED` conclusión success mismo SHA. No declarar PASS sin stdout EXACTO `OK (3 tests)` `INSTRUMENTATION_CODE: -1` y ambos SUCCESS.
+- Conservar 33/33 seis subunidades A5, 4/4 owner revision, 2/2 native lifecycle y 2/2 Compose real certificadas con sus propios SHAs; SIN rerun. A3 X04/X05 172 operaciones intacto, S4/V2 productiva/Auto/Noche OFF, G15 físico NOT_RUN campaña única final.
+## B7 pendiente
+Verificar el job dirigido, error de compilación vs runtime, salida de instrumentación y guard exacto. Si falla: B7 RED_FIX con causa, permiso nuevo limitado a tests, sin editar producción. Si pasa: B7 PASS_SCOPED X01/X02 Android. A5 GLOBAL permanece OPEN.
