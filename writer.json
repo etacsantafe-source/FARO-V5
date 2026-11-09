@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "ACTIVE",
-  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_B7_PASS.EPOCH602",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_B7.PASS_SCOPED.RELEASED",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
-  "target_head": "8406001cf6d404f327a13c85e6d9965a60414483",
+  "target_head": "069f852b49b3687900e0ba287eff18d43b631fee",
   "target_branch": "work/s3-night-20261102",
   "epoch": 602,
-  "timestamp": 1794182841,
-  "purpose": "Independent B7 of S3.A5 Reality8 post-cutover new 5/5 SQLite four-owner integration, exact CI #42538111669+guard success; documentation only",
-  "last_checkpoint": "S3_A5_POST_CUTOVER_JUNIT_XML_PASS_5_5@432a0d18"
+  "timestamp": 1794183016,
+  "purpose": "S3.A5 sixth scoped Reality8 cross-owner integration 5/5 CI and guard PASS. A5 OPEN, V2 productive OFF, G15 final physical NOT_RUN",
+  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED@069f852b"
 }
