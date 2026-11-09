@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_ANDROID_NATIVE_LIFECYCLE",
-  "reviewed_head": "cecf2eb92c54f873b86bfe81963968cc4564aef4",
+  "reviewed_head": "d64881dffb01576186f9cd0119a736c977629276",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57AndroidNativeLifecycleTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-android-native-lifecycle-directed.yml"
@@ -58,7 +58,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_ANDROID_EMULATOR_2_TESTS",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -73,9 +73,9 @@
       }
     ]
   },
-  "why": "New scoped native Android DEV shell lifecycle and accessible button test on emulator only; no Moto G15 physical",
+  "why": "X12 Native emulator two tests in CI, no further functional writes until B7 same SHA",
   "how": "ActivityScenario + existing G5 emulator-only source set with two new instrumentation tests and new workflow",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "One test-only commit, CI emulated exact OK (2 tests), guard B7; physical G15 final only"
+  "next": "Verify #42559425316 instrument log and #42559425132 guard; B7 exact scoped"
 }
