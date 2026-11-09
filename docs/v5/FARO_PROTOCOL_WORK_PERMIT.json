@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
-  "reviewed_head": "d3004be906fc5f45beaf4adca6c9e1cda4a23e01",
+  "reviewed_head": "e0978468015ab4c794272249b10d4f00dfe47a59",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchComposeUiTest.kt"
   ],
@@ -67,24 +67,33 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_EMULATOR_X06_SEARCH_UI_2_OF_2",
+    "B7": {
+      "status": "VERIFIED_PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED_20261109.md",
+          "blob_sha": "3b72deaa7887d4832aff3ee1a1192f28175c72f9",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "e857e57af3fb89c1f50edbf3605bd1c25cc31d19",
+    "sha": "e0978468015ab4c794272249b10d4f00dfe47a59",
     "unit_id": "S3_A5_7_X06_SEARCH_ANDROID_SCOPED",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B7_RED_FIX_AMBIGUOUS_BUTTON_20261109.md",
-        "blob_sha": "d830c3e5d89b36d840024c5d5fc8461d57b4b99a",
+        "path": "docs/s3-night/S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED_20261109.md",
+        "blob_sha": "3b72deaa7887d4832aff3ee1a1192f28175c72f9",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Android API35 Search tests failed both due 2 clickable semantics nodes Buscar (Button visible and offscreen Tab); one expression test-only selector fix",
+  "why": "X06 Android real Workspace Search 2/2 and protocol guard SUCCESS exact SHA, global A5 OPEN",
   "how": "Use SemanticsNodeInteractionCollection member [0] proven Role=Button in both real logs; no production changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Single-file code correction then directed Android CI 2/2 and guard exact same new SHA"
+  "next": "X08 separate READY permit after B1-B5 re-evaluation; one genuine Workspace truncation PARTIAL Android test"
 }
