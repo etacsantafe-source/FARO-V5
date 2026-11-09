@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.COMPOSE_IMPORTS_B7_REDFIX2.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.COMPOSE_B7_REDFIX2_WAIT_CI.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "004b3a1c41adf6126afcdfe3d43a10778d8b7496",
+  "target_head": "f3180f9c83f0d91540c00db751e2ac4f705aad64",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 617,
-  "timestamp": 1794216839,
-  "purpose": "A5.7 Compose two failed Kotlin test imports; B2/B3/B5 review and B7 RED_FIX2 then single-file correction; G15 final only",
-  "last_checkpoint": "S3_A5_7_COMPOSE_REDFIX2_RED@004b3a1c41adf6126afcdfe3d43a10778d8b7496"
+  "epoch": 618,
+  "timestamp": 1794217005,
+  "purpose": "CI #42594626211 and protocol guard #42594626180, no physical G15; A5 OPEN",
+  "last_checkpoint": "S3_A5_7_COMPOSE_CHAT_REDFIX2_B6_WAIT_CI@f3180f9c83f0d91540c00db751e2ac4f705aad64"
 }
