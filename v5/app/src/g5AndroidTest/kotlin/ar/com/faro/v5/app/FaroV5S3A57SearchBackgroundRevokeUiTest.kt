@@ -58,7 +58,7 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
     }
 
 
-    private fun explicitlyOpenChat() {
+    private fun explicitlyOpenChat(expectRestoredSearch: Boolean = false) {
         rule.runOnUiThread {
             val root = rule.activity.findViewById<View>(android.R.id.content)
             val button = nativeButtons(root).single {
@@ -72,25 +72,36 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
         try {
             rule.waitUntil(60_000L) {
                 runCatching {
-                    rule.onAllNodesWithText("Buscar en esta conversación",
-                        useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() &&
-                        rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
+                    if (expectRestoredSearch) {
+                        // The shell saved [CHAT, BUSCAR]; Activity recreation retains BUSCAR.
+                        // A new native click reopens the owner but must not rewrite navigation.
+                        rule.onAllNodesWithText("Buscar en FARO",
+                            useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() &&
+                            rule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().size == 1
+                    } else {
+                        rule.onAllNodesWithText("Buscar en esta conversación",
+                            useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() &&
+                            rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
+                    }
                 }.getOrDefault(false)
             }
         } catch (failure: ComposeTimeoutException) {
             // ComposeTimeoutException extends Throwable directly; catch only this
             // timeout, preserve native DEV status and original failure as cause.
             throw AssertionError(
-                "DEV Chat mount failed after explicit native click: " + nativeStatusSnapshot(),
+                "DEV " + (if (expectRestoredSearch) "restored Search" else "Chat") +
+                    " mount failed after explicit native click: " + nativeStatusSnapshot(),
                 failure,
             )
         }
         rule.waitForIdle()
     }
 
-    private fun search(query: String) {
-        rule.onNodeWithContentDescription("Abrir menú").performClick()
-        rule.onNodeWithText("Buscar").performClick()
+    private fun search(query: String, alreadyInSearch: Boolean = false) {
+        if (!alreadyInSearch) {
+            rule.onNodeWithContentDescription("Abrir menú").performClick()
+            rule.onNodeWithText("Buscar").performClick()
+        }
         rule.waitUntil(30_000L) {
             runCatching {
                 rule.onAllNodesWithText("Buscar en FARO",
@@ -156,9 +167,11 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
         rule.onAllNodesWithText("Aplicar cambios").assertCountEquals(0)
 
         // Reopen ONLY via a fresh native user click after Activity recreation.
+        // rememberSaveable restores the Search destination; requiring Chat here
+        // would test the wrong route, not Search owner recovery.
         rule.activityRule.scenario.recreate()
-        explicitlyOpenChat()
-        search(body)
+        explicitlyOpenChat(expectRestoredSearch = true)
+        search(body, alreadyInSearch = true)
         rule.waitUntil(45_000L) {
             runCatching {
                 rule.onAllNodesWithText("Fuente: workspace.conversations",
