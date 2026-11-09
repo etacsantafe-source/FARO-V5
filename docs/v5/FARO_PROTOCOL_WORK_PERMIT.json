@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
-  "reviewed_head": "bd0ff9349ca6a2350ad5cb479a1c92b7c13a3f64",
+  "reviewed_head": "4186e0b22c1afa939e57c5e5eab3772f040f0a50",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ComposeChatUiTest.kt"
   ],
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_REDFIX_COMPOSE_ANDROID_2_TESTS",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,9 +72,9 @@
       }
     ]
   },
-  "why": "B7 RED_FIX isolated invalid Kotlin test import assertExists; compile never reached instrumentation, no production regression",
+  "why": "One-line B6 RED_FIX pending Android CI/guard; no further code without final disposition",
   "how": "ONE-line test-only import deletion, exact same unit and B1-B5, no dependency/workflow edit",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Code one-line RED_FIX and verify exact new SHA Android API35 two-test instrumentation + guard"
+  "next": "Verify CI #42593488175 and guard #42593488965 exact SHA"
 }
