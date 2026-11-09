@@ -42,21 +42,38 @@ class FaroV5S3A57SearchBackgroundRevokeUiTest {
         visit(root)
     }
 
-    /** Native views remain visible when asynchronous DEV graph admission fails. */
+    /** Privacy-safe failure snapshot: view types and counts, never user text. */
     private fun nativeStatusSnapshot(): String {
-        val labels = mutableListOf<String>()
-        rule.runOnUiThread {
-            fun visit(view: View) {
-                if (view is android.widget.TextView) labels.add(view.text.toString())
-                if (view is ViewGroup) for (index in 0 until view.childCount) {
-                    visit(view.getChildAt(index))
+        val views = mutableListOf<String>()
+        val viewError = runCatching {
+            rule.runOnUiThread {
+                val root = rule.activity.findViewById<View>(android.R.id.content)
+                fun visit(view: View, depth: Int) {
+                    if (views.size >= 32 || depth > 6) return
+                    views.add(view.javaClass.simpleName + ":" +
+                        if (view.isShown) "shown" else "hidden")
+                    if (view is ViewGroup) {
+                        for (index in 0 until minOf(view.childCount, 8)) {
+                            visit(view.getChildAt(index), depth + 1)
+                        }
+                    }
                 }
+                visit(root, 0)
             }
-            visit(rule.activity.findViewById<View>(android.R.id.content))
-        }
-        return labels.joinToString(" | ").take(1000)
+        }.exceptionOrNull()?.javaClass?.simpleName ?: "none"
+        fun countFixedLabel(label: String): Int = runCatching {
+            rule.onAllNodesWithText(label, useUnmergedTree = true)
+                .fetchSemanticsNodes().size
+        }.getOrDefault(-1)
+        val editorCount = runCatching {
+            rule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().size
+        }.getOrDefault(-1)
+        return "views=" + views.joinToString(",") + "; viewError=" + viewError +
+            "; chatLabel=" + countFixedLabel("Buscar en esta conversación") +
+            "; send=" + countFixedLabel("Enviar") +
+            "; searchLabel=" + countFixedLabel("Buscar en FARO") +
+            "; editorCount=" + editorCount
     }
-
 
     private fun explicitlyOpenChat(expectRestoredSearch: Boolean = false) {
         rule.runOnUiThread {
