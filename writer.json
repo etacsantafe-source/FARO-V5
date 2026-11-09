@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X12_NATIVE.B7_PASS_SCOPED.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.COMPOSE_REAL_UI.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "72996da3c8926225e238a2a697161b5c5947697e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 610,
-  "timestamp": 1794197385,
-  "purpose": "B7 X12 native real Android emulator 2/2 PASS; A5 global OPEN; A3 unapproved, G15 final only",
-  "last_checkpoint": "S3_A5_7_ANDROID_NATIVE_LIFECYCLE_B7_PASS_SCOPED_2_OF_2@72996da3c8926225e238a2a697161b5c5947697e"
+  "epoch": 611,
+  "timestamp": 1794215632,
+  "purpose": "S3.A5.7 X12 Compose Chat real DEV emulator acceptance, B1-B7 only, no G15, no A3, no product writes",
+  "last_checkpoint": "S3_A5_7_COMPOSE_PREFLIGHT@72996da3"
 }
