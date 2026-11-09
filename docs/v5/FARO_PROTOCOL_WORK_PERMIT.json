@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_SCOPED",
-  "reviewed_head": "d2387cec50213c302969129b02d4db38abbf7691",
+  "reviewed_head": "f63acfe3518e3a91b1d16a2361a6c2c5db6a1d6f",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchPartialCanonicalUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-search-partial-canonical-android-directed.yml"
@@ -68,7 +68,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_X08_REAL_CANONICAL_PARTIAL_ANDROID_1_OF_1",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -83,9 +83,9 @@
       }
     ]
   },
-  "why": "X08 genuine canonical Workspace >4096 chars truncation results PARTIAL without false global no-match, isolated Android emulator one NEW case",
+  "why": "X08 genuine Workspace Search PARTIAL Android CI in progress, no new code until B7",
   "how": "One dedicated g5AndroidTest Compose UI test using actual 5000-char accepted USER turn and federated Search, no production code changes; dedicated workflow 1/1",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Commit only 2 test/workflow files, verify exact Android OK (1 test) and instrumentation -1, guard same SHA; audit B7 scoped, X08 ACL remains open"
+  "next": "Check CI #42633273852 exact Android 1/1 and guard #42633273765 same SHA; B7 outcome"
 }
