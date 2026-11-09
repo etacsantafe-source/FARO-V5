@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
-  "reviewed_head": "89955ede52d456cab13a96ee65c803a68cd8abd0",
+  "reviewed_head": "74f60c30fc49f4e7382971dc6356c5934ea2670e",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt"
   ],
@@ -11,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
-          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
+          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
-          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
+          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
-          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
+          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
-          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
+          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
           "marker": "## B4"
         }
       ]
@@ -51,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B1_B5_20261109.md",
-          "blob_sha": "cc6ff6c2e3ad85f57b5c890bda992cb762daea06",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B1_B5_20261109.md",
+          "blob_sha": "7486f7157cbe43e2db2cc812243296e48799ff9c",
           "marker": "## B5"
         }
       ]
@@ -61,20 +61,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "78ce6c4924b6d44af4cd5960c17815e2521c97ce",
+    "sha": "2b61c14b7295b1ce8498bb02e4009d9998d7625c",
     "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_SEARCH_RESTORE_B7_RED_FIX_20261109.md",
-        "blob_sha": "9b5193f4f9e0b25d96e1d1fb805b07aa304f7b9a",
+        "path": "docs/s3-night/S3_A5_7_X08_X12_COMPOSE_UI_COUNTS_B7_RED_FIX_20261109.md",
+        "blob_sha": "b85bd522c41d589bb383b06459cc9a37d9f5abbb",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Run 42679986787 failed 1/1 after Activity recreation. Shell rememberSaveable restores Search; test incorrectly expects Chat editor after native click",
-  "how": "Test-only verify Search destination after recreate, then search real source under fresh explicit native open; preserve all revoked-grant/ACL/zero-Apply assertions",
+  "why": "Run 42682116828 failed first Chat mount after 60s, status TextView empty; need privacy-safe view hierarchy and Compose fixed-label counts, no product change",
+  "how": "One test-only file: capture fixed-label semantics counts, edit-action count, native class names and visibility only on ComposeTimeoutException; preserve 60s and all assertions",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Run Android X08 1/1 exact SHA and mandatory B7 guard; if success audit same unit B7 before A3 implementation"
+  "next": "One directed Android X08 CI, audit exact code result B7; if red retain lock gate for A3"
 }
