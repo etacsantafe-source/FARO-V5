@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 601
+    "expected_release_epoch": 602
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_FIXTURE_WAIT_CI_20261108.md",
+  "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "Post-cutover A5 test-only canonical active8 graph + old7 WAL snapshot fix SHA 432a0d18, directed CI #42538111669 running, guard #42538111719. Previous #42537575168 had 5 tests, 2 fails grounded in fixtures. Verify XML 5/5 and B7, no G15 until final.",
-  "checkpoint_status": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_FIXTURE_WAIT_CI_A5_OPEN",
+  "next": "S3.A5 sixth scoped DEV post-cutover four-owner integration B7 PASS 5/5 CI #42538111669, guard #42538111719. Next independent X01–X12 integrated acceptance/lifecycle/a11y and final single Moto G15 physical campaign. A3 Guardados requires separate approval. Keep S3.A5 OPEN, production V2 OFF, no repeat previous six units.",
+  "checkpoint_status": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_5_OF_5_SIXTH_UNIT_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_FIXTURE_WAIT_CI_20261108.md",
+  "last_handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
   "last_code_sha": "432a0d184ba133288c5431b16757532f9b2eab12",
   "last_ci_run_id": 42538111669,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -108,7 +108,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "WAIT_CI_5_5_UNVERIFIED",
+  "last_ci_conclusion": "SUCCESS_REAL_SQLITE_FOUR_OWNER_XML_5_OF_5",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1817,14 +1817,14 @@
   },
   "a5_post_cutover_integration": {
     "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-    "status": "WAIT_CI_XML_GROUNDED_FIXTURE_FIX",
+    "status": "B7_PASS_SCOPED_REAL_SQLITE_FOUR_OWNER_5_OF_5",
     "code_sha": "432a0d184ba133288c5431b16757532f9b2eab12",
     "ci_run_id": 42538111669,
-    "ci_conclusion": "NOT_VERIFIED",
+    "ci_conclusion": "SUCCESS",
     "b1_b5": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md",
     "handoff": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_FIXTURE_WAIT_CI_20261108.md",
     "tests_expected": 5,
-    "physical": "NOT_RUN",
+    "physical": "NOT_RUN_G15_FINAL_ONLY",
     "production_v2_enabled": false,
     "initial_sha": "03f5af2ae9e1382c7a2f0ff0b9d51049868e374d",
     "protocol_ci_id": 42538111719,
@@ -1834,6 +1834,10 @@
     "previous_failed_run": 42537575168,
     "previous_failed_details": "JUNIT_5_2_0_0_SCHEMA7_CONSTRUCTOR_AND_WAL_CHECKPOINT_FIXTURES",
     "diagnostic_doc": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RUNTIME_RED_DIAGNOSTIC_20261108.md",
-    "root_cause_doc": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_XML_ROOT_CAUSES_20261108.md"
+    "root_cause_doc": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_XML_ROOT_CAUSES_20261108.md",
+    "protocol_ci_conclusion": "SUCCESS",
+    "xml": "tests=5 failures=0 errors=0 skipped=0",
+    "b7_doc": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_PASS_SCOPED_20261108.md",
+    "next": "X01-X12 final acceptance and single physical G15 later; A3 approval separately"
   }
 }
