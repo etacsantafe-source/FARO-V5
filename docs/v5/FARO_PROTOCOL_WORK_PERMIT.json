@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_COMPOSE_CHAT_REAL_ANDROID",
-  "reviewed_head": "004b3a1c41adf6126afcdfe3d43a10778d8b7496",
+  "reviewed_head": "9ddd585162bc1fb6e7f3522f3149d797968f9d86",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ComposeChatUiTest.kt"
   ],
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_CI_COMPOSE_ANDROID_REDFIX2_2_TESTS",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,9 +72,9 @@
       }
     ]
   },
-  "why": "Second same-family Kotlin test-only invalid import onAllNodes; B2/B3/B5 review compared working Compose test, remedy one-line delete",
+  "why": "After deep B2/B3/B5 same-import hypothesis audit single-line fix is in CI, no further code until B7",
   "how": "One-line removal test source only, preserve two Android instrumented tests, no product or workflow changes",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Commit only import deletion and verify new CI exact OK (2 tests), instrument -1 and guard"
+  "next": "Verify #42594626211 and guard #42594626180 exact SHA"
 }
