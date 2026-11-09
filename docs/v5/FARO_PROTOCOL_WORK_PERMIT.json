@@ -1,19 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_SCOPED",
-  "reviewed_head": "35920deb3814299f0896578e715e41c91b725061",
+  "status": "READY",
+  "unit_id": "S3_A5_7_X08_X12_BACKGROUND_SEARCH",
+  "reviewed_head": "1c0c00b9248df47f11e6d8e575005095719012dc",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchPartialCanonicalUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-search-partial-canonical-android-directed.yml"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57SearchBackgroundRevokeUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-search-background-revoke-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
-          "blob_sha": "1e40a270e110cd3fee4f50ee60bdfa317bae2c7a",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
+          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
           "marker": "## B1"
         }
       ]
@@ -22,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
-          "blob_sha": "1e40a270e110cd3fee4f50ee60bdfa317bae2c7a",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
+          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
           "marker": "## B2"
         }
       ]
@@ -32,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
-          "blob_sha": "1e40a270e110cd3fee4f50ee60bdfa317bae2c7a",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
+          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
           "marker": "## B3"
         }
       ]
@@ -42,13 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
-          "blob_sha": "1e40a270e110cd3fee4f50ee60bdfa317bae2c7a",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_TRUNCATION_PARTIAL_B4_B5_20261109.md",
-          "blob_sha": "f8095eb62eb73a76fa1896d9ab75dccaaa6958d5",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
+          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
           "marker": "## B4"
         }
       ]
@@ -57,28 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_X08_FEDERATED_SEARCH_ANDROID_B1_B5_20261109.md",
-          "blob_sha": "1e40a270e110cd3fee4f50ee60bdfa317bae2c7a",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_TRUNCATION_PARTIAL_B4_B5_20261109.md",
-          "blob_sha": "f8095eb62eb73a76fa1896d9ab75dccaaa6958d5",
+          "path": "docs/s3-night/S3_A5_7_X08_X12_BACKGROUND_SEARCH_B1_B5_20261109.md",
+          "blob_sha": "1f3454767f0d183110e70ac111d8b04757535be8",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_REAL_WORKSPACE_CANONICAL_TRUNCATION_PARTIAL_ANDROID_1_OF_1",
-    "B7": {
-      "status": "VERIFIED_PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
-          "blob_sha": "da4935e362b26b378e7e6e2fd8659247a8dce36d",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "f63acfe3518e3a91b1d16a2361a6c2c5db6a1d6f",
@@ -92,9 +75,9 @@
       }
     ]
   },
-  "why": "Genuine Android API35 Workspace canonical truncation PARTIAL 1/1 and protocol guard exact SHA, global X08 and A5 still open",
-  "how": "One dedicated g5AndroidTest Compose UI test using actual 5000-char accepted USER turn and federated Search, no production code changes; dedicated workflow 1/1",
+  "why": "X08/X12 fresh Android onPause revocation of all 4 DEV search grants and clear stale UI; 47 previously certified cases retained",
+  "how": "Delta-only in DEV Authority.Session and Activity.onPause, new directed Android emulator test/workflow; exact CI instrumentation and guard B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Separate bounded unit + READY preaudit for uncovered X08 ACL/owner invalidation UI or X09/X10 design; A3 Guardados locked"
+  "next": "Implement strict four-path B6, exact SHA Android instrumentation 1/1 and guard, B7 scope-only; A3 locked, X03/X09/X10 pending"
 }
