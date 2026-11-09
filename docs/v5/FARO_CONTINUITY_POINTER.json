@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 618
+    "expected_release_epoch": 620
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REDFIX2_B6_WAIT_CI_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; NO_GUARDADOS_CATALOG_EXPANSION; NO_PAID_APIS",
-  "next": "X12 Compose real Android third CI #42594626211 on code 9ddd585 after B2/B3/B5 same-family import review, protocol guard #42594626180. Require emulator exact OK (2 tests) and instrument -1, B7; A5 global OPEN. Older 33/33 + 4/4 + native 2/2 preserved, A3 blocked, catalog 172, G15 final only.",
-  "checkpoint_status": "S3_A5_7_COMPOSE_CHAT_REDFIX2_B6_WAIT_CI_A5_OPEN",
+  "next": "Compose X12 code 9ddd5851 CI #42594626211 RUNNING, guard #42594626180 SUCCESS; X01/X02 independent B1-B5 doc at docs/s3-night/S3_A5_7_X01_X02_REAL_ACTIVITY_AVISOS_UI_B1_B5_20261109.md, NO code permission until Compose B7. Old 33/33+4/4+native 2/2 certified, G15 final only, catalog172/A3 blocked.",
+  "checkpoint_status": "S3_A5_7_COMPOSE_REDFIX2_B6_WAIT_CI_X01_X02_B1_B5_DOC_ONLY_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
   "last_handoff": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_REDFIX2_B6_WAIT_CI_20261109.md",
   "last_code_sha": "9ddd585162bc1fb6e7f3522f3149d797968f9d86",
@@ -1883,5 +1883,12 @@
       42593488175
     ],
     "b7_redfix2": "docs/s3-night/S3_A5_7_COMPOSE_CHAT_B7_REDFIX2_IMPORTS_AUDIT_20261109.md"
+  },
+  "a5_7_activity_avisos_preaudit": {
+    "status": "B1_B5_DOCUMENTED_ONLY_NO_READY_PERMIT",
+    "doc": "docs/s3-night/S3_A5_7_X01_X02_REAL_ACTIVITY_AVISOS_UI_B1_B5_20261109.md",
+    "sha": "21d239ae9d41054ba34efb3f418db1621cf96197",
+    "depends_on": "COMPOSE_X12_B7_FINAL",
+    "physical": "NOT_RUN_G15"
   }
 }
