@@ -1,0 +1,7 @@
+# FARO V5 — S3.A5 post-cutover integración B6 FIXTURE_WAIT_CI
+Fecha AR 2026-11-08. Unidad `S3_A5_POST_CUTOVER_DEV_INTEGRATION`, writer epoch601. Cinco subunidades A5 históricas B7 PASS intactas.
+- B1–B5: `docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B1_B5_20261108.md`.
+- Primer nuevo código `03f5af2a`: CI #42536498612 Kotlin suspend FAIL, test-only fix `3eda9c27`: CI #42536901243 runtime 2/4 FAIL + quinto no descubierto. Diagnóstico `3012c682`: CI #42537575168 XML tests=5 failures=2 errors=0 skipped=0, causa exacta en `docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_XML_ROOT_CAUSES_20261108.md`.
+- Test-only fix exacto `432a0d184ba133288c5431b16757532f9b2eab12` usa `FaroV5ActiveGenerationGraphOwner.openExistingPlanning8ForCertifiedHost` en lugar de constructor schema7 sobre active8 y mide bytes old7 DESPUÉS de checkpoint WAL del close y ANTES de cutover. No se cambia runtime, datos, permisos, UI, manifest ni workflow de diagnóstico; cinco tests y criterios inalterados.
+- Nueva CI [#42538111669](https://github.com/etacsantafe-source/FARO-V5/actions/runs/42538111669) IN_PROGRESS al checkpoint, guard #42538111719. B6=WAIT_CI, B7=PENDING; falta XML tests=5 failures=0 errors=0 skipped=0 y diff + run SHA. No declarar PASS anticipado ni duplicar suites.
+- Próximo paso: verificar CI y XML exactos; si rojo, mirar `S3_A5_TEST_DIAGNOSTIC_CASE`; si verde B7 independiente y actualizar pointer. S3.A5 OPEN. V2 productiva OFF, S4/Auto/Noche OFF; G15 solo al final X01–X12, A3 requiere aprobación separada del catálogo.
