@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_SEARCH_RESTORE_TEST",
-  "token_hash": "fd35946b60fa7b2d026d14c2862073e1eb005a0a190a15fba7010a19bfca0fde",
-  "target_head": "ec0338cfee2f9dacad7ac9cf63ed8adc1f35da14",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_UI_DIAG_AUDIT",
+  "token_hash": "7254d191901af51ec5e240966e7eabe92e4fc5a6e441cfa4b87b35f717e5f44b",
+  "target_head": "2b61c14b7295b1ce8498bb02e4009d9998d7625c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 652,
-  "timestamp": 1794251933,
-  "purpose": "Same X08 test-only restore Search route after recreate; preserve fresh grant and canonical hit checks",
-  "last_checkpoint": "S3_A5_7_X08_SEARCH_RESTORE_TEST_B6_WAIT_CI@2b61c14b7295b1ce8498bb02e4009d9998d7625c"
+  "epoch": 653,
+  "timestamp": 1794252516,
+  "purpose": "B7 RED_FIX run42682116828 + B1-B5 privacy-safe Compose UI presence diagnostics, same unit"
 }
