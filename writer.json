@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER.FIXTURE_WAIT_CI.RELEASED",
+  "status": "ACTIVE",
+  "owner": "FARO.MANUAL.S3A5.POST_CUTOVER_B7_PASS.EPOCH602",
   "token_hash": "7f76b44551f32b7513445e4b1a2ceaaca603b7bebc800f5585f870432ed18d2e",
   "target_head": "8406001cf6d404f327a13c85e6d9965a60414483",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 601,
-  "timestamp": 1794182674,
-  "purpose": "S3.A5 integrated DEV 5-case fixture fix SHA 432a0d18 CI #42538111669 WAIT_CI. B7 not certified. No G15, V2 productive OFF",
-  "last_checkpoint": "S3_A5_POST_CUTOVER_DEV_INTEGRATION_B6_FIXTURE_WAIT_CI@8406001c"
+  "epoch": 602,
+  "timestamp": 1794182841,
+  "purpose": "Independent B7 of S3.A5 Reality8 post-cutover new 5/5 SQLite four-owner integration, exact CI #42538111669+guard success; documentation only",
+  "last_checkpoint": "S3_A5_POST_CUTOVER_JUNIT_XML_PASS_5_5@432a0d18"
 }
