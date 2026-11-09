@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "35920deb3814299f0896578e715e41c91b725061",
+  "target_head": "2ea8033aefd6e3d49436988bebaef07ed93d1b62",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 637,
-  "timestamp": 1794234397,
-  "purpose": "B7 independent exact Android API35 1/1 Workspace canonical PARTIAL UI + protocol guard success; no production changes, G15 final",
-  "last_checkpoint": "S3_A5_7_X08_CANONICAL_PARTIAL_B6_WAIT_CI@35920deb3814299f0896578e715e41c91b725061"
+  "epoch": 638,
+  "timestamp": 1794234468,
+  "purpose": "X08 true Workspace canonical partial API35 1/1 PASS CI #42633273852 guard #42633273765, global A5 OPEN G15 final only",
+  "last_checkpoint": "S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_1_OF_1@2ea8033aefd6e3d49436988bebaef07ed93d1b62"
 }
