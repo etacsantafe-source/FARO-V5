@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_PARTIAL_REAL_FIXTURE_DOC_ONLY.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_B7_RED_FIX_SEMANTICS_SELECTOR.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "d3004be906fc5f45beaf4adca6c9e1cda4a23e01",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 632,
-  "timestamp": 1794231228,
-  "purpose": "B4/B5 genuine canonical Workspace Search PARTIAL fixture documented, no code; X06 CI #42625768734 ongoing; A5 OPEN G15 final",
+  "epoch": 633,
+  "timestamp": 1794231488,
+  "purpose": "X06 search Android test-only selector ambiguity two click nodes Button and offscreen Tab; B7 RED_FIX one expression, no product changes",
   "last_checkpoint": "S3_A5_7_X08_REAL_PARTIAL_DOC_X06_CI_WAIT@d3004be906fc5f45beaf4adca6c9e1cda4a23e01"
 }
