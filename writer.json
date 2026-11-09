@@ -1,23 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_REDFIX_RESTORED_NAV",
-  "token_hash": "e48fd4b50f0f1a541a37fd81c35c102b803c73583279683f9b278bcd72940fb3",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_ASSERTION_REDFIX",
+  "token_hash": "45b8d0dc4e227ae89a3470f03de2ecbb765265777b57d708ced856a006e63aff",
   "target_head": "459a7659be08e5f43579d5988edd571d77d6ce4d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 641,
-  "timestamp": 1794247762,
-  "purpose": "Same-unit RED_FIX diagnostic catch AssertionError, respect rememberSaveable Search restoration",
-  "last_checkpoint": "S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B6_WAIT_CI@459a7659be08e5f43579d5988edd571d77d6ce4d",
-  "recovery": {
-    "mode": "HUMAN_AUTHORIZED_ADMINISTRATIVE_RELEASE",
-    "prior_state": "HELD",
-    "prior_ref_sha": "e480130c21c0cd12a07ac1f515091343127e2ce3",
-    "original_owner": "FARO.MANUAL.S3A5_7.X08_REDFIX_RESTORED_NAV",
-    "owner_token_available": false,
-    "authorization": "User requested writer recovery on 2026-11-09 after stopping prior session; no A5.7 certification authorized",
-    "controls": "Expected remote SHA; fast-forward only; no force push; S3 target HEAD unchanged; no S3 Actions queued/in progress; FARO Auto and Noche disabled",
-    "a5_status": "OPEN_RED_FIX_NOT_CERTIFIED",
-    "scope": "writer-lock branch only, no S3 code, no catalog, no V2 activation"
-  }
+  "epoch": 642,
+  "timestamp": 1794248089,
+  "purpose": "S3.A5.7 X08 same-unit RED_FIX documentary B7 and B1-B5 for failed diagnostic catch, no A3"
 }
