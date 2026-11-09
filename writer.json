@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A5_7.X08_BACKGROUND_REDFIX",
   "token_hash": "d942fd808d4b413876f55fbb8fbb6003e4a62c9b42d69f19a64c9b3fb73931ab",
-  "target_head": "a7ca8362fffa0c4fe54ad7a04cbbe80f2087fb78",
+  "target_head": "459a7659be08e5f43579d5988edd571d77d6ce4d",
   "target_branch": "work/s3-night-20261102",
   "epoch": 640,
-  "timestamp": 1794241020,
+  "timestamp": 1794241100,
   "purpose": "Exact Android emulator failure B7 RED_FIX investigation and diagnostic same unit",
-  "last_checkpoint": "S3_A5_7_X08_X12_BACKGROUND_SEARCH_B6_WAIT_CI@a7ca8362fffa0c4fe54ad7a04cbbe80f2087fb78"
+  "last_checkpoint": "S3_A5_7_X08_X12_REOPEN_DIAGNOSTIC_B6_WAIT_CI@459a7659be08e5f43579d5988edd571d77d6ce4d"
 }
