@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
-  "reviewed_head": "1080dd13df0f88800ede6aa334bb86a01bf08ede",
+  "reviewed_head": "db8935961c4b1000f34fa1d952be859e6cf089e8",
   "paths": [
     "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5S3A5PostCutoverIntegrationTest.kt",
     ".github/workflows/faro-v5-s3-a5-post-cutover-dev-integration-directed.yml"
@@ -58,24 +58,24 @@
         }
       ]
     },
-    "B6": "WAIT_CI_DIAGNOSTIC_42537575168_NO_XML_VERIFIED",
-    "B7": "PENDING_INDEPENDENT_AUDIT_AFTER_DIAGNOSTIC"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "3eda9c270478b6e2bae435d164664873d36665d5",
+    "sha": "3012c682f558b83e360eb10246176e1a1fdbee60",
     "unit_id": "S3_A5_POST_CUTOVER_DEV_INTEGRATION",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_RUNTIME_RED_DIAGNOSTIC_20261108.md",
-        "blob_sha": "6fe36b889fac807e6d91f5957e06120d334cbf54",
+        "path": "docs/s3-night/S3_A5_POST_CUTOVER_DEV_INTEGRATION_B7_XML_ROOT_CAUSES_20261108.md",
+        "blob_sha": "22a7222f0bfba2f3722dc2629b32b7e0162ccca8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Runtime failure 2/4 in prior CI; diagnostic logs and void ABA test commit 3012c682 running; no evidence to alter product or certify",
-  "how": "Tests only: explicit Unit test result + workflow failure log XML; no product source modification or assertions reduced",
+  "why": "Exact JUnit 5/5 discovered 2 red test fixtures: schema7 constructor on active8 and WAL bytes sampled before old7 close; production graph not implicated",
+  "how": "Single test-only patch: reuse canonical active8 graph for seed and sample old7 file after closing normal SQLite; no change to asserts",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "Review #42537575168 TEST_DIAGNOSTIC_CASE logs + exact JUnit XML; only new B5 evidence if red, no blind retries"
+  "next": "One 5/5 directed CI XML after fixture correction, then independent B7 if green, no additional code without evidence"
 }
