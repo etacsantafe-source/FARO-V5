@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
-  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_B7_RED_FIX_SEMANTICS_SELECTOR.20261109",
+  "status": "RELEASED",
+  "owner": "FARO.MANUAL.S3A5_7.X06_SEARCH_ANDROID_B7_PASS_SCOPED.RELEASED",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
-  "target_head": "d3004be906fc5f45beaf4adca6c9e1cda4a23e01",
+  "target_head": "d2387cec50213c302969129b02d4db38abbf7691",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 633,
-  "timestamp": 1794231488,
-  "purpose": "X06 search Android test-only selector ambiguity two click nodes Button and offscreen Tab; B7 RED_FIX one expression, no product changes",
-  "last_checkpoint": "S3_A5_7_X08_REAL_PARTIAL_DOC_X06_CI_WAIT@d3004be906fc5f45beaf4adca6c9e1cda4a23e01"
+  "epoch": 634,
+  "timestamp": 1794233720,
+  "purpose": "X06 real Android Search 2/2 CI #42627471693 guard #42627471860 SUCCESS; next X08 PARTIAL fixture, G15 final only",
+  "last_checkpoint": "S3_A5_7_X06_SEARCH_ANDROID_B7_PASS_SCOPED_2_OF_2@d2387cec50213c302969129b02d4db38abbf7691"
 }
