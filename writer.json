@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5.7.B6_WAIT_CI.RELEASED",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.B7.XML4_PASS.20261109",
   "token_hash": "00f85177f63adacad35c7ec04aa7752ab2974f476d56c755e342499b1df66c45",
   "target_head": "09fc6f2ea7357afb02a0f6c48c51c27fe611393c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 604,
-  "timestamp": 1794196204,
-  "purpose": "B6 test+workflow committed; CI 42558390722 in progress, guard 42558390742 SUCCESS; A5 OPEN, G15 NOT_RUN",
+  "epoch": 605,
+  "timestamp": 1794196395,
+  "purpose": "B7 independent scoped acceptance audit after exact 4/4 and guard green; no phone, no A3",
   "last_checkpoint": "S3_A5_7_OWNER_REVISION_B6_WAIT_CI@09fc6f2ea7357afb02a0f6c48c51c27fe611393c"
 }
