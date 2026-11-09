@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A5_7.X08_COMPOSE_TIMEOUT_CAUSAL",
-  "token_hash": "32df21f38aa3a058a341850f312b239c366fa1061b2f5474c23e1e2c14b6a241",
-  "target_head": "488d2988f2f0a7492ce0c095a9bf2a40e71f9549",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A5_7.X08_COMPOSE_THROWABLE_PERMIT",
+  "token_hash": "2e6ec91b8e579814a839aa846f02d40c3e59d5abafe983c4132d20f5f6962fe0",
+  "target_head": "02b8f00c14c39d6c97a15b9af33fd231aa68f61c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 646,
-  "timestamp": 1794250293,
-  "purpose": "Same-unit X08 X12 RED_FIX B7 real Android + narrow ComposeTimeoutException B1-B5; no A3 write",
-  "last_checkpoint": "S3_A5_7_X08_COMPOSE_THROWABLE_B7_B1_B5_DOC@02b8f00c14c39d6c97a15b9af33fd231aa68f61c"
+  "epoch": 647,
+  "timestamp": 1794250318,
+  "purpose": "Same-unit X08 B1-B5 READY permit for direct ComposeTimeoutException catch only"
 }
