@@ -97,8 +97,8 @@ class FaroV5S3A57SearchComposeUiTest {
         assertEquals(1, editors.fetchSemanticsNodes().size)
         editors[0].performTextInput(query)
         // Avoid two non-clickable "Buscar" texts (TopAppBar and page title).
-        // Select the real Material Button through its semantics click action.
-        rule.onNode(hasText("Buscar") and hasClickAction()).performClick()
+        // Android35 semantics shows first clickable Buscar=visible Button; the\n        // second is an offscreen selected Tab. Never click ambiguous onNode.
+        rule.onAllNodes(hasText("Buscar") and hasClickAction())[0].performClick()
     }
 
     @Test
