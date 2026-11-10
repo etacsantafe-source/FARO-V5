@@ -61,10 +61,11 @@ class AuxiliaryBookmarkStore internal constructor(
                        generation_id, folder_id, favorite, lifecycle, revision
                 FROM bookmark_item WHERE lifecycle = 'ACTIVE'
             """.trimIndent()
-            if (request.cursor != null) query += " AND bookmark_id > ?"
+            val cursor = request.cursor
+            if (cursor != null) query += " AND bookmark_id > ?"
             query += " ORDER BY bookmark_id LIMIT ${request.limit + 1}"
             db.prepare(query).use { statement ->
-                if (request.cursor != null) statement.bindText(1, request.cursor.value)
+                cursor?.let { statement.bindText(1, it.value) }
                 while (statement.step()) {
                     val item = BookmarkMetadata(
                         id = BookmarkId(statement.getText(0)),
@@ -108,11 +109,12 @@ class AuxiliaryBookmarkStore internal constructor(
     }
 
     private fun mutateLocked(request: BookmarkMutationRequest): BookmarkMutationResult {
+        val mutation = request.mutation
         if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken)) {
             return BookmarkMutationResult.Unavailable
         }
-        if (request.mutation is BookmarkMutation.Add &&
-            !targetAllowed(request.mutation.bookmark.target)
+        if (mutation is BookmarkMutation.Add &&
+            !targetAllowed(mutation.bookmark.target)
         ) {
             return BookmarkMutationResult.Unavailable
         }
@@ -141,12 +143,6 @@ class AuxiliaryBookmarkStore internal constructor(
             if (request.expectedRevision != revision) {
                 return abort(BookmarkMutationResult.Stale(revision))
             }
-            val rejection = applyMutation(request.mutation)
-            if (rejection != null) return abort(BookmarkMutationResult.Rejected(rejection))
-            if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken) ||
-                (request.mutation is BookmarkMutation.Add &&
-                    !targetAllowed(request.mutation.bookmark.target))
-            ) return abort(BookmarkMutationResult.Unavailable)
             if (current == null) {
                 db.prepare(
                     "INSERT INTO bookmark_scope(scope_id,generation_id,authority_digest,revision)" +
@@ -157,6 +153,11 @@ class AuxiliaryBookmarkStore internal constructor(
                     st.step()
                 }
             }
+            val rejection = applyMutation(mutation)
+            if (rejection != null) return abort(BookmarkMutationResult.Rejected(rejection))
+            if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken) ||
+                (mutation is BookmarkMutation.Add && !targetAllowed(mutation.bookmark.target))
+            ) return abort(BookmarkMutationResult.Unavailable)
             val next = revision + 1
             db.prepare("UPDATE bookmark_scope SET revision=? WHERE scope_id=1 AND revision=?").use { st ->
                 st.bindLong(1, next)
@@ -193,8 +194,9 @@ class AuxiliaryBookmarkStore internal constructor(
                 ) return BookmarkRejection.ALREADY_EXISTS
                 if (count("SELECT COUNT(*) FROM bookmark_item") >= BookmarkPolicy.MAX_BOOKMARKS)
                     return BookmarkRejection.QUOTA_EXCEEDED
-                if (b.folderId != null &&
-                    !exists("SELECT 1 FROM bookmark_folder WHERE folder_id=?", b.folderId.value)
+                val folderId = b.folderId
+                if (folderId != null &&
+                    !exists("SELECT 1 FROM bookmark_folder WHERE folder_id=?", folderId.value)
                 ) return BookmarkRejection.NOT_FOUND
                 db.prepare(
                     "INSERT INTO bookmark_item(bookmark_id,generation_id,conversation_id," +
@@ -204,7 +206,7 @@ class AuxiliaryBookmarkStore internal constructor(
                     st.bindText(2, b.target.generationId)
                     st.bindText(3, b.target.conversationId.value)
                     st.bindText(4, b.target.messageId.value)
-                    if (b.folderId == null) st.bindNull(5) else st.bindText(5,b.folderId.value)
+                    if (folderId == null) st.bindNull(5) else st.bindText(5, folderId.value)
                     st.bindLong(6, if (b.favorite) 1 else 0)
                     st.bindText(7, b.lifecycle.name)
                     st.bindLong(8, b.revision)
@@ -250,16 +252,17 @@ class AuxiliaryBookmarkStore internal constructor(
                 null
             }
             is BookmarkMutation.FolderAssign -> {
+                val folderId = mutation.folderId
                 if (!exists("SELECT 1 FROM bookmark_item WHERE bookmark_id=?",mutation.id.value))
                     return BookmarkRejection.NOT_FOUND
-                if (mutation.folderId != null &&
-                    !exists("SELECT 1 FROM bookmark_folder WHERE folder_id=?",mutation.folderId.value)
+                if (folderId != null &&
+                    !exists("SELECT 1 FROM bookmark_folder WHERE folder_id=?", folderId.value)
                 ) return BookmarkRejection.NOT_FOUND
                 db.prepare(
                     "UPDATE bookmark_item SET folder_id=?,revision=revision+1 WHERE bookmark_id=?"
                 ).use { st ->
-                    if (mutation.folderId == null) st.bindNull(1)
-                    else st.bindText(1,mutation.folderId.value)
+                    if (folderId == null) st.bindNull(1)
+                    else st.bindText(1, folderId.value)
                     st.bindText(2,mutation.id.value)
                     st.step()
                 }
