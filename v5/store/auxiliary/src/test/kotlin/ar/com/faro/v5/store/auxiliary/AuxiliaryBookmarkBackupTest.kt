@@ -97,6 +97,20 @@ class AuxiliaryBookmarkBackupTest {
         assertThrows(IllegalArgumentException::class.java) { b.copy(receipts = List(100001) { b.receipts.first() }) }
     }
 
+    @Test fun unicodeIdsUseCanonicalKotlinOrderAcrossSQLiteRestore() {
+        val ids = listOf("\uE000", "\uD800\uDC00")
+        val snapshot = store("unicode").use { source ->
+            ids.forEachIndexed { index, id ->
+                sync { source.bookmarks.mutate(request(index.toLong(), id,
+                    BookmarkMutation.FolderCreate(BookmarkFolder(BookmarkFolderId(id), "Folder")))) }
+            }
+            source.backup.snapshot()
+        }
+        assertEquals(ids.sorted(), snapshot.bookmarks!!.folders.map { it.id.value })
+        assertEquals(ids.sorted(), snapshot.bookmarks!!.receipts.map { it.key })
+        store("unicode-target").use { assertEquals(snapshot, it.backup.restoreOrVerify(snapshot)) }
+    }
+
     @Test fun absentLegacySectionDoesNotBecomeVerifiedEmptyOrOverwrite() {
         val snapshot = store("source").use(::seed).copy(bookmarks = null)
         store("target").use {

@@ -41,6 +41,7 @@ enum class BackupContentClass(
     COMMERCIAL_EVIDENCE(BackupStateClass.RESTORABLE_AUTHORITY, true),
     WEB_EVIDENCE(BackupStateClass.RESTORABLE_AUTHORITY, true),
     AUXILIARY_NOTICES(BackupStateClass.RESTORABLE_AUTHORITY, true),
+    AUXILIARY_BOOKMARKS(BackupStateClass.RESTORABLE_AUTHORITY, true),
     REBUILDABLE_PROJECTIONS(BackupStateClass.REBUILDABLE, false),
     SECRETS(BackupStateClass.SECRET, false),
     PREPARED_APPLY_ATTEMPTS(BackupStateClass.OPERATIONAL_TRANSIENT, false),
@@ -70,7 +71,7 @@ data class BackupClassDecision(
 
 object BackupClassPolicy {
     val decisions: List<BackupClassDecision> =
-        BackupContentClass.entries.map { contentClass ->
+        BackupContentClass.entries.filter { it != BackupContentClass.AUXILIARY_BOOKMARKS }.map { contentClass ->
             BackupClassDecision(
                 contentClass = contentClass,
                 stateClass = contentClass.stateClass,
@@ -87,6 +88,8 @@ object BackupClassPolicy {
                             "restorable retained Web Evidence"
                         BackupContentClass.AUXILIARY_NOTICES ->
                             "retained Notice authority without delivery projections"
+                        BackupContentClass.AUXILIARY_BOOKMARKS ->
+                            "retained Guardados metadata and auxiliary receipts without access grants"
                         BackupContentClass.REBUILDABLE_PROJECTIONS ->
                             "rebuild from restored authority"
                         BackupContentClass.SECRETS ->
@@ -102,6 +105,11 @@ object BackupClassPolicy {
                     },
             )
         }
+    /** Wire v3 only; decisions above remains the exact historical v1/v2 policy. */
+    val decisionsWithBookmarks: List<BackupClassDecision> = decisions + BackupClassDecision(
+        BackupContentClass.AUXILIARY_BOOKMARKS, BackupStateClass.RESTORABLE_AUTHORITY, true,
+        "retained Guardados metadata and auxiliary receipts without access grants",
+    )
 }
 
 data class BackupSectionManifest(
@@ -147,7 +155,8 @@ data class BackupSetManifest(
         require(sections == sections.sortedBy { it.sectionId }) {
             "backup sections must be in canonical order"
         }
-        require(classDecisions == BackupClassPolicy.decisions) {
+        require(classDecisions == BackupClassPolicy.decisions ||
+            classDecisions == BackupClassPolicy.decisionsWithBookmarks) {
             "backup class policy does not match canonical FARO policy"
         }
         require(restoreReplayFenceRequired) {
@@ -489,6 +498,8 @@ private object BackupManifestBuilder {
                 webSection(payload.webEvidence),
             ).sortedBy { it.sectionId }
 
+        val classDecisions = if (payload.auxiliary.bookmarks != null)
+            BackupClassPolicy.decisionsWithBookmarks else BackupClassPolicy.decisions
         val fingerprint =
             manifestFingerprint(
                 backupSetId = backupSetId,
@@ -496,7 +507,7 @@ private object BackupManifestBuilder {
                 productVersion = productVersion,
                 createdAtEpochMillis = createdAtEpochMillis,
                 sections = sections,
-                classDecisions = BackupClassPolicy.decisions,
+                classDecisions = classDecisions,
             )
 
         return BackupSetManifest(
@@ -506,7 +517,7 @@ private object BackupManifestBuilder {
             productVersion = productVersion,
             createdAtEpochMillis = createdAtEpochMillis,
             sections = sections,
-            classDecisions = BackupClassPolicy.decisions,
+            classDecisions = classDecisions,
             restoreReplayFenceRequired = true,
             setFingerprint = fingerprint,
         )

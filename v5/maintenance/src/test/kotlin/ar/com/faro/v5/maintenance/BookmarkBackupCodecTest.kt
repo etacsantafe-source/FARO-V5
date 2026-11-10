@@ -49,6 +49,7 @@ class BookmarkBackupCodecTest {
         val set = capture(snapshot(), timed = true)
         val bytes = SemanticBackupSetCodec.encode(set)
         assertEquals(3, ByteBuffer.wrap(bytes).getInt(4))
+        assertTrue(set.manifest.classDecisions.any { it.contentClass == BackupContentClass.AUXILIARY_BOOKMARKS && it.included })
         assertEquals(set, SemanticBackupSetCodec.decode(bytes))
         assertEquals(4L, set.manifest.sections.single { it.sectionId == "auxiliary" }.recordCount)
     }

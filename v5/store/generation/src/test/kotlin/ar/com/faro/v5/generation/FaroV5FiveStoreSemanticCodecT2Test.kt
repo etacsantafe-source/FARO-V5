@@ -117,7 +117,7 @@ class FaroV5FiveStoreSemanticCodecT2Test {
     @Test fun fiveStoreContainerRoundTripsTimedRealityReceiptsWithoutLosingFbs1V2() {
         val source = FaroV5FiveStoreSemanticSet(fourStore(timed = true), workspace())
         val inner = SemanticBackupSetCodec.encode(source.fourStore)
-        assertEquals(2, ByteBuffer.wrap(inner).getInt(4)) // inner FBS1 v2
+        assertEquals(3, ByteBuffer.wrap(inner).getInt(4)) // inner FBS1 v3 with explicit Guardados
         val outer = FaroV5FiveStoreSemanticCodec.encode(source)
         val roundTrip = FaroV5FiveStoreSemanticCodec.decode(outer)
         assertEquals(source, roundTrip)

@@ -38,7 +38,7 @@ jobs:
           set -euo pipefail
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :store:auxiliary:test --tests '*AuxiliaryBookmarkBackupTest' --tests '*AuxiliaryDeliveryStoreTest' \
-            :maintenance:test --tests '*BookmarkBackupCodecTest' --tests '*SemanticBackupRestoreT2Test' --tests '*PortableBackupArchiveCryptoT2Test' \
+            :maintenance:test --tests '*BookmarkBackupCodecTest' --tests '*SemanticBackupRestoreT2Test' --tests '*PortableBackupArchiveCryptoT2Test' --tests '*LegacyGenerationAndBackupV1T1Test' \
             :store:generation:test --tests '*FaroV5FiveStoreSemanticCodecT2Test' --tests '*FaroV5FiveStoreBackupCaptureT2Test' --tests '*FaroV5FiveStoreStagedRestoreT2Test' --tests '*FaroV5FiveStorePortableBackupCryptoT2Test'
       - name: Verify new tests and affected regression XML without skips
         run: |
@@ -46,10 +46,11 @@ jobs:
           import xml.etree.ElementTree as ET
           from pathlib import Path
           expected = {
-            'AuxiliaryBookmarkBackupTest': 6,
+            'AuxiliaryBookmarkBackupTest': 7,
             'BookmarkBackupCodecTest': 4,
             'AuxiliaryDeliveryStoreTest': None,
             'SemanticBackupRestoreT2Test': None,
+            'LegacyGenerationAndBackupV1T1Test': None,
             'PortableBackupArchiveCryptoT2Test': None,
             'FaroV5FiveStoreSemanticCodecT2Test': None,
             'FaroV5FiveStoreBackupCaptureT2Test': None,
@@ -65,7 +66,7 @@ jobs:
               assert tests > 0 and (count is None or tests == count) and (failures,errors,skipped) == (0,0,0), (name, suite.attrib)
               total += tests
               print(name, tests, 'PASS')
-          print('S3_A3_BOOKMARK_BACKUP_NEW_PASS 10/10')
+          print('S3_A3_BOOKMARK_BACKUP_NEW_PASS 11/11')
           print('S3_A3_BOOKMARK_BACKUP_TOTAL_PASS', total)
           PY
       - uses: actions/upload-artifact@v4

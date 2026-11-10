@@ -111,7 +111,8 @@ internal object AuxiliaryBookmarkBackupStorage {
         val receipts = mutableListOf<BookmarkBackupReceipt>()
         db.prepare("SELECT idempotency_key,request_hash,result_revision FROM bookmark_receipt ORDER BY idempotency_key LIMIT ${BookmarkBackupSnapshot.MAX_RECEIPTS + 1}")
             .use { s -> while (s.step()) receipts += BookmarkBackupReceipt(s.getText(0), s.getText(1), s.getLong(2)) }
-        return BookmarkBackupSnapshot(scope, folders, items, receipts)
+        return BookmarkBackupSnapshot(scope, folders.sortedBy { it.id.value },
+            items.sortedBy { it.id.value }, receipts.sortedBy { it.key })
     }
 
     fun restore(db: SQLiteConnection, snapshot: BookmarkBackupSnapshot) {

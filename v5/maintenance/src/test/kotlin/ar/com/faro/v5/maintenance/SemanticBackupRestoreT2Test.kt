@@ -88,7 +88,7 @@ class SemanticBackupRestoreT2Test {
             }
 
         assertEquals(1, quiescence.calls)
-        assertEquals(BackupClassPolicy.decisions, backupSet.manifest.classDecisions)
+        assertEquals(BackupClassPolicy.decisionsWithBookmarks, backupSet.manifest.classDecisions)
         assertFalse(
             backupSet.manifest.classDecisions
                 .single { it.contentClass == BackupContentClass.DELIVERY_INTENTS }
@@ -189,16 +189,16 @@ class SemanticBackupRestoreT2Test {
 
 
     @Test
-    fun timedReceiptFbs1V2RoundTripsWithoutChangingLegacyV1Wire() {
+    fun currentGuardadosV3PreservesTimedAndUntimedReceiptRoundTrips() {
         val legacy = sampleBackupSet()
         val legacyBytes = SemanticBackupSetCodec.encode(legacy)
-        assertEquals(1, java.nio.ByteBuffer.wrap(legacyBytes).getInt(4))
+        assertEquals(3, java.nio.ByteBuffer.wrap(legacyBytes).getInt(4))
         assertEquals(legacy, SemanticBackupSetCodec.decode(legacyBytes))
         assertTrue(legacy.reality.committedReceipts.all { it.commitRecordedAtEpochMillis == null })
 
         val timed = sampleBackupSet(timed = true)
         val timedBytes = SemanticBackupSetCodec.encode(timed)
-        assertEquals(2, java.nio.ByteBuffer.wrap(timedBytes).getInt(4))
+        assertEquals(3, java.nio.ByteBuffer.wrap(timedBytes).getInt(4))
         val decoded = SemanticBackupSetCodec.decode(timedBytes)
         assertEquals(timed, decoded)
         assertEquals(12_345L, decoded.reality.committedReceipts.single().commitRecordedAtEpochMillis)

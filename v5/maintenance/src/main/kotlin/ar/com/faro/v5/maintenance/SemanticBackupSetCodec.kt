@@ -115,7 +115,7 @@ object SemanticBackupSetCodec {
             }
             val decoded =
                 SemanticBackupSet(
-                    manifest = readManifest(input),
+                    manifest = readManifest(input, version),
                     reality = readReality(input, version),
                     commercialEvidence = readCommercial(input),
                     webEvidence = readWeb(input),
@@ -149,7 +149,7 @@ object SemanticBackupSetCodec {
         writeString(output, manifest.setFingerprint)
     }
 
-    private fun readManifest(input: DataInputStream): BackupSetManifest {
+    private fun readManifest(input: DataInputStream, version: Int): BackupSetManifest {
         val formatVersion = input.readInt()
         val backupSetId = BackupSetId(readString(input))
         val sourceGenerationId = StorageGenerationId(readString(input))
@@ -177,7 +177,8 @@ object SemanticBackupSetCodec {
             productVersion = productVersion,
             createdAtEpochMillis = createdAt,
             sections = sections,
-            classDecisions = BackupClassPolicy.decisions,
+            classDecisions = if (version >= BOOKMARK_VERSION) BackupClassPolicy.decisionsWithBookmarks
+                else BackupClassPolicy.decisions,
             restoreReplayFenceRequired = input.readBoolean(),
             setFingerprint = readString(input),
         )
