@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A3.AUX_SCHEMA_B6",
-  "token_hash": "a616ecd72819be0791890543eb0a95e2a88bb32510122b34c77a13551c7d6340",
-  "target_head": "421ca5337e4d99d5a71e6924998cf40391005f05",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A3.AUX_SCHEMA_B7_CAS_PREFLIGHT",
+  "token_hash": "bdc159155b3b379ad6204ec5a2d488d864e8015229428eb2054757c4d0aab16c",
+  "target_head": "1b9fa3e8f51d8705678716cee19ce213b3bca29b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 661,
-  "timestamp": 1794269766,
-  "purpose": "S3.A3 Auxiliary SQLite schema v3 B6 only",
+  "epoch": 662,
+  "timestamp": 1794270079,
+  "purpose": "B7 schema v3 and next preaudit CAS receipts",
   "last_checkpoint": "S3_A3_AUX_SCHEMA_V3_B6_CODE@1b9fa3e8f51d8705678716cee19ce213b3bca29b"
 }
