@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_CONTRACTS_CORE",
-  "reviewed_head": "37383b1ebb899740870eb54d98f1501175e3a7ba",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_SCHEMA_V3",
+  "reviewed_head": "1b9df754917a55c47bd775910ef6637ccd3fa785",
   "paths": [
-    "v5/kernel/contracts/src/main/kotlin/ar/com/faro/v5/kernel/contracts/BookmarkContracts.kt",
-    "v5/kernel/contracts/src/test/kotlin/ar/com/faro/v5/kernel/contracts/BookmarkContractsTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-contracts-directed.yml"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/*.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-schema-v3-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
-          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
+          "blob_sha": "e015811a84fca90cd9be645f18f99262fb03b297",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
-          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
+          "blob_sha": "e015811a84fca90cd9be645f18f99262fb03b297",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
-          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
+          "blob_sha": "e015811a84fca90cd9be645f18f99262fb03b297",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
-          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
+          "blob_sha": "e015811a84fca90cd9be645f18f99262fb03b297",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CONTRACTS_B1_B5_APPROVED_20261109.md",
-          "blob_sha": "8a1682f4081b815c10aa08ad4f389efaf6e8f670",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
+          "blob_sha": "e015811a84fca90cd9be645f18f99262fb03b297",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "JVM_8_OF_8_SUCCESS",
-    "B7": "PASS_SCOPED_REVIEWED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "37383b1ebb899740870eb54d98f1501175e3a7ba",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "Typed core BookmarkContracts 8/8 PASS exact run 42720699353; future Auxiliary storage unit requires independent B1-B5 permit.",
-  "how": "Keep new typed contracts frozen, do not register eight candidates or expose UI until auxiliary store + backup migration and authority validation are implemented.",
+  "why": "B1-B5 standalone schema v3 migration, no operational Guardados or data exposure; previous contracts frozen 8/8",
+  "how": "Add 3-mode auxiliary migration 0/1/2->3, no sixth Truth store, no catalog, verify directed JVM + protocol guard then B7",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_AUXILIARY_STORAGE B1-B5 investigate bounded schema v3, CAS receipts, backup/restore, generation; then READY permit before functional code."
+  "next": "CI then independent B1-B5 permit for transactional bookmark operations, receipts, ACL/generation, backup/portability"
 }
