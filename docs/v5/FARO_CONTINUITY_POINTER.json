@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-10",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_A3_FOUR_BACKEND_B7_PASS_WORK_EXECUTOR_UNAVAILABLE",
+  "phase": "S3_OPEN_REMOTE_GITHUB_CI_CATALOG_PREAUDIT_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 680
+    "expected_release_epoch": 681
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B7_PASS_20261110.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG_172_STILL_FROZEN_UNTIL_B7_AND_CAS; NO_PAID_APIS",
-  "next": "Resume after Work executor recovery. S3_A3_BOOKMARKS_CATALOG_REGISTRATION: prior human Autorizo for exact eight IDs recovered; do NOT ask again. Own B1-B5/path permit, preserve old172 descriptors and add only approved8 with CAS (180). Then trusted native operations/UI and authorized A5. Do not repeat four certified backend units. Productive V2/S4/Auto/Night OFF; physical G15 final only.",
-  "checkpoint_status": "MISSION_PARTIAL_FOUR_UNITS_B7_PASS_BLOCKED_EXECUTOR_UNAVAILABLE",
+  "next": "Remote GitHub/Actions fallback operational despite unavailable local executor. Verify documentary READY preflight CI, then acquire writer CAS and register only approved8 contracts (172→180); preserve172 metadata. Continue native integration and authorized A5 after B7.",
+  "checkpoint_status": "REMOTE_FALLBACK_VERIFIED_CATALOG_B1_B5_READY",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B7_PASS_20261110.md",
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
   "last_code_sha": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
   "last_ci_run_id": 42925035151,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -485,7 +485,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 680,
+  "last_writer_epoch_observed": 681,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -1980,7 +1980,7 @@
     "next_unit_permission": "NOT_YET_GRANTED_NEEDS_NEW_B1_B5"
   },
   "autonomous_mission_20261110": {
-    "status": "PARTIAL_BLOCKED_WORK_EXECUTOR_UNAVAILABLE",
+    "status": "ACTIVE_REMOTE_GITHUB_ACTIONS_FALLBACK",
     "initial_checkpoint": "dd365d9d24a214b0e954d032f92ec820ab150553",
     "completed_units": [
       {
@@ -2012,7 +2012,7 @@
         "b7": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B7_PASS_20261110.md"
       }
     ],
-    "blocker": "Executor marked UNAVAILABLE; exec-server transport disconnected, recovery timed out45s",
+    "blocker": "LOCAL_EXECUTOR_UNAVAILABLE_REMOTE_FALLBACK_VERIFIED",
     "last_general_core_run": {
       "id": 42925035049,
       "status": "completed",
@@ -2021,7 +2021,7 @@
     "s3_a3": "OPEN",
     "s3_a5": "OPEN",
     "catalog": 172,
-    "writer_release_epoch_expected": 680,
+    "writer_release_epoch_expected": 681,
     "no_new_contractual_approval_needed_for_exact8": true
   }
 }

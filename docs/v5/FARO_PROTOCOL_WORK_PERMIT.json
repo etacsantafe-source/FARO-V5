@@ -1,23 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY",
-  "reviewed_head": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_CATALOG_REGISTRATION",
+  "reviewed_head": "77bbd27c75af6a0e3eb6061720e1fe659ffc41af",
   "paths": [
-    "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/ConversationWorkspaceStore.kt",
-    "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmission.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkAuthorityGate.kt",
-    "v5/workspace/src/test/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmissionTest.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkAuthorityGateTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-workspace-authority-directed.yml"
+    "docs/v5/V5_OPERATION_CONTRACT_INVENTORY.md",
+    "docs/v5/V5_RG06C_07_GLOBAL_REFREEZE.md",
+    "v5/spec/generated/contract-baseline.tsv",
+    "v5/kernel/runtime/src/test/kotlin/ar/com/faro/v5/kernel/runtime/BuiltInContractCatalogTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-catalog-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
+          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
           "marker": "## B1"
         }
       ]
@@ -26,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
+          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
           "marker": "## B2"
         }
       ]
@@ -36,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
+          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
           "marker": "## B3"
         }
       ]
@@ -46,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
+          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
           "marker": "## B4"
         }
       ]
@@ -56,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
+          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
@@ -79,9 +78,9 @@
     "ci_run_id": 42925035151,
     "guard_run_id": 42925035030
   },
-  "why": "Unit backend B7 PASS 10/10; Work executor unavailable. No next-unit functional permission yet.",
-  "how": "One SELECT without text plus full pointer and read epoch fences; no native binding yet",
+  "why": "Specific prior human exact-eight approval recovered; backend B7 gates fulfilled; controlled catalog registration",
+  "how": "Preserve172, declarative exact8, official spec fresh and four runtime catalog tests",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_CATALOG_REGISTRATION: reuse prior exact-eight human approval, own B1-B5 before catalog change"
+  "next": "Verify remote preflight, then B6 and B7"
 }
