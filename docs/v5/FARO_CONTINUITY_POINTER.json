@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-09",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_MANUAL_A3_AUXILIARY_SCHEMA_V3_PERMIT_READY",
+  "phase": "S3_OPEN_MANUAL_A3_SCHEMA_V3_PASS_CAS_RECEIPTS_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 660
+    "expected_release_epoch": 662
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG_172_STILL_FROZEN_UNTIL_B7_AND_CAS; NO_PAID_APIS",
-  "next": "Execute S3_A3_BOOKMARKS_AUXILIARY_SCHEMA_V3 B6 under CAS writer + CI; then B7; proceed to transactional storage, ACL generation, receipts, backup/restore and UI independently. Existing BookmarkContracts 8/8 PASS unchanged. Catalog 172.",
-  "checkpoint_status": "S3_A3_AUXILIARY_SCHEMA_V3_B1_B5_READY",
+  "next": "Schema v3 B7 PASS scoped 5+16/16 JVM run 42726963284; Home regression success run 42726963263; guard 42726963116. Next CAS/receipts unit S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS permit READY, DB metadata only, default deny. After B7: backup/restore, ACL bridge, operations/UI. Catalog 172, V2/S4/Auto/Noche OFF.",
+  "checkpoint_status": "S3_A3_AUX_SCHEMA_V3_B7_PASS_CAS_RECEIPTS_B1_B5_READY",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B1_B5_20261109.md",
-  "last_code_sha": "37383b1ebb899740870eb54d98f1501175e3a7ba",
-  "last_ci_run_id": 42720699353,
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
+  "last_code_sha": "1b9fa3e8f51d8705678716cee19ce213b3bca29b",
+  "last_ci_run_id": 42726963284,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_8_OF_8_PASS_STORAGE_NOT_STARTED",
@@ -112,7 +112,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_JVM_8_OF_8",
+  "last_ci_conclusion": "SUCCESS_SCHEMA_V3_5_NEW_16_NOTICE",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
