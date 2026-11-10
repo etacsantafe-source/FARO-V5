@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_PORTABILITY",
-  "reviewed_head": "25a137a437dcc0f608f3d2d0657469cc711366dd",
+  "reviewed_head": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortability.kt",
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
@@ -64,26 +64,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
-    "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
+    "sha": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
+    "unit_id": "S3_A3_BOOKMARKS_PORTABILITY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_PASS_20261110.md",
-        "blob_sha": "26b22121c4b7f082be896e223337c10cd403b9c5",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B7_PASS_20261110.md",
+        "blob_sha": "536822b2140817d138e528a10f4aa8c0455f2141",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 42920844145,
-    "guard_run_id": 42920844006
+    "ci_run_id": 42922295674,
+    "guard_run_id": 42922295405
   },
-  "why": "Explicit approved portability section without access internals or messages",
+  "why": "Portability backend B7 PASS 21/21; next separate read/write authority before Workspace binding",
   "how": "Live scoped metadata projection, opt-in reader, preview hash and existing JSON approval/staging",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 directed CI then B7"
+  "next": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY"
 }
