@@ -1,0 +1,55 @@
+name: FARO V5 S3 A3 bookmark CAS receipts JVM directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-cas-receipts-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-a3-bookmark-cas-receipts-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bookmark-cas-receipts-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile Auxiliary CAS and test eight receipt/authority scenarios
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test --tests "ar.com.faro.v5.store.auxiliary.AuxiliaryBookmarkStoreTest"
+      - name: Verify exactly eight new tests and no skips
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          root = Path('v5/store/auxiliary/build/test-results/test')
+          files = sorted(root.glob('TEST-*AuxiliaryBookmarkStoreTest.xml'))
+          if len(files) != 1:
+              raise SystemExit('S3_A3_BOOKMARK_CAS_XML_MISSING ' + str(files))
+          suite = ET.parse(files[0]).getroot()
+          values = tuple(int(suite.attrib.get(k,'-1'))
+                         for k in ('tests','failures','errors','skipped'))
+          if values != (8,0,0,0):
+              raise SystemExit('S3_A3_BOOKMARK_CAS_XML_RED ' + str(values))
+          print('S3_A3_BOOKMARK_CAS_RECEIPTS_JVM_PASS 8/8')
+          PY

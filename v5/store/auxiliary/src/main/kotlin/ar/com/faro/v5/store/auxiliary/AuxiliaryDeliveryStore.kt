@@ -46,6 +46,7 @@ class AuxiliaryDeliveryStore private constructor(
     driver: SQLiteDriver,
     private val faultInjector: (AuxiliaryDeliveryFaultPoint) -> Unit,
     private val materialWriteGate: MaterialWriteGate?,
+    private val bookmarkAuthorityGate: BookmarkAuthorityGate?,
 ) : DeliveryPersistencePort,
     DeliveryDispatchPersistencePort,
     DeliveryProjectionPersistencePort,
@@ -54,11 +55,13 @@ class AuxiliaryDeliveryStore private constructor(
         fileName: String,
         driver: SQLiteDriver = BundledSQLiteDriver(),
         materialWriteGate: MaterialWriteGate? = null,
+        bookmarkAuthorityGate: BookmarkAuthorityGate? = null,
     ) : this(
         fileName = fileName,
         driver = driver,
         faultInjector = {},
         materialWriteGate = materialWriteGate,
+        bookmarkAuthorityGate = bookmarkAuthorityGate,
     )
 
     internal constructor(
@@ -69,6 +72,7 @@ class AuxiliaryDeliveryStore private constructor(
         driver = BundledSQLiteDriver(),
         faultInjector = faultInjector,
         materialWriteGate = null,
+        bookmarkAuthorityGate = null,
     )
     private val lock = Any()
     // Owner-originated, process-local notice commits. Not an ACL/generation watcher.
@@ -100,6 +104,11 @@ class AuxiliaryDeliveryStore private constructor(
         materialWriteGate?.withMaterialWrite(block) ?: block()
     private val connection: SQLiteConnection = driver.open(fileName)
     private var closed = false
+
+    /** Not mounted by shipping UI; null authority denies all Guardados access. */
+    val bookmarks: AuxiliaryBookmarkStore = AuxiliaryBookmarkStore(
+        connection, lock, materialWriteGate, bookmarkAuthorityGate, { !closed }
+    )
 
     val maintenance: AuxiliaryMaintenancePort =
         AuxiliaryMaintenancePort(::inspectForMaintenance)
