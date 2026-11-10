@@ -1,45 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
-  "reviewed_head": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_PORTABILITY",
+  "reviewed_head": "25a137a437dcc0f608f3d2d0657469cc711366dd",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackup.kt",
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortability.kt",
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkBackupCodecTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/LegacyGenerationAndBackupV1T1Test.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5AuxiliaryV3PreflightTest.kt"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityCore.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortableBundleJsonWriter.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortabilityTest.kt",
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkPortabilityTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-portability-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
-          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
-          "blob_sha": "b0ec589d670ee92ef13f21b2df0938acb0f55b6f",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
-          "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
-          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
+          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
           "marker": "## B1"
         }
       ]
@@ -48,23 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
-          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
-          "blob_sha": "b0ec589d670ee92ef13f21b2df0938acb0f55b6f",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
-          "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
-          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
+          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
           "marker": "## B2"
         }
       ]
@@ -73,23 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
-          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
-          "blob_sha": "b0ec589d670ee92ef13f21b2df0938acb0f55b6f",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
-          "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
-          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
+          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
           "marker": "## B3"
         }
       ]
@@ -98,23 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
-          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
-          "blob_sha": "b0ec589d670ee92ef13f21b2df0938acb0f55b6f",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
-          "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
-          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
+          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
           "marker": "## B4"
         }
       ]
@@ -123,29 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
-          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
-          "blob_sha": "b0ec589d670ee92ef13f21b2df0938acb0f55b6f",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
-          "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
-          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
+          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
@@ -161,9 +81,9 @@
     "ci_run_id": 42920844145,
     "guard_run_id": 42920844006
   },
-  "why": "Backup/restore backend B7 PASS 71/71; next unit requires bounded own permit",
-  "how": "Bounded canonical snapshot, FBS1 v3, complete manifest and fresh staged atomic restore",
+  "why": "Explicit approved portability section without access internals or messages",
+  "how": "Live scoped metadata projection, opt-in reader, preview hash and existing JSON approval/staging",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_PORTABILITY"
+  "next": "B6 directed CI then B7"
 }
