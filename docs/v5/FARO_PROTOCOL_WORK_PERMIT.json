@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
-  "reviewed_head": "c677bfd055fc6890f1f222770762527d90ebb763",
+  "reviewed_head": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackup.kt",
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
@@ -144,24 +144,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "c677bfd055fc6890f1f222770762527d90ebb763",
+    "sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
-        "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_PASS_20261110.md",
+        "blob_sha": "26b22121c4b7f082be896e223337c10cd403b9c5",
         "marker": "## B7"
       }
-    ]
+    ],
+    "ci_run_id": 42920844145,
+    "guard_run_id": 42920844006
   },
-  "why": "Adversarial Unicode ordering and explicit v3 backup class declaration",
+  "why": "Backup/restore backend B7 PASS 71/71; next unit requires bounded own permit",
   "how": "Bounded canonical snapshot, FBS1 v3, complete manifest and fresh staged atomic restore",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 exact directed CI, B7 then separate portability/ACL units"
+  "next": "S3_A3_BOOKMARKS_PORTABILITY"
 }
