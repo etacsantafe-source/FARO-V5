@@ -4,8 +4,6 @@
   "unit_id": "S3_A3_BOOKMARKS_CATALOG_REGISTRATION",
   "reviewed_head": "77bbd27c75af6a0e3eb6061720e1fe659ffc41af",
   "paths": [
-    "docs/v5/V5_OPERATION_CONTRACT_INVENTORY.md",
-    "docs/v5/V5_RG06C_07_GLOBAL_REFREEZE.md",
     "v5/spec/generated/contract-baseline.tsv",
     "v5/kernel/runtime/src/test/kotlin/ar/com/faro/v5/kernel/runtime/BuiltInContractCatalogTest.kt",
     ".github/workflows/faro-v5-s3-a3-bookmark-catalog-directed.yml"
