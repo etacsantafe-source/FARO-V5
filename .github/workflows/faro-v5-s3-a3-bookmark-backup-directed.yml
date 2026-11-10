@@ -11,6 +11,9 @@ on:
       - "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt"
       - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt"
       - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkBackupCodecTest.kt"
+      - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/LegacyGenerationAndBackupV1T1Test.kt"
+      - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt"
       - ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml"
   workflow_dispatch:
 

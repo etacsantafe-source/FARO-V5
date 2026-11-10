@@ -51,7 +51,7 @@ class LegacyGenerationAndBackupV1T1Test {
         assertEquals(1, BackupSetManifest.FORMAT_VERSION)
         val unknownVersion = ByteBuffer.allocate(8)
             .putInt(0x46425331) // FBS1
-            .putInt(2) // Future V2 requires explicit codec dispatch.
+            .putInt(99) // Unsupported future version must fail before reading a payload.
             .array()
         assertThrows(IllegalStateException::class.java) {
             SemanticBackupSetCodec.decode(unknownVersion)
