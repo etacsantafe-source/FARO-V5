@@ -125,6 +125,18 @@ class AuxiliaryDeliveryStore private constructor(
     val portability: AuxiliaryPortabilityPort =
         AuxiliaryPortabilityPort(::readPortabilitySnapshot)
 
+    /** Opt-in metadata export; constructing a port cannot grant authority or bind UI. */
+    fun bookmarkPortability(generationId: String, authorityToken: String): BookmarkPortabilityPort =
+        BookmarkPortabilityPort {
+            synchronized(lock) {
+                checkOpen()
+                val authorized = checkNotNull(bookmarks.authorizedPortabilitySnapshot(generationId, authorityToken)) {
+                    "Guardados export authority unavailable"
+                }
+                BookmarkPortabilityProjection.from(readSchemaVersion(), authorized)
+            }
+        }
+
 
     private fun readPortabilitySnapshot(): AuxiliaryPortabilitySnapshot =
         synchronized(lock) {

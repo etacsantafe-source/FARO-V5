@@ -46,6 +46,23 @@ class AuxiliaryBookmarkStore internal constructor(
     private data class Scope(val generation: String, val digest: String, val revision: Long)
     private data class Receipt(val fingerprint: String, val revision: Long)
 
+    /** Separate local export admission; reuses the exact operational scope/target fences. */
+    internal fun authorizedPortabilitySnapshot(generationId: String, authorityToken: String): BookmarkBackupSnapshot? =
+        synchronized(ownerLock) {
+            BookmarkPolicy.requireScope(generationId, authorityToken)
+            if (!ownerIsOpen() || !scopeAllowed(generationId, authorityToken)) return@synchronized null
+            val before = scope()
+            if (before != null && !sameScope(before, generationId, authorityToken)) return@synchronized null
+            val stored = AuxiliaryBookmarkBackupStorage.read(db)
+            val visible = stored.items.filter { it.lifecycle == BookmarkLifecycle.ACTIVE }
+            if (visible.any { !targetAllowed(BookmarkTarget(it.conversationId, it.messageId,
+                    it.generationId, authorityToken)) } || !ownerIsOpen() ||
+                !scopeAllowed(generationId, authorityToken) || before != scope()
+            ) return@synchronized null
+            // Removed references and replay receipts are not open portability data.
+            stored.copy(items = visible, receipts = emptyList())
+        }
+
     override suspend fun read(request: BookmarkReadRequest): BookmarkReadResult =
         synchronized(ownerLock) {
             if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken)) {

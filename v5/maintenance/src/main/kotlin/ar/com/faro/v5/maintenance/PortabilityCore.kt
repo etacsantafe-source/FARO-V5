@@ -16,6 +16,8 @@ import ar.com.faro.v5.owner.profile.api.ProfileReadApi
 import ar.com.faro.v5.owner.profile.api.ProfileSnapshot
 import ar.com.faro.v5.store.auxiliary.AuxiliaryPortabilityPort
 import ar.com.faro.v5.store.auxiliary.AuxiliaryPortabilitySnapshot
+import ar.com.faro.v5.store.auxiliary.BookmarkPortabilityPort
+import ar.com.faro.v5.store.auxiliary.BookmarkPortabilitySnapshot
 
 object PortabilityOperations {
     val CAPABILITY_ID = CapabilityId("N-041")
@@ -29,6 +31,7 @@ object PortabilityOperations {
 enum class PortabilitySection(
     val wireName: String,
 ) {
+    BOOKMARKS("bookmarks"),
     PROFILE("profile"),
     FINANCE("finance"),
     COMMERCIAL_EVIDENCE("commercial_evidence"),
@@ -54,7 +57,8 @@ data class PortabilityScope(
             PortabilityScope(sections.toList().distinct().sortedBy { it.wireName })
 
         fun all(): PortabilityScope =
-            PortabilityScope(PortabilitySection.entries.sortedBy { it.wireName })
+            // Keep the historical V1 all() consent scope. Guardados must be selected explicitly.
+            PortabilityScope(PortabilitySection.entries.filter { it != PortabilitySection.BOOKMARKS }.sortedBy { it.wireName })
     }
 }
 
@@ -71,6 +75,7 @@ enum class PortabilityWarning {
     COMMERCIAL_HISTORY_INCLUDED,
     WEB_HISTORY_INCLUDED,
     SENSITIVE_NOTICES_INCLUDED,
+    BOOKMARK_METADATA_INCLUDED,
 }
 
 @JvmInline
@@ -154,6 +159,7 @@ data class PortabilitySourceSnapshot(
     val commercialEvidence: CommercialEvidencePortabilitySnapshot?,
     val webEvidence: WebEvidencePortabilitySnapshot?,
     val notices: AuxiliaryPortabilitySnapshot?,
+    val bookmarks: BookmarkPortabilitySnapshot? = null,
 ) {
     init {
         require((PortabilitySection.PROFILE in scope.sections) == (profile != null))
@@ -164,6 +170,7 @@ data class PortabilitySourceSnapshot(
         )
         require((PortabilitySection.WEB_EVIDENCE in scope.sections) == (webEvidence != null))
         require((PortabilitySection.NOTICES in scope.sections) == (notices != null))
+        require((PortabilitySection.BOOKMARKS in scope.sections) == (bookmarks != null))
     }
 }
 
@@ -173,6 +180,7 @@ class PortabilitySourceReader(
     private val commercialEvidence: CommercialEvidencePortabilityPort,
     private val webEvidence: WebEvidencePortabilityPort,
     private val notices: AuxiliaryPortabilityPort,
+    private val bookmarks: BookmarkPortabilityPort? = null,
 ) {
     fun read(scope: PortabilityScope): PortabilitySourceSnapshot =
         PortabilitySourceSnapshot(
@@ -207,6 +215,9 @@ class PortabilitySourceReader(
                 } else {
                     null
                 },
+            bookmarks = if (PortabilitySection.BOOKMARKS in scope.sections) {
+                checkNotNull(bookmarks) { "Guardados portability owner unavailable" }.snapshot()
+            } else null,
         )
 }
 
@@ -222,6 +233,12 @@ internal object PortabilityPlanBuilder {
         val sections =
             source.scope.sections.map { section ->
                 when (section) {
+                    PortabilitySection.BOOKMARKS -> {
+                        val value = checkNotNull(source.bookmarks)
+                        PortabilitySectionPreview(section,
+                            value.records.size.toLong() + value.folders.size,
+                            value.sourceWatermark, PortabilitySensitivity.RESTRICTED)
+                    }
                     PortabilitySection.PROFILE -> {
                         val value = checkNotNull(source.profile)
                         PortabilitySectionPreview(
@@ -285,6 +302,9 @@ internal object PortabilityPlanBuilder {
             buildSet {
                 add(PortabilityWarning.NOT_A_BACKUP)
                 add(PortabilityWarning.OPEN_ARTIFACT)
+                if (PortabilitySection.BOOKMARKS in source.scope.sections) {
+                    add(PortabilityWarning.BOOKMARK_METADATA_INCLUDED)
+                }
                 if (PortabilitySection.PROFILE in source.scope.sections) {
                     add(PortabilityWarning.PERSONAL_DATA_INCLUDED)
                 }

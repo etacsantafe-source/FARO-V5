@@ -1,0 +1,65 @@
+name: FARO V5 S3 A3 Guardados safe portability directed
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortability.kt"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt"
+      - "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityCore.kt"
+      - "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortableBundleJsonWriter.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortabilityTest.kt"
+      - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkPortabilityTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-portability-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-portability-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bookmark-portability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Scoped metadata export and affected portability regressions
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test --tests '*AuxiliaryBookmarkPortabilityTest' --tests '*AuxiliaryPortabilityPortTest' \
+            :maintenance:test --tests '*BookmarkPortabilityTest' --tests '*PortabilityCoreT2Test' --tests '*PortabilityExternalWriteT2Test'
+      - name: Verify exact new tests and regression XML without skips
+        run: |
+          python3 - <<'PYXML'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          expected = {'AuxiliaryBookmarkPortabilityTest':4, 'BookmarkPortabilityTest':4,
+                      'AuxiliaryPortabilityPortTest':None, 'PortabilityCoreT2Test':None,
+                      'PortabilityExternalWriteT2Test':None}
+          total = 0
+          for name, count in expected.items():
+              files = list(Path('v5').glob('**/build/test-results/test/TEST-*.'+name+'.xml'))
+              assert len(files)==1, (name,files)
+              suite=ET.parse(files[0]).getroot()
+              tests, failures, errors, skipped=[int(suite.get(k,'-1')) for k in ('tests','failures','errors','skipped')]
+              assert tests>0 and (count is None or tests==count) and (failures,errors,skipped)==(0,0,0), (name,suite.attrib)
+              total+=tests
+              print(name, tests, 'PASS')
+          print('S3_A3_BOOKMARK_PORTABILITY_NEW_PASS 8/8')
+          print('S3_A3_BOOKMARK_PORTABILITY_TOTAL_PASS', total)
+          PYXML
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-portability-junit
+          path: v5/**/build/test-results/test/TEST-*.xml

@@ -8,6 +8,7 @@ import ar.com.faro.v5.owner.finance.api.FinanceAccountSnapshot
 import ar.com.faro.v5.owner.finance.api.FinanceEntrySnapshot
 import ar.com.faro.v5.owner.profile.api.ProfileSnapshot
 import ar.com.faro.v5.store.auxiliary.PortableNoticeRecord
+import ar.com.faro.v5.store.auxiliary.BookmarkPortabilitySnapshot
 import java.io.OutputStream
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
@@ -34,6 +35,8 @@ internal object PortableBundleJsonWriter {
             val sectionOutput = DigestingPassThroughOutputStream(output)
             val sectionJson = Utf8JsonSink(sectionOutput)
             when (sectionPreview.section) {
+                PortabilitySection.BOOKMARKS ->
+                    writeBookmarks(sectionJson, checkNotNull(source.bookmarks))
                 PortabilitySection.PROFILE ->
                     writeProfile(sectionJson, checkNotNull(source.profile))
                 PortabilitySection.FINANCE ->
@@ -313,6 +316,40 @@ internal object PortableBundleJsonWriter {
             json.raw(hit.score.toString())
         }
         json.raw("}")
+    }
+
+    private fun writeBookmarks(json: Utf8JsonSink, snapshot: BookmarkPortabilitySnapshot) {
+        json.raw("{\"folders\":[")
+        snapshot.folders.forEachIndexed { i, f ->
+            if (i > 0) json.raw(",")
+            json.raw("{\"folderId\":")
+            json.string(f.id.value)
+            json.raw(",\"name\":")
+            json.string(f.name)
+            json.raw(",\"revision\":")
+            json.number(f.revision)
+            json.raw("}")
+        }
+        json.raw("],\"records\":[")
+        snapshot.records.forEachIndexed { i, b ->
+            if (i > 0) json.raw(",")
+            json.raw("{\"bookmarkId\":")
+            json.string(b.id)
+            json.raw(",\"generationId\":")
+            json.string(b.generationId)
+            json.raw(",\"conversationId\":")
+            json.string(b.conversationId)
+            json.raw(",\"messageId\":")
+            json.string(b.messageId)
+            json.raw(",\"folderId\":")
+            json.nullableString(b.folderId)
+            json.raw(",\"favorite\":")
+            json.raw(b.favorite.toString())
+            json.raw(",\"revision\":")
+            json.number(b.revision)
+            json.raw("}")
+        }
+        json.raw("]}")
     }
 
     private fun writeNotices(
