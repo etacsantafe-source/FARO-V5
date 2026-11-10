@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A3.CAS_REDFIX_DOC",
-  "token_hash": "26c5aa1c04b05e1936b0fce78a38100d5a887229c9f7722fdb3427c7ba259a963",
-  "target_head": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A3.CAS_RECEIPTS_REDFIX_B6",
+  "token_hash": "be1e5af217fa358ad20d6d4eec23c64f6c9f7d00b40fdd0ed29f17717ee543e4",
+  "target_head": "24c0c3f90c504f71bb401f4edee76746208aadf1",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 664,
-  "timestamp": 1794270781,
-  "purpose": "B7 RED_FIX and scope-limited B1-B5 regression fix for CAS receipts",
+  "epoch": 665,
+  "timestamp": 1794270815,
+  "purpose": "Same-unit B6 compile/FK redfix scoped permitted files",
   "last_checkpoint": "S3_A3_CAS_RED_FIX_READY@24c0c3f90c504f71bb401f4edee76746208aadf1"
 }
