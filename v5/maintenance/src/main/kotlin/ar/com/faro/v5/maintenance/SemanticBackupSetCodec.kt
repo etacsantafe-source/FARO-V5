@@ -31,7 +31,14 @@ import ar.com.faro.v5.evidence.WebSearchHit
 import ar.com.faro.v5.kernel.contracts.EgressSensitivity
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
-import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupSnapshot
+import ar.com.faro.v5.store.auxiliary.*
+import ar.com.faro.v5.kernel.contracts.BookmarkFolder
+import ar.com.faro.v5.kernel.contracts.BookmarkFolderId
+import ar.com.faro.v5.kernel.contracts.BookmarkId
+import ar.com.faro.v5.kernel.contracts.BookmarkLifecycle
+import ar.com.faro.v5.kernel.contracts.ConversationId
+import ar.com.faro.v5.kernel.contracts.ConversationMessageId
+import ar.com.faro.v5.kernel.contracts.BookmarkPolicy
 import ar.com.faro.v5.store.reality.RealityBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityCommittedReceiptBackup
 import ar.com.faro.v5.store.reality.RealityMigrationAccount
@@ -57,6 +64,7 @@ object SemanticBackupSetCodec {
     private const val MAGIC = 0x46425331 // FBS1
     private const val LEGACY_VERSION = 1
     private const val TIMED_VERSION = 2
+    private const val BOOKMARK_VERSION = 3
     const val MAX_PLAINTEXT_BYTES: Int = 64 * 1024 * 1024
     private const val MAX_STRING_BYTES = 64 * 1024
     private const val MAX_RECORDS = 100_000
@@ -76,7 +84,7 @@ object SemanticBackupSetCodec {
             BoundedByteArrayOutputStream(maxBytes).use { buffer ->
                 DataOutputStream(buffer).use { output ->
                     output.writeInt(MAGIC)
-                    val version = if (backupSet.reality.committedReceipts.any {
+                    val version = if (backupSet.auxiliary.bookmarks != null) BOOKMARK_VERSION else if (backupSet.reality.committedReceipts.any {
                         it.commitRecordedAtEpochMillis != null
                     }) TIMED_VERSION else LEGACY_VERSION
                     output.writeInt(version)
@@ -85,6 +93,7 @@ object SemanticBackupSetCodec {
                     writeCommercial(output, backupSet.commercialEvidence)
                     writeWeb(output, backupSet.webEvidence)
                     writeAuxiliary(output, backupSet.auxiliary)
+                    if (version >= BOOKMARK_VERSION) writeBookmarks(output, checkNotNull(backupSet.auxiliary.bookmarks))
                 }
                 buffer.toByteArray()
             }
@@ -101,7 +110,7 @@ object SemanticBackupSetCodec {
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "semantic backup magic mismatch" }
             val version = input.readInt()
-            check(version == LEGACY_VERSION || version == TIMED_VERSION) {
+            check(version in LEGACY_VERSION..BOOKMARK_VERSION) {
                 "unsupported semantic backup codec version"
             }
             val decoded =
@@ -110,7 +119,9 @@ object SemanticBackupSetCodec {
                     reality = readReality(input, version),
                     commercialEvidence = readCommercial(input),
                     webEvidence = readWeb(input),
-                    auxiliary = readAuxiliary(input),
+                    auxiliary = readAuxiliary(input).let { auxiliary ->
+                        if (version >= BOOKMARK_VERSION) auxiliary.copy(bookmarks = readBookmarks(input)) else auxiliary
+                    },
                 )
             check(input.available() == 0) { "semantic backup plaintext has trailing bytes" }
             check(SemanticBackupSetIntegrity.matches(decoded)) {
@@ -205,7 +216,7 @@ object SemanticBackupSetCodec {
             writeString(output, receipt.receiptId)
             writeString(output, receipt.transactionId)
             writeString(output, receipt.planFingerprint)
-            if (version == TIMED_VERSION) {
+            if (version >= TIMED_VERSION) {
                 val time = receipt.commitRecordedAtEpochMillis
                 output.writeBoolean(time != null)
                 if (time != null) output.writeLong(time)
@@ -264,7 +275,7 @@ object SemanticBackupSetCodec {
                             receiptId = readString(input),
                             transactionId = readString(input),
                             planFingerprint = readString(input),
-                            commitRecordedAtEpochMillis = if (version == TIMED_VERSION) {
+                            commitRecordedAtEpochMillis = if (version >= TIMED_VERSION) {
                                 when (input.readUnsignedByte()) {
                                     0 -> null
                                     1 -> input.readLong()
@@ -547,6 +558,67 @@ object SemanticBackupSetCodec {
             schemaVersion = schemaVersion,
             notices = notices,
         )
+    }
+
+    private fun writeBookmarks(output: DataOutputStream, snapshot: BookmarkBackupSnapshot) {
+        snapshot.validate()
+        val scope = snapshot.scope
+        output.writeBoolean(scope != null)
+        scope?.let {
+            writeString(output, it.generationId)
+            writeString(output, it.authorityDigest)
+            output.writeLong(it.revision)
+        }
+        writeCount(output, snapshot.folders.size, BookmarkPolicy.MAX_FOLDERS)
+        snapshot.folders.forEach {
+            writeString(output, it.id.value)
+            writeString(output, it.name)
+            output.writeLong(it.revision)
+        }
+        writeCount(output, snapshot.items.size, BookmarkPolicy.MAX_BOOKMARKS)
+        snapshot.items.forEach {
+            writeString(output, it.id.value)
+            writeString(output, it.generationId)
+            writeString(output, it.conversationId.value)
+            writeString(output, it.messageId.value)
+            writeNullableString(output, it.folderId?.value)
+            output.writeBoolean(it.favorite)
+            writeString(output, it.lifecycle.name)
+            output.writeLong(it.revision)
+        }
+        writeCount(output, snapshot.receipts.size, BookmarkBackupSnapshot.MAX_RECEIPTS)
+        snapshot.receipts.forEach {
+            writeString(output, it.key)
+            writeString(output, it.requestHash)
+            output.writeLong(it.resultRevision)
+        }
+    }
+
+    private fun readStrictBoolean(input: DataInputStream): Boolean = when (input.readUnsignedByte()) {
+        0 -> false
+        1 -> true
+        else -> error("invalid bookmark boolean")
+    }
+
+    private fun readBookmarks(input: DataInputStream): BookmarkBackupSnapshot {
+        val scope = if (readStrictBoolean(input)) BookmarkBackupScope(
+            readString(input), readString(input), input.readLong()
+        ) else null
+        val folders = List(readCount(input, BookmarkPolicy.MAX_FOLDERS)) {
+            BookmarkFolder(BookmarkFolderId(readString(input)), readString(input), input.readLong())
+        }
+        val items = List(readCount(input, BookmarkPolicy.MAX_BOOKMARKS)) {
+            BookmarkBackupItem(
+                BookmarkId(readString(input)), readString(input), ConversationId(readString(input)),
+                ConversationMessageId(readString(input)),
+                if (readStrictBoolean(input)) BookmarkFolderId(readString(input)) else null,
+                readStrictBoolean(input), BookmarkLifecycle.valueOf(readString(input)), input.readLong(),
+            )
+        }
+        val receipts = List(readCount(input, BookmarkBackupSnapshot.MAX_RECEIPTS)) {
+            BookmarkBackupReceipt(readString(input), readString(input), input.readLong())
+        }
+        return BookmarkBackupSnapshot(scope, folders, items, receipts)
     }
 
     private class BoundedByteArrayOutputStream(

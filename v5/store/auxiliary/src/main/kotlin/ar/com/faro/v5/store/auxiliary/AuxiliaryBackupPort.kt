@@ -5,9 +5,12 @@ import ar.com.faro.v5.delivery.api.NoticeSnapshot
 data class AuxiliaryBackupSnapshot(
     val schemaVersion: Int,
     val notices: List<NoticeSnapshot>,
+    /** Null is legacy absence, never proof that Guardados was empty. */
+    val bookmarks: BookmarkBackupSnapshot? = null,
 ) {
     init {
         require(schemaVersion >= 0)
+        bookmarks?.validate()
         require(
             notices == notices.sortedWith(
                 compareBy<NoticeSnapshot>({ it.noticeKey.value }, { it.occurrenceRef.value })

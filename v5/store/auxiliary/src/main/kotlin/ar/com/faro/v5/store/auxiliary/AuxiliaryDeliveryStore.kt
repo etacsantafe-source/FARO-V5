@@ -560,6 +560,7 @@ class AuxiliaryDeliveryStore private constructor(
             AuxiliaryBackupSnapshot(
                 schemaVersion = readSchemaVersion(),
                 notices = readNotices(),
+                bookmarks = AuxiliaryBookmarkBackupStorage.read(connection),
             )
         }
 
@@ -571,8 +572,15 @@ class AuxiliaryDeliveryStore private constructor(
             check(snapshot.schemaVersion == SCHEMA_VERSION) {
                 "Auxiliary backup schema requires explicit migration"
             }
+            val bookmarkSnapshot = checkNotNull(snapshot.bookmarks) {
+                "Legacy backup has no verified Guardados section; explicit migration required"
+            }
+            bookmarkSnapshot.validate()
+            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+            try {
             val current = readBackupSnapshot()
             if (current == snapshot && deliveryIntentCount() == 0) {
+                connection.execSQL("ROLLBACK TRANSACTION")
                 return@synchronized current
             }
             val before = inspectForMaintenance()
@@ -582,9 +590,9 @@ class AuxiliaryDeliveryStore private constructor(
             check(before.noticeCount == 0L && before.deliveryIntentCount == 0L) {
                 "Auxiliary restore target must be fresh or exactly match backup"
             }
-
-            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
-            try {
+            check(current.bookmarks == BookmarkBackupSnapshot.EMPTY) {
+                "Auxiliary restore cannot overwrite retained Guardados"
+            }
                 snapshot.notices.forEach { notice ->
                     connection.prepare(
                         """
@@ -611,11 +619,7 @@ class AuxiliaryDeliveryStore private constructor(
                         statement.step()
                     }
                 }
-                connection.execSQL("COMMIT TRANSACTION")
-            } catch (failure: Throwable) {
-                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
-                throw failure
-            }
+            AuxiliaryBookmarkBackupStorage.restore(connection, bookmarkSnapshot)
 
             val after = inspectForMaintenance()
             check(after.integrityHealthy && after.foreignKeysHealthy) {
@@ -628,7 +632,12 @@ class AuxiliaryDeliveryStore private constructor(
             check(restored == snapshot) {
                 "Auxiliary restore verification failed"
             }
+            connection.execSQL("COMMIT TRANSACTION")
             restored
+            } catch (failure: Throwable) {
+                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                throw failure
+            }
         } }
 
     private fun insertNew(

@@ -1,0 +1,75 @@
+name: FARO V5 S3 A3 Guardados backup restore directed
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackup.kt"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt"
+      - "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt"
+      - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkBackupCodecTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-backup-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bookmark-backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Backup owner codec and affected restore and AEAD regressions
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test --tests '*AuxiliaryBookmarkBackupTest' --tests '*AuxiliaryDeliveryStoreTest' \
+            :maintenance:test --tests '*BookmarkBackupCodecTest' --tests '*SemanticBackupRestoreT2Test' --tests '*PortableBackupArchiveCryptoT2Test' \
+            :store:generation:test --tests '*FaroV5FiveStoreSemanticCodecT2Test' --tests '*FaroV5FiveStoreBackupCaptureT2Test' --tests '*FaroV5FiveStoreStagedRestoreT2Test' --tests '*FaroV5FiveStorePortableBackupCryptoT2Test'
+      - name: Verify new tests and affected regression XML without skips
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          expected = {
+            'AuxiliaryBookmarkBackupTest': 6,
+            'BookmarkBackupCodecTest': 4,
+            'AuxiliaryDeliveryStoreTest': None,
+            'SemanticBackupRestoreT2Test': None,
+            'PortableBackupArchiveCryptoT2Test': None,
+            'FaroV5FiveStoreSemanticCodecT2Test': None,
+            'FaroV5FiveStoreBackupCaptureT2Test': None,
+            'FaroV5FiveStoreStagedRestoreT2Test': None,
+            'FaroV5FiveStorePortableBackupCryptoT2Test': None,
+          }
+          total = 0
+          for name, count in expected.items():
+              files = list(Path('v5').glob('**/build/test-results/test/TEST-*.' + name + '.xml'))
+              assert len(files) == 1, (name, files)
+              suite = ET.parse(files[0]).getroot()
+              tests, failures, errors, skipped = [int(suite.get(k, '-1')) for k in ('tests','failures','errors','skipped')]
+              assert tests > 0 and (count is None or tests == count) and (failures,errors,skipped) == (0,0,0), (name, suite.attrib)
+              total += tests
+              print(name, tests, 'PASS')
+          print('S3_A3_BOOKMARK_BACKUP_NEW_PASS 10/10')
+          print('S3_A3_BOOKMARK_BACKUP_TOTAL_PASS', total)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-backup-junit
+          path: v5/**/build/test-results/test/TEST-*.xml

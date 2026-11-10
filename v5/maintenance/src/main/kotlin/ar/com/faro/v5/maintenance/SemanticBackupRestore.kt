@@ -357,7 +357,8 @@ class SemanticBackupRestoreCoordinator(
                             webEvidence.snapshot() == payload.webEvidence
                     ) ||
                     (
-                        payload.auxiliary.notices.isNotEmpty() &&
+                        (payload.auxiliary.notices.isNotEmpty() ||
+                            (payload.auxiliary.bookmarks?.recordCount ?: 0L) > 0L) &&
                             auxiliary.snapshot() == payload.auxiliary
                     )
             }.getOrDefault(false)
@@ -621,11 +622,14 @@ private object BackupManifestBuilder {
                     notice.resolutionReason?.name ?: "",
                 )
         }
+        val bookmarks = snapshot.bookmarks
+        if (bookmarks != null) hash.string("bookmarks", bookmarks.fingerprint())
         return BackupSectionManifest(
             sectionId = "auxiliary",
             schemaVersion = snapshot.schemaVersion,
-            revisionToken = "notices:" + snapshot.notices.size,
-            recordCount = snapshot.notices.size.toLong(),
+            revisionToken = "notices:" + snapshot.notices.size +
+                (bookmarks?.let { ":bookmarks:" + it.recordCount + ":revision:" + (it.scope?.revision ?: 0L) } ?: ""),
+            recordCount = snapshot.notices.size.toLong() + (bookmarks?.recordCount ?: 0L),
             fingerprint = hash.sha256Hex(),
         )
     }
