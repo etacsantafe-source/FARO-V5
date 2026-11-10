@@ -2,10 +2,9 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
-  "reviewed_head": "1b9fa3e8f51d8705678716cee19ce213b3bca29b",
+  "reviewed_head": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
     "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt",
     ".github/workflows/faro-v5-s3-a3-bookmark-cas-receipts-directed.yml"
   ],
@@ -14,8 +13,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
-          "blob_sha": "d3597cfee05e699d06c2d5fbfa193a306a2b86ed",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
+          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
-          "blob_sha": "d3597cfee05e699d06c2d5fbfa193a306a2b86ed",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
+          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
-          "blob_sha": "d3597cfee05e699d06c2d5fbfa193a306a2b86ed",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
+          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
-          "blob_sha": "d3597cfee05e699d06c2d5fbfa193a306a2b86ed",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
+          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
           "marker": "## B4"
         }
       ]
@@ -54,8 +53,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B1_B5_20261109.md",
-          "blob_sha": "d3597cfee05e699d06c2d5fbfa193a306a2b86ed",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
+          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
           "marker": "## B5"
         }
       ]
@@ -64,20 +63,20 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "1b9fa3e8f51d8705678716cee19ce213b3bca29b",
-    "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_SCHEMA_V3",
-    "result": "PASS",
+    "sha": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
+    "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_SCHEMA_V3_B7_PASS_20261109.md",
-        "blob_sha": "08537204e8778e0ff6f4d1ad1e68dd6d1d1dba22",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_RED_FIX_20261109.md",
+        "blob_sha": "0d21278f8258b99f4392e9efb0fdee0398151264",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Independent B1-B5 CAS/receipt owner adapter after schema v3 B7; deny-by-default, NO product UI/cat/backup activation",
-  "how": "One Auxiliary connection/lock+write gate, transactional mutation/CAS/receipts, authority injectable and null fail-closed, exact JVM CI",
+  "why": "Kotlin SMARTCAST_IMPOSSIBLE and SQLite FK missing scope parent before first insert, RED_FIX only",
+  "how": "Fix cursor stable local and parent scope insertion BEFORE child inside same transaction; retest 8/8",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS B6; on success B7 then backup/restore, generation/ACL bridge, operations and UI"
+  "next": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS redfix B6 then B7"
 }
