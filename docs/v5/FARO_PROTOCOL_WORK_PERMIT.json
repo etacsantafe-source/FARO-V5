@@ -1,25 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_PORTABILITY",
-  "reviewed_head": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY",
+  "reviewed_head": "c23440ab207ca3923c7326a6a8894d3d5ccbfcbb",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortability.kt",
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityCore.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortableBundleJsonWriter.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt",
     "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortabilityTest.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkPortabilityTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-portability-directed.yml"
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-mutation-authority-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
-          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
           "marker": "## B1"
         }
       ]
@@ -28,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
-          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
           "marker": "## B2"
         }
       ]
@@ -38,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
-          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
           "marker": "## B3"
         }
       ]
@@ -48,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
-          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
           "marker": "## B4"
         }
       ]
@@ -58,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
-          "blob_sha": "e7bafa08618b3625ac6fe8bafea590fe4eb975fa",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
@@ -81,9 +79,9 @@
     "ci_run_id": 42922295674,
     "guard_run_id": 42922295405
   },
-  "why": "Portability backend B7 PASS 21/21; next separate read/write authority before Workspace binding",
-  "how": "Live scoped metadata projection, opt-in reader, preview hash and existing JSON approval/staging",
+  "why": "Read authority must not authorize mutating metadata or receipt replay",
+  "how": "Separate explicit mutation gate default false; revalidate precommit; keep read ports independent",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY"
+  "next": "B6 5 new directed tests plus auto regressions, B7 then real Workspace binding"
 }
