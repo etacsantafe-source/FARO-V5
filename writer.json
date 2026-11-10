@@ -1,27 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A3.B7_CLOSURE_20261110",
-  "token_hash": "6ac547597f347e238ccd5b8c7d194981b5b3932e67749eaaf35821c0634f4494",
-  "target_head": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+  "status": "HELD",
+  "owner": "FARO.WORK.S3A3.BACKUP.20261110",
+  "token_hash": "110e84e881b454f9a0e9732fca597d554c1a6ba79d34ccb7bad742778e589dca",
+  "target_head": "dd365d9d24a214b0e954d032f92ec820ab150553",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 667,
-  "timestamp": 1794350089,
-  "purpose": "DOC_ONLY_A3_CAS_RECEIPTS_B7_AND_POINTER_CHECKPOINT",
-  "last_checkpoint": "S3_A3_CAS_RECEIPTS_B7_PASS_SCOPED@dd365d9d24a214b0e954d032f92ec820ab150553",
-  "recovery": {
-    "mode": "HUMAN_AUTHORIZED_MANUAL_INCIDENT_RECOVERY",
-    "reason": "User requested recovery; previous owner session no longer verifiably active; no GitHub Actions in_progress or queued; stale HELD prevents productive work",
-    "old_writer_ref": "477a31b6cd8cc8a83c2a631533605b37a1bd5a41",
-    "recovered_epoch": 666,
-    "prior_owner": "FARO.MANUAL.S3A3.CAS_B7_BACKUP_PREFLIGHT",
-    "prior_target_head": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
-    "preflight": {
-      "writer_sha": "477a31b6cd8cc8a83c2a631533605b37a1bd5a41",
-      "active_workflows": 0,
-      "queued_workflows": 0,
-      "target_head_matches": true
-    },
-    "safeguard": "No token fabricated, no forced rewrite, branch CAS expected sha, no target/main modifications"
-  }
+  "epoch": 668,
+  "timestamp": 1794350594
 }
