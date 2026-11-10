@@ -1,11 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.S3A3.BACKUP.20261110",
-  "token_hash": "110e84e881b454f9a0e9732fca597d554c1a6ba79d34ccb7bad742778e589dca",
-  "target_head": "dd365d9d24a214b0e954d032f92ec820ab150553",
-  "target_branch": "work/s3-night-20261102",
-  "epoch": 668,
-  "timestamp": 1794350735,
-  "last_checkpoint": "264350fc13c0642c8a99e5d5e897523b17dc69a2"
-}
+{"schema":1,"status":"HELD","owner":"FARO.WORK.S3A3.BACKUP.20261110","token_hash":"110e84e881b454f9a0e9732fca597d554c1a6ba79d34ccb7bad742778e589dca","target_head":"264350fc13c0642c8a99e5d5e897523b17dc69a2","target_branch":"work/s3-night-20261102","epoch":669,"timestamp":1794350749,"last_checkpoint":"264350fc13c0642c8a99e5d5e897523b17dc69a2"}
