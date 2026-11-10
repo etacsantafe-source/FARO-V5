@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A3.CAS_RECEIPTS_REDFIX_B6",
   "token_hash": "be1e5af217fa358ad20d6d4eec23c64f6c9f7d00b40fdd0ed29f17717ee543e4",
   "target_head": "24c0c3f90c504f71bb401f4edee76746208aadf1",
   "target_branch": "work/s3-night-20261102",
   "epoch": 665,
-  "timestamp": 1794270815,
+  "timestamp": 1794270867,
   "purpose": "Same-unit B6 compile/FK redfix scoped permitted files",
-  "last_checkpoint": "S3_A3_CAS_RED_FIX_READY@24c0c3f90c504f71bb401f4edee76746208aadf1"
+  "last_checkpoint": "S3_A3_CAS_RECEIPTS_RED_FIX_B6@97fc4492b1a97fe305fc9251cae13a21fbd1dd2d"
 }
