@@ -47,7 +47,7 @@ class AuxiliaryDeliveryStoreTest {
                 assertEquals(1, store.readNotices().size)
                 assertEquals(1, store.deliveryIntentCount())
                 assertEquals("ok", store.integrityCheck())
-                assertEquals(2, store.schemaVersion())
+                assertEquals(3, store.schemaVersion())
             }
 
             AuxiliaryDeliveryStore(file).use { reopened ->
@@ -118,11 +118,11 @@ class AuxiliaryDeliveryStoreTest {
     }
 
     @Test
-    fun legacyV1OpenNoticeMigratesToV2WithoutInventingResolutionReason() {
+    fun legacyV1OpenNoticeMigratesThroughV3WithoutInventingResolutionReason() {
         withDatabase { file ->
             createLegacyV1Database(file)
             AuxiliaryDeliveryStore(file).use { store ->
-                assertEquals(2, store.schemaVersion())
+                assertEquals(3, store.schemaVersion())
                 val notice = store.readNotices().single()
                 assertEquals(NoticeRelevance.OPEN, notice.relevance)
                 assertEquals(null, notice.resolutionReason)

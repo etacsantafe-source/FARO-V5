@@ -975,6 +975,82 @@ class AuxiliaryDeliveryStore private constructor(
         }
     }
 
+
+    /**
+     * Guardados is metadata only. No message text, raw authority token,
+     * Workspace copy, or separate Truth database is permitted in these tables.
+     * A future owner must validate Workspace generation/ACL before using them.
+     */
+    private fun createBookmarkSchemaV3() {
+        connection.execSQL(
+            """
+            CREATE TABLE bookmark_scope (
+                scope_id INTEGER NOT NULL PRIMARY KEY CHECK(scope_id = 1),
+                generation_id TEXT NOT NULL CHECK(length(generation_id) BETWEEN 1 AND 128),
+                authority_digest TEXT NOT NULL CHECK(length(authority_digest) = 64),
+                revision INTEGER NOT NULL CHECK(revision >= 0)
+            )
+            """.trimIndent()
+        )
+        connection.execSQL(
+            """
+            CREATE TABLE bookmark_folder (
+                folder_id TEXT NOT NULL PRIMARY KEY,
+                scope_id INTEGER NOT NULL DEFAULT 1,
+                name TEXT NOT NULL CHECK(length(trim(name)) BETWEEN 1 AND 80),
+                revision INTEGER NOT NULL CHECK(revision > 0),
+                FOREIGN KEY(scope_id) REFERENCES bookmark_scope(scope_id)
+                    ON DELETE RESTRICT
+            )
+            """.trimIndent()
+        )
+        connection.execSQL(
+            """
+            CREATE TABLE bookmark_item (
+                bookmark_id TEXT NOT NULL PRIMARY KEY,
+                scope_id INTEGER NOT NULL DEFAULT 1,
+                generation_id TEXT NOT NULL,
+                conversation_id TEXT NOT NULL,
+                message_id TEXT NOT NULL,
+                folder_id TEXT,
+                favorite INTEGER NOT NULL DEFAULT 0 CHECK(favorite IN (0, 1)),
+                lifecycle TEXT NOT NULL DEFAULT 'ACTIVE'
+                    CHECK(lifecycle IN ('ACTIVE', 'REMOVED')),
+                revision INTEGER NOT NULL CHECK(revision > 0),
+                FOREIGN KEY(scope_id) REFERENCES bookmark_scope(scope_id)
+                    ON DELETE RESTRICT,
+                FOREIGN KEY(folder_id) REFERENCES bookmark_folder(folder_id)
+                    ON DELETE RESTRICT,
+                UNIQUE(scope_id, generation_id, conversation_id, message_id)
+            )
+            """.trimIndent()
+        )
+        connection.execSQL(
+            """
+            CREATE TABLE bookmark_receipt (
+                idempotency_key TEXT NOT NULL PRIMARY KEY,
+                scope_id INTEGER NOT NULL DEFAULT 1,
+                request_hash TEXT NOT NULL CHECK(length(request_hash) = 64),
+                result_revision INTEGER NOT NULL CHECK(result_revision > 0),
+                FOREIGN KEY(scope_id) REFERENCES bookmark_scope(scope_id)
+                    ON DELETE RESTRICT
+            )
+            """.trimIndent()
+        )
+        connection.execSQL(
+            """
+            CREATE INDEX idx_bookmark_item_scope_key
+            ON bookmark_item(scope_id, bookmark_id)
+            """.trimIndent()
+        )
+        connection.execSQL(
+            """
+            CREATE INDEX idx_bookmark_item_folder
+            ON bookmark_item(folder_id)
+            """.trimIndent()
+        )
+    }
+
     private fun initializeSchema() {
         val version = readSchemaVersion()
         check(version in 0..SCHEMA_VERSION) {
@@ -1019,6 +1095,7 @@ class AuxiliaryDeliveryStore private constructor(
                     )
                     """.trimIndent()
                 )
+                createBookmarkSchemaV3()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -1032,6 +1109,12 @@ class AuxiliaryDeliveryStore private constructor(
                     )
                     """.trimIndent()
                 )
+                createBookmarkSchemaV3()
+                setSchemaVersion(SCHEMA_VERSION)
+            }
+
+            2 -> schemaTransaction {
+                createBookmarkSchemaV3()
                 setSchemaVersion(SCHEMA_VERSION)
             }
 
@@ -1042,10 +1125,20 @@ class AuxiliaryDeliveryStore private constructor(
     }
 
     private fun validateRequiredSchema() {
-        listOf("delivery_notice", "delivery_intent").forEach { table ->
+        listOf(
+            "delivery_notice", "delivery_intent",
+            "bookmark_scope", "bookmark_folder", "bookmark_item", "bookmark_receipt",
+        ).forEach { table ->
             check(tableExists(table)) {
                 "AuxiliaryDeliveryStore required table missing: $table"
             }
+        }
+        check(columnExists("bookmark_item", "message_id") &&
+            columnExists("bookmark_item", "generation_id") &&
+            columnExists("bookmark_item", "folder_id") &&
+            columnExists("bookmark_receipt", "idempotency_key") &&
+            columnExists("bookmark_scope", "authority_digest")) {
+            "AuxiliaryDeliveryStore required bookmark v3 columns missing"
         }
         check(columnExists("delivery_notice", "resolution_reason")) {
             "AuxiliaryDeliveryStore required column missing: delivery_notice.resolution_reason"
@@ -1134,7 +1227,7 @@ class AuxiliaryDeliveryStore private constructor(
         @JvmStatic
         fun open(fileName: String): AuxiliaryDeliveryStore = AuxiliaryDeliveryStore(fileName)
 
-        private const val SCHEMA_VERSION = 2
+        private const val SCHEMA_VERSION = 3
         private const val MAX_PROJECTION_SCAN_LIMIT = 1024
     }
 }

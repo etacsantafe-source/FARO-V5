@@ -1,0 +1,65 @@
+name: FARO V5 S3 A3 Auxiliary bookmark schema v3 JVM directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/*.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-schema-v3-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-a3-auxiliary-schema-v3-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bookmark-schema-v3-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and test v3 migration with current Auxiliary notice regressions
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test \
+            --tests "ar.com.faro.v5.store.auxiliary.AuxiliaryBookmarkSchemaV3Test" \
+            --tests "ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStoreTest"
+      - name: Verify exact v3 migration XML and notice regression
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          root = Path('v5/store/auxiliary/build/test-results/test')
+          specs = (
+              ('AuxiliaryBookmarkSchemaV3Test', 5),
+              ('AuxiliaryDeliveryStoreTest', None),
+          )
+          for suite_name, expected in specs:
+              files = sorted(root.glob('TEST-*' + suite_name + '.xml'))
+              if len(files) != 1:
+                  raise SystemExit('S3_A3_AUX_V3_XML_MISSING ' + suite_name)
+              e = ET.parse(files[0]).getroot()
+              count, fail, errors, skips = (
+                  int(e.attrib.get(k, '-1'))
+                  for k in ('tests', 'failures', 'errors', 'skipped')
+              )
+              if (expected is not None and count != expected) or count < 1 or fail or errors or skips:
+                  raise SystemExit('S3_A3_AUX_V3_XML_FAILED ' + suite_name +
+                                   ' ' + str((count, fail, errors, skips)))
+              print('S3_A3_AUX_V3_XML_PASS', suite_name, count)
+          print('S3_A3_BOOKMARK_SCHEMA_V3_JVM_PASS 5/5 NEW')
+          PY
