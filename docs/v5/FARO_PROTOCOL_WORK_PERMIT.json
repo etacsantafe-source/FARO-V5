@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
-  "reviewed_head": "dd365d9d24a214b0e954d032f92ec820ab150553",
+  "reviewed_head": "dd40cea9e68b4a63f8854670b789551d649343bd",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackup.kt",
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
@@ -11,7 +11,8 @@
     "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
     "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt",
     "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkBackupCodecTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml"
+    ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml",
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt"
   ],
   "stages": {
     "B1": {
@@ -20,6 +21,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
           "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
+          "blob_sha": "bf6e162f3fe557801dd7e1c042e939ef813b582b",
           "marker": "## B1"
         }
       ]
@@ -31,6 +37,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
           "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
+          "blob_sha": "bf6e162f3fe557801dd7e1c042e939ef813b582b",
+          "marker": "## B2"
         }
       ]
     },
@@ -40,6 +51,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
           "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
+          "blob_sha": "bf6e162f3fe557801dd7e1c042e939ef813b582b",
           "marker": "## B3"
         }
       ]
@@ -51,6 +67,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
           "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
+          "blob_sha": "bf6e162f3fe557801dd7e1c042e939ef813b582b",
+          "marker": "## B4"
         }
       ]
     },
@@ -61,6 +82,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
           "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
+          "blob_sha": "bf6e162f3fe557801dd7e1c042e939ef813b582b",
+          "marker": "## B5"
         }
       ]
     },
@@ -68,22 +94,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
-    "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
-    "result": "PASS",
-    "scope": "AUXILIARY_CAS_RECEIPTS_ONLY",
+    "sha": "dd40cea9e68b4a63f8854670b789551d649343bd",
+    "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
-        "blob_sha": "eaac12b3442ebd7f9ebd371e115e50ec6667137e",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B7_REDFIX_20261110.md",
+        "blob_sha": "bf6e162f3fe557801dd7e1c042e939ef813b582b",
         "marker": "## B7"
       }
-    ],
-    "ci_run_id": 42729311671,
-    "guard_run_id": 42729311925,
-    "home_run_id": 42729312050
+    ]
   },
-  "why": "Preserve Guardados metadata and receipts in semantic backup without granting authority",
+  "why": "Adversarial Unicode ordering and explicit v3 backup class declaration",
   "how": "Bounded canonical snapshot, FBS1 v3, complete manifest and fresh staged atomic restore",
   "no_auto_night": true,
   "productive_v2_enabled": false,
