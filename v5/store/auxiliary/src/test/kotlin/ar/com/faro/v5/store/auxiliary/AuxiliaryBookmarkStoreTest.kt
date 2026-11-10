@@ -28,6 +28,8 @@ import org.junit.jupiter.api.Test
 
 class AuxiliaryBookmarkStoreTest {
     private class FakeAuthority : BookmarkAuthorityGate {
+        override fun isMutationActive(generationId: String, authorityToken: String) =
+            isScopeActive(generationId, authorityToken)
         var active = true
         var targetAvailable = true
         override fun isScopeActive(generationId: String, authorityToken: String): Boolean =

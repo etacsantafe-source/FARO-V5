@@ -1,0 +1,57 @@
+name: FARO V5 S3 A3 separate mutation authority directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortabilityTest.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-mutation-authority-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-a3-bookmark-mutation-authority-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bookmark-mutation-authority:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Read grant vs explicit mutation grant and revocation
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test --tests "ar.com.faro.v5.store.auxiliary.AuxiliaryBookmarkMutationAuthorityTest"
+      - name: Verify exactly five authority tests without skips
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          root = Path('v5/store/auxiliary/build/test-results/test')
+          files = sorted(root.glob('TEST-*AuxiliaryBookmarkMutationAuthorityTest.xml'))
+          if len(files) != 1:
+              raise SystemExit('S3_A3_BOOKMARK_CAS_XML_MISSING ' + str(files))
+          suite = ET.parse(files[0]).getroot()
+          values = tuple(int(suite.attrib.get(k,'-1'))
+                         for k in ('tests','failures','errors','skipped'))
+          if values != (5,0,0,0):
+              raise SystemExit('S3_A3_BOOKMARK_CAS_XML_RED ' + str(values))
+          print('S3_A3_BOOKMARK_MUTATION_AUTHORITY_JVM_PASS 5/5')
+          PY

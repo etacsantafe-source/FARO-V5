@@ -12,6 +12,7 @@ import org.junit.jupiter.api.io.TempDir
 class AuxiliaryBookmarkBackupTest {
     @TempDir lateinit var root: Path
     private val authority = object : BookmarkAuthorityGate {
+        override fun isMutationActive(generationId: String, authorityToken: String) = true
         override fun isScopeActive(generationId: String, authorityToken: String) = true
         override fun isTargetAvailable(target: BookmarkTarget) = true
     }

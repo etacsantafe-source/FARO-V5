@@ -10,6 +10,7 @@ import org.junit.jupiter.api.io.TempDir
 class AuxiliaryBookmarkPortabilityTest {
     @TempDir lateinit var root: Path
     private class Gate : BookmarkAuthorityGate {
+        override fun isMutationActive(generationId: String, authorityToken: String) = active
         var active = true
         var revokeOnTarget = false
         override fun isScopeActive(generationId: String, authorityToken: String) = active

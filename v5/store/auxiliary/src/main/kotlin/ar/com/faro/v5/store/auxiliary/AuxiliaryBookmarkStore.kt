@@ -33,6 +33,8 @@ import java.security.MessageDigest
 interface BookmarkAuthorityGate {
     fun isScopeActive(generationId: String, authorityToken: String): Boolean
     fun isTargetAvailable(target: BookmarkTarget): Boolean
+    /** A read/scope grant never implies permission to mutate or replay a mutation receipt. */
+    fun isMutationActive(generationId: String, authorityToken: String): Boolean = false
 }
 
 /** One connection/lock with N-018 Auxiliary: metadata+revision+receipt are atomic. */
@@ -127,7 +129,9 @@ class AuxiliaryBookmarkStore internal constructor(
 
     private fun mutateLocked(request: BookmarkMutationRequest): BookmarkMutationResult {
         val mutation = request.mutation
-        if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken)) {
+        if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken) ||
+            !mutationAllowed(request.generationId, request.authorityToken)
+        ) {
             return BookmarkMutationResult.Unavailable
         }
         if (mutation is BookmarkMutation.Add &&
@@ -148,6 +152,9 @@ class AuxiliaryBookmarkStore internal constructor(
             val fingerprint = fingerprint(request)
             val previous = receipt(request.idempotencyKey.value)
             if (previous != null) {
+                if (!scopeAllowed(request.generationId, request.authorityToken) ||
+                    !mutationAllowed(request.generationId, request.authorityToken)
+                ) return abort(BookmarkMutationResult.Unavailable)
                 return abort(
                     if (previous.fingerprint == fingerprint) {
                         BookmarkMutationResult.Saved(previous.revision, replayed = true)
@@ -173,6 +180,7 @@ class AuxiliaryBookmarkStore internal constructor(
             val rejection = applyMutation(mutation)
             if (rejection != null) return abort(BookmarkMutationResult.Rejected(rejection))
             if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken) ||
+                !mutationAllowed(request.generationId, request.authorityToken) ||
                 (mutation is BookmarkMutation.Add && !targetAllowed(mutation.bookmark.target))
             ) return abort(BookmarkMutationResult.Unavailable)
             val next = revision + 1
@@ -190,6 +198,11 @@ class AuxiliaryBookmarkStore internal constructor(
                 st.bindLong(3, next)
                 st.step()
             }
+            // Receipt and revision are still uncommitted: revocation must roll them back too.
+            if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken) ||
+                !mutationAllowed(request.generationId, request.authorityToken) ||
+                (mutation is BookmarkMutation.Add && !targetAllowed(mutation.bookmark.target))
+            ) return abort(BookmarkMutationResult.Unavailable)
             db.execSQL("COMMIT TRANSACTION")
             return BookmarkMutationResult.Saved(next, replayed = false)
         } catch (failure: Throwable) {
@@ -337,6 +350,9 @@ class AuxiliaryBookmarkStore internal constructor(
 
     private fun scopeAllowed(generation: String, token: String): Boolean =
         runCatching { authority?.isScopeActive(generation,token) == true }.getOrDefault(false)
+
+    private fun mutationAllowed(generation: String, token: String): Boolean =
+        runCatching { authority?.isMutationActive(generation, token) == true }.getOrDefault(false)
 
     private fun targetAllowed(target: BookmarkTarget): Boolean =
         runCatching { authority?.isTargetAvailable(target) == true }.getOrDefault(false)
