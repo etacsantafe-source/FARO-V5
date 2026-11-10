@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A3.AUX_SCHEMA_B7_CAS_PREFLIGHT",
   "token_hash": "bdc159155b3b379ad6204ec5a2d488d864e8015229428eb2054757c4d0aab16c",
   "target_head": "1b9fa3e8f51d8705678716cee19ce213b3bca29b",
   "target_branch": "work/s3-night-20261102",
   "epoch": 662,
-  "timestamp": 1794270079,
+  "timestamp": 1794270196,
   "purpose": "B7 schema v3 and next preaudit CAS receipts",
-  "last_checkpoint": "S3_A3_AUX_SCHEMA_V3_B6_CODE@1b9fa3e8f51d8705678716cee19ce213b3bca29b"
+  "last_checkpoint": "S3_A3_SCHEMA_B7_CAS_PREFLIGHT@7313847362a1be533be399636b04704d78e2d755"
 }
