@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY",
-  "reviewed_head": "c23440ab207ca3923c7326a6a8894d3d5ccbfcbb",
+  "reviewed_head": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
     "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt",
@@ -62,26 +62,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
-    "unit_id": "S3_A3_BOOKMARKS_PORTABILITY",
+    "sha": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
+    "unit_id": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B7_PASS_20261110.md",
-        "blob_sha": "536822b2140817d138e528a10f4aa8c0455f2141",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B7_PASS_20261110.md",
+        "blob_sha": "b70ecf529a36cba13bfb317e50023e91c2b234d3",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 42922295674,
-    "guard_run_id": 42922295405
+    "ci_run_id": 42923566608,
+    "guard_run_id": 42923566737
   },
-  "why": "Read authority must not authorize mutating metadata or receipt replay",
+  "why": "Separate mutation authority B7 PASS; no real Workspace host binding yet",
   "how": "Separate explicit mutation gate default false; revalidate precommit; keep read ports independent",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 5 new directed tests plus auto regressions, B7 then real Workspace binding"
+  "next": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY"
 }

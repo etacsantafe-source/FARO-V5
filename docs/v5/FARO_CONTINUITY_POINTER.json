@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-10",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_A3_BACKUP_PORTABILITY_B7_PASS_NEXT_AUTHORITY",
+  "phase": "S3_OPEN_A3_BACKUP_PORTABILITY_MUTATION_GATE_B7_PASS_NEXT_WORKSPACE",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 676
+    "expected_release_epoch": 678
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B7_PASS_20261110.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B7_PASS_20261110.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG_172_STILL_FROZEN_UNTIL_B7_AND_CAS; NO_PAID_APIS",
-  "next": "Before real Workspace binding, separate read and mutation authority in BookmarkAuthorityGate with default-deny mutation permission and precommit revalidation; own B1-B5 permit. Then real Workspace target/generation read authority, native UI/operations and authorized A5. No catalog expansion without specific authorization.",
-  "checkpoint_status": "S3_A3_PORTABILITY_B7_PASS_SCOPED",
+  "next": "Real Workspace/generation read authority: metadata-only exact target lookup, full ActiveGenerationPointer sequence/id, separately issued read grant and admission; no scope-to-mutation escalation. Own B1-B5 before code; then native/operations/UI requiring specific catalog authorization. A5 remains open.",
+  "checkpoint_status": "S3_A3_MUTATION_AUTHORITY_B7_PASS_SCOPED",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B7_PASS_20261110.md",
-  "last_code_sha": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
-  "last_ci_run_id": 42922295674,
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B7_PASS_20261110.md",
+  "last_code_sha": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
+  "last_ci_run_id": 42923566608,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -118,7 +118,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_SCOPED_21_21",
+  "last_ci_conclusion": "SUCCESS_SCOPED_5_5",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -485,7 +485,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 676,
+  "last_writer_epoch_observed": 678,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -740,7 +740,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A3_BOOKMARKS_PORTABILITY",
+  "last_unit_id": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -1064,7 +1064,7 @@
   },
   "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
   "a3_checkpoint": {
-    "status": "OPEN_AUX_CAS_RECEIPTS_B7_PASS_SCOPED",
+    "status": "OPEN_BACKUP_PORTABILITY_MUTATION_GATE_B7_PASS_SCOPED",
     "unit": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
     "code_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
     "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
@@ -1091,7 +1091,11 @@
     "portability_code_sha": "d529e632bb2c19bb72510db7b0e24ad00ae12046",
     "portability_ci_run": 42922295674,
     "portability_ci_xml": "21/21;8 new",
-    "portability_b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B7_PASS_20261110.md"
+    "portability_b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B7_PASS_20261110.md",
+    "mutation_authority": "B7_PASS_SCOPED",
+    "mutation_authority_code_sha": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
+    "mutation_authority_ci_run": 42923566608,
+    "mutation_authority_b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B7_PASS_20261110.md"
   },
   "a4_checkpoint": {
     "status": "CLOSED_AUTOMATED_SCOPE_READ_ONLY_DEV",
