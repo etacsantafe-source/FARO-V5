@@ -1,20 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
-  "reviewed_head": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
+  "reviewed_head": "dd365d9d24a214b0e954d032f92ec820ab150553",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-cas-receipts-directed.yml"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackup.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt",
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/BookmarkBackupCodecTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
-          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
+          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B1"
         }
       ]
@@ -23,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
-          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
+          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B2"
         }
       ]
@@ -33,8 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
-          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
+          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B3"
         }
       ]
@@ -43,8 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
-          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
+          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B4"
         }
       ]
@@ -53,14 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
-          "blob_sha": "a686e4850f434eb20c1eaecceb4f2c0fa7a04340",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_B1_B5_20261110.md",
+          "blob_sha": "df7c96712a60812f12074764b7fcb3fada9497de",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
@@ -78,9 +83,9 @@
     "guard_run_id": 42729311925,
     "home_run_id": 42729312050
   },
-  "why": "B7 PASS_SCOPED en SHA 97fc4492b1a97fe305fc9251cae13a21fbd1dd2d; nueva unidad requiere B1–B5 y permiso limitado propio",
-  "how": "Siguiente preauditoría documental: backup/restauración Guardados y dependencia de autoridad real/generación; no mutar código con este permiso cerrado",
+  "why": "Preserve Guardados metadata and receipts in semantic backup without granting authority",
+  "how": "Bounded canonical snapshot, FBS1 v3, complete manifest and fresh staged atomic restore",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_BACKUP_RESTORE_B1_B5_PREAUDIT_THEN_NEW_READY_PERMIT"
+  "next": "B6 exact directed CI, B7 then separate portability/ACL units"
 }
