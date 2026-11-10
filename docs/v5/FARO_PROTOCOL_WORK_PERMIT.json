@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
-  "reviewed_head": "e75d3227ac87d0fec5eca5e4dd421803418f8aa2",
+  "reviewed_head": "c677bfd055fc6890f1f222770762527d90ebb763",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackup.kt",
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
@@ -14,7 +14,9 @@
     ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml",
     "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/LegacyGenerationAndBackupV1T1Test.kt"
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/LegacyGenerationAndBackupV1T1Test.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5AuxiliaryV3PreflightTest.kt"
   ],
   "stages": {
     "B1": {
@@ -33,6 +35,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
           "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
+          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
           "marker": "## B1"
         }
       ]
@@ -54,6 +61,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
           "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
+          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "marker": "## B2"
         }
       ]
     },
@@ -73,6 +85,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
           "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
+          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
           "marker": "## B3"
         }
       ]
@@ -94,6 +111,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
           "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
+          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "marker": "## B4"
         }
       ]
     },
@@ -114,6 +136,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
           "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
+          "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
+          "marker": "## B5"
         }
       ]
     },
@@ -121,13 +148,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e75d3227ac87d0fec5eca5e4dd421803418f8aa2",
+    "sha": "c677bfd055fc6890f1f222770762527d90ebb763",
     "unit_id": "S3_A3_BOOKMARKS_BACKUP_RESTORE",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_LEGACY_FIXTURE_B1_B5_20261110.md",
-        "blob_sha": "a1affa69acdd8f34dd2f1fde996b3b066bad61e6",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_BACKUP_GENERATION_B1_B5_20261110.md",
+        "blob_sha": "e91e67977083efbee42b45c52ca6a72f1237b0a1",
         "marker": "## B7"
       }
     ]
