@@ -3,10 +3,10 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-09",
+  "updated_local_date": "2026-11-10",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_MANUAL_A3_CAS_RECEIPTS_RED_FIX_READY",
+  "phase": "S3_OPEN_A3_CAS_RECEIPTS_B7_PASS_SCOPED_NEXT_BACKUP_PREAUDIT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 664
+    "expected_release_epoch": 667
   },
   "automation": {
     "activation_authorized": false,
@@ -40,25 +40,31 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG_172_STILL_FROZEN_UNTIL_B7_AND_CAS; NO_PAID_APIS",
-  "next": "B7 RED_FIX Kotlin smartcast and FK scope create order, exact directed CI 42728500403 failed. READY same-unit reimplementation after approved B1–B5. A3 not complete; no catalog or UI changes.",
-  "checkpoint_status": "S3_A3_BOOKMARKS_CAS_RECEIPTS_RED_FIX_B1_B5_READY",
+  "next": "S3.A3 Guardados: preauditoría B1–B5 de backup/restauración y portabilidad Auxiliary; verificar dependencia ACL/generación y emitir permiso documental propio antes de código. No repetir CAS/recibos 8/8 ni esquema v3; continuar unidades pendientes autorizadas después.",
+  "checkpoint_status": "S3_A3_AUX_CAS_RECEIPTS_B7_PASS_SCOPED_NEXT_BACKUP_PREAUDIT",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_KOTLIN_FK_REDFIX_B1_B5_20261109.md",
-  "last_code_sha": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
-  "last_ci_run_id": 42728500403,
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
+  "last_code_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+  "last_ci_run_id": 42729311671,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
-    "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_8_OF_8_PASS_STORAGE_NOT_STARTED",
+    "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
     "scope": "8 CANDIDATE names / profiles / risks; 172 catalog unchanged",
     "document": "docs/s3-night/S3_GUARDADOS_BOUNDED_REVIEW_20261102.md",
     "approval": "USER_EXPLICIT_20261109_AFTER_B5_REVIEW",
     "catalog_current": 172,
     "code_started": true,
     "contracts_core_ci_run": 42720699353,
-    "contracts_core_sha": "37383b1ebb899740870eb54d98f1501175e3a7ba"
+    "contracts_core_sha": "37383b1ebb899740870eb54d98f1501175e3a7ba",
+    "cas_receipts": {
+      "status": "B7_PASS_SCOPED",
+      "sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+      "ci_run": 42729311671,
+      "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md"
+    }
   },
   "night_v22": {
     "status": "CANCELLED_BY_USER",
@@ -112,7 +118,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_SMARTCAST_IMPOSSIBLE",
+  "last_ci_conclusion": "SUCCESS_SCOPED_8_8_AT_HEAD",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -474,12 +480,12 @@
     "b7_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
   },
   "guard_last_inspected": {
-    "run_id": 41877244186,
-    "source_sha": "aa438320a7d62574d6f47a67c312ea7d9a05f63b",
-    "status": "queued",
-    "conclusion": null
+    "run_id": 42729311925,
+    "source_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+    "status": "completed",
+    "conclusion": "success"
   },
-  "last_writer_epoch_observed": 340,
+  "last_writer_epoch_observed": 667,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -513,21 +519,8 @@
   },
   "guard_latest_runs": [
     {
-      "id": 42099338728,
-      "head": "18b88d1e",
-      "status": "completed",
-      "conclusion": "success"
-    },
-    {
-      "id": 42096308942,
-      "head": "d37f80da",
-      "status": "completed",
-      "conclusion": "failure",
-      "cause": "missing B7 in former HEAD, now corrected"
-    },
-    {
-      "id": 42094317812,
-      "head": "2c00fc06",
+      "id": 42729311925,
+      "head": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
       "status": "completed",
       "conclusion": "success"
     }
@@ -747,7 +740,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A4_N033C3_UNDO_EXECUTE_REVIEW_HOST",
+  "last_unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -926,7 +919,7 @@
   "s3_scoped_stages_closed": 3,
   "s3_total_stages": 5,
   "s3_formal_full_release": "NOT_APPROVED",
-  "current_s3_priority": "S3_A3_GUARDADOS_OWNER_BOUNDED_REVIEW",
+  "current_s3_priority": "S3_A3_GUARDADOS_BACKUP_RESTORE_B1_B5_PREAUDIT",
   "s3_a5_final_acceptance": {
     "status": "PENDING_NOT_CERTIFIED",
     "x01_x12": "PENDING_FULL_INTEGRATION",
@@ -1071,15 +1064,24 @@
   },
   "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
   "a3_checkpoint": {
-    "status": "IN_PROGRESS_REVIEW_ONLY_B1_B4_RECORDED_B5_STOP",
-    "doc": "docs/s3-night/S3_A3_BOOKMARKS_B1_B5_PREAUDIT_20261105.md",
-    "document_commit": "f02e8487a9461fd9e6c57624fa62ca3e9dbf1cf4",
-    "catalog": 172,
-    "approved_eight_new_operations": false,
-    "owner_implementation": "NOT_RUN",
-    "ci_a3": "NOT_RUN",
+    "status": "OPEN_AUX_CAS_RECEIPTS_B7_PASS_SCOPED",
+    "unit": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
+    "code_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+    "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
+    "b7": "PASS_SCOPED",
+    "ci_run": 42729311671,
+    "ci_xml": "8/8",
+    "guard_run": 42729311925,
+    "home_run": 42729312050,
+    "contracts_run": 42720699353,
+    "schema_run": 42726963284,
+    "catalog_current": 172,
+    "eight_operations": "APPROVED_CONTRACTS_NOT_MOUNTED",
+    "authority": "DENY_BY_DEFAULT_REAL_ACL_NOT_BOUND",
+    "backup_restore": "NOT_IMPLEMENTED",
+    "ui": "NOT_MOUNTED",
     "physical": "NOT_RUN",
-    "next": "Separate human bounded approval required, then B5 and permit READY"
+    "next": "S3.A3 Guardados: preauditoría B1–B5 de backup/restauración y portabilidad Auxiliary; verificar dependencia ACL/generación y emitir permiso documental propio antes de código. No repetir CAS/recibos 8/8 ni esquema v3; continuar unidades pendientes autorizadas después."
   },
   "a4_checkpoint": {
     "status": "CLOSED_AUTOMATED_SCOPE_READ_ONLY_DEV",
@@ -1945,5 +1947,18 @@
     "b7_doc": "docs/s3-night/S3_A5_7_X08_CANONICAL_PARTIAL_ANDROID_B7_PASS_SCOPED_20261109.md",
     "proof": "OK (1 test), INSTRUMENTATION_CODE: -1",
     "remaining": "X08 genuine ACL/owner midread revocation integration NOT_RUN"
+  },
+  "prework_clean_ready": {
+    "status": "B7_PASS_SCOPED_NEXT_B1_B5",
+    "verified_head": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+    "writer_release_epoch_expected": 667,
+    "unit_closed": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
+    "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
+    "ci_runs": [
+      42729311671,
+      42729311925,
+      42729312050
+    ],
+    "next_unit_permission": "NOT_YET_GRANTED_NEEDS_NEW_B1_B5"
   }
 }

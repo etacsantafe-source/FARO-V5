@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
-  "reviewed_head": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
+  "reviewed_head": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
     "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt",
@@ -59,24 +59,28 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
+    "sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
     "unit_id": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
-    "result": "RED_FIX",
+    "result": "PASS",
+    "scope": "AUXILIARY_CAS_RECEIPTS_ONLY",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_RED_FIX_20261109.md",
-        "blob_sha": "0d21278f8258b99f4392e9efb0fdee0398151264",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
+        "blob_sha": "eaac12b3442ebd7f9ebd371e115e50ec6667137e",
         "marker": "## B7"
       }
-    ]
+    ],
+    "ci_run_id": 42729311671,
+    "guard_run_id": 42729311925,
+    "home_run_id": 42729312050
   },
-  "why": "Kotlin SMARTCAST_IMPOSSIBLE and SQLite FK missing scope parent before first insert, RED_FIX only",
-  "how": "Fix cursor stable local and parent scope insertion BEFORE child inside same transaction; retest 8/8",
+  "why": "B7 PASS_SCOPED en SHA 97fc4492b1a97fe305fc9251cae13a21fbd1dd2d; nueva unidad requiere B1–B5 y permiso limitado propio",
+  "how": "Siguiente preauditoría documental: backup/restauración Guardados y dependencia de autoridad real/generación; no mutar código con este permiso cerrado",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS redfix B6 then B7"
+  "next": "S3_A3_BOOKMARKS_BACKUP_RESTORE_B1_B5_PREAUDIT_THEN_NEW_READY_PERMIT"
 }
