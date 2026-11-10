@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY",
-  "reviewed_head": "bcbc8c36c425f74f3d97988a83a37ac81cffb328",
+  "reviewed_head": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
   "paths": [
     "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/ConversationWorkspaceStore.kt",
     "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmission.kt",
@@ -62,26 +62,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
-    "unit_id": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY",
+    "sha": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
+    "unit_id": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B7_PASS_20261110.md",
-        "blob_sha": "b70ecf529a36cba13bfb317e50023e91c2b234d3",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B7_PASS_20261110.md",
+        "blob_sha": "3f31af0b46f7a554781251910428180864c2f9bf",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 42923566608,
-    "guard_run_id": 42923566737
+    "ci_run_id": 42925035151,
+    "guard_run_id": 42925035030
   },
-  "why": "Actual Workspace exact metadata admission separate from generation/session grant and mutation rights",
+  "why": "Unit backend B7 PASS 10/10; Work executor unavailable. No next-unit functional permission yet.",
   "how": "One SELECT without text plus full pointer and read epoch fences; no native binding yet",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "B6 10 new directed tests, B7; native operations/UI remain gated"
+  "next": "S3_A3_BOOKMARKS_CATALOG_REGISTRATION: reuse prior exact-eight human approval, own B1-B5 before catalog change"
 }
