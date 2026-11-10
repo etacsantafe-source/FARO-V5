@@ -1,0 +1,56 @@
+name: FARO V5 S3 A3 real Workspace bookmark read authority
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/ConversationWorkspaceStore.kt"
+      - "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmission.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkAuthorityGate.kt"
+      - "v5/workspace/src/test/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmissionTest.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkAuthorityGateTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-workspace-authority-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-workspace-authority-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  workspace-bookmark-authority:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Canonical metadata and pointer grant fences
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :workspace:test --tests '*WorkspaceBookmarkReadAdmissionTest' \
+            :store:generation:test --tests '*FaroV5WorkspaceBookmarkAuthorityGateTest'
+      - name: Verify ten new real owner tests without skips
+        run: |
+          python3 - <<'PYXML'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          for name, count in {'WorkspaceBookmarkReadAdmissionTest':4, 'FaroV5WorkspaceBookmarkAuthorityGateTest':6}.items():
+              files=list(Path('v5').glob('**/build/test-results/test/TEST-*.'+name+'.xml'))
+              assert len(files)==1, (name,files)
+              suite=ET.parse(files[0]).getroot()
+              counts=tuple(int(suite.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              assert counts==(count,0,0,0), (name,counts)
+              print(name,count,'PASS')
+          print('S3_A3_WORKSPACE_BOOKMARK_AUTHORITY_PASS 10/10')
+          PYXML
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-workspace-authority-junit
+          path: v5/**/build/test-results/test/TEST-*.xml

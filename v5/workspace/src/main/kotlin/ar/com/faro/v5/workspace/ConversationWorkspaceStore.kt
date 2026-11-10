@@ -389,6 +389,39 @@ class ConversationWorkspaceStore private constructor(
         conversationId: ConversationId,
     ): ConversationTimelineSnapshot? = timelineSnapshot(conversationId)
 
+    /**
+     * One consistent SELECT of owner metadata, without copying timeline text.
+     * Caller MUST independently authorize the read and revalidate generation/grant.
+     */
+    fun bookmarkReadAdmission(
+        conversationId: ConversationId? = null,
+        messageId: ConversationMessageId? = null,
+    ): WorkspaceBookmarkReadAdmission = synchronized(mutex) {
+        require((conversationId == null) == (messageId == null)) { "exact target requires both IDs" }
+        checkOpen()
+        val target = if (conversationId == null) "NULL" else """
+            EXISTS(SELECT 1 FROM workspace_conversation c
+                   JOIN workspace_message w ON w.conversation_id=c.id
+                   WHERE c.id=? AND w.id=? AND c.archived=0
+                     AND ((w.role='USER' AND w.state='ACCEPTED')
+                       OR (w.role='FARO' AND w.state='COMPLETED')))
+        """.trimIndent()
+        connection.prepare(
+            "SELECT a.token,m.revision,$target FROM workspace_authority a " +
+                "CROSS JOIN workspace_meta m WHERE a.singleton=1 AND m.singleton=1"
+        ).use { statement ->
+            if (conversationId != null) {
+                statement.bindText(1, conversationId.value)
+                statement.bindText(2, checkNotNull(messageId).value)
+            }
+            check(statement.step()) { "Workspace bookmark admission root missing" }
+            val facts = WorkspaceBookmarkReadAdmission(statement.getText(0), statement.getLong(1),
+                if (statement.isNull(2)) null else statement.getLong(2) == 1L)
+            check(!statement.step()) { "Workspace bookmark admission root duplicated" }
+            facts
+        }
+    }
+
     internal fun timelineSnapshot(
         conversationId: ConversationId,
     ): ConversationTimelineSnapshot? = synchronized(mutex) {
