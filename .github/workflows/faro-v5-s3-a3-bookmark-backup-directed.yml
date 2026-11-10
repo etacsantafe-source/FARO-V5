@@ -14,6 +14,8 @@ on:
       - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/LegacyGenerationAndBackupV1T1Test.kt"
       - "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt"
       - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodecT2Test.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5AuxiliaryV3PreflightTest.kt"
       - ".github/workflows/faro-v5-s3-a3-bookmark-backup-directed.yml"
   workflow_dispatch:
 
@@ -42,7 +44,7 @@ jobs:
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :store:auxiliary:test --tests '*AuxiliaryBookmarkBackupTest' --tests '*AuxiliaryDeliveryStoreTest' \
             :maintenance:test --tests '*BookmarkBackupCodecTest' --tests '*SemanticBackupRestoreT2Test' --tests '*PortableBackupArchiveCryptoT2Test' --tests '*LegacyGenerationAndBackupV1T1Test' \
-            :store:generation:test --tests '*FaroV5FiveStoreSemanticCodecT2Test' --tests '*FaroV5FiveStoreBackupCaptureT2Test' --tests '*FaroV5FiveStoreStagedRestoreT2Test' --tests '*FaroV5FiveStorePortableBackupCryptoT2Test'
+            :store:generation:test --tests '*FaroV5AuxiliaryV3PreflightTest' --tests '*FaroV5FiveStoreSemanticCodecT2Test' --tests '*FaroV5FiveStoreBackupCaptureT2Test' --tests '*FaroV5FiveStoreStagedRestoreT2Test' --tests '*FaroV5FiveStorePortableBackupCryptoT2Test'
       - name: Verify new tests and affected regression XML without skips
         run: |
           python3 - <<'PY'
@@ -55,6 +57,7 @@ jobs:
             'SemanticBackupRestoreT2Test': None,
             'LegacyGenerationAndBackupV1T1Test': None,
             'PortableBackupArchiveCryptoT2Test': None,
+            'FaroV5AuxiliaryV3PreflightTest': 5,
             'FaroV5FiveStoreSemanticCodecT2Test': None,
             'FaroV5FiveStoreBackupCaptureT2Test': None,
             'FaroV5FiveStoreStagedRestoreT2Test': None,
@@ -69,7 +72,7 @@ jobs:
               assert tests > 0 and (count is None or tests == count) and (failures,errors,skipped) == (0,0,0), (name, suite.attrib)
               total += tests
               print(name, tests, 'PASS')
-          print('S3_A3_BOOKMARK_BACKUP_NEW_PASS 11/11')
+          print('S3_A3_BOOKMARK_BACKUP_NEW_PASS 16/16')
           print('S3_A3_BOOKMARK_BACKUP_TOTAL_PASS', total)
           PY
       - uses: actions/upload-artifact@v4

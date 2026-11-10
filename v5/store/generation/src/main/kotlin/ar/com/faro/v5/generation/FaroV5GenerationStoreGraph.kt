@@ -367,9 +367,17 @@ class FaroV5GenerationStoreGraph private constructor(
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WEB_EVIDENCE, 2, listOf(
                     "web_evidence", "web_search_evidence",
                 )),
-                StagedSqlitePreflight.Schema(GenerationStoreFiles.AUXILIARY, 2, listOf(
-                    "delivery_notice", "delivery_intent",
-                )),
+                StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.AUXILIARY, 3, listOf(
+                        "delivery_notice", "delivery_intent", "bookmark_scope",
+                        "bookmark_folder", "bookmark_item", "bookmark_receipt",
+                    ),
+                    // Only a sealed STAGED generation may use the certified
+                    // owner migration. Never migrate an active Auxiliary DB.
+                    legacyVersion = if (activeGeneration) null else 2,
+                    legacyTables = if (activeGeneration) emptyList() else
+                        listOf("delivery_notice", "delivery_intent"),
+                ),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WORKSPACE, 4, listOf(
                     "workspace_conversation", "workspace_meta", "workspace_receipt",
                     "workspace_draft", "workspace_authority", "workspace_message",
