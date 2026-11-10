@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3A3.CAS_REDFIX_DOC",
   "token_hash": "26c5aa1c04b05e1936b0fce78a38100d5a887229c9f7722fdb3427c7ba259a963",
   "target_head": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
   "target_branch": "work/s3-night-20261102",
   "epoch": 664,
-  "timestamp": 1794270690,
+  "timestamp": 1794270781,
   "purpose": "B7 RED_FIX and scope-limited B1-B5 regression fix for CAS receipts",
-  "last_checkpoint": "S3_A3_BOOKMARK_CAS_RECEIPTS_B6@32382b9c54f4b73795bd727c4e69c580a4ef2d5b"
+  "last_checkpoint": "S3_A3_CAS_RED_FIX_READY@24c0c3f90c504f71bb401f4edee76746208aadf1"
 }
