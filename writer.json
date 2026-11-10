@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3A3.CAS_RECEIPTS_B6",
-  "token_hash": "6827d5e918417aac519a8dd631c4c1fc7bf9be2600cde25425decc0ce5dfbf05",
-  "target_head": "7313847362a1be533be399636b04704d78e2d755",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3A3.CAS_REDFIX_DOC",
+  "token_hash": "26c5aa1c04b05e1936b0fce78a38100d5a887229c9f7722fdb3427c7ba259a963",
+  "target_head": "32382b9c54f4b73795bd727c4e69c580a4ef2d5b",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 663,
-  "timestamp": 1794270576,
-  "purpose": "AuxiliaryBookmarkStore transactional metadata B6",
+  "epoch": 664,
+  "timestamp": 1794270690,
+  "purpose": "B7 RED_FIX and scope-limited B1-B5 regression fix for CAS receipts",
   "last_checkpoint": "S3_A3_BOOKMARK_CAS_RECEIPTS_B6@32382b9c54f4b73795bd727c4e69c580a4ef2d5b"
 }
