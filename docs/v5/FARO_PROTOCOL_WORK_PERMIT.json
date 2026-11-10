@@ -1,23 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_MUTATION_AUTHORITY",
-  "reviewed_head": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY",
+  "reviewed_head": "bcbc8c36c425f74f3d97988a83a37ac81cffb328",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStoreTest.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkBackupTest.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkPortabilityTest.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-mutation-authority-directed.yml"
+    "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/ConversationWorkspaceStore.kt",
+    "v5/workspace/src/main/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmission.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkAuthorityGate.kt",
+    "v5/workspace/src/test/kotlin/ar/com/faro/v5/workspace/WorkspaceBookmarkReadAdmissionTest.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkAuthorityGateTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-workspace-authority-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
           "marker": "## B1"
         }
       ]
@@ -26,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
           "marker": "## B2"
         }
       ]
@@ -36,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
           "marker": "## B3"
         }
       ]
@@ -46,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
           "marker": "## B4"
         }
       ]
@@ -56,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_MUTATION_AUTHORITY_B1_B5_20261110.md",
-          "blob_sha": "adbdfe94f4253c4e8faf9d5106d2e2f7df054864",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B1_B5_20261110.md",
+          "blob_sha": "780c9bb875b3ecc343e51b3856ef57717596e4b4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e346ae4ac5b4169d33143b05f12dd1c9ec598023",
@@ -79,9 +79,9 @@
     "ci_run_id": 42923566608,
     "guard_run_id": 42923566737
   },
-  "why": "Separate mutation authority B7 PASS; no real Workspace host binding yet",
-  "how": "Separate explicit mutation gate default false; revalidate precommit; keep read ports independent",
+  "why": "Actual Workspace exact metadata admission separate from generation/session grant and mutation rights",
+  "how": "One SELECT without text plus full pointer and read epoch fences; no native binding yet",
   "no_auto_night": true,
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY"
+  "next": "B6 10 new directed tests, B7; native operations/UI remain gated"
 }
