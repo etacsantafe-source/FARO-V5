@@ -4,9 +4,9 @@
   "package_id": "A5-X03-U01-CONSULT-DEV-20261111",
   "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
   "branch": "work/s3-night-20261102",
-  "base_head_sha": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
-  "version": 1,
-  "status": "NEEDS_PREP_SCOPE_PROPAGATION",
+  "base_head_sha": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
+  "version": 2,
+  "status": "DELTA_PREAUDITED_NEEDS_SEPARATE_READY_PERMIT",
   "depends_on": [
     "S2_F1_REAL_AI_ISOLATED:PASS_SCOPED",
     "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS"
@@ -33,7 +33,10 @@
     "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X03ExplicitConsultUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml"
+    ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
   ],
   "safe_subunit_outcome": "X03_U01_PASS_SCOPED_EXPLICIT_UI_NO_REMOTE_NOT_X03_GLOBAL",
   "test_cases": [
@@ -63,16 +66,24 @@
     "change Apply/Reality/owners",
     "Moto G15 physical before final"
   ],
-  "next_action": "PREPARE_B1_B5_DELTA_FOR_THREE_HOST_ROUTES_THEN_SEPARATE_READY_PERMIT_NO_CODE_NOW",
+  "next_action": "After guard SUCCESS at delta commit, publish separate individual READY permit for exact 7 paths, check preflight all 7, Work B6 Android XML 2/2 APK and B7. Not X03 global.",
   "ready_permit_sha": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5",
   "reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
   "last_verified_guard_run": 43092315963,
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-  "blocked_reason": "REAL_DEV_HOST_HAS_NO_EXPLICIT_MODE_PROPAGATION_IN_FOUR_PATH_SCOPE",
+  "blocked_reason": "AWAITING_DELTA_DOCUMENT_GUARD_AND_NEW_READY_PERMIT",
   "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md",
-  "candidate_additional_paths_not_authorized": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
-  ]
+  "candidate_additional_paths_not_authorized": [],
+  "b1_b5_delta": {
+    "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
+    "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ],
+    "reason": "REAL_HOST_PROPAGATION_SEVEN_EXACT_PATHS"
+  }
 }
