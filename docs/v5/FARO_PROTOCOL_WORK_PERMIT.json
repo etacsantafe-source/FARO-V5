@@ -96,18 +96,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
-    "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-    "result": "PASS",
+    "sha": "fb5f14edadb1fc6db56932fc2d34010f255cb61e",
+    "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_M03_WORK_B7_PASS_20261111.md",
-        "blob_sha": "87de1ead6c47dedbbbaf5f477bfb269fc63a0271",
+        "path": "docs/s3-night/S3_A3_M04_WORK_RED_FIX_1_20261111.md",
+        "blob_sha": "4519f6c16eac7e73f774dc0367bd7449770b3f14",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43036909801,
-    "guard_run_id": 43036909777
+    "ci_run_id": 43045257579,
+    "regression_run_id": 43045257303
   },
   "why": "M01/M02/M03 B7 PASS; source navigation callback on native ACTIVE controls audited, plus AdaptiveShell typed minimal handoff + tests; M04 11 exact paths",
   "how": "Original+M03 SHA-based delta B1-B5; 11 paths (3 added); host-only authorized ACTIVE exact id relookup via M02 reviewSnapshot, Workspace select + readTimeline, ephemeral focus; page/epoch/foreground/ABA fail closed. No new DB/owner/contract",
