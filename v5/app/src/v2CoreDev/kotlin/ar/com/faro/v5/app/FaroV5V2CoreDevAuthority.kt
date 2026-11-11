@@ -298,7 +298,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             )
             Session(
                 graph, alive, reads.workspaceReadPort, reads.timelineReadPort,
-                selection.port, composer.port, search, readAccesses.toList(), pointer, observer,
+                selection.port, composer.port, search, readAccesses.toList(), pointer, observer, openingPointer,
             )
         } catch (failure: Throwable) {
             pointerObserver?.let { pointer.removeChangeListener(it) }
@@ -336,7 +336,10 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private val searchAccesses: List<FaroV5V2CoreDevSearchReadAuthority>,
         private val pointer: FileActiveGenerationPointer,
         private val pointerObserver: Runnable,
+        private val openingPointer: ActiveGenerationPointer,
     ) : AutoCloseable {
+        private var bookmarkAuthority: FaroV5LocalInstallReadAuthority? = null
+        private var bookmarkBinding: FaroV5BookmarkReadHostBinding? = null
         private var historyAuthority: FaroV5LocalInstallReadAuthority? = null
         private var historyBinding: FaroV5RealHistoryActivityHostBinding? = null
         private var pendingAuthority: FaroV5LocalInstallReadAuthority? = null
@@ -420,6 +423,88 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                     probe?.close()
                 }
             }
+        }
+
+
+        /** Sole caller is the dedicated native Guardados click while this Activity is RESUMED. */
+        @Synchronized
+        internal fun openBookmarksAfterTrustedForegroundRequest(
+            application: Application,
+            foreground: () -> Boolean,
+        ): FaroV5BookmarkReadHostBinding? {
+            if (!alive.get() || bookmarkBinding != null ||
+                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !runCatching { foreground() && pointer.read() == openingPointer }.getOrDefault(false)
+            ) return null
+            val workspace = graph.workspace ?: return null
+            val epoch = UUID.randomUUID().toString()
+            val hostReady: () -> Boolean = {
+                alive.get() && runCatching {
+                    foreground() && pointer.read() == openingPointer
+                }.getOrDefault(false)
+            }
+            var probe: FaroV5AndroidSandboxPrincipal? = null
+            var access: FaroV5LocalInstallReadAuthority? = null
+            var binding: FaroV5BookmarkReadHostBinding? = null
+            var mounted = false
+            return try {
+                probe = FaroV5AndroidSandboxPrincipal(
+                    expectedApplicationId = application.packageName,
+                    pinned = openingPointer, activePointer = pointer,
+                    expectedHostEpoch = epoch,
+                    hostEpochOrNull = { if (alive.get()) epoch else null },
+                    facts = AndroidPlatformSandboxFactsReader(application),
+                )
+                access = FaroV5LocalInstallReadAuthority(
+                    sandbox = probe, activePointer = pointer,
+                    hostReady = hostReady, foregroundReady = foreground,
+                )
+                val principal = access.technicalPrincipalOrNull()
+                if (principal == null || !hostReady() ||
+                    !access.grantAfterTrustedForegroundReadAction(setOf(
+                        FaroV5LocalReadDomain.BOOKMARK_METADATA,
+                        FaroV5LocalReadDomain.WORKSPACE_MESSAGE,
+                    ))
+                ) null else {
+                    binding = FaroV5BookmarkReadHostBinding(
+                        pinned = openingPointer, activePointer = pointer,
+                        workspace = workspace, auxiliary = graph.auxiliary,
+                        principalId = principal, expectedHostEpoch = epoch,
+                        hostEpochOrNull = { if (alive.get()) epoch else null },
+                        hostReady = hostReady, readAuthority = access,
+                    )
+                    if (!hostReady()) null else {
+                        bookmarkAuthority = access
+                        bookmarkBinding = binding
+                        mounted = true
+                        binding
+                    }
+                }
+            } catch (_: Exception) { null }
+            finally {
+                if (!mounted) {
+                    binding?.close()
+                    access?.close()
+                    probe?.close()
+                }
+            }
+        }
+
+        @Synchronized
+        internal fun isBookmarkReadCurrent(
+            binding: FaroV5BookmarkReadHostBinding,
+            page: FaroV5BookmarkHostPage,
+            foreground: () -> Boolean,
+        ): Boolean = alive.get() && bookmarkBinding === binding &&
+            runCatching { foreground() && pointer.read() == openingPointer }.getOrDefault(false) &&
+            binding.isPageCurrent(page)
+
+        @Synchronized
+        internal fun revokeBookmarkReadingOnPause() {
+            bookmarkBinding?.close()
+            bookmarkBinding = null
+            bookmarkAuthority?.close()
+            bookmarkAuthority = null
         }
 
         /** Strictly DEV-only; called solely by the Pendientes native button. */
@@ -550,6 +635,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             if (alive.compareAndSet(true, false)) {
                 revokeActivityReadingOnPause()
                 revokePendingReadingOnPause()
+                revokeBookmarkReadingOnPause()
                 searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)
                 graph.close()

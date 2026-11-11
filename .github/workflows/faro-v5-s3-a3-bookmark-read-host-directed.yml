@@ -1,0 +1,72 @@
+name: FARO V5 S3 A3 real Guardados native read host
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBinding.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBindingT2Test.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentationT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-read-host-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-read-host-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bookmark-read-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Real two owner reads and independent read authority
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests '*FaroV5BookmarkReadHostBindingT2Test' \
+            --tests '*FaroV5V2CoreDevBookmarksPresentationT2Test' --tests '*FaroV5LocalInstallReadAuthorityT2Test'
+      - name: Compile isolated native DEV host and APK
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleV2CoreDev
+      - name: Verify nineteen tests without skips
+        run: |
+          python3 - <<'PYXML'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          for name, count in {'FaroV5BookmarkReadHostBindingT2Test':6, 'FaroV5V2CoreDevBookmarksPresentationT2Test':3, 'FaroV5LocalInstallReadAuthorityT2Test':10}.items():
+              files=list(Path('v5/app/build/test-results/testDebugUnitTest').glob('TEST-*.'+name+'.xml'))
+              assert len(files)==1, (name,files)
+              suite=ET.parse(files[0]).getroot()
+              counts=tuple(int(suite.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              assert counts==(count,0,0,0), (name,counts)
+              print(name,count,'PASS')
+          print('S3_A3_BOOKMARK_READ_HOST_NATIVE_PASS 19/19; nine new; DEV APK built')
+          PYXML
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-read-host-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*.xml

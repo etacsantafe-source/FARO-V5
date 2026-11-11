@@ -110,6 +110,25 @@ class AuxiliaryDeliveryStore private constructor(
         connection, lock, materialWriteGate, bookmarkAuthorityGate, { !closed }
     )
 
+    /**
+     * Narrow read view on this owner's existing connection and mutex.
+     * Injecting read authority never exposes or grants mutation authority.
+     */
+    fun bookmarkReaderForTrustedHost(
+        authority: BookmarkAuthorityGate,
+    ): ar.com.faro.v5.kernel.contracts.BookmarkReadPort {
+        val readOnlyAuthority = object : BookmarkAuthorityGate {
+            override fun isScopeActive(generationId: String, authorityToken: String) =
+                authority.isScopeActive(generationId, authorityToken)
+            override fun isTargetAvailable(target: ar.com.faro.v5.kernel.contracts.BookmarkTarget) =
+                authority.isTargetAvailable(target)
+        }
+        val reader = AuxiliaryBookmarkStore(
+            connection, lock, materialWriteGate, readOnlyAuthority, { !closed },
+        )
+        return ar.com.faro.v5.kernel.contracts.BookmarkReadPort { request -> reader.read(request) }
+    }
+
     val maintenance: AuxiliaryMaintenancePort =
         AuxiliaryMaintenancePort(::inspectForMaintenance)
 

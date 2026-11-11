@@ -34,13 +34,16 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val disposed = AtomicBoolean(false)
     private val pendingActivityReadRequest = AtomicBoolean(false)
     private val pendingDueReadRequest = AtomicBoolean(false)
+    private val pendingBookmarkReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
     private lateinit var activityButton: Button
     private lateinit var dueButton: Button
+    private lateinit var bookmarksButton: Button
     private lateinit var upgradeButton: Button
     private var dueDisplay: TextView? = null
+    private var bookmarksDisplay: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +86,14 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             setOnClickListener { openLocalChat(requestPendingRead = true) }
         }
         column.addView(dueButton)
+        bookmarksButton = Button(this).apply {
+            text = "Consultar Guardados locales (DEV)"
+            setOnClickListener {
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+                    openLocalChat(requestBookmarkRead = true)
+            }
+        }
+        column.addView(bookmarksButton)
         column.addView(TextView(this).apply {
             text = "Reality8 (solo DEV): crea una generación nueva y vacía. " +
                 "NO copia datos de Reality7; la generación anterior queda intacta. " +
@@ -108,14 +119,18 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         requestActivityRead: Boolean = false,
         requestPendingRead: Boolean = false,
         requestPlanning8Upgrade: Boolean = false,
+        requestBookmarkRead: Boolean = false,
     ) {
+        if (requestBookmarkRead && !lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
         if (!opening.compareAndSet(false, true)) return
         // Only this dedicated foreground button can request an Activity read.
         pendingActivityReadRequest.set(requestActivityRead)
         pendingDueReadRequest.set(requestPendingRead)
+        pendingBookmarkReadRequest.set(requestBookmarkRead)
         openButton.isEnabled = false
         activityButton.isEnabled = false
         dueButton.isEnabled = false
+        bookmarksButton.isEnabled = false
         upgradeButton.isEnabled = false
         // Revoke all old per-session read grants and close five SQLite stores
         // before the explicit Reality8 cutover can acquire the same global gate.
@@ -136,6 +151,8 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                     }
                 } else authority.open()
                 opened = current
+                // Reading Guardados never creates/selects a conversation.
+                if (!requestBookmarkRead) {
                 val snapshot = runBlocking { current.workspaceReadPort.readSnapshot() }
                 if (snapshot.conversations.isEmpty()) {
                     check(runBlocking {
@@ -153,21 +170,25 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                         )
                     } is ConversationSelectionResult.Saved)
                 }
+                }
             }.exceptionOrNull()
             runOnUiThread {
                 try {
                     if (disposed.get() || isFinishing || isDestroyed) {
                         pendingActivityReadRequest.set(false)
                         pendingDueReadRequest.set(false)
+                        pendingBookmarkReadRequest.set(false)
                         opened?.close()
                     } else if (failure != null) {
                         opened?.close()
                         status.text = "No se abrió: ${failure.javaClass.simpleName}. Los datos permanecen intactos."
                         pendingActivityReadRequest.set(false)
                         pendingDueReadRequest.set(false)
+                        pendingBookmarkReadRequest.set(false)
                         openButton.isEnabled = true
                         activityButton.isEnabled = true
                         dueButton.isEnabled = true
+                        bookmarksButton.isEnabled = true
                         upgradeButton.isEnabled = true
                     } else {
                         val active = checkNotNull(opened)
@@ -184,7 +205,10 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             },
                         ) else null
                         val userRequestedPending = pendingDueReadRequest.getAndSet(false)
-                        if (userRequestedPending) {
+                        val userRequestedBookmarks = pendingBookmarkReadRequest.getAndSet(false)
+                        if (userRequestedBookmarks) {
+                            openBookmarksView(active)
+                        } else if (userRequestedPending) {
                             openPendingView(active)
                         } else FaroV5SurfaceHost.install(
                             activity = this,
@@ -270,11 +294,68 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         }
     }
 
+
+    /** Metadata only; no implicit save, Apply, source text or exact navigation. */
+    private fun openBookmarksView(active: FaroV5V2CoreDevAuthority.Session) {
+        val foreground = {
+            !disposed.get() && !isFinishing && !isDestroyed &&
+                lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        }
+        val binding = if (foreground()) active.openBookmarksAfterTrustedForegroundRequest(
+            application = application, foreground = foreground,
+        ) else null
+        val column = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            val p = (20 * resources.displayMetrics.density).toInt()
+            setPadding(p, p, p, p)
+        }
+        column.addView(TextView(this).apply {
+            text = "Guardados locales"
+            textSize = 22f
+        })
+        column.addView(TextView(this).apply {
+            text = "Referencias guardadas en este dispositivo. Se muestran hasta 50; " +
+                "el contenido sigue en su conversación de origen."
+        })
+        val output = TextView(this).apply {
+            text = if (binding == null) FaroV5V2CoreDevBookmarksPresentation.unavailable
+                else "Consultando referencias autorizadas…"
+        }
+        bookmarksDisplay = output
+        column.addView(output)
+        column.addView(Button(this).apply {
+            text = "Volver al inicio DEV"
+            setOnClickListener {
+                bookmarksDisplay?.text = FaroV5V2CoreDevBookmarksPresentation.unavailable
+                active.revokeBookmarkReadingOnPause()
+                recreate()
+            }
+        })
+        setContentView(ScrollView(this).apply {
+            addView(column, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+            ))
+        })
+        if (binding == null) return
+        executor.execute {
+            val page = runCatching { runBlocking { binding.readAuthorized() } }.getOrNull()
+            runOnUiThread {
+                bookmarksDisplay?.text = if (page != null && session === active && foreground() &&
+                    active.isBookmarkReadCurrent(binding, page, foreground)
+                ) FaroV5V2CoreDevBookmarksPresentation.render(page)
+                else FaroV5V2CoreDevBookmarksPresentation.unavailable
+            }
+        }
+    }
+
     override fun onPause() {
         // Revoke regardless of whether Compose currently shows the Activity page.
         pendingActivityReadRequest.set(false)
         pendingDueReadRequest.set(false)
+                        pendingBookmarkReadRequest.set(false)
         dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
+        bookmarksDisplay?.text = FaroV5V2CoreDevBookmarksPresentation.unavailable
+        session?.revokeBookmarkReadingOnPause()
         session?.revokePendingReadingOnPause()
         session?.revokeActivityReadingOnPause()
         // Search's four owner-specific grants must not outlive RESUMED.
@@ -287,7 +368,9 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         disposed.set(true)
         pendingActivityReadRequest.set(false)
         pendingDueReadRequest.set(false)
+                        pendingBookmarkReadRequest.set(false)
         dueDisplay = null
+        bookmarksDisplay = null
         executor.shutdown()
         session?.close()
         session = null
