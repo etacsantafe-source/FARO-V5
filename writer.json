@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.M04M05.20261111.351fcd0d",
-  "token_hash": "d4acdb256668e2250e16978c3c256692c4c238e800b0a0bae00304a68b74ef56",
-  "target_head": "ef8e04122aa7f797a01bf5b5e34d4faae3cd0827",
+  "status": "HELD",
+  "owner": "FARO.CHAT.M05.RED_FIX.20261111",
+  "token_hash": "c4149b139e448e2a31114e569876e1bf2a5b0cdd6f4798d04ae2d05ab46bc33d",
+  "target_head": "11c8906a9210a1c725a30ca6c256095b868468ad",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 716,
-  "timestamp": 1794411342,
-  "last_checkpoint": "11c8906a9210a1c725a30ca6c256095b868468ad",
-  "purpose": "M05_B6_TESTS_PUBLISHED_WAIT_EXACT_CI"
+  "epoch": 717,
+  "timestamp": 1794413075,
+  "purpose": "M05_DIAGNOSIS_RED_FIX_PREP_ONLY"
 }
