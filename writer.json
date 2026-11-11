@@ -1,1 +1,11 @@
-{"schema":1,"status":"RELEASED","owner":"FARO.WORK.A3.M01.20261111","token_hash":"d4bfaa59a174a617a735d530c6c3b7c3f52523e339c4e8738436e2cd2fedad10","target_head":"dcbd5ef654f0a530b9d6ec754341648fc466e052","target_branch":"work/s3-night-20261102","epoch":700,"timestamp":1794398940,"last_checkpoint":"4a87ac39fd3483b320549a0b6a6dca676f2cd216","purpose":"M01_B7_PASS_M02_NEEDS_PREP"}
+{
+  "schema": 1,
+  "status": "HELD",
+  "owner": "FARO.CHAT.A3.M02.PREPARADOR.20261111",
+  "token_hash": "2ec93e4caedd67a56bd2214a318dae167bfb3ba7ed4fe3e9de9ee6610ea3ed35",
+  "target_head": "4a87ac39fd3483b320549a0b6a6dca676f2cd216",
+  "target_branch": "work/s3-night-20261102",
+  "epoch": 701,
+  "timestamp": 1794402274,
+  "purpose": "DOC_ONLY_M02_REVISION_PREFLIGHT_DELTA_AND_READY_PERMIT"
+}
