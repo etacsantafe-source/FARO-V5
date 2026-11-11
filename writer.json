@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.X03_U01.SCOPE_DELTA.20261111",
   "token_hash": "17c785f9947d39f314249be68ff4db8f7a11dd624e8da3ed0c91f162e5b475dc",
-  "target_head": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
+  "target_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 739,
-  "timestamp": 1794430450,
-  "last_checkpoint": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
-  "purpose": "X03_U01_HOST_PROPAGATION_B1_B5_DELTA_DOCS"
+  "timestamp": 1794430550,
+  "last_checkpoint": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
+  "purpose": "X03_U01_HOST_PROPAGATION_B1_B5_DELTA_PUBLISHED_AWAIT_GUARD"
 }
