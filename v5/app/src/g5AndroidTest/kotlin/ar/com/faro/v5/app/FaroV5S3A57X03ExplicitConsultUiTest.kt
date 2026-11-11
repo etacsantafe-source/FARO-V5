@@ -45,8 +45,12 @@ class FaroV5S3A57X03ExplicitConsultUiTest {
         nodes[nodes.fetchSemanticsNodes().lastIndex].performTextInput(body)
         rule.onNodeWithText("Enviar").assertIsEnabled().performClick()
         rule.waitUntil(45_000) {
-            runCatching { rule.onAllNodesWithText(body, useUnmergedTree = true)
-                .fetchSemanticsNodes().size == 1 }.getOrDefault(false)
+            runCatching {
+                val editors = rule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes()
+                editors.isNotEmpty() &&
+                    editors.last().config[SemanticsProperties.EditableText].text.isEmpty() &&
+                    rule.onAllNodesWithText(body, useUnmergedTree = true).fetchSemanticsNodes().size == 1
+            }.getOrDefault(false)
         }
         rule.waitForIdle()
         rule.onNodeWithText("Enviar").assertIsNotEnabled()
