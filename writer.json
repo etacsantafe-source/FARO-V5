@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.S3A3.BACKUP.20261110",
   "token_hash": "110e84e881b454f9a0e9732fca597d554c1a6ba79d34ccb7bad742778e589dca",
   "target_head": "58e2ec52b8684d3d0e2d318e33dc36ca937a61ce",
   "target_branch": "work/s3-night-20261102",
   "epoch": 685,
-  "timestamp": 1794355566,
-  "last_checkpoint": "58e2ec52b8684d3d0e2d318e33dc36ca937a61ce",
+  "timestamp": 1794355574,
+  "last_checkpoint": "84205055db54818b46158f96730602f5f9eaad7a",
   "purpose": "READ_HOST_B1_B5"
 }
