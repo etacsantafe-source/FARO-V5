@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "goal_id": "S3.A3",
+  "branch": "work/s3-night-20261102",
+  "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+  "status": "PREPARED_QUEUE",
+  "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+  "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
+  "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
+  "physical": "Moto G15 FINAL single campaign only",
+  "units": [
+    {
+      "package_id": "A3-M01-DEV-20261110",
+      "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+      "status": "READY_FOR_IMPLEMENTATION",
+      "active_permit": "READY",
+      "execution_package": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
+      "reviewed_head": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
+      "recheck_head": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "b1_b5": "CERTIFIED_PREAUDIT",
+      "ci_protocol_verified_run": 42940764338,
+      "implementation": "NOT_RUN",
+      "ci": "NOT_RUN",
+      "b7": "NOT_RUN"
+    },
+    {
+      "package_id": "A3-M02-20261111",
+      "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "depends_on_B7": [
+        "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV"
+      ],
+      "base_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "prep_document": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+      "evidence_blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da",
+      "prep_markers": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "allowed_functional_paths_proposed": [
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurface.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5MessageTimeline.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatTimeline.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+        "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurfaceTest.kt",
+        "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkChatReviewDevTest.kt",
+        ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml"
+      ],
+      "permitted_by_active_gate": false,
+      "steps": [
+        "Verify upstream B7 and exact SHA/diff",
+        "mechanical delta review vs documented B1-B5",
+        "issue scoped documentary permit in separate CAS commit",
+        "confirm protocol preflight SUCCESS",
+        "B6 restricted implementation",
+        "directed JVM/XML and DEV APK CI on exact SHA",
+        "independent B7, checkpoint, writer RELEASED"
+      ],
+      "forbidden": [
+        "main",
+        "V4.4",
+        "V2 productive activation",
+        "S4",
+        "Auto",
+        "Night",
+        "paid APIs",
+        "new operations/catalog",
+        "new unapproved schema/owner",
+        "reusing Reality COMMITTED",
+        "Moto G15 physical prior to final campaign"
+      ],
+      "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
+      "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
+      "b6": "NOT_RUN",
+      "b7": "NOT_RUN"
+    },
+    {
+      "package_id": "A3-M03-20261111",
+      "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "depends_on_B7": [
+        "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV"
+      ],
+      "base_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "prep_document": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
+      "evidence_blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d",
+      "prep_markers": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "allowed_functional_paths_proposed": [
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt",
+        "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt",
+        ".github/workflows/faro-v5-s3-a3-bookmark-folders-directed.yml"
+      ],
+      "permitted_by_active_gate": false,
+      "steps": [
+        "Verify upstream B7 and exact SHA/diff",
+        "mechanical delta review vs documented B1-B5",
+        "issue scoped documentary permit in separate CAS commit",
+        "confirm protocol preflight SUCCESS",
+        "B6 restricted implementation",
+        "directed JVM/XML and DEV APK CI on exact SHA",
+        "independent B7, checkpoint, writer RELEASED"
+      ],
+      "forbidden": [
+        "main",
+        "V4.4",
+        "V2 productive activation",
+        "S4",
+        "Auto",
+        "Night",
+        "paid APIs",
+        "new operations/catalog",
+        "new unapproved schema/owner",
+        "reusing Reality COMMITTED",
+        "Moto G15 physical prior to final campaign"
+      ],
+      "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
+      "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
+      "b6": "NOT_RUN",
+      "b7": "NOT_RUN"
+    },
+    {
+      "package_id": "A3-M04-20261111",
+      "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "depends_on_B7": [
+        "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV"
+      ],
+      "base_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "prep_document": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+      "evidence_blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
+      "prep_markers": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "allowed_functional_paths_proposed": [
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkSourceNavigationBinding.kt",
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+        "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+        "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkSourceNavigationBindingTest.kt",
+        "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkSourceNavTest.kt",
+        ".github/workflows/faro-v5-s3-a3-bookmark-source-nav-directed.yml"
+      ],
+      "permitted_by_active_gate": false,
+      "steps": [
+        "Verify upstream B7 and exact SHA/diff",
+        "mechanical delta review vs documented B1-B5",
+        "issue scoped documentary permit in separate CAS commit",
+        "confirm protocol preflight SUCCESS",
+        "B6 restricted implementation",
+        "directed JVM/XML and DEV APK CI on exact SHA",
+        "independent B7, checkpoint, writer RELEASED"
+      ],
+      "forbidden": [
+        "main",
+        "V4.4",
+        "V2 productive activation",
+        "S4",
+        "Auto",
+        "Night",
+        "paid APIs",
+        "new operations/catalog",
+        "new unapproved schema/owner",
+        "reusing Reality COMMITTED",
+        "Moto G15 physical prior to final campaign"
+      ],
+      "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
+      "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
+      "b6": "NOT_RUN",
+      "b7": "NOT_RUN"
+    },
+    {
+      "package_id": "A3-M05-20261111",
+      "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
+      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "depends_on_B7": [
+        "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV"
+      ],
+      "base_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "prep_document": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
+      "evidence_blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
+      "prep_markers": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
+      ],
+      "allowed_functional_paths_proposed": [
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkA3AcceptanceT2Test.kt",
+        "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkA3UiAcceptanceTest.kt",
+        ".github/workflows/faro-v5-s3-a3-bookmark-acceptance-directed.yml"
+      ],
+      "permitted_by_active_gate": false,
+      "steps": [
+        "Verify upstream B7 and exact SHA/diff",
+        "mechanical delta review vs documented B1-B5",
+        "issue scoped documentary permit in separate CAS commit",
+        "confirm protocol preflight SUCCESS",
+        "B6 restricted implementation",
+        "directed JVM/XML and DEV APK CI on exact SHA",
+        "independent B7, checkpoint, writer RELEASED"
+      ],
+      "forbidden": [
+        "main",
+        "V4.4",
+        "V2 productive activation",
+        "S4",
+        "Auto",
+        "Night",
+        "paid APIs",
+        "new operations/catalog",
+        "new unapproved schema/owner",
+        "reusing Reality COMMITTED",
+        "Moto G15 physical prior to final campaign"
+      ],
+      "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
+      "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
+      "b6": "NOT_RUN",
+      "b7": "NOT_RUN"
+    }
+  ],
+  "gates": {
+    "preflight": "scripts/quality/faro-protocol-gate.py --mode preflight --unit UNIT_ID --path EXACT_PATH (for each path, after permit commit)",
+    "scope": "Only paths in current READY permit, use FARO-UNIT trailer and GitHub CAS branch update",
+    "conditions": "No static future READY; next unit may become READY only after previous B7+CI; documentary permit mint allowed as mechanical transition not new research",
+    "checkpoint": "After every B7, writer RELEASED; next unit picks up pointer; no duplicated certified tests",
+    "drift": "If M01–M04 code changes a type/API or proof blob, STOP as STALE_NEEDS_DELTA_REAUDIT, prepare only affected evidence; never bypass"
+  },
+  "risk_flags": [
+    "Tombstone REMOVED may not be visible to current reader: restoration requires authorized targeted lookup or STOP",
+    "Exact navigation needs dual owner revalidation and fresh Workspace selection; focus ID alone insufficient",
+    "M01 grant must bind request target/operation+epoch+generation, not only generic mutation boolean"
+  ],
+  "goal_completion": "Only claim AUTOMATED_READY_FOR_FINAL_PHYSICAL_CAMPAIGN after M05 B7; S3.A3 CLOSED requires agreed physical-final acceptance gate",
+  "progress": {
+    "S2_closed": "8/8",
+    "S3_estimated_historical": "about 40%",
+    "S3_formally_closed": "0/5",
+    "A3": "OPEN"
+  }
+}

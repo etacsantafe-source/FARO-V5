@@ -3,10 +3,10 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-10",
+  "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_BOOKMARK_TRUSTED_MUTATION_HOST_READY_B6_NOT_RUN",
+  "phase": "S3_A3_WORK_PREP_ALL_FUTURE_UNITS_PREAUDITED_M01_ONLY_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 694
+    "expected_release_epoch": 695
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
+  "handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Execute A3-M01 trusted DEV mutation host under READY permit & preflight, exact CI and B7. Then independent preaudit and implement Chat/Review UI + exact source navigation; A3/A5 integrated and physical remain OPEN.",
+  "next": "WORK_B6_M01_READY_ONLY; M02-M05 have scoped B1-B5 preaudits, require one-by-one permit after B7. No stale plan auto execute.",
   "checkpoint_status": "S3_A3_BOOKMARK_TRUSTED_MUTATION_HOST_READY_ONLY_A3_OPEN",
   "notes": "B1-B5 A3-M01 scoped prep committed; READY permit issued documentary-only. No A3-M01 functional code/test PASS; certified read-only 19/19 and catalog180 unchanged.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
+  "last_handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
   "last_code_sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
   "last_ci_run_id": 42935422794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -2077,5 +2077,18 @@
     "base_head_sha": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
     "functional_commits": 0,
     "physical": "NOT_RUN"
+  },
+  "work_exclusive_execution_handoff": {
+    "status": "PREPARED_DOC_ONLY_M01_READY_M02_M05_DEPENDENCY_PREAUDITED",
+    "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
+    "queue": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
+    "prepared_units": 5,
+    "ready_for_implementation": 1,
+    "future_units_prepared_not_permitted": 4,
+    "active_unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+    "head_on_prep": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+    "rules": "Work implements B6/CI/B7 using prep; mechanical per-unit documentary permit after B7, or STOP on drift; no skipped gate.",
+    "no_code_modified": true,
+    "physical": "FINAL_SINGLE_CAMPAIGN_ONLY"
   }
 }
