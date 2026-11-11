@@ -245,11 +245,22 @@ class FaroV5S3A57BookmarksUiTest {
         val root = checkNotNull(
             InstrumentationRegistry.getInstrumentation().uiAutomation.rootInActiveWindow
         )
-        val choices = root.findAccessibilityNodeInfosByText("Confirmar").filter {
-            it.text?.toString() == "Confirmar" &&
-                it.className?.toString() == "android.widget.Button" && it.isClickable
+        // Android may expose the positive label in uppercase or as a
+        // TextView child of the clickable Button. The active modal title and
+        // exact review were independently required immediately above.
+        val labels = root.findAccessibilityNodeInfosByText("Confirmar").filter {
+            it.text?.toString()?.equals("Confirmar", ignoreCase = true) == true
         }
-        assertEquals("Exactly one native positive review button", 1, choices.size)
+        val choices = labels.mapNotNull { label ->
+            generateSequence(label) { it.parent }.take(4).firstOrNull {
+                it.isClickable && it.isEnabled && it.isVisibleToUser
+            }
+        }.distinct()
+        assertEquals(
+            "Exactly one real native positive review target (labels=" +
+                labels.size + ", clickables=" + choices.size + ")",
+            1, choices.size,
+        )
         assertTrue("Native accessibility click not accepted",
             choices.single().performAction(AccessibilityNodeInfo.ACTION_CLICK))
         awaitNative("Guardados actualizado")
