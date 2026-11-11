@@ -3,10 +3,10 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-10",
+  "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_REMOTE_GITHUB_CI_CATALOG_PREAUDIT_READY",
+  "phase": "S3_OPEN_BOOKMARK_CATALOG_B7_PASS",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 681
+    "expected_release_epoch": 684
   },
   "automation": {
     "activation_authorized": false,
@@ -40,22 +40,22 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B7_PASS_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
-  "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG_172_STILL_FROZEN_UNTIL_B7_AND_CAS; NO_PAID_APIS",
-  "next": "Remote GitHub/Actions fallback operational despite unavailable local executor. Verify documentary READY preflight CI, then acquire writer CAS and register only approved8 contracts (172→180); preserve172 metadata. Continue native integration and authorized A5 after B7.",
-  "checkpoint_status": "REMOTE_FALLBACK_VERIFIED_CATALOG_B1_B5_READY",
+  "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
+  "next": "S3_A3_BOOKMARKS_READ_HOST_NATIVE requires own B1-B5 and READY preflight",
+  "checkpoint_status": "CATALOG180_B7_PASS_SCOPED_A3_A5_OPEN",
   "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
-  "last_code_sha": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
-  "last_ci_run_id": 42925035151,
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B7_PASS_20261111.md",
+  "last_code_sha": "f5adb85d149f3067dd6342eb31e44d1e202bf834",
+  "last_ci_run_id": 42927956001,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
-    "scope": "8 CANDIDATE names / profiles / risks; 172 catalog unchanged",
+    "scope": "Exact8 registered after specific human approval;172 previous descriptors preserved",
     "document": "docs/s3-night/S3_GUARDADOS_BOUNDED_REVIEW_20261102.md",
     "approval": "USER_EXPLICIT_20261109_AFTER_B5_REVIEW",
-    "catalog_current": 172,
+    "catalog_current": 180,
     "code_started": true,
     "contracts_core_ci_run": 42720699353,
     "contracts_core_sha": "37383b1ebb899740870eb54d98f1501175e3a7ba",
@@ -64,6 +64,12 @@
       "sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
       "ci_run": 42729311671,
       "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md"
+    },
+    "catalog_registration": {
+      "sha": "f5adb85d149f3067dd6342eb31e44d1e202bf834",
+      "ci": 42927956001,
+      "status": "B7_PASS_SCOPED",
+      "document": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B7_PASS_20261111.md"
     }
   },
   "night_v22": {
@@ -118,7 +124,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_SCOPED_10_10_ALL_FOUR_RUNS_SUCCESS",
+  "last_ci_conclusion": "SUCCESS_4_4_SPEC_FRESH_ORIGINAL172_PRESERVED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
