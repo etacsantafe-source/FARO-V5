@@ -13,9 +13,9 @@
 6. Antes de cualquier escritura adquirir el **writer GLOBAL CAS** contra HEAD exacto, revalidarlo, hacer checkpoint durable, liberar writer. Si ajeno HELD/UNKNOWN, solo READ_ONLY, sin takeover. No mantener writer durante CI.
 
 ## Objetivo y límites actuales
-- PRIORIDAD: auditar retrospectivamente **M0/M1/M2A/M2B/M3** (B1–B5 faltantes) antes de nueva escritura funcional; V2 mínima **aislada de desarrollo** → `V2_DEV_CORE_READY` probado → cierres S3 → S4; no dispersarse.
+- PRIORIDAD ACTUAL (checkpoint S3.A3 2026-11-11): ejecutar en orden M01→M05 Guardados según docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md y cola JSON, con B1–B5 específicos ya preparados, B6/CI/B7 por unidad y permiso READY vigente solo para M01. El estado retrospectivo M0/M1/M2A/M2B/M3 es HISTÓRICO: reabrir únicamente si una auditoría delta o puntero vigente prueban huecos nuevos. V2 DEV aislada; V2 productiva OFF.
 - S2 CLOSED 8/8 sin repetir. S3 ≈40% desarrollado **estimado** y 0/5 cerrado; S4 **no abierta**. App V2 productiva OFF, Noche OFF, Auto **programada** OFF, cola CLOUD STAGED. **AUTO de espera CI manual ACTIVO**: ver `docs/v5/FARO_AUTO_ESPERA_CI_MANUAL_V1_20261106.md`; no equivale a automatización ni a ejecución en segundo plano.
-- Cinco owners, AtomicApply/receipts/Undo/recovery, Evidence≠Reality, único writer, LOCAL_ONLY sin APIs pagas, catálogo de 172 (Guardados +8 **no aprobados**). No ISO/IRAM, secretos, credenciales, firmas, datos del usuario, promociones ni cambios de teléfono sin autorización.
+- Cinco owners, AtomicApply/receipts/Undo/recovery, Evidence≠Reality, único writer, LOCAL_ONLY sin APIs pagas, catálogo oficial de 180 (172 existentes + 8 operaciones Guardados **aprobadas** y registradas, B7 catálogo PASS run 42927956001). No ISO/IRAM, secretos, credenciales, firmas, datos del usuario, promociones ni cambios de teléfono sin autorización.
 - CI exacta por SHA + logs/XML; una sola campaña Android física cuando sea procedente. Mantener checkpoints, % S3 estimado y cerrado, y termómetro cualitativo al terminar turno.
 - «Continuar FARO V5» basta para reanudar **trabajo manual previamente autorizado y acotado**, sin habilitar V2 productiva, Auto/Noche, pagos o escrituras fuera de rama. El guardia prevalece frente a una sugerencia improvisada de programar sin B1–B5.
 

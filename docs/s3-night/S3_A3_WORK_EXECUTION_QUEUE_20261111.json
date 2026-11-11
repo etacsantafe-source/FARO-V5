@@ -12,7 +12,7 @@
     {
       "package_id": "A3-M01-DEV-20261110",
       "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-      "status": "READY_FOR_IMPLEMENTATION",
+      "status": "PREAUDITED_DELTA_AWAIT_PERMIT",
       "active_permit": "READY",
       "execution_package": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
       "reviewed_head": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
@@ -21,7 +21,11 @@
       "ci_protocol_verified_run": 42940764338,
       "implementation": "NOT_RUN",
       "ci": "NOT_RUN",
-      "b7": "NOT_RUN"
+      "b7": "NOT_RUN",
+      "additional_required_paths": [
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+        "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
+      ]
     },
     {
       "package_id": "A3-M02-20261111",
@@ -79,7 +83,8 @@
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
       "b6": "NOT_RUN",
-      "b7": "NOT_RUN"
+      "b7": "NOT_RUN",
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
     },
     {
       "package_id": "A3-M03-20261111",
@@ -132,7 +137,9 @@
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
       "b6": "NOT_RUN",
-      "b7": "NOT_RUN"
+      "b7": "NOT_RUN",
+      "restore_admission_gap": "ACTIVE list excludes REMOVED; require authorized target lookup under delta preflight",
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
     },
     {
       "package_id": "A3-M04-20261111",
@@ -187,7 +194,9 @@
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
       "b6": "NOT_RUN",
-      "b7": "NOT_RUN"
+      "b7": "NOT_RUN",
+      "nav_host_gap": "DEV Guardados is native Android View; wiring into Compose SurfaceHost requires explicit authoritative transition",
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
     },
     {
       "package_id": "A3-M05-20261111",
@@ -237,7 +246,8 @@
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
       "b6": "NOT_RUN",
-      "b7": "NOT_RUN"
+      "b7": "NOT_RUN",
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
     }
   ],
   "gates": {
@@ -258,5 +268,18 @@
     "S3_estimated_historical": "about 40%",
     "S3_formally_closed": "0/5",
     "A3": "OPEN"
+  },
+  "audit_review": {
+    "date": "2026-11-11",
+    "status": "B1_B5_DELTA_PREAUDIT",
+    "evidence_document": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+    "findings": [
+      "M01_GENERIC_MUTATION_BOOLEAN_NOT_REQUEST_SCOPED",
+      "M03_REMOVED_REFERENCES_FILTERED_FROM_READ",
+      "M04_DEV_NATIVE_TO_COMPOSE_SOURCE_NAV_BRIDGE",
+      "AGENTS_STALE_172_UNAPPROVED_FIXED",
+      "CI_WORKFLOW_DISPATCH_DEFAULT_BRANCH_RESTRICTION"
+    ],
+    "risk_decision": "M01 expand exact paths under separate documentary permit; do not modify operational schema/contracts; remaining units remain dependency-preaudited"
   }
 }

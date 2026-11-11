@@ -10,8 +10,8 @@
     "S3_A3_BOOKMARKS_MUTATION_AUTHORITY:B7_PASS",
     "S3_A3_BOOKMARKS_CATALOG_REGISTRATION:B7_PASS"
   ],
-  "status": "READY_FOR_IMPLEMENTATION",
-  "version": 1,
+  "status": "PREAUDITED_DELTA_AWAIT_PERMIT",
+  "version": 2,
   "prep_document": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
   "prep_stages": {
     "B1": "VERIFIED",
@@ -30,7 +30,9 @@
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBinding.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthorityT2Test.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBindingT2Test.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml"
+    ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
   ],
   "forbidden": [
     "main",
@@ -45,6 +47,7 @@
     "source navigation"
   ],
   "steps": [
+    "HARDENING: inspect current generic mutation gate; add transaction-scoped request+target authorization for every mutation including non-Add, without expanding contract IDs",
     "N018 owner trusted mutator narrow port",
     "N010 target+revision/generation/epoch mutation gate",
     "DEV memory-only mutation grant",
@@ -54,6 +57,7 @@
     "independent B7 and checkpoint"
   ],
   "acceptance": [
+    "Non-Add action on different/revoked bookmark must fail closed; request-scoped grant validates operation+target and folder-only action; remains safe if another request interleaves",
     "Default denied including read-only grant",
     "Exact request and matching target/generation/epoch can commit once with Auxiliary receipt",
     "same idempotency key replays only when fully authorized",
@@ -74,7 +78,7 @@
     "catalog_run": 42927956001,
     "protocol_head_run": 42938776101
   },
-  "risk_policy": "Fail closed on missing ACL, generation, writer, epoch, idempotency; isolate new DEV bridge",
+  "risk_policy": "Fail closed on missing ACL, generation, writer, epoch, idempotency; isolate new DEV bridge; per-action+resolved-target scope authorization under owner DB lock, no global mutable current request; request-aware gate; maintain legacy tests",
   "physical": "DEFER_TO_FINAL_MOTO_G15_CAMPAIGN",
   "metrics": {
     "mode": "MANUAL_PREP",
@@ -83,7 +87,7 @@
     "tokens_observed": "NOT_MEASURED",
     "duration_observed": "NOT_MEASURED"
   },
-  "next_action": "Executor: check exact HEAD/lock/protocol preflight; B6 scoped implementation then exact XML/APK and B7. STOP if SHA/scope stale.",
+  "next_action": "Await refreshed scoped READY permit after this delta B1-B5 and SHA/lock preflight; then B6 code only + directed CI/XML+APK and independent B7.",
   "next_units": [
     "S3_A3_BOOKMARKS_CHAT_REVIEW_UI",
     "S3_A3_BOOKMARKS_EXACT_SOURCE_NAVIGATION",
@@ -92,5 +96,6 @@
   "status_reason": "B1-B5 documented; READY permission deliberately not minted in same commit",
   "evidence_blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-  "documented_ready_after": "PERMIT_COMMIT_AND_PROTOCOL_GUARD_VERIFIED"
+  "documented_ready_after": "PERMIT_COMMIT_AND_PROTOCOL_GUARD_VERIFIED",
+  "audit_delta": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md"
 }
