@@ -43,6 +43,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private lateinit var bookmarksButton: Button
     private lateinit var upgradeButton: Button
     private var dueDisplay: TextView? = null
+    private var bookmarkFolderControls: FaroV5V2CoreDevBookmarkFolderControls? = null
     private var bookmarksDisplay: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -330,6 +331,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             text = "Volver al inicio DEV"
             setOnClickListener {
                 bookmarksDisplay?.text = FaroV5V2CoreDevBookmarksPresentation.unavailable
+                bookmarkFolderControls?.close()
                 active.revokeBookmarkReadingOnPause()
                 recreate()
             }
@@ -340,15 +342,13 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             ))
         })
         if (binding == null) return
-        executor.execute {
-            val page = runCatching { runBlocking { binding.readAuthorized() } }.getOrNull()
-            runOnUiThread {
-                bookmarksDisplay?.text = if (page != null && session === active && foreground() &&
-                    active.isBookmarkReadCurrent(binding, page, foreground)
-                ) FaroV5V2CoreDevBookmarksPresentation.render(page)
-                else FaroV5V2CoreDevBookmarksPresentation.unavailable
-            }
+        val controls = FaroV5V2CoreDevBookmarkFolderControls(this, binding, executor, foreground) {
+            active.openBookmarkFolderActionsAfterTrustedForegroundRequest(application, foreground)
         }
+        bookmarkFolderControls = controls
+        column.addView(controls.view)
+        output.text = ""
+        controls.loadActive()
     }
 
     override fun onPause() {
@@ -358,6 +358,8 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                         pendingBookmarkReadRequest.set(false)
         dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
         bookmarksDisplay?.text = FaroV5V2CoreDevBookmarksPresentation.unavailable
+        bookmarkFolderControls?.close()
+        bookmarkFolderControls = null
         session?.revokeBookmarkReviewOnPause()
         session?.revokeBookmarkReadingOnPause()
         session?.revokePendingReadingOnPause()

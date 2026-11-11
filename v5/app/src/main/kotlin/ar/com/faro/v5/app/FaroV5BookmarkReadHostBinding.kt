@@ -4,7 +4,7 @@ import ar.com.faro.v5.generation.FaroV5WorkspaceBookmarkAuthorityGate
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
-import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
+import ar.com.faro.v5.store.auxiliary.*
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import kotlinx.coroutines.CancellationException
 
@@ -40,6 +40,8 @@ internal class FaroV5BookmarkReadHostBinding(
     }
     private data class Lease(val page: FaroV5BookmarkHostPage, val epochs: Epochs)
     @Volatile private var lease: Lease? = null
+    private class RecoveryLease(val page: BookmarkRemovedPage, val current: () -> Boolean)
+    @Volatile private var recoveryLease: RecoveryLease? = null
 
     init {
         require(principalId.isNotBlank() && expectedHostEpoch.isNotBlank())
@@ -96,6 +98,40 @@ internal class FaroV5BookmarkReadHostBinding(
         }
     }
 
+    /** Invoked only by a fresh foreground recovery gesture, never by ACTIVE rendering/resume. */
+    suspend fun readRemovedAfterExplicitRequest(cursor: BookmarkId? = null): BookmarkRemovedPage? =
+        recovery(cursor, null)
+
+    /** Restore preparation always rereads the exact ID; a cached row is not authority. */
+    suspend fun lookupRemovedAfterExplicitRequest(id: BookmarkId): BookmarkRemovedPage? = recovery(null, id)
+
+    private suspend fun recovery(cursor: BookmarkId?, id: BookmarkId?): BookmarkRemovedPage? {
+        recoveryLease = null
+        val initial = epochs() ?: return null
+        return try {
+            val before = workspace.bookmarkReadAdmission()
+            fun current() = runCatching { hostCurrent() && epochs() == initial &&
+                workspace.bookmarkReadAdmission() == before }.getOrDefault(false)
+            val gate = FaroV5WorkspaceBookmarkAuthorityGate(workspace, pinned, activePointer,
+                initial.combined, { epochs()?.combined }, ::current)
+            val request = BookmarkReadRequest(pinned.generationId.value, before.authorityToken, cursor)
+            val result = if (id == null) auxiliary.bookmarkRemovedPageForTrustedHost(gate, request)
+                else auxiliary.bookmarkRemovedByIdForTrustedHost(gate, request, id)
+            if (result == null || !current()) return null
+            fun publishCurrent() = current() && result.items.all { gate.isTargetAvailable(
+                BookmarkTarget(it.conversationId, it.messageId, pinned.generationId.value, before.authorityToken)) } && current()
+            if (!publishCurrent()) return null
+            recoveryLease = RecoveryLease(result, ::publishCurrent)
+            result
+        } catch (cancel: CancellationException) { throw cancel
+        } catch (_: Exception) { null }
+    }
+
+    fun isRecoveryCurrent(page: BookmarkRemovedPage): Boolean {
+        val value = recoveryLease ?: return false
+        return value.page === page && value.current()
+    }
+
     /** Final UI publish fence: no SQL and no new grant. Page identity prevents stale callback reuse. */
     fun isPageCurrent(page: FaroV5BookmarkHostPage): Boolean {
         val current = lease ?: return false
@@ -105,5 +141,6 @@ internal class FaroV5BookmarkReadHostBinding(
     override fun close() {
         closed = true
         lease = null
+        recoveryLease = null
     }
 }

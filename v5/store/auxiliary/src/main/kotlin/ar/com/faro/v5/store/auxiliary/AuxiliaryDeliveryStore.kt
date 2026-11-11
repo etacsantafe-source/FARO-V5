@@ -137,6 +137,20 @@ class AuxiliaryDeliveryStore private constructor(
         connection, lock, materialWriteGate, authority, { !closed },
     ).reviewSnapshot(target)
 
+    /** Same SQLite owner and mutex, technical read projections only. */
+    fun bookmarkRemovedPageForTrustedHost(authority: BookmarkAuthorityGate,
+        request: ar.com.faro.v5.kernel.contracts.BookmarkReadRequest): BookmarkRemovedPage? =
+        AuxiliaryBookmarkStore(connection, lock, materialWriteGate, authority, { !closed }).removedSnapshot(request)
+
+    fun bookmarkRemovedByIdForTrustedHost(authority: BookmarkAuthorityGate,
+        request: ar.com.faro.v5.kernel.contracts.BookmarkReadRequest,
+        id: ar.com.faro.v5.kernel.contracts.BookmarkId): BookmarkRemovedPage? =
+        AuxiliaryBookmarkStore(connection, lock, materialWriteGate, authority, { !closed }).removedSnapshot(request, id)
+
+    fun bookmarkFoldersForTrustedHost(authority: BookmarkAuthorityGate, generation: String,
+        token: String): BookmarkFolderSnapshot? =
+        AuxiliaryBookmarkStore(connection, lock, materialWriteGate, authority, { !closed }).folderSnapshot(generation, token)
+
     /** Mutation-only trusted port. Neither the read port nor a generic write boolean can grant it. */
     fun bookmarkMutatorForTrustedHost(
         authority: RequestScopedBookmarkAuthorityGate,

@@ -338,6 +338,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private val pointerObserver: Runnable,
         private val openingPointer: ActiveGenerationPointer,
     ) : AutoCloseable {
+        @Volatile private var bookmarkFolders: FaroV5BookmarkFolderActionBinding? = null
+        @Volatile private var bookmarkFoldersProbe: FaroV5AndroidSandboxPrincipal? = null
         @Volatile private var bookmarkReview: FaroV5BookmarkReviewPreparationBinding? = null
         @Volatile private var bookmarkReviewProbe: FaroV5AndroidSandboxPrincipal? = null
         private var bookmarkAuthority: FaroV5LocalInstallReadAuthority? = null
@@ -492,6 +494,40 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             }
         }
 
+        /** Fresh explicit folder/lifecycle action. Preview receives read grants only. */
+        internal fun openBookmarkFolderActionsAfterTrustedForegroundRequest(
+            application: Application, foreground: () -> Boolean,
+        ): FaroV5BookmarkFolderActionBinding? {
+            revokeBookmarkFolderActionsOnPause()
+            if (application.packageName != "ar.com.faro.alpha.v2coredev" || !alive.get() || !foreground() ||
+                pointer.read() != openingPointer) return null
+            val workspace = graph.workspace ?: return null
+            val epoch = UUID.randomUUID().toString()
+            val ready = { alive.get() && foreground() && pointer.read() == openingPointer }
+            val probe = FaroV5AndroidSandboxPrincipal(application.packageName, openingPointer, pointer,
+                epoch, { if (alive.get()) epoch else null }, AndroidPlatformSandboxFactsReader(application))
+            val reads = FaroV5LocalInstallReadAuthority(probe, pointer, ready, foreground)
+            val mutations = FaroV5LocalInstallBookmarkMutationAuthority(probe, pointer, ready, foreground)
+            val principal = reads.technicalPrincipalOrNull()
+            if (principal == null || mutations.technicalPrincipalOrNull() != principal ||
+                !reads.grantAfterTrustedForegroundReadAction(setOf(FaroV5LocalReadDomain.BOOKMARK_METADATA,
+                    FaroV5LocalReadDomain.WORKSPACE_MESSAGE))) {
+                reads.close(); mutations.close(); probe.close(); return null
+            }
+            val binding = FaroV5BookmarkFolderActionBinding(openingPointer, pointer, workspace,
+                graph.auxiliary, principal, epoch, { if (alive.get()) epoch else null }, ready, reads, mutations)
+            synchronized(this) {
+                if (!ready()) { binding.close(); probe.close(); return null }
+                bookmarkFolders = binding; bookmarkFoldersProbe = probe
+            }
+            return binding
+        }
+
+        @Synchronized internal fun revokeBookmarkFolderActionsOnPause() {
+            bookmarkFolders?.close(); bookmarkFolders = null
+            bookmarkFoldersProbe?.close(); bookmarkFoldersProbe = null
+        }
+
         /** Explicit per-message action only. Constructing this adapter grants nothing. */
         internal fun bookmarkChatActions(application: Application, foreground: () -> Boolean): ar.com.faro.v5.surface.FaroV5BookmarkChatActions =
             object : ar.com.faro.v5.surface.FaroV5BookmarkChatActions {
@@ -545,6 +581,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
 
         @Synchronized
         internal fun revokeBookmarkReadingOnPause() {
+            revokeBookmarkFolderActionsOnPause()
             bookmarkBinding?.close()
             bookmarkBinding = null
             bookmarkAuthority?.close()

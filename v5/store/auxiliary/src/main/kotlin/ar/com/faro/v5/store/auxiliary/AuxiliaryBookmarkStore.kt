@@ -48,6 +48,14 @@ interface RequestScopedBookmarkAuthorityGate : BookmarkAuthorityGate {
 /** Host-only minimum read projection, never a mutation port or a source body. */
 data class BookmarkReviewSnapshot(val scopeRevision: Long, val activeId: BookmarkId?, val favorite: Boolean?)
 
+/** Narrow host projections. No source body, token or receipt is returned. */
+data class BookmarkRemovedCandidate(val id: BookmarkId, val conversationId: ConversationId,
+    val messageId: ConversationMessageId, val scopeRevision: Long,
+    val folderId: BookmarkFolderId?, val favorite: Boolean)
+data class BookmarkRemovedPage(val items: List<BookmarkRemovedCandidate>, val hasMore: Boolean,
+    val scopeRevision: Long)
+data class BookmarkFolderSnapshot(val folders: List<BookmarkFolder>, val scopeRevision: Long)
+
 /** One connection/lock with N-018 Auxiliary: metadata+revision+receipt are atomic. */
 class AuxiliaryBookmarkStore internal constructor(
     private val db: SQLiteConnection,
@@ -92,6 +100,50 @@ class AuxiliaryBookmarkStore internal constructor(
         if (!ownerIsOpen() || !scopeAllowed(target.generationId, target.authorityToken) ||
             !targetAllowed(target) || before != scope()) return@synchronized null
         BookmarkReviewSnapshot(before?.revision ?: 0L, id, favorite)
+    }
+
+    internal fun folderSnapshot(generation: String, token: String): BookmarkFolderSnapshot? = synchronized(ownerLock) {
+        if (!ownerIsOpen() || !scopeAllowed(generation, token)) return@synchronized null
+        val before = scope()
+        if (before != null && !sameScope(before, generation, token)) return@synchronized null
+        val folders = mutableListOf<BookmarkFolder>()
+        db.prepare("SELECT folder_id,name,revision FROM bookmark_folder ORDER BY folder_id LIMIT 33").use { st ->
+            while (st.step()) folders += BookmarkFolder(BookmarkFolderId(st.getText(0)), st.getText(1), st.getLong(2))
+        }
+        if (folders.size > BookmarkPolicy.MAX_FOLDERS || !ownerIsOpen() ||
+            !scopeAllowed(generation, token) || before != scope()) return@synchronized null
+        BookmarkFolderSnapshot(folders, before?.revision ?: 0)
+    }
+
+    /** Null means unavailable; an authorized missing ID is an empty exact page. Read-only under owner lock. */
+    internal fun removedSnapshot(request: BookmarkReadRequest, exactId: BookmarkId? = null): BookmarkRemovedPage? = synchronized(ownerLock) {
+        if (!ownerIsOpen() || !scopeAllowed(request.generationId, request.authorityToken)) return@synchronized null
+        val before = scope()
+        if (before != null && !sameScope(before, request.generationId, request.authorityToken)) return@synchronized null
+        val candidates = mutableListOf<BookmarkRemovedCandidate>()
+        val targets = mutableListOf<BookmarkTarget>()
+        val predicate = if (exactId != null) " AND bookmark_id=?" else if (request.cursor != null) " AND bookmark_id>?" else ""
+        val sql = "SELECT bookmark_id,conversation_id,message_id,folder_id,favorite FROM bookmark_item " +
+            "WHERE lifecycle='REMOVED' AND generation_id=?" + predicate + " ORDER BY bookmark_id LIMIT ?"
+        db.prepare(sql).use { st ->
+            st.bindText(1, request.generationId)
+            var index = 2
+            (exactId ?: request.cursor)?.let { st.bindText(index++, it.value) }
+            st.bindLong(index, if (exactId != null) 1 else (request.limit + 1).toLong())
+            while (st.step()) {
+                val target = BookmarkTarget(ConversationId(st.getText(1)), ConversationMessageId(st.getText(2)),
+                    request.generationId, request.authorityToken)
+                targets += target
+                candidates += BookmarkRemovedCandidate(BookmarkId(st.getText(0)), target.conversationId,
+                    target.messageId, before?.revision ?: 0, if (st.isNull(3)) null else BookmarkFolderId(st.getText(3)), st.getLong(4) == 1L)
+            }
+        }
+        // Check even the lookahead row: hasMore must not disclose a revoked source.
+        if (targets.any { !targetAllowed(it) } || !ownerIsOpen() ||
+            !scopeAllowed(request.generationId, request.authorityToken) || before != scope() ||
+            targets.any { !targetAllowed(it) } || !scopeAllowed(request.generationId, request.authorityToken)
+        ) return@synchronized null
+        BookmarkRemovedPage(candidates.take(request.limit), exactId == null && candidates.size > request.limit, before?.revision ?: 0)
     }
 
     override suspend fun read(request: BookmarkReadRequest): BookmarkReadResult =
