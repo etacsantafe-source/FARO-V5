@@ -1,0 +1,6 @@
+# X03 U02 — B7 RED_FIX 1: protocol commit metadata
+
+## B7
+Disposition: RED_FIX / PROTOCOL. Rejected isolated commit `b3d52b7ee3b201a991ef65a4f7d71f89afbe96a1`, guard run `43116516465`, job `130845788867`. Gate log: missing FARO-UNIT:S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY in b3d52b7ee3b2. The unit string was present as part of the subject but the gate requires an entire independent message line (`subject.splitlines()`). No functional or acceptance failure is inferred from that guard result; Android run 43116516470 is diagnostic only and cannot certify the replacement SHA.
+
+Causal remediation: replace ONLY our rejected latest isolated commit under global writer CAS and branch expected-SHA lease. Preserve parent `50b22ec4bf0f4b348840e316d2d0951483262a02`, all earlier certified history, READY scope and B1–B5 blobs. This documentation-only commit precedes the replacement functional commit. Use a title plus standalone FARO-UNIT line. Add workflow_dispatch to the already-authorized directed workflow for explicit reproducible exact-SHA execution; push still directs all four paths. Re-run the gate locally before publishing. No gate relaxation, no false PASS, no new routes or S2/V2 DEV changes. The superseded SHA remains recorded here for audit.
