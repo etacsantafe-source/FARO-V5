@@ -9,12 +9,15 @@ import android.widget.TextView
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.ComposeTimeoutException
+import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import java.io.File
@@ -109,6 +112,56 @@ class FaroV5S3A57BookmarksUiTest {
         rule.waitForIdle()
     }
 
+    /** Bounded actual scroll; never assert action availability by the USER body alone. */
+    private fun awaitRealBookmarkAction(body: String) {
+        fun count() = runCatching {
+            rule.onAllNodesWithText("Guardar / Quitar", useUnmergedTree = true)
+                .fetchSemanticsNodes().size
+        }.getOrDefault(-1)
+        if (count() != 1) {
+            // The timeline is LazyColumn: after send the card may be partially
+            // outside the visible viewport, even when its body is present.
+            repeat(4) {
+                if (count() == 1) return@repeat
+                val scrolls = rule.onAllNodes(hasScrollAction(), useUnmergedTree = true)
+                val total = scrolls.fetchSemanticsNodes().size
+                if (total > 0) {
+                    scrolls[total - 1].performTouchInput { swipeUp() }
+                    rule.waitForIdle()
+                }
+            }
+        }
+        try {
+            rule.waitUntil(15_000L) { count() == 1 }
+        } catch (failure: ComposeTimeoutException) {
+            val messageNodes = runCatching {
+                rule.onAllNodesWithText(body, useUnmergedTree = true).fetchSemanticsNodes().size
+            }.getOrDefault(-1)
+            val editorCount = runCatching {
+                rule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().size
+            }.getOrDefault(-1)
+            throw AssertionError(
+                "Bookmark UI action not rendered after bounded gestures; " +
+                    "actionCount=" + count() + "; syntheticMessageCount=" + messageNodes +
+                    "; editorCount=" + editorCount,
+                failure,
+            )
+        }
+        assertEquals("Exactly one true Bookmark action", 1, count())
+    }
+
+    private fun safeNativeReviewSnapshot(expectedReview: String): String {
+        val allowed = setOf(
+            "Cargando revisión…", "No disponible", "No disponible. Volvé a abrir Guardados.",
+            "Referencias activas", "Referencias quitadas", "Confirmando…",
+            "Guardados actualizado", "Resultado pendiente de verificar", "Vacío",
+        )
+        val matched = nativeLabels().filter { it in allowed }.distinct()
+        return "fixedNativeStates=" + matched.joinToString(",") +
+            "; modalTitle=" + dialogHasExact("Confirmar Guardados") +
+            "; expectedReview=" + dialogHasExact(expectedReview)
+    }
+
     private fun sendAndSaveSyntheticMessage(): String {
         clickNative("Abrir Chat local de desarrollo")
         awaitChat()
@@ -127,8 +180,8 @@ class FaroV5S3A57BookmarksUiTest {
             }.getOrDefault(false)
         }
         rule.onAllNodesWithText(body, useUnmergedTree = true).assertCountEquals(1)
-        rule.onAllNodesWithText("Guardar / Quitar").assertCountEquals(1)
-        rule.onNodeWithText("Guardar / Quitar").performClick()
+        awaitRealBookmarkAction(body)
+        rule.onNodeWithText("Guardar / Quitar", useUnmergedTree = true).performClick()
         rule.waitUntil(30_000L) {
             runCatching {
                 rule.onAllNodesWithText("Guardar mensaje").fetchSemanticsNodes().size == 1
@@ -170,8 +223,21 @@ class FaroV5S3A57BookmarksUiTest {
     }
 
     private fun confirmRealNativeReview(expectedReview: String) {
-        rule.waitUntil(30_000L) {
-            dialogHasExact("Confirmar Guardados") && dialogHasExact(expectedReview)
+        try {
+            rule.waitUntil(30_000L) {
+                // Detect an authorization failure separately from UiAutomation
+                // visibility; keep all diagnostics fixed-label and metadata-only.
+                if (nativeLabels().any {
+                    it == "No disponible. Volvé a abrir Guardados."
+                }) throw AssertionError("Native Bookmark mutation rejected: " +
+                    safeNativeReviewSnapshot(expectedReview))
+                dialogHasExact("Confirmar Guardados") && dialogHasExact(expectedReview)
+            }
+        } catch (failure: ComposeTimeoutException) {
+            throw AssertionError(
+                "Native Bookmark review not observed: " +
+                    safeNativeReviewSnapshot(expectedReview), failure,
+            )
         }
         assertTrue("Native review title absent", dialogHasExact("Confirmar Guardados"))
         assertTrue("Unexpected native mutation review", dialogHasExact(expectedReview))
