@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.A5.X04X05.PERMIT.20261111",
-  "token_hash": "da5910a49b602d288303c51892ed455e84425ae42e06eec7f1f1f246cc354660",
-  "target_head": "f4d7fb3182b811d46dff333d858527ccb4193d4f",
+  "status": "HELD",
+  "owner": "FARO.CHAT.A5.X04X05.EXEC_PRECISION.20261111",
+  "token_hash": "20d9c5ce5ea9386d53c2aba32ae8ccf799d45ae13b45349df3a88b5e64314f76",
+  "target_head": "10df7531dd3d3aa0779d9415188174d56a6257d9",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 723,
-  "timestamp": 1794417852,
-  "purpose": "S3_A5_X04_X05_READY_PERMIT_PUBLISHED_WRITER_RELEASED",
+  "epoch": 724,
+  "timestamp": 1794418818,
+  "purpose": "A5_X04X05_DETAILED_EXECUTION_PRECISION_ONLY",
   "last_checkpoint": "10df7531dd3d3aa0779d9415188174d56a6257d9"
 }
