@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.S3.A5.7.X04X05.REDFIX2.20261111",
   "token_hash": "28c1d46c0ce6b546e3a80896ddc5bf06d19608eab605fa71d0c334592ed08f6a",
-  "target_head": "84d983d4c0cbe193de8e5237e4bc6d8272e453a5",
+  "target_head": "adad079c1d825a4ce05f5638aae69e1da0200165",
   "target_branch": "work/s3-night-20261102",
   "epoch": 728,
-  "timestamp": 1794420719,
-  "purpose": "S3_A5_7_X04_X05_B7_RED_FIX_2",
-  "last_checkpoint": "84d983d4c0cbe193de8e5237e4bc6d8272e453a5"
+  "timestamp": 1794420782,
+  "purpose": "S3_A5_7_X04_X05_B7_REDFIX2_DOCUMENTED_READY_TO_CORRECT",
+  "last_checkpoint": "adad079c1d825a4ce05f5638aae69e1da0200165"
 }
