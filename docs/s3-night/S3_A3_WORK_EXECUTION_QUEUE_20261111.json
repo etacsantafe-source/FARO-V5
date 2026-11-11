@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "M01_M02_DONE_M03_NEEDS_PREP",
+  "status": "M01_M02_DONE_M03_PREAUDITED_DELTA_PERMIT_PENDING",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -169,7 +169,7 @@
     {
       "package_id": "A3-M03-20261111",
       "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-      "status": "NEEDS_PREP",
+      "status": "PREAUDITED_DELTA_WAIT_PERMIT",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV"
       ],
@@ -189,7 +189,14 @@
         "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
         "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt",
         "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt",
-        ".github/workflows/faro-v5-s3-a3-bookmark-folders-directed.yml"
+        ".github/workflows/faro-v5-s3-a3-bookmark-folders-directed.yml",
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+        "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkRemovedRestoreLookupTest.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBinding.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFolderActionBinding.kt",
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkRemovedRestoreHostT2Test.kt",
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFolderActionBindingT2Test.kt"
       ],
       "permitted_by_active_gate": false,
       "steps": [
@@ -215,15 +222,17 @@
         "Moto G15 physical prior to final campaign"
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
-      "status_reason": "Explicit M03 B5 STOP: no authorized REMOVED lookup; bounded prep delta required",
+      "status_reason": "M01/M02 B7 PASS; auth exact ID and discoverable after reopen without exposing REMOVED in normal read; 13 bounded paths",
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
-      "restore_admission_gap": "ACTIVE list excludes REMOVED; require authorized target lookup under delta preflight",
+      "restore_admission_gap": "Resolved by exact REMOVED ID lookup + explicit opt-in paged recovery (<=50) with dual Workspace ACL/generation/epoch and independent grant",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
       "functional_commits": 0,
-      "blocker": "AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT_OUTSIDE_SIX_PROPOSED_PATHS",
+      "blocker": "RESOLVED_IN_B1_B5_DESIGN_AWAIT_SCOPED_PERMIT",
       "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
-      "active_permit": "BLOCKED"
+      "active_permit": "BLOCKED",
+      "delta_preaudit": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
+      "delta_blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b"
     },
     {
       "package_id": "A3-M04-20261111",

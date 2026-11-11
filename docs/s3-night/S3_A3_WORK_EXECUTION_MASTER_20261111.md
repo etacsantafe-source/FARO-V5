@@ -1,5 +1,15 @@
 # FARO V5 — Paquete maestro de ejecución Work · S3.A3 · 2026-11-11
 
+## ÚLTIMO CHECKPOINT · M03 REVISION MANUAL · 2026-11-11 · PREVALECE
+
+**M01 B7 PASS** (`649d3f08ec7d6a14dea4869ad84603408dbee953`, 64/64) y **M02 B7 PASS** (`c04a19971f8d610f221c3739961f4e8b3a0c2b22`, 12/12 XML+APK). NO repetir estas unidades ni las pruebas antiguas sin delta pertinente.
+
+**M03**: STOP anterior `AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT` resuelto en B1–B5 DELTA `docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md` blob `0e49d9b128945d232960c8b46a83facc20d16d2b`. Recuperar `REMOVED` exige (a) lookup autorizado por ID y (b) vista opcional paginada de quitados tras reabrir app, sin filtrar textos ni introducir tombstones en lectura ACTIVE. Permiso M03: **13 rutas**, emítase en commit DOCUMENTAL POSTERIOR a esta preauditoría, solo READY tras validar guard y preflight. Work luego programa B6, CI/XML+APK y B7. M04–M05 dependientes, sin permiso.
+
+**CONTROL DE HISTORIAL**: las menciones posteriores en este documento a que M01/M02 faltan son registros de su fecha original; nunca deben prevalecer sobre puntero, cola y permiso ACTUAL. Writer exclusivo CAS. V2 productiva/S4/Auto/Noche OFF; G15 físico al final.
+
+---
+
 ## CORRECCIÓN OPERATIVA MÁS RECIENTE · 2026-11-11 · PRIORIDAD SOBRE ESTADO HISTÓRICO
 
 **M01 TERMINADA, B7 PASS** en código `649d3f08ec7d6a14dea4869ad84603408dbee953`, CI `43016377617` 64/64 XML y APK DEV, guard `43016377548`. NO volver a programar M01.
