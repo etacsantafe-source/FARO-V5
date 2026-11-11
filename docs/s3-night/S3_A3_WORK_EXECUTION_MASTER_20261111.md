@@ -1,3 +1,9 @@
+# CHECKPOINT PREVALECIENTE — M05 B7 PASS AUTOMATIZADO — A3 FÍSICA PENDIENTE
+
+M01–M05 DONE_VERIFIED alcance DEV automatizado. M05 código `0bfa534c60dcf27bcb78d92956dae6eb35da6172`, CI dirigida `43055545460` SUCCESS, guard `43055545554` SUCCESS; ZIP descargado `13872020395`, XML 9+2 = **11/11** sin failure/error/skipped y APK SHA256 `495bd9ab2a97f79621b4690c432d5dd6240583156cc5ab0e8b8907de77d9d058` verificado. B7 independiente `docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md`. NO repetir M01–M05. Writer epoch720 en publicación, verificar RELEASED final; V2 productiva/S4/Auto/Noche OFF. **S3.A3 sigue OPEN hasta campaña física final Moto G15.** El permiso M05 READY se considera consumido por este cierre; no autoriza otra unidad.
+
+---
+
 # CHECKPOINT WORK M04 B7 PASS — M05 READY — PREVALECE
 
 M01–M04 DONE_VERIFIED. M04 código26a4b8fa27bc7195aa69973001b8cf1b9f256c49, dirigida43046825300 y guard43046825442 SUCCESS. ZIP/XML13/13+APK verificados. No repetir M01–M04. M05 original+delta B1–B5 comprobados; permiso individual READY sólo tres rutas de tests/workflow. Ejecutar B6/CI/B7 de M05. A3 OPEN, física G15 final, V2 productiva/S4/Auto/Noche OFF. El historial posterior no prevalece sobre este bloque y permiso actual.

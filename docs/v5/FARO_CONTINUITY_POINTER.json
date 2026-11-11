@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A3_M01_M02_M03_M04_B7_PASS_M05_READY_B6",
+  "phase": "S3_A3_M01_M05_B7_PASS_AUTOMATED_READY_FINAL_PHYSICAL",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 712
+    "expected_release_epoch": 720
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
+  "handoff": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "B6 implement M05 exact three test/workflow paths; directed CI XML+binary APK and B7. No repeat M01-M04.",
-  "checkpoint_status": "FOUR_OF_FIVE_WORK_UNITS_DONE_M05_READY",
-  "notes": "M01-M04 DONE_VERIFIED; M05 tests-only scoped READY. A3 OPEN until physical campaign.",
-  "last_handoff": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-  "last_code_sha": "26a4b8fa27bc7195aa69973001b8cf1b9f256c49",
-  "last_ci_run_id": 43046825300,
+  "next": "S3.A3 automated DEV B7 PASS (M01-M05). Preserve certified results; final physical campaign Moto G15 remains NOT_RUN. No productive V2, Auto, Night or S4. Do not reuse M05 READY permit for other functional changes.",
+  "checkpoint_status": "FIVE_OF_FIVE_WORK_UNITS_DONE_VERIFIED_PHYSICAL_PENDING",
+  "notes": "M01-M05 DONE_VERIFIED within automated DEV scope. M05 independent ZIP XML 11/11 and APK hash verified; final physical campaign NOT_RUN. S3/A3 OPEN.",
+  "last_handoff": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
+  "last_code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
+  "last_ci_run_id": 43055545460,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_13_OF_13_XML_AND_DEV_APK",
+  "last_ci_conclusion": "SUCCESS_M05_11_OF_11_XML_APK_DEV_VERIFIED_ZIP",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -2247,5 +2247,21 @@
     "b7": "NOT_RUN",
     "functional_commits": 0,
     "physical": "NOT_RUN"
+  },
+  "m05_acceptance": {
+    "status": "B7_PASS_AUTOMATED_DEV",
+    "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
+    "code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
+    "ci_run_id": 43055545460,
+    "protocol_run_id": 43055545554,
+    "artifact_id": 13872020395,
+    "xml_tests": 11,
+    "xml_failed": 0,
+    "xml_errors": 0,
+    "xml_skipped": 0,
+    "apk_sha256": "495bd9ab2a97f79621b4690c432d5dd6240583156cc5ab0e8b8907de77d9d058",
+    "b7_doc": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
+    "physical": "NOT_RUN",
+    "app_v2_productive": "OFF"
   }
 }

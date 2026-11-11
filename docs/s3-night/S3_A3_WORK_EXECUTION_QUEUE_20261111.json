@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "M01_M02_M03_DONE_M04_READY",
+  "status": "M01_M02_M03_M04_M05_DONE_VERIFIED_AUTOMATED_PHYSICAL_PENDING",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -321,7 +321,7 @@
     {
       "package_id": "A3-M05-20261111",
       "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
-      "status": "READY_FOR_IMPLEMENTATION",
+      "status": "DONE_VERIFIED",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV"
       ],
@@ -365,12 +365,35 @@
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
-      "b6": "NOT_RUN",
-      "b7": "NOT_RUN",
+      "b6": "PASS",
+      "b7": "PASS_AUTOMATED_DEV",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
       "blocker": null,
       "delta_preaudit": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-      "delta_blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497"
+      "delta_blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497",
+      "b7_doc": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
+      "code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
+      "ci_run_id": 43055545460,
+      "guard_run_id": 43055545554,
+      "artifact_id": 13872020395,
+      "tests": 11,
+      "xml": {
+        "FaroV5BookmarkA3AcceptanceT2Test": {
+          "tests": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "FaroV5BookmarkA3UiAcceptanceTest": {
+          "tests": 2,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "apk_sha256": "495bd9ab2a97f79621b4690c432d5dd6240583156cc5ab0e8b8907de77d9d058",
+      "physical": "NOT_RUN",
+      "next_action": "Physical G15 final campaign only under agreed overall campaign; no further functional changes under consumed M05 scope."
     }
   ],
   "gates": {
