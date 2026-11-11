@@ -101,18 +101,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
-    "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-    "result": "PASS",
+    "sha": "82043e33046bf21752886230e11ffcbd3e39c9b7",
+    "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_M01_WORK_B7_PASS_20261111.md",
-        "blob_sha": "9453624cabf37482e4b54bc9837f7e7ccc3fa408",
+        "path": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
+        "blob_sha": "54d9079c25ab169698bc42ee64a81cb3c1f03f2a",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43016377617,
-    "guard_run_id": 43016377548
+    "ci_run_id": 43028125031,
+    "guard_run_id": 43028124943
   },
   "why": "M01 B7 PASS 64/64 certified; M02 pre-review global scope revision gap solved by scoped read-only Auxiliary snapshot and prior manual B1-B5 plus SHA-specific delta",
   "how": "16 exact functional paths; pinned 2 docs proof blobs B1-B5; fresh generation/Workspace+double read grant; no mutation until explicit confirmation; internal scope revision0 only when authorized no scope, reject identity mismatch; stale -> new review; directed GitHub CI push and B7",
