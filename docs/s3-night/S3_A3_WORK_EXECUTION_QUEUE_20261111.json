@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "M01_DONE_M02_READY",
+  "status": "M01_M02_DONE_M03_NEEDS_PREP",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -58,7 +58,7 @@
     {
       "package_id": "A3-M02-20261111",
       "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
-      "status": "READY_FOR_IMPLEMENTATION",
+      "status": "DONE_VERIFIED",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV"
       ],
@@ -90,7 +90,7 @@
         "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationBinding.kt",
         "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationT2Test.kt"
       ],
-      "permitted_by_active_gate": true,
+      "permitted_by_active_gate": false,
       "steps": [
         "Verify upstream B7 and exact SHA/diff",
         "mechanical delta review vs documented B1-B5",
@@ -114,24 +114,62 @@
         "Moto G15 physical prior to final campaign"
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
-      "status_reason": "M01 certified; M02 pre-review global Auxiliary scope revision snapshot designed, 16 exact routes; commit permit after this separate proof commit, then preflight.",
-      "b6": "NOT_RUN",
-      "b7": "NOT_RUN",
+      "status_reason": "M02 code exact CI+XML+APK verified; independent B7 PASS",
+      "b6": "PASS",
+      "b7": "PASS",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "active_permit": "READY",
+      "active_permit": "CONSUMED_B7_PASS",
       "delta_document": "docs/s3-night/S3_A3_M02_WORK_NEEDS_PREP_20261111.md",
-      "blocker": "RESOLVED_BY_B1_B5_DELTA_REVIEW_PREFLIGHT",
+      "blocker": null,
       "delta_preaudit": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
       "delta_blob_sha": "839aacce48140cce75e49d35804c62bf83d84985",
       "reviewed_head": "c4aa9fe3c47231527fa2f153eb30af5e91e47575",
       "execution_package": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_EXEC_PACKAGE_20261111.json",
       "b1_b5": "VERIFIED_ORIGINAL_PLUS_DELTA",
-      "next_action": "B6 implement M02 exact 16 paths, targeted XML+DEV APK, verify guard B7 and release writer; do not restart M01"
+      "next_action": "B6 implement M02 exact 16 paths, targeted XML+DEV APK, verify guard B7 and release writer; do not restart M01",
+      "base_sha": "0b934a5d1d46094058e5c05aa921b66de5f6150d",
+      "code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+      "b7_doc": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
+      "ci_run_id": 43029315832,
+      "guard_run_id": 43029315790,
+      "artifact_id": 13860202834,
+      "xml": {
+        "FaroV5BookmarkReviewPreparationT2Test": {
+          "tests": 7,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "FaroV5BookmarkChatReviewDevTest": {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "AuxiliaryBookmarkReviewRevisionTest": {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        },
+        "FaroV5BookmarkActionSurfaceTest": {
+          "tests": 1,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0
+        }
+      },
+      "tests": 12,
+      "apk_sha256": "50733d8c81d166d83e76913492b75523615c82659432e1a763eadbffc0af7660",
+      "physical": "NOT_RUN",
+      "functional_commits": 2,
+      "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
+      "writer_epoch": 704
     },
     {
       "package_id": "A3-M03-20261111",
       "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "status": "NEEDS_PREP",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV"
       ],
@@ -177,16 +215,20 @@
         "Moto G15 physical prior to final campaign"
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
-      "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
+      "status_reason": "Explicit M03 B5 STOP: no authorized REMOVED lookup; bounded prep delta required",
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
       "restore_admission_gap": "ACTIVE list excludes REMOVED; require authorized target lookup under delta preflight",
-      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
+      "functional_commits": 0,
+      "blocker": "AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT_OUTSIDE_SIX_PROPOSED_PATHS",
+      "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
+      "active_permit": "BLOCKED"
     },
     {
       "package_id": "A3-M04-20261111",
       "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
-      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "status": "DEPENDENCY_BLOCKED",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV"
       ],
@@ -238,12 +280,13 @@
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
       "nav_host_gap": "DEV Guardados is native Android View; wiring into Compose SurfaceHost requires explicit authoritative transition",
-      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
+      "blocker": "M03_NEEDS_PREP_NOT_B7_PASS"
     },
     {
       "package_id": "A3-M05-20261111",
       "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
-      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "status": "DEPENDENCY_BLOCKED",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV"
       ],
@@ -289,7 +332,8 @@
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
-      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
+      "blocker": "M03_NEEDS_PREP_NOT_B7_PASS"
     }
   ],
   "gates": {
@@ -327,5 +371,5 @@
     "M02": "B1_B5_DELTA_REVIEW_PREFLIGHT_READY",
     "M02_delta_blob": "839aacce48140cce75e49d35804c62bf83d84985"
   },
-  "active_permit_status": "READY_ONLY_M02"
+  "active_permit_status": "BLOCKED_M03_NEEDS_PREP"
 }

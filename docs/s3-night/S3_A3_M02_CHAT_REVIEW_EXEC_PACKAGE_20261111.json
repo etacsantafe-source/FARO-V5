@@ -8,7 +8,7 @@
   "depends_on": [
     "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV:B7_PASS_649d3f08"
   ],
-  "status": "READY_FOR_IMPLEMENTATION",
+  "status": "DONE_VERIFIED",
   "version": 1,
   "prep_documents": [
     {
@@ -87,13 +87,61 @@
   },
   "physical": "DEFER_TO_FINAL_MOTO_G15_CAMPAIGN",
   "metrics": {
-    "mode": "MANUAL_PREP",
-    "functional_commits": 0,
-    "ci_runs_new": 0,
+    "mode": "WORK",
+    "functional_commits": 2,
+    "ci_runs_new": 2,
+    "ci_pass": 1,
+    "ci_fail": 1,
+    "tests_xml": 12,
+    "B7_result": "PASS",
     "duration_observed": "NOT_MEASURED",
     "tokens_observed": "NOT_MEASURED"
   },
-  "next_action": "Work: recover exact HEAD and CAS writer; B6 M02 only, CI/XML+DEV APK, B7; M03 remain BLOCKED until M02 certified",
+  "next_action": "Prepare only M03 authorized REMOVED lookup delta B1-B5 + exact paths; documentary READY+guard/preflight before B6. Preserve M01/M02 B7. M04/M05 dependency blocked. Final G15 campaign only.",
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-  "status_reason": "Original M02 B1-B5 plus revision preflight delta certified; 16 paths scoped; permit in separate doc-only commit after B1-B5 doc; guard must pass before B6."
+  "status_reason": "Original M02 B1-B5 plus revision preflight delta certified; 16 paths scoped; permit in separate doc-only commit after B1-B5 doc; guard must pass before B6.",
+  "verification": {
+    "status": "DONE_VERIFIED",
+    "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+    "base_sha": "0b934a5d1d46094058e5c05aa921b66de5f6150d",
+    "code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+    "b6": "PASS",
+    "b7": "PASS",
+    "b7_doc": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
+    "ci_run_id": 43029315832,
+    "guard_run_id": 43029315790,
+    "artifact_id": 13860202834,
+    "xml": {
+      "FaroV5BookmarkReviewPreparationT2Test": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "FaroV5BookmarkChatReviewDevTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "AuxiliaryBookmarkReviewRevisionTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "FaroV5BookmarkActionSurfaceTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "tests": 12,
+    "apk_sha256": "50733d8c81d166d83e76913492b75523615c82659432e1a763eadbffc0af7660",
+    "physical": "NOT_RUN",
+    "functional_commits": 2,
+    "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
+    "writer_epoch": 704
+  }
 }

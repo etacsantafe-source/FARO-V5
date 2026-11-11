@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A3_M01_B7_PASS_M02_B1_B5_DELTA_READY_B6_NOT_RUN",
+  "phase": "S3_A3_M02_DONE_VERIFIED_M03_NEEDS_PREP",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 701
+    "expected_release_epoch": 704
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_EXEC_PACKAGE_20261111.json",
+  "handoff": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "M01 B7 certified/locked; execute M02 Chat Review with authorized Auxiliary scope revision preflight from scoped 16-path permit, directed CI, B7. Then prepare M03 permit. G15 physical final campaign.",
-  "checkpoint_status": "S3_A3_M01_CLOSED_M02_READY_16_PATHS_A3_OPEN",
-  "notes": "B1-B5 A3-M01 scoped prep committed; READY permit issued documentary-only. No A3-M01 functional code/test PASS; certified read-only 19/19 and catalog180 unchanged.",
-  "last_handoff": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_EXEC_PACKAGE_20261111.json",
-  "last_code_sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
-  "last_ci_run_id": 43016377617,
+  "next": "Prepare only M03 authorized REMOVED lookup delta B1-B5 + exact paths; documentary READY+guard/preflight before B6. Preserve M01/M02 B7. M04/M05 dependency blocked. Final G15 campaign only.",
+  "checkpoint_status": "M02_B7_PASS_12_XML_APK_M03_NEEDS_PREP",
+  "notes": "M01 and M02 DONE_VERIFIED; M03 cannot restore REMOVED via available authorized ACTIVE readers. No M03 code or READY permit.",
+  "last_handoff": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
+  "last_code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+  "last_ci_run_id": 43029315832,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_19_OF_19_XML_NATIVE_DEV_APK_AND_PROTOCOL_GUARD",
+  "last_ci_conclusion": "SUCCESS_12_OF_12_XML_AND_DEV_APK",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -2074,46 +2074,41 @@
     "checkpoint_status": "DOC_ONLY_PROTOCOL_COMMITTED_NO_FUNCTIONAL_GATE_UNLOCK"
   },
   "prep_execute_handoff": {
-    "package_id": "A3-M01-DEV-20261110",
-    "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+    "package_id": "A3-M02-DEV-20261111",
+    "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
     "status": "DONE_VERIFIED",
-    "prep_document": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
-    "prep_blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
-    "package_path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
-    "base_head_sha": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
-    "functional_commits": 3,
+    "package_path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_EXEC_PACKAGE_20261111.json",
+    "code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+    "functional_commits": 2,
     "physical": "NOT_RUN"
   },
   "work_exclusive_execution_handoff": {
-    "status": "M01_DONE_VERIFIED_M02_READY_FOR_B6",
+    "status": "M01_M02_DONE_VERIFIED_M03_NEEDS_PREP",
     "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
     "queue": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
     "prepared_units": 5,
-    "ready_for_implementation": 1,
-    "future_units_prepared_not_permitted": 4,
-    "active_unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+    "ready_for_implementation": 0,
+    "future_units_prepared_not_permitted": 3,
+    "active_unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
     "head_on_prep": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
     "rules": "Work implements B6/CI/B7 using prep; mechanical per-unit documentary permit after B7, or STOP on drift; no skipped gate.",
-    "no_code_modified": true,
+    "no_code_modified": false,
     "physical": "FINAL_SINGLE_CAMPAIGN_ONLY",
-    "active_permit_paths": 16,
+    "active_permit_paths": 0,
     "base_head_sha": "c4aa9fe3c47231527fa2f153eb30af5e91e47575",
     "M02_delta": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
     "M01_code_sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
     "M01_tests": "64/64 PASS",
-    "M02_implementation": "NOT_RUN"
+    "M02_implementation": "DONE_VERIFIED",
+    "M02_code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+    "M02_tests": "12/12 PASS",
+    "M02_B7": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md"
   },
   "final_work_preparation": {
-    "status": "B1_B5_DELTA_AUDIT_PERMIT_ISSUED_AWAIT_GUARD",
-    "baseline_head": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
-    "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-    "delta_document": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
-    "delta_blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
-    "permit_paths": 11,
-    "AGENTS_correction": "cat180_approved_exact8",
-    "M02_to_M05": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
-    "functional_changes": 0,
-    "writer_release_expected_epoch": 696,
+    "status": "M02_B7_PASS_M03_NEEDS_PREP",
+    "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+    "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
+    "functional_changes_M03": 0,
     "physical": "NOT_RUN"
   },
   "work_m01": {
@@ -2144,11 +2139,71 @@
     "apk_sha256": "475c9842a2d45e50e090485f467e7b624ee129012fc90c0ad1efda1e47441d10"
   },
   "work_m02": {
-    "status": "NEEDS_PREP",
+    "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
-    "delta_document": "docs/s3-night/S3_A3_M02_WORK_NEEDS_PREP_20261111.md",
+    "base_sha": "0b934a5d1d46094058e5c05aa921b66de5f6150d",
+    "code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+    "b6": "PASS",
+    "b7": "PASS",
+    "b7_doc": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
+    "ci_run_id": 43029315832,
+    "guard_run_id": 43029315790,
+    "artifact_id": 13860202834,
+    "xml": {
+      "FaroV5BookmarkReviewPreparationT2Test": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "FaroV5BookmarkChatReviewDevTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "AuxiliaryBookmarkReviewRevisionTest": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "FaroV5BookmarkActionSurfaceTest": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "tests": 12,
+    "apk_sha256": "50733d8c81d166d83e76913492b75523615c82659432e1a763eadbffc0af7660",
+    "physical": "NOT_RUN",
+    "functional_commits": 2,
+    "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
+    "writer_epoch": 704
+  },
+  "goal_id": "S3.A3",
+  "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+  "block_id": "M03_DELTA_PREFLIGHT",
+  "block_status": "NEEDS_PREP",
+  "expected_head": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+  "blocker": "AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT_OUTSIDE_SIX_PROPOSED_PATHS",
+  "writer_release_epoch": 704,
+  "last_observed_at": "2026-11-11",
+  "work_m03": {
+    "status": "NEEDS_PREP",
+    "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
     "functional_commits": 0,
-    "permit": "BLOCKED",
-    "blocker": "AUTHORIZED_PRE_REVIEW_GLOBAL_SCOPE_REVISION_BOOTSTRAP_UNSPECIFIED"
+    "blocker": "AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT_OUTSIDE_SIX_PROPOSED_PATHS",
+    "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md"
+  },
+  "acceptance": "M02 exact-SHA CI/XML/APK/B7 PASS; M03 lookup delta pending; A3 OPEN",
+  "evidence": {
+    "M02_B7": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
+    "ci_run_id": 43029315832,
+    "guard_run_id": 43029315790,
+    "artifact_id": 13860202834
   }
 }
