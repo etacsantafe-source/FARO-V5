@@ -1,7 +1,5 @@
 package ar.com.faro.v5.app
 
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import androidx.sqlite.execSQL
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.auxiliary.*
@@ -12,6 +10,30 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+
+/**
+ * Test fixture SQL only. Auxiliary exposes sqlite-bundled-jvm at runtime, not to
+ * the app's compile classpath. Reflect on the public SQLite interfaces instead
+ * of changing production/test dependencies outside this unit's permit.
+ * Fail loudly if the runtime driver is unavailable.
+ */
+private fun fixtureSql(dbFile: String, sql: String) {
+    val driver = Class.forName("androidx.sqlite.driver.bundled.BundledSQLiteDriver")
+        .getDeclaredConstructor().newInstance()
+    val connection = Class.forName("androidx.sqlite.SQLiteDriver")
+        .getMethod("open", String::class.java)
+        .invoke(driver, dbFile) as AutoCloseable
+    connection.use {
+        val statement = Class.forName("androidx.sqlite.SQLiteConnection")
+            .getMethod("prepare", String::class.java)
+            .invoke(connection, sql) as AutoCloseable
+        statement.use {
+            Class.forName("androidx.sqlite.SQLiteStatement")
+                .getMethod("step")
+                .invoke(statement)
+        }
+    }
+}
 
 /** Integrated real SQLite hosts; simulated sandbox facts are NOT native gesture/physical proof. */
 class FaroV5BookmarkA3AcceptanceT2Test {
@@ -71,7 +93,7 @@ class FaroV5BookmarkA3AcceptanceT2Test {
             return requireNotNull(reader().readAuthorized()).items.single()
         }
         fun reopen() { auxiliary.close(); auxiliary=auxiliaryOwner() }
-        fun sqlWorkspace(sql: String) { BundledSQLiteDriver().open(workspaceFile).use { it.execSQL(sql) } }
+        fun sqlWorkspace(sql: String) { fixtureSql(workspaceFile, sql) }
         override fun close() {
             bindings.forEach { runCatching { it.close() } }; reads.close(); mutations.close()
             runCatching { auxiliary.close() }; workspace.close()
@@ -225,12 +247,12 @@ class FaroV5BookmarkA3AcceptanceT2Test {
         Case("crash").use { f ->
             val target=f.target(); val request=f.request(0,"crash-key",BookmarkMutation.Add(BookmarkMetadata(BookmarkId("saved"),target)))
             val before=f.auxiliary.backup.snapshot()
-            BundledSQLiteDriver().open(f.auxiliaryFile).use { it.execSQL("CREATE TRIGGER fail_receipt BEFORE INSERT ON bookmark_receipt BEGIN SELECT RAISE(ABORT,'fixture crash'); END") }
+            fixtureSql(f.auxiliaryFile, "CREATE TRIGGER fail_receipt BEFORE INSERT ON bookmark_receipt BEGIN SELECT RAISE(ABORT,'fixture crash'); END")
             assertTrue(f.mutations.grantAfterTrustedForegroundMutationAction(request,target))
             assertFalse(f.mutator().mutateAuthorized(request,target) is FaroV5BookmarkMutationOutcome.Saved)
             assertEquals(before,f.auxiliary.backup.snapshot()); f.reopen()
             assertEquals(before,f.auxiliary.backup.snapshot())
-            BundledSQLiteDriver().open(f.auxiliaryFile).use { it.execSQL("DROP TRIGGER fail_receipt") }
+            fixtureSql(f.auxiliaryFile, "DROP TRIGGER fail_receipt")
             f.afterWrite={ f.mutations.revokeAll() }
             assertTrue(f.mutations.grantAfterTrustedForegroundMutationAction(request,target))
             assertEquals(FaroV5BookmarkMutationOutcome.UnknownReconcile,f.mutator().mutateAuthorized(request,target))
