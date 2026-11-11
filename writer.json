@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.S3A3.BACKUP.20261110",
-  "token_hash": "110e84e881b454f9a0e9732fca597d554c1a6ba79d34ccb7bad742778e589dca",
-  "target_head": "84205055db54818b46158f96730602f5f9eaad7a",
+  "status": "HELD",
+  "owner": "FARO.CHAT.S3A3.READ_HOST_CI_REDFIX.20261110",
+  "token_hash": "274e86d1d6de0d4c937079c43f053123c877b958415fe595fc42d361a71d9511",
+  "target_head": "916e8a82705a666875d460ff5084797b02246f89",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 686,
-  "timestamp": 1794355862,
+  "epoch": 687,
+  "timestamp": 1794358476,
   "last_checkpoint": "916e8a82705a666875d460ff5084797b02246f89",
-  "purpose": "READ_HOST_NATIVE_B6"
+  "purpose": "READ_HOST_NATIVE_B7_RED_FIX_CI_MEMORY"
 }
