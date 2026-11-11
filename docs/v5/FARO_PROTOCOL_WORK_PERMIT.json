@@ -1,12 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
+  "status": "BLOCKED",
+  "unit_id": null,
   "reviewed_head": "f4d7fb3182b811d46dff333d858527ccb4193d4f",
-  "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57BookmarksUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-bookmarks-android-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -58,25 +55,25 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_ANDROID_EMULATOR"
   },
   "last_code_review": {
-    "sha": "fc9f51f7b4be5ee059315eb583810774ec7b7ba7",
+    "sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
     "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_RED_FIX_5_20261111.md",
-        "blob_sha": "8c7a1ee0e32bfe8e91646705a3f49d2efefbecdd",
+        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_PASS_SCOPED_20261111.md",
+        "blob_sha": "87aee40bf9d6576b363184b1a7245019c1e9484a",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43082501290,
-    "guard_run_id": 43082501349
+    "ci_run_id": 43084379020,
+    "guard_run_id": 43084378819
   },
-  "why": "X04 instrumented Android PASS, X05 native AlertDialog visible but positive confirmation accessibility selector too strict; B7 RED_FIX5.",
-  "how": "Only new g5AndroidTest file: identify real Confirmar button by case-insensitive exact label and bounded clickable ancestor under verified native modal. Android API35 2/2, APK/XML, guard mandatory.",
+  "why": "S3.A5.7 X04/X05 Android g5AndroidTest B7 PASS 2/2 exact SHA; next code needs fresh unit-specific B1-B5 permit.",
+  "how": "No additional functional writes authorized. A5 global remains OPEN; G15 physical campaign reserved for final.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }

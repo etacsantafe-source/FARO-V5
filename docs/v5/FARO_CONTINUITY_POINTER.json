@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_X04_X05_ANDROID_WORK_READY_B6",
+  "phase": "S3_A5_X04_X05_ANDROID_B7_PASS_SCOPED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 724
+    "expected_release_epoch": 733
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3.A5.7 X04/X05 READY and precision source/UI guide published. Work B6 only 2 routes, Android API35 exact 2 tests; no duplicate B1-B5, no code yet; Moto G15 final.",
-  "checkpoint_status": "A3_DONE_AUTOMATED_A5_X04_X05_READY_TEST_ONLY",
+  "next": "S3.A5.7 X04/X05 B7 PASS SCOPED Android API35 2/2. A5 global remains OPEN; next unit requires separate READY permit and B1-B5. G15 physical final only, main/V2 productive/S4/Auto/Noche untouched.",
+  "checkpoint_status": "A3_DONE_AUTOMATED_A5_X04_X05_B7_PASS_API35_EMULATOR",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
-  "last_ci_run_id": 43055545460,
+  "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
+  "last_ci_run_id": 43084379020,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_M05_11_OF_11_XML_APK_DEV_VERIFIED_ZIP",
+  "last_ci_conclusion": "SUCCESS_X04_X05_ANDROID_API35_2_OF_2_XML_APK_ARTIFACT_GUARD",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -2239,7 +2239,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "M01_M02_M03_M04_B7_PASS_M05_READY",
+  "checkpoint": "S3_A3_M01_M05_B7_PASS_S3_A5_7_X04_X05_B7_PASS_EMULATOR",
   "work_m05": {
     "status": "READY_FOR_IMPLEMENTATION",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2266,7 +2266,7 @@
   },
   "a5_current_unit": {
     "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
-    "status": "READY_TO_IMPLEMENT_TEST_ONLY_WITH_PRECISION_GUIDE",
+    "status": "B7_PASS_SCOPED_ANDROID_EMULATOR",
     "document": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
     "document_blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
     "execution_package": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXEC_PACKAGE_20261111.json",
@@ -2275,14 +2275,37 @@
       "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57BookmarksUiTest.kt",
       ".github/workflows/faro-v5-s3-a5-7-bookmarks-android-directed.yml"
     ],
-    "b6": "NOT_STARTED",
-    "b7": "NOT_RUN",
-    "physical": "NOT_RUN",
+    "b6": "DONE_VERIFIED",
+    "b7": "PASS",
+    "physical": "NOT_RUN_MOTO_G15_RESERVED",
     "upstream_a3": "M01_M05_B7_PASS_AUTOMATED_ONLY",
     "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_commit": "THIS_COMMIT_DOC_ONLY_SEPARATE_AFTER_PREAUDIT",
     "preaudit_guard_run_id": 43067449758,
     "precision_guide": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-    "precision_guide_blob_sha": "971a4b27fc5842a45d14c797b9510b8318eb4ea2"
+    "precision_guide_blob_sha": "971a4b27fc5842a45d14c797b9510b8318eb4ea2",
+    "code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
+    "run_id": 43084379020,
+    "job_id": 130744830531,
+    "guard_run_id": 43084378819,
+    "home_run_id": 43084378829,
+    "xml": "X04_X05_ANDROID_API35_2_2_PASS",
+    "artifact_id": 13885114408,
+    "artifact_name": "faro-v5-a5-7-x04-x05-api35-2d1007e8b0e557c716e95402dad5bd9fe638a433",
+    "b7_doc": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_PASS_SCOPED_20261111.md",
+    "next": "A5_GLOBAL_OPEN_NEW_UNIT_NEEDS_INDIVIDUAL_PERMIT"
+  },
+  "a5_7_x04_x05_android": {
+    "unit": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
+    "status": "B7_PASS_SCOPED_ANDROID_EMULATOR",
+    "code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
+    "ci_run_id": 43084379020,
+    "ci_job_id": 130744830531,
+    "guard_run_id": 43084378819,
+    "artifact_id": 13885114408,
+    "xml": "2/2",
+    "physical": "NOT_RUN",
+    "productive_v2": false,
+    "document": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_PASS_SCOPED_20261111.md"
   }
 }
