@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.M05.B7.CHECKPOINT.20261111",
-  "token_hash": "7922d2366cf77c451143e5f3177299931a02ab9d0e51e92a56f93c34c9261011",
-  "target_head": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
+  "status": "HELD",
+  "owner": "FARO.CHAT.M05.B7.GUARD_FIX.20261111",
+  "token_hash": "aaa183cb64b8a6d34feeb2de513d4e9709e5986c895b3d3483dc1db2bd94c865",
+  "target_head": "07718e4f34282976e7261587c9e9406dfbefe258",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 720,
-  "timestamp": 1794416343,
-  "purpose": "M05_B7_PASS_DOC_CHECKPOINT_WRITER_RELEASED",
+  "epoch": 721,
+  "timestamp": 1794416439,
+  "purpose": "M05_DOCUMENTARY_PROTOCOL_PREFLIGHT_STALE_PERMIT_REMEDIATION",
   "last_checkpoint": "07718e4f34282976e7261587c9e9406dfbefe258"
 }
