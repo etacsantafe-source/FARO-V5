@@ -1,13 +1,16 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
-  "reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
+  "reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
   "paths": [
     "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X03ExplicitConsultUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml"
+    ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
   ],
   "stages": {
     "B1": {
@@ -16,6 +19,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
           "blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
+          "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a",
           "marker": "## B1"
         }
       ]
@@ -27,6 +35,11 @@
           "path": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
           "blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
+          "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a",
+          "marker": "## B2"
         }
       ]
     },
@@ -36,6 +49,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
           "blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
+          "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a",
           "marker": "## B3"
         }
       ]
@@ -47,6 +65,11 @@
           "path": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
           "blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
+          "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a",
+          "marker": "## B4"
         }
       ]
     },
@@ -57,11 +80,16 @@
           "path": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
           "blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
+          "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "NEEDS_PREP",
-    "B7": "NOT_RUN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -77,8 +105,8 @@
     "ci_run_id": 43084379020,
     "guard_run_id": 43084378819
   },
-  "why": "NEEDS_PREP_SCOPE_PROPAGATION: explicit mode cannot reach real DEV chat through SurfaceHost/AdaptiveShell/ShellNavigation within current four-path permit.",
-  "how": "Read docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md; audit delta and issue separate exact READY permit before B6. No U02 code permission.",
+  "why": "X03 U01 mode propagation delta B1-B5 after Work NEEDS_PREP, guards and seven exact host/UI/test/workflow paths; no network or model in V2 DEV.",
+  "how": "Work read docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md plus original B1-B5 and queue; verify HEAD/lock, preflight all seven paths; B6 API35 2 tests and XML/APK/guard exact SHA; B7 independent; next X03 U02 requires new permit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": "NEEDS_PREP_SCOPE_PROPAGATION",

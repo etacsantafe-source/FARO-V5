@@ -5,8 +5,8 @@
   "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
   "branch": "work/s3-night-20261102",
   "base_head_sha": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
-  "version": 2,
-  "status": "DELTA_PREAUDITED_NEEDS_SEPARATE_READY_PERMIT",
+  "version": 3,
+  "status": "READY_FOR_IMPLEMENTATION_AFTER_HOST_DELTA_GUARD",
   "depends_on": [
     "S2_F1_REAL_AI_ISOLATED:PASS_SCOPED",
     "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS"
@@ -66,12 +66,12 @@
     "change Apply/Reality/owners",
     "Moto G15 physical before final"
   ],
-  "next_action": "After guard SUCCESS at delta commit, publish separate individual READY permit for exact 7 paths, check preflight all 7, Work B6 Android XML 2/2 APK and B7. Not X03 global.",
-  "ready_permit_sha": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5",
-  "reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
-  "last_verified_guard_run": 43092315963,
+  "next_action": "Work immediately B6 X03 U01: read 2 B1-B5 docs, verify READY 7 paths, exact preflight, implement, CI Android API35 XML 2/2 APK+manifest no INTERNET, B7, checkpoint and writer RELEASED. Do not proceed U02 under this permit.",
+  "ready_permit_sha": "THIS_DOCUMENT_ONLY_COMMIT",
+  "reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
+  "last_verified_guard_run": 43100588343,
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-  "blocked_reason": "AWAITING_DELTA_DOCUMENT_GUARD_AND_NEW_READY_PERMIT",
+  "blocked_reason": null,
   "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md",
   "candidate_additional_paths_not_authorized": [],
   "b1_b5_delta": {

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X03_U01_DELTA_B1_B5_PREAUDITED",
+  "phase": "S3_A5_7_X03_U01_READY_SEVEN_PATHS_WORK",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 739
+    "expected_release_epoch": 740
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X03 U01 real host mode propagation delta B1–B5 published docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md blob b64ca70ebd501099aaf364144686bc300caf3d0a; 7 exact paths in queue; permit BLOCKED pending guard and separate READY docs commit. Then Work B6/CI API35/XML 2/2/APK/B7. No Internet, no shipping V2, no physical G15.",
-  "checkpoint_status": "X03_U01_DELTA_PREAUDITED_WAIT_READY_NO_B6",
+  "next": "Work X03 U01 B6 READY after seven-path host propagation delta. Base 2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9; B1–B5 original f726eacaa302778405320d8707fa94476a0c0acb + delta b64ca70ebd501099aaf364144686bc300caf3d0a; permit READY only S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV and 7 exact paths; preflight each, code no INTERNET, test Android API35 XML 2/2 + APK, guard, B7, writer RELEASED. U02 Groq separate. No G15 physical.",
+  "checkpoint_status": "X03_U01_B1_B5_DELTA_AND_READY_GUARD_SUCCESS_B6_NOT_RUN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 739,
+  "last_writer_epoch_observed": 740,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "NEEDS_PREP",
   "expected_head": "20cf981a9c080e972da93a2bb6ecd3017223a8cc",
   "blocker": "NEEDS_PREP_SCOPE_PROPAGATION",
-  "writer_release_epoch": 739,
+  "writer_release_epoch": 740,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2239,7 +2239,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_DOC",
+  "checkpoint": "S3_A5_X03_U01_HOST_PROPAGATION_DELTA_READY_SEVEN_PATHS",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2350,7 +2350,7 @@
     "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
   },
   "work_turbo_20261111": {
-    "status": "X03_U01_DELTA_PREAUDITED_WAIT_READY",
+    "status": "X03_U01_READY_AFTER_HOST_SCOPE_DELTA",
     "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
     "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
     "package_blob_sha": "cade398a02725d8fd6ef4ffd587bd6baed5b41e5",
@@ -2366,7 +2366,7 @@
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
     ],
-    "next_action": "WAIT_DELTA_GUARD_THEN_SEPARATE_READY",
+    "next_action": "WORK_B6_PRECHECK_SEVEN_PATHS_NOW",
     "next_units": [
       "X03_U02_REAL_AI_ISOLATION",
       "X09_REVIEW",
@@ -2376,9 +2376,9 @@
     "source_limit": "V2_CORE_DEV_MANIFEST_EXPLICIT_INTERNET_REMOVE_AND_AI_SETTINGS_REMOVE",
     "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
     "ready_unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
-    "ready_reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
-    "functional_permission": "BLOCKED",
-    "queue_status": "DELTA_PREAUDITED_NEEDS_SEPARATE_READY_PERMIT",
+    "ready_reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
+    "functional_permission": "READY_ONLY_X03_U01_SEVEN_PATHS",
+    "queue_status": "READY_FOR_IMPLEMENTATION_AFTER_HOST_DELTA_GUARD",
     "ready_permit_sha": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5",
     "ready_guard_run": 43092315963,
     "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md",
@@ -2391,6 +2391,7 @@
     "b1_b5_delta": {
       "path": "docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md",
       "blob_sha": "b64ca70ebd501099aaf364144686bc300caf3d0a"
-    }
+    },
+    "delta_guard_run": 43100588343
   }
 }
