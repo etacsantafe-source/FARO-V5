@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.X04X05.REDFIX4.20261111",
-  "token_hash": "e2df736b31bb283a9fd0369f932b13fab2df12c5e3a0d8acf3b16aa065def701",
+  "status": "HELD",
+  "owner": "FARO.CHAT.X04X05.REDFIX5.20261111",
+  "token_hash": "0a69f17bcdda2ed6a02b8e02dc871ffb7ae3d756b1631fc91c3ea5532959314c",
   "target_head": "fc9f51f7b4be5ee059315eb583810774ec7b7ba7",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 731,
-  "timestamp": 1794423403,
-  "purpose": "S3_A5_7_X04_X05_SWIPE_IMPORT_PUBLISHED_WAIT_CI",
+  "epoch": 732,
+  "timestamp": 1794424009,
+  "purpose": "X05_NATIVE_ACCESSIBILITY_POSITIVE_BUTTON_B7_REDFIX5",
   "last_checkpoint": "fc9f51f7b4be5ee059315eb583810774ec7b7ba7"
 }
