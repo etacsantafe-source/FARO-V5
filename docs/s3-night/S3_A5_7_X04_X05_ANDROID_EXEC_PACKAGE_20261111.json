@@ -6,7 +6,7 @@
   "branch": "work/s3-night-20261102",
   "base_head_sha": "1901aa8a0b09350c4cf7cce0cb107d3303256637",
   "version": 1,
-  "status": "PREAUDITED_AWAITING_SEPARATE_PERMIT",
+  "status": "READY_AFTER_DOCUMENTARY_PERMIT_CI",
   "depends_on": [
     "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS",
     "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV:B7_PASS"
@@ -60,5 +60,8 @@
     "Moto G15 physical before final campaign",
     "reuse A3 CI as new tests"
   ],
-  "next_action": "After documentation CI PASS, issue separate READY permit by CAS. Work B6 only permitted two paths; verify emulator, B7 and writer RELEASED."
+  "next_action": "Verify this separate permit commit guard SUCCESS and execute exact preflight before code, CAS acquire, develop only 2 routes and CI/B7. Never reuse A3 M05 READY.",
+  "reviewed_head": "f4d7fb3182b811d46dff333d858527ccb4193d4f",
+  "preflight_guard_before_permit_run_id": 43067449758,
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json"
 }

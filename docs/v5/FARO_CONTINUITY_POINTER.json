@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_X04_X05_ANDROID_PREAUDITED_AWAITING_SEPARATE_READY_PERMIT",
+  "phase": "S3_A5_X04_X05_ANDROID_WORK_READY_B6",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 722
+    "expected_release_epoch": 723
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Preaudit documented A5 X04/X05 Android real UI test-only. Verify documentation CI PASS, then separate individual READY permit; executor Work B6 exact test+workflow paths; other A5 X open; no G15 before final campaign.",
-  "checkpoint_status": "A3_M01_M05_AUTOMATED_DONE_A5_X04_X05_B1_B5_PREAUDITED",
+  "next": "Execute B6 S3_A5_7_X04_X05_ANDROID_GUARDADOS only within exact 2 paths after fresh CAS/preflight; Android API35 two tests and independent B7; preserve M01-M05 and A5 prior B7; G15 physical deferred.",
+  "checkpoint_status": "A3_DONE_AUTOMATED_A5_X04_X05_READY_TEST_ONLY",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
   "last_code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
@@ -2266,7 +2266,7 @@
   },
   "a5_current_unit": {
     "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
-    "status": "PREAUDITED_AWAITING_DOC_CI_AND_SEPARATE_PERMIT",
+    "status": "READY_TO_IMPLEMENT_TEST_ONLY",
     "document": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
     "document_blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
     "execution_package": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXEC_PACKAGE_20261111.json",
@@ -2278,6 +2278,9 @@
     "b6": "NOT_STARTED",
     "b7": "NOT_RUN",
     "physical": "NOT_RUN",
-    "upstream_a3": "M01_M05_B7_PASS_AUTOMATED_ONLY"
+    "upstream_a3": "M01_M05_B7_PASS_AUTOMATED_ONLY",
+    "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+    "permit_commit": "THIS_COMMIT_DOC_ONLY_SEPARATE_AFTER_PREAUDIT",
+    "preaudit_guard_run_id": 43067449758
   }
 }

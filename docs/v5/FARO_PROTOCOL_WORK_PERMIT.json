@@ -1,25 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
-  "reviewed_head": "c2cfaa61d037bff797ce61e71e57ff7c6f710dde",
+  "status": "READY",
+  "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
+  "reviewed_head": "f4d7fb3182b811d46dff333d858527ccb4193d4f",
   "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkA3AcceptanceT2Test.kt",
-    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkA3UiAcceptanceTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-acceptance-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57BookmarksUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-bookmarks-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
-          "blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-          "blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497",
+          "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
+          "blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
           "marker": "## B1"
         }
       ]
@@ -28,13 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
-          "blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-          "blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497",
+          "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
+          "blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
           "marker": "## B2"
         }
       ]
@@ -43,13 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
-          "blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-          "blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497",
+          "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
+          "blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
           "marker": "## B3"
         }
       ]
@@ -58,13 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
-          "blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-          "blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497",
+          "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
+          "blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
           "marker": "## B4"
         }
       ]
@@ -73,19 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
-          "blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
-          "blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497",
+          "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
+          "blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS",
-    "B7": "PASS"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
@@ -101,8 +75,8 @@
     "ci_run_id": 43055545460,
     "guard_run_id": 43055545554
   },
-  "why": "M05 automated acceptance B7 PASS code 0bfa534c, XML11/11+APK verified; permit consumed and BLOCKED until a distinct separately authorized unit. A3 physical G15 final campaign NOT_RUN.",
-  "how": "Do not reopen M01-M05; publish a new B1-B5 reviewed scoped permit for any subsequent functional development. Preserve M05 B7 and use physical G15 final campaign by explicit overall plan.",
+  "why": "A3 M01-M05 B7 PASS automated and A5.7 X04/X05 remain without real Android UI end-to-end test; preaudit exact B1-B5 doc blob 6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a verified under run43067449758.",
+  "how": "Work/manual executor may add ONLY one Android g5AndroidTest Kotlin test class and one push-triggered workflow; 2 Android API35 tests, require OK(2), XML/log/APP+TEST APK and protocol guard at exact SHA, B7 separate and RELEASED. No production V2, main/V4.4, extra paths, G15 or code without CAS.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
