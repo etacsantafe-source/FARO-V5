@@ -1,26 +1,104 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
-  "reviewed_head": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
-  "paths": [],
+  "reviewed_head": "c4aa9fe3c47231527fa2f153eb30af5e91e47575",
+  "paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurface.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5MessageTimeline.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatTimeline.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurfaceTest.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkChatReviewDevTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkReviewRevisionTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationT2Test.kt"
+  ],
   "stages": {
     "B1": {
-      "status": "NEEDS_DELTA",
+      "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_M02_WORK_NEEDS_PREP_20261111.md",
-          "blob_sha": "0cd69f94e4da798cc1a0747158eb00ff2a2c81ba",
+          "path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+          "blob_sha": "839aacce48140cce75e49d35804c62bf83d84985",
           "marker": "## B1"
         }
       ]
     },
-    "B2": "PREAUDITED_REUSE_PENDING_DELTA",
-    "B3": "PREAUDITED_REUSE_PENDING_DELTA",
-    "B4": "NEEDS_PREP_SCOPE_REVISION_BOOTSTRAP",
-    "B5": "NEEDS_PREP_SCOPE_REVISION_BOOTSTRAP",
-    "B6": "BLOCKED",
-    "B7": "NOT_RUN"
+    "B2": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+          "blob_sha": "839aacce48140cce75e49d35804c62bf83d84985",
+          "marker": "## B2"
+        }
+      ]
+    },
+    "B3": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+          "blob_sha": "839aacce48140cce75e49d35804c62bf83d84985",
+          "marker": "## B3"
+        }
+      ]
+    },
+    "B4": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+          "blob_sha": "839aacce48140cce75e49d35804c62bf83d84985",
+          "marker": "## B4"
+        }
+      ]
+    },
+    "B5": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da",
+          "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+          "blob_sha": "839aacce48140cce75e49d35804c62bf83d84985",
+          "marker": "## B5"
+        }
+      ]
+    },
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
@@ -36,8 +114,8 @@
     "ci_run_id": 43016377617,
     "guard_run_id": 43016377548
   },
-  "why": "M01 B7 PASS; M02 NEEDS_PREP exact pre-review Auxiliary scope revision bootstrap, no scoped permit for required owner paths",
-  "how": "Prepare only missing interface delta, specific B1-B5 and documentary scoped permit before M02 B6.",
+  "why": "M01 B7 PASS 64/64 certified; M02 pre-review global scope revision gap solved by scoped read-only Auxiliary snapshot and prior manual B1-B5 plus SHA-specific delta",
+  "how": "16 exact functional paths; pinned 2 docs proof blobs B1-B5; fresh generation/Workspace+double read grant; no mutation until explicit confirmation; internal scope revision0 only when authorized no scope, reject identity mismatch; stale -> new review; directed GitHub CI push and B7",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }

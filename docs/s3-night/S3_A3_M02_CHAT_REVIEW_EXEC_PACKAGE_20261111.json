@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "package_id": "A3-M02-DEV-20261111",
+  "goal_id": "S3.A3",
+  "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+  "branch": "work/s3-night-20261102",
+  "base_head_sha": "c4aa9fe3c47231527fa2f153eb30af5e91e47575",
+  "depends_on": [
+    "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV:B7_PASS_649d3f08"
+  ],
+  "status": "READY_FOR_IMPLEMENTATION",
+  "version": 1,
+  "prep_documents": [
+    {
+      "path": "docs/s3-night/S3_A3_M02_CHAT_REVIEW_B1_B5_20261111.md",
+      "blob_sha": "955155399d7c32c5e7caeade33d2e4c0ae7840da"
+    },
+    {
+      "path": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+      "blob_sha": "839aacce48140cce75e49d35804c62bf83d84985"
+    }
+  ],
+  "why_blocked_before": "No authorized pre-review scope revision; BookmarkReadPage has no global scope revision; Stale mutation probe can write on revision0",
+  "solution": "Read-only AUX scope revision snapshot from same SQLite/ownerLock via gated, host-only port, with existing Workspace ACL/generation/read grant; no mutation until human confirmation",
+  "contract": "scope missing and owner authorized => revision0 (no SQL writes); mismatch/unavailable => unavailable; existing scope => exact global revision, not item revision; exact ACTIVE target metadata optional; no REMOVED leak",
+  "allowed_functional_paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurface.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5MessageTimeline.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatTimeline.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurfaceTest.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkChatReviewDevTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkReviewRevisionTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationT2Test.kt"
+  ],
+  "forbidden": [
+    "main",
+    "V4.4",
+    "production V2",
+    "S4",
+    "Auto",
+    "Night",
+    "APIs paid",
+    "new operation/catalog",
+    "new public BookmarkContracts types",
+    "schema/migrations",
+    "raw SQL or authority token in Compose",
+    "Reality COMMITTED or Undo",
+    "physical Moto G15"
+  ],
+  "work_steps": [
+    "preflight verify exact 16 paths, READY permit and parent reviewed head; writer CAS",
+    "Auxiliary trusted scope revision reader + tests, no mutation pre-Review",
+    "DEV host preflight with independent READ grants + source Workspace/durable pointer, consistent sample and post-fence",
+    "Chat explicit tap -> read preview -> human confirmation -> exact M01 mutation grant -> CAS+receipt",
+    "Stale/Unknown/Revoke/ABA/double tap + CI workflow push and exact JUnit XML + DEV APK",
+    "B7 independent diff+CI+guard+checkpoint+writer RELEASED"
+  ],
+  "acceptance": [
+    "Missing valid bookmark_scope (new install) produces available revision0 ONLY with correct ACL and 0 writes",
+    "Existing scope global rev2 vs bookmark item rev1 returns rev2",
+    "Foreign token/gen/revoked source/pointer ABA/host closed => UNAVAILABLE no leak/write",
+    "Exactly one human Confirm issues action-bound grant, no grant at preview/render/onResume",
+    "Changed scope before Confirm => Stale, no automatic retry, requires fresh human review",
+    "Same idempotency replay only under current M01 grant; revoke post-COMMIT => UnknownReconcile and authorized reconcile",
+    "11+? directed suites with XML verified actual counts (do NOT invent test count) and APK v2CoreDev",
+    "CI seven-block-evidence SUCCESS exact SHA and B7 PASS, checkpoint and writer RELEASED"
+  ],
+  "workflows": [
+    ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml",
+    ".github/workflows/faro-v5-protocol-guard.yml"
+  ],
+  "ci_trigger": "on push: branches work/s3-night-20261102 with paths; workflow_dispatch-only not reliable on nondefault",
+  "evidence_reuse": {
+    "M01_B7": "docs/s3-night/S3_A3_M01_WORK_B7_PASS_20261111.md",
+    "M01_code": "649d3f08ec7d6a14dea4869ad84603408dbee953",
+    "M01_run": 43016377617,
+    "M01_guard": 43016377548
+  },
+  "physical": "DEFER_TO_FINAL_MOTO_G15_CAMPAIGN",
+  "metrics": {
+    "mode": "MANUAL_PREP",
+    "functional_commits": 0,
+    "ci_runs_new": 0,
+    "duration_observed": "NOT_MEASURED",
+    "tokens_observed": "NOT_MEASURED"
+  },
+  "next_action": "Work: recover exact HEAD and CAS writer; B6 M02 only, CI/XML+DEV APK, B7; M03 remain BLOCKED until M02 certified",
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+  "status_reason": "Original M02 B1-B5 plus revision preflight delta certified; 16 paths scoped; permit in separate doc-only commit after B1-B5 doc; guard must pass before B6."
+}
