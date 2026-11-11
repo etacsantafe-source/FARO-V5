@@ -129,6 +129,14 @@ class AuxiliaryDeliveryStore private constructor(
         return ar.com.faro.v5.kernel.contracts.BookmarkReadPort { request -> reader.read(request) }
     }
 
+    /** Mutation-only trusted port. Neither the read port nor a generic write boolean can grant it. */
+    fun bookmarkMutatorForTrustedHost(
+        authority: RequestScopedBookmarkAuthorityGate,
+    ): ar.com.faro.v5.kernel.contracts.BookmarkMutationPort {
+        val owner = AuxiliaryBookmarkStore(connection, lock, materialWriteGate, authority, { !closed })
+        return ar.com.faro.v5.kernel.contracts.BookmarkMutationPort { request -> owner.mutate(request) }
+    }
+
     val maintenance: AuxiliaryMaintenancePort =
         AuxiliaryMaintenancePort(::inspectForMaintenance)
 

@@ -1,0 +1,105 @@
+name: FARO V5 S3 A3 trusted Guardados mutation host
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkTrustedMutationHostTest.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkMutationAuthorityGate.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkMutationAuthorityGateTest.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthority.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBinding.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthorityT2Test.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBindingT2Test.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-trusted-mutation-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bookmark-trusted-mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Exact SHA and owner suites
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test --tests '*Bookmark*'
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests '*FaroV5WorkspaceBookmark*AuthorityGateTest'
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests '*FaroV5LocalInstallBookmarkMutationAuthorityT2Test' \
+            --tests '*FaroV5BookmarkMutationHostBindingT2Test' --tests '*FaroV5BookmarkReadHostBindingT2Test'
+      - name: Compile isolated native DEV host and APK
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Dorg.gradle.jvmargs='-Xmx2g -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8' \
+            :app:assembleV2CoreDev
+      - name: Verify XML and DEV APK
+        run: |
+          python3 - <<'PYXML'
+          import hashlib, json, os, xml.etree.ElementTree as ET
+          from pathlib import Path
+          required = {
+              'AuxiliaryBookmarkMutationAuthorityTest':5,
+              'AuxiliaryBookmarkStoreTest':8,
+              'AuxiliaryBookmarkTrustedMutationHostTest':6,
+              'FaroV5WorkspaceBookmarkAuthorityGateTest':6,
+              'FaroV5WorkspaceBookmarkMutationAuthorityGateTest':5,
+              'FaroV5LocalInstallBookmarkMutationAuthorityT2Test':5,
+              'FaroV5BookmarkMutationHostBindingT2Test':6,
+              'FaroV5BookmarkReadHostBindingT2Test':6,
+          }
+          files = list(Path('v5').glob('**/build/test-results/*/TEST-*.xml'))
+          assert files, 'missing XML'
+          found = {}; total = 0
+          for file in files:
+              suite = ET.parse(file).getroot()
+              counts = tuple(int(suite.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              assert counts[0] > 0 and counts[1:] == (0,0,0), (str(file),counts)
+              name = suite.get('name').split('.')[-1]
+              assert name not in found, ('duplicate suite',name)
+              found[name] = counts[0]; total += counts[0]
+              print(name, counts, 'PASS')
+          for name, count in required.items():
+              assert found.get(name) == count, (name,found.get(name),count)
+          apks = list(Path('v5/app/build/outputs/apk').glob('**/*v2CoreDev*.apk'))
+          assert len(apks) == 1, apks
+          proof = {'sha':os.environ['GITHUB_SHA'], 'suites':found, 'total':total,
+              'apk':str(apks[0]), 'apk_sha256':hashlib.sha256(apks[0].read_bytes()).hexdigest()}
+          Path('m01-proof.json').write_text(json.dumps(proof,indent=2)+'\n')
+          print('S3_A3_TRUSTED_MUTATION_HOST_PASS', json.dumps(proof))
+          PYXML
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-trusted-mutation-evidence
+          path: |
+            v5/**/build/test-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/**/*.apk
+            m01-proof.json
