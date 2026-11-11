@@ -92,18 +92,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
-    "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
-    "result": "PASS",
+    "sha": "5cd61c477a133b07d14b8d5b96004c668307a6f0",
+    "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_PASS_SCOPED_20261111.md",
-        "blob_sha": "87aee40bf9d6576b363184b1a7245019c1e9484a",
+        "path": "docs/s3-night/S3_A5_7_X03_U01_B7_RED_FIX_1_20261111.md",
+        "blob_sha": "2c01986026aa851ef31b84be84e7ccf17f7a1407",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43084379020,
-    "guard_run_id": 43084378819
+    "guard_run_id": 43102224737,
+    "ci_run_id": 43102225011
   },
   "why": "X03 U01 mode propagation delta B1-B5 after Work NEEDS_PREP, guards and seven exact host/UI/test/workflow paths; no network or model in V2 DEV.",
   "how": "Work read docs/s3-night/S3_A5_7_X03_U01_HOST_PROPAGATION_DELTA_B1_B5_20261111.md plus original B1-B5 and queue; verify HEAD/lock, preflight all seven paths; B6 API35 2 tests and XML/APK/guard exact SHA; B7 independent; next X03 U02 requires new permit.",
