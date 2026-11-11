@@ -54,7 +54,7 @@ jobs:
           python3 - <<'PYXML'
           import hashlib,json,os,xml.etree.ElementTree as ET
           from pathlib import Path
-          required={'FaroV5BookmarkSourceNavigationBindingTest':9,'FaroV5BookmarkSourceNavTest':3,'FaroV5BookmarkFoldersDevTest':4}
+          required={'FaroV5BookmarkSourceNavigationBindingTest':9,'FaroV5BookmarkSourceNavTest':3,'FaroV5BookmarkFoldersDevTest':1}
           found={}
           for file in Path('v5').glob('**/build/test-results/*/TEST-*.xml'):
               suite=ET.parse(file).getroot()

@@ -125,7 +125,7 @@ internal class FaroV5V2CoreDevBookmarkFolderControls(
     }
     fun isSourceRequestCurrent(page: FaroV5BookmarkHostPage): Boolean {
         val request = sourceRequest ?: return false
-        return live() && request.first == sequence.get() && request.second === page && reader.isPageCurrent(page)
+        return live() && dialog?.isShowing != true && request.first == sequence.get() && request.second === page && reader.isPageCurrent(page)
     }
     private fun unavailable() { rows.removeAllViews(); status.text = "No disponible. Volvé a abrir Guardados." }
     override fun close() { closed = true; sequence.incrementAndGet(); dialog?.dismiss(); dialog = null; rows.removeAllViews(); status.text = "No disponible" }
