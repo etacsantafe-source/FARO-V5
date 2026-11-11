@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.PREP_EXEC_PROTOCOL.20261110",
   "token_hash": "0a43a166d11588c02ccdbc5c49503d0da772fa3d4b969f8ed418a6a65e75b071",
-  "target_head": "63822a6965d0674036ecedcedbbf044cd1190a3f",
+  "target_head": "1c849780b0ff15c7206cd026fc3347e2dc65ef9a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 691,
-  "timestamp": 1794359580,
-  "last_checkpoint": "63822a6965d0674036ecedcedbbf044cd1190a3f",
-  "purpose": "DOC_ONLY_PREP_EXEC_PROTOCOL_V1"
+  "epoch": 692,
+  "timestamp": 1794359700,
+  "last_checkpoint": "1c849780b0ff15c7206cd026fc3347e2dc65ef9a",
+  "purpose": "DOC_ONLY_PREP_EXEC_PROTOCOL_V1_CHECKPOINT_RELEASED"
 }
