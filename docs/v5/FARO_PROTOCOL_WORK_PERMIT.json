@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
   "reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
   "paths": [
@@ -60,8 +60,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "NEEDS_PREP",
+    "B7": "NOT_RUN"
   },
   "last_code_review": {
     "sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -77,8 +77,10 @@
     "ci_run_id": 43084379020,
     "guard_run_id": 43084378819
   },
-  "why": "X03 U01 scoped PREAUDITED B1-B5 verified at 92c25cf7745ab4733b590e2eb27d511c47622718; only explicit Consult UI contract, no remote network. Previous X04/X05 B7 PASS.",
-  "how": "Use docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json, B1-B5 and Work Turbo; preflight exact four paths; implement B6/CI Android XML+APK/B7; separate permit for X03 U02 real AI. Do not widen manifest/internet.",
+  "why": "NEEDS_PREP_SCOPE_PROPAGATION: explicit mode cannot reach real DEV chat through SurfaceHost/AdaptiveShell/ShellNavigation within current four-path permit.",
+  "how": "Read docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md; audit delta and issue separate exact READY permit before B6. No U02 code permission.",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "NEEDS_PREP_SCOPE_PROPAGATION",
+  "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md"
 }
