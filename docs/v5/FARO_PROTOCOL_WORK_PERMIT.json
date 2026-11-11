@@ -1,26 +1,26 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_READ_HOST_NATIVE",
-  "reviewed_head": "58e2ec52b8684d3d0e2d318e33dc36ca937a61ce",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+  "reviewed_head": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBinding.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBindingT2Test.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentationT2Test.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-read-host-directed.yml"
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkTrustedMutationHostTest.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkMutationAuthorityGate.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkMutationAuthorityGateTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthority.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthorityT2Test.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBindingT2Test.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
-          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
+          "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B1"
         }
       ]
@@ -29,8 +29,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
-          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
+          "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B2"
         }
       ]
@@ -39,8 +39,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
-          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
+          "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B3"
         }
       ]
@@ -49,8 +49,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
-          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
+          "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B4"
         }
       ]
@@ -59,14 +59,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
-          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
+          "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
@@ -82,8 +82,8 @@
     "ci_run_id": 42935422794,
     "guard_run_id": 42935422815
   },
-  "why": "S3 A3 Guardados native DEV read host B7 PASS; next mutation/source-navigation unit needs new independent B1–B5 and doc-only permit",
-  "how": "No new functional writes under completed read-host permit. Real two-owner read host 19/19 + DEV APK SUCCESS at a6f9a6b7; reopen bounded permit separately.",
+  "why": "New independent DEV-only trusted mutation host; read-host B7 PASS already certified; no mutation via read authority; no UI mount",
+  "how": "B1–B5 documentary evidence pinned; approved exact8 only; explicit grant separate from read; preflight exact 9 scoped paths before functional commits",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }

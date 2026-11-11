@@ -10,15 +10,15 @@
     "S3_A3_BOOKMARKS_MUTATION_AUTHORITY:B7_PASS",
     "S3_A3_BOOKMARKS_CATALOG_REGISTRATION:B7_PASS"
   ],
-  "status": "PREAUDITED",
+  "status": "READY_FOR_IMPLEMENTATION",
   "version": 1,
   "prep_document": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
   "prep_stages": {
-    "B1": "REVIEWED",
-    "B2": "REVIEWED",
-    "B3": "REVIEWED",
-    "B4": "REVIEWED",
-    "B5": "REVIEWED"
+    "B1": "VERIFIED",
+    "B2": "VERIFIED",
+    "B3": "VERIFIED",
+    "B4": "VERIFIED",
+    "B5": "VERIFIED"
   },
   "contract": "Separate mutation-only ephemeral grant; Workspace canonical ACL; one Auxiliary SQLite transaction and receipt; DEV dormant; zero UI wiring",
   "allowed_functional_paths": [
@@ -83,11 +83,14 @@
     "tokens_observed": "NOT_MEASURED",
     "duration_observed": "NOT_MEASURED"
   },
-  "next_action": "Issue fresh documentary READY permit after exact evidence blob SHA + gate; executor must recheck HEAD, lock, preflight before B6",
+  "next_action": "Executor: check exact HEAD/lock/protocol preflight; B6 scoped implementation then exact XML/APK and B7. STOP if SHA/scope stale.",
   "next_units": [
     "S3_A3_BOOKMARKS_CHAT_REVIEW_UI",
     "S3_A3_BOOKMARKS_EXACT_SOURCE_NAVIGATION",
     "S3_A3_INTEGRATED_ACCEPTANCE"
   ],
-  "status_reason": "B1-B5 documented; READY permission deliberately not minted in same commit"
+  "status_reason": "B1-B5 documented; READY permission deliberately not minted in same commit",
+  "evidence_blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+  "documented_ready_after": "PERMIT_COMMIT_AND_PROTOCOL_GUARD_VERIFIED"
 }
