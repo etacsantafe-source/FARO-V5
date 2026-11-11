@@ -2051,5 +2051,19 @@
     "catalog": 172,
     "writer_release_epoch_expected": 681,
     "no_new_contractual_approval_needed_for_exact8": true
+  },
+  "execution_handoff_v1": {
+    "status": "DOCUMENTED_NOT_YET_PILOT_VERIFIED",
+    "protocol": "docs/v5/FARO_PREPARACION_EJECUCION_HANDOFF_V1_20261110.md",
+    "adopted_local_date": "2026-11-10",
+    "modes": [
+      "WORK",
+      "MANUAL"
+    ],
+    "rule": "B1_B5_VERIFIED_PREP_THEN_B6_CI_B7_EXECUTION;CAS_SINGLE_WRITER;STALE_SHA_DELTA_GUARD",
+    "first_target": "S3_A3_MUTATION_REVIEW_SOURCE_NAV_PREP_NOT_READY",
+    "functional_permit": "BLOCKED_UNCHANGED",
+    "metrics": "PER_TURN_REAL_DATA_ONLY",
+    "no_auto_night": true
   }
 }
