@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 696
+    "expected_release_epoch": 700
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify exact-SHA M01 649d3f08ec7d6a14dea4869ad84603408dbee953 CI/XML/APK and B7; M02 remains unpermitted, scope revision bootstrap needs delta.",
-  "checkpoint_status": "S3_A3_M01_B6_WAIT_CI",
+  "next": "M02 NEEDS_PREP: preaudit authorized Auxiliary scope revision snapshot for human Review (or explicitly audited Stale workflow); issue individual documentary permit before coding. Do not reopen M01. M03-M05 dependency blocked; physical G15 final only.",
+  "checkpoint_status": "S3_A3_M01_B7_PASS_M02_NEEDS_PREP",
   "notes": "B1-B5 A3-M01 scoped prep committed; READY permit issued documentary-only. No A3-M01 functional code/test PASS; certified read-only 19/19 and catalog180 unchanged.",
   "last_handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
   "last_code_sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
@@ -1081,7 +1081,7 @@
   },
   "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
   "a3_checkpoint": {
-    "status": "OPEN_NATIVE_READ_ONLY_B7_PASS_MUTATION_NAVIGATION_PENDING",
+    "status": "OPEN_M01_TRUSTED_MUTATION_HOST_B7_PASS_UI_NAV_PENDING",
     "unit": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
     "code_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
     "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
@@ -1098,7 +1098,7 @@
     "backup_restore": "B7_PASS_SCOPED",
     "ui": "DEV_READ_ONLY_MOUNTED_19_19_NOT_PRODUCTION_MUTATION_NAVIGATION_PENDING",
     "physical": "NOT_RUN",
-    "next": "S3.A3 Guardados: preauditoría B1–B5 de backup/restauración y portabilidad Auxiliary; verificar dependencia ACL/generación y emitir permiso documental propio antes de código. No repetir CAS/recibos 8/8 ni esquema v3; continuar unidades pendientes autorizadas después.",
+    "next": "M02 NEEDS_PREP: preaudit authorized Auxiliary scope revision snapshot for human Review (or explicitly audited Stale workflow); issue individual documentary permit before coding. Do not reopen M01. M03-M05 dependency blocked; physical G15 final only.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -1127,6 +1127,12 @@
       "physical": "NOT_RUN",
       "mutation_ui": "NOT_MOUNTED",
       "exact_navigation": "NOT_MOUNTED"
+    },
+    "trusted_mutation_host": {
+      "status": "B7_PASS_SCOPED_DEV_DORMANT",
+      "code_sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
+      "ci_run_id": 43016377617,
+      "b7_doc": "docs/s3-night/S3_A3_M01_WORK_B7_PASS_20261111.md"
     }
   },
   "a4_checkpoint": {
@@ -2070,22 +2076,22 @@
   "prep_execute_handoff": {
     "package_id": "A3-M01-DEV-20261110",
     "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-    "status": "READY_FOR_IMPLEMENTATION",
+    "status": "DONE_VERIFIED",
     "prep_document": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
     "prep_blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
     "package_path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
     "base_head_sha": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
-    "functional_commits": 0,
+    "functional_commits": 3,
     "physical": "NOT_RUN"
   },
   "work_exclusive_execution_handoff": {
-    "status": "PREPARED_DOC_ONLY_M01_READY_M02_M05_DEPENDENCY_PREAUDITED",
+    "status": "M01_DONE_VERIFIED_M02_NEEDS_PREP",
     "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
     "queue": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
     "prepared_units": 5,
-    "ready_for_implementation": 1,
+    "ready_for_implementation": 0,
     "future_units_prepared_not_permitted": 4,
-    "active_unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+    "active_unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
     "head_on_prep": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
     "rules": "Work implements B6/CI/B7 using prep; mechanical per-unit documentary permit after B7, or STOP on drift; no skipped gate.",
     "no_code_modified": true,
@@ -2105,17 +2111,38 @@
     "physical": "NOT_RUN"
   },
   "work_m01": {
-    "status": "WAIT_CI",
+    "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
     "code_sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
     "base_sha": "cffd67de3ccfaa89c9f19648069ab69a5dbf2c5b",
-    "writer_epoch": 699,
-    "b6": "IMPLEMENTED_NOT_YET_TESTED",
-    "b7": "PENDING",
+    "writer_epoch": 700,
+    "b6": "PASS",
+    "b7": "PASS",
     "physical": "NOT_RUN",
     "local_gradle": "BLOCKED_GRADLE_DISTRIBUTION_NETWORK",
     "preflight": "11/11 PASS",
     "previous_failed_sha": "6b600a608a119c3e58f144428d48d4fad0839a1f",
-    "red_fix": "UNSAFE_CALL non-null callback capture and external-property SMARTCAST_IMPOSSIBLE fixed; postcommit UNKNOWN test added"
+    "red_fix": "UNSAFE_CALL non-null callback capture and external-property SMARTCAST_IMPOSSIBLE fixed; postcommit UNKNOWN test added",
+    "b7_doc": "docs/s3-night/S3_A3_M01_WORK_B7_PASS_20261111.md",
+    "ci_run_id": 43016377617,
+    "guard_run_id": 43016377548,
+    "xml": {
+      "suites": 11,
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "new": 23
+    },
+    "artifact_id": 13852119562,
+    "apk_sha256": "475c9842a2d45e50e090485f467e7b624ee129012fc90c0ad1efda1e47441d10"
+  },
+  "work_m02": {
+    "status": "NEEDS_PREP",
+    "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+    "delta_document": "docs/s3-night/S3_A3_M02_WORK_NEEDS_PREP_20261111.md",
+    "functional_commits": 0,
+    "permit": "BLOCKED",
+    "blocker": "AUTHORIZED_PRE_REVIEW_GLOBAL_SCOPE_REVISION_BOOTSTRAP_UNSPECIFIED"
   }
 }

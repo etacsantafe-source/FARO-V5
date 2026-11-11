@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "PREPARED_QUEUE",
+  "status": "M01_DONE_M02_NEEDS_PREP",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -12,16 +12,16 @@
     {
       "package_id": "A3-M01-DEV-20261110",
       "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-      "status": "READY_FOR_IMPLEMENTATION",
-      "active_permit": "READY",
+      "status": "DONE_VERIFIED",
+      "active_permit": "CLOSED",
       "execution_package": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
       "reviewed_head": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
       "recheck_head": "CURRENT_HEAD_ON_WORK_START",
       "b1_b5": "CERTIFIED_PREAUDIT",
       "ci_protocol_verified_run": 42940764338,
-      "implementation": "NOT_RUN",
-      "ci": "NOT_RUN",
-      "b7": "NOT_RUN",
+      "implementation": "649d3f08ec7d6a14dea4869ad84603408dbee953",
+      "ci": 43016377617,
+      "b7": "docs/s3-night/S3_A3_M01_WORK_B7_PASS_20261111.md",
       "additional_required_paths": [
         "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
         "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
@@ -39,12 +39,26 @@
         "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
         "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
       ],
-      "audit_delta_blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa"
+      "audit_delta_blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
+      "xml": {
+        "FaroV5BookmarkMutationHostBindingT2Test": 7,
+        "FaroV5BookmarkReadHostBindingT2Test": 6,
+        "FaroV5LocalInstallBookmarkMutationAuthorityT2Test": 5,
+        "AuxiliaryBookmarkTrustedMutationHostTest": 6,
+        "AuxiliaryBookmarkMutationAuthorityTest": 5,
+        "AuxiliaryBookmarkStoreTest": 8,
+        "AuxiliaryBookmarkPortabilityTest": 4,
+        "AuxiliaryBookmarkSchemaV3Test": 5,
+        "AuxiliaryBookmarkBackupTest": 7,
+        "FaroV5WorkspaceBookmarkAuthorityGateTest": 6,
+        "FaroV5WorkspaceBookmarkMutationAuthorityGateTest": 5
+      },
+      "apk_sha256": "475c9842a2d45e50e090485f467e7b624ee129012fc90c0ad1efda1e47441d10"
     },
     {
       "package_id": "A3-M02-20261111",
       "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
-      "status": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+      "status": "NEEDS_PREP",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV"
       ],
@@ -98,7 +112,10 @@
       "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
-      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed"
+      "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
+      "active_permit": "BLOCKED",
+      "delta_document": "docs/s3-night/S3_A3_M02_WORK_NEEDS_PREP_20261111.md",
+      "blocker": "AUTHORIZED_PRE_REVIEW_GLOBAL_SCOPE_REVISION_BOOTSTRAP_UNSPECIFIED"
     },
     {
       "package_id": "A3-M03-20261111",
