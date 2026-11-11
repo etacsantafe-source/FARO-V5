@@ -1,12 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.X03_U01.WORK_HANDOFF_SYNC.20261111",
-  "token_hash": "cb2014e8319a5d27164c9370557a93fde6ad12f642df46b8a08606f88c2fc903",
-  "target_head": "d9975b04ff30891a5cf9f6c2c4229a857a7f0958",
-  "target_branch": "work/s3-night-20261102",
-  "epoch": 741,
-  "timestamp": 1794430960,
-  "last_checkpoint": "d9975b04ff30891a5cf9f6c2c4229a857a7f0958",
-  "purpose": "X03_U01_READY_HANDOFF_VERIFIED_WORK_B6_CAN_START"
-}
+{"schema":1,"status":"HELD","owner":"FARO.WORK.X03.U01.B6.20261111","token_hash":"5d7a0558728d1cc55aa54448cf8c40556255895b316b2835cb9229560ea0d173","target_head":"d9975b04ff30891a5cf9f6c2c4229a857a7f0958","target_branch":"work/s3-night-20261102","epoch":742,"timestamp":1794431823}
