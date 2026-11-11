@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 690
+    "expected_release_epoch": 692
   },
   "automation": {
     "activation_authorized": false,
@@ -2064,6 +2064,7 @@
     "first_target": "S3_A3_MUTATION_REVIEW_SOURCE_NAV_PREP_NOT_READY",
     "functional_permit": "BLOCKED_UNCHANGED",
     "metrics": "PER_TURN_REAL_DATA_ONLY",
-    "no_auto_night": true
+    "no_auto_night": true,
+    "checkpoint_status": "DOC_ONLY_PROTOCOL_COMMITTED_NO_FUNCTIONAL_GATE_UNLOCK"
   }
 }
