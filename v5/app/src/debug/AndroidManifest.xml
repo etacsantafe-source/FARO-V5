@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application>
         <activity
+            android:name="ar.com.faro.v5.app.FaroV5X03U02IsolatedAiActivity"
+            android:exported="true"
+            android:label="FARO X03 IA AISLADA"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="ar.com.faro.v5.app.FaroV5P5PhysicalActivity"
             android:excludeFromRecents="true"
             android:exported="false" />
