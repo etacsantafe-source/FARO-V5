@@ -1,0 +1,87 @@
+name: FARO V5 S3 A3 Chat Guardados review
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurface.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5MessageTimeline.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatTimeline.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurfaceTest.kt"
+      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkChatReviewDevTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt"
+      - "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt"
+      - "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkReviewRevisionTest.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationBinding.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationT2Test.kt"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-chat-review-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bookmark-chat-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Targeted owner and UI suites
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:auxiliary:test --tests '*AuxiliaryBookmarkReviewRevisionTest'
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :surface:testDebugUnitTest --tests '*FaroV5BookmarkActionSurfaceTest'
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests '*FaroV5BookmarkReviewPreparationT2Test'
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Dorg.gradle.jvmargs='-Xmx2g -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8' :app:testV2CoreDevUnitTest --tests '*FaroV5BookmarkChatReviewDevTest' :app:assembleV2CoreDev
+      - name: Verify exact XML and DEV APK
+        run: |
+          python3 - <<'PYXML'
+          import hashlib,json,os,xml.etree.ElementTree as ET
+          from pathlib import Path
+          required={'AuxiliaryBookmarkReviewRevisionTest':3,'FaroV5BookmarkActionSurfaceTest':1,'FaroV5BookmarkReviewPreparationT2Test':6,'FaroV5BookmarkChatReviewDevTest':1}
+          found={}
+          for file in Path('v5').glob('**/build/test-results/*/TEST-*.xml'):
+              suite=ET.parse(file).getroot()
+              counts=tuple(int(suite.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+              assert counts[0]>0 and counts[1:]==(0,0,0),(str(file),counts)
+              name=suite.get('name').split('.')[-1]
+              assert name not in found,('duplicate',name)
+              found[name]=counts[0]
+          assert found==required,(found,required)
+          apks=list(Path('v5/app/build/outputs/apk').glob('**/*v2CoreDev*.apk'))
+          assert len(apks)==1,apks
+          proof={'sha':os.environ['GITHUB_SHA'],'suites':found,'total':sum(found.values()),'apk':str(apks[0]),'apk_sha256':hashlib.sha256(apks[0].read_bytes()).hexdigest()}
+          Path('m02-proof.json').write_text(json.dumps(proof,indent=2)+'\n')
+          print('S3_A3_CHAT_REVIEW_PASS',json.dumps(proof))
+          PYXML
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-chat-review-evidence
+          path: |
+            v5/**/build/test-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/**/*.apk
+            m02-proof.json

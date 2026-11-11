@@ -439,6 +439,7 @@ fun FaroV5ShellScaffold(
                                 assistantTurnPort = assistantTurnPort,
                                 attachmentIngress = attachmentIngress,
                                 focusMessageId = searchConfirmedTarget,
+                                bookmarkChatActions = LocalFaroV5BookmarkChatActions.current,
                             )
                         } else if (key == FaroV5ShellDestination.AJUSTES &&
                             onOpenAiSettings != null) {

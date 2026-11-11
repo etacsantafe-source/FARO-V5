@@ -38,6 +38,7 @@ fun FaroV5MessageTimeline(
     onCopyText: ((String) -> Unit)? = null,
     activeProcessingTurns: Set<ConversationTurnId> = emptySet(),
     focusMessageId: ConversationMessageId? = null,
+    bookmarkChatActions: FaroV5BookmarkChatActions? = null,
 ) {
     val byId = timeline.messages.associateBy { it.id }
     val scrollState = rememberLazyListState()
@@ -115,6 +116,9 @@ fun FaroV5MessageTimeline(
                             )
                         }
                         Row(horizontalArrangement = Arrangement.spacedBy(FaroV5Spacing.small)) {
+                            bookmarkChatActions?.let { actions ->
+                                FaroV5BookmarkActionSurface(timeline.conversationId, message.id, actions)
+                            }
                             if (onCopyText != null && message.text.isNotEmpty()) {
                                 TextButton(onClick = { onCopyText(message.text) }) {
                                     Text("Copiar")

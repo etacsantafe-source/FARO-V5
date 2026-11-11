@@ -40,6 +40,7 @@ fun FaroV5ActiveChatTimeline(
     timelineReadPort: ConversationTimelineReadPort,
     refreshRevision: Long = 0L,
     focusMessageId: ConversationMessageId? = null,
+    bookmarkChatActions: FaroV5BookmarkChatActions? = null,
 ) {
     var query by remember(activeConversationId, timelineReadPort) { mutableStateOf("") }
     var projection by remember(activeConversationId, timelineReadPort, refreshRevision) {
@@ -113,6 +114,7 @@ fun FaroV5ActiveChatTimeline(
                 }
                 FaroV5MessageTimeline(
                     timeline = state.value,
+                    bookmarkChatActions = bookmarkChatActions,
                     modifier = Modifier.weight(1f),
                     focusMessageId = if (query.isNotBlank()) matches.getOrNull(position)
                     else focusMessageId?.takeIf { target ->

@@ -218,6 +218,9 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             composerPort = active.composerPort,
                             searchReadPort = active.searchReadPort,
                             activityReadPort = activityRead,
+                            bookmarkChatActions = active.bookmarkChatActions(application) {
+                                session === active && lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                            },
                             // DEV-only canonical Workspace Search; no assistant, Apply or external effects.
                         )
                     }
@@ -355,6 +358,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                         pendingBookmarkReadRequest.set(false)
         dueDisplay?.text = FaroV5V2CoreDevPendingPresentation.unavailable
         bookmarksDisplay?.text = FaroV5V2CoreDevBookmarksPresentation.unavailable
+        session?.revokeBookmarkReviewOnPause()
         session?.revokeBookmarkReadingOnPause()
         session?.revokePendingReadingOnPause()
         session?.revokeActivityReadingOnPause()

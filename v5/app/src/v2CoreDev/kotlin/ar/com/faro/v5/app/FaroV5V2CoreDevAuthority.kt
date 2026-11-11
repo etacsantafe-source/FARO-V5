@@ -338,6 +338,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private val pointerObserver: Runnable,
         private val openingPointer: ActiveGenerationPointer,
     ) : AutoCloseable {
+        private var bookmarkReview: FaroV5BookmarkReviewPreparationBinding? = null
+        private var bookmarkReviewProbe: FaroV5AndroidSandboxPrincipal? = null
         private var bookmarkAuthority: FaroV5LocalInstallReadAuthority? = null
         private var bookmarkBinding: FaroV5BookmarkReadHostBinding? = null
         private var historyAuthority: FaroV5LocalInstallReadAuthority? = null
@@ -490,6 +492,48 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             }
         }
 
+        /** Explicit per-message action only. Constructing this adapter grants nothing. */
+        internal fun bookmarkChatActions(application: Application, foreground: () -> Boolean): ar.com.faro.v5.surface.FaroV5BookmarkChatActions =
+            object : ar.com.faro.v5.surface.FaroV5BookmarkChatActions {
+                override suspend fun prepare(conversationId: ConversationId, messageId: ConversationMessageId,
+                    action: ar.com.faro.v5.surface.FaroV5BookmarkChatAction): ar.com.faro.v5.surface.FaroV5BookmarkChatReview? {
+                    revokeBookmarkReviewOnPause()
+                    if (application.packageName != "ar.com.faro.alpha.v2coredev" || !alive.get() || !foreground() ||
+                        pointer.read() != openingPointer) return null
+                    val workspace = graph.workspace ?: return null
+                    val epoch = UUID.randomUUID().toString()
+                    val ready = { alive.get() && foreground() && pointer.read() == openingPointer }
+                    val probe = FaroV5AndroidSandboxPrincipal(application.packageName, openingPointer, pointer,
+                        epoch, { if (alive.get()) epoch else null }, AndroidPlatformSandboxFactsReader(application))
+                    val reads = FaroV5LocalInstallReadAuthority(probe, pointer, ready, foreground)
+                    val mutations = FaroV5LocalInstallBookmarkMutationAuthority(probe, pointer, ready, foreground)
+                    val principal = reads.technicalPrincipalOrNull()
+                    if (principal == null || mutations.technicalPrincipalOrNull() != principal ||
+                        !reads.grantAfterTrustedForegroundReadAction(setOf(FaroV5LocalReadDomain.BOOKMARK_METADATA,
+                            FaroV5LocalReadDomain.WORKSPACE_MESSAGE))) {
+                        reads.close(); mutations.close(); probe.close(); return null
+                    }
+                    val binding = FaroV5BookmarkReviewPreparationBinding(openingPointer, pointer, workspace,
+                        graph.auxiliary, principal, epoch, { if (alive.get()) epoch else null }, ready, reads, mutations)
+                    synchronized(this@Session) {
+                        if (!ready()) { binding.close(); probe.close(); return null }
+                        bookmarkReview = binding; bookmarkReviewProbe = probe
+                    }
+                    return binding.prepare(conversationId, messageId, action)
+                }
+                override fun isCurrent(review: ar.com.faro.v5.surface.FaroV5BookmarkChatReview) =
+                    bookmarkReview?.isCurrent(review) == true
+                override suspend fun confirm(review: ar.com.faro.v5.surface.FaroV5BookmarkChatReview) =
+                    bookmarkReview?.confirm(review) ?: "Guardados no disponible"
+                override fun cancel(review: ar.com.faro.v5.surface.FaroV5BookmarkChatReview) { bookmarkReview?.cancel(review) }
+            }
+
+        @Synchronized
+        internal fun revokeBookmarkReviewOnPause() {
+            bookmarkReview?.close(); bookmarkReview = null
+            bookmarkReviewProbe?.close(); bookmarkReviewProbe = null
+        }
+
         @Synchronized
         internal fun isBookmarkReadCurrent(
             binding: FaroV5BookmarkReadHostBinding,
@@ -635,6 +679,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             if (alive.compareAndSet(true, false)) {
                 revokeActivityReadingOnPause()
                 revokePendingReadingOnPause()
+                revokeBookmarkReviewOnPause()
                 revokeBookmarkReadingOnPause()
                 searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)

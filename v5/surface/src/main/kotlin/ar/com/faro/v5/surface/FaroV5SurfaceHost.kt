@@ -30,8 +30,10 @@ object FaroV5SurfaceHost {
         searchReadPort: FaroV5SearchReadPort? = null,
         avisosReadPort: FaroV5AvisosReadPort? = null,
         activityReadPort: FaroV5ActivityReadPort? = null,
+        bookmarkChatActions: FaroV5BookmarkChatActions? = null,
     ) {
         activity.setContent {
+            androidx.compose.runtime.CompositionLocalProvider(LocalFaroV5BookmarkChatActions provides bookmarkChatActions) {
             FaroV5Theme {
                 FaroV5AdaptiveShell(
                     workspaceReadPort = workspaceReadPort,
@@ -48,6 +50,7 @@ object FaroV5SurfaceHost {
                     avisosReadPort = avisosReadPort,
                     activityReadPort = activityReadPort,
                 )
+            }
             }
         }
     }

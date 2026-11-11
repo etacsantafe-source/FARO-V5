@@ -45,6 +45,9 @@ interface RequestScopedBookmarkAuthorityGate : BookmarkAuthorityGate {
     override fun isMutationAuthorized(request: BookmarkMutationRequest, resolvedTarget: BookmarkTarget?): Boolean
 }
 
+/** Host-only minimum read projection, never a mutation port or a source body. */
+data class BookmarkReviewSnapshot(val scopeRevision: Long, val activeId: BookmarkId?, val favorite: Boolean?)
+
 /** One connection/lock with N-018 Auxiliary: metadata+revision+receipt are atomic. */
 class AuxiliaryBookmarkStore internal constructor(
     private val db: SQLiteConnection,
@@ -72,6 +75,24 @@ class AuxiliaryBookmarkStore internal constructor(
             // Removed references and replay receipts are not open portability data.
             stored.copy(items = visible, receipts = emptyList())
         }
+
+    internal fun reviewSnapshot(target: BookmarkTarget): BookmarkReviewSnapshot? = synchronized(ownerLock) {
+        if (!ownerIsOpen() || !scopeAllowed(target.generationId, target.authorityToken) ||
+            !targetAllowed(target)) return@synchronized null
+        val before = scope()
+        if (before != null && !sameScope(before, target.generationId, target.authorityToken)) return@synchronized null
+        var id: BookmarkId? = null
+        var favorite: Boolean? = null
+        db.prepare("SELECT bookmark_id,favorite FROM bookmark_item WHERE generation_id=? AND conversation_id=? AND message_id=? AND lifecycle='ACTIVE'").use { st ->
+            st.bindText(1, target.generationId)
+            st.bindText(2, target.conversationId.value)
+            st.bindText(3, target.messageId.value)
+            if (st.step()) { id = BookmarkId(st.getText(0)); favorite = st.getLong(1) == 1L }
+        }
+        if (!ownerIsOpen() || !scopeAllowed(target.generationId, target.authorityToken) ||
+            !targetAllowed(target) || before != scope()) return@synchronized null
+        BookmarkReviewSnapshot(before?.revision ?: 0L, id, favorite)
+    }
 
     override suspend fun read(request: BookmarkReadRequest): BookmarkReadResult =
         synchronized(ownerLock) {

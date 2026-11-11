@@ -129,6 +129,14 @@ class AuxiliaryDeliveryStore private constructor(
         return ar.com.faro.v5.kernel.contracts.BookmarkReadPort { request -> reader.read(request) }
     }
 
+    /** Same owner connection/lock; this seam has no write operation. */
+    fun bookmarkReviewSnapshotForTrustedHost(
+        authority: BookmarkAuthorityGate,
+        target: ar.com.faro.v5.kernel.contracts.BookmarkTarget,
+    ): BookmarkReviewSnapshot? = AuxiliaryBookmarkStore(
+        connection, lock, materialWriteGate, authority, { !closed },
+    ).reviewSnapshot(target)
+
     /** Mutation-only trusted port. Neither the read port nor a generic write boolean can grant it. */
     fun bookmarkMutatorForTrustedHost(
         authority: RequestScopedBookmarkAuthorityGate,
