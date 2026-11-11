@@ -249,7 +249,7 @@
     {
       "package_id": "A3-M04-20261111",
       "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
-      "status": "READY_FOR_IMPLEMENTATION",
+      "status": "DONE_VERIFIED",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV"
       ],
@@ -276,7 +276,7 @@
         "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
         "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt"
       ],
-      "permitted_by_active_gate": true,
+      "permitted_by_active_gate": false,
       "steps": [
         "Verify upstream B7 and exact SHA/diff",
         "mechanical delta review vs documented B1-B5",
@@ -301,28 +301,31 @@
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "M01–M03 B7 PASS, M04 native controls callback, explicit adaptiveshell target, source AC L/epoch/revalidation; 11 exact paths",
-      "b6": "NOT_RUN",
-      "b7": "NOT_RUN",
+      "b6": "PASS",
+      "b7": "PASS",
       "nav_host_gap": "DEV Guardados is native Android View; wiring into Compose SurfaceHost requires explicit authoritative transition",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "blocker": "RESOLVED_BY_M04_SOURCE_CALLBACK_B1_B5",
+      "blocker": null,
       "delta_document": "docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md",
       "delta_preaudit": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
       "delta_blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
-      "active_permit": "READY",
+      "active_permit": "CLOSED",
       "reviewed_head": "fad3e186d88579e9e4169bd166884480fe4e4330",
       "b1_b5": "VERIFIED_ORIGINAL_PLUS_M03_CALLBACK_DELTA",
       "execution_package": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_EXEC_PACKAGE_20261111.json",
-      "next_action": "Work B6 M04 only with READY 11 exact paths, directed XML+DEV APK and B7; preserve M01–M03. M05 after M04 B7."
+      "next_action": "Work B6 M04 only with READY 11 exact paths, directed XML+DEV APK and B7; preserve M01–M03. M05 after M04 B7.",
+      "code_sha": "26a4b8fa27bc7195aa69973001b8cf1b9f256c49",
+      "ci_run_id": 43046825300,
+      "guard_run_id": 43046825442
     },
     {
       "package_id": "A3-M05-20261111",
       "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
-      "status": "DEPENDENCY_BLOCKED",
+      "status": "READY_FOR_IMPLEMENTATION",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV"
       ],
-      "base_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "base_head_sha": "c2cfaa61d037bff797ce61e71e57ff7c6f710dde",
       "prep_document": "docs/s3-night/S3_A3_M05_INTEGRATED_ACCEPTANCE_B1_B5_20261111.md",
       "evidence_blob_sha": "f293a902fc03b1070313021b1a82a33571b4831c",
       "prep_markers": [
@@ -337,7 +340,7 @@
         "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkA3UiAcceptanceTest.kt",
         ".github/workflows/faro-v5-s3-a3-bookmark-acceptance-directed.yml"
       ],
-      "permitted_by_active_gate": false,
+      "permitted_by_active_gate": true,
       "steps": [
         "Verify upstream B7 and exact SHA/diff",
         "mechanical delta review vs documented B1-B5",
@@ -365,7 +368,9 @@
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "blocker": "M04_NEEDS_PREP_NOT_B7_PASS"
+      "blocker": null,
+      "delta_preaudit": "docs/s3-night/S3_A3_M05_EXECUTION_DELTA_B1_B5_20261111.md",
+      "delta_blob_sha": "68b61b4138cfac4a0f9dd8192009ec8f8e0bb497"
     }
   ],
   "gates": {
@@ -385,10 +390,10 @@
     "S2_closed": "8/8",
     "S3_estimated_historical": "about 40%",
     "S3_formally_closed": "0/5",
-    "A3": "OPEN_PHYSICAL_AND_M04_M05_PENDING",
-    "Work_units_verified": 3,
+    "A3": "OPEN_PHYSICAL_AND_M05_PENDING",
+    "Work_units_verified": 4,
     "Work_units_total": 5,
-    "Work_unit_count_percent": 60
+    "Work_unit_count_percent": 80
   },
   "audit_review": {
     "date": "2026-11-11",
@@ -411,5 +416,5 @@
     "M04": "B1_B5_VERIFIED_SOURCE_CALLBACK_DELTA",
     "M04_delta_blob": "d107ebdf3ac00f83a14b511983536327cfdb63a7"
   },
-  "active_permit_status": "READY_ONLY_M04"
+  "active_permit_status": "READY_ONLY_M05"
 }

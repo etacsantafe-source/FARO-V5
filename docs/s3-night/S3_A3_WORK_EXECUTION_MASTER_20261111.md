@@ -1,3 +1,9 @@
+# CHECKPOINT WORK M04 B7 PASS — M05 READY — PREVALECE
+
+M01–M04 DONE_VERIFIED. M04 código26a4b8fa27bc7195aa69973001b8cf1b9f256c49, dirigida43046825300 y guard43046825442 SUCCESS. ZIP/XML13/13+APK verificados. No repetir M01–M04. M05 original+delta B1–B5 comprobados; permiso individual READY sólo tres rutas de tests/workflow. Ejecutar B6/CI/B7 de M05. A3 OPEN, física G15 final, V2 productiva/S4/Auto/Noche OFF. El historial posterior no prevalece sobre este bloque y permiso actual.
+
+---
+
 # CHECKPOINT WORK — M03 B7 PASS / M04 NEEDS_PREP — PREVALECE
 
 M01/M02/M03 DONE_VERIFIED. M03 código `a12b0ee182ad815f56c569c02aa9b6199e7cce86`, dirigida43036909801 y guard43036909777 SUCCESS,53/53 XML reales+APK hash verificado. Leer S3_A3_M03_WORK_B7_PASS_20261111.md; no repetir unidades.
