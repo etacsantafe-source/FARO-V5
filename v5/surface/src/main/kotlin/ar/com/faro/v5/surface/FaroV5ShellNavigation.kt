@@ -215,11 +215,26 @@ fun FaroV5ShellScaffold(
     searchReadPort: FaroV5SearchReadPort? = null,
     avisosReadPort: FaroV5AvisosReadPort? = null,
     activityReadPort: FaroV5ActivityReadPort? = null,
+    bookmarkSourceTarget: FaroV5BookmarkSourceTarget? = null,
 ) {
     require(backStack.isNotEmpty()) {
         "FARO shell navigation requires a presentation root."
     }
 
+    // Host handoff is ephemeral: never save IDs, tokens, body or a pending open across recreation.
+    var sourceTarget by remember(workspaceReadPort, timelineReadPort) { mutableStateOf(bookmarkSourceTarget) }
+    var sourceVerified by remember(workspaceReadPort, timelineReadPort) { mutableStateOf(false) }
+    var sourceUncertain by remember(workspaceReadPort, timelineReadPort) { mutableStateOf(bookmarkSourceTarget != null) }
+    val lifecycle = androidx.lifecycle.compose.LocalLifecycleOwner.current.lifecycle
+    androidx.compose.runtime.DisposableEffect(lifecycle) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_PAUSE) {
+                sourceTarget = null; sourceVerified = false
+            }
+        }
+        lifecycle.addObserver(observer)
+        onDispose { lifecycle.removeObserver(observer) }
+    }
     val currentDestination = backStack.last()
     val currentRoot =
         backStack.firstOrNull()
@@ -264,6 +279,25 @@ fun FaroV5ShellScaffold(
         } else {
             workspaceReadState = FaroV5WorkspaceReadState.Unbound
         }
+        val requestedSource = sourceTarget
+        if (requestedSource != null) {
+            sourceVerified = false
+            val selected = (workspaceReadState as? FaroV5WorkspaceReadState.Ready)?.projection?.activeConversationId
+            val exact = try {
+                if (timelineReadPort == null || workspaceReadPort == null) false else withContext(Dispatchers.IO) {
+                    val timeline = timelineReadPort.readTimeline(requestedSource.conversationId)
+                    faroV5BookmarkSourceFocus(requestedSource, selected, timeline) != null &&
+                        workspaceReadPort.readSnapshot().activeConversationId == requestedSource.conversationId
+                }
+            } catch (cancel: CancellationException) { throw cancel
+            } catch (_: Exception) { false }
+            if (sourceTarget === requestedSource && exact) {
+                sourceVerified = true; sourceUncertain = false
+                backStack.clear(); backStack.add(FaroV5ShellDestination.CHAT)
+            } else {
+                sourceTarget = null; sourceUncertain = true
+            }
+        }
         // After search selection, NEVER navigate to the previously cached Chat ID.
         // Only the latest completed canonical read can reopen Chat. Failed/absent
         // Workspace must not silently fall back to another conversation.
@@ -289,10 +323,29 @@ fun FaroV5ShellScaffold(
     // Keep canonical asynchronous selection observable inside that entry.
     val activeConversationForEntry = rememberUpdatedState(workspaceProjection?.activeConversationId)
 
+    val sourceTargetForEntry = rememberUpdatedState(sourceTarget)
+    val sourceVerifiedForEntry = rememberUpdatedState(sourceVerified)
+    val sourceUncertainForEntry = rememberUpdatedState(sourceUncertain)
+    // Revalidate every canonical timeline read for the handoff; a mismatched result cannot render.
+    val chatTimelinePort = remember(timelineReadPort, workspaceReadPort, sourceTarget) {
+        val target = sourceTarget
+        if (target == null || timelineReadPort == null || workspaceReadPort == null) timelineReadPort
+        else ConversationTimelineReadPort { id ->
+            check(id == target.conversationId)
+            val before = workspaceReadPort.readSnapshot()
+            val timeline = timelineReadPort.readTimeline(id)
+            check(faroV5BookmarkSourceFocus(target, before.activeConversationId, timeline) != null)
+            check(workspaceReadPort.readSnapshot() == before)
+            timeline
+        }
+    }
+    val timelinePortForEntry = rememberUpdatedState(chatTimelinePort)
+
     // A confirmed Workspace result, never an optimistic local ID, selects chat.
     fun selectChat(newChat: Boolean, id: ConversationId? = null) {
         if (selectionBusy || selectionUncertain || workspaceProjection == null ||
             selectionPort == null || (!newChat && id == null)) return
+        sourceTarget = null; sourceVerified = false; sourceUncertain = false
         searchConfirmedTarget = null
         selectionBusy = true
         scope.launch {
@@ -347,6 +400,7 @@ fun FaroV5ShellScaffold(
     }
 
     fun navigate(target: FaroV5ShellDestination) {
+        sourceTarget = null; sourceVerified = false; sourceUncertain = false
         if (target != FaroV5ShellDestination.CHAT) searchConfirmedTarget = null
         val next = faroV5NextShellStack(backStack, target)
         if (next != backStack.toList()) {
@@ -393,6 +447,7 @@ fun FaroV5ShellScaffold(
             NavDisplay(
                 backStack = backStack,
                 onBack = {
+                    sourceTarget = null; sourceVerified = false; sourceUncertain = false
                     val next = faroV5BackShellStack(backStack)
                     if (next != backStack.toList()) {
                         backStack.clear()
@@ -412,6 +467,7 @@ fun FaroV5ShellScaffold(
                                     // Selection is committed by the Workspace owner in
                                     // SearchAdapter, but the shell still has the old
                                     // active ID. Invalidate that UI cache BEFORE read.
+                                    sourceTarget = null; sourceVerified = false; sourceUncertain = false
                                     if (!searchSelectionAwaitingRead) {
                                         searchConfirmedTarget = target
                                         workspaceReadState = FaroV5WorkspaceReadState.Loading
@@ -430,15 +486,18 @@ fun FaroV5ShellScaffold(
                                 onNavigate = { destination -> navigate(destination) },
                             )
                         } else if (key == FaroV5ShellDestination.CHAT && timelineReadPort != null) {
-                            FaroV5ActiveChatScreen(
+                            if (sourceUncertainForEntry.value) {
+                                Text("No disponible. Volvé a consultar Guardados.")
+                            } else FaroV5ActiveChatScreen(
                                 activeConversationId = activeConversationForEntry.value,
-                                timelineReadPort = timelineReadPort,
+                                timelineReadPort = requireNotNull(timelinePortForEntry.value),
                                 composerPort = composerPort,
                                 reviewPort = reviewPort,
                                 applyRequestPort = applyRequestPort,
                                 assistantTurnPort = assistantTurnPort,
                                 attachmentIngress = attachmentIngress,
-                                focusMessageId = searchConfirmedTarget,
+                                focusMessageId = if (sourceVerifiedForEntry.value && sourceTargetForEntry.value?.conversationId == activeConversationForEntry.value)
+                                    sourceTargetForEntry.value?.messageId else searchConfirmedTarget,
                                 bookmarkChatActions = LocalFaroV5BookmarkChatActions.current,
                             )
                         } else if (key == FaroV5ShellDestination.AJUSTES &&
@@ -693,4 +752,15 @@ fun FaroV5UnavailableDestination(
         supportingText = "Esta sección todavía no está disponible en esta versión de prueba.",
         modifier = modifier,
     )
+}
+
+/** Minimal in-process handoff, never an Intent/deep link or persisted navigation argument. */
+data class FaroV5BookmarkSourceTarget(val conversationId: ConversationId, val messageId: ConversationMessageId)
+
+internal fun faroV5BookmarkSourceFocus(
+    target: FaroV5BookmarkSourceTarget?, active: ConversationId?,
+    timeline: ar.com.faro.v5.kernel.contracts.ConversationTimelineSnapshot?,
+): ConversationMessageId? = target?.messageId?.takeIf { id ->
+    active == target.conversationId && timeline?.conversationId == target.conversationId &&
+        timeline.messages.any { it.id == id && it.conversationId == target.conversationId }
 }

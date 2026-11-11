@@ -49,6 +49,7 @@ fun FaroV5AdaptiveShell(
     searchReadPort: FaroV5SearchReadPort? = null,
     avisosReadPort: FaroV5AvisosReadPort? = null,
     activityReadPort: FaroV5ActivityReadPort? = null,
+    bookmarkSourceTarget: FaroV5BookmarkSourceTarget? = null,
 ) {
     val adaptiveInfo = currentWindowAdaptiveInfoV2()
     val drawerMode =
@@ -79,6 +80,7 @@ fun FaroV5AdaptiveShell(
         searchReadPort = searchReadPort,
         avisosReadPort = avisosReadPort,
         activityReadPort = activityReadPort,
+        bookmarkSourceTarget = bookmarkSourceTarget,
         )
     }
 }

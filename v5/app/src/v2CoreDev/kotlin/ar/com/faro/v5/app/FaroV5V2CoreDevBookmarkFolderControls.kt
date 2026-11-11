@@ -15,12 +15,14 @@ internal class FaroV5V2CoreDevBookmarkFolderControls(
     private val reader: FaroV5BookmarkReadHostBinding,
     private val executor: Executor,
     private val foreground: () -> Boolean,
+    private val onOpenSource: (FaroV5BookmarkHostPage, FaroV5BookmarkHostItem) -> Unit = { _, _ -> },
     private val actions: () -> FaroV5BookmarkFolderActionBinding?,
 ) : AutoCloseable {
     val view = LinearLayout(activity).apply { orientation = LinearLayout.VERTICAL }
     private val rows = LinearLayout(activity).apply { orientation = LinearLayout.VERTICAL }
     private val status = TextView(activity)
     private val sequence = AtomicLong(0)
+    private var sourceRequest: Pair<Long, FaroV5BookmarkHostPage>? = null
     private var dialog: AlertDialog? = null
     @Volatile private var closed = false
     private fun live() = !closed && foreground()
@@ -51,6 +53,16 @@ internal class FaroV5V2CoreDevBookmarkFolderControls(
                 }
                 page.items.forEachIndexed { index, item ->
                     rows.addView(TextView(activity).apply { text = "Referencia ${index + 1}" })
+                    val sourceClick = FaroV5BookmarkSourceClick(page, item) {
+                        live() && dialog?.isShowing != true && sequence.get() == ticket && reader.isPageCurrent(page)
+                    }
+                    button(rows, "Abrir fuente") {
+                        if (sourceClick.consume()) {
+                            sourceRequest = sequence.incrementAndGet() to page
+                            rows.removeAllViews(); status.text = "Verificando fuente…"
+                            onOpenSource(page, item)
+                        }
+                    }
                     button(rows, if (item.favorite) "Quitar favorito" else "Marcar favorito") { prepare(BookmarkMutation.FavoriteSet(item.id, !item.favorite), item) }
                     button(rows, "Quitar referencia") { prepare(BookmarkMutation.LifecycleSet(item.id, BookmarkLifecycle.REMOVED), item) }
                     button(rows, "Mover a raíz") { prepare(BookmarkMutation.FolderAssign(item.id, null), item) }
@@ -111,6 +123,19 @@ internal class FaroV5V2CoreDevBookmarkFolderControls(
             }
         }
     }
+    fun isSourceRequestCurrent(page: FaroV5BookmarkHostPage): Boolean {
+        val request = sourceRequest ?: return false
+        return live() && request.first == sequence.get() && request.second === page && reader.isPageCurrent(page)
+    }
     private fun unavailable() { rows.removeAllViews(); status.text = "No disponible. Volvé a abrir Guardados." }
     override fun close() { closed = true; sequence.incrementAndGet(); dialog?.dismiss(); dialog = null; rows.removeAllViews(); status.text = "No disponible" }
+}
+
+/** Object identity + one-shot consumption prevents forged rows and repeated button callbacks. */
+internal class FaroV5BookmarkSourceClick(
+    private val page: FaroV5BookmarkHostPage, private val item: FaroV5BookmarkHostItem,
+    private val current: () -> Boolean,
+) {
+    private val consumed = java.util.concurrent.atomic.AtomicBoolean(false)
+    fun consume(): Boolean = consumed.compareAndSet(false, true) && page.items.any { it === item } && current()
 }

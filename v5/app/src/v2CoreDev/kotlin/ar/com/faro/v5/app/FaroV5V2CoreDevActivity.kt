@@ -43,6 +43,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private lateinit var bookmarksButton: Button
     private lateinit var upgradeButton: Button
     private var dueDisplay: TextView? = null
+    private val sourceNavigationSequence = java.util.concurrent.atomic.AtomicLong(0)
     private var bookmarkFolderControls: FaroV5V2CoreDevBookmarkFolderControls? = null
     private var bookmarksDisplay: TextView? = null
 
@@ -342,7 +343,47 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             ))
         })
         if (binding == null) return
-        val controls = FaroV5V2CoreDevBookmarkFolderControls(this, binding, executor, foreground) {
+        val controls = FaroV5V2CoreDevBookmarkFolderControls(this, binding, executor, foreground,
+            onOpenSource = { page, item ->
+                val ticket = sourceNavigationSequence.incrementAndGet()
+                val sourceForeground = { session === active && foreground() &&
+                    bookmarkFolderControls?.isSourceRequestCurrent(page) == true }
+                executor.execute {
+                    val navigation = if (session === active && foreground())
+                        active.bookmarkSourceAfterTrustedForegroundRequest(application, binding, sourceForeground) else null
+                    val target = runCatching { kotlinx.coroutines.runBlocking { navigation?.open(page, item) } }
+                        .getOrNull()?.takeIf { navigation?.isCurrent(it) == true }
+                    runOnUiThread {
+                        if (sourceNavigationSequence.get() != ticket || session !== active || !sourceForeground()) {
+                            navigation?.close(); return@runOnUiThread
+                        }
+                        if (target == null || !active.isBookmarkReadCurrent(binding, page, sourceForeground)) {
+                            output.text = "No disponible. Volvé a consultar Guardados."
+                            navigation?.close(); return@runOnUiThread
+                        }
+                        // setContent does NOT cause onPause: revoke explicitly, retaining this Session.
+                        bookmarkFolderControls?.close(); bookmarkFolderControls = null
+                        active.revokeBookmarkReadingOnPause()
+                        active.revokeBookmarkReviewOnPause()
+                        bookmarksDisplay = null
+                        try {
+                            FaroV5SurfaceHost.install(this,
+                                workspaceReadPort = active.workspaceReadPort,
+                                timelineReadPort = active.timelineReadPort,
+                                selectionPort = active.selectionPort,
+                                composerPort = active.composerPort,
+                                searchReadPort = active.searchReadPort,
+                                bookmarkChatActions = active.bookmarkChatActions(application) {
+                                    session === active && foreground()
+                                },
+                                bookmarkSourceTarget = target,
+                            )
+                        } catch (_: Exception) {
+                            setContentView(TextView(this).apply { text = "No disponible. Volvé al inicio DEV." })
+                        }
+                    }
+                }
+            }) {
             active.openBookmarkFolderActionsAfterTrustedForegroundRequest(application, foreground)
         }
         bookmarkFolderControls = controls
@@ -352,6 +393,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onPause() {
+        sourceNavigationSequence.incrementAndGet()
         // Revoke regardless of whether Compose currently shows the Activity page.
         pendingActivityReadRequest.set(false)
         pendingDueReadRequest.set(false)

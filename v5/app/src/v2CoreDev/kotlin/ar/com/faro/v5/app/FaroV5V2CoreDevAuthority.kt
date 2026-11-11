@@ -342,6 +342,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         @Volatile private var bookmarkFoldersProbe: FaroV5AndroidSandboxPrincipal? = null
         @Volatile private var bookmarkReview: FaroV5BookmarkReviewPreparationBinding? = null
         @Volatile private var bookmarkReviewProbe: FaroV5AndroidSandboxPrincipal? = null
+        private var bookmarkEpoch: String? = null
+        @Volatile private var bookmarkSource: FaroV5BookmarkSourceNavigationBinding? = null
         private var bookmarkAuthority: FaroV5LocalInstallReadAuthority? = null
         private var bookmarkBinding: FaroV5BookmarkReadHostBinding? = null
         private var historyAuthority: FaroV5LocalInstallReadAuthority? = null
@@ -478,6 +480,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                         hostReady = hostReady, readAuthority = access,
                     )
                     if (!hostReady()) null else {
+                        bookmarkEpoch = epoch
                         bookmarkAuthority = access
                         bookmarkBinding = binding
                         mounted = true
@@ -492,6 +495,25 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                     probe?.close()
                 }
             }
+        }
+
+        /** Existing page grants only, requested by the ACTIVE row's explicit button. */
+        internal fun bookmarkSourceAfterTrustedForegroundRequest(
+            application: Application, reader: FaroV5BookmarkReadHostBinding,
+            foreground: () -> Boolean,
+        ): FaroV5BookmarkSourceNavigationBinding? {
+            bookmarkSource?.close(); bookmarkSource = null
+            val access = bookmarkAuthority ?: return null
+            val epoch = bookmarkEpoch ?: return null
+            val principal = access.technicalPrincipalOrNull() ?: return null
+            val workspace = graph.workspace ?: return null
+            if (application.packageName != "ar.com.faro.alpha.v2coredev" || bookmarkBinding !== reader) return null
+            val ready = { alive.get() && bookmarkBinding === reader && bookmarkEpoch == epoch &&
+                foreground() && pointer.read() == openingPointer }
+            if (!ready()) return null
+            return FaroV5BookmarkSourceNavigationBinding(openingPointer, pointer, workspace, graph.auxiliary,
+                reader, access, principal, ready, selectionPort, workspaceReadPort, timelineReadPort)
+                .also { bookmarkSource = it }
         }
 
         /** Fresh explicit folder/lifecycle action. Preview receives read grants only. */
@@ -581,6 +603,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
 
         @Synchronized
         internal fun revokeBookmarkReadingOnPause() {
+            bookmarkSource?.close(); bookmarkSource = null
+            bookmarkEpoch = null
             revokeBookmarkFolderActionsOnPause()
             bookmarkBinding?.close()
             bookmarkBinding = null
