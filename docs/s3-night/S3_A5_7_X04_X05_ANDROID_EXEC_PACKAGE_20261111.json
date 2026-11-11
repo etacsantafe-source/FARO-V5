@@ -60,8 +60,16 @@
     "Moto G15 physical before final campaign",
     "reuse A3 CI as new tests"
   ],
-  "next_action": "Verify this separate permit commit guard SUCCESS and execute exact preflight before code, CAS acquire, develop only 2 routes and CI/B7. Never reuse A3 M05 READY.",
+  "next_action": "Read precision guide and B1-B5, verify fresh CAS/preflight (READY scope unchanged), write only 2 functional paths, run real Android 2/2 and guard exact SHA, B7, checkpoint and RELEASED.",
   "reviewed_head": "f4d7fb3182b811d46dff333d858527ccb4193d4f",
   "preflight_guard_before_permit_run_id": 43067449758,
-  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json"
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+  "precision_guide": {
+    "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
+    "blob_sha": "971a4b27fc5842a45d14c797b9510b8318eb4ea2",
+    "status": "PREPARED_DOCUMENT_ONLY",
+    "scope": "SOURCE_SELECTORS_NATIVE_COMPOSE_ASYNC_ORDERING_ISOLATION_ANDROID_WORKFLOW",
+    "role": "B6_IMPLEMENTER_READ_FIRST",
+    "modifies_existing_b1_b5": false
+  }
 }
