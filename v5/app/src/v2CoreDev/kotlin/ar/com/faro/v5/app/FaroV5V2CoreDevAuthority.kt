@@ -338,8 +338,8 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private val pointerObserver: Runnable,
         private val openingPointer: ActiveGenerationPointer,
     ) : AutoCloseable {
-        private var bookmarkReview: FaroV5BookmarkReviewPreparationBinding? = null
-        private var bookmarkReviewProbe: FaroV5AndroidSandboxPrincipal? = null
+        @Volatile private var bookmarkReview: FaroV5BookmarkReviewPreparationBinding? = null
+        @Volatile private var bookmarkReviewProbe: FaroV5AndroidSandboxPrincipal? = null
         private var bookmarkAuthority: FaroV5LocalInstallReadAuthority? = null
         private var bookmarkBinding: FaroV5BookmarkReadHostBinding? = null
         private var historyAuthority: FaroV5LocalInstallReadAuthority? = null

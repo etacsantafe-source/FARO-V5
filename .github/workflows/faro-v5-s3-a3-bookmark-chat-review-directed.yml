@@ -55,13 +55,13 @@ jobs:
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:auxiliary:test --tests '*AuxiliaryBookmarkReviewRevisionTest'
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :surface:testDebugUnitTest --tests '*FaroV5BookmarkActionSurfaceTest'
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests '*FaroV5BookmarkReviewPreparationT2Test'
-          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Dorg.gradle.jvmargs='-Xmx2g -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8' :app:testV2CoreDevUnitTest --tests '*FaroV5BookmarkChatReviewDevTest' :app:assembleV2CoreDev
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Dorg.gradle.jvmargs='-Xmx2g -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8' -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest --tests '*FaroV5BookmarkChatReviewDevTest' :app:assembleV2CoreDev
       - name: Verify exact XML and DEV APK
         run: |
           python3 - <<'PYXML'
           import hashlib,json,os,xml.etree.ElementTree as ET
           from pathlib import Path
-          required={'AuxiliaryBookmarkReviewRevisionTest':3,'FaroV5BookmarkActionSurfaceTest':1,'FaroV5BookmarkReviewPreparationT2Test':6,'FaroV5BookmarkChatReviewDevTest':1}
+          required={'AuxiliaryBookmarkReviewRevisionTest':3,'FaroV5BookmarkActionSurfaceTest':1,'FaroV5BookmarkReviewPreparationT2Test':7,'FaroV5BookmarkChatReviewDevTest':1}
           found={}
           for file in Path('v5').glob('**/build/test-results/*/TEST-*.xml'):
               suite=ET.parse(file).getroot()

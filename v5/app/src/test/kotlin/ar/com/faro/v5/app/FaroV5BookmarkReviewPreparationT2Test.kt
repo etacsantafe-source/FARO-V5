@@ -169,4 +169,17 @@ class FaroV5BookmarkReviewPreparationT2Test {
             assertFalse(host.isCurrent(forged))
         } }
     }
+    @Test fun previousChatClickAndSelectionChangedAfterPreviewDenyWithoutWrites() = runBlocking {
+        Case("selection").use { f -> f.grant(); f.host().use { host ->
+            val other = ConversationId("other-chat")
+            val review = requireNotNull(host.prepare(f.chat, f.message, FaroV5BookmarkChatAction.FAVORITE))
+            f.workspace.createAndSelect(other, 2, IdempotencyKey("select-other"))
+            val before = f.auxiliary.backup.snapshot()
+            assertFalse(host.isCurrent(review))
+            assertEquals("Revisá nuevamente la acción", host.confirm(review))
+            assertNull(host.prepare(f.chat, f.message, FaroV5BookmarkChatAction.FAVORITE))
+            assertEquals(before, f.auxiliary.backup.snapshot())
+        } }
+    }
+
 }

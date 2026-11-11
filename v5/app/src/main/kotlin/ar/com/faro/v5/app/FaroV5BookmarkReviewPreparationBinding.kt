@@ -49,11 +49,15 @@ internal class FaroV5BookmarkReviewPreparationBinding(
             successCurrent = null
             mutationAuthority.revokeAll()
             val initial = epochs() ?: return@withContext null
+            val selection = workspace.snapshot()
+            if (selection.workspace.activeConversationId != conversationId) return@withContext null
             val before = workspace.bookmarkReadAdmission(conversationId, messageId)
+            if (selection.revision != before.ownerRevision) return@withContext null
             if (before.targetAvailable != true) return@withContext null
             val target = BookmarkTarget(conversationId, messageId, pinned.generationId.value, before.authorityToken)
             fun current() = runCatching {
-                live() && epochs() == initial && workspace.bookmarkReadAdmission(conversationId, messageId) == before
+                live() && epochs() == initial && workspace.snapshot() == selection &&
+                    workspace.bookmarkReadAdmission(conversationId, messageId) == before
             }.getOrDefault(false)
             val gate = FaroV5WorkspaceBookmarkAuthorityGate(workspace, pinned, pointer, initial, ::epochs, ::current)
             val state = auxiliary.bookmarkReviewSnapshotForTrustedHost(gate, target) ?: return@withContext null
