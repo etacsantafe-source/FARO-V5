@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.X03_U01.WORK_HANDOFF_SYNC.20261111",
   "token_hash": "cb2014e8319a5d27164c9370557a93fde6ad12f642df46b8a08606f88c2fc903",
-  "target_head": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
+  "target_head": "d9975b04ff30891a5cf9f6c2c4229a857a7f0958",
   "target_branch": "work/s3-night-20261102",
   "epoch": 741,
-  "timestamp": 1794430850,
-  "last_checkpoint": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
-  "purpose": "X03_U01_REAL_READY_SHA_WORK_HANDOFF_SYNC"
+  "timestamp": 1794430960,
+  "last_checkpoint": "d9975b04ff30891a5cf9f6c2c4229a857a7f0958",
+  "purpose": "X03_U01_READY_HANDOFF_VERIFIED_WORK_B6_CAN_START"
 }
