@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.WORK_TURBO_X03.READY.20261111",
   "token_hash": "b1550c3909185672e2a1e574036e36738462be1d1b65aef404b377edbd98ac27bd8",
-  "target_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
+  "target_head": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5",
   "target_branch": "work/s3-night-20261102",
   "epoch": 736,
-  "timestamp": 1794427750,
-  "purpose": "X03_U01_INDIVIDUAL_READY_PERMIT_DOC_ONLY",
-  "last_checkpoint": "92c25cf7745ab4733b590e2eb27d511c47622718"
+  "timestamp": 1794427850,
+  "purpose": "X03_U01_READY_PERMIT_ISSUED_WORK_CAN_START_AFTER_GUARD",
+  "last_checkpoint": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5"
 }
