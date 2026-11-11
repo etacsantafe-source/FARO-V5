@@ -62,21 +62,21 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "80db826dace9c9155ca729e84be64071c5a44744",
+    "sha": "84d983d4c0cbe193de8e5237e4bc6d8272e453a5",
     "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_RED_FIX_20261111.md",
-        "blob_sha": "49770e4cabd899182750cfcab6b78e6747b08444",
+        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_RED_FIX_2_20261111.md",
+        "blob_sha": "cc68baedfc0d1799563abde6f8aba911fda93516",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43072811590,
-    "guard_run_id": 43072811113
+    "ci_run_id": 43074404487,
+    "guard_run_id": 43074404482
   },
-  "why": "Same-unit compile correction only. B7 RED_FIX independently published for Android test unresolved import; no Android test actually ran.",
-  "how": "Remove only invalid Compose onAllNodes import; exact Android API35 2/2 required, then separate B7 PASS.",
+  "why": "Same-unit code failed compilation second time; B7 RED_FIX2 documented independently with exact CI logs and one-line correction.",
+  "how": "Only change onNodeWithText to onAllNodesWithText for the Enviar collection query on test line 198. No other paths. Rerun exact emulator Android API35 and protocol guard.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
