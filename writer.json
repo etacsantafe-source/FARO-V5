@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.S3.A5.7.X04X05.COMPILER_FIX.20261111",
-  "token_hash": "a9cf18ea5f6288b0e77f98c6756ac02e3fc158c6d82454aaeb517bef70e8d9dd",
+  "status": "HELD",
+  "owner": "FARO.CHAT.S3.A5.7.X04X05.REDFIX2.20261111",
+  "token_hash": "28c1d46c0ce6b546e3a80896ddc5bf06d19608eab605fa71d0c334592ed08f6a",
   "target_head": "84d983d4c0cbe193de8e5237e4bc6d8272e453a5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 727,
-  "timestamp": 1794420342,
-  "purpose": "S3_A5_7_X04_X05_SINGLE_IMPORT_FIXED_WAIT_ANDROID_CI",
+  "epoch": 728,
+  "timestamp": 1794420719,
+  "purpose": "S3_A5_7_X04_X05_B7_RED_FIX_2",
   "last_checkpoint": "84d983d4c0cbe193de8e5237e4bc6d8272e453a5"
 }
