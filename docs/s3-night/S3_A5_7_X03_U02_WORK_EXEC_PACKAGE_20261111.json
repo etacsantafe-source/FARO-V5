@@ -4,9 +4,9 @@
   "package_id": "A5-X03-U02-ISOLATED-AI-20261111",
   "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
   "branch": "work/s3-night-20261102",
-  "base_head_sha": "cbede71d2aa128e628a28f3dbe5753a0128b51ad",
+  "base_head_sha": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
   "version": 1,
-  "status": "PREAUDITED_AWAITING_INDIVIDUAL_READY_PERMIT",
+  "status": "READY_FOR_IMPLEMENTATION_VERIFIED_SCOPED_DEBUG",
   "depends_on": [
     "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV:B7_PASS",
     "S2_F1_CONSENTED_QUARANTINED_REAL_GATEWAY:SCOPED_CERTIFIED"
@@ -74,5 +74,10 @@
     "modify outside four paths",
     "run G15 physical now"
   ],
-  "next_action": "After docs B1-B5 guard SUCCESS, permit READY exact 4 paths, preflight; Work B6 debug-only isolated host then directed Android XML/APK, B7. Live remote proof and shipping integration remain independent."
+  "next_action": "WORK_B6_AFTER_REVALIDATING_HEAD_WRITER_AND_READY_PERMIT_ALL_4_PATHS_THEN_ANDROID_2_2_APK_XML_GUARD_B7",
+  "reviewed_head": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
+  "ready_guard_run": 43113154992,
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+  "live_provider_credential_required_for_code": false,
+  "provider_live_call_in_ci": "PROHIBITED"
 }
