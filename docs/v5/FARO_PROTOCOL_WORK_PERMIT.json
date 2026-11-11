@@ -96,18 +96,17 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
-    "unit_id": "S3_A3_BOOKMARKS_READ_HOST_NATIVE",
-    "result": "PASS",
+    "sha": "6b600a608a119c3e58f144428d48d4fad0839a1f",
+    "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_PASS_20261111.md",
-        "blob_sha": "e1c26b830346944027ddf3d687daa547fbcb91c4",
+        "path": "docs/s3-night/S3_A3_M01_WORK_B7_REDFIX_20261111.md",
+        "blob_sha": "c9d6467b539e64aa51090aff4660fe98d21fb8c1",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 42935422794,
-    "guard_run_id": 42935422815
+    "ci_run_id": 43014778557
   },
   "why": "Final adversarial delta M01: action-specific + existing bookmark source grant needed, generic generation/token Boolean insufficient; 180 approved registered exact8, DEV only, no UI mounted",
   "how": "Preserve original B1-B5 and append scoped delta proof blob 9172...; 11 exact paths incl AuxiliaryBookmarkStore + authority test, request+resolvedTarget gate under owner lock, caller-specific grant, no global request variable; CI push and proof by SHA",
