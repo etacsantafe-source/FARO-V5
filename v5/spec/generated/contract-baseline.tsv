@@ -2,13 +2,13 @@
 generator_version	1
 authority_revision	D-229
 source_blob	docs/v5/V5_CAPABILITY_TAXONOMY.md	b272f50aba9aeae525c8baf19a87b65f08bb8bf7
-source_blob	docs/v5/V5_OPERATION_CONTRACT_INVENTORY.md	a161f7f57eaf6285edb1f250ce691d07725b32dc
-source_blob	docs/v5/V5_RG06C_07_GLOBAL_REFREEZE.md	34be34a82c7a96357048ac64a1a8c1b2fdfc5418
+source_blob	docs/v5/V5_OPERATION_CONTRACT_INVENTORY.md	4fa8b839b301a00eb9722fa87ea9e7f81a8475c0
+source_blob	docs/v5/V5_RG06C_07_GLOBAL_REFREEZE.md	49091ad4a4612dba8288e1e8567a5c917a33ee1e
 capability_count	54
-operation_count	172
-profile_count	READ_ONLY	49
+operation_count	180
+profile_count	READ_ONLY	50
 profile_count	REALITY_MUTATION	70
-profile_count	AUXILIARY_MUTATION	35
+profile_count	AUXILIARY_MUTATION	42
 profile_count	OBSERVATIONAL_WRITE	7
 profile_count	EXTERNAL_EFFECT	5
 profile_count	MAINTENANCE_EFFECT	6
@@ -189,6 +189,14 @@ operation	N-032	reminder.read	planning	READ_ONLY	BINDABLE	ADAPT
 operation	N-032	reminder.update	planning	REALITY_MUTATION	BINDABLE	ADAPT
 operation	N-046	reset.execute	maintenance.reset	MAINTENANCE_EFFECT	BINDABLE	ADAPT
 operation	N-046	reset.plan	maintenance.reset	READ_ONLY	BINDABLE	ADAPT
+operation	N-018	search.bookmark.add	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.favorite.set	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.folder.assign	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.folder.create	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.folder.delete	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.folder.rename	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.lifecycle.set	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
+operation	N-018	search.bookmark.read	federated-search	READ_ONLY	BINDABLE	NEW_V5
 operation	N-018	search.query	federated-search	READ_ONLY	BINDABLE	ADAPT
 operation	N-018	search.saved_view.create	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5
 operation	N-018	search.saved_view.delete	federated-search	AUXILIARY_MUTATION	BINDABLE	NEW_V5

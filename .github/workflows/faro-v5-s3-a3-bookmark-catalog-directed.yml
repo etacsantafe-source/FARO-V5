@@ -1,0 +1,51 @@
+name: FARO V5 S3 A3 approved Guardados catalog
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "docs/v5/V5_OPERATION_CONTRACT_INVENTORY.md"
+      - "docs/v5/V5_RG06C_07_GLOBAL_REFREEZE.md"
+      - "v5/spec/generated/contract-baseline.tsv"
+      - "v5/kernel/runtime/src/test/kotlin/ar/com/faro/v5/kernel/runtime/BuiltInContractCatalogTest.kt"
+      - ".github/workflows/faro-v5-s3-a3-bookmark-catalog-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-a3-bookmark-catalog-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  bookmark-catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Official spec regeneration and runtime catalog
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            verifySpecBaselineFresh :kernel:runtime:test --tests '*BuiltInContractCatalogTest'
+      - name: Verify four catalog tests without skips
+        run: |
+          python3 - <<'PYXML'
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          files=list(Path('v5/kernel/runtime/build/test-results/test').glob('TEST-*.BuiltInContractCatalogTest.xml'))
+          assert len(files)==1, files
+          suite=ET.parse(files[0]).getroot()
+          counts=tuple(int(suite.get(k,'-1')) for k in ('tests','failures','errors','skipped'))
+          assert counts==(4,0,0,0), counts
+          print('S3_A3_BOOKMARK_CATALOG_PASS 4/4; 180 contracts; original172 golden preserved')
+          PYXML
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guardados-catalog-junit
+          path: v5/kernel/runtime/build/test-results/test/TEST-*.xml

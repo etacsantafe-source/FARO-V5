@@ -7,8 +7,8 @@ Estado: **CLOSED / PASS**
 
 ## Frozen baseline
 - 54 capabilities;
-- 172 OperationContracts;
-- profiles 49/70/35/7/5/6;
+- 180 OperationContracts;
+- profiles 50/70/42/7/5/6;
 - 24 quality scenarios;
 - 19 critical flows;
 - 6 external entities;
@@ -32,3 +32,8 @@ Four global rounds completed.
 V5-0D remains **PAUSED**.
 Product code remains **NOT STARTED**.
 Next phase requires explicit human checkpoint.
+
+
+## Approved bounded amendment — Guardados (2026-11-10)
+
+The original D-229 freeze was 172 contracts. Specific human `Autorizo` approval of 2026-11-09T17:51:03Z authorizes exactly eight `search.bookmark.*` contracts under N-018 / federated-search: read (READ_ONLY), add, lifecycle.set, favorite.set, folder.create, folder.rename, folder.delete, folder.assign (AUXILIARY_MUTATION). See the canonical inventory and `docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md`. Current baseline is 180 / 54; all original 172 descriptor metadata remain unchanged. D-229 provenance is retained; this amendment grants no provider binding, native mounting or productive activation. V2 productive, S4 formal and FARO Auto/Night remain OFF. Scoped B7/CI still required for this registration.

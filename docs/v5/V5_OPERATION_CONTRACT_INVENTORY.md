@@ -1,6 +1,6 @@
 # FARO V5 — Inventario canónico de OperationContract
-> **CURRENT AUTHORITY — D-229 (2026-10-20): OPERATION CATALOG REFROZEN / PASS.**
-> Current exact set = **172 unique OperationContracts** with canonical executor/profile; profiles **49/70/35/7/5/6**; remaining OperationContract REOPEN = **NONE**. Historical 152-pass sections below are provenance.
+> **CURRENT AUTHORITY — D-229 + approved Guardados amendment (2026-11-10).**
+> Current exact set = **180 unique OperationContracts** with canonical executor/profile; profiles **50/70/42/7/5/6**; remaining OperationContract REOPEN = **NONE**. Historical 152-pass sections below are provenance.
 
 > **POST-RG.06C.04 NOTICE — D-226 (2026-10-20): N-018 SAVED VIEWS CONTRACT DESIGN CLOSED.**
 > D-226 adds `search.saved_view.read/create/update/delete`; execution reuses `search.query`. Current bounded subtotal: **172**. Remaining OperationContract reopen: **NONE**.
@@ -31,7 +31,7 @@ Metadata completion: V5-C018 / WRITER_EPOCH 18 · V5-0C.09
 
 ## Estado
 
-**FROZEN / AUTHORITY FOR V5 OPERATION CONTRACTS — D-229 · current 172/172.**
+**FROZEN / AUTHORITY FOR V5 OPERATION CONTRACTS — D-229 + approved Guardados amendment · current 180/180.**
 
 Este documento baja la taxonomía corriente 54/54 a semánticas ejecutables sin derivar el catálogo desde las tools visibles de V4.
 
@@ -654,3 +654,19 @@ Inventario congelado por D-095:
 - N-018 Saved Views: **CLOSED/PASS design**;
 - remaining contract reopen: **NONE**;
 - global refreeze **CLOSED / PASS — D-229**.
+
+
+## Approved Guardados catalog amendment — 2026-11-10
+
+Specific human approval: `Autorizo`, 2026-11-09T17:51:03Z, for these exact eight contracts; recovered authorization is recorded in `docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md`. Registration follows scoped backend B7 checkpoints. D-229's 172 existing identities and all metadata remain unchanged; historical counts above are provenance. Current exact set: 180 operations / 54 capabilities; profiles **50/70/42/7/5/6**. No Reality mutation or automatic binding is introduced. BINDABLE is descriptor metadata, not execution authorization; mutation authority remains default-deny.
+
+| Capability | OperationId | Canonical executor | ExecutionProfile | Disposition | Semantics |
+|---|---|---|---|---|---|
+| N-018 | `search.bookmark.read` | federated-search | READ_ONLY | NEW_V5 | Explicit Guardados metadata read; Workspace owns message text. |
+| N-018 | `search.bookmark.add` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata add; Workspace owns message text. |
+| N-018 | `search.bookmark.lifecycle.set` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata lifecycle.set; Workspace owns message text. |
+| N-018 | `search.bookmark.favorite.set` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata favorite.set; Workspace owns message text. |
+| N-018 | `search.bookmark.folder.create` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata folder.create; Workspace owns message text. |
+| N-018 | `search.bookmark.folder.rename` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata folder.rename; Workspace owns message text. |
+| N-018 | `search.bookmark.folder.delete` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata folder.delete; Workspace owns message text. |
+| N-018 | `search.bookmark.folder.assign` | federated-search | AUXILIARY_MUTATION | NEW_V5 | Explicit Guardados metadata folder.assign; Workspace owns message text. |
