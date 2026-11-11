@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify directed mutation CI and protocol guard on 6b600a608a119c3e58f144428d48d4fad0839a1f; inspect XML and DEV APK. B7 PENDING; M02 not permitted.",
+  "next": "Inspect M01 corrected exact SHA 0f6563aac8757d16ae128229da5b07edec49e3ab CI/XML/APK; B7 pending; M02 NEEDS_DELTA for authorized scope revision pre-review.",
   "checkpoint_status": "S3_A3_M01_B6_WAIT_CI",
   "notes": "B1-B5 A3-M01 scoped prep committed; READY permit issued documentary-only. No A3-M01 functional code/test PASS; certified read-only 19/19 and catalog180 unchanged.",
   "last_handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
@@ -2107,13 +2107,15 @@
   "work_m01": {
     "status": "WAIT_CI",
     "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-    "code_sha": "6b600a608a119c3e58f144428d48d4fad0839a1f",
+    "code_sha": "0f6563aac8757d16ae128229da5b07edec49e3ab",
     "base_sha": "cffd67de3ccfaa89c9f19648069ab69a5dbf2c5b",
     "writer_epoch": 697,
     "b6": "IMPLEMENTED_NOT_YET_TESTED",
     "b7": "PENDING",
     "physical": "NOT_RUN",
     "local_gradle": "BLOCKED_GRADLE_DISTRIBUTION_NETWORK",
-    "preflight": "11/11 PASS"
+    "preflight": "11/11 PASS",
+    "previous_failed_sha": "6b600a608a119c3e58f144428d48d4fad0839a1f",
+    "red_fix": "UNSAFE_CALL captured nullable receiver; explicit nonnull local; deterministic postcommit revoke test"
   }
 }
