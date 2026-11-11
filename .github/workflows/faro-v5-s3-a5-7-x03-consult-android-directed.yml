@@ -1,0 +1,126 @@
+name: FARO V5 S3 A5.7 X03 explicit consult Android API35 directed
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X03ExplicitConsultUiTest.kt"
+      - ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-a5-7-x03-consult-android-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  x03-consult-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK 37
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile isolated DEV application and Android test APK
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1800 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              -PfaroG5AndroidTestV2CoreDev=true \
+              :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest
+          test "$(find app/build/outputs/apk/v2CoreDev -name '*.apk' | wc -l)" -eq 1
+          test "$(find app/build/outputs/apk/androidTest/v2CoreDev -name '*.apk' | wc -l)" -eq 1
+          echo "S3_A5_7_X03_EXPLICIT_CONSULT_UI_APKS_COMPILED"
+      - name: Verify APK manifest denies Internet and preserve hashes
+        run: |
+          set -euo pipefail
+          APP="$(find v5/app/build/outputs/apk/v2CoreDev -name '*.apk' -print -quit)"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump permissions "$APP" > x03-consult-apk-permissions.txt
+          if grep -Fq 'android.permission.INTERNET' x03-consult-apk-permissions.txt; then exit 1; fi
+          sha256sum "$APP" v5/app/build/outputs/apk/androidTest/v2CoreDev/*.apk > x03-consult-apk-sha256.txt
+      - name: Enable emulator VM acceleration
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Run explicit gesture and offline DEV tests on API35
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            APP="$(find v5/app/build/outputs/apk/v2CoreDev -type f -name "*.apk" -print -quit)";
+            TEST="$(find v5/app/build/outputs/apk/androidTest/v2CoreDev -type f -name "*.apk" -print -quit)";
+            test -n "$APP" && test -n "$TEST";
+            adb install "$APP";
+            adb install "$TEST";
+            OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5S3A57X03ExplicitConsultUiTest ar.com.faro.alpha.v2coredev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)" || { printf "%s\n" "$OUT" | tee x03-consult-android-instrumentation.log; exit 1; };
+            printf "%s\n" "$OUT" | tee x03-consult-android-instrumentation.log;
+            printf "%s\n" "$OUT" | grep -Fq "OK (2 tests)";
+            printf "%s\n" "$OUT" | grep -Fq "INSTRUMENTATION_CODE: -1";
+            echo "S3_A5_7_X03_EXPLICIT_CONSULT_UI_PASS 2/2"
+            '
+      - name: Verify actual instrumentation events and produce traceable JUnit XML
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import xml.etree.ElementTree as ET
+          result = Path("x03-consult-android-instrumentation.log").read_text()
+          assert "OK (2 tests)" in result, "instrumentation did not report 2 tests"
+          assert "INSTRUMENTATION_CODE: -1" in result, "instrumentation did not finish successfully"
+          expected = {
+              "explicitSavedUserTurnRequiresSeparateConsultClickAndNoDoubleDispatch",
+              "localV2DevNoInternetNoImplicitModelOrApplyAfterRecreate",
+          }
+          observed = re.findall(r"^INSTRUMENTATION_STATUS: test=(\w+)$", result, re.M)
+          completed = re.findall(r"^INSTRUMENTATION_STATUS_CODE: 0$", result, re.M)
+          assert set(observed) == expected, f"unexpected test events: {len(set(observed))}"
+          assert len(completed) == 2, f"expected two successful test-end events, got {len(completed)}"
+          suite = ET.Element("testsuite", name="S3_A5_7_X03_EXPLICIT_CONSULT_Android_API35",
+                             tests="2", failures="0", errors="0", skipped="0")
+          for name in sorted(expected):
+              ET.SubElement(suite, "testcase", classname="FaroV5S3A57X03ExplicitConsultUiTest",
+                            name=name)
+          ET.ElementTree(suite).write("x03-consult-android-junit.xml",
+                                       encoding="utf-8", xml_declaration=True)
+          print("S3_A5_7_X03_EXPLICIT_CONSULT_UI_ANDROID_XML_VERIFIED 2/2")
+          PY
+      - name: Preserve exact SHA APKs, real test log and verified XML
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-a5-7-x03-consult-api35-${{ github.sha }}
+          path: |
+            v5/app/build/outputs/apk/v2CoreDev/*.apk
+            v5/app/build/outputs/apk/androidTest/v2CoreDev/*.apk
+            x03-consult-android-instrumentation.log
+            x03-consult-android-junit.xml
+            x03-consult-apk-permissions.txt
+            x03-consult-apk-sha256.txt
+          if-no-files-found: error

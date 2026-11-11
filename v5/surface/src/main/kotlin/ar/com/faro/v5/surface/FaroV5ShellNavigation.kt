@@ -216,6 +216,7 @@ fun FaroV5ShellScaffold(
     avisosReadPort: FaroV5AvisosReadPort? = null,
     activityReadPort: FaroV5ActivityReadPort? = null,
     bookmarkSourceTarget: FaroV5BookmarkSourceTarget? = null,
+    assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
 ) {
     require(backStack.isNotEmpty()) {
         "FARO shell navigation requires a presentation root."
@@ -495,6 +496,7 @@ fun FaroV5ShellScaffold(
                                 reviewPort = reviewPort,
                                 applyRequestPort = applyRequestPort,
                                 assistantTurnPort = assistantTurnPort,
+                                assistantRequestMode = assistantRequestMode,
                                 attachmentIngress = attachmentIngress,
                                 focusMessageId = if (sourceVerifiedForEntry.value && sourceTargetForEntry.value?.conversationId == activeConversationForEntry.value)
                                     sourceTargetForEntry.value?.messageId else searchConfirmedTarget,

@@ -218,6 +218,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             timelineReadPort = active.timelineReadPort,
                             selectionPort = active.selectionPort,
                             composerPort = active.composerPort,
+                            assistantRequestMode = ar.com.faro.v5.surface.FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
                             searchReadPort = active.searchReadPort,
                             activityReadPort = activityRead,
                             bookmarkChatActions = active.bookmarkChatActions(application) {
@@ -372,6 +373,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                                 timelineReadPort = active.timelineReadPort,
                                 selectionPort = active.selectionPort,
                                 composerPort = active.composerPort,
+                            assistantRequestMode = ar.com.faro.v5.surface.FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
                                 searchReadPort = active.searchReadPort,
                                 bookmarkChatActions = active.bookmarkChatActions(application) {
                                     session === active && foreground()

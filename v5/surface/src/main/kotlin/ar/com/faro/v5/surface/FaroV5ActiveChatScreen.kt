@@ -47,6 +47,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+enum class FaroV5AssistantRequestMode { AUTOMATIC_ON_SEND, EXPLICIT_CONSULT }
+
 /**
  * Each conversation/generation-bound port set owns a distinct Compose lifetime.
  * A previous screen's IO callbacks must not update the new conversation editor,
@@ -65,8 +67,9 @@ fun FaroV5ActiveChatScreen(
     attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
     focusMessageId: ConversationMessageId? = null,
     bookmarkChatActions: FaroV5BookmarkChatActions? = null,
+    assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
 ) {
-    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress) {
+    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress, assistantRequestMode) {
         FaroV5ActiveChatScreenSession(
             activeConversationId = activeConversationId,
             timelineReadPort = timelineReadPort,
@@ -74,6 +77,7 @@ fun FaroV5ActiveChatScreen(
             reviewPort = reviewPort,
             applyRequestPort = applyRequestPort,
             assistantTurnPort = assistantTurnPort,
+            assistantRequestMode = assistantRequestMode,
             attachmentIngress = attachmentIngress,
             focusMessageId = focusMessageId,
             bookmarkChatActions = bookmarkChatActions,
@@ -97,6 +101,7 @@ private fun FaroV5ActiveChatScreenSession(
     attachmentIngress: (suspend (ConversationId, String, List<Uri>) -> FaroV5AttachmentIngressResult)? = null,
     focusMessageId: ConversationMessageId? = null,
     bookmarkChatActions: FaroV5BookmarkChatActions? = null,
+    assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
 ) {
     val scope = rememberCoroutineScope()
     var editor by remember(activeConversationId, composerPort) {
@@ -118,6 +123,72 @@ private fun FaroV5ActiveChatScreenSession(
     var applyUncertain by remember(activeConversationId, applyRequestPort) { mutableStateOf(false) }
     var canonicalReviews by remember(activeConversationId, reviewPort) {
         mutableStateOf<List<ConversationPlanReviewSnapshot>>(emptyList())
+    }
+
+    // Fresh receipts only; never reconstruct a pending request after recreation.
+    var pendingConsult by remember { mutableStateOf<ar.com.faro.v5.kernel.contracts.ConversationTimelineSnapshot?>(null) }
+    var consultEpoch by remember { mutableStateOf(0L) }
+    val lifecycle = androidx.lifecycle.compose.LocalLifecycleOwner.current.lifecycle
+    androidx.compose.runtime.DisposableEffect(lifecycle) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            if (event == androidx.lifecycle.Lifecycle.Event.ON_PAUSE) {
+                pendingConsult = null
+                consultEpoch++
+            }
+        }
+        lifecycle.addObserver(observer)
+        onDispose { lifecycle.removeObserver(observer) }
+    }
+
+    suspend fun dispatchAccepted(accepted: ConversationAcceptedUserTurn) {
+        val port = assistantTurnPort ?: return
+        val requestEpoch = consultEpoch
+        val queued = try {
+            withContext(Dispatchers.IO) {
+                val typed = port as?
+                    ConversationAssistantTurnOutcomePort
+                if (typed != null) {
+                    typed.dispatchAcceptedTurnWithOutcome(accepted) { result ->
+                        // A disposed chat scope cannot publish
+                        // stale UI state or start a model retry.
+                        scope.launch {
+                            if (assistantRequestMode == FaroV5AssistantRequestMode.EXPLICIT_CONSULT && requestEpoch != consultEpoch) return@launch
+                            timelineVersion++
+                            // A new durable turn may invalidate review context/authority.
+                            // Refresh canonical Workspace reviews before any human Apply.
+                            reviewVersion++
+                            message = when (result) {
+                                ConversationAssistantTurnCompletion.OFFLINE ->
+                                    "Sin conexión. Tu mensaje quedó guardado, pero FARO no pudo responder."
+                                ConversationAssistantTurnCompletion.FAILED ->
+                                    "FARO no pudo generar una respuesta. Revisá el chat."
+                                ConversationAssistantTurnCompletion.NOT_AUTHORIZED ->
+                                    "No se autorizó enviar este mensaje a la IA."
+                                ConversationAssistantTurnCompletion.INVALID_TURN ->
+                                    "La conversación cambió. Revisá el chat."
+                                ConversationAssistantTurnCompletion.STALE,
+                                ConversationAssistantTurnCompletion.RECOVERY_REQUIRED ->
+                                    "No se pudo verificar la respuesta. Reabrí el chat antes de reintentar."
+                                else -> message
+                            }
+                        }
+                    }
+                } else {
+                    port.dispatchAcceptedTurn(accepted) {
+                        scope.launch {
+                            if (assistantRequestMode == FaroV5AssistantRequestMode.EXPLICIT_CONSULT && requestEpoch != consultEpoch) return@launch
+                            timelineVersion++
+                            reviewVersion++
+                        }
+                    }
+                }
+            }
+        } catch (cancelled: CancellationException) {
+            throw cancelled
+        } catch (_: Exception) { false }
+        if (!queued && (assistantRequestMode == FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND || requestEpoch == consultEpoch)) {
+            message = "Mensaje enviado. La respuesta de FARO no pudo iniciarse."
+        }
     }
 
     LaunchedEffect(activeConversationId, reviewPort, reviewVersion) {
@@ -262,6 +333,45 @@ private fun FaroV5ActiveChatScreenSession(
                 )
             }
         }
+        if (assistantRequestMode == FaroV5AssistantRequestMode.EXPLICIT_CONSULT &&
+            assistantTurnPort != null && pendingConsult != null) {
+            TextButton(enabled = !busy && !uncertain, onClick = {
+                val source = pendingConsult
+                // Consume before launching IO: a double tap cannot enqueue twice.
+                pendingConsult = null
+                val requestEpoch = consultEpoch
+                if (source != null && !busy && !uncertain &&
+                    lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                    scope.launch {
+                        try {
+                            val latest = withContext(Dispatchers.IO) {
+                                timelineReadPort.readTimeline(source.conversationId)
+                            }
+                            val user = latest?.messages?.lastOrNull {
+                                it.role == ar.com.faro.v5.kernel.contracts.ConversationMessageRole.USER
+                            }
+                            if (requestEpoch == consultEpoch && latest != null && latest == source &&
+                                source.conversationId == activeConversationId && user != null &&
+                                user.state == ar.com.faro.v5.kernel.contracts.ConversationMessageState.ACCEPTED &&
+                                latest.messages.none { it.turnId == user.turnId &&
+                                    it.role == ar.com.faro.v5.kernel.contracts.ConversationMessageRole.FARO } &&
+                                lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                                dispatchAccepted(ConversationAcceptedUserTurn(
+                                    user.conversationId, user.id, user.turnId, user.createdAtEpochMillis,
+                                ))
+                            } else if (requestEpoch == consultEpoch) {
+                                message = "La conversación cambió. Revisá el chat."
+                            }
+                        } catch (cancelled: CancellationException) {
+                            throw cancelled
+                        } catch (_: Exception) {
+                            if (requestEpoch == consultEpoch)
+                                message = "No se pudo verificar la consulta. Reabrí el chat antes de reintentar."
+                        }
+                    }
+                }
+            }) { Text("Consultar FARO") }
+        }
         if (activeConversationId != null && composerPort != null) {
             if (loading) {
                 Text("Recuperando borrador…", modifier = Modifier.padding(FaroV5Spacing.small))
@@ -279,6 +389,7 @@ private fun FaroV5ActiveChatScreenSession(
                     onSubmitEditor = { submitted ->
                         if (!busy && !uncertain && !attachmentBusy && pendingTextAttachment == null &&
                             activeConversationId == submitted.persisted.conversationId) {
+                            pendingConsult = null
                             scope.launch {
                                 busy = true
                                 message = null
@@ -331,47 +442,11 @@ private fun FaroV5ActiveChatScreenSession(
                                                                 request.turnId,
                                                                 request.createdAtEpochMillis,
                                                             )
-                                                            val queued = try {
-                                                                withContext(Dispatchers.IO) {
-                                                                    val typed = assistantTurnPort as?
-                                                                        ConversationAssistantTurnOutcomePort
-                                                                    if (typed != null) {
-                                                                        typed.dispatchAcceptedTurnWithOutcome(accepted) { result ->
-                                                                            // A disposed chat scope cannot publish
-                                                                            // stale UI state or start a model retry.
-                                                                            scope.launch {
-                                                                                timelineVersion++
-                                                                                // A new durable turn may invalidate review context/authority.
-                                                                                // Refresh canonical Workspace reviews before any human Apply.
-                                                                                reviewVersion++
-                                                                                message = when (result) {
-                                                                                    ConversationAssistantTurnCompletion.OFFLINE ->
-                                                                                        "Sin conexión. Tu mensaje quedó guardado, pero FARO no pudo responder."
-                                                                                    ConversationAssistantTurnCompletion.FAILED ->
-                                                                                        "FARO no pudo generar una respuesta. Revisá el chat."
-                                                                                    ConversationAssistantTurnCompletion.NOT_AUTHORIZED ->
-                                                                                        "No se autorizó enviar este mensaje a la IA."
-                                                                                    ConversationAssistantTurnCompletion.INVALID_TURN ->
-                                                                                        "La conversación cambió. Revisá el chat."
-                                                                                    ConversationAssistantTurnCompletion.STALE,
-                                                                                    ConversationAssistantTurnCompletion.RECOVERY_REQUIRED ->
-                                                                                        "No se pudo verificar la respuesta. Reabrí el chat antes de reintentar."
-                                                                                    else -> message
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    } else {
-                                                                        assistantTurnPort.dispatchAcceptedTurn(accepted) {
-                                                                            scope.launch {
-                                                                                timelineVersion++
-                                                                                reviewVersion++
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            } catch (_: Exception) { false }
-                                                            if (!queued) {
-                                                                message = "Mensaje enviado. La respuesta de FARO no pudo iniciarse."
+                                                            if (assistantRequestMode == FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND) {
+                                                                dispatchAccepted(accepted)
+                                                            } else if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                                                                // Saved snapshot came from the canonical owner, not the draft.
+                                                                pendingConsult = sendResult.snapshot
                                                             }
                                                         }
                                                         val cleared = withContext(Dispatchers.IO) {
