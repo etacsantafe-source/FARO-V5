@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.A5.X04X05.EXEC_PRECISION.20261111",
   "token_hash": "20d9c5ce5ea9386d53c2aba32ae8ccf799d45ae13b45349df3a88b5e64314f76",
   "target_head": "10df7531dd3d3aa0779d9415188174d56a6257d9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 724,
-  "timestamp": 1794418818,
-  "purpose": "A5_X04X05_DETAILED_EXECUTION_PRECISION_ONLY",
-  "last_checkpoint": "10df7531dd3d3aa0779d9415188174d56a6257d9"
+  "timestamp": 1794419045,
+  "purpose": "A5_X04X05_EXECUTION_PRECISION_PUBLISHED_NO_FUNCTIONAL_CODE",
+  "last_checkpoint": "25bef6efc1dafd90110e1b5865406f614f88a391"
 }
