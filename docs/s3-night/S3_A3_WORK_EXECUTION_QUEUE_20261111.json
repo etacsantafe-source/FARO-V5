@@ -12,11 +12,11 @@
     {
       "package_id": "A3-M01-DEV-20261110",
       "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-      "status": "PREAUDITED_DELTA_AWAIT_PERMIT",
+      "status": "READY_FOR_IMPLEMENTATION",
       "active_permit": "READY",
       "execution_package": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_EXEC_PACKAGE_20261110.json",
-      "reviewed_head": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
-      "recheck_head": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "reviewed_head": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
+      "recheck_head": "CURRENT_HEAD_ON_WORK_START",
       "b1_b5": "CERTIFIED_PREAUDIT",
       "ci_protocol_verified_run": 42940764338,
       "implementation": "NOT_RUN",
@@ -25,7 +25,21 @@
       "additional_required_paths": [
         "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
         "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
-      ]
+      ],
+      "allowed_functional_paths_updated": [
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+        "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkTrustedMutationHostTest.kt",
+        "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkMutationAuthorityGate.kt",
+        "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5WorkspaceBookmarkMutationAuthorityGateTest.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthority.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBinding.kt",
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthorityT2Test.kt",
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBindingT2Test.kt",
+        ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml",
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+        "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
+      ],
+      "audit_delta_blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa"
     },
     {
       "package_id": "A3-M02-20261111",
@@ -271,7 +285,7 @@
   },
   "audit_review": {
     "date": "2026-11-11",
-    "status": "B1_B5_DELTA_PREAUDIT",
+    "status": "DELTA_PREAUDITED_PERMIT_REFRESHED_PENDING_CI",
     "evidence_document": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
     "findings": [
       "M01_GENERIC_MUTATION_BOOLEAN_NOT_REQUEST_SCOPED",

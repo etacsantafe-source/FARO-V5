@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A3_WORK_PREP_ALL_FUTURE_UNITS_PREAUDITED_M01_ONLY_READY",
+  "phase": "S3_A3_WORK_FINAL_PREAUDIT_M01_READY_ACTION_SCOPED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 695
+    "expected_release_epoch": 696
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "WORK_B6_M01_READY_ONLY; M02-M05 have scoped B1-B5 preaudits, require one-by-one permit after B7. No stale plan auto execute.",
-  "checkpoint_status": "S3_A3_BOOKMARK_TRUSTED_MUTATION_HOST_READY_ONLY_A3_OPEN",
+  "next": "Execute A3-M01 B6 using final verified 11-path READY permit and new B1-B5 delta; auto push directed CI, inspect XML/APK then B7. M02-M05 prepared dependency-only. Work must not bypass gates.",
+  "checkpoint_status": "S3_A3_WORK_FINAL_PREAUDIT_M01_READY_ONLY_A3_OPEN",
   "notes": "B1-B5 A3-M01 scoped prep committed; READY permit issued documentary-only. No A3-M01 functional code/test PASS; certified read-only 19/19 and catalog180 unchanged.",
   "last_handoff": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
   "last_code_sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
@@ -2090,5 +2090,18 @@
     "rules": "Work implements B6/CI/B7 using prep; mechanical per-unit documentary permit after B7, or STOP on drift; no skipped gate.",
     "no_code_modified": true,
     "physical": "FINAL_SINGLE_CAMPAIGN_ONLY"
+  },
+  "final_work_preparation": {
+    "status": "B1_B5_DELTA_AUDIT_PERMIT_ISSUED_AWAIT_GUARD",
+    "baseline_head": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
+    "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+    "delta_document": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+    "delta_blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
+    "permit_paths": 11,
+    "AGENTS_correction": "cat180_approved_exact8",
+    "M02_to_M05": "PREAUDITED_DEPENDENCY_NOT_PERMITTED",
+    "functional_changes": 0,
+    "writer_release_expected_epoch": 696,
+    "physical": "NOT_RUN"
   }
 }

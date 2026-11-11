@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
-  "reviewed_head": "47b6b51aa91afb1ff94044f01286b731fa59a7ae",
+  "reviewed_head": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
     "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkTrustedMutationHostTest.kt",
@@ -12,7 +12,9 @@
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBinding.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallBookmarkMutationAuthorityT2Test.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkMutationHostBindingT2Test.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml"
+    ".github/workflows/faro-v5-s3-a3-bookmark-trusted-mutation-directed.yml",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkMutationAuthorityTest.kt"
   ],
   "stages": {
     "B1": {
@@ -21,6 +23,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
           "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+          "blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
           "marker": "## B1"
         }
       ]
@@ -32,6 +39,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
           "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+          "blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
+          "marker": "## B2"
         }
       ]
     },
@@ -41,6 +53,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
           "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+          "blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
           "marker": "## B3"
         }
       ]
@@ -52,6 +69,11 @@
           "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
           "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+          "blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
+          "marker": "## B4"
         }
       ]
     },
@@ -61,6 +83,11 @@
         {
           "path": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
           "blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
+          "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md",
+          "blob_sha": "9172cb6185cdb33871599089d774588767b3fdaa",
           "marker": "## B5"
         }
       ]
@@ -82,8 +109,8 @@
     "ci_run_id": 42935422794,
     "guard_run_id": 42935422815
   },
-  "why": "New independent DEV-only trusted mutation host; read-host B7 PASS already certified; no mutation via read authority; no UI mount",
-  "how": "B1–B5 documentary evidence pinned; approved exact8 only; explicit grant separate from read; preflight exact 9 scoped paths before functional commits",
+  "why": "Final adversarial delta M01: action-specific + existing bookmark source grant needed, generic generation/token Boolean insufficient; 180 approved registered exact8, DEV only, no UI mounted",
+  "how": "Preserve original B1-B5 and append scoped delta proof blob 9172...; 11 exact paths incl AuxiliaryBookmarkStore + authority test, request+resolvedTarget gate under owner lock, caller-specific grant, no global request variable; CI push and proof by SHA",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }

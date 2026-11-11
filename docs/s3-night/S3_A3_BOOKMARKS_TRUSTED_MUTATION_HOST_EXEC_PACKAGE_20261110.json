@@ -4,13 +4,13 @@
   "goal_id": "S3.A3",
   "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
   "branch": "work/s3-night-20261102",
-  "base_head_sha": "1c849780b0ff15c7206cd026fc3347e2dc65ef9a",
+  "base_head_sha": "c387cce8acbd270cb5ca635874a5fa356f2e9199",
   "depends_on": [
     "S3_A3_BOOKMARKS_READ_HOST_NATIVE:B7_PASS",
     "S3_A3_BOOKMARKS_MUTATION_AUTHORITY:B7_PASS",
     "S3_A3_BOOKMARKS_CATALOG_REGISTRATION:B7_PASS"
   ],
-  "status": "PREAUDITED_DELTA_AWAIT_PERMIT",
+  "status": "READY_FOR_IMPLEMENTATION",
   "version": 2,
   "prep_document": "docs/s3-night/S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_B1_B5_20261110.md",
   "prep_stages": {
@@ -93,9 +93,9 @@
     "S3_A3_BOOKMARKS_EXACT_SOURCE_NAVIGATION",
     "S3_A3_INTEGRATED_ACCEPTANCE"
   ],
-  "status_reason": "B1-B5 documented; READY permission deliberately not minted in same commit",
+  "status_reason": "Original M01 B1-B5 plus final delta evidence in separate parent documentary commit; refreshed permit issued in this distinct documentary commit; Work must recheck HEAD and run preflight on 11 paths",
   "evidence_blob_sha": "60bc7cdb674cc872d97041ae55d59945fa738d98",
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-  "documented_ready_after": "PERMIT_COMMIT_AND_PROTOCOL_GUARD_VERIFIED",
+  "documented_ready_after": "REFRESHED_PERMIT_COMMIT_AND_SAME_SHA_PROTOCOL_GUARD_VERIFIED",
   "audit_delta": "docs/s3-night/S3_A3_FINAL_AUDIT_M01_M05_B1_B5_DELTA_20261111.md"
 }
