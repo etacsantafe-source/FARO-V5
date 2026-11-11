@@ -69,21 +69,21 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "f5adb85d149f3067dd6342eb31e44d1e202bf834",
-    "unit_id": "S3_A3_BOOKMARKS_CATALOG_REGISTRATION",
-    "result": "PASS",
+    "sha": "916e8a82705a666875d460ff5084797b02246f89",
+    "unit_id": "S3_A3_BOOKMARKS_READ_HOST_NATIVE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B7_PASS_20261111.md",
-        "blob_sha": "707165ffd479949bdd20303656494107ec139188",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_RED_FIX_20261111.md",
+        "blob_sha": "95b4d6b95ed5fec00086991812b8d105f578436a",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 42927956001,
-    "guard_run_id": 42927955499
+    "ci_run_id": 42929324277,
+    "guard_run_id": 42929324374
   },
-  "why": "Real two-owner read and separate foreground grants required before native Guardados",
-  "how": "Narrow same-owner closure, token-free metadata DTO, native DEV explicit button and revocation, scoped XML",
+  "why": "Same unit RED_FIX: D8 heap OOM in directed Android combined test+APK job, code logic tests succeeded",
+  "how": "Workflow-only heap 2 GiB and max-workers 1; leave native code and assertions unchanged; exact new SHA CI+XML required.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
