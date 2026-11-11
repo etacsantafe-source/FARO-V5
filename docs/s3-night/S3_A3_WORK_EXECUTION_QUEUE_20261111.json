@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "M01_M02_M03_DONE_M04_DELTA_PREAUDITED_PERMIT_PENDING",
+  "status": "M01_M02_M03_DONE_M04_READY",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -249,11 +249,11 @@
     {
       "package_id": "A3-M04-20261111",
       "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
-      "status": "PREAUDITED_DELTA_WAIT_PERMIT",
+      "status": "READY_FOR_IMPLEMENTATION",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV"
       ],
-      "base_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
+      "base_head_sha": "fad3e186d88579e9e4169bd166884480fe4e4330",
       "prep_document": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
       "evidence_blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
       "prep_markers": [
@@ -276,7 +276,7 @@
         "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
         "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt"
       ],
-      "permitted_by_active_gate": false,
+      "permitted_by_active_gate": true,
       "steps": [
         "Verify upstream B7 and exact SHA/diff",
         "mechanical delta review vs documented B1-B5",
@@ -305,10 +305,15 @@
       "b7": "NOT_RUN",
       "nav_host_gap": "DEV Guardados is native Android View; wiring into Compose SurfaceHost requires explicit authoritative transition",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "blocker": "RESOLVED_BY_B1_B5_SOURCE_CALLBACK_DESIGN_AWAIT_PERMIT",
+      "blocker": "RESOLVED_BY_M04_SOURCE_CALLBACK_B1_B5",
       "delta_document": "docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md",
       "delta_preaudit": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
-      "delta_blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7"
+      "delta_blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
+      "active_permit": "READY",
+      "reviewed_head": "fad3e186d88579e9e4169bd166884480fe4e4330",
+      "b1_b5": "VERIFIED_ORIGINAL_PLUS_M03_CALLBACK_DELTA",
+      "execution_package": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_EXEC_PACKAGE_20261111.json",
+      "next_action": "Work B6 M04 only with READY 11 exact paths, directed XML+DEV APK and B7; preserve M01–M03. M05 after M04 B7."
     },
     {
       "package_id": "A3-M05-20261111",
@@ -402,7 +407,9 @@
     "M02_delta_blob": "839aacce48140cce75e49d35804c62bf83d84985",
     "M03": "B1_B5_EXACT_REMOVED_RECOVERY_READY",
     "M03_delta_blob": "0e49d9b128945d232960c8b46a83facc20d16d2b",
-    "M01_M02": "DONE_VERIFIED"
+    "M01_M02": "DONE_VERIFIED",
+    "M04": "B1_B5_VERIFIED_SOURCE_CALLBACK_DELTA",
+    "M04_delta_blob": "d107ebdf3ac00f83a14b511983536327cfdb63a7"
   },
-  "active_permit_status": "BLOCKED_M04_DELTA_REAUDIT"
+  "active_permit_status": "READY_ONLY_M04"
 }

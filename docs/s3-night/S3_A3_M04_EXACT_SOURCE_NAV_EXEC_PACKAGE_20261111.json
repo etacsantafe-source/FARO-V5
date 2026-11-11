@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "package_id": "A3-M04-DEV-20261111",
+  "goal_id": "S3.A3",
+  "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+  "branch": "work/s3-night-20261102",
+  "base_head_sha": "fad3e186d88579e9e4169bd166884480fe4e4330",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "version": 1,
+  "dependencies": [
+    {
+      "unit_id": "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV",
+      "B7": "PASS",
+      "code_sha": "649d3f08ec7d6a14dea4869ad84603408dbee953",
+      "ci_run": 43016377617
+    },
+    {
+      "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
+      "B7": "PASS",
+      "code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+      "ci_run": 43029315832
+    },
+    {
+      "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+      "B7": "PASS",
+      "code_sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+      "ci_run": 43036909801
+    }
+  ],
+  "prep_documents": [
+    {
+      "path": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+      "blob_sha": "97be894856ea585d46869881c4c46557eb2631a6"
+    },
+    {
+      "path": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
+      "blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7"
+    }
+  ],
+  "prep_stages": {
+    "B1": "VERIFIED",
+    "B2": "VERIFIED",
+    "B3": "VERIFIED",
+    "B4": "VERIFIED",
+    "B5": "VERIFIED"
+  },
+  "prior_blocker": "M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED",
+  "resolution": "Callback from M03 native ACTIVE controls with page identity+lease; host binding revalidates same ACTIVE bookmarkId via pre-existing authorized reviewSnapshot, selects canonical Workspace conversation and rereads exact timeline, gives only minimal ephemeral typed conversationId+messageId to Compose for focus.",
+  "allowed_functional_paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkSourceNavigationBinding.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkSourceNavigationBindingTest.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkSourceNavTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-source-nav-directed.yml",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt"
+  ],
+  "additional_paths": [
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt"
+  ],
+  "forbidden": [
+    "main",
+    "V4.4",
+    "V2 production",
+    "S4",
+    "Auto",
+    "Night",
+    "paid APIs",
+    "new SQLite/owner/schema/contract/catalog",
+    "grant from constructor, read, render, onResume",
+    "using REMOVED rows to open source",
+    "public Intent, token, source text in navigation args",
+    "Reality Apply or COMMITTED",
+    "physical G15 before final campaign"
+  ],
+  "steps": [
+    "Verify HEAD+CAS writer+READY permit, B1-B5 proof blob exact and preflight 11 paths; leave M01-M03 B7 as-is",
+    "Native ACTIVE-only Abrir fuente callback captures page+item and validates reader lease/sequence+foreground, REMOVED has no button",
+    "DEV binding with pinned full generation, sandbox hostEpoch read grants and Aux reviewSnapshot EXACT activeId matching item, Workspace target ACL; no new SQL",
+    "SelectionPort select under idempotency and post-read Workspace+timeline with exact conversationId and messageId; no stale fallback",
+    "Revocation/ABA and native->Compose explicit dispose, min typed ephemeral source IDs through SurfaceHost/AdaptiveShell/ShellScaffold to existing Chat focus",
+    "Directed CI triggered by push, verify actual XML no failures/errors/skips and APK DEV exact SHA; guard protocol SUCCESS, B7 independent and writer RELEASED"
+  ],
+  "test_matrix": [
+    "N01 ACTIVE source opens only page-leased bookmarkId and exact conversation; wrong chat same messageId denied",
+    "N02 REMOVED/stale page/revoked source/generation mismatch do not navigate or leak, no cached result",
+    "N03 Workspace select Saved but subsequent Workspace/timeline mismatches => fail-closed, no focus of previous chat",
+    "N04 callback late after onPause/rotation/epoch ABA/close/double tap -> no stale navigation",
+    "N05 native View->Compose explicit revoke and keep same Session, no implicit onPause or grant transfer",
+    "N06 ephemeral focus never uses searchConfirmedTarget nor saved state; transitions clear it",
+    "N07 UI and host tests + XML exact no skip + DEV APK and protocol B7 gate"
+  ],
+  "ci_trigger": "on: push branch work/s3-night-20261102 with all M04 functional routes; workflow_dispatch alone is insufficient if absent default branch.",
+  "future": "M05 preaudited dependency-only until M04 B7 PASS; M05 will still require own scoped READY permit.",
+  "physical": "DEFERRED_SINGLE_MOTO_G15_FINAL_CAMPAIGN",
+  "next_action": "Work: B6 implement M04, CI/XML+APK B7; then sequential M05 after its own permit. Do not repeat M01–M03.",
+  "metrics": {
+    "prep_code_commits": 0,
+    "prep_new_ci": 0,
+    "mode": "MANUAL_B1_B5_DELTA"
+  }
+}

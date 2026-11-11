@@ -1,31 +1,98 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
-  "reviewed_head": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
-  "paths": [],
+  "reviewed_head": "fad3e186d88579e9e4169bd166884480fe4e4330",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkSourceNavigationBinding.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkSourceNavigationBindingTest.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkSourceNavTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-source-nav-directed.yml",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt"
+  ],
   "stages": {
     "B1": {
-      "status": "NEEDS_DELTA_REAUDIT",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+          "blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
+          "blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
+          "marker": "## B1"
+        }
+      ]
     },
     "B2": {
-      "status": "NEEDS_DELTA_REAUDIT",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+          "blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
+          "blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
+          "marker": "## B2"
+        }
+      ]
     },
     "B3": {
-      "status": "NEEDS_DELTA_REAUDIT",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+          "blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
+          "blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
+          "marker": "## B3"
+        }
+      ]
     },
     "B4": {
-      "status": "NEEDS_DELTA_REAUDIT",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+          "blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
+          "blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
+          "marker": "## B4"
+        }
+      ]
     },
     "B5": {
-      "status": "NEEDS_DELTA_REAUDIT",
-      "evidence": []
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_B1_B5_20261111.md",
+          "blob_sha": "97be894856ea585d46869881c4c46557eb2631a6",
+          "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md",
+          "blob_sha": "d107ebdf3ac00f83a14b511983536327cfdb63a7",
+          "marker": "## B5"
+        }
+      ]
     },
-    "B6": "BLOCKED",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -42,8 +109,8 @@
     "ci_run_id": 43036909801,
     "guard_run_id": 43036909777
   },
-  "why": "M03 B7 PASS53/53+APK exact SHA; M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED; delta B1-B5 required before individual permit.",
-  "how": "Read docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md; original M04/M05 prep retained. No functional permission or expansion granted.",
+  "why": "M01/M02/M03 B7 PASS; source navigation callback on native ACTIVE controls audited, plus AdaptiveShell typed minimal handoff + tests; M04 11 exact paths",
+  "how": "Original+M03 SHA-based delta B1-B5; 11 paths (3 added); host-only authorized ACTIVE exact id relookup via M02 reviewSnapshot, Workspace select + readTimeline, ephemeral focus; page/epoch/foreground/ABA fail closed. No new DB/owner/contract",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
