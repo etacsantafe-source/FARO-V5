@@ -27,7 +27,7 @@ class FaroV5BookmarkFolderActionBindingT2Test {
         val token get() = workspace.bookmarkReadAdmission().authorityToken
         lateinit var sandbox: FaroV5AndroidSandboxPrincipal
         var authority: FaroV5LocalInstallReadAuthority
-        val principal: String
+        var principal: String
         var mutations: FaroV5LocalInstallBookmarkMutationAuthority
         val auxiliary: AuxiliaryDeliveryStore
         init {
@@ -79,7 +79,10 @@ class FaroV5BookmarkFolderActionBindingT2Test {
             mutations = FaroV5LocalInstallBookmarkMutationAuthority(sandbox, pointer, { hostReady }, { onForeground() })
         }
         fun reopenAuthorities() {
+            sandbox=FaroV5AndroidSandboxPrincipal("ar.com.faro.alpha.v2coredev",pinned,pointer,"host-a",{ hostEpoch },
+                AndroidSandboxFactsReadPort { AndroidSandboxProcessFacts(10200,10200,true,false,false,"ar.com.faro.alpha.v2coredev") })
             authority=FaroV5LocalInstallReadAuthority(sandbox,pointer,{ hostReady },{ onForeground() })
+            principal=requireNotNull(authority.technicalPrincipalOrNull())
             mutations=FaroV5LocalInstallBookmarkMutationAuthority(sandbox,pointer,{ hostReady },{ onForeground() })
         }
         fun grant(domains: Set<FaroV5LocalReadDomain> = setOf(
