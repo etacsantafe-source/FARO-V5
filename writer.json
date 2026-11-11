@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.A3.M03.PREPARADOR.20261111",
-  "token_hash": "6c84260b0317551d5337a23f93d61ff31897ff5c7c10ad763f3f4801189bf2a",
-  "target_head": "3aa1ad299112015a07b544fb15bb2d926f300af8",
+  "status": "HELD",
+  "owner": "FARO.WORK.M03.20261111.1794405498741",
+  "token_hash": "cbb8ccb95bcb00b25459c02e697be5100b4ed1cc5dbadf78c7f86c3fed211972",
+  "target_head": "178847015179643e9b396954e96635dc91758028",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 705,
-  "timestamp": 1794404976,
-  "purpose": "DOC_ONLY_M03_B1_B5_RECOVERY_DELTA_PERMIT_READY_RELEASED",
+  "epoch": 706,
+  "timestamp": 1794405511,
+  "purpose": "M03_B6_IMPLEMENTATION",
   "last_checkpoint": "178847015179643e9b396954e96635dc91758028"
 }
