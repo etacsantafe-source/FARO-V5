@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_X04_X05_ANDROID_B7_PASS_SCOPED",
+  "phase": "S3_A5_7_EXECUTION_ORDER_APPROVED_X03_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 733
+    "expected_release_epoch": 734
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3.A5.7 X04/X05 B7 PASS SCOPED Android API35 2/2. A5 global remains OPEN; next unit requires separate READY permit and B1-B5. G15 physical final only, main/V2 productive/S4/Auto/Noche untouched.",
-  "checkpoint_status": "A3_DONE_AUTOMATED_A5_X04_X05_B7_PASS_API35_EMULATOR",
+  "next": "APROBADO PLAN S3.A5.7: X03 → X09 → X10 → X01 → X02 → X06 → X08 → X12 → aceptación X01–X12 → una única campaña física G15. Leer docs/s3-night/S3_A5_7_EXECUTION_ORDER_V1_20261111.md. Próximo X03 B1–B5 PREAUDIT; permiso BLOCKED, emitir READY individual antes de código. Conservar B7 PASS acotados X04/X05 X07/X11. Main/V2 productiva/S4/Auto/Noche OFF.",
+  "checkpoint_status": "A3_DONE_AUTOMATED_A5_X04_X05_B7_PASS_ORDER_X03_NEXT_NO_CODE_PERMIT",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 681,
+  "last_writer_epoch_observed": 734,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -936,7 +936,7 @@
   "s3_scoped_stages_closed": 3,
   "s3_total_stages": 5,
   "s3_formal_full_release": "NOT_APPROVED",
-  "current_s3_priority": "S3_A3_GUARDADOS_AUTHORITY",
+  "current_s3_priority": "S3_A5_7_X03_IA_CONSENT_PREAUDIT_NEXT",
   "s3_a5_final_acceptance": {
     "status": "PENDING_NOT_CERTIFIED",
     "x01_x12": "PENDING_FULL_INTEGRATION",
@@ -1081,7 +1081,7 @@
   },
   "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
   "a3_checkpoint": {
-    "status": "OPEN_M01_TRUSTED_MUTATION_HOST_B7_PASS_UI_NAV_PENDING",
+    "status": "OPEN_AUTOMATED_M01_M05_B7_PASS_PHYSICAL_PENDING",
     "unit": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
     "code_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
     "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
@@ -1096,9 +1096,9 @@
     "eight_operations": "APPROVED_CONTRACTS_NOT_MOUNTED",
     "authority": "REAL_WORKSPACE_READ_CORE_B7_PASS_NOT_HOST_BOUND",
     "backup_restore": "B7_PASS_SCOPED",
-    "ui": "DEV_READ_ONLY_MOUNTED_19_19_NOT_PRODUCTION_MUTATION_NAVIGATION_PENDING",
+    "ui": "DEV_AUTOMATED_M01_M05_B7_PASS_EXACT_NAV_AND_MUTATION",
     "physical": "NOT_RUN",
-    "next": "M02 NEEDS_PREP: preaudit authorized Auxiliary scope revision snapshot for human Review (or explicitly audited Stale workflow); issue individual documentary permit before coding. Do not reopen M01. M03-M05 dependency blocked; physical G15 final only.",
+    "next": "M01–M05 DONE_VERIFIED; no repetir. A3 pendiente únicamente aceptación física final G15, integrada en cierre global A5.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -2190,7 +2190,7 @@
   "block_status": "READY",
   "expected_head": "c2cfaa61d037bff797ce61e71e57ff7c6f710dde",
   "blocker": null,
-  "writer_release_epoch": 711,
+  "writer_release_epoch": 734,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2239,14 +2239,17 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A3_M01_M05_B7_PASS_S3_A5_7_X04_X05_B7_PASS_EMULATOR",
+  "checkpoint": "S3_A3_M01_M05_B7_PASS_A5_X04_X05_B7_PASS_A5_X_ORDER_APPROVED",
   "work_m05": {
-    "status": "READY_FOR_IMPLEMENTATION",
+    "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
-    "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
-    "functional_commits": 0,
-    "physical": "NOT_RUN"
+    "b6": "PASS",
+    "b7": "PASS",
+    "functional_commits": 2,
+    "physical": "NOT_RUN",
+    "code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
+    "ci_run_id": 43055545460,
+    "b7_doc": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md"
   },
   "m05_acceptance": {
     "status": "B7_PASS_AUTOMATED_DEV",
@@ -2307,5 +2310,43 @@
     "physical": "NOT_RUN",
     "productive_v2": false,
     "document": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_PASS_SCOPED_20261111.md"
+  },
+  "s3_a5_execution_order_20261111": {
+    "status": "APPROVED_ORDER_ONLY_NOT_CODE_PERMIT",
+    "human_authorization": "USER_EXPLICIT_2026-11-11_ORDER_CONFIRMED",
+    "document": "docs/s3-night/S3_A5_7_EXECUTION_ORDER_V1_20261111.md",
+    "sequence": [
+      "X03",
+      "X09",
+      "X10",
+      "X01",
+      "X02",
+      "X06",
+      "X08",
+      "X12",
+      "GLOBAL_X01_TO_X12",
+      "FINAL_MOTO_G15_PHYSICAL"
+    ],
+    "completed_scoped_reuse_no_repeat": [
+      "X04",
+      "X05",
+      "X07",
+      "X11"
+    ],
+    "existing_partial_reuse": [
+      "X01",
+      "X02",
+      "X06",
+      "X08",
+      "X12"
+    ],
+    "next_unit": "X03",
+    "next_gate": "B1_B5_PREAUDIT_BEFORE_ANY_CODE",
+    "functional_permission": "BLOCKED",
+    "global_a5": "OPEN",
+    "physical": "ONE_FINAL_G15_CAMPAIGN_ONLY",
+    "baseline_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
+    "baseline_b7_android_run": 43084379020,
+    "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
   }
 }
