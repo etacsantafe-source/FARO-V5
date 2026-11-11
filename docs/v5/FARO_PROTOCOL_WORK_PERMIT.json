@@ -62,21 +62,21 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "10be3a4f780a9ddd9f7da8d64923099eec9510f6",
+    "sha": "fc9f51f7b4be5ee059315eb583810774ec7b7ba7",
     "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_RED_FIX_4_20261111.md",
-        "blob_sha": "1613fb7e90fa85a4a5e9a738d258c9abdaf3a0af",
+        "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B7_RED_FIX_5_20261111.md",
+        "blob_sha": "8c7a1ee0e32bfe8e91646705a3f49d2efefbecdd",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43081207104,
-    "guard_run_id": 43081207163
+    "ci_run_id": 43082501290,
+    "guard_run_id": 43082501349
   },
-  "why": "Fourth B7 RED_FIX: exact compile failure missing Compose swipeUp import, not Android runtime. Only test file correction authorized.",
-  "how": "Add one explicit import androidx.compose.ui.test.swipeUp. Keep test behavior, 2 methods and workflow unchanged; full Android API35 rerun with exact SHA.",
+  "why": "X04 instrumented Android PASS, X05 native AlertDialog visible but positive confirmation accessibility selector too strict; B7 RED_FIX5.",
+  "how": "Only new g5AndroidTest file: identify real Confirmar button by case-insensitive exact label and bounded clickable ancestor under verified native modal. Android API35 2/2, APK/XML, guard mandatory.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
