@@ -1,20 +1,26 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A3_BOOKMARKS_CATALOG_REGISTRATION",
-  "reviewed_head": "77bbd27c75af6a0e3eb6061720e1fe659ffc41af",
+  "status": "READY",
+  "unit_id": "S3_A3_BOOKMARKS_READ_HOST_NATIVE",
+  "reviewed_head": "58e2ec52b8684d3d0e2d318e33dc36ca937a61ce",
   "paths": [
-    "v5/spec/generated/contract-baseline.tsv",
-    "v5/kernel/runtime/src/test/kotlin/ar/com/faro/v5/kernel/runtime/BuiltInContractCatalogTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-catalog-directed.yml"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBindingT2Test.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentationT2Test.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-read-host-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
-          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
+          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
           "marker": "## B1"
         }
       ]
@@ -23,8 +29,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
-          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
+          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
           "marker": "## B2"
         }
       ]
@@ -33,8 +39,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
-          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
+          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
           "marker": "## B3"
         }
       ]
@@ -43,8 +49,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
-          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
+          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
           "marker": "## B4"
         }
       ]
@@ -53,14 +59,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B1_B5_20261110.md",
-          "blob_sha": "9aa26eb1dfa59e3a7223e04389c9c8ba2a896c1e",
+          "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
+          "blob_sha": "bc6b9e7e478cdb644e6ffae1f15561693f7bc8a5",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "f5adb85d149f3067dd6342eb31e44d1e202bf834",
@@ -76,9 +82,8 @@
     "ci_run_id": 42927956001,
     "guard_run_id": 42927955499
   },
-  "why": "Catalog unit closed; no functional permission until next documentary preaudit",
-  "how": "Preserve172, declarative exact8, official spec fresh and four runtime catalog tests",
-  "no_auto_night": true,
+  "why": "Real two-owner read and separate foreground grants required before native Guardados",
+  "how": "Narrow same-owner closure, token-free metadata DTO, native DEV explicit button and revocation, scoped XML",
   "productive_v2_enabled": false,
-  "next": "S3_A3_BOOKMARKS_READ_HOST_NATIVE requires own B1-B5 and READY preflight"
+  "no_auto_night": true
 }
