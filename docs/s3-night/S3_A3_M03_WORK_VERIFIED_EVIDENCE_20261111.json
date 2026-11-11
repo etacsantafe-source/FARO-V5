@@ -1,0 +1,76 @@
+{
+  "code_sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+  "artifact_id": 13864446584,
+  "artifact_sha256": "b553f1250a0272eaa3c1056dea63641c5bca6fbc4b03bfb001c2e993ff18b5f8",
+  "xml": {
+    "FaroV5BookmarkFolderActionBindingT2Test": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "FaroV5BookmarkMutationHostBindingT2Test": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "FaroV5BookmarkReadHostBindingT2Test": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "FaroV5BookmarkRemovedRestoreHostT2Test": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "FaroV5BookmarkReviewPreparationT2Test": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "FaroV5BookmarkFoldersDevTest": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "AuxiliaryBookmarkMutationAuthorityTest": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "AuxiliaryBookmarkPortabilityTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "AuxiliaryBookmarkRemovedRestoreLookupTest": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "AuxiliaryBookmarkReviewRevisionTest": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "AuxiliaryBookmarkStoreTest": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "total": 53,
+  "apk_sha256": "f09d97c1babb8cd8c07577aa252f1837103a439d08d04bf9b2da0d2193d2dd75",
+  "apk_zip_entry": "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk"
+}

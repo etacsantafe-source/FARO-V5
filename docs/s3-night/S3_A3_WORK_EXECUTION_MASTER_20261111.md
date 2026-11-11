@@ -1,3 +1,11 @@
+# CHECKPOINT WORK — M03 B7 PASS / M04 NEEDS_PREP — PREVALECE
+
+M01/M02/M03 DONE_VERIFIED. M03 código `a12b0ee182ad815f56c569c02aa9b6199e7cce86`, dirigida43036909801 y guard43036909777 SUCCESS,53/53 XML reales+APK hash verificado. Leer S3_A3_M03_WORK_B7_PASS_20261111.md; no repetir unidades.
+
+M04 STOP `M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED`: lista preparada8 rutas no incluye FaroV5V2CoreDevBookmarkFolderControls.kt, donde viven filas/paginación y falta callback de fuente ACTIVE. Leer S3_A3_M04_WORK_NEEDS_PREP_20261111.md. Permiso BLOCKED sin código M04/M05. Requiere delta B1–B5+permiso individual separado y guard antes de B6. M05 depende de M04 B7. G15 físico al final, V2 productiva/S4/Auto/Noche OFF.3/5 unidades de cola Work (60% por conteo); A3 OPEN. Writer cierre epoch711, comprobar RELEASED y HEAD real.
+
+---
+
 # FARO V5 — Paquete maestro de ejecución Work · S3.A3 · 2026-11-11
 
 ## ÚLTIMO CHECKPOINT · M03 REVISION MANUAL · 2026-11-11 · PREVALECE

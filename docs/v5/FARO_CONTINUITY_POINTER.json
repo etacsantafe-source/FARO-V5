@@ -221,7 +221,7 @@
       "ORANGE/NARANJA: recommend a new chat soon",
       "RED/ROJO: migrate immediately"
     ],
-    "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
+    "display": "Compact \ud83c\udf21\ufe0f indicator with current color/state and explicit change-chat guidance when orange/red",
     "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
     "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
   },
@@ -2083,13 +2083,13 @@
     "physical": "NOT_RUN"
   },
   "work_exclusive_execution_handoff": {
-    "status": "M01_M02_DONE_VERIFIED_M03_NEEDS_PREP",
+    "status": "M01_M02_M03_DONE_VERIFIED_M04_NEEDS_PREP",
     "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
     "queue": "docs/s3-night/S3_A3_WORK_EXECUTION_QUEUE_20261111.json",
     "prepared_units": 5,
     "ready_for_implementation": 0,
     "future_units_prepared_not_permitted": 3,
-    "active_unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+    "active_unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
     "head_on_prep": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
     "rules": "Work implements B6/CI/B7 using prep; mechanical per-unit documentary permit after B7, or STOP on drift; no skipped gate.",
     "no_code_modified": false,
@@ -2105,11 +2105,14 @@
     "M02_B7": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md"
   },
   "final_work_preparation": {
-    "status": "M02_B7_PASS_M03_NEEDS_PREP",
+    "status": "M01_M02_M03_DONE_VERIFIED_M04_NEEDS_PREP",
     "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
     "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
     "functional_changes_M03": 0,
-    "physical": "NOT_RUN"
+    "physical": "NOT_RUN",
+    "active_unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+    "ready_for_implementation": 0,
+    "active_permit_paths": 0
   },
   "work_m01": {
     "status": "DONE_VERIFIED",
@@ -2183,23 +2186,30 @@
     "writer_epoch": 704
   },
   "goal_id": "S3.A3",
-  "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-  "block_id": "M03_DELTA_PREFLIGHT",
+  "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+  "block_id": "M04_DELTA_PREFLIGHT",
   "block_status": "NEEDS_PREP",
-  "expected_head": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
-  "blocker": "AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT_OUTSIDE_SIX_PROPOSED_PATHS",
-  "writer_release_epoch": 704,
+  "expected_head": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+  "blocker": "M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED",
+  "writer_release_epoch": 711,
   "last_observed_at": "2026-11-11",
   "work_m03": {
-    "status": "NEEDS_PREP",
+    "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-    "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
-    "functional_commits": 0,
-    "blocker": "AUTHORIZED_REMOVED_REFERENCE_LOOKUP_ABSENT_OUTSIDE_SIX_PROPOSED_PATHS",
-    "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md"
+    "b6": "PASS",
+    "b7": "PASS",
+    "code_sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+    "b7_doc": "docs/s3-night/S3_A3_M03_WORK_B7_PASS_20261111.md",
+    "ci_run_id": 43036909801,
+    "guard_run_id": 43036909777,
+    "artifact_id": 13864446584,
+    "tests": 53,
+    "apk_sha256": "f09d97c1babb8cd8c07577aa252f1837103a439d08d04bf9b2da0d2193d2dd75",
+    "functional_commits": 3,
+    "physical": "NOT_RUN",
+    "writer_epoch": 711
   },
-  "acceptance": "M02 exact-SHA CI/XML/APK/B7 PASS; M03 lookup delta pending; A3 OPEN",
+  "acceptance": "M03 exact CI53/53 XML+APK B7 PASS; M04 delta needed; A3 OPEN",
   "evidence": {
     "M02_B7": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
     "ci_run_id": 43029315832,
@@ -2207,14 +2217,24 @@
     "artifact_id": 13860202834
   },
   "work": {
-    "status": "M01_M02_DONE_VERIFIED_M03_READY_FOR_B6",
-    "ready_for_implementation": 1,
+    "status": "M01_M02_M03_DONE_VERIFIED_M04_NEEDS_PREP",
+    "ready_for_implementation": 0,
     "future_units_prepared_not_permitted": 2,
-    "active_unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-    "active_permit_paths": 13,
+    "active_unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+    "active_permit_paths": 0,
     "base_head_sha": "0be0d38988291bcb3effa30a7e8e70b8cea53439",
     "M03_delta": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
-    "M03_implementation": "NOT_RUN",
-    "M03_physical": "FINAL_SINGLE_CAMPAIGN_ONLY"
+    "M03_implementation": "DONE_VERIFIED",
+    "M03_physical": "FINAL_SINGLE_CAMPAIGN_ONLY",
+    "M04_delta": "docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md"
+  },
+  "work_m04": {
+    "status": "NEEDS_PREP",
+    "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
+    "functional_commits": 0,
+    "blocker": "M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED",
+    "delta_document": "docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md"
   }
 }

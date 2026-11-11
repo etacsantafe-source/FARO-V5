@@ -1,118 +1,49 @@
 {
   "schema": 1,
-  "status": "READY",
-  "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-  "reviewed_head": "0be0d38988291bcb3effa30a7e8e70b8cea53439",
-  "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt",
-    ".github/workflows/faro-v5-s3-a3-bookmark-folders-directed.yml",
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkRemovedRestoreLookupTest.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBinding.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFolderActionBinding.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkRemovedRestoreHostT2Test.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFolderActionBindingT2Test.kt"
-  ],
+  "status": "BLOCKED",
+  "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
+  "reviewed_head": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+  "paths": [],
   "stages": {
     "B1": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
-          "blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
-          "blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b",
-          "marker": "## B1"
-        }
-      ]
+      "status": "NEEDS_DELTA_REAUDIT",
+      "evidence": []
     },
     "B2": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
-          "blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
-          "blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b",
-          "marker": "## B2"
-        }
-      ]
+      "status": "NEEDS_DELTA_REAUDIT",
+      "evidence": []
     },
     "B3": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
-          "blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
-          "blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b",
-          "marker": "## B3"
-        }
-      ]
+      "status": "NEEDS_DELTA_REAUDIT",
+      "evidence": []
     },
     "B4": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
-          "blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
-          "blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b",
-          "marker": "## B4"
-        }
-      ]
+      "status": "NEEDS_DELTA_REAUDIT",
+      "evidence": []
     },
     "B5": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
-          "blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
-          "blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b",
-          "marker": "## B5"
-        }
-      ]
+      "status": "NEEDS_DELTA_REAUDIT",
+      "evidence": []
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "BLOCKED",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "71a6b6ecba78f57c8f4f2d93520a75e0f8c630fb",
+    "sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
     "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_M03_WORK_B7_RED_FIX_2_20261111.md",
-        "blob_sha": "9b636fa0fc932583a39465d115349e4c08c2532a",
+        "path": "docs/s3-night/S3_A3_M03_WORK_B7_PASS_20261111.md",
+        "blob_sha": "87de1ead6c47dedbbbaf5f477bfb269fc63a0271",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43036357509,
-    "guard_run_id": 43036357579
+    "ci_run_id": 43036909801,
+    "guard_run_id": 43036909777
   },
-  "why": "M01/M02 B7 PASS. M03 RECOVERY: exact REMOVED lookup+user-initiated paged discovery, owner SQL/Workspace ACL, mutation-only consent M01; 13 bounded paths.",
-  "how": "Original B1-B5 plus 20261111 delta, no schema/contracts/new owner; Auxiliary same connection/lock and canonical global CAS revision, metadata-only recovery <=50, dual grant+pointer/host epoch, no REMOVED in default ACTIVE or portability; directed XML APK and B7.",
+  "why": "M03 B7 PASS53/53+APK exact SHA; M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED; delta B1-B5 required before individual permit.",
+  "how": "Read docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md; original M04/M05 prep retained. No functional permission or expansion granted.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }

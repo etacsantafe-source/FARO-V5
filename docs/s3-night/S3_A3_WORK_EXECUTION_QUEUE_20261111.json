@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "M01_M02_DONE_M03_READY",
+  "status": "M01_M02_M03_DONE_M04_NEEDS_PREP",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -169,7 +169,7 @@
     {
       "package_id": "A3-M03-20261111",
       "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
-      "status": "READY_FOR_IMPLEMENTATION",
+      "status": "DONE_VERIFIED",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV"
       ],
@@ -223,25 +223,33 @@
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
       "status_reason": "M01/M02 B7 PASS; auth exact ID and discoverable after reopen without exposing REMOVED in normal read; 13 bounded paths",
-      "b6": "NOT_RUN",
-      "b7": "NOT_RUN",
+      "b6": "PASS",
+      "b7": "PASS",
       "restore_admission_gap": "Resolved by exact REMOVED ID lookup + explicit opt-in paged recovery (<=50) with dual Workspace ACL/generation/epoch and independent grant",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "functional_commits": 0,
-      "blocker": "RESOLVED_BY_EXACT_REMOVED_RECOVERY_PREAUDIT",
+      "functional_commits": 3,
+      "blocker": null,
       "delta_document": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
-      "active_permit": "READY",
+      "active_permit": "CONSUMED_B7_PASS",
       "delta_preaudit": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
       "delta_blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b",
       "reviewed_head": "0be0d38988291bcb3effa30a7e8e70b8cea53439",
       "b1_b5": "VERIFIED_ORIGINAL_PLUS_DELTA",
       "execution_package": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_EXEC_PACKAGE_20261111.json",
-      "next_action": "Work B6 only with 13-path READY permit, CI XML APK exact SHA, B7 and writer release; preserve M01/M02"
+      "next_action": "M04 scope delta before permit; never repeat M03",
+      "implementation": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+      "code_sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+      "b7_doc": "docs/s3-night/S3_A3_M03_WORK_B7_PASS_20261111.md",
+      "ci_run_id": 43036909801,
+      "guard_run_id": 43036909777,
+      "artifact_id": 13864446584,
+      "tests": 53,
+      "apk_sha256": "f09d97c1babb8cd8c07577aa252f1837103a439d08d04bf9b2da0d2193d2dd75"
     },
     {
       "package_id": "A3-M04-20261111",
       "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
-      "status": "DEPENDENCY_BLOCKED",
+      "status": "NEEDS_PREP",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV"
       ],
@@ -294,7 +302,8 @@
       "b7": "NOT_RUN",
       "nav_host_gap": "DEV Guardados is native Android View; wiring into Compose SurfaceHost requires explicit authoritative transition",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "blocker": "M03_NEEDS_PREP_NOT_B7_PASS"
+      "blocker": "M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED",
+      "delta_document": "docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md"
     },
     {
       "package_id": "A3-M05-20261111",
@@ -346,7 +355,7 @@
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
-      "blocker": "M03_NEEDS_PREP_NOT_B7_PASS"
+      "blocker": "M04_NEEDS_PREP_NOT_B7_PASS"
     }
   ],
   "gates": {
@@ -354,7 +363,7 @@
     "scope": "Only paths in current READY permit, use FARO-UNIT trailer and GitHub CAS branch update",
     "conditions": "No static future READY; next unit may become READY only after previous B7+CI; documentary permit mint allowed as mechanical transition not new research",
     "checkpoint": "After every B7, writer RELEASED; next unit picks up pointer; no duplicated certified tests",
-    "drift": "If M01–M04 code changes a type/API or proof blob, STOP as STALE_NEEDS_DELTA_REAUDIT, prepare only affected evidence; never bypass"
+    "drift": "If M01\u2013M04 code changes a type/API or proof blob, STOP as STALE_NEEDS_DELTA_REAUDIT, prepare only affected evidence; never bypass"
   },
   "risk_flags": [
     "Tombstone REMOVED may not be visible to current reader: restoration requires authorized targeted lookup or STOP",
@@ -366,7 +375,10 @@
     "S2_closed": "8/8",
     "S3_estimated_historical": "about 40%",
     "S3_formally_closed": "0/5",
-    "A3": "OPEN"
+    "A3": "OPEN_PHYSICAL_AND_M04_M05_PENDING",
+    "Work_units_verified": 3,
+    "Work_units_total": 5,
+    "Work_unit_count_percent": 60
   },
   "audit_review": {
     "date": "2026-11-11",
@@ -387,5 +399,5 @@
     "M03_delta_blob": "0e49d9b128945d232960c8b46a83facc20d16d2b",
     "M01_M02": "DONE_VERIFIED"
   },
-  "active_permit_status": "READY_ONLY_M03"
+  "active_permit_status": "BLOCKED_M04_DELTA_REAUDIT"
 }

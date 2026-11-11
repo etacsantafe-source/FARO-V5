@@ -5,7 +5,7 @@
   "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
   "branch": "work/s3-night-20261102",
   "base_head_sha": "0be0d38988291bcb3effa30a7e8e70b8cea53439",
-  "status": "READY_FOR_IMPLEMENTATION",
+  "status": "DONE_VERIFIED",
   "version": 1,
   "depends_on": [
     "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV:B7_PASS_649d3f08",
@@ -93,13 +93,22 @@
   },
   "physical": "DEFER_TO_FINAL_MOTO_G15_CAMPAIGN",
   "metrics": {
-    "mode": "MANUAL_PREP",
-    "functional_commits": 0,
-    "ci_runs_new": 0,
+    "mode": "WORK_B6_CI_B7",
+    "functional_commits": 3,
+    "ci_runs_new": 3,
     "tokens_observed": "NOT_MEASURED",
     "duration_observed": "NOT_MEASURED"
   },
-  "next_action": "Work implement B6 M03 only, inspect exact CI/XML/APK B7, then after B7 prepare M04 individual permit. Do not repeat M01/M02.",
+  "next_action": "M04 NEEDS_PREP delta: docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md",
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
-  "status_reason": "Original+delta B1–B5 committed separately, 13 paths exact, READY documentary permit; confirm guard PASS before functional commit."
+  "status_reason": "B7 exact SHA CI/XML/APK verified; source navigation excluded until M04 permit",
+  "code_sha": "a12b0ee182ad815f56c569c02aa9b6199e7cce86",
+  "b6": "PASS",
+  "b7": "PASS",
+  "b7_document": "docs/s3-night/S3_A3_M03_WORK_B7_PASS_20261111.md",
+  "ci_run_id": 43036909801,
+  "guard_run_id": 43036909777,
+  "artifact_id": 13864446584,
+  "tests": 53,
+  "apk_sha256": "f09d97c1babb8cd8c07577aa252f1837103a439d08d04bf9b2da0d2193d2dd75"
 }
