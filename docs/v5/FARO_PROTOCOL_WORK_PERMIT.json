@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
   "reviewed_head": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
-  "paths": [
-    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
-    "v5/app/src/debug/AndroidManifest.xml",
-    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiInstrumentationTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x03-u02-isolated-ai-android-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,28 +55,28 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEBUG_NO_LIVE_PROVIDER"
   },
   "last_code_review": {
-    "sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
-    "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+    "sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+    "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X03_U01_WORK_B7_PASS_20261111.md",
-        "blob_sha": "2b4ebec366cf26560ccecb523ed789f59f903984",
+        "path": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md",
+        "blob_sha": "1330195c252cbc83e8406deb8bf13a91fe08abf8",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43103894927,
-    "guard_run_id": 43103894942
+    "ci_run_id": 43116880002,
+    "guard_run_id": 43116879920
   },
-  "why": "X03 U02 new debug-only isolated staging host for real consented Groq gateway, explicit Consult and NO Apply, B1-B5 verified at c373ca9a79e1e7e16ca05f18639458cfc0c35432; 4 exact paths. U01 already PASS.",
-  "how": "Do preflight all 4 paths. Implement new debug-only Activity + debug manifest + AndroidTest 2 methods + directed API35 workflow. CI no live model request/no credentials, no paid services. B7 scoped only; real Groq/free-tier account verification and productive X03 remain separate.",
+  "why": "U02 B6/B7 PASS scoped, permit consumed; X09 requires independent B1-B5 and READY.",
+  "how": "Do not repeat U01/U02 or historical tests. Continue X09 read-only preparation; no functional authority under consumed U02 permit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "U01_CLOSED_U02_INDEPENDENT_PREAUDIT_AND_PERMIT_REQUIRED",
-  "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md",
-  "closure_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_B7_PASS_20261111.md"
+  "blocked_reason": "U02_CONSUMED_X09_INDEPENDENT_B1_B5_READY_REQUIRED",
+  "needs_prep_document": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
+  "closure_document": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md"
 }

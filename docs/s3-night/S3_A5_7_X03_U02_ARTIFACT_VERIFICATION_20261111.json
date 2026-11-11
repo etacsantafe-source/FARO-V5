@@ -1,0 +1,44 @@
+{
+  "code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+  "xml": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "apk_sha256": {
+    "v5/app/build/outputs/apk/debug/app-debug.apk": "2bda6e630558857a51a62e8a14db309e121f9d96722967a95b75d34083de6901",
+    "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "b601b6f5e8b567e931c2028d3289692a2d3ab40017f621140c25234d5495f077",
+    "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "5ea1964adcbf175f0b0a9e8ad443f28ac7347604feb8222c7ec387064218a791"
+  },
+  "packages": {
+    "debug": "ar.com.faro.alpha.s2isolated.v5dev",
+    "test": "ar.com.faro.alpha.s2isolated.v5dev.test",
+    "dev": "ar.com.faro.alpha.v2coredev"
+  },
+  "debug_internet": true,
+  "dev_internet": false,
+  "debug_u02_activity": [
+    {
+      "android:label": "FARO X03 IA AISLADA",
+      "android:name": "ar.com.faro.v5.app.FaroV5X03U02IsolatedAiActivity",
+      "android:exported": true,
+      "android:launchMode": 2
+    }
+  ],
+  "dev_u02_activity": false,
+  "instrumentation_test_names": [
+    "deniedConsentOrUnconfirmedFreeTierDoesNotCreateU02Stage",
+    "syntheticKeystoreConsentMountsRealQuarantinedHostNoAutoDispatchAndClosesOnPause"
+  ],
+  "zip_sha256": "fb2855f141d11d2765befd5f17ea028f362ea2e2ef78d6439d3371c5be919d12",
+  "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+  "ci_run_id": 43116880002,
+  "ci_job_id": 130849799117,
+  "guard_run_id": 43116879920,
+  "artifact_id": 13900405212,
+  "artifact_digest_verified": true,
+  "inspection": "Independent local ZIP SHA, actual instrumentation log and XML, all three APK hashes, binary AndroidManifest.xml parsed directly from APKs; runner apksigner success checked in job log",
+  "provider_live": "NOT_RUN",
+  "physical": "NOT_RUN_FINAL_G15_ONLY"
+}

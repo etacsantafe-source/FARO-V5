@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X03_U02_WORK_READY_CONSISTENT_HANDOFF",
+  "phase": "S3_A5_7_X03_U02_B7_PASS_SCOPED_X09_READ_ONLY_PREPARATION",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 748
+    "expected_release_epoch": 751
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Work U02 only: scope 4 debug routes, B1–B5 preaudit blob 3c5bde72d74181c7be1ca9e9d201c8f5bce942a5, READY permit commit f4a4d967cca2c85d6816ba7b76a254600e517be8 guard 43113426305 SUCCESS; preflight all 4 paths after rereading HEAD/writer, B6 new Activity staged real Groq gateway but no paid CI, no review/apply, API35 2/2/XML/APK, independent B7, writer RELEASED. U01 B7 PASS don't repeat. X03 global OPEN; V2 DEV no Internet, physical G15 only final.",
-  "checkpoint_status": "U02_SCOPED_DEBUG_READY_SEPARATE_PERMIT_GUARD_PASS_NO_B6",
+  "next": "U02 B6+B7 PASS scoped debug real gateway wired, no live provider; do not repeat U01/U02. Permit consumed BLOCKED. Continue X09 READ_ONLY preparation at docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md; complete independent B1-B5, exact scope and READY before code. X03 global OPEN; V2 DEV no Internet; G15 only final.",
+  "checkpoint_status": "U02_DONE_VERIFIED_SCOPED_NO_LIVE_X09_PREP_ONLY",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
-  "last_ci_run_id": 43084379020,
+  "last_code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+  "last_ci_run_id": 43116880002,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_X04_X05_ANDROID_API35_2_OF_2_XML_APK_ARTIFACT_GUARD",
+  "last_ci_conclusion": "SUCCESS_X03_U02_API35_2_OF_2_XML_APK_INDEPENDENT_B7_SCOPED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -221,7 +221,7 @@
       "ORANGE/NARANJA: recommend a new chat soon",
       "RED/ROJO: migrate immediately"
     ],
-    "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
+    "display": "Compact \ud83c\udf21\ufe0f indicator with current color/state and explicit change-chat guidance when orange/red",
     "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
     "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
   },
@@ -1098,7 +1098,7 @@
     "backup_restore": "B7_PASS_SCOPED",
     "ui": "DEV_AUTOMATED_M01_M05_B7_PASS_EXACT_NAV_AND_MUTATION",
     "physical": "NOT_RUN",
-    "next": "M01–M05 DONE_VERIFIED; no repetir. A3 pendiente únicamente aceptación física final G15, integrada en cierre global A5.",
+    "next": "M01\u2013M05 DONE_VERIFIED; no repetir. A3 pendiente \u00fanicamente aceptaci\u00f3n f\u00edsica final G15, integrada en cierre global A5.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -2185,12 +2185,12 @@
     "writer_epoch": 704
   },
   "goal_id": "S3.A5.7",
-  "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+  "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
   "block_id": "B7",
-  "block_status": "PASS_SCOPED_EXPLICIT_UI_NO_REMOTE",
-  "expected_head": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
+  "block_status": "PASS_SCOPED_DEBUG_REAL_GATEWAY_WIRED_NO_LIVE_PROVIDER",
+  "expected_head": "fcfbe151f55561a70acc9fb552760d96cea30235",
   "blocker": null,
-  "writer_release_epoch": 748,
+  "writer_release_epoch": 751,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2216,12 +2216,11 @@
     "artifact_id": 13860202834
   },
   "work": {
-    "status": "X03_U01_B7_PASS_U02_PREPARATION_ONLY",
+    "status": "U02_DONE_X09_READ_ONLY_PREPARATION",
     "ready_for_implementation": 0,
-    "future_units_prepared_not_permitted": 0,
-    "active_unit_id": "X03_U02_REAL_AI_ISOLATION",
+    "active_unit_id": "X09_PREPARATION_ONLY",
     "active_permit_paths": 0,
-    "base_head_sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
+    "base_head_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
     "physical": "FINAL_SINGLE_CAMPAIGN_ONLY"
   },
   "work_m04": {
@@ -2239,7 +2238,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X03_U01_B7_PASS_U02_WORK_READY_GUARD_SUCCESS",
+  "checkpoint": "S3_A5_X03_U02_B7_PASS_SCOPED_X09_PREP",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2269,32 +2268,39 @@
   },
   "a5_current_unit": {
     "status": "DONE_VERIFIED_SCOPED",
-    "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
-    "start_head": "d9975b04ff30891a5cf9f6c2c4229a857a7f0958",
-    "code_sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
-    "ci_run_id": 43103894927,
-    "guard_run_id": 43103894942,
-    "artifact_id": 13893099205,
+    "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+    "start_head": "50b22ec4bf0f4b348840e316d2d0951483262a02",
+    "code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+    "ci_run_id": 43116880002,
+    "ci_job_id": 130849799117,
+    "guard_run_id": 43116879920,
+    "artifact_id": 13900405212,
     "xml": {
       "tests": 2,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
-    "app_apk_sha256": "9d7eaf3c4deaea0ac35539a2e912ee5df5c09dec4bda95d66e7cdc3d66b4acf9",
-    "test_apk_sha256": "e34f438ce8db10ed806f9466d27b5fb1636298843d347f4e6be326fbfa5ca373",
-    "zip_sha256": "26800745f9bfee6aed5a59a6ec05c97cd64c48974f2f89d785d9cf80ff96e73d",
-    "first_pass_or_redfix_count": 2,
-    "functional_commits": 3,
-    "directed_ci_runs": 3,
-    "explicit_reruns": 0,
-    "scope_changed": false,
+    "apk_sha256": {
+      "v5/app/build/outputs/apk/debug/app-debug.apk": "2bda6e630558857a51a62e8a14db309e121f9d96722967a95b75d34083de6901",
+      "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "b601b6f5e8b567e931c2028d3289692a2d3ab40017f621140c25234d5495f077",
+      "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "5ea1964adcbf175f0b0a9e8ad443f28ac7347604feb8222c7ec387064218a791"
+    },
+    "zip_sha256": "fb2855f141d11d2765befd5f17ea028f362ea2e2ef78d6439d3371c5be919d12",
     "b6": "DONE_VERIFIED",
-    "b7": "PASS",
-    "b7_doc": "docs/s3-night/S3_A5_7_X03_U01_WORK_B7_PASS_20261111.md",
-    "writer_epoch": 745,
-    "physical": "NOT_RUN_FINAL_ONLY",
-    "remote_model": "NOT_CONNECTED",
+    "b7": "PASS_SCOPED_DEBUG_REAL_GATEWAY_WIRED_NO_LIVE_PROVIDER",
+    "b7_doc": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md",
+    "artifact_verification": "docs/s3-night/S3_A5_7_X03_U02_ARTIFACT_VERIFICATION_20261111.json",
+    "functional_commits": 1,
+    "superseded_protocol_metadata_commit": "b3d52b7ee3b201a991ef65a4f7d71f89afbe96a1",
+    "directed_ci_runs": 2,
+    "explicit_reruns": 0,
+    "red_fix_count": 1,
+    "scope_changed": false,
+    "writer_epoch": 751,
+    "physical": "NOT_RUN_FINAL_G15_ONLY",
+    "remote_provider": "NOT_CALLED_NOT_CERTIFIED",
+    "free_tier": "HUMAN_CONFIRMATION_PER_SESSION_NOT_MACHINE_VERIFIED",
     "x03_global": "OPEN",
     "duration_if_observed": null,
     "tokens_if_observed": null
@@ -2341,9 +2347,9 @@
       "X08",
       "X12"
     ],
-    "next_unit": "X03_U02_REAL_AI_ISOLATION",
-    "next_gate": "INDEPENDENT_B1_B5_AND_READY_REQUIRED",
-    "functional_permission": "BLOCKED_NEXT_UNIT",
+    "next_unit": "X09_PREPARATION_ONLY_X03_GLOBAL_STILL_OPEN",
+    "next_gate": "X09_INDEPENDENT_B1_B5_READY_REQUIRED",
+    "functional_permission": "BLOCKED_CONSUMED_U02",
     "global_a5": "OPEN",
     "physical": "ONE_FINAL_G15_CAMPAIGN_ONLY",
     "baseline_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -2351,7 +2357,7 @@
     "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
   },
   "work_turbo_20261111": {
-    "status": "X03_U01_DONE_X03_U02_READY_SCOPED_DEBUG",
+    "status": "U02_DONE_VERIFIED_SCOPED_X09_READ_ONLY_PREP",
     "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
     "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
     "package_blob_sha": "d4ef5ee5e31a095810f330a8cb755f8eb0bda327",
@@ -2367,7 +2373,7 @@
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
     ],
-    "next_action": "WORK_B6_X03_U02_EXACT_FOUR_PATHS",
+    "next_action": "X09_READ_ONLY_B1_B5_PREPARATION",
     "next_units": [
       "X03_U02_ISOLATED_DEBUG_PROVIDER_WIRING",
       "X03_LIVE_FREE_TIER_VERIFY_SEPARATE",
@@ -2376,9 +2382,9 @@
     "physical": "NOT_RUN_FINAL_G15_ONLY",
     "source_limit": "V2_CORE_DEV_MANIFEST_EXPLICIT_INTERNET_REMOVE_AND_AI_SETTINGS_REMOVE",
     "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
-    "ready_unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+    "ready_unit_id": null,
     "ready_reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
-    "functional_permission": "READY_ONLY_X03_U02",
+    "functional_permission": "BLOCKED_CONSUMED",
     "queue_status": "U02_READY_IN_OWN_PACKAGE_U01_DONE",
     "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
     "ready_guard_run": 43113426305,
@@ -2426,10 +2432,49 @@
       "duration_if_observed": null,
       "tokens_if_observed": null
     },
-    "active_package": "docs/s3-night/S3_A5_7_X03_U02_WORK_EXEC_PACKAGE_20261111.json",
-    "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8"
+    "active_package": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
+    "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8",
+    "execution_u02": {
+      "status": "DONE_VERIFIED_SCOPED",
+      "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+      "start_head": "50b22ec4bf0f4b348840e316d2d0951483262a02",
+      "code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+      "ci_run_id": 43116880002,
+      "ci_job_id": 130849799117,
+      "guard_run_id": 43116879920,
+      "artifact_id": 13900405212,
+      "xml": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "apk_sha256": {
+        "v5/app/build/outputs/apk/debug/app-debug.apk": "2bda6e630558857a51a62e8a14db309e121f9d96722967a95b75d34083de6901",
+        "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "b601b6f5e8b567e931c2028d3289692a2d3ab40017f621140c25234d5495f077",
+        "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "5ea1964adcbf175f0b0a9e8ad443f28ac7347604feb8222c7ec387064218a791"
+      },
+      "zip_sha256": "fb2855f141d11d2765befd5f17ea028f362ea2e2ef78d6439d3371c5be919d12",
+      "b6": "DONE_VERIFIED",
+      "b7": "PASS_SCOPED_DEBUG_REAL_GATEWAY_WIRED_NO_LIVE_PROVIDER",
+      "b7_doc": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md",
+      "artifact_verification": "docs/s3-night/S3_A5_7_X03_U02_ARTIFACT_VERIFICATION_20261111.json",
+      "functional_commits": 1,
+      "superseded_protocol_metadata_commit": "b3d52b7ee3b201a991ef65a4f7d71f89afbe96a1",
+      "directed_ci_runs": 2,
+      "explicit_reruns": 0,
+      "red_fix_count": 1,
+      "scope_changed": false,
+      "writer_epoch": 751,
+      "physical": "NOT_RUN_FINAL_G15_ONLY",
+      "remote_provider": "NOT_CALLED_NOT_CERTIFIED",
+      "free_tier": "HUMAN_CONFIRMATION_PER_SESSION_NOT_MACHINE_VERIFIED",
+      "x03_global": "OPEN",
+      "duration_if_observed": null,
+      "tokens_if_observed": null
+    }
   },
-  "checkpoint_code_sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
+  "checkpoint_code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
@@ -2464,7 +2509,7 @@
     "tokens_if_observed": null
   },
   "x03_u02_work_prep_20261111": {
-    "status": "READY_VERIFIED_FOR_WORK_B6_SCOPED_DEBUG_NO_LIVE_CI",
+    "status": "CONSUMED_B6_B7_PASS_SCOPED",
     "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
     "base_head_sha": "cbede71d2aa128e628a28f3dbe5753a0128b51ad",
     "b1_b5_doc": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
@@ -2483,8 +2528,91 @@
     "previous_u01": "B7_PASS_NO_REPEAT",
     "ready_reviewed_head": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
     "ready_guard_run": 43113426305,
-    "functional_permission": "READY_ONLY_X03_U02_FOUR_DEBUG_PATHS",
-    "next_action": "WORK_B6_CI_XML_APK_B7",
-    "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8"
+    "functional_permission": "BLOCKED_CONSUMED",
+    "next_action": "DO_NOT_REPEAT_CONTINUE_X09_READ_ONLY",
+    "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8",
+    "execution": {
+      "status": "DONE_VERIFIED_SCOPED",
+      "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+      "start_head": "50b22ec4bf0f4b348840e316d2d0951483262a02",
+      "code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+      "ci_run_id": 43116880002,
+      "ci_job_id": 130849799117,
+      "guard_run_id": 43116879920,
+      "artifact_id": 13900405212,
+      "xml": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "apk_sha256": {
+        "v5/app/build/outputs/apk/debug/app-debug.apk": "2bda6e630558857a51a62e8a14db309e121f9d96722967a95b75d34083de6901",
+        "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "b601b6f5e8b567e931c2028d3289692a2d3ab40017f621140c25234d5495f077",
+        "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "5ea1964adcbf175f0b0a9e8ad443f28ac7347604feb8222c7ec387064218a791"
+      },
+      "zip_sha256": "fb2855f141d11d2765befd5f17ea028f362ea2e2ef78d6439d3371c5be919d12",
+      "b6": "DONE_VERIFIED",
+      "b7": "PASS_SCOPED_DEBUG_REAL_GATEWAY_WIRED_NO_LIVE_PROVIDER",
+      "b7_doc": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md",
+      "artifact_verification": "docs/s3-night/S3_A5_7_X03_U02_ARTIFACT_VERIFICATION_20261111.json",
+      "functional_commits": 1,
+      "superseded_protocol_metadata_commit": "b3d52b7ee3b201a991ef65a4f7d71f89afbe96a1",
+      "directed_ci_runs": 2,
+      "explicit_reruns": 0,
+      "red_fix_count": 1,
+      "scope_changed": false,
+      "writer_epoch": 751,
+      "physical": "NOT_RUN_FINAL_G15_ONLY",
+      "remote_provider": "NOT_CALLED_NOT_CERTIFIED",
+      "free_tier": "HUMAN_CONFIRMATION_PER_SESSION_NOT_MACHINE_VERIFIED",
+      "x03_global": "OPEN",
+      "duration_if_observed": null,
+      "tokens_if_observed": null
+    }
+  },
+  "a5_7_x03_u02": {
+    "status": "DONE_VERIFIED_SCOPED",
+    "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+    "start_head": "50b22ec4bf0f4b348840e316d2d0951483262a02",
+    "code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
+    "ci_run_id": 43116880002,
+    "ci_job_id": 130849799117,
+    "guard_run_id": 43116879920,
+    "artifact_id": 13900405212,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "apk_sha256": {
+      "v5/app/build/outputs/apk/debug/app-debug.apk": "2bda6e630558857a51a62e8a14db309e121f9d96722967a95b75d34083de6901",
+      "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "b601b6f5e8b567e931c2028d3289692a2d3ab40017f621140c25234d5495f077",
+      "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "5ea1964adcbf175f0b0a9e8ad443f28ac7347604feb8222c7ec387064218a791"
+    },
+    "zip_sha256": "fb2855f141d11d2765befd5f17ea028f362ea2e2ef78d6439d3371c5be919d12",
+    "b6": "DONE_VERIFIED",
+    "b7": "PASS_SCOPED_DEBUG_REAL_GATEWAY_WIRED_NO_LIVE_PROVIDER",
+    "b7_doc": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md",
+    "artifact_verification": "docs/s3-night/S3_A5_7_X03_U02_ARTIFACT_VERIFICATION_20261111.json",
+    "functional_commits": 1,
+    "superseded_protocol_metadata_commit": "b3d52b7ee3b201a991ef65a4f7d71f89afbe96a1",
+    "directed_ci_runs": 2,
+    "explicit_reruns": 0,
+    "red_fix_count": 1,
+    "scope_changed": false,
+    "writer_epoch": 751,
+    "physical": "NOT_RUN_FINAL_G15_ONLY",
+    "remote_provider": "NOT_CALLED_NOT_CERTIFIED",
+    "free_tier": "HUMAN_CONFIRMATION_PER_SESSION_NOT_MACHINE_VERIFIED",
+    "x03_global": "OPEN",
+    "duration_if_observed": null,
+    "tokens_if_observed": null
+  },
+  "x09_read_only_preparation": {
+    "document": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
+    "status": "PARTIAL_NOT_B1_B5_COMPLETE_NOT_READY",
+    "code_authorized": false
   }
 }
