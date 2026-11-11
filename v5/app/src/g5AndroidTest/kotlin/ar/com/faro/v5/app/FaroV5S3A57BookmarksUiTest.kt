@@ -195,7 +195,7 @@ class FaroV5S3A57BookmarksUiTest {
             runCatching {
                 rule.onAllNodesWithText(body, useUnmergedTree = true)
                     .fetchSemanticsNodes().size == 1 &&
-                    rule.onNodeWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
+                    rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()
             }.getOrDefault(false)
         }
         rule.onAllNodesWithText(body, useUnmergedTree = true).assertCountEquals(1)
