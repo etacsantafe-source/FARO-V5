@@ -76,8 +76,10 @@
   ],
   "next_action": "WORK_B6_AFTER_REVALIDATING_HEAD_WRITER_AND_READY_PERMIT_ALL_4_PATHS_THEN_ANDROID_2_2_APK_XML_GUARD_B7",
   "reviewed_head": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
-  "ready_guard_run": 43113154992,
+  "ready_guard_run": 43113426305,
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "live_provider_credential_required_for_code": false,
-  "provider_live_call_in_ci": "PROHIBITED"
+  "provider_live_call_in_ci": "PROHIBITED",
+  "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8",
+  "ready_preflight_note": "READY permit exact scope from parent ancestor f4a4d967cca2c85d6816ba7b76a254600e517be8; read HEAD/lock freshly and preflight four paths in local checkout before functional code."
 }

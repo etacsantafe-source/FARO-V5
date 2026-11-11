@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X03_U02_READY_SCOPED_DEBUG_ISOLATED_AI",
+  "phase": "S3_A5_7_X03_U02_WORK_READY_CONSISTENT_HANDOFF",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 747
+    "expected_release_epoch": 748
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Work X03 U02 READY scoped 4 debug-only paths from B1-B5 3c5bde72d74181c7be1ca9e9d201c8f5bce942a5 reviewed c373ca9a79e1e7e16ca05f18639458cfc0c35432 guard 43113154992. Acquire CAS and preflight exact 4 paths, B6 build real F1 host staged in distinct root EXPLICIT_CONSULT without Review/Apply, CI API35 XML 2/2/APKs, no live Groq API call/paid services, guard + B7 scoped, release writer. X03 global OPEN pending live Free-tier human verification and eventual product integration. U01 B7 PASS no repeat; G15 physical final only.",
-  "checkpoint_status": "X03_U02_B1_B5_AND_INDIVIDUAL_READY_VERIFIED_B6_NOT_STARTED",
+  "next": "Work U02 only: scope 4 debug routes, B1–B5 preaudit blob 3c5bde72d74181c7be1ca9e9d201c8f5bce942a5, READY permit commit f4a4d967cca2c85d6816ba7b76a254600e517be8 guard 43113426305 SUCCESS; preflight all 4 paths after rereading HEAD/writer, B6 new Activity staged real Groq gateway but no paid CI, no review/apply, API35 2/2/XML/APK, independent B7, writer RELEASED. U01 B7 PASS don't repeat. X03 global OPEN; V2 DEV no Internet, physical G15 only final.",
+  "checkpoint_status": "U02_SCOPED_DEBUG_READY_SEPARATE_PERMIT_GUARD_PASS_NO_B6",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 747,
+  "last_writer_epoch_observed": 748,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "PASS_SCOPED_EXPLICIT_UI_NO_REMOTE",
   "expected_head": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
   "blocker": null,
-  "writer_release_epoch": 747,
+  "writer_release_epoch": 748,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2239,7 +2239,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X03_U01_B7_PASS_X03_U02_READY_SCOPED_DEBUG",
+  "checkpoint": "S3_A5_X03_U01_B7_PASS_U02_WORK_READY_GUARD_SUCCESS",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2381,7 +2381,7 @@
     "functional_permission": "READY_ONLY_X03_U02",
     "queue_status": "U02_READY_IN_OWN_PACKAGE_U01_DONE",
     "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
-    "ready_guard_run": 43100863863,
+    "ready_guard_run": 43113426305,
     "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md",
     "last_verified_head": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
     "last_verified_guard_run": 43103894942,
@@ -2425,7 +2425,9 @@
       "x03_global": "OPEN",
       "duration_if_observed": null,
       "tokens_if_observed": null
-    }
+    },
+    "active_package": "docs/s3-night/S3_A5_7_X03_U02_WORK_EXEC_PACKAGE_20261111.json",
+    "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8"
   },
   "checkpoint_code_sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
@@ -2480,8 +2482,9 @@
     "first_eligible_next_action": "ISSUE_INDIVIDUAL_READY_AFTER_GUARD",
     "previous_u01": "B7_PASS_NO_REPEAT",
     "ready_reviewed_head": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
-    "ready_guard_run": 43113154992,
+    "ready_guard_run": 43113426305,
     "functional_permission": "READY_ONLY_X03_U02_FOUR_DEBUG_PATHS",
-    "next_action": "WORK_B6_CI_XML_APK_B7"
+    "next_action": "WORK_B6_CI_XML_APK_B7",
+    "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8"
   }
 }
