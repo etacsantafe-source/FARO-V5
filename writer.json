@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
+  "status": "HELD",
   "owner": "FARO.WORK.M04.20261111.351fcd0d",
   "token_hash": "53345218210ead812b0657678d3629b0cca71cb35224f0e991b96c8b95cb5e7c",
-  "target_head": "cae0ff3bb266132a7cdc240fe7ac95cae9faafed",
+  "target_head": "fb5f14edadb1fc6db56932fc2d34010f255cb61e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 713,
-  "timestamp": 1794409676,
+  "epoch": 714,
+  "timestamp": 1794410156,
   "last_checkpoint": "fb5f14edadb1fc6db56932fc2d34010f255cb61e",
   "purpose": "M04_B6_CODE_PUBLISHED_WAIT_EXACT_CI_NO_PASS"
 }
