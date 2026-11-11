@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.M05.B7.GUARD_FIX.20261111",
-  "token_hash": "aaa183cb64b8a6d34feeb2de513d4e9709e5986c895b3d3483dc1db2bd94c865",
-  "target_head": "07718e4f34282976e7261587c9e9406dfbefe258",
+  "status": "HELD",
+  "owner": "FARO.CHAT.A5.X04X05.PREP.20261111",
+  "token_hash": "10e777e51632427b4459ed330754233fd66f2b33f391bc7aa9a6a12e740d66c7",
+  "target_head": "1901aa8a0b09350c4cf7cce0cb107d3303256637",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 721,
-  "timestamp": 1794416504,
-  "purpose": "M05_B7_PERMIT_CONSUMED_BLOCKED_REPAIRED_RELEASED",
+  "epoch": 722,
+  "timestamp": 1794417573,
+  "purpose": "S3_A5_X04_X05_ANDROID_B1_B5_PREAUDIT_PACKAGE_ONLY",
   "last_checkpoint": "1901aa8a0b09350c4cf7cce0cb107d3303256637"
 }
