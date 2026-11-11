@@ -6,7 +6,7 @@
   "branch": "work/s3-night-20261102",
   "base_head_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
   "version": 3,
-  "status": "READY_FOR_IMPLEMENTATION_AFTER_HOST_DELTA_GUARD",
+  "status": "DONE_VERIFIED_SCOPED_EXPLICIT_UI_NO_REMOTE",
   "depends_on": [
     "S2_F1_REAL_AI_ISOLATED:PASS_SCOPED",
     "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS"
@@ -66,7 +66,7 @@
     "change Apply/Reality/owners",
     "Moto G15 physical before final"
   ],
-  "next_action": "Work start from CURRENT HEAD (which may have one newer DOC-ONLY handoff commit), not old 237a6f; verify real HEAD, permit READY, writer RELEASED, preflight all 7 exact paths, code B6; CI API35 XML2/2 + APK manifest no INTERNET, guard exact SHA and B7. U02 separate.",
+  "next_action": "PREPARE_X03_U02_B1_B5_AND_INDEPENDENT_READY_NO_CODE_UNDER_U01",
   "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
   "reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
   "last_verified_guard_run": 43100863863,
@@ -94,5 +94,42 @@
     "scope_paths": 7,
     "previous_work_needs_prep_resolved": true,
     "code_not_started": true
+  },
+  "execution": {
+    "status": "DONE_VERIFIED_SCOPED",
+    "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+    "start_head": "d9975b04ff30891a5cf9f6c2c4229a857a7f0958",
+    "code_sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
+    "ci_run_id": 43103894927,
+    "guard_run_id": 43103894942,
+    "artifact_id": 13893099205,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "app_apk_sha256": "9d7eaf3c4deaea0ac35539a2e912ee5df5c09dec4bda95d66e7cdc3d66b4acf9",
+    "test_apk_sha256": "e34f438ce8db10ed806f9466d27b5fb1636298843d347f4e6be326fbfa5ca373",
+    "zip_sha256": "26800745f9bfee6aed5a59a6ec05c97cd64c48974f2f89d785d9cf80ff96e73d",
+    "first_pass_or_redfix_count": 2,
+    "functional_commits": 3,
+    "directed_ci_runs": 3,
+    "explicit_reruns": 0,
+    "scope_changed": false,
+    "b6": "DONE_VERIFIED",
+    "b7": "PASS",
+    "b7_doc": "docs/s3-night/S3_A5_7_X03_U01_WORK_B7_PASS_20261111.md",
+    "writer_epoch": 745,
+    "physical": "NOT_RUN_FINAL_ONLY",
+    "remote_model": "NOT_CONNECTED",
+    "x03_global": "OPEN",
+    "duration_if_observed": null,
+    "tokens_if_observed": null
+  },
+  "next_unit": {
+    "id": "X03_U02_REAL_AI_ISOLATION",
+    "status": "NEEDS_PREP_NO_CODE_PERMISSION",
+    "read_only_preparation": "docs/s3-night/S3_A5_7_X03_U02_HOST_CONSENT_READ_ONLY_PREPARATION_20261111.md"
   }
 }
