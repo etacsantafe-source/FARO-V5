@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.M05.RED_FIX.CODE.20261111",
-  "token_hash": "be3ba30e6747df02cb5c2595fe609a1f08d2d0ec43f2bb7ca17466b943e03891",
-  "target_head": "9215aa2fe72f96f0e93b825db67b88d6a40c6e0f",
+  "status": "HELD",
+  "owner": "FARO.CHAT.M05.B7.CHECKPOINT.20261111",
+  "token_hash": "7922d2366cf77c451143e5f3177299931a02ab9d0e51e92a56f93c34c9261011",
+  "target_head": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 719,
-  "timestamp": 1794413403,
-  "purpose": "M05_TEST_DRIVER_RED_FIX_CODE_CI_PENDING_RELEASED",
+  "epoch": 720,
+  "timestamp": 1794416224,
+  "purpose": "M05_B7_INDEPENDENT_AUDIT_CHECKPOINT_ONLY",
   "last_checkpoint": "0bfa534c60dcf27bcb78d92956dae6eb35da6172"
 }
