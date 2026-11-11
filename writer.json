@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.S3.A5.7.X04X05.REDFIX2.20261111",
-  "token_hash": "28c1d46c0ce6b546e3a80896ddc5bf06d19608eab605fa71d0c334592ed08f6a",
+  "status": "HELD",
+  "owner": "FARO.CHAT.S3.A5.7.X04X05.COMPILER_FIX2.20261111",
+  "token_hash": "9aecd213ed356503b8703dd9ec7ea4adca7e9dd7c9970faea867366f4e9db177",
   "target_head": "adad079c1d825a4ce05f5638aae69e1da0200165",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 728,
-  "timestamp": 1794420782,
-  "purpose": "S3_A5_7_X04_X05_B7_REDFIX2_DOCUMENTED_READY_TO_CORRECT",
+  "epoch": 729,
+  "timestamp": 1794420813,
+  "purpose": "S3_A5_7_X04_X05_ONE_LINE_COMPOSE_SEMANTICS_FIX",
   "last_checkpoint": "adad079c1d825a4ce05f5638aae69e1da0200165"
 }
