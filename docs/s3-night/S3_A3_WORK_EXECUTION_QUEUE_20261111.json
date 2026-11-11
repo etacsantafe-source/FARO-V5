@@ -3,7 +3,7 @@
   "goal_id": "S3.A3",
   "branch": "work/s3-night-20261102",
   "baseline_head_sha": "00bd1f5dd1833bcea136cc4a50219ede08000fd0",
-  "status": "M01_DONE_M02_NEEDS_PREP",
+  "status": "M01_DONE_M02_PREAUDITED_DELTA_PERMIT_PENDING",
   "authoritative_permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "master": "docs/s3-night/S3_A3_WORK_EXECUTION_MASTER_20261111.md",
   "writer_policy": "single CAS lock; never write when other HELD; release after each unit",
@@ -58,7 +58,7 @@
     {
       "package_id": "A3-M02-20261111",
       "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
-      "status": "NEEDS_PREP",
+      "status": "PREAUDITED_DELTA_WAIT_PERMIT",
       "depends_on_B7": [
         "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV"
       ],
@@ -83,7 +83,12 @@
         "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
         "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurfaceTest.kt",
         "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkChatReviewDevTest.kt",
-        ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml"
+        ".github/workflows/faro-v5-s3-a3-bookmark-chat-review-directed.yml",
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+        "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+        "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkReviewRevisionTest.kt",
+        "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationBinding.kt",
+        "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReviewPreparationT2Test.kt"
       ],
       "permitted_by_active_gate": false,
       "steps": [
@@ -109,13 +114,15 @@
         "Moto G15 physical prior to final campaign"
       ],
       "test_requirement": "zero skipped/failure/error XML plus actual relevant result and directed APK, guard by exact SHA",
-      "status_reason": "Future scoped permit must not be pre-enabled; work is implementation-only, prep already documented; interface drift => needs prep delta",
+      "status_reason": "M01 certified; M02 pre-review global Auxiliary scope revision snapshot designed, 16 exact routes; commit permit after this separate proof commit, then preflight.",
       "b6": "NOT_RUN",
       "b7": "NOT_RUN",
       "ci_push_only": "New workflow must include on:push branch and functional paths; workflow_dispatch default branch dependency not allowed",
       "active_permit": "BLOCKED",
       "delta_document": "docs/s3-night/S3_A3_M02_WORK_NEEDS_PREP_20261111.md",
-      "blocker": "AUTHORIZED_PRE_REVIEW_GLOBAL_SCOPE_REVISION_BOOTSTRAP_UNSPECIFIED"
+      "blocker": "RESOLVED_BY_B1_B5_DESIGN_AWAIT_DOCUMENTARY_READY_PERMIT",
+      "delta_preaudit": "docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md",
+      "delta_blob_sha": "839aacce48140cce75e49d35804c62bf83d84985"
     },
     {
       "package_id": "A3-M03-20261111",

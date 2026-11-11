@@ -1,5 +1,15 @@
 # FARO V5 — Paquete maestro de ejecución Work · S3.A3 · 2026-11-11
 
+## CORRECCIÓN OPERATIVA MÁS RECIENTE · 2026-11-11 · PRIORIDAD SOBRE ESTADO HISTÓRICO
+
+**M01 TERMINADA, B7 PASS** en código `649d3f08ec7d6a14dea4869ad84603408dbee953`, CI `43016377617` 64/64 XML y APK DEV, guard `43016377548`. NO volver a programar M01.
+
+**M02 bloqueo de revisión global resuelto en diseño B1–B5**: leer antes del Review el `bookmark_scope.revision` canónico Auxiliary con gate de lectura técnica y source Workspace; no consultar backup, extrapolar de item.revision, ni usar `Stale` de una mutación como preflight. Evidencia delta `docs/s3-night/S3_A3_M02_REVISION_PREFLIGHT_DELTA_B1_B5_20261111.md` blob `839aacce48140cce75e49d35804c62bf83d84985`. M02 requiere scope TOTAL 16 rutas y permiso individual separado del commit de esta auditoría. La cola JSON y el permiso vigente son la autoridad actual. Una vez emitido READY por commit documental+guardia, Work debe **desarrollar B6/CI/B7 de M02**. M03–M05 aún no autorizadas.
+
+**ALCANCE DELTA:** proteger `scope=null` como revisión0 solo cuando ACL/generación válidos, distinguir incompatible/unavailable, lectura sin escribir, preparar preview tras click usuario, nueva mutación exacta tras confirmar, Stale sin reintento. Tests de auxiliar y app. Sin alterar catálogo180 ni contratos B7.
+
+---
+
 Propósito: Work debe dedicar su sesión al desarrollo B6, CI y B7; toda investigación previa B1–B5, contratos, alternativas, auditoría y casos negativos quedan aquí vinculados. Este archivo es una cola DOCUMENTAL, no una licencia para programar todos los paquetes de una vez.
 
 ## 1. Estado verificado al preparar
