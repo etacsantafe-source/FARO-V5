@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.X03_U02.20261111",
   "token_hash": "51aca794bb2c5c5cac04205c2ca2eb96db4aca0a821412c536ce00bb394263c6",
   "target_head": "fcfbe151f55561a70acc9fb552760d96cea30235",
   "target_branch": "work/s3-night-20261102",
   "epoch": 751,
-  "timestamp": 1794439387,
-  "last_checkpoint": "fcfbe151f55561a70acc9fb552760d96cea30235"
+  "timestamp": 1794439637,
+  "last_checkpoint": "c5e5e5bad2c50c2c6c0797442a1f09c89444391f",
+  "purpose": "X03_U02_B7_PASS_SCOPED_XML_APK_VERIFIED_PERMIT_CONSUMED_X09_READ_ONLY_PREP"
 }
