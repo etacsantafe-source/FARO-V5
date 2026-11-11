@@ -4,7 +4,7 @@
   "package_id": "A5-X03-U01-CONSULT-DEV-20261111",
   "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
   "branch": "work/s3-night-20261102",
-  "base_head_sha": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
+  "base_head_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
   "version": 3,
   "status": "READY_FOR_IMPLEMENTATION_AFTER_HOST_DELTA_GUARD",
   "depends_on": [
@@ -66,10 +66,10 @@
     "change Apply/Reality/owners",
     "Moto G15 physical before final"
   ],
-  "next_action": "Work immediately B6 X03 U01: read 2 B1-B5 docs, verify READY 7 paths, exact preflight, implement, CI Android API35 XML 2/2 APK+manifest no INTERNET, B7, checkpoint and writer RELEASED. Do not proceed U02 under this permit.",
-  "ready_permit_sha": "THIS_DOCUMENT_ONLY_COMMIT",
+  "next_action": "Work start from CURRENT HEAD (which may have one newer DOC-ONLY handoff commit), not old 237a6f; verify real HEAD, permit READY, writer RELEASED, preflight all 7 exact paths, code B6; CI API35 XML2/2 + APK manifest no INTERNET, guard exact SHA and B7. U02 separate.",
+  "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
   "reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
-  "last_verified_guard_run": 43100588343,
+  "last_verified_guard_run": 43100863863,
   "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
   "blocked_reason": null,
   "needs_prep_document": "docs/s3-night/S3_A5_7_X03_U01_WORK_NEEDS_PREP_20261111.md",
@@ -85,5 +85,14 @@
       "## B5"
     ],
     "reason": "REAL_HOST_PROPAGATION_SEVEN_EXACT_PATHS"
+  },
+  "handoff": {
+    "ready_permit_commit": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
+    "ready_permit_blob": "0038a35a273a6abb58bb539b31bdde72145b05f6",
+    "ready_guard_run": 43100863863,
+    "preaudit_delta_commit": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
+    "scope_paths": 7,
+    "previous_work_needs_prep_resolved": true,
+    "code_not_started": true
   }
 }
