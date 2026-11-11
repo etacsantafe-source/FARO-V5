@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
   "reviewed_head": "c2cfaa61d037bff797ce61e71e57ff7c6f710dde",
   "paths": [
@@ -84,25 +84,25 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS",
+    "B7": "PASS"
   },
   "last_code_review": {
-    "sha": "11c8906a9210a1c725a30ca6c256095b868468ad",
+    "sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_M05_WORK_B7_RED_FIX_1_20261111.md",
-        "blob_sha": "92a8b4a874896430ca2c5b66e056ab27139ae6f3",
+        "path": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
+        "blob_sha": "03dd0aa774bed0c07c94be028edb49189662f170",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43049922298,
-    "guard_run_id": 43049921519
+    "ci_run_id": 43055545460,
+    "guard_run_id": 43055545554
   },
-  "why": "M01–M04 B7 PASS. M05 first functional commit 11c8906a FAIL test compilation driver classpath (run43049922298). Documented B7 RED_FIX 1, only same unit permitted to correct test file within 3-path READY scope",
-  "how": "M05 original+delta B1-B5; B7 RED_FIX disposition blob 92a8b4a874896430ca2c5b66e056ab27139ae6f3 plus fix prep blob e3a21118e95fa51862fc218503202733fde69f21; implement test-only fixture, do not modify gradle or production; rerun directed CI/XML+APK and final independent B7",
+  "why": "M05 automated acceptance B7 PASS code 0bfa534c, XML11/11+APK verified; permit consumed and BLOCKED until a distinct separately authorized unit. A3 physical G15 final campaign NOT_RUN.",
+  "how": "Do not reopen M01-M05; publish a new B1-B5 reviewed scoped permit for any subsequent functional development. Preserve M05 B7 and use physical G15 final campaign by explicit overall plan.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }

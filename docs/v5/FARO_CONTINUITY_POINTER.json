@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 720
+    "expected_release_epoch": 721
   },
   "automation": {
     "activation_authorized": false,
@@ -43,9 +43,9 @@
   "handoff": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3.A3 automated DEV B7 PASS (M01-M05). Preserve certified results; final physical campaign Moto G15 remains NOT_RUN. No productive V2, Auto, Night or S4. Do not reuse M05 READY permit for other functional changes.",
+  "next": "Five Guardados work units DONE_VERIFIED automated only. Await final G15 physical campaign. For any next functional unit, individual B1-B5/READY gate; do not reuse M05 permit. V2 productive/S4/Auto/Night OFF.",
   "checkpoint_status": "FIVE_OF_FIVE_WORK_UNITS_DONE_VERIFIED_PHYSICAL_PENDING",
-  "notes": "M01-M05 DONE_VERIFIED within automated DEV scope. M05 independent ZIP XML 11/11 and APK hash verified; final physical campaign NOT_RUN. S3/A3 OPEN.",
+  "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A3_M05_WORK_B7_PASS_20261111.md",
   "last_code_sha": "0bfa534c60dcf27bcb78d92956dae6eb35da6172",
   "last_ci_run_id": 43055545460,
