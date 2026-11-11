@@ -8,6 +8,16 @@ M04 STOP `M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED`: lista preparada8 ru
 
 # FARO V5 — Paquete maestro de ejecución Work · S3.A3 · 2026-11-11
 
+## ACTUALIZACIÓN PRIORITARIA · M04 PREAUDITORÍA FINAL · 2026-11-11
+
+**M01, M02 y M03 están CERRADAS B7 PASS**; no repetirlas. M03 código `a12b0ee182ad815f56c569c02aa9b6199e7cce86`, CI `43036909801` 53/53 XML+APK, guard `43036909777`, checkpoint `77faa90a00a39812cb71ec308ee5969a0e6a288c`, writer RELEASED epoch711 previo a preparación.
+
+**M04** auditoría delta B1–B5 de callback `Abrir fuente` desde controles M03: `docs/s3-night/S3_A3_M04_SOURCE_CALLBACK_DELTA_B1_B5_20261111.md` blob `d107ebdf3ac00f83a14b511983536327cfdb63a7`. Scope final 11 rutas exactas: 8 originales más `FaroV5V2CoreDevBookmarkFolderControls.kt`, `FaroV5AdaptiveShell.kt`, `FaroV5BookmarkFoldersDevTest.kt`. Reusar `reviewSnapshot ACTIVE` existente para validación por target+id, sin nuevo SQL. Un solo callback ACTIVE, source Workspace canónico y `ConversationTimelineReadPort`, Session nativa→Compose sin `onPause` implícito, foco efímero por IDs mínimos; no usar Search target ni REMOVED.
+
+Preparación documental B1–B5 completa; permiso M04 individual requiere **commit SEPARADO** tras el documento y guard/preflight por SHA. M05 depende de B7 M04. Estado histórico más abajo no prevalece sobre puntero/cola/permiso vigente.
+
+---
+
 ## ÚLTIMO CHECKPOINT · M03 REVISION MANUAL · 2026-11-11 · PREVALECE
 
 **M01 B7 PASS** (`649d3f08ec7d6a14dea4869ad84603408dbee953`, 64/64) y **M02 B7 PASS** (`c04a19971f8d610f221c3739961f4e8b3a0c2b22`, 12/12 XML+APK). NO repetir estas unidades ni las pruebas antiguas sin delta pertinente.
