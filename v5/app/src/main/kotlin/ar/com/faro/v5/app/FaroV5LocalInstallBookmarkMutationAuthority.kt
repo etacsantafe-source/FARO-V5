@@ -41,7 +41,8 @@ internal class FaroV5LocalInstallBookmarkMutationAuthority(
     ): Boolean {
         grant = null
         if (!live() || request.generationId != baseline?.pinnedGeneration?.generationId?.value) return false
-        val needsSource = when (request.mutation) {
+        val action = request.mutation
+        val needsSource = when (action) {
             is BookmarkMutation.Add, is BookmarkMutation.FavoriteSet,
             is BookmarkMutation.LifecycleSet, is BookmarkMutation.FolderAssign -> true
             else -> false
@@ -49,7 +50,7 @@ internal class FaroV5LocalInstallBookmarkMutationAuthority(
         if (needsSource != (target != null)) return false
         if (target != null && (target.generationId != request.generationId ||
             target.authorityToken != request.authorityToken)) return false
-        if (request.mutation is BookmarkMutation.Add && request.mutation.bookmark.target != target) return false
+        if (action is BookmarkMutation.Add && action.bookmark.target != target) return false
         val candidate = Grant(request, target, UUID.randomUUID().toString())
         grant = candidate
         if (!live() || grant !== candidate) return false
