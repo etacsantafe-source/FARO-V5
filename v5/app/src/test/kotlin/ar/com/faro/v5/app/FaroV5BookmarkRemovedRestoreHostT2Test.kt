@@ -136,10 +136,12 @@ class FaroV5BookmarkRemovedRestoreHostT2Test {
     @Test fun sourceArchiveDeniesRecoveryAndInvalidatesLease() = runBlocking {
         Case("archive").use { f -> f.remove(); f.grant(); f.host().use { host ->
             val page=requireNotNull(host.readRemovedAfterExplicitRequest())
-            // Adversarial fixture: source revocation without trusting a notification or UI cache.
-            androidx.sqlite.driver.bundled.BundledSQLiteDriver().open(root.resolve("archive-workspace.db").toString()).use { db ->
-                db.prepare("UPDATE workspace_conversation SET archived=1 WHERE id=?").use { st -> st.bindText(1,f.chat.value); st.step() }
-            }
+            // Test-only adapter to the real internal Workspace transition (no new app dependency).
+            val request=ar.com.faro.v5.workspace.WorkspaceTransitionRequest(
+                ConversationWorkspaceIntent.SetArchived(f.chat,true),f.workspace.snapshot().revision,IdempotencyKey("archive"))
+            val method=f.workspace.javaClass.methods.single { it.name.startsWith("transition") &&
+                it.parameterTypes.contentEquals(arrayOf(ar.com.faro.v5.workspace.WorkspaceTransitionRequest::class.java)) }
+            assertTrue(method.invoke(f.workspace,request) is ar.com.faro.v5.workspace.WorkspaceWriteResult.Committed)
             assertFalse(host.isRecoveryCurrent(page)); assertNull(host.readRemovedAfterExplicitRequest())
         } }
     }
