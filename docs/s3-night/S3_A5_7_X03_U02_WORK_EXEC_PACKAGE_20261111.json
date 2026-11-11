@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "goal_id": "S3.A5.7",
+  "package_id": "A5-X03-U02-ISOLATED-AI-20261111",
+  "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+  "branch": "work/s3-night-20261102",
+  "base_head_sha": "cbede71d2aa128e628a28f3dbe5753a0128b51ad",
+  "version": 1,
+  "status": "PREAUDITED_AWAITING_INDIVIDUAL_READY_PERMIT",
+  "depends_on": [
+    "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV:B7_PASS",
+    "S2_F1_CONSENTED_QUARANTINED_REAL_GATEWAY:SCOPED_CERTIFIED"
+  ],
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
+    "blob_sha": "3c5bde72d74181c7be1ca9e9d201c8f5bce942a5",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "source_preparation": {
+    "path": "docs/s3-night/S3_A5_7_X03_U02_HOST_CONSENT_READ_ONLY_PREPARATION_20261111.md",
+    "blob_sha": "a29889e54adb1eab7671e2a014c5b231c81da1b2"
+  },
+  "allowed_functional_paths": [
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+    "v5/app/src/debug/AndroidManifest.xml",
+    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiInstrumentationTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x03-u02-isolated-ai-android-directed.yml"
+  ],
+  "functional_mode": "NEW_DEBUG_ONLY_STAGED_HOST_EXPLICIT_CONSULT_NO_APPLY_NO_LIVE_CI",
+  "verified_user_policy": "NO_PAID_APIS; FREE_PLAN_HUMAN_CONFIRM_PER_SESSION_NOT_MACHINE_VERIFIED",
+  "test_cases": [
+    "deniedConsentOrUnconfirmedFreeTierDoesNotCreateU02Stage",
+    "syntheticKeystoreConsentMountsRealQuarantinedHostNoAutoDispatchAndClosesOnPause"
+  ],
+  "acceptance": {
+    "android_api": 35,
+    "expected_tests": 2,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "required_output": [
+      "OK (2 tests)",
+      "INSTRUMENTATION_CODE: -1",
+      "S3_A5_7_X03_U02_ISOLATED_AI_HOST_PASS 2/2"
+    ],
+    "required_ci": "new on:push directed Android 35, real debug APK and V2DEV permission-negative, XML/APK SHA, guard same functional SHA",
+    "model_http_positive": "NOT_CLAIMED_AND_NOT_RUN_WITH_SYNTHETIC_KEY",
+    "b7": "PASS_SCOPED_ONLY_INDEPENDENT_AFTER_CI"
+  },
+  "previous_verified": {
+    "x03_u01_code_sha": "a846b96b155bfcd6c82ebd07c27084e15bcc0308",
+    "x03_u01_ci": 43103894927,
+    "x03_u01_guard": 43103894942,
+    "x03_u01_b7": "docs/s3-night/S3_A5_7_X03_U01_WORK_B7_PASS_20261111.md",
+    "x03_u01_b7_blob": "2b4ebec366cf26560ccecb523ed789f59f903984"
+  },
+  "forbidden": [
+    "change v2CoreDev INTERNET manifest",
+    "change frozen S2 Activity",
+    "change TrustedModelGatewayFactory or settings",
+    "open productivity V2",
+    "publish secret or paid live calls",
+    "pass Apply/Review UI",
+    "change main or V4.4",
+    "modify outside four paths",
+    "run G15 physical now"
+  ],
+  "next_action": "After docs B1-B5 guard SUCCESS, permit READY exact 4 paths, preflight; Work B6 debug-only isolated host then directed Android XML/APK, B7. Live remote proof and shipping integration remain independent."
+}
