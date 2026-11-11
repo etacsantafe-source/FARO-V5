@@ -50,7 +50,9 @@ jobs:
       - name: Compile isolated native DEV host and APK
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleV2CoreDev
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Dorg.gradle.jvmargs='-Xmx2g -XX:MaxMetaspaceSize=512m -Dfile.encoding=UTF-8' \
+            :app:assembleV2CoreDev
       - name: Verify nineteen tests without skips
         run: |
           python3 - <<'PYXML'
