@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A3_BOOKMARKS_READ_HOST_NATIVE",
   "reviewed_head": "58e2ec52b8684d3d0e2d318e33dc36ca937a61ce",
   "paths": [
@@ -65,25 +65,25 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "916e8a82705a666875d460ff5084797b02246f89",
+    "sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
     "unit_id": "S3_A3_BOOKMARKS_READ_HOST_NATIVE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_RED_FIX_20261111.md",
-        "blob_sha": "95b4d6b95ed5fec00086991812b8d105f578436a",
+        "path": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_PASS_20261111.md",
+        "blob_sha": "e1c26b830346944027ddf3d687daa547fbcb91c4",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 42929324277,
-    "guard_run_id": 42929324374
+    "ci_run_id": 42935422794,
+    "guard_run_id": 42935422815
   },
-  "why": "Same unit RED_FIX: D8 heap OOM in directed Android combined test+APK job, code logic tests succeeded",
-  "how": "Workflow-only heap 2 GiB and max-workers 1; leave native code and assertions unchanged; exact new SHA CI+XML required.",
+  "why": "S3 A3 Guardados native DEV read host B7 PASS; next mutation/source-navigation unit needs new independent B1–B5 and doc-only permit",
+  "how": "No new functional writes under completed read-host permit. Real two-owner read host 19/19 + DEV APK SUCCESS at a6f9a6b7; reopen bounded permit separately.",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
