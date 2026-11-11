@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.A5.ORDER.20261111",
   "token_hash": "30b4b5f58fb5648b0c7975e3ab3e3d44a40cfb5f9eda7f5122d81a86ae10dbdf",
-  "target_head": "e115e8049cf45af889d3a56fb82d10458253a2f4",
+  "target_head": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
   "target_branch": "work/s3-night-20261102",
   "epoch": 734,
   "timestamp": 1794425962,
-  "purpose": "A5_X03_X09_X10_X01_X02_X06_X08_X12_DOCUMENTED_ORDER",
-  "last_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
+  "purpose": "A5_EXECUTION_ORDER_DOCUMENTED_AND_CLOSED",
+  "last_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13"
 }
