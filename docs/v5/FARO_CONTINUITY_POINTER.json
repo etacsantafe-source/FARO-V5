@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A3_M01_M02_M03_B7_PASS_M04_SOURCE_CALLBACK_READY_B6_NOT_RUN",
+  "phase": "S3_A3_M01_M02_M03_M04_B7_PASS_M05_PREAUDITED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_EXEC_PACKAGE_20261111.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "M01/M02/M03 done; M04 READY 11 paths source navigation exact from native ACTIVE to Compose via same session, owner revalidation+fresh timeline; B6 CI/XML/APK+B7 then M05 individual permit. G15 physical final.",
+  "next": "Issue separate M05 individual permit after original+delta B1-B5. No repeated M01-M04.",
   "checkpoint_status": "S3_A3_TWO_OF_FIVE_UNITS_DONE_M03_READY_13_PATHS_A3_OPEN",
   "notes": "M01 and M02 DONE_VERIFIED; M03 cannot restore REMOVED via available authorized ACTIVE readers. No M03 code or READY permit.",
   "last_handoff": "docs/s3-night/S3_A3_M04_EXACT_SOURCE_NAV_EXEC_PACKAGE_20261111.json",
@@ -2233,13 +2233,19 @@
     "physical": "FINAL_SINGLE_CAMPAIGN_ONLY"
   },
   "work_m04": {
-    "status": "NEEDS_PREP",
+    "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV",
-    "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
-    "functional_commits": 0,
-    "blocker": "M04_SOURCE_CALLBACK_CONTROLS_PATH_NOT_PREAUDITED",
-    "delta_document": "docs/s3-night/S3_A3_M04_WORK_NEEDS_PREP_20261111.md"
+    "code_sha": "26a4b8fa27bc7195aa69973001b8cf1b9f256c49",
+    "b6": "PASS",
+    "b7": "PASS",
+    "b7_doc": "docs/s3-night/S3_A3_M04_WORK_B7_PASS_20261111.md",
+    "ci_run_id": 43046825300,
+    "guard_run_id": 43046825442,
+    "artifact_id": 13868601293,
+    "tests": 13,
+    "apk_sha256": "eb9d3d99e4d88513a1a216eba18b923bd41b050e9948dba3a8dd11884ef411d5",
+    "functional_commits": 2,
+    "physical": "NOT_RUN"
   },
-  "checkpoint": "M01_M02_M03_B7_PASS_M04_READY_11_PATHS"
+  "checkpoint": "M01_M02_M03_M04_B7_PASS_M05_PREAUDITED"
 }

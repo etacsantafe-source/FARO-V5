@@ -1,0 +1,17 @@
+# S3.A3 M05 — delta mecánico de integración B1–B5
+Fecha 2026-11-11 AR. Unidad S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE. Base código26a4b8fa27bc7195aa69973001b8cf1b9f256c49.
+Complementa evidencia original f293a902fc03b1070313021b1a82a33571b4831c. No nueva funcionalidad. M01–M04 B7 PASS. Permiso separado posterior obligatorio.
+
+## B1
+M04 B7 docs/s3-night/S3_A3_M04_WORK_B7_PASS_20261111.md, CI43046825300+guard43046825442 SUCCESS, XML13/13 y APK hash descargado. Se verificaron APIs reales de M01–M04: ReviewPreparationBinding.prepare/confirm, FolderActionBinding.prepare/confirm, ReadHostBinding.readAuthorized/recovery, SourceNavigationBinding.open, mismos Workspace/Auxiliary. No cambio de contrato requerido. Default-deny y grants request-bound permanecen intactos.
+## B2
+Reutilizar M01–M04 y B7 de contratos/catálogo/backup/migración. No reprogramar owners ni repetir investigaciones V4.4 certificadas. Nuevos tests prueban fronteras integradas, no recuentan trabajo pasado como avance nuevo.
+## B3
+Mantener investigación externa de ficha original y auditoría final M01–M05: Android SSOT/UDF y navegación por IDs; SQLite single-owner transaction/receipts sin atomicidad multiDB; Slack Saved sólo referencia UX. Sin librería, API, egress ni coste nuevo. Alternativas fixtures sólo mocks DESCARTAR; SQLite real + hosts reales USAR; Android físico DIFERIR a campaña pactada.
+## B4
+Tres rutas exactas: v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkA3AcceptanceT2Test.kt; v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkA3UiAcceptanceTest.kt; .github/workflows/faro-v5-s3-a3-bookmark-acceptance-directed.yml.
+Matriz A3-01 default-deny/grants;02 Chat→review→confirm→receipt;03 CAS/replay/conflict;04 favorite/remove/restore;05 carpetas/root/no cascade;06 page50 y quotas32/1024;07 revoke/source archive/deletion/full-pointer ABA;08 cancel/identity/double-confirm;09 source navigation nueva + foco;10 fallo SQLite antes COMMIT y pérdida de autoridad después COMMIT/reopen;11 restore no concede autoridad (reusar certificación backup/migration intacta + nuevo read default deny);12 APK binario DEV aislado sin permisos ni shipping activo. Los 12 conjuntos se mapean a tests nuevos y certificados por SHA; no equivalen a 12 tests ni cierre físico.
+Pruebas usan Workspace/Auxiliary reales y sandbox facts simulados sólo fixture. Se permiten drivers SQL sólo en el test para inyectar rollback/archival/deletion y seed controlado de cuotas; no puerta SQL de producto. MaterialWriteGate existente inyecta pérdida de autoridad postcommit. No cambios de código M01–M04 por este permiso. Workflow on:push en rama precisa, XML sin skips, APK aapt+firma y hash exacto.
+## B5
+Auditar: preview no escribe ni concede mutación; token/cuerpo no llegan a ruta ni proyección; confirm one-shot y receipt Auxiliary; no Reality COMMITTED; page/recovery scopes separados; no retry automático de uncertainty; restauración/reopen exige gesto/grant nuevo; snapshot respaldado no concede autorización. Seed de cuotas jamás se usa como prueba de ACL: sólo llena metadatos en SQLite fixture y luego abre owner default-deny con host real request-bound para rechazo de 33/1025. Capturar excepción SQLite real y comparar snapshot pre/post. Main/V4.4/productiva/S4/Auto/Noche OFF; G15 NOT_RUN.
+Dictamen: delta acotado COMPATIBLE con las tres rutas propuestas; puede emitirse permiso individual documental separado. Resultado permitido al final: A3_AUTOMATED_READY_FOR_FINAL_PHYSICAL_CAMPAIGN, nunca A3 CLOSED por JVM/APK.
