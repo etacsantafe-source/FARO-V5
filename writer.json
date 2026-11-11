@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.S3A3.READ_HOST_B7_PASS.20261110",
   "token_hash": "495cd4a6a924d75dd6d2fd4a5ae62f7f854a8879510b1f5b4d5f971c30e24fd0",
-  "target_head": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
+  "target_head": "63822a6965d0674036ecedcedbbf044cd1190a3f",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 689,
-  "timestamp": 1794359170,
-  "last_checkpoint": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
-  "purpose": "S3_A3_BOOKMARK_READ_HOST_NATIVE_B7_PASS_DOCS_ONLY"
+  "epoch": 690,
+  "timestamp": 1794359520,
+  "last_checkpoint": "63822a6965d0674036ecedcedbbf044cd1190a3f",
+  "purpose": "S3_A3_NATIVE_READ_HOST_B7_PASS_CHECKPOINT_RELEASED"
 }
