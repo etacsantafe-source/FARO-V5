@@ -3,10 +3,10 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-11",
+  "updated_local_date": "2026-11-10",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_OPEN_BOOKMARK_READ_HOST_PREAUDIT_READY",
+  "phase": "S3_OPEN_BOOKMARK_READ_HOST_NATIVE_B7_PASS",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 685
+    "expected_release_epoch": 690
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
+  "handoff": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_PASS_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify READY preflight then S3_A3_BOOKMARKS_READ_HOST_NATIVE B6/B7; mutation/navigation remain separate",
-  "checkpoint_status": "CATALOG180_B7_PASS_READ_HOST_B1_B5_READY",
-  "notes": "Historical approximation S3 development ~40% (35-45) is not a mathematically measured percentage. At closure S3.A2 5/5 scoped gates and 1/5 S3 stages in automated development scope; integrated A5 acceptance/phone NOT_RUN. Older nested historical handoffs are snapshots and should not override current next/checkpoint.",
-  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B1_B5_20261111.md",
-  "last_code_sha": "f5adb85d149f3067dd6342eb31e44d1e202bf834",
-  "last_ci_run_id": 42927956001,
+  "next": "S3.A3 remains OPEN: independently preaudit B1-B5 for explicit Guardados mutation/Review and exact source navigation; new bounded docs-only permit before code. A5 integrated X01–X12 and G15 physical final campaign NOT_RUN.",
+  "checkpoint_status": "S3_A3_NATIVE_READ_HOST_19_19_B7_PASS_SCOPED_A3_OPEN",
+  "notes": "S3.A3 native read-only DEV B7 PASS at a6f9a6b7 (19/19 and APK); full A3 still open due mutation/navigation and integrated physical tests. S3 approximate development 40% historical heuristic NOT mathematically remeasured; formal closure indicators follow exact verified scopes only. Do not repeat prior certified units.",
+  "last_handoff": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_PASS_20261111.md",
+  "last_code_sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
+  "last_ci_run_id": 42935422794,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -70,6 +70,17 @@
       "ci": 42927956001,
       "status": "B7_PASS_SCOPED",
       "document": "docs/s3-night/S3_A3_BOOKMARKS_CATALOG_B7_PASS_20261111.md"
+    },
+    "read_host_native": {
+      "status": "B7_PASS_SCOPED_DEV_READ_ONLY",
+      "code_sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
+      "ci_run_id": 42935422794,
+      "guard_run_id": 42935422815,
+      "xml": "6/6 real host + 3/3 presentation + 10/10 local read = 19/19",
+      "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_PASS_20261111.md",
+      "physical": "NOT_RUN",
+      "mutation_ui": "NOT_MOUNTED",
+      "exact_navigation": "NOT_MOUNTED"
     }
   },
   "night_v22": {
@@ -124,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_4_4_SPEC_FRESH_ORIGINAL172_PRESERVED",
+  "last_ci_conclusion": "SUCCESS_19_OF_19_XML_NATIVE_DEV_APK_AND_PROTOCOL_GUARD",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -1070,7 +1081,7 @@
   },
   "s3_a1_stage_status": "CLOSED_AUTOMATED_SCOPE_UI_SHELL_ONLY_PENDING_A3_A4_A5",
   "a3_checkpoint": {
-    "status": "OPEN_BACKUP_PORTABILITY_MUTATION_AND_WORKSPACE_CORE_B7_PASS",
+    "status": "OPEN_NATIVE_READ_ONLY_B7_PASS_MUTATION_NAVIGATION_PENDING",
     "unit": "S3_A3_BOOKMARKS_AUXILIARY_CAS_RECEIPTS",
     "code_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
     "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_AUX_CAS_RECEIPTS_B7_PASS_20261110.md",
@@ -1081,11 +1092,11 @@
     "home_run": 42729312050,
     "contracts_run": 42720699353,
     "schema_run": 42726963284,
-    "catalog_current": 172,
+    "catalog_current": 180,
     "eight_operations": "APPROVED_CONTRACTS_NOT_MOUNTED",
     "authority": "REAL_WORKSPACE_READ_CORE_B7_PASS_NOT_HOST_BOUND",
     "backup_restore": "B7_PASS_SCOPED",
-    "ui": "NOT_MOUNTED",
+    "ui": "DEV_READ_ONLY_MOUNTED_19_19_NOT_PRODUCTION_MUTATION_NAVIGATION_PENDING",
     "physical": "NOT_RUN",
     "next": "S3.A3 Guardados: preauditoría B1–B5 de backup/restauración y portabilidad Auxiliary; verificar dependencia ACL/generación y emitir permiso documental propio antes de código. No repetir CAS/recibos 8/8 ni esquema v3; continuar unidades pendientes autorizadas después.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
@@ -1105,7 +1116,18 @@
     "workspace_authority_code_sha": "7b7875b306f62ec253e4268f820c04ab87fcefe9",
     "workspace_authority_ci_run": 42925035151,
     "workspace_authority_b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_WORKSPACE_AUTHORITY_B7_PASS_20261110.md",
-    "catalog_registration_authorization": "USER_EXPLICIT_20261109T175103Z_EIGHT_IDS_ONLY_AFTER_B1_B5_B7_CAS"
+    "catalog_registration_authorization": "USER_EXPLICIT_20261109T175103Z_EIGHT_IDS_ONLY_AFTER_B1_B5_B7_CAS",
+    "read_host_native": {
+      "status": "B7_PASS_SCOPED_DEV_READ_ONLY",
+      "code_sha": "a6f9a6b7b52117de2ce0d668f155ca4cac4a6541",
+      "ci_run_id": 42935422794,
+      "guard_run_id": 42935422815,
+      "xml": "6/6 real host + 3/3 presentation + 10/10 local read = 19/19",
+      "b7_doc": "docs/s3-night/S3_A3_BOOKMARKS_READ_HOST_B7_PASS_20261111.md",
+      "physical": "NOT_RUN",
+      "mutation_ui": "NOT_MOUNTED",
+      "exact_navigation": "NOT_MOUNTED"
+    }
   },
   "a4_checkpoint": {
     "status": "CLOSED_AUTOMATED_SCOPE_READ_ONLY_DEV",
