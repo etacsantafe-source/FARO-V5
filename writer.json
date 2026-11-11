@@ -1,12 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.A3.FINAL_AUDIT.20261111",
-  "token_hash": "c6cda7ab43db3757674c48ecb263f42ca913277c23f6cbe7bd30e38f26c4c922",
-  "target_head": "93fd1d775d6cced8bb8665a7df6a94ea5bde7800",
-  "target_branch": "work/s3-night-20261102",
-  "epoch": 696,
-  "timestamp": 1794396845,
-  "purpose": "DOC_ONLY_A3_FINAL_AUDIT_RELEASED",
-  "last_checkpoint": "cffd67de3ccfaa89c9f19648069ab69a5dbf2c5b"
-}
+{"schema":1,"status":"HELD","owner":"FARO.WORK.A3.M01.20261111","token_hash":"d4bfaa59a174a617a735d530c6c3b7c3f52523e339c4e8738436e2cd2fedad10","target_head":"cffd67de3ccfaa89c9f19648069ab69a5dbf2c5b","target_branch":"work/s3-night-20261102","epoch":697,"timestamp":1794397238}
