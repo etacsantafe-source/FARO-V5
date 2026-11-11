@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "goal_id": "S3.A5.7",
+  "package_id": "A5-X03-U01-CONSULT-DEV-20261111",
+  "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+  "branch": "work/s3-night-20261102",
+  "base_head_sha": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
+  "version": 1,
+  "status": "PREAUDITED_AWAITING_INDIVIDUAL_READY_PERMIT",
+  "depends_on": [
+    "S2_F1_REAL_AI_ISOLATED:PASS_SCOPED",
+    "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS"
+  ],
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
+    "blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "reviewed_exact_sources": {
+    "dev_activity": "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "dev_manifest": "v5/app/src/v2CoreDev/AndroidManifest.xml",
+    "surface": "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "real_ai_isolated": "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5TrustedModelGatewayFactory.kt",
+    "f1_host": "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5QuarantinedV2ChatHostBinding.kt"
+  },
+  "allowed_functional_paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X03ExplicitConsultUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml"
+  ],
+  "safe_subunit_outcome": "X03_U01_PASS_SCOPED_EXPLICIT_UI_NO_REMOTE_NOT_X03_GLOBAL",
+  "test_cases": [
+    "explicitSavedUserTurnRequiresSeparateConsultClickAndNoDoubleDispatch",
+    "localV2DevNoInternetNoImplicitModelOrApplyAfterRecreate"
+  ],
+  "acceptance": {
+    "android_emulator_api": 35,
+    "tests_expected": 2,
+    "required_markers": [
+      "OK (2 tests)",
+      "INSTRUMENTATION_CODE: -1",
+      "S3_A5_7_X03_EXPLICIT_CONSULT_UI_PASS 2/2"
+    ],
+    "manifest_v2coredev_internet_permission": "MUST_BE_ABSENT",
+    "ci": "directed Android + protocol guard same SHA; XML failures=errors=skipped=0; APK artifacts",
+    "b7": "AFTER_CI_ONLY"
+  },
+  "workflow_template": ".github/workflows/faro-v5-s3-a5-7-compose-chat-android-directed.yml",
+  "forbidden": [
+    "change v2CoreDev manifest Internet deny",
+    "enable Groq in v2coredev",
+    "enable V2 production",
+    "change main or V4.4",
+    "change S2 behavior by default",
+    "fake model answer as real PASS",
+    "change Apply/Reality/owners",
+    "Moto G15 physical before final"
+  ],
+  "next_action": "After documental READY+preflight, Work programs only 4 paths, CI XML/APK, B7; then X03 U02 must separately preaudit real isolated AI admission."
+}

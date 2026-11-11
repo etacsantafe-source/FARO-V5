@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_EXECUTION_ORDER_APPROVED_X03_NEXT",
+  "phase": "S3_A5_7_X03_U01_PREAUDIT_WORK_TURBO",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 734
+    "expected_release_epoch": 735
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "APROBADO PLAN S3.A5.7: X03 → X09 → X10 → X01 → X02 → X06 → X08 → X12 → aceptación X01–X12 → una única campaña física G15. Leer docs/s3-night/S3_A5_7_EXECUTION_ORDER_V1_20261111.md. Próximo X03 B1–B5 PREAUDIT; permiso BLOCKED, emitir READY individual antes de código. Conservar B7 PASS acotados X04/X05 X07/X11. Main/V2 productiva/S4/Auto/Noche OFF.",
-  "checkpoint_status": "A3_DONE_AUTOMATED_A5_X04_X05_B7_PASS_ORDER_X03_NEXT_NO_CODE_PERMIT",
+  "next": "Work Turbo: X03 U01 documented B1–B5 in docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md (blob f726eacaa302778405320d8707fa94476a0c0acb); package docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json; permit still BLOCKED until separate READY documentary permit and preflight. Then Work B6/CI/B7 exact 4 paths; X03 global remains OPEN, U02 isolated live AI needs new preaudit. Afterwards X09→X10→X01→X02→X06→X08→X12. Moto G15 physical final only.",
+  "checkpoint_status": "X03_U01_B1_B5_PREAUDITED_PERMIT_BLOCKED_AWAITING_READY_AND_GUARD",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 734,
+  "last_writer_epoch_observed": 735,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "READY",
   "expected_head": "c2cfaa61d037bff797ce61e71e57ff7c6f710dde",
   "blocker": null,
-  "writer_release_epoch": 734,
+  "writer_release_epoch": 735,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2239,7 +2239,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A3_M01_M05_B7_PASS_A5_X04_X05_B7_PASS_A5_X_ORDER_APPROVED",
+  "checkpoint": "S3_A5_X03_U01_B1_B5_PREAUDITED_WORK_TURBO_A3_M01_M05_PASS_X04_X05_PASS",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2348,5 +2348,29 @@
     "baseline_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
     "baseline_b7_android_run": 43084379020,
     "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
+  },
+  "work_turbo_20261111": {
+    "status": "DOCUMENTED_PREAUDIT_X03_U01_AWAITING_INDIVIDUAL_PERMIT",
+    "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
+    "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
+    "package_blob_sha": "5ca65dcdbc6c2c455e3a61f3012dad45707d7a2c",
+    "b1_b5": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
+    "b1_b5_blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
+    "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
+    "allowed_functional_paths": [
+      "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+      "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+      "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X03ExplicitConsultUiTest.kt",
+      ".github/workflows/faro-v5-s3-a5-7-x03-consult-android-directed.yml"
+    ],
+    "next_action": "X03_U01_DOCUMENT_ONLY_READY_PERMIT_THEN_WORK_B6",
+    "next_units": [
+      "X03_U02_REAL_AI_ISOLATION",
+      "X09_REVIEW",
+      "X10_APPLY_RECEIPTS"
+    ],
+    "physical": "NOT_RUN_FINAL_G15_ONLY",
+    "source_limit": "V2_CORE_DEV_MANIFEST_EXPLICIT_INTERNET_REMOVE_AND_AI_SETTINGS_REMOVE",
+    "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13"
   }
 }
