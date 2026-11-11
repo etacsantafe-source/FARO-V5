@@ -42,18 +42,19 @@ internal class FaroV5BookmarkMutationHostBinding(
     suspend fun mutateAuthorized(request: BookmarkMutationRequest, consentTarget: BookmarkTarget?): FaroV5BookmarkMutationOutcome {
         lease = null
         if (!live()) return FaroV5BookmarkMutationOutcome.Unavailable
-        val initial = authority?.epochOrNull(principal, request, consentTarget)
+        val access = authority ?: return FaroV5BookmarkMutationOutcome.Unavailable
+        val initial = access.epochOrNull(principal, request, consentTarget)
             ?: return FaroV5BookmarkMutationOutcome.Unavailable
         var enteredOwner = false
         return try {
             val before = workspace.bookmarkReadAdmission()
             fun current() = runCatching {
-                live() && authority.epochOrNull(principal, request, consentTarget) == initial &&
+                live() && access.epochOrNull(principal, request, consentTarget) == initial &&
                     workspace.bookmarkReadAdmission() == before
             }.getOrDefault(false)
             if (!current()) return FaroV5BookmarkMutationOutcome.Unavailable
             val gate = FaroV5WorkspaceBookmarkMutationAuthorityGate(workspace, pinned, pointer,
-                request, initial, { r, target -> authority.epochOrNull(principal, r, target) }, ::current)
+                request, initial, { r, target -> access.epochOrNull(principal, r, target) }, ::current)
             enteredOwner = true
             val result = auxiliary.bookmarkMutatorForTrustedHost(gate).mutate(request)
             // Cross-owner atomicity is not claimed. A committed effect with lost authority is unknown.

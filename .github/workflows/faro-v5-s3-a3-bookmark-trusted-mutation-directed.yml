@@ -72,7 +72,7 @@ jobs:
               'FaroV5WorkspaceBookmarkAuthorityGateTest':6,
               'FaroV5WorkspaceBookmarkMutationAuthorityGateTest':5,
               'FaroV5LocalInstallBookmarkMutationAuthorityT2Test':5,
-              'FaroV5BookmarkMutationHostBindingT2Test':6,
+              'FaroV5BookmarkMutationHostBindingT2Test':7,
               'FaroV5BookmarkReadHostBindingT2Test':6,
           }
           files = list(Path('v5').glob('**/build/test-results/*/TEST-*.xml'))

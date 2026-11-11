@@ -23,6 +23,7 @@ class FaroV5BookmarkMutationHostBindingT2Test {
         var hostReady = true
         var hostEpoch: String? = "host-a"
         var onForeground: () -> Boolean = { foreground }
+        var afterWrite: () -> Unit = {}
         val token get() = workspace.bookmarkReadAdmission().authorityToken
         val authority: FaroV5LocalInstallReadAuthority
         val principal: String
@@ -59,7 +60,14 @@ class FaroV5BookmarkMutationHostBindingT2Test {
                                     pinned.generationId.value, token), BookmarkFolderId("folder"), true)))))
                 }
             }
-            auxiliary = AuxiliaryDeliveryStore(path)
+            auxiliary = AuxiliaryDeliveryStore(path, materialWriteGate = object : MaterialWriteGate {
+                override fun <T> withMaterialWrite(block: () -> T): T {
+                    val result = block()
+                    afterWrite() // Deterministic owner-return boundary AFTER the SQL COMMIT.
+                    return result
+                }
+                override fun <T> withQuiescedMaterialWrites(block: () -> T): T = block()
+            })
             val sandbox = FaroV5AndroidSandboxPrincipal(
                 expectedApplicationId = "ar.com.faro.alpha.v2coredev",
                 pinned = pinned, activePointer = pointer,
@@ -171,6 +179,24 @@ class FaroV5BookmarkMutationHostBindingT2Test {
             val result = runBlocking { host.mutateAuthorized(r,t) }
             assertFalse(result is FaroV5BookmarkMutationOutcome.Saved)
             assertEquals(before, f.auxiliary.backup.snapshot()); host.close()
+        }
+    }
+    @Test fun postCommitRevokeIsUnknownAndFreshConsentReconcilesWithOneReceipt() {
+        Case("after-commit").use { f ->
+            val r = f.request(); val t = f.target(); f.consent(r,t)
+            f.host().use { host ->
+                f.afterWrite = { f.mutationAuthority.revokeAll() }
+                assertEquals(FaroV5BookmarkMutationOutcome.UnknownReconcile, runBlocking { host.mutateAuthorized(r,t) })
+                val committed = f.auxiliary.backup.snapshot()
+                assertEquals(3L, committed.bookmarks!!.scope!!.revision)
+                assertEquals(3, committed.bookmarks!!.receipts.size)
+                f.afterWrite = {}
+                assertTrue(f.consent(r,t))
+                val replay = assertInstanceOf(FaroV5BookmarkMutationOutcome.Saved::class.java,
+                    runBlocking { host.mutateAuthorized(r,t) })
+                assertTrue(replay.replayed); assertEquals(3L,replay.revision)
+                assertEquals(committed,f.auxiliary.backup.snapshot())
+            }
         }
     }
     @Test fun closedOwnersAndAbaCannotPublishOrWrite() {
