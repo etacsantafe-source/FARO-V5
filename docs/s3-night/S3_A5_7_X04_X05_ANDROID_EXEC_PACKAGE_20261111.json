@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "goal_id": "S3.A5.7",
+  "package_id": "A5-X04-X05-ANDROID-20261111",
+  "unit_id": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
+  "branch": "work/s3-night-20261102",
+  "base_head_sha": "1901aa8a0b09350c4cf7cce0cb107d3303256637",
+  "version": 1,
+  "status": "PREAUDITED_AWAITING_SEPARATE_PERMIT",
+  "depends_on": [
+    "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS",
+    "S3_A3_BOOKMARKS_EXACT_SOURCE_NAV_DEV:B7_PASS"
+  ],
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_B1_B5_20261111.md",
+    "blob_sha": "6fc47e6cc711e68e4770e26ebb4b96e1eb6b134a",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "reviewed_real_code": {
+    "activity": "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "native_bookmarks": "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
+    "chat_action": "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5BookmarkActionSurface.kt",
+    "focus": "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5MessageTimeline.kt"
+  },
+  "allowed_functional_paths": [
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57BookmarksUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-bookmarks-android-directed.yml"
+  ],
+  "functional_changes": "TEST_ONLY; no production/Gradle/manifest/schema/capability alterations",
+  "expected_tests": [
+    "x04NativeComposeSaveReopenExactOriginalSource",
+    "x05RemoveRestoreRequiresNewForegroundReadGrant"
+  ],
+  "acceptance": {
+    "android_emulator_api": 35,
+    "expected_instrumentation_tests": 2,
+    "required_output": [
+      "OK (2 tests)",
+      "INSTRUMENTATION_CODE: -1",
+      "S3_A5_7_X04_X05_BOOKMARKS_ANDROID_PASS 2/2"
+    ],
+    "required_ci": "directed Android + protocol guard exact SHA; signed DEV APK",
+    "b7": "INDEPENDENT_ONLY_AFTER_REAL_CI"
+  },
+  "forbidden": [
+    "main",
+    "V4.4",
+    "V2 productive",
+    "S4",
+    "Auto/Night",
+    "paid APIs",
+    "new catalogue operations",
+    "production code changes",
+    "Moto G15 physical before final campaign",
+    "reuse A3 CI as new tests"
+  ],
+  "next_action": "After documentation CI PASS, issue separate READY permit by CAS. Work B6 only permitted two paths; verify emulator, B7 and writer RELEASED."
+}
