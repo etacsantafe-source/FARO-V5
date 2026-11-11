@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -78,16 +79,29 @@ class FaroV5S3A57X03ExplicitConsultUiTest {
                 IdempotencyKey(UUID.randomUUID().toString())) is ConversationSelectionResult.Saved) }
             val composer = FaroV5ActiveChatComposerSession(generation, workspace, gate, pointer, ready)
             val read = FaroV5ActiveChatReadSession(generation, workspace, workspace, pointer, ready)
+            val delayNext = java.util.concurrent.atomic.AtomicBoolean(false)
+            val committedReceipt = java.util.concurrent.CountDownLatch(1)
+            val releaseReceipt = java.util.concurrent.CountDownLatch(1)
+            val delayedComposer = object : ConversationComposerPort by composer.port {
+                override suspend fun sendDraft(request: ConversationDraftSendRequest): ConversationTimelineWriteResult {
+                    val result = composer.port.sendDraft(request)
+                    if (delayNext.getAndSet(false)) {
+                        committedReceipt.countDown()
+                        check(releaseReceipt.await(30, java.util.concurrent.TimeUnit.SECONDS))
+                    }
+                    return result
+                }
+            }
             val calls = CopyOnWriteArrayList<ConversationAcceptedUserTurn>()
             val dispatch = ConversationAssistantTurnDispatchPort { turn, _ -> calls.add(turn); true }
             fun mount(explicit: Boolean) = rule.runOnUiThread {
                 if (explicit) FaroV5SurfaceHost.install(rule.activity,
                     workspaceReadPort = read.workspaceReadPort, timelineReadPort = read.timelineReadPort,
-                    selectionPort = selection.port, composerPort = composer.port,
+                    selectionPort = selection.port, composerPort = delayedComposer,
                     assistantTurnPort = dispatch, assistantRequestMode = FaroV5AssistantRequestMode.EXPLICIT_CONSULT)
                 else FaroV5SurfaceHost.install(rule.activity,
                     workspaceReadPort = read.workspaceReadPort, timelineReadPort = read.timelineReadPort,
-                    selectionPort = selection.port, composerPort = composer.port, assistantTurnPort = dispatch)
+                    selectionPort = selection.port, composerPort = delayedComposer, assistantTurnPort = dispatch)
             }
             mount(true)
             val body = "X03-explicit-${UUID.randomUUID()}"
@@ -116,6 +130,25 @@ class FaroV5S3A57X03ExplicitConsultUiTest {
             rule.activityRule.scenario.recreate()
             mount(true)
             waitForEditor()
+            rule.onAllNodesWithText("Consultar FARO").assertCountEquals(0)
+            assertEquals(1, calls.size)
+            // Delay the actual durable receipt across PAUSE -> RESUME without disposal.
+            delayNext.set(true)
+            val delayedBody = "X03-late-${UUID.randomUUID()}"
+            val editors = rule.onAllNodes(hasSetTextAction())
+            editors[editors.fetchSemanticsNodes().lastIndex].performTextInput(delayedBody)
+            rule.onNodeWithText("Enviar").performClick()
+            assertTrue(committedReceipt.await(15, java.util.concurrent.TimeUnit.SECONDS))
+            rule.activityRule.scenario.moveToState(androidx.lifecycle.Lifecycle.State.STARTED)
+            rule.activityRule.scenario.moveToState(androidx.lifecycle.Lifecycle.State.RESUMED)
+            releaseReceipt.countDown()
+            rule.waitUntil(15_000) {
+                runCatching {
+                    val current = rule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes()
+                    current.last().config[SemanticsProperties.EditableText].text.isEmpty() &&
+                        rule.onAllNodesWithText(delayedBody, useUnmergedTree = true).fetchSemanticsNodes().size == 1
+                }.getOrDefault(false)
+            }
             rule.onAllNodesWithText("Consultar FARO").assertCountEquals(0)
             assertEquals(1, calls.size)
             // Existing callers omit the new parameter: retain AUTOMATIC_ON_SEND.

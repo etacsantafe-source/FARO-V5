@@ -390,6 +390,7 @@ private fun FaroV5ActiveChatScreenSession(
                         if (!busy && !uncertain && !attachmentBusy && pendingTextAttachment == null &&
                             activeConversationId == submitted.persisted.conversationId) {
                             pendingConsult = null
+                            val sendEpoch = consultEpoch
                             scope.launch {
                                 busy = true
                                 message = null
@@ -444,7 +445,7 @@ private fun FaroV5ActiveChatScreenSession(
                                                             )
                                                             if (assistantRequestMode == FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND) {
                                                                 dispatchAccepted(accepted)
-                                                            } else if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                                                            } else if (sendEpoch == consultEpoch && lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
                                                                 // Saved snapshot came from the canonical owner, not the draft.
                                                                 pendingConsult = sendResult.snapshot
                                                             }
