@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "package_id": "A3-M03-DEV-20261111",
+  "goal_id": "S3.A3",
+  "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+  "branch": "work/s3-night-20261102",
+  "base_head_sha": "0be0d38988291bcb3effa30a7e8e70b8cea53439",
+  "status": "READY_FOR_IMPLEMENTATION",
+  "version": 1,
+  "depends_on": [
+    "S3_A3_BOOKMARKS_TRUSTED_MUTATION_HOST_DEV:B7_PASS_649d3f08",
+    "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV:B7_PASS_c04a1997"
+  ],
+  "prep_documents": [
+    {
+      "path": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_B1_B5_20261111.md",
+      "blob_sha": "729e56f1a56c42c2801c5dcd3bbaba86e154754d"
+    },
+    {
+      "path": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
+      "blob_sha": "0e49d9b128945d232960c8b46a83facc20d16d2b"
+    }
+  ],
+  "prep_stages": {
+    "B1": "VERIFIED",
+    "B2": "VERIFIED",
+    "B3": "VERIFIED",
+    "B4": "VERIFIED",
+    "B5": "VERIFIED"
+  },
+  "source_gap": "ACTIVE reader and M02 reviewSnapshot exclude REMOVED; closed app loses ID. Need exact lookup and separately gated opt-in REMOVED page <=50, no default tombstone exposure.",
+  "contract": "Single SQLite+ownerLock metadata-only exact lookup and opt-in recovery page; scopeRevision canonical, Workspace target/source valid, dual read grants and host epoch + generation fences, no mutation before separate Confirm; M01 request-bound CAS restore; default ACTIVE port/portability unchanged.",
+  "allowed_functional_paths": [
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarkFolderControls.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevBookmarksPresentation.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFoldersDevTest.kt",
+    ".github/workflows/faro-v5-s3-a3-bookmark-folders-directed.yml",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkStore.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBookmarkRemovedRestoreLookupTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkReadHostBinding.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFolderActionBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkRemovedRestoreHostT2Test.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/FaroV5BookmarkFolderActionBindingT2Test.kt"
+  ],
+  "forbidden": [
+    "main",
+    "V4.4",
+    "V2 production",
+    "S4",
+    "Auto",
+    "Night",
+    "paid APIs",
+    "new BookmarkContracts operations or schema",
+    "backup/portability exposures",
+    "Reality Apply/COMMITTED/Undo",
+    "new owner/DB",
+    "G15 physical before final campaign"
+  ],
+  "work_steps": [
+    "Recover HEAD+lock+permit and 13-path exact preflight; do not repeat M01/M02 research",
+    "Implement exact removed-ID and opt-in paginated <=50 metadata read in Auxiliary under same owner lock+Workspace ACL",
+    "Extend read host with dual grants/generation/source/pointer/epoch and explicit recovery leases",
+    "Native DEV folder controls and action binding for approved typed mutation; review visible, grant only after Confirm",
+    "Test removed after reopen, wrong token/generation/revoke, full-page denied on unauthorized, stale/ABA/double click, quotas and FolderDelete no cascade",
+    "Directed GitHub on:push CI run, verify XML/APK exact SHA, protocol guard and independent B7; checkpoint and release"
+  ],
+  "acceptance": [
+    "ACTIVE read and portability remain REMOVED-blind; reading recovery does not produce scope/receipt/write",
+    "After closing/reopening app, explicit Ver quitados lists recoverable REMOVED entries (<=50) under foreground grant and exact ID lookup before Restore",
+    "Restore only after fresh human confirm; M01 request-bound grant; LifecycleSet(ACTIVE) same ID CAS receipt; no duplicate Add",
+    "Wrong scope/generation/token/ACL/source archived/removed/pointer ABA/host closed yields Unavailable with zero ID/content leak",
+    "Revocation of any candidate in page yields Unavailable whole page, never count/hasMore leak; bounded pagination 50+1",
+    "Concurrent change during preview returns Stale and requires new Review; no automatic retry; unknown post COMMIT -> pending verify",
+    "FolderCreate/Rename/Delete/Assign/Favorite/Remove respect same CAS, quotas, root null, no cascade",
+    "CI XML 0 failures/errors/skipped + DEV APK real and protocol seven-block-evidence SUCCESS same SHA, B7 verified writer RELEASED"
+  ],
+  "workflows": [
+    ".github/workflows/faro-v5-s3-a3-bookmark-folders-directed.yml",
+    ".github/workflows/faro-v5-protocol-guard.yml"
+  ],
+  "ci_trigger": "on: push exact branch with paths including Auxiliary and DEV, workflow_dispatch not default-only fallback",
+  "evidence_reuse": {
+    "M01_code": "649d3f08ec7d6a14dea4869ad84603408dbee953",
+    "M01_tests": "64/64",
+    "M01_run": 43016377617,
+    "M02_code": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
+    "M02_tests": "12/12",
+    "M02_run": 43029315832,
+    "M02_B7": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md"
+  },
+  "physical": "DEFER_TO_FINAL_MOTO_G15_CAMPAIGN",
+  "metrics": {
+    "mode": "MANUAL_PREP",
+    "functional_commits": 0,
+    "ci_runs_new": 0,
+    "tokens_observed": "NOT_MEASURED",
+    "duration_observed": "NOT_MEASURED"
+  },
+  "next_action": "Work implement B6 M03 only, inspect exact CI/XML/APK B7, then after B7 prepare M04 individual permit. Do not repeat M01/M02.",
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
+  "status_reason": "Original+delta B1–B5 committed separately, 13 paths exact, READY documentary permit; confirm guard PASS before functional commit."
+}

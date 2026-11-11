@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A3_M02_DONE_VERIFIED_M03_NEEDS_PREP",
+  "phase": "S3_A3_M01_M02_B7_PASS_M03_RECOVERY_DELTA_READY_B6_NOT_RUN",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 704
+    "expected_release_epoch": 705
   },
   "automation": {
     "activation_authorized": false,
@@ -40,13 +40,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
+  "handoff": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_EXEC_PACKAGE_20261111.json",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Prepare only M03 authorized REMOVED lookup delta B1-B5 + exact paths; documentary READY+guard/preflight before B6. Preserve M01/M02 B7. M04/M05 dependency blocked. Final G15 campaign only.",
-  "checkpoint_status": "M02_B7_PASS_12_XML_APK_M03_NEEDS_PREP",
+  "next": "M01/M02 DONE_VERIFIED; execute M03 with exact REMOVED ID lookup + user opt-in paged restore, 13-path READY, CI/XML/APK+B7 then M04 dependent. G15 at final.",
+  "checkpoint_status": "S3_A3_TWO_OF_FIVE_UNITS_DONE_M03_READY_13_PATHS_A3_OPEN",
   "notes": "M01 and M02 DONE_VERIFIED; M03 cannot restore REMOVED via available authorized ACTIVE readers. No M03 code or READY permit.",
-  "last_handoff": "docs/s3-night/S3_A3_M03_WORK_NEEDS_PREP_20261111.md",
+  "last_handoff": "docs/s3-night/S3_A3_M03_FOLDERS_LIFECYCLE_EXEC_PACKAGE_20261111.json",
   "last_code_sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
   "last_ci_run_id": 43029315832,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -2205,5 +2205,16 @@
     "ci_run_id": 43029315832,
     "guard_run_id": 43029315790,
     "artifact_id": 13860202834
+  },
+  "work": {
+    "status": "M01_M02_DONE_VERIFIED_M03_READY_FOR_B6",
+    "ready_for_implementation": 1,
+    "future_units_prepared_not_permitted": 2,
+    "active_unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+    "active_permit_paths": 13,
+    "base_head_sha": "0be0d38988291bcb3effa30a7e8e70b8cea53439",
+    "M03_delta": "docs/s3-night/S3_A3_M03_REMOVED_LOOKUP_DELTA_B1_B5_20261111.md",
+    "M03_implementation": "NOT_RUN",
+    "M03_physical": "FINAL_SINGLE_CAMPAIGN_ONLY"
   }
 }
