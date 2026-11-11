@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.X03_U02.20261111",
-  "token_hash": "51aca794bb2c5c5cac04205c2ca2eb96db4aca0a821412c536ce00bb394263c6",
-  "target_head": "fcfbe151f55561a70acc9fb552760d96cea30235",
+  "status": "HELD",
+  "owner": "FARO.CHAT.X09.WORK_CHAIN.PREPARATION.20261111",
+  "token_hash": "4902bb93881cd1a2e14157be23a8552b78bcc303dba8fcf3628c1dd2b2bce9b1",
+  "target_head": "c5e5e5bad2c50c2c6c0797442a1f09c89444391f",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 751,
-  "timestamp": 1794439637,
+  "epoch": 752,
+  "timestamp": 1794439160,
   "last_checkpoint": "c5e5e5bad2c50c2c6c0797442a1f09c89444391f",
-  "purpose": "X03_U02_B7_PASS_SCOPED_XML_APK_VERIFIED_PERMIT_CONSUMED_X09_READ_ONLY_PREP"
+  "purpose": "X09_B1_B5_AND_X10_CHAIN_PREP_DOCS"
 }
