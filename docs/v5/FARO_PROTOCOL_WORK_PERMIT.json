@@ -98,18 +98,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "c04a19971f8d610f221c3739961f4e8b3a0c2b22",
-    "unit_id": "S3_A3_BOOKMARKS_CHAT_REVIEW_DEV",
-    "result": "PASS",
+    "sha": "e9af6c03212425a192a819dca67bbbe1e96e7092",
+    "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
-        "blob_sha": "72dc00b51687ada29157f5b78eb46930168a71ae",
+        "path": "docs/s3-night/S3_A3_M03_WORK_B7_RED_FIX_1_20261111.md",
+        "blob_sha": "be02a66ee4e5805fe667fde8a19271d4112fed2c",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43029315832,
-    "guard_run_id": 43029315790
+    "ci_run_id": 43035393947,
+    "guard_run_id": 43035393537
   },
   "why": "M01/M02 B7 PASS. M03 RECOVERY: exact REMOVED lookup+user-initiated paged discovery, owner SQL/Workspace ACL, mutation-only consent M01; 13 bounded paths.",
   "how": "Original B1-B5 plus 20261111 delta, no schema/contracts/new owner; Auxiliary same connection/lock and canonical global CAS revision, metadata-only recovery <=50, dual grant+pointer/host epoch, no REMOVED in default ACTIVE or portability; directed XML APK and B7.",
