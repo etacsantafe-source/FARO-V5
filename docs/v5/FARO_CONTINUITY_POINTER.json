@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 736
+    "expected_release_epoch": 737
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Work EXECUTE X03 U01: B1–B5 verified docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md blob f726eacaa302778405320d8707fa94476a0c0acb; permit READY only S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV with four exact paths; run preflight, B6 scoped explicit consult UI NO INTERNET, directed API35 XML+APK, B7, checkpoint, RELEASED. Do not reopen A3/X04/X05/X07/X11. X03 U02 real AI requires separate B1–B5/permit; X09 etc queue after X03. No production V2, main, S4, Auto/Noche or G15 physical.",
-  "checkpoint_status": "X03_U01_READY_ONLY_B6_PENDING_X03_GLOBAL_OPEN",
+  "next": "Work execute X03 U01 scope only: permit READY, B1–B5 blob f726eacaa302778405320d8707fa94476a0c0acb, queue docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json READY; source baseline reviewed 92c25cf...; exact four paths, preflight first, B6/CI API35 XML 2/2 + APK/guard, B7, checkpoint, writer RELEASED. X03 remote real IA U02 distinct permit; global A5 OPEN, G15 only final.",
+  "checkpoint_status": "X03_U01_READY_PERMIT_AND_QUEUE_SYNCED_B6_NOT_RUN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "2d1007e8b0e557c716e95402dad5bd9fe638a433",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 736,
+  "last_writer_epoch_observed": 737,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "READY",
   "expected_head": "c2cfaa61d037bff797ce61e71e57ff7c6f710dde",
   "blocker": null,
-  "writer_release_epoch": 736,
+  "writer_release_epoch": 737,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2239,7 +2239,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X03_U01_B1_B5_READY_SCOPED_WORK_TURBO",
+  "checkpoint": "S3_A5_X03_U01_WORK_TURBO_READY_SYNCED_QUEUE",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2353,7 +2353,7 @@
     "status": "X03_U01_READY_EXECUTION_PENDING_B6",
     "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
     "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
-    "package_blob_sha": "5ca65dcdbc6c2c455e3a61f3012dad45707d7a2c",
+    "package_blob_sha": "4678f4610f819d94e6d09bde222b14a74fda37a4",
     "b1_b5": "docs/s3-night/S3_A5_7_X03_U01_EXPLICIT_CONSULT_B1_B5_20261111.md",
     "b1_b5_blob_sha": "f726eacaa302778405320d8707fa94476a0c0acb",
     "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
@@ -2374,6 +2374,9 @@
     "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
     "ready_unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
     "ready_reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
-    "functional_permission": "READY_ONLY_U01"
+    "functional_permission": "READY_ONLY_U01",
+    "queue_status": "READY_FOR_IMPLEMENTATION_VERIFIED_PERMIT",
+    "ready_permit_sha": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5",
+    "ready_guard_run": 43092315963
   }
 }

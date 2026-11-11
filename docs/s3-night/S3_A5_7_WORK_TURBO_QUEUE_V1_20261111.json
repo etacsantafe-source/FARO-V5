@@ -6,7 +6,7 @@
   "branch": "work/s3-night-20261102",
   "base_head_sha": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
   "version": 1,
-  "status": "PREAUDITED_AWAITING_INDIVIDUAL_READY_PERMIT",
+  "status": "READY_FOR_IMPLEMENTATION_VERIFIED_PERMIT",
   "depends_on": [
     "S2_F1_REAL_AI_ISOLATED:PASS_SCOPED",
     "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE:B7_PASS"
@@ -63,5 +63,9 @@
     "change Apply/Reality/owners",
     "Moto G15 physical before final"
   ],
-  "next_action": "After documental READY+preflight, Work programs only 4 paths, CI XML/APK, B7; then X03 U02 must separately preaudit real isolated AI admission."
+  "next_action": "Work executes B6 scoped 4 paths after revalidation of current head, writer CAS, and exact READY permit/preflight. No remote AI; X03 global OPEN.",
+  "ready_permit_sha": "28b05f610c419fb03eb07b86e2d8fd0a81c8def5",
+  "reviewed_head": "92c25cf7745ab4733b590e2eb27d511c47622718",
+  "last_verified_guard_run": 43092315963,
+  "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json"
 }
