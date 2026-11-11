@@ -1,1 +1,12 @@
-{"schema":1,"status":"RELEASED","owner":"FARO.WORK.X03.SCOPE_AUDIT.20261111","token_hash":"5d7a0558728d1cc55aa54448cf8c40556255895b316b2835cb9229560ea0d173","target_head":"20cf981a9c080e972da93a2bb6ecd3017223a8cc","target_branch":"work/s3-night-20261102","epoch":738,"timestamp":1794429582,"last_checkpoint":"237a6fda683f363846e2f4dc647ca2b6bc697a03","purpose":"NEEDS_PREP_SCOPE_PROPAGATION_DOCUMENTED_NO_FUNCTIONAL_CHANGE"}
+{
+  "schema": 1,
+  "status": "HELD",
+  "owner": "FARO.CHAT.X03_U01.SCOPE_DELTA.20261111",
+  "token_hash": "17c785f9947d39f314249be68ff4db8f7a11dd624e8da3ed0c91f162e5b475dc",
+  "target_head": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
+  "target_branch": "work/s3-night-20261102",
+  "epoch": 739,
+  "timestamp": 1794430450,
+  "last_checkpoint": "237a6fda683f363846e2f4dc647ca2b6bc697a03",
+  "purpose": "X03_U01_HOST_PROPAGATION_B1_B5_DELTA_DOCS"
+}
