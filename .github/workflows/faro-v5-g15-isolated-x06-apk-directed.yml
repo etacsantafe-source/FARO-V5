@@ -123,7 +123,8 @@ jobs:
           LAUNCH_PASS=0
           for attempt in $(seq 1 10); do
             RUNNING="$(adb shell pidof ar.com.faro.g15isolated.v2coredev 2>/dev/null | tr -d '\r' || true)"
-            adb shell uiautomator dump /sdcard/faro-g15-isolated-window.xml >/dev/null 2>&1 || true
+            echo "G15_SMOKE_ATTEMPT=$attempt PID=${RUNNING:-NONE}"
+            adb shell uiautomator dump /sdcard/faro-g15-isolated-window.xml > faro-g15-isolated-uidump.log 2>&1 || true
             adb shell cat /sdcard/faro-g15-isolated-window.xml > faro-g15-isolated-window.xml 2>/dev/null || true
             if [ -n "$RUNNING" ] && grep -Fq 'Abrir Chat local de desarrollo' faro-g15-isolated-window.xml; then
               LAUNCH_PASS=1
@@ -131,7 +132,20 @@ jobs:
             fi
             sleep 2
           done
-          test "$LAUNCH_PASS" -eq 1 || { echo "G15_ISOLATED_FIRST_LAUNCH_UI_FAIL"; adb logcat -d -v brief AndroidRuntime:E '*:S' | tail -n 100; exit 1; }
+          adb shell dumpsys activity activities > faro-g15-isolated-activity-status.txt 2>&1 || true
+          adb exec-out screencap -p > faro-g15-isolated-emulator.png 2>/dev/null || true
+          if [ "$LAUNCH_PASS" -ne 1 ]; then
+            echo "G15_ISOLATED_FIRST_LAUNCH_UI_FAIL"
+            echo "=== UIAUTOMATOR ==="
+            cat faro-g15-isolated-uidump.log || true
+            echo "=== UI TREE FIRST 1200 BYTES ==="
+            head -c 1200 faro-g15-isolated-window.xml || true
+            echo "=== ACTIVITY RELEVANT ==="
+            grep -F 'ar.com.faro.g15isolated.v2coredev' faro-g15-isolated-activity-status.txt | head -n 12 || true
+            echo "=== CRASH ==="
+            adb logcat -d -v brief AndroidRuntime:E '*:S' | tail -n 100 || true
+            exit 1
+          fi
           echo "G15_ISOLATED_FIRST_LAUNCH_UI_PASS"
           FARO_G15_SMOKE
       - name: Verify isolated DEV first launch and visible UI offline on Android API35
@@ -144,6 +158,18 @@ jobs:
           disable-animations: true
           emulator-boot-timeout: 600
           script: bash ./faro-g15-isolated-smoke.sh
+      - name: Preserve only synthetic emulator screen diagnostics on smoke failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-g15-isolated-x06-redfix-ui-diagnostics
+          path: |
+            faro-g15-isolated-launch.txt
+            faro-g15-isolated-window.xml
+            faro-g15-isolated-uidump.log
+            faro-g15-isolated-activity-status.txt
+            faro-g15-isolated-emulator.png
+          if-no-files-found: warn
       - name: Upload only verified app APK and public evidence, never androidTest
         uses: actions/upload-artifact@v4
         with:
