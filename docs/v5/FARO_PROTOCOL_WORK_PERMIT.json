@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
   "reviewed_head": "90cf36ca705b6ee9687d0680de0ae03ff3c38942",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,11 +72,11 @@
       }
     ]
   },
-  "why": "RED_FIX same-unit review of incorrect aapt dump xmltree CLI order before next functional commit; B1-B5 unchanged, exact single workflow path only.",
-  "how": "Fix aapt xmltree ordering within same workflow; resubmit GitHub Actions compile and verify APK; B7 independent exact-sha. No installation G15.",
+  "why": "Original workflow c0b2 B7 RED_FIX, corrected code 8f0e9128 guard SUCCESS 43247292472; directed Android build 43247292305 pending/in progress. No B7 PASS or new code authorization until exact CI log, artifact signing/hash/manifest verified.",
+  "how": "On next FARO manual turn: recover HEAD/writer, GitHub run 43247292305, inspect jobs/artifact, mark B7 PASS or RED_FIX; preserve original app and existing cert. No more code until B7 and new permit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "G15_X06_ISOLATED_DELIVERY_WAIT_CI_SHA_8f0e9128_B7_NOT_YET_VERIFIED",
   "needs_prep_document": null,
   "closure_document": null
 }
