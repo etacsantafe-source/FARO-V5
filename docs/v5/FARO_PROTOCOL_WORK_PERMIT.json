@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
   "reviewed_head": "f0dd44fa0007afe2b5f755f2a56c10518b45895b",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,11 +72,11 @@
       }
     ]
   },
-  "why": "UI smoke run 43268564709 failed 46s after successful APK install + am start Status ok, no AndroidRuntime fatal. Cause of failed PID/UI xml unknown because stdout suppressed. Permit scoped to diagnostic instrumentation, no runtime change.",
-  "how": "One workflow: emit process/UIAutomator diagnostics + screenshot of fresh emulator and upload diagnostic-only artifact on failure; preserve fail-closed assertions. CI exact SHA and B7, human G15 retest only after validated artifact.",
+  "why": "App identity checks code146aafb5 compiled and Activity launched Status ok on emulator via run43268564709 but strict PID+UIAutomator text condition FAIL without diagnostics; B7 RED_FIX. New workflow SHA8d24bbde captures PID/UI dump/dumpsys/screenshot and diagnostic-only artifact on failure. New run43270673659 still in_progress last seen; guard 43270673641 requires verification.",
+  "how": "Check run43270673659 exact SHA8d24bbde. If CI green verify script G15_ISOLATED_FIRST_LAUNCH_UI_PASS and APK signer/hash, B7. If red fetch diagnostics artifact screenshot+XML/process and fix only proven cause. Never install unverified APK. Existing G15 app stays installed local signer SHA7d01...; do not uninstall/clear data.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "G15_BOOT_EMULATOR_UI_DIAGNOSTIC_CI_RUN43270673659_WAIT_B7",
   "needs_prep_document": null,
   "closure_document": null
 }
