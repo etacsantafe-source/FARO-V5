@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.G15_X06_FIRST_LAUNCH_VISUAL_PASS.20261112",
-  "token_hash": "c0a42ce3dc98a3d4b69e4b1d3120a475b547c987f48b96d3e07a124e60c7a3ab",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.G15_NAVIGATION_5OF5_PHYSICAL.20261112",
+  "token_hash": "35d7e9a4d0a23bec70689a3d80c17d38f90e73c65a49d12b5b8400a4c6c9e573",
   "target_head": "272473b63900f22135f3d4653607922d3bc41948",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 829,
-  "timestamp": 1794507160,
+  "epoch": 830,
+  "timestamp": 1794507849,
   "last_checkpoint": "272473b63900f22135f3d4653607922d3bc41948"
 }
