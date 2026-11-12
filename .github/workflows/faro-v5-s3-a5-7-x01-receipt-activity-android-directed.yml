@@ -105,7 +105,7 @@ jobs:
           expected = "x01CanonicalRealityReceiptVisibleOnlyAfterForegroundReadAndRevokedOnPause"
           assert "OK (1 test)" in result
           assert "INSTRUMENTATION_CODE: -1" in result
-          assert re.findall(r"^INSTRUMENTATION_STATUS: test=(\w+)$", result, re.M) == [expected]
+          assert set(re.findall(r"^INSTRUMENTATION_STATUS: test=(\w+)$", result, re.M)) == {expected}
           assert len(re.findall(r"^INSTRUMENTATION_STATUS_CODE: 0$", result, re.M)) == 1
           suite = ET.Element("testsuite", name="S3_A5_7_X01_REAL_RECEIPT_ACTIVITY_Android_API35",
                              tests="1", failures="0", errors="0", skipped="0")
