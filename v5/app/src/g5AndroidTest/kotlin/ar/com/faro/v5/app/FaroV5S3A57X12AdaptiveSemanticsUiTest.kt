@@ -15,6 +15,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import ar.com.faro.v5.delivery.api.*
 import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
+import ar.com.faro.v5.surface.FaroV5SearchCoverage
+import ar.com.faro.v5.surface.FaroV5SearchSurfacePolicy
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -116,8 +119,8 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         assertTrue("unclipped target $bounds outside $viewport", bounds.left >= viewport.left &&
             bounds.top >= viewport.top && bounds.right <= viewport.right && bounds.bottom <= viewport.bottom)
         if (interactive) {
-            assertTrue("target width ${bounds.width}", bounds.width.value >= 48f)
-            assertTrue("target height ${bounds.height}", bounds.height.value >= 48f)
+            assertTrue("target width from $bounds", bounds.right.value - bounds.left.value >= 48f)
+            assertTrue("target height from $bounds", bounds.bottom.value - bounds.top.value >= 48f)
         }
     }
 
@@ -152,7 +155,16 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         rule.onAllNodesWithText("Ver resumen local").assertCountEquals(0)
     }
 
-    private fun searchWithoutGrant(expanded: Boolean) {
+    private fun session(): FaroV5V2CoreDevAuthority.Session {
+        var current: FaroV5V2CoreDevAuthority.Session? = null
+        rule.runOnUiThread {
+            current = rule.activity.javaClass.getDeclaredField("session").apply { isAccessible = true }
+                .get(rule.activity) as FaroV5V2CoreDevAuthority.Session
+        }
+        return requireNotNull(current)
+    }
+
+    private fun searchWithoutAuxiliaryGrant(expanded: Boolean, revokedExpected: Boolean) {
         navigate("Buscar", expanded)
         awaitText("Buscar en FARO")
         val field = rule.onNode(hasSetTextAction())
@@ -161,7 +173,16 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         val search = rule.onNode(hasText("Buscar") and buttonRole and hasClickAction())
         visible(search, true)
         search.performClick()
-        awaitText("Búsqueda no disponible. No se leyeron datos.")
+        if (revokedExpected) {
+            awaitText("Búsqueda no disponible. No se leyeron datos.")
+        } else {
+            // NEW native foreground host grants Search independently. Auxiliary is never a Search source.
+            val page = runBlocking { session().searchReadPort.search("X12") }
+            assertNotEquals(FaroV5SearchCoverage.UNAVAILABLE, page.coverage)
+            assertTrue("Auxiliary notice must not become a Search hit", page.hits.isEmpty())
+            awaitText(FaroV5SearchSurfacePolicy.message(page))
+        }
+        rule.onAllNodesWithText(secret).assertCountEquals(0)
         rule.onAllNodesWithText(publicText).assertCountEquals(0)
         assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
     }
@@ -175,7 +196,7 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         rule.activityRule.scenario.moveToState(Lifecycle.State.STARTED)
         rule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
         revoked()
-        searchWithoutGrant(false)
+        searchWithoutAuxiliaryGrant(false, true)
     }
 
     @Test fun x12ExpandedWindowNativeDrawerAndRestoredSourceIsolation() = configure(true) {
@@ -184,11 +205,13 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         navigate("Avisos", true)
         positive(true)
         evidence("expanded")
+        val oldSearch = session().searchReadPort
         rule.activityRule.scenario.recreate()
+        assertEquals(FaroV5SearchCoverage.UNAVAILABLE, runBlocking { oldSearch.search("X12") }.coverage)
         native("Abrir Chat local de desarrollo")
         // Saved destination remains Avisos; a generic Chat action cannot restore its source grant.
         revoked()
-        searchWithoutGrant(true)
+        searchWithoutAuxiliaryGrant(true, false)
         rule.activityRule.scenario.recreate()
         native("Consultar avisos registrados (DEV)")
         // Search may be restored; only the explicit Auxiliary gesture re-admits Avisos.
