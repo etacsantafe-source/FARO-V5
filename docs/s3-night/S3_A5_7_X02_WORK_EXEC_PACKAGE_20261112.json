@@ -3,7 +3,7 @@
   "branch": "work/s3-night-20261102",
   "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
   "base_head_sha": "b045237cb6a82451ad7c2f0eb861b6603b2ad51c",
-  "status": "PREAUDITED_WAIT_READY_AFTER_GUARD",
+  "status": "READY_FOR_B6_X02_FIVE_PATHS_AFTER_GUARD",
   "b1_b5": {
     "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
     "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
@@ -39,5 +39,8 @@
     "apk_hashes_required": true,
     "b7": "SCOPED_AUXILIARY_NOT_GLOBAL"
   },
-  "next_action": "Issue READY separate doc commit after guard; Work preflight all five paths, B6 API35 XML APK B7 then consume permit"
+  "next_action": "WORK_B6_EXACT_FIVE_PATHS_AFTER_HEAD_CAS_PREFLIGHT_API35_TWO_TESTS_XML_APK_B7",
+  "reviewed_head": "419ab7953e3a05694e892ca15f4ade98ffbccb2c",
+  "ready_review_guard_run": 43146940824,
+  "ready_permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json"
 }

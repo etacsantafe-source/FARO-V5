@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
-  "reviewed_head": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
+  "reviewed_head": "419ab7953e3a05694e892ca15f4ade98ffbccb2c",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X02AuxiliaryAvisosUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x02-auxiliary-avisos-android-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
-          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
+          "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
+          "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
           "marker": "## B1"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
-          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
+          "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
+          "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
           "marker": "## B2"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
-          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
+          "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
+          "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
           "marker": "## B3"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
-          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
+          "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
+          "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
           "marker": "## B4"
         }
       ]
@@ -49,23 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
-          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
+          "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
+          "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_ANDROID_API35_1_OF_1",
-    "B7": {
-      "status": "PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md",
-          "blob_sha": "0ea266e061b83debb7ca9df3118c68f90314b3db",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
@@ -86,8 +83,8 @@
     "artifact_id": 13907536117,
     "artifact_sha256": "98dc81adb03e8508e196ccfe72d278e578e52b2e04a0ec949074fb7ec97215c1"
   },
-  "why": "X01 real Reality COMMITTED receipt foreground Activity V2 DEV Android35 test-only B7 PASS scoped; permission consumed",
-  "how": "No further code permitted. X01 wider integration/A5 global and Moto G15 physical still OPEN. X02 needs distinct B1-B5 and READY.",
+  "why": "S3.A5.7 X02 Auxiliary Notice read-only DEV explicit trusted foreground grant independent of Activity/Pendientes. Audited B1-B5 doc at 419ab7953e3a05694e892ca15f4ade98ffbccb2c; five exact paths.",
+  "how": "Work B6: fetch current HEAD writer CAS and individual permit, execute preflight for ALL 5 paths. Add AUXILIARY_NOTICE read domain, V2DEV source-specific Session and native button, real Auxiliary owner read via createPinned; Android API35 new 2 tests exact, XML/APK hashes, guard, independent B7. No INTERNET or OS delivery, no USER data.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": "UNIT_COMPLETE_B7_PASS_SCOPED_PERMIT_CONSUMED",

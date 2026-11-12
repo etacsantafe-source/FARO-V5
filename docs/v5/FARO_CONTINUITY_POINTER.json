@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X02_B1_B5_PREAUDITED_X06_QUEUED_NIGHT",
+  "phase": "S3_A5_7_X02_READY_NIGHT_WORK_CHAIN_X06_PREAUDITED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 765
+    "expected_release_epoch": 766
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X01 B7 PASS scoped no repeat. X02 B1–B5 docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md blob e6568d7b8c10c98acb795f98adf0668146698136, package docs/s3-night/S3_A5_7_X02_WORK_EXEC_PACKAGE_20261112.json. 5 exact paths; issue individual READY after guard then Work B6+CI API35 2/2 XML/APK/B7. After X02 B7 X06 preaudit docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md blob 585a6276a6fffaeb8f7f7fbc3dd1153299749da2, 2 paths and separate READY; then X08/X12/Global. Do not re-run X01/X09/X10.",
-  "checkpoint_status": "X01_B7_PASS_SCOPED_X02_B1_B5_DOCS_PUBLISHED_WAIT_READY",
+  "next": "Work Turbo start X02 from docs/s3-night/S3_A5_7_X02_WORK_EXEC_PACKAGE_20261112.json, READY individual five paths audit docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md blob e6568d7b8c10c98acb795f98adf0668146698136 guard 43146940824 success. Preflight then B6 test and real owner Auxiliary read, CI Android API35 XML2/0/0/0 APK hashes, B7 and release. Then X06 preaudit docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md 2 paths needs separate READY after X02 B7. Then X08, X12, acceptance. U01/U02 X09/X10/X01 B7 PASS do not repeat.",
+  "checkpoint_status": "X02_INDIVIDUAL_READY_FIVE_PATHS_B6_NOT_STARTED_X06_PREP_ONLY",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 765,
+  "last_writer_epoch_observed": 766,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "PASS_SCOPED",
   "expected_head": "c3750034e95076d7f67a647bf2246a655a26bf1f",
   "blocker": null,
-  "writer_release_epoch": 765,
+  "writer_release_epoch": 766,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2238,7 +2238,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X01_B7_PASS_X02_X06_NIGHT_PREAUDITS",
+  "checkpoint": "S3_A5_X01_B7_PASS_X02_READY_WORK_NIGHT_X06_PREAUDITED",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2355,7 +2355,7 @@
     "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
   },
   "work_turbo_20261111": {
-    "status": "X01_DONE_X02_NIGHT_PREAUDIT_NEXT",
+    "status": "X02_READY_WORK_NIGHT_X06_NEXT",
     "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
     "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
     "package_blob_sha": "d4ef5ee5e31a095810f330a8cb755f8eb0bda327",
@@ -2371,7 +2371,7 @@
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
     ],
-    "next_action": "ISSUE_X02_INDIVIDUAL_READY_AFTER_GUARD",
+    "next_action": "WORK_B6_X02_AND_CHAIN_X06_AFTER_B7",
     "next_units": [
       "X03_U02_ISOLATED_DEBUG_PROVIDER_WIRING",
       "X03_LIVE_FREE_TIER_VERIFY_SEPARATE",
@@ -2382,7 +2382,7 @@
     "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
     "ready_unit_id": null,
     "ready_reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
-    "functional_permission": "BLOCKED_AWAIT_X02_READY",
+    "functional_permission": "READY_ONLY_X02_FIVE_PATHS",
     "queue_status": "U02_READY_IN_OWN_PACKAGE_U01_DONE",
     "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
     "ready_guard_run": 43113426305,
@@ -2614,7 +2614,7 @@
     "code_authorized": false
   },
   "work_chain_20261111": {
-    "status": "X01_DONE_X02_B1_B5_DOCS_NEXT_X06_PREAUDIT",
+    "status": "X01_DONE_X02_READY_WORK_NIGHT",
     "document": "docs/s3-night/S3_A5_7_WORK_CHAIN_MASTER_20261111.md",
     "doc_blob_sha": "1e08309a59ce6405c3a8cf51d054120fcc3d1b76",
     "queue": [
@@ -2650,7 +2650,7 @@
     "ready_unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
     "ready_reviewed_head": "6356a68b2f901904a362881d1f36d8ceba47649f",
     "guard_run_id": 43124499156,
-    "next_action": "X02_READY_AFTER_GUARD_THEN_WORK_B6_AND_X06",
+    "next_action": "WORK_B6_X02_FIVE_PATHS_THEN_X06_PREAUDIT",
     "execution_x09": {
       "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
       "code_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
@@ -2853,7 +2853,7 @@
     "v2_production": false
   },
   "night_work_chain_20261112": {
-    "status": "X02_B1_B5_PREAUDITED_X06_PREAUDITED_WAIT_X02_READY",
+    "status": "X02_READY_FOR_WORK_B6_X06_PREAUDITED_NEXT",
     "chain": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
     "chain_blob_sha": "45fb024a5a0c5c406f2cf36017d92792b3756024",
     "first_unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
@@ -2879,6 +2879,10 @@
       "GLOBAL",
       "G15_PHYSICAL_FINAL"
     ],
-    "guard_state": "PENDING"
+    "guard_state": "PENDING",
+    "first_ready_reviewed_head": "419ab7953e3a05694e892ca15f4ade98ffbccb2c",
+    "first_ready_guard_run": 43146940824,
+    "first_permission": "READY_ONLY_X02_FIVE_PATHS",
+    "next_action": "WORK_B6_X02_THEN_SEPARATE_X06_READY_AFTER_B7"
   }
 }
