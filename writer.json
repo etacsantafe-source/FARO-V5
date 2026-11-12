@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.X01.XMLFIX.20261111",
   "token_hash": "e5d546c57ca99e962ee31c883c747f75bcde1ddbc0c59b2c8a438bcb32af20a2",
   "target_head": "34f2b163af2a0815eeddec45ba5b77c701a75db9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 763,
-  "timestamp": 1794446770,
-  "purpose": "X01_RED_FIX_ONE_YAML_XML_START_END_CARDINALITY"
+  "timestamp": 1794446821,
+  "purpose": "X01_XML_RED_FIX_ONE_YAML_WAIT_CI_AND_B7",
+  "last_checkpoint": "a48c19708f469ede066ae0f31918ecf1bf3a69e2"
 }
