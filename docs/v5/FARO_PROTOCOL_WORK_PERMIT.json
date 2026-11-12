@@ -58,13 +58,13 @@
         }
       ]
     },
-    "B6": "PENDING_IMPLEMENTATION",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2da58971b2258218964abd4a31454adb2738ba98",
     "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
-    "result": "PASS_SCOPED",
+    "result": "PASS",
     "evidence": [
       {
         "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md",
@@ -73,7 +73,7 @@
       }
     ]
   },
-  "why": "X12 B7 PASS scoped exact SHA/artifact and guard43222061005 SUCCESS on ce8dd49; X06 four canonical owner search explicit B1-B5 audit with exact two new paths; independent unit, no inheritance.",
+  "why": "X12 B7 PASS scoped exact SHA/artifact and guard43222061005 SUCCESS on ce8dd49; X06 four canonical owner search explicit B1-B5 audit with exact two new paths; independent unit, no inheritance. Gate correction: B6 READY_TO_IMPLEMENT exact contract and prior X12 PASS (scope limited by B7 doc), no functional changes.",
   "how": "Preflight BOTH new paths; single Android API35 offline test one query four namespaces schema8; one workflow; 1/0/0/0 XML + APK identities/hashes/artifact and exact guard; B7 independent, consume permit, writer CAS release. Any fixture gap: STOP NEEDS_PREP; no production code/Internet/paid API/G15.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
