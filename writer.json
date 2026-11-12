@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_NAVIGATION_5OF5_PHYSICAL.20261112",
   "token_hash": "35d7e9a4d0a23bec70689a3d80c17d38f90e73c65a49d12b5b8400a4c6c9e573",
-  "target_head": "272473b63900f22135f3d4653607922d3bc41948",
+  "target_head": "37889f4a2b6600cd4820e6c6b015dcc0fb246595",
   "target_branch": "work/s3-night-20261102",
   "epoch": 830,
-  "timestamp": 1794507849,
-  "last_checkpoint": "272473b63900f22135f3d4653607922d3bc41948"
+  "timestamp": 1794507938,
+  "last_checkpoint": "37889f4a2b6600cd4820e6c6b015dcc0fb246595"
 }
