@@ -65,7 +65,11 @@ jobs:
           apk = apks[0]
           assert apk.stat().st_size > 1024
           def aapt(*args):
-              return subprocess.check_output([str(build_tools / "aapt"), "dump", *args, str(apk)], text=True)
+              if args[0] == "xmltree":
+                  command = [str(build_tools / "aapt"), "dump", "xmltree", str(apk), *args[1:]]
+              else:
+                  command = [str(build_tools / "aapt"), "dump", *args, str(apk)]
+              return subprocess.check_output(command, text=True)
 
           badging = aapt("badging")
           expected = "ar.com.faro.g15isolated.v2coredev"
