@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_A3_A4_BOUNDED_PHYSICAL_EVIDENCE.20261112",
   "token_hash": "885c1892fb48d0b26a7e0491432d9271a5f65cbb1e49ee8a0c7e9f066a346dd7",
-  "target_head": "37889f4a2b6600cd4820e6c6b015dcc0fb246595",
+  "target_head": "b892578e8793b44e92b646aa0c0d1704af382f05",
   "target_branch": "work/s3-night-20261102",
   "epoch": 831,
-  "timestamp": 1794510331,
-  "last_checkpoint": "37889f4a2b6600cd4820e6c6b015dcc0fb246595"
+  "timestamp": 1794510433,
+  "last_checkpoint": "b892578e8793b44e92b646aa0c0d1704af382f05"
 }
