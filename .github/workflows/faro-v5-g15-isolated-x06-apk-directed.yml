@@ -79,7 +79,13 @@ jobs:
           activities = [line for line in badging.splitlines() if line.startswith("launchable-activity:")]
           assert len(activities) == 1 and "name='ar.com.faro.v5.app.FaroV5V2CoreDevActivity'" in activities[0], activities
           permissions = aapt("permissions")
-          assert not re.search(r"uses-permission", permissions, re.I), f"OS_PERMISSION_STOP: {permissions}"
+          self_permission = expected + ".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+          requests = re.findall(r"^uses-permission: name='([^']+)'", permissions, flags=re.M)
+          declarations = re.findall(r"^permission: (\\S+)", permissions, flags=re.M)
+          assert len(requests) == len(set(requests)), f"DUPLICATED_PERMISSION_STOP: {permissions}"
+          assert len(requests) <= 1 and set(requests).issubset({self_permission}), f"OS_PERMISSION_STOP: {permissions}"
+          assert len(declarations) <= 1 and set(declarations).issubset({self_permission}), f"FOREIGN_PERMISSION_STOP: {permissions}"
+          assert "android.permission." not in permissions, f"ANDROID_PERMISSION_STOP: {permissions}"
           manifest = aapt("xmltree", "AndroidManifest.xml")
           assert not re.search(r"\bE: (?:provider|receiver|service|activity-alias)\b", manifest), "BACKGROUND_COMPONENT_STOP"
           assert re.search(r"android:allowBackup[^\n]*0x0\b", manifest), "BACKUP_NOT_DISABLED"
