@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
-  "status": "PREAUDITED_AWAIT_SEPARATE_READY_AFTER_GUARD",
+  "status": "READY_FIVE_PATHS",
   "base_head_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
   "b1_b5": {
     "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
@@ -32,5 +32,7 @@
   "depends_on": {
     "X09": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md"
   },
-  "next_action": "GUARD_DOCUMENTS_THEN_SEPARATE_INDIVIDUAL_READY_PREFLIGHT_5_B6_CI_B7"
+  "next_action": "PREFLIGHT_5_B6_CI_B7",
+  "reviewed_head": "f4581477c7d4e32270cc1d44d65f8e1e7334d6d5",
+  "ready_guard_run": 43127818030
 }
