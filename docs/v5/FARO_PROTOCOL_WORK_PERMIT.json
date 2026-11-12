@@ -2,9 +2,8 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
-  "reviewed_head": "a783d439ec21ebc1da76fc53a947d776fd1a3f27",
+  "reviewed_head": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityReceiptComposeUiTest.kt",
     ".github/workflows/faro-v5-s3-a5-7-x01-receipt-activity-android-directed.yml"
   ],
   "stages": {
@@ -62,24 +61,26 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
-    "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
-    "result": "PASS",
+    "sha": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
+    "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md",
-        "blob_sha": "c629a89411074d384c21867316534d0bda428e58",
+        "path": "docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md",
+        "blob_sha": "a37438d3480c6a7a935dcff44c74de95e1088605",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43128616165,
-    "guard_run_id": 43128616170
+    "ci_run_id": 43133141939,
+    "guard_run_id": 43133141835,
+    "android_test": "PASS_1_OF_1",
+    "ci": "FAILURE_XML_PARSER_ONLY"
   },
-  "why": "X01 two-path test-only delta after X10 B7 scoped; independent B1–B5 a783d439 guard 43132497050 SUCCESS, no repetition of Android X01/X02 3/3",
-  "how": "Preflight both paths exact; one Reality COMMITTED receipt Android API35 (1/1), XML/APK and hashes, B7 scoped; V2 DEV offline and G15 final",
+  "why": "X01 Android actual 1/1 PASS; CI 43133141939 FAILURE solely XML parser counts start+end events. Causal RED_FIX audited in docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md. Permitted one YAML only.",
+  "how": "Change only XML verifier duplicate start/end test name to set comparison, maintain one status_code 0, Android, artifact, guard, B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null,
-  "needs_prep_document": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
+  "needs_prep_document": "docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md",
   "closure_document": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md"
 }

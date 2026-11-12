@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X01_INDIVIDUAL_READY",
+  "phase": "S3_A5_7_X01_B7_RED_FIX_XML_PARSER_ONE_YAML_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 760
+    "expected_release_epoch": 762
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X01 2-path individual READY after guard 43132497050; preflight exact paths then B6 Android API35 single receipt test; verify JUnit+APK+guard, B7 and consume permit. X02/X06/X08/X12 triage READ_ONLY already published. No repeat tests.",
-  "checkpoint_status": "X01_B1_B5_GUARD_SUCCESS_TWO_PATH_READY",
+  "next": "X01 first Android 1/1 PASS but CI FAILURE XML parser; documented B7 RED_FIX, one YAML path READY after guard. Change only duplicate test status check; re-run directed API35 to obtain full CI/XML/APK PASS. Then B7 and consume permit. X02 X06 X08 X12 remain triaged.",
+  "checkpoint_status": "X01_ANDROID_PASS_1_OF_1_XML_VERIFIER_RED_FIX",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
@@ -2814,7 +2814,7 @@
     "writer_epoch": 758
   },
   "x01_delta": {
-    "status": "INDIVIDUAL_READY_TWO_PATHS",
+    "status": "RED_FIX_XML_EVENT_CARDINALITY_ONE_YAML_READY_PENDING_GUARD",
     "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
     "audit": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
     "audit_blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
@@ -2825,7 +2825,11 @@
     "prior_ui_b7": "docs/s3-night/S3_A5_7_X01_X02_ANDROID_B7_PASS_SCOPED_20261109.md",
     "prior_android_run": 42623474908,
     "ready_guard_run": 43132497050,
-    "ready_reviewed_head": "a783d439ec21ebc1da76fc53a947d776fd1a3f27"
+    "ready_reviewed_head": "a783d439ec21ebc1da76fc53a947d776fd1a3f27",
+    "initial_code_sha": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
+    "red_ci_run": 43133141939,
+    "red_fix_doc": "docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md",
+    "red_fix_doc_blob_sha": "a37438d3480c6a7a935dcff44c74de95e1088605"
   },
   "x02_x06_x08_x12_triage": {
     "status": "READ_ONLY_DELTA_TRIAGE_NEEDS_INDIVIDUAL_B1_B5",
