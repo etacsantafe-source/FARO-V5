@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.G15_X06_BOOT_FIX_WAIT_CI_CHECKPOINT.20261112",
-  "token_hash": "2d1b85ec348fe7eea260a12d3ed44250bd8f8d17e20db9e24681a0cbddc9973b",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.G15_BOOT_FIX_SMOKE_SH_RED_FIX.20261112",
+  "token_hash": "c3d973fe204ae97325be49cf624e0a0e9b5835162ff0e9194b3b2d540e911cf0",
   "target_head": "ad75c9f9cd3f39017e8259c47ca2a3e2ec06e353",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 822,
-  "timestamp": 1794503630,
+  "epoch": 823,
+  "timestamp": 1794503965,
   "last_checkpoint": "ad75c9f9cd3f39017e8259c47ca2a3e2ec06e353"
 }
