@@ -1,15 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
-  "reviewed_head": "f4581477c7d4e32270cc1d44d65f8e1e7334d6d5",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveReviewedApplySession.kt",
-    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5PlanReview.kt",
-    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X10ApplyReceiptUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x10-apply-receipt-android-directed.yml"
-  ],
+  "reviewed_head": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -61,28 +55,28 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEBUG_REVIEWED_APPLY_RECEIPT_RECOVERY"
   },
   "last_code_review": {
-    "sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
-    "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
+    "sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+    "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md",
-        "blob_sha": "3552ad93056b6cb267481ca70b83bdb02a1acaeb",
+        "path": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md",
+        "blob_sha": "c629a89411074d384c21867316534d0bda428e58",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43126057336,
-    "guard_run_id": 43126057226
+    "ci_run_id": 43128616165,
+    "guard_run_id": 43128616170
   },
-  "why": "X10 independent B1-B5 five exact paths, X09 B7 PASS, preaudit checkpoint guard 43127818030 SUCCESS.",
-  "how": "Preflight all five; debug staged explicit Apply; UNKNOWN receipt-only reconciliation; Android API35 2/0/0/0 XML/APK/hash and exact guard; independent B7; no Groq live.",
+  "why": "X10 independent B7 PASS scoped on exact SHA, CI Android 2/2 and guard SUCCESS; no active functional permission. X01 requires separate B1-B5 delta and READY.",
+  "how": "Next X01 document B1-B5 delta for real COMMITTED receipts and provenance; guard PASS before individual READY and code. Do not reuse X10 permit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "X10_CONSUMED_B7_PASS_SCOPED_X01_INDEPENDENT_PREAUDIT_REQUIRED",
   "needs_prep_document": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
-  "closure_document": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md"
+  "closure_document": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md"
 }

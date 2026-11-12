@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
+  "source_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+  "ci_run_id": 43128616165,
+  "ci_job_id": 130886920952,
+  "guard_run_id": 43128616170,
+  "ci": "SUCCESS",
+  "guard": "SUCCESS",
+  "artifact": {
+    "id": 13903609446,
+    "sha256": "ad6627cd831b9d71d47a52c9c92866e887875cb8f1e069d19643627848c0d985",
+    "files": 13,
+    "independently_downloaded_and_hashed": true
+  },
+  "apks": {
+    "debug": "a71cf6ce709bcf355ae2d79c009f3ec562cd55c318ac104bf33a6879dca5a3dc",
+    "test": "6eecabc8f637ec05621f46ecc6cc870fcff27efb74c14289c878d2821a9699cd",
+    "v2_core_dev": "856bb129864d6447b613e4c0dacc2848ca3c1284c865c5493aee2c0ab353fa07",
+    "hashes_match_zip_manifest": true,
+    "runner_signatures_verified": true
+  },
+  "xml": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "independently_parsed": true,
+    "case_names": [
+      "explicitApprovedApplyCommitsOnceAndReceiptSurvivesReopen",
+      "unknownNeverReexecutesAndCommittedReceiptReconcilesAfterReopen"
+    ]
+  },
+  "instrumentation": {
+    "end_codes_success": 2,
+    "code": -1,
+    "ok_2_tests": true,
+    "verified_from_artifact": true
+  },
+  "identities": {
+    "debug": "ar.com.faro.alpha.s2isolated.v5dev",
+    "dev": "ar.com.faro.alpha.v2coredev",
+    "dev_internet": false,
+    "debug_u02": true,
+    "dev_u02": false,
+    "shared_user_id": false
+  },
+  "scope": "DEBUG_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY_ONLY",
+  "physical": "NOT_RUN",
+  "provider_live": "NOT_RUN",
+  "b7": "PASS_SCOPED"
+}

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X10_INDIVIDUAL_READY",
+  "phase": "S3_A5_7_X10_B7_PASS_SCOPED_NEXT_X01_DELTA",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 756
+    "expected_release_epoch": 758
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X09 B7 PASS no repeat. Execute X10 five-path preflight and B6 per docs/s3-night/S3_A5_7_X10_WORK_EXEC_PACKAGE_20261111.json. Android API35 XML/APK/guard/B7; then consume permit and continue X01 delta. No Groq live, G15 final.",
-  "checkpoint_status": "X10_PREAUDIT_GUARD_SUCCESS_INDIVIDUAL_READY",
+  "next": "X10 B7 PASS scoped code 9d865d3263f297fe96e98fccb3af32d2d3a86fb5; do NOT repeat. Next X01 read-only B1-B5 delta: integrate real COMMITTED receipts and provenance in Activity; X02 Avisos/Pendientes sources, X06 owner search, X08 ACL midread, X12 Android integration follow with individual approvals. G15 single final physical campaign.",
+  "checkpoint_status": "X10_B7_PASS_SCOPED_X01_DELTA_NEXT",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
-  "last_ci_run_id": 43126057336,
+  "last_code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+  "last_ci_run_id": 43128616165,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_X09_API35_2_0_0_0",
+  "last_ci_conclusion": "SUCCESS_X10_API35_2_0_0_0",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -221,7 +221,7 @@
       "ORANGE/NARANJA: recommend a new chat soon",
       "RED/ROJO: migrate immediately"
     ],
-    "display": "Compact \ud83c\udf21\ufe0f indicator with current color/state and explicit change-chat guidance when orange/red",
+    "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
     "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
     "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
   },
@@ -1098,7 +1098,7 @@
     "backup_restore": "B7_PASS_SCOPED",
     "ui": "DEV_AUTOMATED_M01_M05_B7_PASS_EXACT_NAV_AND_MUTATION",
     "physical": "NOT_RUN",
-    "next": "M01\u2013M05 DONE_VERIFIED; no repetir. A3 pendiente \u00fanicamente aceptaci\u00f3n f\u00edsica final G15, integrada en cierre global A5.",
+    "next": "M01–M05 DONE_VERIFIED; no repetir. A3 pendiente únicamente aceptación física final G15, integrada en cierre global A5.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -2472,7 +2472,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
+  "checkpoint_code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
@@ -2614,7 +2614,7 @@
     "code_authorized": false
   },
   "work_chain_20261111": {
-    "status": "X09_DONE_X10_READY",
+    "status": "X10_DONE_X01_DELTA_NEXT",
     "document": "docs/s3-night/S3_A5_7_WORK_CHAIN_MASTER_20261111.md",
     "doc_blob_sha": "1e08309a59ce6405c3a8cf51d054120fcc3d1b76",
     "queue": [
@@ -2650,7 +2650,7 @@
     "ready_unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
     "ready_reviewed_head": "6356a68b2f901904a362881d1f36d8ceba47649f",
     "guard_run_id": 43124499156,
-    "next_action": "WORK_B6_X10",
+    "next_action": "X01_B1_B5_DELTA_ONLY",
     "execution_x09": {
       "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
       "code_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
@@ -2687,6 +2687,30 @@
       "directed_ci_runs": 1,
       "red_fix_count": 0,
       "writer_epoch": 755
+    },
+    "execution_x10": {
+      "status": "DONE_VERIFIED_SCOPED_DEBUG",
+      "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
+      "code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+      "ci_run_id": 43128616165,
+      "ci_job_id": 130886920952,
+      "guard_run_id": 43128616170,
+      "artifact_id": 13903609446,
+      "artifact_zip_sha256": "ad6627cd831b9d71d47a52c9c92866e887875cb8f1e069d19643627848c0d985",
+      "xml": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "b6": "DONE_VERIFIED",
+      "b7": "PASS_SCOPED_DEBUG_REVIEWED_APPLY_RECEIPT_RECOVERY",
+      "b7_doc": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md",
+      "artifact_verification": "docs/s3-night/S3_A5_7_X10_ARTIFACT_VERIFICATION_20261111.json",
+      "physical": "NOT_RUN_FINAL_G15_ONLY",
+      "provider_live": "NOT_RUN",
+      "v2_productive": "OFF",
+      "writer_epoch": 758
     }
   },
   "a5_7_x09": {
@@ -2727,7 +2751,7 @@
     "writer_epoch": 755
   },
   "x10_preparation": {
-    "status": "INDIVIDUAL_READY_FIVE_PATHS",
+    "status": "CONSUMED_B6_B7_PASS_SCOPED",
     "audit": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
     "audit_blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d",
     "package": "docs/s3-night/S3_A5_7_X10_WORK_EXEC_PACKAGE_20261111.json",
@@ -2739,6 +2763,54 @@
       "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X10ApplyReceiptUiTest.kt",
       ".github/workflows/faro-v5-s3-a5-7-x10-apply-receipt-android-directed.yml"
     ],
-    "ready_guard_run": 43127818030
+    "ready_guard_run": 43127818030,
+    "execution": {
+      "status": "DONE_VERIFIED_SCOPED_DEBUG",
+      "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
+      "code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+      "ci_run_id": 43128616165,
+      "ci_job_id": 130886920952,
+      "guard_run_id": 43128616170,
+      "artifact_id": 13903609446,
+      "artifact_zip_sha256": "ad6627cd831b9d71d47a52c9c92866e887875cb8f1e069d19643627848c0d985",
+      "xml": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "b6": "DONE_VERIFIED",
+      "b7": "PASS_SCOPED_DEBUG_REVIEWED_APPLY_RECEIPT_RECOVERY",
+      "b7_doc": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md",
+      "artifact_verification": "docs/s3-night/S3_A5_7_X10_ARTIFACT_VERIFICATION_20261111.json",
+      "physical": "NOT_RUN_FINAL_G15_ONLY",
+      "provider_live": "NOT_RUN",
+      "v2_productive": "OFF",
+      "writer_epoch": 758
+    }
+  },
+  "a5_7_x10": {
+    "status": "DONE_VERIFIED_SCOPED_DEBUG",
+    "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
+    "code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
+    "ci_run_id": 43128616165,
+    "ci_job_id": 130886920952,
+    "guard_run_id": 43128616170,
+    "artifact_id": 13903609446,
+    "artifact_zip_sha256": "ad6627cd831b9d71d47a52c9c92866e887875cb8f1e069d19643627848c0d985",
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "b6": "DONE_VERIFIED",
+    "b7": "PASS_SCOPED_DEBUG_REVIEWED_APPLY_RECEIPT_RECOVERY",
+    "b7_doc": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md",
+    "artifact_verification": "docs/s3-night/S3_A5_7_X10_ARTIFACT_VERIFICATION_20261111.json",
+    "physical": "NOT_RUN_FINAL_G15_ONLY",
+    "provider_live": "NOT_RUN",
+    "v2_productive": "OFF",
+    "writer_epoch": 758
   }
 }
