@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_X06_EMULATOR_UI_DIAGNOSTICS.20261112",
   "token_hash": "5c724f972355e2c3a3214bcc8e3b3bad595cb9ef68bde09df0e7cc987b552db8",
-  "target_head": "b3a4fc85fedd9e923e3f8dd8b69766a1958bae2f",
+  "target_head": "8d24bbde86d5f755ae8c104745924cf32e6a8498",
   "target_branch": "work/s3-night-20261102",
   "epoch": 825,
-  "timestamp": 1794504629,
-  "last_checkpoint": "b3a4fc85fedd9e923e3f8dd8b69766a1958bae2f"
+  "timestamp": 1794504824,
+  "last_checkpoint": "8d24bbde86d5f755ae8c104745924cf32e6a8498"
 }
