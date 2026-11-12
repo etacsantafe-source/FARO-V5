@@ -78,11 +78,17 @@ class FaroV5S3A57X02AuxiliaryAvisosUiTest {
             assertTrue(button.performClick())
         }
         rule.waitUntil(60_000L) {
-            runCatching { rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty() }
-                .getOrDefault(false)
+            runCatching {
+                listOf("Enviar", unavailable, publicText).any {
+                    rule.onAllNodesWithText(it).fetchSemanticsNodes().isNotEmpty()
+                }
+            }.getOrDefault(false)
         }
-        rule.onNodeWithContentDescription("Abrir menú").performClick()
-        rule.onNodeWithText("Avisos").performClick()
+        // rememberSaveable restores Avisos after recreate; do not wait for Chat.
+        if (rule.onAllNodesWithText("Enviar").fetchSemanticsNodes().isNotEmpty()) {
+            rule.onNodeWithContentDescription("Abrir menú").performClick()
+            rule.onNodeWithText("Avisos").performClick()
+        }
     }
 
     private fun awaitText(text: String) {
