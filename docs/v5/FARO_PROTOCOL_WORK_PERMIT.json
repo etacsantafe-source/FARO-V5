@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
-  "reviewed_head": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
-  "paths": [
-    ".github/workflows/faro-v5-s3-a5-7-x01-receipt-activity-android-directed.yml"
-  ],
+  "reviewed_head": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,30 +55,42 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_ANDROID_API35_1_OF_1",
+    "B7": {
+      "status": "PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md",
+          "blob_sha": "0ea266e061b83debb7ca9df3118c68f90314b3db",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
+    "sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
     "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md",
-        "blob_sha": "a37438d3480c6a7a935dcff44c74de95e1088605",
+        "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md",
+        "blob_sha": "0ea266e061b83debb7ca9df3118c68f90314b3db",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43133141939,
-    "guard_run_id": 43133141835,
+    "ci_run_id": 43134563606,
+    "ci_job_id": 130906660799,
+    "guard_run_id": 43134563570,
     "android_test": "PASS_1_OF_1",
-    "ci": "FAILURE_XML_PARSER_ONLY"
+    "ci": "SUCCESS_XML_1_0_0_0",
+    "artifact_id": 13907536117,
+    "artifact_sha256": "98dc81adb03e8508e196ccfe72d278e578e52b2e04a0ec949074fb7ec97215c1"
   },
-  "why": "X01 Android actual 1/1 PASS; CI 43133141939 FAILURE solely XML parser counts start+end events. Causal RED_FIX audited in docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md. Permitted one YAML only.",
-  "how": "Change only XML verifier duplicate start/end test name to set comparison, maintain one status_code 0, Android, artifact, guard, B7",
+  "why": "X01 real Reality COMMITTED receipt foreground Activity V2 DEV Android35 test-only B7 PASS scoped; permission consumed",
+  "how": "No further code permitted. X01 wider integration/A5 global and Moto G15 physical still OPEN. X02 needs distinct B1-B5 and READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
-  "needs_prep_document": "docs/s3-night/S3_A5_7_X01_XML_EVENT_CARDINALITY_B7_RED_FIX_20261111.md",
-  "closure_document": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md"
+  "blocked_reason": "UNIT_COMPLETE_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "needs_prep_document": null,
+  "closure_document": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md"
 }

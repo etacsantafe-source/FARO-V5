@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
+  "source_sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
+  "ci_run_id": 43134563606,
+  "ci_job_id": 130906660799,
+  "guard_run_id": 43134563570,
+  "ci": "SUCCESS",
+  "guard": "SUCCESS",
+  "artifact": {
+    "id": 13907536117,
+    "files": 10,
+    "zip_sha256": "98dc81adb03e8508e196ccfe72d278e578e52b2e04a0ec949074fb7ec97215c1",
+    "downloaded_locally": true,
+    "digest_equal_to_github": true
+  },
+  "apks": {
+    "v2_core_dev_sha256": "fef6445b5750e47e1e20d0968671b7ebfa1fd6e65ff89f1eaeed2e8b4e4133be",
+    "android_test_sha256": "ddc14da9bed3a1dceb2c77f3f2b59cb807575d1842db2486b11a33aad0cd3dc4",
+    "hashes_equal_to_sha256_manifest": true,
+    "runner_signatures_verified": true
+  },
+  "xml": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "verified_with_xml_parser": true,
+    "testcase": "x01CanonicalRealityReceiptVisibleOnlyAfterForegroundReadAndRevokedOnPause"
+  },
+  "instrumentation": {
+    "start_event_count": 1,
+    "finish_event_count": 1,
+    "success_end_codes": 1,
+    "ok_1_test": true,
+    "instrumentation_code": -1
+  },
+  "identities": {
+    "app": "ar.com.faro.alpha.v2coredev",
+    "android_test": "ar.com.faro.alpha.v2coredev.test",
+    "app_internet_permission": false,
+    "isolated_x03_u02_activity": false,
+    "shared_user_id": false,
+    "source_sha_matches": true
+  },
+  "b7": "PASS_SCOPED_REALITY_COMMITTED_ACTIVITY_ANDROID_ONLY",
+  "scope": "test-only Android API35 V2 CORE DEV real committed synthetic owner receipt Activity foreground grant and revocation",
+  "physical": "NOT_RUN_FINAL_CAMPAIGN_ONLY",
+  "v2_production": false,
+  "limitations": "X01 global and A5 global still OPEN; no real external Apply-to-Activity cross-app receipt or G15"
+}

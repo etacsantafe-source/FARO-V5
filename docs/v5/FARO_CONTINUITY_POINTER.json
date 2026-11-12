@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X01_B7_RED_FIX_XML_PARSER_ONE_YAML_READY",
+  "phase": "S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_SCOPED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 762
+    "expected_release_epoch": 764
   },
   "automation": {
     "activation_authorized": false,
@@ -44,11 +44,11 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "X01 first Android 1/1 PASS but CI FAILURE XML parser; documented B7 RED_FIX, one YAML path READY after guard. Change only duplicate test status check; re-run directed API35 to obtain full CI/XML/APK PASS. Then B7 and consume permit. X02 X06 X08 X12 remain triaged.",
-  "checkpoint_status": "X01_ANDROID_PASS_1_OF_1_XML_VERIFIER_RED_FIX",
+  "checkpoint_status": "X01_REAL_COMMITTED_ACTIVITY_ANDROID_1_OF_1_B7_PASS_SCOPED_GLOBAL_A5_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
-  "last_ci_run_id": 43128616165,
+  "last_code_sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
+  "last_ci_run_id": 43134563606,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_X10_API35_2_0_0_0",
+  "last_ci_conclusion": "SUCCESS_X01_ANDROID_API35_1_0_0_0",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -497,12 +497,12 @@
     "b7_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
   },
   "guard_last_inspected": {
-    "run_id": 42729311925,
-    "source_sha": "97fc4492b1a97fe305fc9251cae13a21fbd1dd2d",
+    "run_id": 43134563570,
+    "source_sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 753,
+  "last_writer_epoch_observed": 764,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2835,5 +2835,21 @@
     "status": "READ_ONLY_DELTA_TRIAGE_NEEDS_INDIVIDUAL_B1_B5",
     "path": "docs/s3-night/S3_A5_7_X02_X06_X08_X12_DELTA_TRIAGE_20261111.md",
     "blob_sha": "cd54045b8f09631adb5d68b912390c54941c12ef"
+  },
+  "a5_7_x01_reality_receipt_android": {
+    "status": "B7_PASS_SCOPED",
+    "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
+    "code_sha": "a48c19708f469ede066ae0f31918ecf1bf3a69e2",
+    "ci_run_id": 43134563606,
+    "guard_run_id": 43134563570,
+    "xml": "1/1;failures=0;errors=0;skipped=0",
+    "artifact_id": 13907536117,
+    "zip_sha256": "98dc81adb03e8508e196ccfe72d278e578e52b2e04a0ec949074fb7ec97215c1",
+    "b7_doc": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md",
+    "artifact_doc": "docs/s3-night/S3_A5_7_X01_ARTIFACT_VERIFICATION_20261111.json",
+    "physical": "NOT_RUN_FINAL_G15",
+    "global_x01": "OPEN_ADDITIONAL_INTEGRATION",
+    "global_a5": "OPEN",
+    "v2_production": false
   }
 }
