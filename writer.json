@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.G15_ISOLATED_X06_RED_FIX_CODE.20261112",
-  "token_hash": "9e35bd5a4524ce00eb90a9bd2a5f667bb8f8f79a2d2332dd6738c9c8bf674c2e",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.G15_ISOLATED_X06_WAIT_CI_CHECKPOINT.20261112",
+  "token_hash": "27481712c0c90bfba6245c39f49e95d6b9b3abb64b6a4692781949c53b1f30e1",
   "target_head": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 813,
-  "timestamp": 1794497030,
+  "epoch": 814,
+  "timestamp": 1794497099,
   "last_checkpoint": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5"
 }
