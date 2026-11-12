@@ -112,13 +112,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "dbc05c86bce5eeb55239d5d57b68e816c1ee7e7a",
+    "sha": "a7541f00c0f581a5935c4e5edf4b2c072dddbf83",
     "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
-        "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
+        "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
+        "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
         "marker": "## B7"
       }
     ]
@@ -127,7 +127,7 @@
   "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X12_REDFIX2_B6_WAIT_CI_NO_NEW_CODE",
+  "blocked_reason": "X12_REDFIX3_QUERY_SERIAL_AWAIT_DELTA_GUARD",
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }
