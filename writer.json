@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_X06_BOOT_FIX_WAIT_CI_CHECKPOINT.20261112",
   "token_hash": "2d1b85ec348fe7eea260a12d3ed44250bd8f8d17e20db9e24681a0cbddc9973b",
-  "target_head": "146aafb50793d46e86df05bd1d027f65c2e7b34e",
+  "target_head": "ad75c9f9cd3f39017e8259c47ca2a3e2ec06e353",
   "target_branch": "work/s3-night-20261102",
   "epoch": 822,
-  "timestamp": 1794503574,
-  "last_checkpoint": "146aafb50793d46e86df05bd1d027f65c2e7b34e"
+  "timestamp": 1794503630,
+  "last_checkpoint": "ad75c9f9cd3f39017e8259c47ca2a3e2ec06e353"
 }
