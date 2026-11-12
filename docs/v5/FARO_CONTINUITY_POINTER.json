@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_READY",
+  "phase": "S3_A5_7_X06_FOUR_OWNER_B7_PASS_SCOPED_G15_READY_MANUAL_ONLY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 805
+    "expected_release_epoch": 807
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X06 separate READY after X12 B7 and guard43222061005 success: unit S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID, EXACT two new paths. Run preflight both, B6 1 Android API35 test four namespaces one session/schema8 UI, independent ZIP B7, no previous suites. Then reconcile X01-X12 matrix, coherent offline APK Moto G15 only for user/manual physical; X03 live and global A5 OPEN.",
-  "checkpoint_status": "X12_B7_PASS_SCOPED_X06_READY_TWO_PATHS",
+  "next": "X06 four-owner Android 1/1 PASS scoped run43223365784 source e4d888b133c3d36a4e2fe82e24172bf36e45e1f2 guard43223365720, independently verified ZIP3bbe3d99c00be4da9a27bdd937446cdfc46ab56a0905e70939095c8e93e4ec24 and app APK 47da61183d4679f8ba5bc6362db63d83fc22e1cfc6dd03578c93f6a190a51fb7. X01-X12 matrix updated, G15 APK ready for user/manual physical NOT_RUN, A3 physical not closed; X03 Groq live and integrated IA→Review→Apply→Activity still OPEN. Need independent permission for any further functional code; main/S2 untouched.",
+  "checkpoint_status": "X12_X06_B7_PASS_SCOPED_G15_NOT_RUN_GLOBAL_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "2da58971b2258218964abd4a31454adb2738ba98",
-  "last_ci_run_id": 43165047469,
+  "last_code_sha": "e4d888b133c3d36a4e2fe82e24172bf36e45e1f2",
+  "last_ci_run_id": 43223365784,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 805,
+  "last_writer_epoch_observed": 807,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2935,6 +2935,18 @@
     "artifact_id": 13919562852,
     "zip_sha256": "e94aedbdff002135e37e8dc77107948c7a4ee3845e39ad8132a10f827939b8f1",
     "b7_doc": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md",
+    "physical": "NOT_RUN"
+  },
+  "x06_four_owner_b7": {
+    "status": "PASS_SCOPED",
+    "source_sha": "e4d888b133c3d36a4e2fe82e24172bf36e45e1f2",
+    "ci_run": 43223365784,
+    "guard_run": 43223365720,
+    "tests": "1/0/0/0",
+    "artifact_id": 13948280345,
+    "zip_sha256": "3bbe3d99c00be4da9a27bdd937446cdfc46ab56a0905e70939095c8e93e4ec24",
+    "app_apk_sha256": "47da61183d4679f8ba5bc6362db63d83fc22e1cfc6dd03578c93f6a190a51fb7",
+    "b7_doc": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B7_PASS_20261112.md",
     "physical": "NOT_RUN"
   }
 }

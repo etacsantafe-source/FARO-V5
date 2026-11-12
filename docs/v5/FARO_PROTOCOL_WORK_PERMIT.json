@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID",
   "reviewed_head": "ce8dd49a5cd231c445a40404cf3c09f960fdac0f",
   "paths": [
@@ -58,26 +58,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_AND_CI_VERIFIED",
+    "B7": "PASS_SCOPED_ANDROID_1_OF_1"
   },
   "last_code_review": {
-    "sha": "2da58971b2258218964abd4a31454adb2738ba98",
-    "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
+    "sha": "e4d888b133c3d36a4e2fe82e24172bf36e45e1f2",
+    "unit_id": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md",
-        "blob_sha": "c74836ce516b9f6c6baede47a104de923b97ac26",
+        "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B7_PASS_20261112.md",
+        "blob_sha": "1de5285ac90b6aa0e8449b30d6f1a75d626cd211",
         "marker": "## B7"
       }
     ]
   },
-  "why": "X12 B7 PASS scoped exact SHA/artifact and guard43222061005 SUCCESS on ce8dd49; X06 four canonical owner search explicit B1-B5 audit with exact two new paths; independent unit, no inheritance. Gate correction: B6 READY_TO_IMPLEMENT exact contract and prior X12 PASS (scope limited by B7 doc), no functional changes.",
-  "how": "Preflight BOTH new paths; single Android API35 offline test one query four namespaces schema8; one workflow; 1/0/0/0 XML + APK identities/hashes/artifact and exact guard; B7 independent, consume permit, writer CAS release. Any fixture gap: STOP NEEDS_PREP; no production code/Internet/paid API/G15.",
+  "why": "X06 four-owner one-query API35 1/1, guard same-SHA 43223365720, independent ZIP/XML/CRC/APK/manifests exact. B7 PASS scoped, permission CONSUMED.",
+  "how": "No further X06 changes without new B1–B5 and separate permit. G15 manual campaign only. X03 live/end-to-end host integration not certified.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "X06_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md"
+  "closure_document": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B7_PASS_20261112.md"
 }

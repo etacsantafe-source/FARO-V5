@@ -3,7 +3,7 @@ Fecha 2026-11-12 AR. Estado: PREPARADA, NO EJECUTADA. Work no accedió al teléf
 Responsables de ejecución/evidencia: usuario y chat manual. Reservar un solo recorrido final, sin repetir CI certificadas.
 
 ## APK y alcance
-**APK PENDING_CI / NO LISTA PARA CAMPAÑA FINAL.** Código0993e6837bfc955d914a9a60366724c77f2d165a; run43161141857. Hash pendiente de descarga y verificación. No instalar hasta completar esta identidad.
+**APK DE APLICACIÓN VERIFICADA / CAMPAÑA FÍSICA PENDIENTE.** Código `e4d888b133c3d36a4e2fe82e24172bf36e45e1f2`; Android API35 run `43223365784` SUCCESS; guard `43223365720` SUCCESS; artefacto `13948280345`; ZIP SHA-256 `3bbe3d99c00be4da9a27bdd937446cdfc46ab56a0905e70939095c8e93e4ec24`. **Solo app-v2CoreDev.apk** SHA-256 `47da61183d4679f8ba5bc6362db63d83fc22e1cfc6dd03578c93f6a190a51fb7`; APK androidTest excluida. Paquete offline `ar.com.faro.alpha.v2coredev`, code66, 5.0.0-dev-v2coredev. APK disponible para descarga manual, **NO INSTALADA / NO PROBADA en G15**.
 - Paquete esperado: ar.com.faro.alpha.v2coredev; variante v2CoreDev; launcher ar.com.faro.v5.app.FaroV5V2CoreDevActivity.
 - Sin INTERNET y sin Activity IA X03 U02; V2 productiva OFF.
 - CORE DEV permite Chat local, Guardados, lecturas autorizadas Actividad/Avisos/Pendientes y Reality8 vacía DEV. No tiene edición manual de Finance/Objective/Matter, alta de avisos, creación de recibos Apply ni IA/Review/Apply debug.
