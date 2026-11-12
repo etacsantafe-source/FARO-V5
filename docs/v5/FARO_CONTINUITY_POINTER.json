@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_OFFLINE_READY_AFTER_IME_B7",
+  "phase": "S3_WORK_TURBO_IME_AND_A5_OFFLINE_B7_PASS_GROQ_DEFERRED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 840
+    "expected_release_epoch": 842
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A5 offline individual READY after IME B7. Read docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md plus original B1-B5/package. Preflight FIVE paths; implement debug staged same-root reader with real identity and separate revoked grants, no fake active pointer, no main binding contract change; test-only candidate, real Apply receipt. API35 >=4/0/0/0/XML/APK/guard/B7. IME 2/2 certified do not repeat; Groq/G15 deferred; formal S3/A5 OPEN.",
-  "checkpoint_status": "IME_B7_PASS_SCOPED;A5_OFFLINE_READY_INDIVIDUAL_FIVE_PATHS;GROQ_DEFERRED",
+  "next": "WORK TURBO mission complete: IME B7 PASS scoped 2/2 API35 43302542761 source923910dd; A5 offline single-root explicit Review->approval->Apply->genuine COMMITTED receipt->separate authorized Activity B7 PASS scoped 4/4 API35 43305744264 code25c5ff41 guard43305743811. Both permits consumed; do not repeat. Writer RELEASED epoch842 after durable final docs. X03 real Groq/HTTP/Free/billing intentionally OPEN for later separate session; no remote calls in this mission. G15 physical no access. S3/A5 global still OPEN (formal0/5), productive V2/S4/Auto/Noche OFF. See closure and acceptance matrix for exact limits.",
+  "checkpoint_status": "TWO_AUTHORIZED_UNITS_B7_PASS_SCOPED_IME_2_2_A5_OFFLINE_4_4;GROQ_X03_LIVE_OPEN_DEFERRED;S3_A5_GLOBAL_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "923910dd28f963daf0263de87d2eada4f8263571",
-  "last_ci_run_id": 43302542761,
+  "last_code_sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
+  "last_ci_run_id": 43305744264,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -3041,7 +3041,7 @@
     "b7_document": "docs/s3-night/S3_G15_IME_COMPOSER_B7_PASS_SCOPED_20261112.md"
   },
   "work_ime_offline_a5_chain": {
-    "status": "IME_B7_PASS_A5_NEXT",
+    "status": "MISSION_COMPLETE_TWO_UNITS_B7_PASS_SCOPED",
     "human_authorized": "2026-11-12",
     "chain": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
     "ime": {
@@ -3053,11 +3053,37 @@
     },
     "a5": {
       "unit": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
-      "status": "READY_INDIVIDUAL_FIVE_PATHS",
+      "status": "B7_PASS_SCOPED_OFFLINE_4_4",
       "preaudit": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
       "package": "docs/s3-night/S3_WORK_A5_OFFLINE_INTEGRATION_EXEC_PACKAGE_20261112.json",
-      "paths": 5
+      "paths": 5,
+      "source_sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
+      "android_run": 43305744264,
+      "guard_run": 43305743811,
+      "b7_document": "docs/s3-night/S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_B7_PASS_SCOPED_20261112.md",
+      "active_pointer": "NOT_CREATED_STAGED_SESSION_ONLY"
     },
     "groq": "DEFERRED_NO_LIVE_PROVIDER_NO_CREDENTIALS"
+  },
+  "a5_offline_single_root_b7": {
+    "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
+    "scope": "OFFLINE_DEBUG_SINGLE_STAGED_ROOT_CANONICAL_TEST_ONLY_PLAN",
+    "source_sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
+    "android_run": 43305744264,
+    "guard_run": 43305743811,
+    "artifact_id": 13983833247,
+    "zip_sha256": "4a8c49863a084b3112713e0f56c9d2c95dae3008aef1c3d26f1f64e4e19b003d",
+    "apk_hashes": {
+      "v5/app/build/outputs/apk/debug/app-debug.apk": "ef6deca97f18b86e7a7966861343dd3bdef8c93dea05610be8bab3b7d5f18e9f",
+      "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "079e78b78d641c303c4fda5f404c6fd4e2311ea63a8196bebaca5e5f23e7821c",
+      "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "b697a11c9b446d4220678228d63abafa6a8dbf2b26f1773ababb5a8b0fc8b407"
+    },
+    "xml": "4/0/0/0",
+    "named_events": "exactly one start and success per test; no skips/errors",
+    "binary_manifests": "Debug historical exported singleTask launcher/INTERNET unchanged; test target matches; CORE DEV offline excludes debug host",
+    "groq_live": "NOT_RUN_DEFERRED",
+    "physical_g15": "NOT_ACCESSED",
+    "active_pointer": "NOT_CREATED_NOT_CLAIMED",
+    "productive_v2": false
   }
 }

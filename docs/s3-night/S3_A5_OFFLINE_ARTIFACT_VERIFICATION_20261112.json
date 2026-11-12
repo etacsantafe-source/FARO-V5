@@ -1,0 +1,21 @@
+{
+  "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
+  "scope": "OFFLINE_DEBUG_SINGLE_STAGED_ROOT_CANONICAL_TEST_ONLY_PLAN",
+  "source_sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
+  "android_run": 43305744264,
+  "guard_run": 43305743811,
+  "artifact_id": 13983833247,
+  "zip_sha256": "4a8c49863a084b3112713e0f56c9d2c95dae3008aef1c3d26f1f64e4e19b003d",
+  "apk_hashes": {
+    "v5/app/build/outputs/apk/debug/app-debug.apk": "ef6deca97f18b86e7a7966861343dd3bdef8c93dea05610be8bab3b7d5f18e9f",
+    "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "079e78b78d641c303c4fda5f404c6fd4e2311ea63a8196bebaca5e5f23e7821c",
+    "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "b697a11c9b446d4220678228d63abafa6a8dbf2b26f1773ababb5a8b0fc8b407"
+  },
+  "xml": "4/0/0/0",
+  "named_events": "exactly one start and success per test; no skips/errors",
+  "binary_manifests": "Debug historical exported singleTask launcher/INTERNET unchanged; test target matches; CORE DEV offline excludes debug host",
+  "groq_live": "NOT_RUN_DEFERRED",
+  "physical_g15": "NOT_ACCESSED",
+  "active_pointer": "NOT_CREATED_NOT_CLAIMED",
+  "productive_v2": false
+}

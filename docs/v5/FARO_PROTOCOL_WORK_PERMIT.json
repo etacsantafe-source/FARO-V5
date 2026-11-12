@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
   "reviewed_head": "99958e361f7dcccb86f4b46d1cc3a209a0ad2dc6",
   "paths": [
@@ -86,26 +86,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_ANDROID_API35",
+    "B7": "PASS_SCOPED_OFFLINE"
   },
   "last_code_review": {
-    "sha": "923910dd28f963daf0263de87d2eada4f8263571",
-    "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
+    "sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
+    "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_IME_COMPOSER_B7_PASS_SCOPED_20261112.md",
-        "blob_sha": "c9aaaead68646ab3db4645fee8932c87948e5365",
+        "path": "docs/s3-night/S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_B7_PASS_SCOPED_20261112.md",
+        "blob_sha": "be7fc2026598f81704026e17eeced5f0b63555ca",
         "marker": "## B7"
       }
     ]
   },
-  "why": "IME B7 PASS; exact five A5 paths unchanged since preaudit; choose already-preaudited debug-only staged authority alternative, no fabricated active pointer; no main binding change.",
-  "how": "Read original package and READY revalidation; preflight all five paths, implement four debug/test/workflow paths only; API35 >=4 tests/XML/APK/source SHA/guard/B7. No G15, no credentials, no provider calls.",
+  "why": "Both authorized mission units B7 PASS scoped: IME Android2/2 and A5 offline same-root Android4/4; A5 permit consumed, not an active functional authorization.",
+  "how": "No repeat of certified tests. Read B7 closure, artifact verification and acceptance matrix. X03 live Groq and G15 physical are outside this completed mission; any future functional unit needs its own B1-B5 and READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "A5_OFFLINE_B7_PASS_SCOPED_PERMIT_CONSUMED_MISSION_COMPLETE",
   "needs_prep_document": null,
-  "closure_document": null
+  "closure_document": "docs/s3-night/S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_B7_PASS_SCOPED_20261112.md"
 }
