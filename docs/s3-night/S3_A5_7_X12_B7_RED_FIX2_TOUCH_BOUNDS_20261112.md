@@ -1,0 +1,20 @@
+# X12 — B7 RED_FIX2, layout bounds versus actual touch bounds
+Fecha2026-11-12 AR, unidad S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID.
+## B7
+RED_FIX código dbc05c86bce5eeb55239d5d57b68e816c1ee7e7a; API35 run43162351609/job130996248351 FAILURE 1/2. Compilación/identidad/manifiestos/firma SUCCESS, guard43162351589 SUCCESS. Raw font200 method ended0; expanded ended-2 at Kotlin123/positive135: visual DpRect376,234,542,274 gives40dp. No XML PASS, no2/2 and no B7 global. No screenshot downloaded: workflow only pulls after success, material diagnostic gap. Artifact13919211387 has9 files and no XML/screenshots; digest5eed5d751be539c28b58a0a7809173b5f12b74037e978672537b24d908c74432.
+## B1
+getUnclippedBoundsInRoot measures LAYOUT, not touch area. Material Button40dp may have touch target48dp. Current test conflates both and is not proof of production bug. Theme supplies minimum interactive48dp; no runtime fix authorized. Need measure touchBoundsInRoot directly and demonstrate edge hit in expansion area; if that fails preserve FAIL/NEEDS_PREP, not lower limit.
+## B2
+Reuse same real Activity/Compose/owner fixture and font200/expanded. Preserve unclipped visual viewport checks for controls/text. Material recommended48 is touchability, not mandatory48 painted background. V4.4 has no authority for Compose internals. No production changes and no unrelated suite.
+## B3
+Primary verified2026-11-12:
+https://developer.android.com/reference/kotlin/androidx/compose/ui/semantics/SemanticsNode — touchBoundsInRoot is actual clickable touch rectangle and can exceed node size when layout is below minimumTouchTargetSize.
+https://developer.android.com/jetpack/androidx/releases/compose-ui — touchBoundsInRoot introduced specifically to ensure minimum accessibility targets.
+https://android.googlesource.com/platform/frameworks/support/+/0a1194b22e9eb22b9991f13dbdb7632576b6baea/compose/ui/ui/src/commonMain/kotlin/androidx/compose/ui/semantics/SemanticsNode.kt — primary AndroidX source distinguishes layout and expanded input entity.
+USAR A: preserve visual bounds and separately check actual touch bounds >=48dp converted by display density; inject touch near top edge of actual rectangle, which lies outside40dp layout if expanded. DESCARTAR B: shrink48 assertion to40 or delete minimum test. DESCARTAR C: edit runtime Button size solely to satisfy wrong layout assertion. AndroidX APIs already present/Apache2.0; no dependency or paid cost.
+## B4
+Exactly TWO test-only paths (original X12 routes): Kotlin X12 class and directed X12 workflow.
+visible(interactive) fetchSemanticsNode.touchBoundsInRoot in root pixels; convert extents with real density, require both>=48dp, and entire touch rectangle in root pixel viewport. Keep current visible/unclipped text/control dp checks. positive uses actual performTouchInput click at touch.center.x and touch.top+1px relative to node layout top-left; summary must appear, proving expanded hit region when applicable. No semantics performClick to substitute that touch proof.
+Capture evidence before summary with positive notice, then existing after-summary captures. configure catch captures failure config/screenshot before restoring, synthetic-only. Workflow pulls evidence BEFORE checking OK so failures retain available diagnostics, success still requires font200+expanded screenshots. XML event counts remain2 starts/ends and zero failures/skips, no leniency.
+## B5
+Do not infer touchability from layout or screenshot; assert actual>=48 and inject real input. Do not change min or waive viewport. Restore font/wm in finally. A pointer hit that fails is real fail; require new source diagnosis, no automatic prod edit. Old/fresh authority checks from RED_FIX1 remain intact. Same2 cases rerun once because material shared geometry/touch helper changed both; previous font200 rawPASS not full-unit B7. No G15/runtime/manifest/Gradle/Internet/S2. Capture only fixture data; never physical APK instrumentation. Publish delta, guard, separate READY and preflight two routes before code.
