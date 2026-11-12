@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X06_FOUR_OWNER_B7_PASS_SCOPED_G15_READY_MANUAL_ONLY",
+  "phase": "S3_A5_7_G15_TERMUX_ADB_KIT_PREPARED_HUMAN_PAIR_PENDING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 807
+    "expected_release_epoch": 808
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X06 four-owner Android 1/1 PASS scoped run43223365784 source e4d888b133c3d36a4e2fe82e24172bf36e45e1f2 guard43223365720, independently verified ZIP3bbe3d99c00be4da9a27bdd937446cdfc46ab56a0905e70939095c8e93e4ec24 and app APK 47da61183d4679f8ba5bc6362db63d83fc22e1cfc6dd03578c93f6a190a51fb7. X01-X12 matrix updated, G15 APK ready for user/manual physical NOT_RUN, A3 physical not closed; X03 Groq live and integrated IA→Review→Apply→Activity still OPEN. Need independent permission for any further functional code; main/S2 untouched.",
-  "checkpoint_status": "X12_X06_B7_PASS_SCOPED_G15_NOT_RUN_GLOBAL_OPEN",
+  "next": "Manual user G15: use Termux kit FARO_G15_TERMUX_KIT_V1_20261112.zip, pair wireless debugging via same-phone 127.0.0.1 if Wi-Fi connected, run diagnostico, verificar-apk and firma to compare actual installed signing cert without installing/uninstalling. Real device NOT_RUN; X06/X12 B7 scoped PASS remain certified, A3 physical and A5 global OPEN. See docs/s3-night/S3_A3_A5_G15_TERMUX_ADB_SAFE_PREP_20261112.md.",
+  "checkpoint_status": "G15_ADB_KIT_MOCK_7_OF_7_APK_VERIFIED_REAL_DEVICE_NOT_RUN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "e4d888b133c3d36a4e2fe82e24172bf36e45e1f2",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 807,
+  "last_writer_epoch_observed": 808,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2948,5 +2948,16 @@
     "app_apk_sha256": "47da61183d4679f8ba5bc6362db63d83fc22e1cfc6dd03578c93f6a190a51fb7",
     "b7_doc": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B7_PASS_20261112.md",
     "physical": "NOT_RUN"
+  },
+  "g15_termux_adb_prep": {
+    "status": "READY_FOR_HUMAN_PAIRING_NOT_DEVICE_TESTED",
+    "document": "docs/s3-night/S3_A3_A5_G15_TERMUX_ADB_SAFE_PREP_20261112.md",
+    "kit_sha256": "a42a606c6021425f113ffc51a48c01b09df7b34085bfe7cc1a7c336636a25ba8",
+    "script_sha256": "580f6a13266cf797f3c330fa37b82bb84079be84a54120fda621d851f3944bba",
+    "apk_sha256": "47da61183d4679f8ba5bc6362db63d83fc22e1cfc6dd03578c93f6a190a51fb7",
+    "mock_tests": "7/7",
+    "real_adb": "NOT_RUN",
+    "physical": "NOT_RUN",
+    "signature_installed": "UNKNOWN"
   }
 }
