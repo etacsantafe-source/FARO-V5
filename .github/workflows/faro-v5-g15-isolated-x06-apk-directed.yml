@@ -1,0 +1,110 @@
+name: FARO V5 G15 isolated X06 core DEV APK, no overwrite
+
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-g15-isolated-x06
+  cancel-in-progress: false
+
+jobs:
+  assemble-g15-isolated-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android 37 platform and build-tools 36
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+          test -x "$ANDROID_HOME/build-tools/36.0.0/aapt"
+          test -x "$ANDROID_HOME/build-tools/36.0.0/apksigner"
+      - name: Assemble from certified X06 sources with new independent app ID
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1800 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              -PfaroP6PhysicalApplicationId=ar.com.faro.g15isolated \
+              :app:assembleV2CoreDev
+          echo "FARO_G15_X06_ISOLATED_BUILD_DONE"
+      - name: Verify isolated package, signed APK, offline manifest, SHA and launcher
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import os
+          import re
+          import subprocess
+
+          build_tools = Path(os.environ["ANDROID_HOME"]) / "build-tools" / "36.0.0"
+          root = Path("v5/app/build/outputs/apk/v2CoreDev")
+          apks = list(root.glob("*.apk"))
+          assert len(apks) == 1, f"STOP_APK_COUNT: {apks}"
+          apk = apks[0]
+          assert apk.stat().st_size > 1024
+          def aapt(*args):
+              return subprocess.check_output([str(build_tools / "aapt"), "dump", *args, str(apk)], text=True)
+
+          badging = aapt("badging")
+          expected = "ar.com.faro.g15isolated.v2coredev"
+          packages = [line for line in badging.splitlines() if line.startswith("package:")]
+          assert len(packages) == 1 and f"name='{expected}'" in packages[0], f"WRONG_PACKAGE: {packages}"
+          assert "versionCode='66'" in packages[0], packages[0]
+          activities = [line for line in badging.splitlines() if line.startswith("launchable-activity:")]
+          assert len(activities) == 1 and "name='ar.com.faro.v5.app.FaroV5V2CoreDevActivity'" in activities[0], activities
+          permissions = aapt("permissions")
+          assert not re.search(r"uses-permission", permissions, re.I), f"OS_PERMISSION_STOP: {permissions}"
+          manifest = aapt("xmltree", "AndroidManifest.xml")
+          assert not re.search(r"\bE: (?:provider|receiver|service|activity-alias)\b", manifest), "BACKGROUND_COMPONENT_STOP"
+          assert re.search(r"android:allowBackup[^\n]*0x0\b", manifest), "BACKUP_NOT_DISABLED"
+          assert "FaroV5X03U02IsolatedAiActivity" not in manifest, "REMOTE_AI_ACTIVITY_STOP"
+          signature = subprocess.check_output(
+              [str(build_tools / "apksigner"), "verify", "--print-certs", str(apk)], text=True
+          )
+          assert "certificate SHA-256 digest:" in signature, "SIGNATURE_MISSING"
+          import shutil
+          shutil.copyfile(apk, "faro-g15-isolated-x06.apk")
+          digest = hashlib.sha256(apk.read_bytes()).hexdigest()
+          Path("faro-g15-isolated-x06-sha256.txt").write_text(f"{digest}  faro-g15-isolated-x06.apk\n")
+          Path("faro-g15-isolated-x06-package.txt").write_text(
+              f"package={expected}\nsource_sha={os.environ['GITHUB_SHA']}\n"
+              +packages[0]+"\n"+activities[0]+"\n"+signature
+          )
+          Path("faro-g15-isolated-x06-permissions.txt").write_text(permissions)
+          Path("faro-g15-isolated-x06-manifest.txt").write_text(manifest)
+          print("FARO_G15_X06_ISOLATED_APK_CHECKS_PASS", expected, digest, os.environ["GITHUB_SHA"])
+          PY
+      - name: Upload only verified app APK and public evidence, never androidTest
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-g15-isolated-x06-apk
+          path: |
+            faro-g15-isolated-x06.apk
+            faro-g15-isolated-x06-sha256.txt
+            faro-g15-isolated-x06-package.txt
+            faro-g15-isolated-x06-permissions.txt
+            faro-g15-isolated-x06-manifest.txt
+          if-no-files-found: error
+          retention-days: 30
