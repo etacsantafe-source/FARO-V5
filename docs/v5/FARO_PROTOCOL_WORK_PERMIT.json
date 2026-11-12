@@ -62,32 +62,22 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
-    "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-    "result": "PASS",
+    "sha": "0993e6837bfc955d914a9a60366724c77f2d165a",
+    "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md",
-        "blob_sha": "59e3a4457f68b36549e3bc60fde2532d1eb03781",
+        "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
+        "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
         "marker": "## B7"
-      },
-      {
-        "path": "docs/s3-night/S3_A5_7_X08_ARTIFACT_VERIFICATION_20261112.json",
-        "blob_sha": "35af4f40e6ec1cf8a09b72931f8cbd0f5bed32f8",
-        "marker": "status"
       }
-    ],
-    "ci_run_id": 43155126432,
-    "ci_job_id": 130973270369,
-    "ci": "SUCCESS_ANDROID_API35_3_3_XML_APK",
-    "guard_run_id": 43155126431,
-    "artifact_id": 13916181288
+    ]
   },
   "why": "X12 independently scoped adaptation/accessibility semantics test-only Android API35. Reviewed X08 B7 PASS on 18ac444fc5da90a911e7bf47364f1fe37e747bf2 guard 43157343172 SUCCESS. Existing X12 B1–B5 audit validated exact blob SHA 473cd07aeca9e1241b58931f9430b947b97a9051; two NEW paths only.",
   "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X12_B6_WAIT_CI_NO_NEW_FUNCTIONAL_WRITES",
+  "blocked_reason": "X12_RED_FIX_DOCUMENTED_AWAIT_DELTA_GUARD_THEN_EXACT_READY",
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }
