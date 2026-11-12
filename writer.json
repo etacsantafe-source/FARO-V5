@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.X12.READY_AND_A5_FOLLOWUP_PREP.20261112",
   "token_hash": "46b232601a1a60e693b0903bcfba4c89d3860f59ee0a4019c64bea98e89389c9",
-  "target_head": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
+  "target_head": "3cd2f7ae1213909540137db0864a87daa30fd062",
   "target_branch": "work/s3-night-20261102",
   "epoch": 788,
-  "timestamp": 1794458600,
-  "last_checkpoint": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
-  "purpose": "X12_SCOPED_B1_B5_READY_NEXT_A5_ACCEPTANCE_HANDOFF"
+  "timestamp": 1794458930,
+  "last_checkpoint": "3cd2f7ae1213909540137db0864a87daa30fd062",
+  "purpose": "X12_SCOPED_READY_WORK_PACKAGE_A5_NEXT_PREP_DOCUMENTED_AWAIT_FINAL_GUARD"
 }
