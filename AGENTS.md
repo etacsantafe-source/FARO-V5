@@ -33,3 +33,6 @@ X01 terminó B7 PASS scoped, SHA b045237cb6a82451ad7c2f0eb861b6603b2ad51c (no re
 
 ## Ultima autorizacion: X02 READY 2026-11-12
 Tras el guard de preauditoria 43146940824 SUCCESS, el permiso actual READY habilita SOLO unidad S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ y las cinco rutas listadas en docs/v5/FARO_PROTOCOL_WORK_PERMIT.json. Al programar ejecutar preflight todas las rutas; no heredar el permiso X01. B1-B5 exactos docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md. X06 queda PREAUDITED sin READY mientras X02 este activo. El estado HEAD/puntero prevalece sobre handoffs viejos. No activar robots/Auto/Noche; esta es cola para Work iniciado manualmente.
+
+## Nuevo cierre: X08 B7 PASS scoped (2026-11-12)
+X08 B7 verificado independientemente del ZIP, 3/3 Android API35 43155126432, hashes APK/manifiesto y guard 43155126431 SUCCESS; code 35ea27e171a48a53ec38dadb73dc1f582ac46c12. Cierre docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md, prueba docs/s3-night/S3_A5_7_X08_ARTIFACT_VERIFICATION_20261112.json. No repetir. SIGUIENTE X12: B1–B5 docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md, dos rutas nuevas test/workflow y permiso READY NUEVO antes de código. No usar el permiso BLOCKED de X08. X03 live, A5 global y G15 físico final pendientes.

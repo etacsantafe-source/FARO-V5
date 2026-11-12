@@ -133,30 +133,36 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID"
   },
   "last_code_review": {
-    "sha": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
+    "sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
-        "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+        "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md",
+        "blob_sha": "59e3a4457f68b36549e3bc60fde2532d1eb03781",
         "marker": "## B7"
+      },
+      {
+        "path": "docs/s3-night/S3_A5_7_X08_ARTIFACT_VERIFICATION_20261112.json",
+        "blob_sha": "35af4f40e6ec1cf8a09b72931f8cbd0f5bed32f8",
+        "marker": "status"
       }
     ],
-    "ci_run_id": 43154265872,
-    "ci": "IN_PROGRESS_SAME_ABI_STATIC_AUDIT",
-    "prior_failure": 43153903965,
-    "guard_run_id": 43154265909
+    "ci_run_id": 43155126432,
+    "ci_job_id": 130973270369,
+    "ci": "SUCCESS_ANDROID_API35_3_3_XML_APK",
+    "guard_run_id": 43155126431,
+    "artifact_id": 13916181288
   },
-  "why": "X06 B7 PASS scoped fbb03ddbefd48cf4eeb5db8454bbbb037300216c closure guard 43152342582 SUCCESS, writer RELEASED epoch778. Since preaudit only X06 tests/workflow plus docs changed, no production search source changes. Exact source hooks and lifecycle contracts revalidated, no production route needed.",
-  "how": "Three new API35 tests: actual canonical Finance snapshot -> grant revoke / actual owner close at deterministic second direct read; real source denies publication + canonical federation/UI partial. Actual DEV Reality hit pointer ABA using full sequence. Two paths only, real exact schema8 test fixture, XML3/0/0/0 APK/hash/manifest/guard/B7. No baseline reruns.",
+  "why": "X08 final code 35ea27e171a48a53ec38dadb73dc1f582ac46c12 CI run 43155126432 SUCCESS API35 3/3; independent B7 reviewed artifact. Permit consumed.",
+  "how": "X08 PASS scoped, no more code under this permit. After docs guard, X12 separate READY for two test/workflow paths.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X08_COMPILED_SURFACE_BRIDGE_IMPLEMENTED_WAIT_CI",
+  "blocked_reason": "X08 B7 PASS scoped and permit CONSUMED. DO NOT use for X12. X12 requires independent READY.",
   "needs_prep_document": null,
-  "closure_document": null
+  "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }

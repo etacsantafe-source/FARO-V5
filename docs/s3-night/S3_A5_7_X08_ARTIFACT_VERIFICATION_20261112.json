@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+  "status": "INDEPENDENT_VERIFIED_B7_PASS_SCOPED",
+  "verified_at": "2026-11-12",
+  "branch": "work/s3-night-20261102",
+  "code_sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+  "checkpoint_reviewed": "0df5ee1ff2ebd5b84861ac07583b5e4bd66f933d",
+  "ci_run_id": 43155126432,
+  "ci_job_id": 130973270369,
+  "ci_status": "completed",
+  "ci_conclusion": "success",
+  "code_guard_run_id": 43155126431,
+  "code_guard_status": "success",
+  "prior_checkpoint_guard_run_id": 43155130552,
+  "artifact_id": 13916181288,
+  "artifact_name": "faro-v5-a5-7-x08-real-search-api35-35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+  "artifact_zip_sha256": "3f8da59dc5c68404c5a5a4754d06d0300fc280b97928a2c8f530ad4f7787dca9",
+  "artifact_entries": 10,
+  "zip_integrity": "PASS",
+  "source_sha_inside_artifact": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+  "xml": {
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "verified_test_names": [
+      "x08DurablePointerABARejectsRealityHitWithoutRegrant",
+      "x08FinanceGrantRevokedAfterCanonicalReadYieldsPartial",
+      "x08OwnerClosedAfterSnapshotCannotPublishOrNavigate"
+    ]
+  },
+  "instrumentation": {
+    "finished": "OK (3 tests)",
+    "exit_code": -1,
+    "each_test_start_and_success_once": true
+  },
+  "apk_sha256": {
+    "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "c4f04f7aee1ac4231a0adca2b1b466bbfca52c2085d103cda5d86ea537204e5b",
+    "v5/app/build/outputs/apk/androidTest/v2CoreDev/app-v2CoreDev-androidTest.apk": "f0c6cf48a0e8ba124c291e9b0f1886a9545df8d8052309018acfc818669cc9e2"
+  },
+  "identities": {
+    "dev": "ar.com.faro.alpha.v2coredev",
+    "instrumentation": "ar.com.faro.alpha.v2coredev.test"
+  },
+  "manifest": {
+    "dev_internet_permission": false,
+    "shared_user_id": false,
+    "isolated_ai_activity": false
+  },
+  "signature_verification": "RUNNER_STEP_SUCCESS_NOT_REPEATED",
+  "changed_code_paths": [
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x08-owner-interruption-android-directed.yml"
+  ],
+  "previous_ci_runs": {
+    "failure": 43153903965,
+    "cancelled_superseded": 43154265872
+  },
+  "previous_runs_status": "superseded_not_counted_as_pass",
+  "provider_live": "NOT_RUN",
+  "physical_moto_g15": "NOT_RUN",
+  "a5_global": "OPEN"
+}

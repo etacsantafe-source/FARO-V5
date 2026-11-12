@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X08_B6_WAIT_CI",
+  "phase": "S3_A5_7_X08_B7_PASS_SCOPED_X12_PREAUDITED_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 786
+    "expected_release_epoch": 787
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify bridge-corrected X08 35ea27e171a48a53ec38dadb73dc1f582ac46c12 API35 3/3 events/XML, artifact hashes/offline manifests, guard; record superseded run status, B7 then X12.",
-  "checkpoint_status": "X06_B7_PASS_SCOPED",
+  "next": "X08 B7 PASS scoped: code 35ea27e171a48a53ec38dadb73dc1f582ac46c12 CI 43155126432 API35 3/3, artifact 13916181288 ZIP digest verified, guard 43155126431 SUCCESS; B7 doc docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md. Do NOT rerun. Next X12 doc docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md blob 473cd07aeca9e1241b58931f9430b947b97a9051; two test/workflow paths; review HEAD, separate READY after THIS checkpoint guard before B6; X12 font_scale 2.0 and expanded width semantic tests, no G15 until final campaign. X03 remote Free & A5 global remain OPEN.",
+  "checkpoint_status": "X08_B7_PASS_SCOPED_ANDROID_3_3_X12_WAIT_SEPARATE_READY",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 766,
+  "last_writer_epoch_observed": 787,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "WAIT_CI",
   "expected_head": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
   "blocker": null,
-  "writer_release_epoch": 786,
+  "writer_release_epoch": 787,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2242,7 +2242,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_7_X08_CORRECTED_B6_WAIT_CI",
+  "checkpoint": "S3_A5_7_X08_B7_PASS_SCOPED_X12_PREAUDITED_NEXT",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2881,5 +2881,29 @@
     "guard_run_id": 43151250243,
     "evidence": "docs/s3-night/S3_A5_7_X06_THREE_REALITY8_OWNERS_B7_PASS_20261112.md",
     "next": "X08: revalidate prepared source interruption/ABA B1-B5 at HEAD; issue independent two-path READY, three new API35 tests, CI/XML/APK and B7."
+  },
+  "x08_b7_20261112": {
+    "status": "PASS_SCOPED_ANDROID_3_3",
+    "unit": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+    "code_sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+    "ci_run": 43155126432,
+    "guard_code": 43155126431,
+    "artifact_id": 13916181288,
+    "artifact_sha256": "3f8da59dc5c68404c5a5a4754d06d0300fc280b97928a2c8f530ad4f7787dca9",
+    "doc": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md",
+    "doc_blob_sha": "59e3a4457f68b36549e3bc60fde2532d1eb03781",
+    "verification": "docs/s3-night/S3_A5_7_X08_ARTIFACT_VERIFICATION_20261112.json",
+    "verification_blob_sha": "35af4f40e6ec1cf8a09b72931f8cbd0f5bed32f8",
+    "physical": "NOT_RUN"
+  },
+  "x12_work_prep_20261112": {
+    "status": "B1_B5_PREAUDITED_WAIT_NEW_READY",
+    "audit": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+    "audit_blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
+    "paths": [
+      "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt",
+      ".github/workflows/faro-v5-s3-a5-7-x12-adaptive-semantics-android-directed.yml"
+    ],
+    "next": "B1_B5_GUARD_AND_INDIVIDUAL_READY_FOR_X12"
   }
 }
