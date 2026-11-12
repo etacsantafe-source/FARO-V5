@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X08_B7_PASS_SCOPED_X12_PREAUDITED_NEXT",
+  "phase": "S3_A5_7_X12_SCOPED_READY_B6_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 787
+    "expected_release_epoch": 788
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X08 B7 PASS scoped: code 35ea27e171a48a53ec38dadb73dc1f582ac46c12 CI 43155126432 API35 3/3, artifact 13916181288 ZIP digest verified, guard 43155126431 SUCCESS; B7 doc docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md. Do NOT rerun. Next X12 doc docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md blob 473cd07aeca9e1241b58931f9430b947b97a9051; two test/workflow paths; review HEAD, separate READY after THIS checkpoint guard before B6; X12 font_scale 2.0 and expanded width semantic tests, no G15 until final campaign. X03 remote Free & A5 global remain OPEN.",
-  "checkpoint_status": "X08_B7_PASS_SCOPED_ANDROID_3_3_X12_WAIT_SEPARATE_READY",
+  "next": "X08 3/3 B7 scoped PASS guard 43157343172, no rerun. Work NEXT S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID audit docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md blob 473cd07aeca9e1241b58931f9430b947b97a9051 package docs/s3-night/S3_A5_7_X12_WORK_EXEC_PACKAGE_20261112.json blob 3d8dea411f2540538d9a21c0f36e8a3d5e2ce912, READY exactly 2 paths, after HEAD/lock CAS preflight B6 new Android API35 fontScale2.0+expanded actual accessibility scenarios XML 2/0/0/0, screenshots APK signatures/offline source SHA, independent B7 and release. Then READ_ONLY acceptance inventory docs/s3-night/S3_A5_7_POST_X12_ACCEPTANCE_PREPARATION_20261112.md; X03 live Free human and A5/G15 global pending.",
+  "checkpoint_status": "X08_B7_PASS_SCOPED_X12_B1_B5_READY_B6_NOT_STARTED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 787,
+  "last_writer_epoch_observed": 788,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "WAIT_CI",
   "expected_head": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
   "blocker": null,
-  "writer_release_epoch": 787,
+  "writer_release_epoch": 788,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2242,7 +2242,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_7_X08_B7_PASS_SCOPED_X12_PREAUDITED_NEXT",
+  "checkpoint": "S3_A5_7_X08_B7_PASS_X12_INDIVIDUAL_READY_TWO_PATHS",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2334,7 +2334,7 @@
     "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
   },
   "work_turbo_20261111": {
-    "status": "X02_READY_WORK_NIGHT_X06_NEXT",
+    "status": "X08_CLOSED_X12_READY_WORK_NEXT",
     "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
     "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
     "package_blob_sha": "d4ef5ee5e31a095810f330a8cb755f8eb0bda327",
@@ -2350,7 +2350,7 @@
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
     ],
-    "next_action": "WORK_B6_X02_AND_CHAIN_X06_AFTER_B7",
+    "next_action": "WORK_B6_X12_TWO_PATHS_ANDROID_API35_XML_APK_B7",
     "next_units": [
       "X03_U02_ISOLATED_DEBUG_PROVIDER_WIRING",
       "X03_LIVE_FREE_TIER_VERIFY_SEPARATE",
@@ -2361,7 +2361,7 @@
     "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
     "ready_unit_id": null,
     "ready_reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
-    "functional_permission": "READY_ONLY_X02_FIVE_PATHS",
+    "functional_permission": "READY_ONLY_X12_TWO_NEW_PATHS",
     "queue_status": "U02_READY_IN_OWN_PACKAGE_U01_DONE",
     "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
     "ready_guard_run": 43113426305,
@@ -2409,7 +2409,7 @@
       "duration_if_observed": null,
       "tokens_if_observed": null
     },
-    "active_package": "docs/s3-night/S3_A5_7_X02_WORK_EXEC_PACKAGE_20261112.json",
+    "active_package": "docs/s3-night/S3_A5_7_X12_WORK_EXEC_PACKAGE_20261112.json",
     "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8",
     "execution_u02": {
       "status": "DONE_VERIFIED_SCOPED",
@@ -2832,7 +2832,7 @@
     "v2_production": false
   },
   "night_work_chain_20261112": {
-    "status": "X02_READY_FOR_WORK_B6_X06_PREAUDITED_NEXT",
+    "status": "X02_X06_X08_B7_PASS_X12_READY_NEXT",
     "chain": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
     "chain_blob_sha": "45fb024a5a0c5c406f2cf36017d92792b3756024",
     "first_unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
@@ -2862,7 +2862,7 @@
     "first_ready_reviewed_head": "419ab7953e3a05694e892ca15f4ade98ffbccb2c",
     "first_ready_guard_run": 43146940824,
     "first_permission": "READY_ONLY_X02_FIVE_PATHS",
-    "next_action": "WORK_B6_X02_THEN_SEPARATE_X06_READY_AFTER_B7"
+    "next_action": "WORK_B6_X12_TWO_PATHS_THEN_A5_ACCEPTANCE_MATRIX_READ_ONLY"
   },
   "a5_7_x02_auxiliary_avisos": {
     "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
@@ -2897,13 +2897,19 @@
     "physical": "NOT_RUN"
   },
   "x12_work_prep_20261112": {
-    "status": "B1_B5_PREAUDITED_WAIT_NEW_READY",
+    "status": "READY_FOR_WORK_B6_TWO_NEW_TEST_PATHS",
+    "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
+    "reviewed_head": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
+    "prior_x08_guard_run": 43157343172,
     "audit": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
     "audit_blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
+    "package": "docs/s3-night/S3_A5_7_X12_WORK_EXEC_PACKAGE_20261112.json",
+    "package_blob_sha": "3d8dea411f2540538d9a21c0f36e8a3d5e2ce912",
     "paths": [
       "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt",
       ".github/workflows/faro-v5-s3-a5-7-x12-adaptive-semantics-android-directed.yml"
     ],
-    "next": "B1_B5_GUARD_AND_INDIVIDUAL_READY_FOR_X12"
+    "after_x12_plan": "docs/s3-night/S3_A5_7_POST_X12_ACCEPTANCE_PREPARATION_20261112.md",
+    "after_x12_plan_blob_sha": "08d2e27ac6f562dcd2149a109faed349c75972d3"
   }
 }

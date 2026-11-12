@@ -37,3 +37,6 @@ X01/X09/X10 B7 PASS scoped: NO repetir. Primero X02 (5 rutas) preauditoria y paq
 
 ## READY nocturno X02 (2026-11-12)
 Primera unidad S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ READY de cinco rutas unicamente, luego X06 requiere READY independiente al cerrar X02 B7. Paquete docs/s3-night/S3_A5_7_X02_WORK_EXEC_PACKAGE_20261112.json, preaudit guard 43146940824 SUCCESS; Work empieza B6 tras CAS/preflight, no hace una investigacion B1-B5 nueva. Cadena docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md. V2 DEV OFFLINE, X03 live no certificado, no paid API.
+
+## Handoff prevalente: X12 READY tras X08 B7 PASS (2026-11-12)
+No repetir X02/X06/X08 o previas. Única unidad funcional autorizada ahora S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID en paquete docs/s3-night/S3_A5_7_X12_WORK_EXEC_PACKAGE_20261112.json (dos rutas test/workflow nuevas), B1–B5 docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md, guard X08 43157343172 SUCCESS. Work B6 CI Android API35 2/2 XML/APK/screenshot y B7; luego aceptación global READ_ONLY docs/s3-night/S3_A5_7_POST_X12_ACCEPTANCE_PREPARATION_20261112.md. Sin ensayos G15 ni activar IA live/Internet V2 DEV.

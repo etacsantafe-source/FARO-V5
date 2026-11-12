@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "goal_id": "S3.A5.7",
+  "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
+  "branch": "work/s3-night-20261102",
+  "reviewed_head": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
+  "status": "READY_FOR_B6_X12_EXACT_TWO_PATHS_AFTER_GUARD",
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+    "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "allowed_functional_paths": [
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x12-adaptive-semantics-android-directed.yml"
+  ],
+  "scope": "V2COREDEV_OFFLINE_REAL_ADAPTIVE_FONT200_AND_EXPANDED_SEMANTICS_TEST_ONLY",
+  "depends_on": [
+    "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID:B7_PASS_SCOPED"
+  ],
+  "previous_verified": {
+    "x08_code_sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+    "x08_ci": 43155126432,
+    "x08_code_guard": 43155126431,
+    "x08_checkpoint_guard": 43157343172,
+    "x08_b7_doc": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
+  },
+  "tests": [
+    "x12LargeFontCanonicalAvisosActionsAndRevocation",
+    "x12ExpandedWindowNativeDrawerAndRestoredSourceIsolation"
+  ],
+  "test_plan": {
+    "api": 35,
+    "configuration": "actual emulator font_scale=2.0 and expanded screenWidthDp>=840; restore in finally",
+    "data": "real isolated DEV Auxiliary notices synthetic owner fixture; no user data",
+    "ui": "actual native Activity and Material Compose adaptive shell; viewport/semantic target geometry and accessibility labels; revocation on background/recreate; no stale grants",
+    "run_only": "FaroV5S3A57X12AdaptiveSemanticsUiTest",
+    "result": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "instrumentation": [
+      "OK (2 tests)",
+      "INSTRUMENTATION_CODE: -1"
+    ],
+    "artifacts": "raw test log, JUnit XML, 2 APKs, manifest+permissions, APK SHA256, source SHA, screenshot/font/wm configuration evidence"
+  },
+  "forbidden": [
+    "modify any runtime/production source",
+    "modify dependencies/build.gradle",
+    "enable INTERNET in V2DEV",
+    "treat emulator as G15 physical/TalkBack PASS",
+    "calls to paid APIs/Groq live",
+    "rewrite S2 or main",
+    "auto-enable V2 productive/S4/Auto/Noche"
+  ],
+  "next": "After Work B7 PASS X12, consume permit; next read-only acceptance matrix in docs/s3-night/S3_A5_7_POST_X12_ACCEPTANCE_PREPARATION_20261112.md. Further code only after separate per-unit B1-B5 and READY."
+}

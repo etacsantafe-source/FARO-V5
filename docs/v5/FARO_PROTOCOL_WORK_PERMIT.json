@@ -1,34 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-  "reviewed_head": "7d4a02d6a2e1a3cdb6c9e1a7e321e5ef37cf84be",
+  "status": "READY",
+  "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
+  "reviewed_head": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x08-owner-interruption-android-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x12-adaptive-semantics-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
-          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
-          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
-          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
-          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
           "marker": "## B1"
         }
       ]
@@ -37,23 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
-          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
-          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
-          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
-          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
           "marker": "## B2"
         }
       ]
@@ -62,23 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
-          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
-          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
-          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
-          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
           "marker": "## B3"
         }
       ]
@@ -87,23 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
-          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
-          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
-          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
-          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
           "marker": "## B4"
         }
       ]
@@ -112,29 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
-          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
-          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
-          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
-          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
+          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
@@ -158,11 +83,11 @@
     "guard_run_id": 43155126431,
     "artifact_id": 13916181288
   },
-  "why": "X08 final code 35ea27e171a48a53ec38dadb73dc1f582ac46c12 CI run 43155126432 SUCCESS API35 3/3; independent B7 reviewed artifact. Permit consumed.",
-  "how": "X08 PASS scoped, no more code under this permit. After docs guard, X12 separate READY for two test/workflow paths.",
+  "why": "X12 independently scoped adaptation/accessibility semantics test-only Android API35. Reviewed X08 B7 PASS on 18ac444fc5da90a911e7bf47364f1fe37e747bf2 guard 43157343172 SUCCESS. Existing X12 B1–B5 audit validated exact blob SHA 473cd07aeca9e1241b58931f9430b947b97a9051; two NEW paths only.",
+  "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X08 B7 PASS scoped and permit CONSUMED. DO NOT use for X12. X12 requires independent READY.",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }

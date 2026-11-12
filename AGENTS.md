@@ -36,3 +36,6 @@ Tras el guard de preauditoria 43146940824 SUCCESS, el permiso actual READY habil
 
 ## Nuevo cierre: X08 B7 PASS scoped (2026-11-12)
 X08 B7 verificado independientemente del ZIP, 3/3 Android API35 43155126432, hashes APK/manifiesto y guard 43155126431 SUCCESS; code 35ea27e171a48a53ec38dadb73dc1f582ac46c12. Cierre docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md, prueba docs/s3-night/S3_A5_7_X08_ARTIFACT_VERIFICATION_20261112.json. No repetir. SIGUIENTE X12: B1–B5 docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md, dos rutas nuevas test/workflow y permiso READY NUEVO antes de código. No usar el permiso BLOCKED de X08. X03 live, A5 global y G15 físico final pendientes.
+
+## X12 siguiente única autorización READY — 2026-11-12
+X08 B7 PASS scoped y guard 43157343172 SUCCESS, no repetir. X12 READY individual 2 nuevas rutas sólo test/CI, audit docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md, exec docs/s3-night/S3_A5_7_X12_WORK_EXEC_PACKAGE_20261112.json, aceptar font 200% y ventana expandida con datos owner reales y semánticas accesibles. A5 matriz posterior READ_ONLY docs/s3-night/S3_A5_7_POST_X12_ACCEPTANCE_PREPARATION_20261112.md; no permiso global ni G15 físico, no V2 productiva/Internet/Auto/Noche, no paid API.
