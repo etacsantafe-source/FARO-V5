@@ -1,16 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
-  "reviewed_head": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A5_7_X01_REALITY_COMMITTED_ACTIVITY_ANDROID_SCOPED",
+  "reviewed_head": "a783d439ec21ebc1da76fc53a947d776fd1a3f27",
+  "paths": [
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57ActivityReceiptComposeUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x01-receipt-activity-android-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
-          "blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d",
+          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
+          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
           "marker": "## B1"
         }
       ]
@@ -19,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
-          "blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d",
+          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
+          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
           "marker": "## B2"
         }
       ]
@@ -29,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
-          "blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d",
+          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
+          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
           "marker": "## B3"
         }
       ]
@@ -39,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
-          "blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d",
+          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
+          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
           "marker": "## B4"
         }
       ]
@@ -49,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
-          "blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d",
+          "path": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
+          "blob_sha": "a21b49b7e01b7a3a49cd8c6fc77580d8da30e15a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEBUG_REVIEWED_APPLY_RECEIPT_RECOVERY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9d865d3263f297fe96e98fccb3af32d2d3a86fb5",
@@ -72,11 +75,11 @@
     "ci_run_id": 43128616165,
     "guard_run_id": 43128616170
   },
-  "why": "X10 independent B7 PASS scoped on exact SHA, CI Android 2/2 and guard SUCCESS; no active functional permission. X01 requires separate B1-B5 delta and READY.",
-  "how": "Next X01 document B1-B5 delta for real COMMITTED receipts and provenance; guard PASS before individual READY and code. Do not reuse X10 permit.",
+  "why": "X01 two-path test-only delta after X10 B7 scoped; independent B1–B5 a783d439 guard 43132497050 SUCCESS, no repetition of Android X01/X02 3/3",
+  "how": "Preflight both paths exact; one Reality COMMITTED receipt Android API35 (1/1), XML/APK and hashes, B7 scoped; V2 DEV offline and G15 final",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X10_CONSUMED_B7_PASS_SCOPED_X01_INDEPENDENT_PREAUDIT_REQUIRED",
-  "needs_prep_document": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
+  "blocked_reason": null,
+  "needs_prep_document": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B1_B5_20261111.md",
   "closure_document": "docs/s3-night/S3_A5_7_X10_WORK_B7_PASS_20261111.md"
 }
