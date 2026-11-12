@@ -83,24 +83,24 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
-    "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
+    "sha": "67bee2004800c2f81bbca7fe268d0f50d7228a92",
+    "unit_id": "S3_A5_7_X06_THREE_REALITY_OWNER_SEARCH_ANDROID",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B7_PASS_20261112.md",
-        "blob_sha": "71cdb1c6021bbf5a76726b9395f885ac3b9766e7",
+        "path": "docs/s3-night/S3_A5_7_X06_THREE_REALITY8_OWNERS_B7_PASS_20261112.md",
+        "blob_sha": "c3acb02928e60b44fc776de3994ca4ecc8798674",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43148847125,
-    "ci_job_id": 130955206898,
-    "guard_run_id": 43148847132,
-    "artifact_id": 13912454933,
+    "ci_run_id": 43151250329,
+    "ci_job_id": 130960646482,
+    "guard_run_id": 43151250243,
+    "artifact_id": 13913757767,
     "android_test": "PASS_2_OF_2",
     "ci": "SUCCESS_XML_2_0_0_0"
   },
@@ -108,7 +108,7 @@
   "how": "Exact schema8 canonical test seed/closed graph; two Android API35 tests over real Finance/Objectives/Matters, real Activity native Chat/Search, privacy/read-only detail, pause stale hit rejection and fresh gesture. XML 2/0/0/0 APK/hash/manifest/guard and B7.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X06_IMPLEMENTED_WAIT_CI_NO_ADDITIONAL_CODE",
+  "blocked_reason": "UNIT_COMPLETE_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "needs_prep_document": null,
-  "closure_document": null
+  "closure_document": "docs/s3-night/S3_A5_7_X06_THREE_REALITY8_OWNERS_B7_PASS_20261112.md"
 }

@@ -1,0 +1,46 @@
+{
+  "unit_id": "S3_A5_7_X06_THREE_REALITY_OWNER_SEARCH_ANDROID",
+  "code_sha": "67bee2004800c2f81bbca7fe268d0f50d7228a92",
+  "run_id": 43151250329,
+  "job_id": 130960646482,
+  "guard_run_id": 43151250243,
+  "artifact_id": 13913757767,
+  "zip_sha256": "2b04e482c2d0e3556eba9c1c240e9240123be859aa3ba9d5a80b21a3a6be1810",
+  "entries": 10,
+  "xml": {
+    "name": "S3_A5_7_X06_THREE_OWNER_SEARCH_Android_API35",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "test_names": [
+    "x06RevokedRealityOwnerHitDoesNotOpenAfterPause",
+    "x06ThreeCanonicalRealityOwnersSearchFromAndroidWithoutPrivateFields"
+  ],
+  "events": [
+    [
+      "x06ThreeCanonicalRealityOwnersSearchFromAndroidWithoutPrivateFields",
+      1
+    ],
+    [
+      "x06ThreeCanonicalRealityOwnersSearchFromAndroidWithoutPrivateFields",
+      0
+    ],
+    [
+      "x06RevokedRealityOwnerHitDoesNotOpenAfterPause",
+      1
+    ],
+    [
+      "x06RevokedRealityOwnerHitDoesNotOpenAfterPause",
+      0
+    ]
+  ],
+  "apks_sha256": {
+    "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "6f6dab4d793ab1a9e72b6d154fa9d9eb8e0064c52e0433e9371e4bea9347d563",
+    "v5/app/build/outputs/apk/androidTest/v2CoreDev/app-v2CoreDev-androidTest.apk": "99edcfb47413fc8832a8c122d4cc7ec3274c489aeaea4aa33b67a4b3c3d5123d"
+  },
+  "identity_manifest_checks": "PASS_NO_INTERNET_NO_X03_ACTIVITY_NO_SHARED_UID",
+  "signatures": "VERIFIED_BY_RUNNER_NOT_REPEATED_LOCALLY",
+  "status": "PASS_SCOPED"
+}
