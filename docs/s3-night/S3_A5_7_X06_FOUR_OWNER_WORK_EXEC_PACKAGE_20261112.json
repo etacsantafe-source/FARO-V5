@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "unit_id": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID",
+  "status": "PREAUDITED_QUEUED_NOT_READY_UNTIL_X12_B7",
+  "audit": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
+  "audit_blob_sha": "20f55460ccb480041d4b74b18e0469a206b61d7f",
+  "paths": [
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X06FourOwnerSearchUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x06-four-owner-search-android-directed.yml"
+  ],
+  "test": "x06SingleQueryShowsFourCanonicalOwnersInReality8",
+  "expected_xml": "1/0/0/0",
+  "scope": "TEST_ONLY_SINGLE_ANDROID_QUERY_4_REAL_OWNER_NAMESPACES_SCHEMA8",
+  "physical": "NOT_RUN",
+  "forbidden": [
+    "production source",
+    "Internet",
+    "Groq",
+    "G15",
+    "S2",
+    "main",
+    "paid APIs",
+    "repeat historical suites"
+  ],
+  "next": "Independent exact two-path READY after X12 B7 and documental guard; preflight; B6+CI+independent ZIP B7+consume+release."
+}
