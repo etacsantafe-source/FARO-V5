@@ -1,6 +1,5 @@
 package ar.com.faro.v5.app
 
-import androidx.activity.compose.setContent
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -142,10 +141,8 @@ class FaroV5S3A57X08OwnerInterruptionUiTest {
     }
 
     private fun mountActualSearch(f: Fixture) {
-        rule.runOnUiThread {
-            rule.activity.setContent {
-                FaroV5Theme { FaroV5SearchScreen(f.search, onOpenConversation = { error("No Workspace hit expected") }) }
-            }
+        rule.setContent {
+            FaroV5Theme { FaroV5SearchScreen(f.search, onOpenConversation = { error("No Workspace hit expected") }) }
         }
         rule.waitForIdle()
     }
