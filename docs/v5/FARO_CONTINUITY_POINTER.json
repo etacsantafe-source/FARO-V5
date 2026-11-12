@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X02_B6_WAIT_CI",
+  "phase": "S3_A5_7_X02_B7_PASS_X06_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 770
+    "expected_release_epoch": 774
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify corrected run 43148847125 XML 2/0/0/0, actual instrumentation, manifest/APK hashes, B7. Then X06 separate READY two paths.",
-  "checkpoint_status": "X02_INDIVIDUAL_READY_FIVE_PATHS_B6_NOT_STARTED_X06_PREP_ONLY",
+  "next": "X06: verify closure guard and released writer; issue individual two-path READY with original preaudit + exact schema8 fixture delta, then preflight/B6/API35 2/2/XML/APK/B7.",
+  "checkpoint_status": "X02_B7_PASS_SCOPED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
-  "last_ci_run_id": 43134563606,
+  "last_ci_run_id": 43148847125,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_X01_ANDROID_API35_1_0_0_0",
+  "last_ci_conclusion": "SUCCESS_XML_2_0_0_0",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -2186,11 +2186,11 @@
   },
   "goal_id": "S3.A5.7",
   "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
-  "block_id": 6,
-  "block_status": "WAIT_CI",
-  "expected_head": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
+  "block_id": 7,
+  "block_status": "B7_PASS_SCOPED",
+  "expected_head": "b2070c32d055916012cc9ca397138c42c59b1b3c",
   "blocker": null,
-  "writer_release_epoch": 770,
+  "writer_release_epoch": 774,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2217,14 +2217,12 @@
   },
   "work": {
     "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
-    "status": "WAIT_CI_CORRECTED_RESTORED_DESTINATION",
+    "status": "B7_PASS_SCOPED",
     "code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
     "android_run_id": 43148847125,
     "guard_run_id": 43148847132,
-    "guard_conclusion": "SUCCESS",
-    "original_android_run_id": 43148379317,
-    "original_code_sha": "07480f65622f553be349f9550dfcee471f164742",
-    "next": "Verify corrected run 43148847125 XML 2/0/0/0, actual instrumentation, manifest/APK hashes, B7. Then X06 separate READY two paths."
+    "evidence": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B7_PASS_20261112.md",
+    "next": "X06: verify closure guard and released writer; issue individual two-path READY with original preaudit + exact schema8 fixture delta, then preflight/B6/API35 2/2/XML/APK/B7."
   },
   "work_m04": {
     "status": "DONE_VERIFIED",
@@ -2887,5 +2885,14 @@
     "first_ready_guard_run": 43146940824,
     "first_permission": "READY_ONLY_X02_FIVE_PATHS",
     "next_action": "WORK_B6_X02_THEN_SEPARATE_X06_READY_AFTER_B7"
+  },
+  "a5_7_x02_auxiliary_avisos": {
+    "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
+    "status": "B7_PASS_SCOPED",
+    "code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
+    "android_run_id": 43148847125,
+    "guard_run_id": 43148847132,
+    "evidence": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B7_PASS_20261112.md",
+    "next": "X06: verify closure guard and released writer; issue individual two-path READY with original preaudit + exact schema8 fixture delta, then preflight/B6/API35 2/2/XML/APK/B7."
   }
 }

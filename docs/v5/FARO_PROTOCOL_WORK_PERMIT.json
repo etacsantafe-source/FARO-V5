@@ -57,28 +57,32 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "07480f65622f553be349f9550dfcee471f164742",
+    "sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
     "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X02_RESTORED_DESTINATION_B7_RED_FIX_20261112.md",
-        "blob_sha": "5ddf729b99b249f82172ba0c66b58246a5cfbe7e",
+        "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B7_PASS_20261112.md",
+        "blob_sha": "71cdb1c6021bbf5a76726b9395f885ac3b9766e7",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43148379317,
-    "ci": "IN_PROGRESS_STATIC_AUDIT"
+    "ci_run_id": 43148847125,
+    "ci_job_id": 130955206898,
+    "guard_run_id": 43148847132,
+    "artifact_id": 13912454933,
+    "android_test": "PASS_2_OF_2",
+    "ci": "SUCCESS_XML_2_0_0_0"
   },
   "why": "Causal static B7 test synchronization correction for restored Avisos destination; one test path only.",
   "how": "Work B6: fetch current HEAD writer CAS and individual permit, execute preflight for ALL 5 paths. Add AUXILIARY_NOTICE read domain, V2DEV source-specific Session and native button, real Auxiliary owner read via createPinned; Android API35 new 2 tests exact, XML/APK hashes, guard, independent B7. No INTERNET or OS delivery, no USER data.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X02_CORRECTED_CODE_IMPLEMENTED_WAIT_CI_B7_NO_ADDITIONAL_CODE_AUTHORIZED",
+  "blocked_reason": "UNIT_COMPLETE_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md"
+  "closure_document": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B7_PASS_20261112.md"
 }

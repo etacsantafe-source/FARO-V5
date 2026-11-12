@@ -1,0 +1,16 @@
+# X02 Auxiliary Avisos — B7 PASS scoped, 2026-11-12
+Unit S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ. Original B1–B5 e6568d7b8c10c98acb795f98adf0668146698136, five exact paths and 5/5 preflight at 9d10d4874451689c6f5c23cd1eb472cafb6304ed. B6 07480f65622f553be349f9550dfcee471f164742. One-path causal test correction 5cdeae4cb1d6947f0e222487430b28a53bba1e98, preflight PASS at 68181b5a90fbde5c85ee48d6ee69ebc031455713. Production paths only three approved files; no other functional changes.
+
+## B6
+Android run https://github.com/etacsantafe-source/FARO-V5/actions/runs/43148847125 job 130955206898 COMPLETED SUCCESS, source 5cdeae4cb1d6947f0e222487430b28a53bba1e98. All compile, identity/manifests/signatures, offline API35, instrumentation, XML and artifact steps SUCCESS. Code guard 43148847132 SUCCESS. Documentary checkpoint guard 43150478583 SUCCESS after explicit BLOCKED wait state correction, recorded separately. First Android run 43148379317 FAILED at restored destination waits (lines 105/126), not hidden: initial real positive data/privacy/filter/pause assertions passed before that timeout. Static RED_FIX was documented before correction. Original 14 other automatically triggered Actions succeeded; no historical suite requested manually.
+
+## B7
+PASS_SCOPED_AUXILIARY_NOTICE_FOREGROUND_READ. Independent ZIP download/recomputed digest a687d9b7f4d999db25df5db2b267d6c2c4a08321324254ddeb64016fc307c264 matches artifact 13912454933 (10 entries). Verification record docs/s3-night/S3_A5_7_X02_ARTIFACT_VERIFICATION_20261112.json.
+XML parsed independently: tests=2 failures=0 errors=0 skipped=0, exact methods x02NoGestureCannotReadAuxiliaryOrInventEmpty and x02ExplicitAuxiliarySourceRendersAndRevokesOnPause. Log independently parsed start=1 and success=0 once each, OK (2 tests), INSTRUMENTATION_CODE:-1. Source SHA exact. Two APK SHA256 recalculated and equal artifact checksum file:
+- DEV d6ad2790c2524f2ec512d0641d6a217d9f2d5433b1fcbebcbae526ba3f4302fb
+- AndroidTest bc1e062144308ee60acce9ebbad796cafec38da5ce71bca22bb7bbb01763bc43
+Badging packages ar.com.faro.alpha.v2coredev / .test. Manifest and permissions read from ZIP: no INTERNET, isolated AI Activity or sharedUserId in DEV. Signatures verified by runner, not repeated locally.
+
+Source/diff audit: AUXILIARY_NOTICE separate domain, granted only by dedicated native RESUMED callback. Normal Chat and Activity grants cannot read Avisos. createPinned delegates canonical Auxiliary read and checks live grant/full pointer before/after; real owner/pointer/grant changes invalidate; pause clears pending request, revokes access, detaches listeners and redacts content/summary; resume never regrants. Test seeds real test-only Auxiliary backup with OPEN NORMAL/SENSITIVE, RESOLVED and DISMISSED, no DeliveryIntent. Actual notices shown/redacted/filtered; summary discarded after pause; recreation requires new gesture; final owner notices unchanged and deliveryIntentCount=0. No fake page/owner or user data.
+
+Limits: no X02 GLOBAL or A5 GLOBAL closure; other Pendientes/Avisos integrations and physical campaign remain open. No G15, Internet, production V2, S4, Auto/Noche or paid API. Main/S2 untouched. Permit consumed/BLOCKED. Next X06 exact schema8 delta preaudit, independent two-path READY only after this B7 and writer RELEASED.

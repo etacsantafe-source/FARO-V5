@@ -1,0 +1,47 @@
+{
+  "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
+  "code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
+  "run_id": 43148847125,
+  "job_id": 130955206898,
+  "guard_run_id": 43148847132,
+  "checkpoint_guard_id": 43150478583,
+  "artifact_id": 13912454933,
+  "zip_sha256": "a687d9b7f4d999db25df5db2b267d6c2c4a08321324254ddeb64016fc307c264",
+  "entries": 10,
+  "xml": {
+    "name": "S3_A5_7_X02_AUXILIARY_AVISOS_Android_API35",
+    "tests": "2",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0"
+  },
+  "test_names": [
+    "x02ExplicitAuxiliarySourceRendersAndRevokesOnPause",
+    "x02NoGestureCannotReadAuxiliaryOrInventEmpty"
+  ],
+  "events": [
+    [
+      "x02NoGestureCannotReadAuxiliaryOrInventEmpty",
+      1
+    ],
+    [
+      "x02NoGestureCannotReadAuxiliaryOrInventEmpty",
+      0
+    ],
+    [
+      "x02ExplicitAuxiliarySourceRendersAndRevokesOnPause",
+      1
+    ],
+    [
+      "x02ExplicitAuxiliarySourceRendersAndRevokesOnPause",
+      0
+    ]
+  ],
+  "apks_sha256": {
+    "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "d6ad2790c2524f2ec512d0641d6a217d9f2d5433b1fcbebcbae526ba3f4302fb",
+    "v5/app/build/outputs/apk/androidTest/v2CoreDev/app-v2CoreDev-androidTest.apk": "bc1e062144308ee60acce9ebbad796cafec38da5ce71bca22bb7bbb01763bc43"
+  },
+  "identity_manifest_checks": "PASS_NO_INTERNET_NO_X03_ACTIVITY_NO_SHARED_UID",
+  "signatures": "VERIFIED_BY_RUNNER_NOT_REPEATED_LOCALLY",
+  "status": "PASS_SCOPED"
+}
