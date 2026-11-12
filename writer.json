@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.G15_ISOLATED_X06_WAIT_CI_CHECKPOINT.20261112",
-  "token_hash": "27481712c0c90bfba6245c39f49e95d6b9b3abb64b6a4692781949c53b1f30e1",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.G15_ISOLATED_X06_ANDROIDX_DELTA.20261112",
+  "token_hash": "7fafb9ef5e15c3791ef8ac2ac0de2d6888d8befec91c284b8a42322223b09550",
   "target_head": "0aecc8f3cd680778b466c0d2886ffd7f51a1c806",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 814,
-  "timestamp": 1794497169,
+  "epoch": 815,
+  "timestamp": 1794497309,
   "last_checkpoint": "0aecc8f3cd680778b466c0d2886ffd7f51a1c806"
 }
