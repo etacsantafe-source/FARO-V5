@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
-  "reviewed_head": "95e871196e5f96770d1291248460d901b0efd37f",
+  "reviewed_head": "3cd636dcb42d3e0f5aae14b310e4c55b0ca7cd79",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
     ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
   ],
   "stages": {
@@ -13,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
-          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
+          "path": "docs/s3-night/S3_G15_X06_BOOT_FIRST_LAUNCH_RUNNER_SHELL_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "9d94d0d0261ef436a9eacf3c92c2ac255f1dfd93",
           "marker": "## B1"
         }
       ]
@@ -23,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
-          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
+          "path": "docs/s3-night/S3_G15_X06_BOOT_FIRST_LAUNCH_RUNNER_SHELL_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "9d94d0d0261ef436a9eacf3c92c2ac255f1dfd93",
           "marker": "## B2"
         }
       ]
@@ -33,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
-          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
+          "path": "docs/s3-night/S3_G15_X06_BOOT_FIRST_LAUNCH_RUNNER_SHELL_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "9d94d0d0261ef436a9eacf3c92c2ac255f1dfd93",
           "marker": "## B3"
         }
       ]
@@ -43,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
-          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
+          "path": "docs/s3-night/S3_G15_X06_BOOT_FIRST_LAUNCH_RUNNER_SHELL_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "9d94d0d0261ef436a9eacf3c92c2ac255f1dfd93",
           "marker": "## B4"
         }
       ]
@@ -53,32 +51,32 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
-          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
+          "path": "docs/s3-night/S3_G15_X06_BOOT_FIRST_LAUNCH_RUNNER_SHELL_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "9d94d0d0261ef436a9eacf3c92c2ac255f1dfd93",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0e47ce3651b1c4bb5eed55172e59bc0d18c61d87",
-    "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
-    "result": "PASS",
+    "sha": "146aafb50793d46e86df05bd1d027f65c2e7b34e",
+    "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B7_PASS_SCOPED_20261112.md",
-        "blob_sha": "eb9d21670518512c0307544b26e5a2e4d795fb5f",
+        "path": "docs/s3-night/S3_G15_X06_BOOT_FIRST_LAUNCH_RUNNER_SHELL_DELTA_B1_B5_B7_20261112.md",
+        "blob_sha": "9d94d0d0261ef436a9eacf3c92c2ac255f1dfd93",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Physical first-launch FAIL on Moto G15, exact Activity onCreate mismatch for new appId. Exact two-ID allowlist, 7 authority gates and CI API35 first-launch smoke in code SHA146aafb5; guard 43266734155 SUCCESS; Android 43266734360 IN_PROGRESS at last check.",
-  "how": "Wait for exact directed Android CI 43266734360. Require emulator first-launch visible UI PASS, manifest/package/signing and artifact, then B7. If red RED_FIX same unit; no new changes without permission. Human G15 repair remains pending until re-sign new APK using same local private keystore and authorized adb install -r; do not uninstall/clear data.",
+  "why": "Exact 1-file RED_FIX after Android CI 43266734360 failed due to reactivecircus script separate /bin/sh -c per line, no APK installed on emulator. Core Kotlin compile and app manifest passed, boot not tested.",
+  "how": "Change only workflow to write ephemeral bash smoke file in run step and execute one bash invocation in emulator script; same package, safeguards and UI/pid checks. CI exact SHA, guard and B7; G15 physical pending.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_X06_ISOLATED_BOOT_PACKAGE_FIX_WAIT_CI_SHA_146aafb5",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
