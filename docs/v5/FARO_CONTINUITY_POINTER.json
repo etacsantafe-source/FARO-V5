@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 780
+    "expected_release_epoch": 782
   },
   "automation": {
     "activation_authorized": false,
@@ -40,14 +40,14 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
+  "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify exact X08 code 760d1140571055f42702ff220d15edb34eb28d13 API35 3/3 actual events/XML, APK manifests/hashes and guard. B7 then X12 independent READY after queued matrix revalidation.",
+  "next": "Verify corrected X08 743e28f4f6a6afb94ab66ba0b8dd8181e4353816 API35 3/3 events/XML, APK identities/manifests/hashes and guard; B7 then X12.",
   "checkpoint_status": "X06_B7_PASS_SCOPED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "760d1140571055f42702ff220d15edb34eb28d13",
+  "last_code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
   "last_ci_run_id": 43151250329,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -757,7 +757,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A3_BOOKMARKS_WORKSPACE_READ_AUTHORITY",
+  "last_unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -2188,9 +2188,9 @@
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
   "block_id": 6,
   "block_status": "WAIT_CI",
-  "expected_head": "760d1140571055f42702ff220d15edb34eb28d13",
+  "expected_head": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
   "blocker": null,
-  "writer_release_epoch": 780,
+  "writer_release_epoch": 782,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2217,10 +2217,11 @@
   },
   "work": {
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-    "status": "WAIT_CI",
-    "code_sha": "760d1140571055f42702ff220d15edb34eb28d13",
-    "ready_guard": 43152468790,
-    "next": "Verify exact X08 code 760d1140571055f42702ff220d15edb34eb28d13 API35 3/3 actual events/XML, APK manifests/hashes and guard. B7 then X12 independent READY after queued matrix revalidation."
+    "status": "WAIT_CI_CORRECTED_TEST_API",
+    "code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
+    "first_failure_run": 43152882781,
+    "red_fix_guard": 43153775125,
+    "next": "Verify corrected X08 743e28f4f6a6afb94ab66ba0b8dd8181e4353816 API35 3/3 events/XML, APK identities/manifests/hashes and guard; B7 then X12."
   },
   "work_m04": {
     "status": "DONE_VERIFIED",
@@ -2237,7 +2238,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X01_B7_PASS_X02_READY_WORK_NIGHT_X06_PREAUDITED",
+  "checkpoint": "S3_A5_7_X08_CORRECTED_B6_WAIT_CI",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2266,41 +2267,12 @@
     "app_v2_productive": "OFF"
   },
   "a5_current_unit": {
-    "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
-    "code_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
-    "xml": {
-      "tests": 2,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    "test_names": [
-      "canonicalReviewRequiresExplicitOpenBeforeApproveAndLeavesRealityUnchanged",
-      "reviewRevokesOnLifecycleOrStaleContextWithoutApply"
-    ],
-    "zip_sha256": "024eb806a25f4a8411ad74908c4d9f9fd46242c07d85d1213588e82525b8db99",
-    "apk_sha256": {
-      "v5/app/build/outputs/apk/debug/app-debug.apk": "8d660e32d6d54bf0819b83a04b88285e90f7fc44614d5dc030deb8643b731966",
-      "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "029fbc1458372e125e4f745a8c7337a7df1b690024a1a2f63032fa159d852954",
-      "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "b08e5d7c3896f383ad07a40391cf42766ca9273be9fa81deb4cc6ebef30999d3"
-    },
-    "debug_package": "ar.com.faro.alpha.s2isolated.v5dev",
-    "dev_package": "ar.com.faro.alpha.v2coredev",
-    "dev_internet": false,
-    "independent_binary_manifest_inspection": "PASS",
-    "provider_live": "NOT_RUN",
-    "physical": "NOT_RUN",
-    "ci_run_id": 43126057336,
-    "ci_job_id": 130878289035,
-    "guard_run_id": 43126057226,
-    "artifact_id": 13902893687,
-    "b6": "DONE_VERIFIED",
-    "b7": "PASS_SCOPED_DEBUG_CANONICAL_REVIEW_NO_APPLY",
-    "b7_doc": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md",
-    "functional_commits": 1,
-    "directed_ci_runs": 1,
-    "red_fix_count": 0,
-    "writer_epoch": 755
+    "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+    "status": "WAIT_CI_CORRECTED_TEST_API",
+    "code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
+    "first_failure_run": 43152882781,
+    "red_fix_guard": 43153775125,
+    "next": "Verify corrected X08 743e28f4f6a6afb94ab66ba0b8dd8181e4353816 API35 3/3 events/XML, APK identities/manifests/hashes and guard; B7 then X12."
   },
   "a5_7_x04_x05_android": {
     "unit": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
@@ -2471,7 +2443,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "760d1140571055f42702ff220d15edb34eb28d13",
+  "checkpoint_code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",

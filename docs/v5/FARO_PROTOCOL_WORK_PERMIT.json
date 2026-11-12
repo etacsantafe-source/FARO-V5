@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
   "reviewed_head": "00e52a2b7f3c42360c072607474ea33e9858be63",
   "paths": [
@@ -82,7 +82,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -105,7 +105,7 @@
   "how": "Three new API35 tests: actual canonical Finance snapshot -> grant revoke / actual owner close at deterministic second direct read; real source denies publication + canonical federation/UI partial. Actual DEV Reality hit pointer ABA using full sequence. Two paths only, real exact schema8 test fixture, XML3/0/0/0 APK/hash/manifest/guard/B7. No baseline reruns.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "X08_CORRECTED_IMPLEMENTATION_WAIT_CI",
   "needs_prep_document": null,
   "closure_document": null
 }
