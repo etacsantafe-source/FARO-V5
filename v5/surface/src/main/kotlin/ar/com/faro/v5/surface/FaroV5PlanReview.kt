@@ -84,6 +84,8 @@ fun FaroV5PlanReview(
                         TextButton(onClick = { onRequestApply(review.context()) }) {
                             Text("Verificar resultado")
                         }
+                    } else if (!reviewExpanded && onOpenReview != null) {
+                        TextButton(onClick = onOpenReview) { Text("Revisar estado") }
                     }
                 }
                 else -> Unit // Terminal outcomes are read-only.

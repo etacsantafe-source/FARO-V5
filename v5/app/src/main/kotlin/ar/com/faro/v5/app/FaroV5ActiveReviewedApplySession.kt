@@ -110,6 +110,16 @@ class FaroV5ActiveReviewedApplySession @JvmOverloads constructor(
         }
     }
 
+    /** Observe a previously COMMITTED receipt only; never allocate/re-execute an attempt. */
+    fun reconcileCommittedOnly(
+        context: ConversationPlanReviewContext,
+    ): ConversationApplyHostOutcome = gate.withMaterialWrite {
+        requireCurrent()
+        val outcome = coordinator.reconcileCommittedOnly(context).toHostOutcome()
+        requireCurrent()
+        outcome
+    }
+
     fun executeAfterHumanRequest(
         context: ConversationPlanReviewContext,
     ): ConversationApplyHostOutcome = gate.withMaterialWrite {
