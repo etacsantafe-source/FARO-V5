@@ -1,0 +1,30 @@
+{
+  "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
+  "code_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
+  "xml": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_names": [
+    "canonicalReviewRequiresExplicitOpenBeforeApproveAndLeavesRealityUnchanged",
+    "reviewRevokesOnLifecycleOrStaleContextWithoutApply"
+  ],
+  "zip_sha256": "024eb806a25f4a8411ad74908c4d9f9fd46242c07d85d1213588e82525b8db99",
+  "apk_sha256": {
+    "v5/app/build/outputs/apk/debug/app-debug.apk": "8d660e32d6d54bf0819b83a04b88285e90f7fc44614d5dc030deb8643b731966",
+    "v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk": "029fbc1458372e125e4f745a8c7337a7df1b690024a1a2f63032fa159d852954",
+    "v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk": "b08e5d7c3896f383ad07a40391cf42766ca9273be9fa81deb4cc6ebef30999d3"
+  },
+  "debug_package": "ar.com.faro.alpha.s2isolated.v5dev",
+  "dev_package": "ar.com.faro.alpha.v2coredev",
+  "dev_internet": false,
+  "independent_binary_manifest_inspection": "PASS",
+  "provider_live": "NOT_RUN",
+  "physical": "NOT_RUN",
+  "ci_run_id": 43126057336,
+  "ci_job_id": 130878289035,
+  "guard_run_id": 43126057226,
+  "artifact_id": 13902893687
+}

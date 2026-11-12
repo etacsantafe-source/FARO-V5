@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "unit_id": "S3_A5_7_X10_ISOLATED_REVIEWED_APPLY_RECEIPT_RECOVERY",
+  "status": "PREAUDITED_AWAIT_SEPARATE_READY_AFTER_GUARD",
+  "base_head_sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X10_ISOLATED_APPLY_RECEIPT_B1_B5_20261111.md",
+    "blob_sha": "817da94dfccfd6c7d090621ef8db79a274e5f68d"
+  },
+  "allowed_functional_paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveReviewedApplySession.kt",
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5PlanReview.kt",
+    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X10ApplyReceiptUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x10-apply-receipt-android-directed.yml"
+  ],
+  "test_names": [
+    "explicitApprovedApplyCommitsOnceAndReceiptSurvivesReopen",
+    "unknownNeverReexecutesAndCommittedReceiptReconcilesAfterReopen"
+  ],
+  "acceptance": {
+    "api": 35,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "provider_live": "PROHIBITED",
+    "physical": "FINAL_ONLY"
+  },
+  "depends_on": {
+    "X09": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md"
+  },
+  "next_action": "GUARD_DOCUMENTS_THEN_SEPARATE_INDIVIDUAL_READY_PREFLIGHT_5_B6_CI_B7"
+}

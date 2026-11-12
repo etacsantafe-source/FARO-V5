@@ -1,17 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
   "reviewed_head": "6356a68b2f901904a362881d1f36d8ceba47649f",
-  "paths": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
-    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
-    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X09ReviewUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x09-review-android-directed.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -63,28 +55,28 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_NO_APPLY"
   },
   "last_code_review": {
-    "sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
-    "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
+    "sha": "c3750034e95076d7f67a647bf2246a655a26bf1f",
+    "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md",
-        "blob_sha": "1330195c252cbc83e8406deb8bf13a91fe08abf8",
+        "path": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md",
+        "blob_sha": "3552ad93056b6cb267481ca70b83bdb02a1acaeb",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43116880002,
-    "guard_run_id": 43116879920
+    "ci_run_id": 43126057336,
+    "guard_run_id": 43126057226
   },
-  "why": "X09 scoped debug canonical Review: seven exact surface→host + U02 Activity + AndroidTest + workflow paths, audited B1–B5; keep S2 legacy behavior and Apply null.",
-  "how": "Work B6: verify HEAD writer CAS and exact preflight for all 7 paths; expose only canonical reviewPort in U02 staged, explicit-open UX opt-in, NO Apply, CI Android API35 2/2 XML/APK/hashes and same-SHA guard, B7 independent, release writer. Next X10 requires separate B1–B5 READY.",
+  "why": "X09 scoped debug canonical Review: seven exact surface\u2192host + U02 Activity + AndroidTest + workflow paths, audited B1\u2013B5; keep S2 legacy behavior and Apply null.",
+  "how": "Work B6: verify HEAD writer CAS and exact preflight for all 7 paths; expose only canonical reviewPort in U02 staged, explicit-open UX opt-in, NO Apply, CI Android API35 2/2 XML/APK/hashes and same-SHA guard, B7 independent, release writer. Next X10 requires separate B1\u2013B5 READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "U02_CONSUMED_X09_INDEPENDENT_B1_B5_READY_REQUIRED",
+  "blocked_reason": "X09_CONSUMED_X10_SEPARATE_READY_AFTER_GUARD",
   "needs_prep_document": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
-  "closure_document": "docs/s3-night/S3_A5_7_X03_U02_WORK_B7_PASS_20261111.md"
+  "closure_document": "docs/s3-night/S3_A5_7_X09_WORK_B7_PASS_20261111.md"
 }
