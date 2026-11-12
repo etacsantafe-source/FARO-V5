@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S4.P01.INVENTORY.DOC.20261112",
   "token_hash": "c31e279836ca926171b2df9e4b9fd033990ad7b02381e665c223fe2a1aac7468",
-  "target_head": "63c7c2fe65f6577f0546cd5427a118b9dc316ac2",
+  "target_head": "c8dacbe08b753881364fee30bc36ad01bfd04852",
   "target_branch": "work/s3-night-20261102",
   "epoch": 845,
-  "timestamp": 1794527736,
-  "scope": "DOC_ONLY_S4_PREP_P01_V5_INVENTORY_NO_S4_OPEN"
+  "timestamp": 1794527994,
+  "scope": "DOC_ONLY_S4_PREP_P01_V5_INVENTORY_NO_S4_OPEN",
+  "last_checkpoint": "c8dacbe08b753881364fee30bc36ad01bfd04852"
 }
