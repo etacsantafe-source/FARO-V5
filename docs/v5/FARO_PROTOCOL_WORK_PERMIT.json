@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
   "reviewed_head": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
   "paths": [
@@ -58,7 +58,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -87,7 +87,7 @@
   "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "X12_B6_WAIT_CI_NO_NEW_FUNCTIONAL_WRITES",
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }
