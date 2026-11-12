@@ -16,6 +16,8 @@ Reutilizar el patrón adjustResize existente en Activity de app principal y el l
 
 Android Jetpack Compose: https://developer.android.com/develop/ui/compose/system/setup-e2e recomienda android:windowSoftInputMode=adjustResize para recepción de IME insets; https://developer.android.com/develop/ui/compose/system/insets-ui explica imePadding y consumo de WindowInsets; https://developer.android.com/reference/android/view/WindowManager.LayoutParams describe SOFT_INPUT_ADJUST_RESIZE y su deprecación API30 en favor de insets explícitos. Una línea de manifest sola puede no resolver edge-to-edge Android15.
 
+**Comparación explícita de proyectos reales**: [Jetchat de Google / android/compose-samples](https://github.com/android/compose-samples/blob/main/Jetchat/README.md) es una app de Chat Compose que documenta transiciones IME sincronizadas con `Modifier.navigationBarsPadding().imePadding()` en `ConversationContent`, con gestión de foco y entrada; inspiración de comportamiento de UI, **no** autoridad sobre Workspace/Apply FARO, no copiar sus dependencias ni código sin revisión. [Jetpack Compose Window Insets](https://developer.android.com/develop/ui/compose/system/insets-ui) advierte que los componentes al final de un scroll pueden quedar ocultos si se usa `contentPadding` sin el `Spacer` o manejo de insets apropiado. Alternativa A: `adjustResize` más prueba real; B: `imePadding` solo si falla A y tras revisar consumo de Scaffold; alternativa C descartada: hacer scroll automático o tocar por coordenada sin asegurar visibilidad del composer.
+
 ## B4 — propuesta mínima, no implementada
 
 1. Añadir adjustResize solo a FaroV5V2CoreDevActivity en manifest V2CoreDev. Verificar MANIFEST BINARIO de APK resultante.
