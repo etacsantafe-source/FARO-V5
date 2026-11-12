@@ -1,6 +1,8 @@
 package ar.com.faro.v5.app
 
 import androidx.compose.ui.test.*
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
@@ -141,19 +143,30 @@ class FaroV5S3A57X08OwnerInterruptionUiTest {
     }
 
     private fun mountActualSearch(f: Fixture) {
-        // This fixture owns the test Activity; no native Session was opened.
+        // The existing :surface bridge owns the compiled Compose ABI.
         rule.runOnUiThread {
-            rule.activity.findViewById<android.view.ViewGroup>(android.R.id.content).removeAllViews()
+            FaroV5SurfaceHost.install(activity = rule.activity,
+                searchReadPort = f.search,
+                assistantRequestMode = FaroV5AssistantRequestMode.EXPLICIT_CONSULT)
         }
-        rule.setContent {
-            FaroV5Theme { FaroV5SearchScreen(f.search, onOpenConversation = { error("No Workspace hit expected") }) }
+        rule.waitUntil(30_000L) {
+            runCatching { rule.onAllNodesWithContentDescription("Abrir menú")
+                .fetchSemanticsNodes().isNotEmpty() }.getOrDefault(false)
+        }
+        rule.onNodeWithContentDescription("Abrir menú").performClick()
+        rule.onNodeWithText("Buscar").performClick()
+        rule.waitUntil(30_000L) {
+            rule.onAllNodesWithText("Buscar en FARO", useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty() &&
+                rule.onAllNodes(hasSetTextAction()).fetchSemanticsNodes().size == 1
         }
         rule.waitForIdle()
     }
 
     private fun query(text: String, expected: String) {
         rule.onAllNodes(hasSetTextAction())[0].performTextReplacement(text)
-        rule.onNode(hasText("Buscar") and hasClickAction()).performClick()
+        rule.onNode(hasText("Buscar") and hasClickAction() and
+            SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button)).performClick()
         rule.waitUntil(30_000L) {
             rule.onAllNodesWithText(expected).fetchSemanticsNodes().isNotEmpty()
         }

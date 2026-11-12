@@ -14,7 +14,7 @@ permissions:
 
 concurrency:
   group: faro-v5-a5-7-x08-owner-interruption-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   x08-owner-interruption:
