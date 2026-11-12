@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
-  "reviewed_head": "f0dd44fa0007afe2b5f755f2a56c10518b45895b",
+  "reviewed_head": "c6960b58622e6cd6f68e6bf74f5a2efcb8609871",
   "paths": [
     ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
   ],
@@ -11,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_DIAGNOSTICS_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "34a14f17ed0042004a7d49f4bc9682090844e79f",
+          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
+          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_DIAGNOSTICS_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "34a14f17ed0042004a7d49f4bc9682090844e79f",
+          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
+          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_DIAGNOSTICS_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "34a14f17ed0042004a7d49f4bc9682090844e79f",
+          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
+          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_DIAGNOSTICS_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "34a14f17ed0042004a7d49f4bc9682090844e79f",
+          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
+          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
           "marker": "## B4"
         }
       ]
@@ -51,32 +51,32 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_DIAGNOSTICS_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "34a14f17ed0042004a7d49f4bc9682090844e79f",
+          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
+          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "8bed315b8c8ff041ee1737caccb10c3ae0b1bf25",
+    "sha": "8d24bbde86d5f755ae8c104745924cf32e6a8498",
     "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_DIAGNOSTICS_DELTA_B1_B5_B7_20261112.md",
-        "blob_sha": "34a14f17ed0042004a7d49f4bc9682090844e79f",
+        "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
+        "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
         "marker": "## B7"
       }
     ]
   },
-  "why": "App identity checks code146aafb5 compiled and Activity launched Status ok on emulator via run43268564709 but strict PID+UIAutomator text condition FAIL without diagnostics; B7 RED_FIX. New workflow SHA8d24bbde captures PID/UI dump/dumpsys/screenshot and diagnostic-only artifact on failure. New run43270673659 still in_progress last seen; guard 43270673641 requires verification.",
-  "how": "Check run43270673659 exact SHA8d24bbde. If CI green verify script G15_ISOLATED_FIRST_LAUNCH_UI_PASS and APK signer/hash, B7. If red fetch diagnostics artifact screenshot+XML/process and fix only proven cause. Never install unverified APK. Existing G15 app stays installed local signer SHA7d01...; do not uninstall/clear data.",
+  "why": "Android UI synthetic emulator run43270673659: APK successfully installed, Activity am start Status ok, PID=2206 for all attempts, UI XML and screenshot show expected button text uppercase; CI grep mistakenly mixed-case. Only 1 file script exact-case fix.",
+  "how": "Replace one grep exact mixed-case string with actual uppercase UI XML string, keep PID+UI fail closed. Verify guard, Android API35 real launch, APK/hash and B7; G15 human physical after persistent re-sign.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_BOOT_EMULATOR_UI_DIAGNOSTIC_CI_RUN43270673659_WAIT_B7",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
