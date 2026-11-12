@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_G15_X06_ISOLATED_OFFLINE_APK_CI_WAIT_B7",
+  "phase": "S3_G15_X06_ISOLATED_ANDROIDX_PERMISSIONS_CI_WAIT_B7",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 814
+    "expected_release_epoch": 817
   },
   "automation": {
     "activation_authorized": false,
@@ -43,11 +43,11 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Manual check GitHub Actions run 43247292305 at code SHA 8f0e9128ad9820e8545922dff1e05ca4b184d6a5; guard 43247292472 SUCCESS. If CI green independently verify exact offline standalone package ar.com.faro.g15isolated.v2coredev, launcher, no OS permissions, signed APK SHA/artifact before G15 action, then B7. If red RED_FIX same unit (protocol permission BLOCKED). Existing installed ar.com.faro.alpha.v2coredev cert differs, DO NOT uninstall/install over/clear. User G15 physical NOT_RUN. Stable human-owned local signing key needed before future iterative isolated updates; never upload key. X01-X12 automated B7 preserved.",
-  "checkpoint_status": "G15_X06_ISOLATED_CI_WAIT_B7; ORIGINAL_G15_INSTALL_PRESERVED; PHYSICAL_NOT_RUN",
+  "next": "Recover HEAD and RELEASED writer. New isolated Android APK workflow run 43248629257 code SHA a75c019f8131f6573da0e910e6fc9a8dd53b897a, guard 43248629272 SUCCESS. Check live run status and artifact faro-g15-isolated-x06-apk; B7 must independently confirm manifest only AndroidX own signature-level permission, no OS permissions/Internet, source SHA, launcher, app ID ar.com.faro.g15isolated.v2coredev, APK digest/signature. If CI failed RED_FIX same unit. Permit BLOCKED. Moto G15 ADB connected historically, original ar.com.faro.alpha.v2coredev installed cert c58d223a.., must remain intact. Before first physical install consider stable human-owned Termux keystore (private never uploaded) to avoid ephemeral CI debug key update failures. G15 physical NOT_RUN. X01-X12 historical automated B7 scope retained, X03 live and global A5 OPEN.",
+  "checkpoint_status": "G15_X06_ISOLATED_ANDROIDX_CI_WAIT_B7; ORIGINAL_G15_INSTALL_UNMODIFIED; PHYSICAL_NOT_RUN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
+  "last_code_sha": "a75c019f8131f6573da0e910e6fc9a8dd53b897a",
   "last_ci_run_id": 43223365784,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -2969,14 +2969,18 @@
     "preaudit": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
     "red_fix": "docs/s3-night/S3_G15_X06_ISOLATED_APK_B7_RED_FIX_20261112.md",
     "initial_code_sha": "c0b2c44137fb2219455646421a3f51b1d45cf34a",
-    "fixed_code_sha": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
+    "fixed_code_sha": "a75c019f8131f6573da0e910e6fc9a8dd53b897a",
     "initial_run": 43246332824,
-    "corrected_run": 43247292305,
-    "corrected_guard": 43247292472,
+    "corrected_run": 43248629257,
+    "corrected_guard": 43248629272,
     "permit": "BLOCKED_WAIT_CI_B7",
     "status": "WAIT_CI_B7",
     "physical": "NOT_RUN",
     "user_installed_new_apk": false,
-    "original_user_data_intact_as_far_as_observed": true
+    "original_user_data_intact_as_far_as_observed": true,
+    "self_permission": "ar.com.faro.g15isolated.v2coredev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+    "androidx_permission_delta": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+    "original_run": 43246332824,
+    "original_run_result": "FAILURE_VERIFIER_SELF_PERMISSION_AFTER_BUILD"
   }
 }
