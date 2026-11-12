@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.X08.B7_ARTIFACT_INDEPENDENT.20261112",
   "token_hash": "68d096cb934b15dd4e351c57a0e5628eb8e9a4a194886e13451b2b18294a1d",
-  "target_head": "0df5ee1ff2ebd5b84861ac07583b5e4bd66f933d",
+  "target_head": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
   "target_branch": "work/s3-night-20261102",
   "epoch": 787,
-  "timestamp": 1794458240,
-  "last_checkpoint": "0df5ee1ff2ebd5b84861ac07583b5e4bd66f933d",
-  "purpose": "X08_INDEPENDENT_B7_PASS_AND_X12_FOLLOWUP_PREP"
+  "timestamp": 1794458390,
+  "last_checkpoint": "18ac444fc5da90a911e7bf47364f1fe37e747bf2",
+  "purpose": "X08_B7_PASS_SCOPED_VERIFICATION_PUBLISHED_AWAIT_GUARD"
 }
