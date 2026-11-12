@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_G15_X06_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_PASS_FOLLOWUP_NAV_OPEN",
+  "phase": "S3_G15_X06_CORRECTED_APK_PHYSICAL_NAVIGATION_5OF5_PASS_CONTENT_AUDIT_PENDING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 829
+    "expected_release_epoch": 830
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Human G15 supplied screenshot 2026-11-12 15:10 AR of corrected isolated developer app fully visible (six buttons), after SHA256 checked, persistent local cert digest matched, adb install -r Success and force-stop. Evidence docs/s3-night/S3_G15_X06_ISOLATED_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_20261112.md: FIRST_LAUNCH_VISUAL PASS scoped. Original installed alpha.v2coredev untouched, no uninstall/clear. Next physical bounded step HUMAN TAP 'ABRIR CHAT LOCAL DE DESARROLLO' and report screen or crash; no Reality8 create. PID/logcat after launch and feature tests NOT_RUN. Emulator CI43272636986 B7 PASS scoped and guard43274807996 SUCCESS. S3.A3 physical/X03 live/A5 global OPEN. V2 productiva/S4/Auto/Noche OFF. Writer RELEASED expected epoch829.",
-  "checkpoint_status": "G15_ISOLATED_CORRECTED_APK_SHA_AND_PERSISTENT_SIGNATURE_PASS; ADB_INSTALL_REPLACE_SUCCESS; FIRST_LAUNCH_PHYSICAL_VISUAL_PASS; PID_LOGCAT_NAVIGATION_AND_GLOBAL_CAMPAIGN_OPEN",
+  "next": "G15 physical bounded automation 2026-11-12 15:21 AR via python3 $HOME/faro_g15_auto.py passed FIVE UI navigation paths: local Chat, Chat+Actividad, Avisos, Vencimientos, Guardados. Script located exact package buttons with UIAutomator, tapped, verified PID survived and exited intro screen, no exception reported; local evidence /data/data/com.termux/files/home/faro-g15-isolated/pruebas-20261112-152107 includes five screenshots/XML-text/logs; human text in chat, not copied as private files to public GitHub. Evidence docs/s3-night/S3_G15_X06_ISOLATED_NAVIGATION_FIVE_PATHS_PHYSICAL_20261112.md. DO NOT repeat five certified navigation paths. Next bounded offline read of existing text evidence to classify actual results/empty/error states without exposing content; this is not 5/5 functional PASS. No Reality8 create, uninstall, pm clear, data migration, no original alpha app touched. Existing B7 scoped unit PASS and permit consumed. Global S3.A3 physical/A5 X03 live/A5 global remain OPEN; V2 productiva/S4/Auto/Noche OFF. Writer expected release epoch830.",
+  "checkpoint_status": "G15_X06_BOOT_VISUAL_PASS; UI_AUTOMATED_NAVIGATION_5OF5_PASS; SCREEN_CONTENT_SEMANTICS_AND_LONG_TERM_STABILITY_UNVERIFIED; REALITY8_NOT_TOUCHED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
@@ -2974,8 +2974,8 @@
     "corrected_run": 43250634025,
     "corrected_guard": 43250634121,
     "permit": "BLOCKED_WAIT_CI_B7",
-    "status": "PHYSICAL_FIRST_LAUNCH_VISUAL_PASS_NAVIGATION_PENDING",
-    "physical": "CORRECTED_APP_FIRST_LAUNCH_VISUAL_PASS_PID_LOGCAT_AND_NAVIGATION_OPEN",
+    "status": "PHYSICAL_BOOT_AND_NAVIGATION_5OF5_PASS_CONTENT_PENDING",
+    "physical": "BOOT_VISUAL_PASS_NAVIGATION_5OF5_PASS_SEMANTICS_PENDING",
     "user_installed_new_apk": true,
     "original_user_data_intact_as_far_as_observed": true,
     "self_permission": "ar.com.faro.g15isolated.v2coredev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
@@ -3005,6 +3005,11 @@
     "human_sign_verified": true,
     "human_upgrade_install_success": true,
     "first_launch_screenshot_observed": true,
-    "physical_evidence": "docs/s3-night/S3_G15_X06_ISOLATED_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_20261112.md"
+    "physical_evidence": "docs/s3-night/S3_G15_X06_ISOLATED_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_20261112.md",
+    "navigation_pass": 5,
+    "navigation_total": 5,
+    "navigation_evidence": "docs/s3-night/S3_G15_X06_ISOLATED_NAVIGATION_FIVE_PATHS_PHYSICAL_20261112.md",
+    "navigation_local_dir": "/data/data/com.termux/files/home/faro-g15-isolated/pruebas-20261112-152107",
+    "reality8_upgrade_executed": false
   }
 }
