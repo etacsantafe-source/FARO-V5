@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.X02.NIGHT_READY_PERMIT.20261112",
   "token_hash": "29a80631685f75b15d8c6739e5ed1c1bd94ef20972b7f63e025ea7dc9cf9e1f5",
-  "target_head": "419ab7953e3a05694e892ca15f4ade98ffbccb2c",
+  "target_head": "9d10d4874451689c6f5c23cd1eb472cafb6304ed",
   "target_branch": "work/s3-night-20261102",
   "epoch": 766,
-  "timestamp": 1794447720,
-  "purpose": "X02_AUXILIARY_NOTICE_INDIVIDUAL_READY",
-  "last_checkpoint": "419ab7953e3a05694e892ca15f4ade98ffbccb2c"
+  "timestamp": 1794447920,
+  "purpose": "X02_READY_NIGHT_WORK_X06_PREAUDITED_GUARD_PENDING",
+  "last_checkpoint": "9d10d4874451689c6f5c23cd1eb472cafb6304ed"
 }
