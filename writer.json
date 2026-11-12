@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.X01.B6.20261111",
   "token_hash": "fc22c12ab14feee0f7a396fe243ba50fc8051a1c1b826df9d93d5ab0e421c7a8",
   "target_head": "5908da39bda8b8d5791dca50036be5a827e252b5",
   "target_branch": "work/s3-night-20261102",
   "epoch": 761,
-  "timestamp": 1794445955,
-  "purpose": "X01_B6_TWO_PATH_TEST_ONLY_AFTER_GUARD_43132678020"
+  "timestamp": 1794446090,
+  "purpose": "X01_B6_CODE_PUBLISHED_WAIT_CI_GUARD_B7",
+  "last_checkpoint": "cc112b1074bab80e75d0e4c75bff43b460f19c11"
 }
