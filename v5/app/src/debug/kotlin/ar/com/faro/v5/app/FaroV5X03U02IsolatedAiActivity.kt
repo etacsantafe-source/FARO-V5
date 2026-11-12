@@ -11,6 +11,7 @@ import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
+import ar.com.faro.v5.surface.FaroV5ReviewDisclosureMode
 import ar.com.faro.v5.surface.FaroV5AssistantRequestMode
 import ar.com.faro.v5.surface.FaroV5SurfaceHost
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
@@ -21,7 +22,7 @@ import java.util.function.BooleanSupplier
 import java.util.function.Supplier
 import kotlinx.coroutines.runBlocking
 
-/** Separate debug stage; consented real gateway, no Review/Apply authority in UI. */
+/** Separate debug stage; consented real gateway, canonical Review only, no Apply authority in UI. */
 class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
     private companion object {
         val occupied = AtomicBoolean(false)
@@ -54,7 +55,7 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
         })
         column.addView(TextView(this).apply {
             text = "Chat de prueba separado. Enviar guarda tu mensaje; Consultar FARO solicita IA. " +
-                "Sin revisión ni aplicación de cambios. La declaración de plan Free es tuya: " +
+                "Revisar y confirmar solo registra una decisión; no aplica cambios. La declaración de plan Free es tuya: " +
                 "FARO no verifica la facturación de Groq."
         })
         free = CheckBox(this).apply {
@@ -122,7 +123,8 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
                         composerPort = ready.composerPort,
                         assistantTurnPort = dispatch,
                         assistantRequestMode = FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
-                        reviewPort = null,
+                        reviewPort = ready.reviewPort,
+                        reviewDisclosureMode = FaroV5ReviewDisclosureMode.EXPLICIT_OPEN,
                         applyRequestPort = null,
                         onOpenAiSettings = Runnable {
                             startActivity(Intent(this, FaroV5AiSettingsActivity::class.java))

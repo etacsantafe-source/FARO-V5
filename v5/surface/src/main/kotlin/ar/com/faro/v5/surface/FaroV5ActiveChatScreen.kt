@@ -47,6 +47,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+enum class FaroV5ReviewDisclosureMode { LEGACY_EXPANDED, EXPLICIT_OPEN }
+
 enum class FaroV5AssistantRequestMode { AUTOMATIC_ON_SEND, EXPLICIT_CONSULT }
 
 /**
@@ -68,8 +70,9 @@ fun FaroV5ActiveChatScreen(
     focusMessageId: ConversationMessageId? = null,
     bookmarkChatActions: FaroV5BookmarkChatActions? = null,
     assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
+    reviewDisclosureMode: FaroV5ReviewDisclosureMode = FaroV5ReviewDisclosureMode.LEGACY_EXPANDED,
 ) {
-    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress, assistantRequestMode) {
+    key(activeConversationId, timelineReadPort, composerPort, reviewPort, applyRequestPort, assistantTurnPort, attachmentIngress, assistantRequestMode, reviewDisclosureMode) {
         FaroV5ActiveChatScreenSession(
             activeConversationId = activeConversationId,
             timelineReadPort = timelineReadPort,
@@ -78,6 +81,7 @@ fun FaroV5ActiveChatScreen(
             applyRequestPort = applyRequestPort,
             assistantTurnPort = assistantTurnPort,
             assistantRequestMode = assistantRequestMode,
+                    reviewDisclosureMode = reviewDisclosureMode,
             attachmentIngress = attachmentIngress,
             focusMessageId = focusMessageId,
             bookmarkChatActions = bookmarkChatActions,
@@ -102,6 +106,7 @@ private fun FaroV5ActiveChatScreenSession(
     focusMessageId: ConversationMessageId? = null,
     bookmarkChatActions: FaroV5BookmarkChatActions? = null,
     assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
+    reviewDisclosureMode: FaroV5ReviewDisclosureMode = FaroV5ReviewDisclosureMode.LEGACY_EXPANDED,
 ) {
     val scope = rememberCoroutineScope()
     var editor by remember(activeConversationId, composerPort) {
@@ -125,6 +130,12 @@ private fun FaroV5ActiveChatScreenSession(
         mutableStateOf<List<ConversationPlanReviewSnapshot>>(emptyList())
     }
 
+    // Visual disclosure is ephemeral, bound to the entire canonical context.
+    // It never replaces the owner's generation/fingerprint/revision CAS.
+    var openedReview by remember { mutableStateOf<ar.com.faro.v5.kernel.contracts.ConversationPlanReviewContext?>(null) }
+    val reviewEpoch = remember { java.util.concurrent.atomic.AtomicLong(0L) }
+    val explicitReview = reviewDisclosureMode == FaroV5ReviewDisclosureMode.EXPLICIT_OPEN
+
     // Fresh receipts only; never reconstruct a pending request after recreation.
     var pendingConsult by remember { mutableStateOf<ar.com.faro.v5.kernel.contracts.ConversationTimelineSnapshot?>(null) }
     var consultEpoch by remember { mutableStateOf(0L) }
@@ -132,6 +143,8 @@ private fun FaroV5ActiveChatScreenSession(
     androidx.compose.runtime.DisposableEffect(lifecycle) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
             if (event == androidx.lifecycle.Lifecycle.Event.ON_PAUSE) {
+                openedReview = null
+                reviewEpoch.incrementAndGet()
                 pendingConsult = null
                 consultEpoch++
             }
@@ -238,20 +251,32 @@ private fun FaroV5ActiveChatScreenSession(
         }
         if (activeConversationId != null && reviewPort != null) {
             canonicalReviews.forEach { review ->
+                val disclosed = !explicitReview || openedReview == review.context()
                 FaroV5PlanReview(
                     review = review,
-                    reviewExpanded = true,
-                    onConfirm = { context ->
-                        if (!reviewBusy && !applyBusy && !applyUncertain) {
+                    reviewExpanded = disclosed,
+                    onOpenReview = if (!explicitReview) null else ({
+                        if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                            openedReview = review.context()
+                        }
+                    }),
+                    onConfirm = if (!disclosed) null else { context ->
+                        if (!reviewBusy && !applyBusy && !applyUncertain &&
+                            (!explicitReview || (openedReview == context &&
+                                lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)))) {
+                            val admittedEpoch = reviewEpoch.get()
                             reviewBusy = true
                             scope.launch {
                                 try {
                                     val decided = withContext(Dispatchers.IO) {
+                                        check(!explicitReview || reviewEpoch.get() == admittedEpoch) { "Review session paused" }
                                         reviewPort.decide(
                                             ConversationPlanReviewIntent.Approve(context),
                                             IdempotencyKey(UUID.randomUUID().toString()),
                                         )
                                     }
+                                    if (explicitReview && reviewEpoch.get() != admittedEpoch) return@launch
+                                    openedReview = null
                                     if (decided is ConversationReviewDecision.Saved) {
                                         message = "Propuesta confirmada. Todavía no se aplicaron cambios."
                                     } else message = "La propuesta cambió. Volvé a revisarla."
@@ -267,17 +292,23 @@ private fun FaroV5ActiveChatScreenSession(
                             }
                         }
                     },
-                    onDiscard = { context ->
-                        if (!reviewBusy && !applyBusy && !applyUncertain) {
+                    onDiscard = if (!disclosed) null else { context ->
+                        if (!reviewBusy && !applyBusy && !applyUncertain &&
+                            (!explicitReview || (openedReview == context &&
+                                lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)))) {
+                            val admittedEpoch = reviewEpoch.get()
                             reviewBusy = true
                             scope.launch {
                                 try {
                                     val decided = withContext(Dispatchers.IO) {
+                                        check(!explicitReview || reviewEpoch.get() == admittedEpoch) { "Review session paused" }
                                         reviewPort.decide(
                                             ConversationPlanReviewIntent.Discard(context),
                                             IdempotencyKey(UUID.randomUUID().toString()),
                                         )
                                     }
+                                    if (explicitReview && reviewEpoch.get() != admittedEpoch) return@launch
+                                    openedReview = null
                                     if (decided is ConversationReviewDecision.Saved) {
                                         message = "Propuesta descartada."
                                     } else message = "La propuesta cambió. Volvé a revisarla."
@@ -294,7 +325,7 @@ private fun FaroV5ActiveChatScreenSession(
                         }
                     },
                     // Only a certified V2 host can expose this port. Never trust UI as authority.
-                    onRequestApply = applyRequestPort?.takeIf { !reviewBusy && !applyBusy && !applyUncertain }?.let { requestPort ->
+                    onRequestApply = applyRequestPort?.takeIf { disclosed && !reviewBusy && !applyBusy && !applyUncertain }?.let { requestPort ->
                         { context ->
                             if (!reviewBusy && !applyBusy && !applyUncertain) {
                                 applyBusy = true

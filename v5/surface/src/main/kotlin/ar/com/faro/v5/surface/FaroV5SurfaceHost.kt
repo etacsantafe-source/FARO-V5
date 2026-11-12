@@ -33,6 +33,7 @@ object FaroV5SurfaceHost {
         bookmarkChatActions: FaroV5BookmarkChatActions? = null,
         bookmarkSourceTarget: FaroV5BookmarkSourceTarget? = null,
         assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
+        reviewDisclosureMode: FaroV5ReviewDisclosureMode = FaroV5ReviewDisclosureMode.LEGACY_EXPANDED,
     ) {
         activity.setContent {
             androidx.compose.runtime.CompositionLocalProvider(LocalFaroV5BookmarkChatActions provides bookmarkChatActions) {
@@ -46,6 +47,7 @@ object FaroV5SurfaceHost {
                     applyRequestPort = applyRequestPort,
                     assistantTurnPort = assistantTurnPort,
                     assistantRequestMode = assistantRequestMode,
+                    reviewDisclosureMode = reviewDisclosureMode,
                     onOpenAiSettings = onOpenAiSettings?.let { launcher -> { launcher.run() } },
                     attachmentIngress = attachmentIngress,
                     homeReadPort = homeReadPort,
