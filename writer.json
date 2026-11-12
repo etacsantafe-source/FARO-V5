@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_IME_OVERLAY_PREAUDIT.20261112",
   "token_hash": "c62a219d7b328e519365bcf16a9b02785ede67c85fb9696103d88a7b9c964a18",
-  "target_head": "b892578e8793b44e92b646aa0c0d1704af382f05",
+  "target_head": "cfe97c0ce5d3915ac93e0912fa5afe1294bc92c9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 832,
-  "timestamp": 1794511748,
-  "last_checkpoint": "b892578e8793b44e92b646aa0c0d1704af382f05"
+  "timestamp": 1794511945,
+  "last_checkpoint": "cfe97c0ce5d3915ac93e0912fa5afe1294bc92c9"
 }
