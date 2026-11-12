@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X06_THREE_REALITY_OWNER_SEARCH_ANDROID",
   "reviewed_head": "44f8cea13a1ed5b5a28074d3c108fcaf6d00cd2f",
   "paths": [
@@ -83,7 +83,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -108,7 +108,7 @@
   "how": "Exact schema8 canonical test seed/closed graph; two Android API35 tests over real Finance/Objectives/Matters, real Activity native Chat/Search, privacy/read-only detail, pause stale hit rejection and fresh gesture. XML 2/0/0/0 APK/hash/manifest/guard and B7.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "X06_IMPLEMENTED_WAIT_CI_NO_ADDITIONAL_CODE",
   "needs_prep_document": null,
   "closure_document": null
 }
