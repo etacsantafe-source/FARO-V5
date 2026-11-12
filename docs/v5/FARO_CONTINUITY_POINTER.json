@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X03_U02_B7_PASS_SCOPED_X09_READ_ONLY_PREPARATION",
+  "phase": "S3_A5_7_X09_B1_B5_PREAUDITED_WORK_CHAIN",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 751
+    "expected_release_epoch": 752
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "U02 B6+B7 PASS scoped debug real gateway wired, no live provider; do not repeat U01/U02. Permit consumed BLOCKED. Continue X09 READ_ONLY preparation at docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md; complete independent B1-B5, exact scope and READY before code. X03 global OPEN; V2 DEV no Internet; G15 only final.",
-  "checkpoint_status": "U02_DONE_VERIFIED_SCOPED_NO_LIVE_X09_PREP_ONLY",
+  "next": "X09 next: B1–B5 docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md blob 2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0, package docs/s3-night/S3_A5_7_X09_WORK_EXEC_PACKAGE_20261111.json blob cfe5678b7504fddb0fa29ce3b9125164f1091581 7 paths, permit still BLOCKED until separate READY after guard. Work then B6/CI API35 XML 2/2 APK/B7; after X09 B7 independently prepare X10 B1–B5 from docs/s3-night/S3_A5_7_X10_READ_ONLY_PREPARATION_20261111.md. Chain docs/s3-night/S3_A5_7_WORK_CHAIN_MASTER_20261111.md. X03 global OPEN remote live Free; G15 final.",
+  "checkpoint_status": "X09_PREAUDITED_WAIT_INDIVIDUAL_READY_CHAIN_PLANNED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
@@ -221,7 +221,7 @@
       "ORANGE/NARANJA: recommend a new chat soon",
       "RED/ROJO: migrate immediately"
     ],
-    "display": "Compact \ud83c\udf21\ufe0f indicator with current color/state and explicit change-chat guidance when orange/red",
+    "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
     "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
     "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
   },
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 748,
+  "last_writer_epoch_observed": 752,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -1098,7 +1098,7 @@
     "backup_restore": "B7_PASS_SCOPED",
     "ui": "DEV_AUTOMATED_M01_M05_B7_PASS_EXACT_NAV_AND_MUTATION",
     "physical": "NOT_RUN",
-    "next": "M01\u2013M05 DONE_VERIFIED; no repetir. A3 pendiente \u00fanicamente aceptaci\u00f3n f\u00edsica final G15, integrada en cierre global A5.",
+    "next": "M01–M05 DONE_VERIFIED; no repetir. A3 pendiente únicamente aceptación física final G15, integrada en cierre global A5.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -2190,7 +2190,7 @@
   "block_status": "PASS_SCOPED_DEBUG_REAL_GATEWAY_WIRED_NO_LIVE_PROVIDER",
   "expected_head": "fcfbe151f55561a70acc9fb552760d96cea30235",
   "blocker": null,
-  "writer_release_epoch": 751,
+  "writer_release_epoch": 752,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2238,7 +2238,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A5_X03_U02_B7_PASS_SCOPED_X09_PREP",
+  "checkpoint": "S3_A5_X03_U01_U02_B7_PASS_X09_B1_B5_PREAUDITED_X10_READ_ONLY",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2357,7 +2357,7 @@
     "prev_checkpoint": "e115e8049cf45af889d3a56fb82d10458253a2f4"
   },
   "work_turbo_20261111": {
-    "status": "U02_DONE_VERIFIED_SCOPED_X09_READ_ONLY_PREP",
+    "status": "U01_U02_DONE_X09_B1_B5_PREAUDITED_NEXT",
     "protocol": "docs/v5/FARO_WORK_TURBO_EXECUTION_V1_20261111.md",
     "package": "docs/s3-night/S3_A5_7_WORK_TURBO_QUEUE_V1_20261111.json",
     "package_blob_sha": "d4ef5ee5e31a095810f330a8cb755f8eb0bda327",
@@ -2373,7 +2373,7 @@
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"
     ],
-    "next_action": "X09_READ_ONLY_B1_B5_PREPARATION",
+    "next_action": "WAIT_X09_B1_B5_GUARD_THEN_INDIVIDUAL_READY",
     "next_units": [
       "X03_U02_ISOLATED_DEBUG_PROVIDER_WIRING",
       "X03_LIVE_FREE_TIER_VERIFY_SEPARATE",
@@ -2384,7 +2384,7 @@
     "previous_checkpoint": "f2b98dcb0bd6b1e3e6a873974235522e05717e13",
     "ready_unit_id": null,
     "ready_reviewed_head": "2d33a71f0dfc6bbae8d48e8111dd3207795ac5e9",
-    "functional_permission": "BLOCKED_CONSUMED",
+    "functional_permission": "BLOCKED_AWAIT_X09_READY",
     "queue_status": "U02_READY_IN_OWN_PACKAGE_U01_DONE",
     "ready_permit_sha": "53485601f2ffbc8e9161627d5a284be2bad6b1b1",
     "ready_guard_run": 43113426305,
@@ -2432,7 +2432,7 @@
       "duration_if_observed": null,
       "tokens_if_observed": null
     },
-    "active_package": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
+    "active_package": "docs/s3-night/S3_A5_7_X09_WORK_EXEC_PACKAGE_20261111.json",
     "ready_permit_commit": "f4a4d967cca2c85d6816ba7b76a254600e517be8",
     "execution_u02": {
       "status": "DONE_VERIFIED_SCOPED",
@@ -2614,5 +2614,40 @@
     "document": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
     "status": "PARTIAL_NOT_B1_B5_COMPLETE_NOT_READY",
     "code_authorized": false
+  },
+  "work_chain_20261111": {
+    "status": "X09_B1_B5_PREAUDITED_WAIT_READY_GUARD",
+    "document": "docs/s3-night/S3_A5_7_WORK_CHAIN_MASTER_20261111.md",
+    "doc_blob_sha": "1e08309a59ce6405c3a8cf51d054120fcc3d1b76",
+    "queue": [
+      "X09",
+      "X10",
+      "X01",
+      "X02",
+      "X06",
+      "X08",
+      "X12",
+      "GLOBAL",
+      "MOTO_G15_FINAL"
+    ],
+    "first_unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
+    "first_audit": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+    "first_audit_blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
+    "first_package": "docs/s3-night/S3_A5_7_X09_WORK_EXEC_PACKAGE_20261111.json",
+    "first_package_blob_sha": "cfe5678b7504fddb0fa29ce3b9125164f1091581",
+    "first_paths": [
+      "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+      "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+      "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+      "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+      "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+      "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X09ReviewUiTest.kt",
+      ".github/workflows/faro-v5-s3-a5-7-x09-review-android-directed.yml"
+    ],
+    "next_prep_x10": "docs/s3-night/S3_A5_7_X10_READ_ONLY_PREPARATION_20261111.md",
+    "next_prep_x10_blob_sha": "634f532c56bf8ab1f56327c0a759f70125cf2afb",
+    "executed_u01_u02": "B7_PASS_SCOPED_NO_REPETITION",
+    "user_usage_observation": "WORK_36_PERCENT_SAID_BY_USER_NOT_VERIFIED_BY_GITHUB",
+    "first_gate": "SEPARATE_READY_INDIVIDUAL_AFTER_GUARD"
   }
 }

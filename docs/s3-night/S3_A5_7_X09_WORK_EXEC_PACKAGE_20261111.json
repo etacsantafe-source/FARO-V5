@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "package_id": "A5-X09-EXPLICIT-REVIEW-WORK-20261111",
+  "goal_id": "S3.A5.7",
+  "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
+  "branch": "work/s3-night-20261102",
+  "version": 1,
+  "base_head_sha": "c5e5e5bad2c50c2c6c0797442a1f09c89444391f",
+  "status": "PREAUDITED_AWAITING_INDIVIDUAL_READY",
+  "depends_on": [
+    "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV:B7_PASS",
+    "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY:B7_PASS_SCOPED"
+  ],
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+    "blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "source_prep": {
+    "path": "docs/s3-night/S3_A5_7_X09_READ_ONLY_PREPARATION_20261111.md",
+    "blob_sha": "b1c21f85caee1a37957d49bd410284593327d130"
+  },
+  "allowed_functional_paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X09ReviewUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x09-review-android-directed.yml"
+  ],
+  "scope": "DEBUG_STAGED_U02_EXPLICIT_REVIEW_WORKSPACE_ONLY_APPLY_NULL",
+  "acceptance": {
+    "api": 35,
+    "android_tests": 2,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "test_names": [
+      "canonicalReviewRequiresExplicitOpenBeforeApproveAndLeavesRealityUnchanged",
+      "reviewRevokesOnLifecycleOrStaleContextWithoutApply"
+    ],
+    "model_live_calls": "PROHIBITED",
+    "outcome": "X09_PASS_SCOPED_DEBUG_CANONICAL_REVIEW_NO_APPLY",
+    "workflow": "faro-v5-s3-a5-7-x09-review-android-directed.yml",
+    "required": [
+      "actual emulator logs",
+      "XML derived from run",
+      "APKs artifact/hashes",
+      "protocol guard functional SHA SUCCESS",
+      "independent B7"
+    ]
+  },
+  "protected_areas": [
+    "S2 frozen",
+    "X03 U01/U02 B7 verified",
+    "V2 DEV without INTERNET",
+    "main intact",
+    "no Apply in X09",
+    "no paid APIs",
+    "one final Moto G15 campaign"
+  ],
+  "next_action": "after docs-only guard SUCCESS, independent READY permit for seven exact paths, Work B6 Android API35 XML APK and B7; then X10 independently preaudited and permitted"
+}
