@@ -57,26 +57,35 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_PASS",
+    "B7": {
+      "status": "PASS_SCOPED",
+      "evidence": [
+        {
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md",
+          "blob_sha": "b331abf2d1c526eb1ced81311f730169468dfbad",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "last_code_review": {
-    "sha": "8d24bbde86d5f755ae8c104745924cf32e6a8498",
+    "sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
     "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
-        "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
+        "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md",
+        "blob_sha": "b331abf2d1c526eb1ced81311f730169468dfbad",
         "marker": "## B7"
       }
     ]
   },
-  "why": "New code workflow SHA94111428 corrects exact Android UIAutomator button label upper-case as observed in run43270673659. User original physical still closes on OLD APK; G15 isolated package requires new CI artifact and local resigner. New Android run43272636986 and guard43272636839 pending.",
-  "how": "Verify exact CI run43272636986 on SHA94111428: emulator PID alive, XML contains uppercase button, G15_ISOLATED_FIRST_LAUNCH_UI_PASS, signed APK digest manifest, guard SUCCESS, then B7. If green human re-sign same private keystore and adb install -r isolated only; do not clear original.",
+  "why": "B7 PASS scoped offline G15 isolated DEV startup; code SHA94111428, guard43272636839 SUCCESS, Android35 real cold launch PID+UI PASS run43272636986, APK artifact13968019523 SHA7c94d14c..., independent ZIP/APK digest and package/manifest verified. G15 physical original old isolated binary still FAIL; retest new signed binary NOT_RUN.",
+  "how": "Human only: new artifact from 43272636986, verify sha256 7c94d14ce19bc5332e87b85b68899df7379f7032e75642b1240f94afe594e67c, re-sign locally with EXISTING PKCS12 g15-isolated.p12 cert SHA 7d01a911..., verified package, adb -s <serial> install -r isolated variant only. No uninstall / clear / touch original. Physical smoke then separate closure.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_ISOLATED_UI_BUTTON_CASE_FIX_CI_43272636986_WAIT_B7",
+  "blocked_reason": "G15_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "needs_prep_document": null,
-  "closure_document": null
+  "closure_document": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md"
 }
