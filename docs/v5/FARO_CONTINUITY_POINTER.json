@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_G15_X06_BOOT_IDENTITY_B7_PASS_SCOPED_AWAIT_HUMAN_G15_UPDATE_AND_PHYSICAL",
+  "phase": "S3_G15_X06_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_PASS_FOLLOWUP_NAV_OPEN",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 828
+    "expected_release_epoch": 829
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "G15 isolated boot bug (old installed app) CONFIRMED physical AndroidRuntime IllegalStateException FaroV5V2CoreDevActivity.kt:54 at 2026-11-12T14:47:56-03, original alpha app unchanged. Corrected Kotlin exact two DEV app IDs code146aafb5 and workflow code94111428; CI emulator API35 run43272636986 SUCCESS first launch PID2154 + visible uppercase Chat button; guard43272636839 SUCCESS; artifact13968019523 name faro-g15-isolated-x06-apk ZIP SHA256 5c2c45de... and APK SHA256 7c94d14ce19bc5332e87b85b68899df7379f7032e75642b1240f94afe594e67c verified independently, manifest offline signature and no androidTest. B7 PASS scoped docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md; permit BLOCKED consumed. Next HUMAN Termux: create new download folder, gh run download43272636986, sha256sum -c, signer with existing $HOME/.faro-private-keys/g15-isolated.p12 alias g15-isolated; verify local cert SHA256=7d01a911ee1a89577faed72475fa7a54b5099dc37bb0a6d911bceebe125729fa; user explicitly installs via adb -s device install -r signed APK only isolated ar.com.faro.g15isolated.v2coredev, never uninstall/pm clear, original ar.com.faro.alpha.v2coredev intact; then physical first-launch and Chat/Guardados/Buscar within campaign. User previous ADB duplicate transports; select with adb -s serial, recheck adb devices -l. Human G15 new APK physical NOT_RUN. S3.A3 physical, X03 live, A5 global OPEN. V2 production OFF, S4/Auto/Noche OFF.",
-  "checkpoint_status": "G15_ISOLATED_BOOT_FIX_B7_PASS_SCOPED_EMULATOR_API35; USER_LOCAL_RE_SIGN_AND_G15_UPDATE_NOT_RUN",
+  "next": "Human G15 supplied screenshot 2026-11-12 15:10 AR of corrected isolated developer app fully visible (six buttons), after SHA256 checked, persistent local cert digest matched, adb install -r Success and force-stop. Evidence docs/s3-night/S3_G15_X06_ISOLATED_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_20261112.md: FIRST_LAUNCH_VISUAL PASS scoped. Original installed alpha.v2coredev untouched, no uninstall/clear. Next physical bounded step HUMAN TAP 'ABRIR CHAT LOCAL DE DESARROLLO' and report screen or crash; no Reality8 create. PID/logcat after launch and feature tests NOT_RUN. Emulator CI43272636986 B7 PASS scoped and guard43274807996 SUCCESS. S3.A3 physical/X03 live/A5 global OPEN. V2 productiva/S4/Auto/Noche OFF. Writer RELEASED expected epoch829.",
+  "checkpoint_status": "G15_ISOLATED_CORRECTED_APK_SHA_AND_PERSISTENT_SIGNATURE_PASS; ADB_INSTALL_REPLACE_SUCCESS; FIRST_LAUNCH_PHYSICAL_VISUAL_PASS; PID_LOGCAT_NAVIGATION_AND_GLOBAL_CAMPAIGN_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
@@ -2974,8 +2974,8 @@
     "corrected_run": 43250634025,
     "corrected_guard": 43250634121,
     "permit": "BLOCKED_WAIT_CI_B7",
-    "status": "BOOT_IDENTITY_B7_PASS_SCOPED_AWAIT_G15_HUMAN_UPDATE",
-    "physical": "OLD_ISOLATED_APK_FAIL_NEW_ISOLATED_APK_NOT_RUN",
+    "status": "PHYSICAL_FIRST_LAUNCH_VISUAL_PASS_NAVIGATION_PENDING",
+    "physical": "CORRECTED_APP_FIRST_LAUNCH_VISUAL_PASS_PID_LOGCAT_AND_NAVIGATION_OPEN",
     "user_installed_new_apk": true,
     "original_user_data_intact_as_far_as_observed": true,
     "self_permission": "ar.com.faro.g15isolated.v2coredev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
@@ -3001,6 +3001,10 @@
     "artifact_name": "faro-g15-isolated-x06-apk",
     "artifact_sha256": "5c2c45de171f2bd5ca9e89fff12fac68c54eab50c90d3cb04305b89aec1c9a11",
     "emulator": "FIRST_LAUNCH_PID_UI_PASS",
-    "human_sign_and_upgrade_pending": true
+    "human_sign_and_upgrade_pending": false,
+    "human_sign_verified": true,
+    "human_upgrade_install_success": true,
+    "first_launch_screenshot_observed": true,
+    "physical_evidence": "docs/s3-night/S3_G15_X06_ISOLATED_CORRECTED_APK_FIRST_LAUNCH_PHYSICAL_VISUAL_20261112.md"
   }
 }
