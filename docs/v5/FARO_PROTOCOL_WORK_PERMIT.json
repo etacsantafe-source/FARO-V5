@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-  "reviewed_head": "c9f3ab00c5bef3288e6e1ec991638c630cfc659f",
+  "reviewed_head": "7d4a02d6a2e1a3cdb6c9e1a7e321e5ef37cf84be",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x08-owner-interruption-android-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -23,6 +24,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
           "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
+          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
           "marker": "## B1"
         }
       ]
@@ -44,6 +50,11 @@
           "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
           "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
+          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "marker": "## B2"
         }
       ]
     },
@@ -63,6 +74,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
           "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
+          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
           "marker": "## B3"
         }
       ]
@@ -84,6 +100,11 @@
           "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
           "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
+          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "marker": "## B4"
         }
       ]
     },
@@ -104,32 +125,38 @@
           "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
           "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
+          "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
+    "sha": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
-        "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
+        "path": "docs/s3-night/S3_A5_7_X08_COMPILED_SURFACE_BRIDGE_B1_B5_RED_FIX_20261112.md",
+        "blob_sha": "6b296bd8c18bd7f4bf93546b642210ba2cb8fd53",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43153903965,
-    "ci": "IN_PROGRESS_STATIC_PRECONDITION_AUDIT",
-    "guard_run_id": 43153903953
+    "ci_run_id": 43154265872,
+    "ci": "IN_PROGRESS_SAME_ABI_STATIC_AUDIT",
+    "prior_failure": 43153903965,
+    "guard_run_id": 43154265909
   },
   "why": "X06 B7 PASS scoped fbb03ddbefd48cf4eeb5db8454bbbb037300216c closure guard 43152342582 SUCCESS, writer RELEASED epoch778. Since preaudit only X06 tests/workflow plus docs changed, no production search source changes. Exact source hooks and lifecycle contracts revalidated, no production route needed.",
   "how": "Three new API35 tests: actual canonical Finance snapshot -> grant revoke / actual owner close at deterministic second direct read; real source denies publication + canonical federation/UI partial. Actual DEV Reality hit pointer ABA using full sequence. Two paths only, real exact schema8 test fixture, XML3/0/0/0 APK/hash/manifest/guard/B7. No baseline reruns.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X08_ROOT_PRECONDITION_FIXED_WAIT_CI",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
