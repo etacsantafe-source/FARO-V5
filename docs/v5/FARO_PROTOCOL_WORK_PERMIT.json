@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
   "reviewed_head": "95e871196e5f96770d1291248460d901b0efd37f",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,11 +74,11 @@
       }
     ]
   },
-  "why": "Confirmed deterministic crash: Activity onCreate hardcodes old package; 8 grants likewise hardcode, new isolated ID requires exact allowlist of two DEV IDs and an emulator launch smoke; approved only 3 paths, no runtime policy loosen.",
-  "how": "Run preflight same-unit three paths before functional commit, add exact two-ID predicate, replace 8 authority comparisons, append API35 offline emulator launch/window smoke; CI exact SHA and independent B7; human G15 physical remains FAIL until re-sign with preserved local key and safe upgrade.",
+  "why": "Physical first-launch FAIL on Moto G15, exact Activity onCreate mismatch for new appId. Exact two-ID allowlist, 7 authority gates and CI API35 first-launch smoke in code SHA146aafb5; guard 43266734155 SUCCESS; Android 43266734360 IN_PROGRESS at last check.",
+  "how": "Wait for exact directed Android CI 43266734360. Require emulator first-launch visible UI PASS, manifest/package/signing and artifact, then B7. If red RED_FIX same unit; no new changes without permission. Human G15 repair remains pending until re-sign new APK using same local private keystore and authorized adb install -r; do not uninstall/clear data.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "G15_X06_ISOLATED_BOOT_PACKAGE_FIX_WAIT_CI_SHA_146aafb5",
   "needs_prep_document": null,
   "closure_document": null
 }
