@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "branch": "work/s3-night-20261102",
+  "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
+  "base_head_sha": "b045237cb6a82451ad7c2f0eb861b6603b2ad51c",
+  "status": "PREAUDITED_WAIT_READY_AFTER_GUARD",
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X02_AUXILIARY_AVISOS_B1_B5_20261112.md",
+    "blob_sha": "e6568d7b8c10c98acb795f98adf0668146698136",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "allowed_functional_paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5LocalInstallReadAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X02AuxiliaryAvisosUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x02-auxiliary-avisos-android-directed.yml"
+  ],
+  "kind": "V2COREDEV_AUXILIARY_NOTICE_READ_ONLY",
+  "test_names": [
+    "x02NoGestureCannotReadAuxiliaryOrInventEmpty",
+    "x02ExplicitAuxiliarySourceRendersAndRevokesOnPause"
+  ],
+  "acceptance": {
+    "api35_tests": 2,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "no_internet_v2dev": true,
+    "apk_hashes_required": true,
+    "b7": "SCOPED_AUXILIARY_NOT_GLOBAL"
+  },
+  "next_action": "Issue READY separate doc commit after guard; Work preflight all five paths, B6 API35 XML APK B7 then consume permit"
+}

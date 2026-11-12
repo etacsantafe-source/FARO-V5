@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "branch": "work/s3-night-20261102",
+  "unit_id": "S3_A5_7_X06_THREE_REALITY_OWNER_SEARCH_ANDROID",
+  "base_head_sha": "b045237cb6a82451ad7c2f0eb861b6603b2ad51c",
+  "status": "PREAUDITED_NEXT_NO_READY_UNTIL_X02_B7",
+  "depends_on": [
+    "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ:B7_PASS"
+  ],
+  "b1_b5": {
+    "path": "docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md",
+    "blob_sha": "585a6276a6fffaeb8f7f7fbc3dd1153299749da2",
+    "markers": [
+      "## B1",
+      "## B2",
+      "## B3",
+      "## B4",
+      "## B5"
+    ]
+  },
+  "allowed_functional_paths": [
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X06ThreeOwnerSearchUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x06-three-owner-search-android-directed.yml"
+  ],
+  "kind": "TEST_ONLY_ANDROID_THREE_REALITY_OWNERS",
+  "test_names": [
+    "x06ThreeCanonicalRealityOwnersSearchFromAndroidWithoutPrivateFields",
+    "x06RevokedRealityOwnerHitDoesNotOpenAfterPause"
+  ],
+  "acceptance": {
+    "api35_tests": 2,
+    "xml": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "no_internet_v2dev": true,
+    "apk_hashes_required": true
+  },
+  "next_action": "After X02 B7 review exact HEAD, issue new READY individual permit for two paths and run B6/CI/B7"
+}
