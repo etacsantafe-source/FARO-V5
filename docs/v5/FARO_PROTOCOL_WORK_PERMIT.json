@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
   "reviewed_head": "3cd636dcb42d3e0f5aae14b310e4c55b0ca7cd79",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,11 +72,11 @@
       }
     ]
   },
-  "why": "Exact 1-file RED_FIX after Android CI 43266734360 failed due to reactivecircus script separate /bin/sh -c per line, no APK installed on emulator. Core Kotlin compile and app manifest passed, boot not tested.",
-  "how": "Change only workflow to write ephemeral bash smoke file in run step and execute one bash invocation in emulator script; same package, safeguards and UI/pid checks. CI exact SHA, guard and B7; G15 physical pending.",
+  "why": "Two exact DEV identities in app/authority code SHA146aafb5. Initial Android emulator CI 43266734360 failed before app install because multi-line script executed in separate sh processes; B7 RED_FIX doc, same-unit workflow corrected SHA8bed315b. Guard 43268564507 SUCCESS; corrected emulator CI 43268564709 still IN_PROGRESS last check. G15 physical FAIL remains.",
+  "how": "Recover CI 43268564709 SHA8bed315b; if SUCCESS require actual onCreate visible UI PASS, package/signature/offline manifest and artifact digest, then B7. If RED, inspect logs and RED_FIX same unit. Do not install on G15 until new artifact is re-signed with original user private PKCS12 key cert 7d01...; only adb install -r after explicit user action. No uninstall/clear.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "G15_BOOT_FIX_SMOKE_RUN_43268564709_WAIT_CI_B7",
   "needs_prep_document": null,
   "closure_document": null
 }
