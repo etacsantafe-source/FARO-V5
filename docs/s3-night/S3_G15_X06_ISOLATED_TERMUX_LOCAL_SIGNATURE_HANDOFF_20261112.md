@@ -26,7 +26,10 @@ command -v keytool
 command -v apksigner
 mkdir -p "$HOME/.faro-private-keys"
 chmod 700 "$HOME/.faro-private-keys"
-keytool -genkeypair -storetype PKCS12 -keystore "$HOME/.faro-private-keys/g15-isolated.p12" -alias g15-isolated -keyalg RSA -keysize 3072 -validity 3650 -dname "CN=FARO G15 LOCAL, O=PRIVATE DEV, C=AR"
+if [ ! -e "$HOME/.faro-private-keys/g15-isolated.p12" ]; then
+  keytool -genkeypair -storetype PKCS12 -keystore "$HOME/.faro-private-keys/g15-isolated.p12" -alias g15-isolated -keyalg RSA -keysize 3072 -validity 3650 -dname "CN=FARO G15 LOCAL, O=PRIVATE DEV, C=AR"
+fi
+test -s "$HOME/.faro-private-keys/g15-isolated.p12" || { echo "STOP: falta clave"; exit 1; }
 chmod 600 "$HOME/.faro-private-keys/g15-isolated.p12"
 apksigner sign --ks "$HOME/.faro-private-keys/g15-isolated.p12" --ks-key-alias g15-isolated --out "$HOME/faro-g15-isolated/g15-isolated-signed.apk" "$HOME/faro-g15-isolated/faro-g15-isolated-x06.apk"
 apksigner verify --print-certs "$HOME/faro-g15-isolated/g15-isolated-signed.apk"
