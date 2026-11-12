@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_ISOLATED_X06_RED_FIX_PREP.20261112",
   "token_hash": "539880f05ca43e834d7ec2a46ef1b74e32f48fc3ea54c52e507b889fe6955a02",
-  "target_head": "c0b2c44137fb2219455646421a3f51b1d45cf34a",
+  "target_head": "6863f6f1dfa53b834acb4abff9f1f006abf13754",
   "target_branch": "work/s3-night-20261102",
   "epoch": 812,
-  "timestamp": 1794496888,
-  "last_checkpoint": "c0b2c44137fb2219455646421a3f51b1d45cf34a"
+  "timestamp": 1794496951,
+  "last_checkpoint": "6863f6f1dfa53b834acb4abff9f1f006abf13754"
 }
