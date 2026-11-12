@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.WORK_IME_A5_B1_B5_PREP.20261112",
   "token_hash": "e5b9ac28416f3d0fcbeae9c54871d902635c4e8b9a07d15f3a2c68e47dd0b56f",
-  "target_head": "cfe97c0ce5d3915ac93e0912fa5afe1294bc92c9",
+  "target_head": "c5869b860b391b2974e6b5d7021a0449c2b19b0d",
   "target_branch": "work/s3-night-20261102",
   "epoch": 833,
-  "timestamp": 1794512764,
-  "last_checkpoint": "cfe97c0ce5d3915ac93e0912fa5afe1294bc92c9"
+  "timestamp": 1794513097,
+  "last_checkpoint": "c5869b860b391b2974e6b5d7021a0449c2b19b0d"
 }
