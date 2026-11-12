@@ -141,6 +141,10 @@ class FaroV5S3A57X08OwnerInterruptionUiTest {
     }
 
     private fun mountActualSearch(f: Fixture) {
+        // This fixture owns the test Activity; no native Session was opened.
+        rule.runOnUiThread {
+            rule.activity.findViewById<android.view.ViewGroup>(android.R.id.content).removeAllViews()
+        }
         rule.setContent {
             FaroV5Theme { FaroV5SearchScreen(f.search, onOpenConversation = { error("No Workspace hit expected") }) }
         }
