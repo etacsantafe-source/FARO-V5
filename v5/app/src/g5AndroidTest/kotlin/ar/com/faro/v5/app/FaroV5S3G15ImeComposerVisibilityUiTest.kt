@@ -56,6 +56,7 @@ class FaroV5S3G15ImeComposerVisibilityUiTest {
 
     private fun visibleAboveIme(name: String) {
         rule.waitUntil(30_000) { imeVisible() }
+        rule.waitForIdle()
         var imeTop = 0
         var imeHeight = 0
         rule.runOnUiThread {
@@ -68,18 +69,19 @@ class FaroV5S3G15ImeComposerVisibilityUiTest {
         composer.assertIsDisplayed().assertIsEnabled().assertHasClickAction()
         send.assertIsDisplayed().assertIsEnabled().assertHasClickAction()
         val bounds = listOf(composer, send).map { it.fetchSemanticsNode().boundsInWindow }
-        bounds.forEach {
-            assertTrue("control $it overlaps actual IME top=$imeTop height=$imeHeight",
-                it.top >= 0f && it.height > 0f && it.bottom <= imeTop + 1f)
-        }
-        // Clicking the editor by real touch proves reachability without sending anything.
-        composer.performTouchInput { click() }
+
         val dir = File(rule.activity.getExternalFilesDir(null), "ime-evidence").apply { mkdirs() }
         File(dir, "$name.txt").writeText("imeVisible=true\nimeHeight=$imeHeight\nimeTop=$imeTop\ncontrols=$bounds\n" +
             shell("dumpsys input_method"))
         val bitmap = checkNotNull(automation.takeScreenshot())
         File(dir, "$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
         bitmap.recycle()
+        bounds.forEach {
+            assertTrue("control $it overlaps actual IME top=$imeTop height=$imeHeight",
+                it.top >= 0f && it.height > 0f && it.bottom <= imeTop + 1f)
+        }
+        // Clicking the editor by real touch proves reachability without sending anything.
+        composer.performTouchInput { click() }
     }
 
     private fun hideAndVerify() {

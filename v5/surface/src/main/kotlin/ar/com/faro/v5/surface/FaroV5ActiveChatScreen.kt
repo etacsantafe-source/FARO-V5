@@ -1,6 +1,10 @@
 package ar.com.faro.v5.surface
 
 import android.net.Uri
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -239,7 +243,10 @@ private fun FaroV5ActiveChatScreenSession(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    // Scaffold already applies navigation-bar padding to this destination.
+    // Consume that inset before adding the remaining real keyboard inset.
+    Column(modifier = Modifier.fillMaxSize()
+        .consumeWindowInsets(WindowInsets.navigationBars).imePadding()) {
         androidx.compose.foundation.layout.Box(Modifier.weight(1f)) {
             FaroV5ActiveChatTimeline(
                 activeConversationId = activeConversationId,
