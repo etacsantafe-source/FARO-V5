@@ -31,3 +31,6 @@ Histórico de preparación (U02 ya cerrado según estado vigente superior): X03-
 
 ## Encadenamiento Work Turbo post-U02
 Leer `docs/s3-night/S3_A5_7_WORK_CHAIN_MASTER_20261111.md`. **Siguiente unidad X09**: B1–B5 `docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md` (blob 2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0), paquete `docs/s3-night/S3_A5_7_X09_WORK_EXEC_PACKAGE_20261111.json`. No usar el antiguo permiso U02; requiere commit documental READY nuevo y guard. Después X10: `docs/s3-night/S3_A5_7_X10_READ_ONLY_PREPARATION_20261111.md` READ_ONLY, completar B1–B5 y emitir otro permiso. Continuar X01→X02 únicamente con scope aprobado y sin repetir suites B7 scoped. El objetivo de la sesión es encadenar B7 de unidades verdaderamente preparadas; STOP si no hay autoridad, no saltar garantías.
+
+## Prioridad Work noche 2026-11-12
+X01/X09/X10 B7 PASS scoped: NO repetir. Primero X02 (5 rutas) preauditoria y paquete docs/s3-night/S3_A5_7_X02_WORK_EXEC_PACKAGE_20261112.json; adquirir nuevo READY solo tras guard. Segundo X06 (2 rutas test-only) paquete docs/s3-night/S3_A5_7_X06_WORK_EXEC_PACKAGE_20261112.json SOLO después de X02 B7 y permiso individual. Luego X08→X12→global. Ver docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md. Ningún Internet V2 DEV ni paid API.
