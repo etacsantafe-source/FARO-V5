@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.G15_X06_ANDROIDX_SELF_PERMISSION_CODE.20261112",
-  "token_hash": "c174a2f1991bb46e93a743ba24ab5ff76bf8763974ea58e42c14ac489200de83",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.G15_ISOLATED_X06_CI_B7_WAIT_CHECKPOINT.20261112",
+  "token_hash": "7f3640cf7b94c442b713f3ce862b52da8e3838dc4c6c6dd95c084ed7f4bb89a1",
   "target_head": "a75c019f8131f6573da0e910e6fc9a8dd53b897a",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 816,
-  "timestamp": 1794497506,
+  "epoch": 817,
+  "timestamp": 1794497564,
   "last_checkpoint": "a75c019f8131f6573da0e910e6fc9a8dd53b897a"
 }
