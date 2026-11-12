@@ -5,8 +5,8 @@
   "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
   "branch": "work/s3-night-20261102",
   "version": 1,
-  "base_head_sha": "c5e5e5bad2c50c2c6c0797442a1f09c89444391f",
-  "status": "PREAUDITED_AWAITING_INDIVIDUAL_READY",
+  "base_head_sha": "6356a68b2f901904a362881d1f36d8ceba47649f",
+  "status": "READY_FOR_IMPLEMENTATION_X09_SEVEN_PATHS",
   "depends_on": [
     "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV:B7_PASS",
     "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY:B7_PASS_SCOPED"
@@ -69,5 +69,8 @@
     "no paid APIs",
     "one final Moto G15 campaign"
   ],
-  "next_action": "after docs-only guard SUCCESS, independent READY permit for seven exact paths, Work B6 Android API35 XML APK and B7; then X10 independently preaudited and permitted"
+  "next_action": "WORK_B6_NOW_CHECK_HEAD_CAS_PREFLIGHT_7_PATHS__ANDROID_API35_XML_APK__INDEPENDENT_B7__NEXT_X10_SEPARATE_PREAUDIT",
+  "reviewed_head": "6356a68b2f901904a362881d1f36d8ceba47649f",
+  "ready_guard_run": 43124499156,
+  "ready_permit_commit": "THIS_DOCUMENT_ONLY_COMMIT"
 }

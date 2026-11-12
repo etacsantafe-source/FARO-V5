@@ -1,16 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X03_U02_ISOLATED_REAL_AI_NO_APPLY",
-  "reviewed_head": "c373ca9a79e1e7e16ca05f18639458cfc0c35432",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S3_A5_7_X09_EXPLICIT_CANONICAL_REVIEW_NO_APPLY",
+  "reviewed_head": "6356a68b2f901904a362881d1f36d8ceba47649f",
+  "paths": [
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X09ReviewUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x09-review-android-directed.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
-          "blob_sha": "3c5bde72d74181c7be1ca9e9d201c8f5bce942a5",
+          "path": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
           "marker": "## B1"
         }
       ]
@@ -19,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
-          "blob_sha": "3c5bde72d74181c7be1ca9e9d201c8f5bce942a5",
+          "path": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
           "marker": "## B2"
         }
       ]
@@ -29,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
-          "blob_sha": "3c5bde72d74181c7be1ca9e9d201c8f5bce942a5",
+          "path": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
           "marker": "## B3"
         }
       ]
@@ -39,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
-          "blob_sha": "3c5bde72d74181c7be1ca9e9d201c8f5bce942a5",
+          "path": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
           "marker": "## B4"
         }
       ]
@@ -49,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X03_U02_ISOLATED_REAL_AI_B1_B5_20261111.md",
-          "blob_sha": "3c5bde72d74181c7be1ca9e9d201c8f5bce942a5",
+          "path": "docs/s3-night/S3_A5_7_X09_EXPLICIT_REVIEW_B1_B5_20261111.md",
+          "blob_sha": "2ff2dd5fcc868fd0fd8c1544e9ad04d05ff6d9c0",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEBUG_NO_LIVE_PROVIDER"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "fcfbe151f55561a70acc9fb552760d96cea30235",
@@ -72,8 +80,8 @@
     "ci_run_id": 43116880002,
     "guard_run_id": 43116879920
   },
-  "why": "U02 B6/B7 PASS scoped, permit consumed; X09 requires independent B1-B5 and READY.",
-  "how": "Do not repeat U01/U02 or historical tests. Continue X09 read-only preparation; no functional authority under consumed U02 permit.",
+  "why": "X09 scoped debug canonical Review: seven exact surface→host + U02 Activity + AndroidTest + workflow paths, audited B1–B5; keep S2 legacy behavior and Apply null.",
+  "how": "Work B6: verify HEAD writer CAS and exact preflight for all 7 paths; expose only canonical reviewPort in U02 staged, explicit-open UX opt-in, NO Apply, CI Android API35 2/2 XML/APK/hashes and same-SHA guard, B7 independent, release writer. Next X10 requires separate B1–B5 READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": "U02_CONSUMED_X09_INDEPENDENT_B1_B5_READY_REQUIRED",
