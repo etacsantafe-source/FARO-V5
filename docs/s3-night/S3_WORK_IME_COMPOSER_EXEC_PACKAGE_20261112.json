@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "date": "2026-11-12",
+  "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
+  "priority": 1,
+  "status": "B1_B5_REUSE_READY_TO_PERMIT_PENDING",
+  "branch": "work/s3-night-20261102",
+  "preaudit": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+  "authorized_candidate_paths": [
+    "v5/app/src/v2CoreDev/AndroidManifest.xml",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3G15ImeComposerVisibilityUiTest.kt",
+    ".github/workflows/faro-v5-s3-g15-ime-composer-android-directed.yml"
+  ],
+  "scope": "IME composer visibility only; no database, owner or logic changes",
+  "design": "Start with adjustResize in V2CoreDev Activity; measure in emulator Android35; imePadding only if required, without double insets. Compose test focus exact 'Preguntale a FARO', not search field. Assert Enviar and composer bounds within visible area above keyboard, hide keyboard and revalidate. Apply to isolated G15 package in directed workflow. Do not run instrument APK on Moto G15.",
+  "invariants": [
+    "UNIQUE_WRITER_CAS",
+    "PREFLIGHT_ALL_PATHS",
+    "FARO-UNIT_IN_FUNCTIONAL_COMMITS",
+    "NO_REAL_G15_ADB",
+    "NO_GROQ_NO_EXTERNAL_HTTP",
+    "V2_PRODUCTIVE_OFF",
+    "NO_MAIN",
+    "KEEP_EXISTING_SIGNING_IDENTITY",
+    "NO_REPEAT_PRIOR_5OF5_AND_A3_A4_SCOPED_PASS"
+  ],
+  "test_required": [
+    "Android emulator API35 actual IME shows and hides",
+    "TextField 'Preguntale a FARO' and 'Enviar' visible and clickable above keyboard; distinguish 'Buscar en esta conversación'",
+    "APK manifest adjustResize, no INTERNET, correct isolated ID ar.com.faro.g15isolated.v2coredev",
+    "XML JUnit named tests, failures=0 errors=0 skipped=0, APK digest and source SHA",
+    "guard green exact SHA",
+    "B7 scoped written; permit BLOCKED consumed; writer RELEASED"
+  ],
+  "warning": "Prior Termux A3 script state SEND_CLICK_UNCERTAIN. Do not resend or run physical tests. Do not leak private keystore. If code needs any path not in package, STOP NEEDS_PREP and complete distinct B1-B5 delta before permit."
+}
