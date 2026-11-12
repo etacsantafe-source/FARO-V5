@@ -36,14 +36,18 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
         val reality: RealityStore,
         val gate: MaterialWriteGate,
         val applyPort: ConversationApplyRequestPort,
+        val history: FaroV5A5OfflineActivityReceiptBridge,
     ) : AutoCloseable {
         private val closed = AtomicBoolean(false)
         override fun close() {
-            if (closed.compareAndSet(false, true)) gate.withQuiescedMaterialWrites {
-                // Wait for already-admitted local transactions; never close SQLite
-                // beneath a canonical commit. New requests are already revoked.
-                try { host.close() } finally {
-                    try { workspace.close() } finally { reality.close() }
+            if (closed.compareAndSet(false, true)) {
+                history.close()
+                gate.withQuiescedMaterialWrites {
+                    // Wait for already-admitted local transactions; never close SQLite
+                    // beneath a canonical commit. New requests are already revoked.
+                    try { host.close() } finally {
+                        try { workspace.close() } finally { reality.close() }
+                    }
                 }
             }
         }
@@ -97,12 +101,20 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
             text = "Abrir Chat IA U02"
             setOnClickListener { startChat() }
         })
+        column.addView(Button(this).apply {
+            text = "Abrir Chat offline"
+            setOnClickListener { startChat(offline = true) }
+        })
+        column.addView(Button(this).apply {
+            text = "Abrir Chat y Actividad offline"
+            setOnClickListener { startChat(offline = true, requestActivityRead = true) }
+        })
         setContentView(ScrollView(this).apply { addView(column) })
     }
 
-    private fun startChat() {
+    private fun startChat(offline: Boolean = false, requestActivityRead: Boolean = false) {
         if (!foreground || opening || host != null) return
-        if (!free.isChecked) {
+        if (!offline && !free.isChecked) {
             status.text = "No se abrió Chat: falta confirmar plan Free en esta sesión."
             return
         }
@@ -113,9 +125,9 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
         opening = true
         val live = AtomicBoolean(true)
         lifetime = live
-        status.text = "Validando consentimiento y Keystore…"
+        status.text = if (offline) "Abriendo entorno local sin proveedor…" else "Validando consentimiento y Keystore…"
         worker.execute {
-            val result = runCatching { buildSession(live) }
+            val result = runCatching { buildSession(live, offline) }
             runOnUiThread {
                 opening = false
                 val session = result.getOrNull()
@@ -132,6 +144,9 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
                     host = ready
                     val mountedSession = checkNotNull(session)
                     activeSession = mountedSession
+                    if (offline && requestActivityRead) mountedSession.history.authorizeAfterForegroundRequest {
+                        live.get() && foreground && !isDestroyed && !isFinishing
+                    }
                     val dispatch = ConversationAssistantTurnDispatchPort { turn, finished ->
                         live.get() && ready.assistantTurnPort.dispatchAcceptedTurn(turn) {
                             // A late completion cannot revive a paused/replaced UI session.
@@ -144,12 +159,13 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
                         timelineReadPort = ready.timelineReadPort,
                         selectionPort = ready.selectionPort,
                         composerPort = ready.composerPort,
-                        assistantTurnPort = dispatch,
+                        assistantTurnPort = if (offline) null else dispatch,
+                        activityReadPort = if (offline) mountedSession.history else null,
                         assistantRequestMode = FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
                         reviewPort = ready.reviewPort,
                         reviewDisclosureMode = FaroV5ReviewDisclosureMode.EXPLICIT_OPEN,
                         applyRequestPort = mountedSession.applyPort,
-                        onOpenAiSettings = Runnable {
+                        onOpenAiSettings = if (offline) null else Runnable {
                             startActivity(Intent(this, FaroV5AiSettingsActivity::class.java))
                         },
                     )
@@ -158,18 +174,20 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
         }
     }
 
-    private fun buildSession(live: AtomicBoolean): Session {
+    private fun buildSession(live: AtomicBoolean, offline: Boolean): Session {
         fun admitted() { check(live.get()) { "session paused" } }
         admitted()
-        val owner = FaroV5TrustedAssistantControlOwner.get(applicationContext)
-        val control = runBlocking { owner.read() }
-        check(control.remoteReasoningEnabled &&
-            control.activeProfile == FaroV5TrustedModelGatewayFactory.DEFAULT_PROFILE)
-        val credential = checkNotNull(control.credentialRefFor(FaroV5TrustedModelGatewayFactory.BINDING_ID))
-        checkNotNull(owner.secretReader().readValueOrNull(credential)) { "Keystore credential missing" }
-        checkNotNull(FaroV5TrustedModelGatewayFactory(
-            { runBlocking { owner.read() } }, owner.secretReader(),
-        ).create())
+        if (!offline) {
+            val owner = FaroV5TrustedAssistantControlOwner.get(applicationContext)
+            val control = runBlocking { owner.read() }
+            check(control.remoteReasoningEnabled &&
+                control.activeProfile == FaroV5TrustedModelGatewayFactory.DEFAULT_PROFILE)
+            val credential = checkNotNull(control.credentialRefFor(FaroV5TrustedModelGatewayFactory.BINDING_ID))
+            checkNotNull(owner.secretReader().readValueOrNull(credential)) { "Keystore credential missing" }
+            checkNotNull(FaroV5TrustedModelGatewayFactory(
+                { runBlocking { owner.read() } }, owner.secretReader(),
+            ).create())
+        }
         admitted()
         val root = noBackupFilesDir.toPath().resolve(ROOT)
         Files.createDirectories(root)
@@ -193,7 +211,12 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
         admitted()
         val sentinel = Files.createDirectories(root.resolve("v1-protected-sentinel"))
         val gate = SingleProcessMaterialWriteGate()
-        val ready = checkNotNull(FaroV5F1ConsentedQuarantineHost.open(
+        val ready = if (offline) FaroV5QuarantinedV2ChatHostBinding.openForCertification(
+            staged, gate, Supplier { admitted(); sentinel },
+            ModelGateway { _, _ -> error("offline host has no model provider") },
+            Supplier { ModelProfileId("offline-no-provider") }, { false },
+            exclusiveRestartRecovery = BooleanSupplier { live.get() && occupied.get() },
+        ) else checkNotNull(FaroV5F1ConsentedQuarantineHost.open(
             applicationContext, staged, gate,
             // All host ports and reasoning publication recheck this supplier. Pause
             // invalidates synchronously, before any asynchronous resource cleanup.
@@ -229,6 +252,9 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
                 ready.generationId, w, r, gate, Supplier { ready.generationId },
                 BooleanSupplier { live.get() && ready.verifyQuarantined() },
             )
+            val history = FaroV5A5OfflineActivityReceiptBridge(staged, r, w) {
+                live.get() && ready.verifyQuarantined() && layout.requireStaged(id) == staged
+            }
             val port = object : ConversationApplyRequestPort {
                 override suspend fun request(context: ConversationPlanReviewContext): ConversationApplyHostOutcome {
                     if (!live.get() || !ready.verifyQuarantined())
@@ -247,6 +273,7 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
                         }
                         // A local commit may finish after pause. Its receipt remains
                         // canonical; do not present a stale UI result as no effect.
+                        history.ownerChanged()
                         if (live.get()) outcome else ConversationApplyHostOutcome.RecoveryRequired
                     } catch (_: Exception) {
                         ConversationApplyHostOutcome.RecoveryRequired
@@ -254,7 +281,7 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
                 }
             }
             admitted()
-            return Session(ready, w, r, gate, port)
+            return Session(ready, w, r, gate, port, history)
         } catch (failure: Throwable) {
             runCatching { applyReality?.close() }
             runCatching { applyWorkspace?.close() }
@@ -272,6 +299,7 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
 
     override fun onPause() {
         foreground = false
+        activeSession?.history?.revoke()
         lifetime?.set(false)
         free.isChecked = false
         val closing = activeSession

@@ -1,0 +1,156 @@
+name: FARO V5 S3 A5 offline same-root Review Apply Activity API35
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5A5OfflineActivityReceiptBridge.kt"
+      - "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt"
+      - "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A5OfflineReviewApplyActivityUiTest.kt"
+      - ".github/workflows/faro-v5-s3-a5-offline-review-apply-activity-directed.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: faro-v5-a5-7-a5-offline-integration-android-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  a5-offline-integration-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK 37
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile debug isolated application, tests and offline V2 DEV
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1800 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated \
+              :app:assembleDebug :app:assembleDebugAndroidTest
+          timeout --signal=TERM --kill-after=30s 1800 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              :app:assembleV2CoreDev
+      - name: Verify exact identities, manifests, signatures and hashes
+        run: |
+          set -euo pipefail
+          AAPT="$ANDROID_HOME/build-tools/36.0.0/aapt"
+          SIGNER="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          DEBUG=v5/app/build/outputs/apk/debug/app-debug.apk
+          TEST=v5/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+          DEV=v5/app/build/outputs/apk/v2CoreDev/app-v2CoreDev.apk
+          "$AAPT" dump badging "$DEBUG" > a5-offline-integration-debug-badging.txt
+          grep -Fq "package: name='ar.com.faro.alpha.s2isolated.v5dev'" a5-offline-integration-debug-badging.txt
+          "$AAPT" dump badging "$DEV" > a5-offline-integration-dev-badging.txt
+          grep -Fq "package: name='ar.com.faro.alpha.v2coredev'" a5-offline-integration-dev-badging.txt
+          "$AAPT" dump permissions "$DEBUG" > a5-offline-integration-debug-permissions.txt
+          grep -Fq 'android.permission.INTERNET' a5-offline-integration-debug-permissions.txt
+          "$AAPT" dump permissions "$DEV" > a5-offline-integration-dev-permissions.txt
+          if grep -Fq 'android.permission.INTERNET' a5-offline-integration-dev-permissions.txt; then exit 1; fi
+          "$AAPT" dump xmltree "$DEBUG" AndroidManifest.xml > a5-offline-integration-debug-manifest.txt
+          "$AAPT" dump xmltree "$DEV" AndroidManifest.xml > a5-offline-integration-dev-manifest.txt
+          grep -Fq 'FaroV5X03U02IsolatedAiActivity' a5-offline-integration-debug-manifest.txt
+          if grep -Fq 'FaroV5X03U02IsolatedAiActivity' a5-offline-integration-dev-manifest.txt; then exit 1; fi
+          for APK in "$DEBUG" "$TEST" "$DEV"; do "$SIGNER" verify --print-certs "$APK"; done
+          sha256sum "$DEBUG" "$TEST" "$DEV" > a5-offline-integration-apk-sha256.txt
+          echo "${{ github.sha }}" > a5-offline-integration-source-sha.txt
+      - name: Enable emulator VM acceleration
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Run only new offline integration tests with NO credentials and emulator network disabled on API35
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            APP="$(find v5/app/build/outputs/apk/debug -type f -name "*.apk" -print -quit)";
+            TEST="$(find v5/app/build/outputs/apk/androidTest/debug -type f -name "*.apk" -print -quit)";
+            test -n "$APP" && test -n "$TEST";
+            adb install "$APP";
+            adb install "$TEST";
+            adb shell svc wifi disable;
+            adb shell svc data disable;
+            OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5S3A5OfflineReviewApplyActivityUiTest ar.com.faro.alpha.s2isolated.v5dev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)" || { printf "%s\n" "$OUT" | tee a5-offline-integration-android-instrumentation.log; exit 1; };
+            printf "%s\n" "$OUT" | tee a5-offline-integration-android-instrumentation.log;
+            printf "%s\n" "$OUT" | grep -Fq "OK (4 tests)";
+            printf "%s\n" "$OUT" | grep -Fq "INSTRUMENTATION_CODE: -1";
+            echo "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_PASS 4/4"
+            '
+      - name: Verify actual instrumentation events and produce traceable JUnit XML
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import xml.etree.ElementTree as ET
+          result = Path("a5-offline-integration-android-instrumentation.log").read_text()
+          assert "OK (4 tests)" in result, "instrumentation did not report 2 tests"
+          assert "INSTRUMENTATION_CODE: -1" in result, "instrumentation did not finish successfully"
+          expected = {
+              "offlineExplicitReviewApplyAndAuthorizedActivityShareCanonicalReceipt",
+              "offlineDoubleClickAndReopenNeverDuplicateActivityReceipt",
+              "offlineActivityGrantRevokedOnPauseAndReturnRequiresNewGesture",
+              "offlineMissingGrantAndGenerationIdentityNeverBecomePhantomZero",
+          }
+          events = []
+          name = None
+          for line in result.splitlines():
+              if line.startswith("INSTRUMENTATION_STATUS: test="):
+                  name = line.split("=", 1)[1]
+              if line.startswith("INSTRUMENTATION_STATUS_CODE:"):
+                  events.append((name, int(line.split(":", 1)[1])))
+                  name = None
+          assert sorted(events) == sorted((n, c) for n in expected for c in (1, 0)), events
+          suite = ET.Element("testsuite", name="S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_Android_API35",
+                             tests="4", failures="0", errors="0", skipped="0")
+          for name in sorted(expected):
+              ET.SubElement(suite, "testcase", classname="FaroV5S3A5OfflineReviewApplyActivityUiTest",
+                            name=name)
+          ET.ElementTree(suite).write("a5-offline-integration-android-junit.xml",
+                                       encoding="utf-8", xml_declaration=True)
+          print("S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_ANDROID_XML_VERIFIED 4/4")
+          PY
+      - name: Preserve exact SHA APKs, real test log and verified XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-a5-7-a5-offline-integration-api35-${{ github.sha }}
+          path: |
+            v5/app/build/outputs/apk/v2CoreDev/*.apk
+            v5/app/build/outputs/apk/debug/*.apk
+            v5/app/build/outputs/apk/androidTest/debug/*.apk
+            a5-offline-integration-android-instrumentation.log
+            a5-offline-integration-android-junit.xml
+            a5-offline-integration-*-permissions.txt
+            a5-offline-integration-*-manifest.txt
+            a5-offline-integration-*-badging.txt
+            a5-offline-integration-source-sha.txt
+            a5-offline-integration-apk-sha256.txt
+          if-no-files-found: error
