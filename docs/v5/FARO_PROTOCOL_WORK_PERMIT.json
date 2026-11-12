@@ -1,18 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
-  "reviewed_head": "c6960b58622e6cd6f68e6bf74f5a2efcb8609871",
+  "status": "READY",
+  "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
+  "reviewed_head": "57c08fc8a3f7fe5f4cc8f809d269472d24e0b41e",
   "paths": [
-    ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
+    "v5/app/src/v2CoreDev/AndroidManifest.xml",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3G15ImeComposerVisibilityUiTest.kt",
+    ".github/workflows/faro-v5-s3-g15-ime-composer-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
-          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
+          "path": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+          "blob_sha": "96616db4889022aa85a7a7dbea50547dfce99926",
           "marker": "## B1"
         }
       ]
@@ -21,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
-          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
+          "path": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+          "blob_sha": "96616db4889022aa85a7a7dbea50547dfce99926",
           "marker": "## B2"
         }
       ]
@@ -31,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
-          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
+          "path": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+          "blob_sha": "96616db4889022aa85a7a7dbea50547dfce99926",
           "marker": "## B3"
         }
       ]
@@ -41,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
-          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
+          "path": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+          "blob_sha": "96616db4889022aa85a7a7dbea50547dfce99926",
           "marker": "## B4"
         }
       ]
@@ -51,23 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_EMULATOR_UI_CASE_B1_B5_B7_REDFIX_20261112.md",
-          "blob_sha": "fc3afa919c527002492ee57266a64b242443be07",
+          "path": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+          "blob_sha": "96616db4889022aa85a7a7dbea50547dfce99926",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_PASS",
-    "B7": {
-      "status": "PASS_SCOPED",
-      "evidence": [
-        {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md",
-          "blob_sha": "b331abf2d1c526eb1ced81311f730169468dfbad",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
@@ -81,11 +75,11 @@
       }
     ]
   },
-  "why": "B7 PASS scoped offline G15 isolated DEV startup; code SHA94111428, guard43272636839 SUCCESS, Android35 real cold launch PID+UI PASS run43272636986, APK artifact13968019523 SHA7c94d14c..., independent ZIP/APK digest and package/manifest verified. G15 physical original old isolated binary still FAIL; retest new signed binary NOT_RUN.",
-  "how": "Human only: new artifact from 43272636986, verify sha256 7c94d14ce19bc5332e87b85b68899df7379f7032e75642b1240f94afe594e67c, re-sign locally with EXISTING PKCS12 g15-isolated.p12 cert SHA 7d01a911..., verified package, adb -s <serial> install -r isolated variant only. No uninstall / clear / touch original. Physical smoke then separate closure.",
+  "why": "Human screenshot G15 Chat composer/Enviar hidden by Gboard on Android15. Existing CORE DEV activity lacks adjustResize; B1–B5 audited with Jetchat/Android official sources, exact four paths only; Groq deferred. Code B6 only after preflight; no user-device ops.",
+  "how": "Work unit S3_G15_IME_COMPOSER_RESIZE_ANDROID. Read docs/s3-night/S3_WORK_IME_COMPOSER_EXEC_PACKAGE_20261112.json and docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md. CAS writer, preflight EACH exact path; implement minimal Activity IME fix and Android35 physical-IME emulator test, verify APK isolated ID, permission/no Internet, XML, B7, guard, RELEASED. No code in permit commit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "blocked_reason": null,
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md"
+  "closure_document": null
 }
