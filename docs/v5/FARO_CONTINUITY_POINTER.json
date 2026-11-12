@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_G15_X06_CORRECTED_APK_PHYSICAL_NAVIGATION_5OF5_PASS_CONTENT_AUDIT_PENDING",
+  "phase": "S3_G15_A3_A4_PHYSICAL_SCOPED_RESULTS_NO_INTEGRAL_CLOSE",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 830
+    "expected_release_epoch": 831
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "G15 physical bounded automation 2026-11-12 15:21 AR via python3 $HOME/faro_g15_auto.py passed FIVE UI navigation paths: local Chat, Chat+Actividad, Avisos, Vencimientos, Guardados. Script located exact package buttons with UIAutomator, tapped, verified PID survived and exited intro screen, no exception reported; local evidence /data/data/com.termux/files/home/faro-g15-isolated/pruebas-20261112-152107 includes five screenshots/XML-text/logs; human text in chat, not copied as private files to public GitHub. Evidence docs/s3-night/S3_G15_X06_ISOLATED_NAVIGATION_FIVE_PATHS_PHYSICAL_20261112.md. DO NOT repeat five certified navigation paths. Next bounded offline read of existing text evidence to classify actual results/empty/error states without exposing content; this is not 5/5 functional PASS. No Reality8 create, uninstall, pm clear, data migration, no original alpha app touched. Existing B7 scoped unit PASS and permit consumed. Global S3.A3 physical/A5 X03 live/A5 global remain OPEN; V2 productiva/S4/Auto/Noche OFF. Writer expected release epoch830.",
-  "checkpoint_status": "G15_X06_BOOT_VISUAL_PASS; UI_AUTOMATED_NAVIGATION_5OF5_PASS; SCREEN_CONTENT_SEMANTICS_AND_LONG_TERM_STABILITY_UNVERIFIED; REALITY8_NOT_TOUCHED",
+  "next": "G15 physical bounded retest logs docs/s3-night/S3_G15_A3_A4_PHYSICAL_BOUNDED_RETEST_20261112.md: A3 synthetic folder create/review/confirm/read/delete/read PASS_SCOPED; A3 empty bookmarks read PASS_SCOPED, A3 prior marker G15A3 not visibly confirmed as sent; no re-send; save/remove/restore/source NOT_RUN. A4 Activity and Avisos proper drawer navigation report authorized empty states PASS_ESTADO_ACOTADO, Vencimientos unavailable negative PASS_ACOTADO; positives need sanctioned fixtures. The first A4 script incorrectly only showed Chat; corrected v2 did navigate. No full closure A3/A4; do not rerun prior 5/5 navigation or A3 folder without cause. Next bounded physical: investigate preexisting chat draft vs sent item, then one unique synthetic message, certifiable save/remove/recover; A4 positives separately planned fixture with individual permission. Evidence local $HOME/faro-g15-isolated/a3-a4-v2-20261112-160016/RESUMEN.txt. No Reality8, reinstall, uninstall, delete or Internet. Writer release expected epoch831; V2 productiva/S4/Auto/Noche OFF.",
+  "checkpoint_status": "G15_NAVIGATION_5OF5_PASS; A3_SYNTHETIC_FOLDER_CREATE_READ_DELETE_PASS_SCOPED; A3_BOOKMARKS_EMPTY_READ_PASS_SCOPED; A3_MESSAGE_SEND_BOOKMARK_RESTORE_NOT_CERTIFIED; A4_ACTIVITY_AVISOS_EMPTY_AUTHORIZED_STATES_PASS_SCOPED; A4_DUE_UNAUTHORIZED_STATE_PASS_SCOPED; A3_A4_STILL_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
@@ -3011,5 +3011,20 @@
     "navigation_evidence": "docs/s3-night/S3_G15_X06_ISOLATED_NAVIGATION_FIVE_PATHS_PHYSICAL_20261112.md",
     "navigation_local_dir": "/data/data/com.termux/files/home/faro-g15-isolated/pruebas-20261112-152107",
     "reality8_upgrade_executed": false
+  },
+  "g15_a3_a4_physical": {
+    "status": "PARTIAL_SCOPED_A3_A4_OPEN",
+    "evidence": "docs/s3-night/S3_G15_A3_A4_PHYSICAL_BOUNDED_RETEST_20261112.md",
+    "prior_script_path": "/data/data/com.termux/files/home/faro-g15-isolated/a3-a4-20261112-154141/RESUMEN.txt",
+    "retest_path": "/data/data/com.termux/files/home/faro-g15-isolated/a3-a4-v2-20261112-160016/RESUMEN.txt",
+    "a3_folder": "PASS_SCOPED_CREATE_REVIEW_CONFIRM_REREAD_DELETE_REREAD",
+    "a3_bookmarks_empty": "PASS_SCOPED",
+    "a3_message": "NOT_CERTIFIED_PREVIOUS_MARKER_NOT_TIMELINE_CONFIRMED",
+    "a3_save_restore": "NOT_RUN_NO_IDENTIFIED_MESSAGE",
+    "a4_activity": "PASS_SCOPED_AUTHORIZED_EMPTY_STATE",
+    "a4_avisos": "PASS_SCOPED_AUTHORIZED_EMPTY_STATE",
+    "a4_due": "PASS_SCOPED_UNAVAILABLE_STATE",
+    "a3_stage": "OPEN",
+    "a4_stage": "OPEN"
   }
 }
