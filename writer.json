@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_ISOLATED_BOOT_B7_PASS.20261112",
   "token_hash": "19d894c76e3a04fdc86685736261cae75cbca905e6bc3b6b77fb828de31f91ed1",
-  "target_head": "b3b33419eb52b12c934a3c403c1cceb56afe71df",
+  "target_head": "5ec6278738ba59cd5226107fdb5fa27bea858e04",
   "target_branch": "work/s3-night-20261102",
   "epoch": 828,
-  "timestamp": 1794506116,
-  "last_checkpoint": "b3b33419eb52b12c934a3c403c1cceb56afe71df"
+  "timestamp": 1794506257,
+  "last_checkpoint": "5ec6278738ba59cd5226107fdb5fa27bea858e04"
 }
