@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
   "reviewed_head": "c6960b58622e6cd6f68e6bf74f5a2efcb8609871",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,11 +72,11 @@
       }
     ]
   },
-  "why": "Android UI synthetic emulator run43270673659: APK successfully installed, Activity am start Status ok, PID=2206 for all attempts, UI XML and screenshot show expected button text uppercase; CI grep mistakenly mixed-case. Only 1 file script exact-case fix.",
-  "how": "Replace one grep exact mixed-case string with actual uppercase UI XML string, keep PID+UI fail closed. Verify guard, Android API35 real launch, APK/hash and B7; G15 human physical after persistent re-sign.",
+  "why": "New code workflow SHA94111428 corrects exact Android UIAutomator button label upper-case as observed in run43270673659. User original physical still closes on OLD APK; G15 isolated package requires new CI artifact and local resigner. New Android run43272636986 and guard43272636839 pending.",
+  "how": "Verify exact CI run43272636986 on SHA94111428: emulator PID alive, XML contains uppercase button, G15_ISOLATED_FIRST_LAUNCH_UI_PASS, signed APK digest manifest, guard SUCCESS, then B7. If green human re-sign same private keystore and adb install -r isolated only; do not clear original.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "G15_ISOLATED_UI_BUTTON_CASE_FIX_CI_43272636986_WAIT_B7",
   "needs_prep_document": null,
   "closure_document": null
 }
