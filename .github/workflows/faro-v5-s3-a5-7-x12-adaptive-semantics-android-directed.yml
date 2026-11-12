@@ -90,9 +90,9 @@ jobs:
             adb shell svc data disable;
             OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5S3A57X12AdaptiveSemanticsUiTest ar.com.faro.alpha.v2coredev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)" || { printf "%s\n" "$OUT" | tee x12-adaptive-android-instrumentation.log; exit 1; };
             printf "%s\n" "$OUT" | tee x12-adaptive-android-instrumentation.log;
+            adb pull /sdcard/Android/data/ar.com.faro.alpha.v2coredev/files/x12-evidence ./x12-evidence || true;
             printf "%s\n" "$OUT" | grep -Fq "OK (2 tests)";
             printf "%s\n" "$OUT" | grep -Fq "INSTRUMENTATION_CODE: -1";
-            adb pull /sdcard/Android/data/ar.com.faro.alpha.v2coredev/files/x12-evidence ./x12-evidence;
             test -f x12-evidence/font200.png;
             test -f x12-evidence/expanded.png;
             echo "S3_A5_7_X12_ADAPTIVE_SEMANTICS_PASS 2/2"

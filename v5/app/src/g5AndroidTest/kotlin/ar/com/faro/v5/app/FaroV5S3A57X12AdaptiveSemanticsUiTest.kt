@@ -5,6 +5,7 @@ import android.os.ParcelFileDescriptor
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
@@ -54,6 +55,9 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
                 else config.fontScale >= 1.99f
             }
             body()
+        } catch (failure: Throwable) {
+            runCatching { evidence(if (expanded) "failed-expanded" else "failed-font200") }
+            throw failure
         } finally {
             shell("wm size ${size ?: "reset"}")
             shell("wm density ${density ?: "reset"}")
@@ -119,8 +123,13 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         assertTrue("unclipped target $bounds outside $viewport", bounds.left >= viewport.left &&
             bounds.top >= viewport.top && bounds.right <= viewport.right && bounds.bottom <= viewport.bottom)
         if (interactive) {
-            assertTrue("target width from $bounds", bounds.right.value - bounds.left.value >= 48f)
-            assertTrue("target height from $bounds", bounds.bottom.value - bounds.top.value >= 48f)
+            val touch = node.fetchSemanticsNode().touchBoundsInRoot
+            val root = rule.onAllNodes(isRoot())[0].fetchSemanticsNode().boundsInRoot
+            val density = rule.activity.resources.displayMetrics.density
+            assertTrue("touch width $touch density=$density", touch.width >= 48f * density)
+            assertTrue("touch height $touch density=$density", touch.height >= 48f * density)
+            assertTrue("touch target $touch outside $root", touch.left >= root.left &&
+                touch.top >= root.top && touch.right <= root.right && touch.bottom <= root.bottom)
         }
     }
 
@@ -133,7 +142,13 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
             rule.onAllNodesWithText(id, substring = true).assertCountEquals(0)
         val summary = rule.onNode(hasText("Ver resumen local") and buttonRole and hasClickAction())
         visible(summary, true)
-        summary.performClick()
+        evidence(if (expanded) "notice-expanded" else "notice-font200")
+        val semantics = summary.fetchSemanticsNode()
+        val touch = semantics.touchBoundsInRoot
+        val layout = semantics.boundsInRoot
+        // Real touch near the target's top edge, including its invisible expansion when present.
+        val edge = Offset(touch.center.x - layout.left, touch.top + 1f - layout.top)
+        summary.performTouchInput { click(edge) }
         awaitText("Resumen solicitado: 0 requieren atención y 2 informativos en la página autorizada. Cobertura completa de la fuente autorizada.")
         if (expanded) rule.onAllNodesWithContentDescription("Abrir menú").assertCountEquals(0)
     }
