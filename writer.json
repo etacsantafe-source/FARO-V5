@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.X02.20261112",
   "token_hash": "de484d9ba38b46dbc9fcafda3ab70fb3ca9b3d8cedce3a10e0f08b0c320d3212",
   "target_head": "9f26852077adf543beaaf1bd76685f3a5ef5947b",
   "target_branch": "work/s3-night-20261102",
   "epoch": 786,
-  "timestamp": 1794457757,
-  "last_checkpoint": "9f26852077adf543beaaf1bd76685f3a5ef5947b",
+  "timestamp": 1794457766,
+  "last_checkpoint": "0df5ee1ff2ebd5b84861ac07583b5e4bd66f933d",
   "purpose": "X08_COMPILED_SURFACE_BRIDGE_CORRECTION"
 }
