@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 842
+    "expected_release_epoch": 844
   },
   "automation": {
     "activation_authorized": false,
@@ -3087,11 +3087,11 @@
     "productive_v2": false
   },
   "s4_preparation": {
-    "status": "PLANNING_ONLY_P00_NOT_STARTED",
+    "status": "P00_MATRIX_PUBLISHED_B7_PENDING",
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P00_RECONSTRUCT_APPROVALS_READ_ONLY_FROM_SOURCE",
+    "next_task": "P00_B7_FINAL_VERIFICATION_READ_ONLY",
     "sequence": [
       "P00",
       "P01",
@@ -3106,6 +3106,13 @@
     "scope": "DOCUMENTAL_ONLY_NO_FORMAL_S4_OPEN_NO_FUNCTIONAL_PERMIT",
     "source": "USER_EXPLICIT_REQUEST_APPLY_PROTOCOL_20261112",
     "physical": "NOT_RUN",
-    "code": "NOT_CHANGED"
+    "code": "NOT_CHANGED",
+    "p00_unit": "S4_PREP_P00_DECISION_RECONCILIATION",
+    "p00_matrix": "docs/v5/FARO_S4_P00_DECISION_AUTHORITY_MATRIX_20261112.md",
+    "p00_matrix_commit": "0937747df5c154ab1d005b3c03f3dca850226133",
+    "p00_matrix_blob": "09d47f8a5c2ed5f02a97a4b1c68aec50ffd5ea41",
+    "p00_decisions_registered": 33,
+    "p00_conflicts_reviewed": 10,
+    "p00_status_scope": "DECISIONS_AND_CONTRADICTIONS_ONLY_NOT_FUNCTIONAL_S4_APPROVAL"
   }
 }
