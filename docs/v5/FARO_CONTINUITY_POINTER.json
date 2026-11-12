@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_G15_A3_A4_PHYSICAL_SCOPED_RESULTS_NO_INTEGRAL_CLOSE",
+  "phase": "S3_G15_A3_IME_COMPOSER_HIDDEN_BY_KEYBOARD_PREAUDITED_FIX_PENDING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 831
+    "expected_release_epoch": 832
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "G15 physical bounded retest logs docs/s3-night/S3_G15_A3_A4_PHYSICAL_BOUNDED_RETEST_20261112.md: A3 synthetic folder create/review/confirm/read/delete/read PASS_SCOPED; A3 empty bookmarks read PASS_SCOPED, A3 prior marker G15A3 not visibly confirmed as sent; no re-send; save/remove/restore/source NOT_RUN. A4 Activity and Avisos proper drawer navigation report authorized empty states PASS_ESTADO_ACOTADO, Vencimientos unavailable negative PASS_ACOTADO; positives need sanctioned fixtures. The first A4 script incorrectly only showed Chat; corrected v2 did navigate. No full closure A3/A4; do not rerun prior 5/5 navigation or A3 folder without cause. Next bounded physical: investigate preexisting chat draft vs sent item, then one unique synthetic message, certifiable save/remove/recover; A4 positives separately planned fixture with individual permission. Evidence local $HOME/faro-g15-isolated/a3-a4-v2-20261112-160016/RESUMEN.txt. No Reality8, reinstall, uninstall, delete or Internet. Writer release expected epoch831; V2 productiva/S4/Auto/Noche OFF.",
-  "checkpoint_status": "G15_NAVIGATION_5OF5_PASS; A3_SYNTHETIC_FOLDER_CREATE_READ_DELETE_PASS_SCOPED; A3_BOOKMARKS_EMPTY_READ_PASS_SCOPED; A3_MESSAGE_SEND_BOOKMARK_RESTORE_NOT_CERTIFIED; A4_ACTIVITY_AVISOS_EMPTY_AUTHORIZED_STATES_PASS_SCOPED; A4_DUE_UNAUTHORIZED_STATE_PASS_SCOPED; A3_A4_STILL_OPEN",
+  "next": "User G15 physical screenshot 2026-11-12 ~16:23 AR: keyboard covers composer/Enviar while Chat search field visible. A3 V3 printed SEND_CLICK_UNCERTAIN/NO_CERTIFICADO, do NOT resend or duplicate; user got final TERMINADA notice. Root cause probable missing windowSoftInputMode=adjustResize from V2 DEV Activity manifest and imePadding in Compose; needs targeted proof. PREAUDIT B1-B5 doc docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md, NO code authorization, B6/B7 NOT_RUN. Next verify stage from local state read-only + timeline/draft without sending, then independent unit READY and Android IME fix/test with full protocol and physical G15 retest; preserve no data delete/install incompatible, preserve 5/5 navigation and A3 folder + A4 empty states PASS scoped. S3 A3/A4 and A5 global OPEN; V2 productiva/S4/Auto/Noche OFF; writer RELEASED expected epoch832.",
+  "checkpoint_status": "G15_A3_V3_SEND_UNCERTAIN_NO_RETRY; IME_OCCLUDES_COMPOSER_VISUAL_CONFIRMED; G15_IME_B1_B5_DOCUMENTED_ONLY; B6_B7_NOT_RUN; PREVIOUS_A3_A4_SCOPED_TESTS_RETAINED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
@@ -3026,5 +3026,14 @@
     "a4_due": "PASS_SCOPED_UNAVAILABLE_STATE",
     "a3_stage": "OPEN",
     "a4_stage": "OPEN"
+  },
+  "g15_ime_composer": {
+    "status": "B1_B5_DOCUMENTED_B6_B7_NOT_RUN",
+    "human_screenshot": "2026-11-12 16:23 Chat with Gboard obstructing composer",
+    "root_cause": "PROBABLE_MANIFEST_MISSING_ADJUST_RESIZE_AND_COMPOSE_INSETS_NEEDS_VALIDATION",
+    "script_state": "SEND_CLICK_UNCERTAIN_NO_RETRY",
+    "source": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
+    "code_permit": "BLOCKED_NO_READY",
+    "physical_fix": "NOT_RUN"
   }
 }
