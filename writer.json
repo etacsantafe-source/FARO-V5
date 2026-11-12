@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_ISOLATED_X06_CI_B7_WAIT_CHECKPOINT.20261112",
   "token_hash": "7f3640cf7b94c442b713f3ce862b52da8e3838dc4c6c6dd95c084ed7f4bb89a1",
-  "target_head": "a75c019f8131f6573da0e910e6fc9a8dd53b897a",
+  "target_head": "8c7835ad340f7ab60e408566fd01c7fde7f06318",
   "target_branch": "work/s3-night-20261102",
   "epoch": 817,
-  "timestamp": 1794497564,
-  "last_checkpoint": "a75c019f8131f6573da0e910e6fc9a8dd53b897a"
+  "timestamp": 1794497622,
+  "last_checkpoint": "8c7835ad340f7ab60e408566fd01c7fde7f06318"
 }
