@@ -366,7 +366,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             foreground: () -> Boolean,
         ): FaroV5AvisosReadPort? {
             if (!alive.get() || avisosAuthority != null ||
-                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
             val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
@@ -456,7 +456,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             foreground: () -> Boolean,
         ): FaroV5ActivityReadPort? {
             if (!alive.get() || historyBinding != null ||
-                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
             val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
@@ -533,7 +533,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             foreground: () -> Boolean,
         ): FaroV5BookmarkReadHostBinding? {
             if (!alive.get() || bookmarkBinding != null ||
-                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() && pointer.read() == openingPointer }.getOrDefault(false)
             ) return null
             val workspace = graph.workspace ?: return null
@@ -601,7 +601,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val epoch = bookmarkEpoch ?: return null
             val principal = access.technicalPrincipalOrNull() ?: return null
             val workspace = graph.workspace ?: return null
-            if (application.packageName != "ar.com.faro.alpha.v2coredev" || bookmarkBinding !== reader) return null
+            if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || bookmarkBinding !== reader) return null
             val ready = { alive.get() && bookmarkBinding === reader && bookmarkEpoch == epoch &&
                 foreground() && pointer.read() == openingPointer }
             if (!ready()) return null
@@ -615,7 +615,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             application: Application, foreground: () -> Boolean,
         ): FaroV5BookmarkFolderActionBinding? {
             revokeBookmarkFolderActionsOnPause()
-            if (application.packageName != "ar.com.faro.alpha.v2coredev" || !alive.get() || !foreground() ||
+            if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || !alive.get() || !foreground() ||
                 pointer.read() != openingPointer) return null
             val workspace = graph.workspace ?: return null
             val epoch = UUID.randomUUID().toString()
@@ -650,7 +650,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 override suspend fun prepare(conversationId: ConversationId, messageId: ConversationMessageId,
                     action: ar.com.faro.v5.surface.FaroV5BookmarkChatAction): ar.com.faro.v5.surface.FaroV5BookmarkChatReview? {
                     revokeBookmarkReviewOnPause()
-                    if (application.packageName != "ar.com.faro.alpha.v2coredev" || !alive.get() || !foreground() ||
+                    if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || !alive.get() || !foreground() ||
                         pointer.read() != openingPointer) return null
                     val workspace = graph.workspace ?: return null
                     val epoch = UUID.randomUUID().toString()
@@ -713,7 +713,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             foreground: () -> Boolean,
         ): FaroV5N031ThreeOwnerDueHostBinding? {
             if (!alive.get() || pendingBinding != null ||
-                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
             val pinned = runCatching { pointer.read() }.getOrNull() ?: return null

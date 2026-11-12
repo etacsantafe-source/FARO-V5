@@ -23,6 +23,15 @@ import kotlinx.coroutines.runBlocking
 /** DEV-only app: no FARO shipping CompositionRoot, WorkManager, or model bootstrap. */
 class FaroV5V2CoreDevApplication : Application()
 
+internal object FaroV5V2CoreDevPackagePolicy {
+    // Both IDs are sandbox-separated DEV installations. Never use suffix/wildcard matching.
+    private const val ORIGINAL_DEV = "ar.com.faro.alpha.v2coredev"
+    private const val G15_ISOLATED_DEV = "ar.com.faro.g15isolated.v2coredev"
+
+    fun accepts(packageName: String): Boolean =
+        packageName == ORIGINAL_DEV || packageName == G15_ISOLATED_DEV
+}
+
 /**
  * The only launcher for the isolated V2 core package.
  * Explicit user action opens a durable local Workspace; no network, model,
@@ -51,7 +60,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        check(packageName == "ar.com.faro.alpha.v2coredev") {
+        check(FaroV5V2CoreDevPackagePolicy.accepts(packageName)) {
             "V2 core development requires a separate Android application ID"
         }
         check((applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
