@@ -126,7 +126,7 @@ jobs:
             echo "G15_SMOKE_ATTEMPT=$attempt PID=${RUNNING:-NONE}"
             adb shell uiautomator dump /sdcard/faro-g15-isolated-window.xml > faro-g15-isolated-uidump.log 2>&1 || true
             adb shell cat /sdcard/faro-g15-isolated-window.xml > faro-g15-isolated-window.xml 2>/dev/null || true
-            if [ -n "$RUNNING" ] && grep -Fq 'Abrir Chat local de desarrollo' faro-g15-isolated-window.xml; then
+            if [ -n "$RUNNING" ] && grep -Fq 'ABRIR CHAT LOCAL DE DESARROLLO' faro-g15-isolated-window.xml; then
               LAUNCH_PASS=1
               break
             fi
