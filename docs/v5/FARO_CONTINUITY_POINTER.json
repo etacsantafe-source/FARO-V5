@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_WORK_IME_B7_PASS_A5_OFFLINE_NEXT",
+  "phase": "S3_A5_OFFLINE_READY_AFTER_IME_B7",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 839
+    "expected_release_epoch": 840
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "IME B7 PASS scoped 923910dd, Android43302542761 2/0/0/0 and guard43302542646; artifact independently verified; DO NOT repeat. Writer RELEASED epoch839 after checkpoint. Recover HEAD and validate A5 five-path preaudit unchanged, then issue separate docs-only READY for S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT; guard, exact preflight, B6/API35/XML/APK/B7. X03 Groq live deferred, G15 no access; S3/A5 global OPEN.",
-  "checkpoint_status": "IME_B7_PASS_SCOPED_2_2;A5_OFFLINE_PREAUDIT_REVALIDATE_THEN_INDIVIDUAL_READY;X03_LIVE_DEFERRED",
+  "next": "A5 offline individual READY after IME B7. Read docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md plus original B1-B5/package. Preflight FIVE paths; implement debug staged same-root reader with real identity and separate revoked grants, no fake active pointer, no main binding contract change; test-only candidate, real Apply receipt. API35 >=4/0/0/0/XML/APK/guard/B7. IME 2/2 certified do not repeat; Groq/G15 deferred; formal S3/A5 OPEN.",
+  "checkpoint_status": "IME_B7_PASS_SCOPED;A5_OFFLINE_READY_INDIVIDUAL_FIVE_PATHS;GROQ_DEFERRED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "923910dd28f963daf0263de87d2eada4f8263571",
@@ -3053,7 +3053,7 @@
     },
     "a5": {
       "unit": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
-      "status": "B1_B5_PREPARED_NO_ACTIVE_READY",
+      "status": "READY_INDIVIDUAL_FIVE_PATHS",
       "preaudit": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
       "package": "docs/s3-night/S3_WORK_A5_OFFLINE_INTEGRATION_EXEC_PACKAGE_20261112.json",
       "paths": 5
