@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 782
+    "expected_release_epoch": 784
   },
   "automation": {
     "activation_authorized": false,
@@ -43,11 +43,11 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify corrected X08 743e28f4f6a6afb94ab66ba0b8dd8181e4353816 API35 3/3 events/XML, APK identities/manifests/hashes and guard; B7 then X12.",
+  "next": "Verify X08 corrected source 14eabcc325d664638d4d7f0d4f361d9eb8fc4165 API35 3/3 exact events/XML, APK manifest/hash and guard; B7 then X12 individual READY.",
   "checkpoint_status": "X06_B7_PASS_SCOPED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
+  "last_code_sha": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
   "last_ci_run_id": 43151250329,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -2188,9 +2188,9 @@
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
   "block_id": 6,
   "block_status": "WAIT_CI",
-  "expected_head": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
+  "expected_head": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
   "blocker": null,
-  "writer_release_epoch": 782,
+  "writer_release_epoch": 784,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2217,11 +2217,14 @@
   },
   "work": {
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-    "status": "WAIT_CI_CORRECTED_TEST_API",
-    "code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
-    "first_failure_run": 43152882781,
-    "red_fix_guard": 43153775125,
-    "next": "Verify corrected X08 743e28f4f6a6afb94ab66ba0b8dd8181e4353816 API35 3/3 events/XML, APK identities/manifests/hashes and guard; B7 then X12."
+    "status": "WAIT_CI_NATIVE_TEST_ROOT_FIXED",
+    "code_sha": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
+    "prior_runs": [
+      43152882781,
+      43153903965
+    ],
+    "red_fix_guard": 43154143815,
+    "next": "Verify X08 corrected source 14eabcc325d664638d4d7f0d4f361d9eb8fc4165 API35 3/3 exact events/XML, APK manifest/hash and guard; B7 then X12 individual READY."
   },
   "work_m04": {
     "status": "DONE_VERIFIED",
@@ -2268,11 +2271,14 @@
   },
   "a5_current_unit": {
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-    "status": "WAIT_CI_CORRECTED_TEST_API",
-    "code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
-    "first_failure_run": 43152882781,
-    "red_fix_guard": 43153775125,
-    "next": "Verify corrected X08 743e28f4f6a6afb94ab66ba0b8dd8181e4353816 API35 3/3 events/XML, APK identities/manifests/hashes and guard; B7 then X12."
+    "status": "WAIT_CI_NATIVE_TEST_ROOT_FIXED",
+    "code_sha": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
+    "prior_runs": [
+      43152882781,
+      43153903965
+    ],
+    "red_fix_guard": 43154143815,
+    "next": "Verify X08 corrected source 14eabcc325d664638d4d7f0d4f361d9eb8fc4165 API35 3/3 exact events/XML, APK manifest/hash and guard; B7 then X12 individual READY."
   },
   "a5_7_x04_x05_android": {
     "unit": "S3_A5_7_X04_X05_ANDROID_GUARDADOS",
@@ -2443,7 +2449,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
+  "checkpoint_code_sha": "14eabcc325d664638d4d7f0d4f361d9eb8fc4165",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
