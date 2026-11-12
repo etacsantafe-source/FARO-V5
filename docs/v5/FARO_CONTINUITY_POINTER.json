@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 844
+    "expected_release_epoch": 845
   },
   "automation": {
     "activation_authorized": false,
@@ -3091,7 +3091,7 @@
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P00_CLOSED_AWAIT_USER_AUTHORIZATION_FOR_P01",
+    "next_task": "P01_CLOSED_P02_NOT_STARTED_AWAIT_USER_INSTRUCTION",
     "sequence": [
       "P00",
       "P01",
@@ -3119,6 +3119,25 @@
     "p00_scope": "DECISION_RECONCILIATION_ONLY_S4_FORMAL_OFF",
     "p00_completion_date": "2026-11-12",
     "p00_closure": "B1_TO_B5_EVIDENCED_B6_DOC_ONLY_B7_SCOPED_FINAL_GATE_CHECK_AFTER_WRITER_RELEASE",
-    "downstream_units": "P01_TO_P08_NOT_STARTED"
+    "downstream_units": "P02_TO_P08_NOT_STARTED",
+    "p01": {
+      "status": "P01_DONE_VERIFIED_DOC_SCOPE",
+      "unit_id": "S4_PREP_P01_V5_EVIDENCE_INVENTORY",
+      "baseline_head": "63c7c2fe65f6577f0546cd5427a118b9dc316ac2",
+      "inventory": "docs/v5/FARO_S4_P01_V5_IMPLEMENTATION_INVENTORY_20261112.md",
+      "inventory_blob": "5449938c3e5e8fbe5e18a2c7694989e1e5e4af96",
+      "audit_b7": "docs/v5/FARO_S4_P01_B7_20261112.md",
+      "audit_b7_blob": "1d3232ce74f70814a6adf913c3056afc35eeb7ef",
+      "gradle_modules": 22,
+      "inventory_rows": 30,
+      "operation_contracts": 180,
+      "source_status": "CODE_CONTRACT_HOST_UI_TEST_SEPARATED",
+      "code_changed": false,
+      "new_ci": "NOT_RUN_DOC_ONLY",
+      "g15_physical": "NOT_RUN",
+      "writer_release_epoch": 845,
+      "next_task": "P02_V44_READ_ONLY_AUDIT_NOT_STARTED",
+      "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_REMOTE_GATE"
+    }
   }
 }
