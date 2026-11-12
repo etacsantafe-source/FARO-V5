@@ -1,11 +1,10 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-  "reviewed_head": "fbb03ddbefd48cf4eeb5db8454bbbb037300216c",
+  "reviewed_head": "00e52a2b7f3c42360c072607474ea33e9858be63",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x08-owner-interruption-android-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt"
   ],
   "stages": {
     "B1": {
@@ -14,6 +13,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
           "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
+          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
           "marker": "## B1"
         }
       ]
@@ -25,6 +29,11 @@
           "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
           "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
+          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
+          "marker": "## B2"
         }
       ]
     },
@@ -34,6 +43,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
           "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
+          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
           "marker": "## B3"
         }
       ]
@@ -45,6 +59,11 @@
           "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
           "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
+          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
+          "marker": "## B4"
         }
       ]
     },
@@ -55,35 +74,38 @@
           "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
           "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
+          "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "67bee2004800c2f81bbca7fe268d0f50d7228a92",
-    "unit_id": "S3_A5_7_X06_THREE_REALITY_OWNER_SEARCH_ANDROID",
-    "result": "PASS",
+    "sha": "760d1140571055f42702ff220d15edb34eb28d13",
+    "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X06_THREE_REALITY8_OWNERS_B7_PASS_20261112.md",
-        "blob_sha": "c3acb02928e60b44fc776de3994ca4ecc8798674",
+        "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
+        "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43151250329,
-    "ci_job_id": 130960646482,
-    "guard_run_id": 43151250243,
-    "artifact_id": 13913757767,
-    "android_test": "PASS_2_OF_2",
-    "ci": "SUCCESS_XML_2_0_0_0"
+    "ci_run_id": 43152882781,
+    "ci_job_id": 130965985798,
+    "ci": "FAILURE_COMPILE_UNRESOLVED_IMPORT",
+    "guard_run_id": 43152882652
   },
   "why": "X06 B7 PASS scoped fbb03ddbefd48cf4eeb5db8454bbbb037300216c closure guard 43152342582 SUCCESS, writer RELEASED epoch778. Since preaudit only X06 tests/workflow plus docs changed, no production search source changes. Exact source hooks and lifecycle contracts revalidated, no production route needed.",
   "how": "Three new API35 tests: actual canonical Finance snapshot -> grant revoke / actual owner close at deterministic second direct read; real source denies publication + canonical federation/UI partial. Actual DEV Reality hit pointer ABA using full sequence. Two paths only, real exact schema8 test fixture, XML3/0/0/0 APK/hash/manifest/guard/B7. No baseline reruns.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X08_IMPLEMENTED_WAIT_CI_NO_ADDITIONAL_CODE",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
