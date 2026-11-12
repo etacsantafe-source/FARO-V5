@@ -1,11 +1,10 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
-  "reviewed_head": "4075e0b9b4cf40ca50c755e0ae42a34b9b6c6292",
+  "reviewed_head": "bad26a554865d610b84bf7749c2b9b7f1eec85d0",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x12-adaptive-semantics-android-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt"
   ],
   "stages": {
     "B1": {
@@ -24,6 +23,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
           "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
+          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
           "marker": "## B1"
         }
       ]
@@ -45,6 +49,11 @@
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
           "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
+          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "marker": "## B2"
         }
       ]
     },
@@ -64,6 +73,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
           "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
+          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
           "marker": "## B3"
         }
       ]
@@ -85,6 +99,11 @@
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
           "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
+          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "marker": "## B4"
         }
       ]
     },
@@ -105,10 +124,15 @@
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
           "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
+          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -123,11 +147,11 @@
       }
     ]
   },
-  "why": "RED_FIX2 guard43163375847 SUCCESS; exactly original X12 two test-only routes: separate actual touch>=48 from visual bounds, edge touch and failure artifacts; no production change.",
+  "why": "RED_FIX3 guard43164867921 SUCCESS; exact one Kotlin route serializes independent canonical probe before UI request without weakening positive/negative assertions or modifying production.",
   "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X12_REDFIX3_QUERY_SERIAL_AWAIT_DELTA_GUARD",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }
