@@ -1,24 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X06_THREE_REALITY_OWNER_SEARCH_ANDROID",
-  "reviewed_head": "44f8cea13a1ed5b5a28074d3c108fcaf6d00cd2f",
+  "status": "READY",
+  "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+  "reviewed_head": "fbb03ddbefd48cf4eeb5db8454bbbb037300216c",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X06ThreeOwnerSearchUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-7-x06-three-owner-search-android-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x08-owner-interruption-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md",
-          "blob_sha": "585a6276a6fffaeb8f7f7fbc3dd1153299749da2",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X06_EXACT_SCHEMA8_FIXTURE_DELTA_B1_B5_20261112.md",
-          "blob_sha": "60da39e4d0c7b38504b5b885671f3c9db0e347a6",
+          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
+          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B1"
         }
       ]
@@ -27,13 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md",
-          "blob_sha": "585a6276a6fffaeb8f7f7fbc3dd1153299749da2",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X06_EXACT_SCHEMA8_FIXTURE_DELTA_B1_B5_20261112.md",
-          "blob_sha": "60da39e4d0c7b38504b5b885671f3c9db0e347a6",
+          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
+          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B2"
         }
       ]
@@ -42,13 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md",
-          "blob_sha": "585a6276a6fffaeb8f7f7fbc3dd1153299749da2",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X06_EXACT_SCHEMA8_FIXTURE_DELTA_B1_B5_20261112.md",
-          "blob_sha": "60da39e4d0c7b38504b5b885671f3c9db0e347a6",
+          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
+          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B3"
         }
       ]
@@ -57,13 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md",
-          "blob_sha": "585a6276a6fffaeb8f7f7fbc3dd1153299749da2",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X06_EXACT_SCHEMA8_FIXTURE_DELTA_B1_B5_20261112.md",
-          "blob_sha": "60da39e4d0c7b38504b5b885671f3c9db0e347a6",
+          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
+          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B4"
         }
       ]
@@ -72,19 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X06_THREE_OWNER_SEARCH_B1_B5_20261112.md",
-          "blob_sha": "585a6276a6fffaeb8f7f7fbc3dd1153299749da2",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X06_EXACT_SCHEMA8_FIXTURE_DELTA_B1_B5_20261112.md",
-          "blob_sha": "60da39e4d0c7b38504b5b885671f3c9db0e347a6",
+          "path": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B1_B5_20261112.md",
+          "blob_sha": "98c438867b7c77eaaa8c1dbab35b1c18aa9db449",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "67bee2004800c2f81bbca7fe268d0f50d7228a92",
@@ -104,11 +79,11 @@
     "android_test": "PASS_2_OF_2",
     "ci": "SUCCESS_XML_2_0_0_0"
   },
-  "why": "X02 B7 PASS scoped checkpoint 44f8cea1 guard 43150792484 SUCCESS writer RELEASED 774 verified. X06 original plus exact schema8 fixture delta verified; two test/workflow paths only.",
-  "how": "Exact schema8 canonical test seed/closed graph; two Android API35 tests over real Finance/Objectives/Matters, real Activity native Chat/Search, privacy/read-only detail, pause stale hit rejection and fresh gesture. XML 2/0/0/0 APK/hash/manifest/guard and B7.",
+  "why": "X06 B7 PASS scoped fbb03ddbefd48cf4eeb5db8454bbbb037300216c closure guard 43152342582 SUCCESS, writer RELEASED epoch778. Since preaudit only X06 tests/workflow plus docs changed, no production search source changes. Exact source hooks and lifecycle contracts revalidated, no production route needed.",
+  "how": "Three new API35 tests: actual canonical Finance snapshot -> grant revoke / actual owner close at deterministic second direct read; real source denies publication + canonical federation/UI partial. Actual DEV Reality hit pointer ABA using full sequence. Two paths only, real exact schema8 test fixture, XML3/0/0/0 APK/hash/manifest/guard/B7. No baseline reruns.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "UNIT_COMPLETE_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "blocked_reason": null,
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_A5_7_X06_THREE_REALITY8_OWNERS_B7_PASS_20261112.md"
+  "closure_document": null
 }
