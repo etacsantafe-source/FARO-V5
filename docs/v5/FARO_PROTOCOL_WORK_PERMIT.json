@@ -61,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e4d888b133c3d36a4e2fe82e24172bf36e45e1f2",
-    "unit_id": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID",
-    "result": "PASS",
+    "sha": "c0b2c44137fb2219455646421a3f51b1d45cf34a",
+    "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B7_PASS_20261112.md",
-        "blob_sha": "1de5285ac90b6aa0e8449b30d6f1a75d626cd211",
+        "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_B7_RED_FIX_20261112.md",
+        "blob_sha": "c5e0f95e926512d5de25cb1cf9bb493a91fe4949",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Two different G15 installed/new debug certificates verified with apksigner. New applicationId through existing Gradle property, no overwrite, no data migration. Scoped B1-B5 documentation and guard 43245506025 SUCCESS.",
-  "how": "ONLY one new CI workflow at the scoped path; Gradle -PfaroP6PhysicalApplicationId=ar.com.faro.g15isolated. B6 compile on GitHub, assert package, no OS permissions, sha/signature, artifact app only; B7 independent CI+guard. Never install on G15 automatically.",
+  "why": "RED_FIX same-unit review of incorrect aapt dump xmltree CLI order before next functional commit; B1-B5 unchanged, exact single workflow path only.",
+  "how": "Fix aapt xmltree ordering within same workflow; resubmit GitHub Actions compile and verify APK; B7 independent exact-sha. No installation G15.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null,
