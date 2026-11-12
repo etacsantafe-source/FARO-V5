@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
-  "reviewed_head": "b39dc586e1e6a438b5cb3b4473b2a5bafae9c5e3",
+  "reviewed_head": "8fca8f47bcfd1ed832f9be58e57038dbf7e92c87",
   "paths": [
     "v5/app/src/v2CoreDev/AndroidManifest.xml",
     "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
@@ -64,18 +64,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "b39dc586e1e6a438b5cb3b4473b2a5bafae9c5e3",
+    "sha": "8fca8f47bcfd1ed832f9be58e57038dbf7e92c87",
     "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_IME_COMPOSER_B7_RED_FIX_20261112.md",
-        "blob_sha": "c9bc3ab7f054e8766af48cf0a88b4625172efc6d",
+        "path": "docs/s3-night/S3_G15_IME_BACKGROUND_TEST_B7_RED_FIX_20261112.md",
+        "blob_sha": "b664c1b83be204cbf528c0b035b64d722d291255",
         "marker": "## B7"
       }
     ]
   },
-  "why": "API35 actual IME proves adjustResize alone insufficient; original B1-B5 alternative B now causal RED_FIX. Same original four paths, no scope expansion.",
+  "why": "IME layout verified 1/2; remaining timeout after synthetic lifecycle. Same-unit test-only causal delta: real Home/task foreground and asserted window focus, no forced keyboard or relaxed visibility.",
   "how": "Work unit S3_G15_IME_COMPOSER_RESIZE_ANDROID. Read docs/s3-night/S3_WORK_IME_COMPOSER_EXEC_PACKAGE_20261112.json and docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md. CAS writer, preflight EACH exact path; implement minimal Activity IME fix and Android35 physical-IME emulator test, verify APK isolated ID, permission/no Internet, XML, B7, guard, RELEASED. No code in permit commit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
