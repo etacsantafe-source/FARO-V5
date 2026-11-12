@@ -33,12 +33,14 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val opening = AtomicBoolean(false)
     private val disposed = AtomicBoolean(false)
     private val pendingActivityReadRequest = AtomicBoolean(false)
+    private val pendingAvisosReadRequest = AtomicBoolean(false)
     private val pendingDueReadRequest = AtomicBoolean(false)
     private val pendingBookmarkReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
     private lateinit var activityButton: Button
+    private lateinit var avisosButton: Button
     private lateinit var dueButton: Button
     private lateinit var bookmarksButton: Button
     private lateinit var upgradeButton: Button
@@ -83,6 +85,11 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             setOnClickListener { openLocalChat(requestActivityRead = true) }
         }
         column.addView(activityButton)
+        avisosButton = Button(this).apply {
+            text = "Consultar avisos registrados (DEV)"
+            setOnClickListener { openLocalChat(requestAvisosRead = true) }
+        }
+        column.addView(avisosButton)
         dueButton = Button(this).apply {
             text = "Consultar vencimientos registrados (DEV)"
             setOnClickListener { openLocalChat(requestPendingRead = true) }
@@ -119,18 +126,21 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
 
     private fun openLocalChat(
         requestActivityRead: Boolean = false,
+        requestAvisosRead: Boolean = false,
         requestPendingRead: Boolean = false,
         requestPlanning8Upgrade: Boolean = false,
         requestBookmarkRead: Boolean = false,
     ) {
-        if (requestBookmarkRead && !lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
+        if ((requestBookmarkRead || requestAvisosRead) && !lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
         if (!opening.compareAndSet(false, true)) return
         // Only this dedicated foreground button can request an Activity read.
         pendingActivityReadRequest.set(requestActivityRead)
+        pendingAvisosReadRequest.set(requestAvisosRead)
         pendingDueReadRequest.set(requestPendingRead)
         pendingBookmarkReadRequest.set(requestBookmarkRead)
         openButton.isEnabled = false
         activityButton.isEnabled = false
+        avisosButton.isEnabled = false
         dueButton.isEnabled = false
         bookmarksButton.isEnabled = false
         upgradeButton.isEnabled = false
@@ -177,6 +187,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             runOnUiThread {
                 try {
                     if (disposed.get() || isFinishing || isDestroyed) {
+                        pendingAvisosReadRequest.set(false)
                         pendingActivityReadRequest.set(false)
                         pendingDueReadRequest.set(false)
                         pendingBookmarkReadRequest.set(false)
@@ -184,11 +195,13 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                     } else if (failure != null) {
                         opened?.close()
                         status.text = "No se abrió: ${failure.javaClass.simpleName}. Los datos permanecen intactos."
+                        pendingAvisosReadRequest.set(false)
                         pendingActivityReadRequest.set(false)
                         pendingDueReadRequest.set(false)
                         pendingBookmarkReadRequest.set(false)
                         openButton.isEnabled = true
                         activityButton.isEnabled = true
+                        avisosButton.isEnabled = true
                         dueButton.isEnabled = true
                         bookmarksButton.isEnabled = true
                         upgradeButton.isEnabled = true
@@ -206,6 +219,12 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                                     lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
                             },
                         ) else null
+                        val avisosRead = if (pendingAvisosReadRequest.getAndSet(false) &&
+                            lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                        ) active.openAvisosAfterTrustedForegroundRequest(application) {
+                            !disposed.get() && !isFinishing && !isDestroyed &&
+                                lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                        } else null
                         val userRequestedPending = pendingDueReadRequest.getAndSet(false)
                         val userRequestedBookmarks = pendingBookmarkReadRequest.getAndSet(false)
                         if (userRequestedBookmarks) {
@@ -221,6 +240,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             assistantRequestMode = ar.com.faro.v5.surface.FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
                             searchReadPort = active.searchReadPort,
                             activityReadPort = activityRead,
+                            avisosReadPort = avisosRead,
                             bookmarkChatActions = active.bookmarkChatActions(application) {
                                 session === active && lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
                             },
@@ -397,6 +417,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
     override fun onPause() {
         sourceNavigationSequence.incrementAndGet()
         // Revoke regardless of whether Compose currently shows the Activity page.
+        pendingAvisosReadRequest.set(false)
         pendingActivityReadRequest.set(false)
         pendingDueReadRequest.set(false)
                         pendingBookmarkReadRequest.set(false)
@@ -407,6 +428,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         session?.revokeBookmarkReviewOnPause()
         session?.revokeBookmarkReadingOnPause()
         session?.revokePendingReadingOnPause()
+        session?.revokeAvisosReadingOnPause()
         session?.revokeActivityReadingOnPause()
         // Search's four owner-specific grants must not outlive RESUMED.
         // The existing StateFlow invalidations redact any visible result.
@@ -416,6 +438,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
 
     override fun onDestroy() {
         disposed.set(true)
+        pendingAvisosReadRequest.set(false)
         pendingActivityReadRequest.set(false)
         pendingDueReadRequest.set(false)
                         pendingBookmarkReadRequest.set(false)

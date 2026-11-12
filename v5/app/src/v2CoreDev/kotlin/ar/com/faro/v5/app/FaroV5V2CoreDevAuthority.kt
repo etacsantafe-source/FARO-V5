@@ -10,9 +10,12 @@ import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.owner.finance.api.FinanceSnapshotReadApi
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.surface.FaroV5SearchReadPort
+import ar.com.faro.v5.surface.FaroV5AvisosReadPort
+import kotlinx.coroutines.flow.MutableStateFlow
 import ar.com.faro.v5.surface.FaroV5ActivityReadPort
 import java.nio.file.Files
 import java.util.UUID
@@ -350,6 +353,97 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private var historyBinding: FaroV5RealHistoryActivityHostBinding? = null
         private var pendingAuthority: FaroV5LocalInstallReadAuthority? = null
         private var pendingBinding: FaroV5N031ThreeOwnerDueHostBinding? = null
+
+        private var avisosAuthority: FaroV5LocalInstallReadAuthority? = null
+        private var avisosOwnerListener: Runnable? = null
+        private var avisosPointerListener: Runnable? = null
+        private val avisosChanges = MutableStateFlow(0L)
+
+        /** Native RESUMED gesture only; no other source grants Auxiliary access. */
+        @Synchronized
+        internal fun openAvisosAfterTrustedForegroundRequest(
+            application: Application,
+            foreground: () -> Boolean,
+        ): FaroV5AvisosReadPort? {
+            if (!alive.get() || avisosAuthority != null ||
+                application.packageName != "ar.com.faro.alpha.v2coredev" ||
+                !runCatching { foreground() }.getOrDefault(false)
+            ) return null
+            val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
+            if (pinned != openingPointer || pinned.generationId.value != graph.generationId) return null
+            val epoch = UUID.randomUUID().toString()
+            val hostReady = {
+                alive.get() && runCatching { pointer.read() == pinned }.getOrDefault(false)
+            }
+            val probe = FaroV5AndroidSandboxPrincipal(
+                expectedApplicationId = application.packageName,
+                pinned = pinned, activePointer = pointer,
+                expectedHostEpoch = epoch,
+                hostEpochOrNull = { if (alive.get()) epoch else null },
+                facts = AndroidPlatformSandboxFactsReader(application),
+            )
+            val access = FaroV5LocalInstallReadAuthority(probe, pointer, hostReady, foreground)
+            var mounted = false
+            val ownerListener = Runnable { synchronized(avisosChanges) {
+                avisosChanges.value += 1L
+            } }
+            val pointerListener = Runnable {
+                // Poison the authority on structural pointer drift, including A-B-A.
+                access.technicalPrincipalOrNull()
+                ownerListener.run()
+            }
+            try {
+                val principal = access.technicalPrincipalOrNull() ?: return null
+                if (!access.grantAfterTrustedForegroundReadAction(
+                        setOf(FaroV5LocalReadDomain.AUXILIARY_NOTICE))) return null
+                val grant = access.epochOrNull(principal, FaroV5LocalReadDomain.AUXILIARY_NOTICE,
+                    pinned) ?: return null
+                val port = FaroV5ActiveAvisosBindingFactory.createPinned(
+                    readCanonical = Supplier { graph.auxiliary.readNotices() },
+                    expectedGeneration = graph.generationId,
+                    activeGeneration = Supplier { pointer.read()?.generationId?.value ?: "" },
+                    startupReady = BooleanSupplier { hostReady() },
+                    pinnedPointerCurrent = BooleanSupplier {
+                        access.epochOrNull(principal, FaroV5LocalReadDomain.AUXILIARY_NOTICE,
+                            pinned) == grant
+                    },
+                    invalidations = merge(access.invalidations,
+                        avisosChanges.map { Unit }),
+                )
+                graph.auxiliary.addNoticeCommitListener(ownerListener)
+                avisosOwnerListener = ownerListener
+                pointer.addChangeListener(pointerListener)
+                avisosPointerListener = pointerListener
+                avisosAuthority = access
+                if (!hostReady() || access.epochOrNull(principal,
+                        FaroV5LocalReadDomain.AUXILIARY_NOTICE, pinned) != grant) return null
+                mounted = true
+                ownerListener.run()
+                return port
+            } catch (_: Exception) {
+                return null
+            } finally {
+                if (!mounted) {
+                    graph.auxiliary.removeNoticeCommitListener(ownerListener)
+                    pointer.removeChangeListener(pointerListener)
+                    avisosOwnerListener = null
+                    avisosPointerListener = null
+                    avisosAuthority = null
+                    access.close()
+                }
+            }
+        }
+
+        @Synchronized
+        internal fun revokeAvisosReadingOnPause() {
+            avisosAuthority?.close()
+            avisosAuthority = null
+            avisosOwnerListener?.let { graph.auxiliary.removeNoticeCommitListener(it) }
+            avisosOwnerListener = null
+            avisosPointerListener?.let { pointer.removeChangeListener(it) }
+            avisosPointerListener = null
+            synchronized(avisosChanges) { avisosChanges.value += 1L }
+        }
 
         /**
          * DEV-only entry: the caller MUST be the dedicated native button callback
@@ -738,6 +832,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         @Synchronized
         override fun close() {
             if (alive.compareAndSet(true, false)) {
+                revokeAvisosReadingOnPause()
                 revokeActivityReadingOnPause()
                 revokePendingReadingOnPause()
                 revokeBookmarkReviewOnPause()

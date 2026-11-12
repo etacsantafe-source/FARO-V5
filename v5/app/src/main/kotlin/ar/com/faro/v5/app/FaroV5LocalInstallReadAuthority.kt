@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 
 /** Sources are separately authorized. A technical Android UID is NOT a human login. */
 internal enum class FaroV5LocalReadDomain {
-    REALITY_RECEIPT, WORKSPACE_MESSAGE, MATTER_DUE,
+    REALITY_RECEIPT, WORKSPACE_MESSAGE, MATTER_DUE, AUXILIARY_NOTICE,
     REMINDER_OCCURRENCE, MONTHLY_PLAN_ITEM, BOOKMARK_METADATA,
 }
 
