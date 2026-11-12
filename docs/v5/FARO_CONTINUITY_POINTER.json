@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 767
+    "expected_release_epoch": 770
   },
   "automation": {
     "activation_authorized": false,
@@ -43,11 +43,11 @@
   "handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify X02 exact SHA Android API35 2/2 events XML APK manifests hashes and protocol guard; B7 only on verified results, then X06 individual READY.",
+  "next": "Verify corrected run 43148847125 XML 2/0/0/0, actual instrumentation, manifest/APK hashes, B7. Then X06 separate READY two paths.",
   "checkpoint_status": "X02_INDIVIDUAL_READY_FIVE_PATHS_B6_NOT_STARTED_X06_PREP_ONLY",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "07480f65622f553be349f9550dfcee471f164742",
+  "last_code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
   "last_ci_run_id": 43134563606,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -2188,9 +2188,9 @@
   "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
   "block_id": 6,
   "block_status": "WAIT_CI",
-  "expected_head": "07480f65622f553be349f9550dfcee471f164742",
+  "expected_head": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
   "blocker": null,
-  "writer_release_epoch": 767,
+  "writer_release_epoch": 770,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2217,61 +2217,14 @@
   },
   "work": {
     "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
-    "status": "WAIT_CI",
-    "code_sha": "07480f65622f553be349f9550dfcee471f164742",
-    "runs": [
-      {
-        "id": 43148379317,
-        "name": "FARO V5 S3 A5.7 X02 canonical Auxiliary Avisos Android API35 directed",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379324,
-        "name": "FARO V5 S3 A3 Guardados exact source navigation",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379107,
-        "name": "FARO V5 M5 isolated V2 DEV APK package gate",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379023,
-        "name": "FARO V5 S3 A5 DEV Reality8 Android host mount directed",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379485,
-        "name": "FARO V5 S3 Home notice directed",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379409,
-        "name": "FARO V5 S3 A3 real Guardados native read host",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379091,
-        "name": "FARO V5 S3 A5.7 X03 explicit consult Android API35 directed",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379330,
-        "name": "FARO V5 G4 real four-owner federation directed",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379031,
-        "name": "FARO V5 S3 A5.7 Android X08 X12 foreground Search grant revocation directed",
-        "status": "in_progress"
-      },
-      {
-        "id": 43148379124,
-        "name": "FARO V5 S3 A3 Guardados folders and lifecycle",
-        "status": "in_progress"
-      }
-    ],
-    "next": "Verify X02 exact SHA Android API35 2/2 events XML APK manifests hashes and protocol guard; B7 only on verified results, then X06 individual READY."
+    "status": "WAIT_CI_CORRECTED_RESTORED_DESTINATION",
+    "code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
+    "android_run_id": 43148847125,
+    "guard_run_id": 43148847132,
+    "guard_conclusion": "SUCCESS",
+    "original_android_run_id": 43148379317,
+    "original_code_sha": "07480f65622f553be349f9550dfcee471f164742",
+    "next": "Verify corrected run 43148847125 XML 2/0/0/0, actual instrumentation, manifest/APK hashes, B7. Then X06 separate READY two paths."
   },
   "work_m04": {
     "status": "DONE_VERIFIED",
@@ -2522,7 +2475,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "07480f65622f553be349f9550dfcee471f164742",
+  "checkpoint_code_sha": "5cdeae4cb1d6947f0e222487430b28a53bba1e98",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
