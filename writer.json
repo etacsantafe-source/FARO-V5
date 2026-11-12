@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.G15_X06_APK_B7_REGEX_REDFIX.20261112",
-  "token_hash": "abda90bf5afe36ae4f6d3c921c461307b523d190ac66fd44cf3a2bc639d02287",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.G15_ISOLATED_REGEX_RED_FIX_CODE.20261112",
+  "token_hash": "ab4ab358512e96991d19a674f17a3a25a3d77ba63c8fbc53ae05bc999452a41a",
   "target_head": "b25e68068c61493736763b518d8233602109c075",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 818,
-  "timestamp": 1794497800,
+  "epoch": 819,
+  "timestamp": 1794498100,
   "last_checkpoint": "b25e68068c61493736763b518d8233602109c075"
 }
