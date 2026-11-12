@@ -109,6 +109,31 @@ jobs:
       - name: Enable Android emulator VM acceleration
         run: |
           if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Prepare G15 offline launch smoke as one fail-closed bash script
+        run: |
+          cat > faro-g15-isolated-smoke.sh <<'FARO_G15_SMOKE'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          APP="$(find v5/app/build/outputs/apk/v2CoreDev -type f -name '*.apk' -print -quit)"
+          test -s "$APP"
+          adb install "$APP"
+          adb shell svc wifi disable
+          adb shell svc data disable
+          adb shell am start -W -n ar.com.faro.g15isolated.v2coredev/ar.com.faro.v5.app.FaroV5V2CoreDevActivity | tee faro-g15-isolated-launch.txt
+          LAUNCH_PASS=0
+          for attempt in $(seq 1 10); do
+            RUNNING="$(adb shell pidof ar.com.faro.g15isolated.v2coredev 2>/dev/null | tr -d '\r' || true)"
+            adb shell uiautomator dump /sdcard/faro-g15-isolated-window.xml >/dev/null 2>&1 || true
+            adb shell cat /sdcard/faro-g15-isolated-window.xml > faro-g15-isolated-window.xml 2>/dev/null || true
+            if [ -n "$RUNNING" ] && grep -Fq 'Abrir Chat local de desarrollo' faro-g15-isolated-window.xml; then
+              LAUNCH_PASS=1
+              break
+            fi
+            sleep 2
+          done
+          test "$LAUNCH_PASS" -eq 1 || { echo "G15_ISOLATED_FIRST_LAUNCH_UI_FAIL"; adb logcat -d -v brief AndroidRuntime:E '*:S' | tail -n 100; exit 1; }
+          echo "G15_ISOLATED_FIRST_LAUNCH_UI_PASS"
+          FARO_G15_SMOKE
       - name: Verify isolated DEV first launch and visible UI offline on Android API35
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -118,27 +143,7 @@ jobs:
           profile: pixel_5
           disable-animations: true
           emulator-boot-timeout: 600
-          script: |
-            set -euo pipefail
-            APP="$(find v5/app/build/outputs/apk/v2CoreDev -type f -name '*.apk' -print -quit)"
-            test -s "$APP"
-            adb install "$APP"
-            adb shell svc wifi disable
-            adb shell svc data disable
-            adb shell am start -W -n ar.com.faro.g15isolated.v2coredev/ar.com.faro.v5.app.FaroV5V2CoreDevActivity | tee faro-g15-isolated-launch.txt
-            LAUNCH_PASS=0
-            for attempt in $(seq 1 10); do
-              RUNNING="$(adb shell pidof ar.com.faro.g15isolated.v2coredev 2>/dev/null | tr -d '\r' || true)"
-              adb shell uiautomator dump /sdcard/faro-g15-isolated-window.xml >/dev/null 2>&1 || true
-              adb shell cat /sdcard/faro-g15-isolated-window.xml > faro-g15-isolated-window.xml 2>/dev/null || true
-              if [ -n "$RUNNING" ] && grep -Fq 'Abrir Chat local de desarrollo' faro-g15-isolated-window.xml; then
-                LAUNCH_PASS=1
-                break
-              fi
-              sleep 2
-            done
-            test "$LAUNCH_PASS" -eq 1 || { echo "G15_ISOLATED_FIRST_LAUNCH_UI_FAIL"; adb logcat -d -v brief AndroidRuntime:E '*:S' | tail -n 100; exit 1; }
-            echo "G15_ISOLATED_FIRST_LAUNCH_UI_PASS"
+          script: bash ./faro-g15-isolated-smoke.sh
       - name: Upload only verified app APK and public evidence, never androidTest
         uses: actions/upload-artifact@v4
         with:
