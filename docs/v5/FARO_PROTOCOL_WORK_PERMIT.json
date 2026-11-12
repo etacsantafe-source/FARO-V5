@@ -132,26 +132,26 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_AND_CI_VERIFIED",
+    "B7": "PASS_SCOPED_ANDROID_2_OF_2"
   },
   "last_code_review": {
-    "sha": "a7541f00c0f581a5935c4e5edf4b2c072dddbf83",
+    "sha": "2da58971b2258218964abd4a31454adb2738ba98",
     "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
-    "result": "RED_FIX",
+    "result": "PASS_SCOPED",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
-        "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+        "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md",
+        "blob_sha": "c74836ce516b9f6c6baede47a104de923b97ac26",
         "marker": "## B7"
       }
     ]
   },
-  "why": "RED_FIX3 guard43164867921 SUCCESS; exact one Kotlin route serializes independent canonical probe before UI request without weakening positive/negative assertions or modifying production.",
-  "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
+  "why": "X12 exact 2/2 Android API35, independent ZIP CRC/hash/XML/package/screenshots, same-SHA guard verified; B7 scoped PASS.",
+  "how": "X12 permit consumed. Before X06 code require separate documentary guard, two-path READY, exact gate preflight and CAS writer. No G15 physical or production changes.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X12_REDFIX3_B6_WAIT_CI_NO_NEW_CODE",
+  "blocked_reason": "X12_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
+  "closure_document": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md"
 }
