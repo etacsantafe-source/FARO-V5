@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
-  "reviewed_head": "00e52a2b7f3c42360c072607474ea33e9858be63",
+  "reviewed_head": "c9f3ab00c5bef3288e6e1ec991638c630cfc659f",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X08OwnerInterruptionUiTest.kt"
   ],
@@ -19,6 +19,11 @@
           "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
           "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
           "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
+          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
+          "marker": "## B1"
         }
       ]
     },
@@ -33,6 +38,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
           "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
+          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
           "marker": "## B2"
         }
       ]
@@ -49,6 +59,11 @@
           "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
           "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
           "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
+          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
+          "marker": "## B3"
         }
       ]
     },
@@ -63,6 +78,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
           "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
+          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
           "marker": "## B4"
         }
       ]
@@ -79,33 +99,37 @@
           "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
           "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
+          "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "760d1140571055f42702ff220d15edb34eb28d13",
+    "sha": "743e28f4f6a6afb94ab66ba0b8dd8181e4353816",
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_7_X08_TEST_RULE_CONTENT_B7_RED_FIX_20261112.md",
-        "blob_sha": "7c7cc3cc310338ce7ed653b557e79171def8ca59",
+        "path": "docs/s3-night/S3_A5_7_X08_EMPTY_TEST_ROOT_B7_RED_FIX_20261112.md",
+        "blob_sha": "f484d44020a0afd26f6f75e9103fc3f85eaeb396",
         "marker": "## B7"
       }
     ],
-    "ci_run_id": 43152882781,
-    "ci_job_id": 130965985798,
-    "ci": "FAILURE_COMPILE_UNRESOLVED_IMPORT",
-    "guard_run_id": 43152882652
+    "ci_run_id": 43153903965,
+    "ci": "IN_PROGRESS_STATIC_PRECONDITION_AUDIT",
+    "guard_run_id": 43153903953
   },
   "why": "X06 B7 PASS scoped fbb03ddbefd48cf4eeb5db8454bbbb037300216c closure guard 43152342582 SUCCESS, writer RELEASED epoch778. Since preaudit only X06 tests/workflow plus docs changed, no production search source changes. Exact source hooks and lifecycle contracts revalidated, no production route needed.",
   "how": "Three new API35 tests: actual canonical Finance snapshot -> grant revoke / actual owner close at deterministic second direct read; real source denies publication + canonical federation/UI partial. Actual DEV Reality hit pointer ABA using full sequence. Two paths only, real exact schema8 test fixture, XML3/0/0/0 APK/hash/manifest/guard/B7. No baseline reruns.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X08_CORRECTED_IMPLEMENTATION_WAIT_CI",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
