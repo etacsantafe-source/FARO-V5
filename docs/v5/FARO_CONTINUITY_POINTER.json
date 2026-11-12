@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X12_REDFIX2_WAIT_CI_FOUR_OWNER_DELTA_QUEUED",
+  "phase": "S3_A5_7_X12_REDFIX3_WAIT_CI_FOUR_OWNER_DELTA_QUEUED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 798
+    "expected_release_epoch": 802
   },
   "automation": {
     "activation_authorized": false,
@@ -43,12 +43,12 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify X12 a7541f00c0f581a5935c4e5edf4b2c072dddbf83 API35 run43163602969, guard43163602977 SUCCESS. Prior run1 compile failure, run2 font200 PASS/expanded false layout minimum FAIL1/2; RED_FIX2 actual touch bounds and edge input documented, no lowering target48. Require real2/0/0/0 XML/source/APK/hashes/config/screenshots independent B7. Then exact X06four-owner queued doc/package, separate READY only after X12B7. No G15.",
+  "next": "Verify X12 source2da58971b2258218964abd4a31454adb2738ba98 API35 run43165047469 guard43165047475 SUCCESS. RED_FIX3 preserves all asserts but serializes canonical probe BEFORE UI query; prior failure was competing requests on serial-bound adapter. Require real2/0/0/0 XML/APK/hash/config/screenshots independent B7. Then queued X06four-owner package separate READY after X12B7. No G15.",
   "checkpoint_status": "X12_WAIT_CI_NOT_PASS",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "a7541f00c0f581a5935c4e5edf4b2c072dddbf83",
-  "last_ci_run_id": 43163602969,
+  "last_code_sha": "2da58971b2258218964abd4a31454adb2738ba98",
+  "last_ci_run_id": 43165047469,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -2914,15 +2914,16 @@
   },
   "x12_work_execution_20261112": {
     "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
-    "code_sha": "a7541f00c0f581a5935c4e5edf4b2c072dddbf83",
-    "android_run_id": 43163602969,
-    "guard_run_id": 43163602977,
-    "status": "RED_FIX2_WAIT_CI",
+    "code_sha": "2da58971b2258218964abd4a31454adb2738ba98",
+    "android_run_id": 43165047469,
+    "guard_run_id": 43165047475,
+    "status": "RED_FIX3_WAIT_CI",
     "acceptance_matrix": "docs/s3-night/S3_A5_7_ACCEPTANCE_MATRIX_20261112.md",
     "physical_plan": "docs/s3-night/S3_A3_A5_G15_PHYSICAL_CAMPAIGN_20261112.md",
     "physical": "NOT_RUN",
     "first_failure": 43161141857,
     "next_delta": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
-    "second_failure": 43162351609
+    "second_failure": 43162351609,
+    "third_failure": 43163602969
   }
 }
