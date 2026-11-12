@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_ISOLATED_X06_ANDROIDX_DELTA.20261112",
   "token_hash": "7fafb9ef5e15c3791ef8ac2ac0de2d6888d8befec91c284b8a42322223b09550",
-  "target_head": "0aecc8f3cd680778b466c0d2886ffd7f51a1c806",
+  "target_head": "2f5ec268995fc51431862fa3c3ecf6c443497de9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 815,
-  "timestamp": 1794497309,
-  "last_checkpoint": "0aecc8f3cd680778b466c0d2886ffd7f51a1c806"
+  "timestamp": 1794497393,
+  "last_checkpoint": "2f5ec268995fc51431862fa3c3ecf6c443497de9"
 }
