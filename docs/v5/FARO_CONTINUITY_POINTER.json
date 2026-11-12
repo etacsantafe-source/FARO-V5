@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_G15_TERMUX_ADB_KIT_PREPARED_HUMAN_PAIR_PENDING",
+  "phase": "S3_G15_X06_ISOLATED_OFFLINE_APK_CI_WAIT_B7",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 808
+    "expected_release_epoch": 814
   },
   "automation": {
     "activation_authorized": false,
@@ -43,11 +43,11 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Manual user G15: use Termux kit FARO_G15_TERMUX_KIT_V1_20261112.zip, pair wireless debugging via same-phone 127.0.0.1 if Wi-Fi connected, run diagnostico, verificar-apk and firma to compare actual installed signing cert without installing/uninstalling. Real device NOT_RUN; X06/X12 B7 scoped PASS remain certified, A3 physical and A5 global OPEN. See docs/s3-night/S3_A3_A5_G15_TERMUX_ADB_SAFE_PREP_20261112.md.",
-  "checkpoint_status": "G15_ADB_KIT_MOCK_7_OF_7_APK_VERIFIED_REAL_DEVICE_NOT_RUN",
+  "next": "Manual check GitHub Actions run 43247292305 at code SHA 8f0e9128ad9820e8545922dff1e05ca4b184d6a5; guard 43247292472 SUCCESS. If CI green independently verify exact offline standalone package ar.com.faro.g15isolated.v2coredev, launcher, no OS permissions, signed APK SHA/artifact before G15 action, then B7. If red RED_FIX same unit (protocol permission BLOCKED). Existing installed ar.com.faro.alpha.v2coredev cert differs, DO NOT uninstall/install over/clear. User G15 physical NOT_RUN. Stable human-owned local signing key needed before future iterative isolated updates; never upload key. X01-X12 automated B7 preserved.",
+  "checkpoint_status": "G15_X06_ISOLATED_CI_WAIT_B7; ORIGINAL_G15_INSTALL_PRESERVED; PHYSICAL_NOT_RUN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "e4d888b133c3d36a4e2fe82e24172bf36e45e1f2",
+  "last_code_sha": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
   "last_ci_run_id": 43223365784,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -2959,5 +2959,24 @@
     "real_adb": "NOT_RUN",
     "physical": "NOT_RUN",
     "signature_installed": "UNKNOWN"
+  },
+  "g15_isolated_delivery": {
+    "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
+    "old_app_id": "ar.com.faro.alpha.v2coredev",
+    "old_cert_sha256": "c58d223a1f16237341b930c2b1ccd6eb1f432ecd64586b820c673c91ec11e093",
+    "x06_cert_sha256": "f4db2fc1d05f33990d717604d34562a25fa1c844c8bd3812e643ce6e0792abec",
+    "target_app_id": "ar.com.faro.g15isolated.v2coredev",
+    "preaudit": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
+    "red_fix": "docs/s3-night/S3_G15_X06_ISOLATED_APK_B7_RED_FIX_20261112.md",
+    "initial_code_sha": "c0b2c44137fb2219455646421a3f51b1d45cf34a",
+    "fixed_code_sha": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
+    "initial_run": 43246332824,
+    "corrected_run": 43247292305,
+    "corrected_guard": 43247292472,
+    "permit": "BLOCKED_WAIT_CI_B7",
+    "status": "WAIT_CI_B7",
+    "physical": "NOT_RUN",
+    "user_installed_new_apk": false,
+    "original_user_data_intact_as_far_as_observed": true
   }
 }
