@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_X06_PACKAGE_BOOT_CRASH_B1B5.20261112",
   "token_hash": "c9e7b29d764832cd98bf5e31f967a46f81a00e4375e31a6702d4f3bf6b4e1db2",
-  "target_head": "32513f063eeb3cd66fef82e0cb133e791ce222e9",
+  "target_head": "146aafb50793d46e86df05bd1d027f65c2e7b34e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 821,
-  "timestamp": 1794499340,
-  "last_checkpoint": "32513f063eeb3cd66fef82e0cb133e791ce222e9"
+  "timestamp": 1794499730,
+  "last_checkpoint": "146aafb50793d46e86df05bd1d027f65c2e7b34e"
 }
