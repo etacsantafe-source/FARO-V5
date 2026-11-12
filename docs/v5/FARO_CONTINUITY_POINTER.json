@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_G15_X06_ISOLATED_DELIVERY_B7_PASS_SCOPED_AWAIT_HUMAN_SIGN_AND_PHYSICAL",
+  "phase": "S3_G15_X06_ISOLATED_PHYSICAL_CRASH_BOOT_IDENTITY_FIX_WAIT_CI",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 820
+    "expected_release_epoch": 822
   },
   "automation": {
     "activation_authorized": false,
@@ -43,11 +43,11 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Manual user Termux: download artifact GitHub Actions run 43250634025 name faro-g15-isolated-x06-apk, inspect SHA256 2a93a89502eaf074ee4320ee74e84eb764f6266b162e5eba60013615ff1a4b76; follow docs/s3-night/S3_G15_X06_ISOLATED_TERMUX_LOCAL_SIGNATURE_HANDOFF_20261112.md to make private persistent key and sign copy BEFORE FIRST install; do NOT publish/upload key/password or overwrite existing. Confirm package ar.com.faro.g15isolated.v2coredev absent, original ar.com.faro.alpha.v2coredev intact. Install new app only on separate human decision, then single physical G15 campaign (no androidTest). CI B7 PASS scoped, no more X06 code. S3.A3 physical, X03 live, A5 global OPEN.",
-  "checkpoint_status": "G15_ISOLATED_APK_B7_PASS_SCOPED_CI_ARTIFACT_SIGNED_OFFLINE; HUMAN_LOCAL_KEY_AND_PHYSICAL_NOT_RUN",
+  "next": "Check GitHub run 43266734360 exact code SHA 146aafb50793d46e86df05bd1d027f65c2e7b34e, protocol guard 43266734155 SUCCESS. New isolated G15 app previously installed and immediately closed on first launch; source Activity check hardcoded original package, seven authority guards also hardcoded. B1-B5 docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md approved, exact 3 paths changed with two-literal allowlist and offline API35 real launch/visible UI. CI WAIT and B7 PENDING, permit BLOCKED. If CI green verify Android UI smoke and APK SHA, issue B7 then human downloads into new folder, sign with SAME local private PKCS12 (cert 7d01a911...); update only ar.com.faro.g15isolated.v2coredev with adb install -r, never clear/uninstall original. Physical re-test after consent. If red diagnose CI and RED_FIX same unit. S3.A3 physical, X03 live, A5 global OPEN.",
+  "checkpoint_status": "PHYSICAL_G15_FIRST_LAUNCH_FAIL; EXACT_PACKAGE_ONCREATE_MISMATCH_FIXED_SHA146aafb5; API35_LAUNCH_SMOKE_CI_WAIT; ORIGINAL_APP_AND_G15_DATA_INTACT",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "0e47ce3651b1c4bb5eed55172e59bc0d18c61d87",
+  "last_code_sha": "146aafb50793d46e86df05bd1d027f65c2e7b34e",
   "last_ci_run_id": 43250634025,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -2974,9 +2974,9 @@
     "corrected_run": 43250634025,
     "corrected_guard": 43250634121,
     "permit": "BLOCKED_CONSUMED",
-    "status": "B7_PASS_SCOPED_APK_DELIVERY",
-    "physical": "NOT_RUN",
-    "user_installed_new_apk": false,
+    "status": "BOOT_IDENTITY_FIX_WAIT_CI_B7",
+    "physical": "FAIL_FIRST_LAUNCH",
+    "user_installed_new_apk": true,
     "original_user_data_intact_as_far_as_observed": true,
     "self_permission": "ar.com.faro.g15isolated.v2coredev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
     "androidx_permission_delta": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
@@ -2987,6 +2987,12 @@
     "apk_sha256": "2a93a89502eaf074ee4320ee74e84eb764f6266b162e5eba60013615ff1a4b76",
     "apk_signer_sha256": "5c4674118a1f3c9cac7cb891343b9992d09c78af95916b89f05c65d545359246",
     "b7_document": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B7_PASS_SCOPED_20261112.md",
-    "human_signing_guide": "docs/s3-night/S3_G15_X06_ISOLATED_TERMUX_LOCAL_SIGNATURE_HANDOFF_20261112.md"
+    "human_signing_guide": "docs/s3-night/S3_G15_X06_ISOLATED_TERMUX_LOCAL_SIGNATURE_HANDOFF_20261112.md",
+    "boot_fix_code_sha": "146aafb50793d46e86df05bd1d027f65c2e7b34e",
+    "boot_fix_android_run": 43266734360,
+    "boot_fix_guard": 43266734155,
+    "boot_fix_document": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
+    "local_signer_sha256": "7d01a911ee1a89577faed72475fa7a54b5099dc37bb0a6d911bceebe125729fa",
+    "human_retest_pending": true
   }
 }
