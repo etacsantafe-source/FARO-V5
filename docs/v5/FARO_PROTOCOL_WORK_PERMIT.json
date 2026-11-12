@@ -1,33 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
-  "reviewed_head": "bad26a554865d610b84bf7749c2b9b7f1eec85d0",
+  "status": "READY",
+  "unit_id": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID",
+  "reviewed_head": "ce8dd49a5cd231c445a40404cf3c09f960fdac0f",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X06FourOwnerSearchUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x06-four-owner-search-android-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
-          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
-          "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
-          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
-          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
+          "blob_sha": "20f55460ccb480041d4b74b18e0469a206b61d7f",
           "marker": "## B1"
         }
       ]
@@ -36,23 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
-          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
-          "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
-          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
-          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
+          "blob_sha": "20f55460ccb480041d4b74b18e0469a206b61d7f",
           "marker": "## B2"
         }
       ]
@@ -61,23 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
-          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
-          "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
-          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
-          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
+          "blob_sha": "20f55460ccb480041d4b74b18e0469a206b61d7f",
           "marker": "## B3"
         }
       ]
@@ -86,23 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
-          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
-          "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
-          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
-          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
+          "blob_sha": "20f55460ccb480041d4b74b18e0469a206b61d7f",
           "marker": "## B4"
         }
       ]
@@ -111,29 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B1_B5_20261112.md",
-          "blob_sha": "473cd07aeca9e1241b58931f9430b947b97a9051",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
-          "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
-          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX3_QUERY_SERIAL_20261112.md",
-          "blob_sha": "d158be449c54c8567ae93b9ddfe1879bb0d71079",
+          "path": "docs/s3-night/S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_B1_B5_20261112.md",
+          "blob_sha": "20f55460ccb480041d4b74b18e0469a206b61d7f",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_AND_CI_VERIFIED",
-    "B7": "PASS_SCOPED_ANDROID_2_OF_2"
+    "B6": "PENDING_IMPLEMENTATION",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2da58971b2258218964abd4a31454adb2738ba98",
@@ -147,11 +73,11 @@
       }
     ]
   },
-  "why": "X12 exact 2/2 Android API35, independent ZIP CRC/hash/XML/package/screenshots, same-SHA guard verified; B7 scoped PASS.",
-  "how": "X12 permit consumed. Before X06 code require separate documentary guard, two-path READY, exact gate preflight and CAS writer. No G15 physical or production changes.",
+  "why": "X12 B7 PASS scoped exact SHA/artifact and guard43222061005 SUCCESS on ce8dd49; X06 four canonical owner search explicit B1-B5 audit with exact two new paths; independent unit, no inheritance.",
+  "how": "Preflight BOTH new paths; single Android API35 offline test one query four namespaces schema8; one workflow; 1/0/0/0 XML + APK identities/hashes/artifact and exact guard; B7 independent, consume permit, writer CAS release. Any fixture gap: STOP NEEDS_PREP; no production code/Internet/paid API/G15.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X12_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X12_ADAPTIVE_SEMANTICS_B7_PASS_SCOPED_20261112.md"
 }

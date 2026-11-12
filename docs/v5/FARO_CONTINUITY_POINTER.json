@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_A5_7_X12_B7_PASS_X06_FOUR_OWNER_PREAUDITED",
+  "phase": "S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 803
+    "expected_release_epoch": 804
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_A5_7_NIGHT_WORK_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "X12 B7 PASS scoped exact source 2da58971b2258218964abd4a31454adb2738ba98 run43165047469 guard43165047475 XML2/0/0/0 ZIP e94aedbdff002135e37e8dc77107948c7a4ee3845e39ad8132a10f827939b8f1. X06 four-owner requires own READY after documentary guard; run exact 1-test Android CI then independent B7; inventory X01–X12, coherent G15 app APK and human physical campaign remain OPEN; no G15 automatic.",
-  "checkpoint_status": "X12_B7_PASS_SCOPED_X06_FOUR_OWNER_WAIT_OWN_PERMIT",
+  "next": "X06 separate READY after X12 B7 and guard43222061005 success: unit S3_A5_7_X06_FOUR_OWNER_SIMULTANEOUS_ANDROID, EXACT two new paths. Run preflight both, B6 1 Android API35 test four namespaces one session/schema8 UI, independent ZIP B7, no previous suites. Then reconcile X01-X12 matrix, coherent offline APK Moto G15 only for user/manual physical; X03 live and global A5 OPEN.",
+  "checkpoint_status": "X12_B7_PASS_SCOPED_X06_READY_TWO_PATHS",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "2da58971b2258218964abd4a31454adb2738ba98",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 803,
+  "last_writer_epoch_observed": 804,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
