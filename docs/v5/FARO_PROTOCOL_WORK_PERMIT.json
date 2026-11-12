@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
-  "reviewed_head": "57c08fc8a3f7fe5f4cc8f809d269472d24e0b41e",
+  "reviewed_head": "b39dc586e1e6a438b5cb3b4473b2a5bafae9c5e3",
   "paths": [
     "v5/app/src/v2CoreDev/AndroidManifest.xml",
     "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ActiveChatScreen.kt",
@@ -64,18 +64,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
-    "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
-    "result": "PASS",
+    "sha": "b39dc586e1e6a438b5cb3b4473b2a5bafae9c5e3",
+    "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B7_PASS_SCOPED_20261112.md",
-        "blob_sha": "b331abf2d1c526eb1ced81311f730169468dfbad",
+        "path": "docs/s3-night/S3_G15_IME_COMPOSER_B7_RED_FIX_20261112.md",
+        "blob_sha": "c9bc3ab7f054e8766af48cf0a88b4625172efc6d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Human screenshot G15 Chat composer/Enviar hidden by Gboard on Android15. Existing CORE DEV activity lacks adjustResize; B1–B5 audited with Jetchat/Android official sources, exact four paths only; Groq deferred. Code B6 only after preflight; no user-device ops.",
+  "why": "API35 actual IME proves adjustResize alone insufficient; original B1-B5 alternative B now causal RED_FIX. Same original four paths, no scope expansion.",
   "how": "Work unit S3_G15_IME_COMPOSER_RESIZE_ANDROID. Read docs/s3-night/S3_WORK_IME_COMPOSER_EXEC_PACKAGE_20261112.json and docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md. CAS writer, preflight EACH exact path; implement minimal Activity IME fix and Android35 physical-IME emulator test, verify APK isolated ID, permission/no Internet, XML, B7, guard, RELEASED. No code in permit commit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,

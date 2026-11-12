@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-11",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_WORK_TURBO_IME_READY_THEN_OFFLINE_A5_PREAUDITED_GROQ_DEFERRED",
+  "phase": "S3_WORK_IME_CAUSAL_INSETS_RED_FIX_A5_WAITING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "USER directed Work to DO ONLY (1) G15 Chat keyboard/composer visibility fix with Android35 CI, then (2) A5 OFFLINE single root Review->Apply->genuine receipt->authorized Activity integration, leaving (3) Groq/X03 LIVE for later. PREP COMPLETE in docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md. IME scoped permission READY for 4 exact paths docs/v5/FARO_PROTOCOL_WORK_PERMIT.json; B1-B5 docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md and package docs/s3-night/S3_WORK_IME_COMPOSER_EXEC_PACKAGE_20261112.json. Work must recover real HEAD, writer CAS, verify guard SUCCESS and exact preflight all 4 paths; then code B6/CI Android35 actual IME/manifest/APK/XML/B7, consume permit/RELEASED. Next A5 offline B1-B5 docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md, package docs/s3-night/S3_WORK_A5_OFFLINE_INTEGRATION_EXEC_PACKAGE_20261112.json. A5 NO permit until IME B7 and new READY docs-only. No Groq call, no provider, no extra API, no mock receipt, no cross UID data. If genuine same-root ACL/pointer not demonstrable, STOP NEEDS_PREP; no bypass. No G15 physical install/test by Work, no repeat prior 5/5 navigation/folder/A4 negatives. Previous A3 SEND_CLICK_UNCERTAIN, do not repeat. V2 productiva/S4/Auto/Noche OFF, main/V4.4/S2 untouched. Release writer epoch833 after docs checkpoint.",
-  "checkpoint_status": "IME_B1_B5_PASS_DOC_READY_B6_NOT_RUN; A5_OFFLINE_REVIEW_APPLY_ACTIVITY_B1_B5_PREAUDITED_B6_NOT_AUTHORIZED_UNTIL_IME_B7; X03_LIVE_GROQ_DEFERRED; PREVIOUS_G15_SCOPED_PASS_RETAINED",
+  "next": "IME same-unit RED_FIX: read docs/s3-night/S3_G15_IME_COMPOSER_B7_RED_FIX_20261112.md; READY remains original four paths, preflight before insets delta; Android43297918999 attempt2 2 failures due composer below real IME, not PASS. A5 follows only after IME B7 PASS.",
+  "checkpoint_status": "IME_API35_REPRODUCED_2_FAILURES_SAME_UNIT_RED_FIX;A5_WAIT_IME_B7;GROQ_DEFERRED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "94111428b6f9e79798c27ca4d1eac91830a9138f",
@@ -3028,13 +3028,16 @@
     "a4_stage": "OPEN"
   },
   "g15_ime_composer": {
-    "status": "B1_B5_DOCUMENTED_B6_B7_NOT_RUN",
+    "status": "B7_RED_FIX_REAL_IME_OCCLUSION_REPRODUCED",
     "human_screenshot": "2026-11-12 16:23 Chat with Gboard obstructing composer",
     "root_cause": "PROBABLE_MANIFEST_MISSING_ADJUST_RESIZE_AND_COMPOSE_INSETS_NEEDS_VALIDATION",
     "script_state": "SEND_CLICK_UNCERTAIN_NO_RETRY",
     "source": "docs/s3-night/S3_G15_IME_COMPOSER_OCCLUSION_B1_B5_20261112.md",
-    "code_permit": "BLOCKED_NO_READY",
-    "physical_fix": "NOT_RUN"
+    "code_permit": "READY_SAME_UNIT_CAUSAL_RED_FIX",
+    "physical_fix": "NOT_RUN",
+    "code_sha": "b39dc586e1e6a438b5cb3b4473b2a5bafae9c5e3",
+    "android_run": 43297918999,
+    "guard_run": 43297920817
   },
   "work_ime_offline_a5_chain": {
     "status": "IME_READY_A5_B1_B5_PREPARED_GROQ_DEFERRED",
