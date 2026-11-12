@@ -55,7 +55,18 @@ class FaroV5S3G15ImeComposerVisibilityUiTest {
     }
 
     private fun visibleAboveIme(name: String) {
-        rule.waitUntil(30_000) { imeVisible() }
+        try {
+            rule.waitUntil(30_000) { imeVisible() }
+        } catch (failure: Throwable) {
+            val dir = File(rule.activity.getExternalFilesDir(null), "ime-evidence").apply { mkdirs() }
+            File(dir, "$name-timeout.txt").writeText(
+                "windowFocus=${rule.activity.hasWindowFocus()}\nlifecycle=${rule.activity.lifecycle.currentState}\n" +
+                    shell("dumpsys input_method") + shell("dumpsys window windows"))
+            val bitmap = checkNotNull(automation.takeScreenshot())
+            File(dir, "$name-timeout.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+            bitmap.recycle()
+            throw failure
+        }
         rule.waitForIdle()
         var imeTop = 0
         var imeHeight = 0
@@ -101,8 +112,14 @@ class FaroV5S3G15ImeComposerVisibilityUiTest {
         openChat()
         visibleAboveIme("before-background")
         hideAndVerify()
-        rule.activityRule.scenario.moveToState(Lifecycle.State.STARTED)
-        rule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        // A real task transition, rather than lifecycle simulation without window focus.
+        shell("input keyevent KEYCODE_HOME")
+        rule.waitUntil(30_000) { !rule.activity.hasWindowFocus() }
+        val launch = shell("am start -W -n ar.com.faro.g15isolated.v2coredev/ar.com.faro.v5.app.FaroV5V2CoreDevActivity")
+        assertTrue("Return to the existing singleTask Activity: $launch", launch.contains("Status: ok"))
+        rule.waitUntil(30_000) {
+            rule.activity.lifecycle.currentState == Lifecycle.State.RESUMED && rule.activity.hasWindowFocus()
+        }
         rule.onNode(hasSetTextAction() and hasText(draft)).performTouchInput { click() }
         visibleAboveIme("resumed")
         hideAndVerify()
