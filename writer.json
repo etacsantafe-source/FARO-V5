@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_X06_EMULATOR_UI_CASE_RED_FIX.20261112",
   "token_hash": "4987a58d29636632c18c3c9829303c7302fef7c56d9d3d34b791978c61c25807",
-  "target_head": "e83e679a5bd4b1212ba1ab85dc37d28012cbb795",
+  "target_head": "b3b33419eb52b12c934a3c403c1cceb56afe71df",
   "target_branch": "work/s3-night-20261102",
   "epoch": 827,
-  "timestamp": 1794505373,
-  "last_checkpoint": "e83e679a5bd4b1212ba1ab85dc37d28012cbb795"
+  "timestamp": 1794505545,
+  "last_checkpoint": "b3b33419eb52b12c934a3c403c1cceb56afe71df"
 }
