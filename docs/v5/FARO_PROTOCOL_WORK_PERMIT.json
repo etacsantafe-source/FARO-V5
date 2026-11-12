@@ -1,9 +1,11 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
-  "reviewed_head": "9605f5bcc210767067d5a618c245192603288678",
+  "status": "READY",
+  "unit_id": "S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX",
+  "reviewed_head": "95e871196e5f96770d1291248460d901b0efd37f",
   "paths": [
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
     ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
   ],
   "stages": {
@@ -11,8 +13,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
+          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
           "marker": "## B1"
         }
       ]
@@ -21,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
+          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
           "marker": "## B2"
         }
       ]
@@ -31,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
+          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
           "marker": "## B3"
         }
       ]
@@ -41,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
+          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
           "marker": "## B4"
         }
       ]
@@ -51,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_BOOT_IDENTITY_FIX_B1_B5_20261112.md",
+          "blob_sha": "de741b0121bbe11f2dff4fc12be9c2de849d7c14",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_AND_CI_VERIFIED",
-    "B7": "PASS_SCOPED_ANDROID_APK_CI_AND_MANIFEST"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0e47ce3651b1c4bb5eed55172e59bc0d18c61d87",
@@ -72,11 +74,11 @@
       }
     ]
   },
-  "why": "Run 43250634025 SUCCESS SHA0e47ce, guard 43250634121 SUCCESS, independent ZIP SHA/CRC APK SHA/signature/manifest verified. No phone install, G15 physical NOT_RUN. Permit consumed.",
-  "how": "No new code until fresh B1-B5/READY. G15 human first download ZIP and SHA check, sign with user-owned persistent keystore inside Termux, compare package, approve separately before adb install of new ID. Original v2coredev stays installed, untouched.",
+  "why": "Confirmed deterministic crash: Activity onCreate hardcodes old package; 8 grants likewise hardcode, new isolated ID requires exact allowlist of two DEV IDs and an emulator launch smoke; approved only 3 paths, no runtime policy loosen.",
+  "how": "Run preflight same-unit three paths before functional commit, add exact two-ID predicate, replace 8 authority comparisons, append API35 offline emulator launch/window smoke; CI exact SHA and independent B7; human G15 physical remains FAIL until re-sign with preserved local key and safe upgrade.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_X06_ISOLATED_APK_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "blocked_reason": null,
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B7_PASS_SCOPED_20261112.md"
+  "closure_document": null
 }
