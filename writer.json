@@ -1,11 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.X01.REDFIX_PREP.20261111",
   "token_hash": "866faec62680a0a97d22987b43f33ef065bc643162aa281edfc900e779c08120",
   "target_head": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
   "target_branch": "work/s3-night-20261102",
   "epoch": 762,
-  "timestamp": 1794446628,
-  "purpose": "X01_B7_RED_FIX_XML_VERIFIER_DOCUMENTAL_AND_READY"
+  "timestamp": 1794446743,
+  "purpose": "X01_B7_RED_FIX_ONE_YAML_WAIT_GUARD",
+  "last_checkpoint": "34f2b163af2a0815eeddec45ba5b77c701a75db9"
 }
