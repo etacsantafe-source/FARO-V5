@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
-  "reviewed_head": "90cf36ca705b6ee9687d0680de0ae03ff3c38942",
+  "reviewed_head": "682891502c9954644c3d94f3e3caeb80a4ac0dd2",
   "paths": [
     ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
   ],
@@ -11,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
-          "blob_sha": "352a900256a5bada5ed6478fd26f75fb9710626c",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
-          "blob_sha": "352a900256a5bada5ed6478fd26f75fb9710626c",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
-          "blob_sha": "352a900256a5bada5ed6478fd26f75fb9710626c",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
-          "blob_sha": "352a900256a5bada5ed6478fd26f75fb9710626c",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
           "marker": "## B4"
         }
       ]
@@ -51,32 +51,32 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_DELIVERY_B1_B5_20261112.md",
-          "blob_sha": "352a900256a5bada5ed6478fd26f75fb9710626c",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "c0b2c44137fb2219455646421a3f51b1d45cf34a",
+    "sha": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
     "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_X06_ISOLATED_APK_B7_RED_FIX_20261112.md",
-        "blob_sha": "c5e0f95e926512d5de25cb1cf9bb493a91fe4949",
+        "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
+        "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Original workflow c0b2 B7 RED_FIX, corrected code 8f0e9128 guard SUCCESS 43247292472; directed Android build 43247292305 pending/in progress. No B7 PASS or new code authorization until exact CI log, artifact signing/hash/manifest verified.",
-  "how": "On next FARO manual turn: recover HEAD/writer, GitHub run 43247292305, inspect jobs/artifact, mark B7 PASS or RED_FIX; preserve original app and existing cert. No more code until B7 and new permit.",
+  "why": "Bounded AndroidX self-package signature permission exception after real CI FAILURE 43246332824; old manifest remains untouched. B1-B5 delta audited, same-unit B7 RED_FIX verified.",
+  "how": "Only scoped workflow: require zero OS/third-party permissions; allow solely own signature-level DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION; re-run exact CI SHA and B7. No install G15 until verified.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_X06_ISOLATED_DELIVERY_WAIT_CI_SHA_8f0e9128_B7_NOT_YET_VERIFIED",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
