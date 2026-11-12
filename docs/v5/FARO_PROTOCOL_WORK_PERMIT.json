@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_A5_7_X12_ADAPTIVE_ACCESSIBILITY_SEMANTICS_ANDROID",
-  "reviewed_head": "0905cf357dc660dba4505ca6d0877ad9834d1914",
+  "reviewed_head": "4075e0b9b4cf40ca50c755e0ae42a34b9b6c6292",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A57X12AdaptiveSemanticsUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-7-x12-adaptive-semantics-android-directed.yml"
   ],
   "stages": {
     "B1": {
@@ -18,6 +19,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
           "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
+          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
           "marker": "## B1"
         }
       ]
@@ -34,6 +40,11 @@
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
           "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
+          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
+          "marker": "## B2"
         }
       ]
     },
@@ -48,6 +59,11 @@
         {
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
           "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
+          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
           "marker": "## B3"
         }
       ]
@@ -64,6 +80,11 @@
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
           "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
+          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
+          "marker": "## B4"
         }
       ]
     },
@@ -79,10 +100,15 @@
           "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX1_GEOMETRY_AUTHORITY_20261112.md",
           "blob_sha": "b034700cfa79286f58873c8d90b219f9f19f5abd",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_A5_7_X12_B7_RED_FIX2_TOUCH_BOUNDS_20261112.md",
+          "blob_sha": "56ae087c24b7e7a5e00a9fd35a000af2c4403019",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -97,11 +123,11 @@
       }
     ]
   },
-  "why": "Causal X12 RED_FIX1 documented and guard43162089550 SUCCESS: geometry compiler error and old vs fresh authority source delta. Exact ONE Kotlin test path, no runtime changes.",
+  "why": "RED_FIX2 guard43163375847 SUCCESS; exactly original X12 two test-only routes: separate actual touch>=48 from visual bounds, edge touch and failure artifacts; no production change.",
   "how": "Work preflight both test and workflow routes, B6 actual emulator 200% font and expanded window native/Compose semantics tests and screenshot, XML 2/0/0/0 APK/hash/manifests/guard, B7 independently; then acceptance matrix read-only. NO production code, live Groq, V2DEV Internet, G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "X12_REDFIX2_TOUCH_GEOMETRY_AWAIT_DELTA_GUARD",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X08_OWNER_INTERRUPTION_ABA_B7_PASS_20261112.md"
 }
