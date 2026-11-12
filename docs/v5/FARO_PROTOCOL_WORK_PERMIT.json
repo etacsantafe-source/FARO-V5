@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
-  "reviewed_head": "682891502c9954644c3d94f3e3caeb80a4ac0dd2",
+  "reviewed_head": "9605f5bcc210767067d5a618c245192603288678",
   "paths": [
     ".github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml"
   ],
@@ -11,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
           "marker": "## B4"
         }
       ]
@@ -51,32 +51,32 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
-          "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
+          "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
+          "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "8f0e9128ad9820e8545922dff1e05ca4b184d6a5",
+    "sha": "a75c019f8131f6573da0e910e6fc9a8dd53b897a",
     "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_X06_ISOLATED_ANDROIDX_SELF_PERMISSION_DELTA_B1_B5_B7_20261112.md",
-        "blob_sha": "d1736d9f2ea338a0f103200134e9ec4c3ef62c65",
+        "path": "docs/s3-night/S3_G15_X06_ISOLATED_PERMISSION_DECLARATION_REGEX_DELTA_B1_B5_B7_20261112.md",
+        "blob_sha": "fe7bad96ec36539cc148069d6fa68835eac7914d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Scope-limited AndroidX self-permission parser added only to G15 isolated workflow at a75c019f. Same-SHA protocol guard 43248629272 SUCCESS; directed Android job 43248629257 in_progress as last checked, not B7 PASS.",
-  "how": "Inspect corrected Android workflow run 43248629257. If SUCCESS validate package, permission exceptions, aapt manifest, signing and artifact SHA, then B7; if FAILURE log RED_FIX with exact path. DO NOT install over ar.com.faro.alpha.v2coredev or clear data.",
+  "why": "B7 a75c019f CI SUCCESS but declarative-permission regex matches literal backslash S; exact one-line RED_FIX. Delta B1-B5 verified docs, guard 43250265266 SUCCESS.",
+  "how": "Only scoped workflow: replace double backslash S by one in raw Python regex, ensure assertions remain fail closed. Recompile X06 isolated APK with CI and guard exact SHA, then independent B7; physical NOT_RUN.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "G15_X06_ISOLATED_DELIVERY_WAIT_CI_SHA_a75c019f_AND_B7",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
