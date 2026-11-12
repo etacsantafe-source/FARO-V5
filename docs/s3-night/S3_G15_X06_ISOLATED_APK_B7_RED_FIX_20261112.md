@@ -1,0 +1,10 @@
+# FARO V5 G15 X06 firma aislada — B7 RED_FIX de verificador CI
+Fecha 2026-11-12. Unidad `S3_G15_X06_ISOLATED_APK_DELIVERY`. Commit funcional auditado: `c0b2c44137fb2219455646421a3f51b1d45cf34a`. Estado: **RED_FIX — STOP B7 PASS**. No implica fallo de FARO/runtime ni pruebas físicas.
+
+## B7
+Auditoría independiente y anticipada del nuevo workflow `.github/workflows/faro-v5-g15-isolated-x06-apk-directed.yml` encontró error determinista en función Python `aapt(*args)`: forma `[aapt, "dump", *args, apk]`. Para `xmltree` construye `aapt dump xmltree AndroidManifest.xml app.apk`, pero AAPT legacy espera `aapt dump xmltree app.apk AndroidManifest.xml`. Fuentes del parser CLI: https://android.googlesource.com/platform/frameworks/base/+/master/tools/aapt/Command.cpp y documentación Android https://developer.android.com/tools/aapt2 (APK antes de XML en comando equivalente). La futura verificación de manifiesto fallaría aunque el APK estuviese sano.
+CI original `43246332824` lanzada sobre el commit exacto; al redactar esta auditoría todavía IN_PROGRESS, NO se declara PASS ni FAIL de la run. En esta condición la aceptación B7 es RED_FIX por defecto estático reproducible, sin necesidad de duplicar test Android ni esperar un falso verde. No tocar archivos de FARO distintos al mismo workflow autorizado.
+
+Corrección mínima prevista (misma unidad, misma ruta): `aapt(*args)` debe construir `[aapt, "dump", "xmltree", apk, "AndroidManifest.xml"]` para XML; para `badging` y `permissions` mantener `[aapt, "dump", subcommand, apk]`. Recompilar variante `-PfaroP6PhysicalApplicationId=ar.com.faro.g15isolated`; comprobar de nuevo paquete exacto `ar.com.faro.g15isolated.v2coredev`, offline, launcher, `allowBackup=false`, firma, sha/artifact, guard de mismo SHA. Sin APK androidTest ni instalación del G15. El resultado físico sigue NOT_RUN.
+
+La preauditoría B1–B5 conserva documento y SHA `352a900256a5bada5ed6478fd26f75fb9710626c`; permiso se reemite únicamente para misma unidad/path y última revisión RED_FIX de `c0b2c44137fb2219455646421a3f51b1d45cf34a`. No reutilizar permiso si el código cambia de alcance.
