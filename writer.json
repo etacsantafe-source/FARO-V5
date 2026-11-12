@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.G15_ISOLATED_REGEX_RED_FIX_CODE.20261112",
   "token_hash": "ab4ab358512e96991d19a674f17a3a25a3d77ba63c8fbc53ae05bc999452a41a",
-  "target_head": "b25e68068c61493736763b518d8233602109c075",
+  "target_head": "0e47ce3651b1c4bb5eed55172e59bc0d18c61d87",
   "target_branch": "work/s3-night-20261102",
   "epoch": 819,
-  "timestamp": 1794498100,
-  "last_checkpoint": "b25e68068c61493736763b518d8233602109c075"
+  "timestamp": 1794498150,
+  "last_checkpoint": "0e47ce3651b1c4bb5eed55172e59bc0d18c61d87"
 }
