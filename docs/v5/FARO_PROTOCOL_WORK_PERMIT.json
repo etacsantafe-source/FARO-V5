@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
   "reviewed_head": "8fca8f47bcfd1ed832f9be58e57038dbf7e92c87",
   "paths": [
@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_ANDROID_API35",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "8fca8f47bcfd1ed832f9be58e57038dbf7e92c87",
+    "sha": "923910dd28f963daf0263de87d2eada4f8263571",
     "unit_id": "S3_G15_IME_COMPOSER_RESIZE_ANDROID",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_G15_IME_BACKGROUND_TEST_B7_RED_FIX_20261112.md",
-        "blob_sha": "b664c1b83be204cbf528c0b035b64d722d291255",
+        "path": "docs/s3-night/S3_G15_IME_COMPOSER_B7_PASS_SCOPED_20261112.md",
+        "blob_sha": "c9aaaead68646ab3db4645fee8932c87948e5365",
         "marker": "## B7"
       }
     ]
@@ -79,7 +79,7 @@
   "how": "Work unit S3_G15_IME_COMPOSER_RESIZE_ANDROID. Read docs/s3-night/S3_WORK_IME_COMPOSER_EXEC_PACKAGE_20261112.json and docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md. CAS writer, preflight EACH exact path; implement minimal Activity IME fix and Android35 physical-IME emulator test, verify APK isolated ID, permission/no Internet, XML, B7, guard, RELEASED. No code in permit commit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "IME_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "needs_prep_document": null,
-  "closure_document": null
+  "closure_document": "docs/s3-night/S3_G15_IME_COMPOSER_B7_PASS_SCOPED_20261112.md"
 }
