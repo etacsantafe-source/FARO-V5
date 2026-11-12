@@ -187,16 +187,17 @@ class FaroV5S3A57X12AdaptiveSemanticsUiTest {
         field.performTextReplacement("X12")
         val search = rule.onNode(hasText("Buscar") and buttonRole and hasClickAction())
         visible(search, true)
-        search.performClick()
-        if (revokedExpected) {
-            awaitText("Búsqueda no disponible. No se leyeron datos.")
+        val expected = if (revokedExpected) {
+            "Búsqueda no disponible. No se leyeron datos."
         } else {
-            // NEW native foreground host grants Search independently. Auxiliary is never a Search source.
+            // Finish the independent probe before UI launches its own serial-bound request.
             val page = runBlocking { session().searchReadPort.search("X12") }
             assertNotEquals(FaroV5SearchCoverage.UNAVAILABLE, page.coverage)
             assertTrue("Auxiliary notice must not become a Search hit", page.hits.isEmpty())
-            awaitText(FaroV5SearchSurfacePolicy.message(page))
+            FaroV5SearchSurfacePolicy.message(page)
         }
+        search.performClick()
+        awaitText(expected)
         rule.onAllNodesWithText(secret).assertCountEquals(0)
         rule.onAllNodesWithText(publicText).assertCountEquals(0)
         assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
