@@ -1,12 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.X01.B6.20261111",
-  "token_hash": "fc22c12ab14feee0f7a396fe243ba50fc8051a1c1b826df9d93d5ab0e421c7a8",
-  "target_head": "5908da39bda8b8d5791dca50036be5a827e252b5",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.X01.REDFIX_PREP.20261111",
+  "token_hash": "866faec62680a0a97d22987b43f33ef065bc643162aa281edfc900e779c08120",
+  "target_head": "cc112b1074bab80e75d0e4c75bff43b460f19c11",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 761,
-  "timestamp": 1794446090,
-  "purpose": "X01_B6_CODE_PUBLISHED_WAIT_CI_GUARD_B7",
-  "last_checkpoint": "cc112b1074bab80e75d0e4c75bff43b460f19c11"
+  "epoch": 762,
+  "timestamp": 1794446628,
+  "purpose": "X01_B7_RED_FIX_XML_VERIFIER_DOCUMENTAL_AND_READY"
 }
