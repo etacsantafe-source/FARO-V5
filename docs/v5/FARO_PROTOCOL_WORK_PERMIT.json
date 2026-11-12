@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_G15_X06_ISOLATED_APK_DELIVERY",
   "reviewed_head": "682891502c9954644c3d94f3e3caeb80a4ac0dd2",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -72,11 +72,11 @@
       }
     ]
   },
-  "why": "Bounded AndroidX self-package signature permission exception after real CI FAILURE 43246332824; old manifest remains untouched. B1-B5 delta audited, same-unit B7 RED_FIX verified.",
-  "how": "Only scoped workflow: require zero OS/third-party permissions; allow solely own signature-level DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION; re-run exact CI SHA and B7. No install G15 until verified.",
+  "why": "Scope-limited AndroidX self-permission parser added only to G15 isolated workflow at a75c019f. Same-SHA protocol guard 43248629272 SUCCESS; directed Android job 43248629257 in_progress as last checked, not B7 PASS.",
+  "how": "Inspect corrected Android workflow run 43248629257. If SUCCESS validate package, permission exceptions, aapt manifest, signing and artifact SHA, then B7; if FAILURE log RED_FIX with exact path. DO NOT install over ar.com.faro.alpha.v2coredev or clear data.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "G15_X06_ISOLATED_DELIVERY_WAIT_CI_SHA_a75c019f_AND_B7",
   "needs_prep_document": null,
   "closure_document": null
 }
