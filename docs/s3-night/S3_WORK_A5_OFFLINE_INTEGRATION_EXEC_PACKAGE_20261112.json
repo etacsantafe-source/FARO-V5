@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "date": "2026-11-12",
+  "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
+  "priority": 2,
+  "status": "B1_B5_DOCUMENTED_NO_ACTIVE_PERMIT",
+  "branch": "work/s3-night-20261102",
+  "dependency": "IME B7 PASS scoped on exact code SHA, release writer, guard SUCCESS, previous permit consumed; then fresh independent READY",
+  "preaudit": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
+  "authorized_candidate_paths": [
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5A5OfflineActivityReceiptBridge.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt",
+    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A5OfflineReviewApplyActivityUiTest.kt",
+    ".github/workflows/faro-v5-s3-a5-offline-review-apply-activity-directed.yml"
+  ],
+  "scope": "Single physically-isolated Android debug root: verified canonical test-only PreparedPlan → explicit Review → explicit Apply → genuine receipt → separately authorized Activity view; NO live provider/HTTP. No cross-UID DB sharing.",
+  "acceptance": [
+    "E2E canonical receipt from same real SQLite root; link Activity to transaction identity not fake UI event",
+    "explicit approval no implicit Apply",
+    "idempotent double click and reopen",
+    "read independent grant and pause revoke; no phantom zero",
+    "API35 Android instrumentation exact 4+ XML PASS; binary manifest, source SHA, guard SUCCESS",
+    "B7 PASS_SCOPED_OFFLINE, no global A5 closure"
+  ],
+  "risks": [
+    "Debug staged root may lack genuine ActiveGenerationPointer; no invented pointer or fake ACL",
+    "Fixture must live only in test APK; do not alter productive V2 or CORE DEV",
+    "Groq deferred explicitly; no network calls or paid APIs",
+    "Existing X01/X09/X10 CI not to be rerun without causal delta"
+  ],
+  "on_block": "STOP_NEEDS_PREP if same root, ACL, generation or trusted principal cannot be proven with permitted routes. Exact path+reason+minimal scope extension, never weaken gate."
+}
