@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_A5_7_X02_AUXILIARY_AVISOS_AUTHORIZED_DEV_READ",
   "reviewed_head": "e092b601dcc837d0a7d2b1234a4379c4d48cee7b",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -78,7 +78,7 @@
   "how": "Work B6: fetch current HEAD writer CAS and individual permit, execute preflight for ALL 5 paths. Add AUXILIARY_NOTICE read domain, V2DEV source-specific Session and native button, real Auxiliary owner read via createPinned; Android API35 new 2 tests exact, XML/APK hashes, guard, independent B7. No INTERNET or OS delivery, no USER data.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "UNIT_COMPLETE_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "blocked_reason": "X02_CORRECTED_CODE_IMPLEMENTED_WAIT_CI_B7_NO_ADDITIONAL_CODE_AUTHORIZED",
   "needs_prep_document": null,
   "closure_document": "docs/s3-night/S3_A5_7_X01_REALITY_RECEIPT_ACTIVITY_B7_PASS_20261111.md"
 }
