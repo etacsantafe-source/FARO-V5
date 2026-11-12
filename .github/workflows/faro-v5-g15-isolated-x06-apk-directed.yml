@@ -81,7 +81,7 @@ jobs:
           permissions = aapt("permissions")
           self_permission = expected + ".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
           requests = re.findall(r"^uses-permission: name='([^']+)'", permissions, flags=re.M)
-          declarations = re.findall(r"^permission: (\\S+)", permissions, flags=re.M)
+          declarations = re.findall(r"^permission: (\S+)", permissions, flags=re.M)
           assert len(requests) == len(set(requests)), f"DUPLICATED_PERMISSION_STOP: {permissions}"
           assert len(requests) <= 1 and set(requests).issubset({self_permission}), f"OS_PERMISSION_STOP: {permissions}"
           assert len(declarations) <= 1 and set(declarations).issubset({self_permission}), f"FOREIGN_PERMISSION_STOP: {permissions}"
