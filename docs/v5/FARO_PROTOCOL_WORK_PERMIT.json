@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
   "reviewed_head": "99ee5b376728ceb0dcc8dc4b3b8e7d01ed273437",
   "paths": [
@@ -60,7 +60,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_ANDROID_API35_43342015516",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -75,11 +75,11 @@
       }
     ]
   },
-  "why": "U02 isolation only after preaudit guard43341306829 SUCCESS; U01 policy and U03 global remain blocked",
-  "how": "Exact four-path preflight then new identity/consent tests API35; no historical suite rerun or HTTP",
+  "why": "U02 four-path code committed; permit consumed; no further functional write until B7",
+  "how": "Wait run43342015516 exact eb6c61e9cabd1cb20317b5ce96386004c73c9a20; U01 policy and U03 integration blocked",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "U02_CODE_PUBLISHED_WAIT_EXACT_ANDROID_CI_AND_B7",
   "needs_prep_document": null,
   "closure_document": null
 }

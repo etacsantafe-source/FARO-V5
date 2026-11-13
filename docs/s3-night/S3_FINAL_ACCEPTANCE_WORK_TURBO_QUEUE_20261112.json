@@ -105,5 +105,31 @@
     "S4_OPEN",
     "AUTO_NIGHT_ON"
   ],
-  "next": "START_WORK_MODE_WITH_HANDOFF_DOCUMENT; RECOVER_HEAD_AND_WRITER; U00_READ_ONLY; U01_U02_B1_B5_AND_NEW_INDIVIDUAL_PERMITS_ONLY_WHEN_VERIFIED"
+  "next": "START_WORK_MODE_WITH_HANDOFF_DOCUMENT; RECOVER_HEAD_AND_WRITER; U00_READ_ONLY; U01_U02_B1_B5_AND_NEW_INDIVIDUAL_PERMITS_ONLY_WHEN_VERIFIED",
+  "execution": {
+    "status": "WAIT_U02_ANDROID_CI_HUMAN_POLICY_AND_PHYSICAL_PENDING",
+    "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
+    "source_sha": "eb6c61e9cabd1cb20317b5ce96386004c73c9a20",
+    "android_run": 43342015516,
+    "code_guard": 43342015370,
+    "preaudit_guard": 43341306829,
+    "permit_guard": 43341499041,
+    "preaudit": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+    "human_guide": "docs/s3-night/S3_FINAL_U04_HUMAN_ACCEPTANCE_20261112.md",
+    "units": {
+      "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
+      "U01": "BLOCKED_NEEDS_HUMAN_POLICY_DECISION",
+      "U02": "B6_WAIT_CI",
+      "U03": "BLOCKED_U01_AND_LIVE_INTEGRATION_DEPENDENCIES_EXISTING_OFFLINE_4_4_REUSED",
+      "U04": "GUIDE_PREPARED_HUMAN_NOT_RUN",
+      "U05": "GLOBAL_OPEN_PENDING_MATERIAL_ACCEPTANCE"
+    },
+    "app_package": "ar.com.faro.alpha.x03aidev",
+    "groq_live": "NOT_RUN_USER_ONLY_FREE_AND_CONSENT",
+    "s3_global": "OPEN",
+    "formal_closed": "0/5",
+    "physical": "NOT_ACCESSED",
+    "termux_ui": "FORBIDDEN",
+    "note": "A2 means Busqueda, not Chat; the local-chat wording in initial U00 row is narrower supporting evidence and does not redefine the backlog."
+  }
 }

@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 846
+    "expected_release_epoch": 850
   },
   "automation": {
     "activation_authorized": false,
@@ -43,8 +43,8 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3 FINAL HANDOFF READY (DOC_ONLY): Work U00 delta read-only, then U01 A4 authority and U02 X03 distinct debug application B1-B5, individual READY only after protocol guard and preflight, scoped CI B6/B7. Physical G15 IME visible PASS scoped from user, A3 script BLOCKED pre-send; no Termux UI automation, no personal keys in chat. S3 formal0/5, V2 productive/S4/Auto/Noche OFF. docs/s3-night/S3_FINAL_ACCEPTANCE_WORK_TURBO_HANDOFF_20261112.md",
-  "checkpoint_status": "TWO_AUTHORIZED_UNITS_B7_PASS_SCOPED_IME_2_2_A5_OFFLINE_4_4;GROQ_X03_LIVE_OPEN_DEFERRED;S3_A5_GLOBAL_OPEN",
+  "next": "U02 CI43342015516/B7 exact SHA; U01 product policy requires explicit human decision; U03 only allowed independent work, no global closure; U04 guide ready. No Termux UI/Groq credentials/production/S4/Auto/Noche.",
+  "checkpoint_status": "S3_FINAL_U00_DONE_U02_WAIT_CI_U01_POLICY_BLOCKED_U04_GUIDE_READY_GLOBAL_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
@@ -3155,5 +3155,31 @@
     "s4": "OFF_P00_P01_CERTIFIED_P02_NEXT_AFTER_S3",
     "work_session": "MUST_START_MANUALLY_NO_BACKGROUND",
     "no_functional_code_changed": true
+  },
+  "s3_final_execution": {
+    "status": "WAIT_U02_ANDROID_CI_HUMAN_POLICY_AND_PHYSICAL_PENDING",
+    "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
+    "source_sha": "eb6c61e9cabd1cb20317b5ce96386004c73c9a20",
+    "android_run": 43342015516,
+    "code_guard": 43342015370,
+    "preaudit_guard": 43341306829,
+    "permit_guard": 43341499041,
+    "preaudit": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+    "human_guide": "docs/s3-night/S3_FINAL_U04_HUMAN_ACCEPTANCE_20261112.md",
+    "units": {
+      "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
+      "U01": "BLOCKED_NEEDS_HUMAN_POLICY_DECISION",
+      "U02": "B6_WAIT_CI",
+      "U03": "BLOCKED_U01_AND_LIVE_INTEGRATION_DEPENDENCIES_EXISTING_OFFLINE_4_4_REUSED",
+      "U04": "GUIDE_PREPARED_HUMAN_NOT_RUN",
+      "U05": "GLOBAL_OPEN_PENDING_MATERIAL_ACCEPTANCE"
+    },
+    "app_package": "ar.com.faro.alpha.x03aidev",
+    "groq_live": "NOT_RUN_USER_ONLY_FREE_AND_CONSENT",
+    "s3_global": "OPEN",
+    "formal_closed": "0/5",
+    "physical": "NOT_ACCESSED",
+    "termux_ui": "FORBIDDEN",
+    "note": "A2 means Busqueda, not Chat; the local-chat wording in initial U00 row is narrower supporting evidence and does not redefine the backlog."
   }
 }
