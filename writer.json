@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3_A4_HUMAN_POLICY_AND_S4_P02_PAUSE.20261113",
-  "token_hash": "19b7ec61f4c956372a984130547a2049176e3e6d0e2c066a5d0e5b2e82879237",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S4.P02.V44.DOC.20261113",
+  "token_hash": "7de4314919e15da6ce600bce71e52ce7ade47879214308a38dbd78a23b180043",
   "target_head": "bae7eb4a2bd5d05f70b306ef3b07352d85271623",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 861,
-  "timestamp": 1794572529,
-  "scope": "DOC_ONLY_A4_HUMAN_POLICY_APPROVED_AND_S3_PAUSED_S4_P02_PREPARATION",
+  "epoch": 862,
+  "timestamp": 1794573302,
+  "scope": "DOC_ONLY_S4_P02_V44_AUDIT",
   "last_checkpoint": "bae7eb4a2bd5d05f70b306ef3b07352d85271623"
 }
