@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-13",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_PAUSED_S4_PREPARATION_P06_READ_ONLY_READY",
+  "phase": "S3_PAUSED_S4_PREPARATION_P07_READ_ONLY_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 867
+    "expected_release_epoch": 868
   },
   "automation": {
     "activation_authorized": false,
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 867,
+  "last_writer_epoch_observed": 868,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
   "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
   "blocker": null,
-  "writer_release_epoch": 867,
+  "writer_release_epoch": 868,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3087,11 +3087,11 @@
     "productive_v2": false
   },
   "s4_preparation": {
-    "status": "P00_P01_P02_P03_P04_P05_DONE_VERIFIED_DOC_SCOPE",
+    "status": "P00_P01_P02_P03_P04_P05_P06_DONE_VERIFIED_DOC_SCOPE",
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P06_FINAL_UX_READ_ONLY_READY",
+    "next_task": "P07_INTEGRATION_AND_PROJECTION_READ_ONLY_READY",
     "sequence": [
       "P00",
       "P01",
@@ -3119,7 +3119,7 @@
     "p00_scope": "DECISION_RECONCILIATION_ONLY_S4_FORMAL_OFF",
     "p00_completion_date": "2026-11-12",
     "p00_closure": "B1_TO_B5_EVIDENCED_B6_DOC_ONLY_B7_SCOPED_FINAL_GATE_CHECK_AFTER_WRITER_RELEASE",
-    "downstream_units": "P06_TO_P08_NOT_STARTED",
+    "downstream_units": "P07_TO_P08_NOT_STARTED",
     "p01": {
       "status": "P01_DONE_VERIFIED_DOC_SCOPE",
       "unit_id": "S4_PREP_P01_V5_EVIDENCE_INVENTORY",
@@ -3226,8 +3226,39 @@
       "next_task": "P06_FINAL_UX_READ_ONLY_READY"
     },
     "p06": {
+      "status": "P06_DONE_VERIFIED_DOC_SCOPE_USER_UX_CHOICES_REGISTERED",
+      "unit_id": "S4_PREP_P06_FINAL_UX_SPEC",
+      "mode": "DOCUMENTAL_ONLY_NO_FORMAL_S4_OPEN",
+      "baseline_head": "d095782fd32badac1e7a633f19df1151d8709720",
+      "ux_spec": "docs/v5/FARO_S4_P06_FINAL_UX_SPEC_20261113.md",
+      "ux_spec_blob": "c347360157a14bea7e6a3c5571ef1903be3ecb3c",
+      "audit_b7": "docs/v5/FARO_S4_P06_B7_20261113.md",
+      "audit_b7_blob": "6ef2dd21bd7408d5fed1d6254d94050dc1cd4fe5",
+      "user_confirmed_choices": [
+        "DARK_CLEAN_DRAWER_REFERENCE",
+        "TOOLS_ACCORDION_GUARDADOS_ACTIVIDAD_AVISOS",
+        "FINANCE_COMPACT_12_MONTHS_M_MINUS_6_TO_M_PLUS_5",
+        "FINANCE_COMPACT_ZERO_BASELINE_VISIBLE_NEGATIVE_RED",
+        "FINANCE_EXPANDABLE_GRAPH",
+        "FINANCE_ACCOUNT_SUMMARY_MONTH_M0_DETAILS_M1_TO_M5_COMPACT",
+        "RADAR_OPTION_C_HOME_COMPACT_CHAT_ASUNTOS_CONTEXT_NO_ROOT"
+      ],
+      "ux_surfaces": 10,
+      "design_decision_rows": 11,
+      "negative_tests_defined_not_executed": 30,
+      "product_implementation_approved": false,
+      "proposed_p07_scope_not_approved": true,
+      "code_changed": false,
+      "new_ci": "NOT_RUN_DOC_ONLY",
+      "g15_physical": "NOT_RUN",
+      "v2_productive": false,
+      "writer_release_epoch": 868,
+      "closure": "B1_B5_DOCUMENTED_B6_DOC_ONLY_B7_REMOTE_GATE_POST_RELEASE",
+      "next_task": "P07_INTEGRATION_AND_PROJECTION_READ_ONLY_READY"
+    },
+    "p07": {
       "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
-      "objective": "Final UX spec: Chat landing, single V44-inspired drawer, secondary Search/Bookmarks/Activity/Notices, accessibility/IME/rotation, finance 6-month view and Radar analytic access in Chat/Matters without new root",
+      "objective": "Owner boundaries and multi-owner security plus rolling 6-month operational projection versus 12-month graphic with zero line and negative-red, Radar C, ACL, receipts/Undo/recovery, egress and offline",
       "inputs": [
         "docs/v5/FARO_S4_P00_DECISION_AUTHORITY_MATRIX_20261112.md",
         "docs/v5/FARO_S4_P01_V5_IMPLEMENTATION_INVENTORY_20261112.md",
@@ -3235,9 +3266,10 @@
         "docs/v5/FARO_S4_P03_V44_TO_V5_REUSE_DELTA_MATRIX_20261113.md",
         "docs/v5/FARO_S4_P04_BENCHMARK_DELTA_20261113.md",
         "docs/v5/FARO_S4_P05_FUNCTIONAL_PRODUCT_SPEC_20261113.md",
-        "docs/v5/FARO_S4_P05_B7_20261113.md"
+        "docs/v5/FARO_S4_P06_FINAL_UX_SPEC_20261113.md",
+        "docs/v5/FARO_S4_P06_B7_20261113.md"
       ],
-      "scope": "READ_ONLY_DOC_ONLY_S4_FORMAL_OFF_NO_READY_NO_CODE_NO_APK_NO_PHYSICAL"
+      "scope": "READ_ONLY_DOC_ONLY_S4_FORMAL_OFF_NO_FUNCTIONAL_APPROVAL_NO_NEW_OWNERS_NO_READY"
     }
   },
   "s3_final_completion_handoff": {
