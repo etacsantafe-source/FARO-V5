@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-13",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_PAUSED_S4_PREPARATION_P04_READ_ONLY_READY",
+  "phase": "S3_PAUSED_S4_PREPARATION_P05_READ_ONLY_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 865
+    "expected_release_epoch": 866
   },
   "automation": {
     "activation_authorized": false,
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 865,
+  "last_writer_epoch_observed": 866,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
   "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
   "blocker": null,
-  "writer_release_epoch": 865,
+  "writer_release_epoch": 866,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3087,11 +3087,11 @@
     "productive_v2": false
   },
   "s4_preparation": {
-    "status": "P00_P01_P02_P03_DONE_VERIFIED_DOC_SCOPE",
+    "status": "P00_P01_P02_P03_P04_DONE_VERIFIED_DOC_SCOPE",
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P04_BENCHMARK_DELTA_READ_ONLY_READY",
+    "next_task": "P05_FUNCTIONAL_SPEC_READ_ONLY_READY",
     "sequence": [
       "P00",
       "P01",
@@ -3119,7 +3119,7 @@
     "p00_scope": "DECISION_RECONCILIATION_ONLY_S4_FORMAL_OFF",
     "p00_completion_date": "2026-11-12",
     "p00_closure": "B1_TO_B5_EVIDENCED_B6_DOC_ONLY_B7_SCOPED_FINAL_GATE_CHECK_AFTER_WRITER_RELEASE",
-    "downstream_units": "P04_TO_P08_NOT_STARTED",
+    "downstream_units": "P05_TO_P08_NOT_STARTED",
     "p01": {
       "status": "P01_DONE_VERIFIED_DOC_SCOPE",
       "unit_id": "S4_PREP_P01_V5_EVIDENCE_INVENTORY",
@@ -3182,16 +3182,40 @@
       "next_task": "P04_BENCHMARK_DELTA_READ_ONLY_READY"
     },
     "p04": {
+      "status": "P04_DONE_VERIFIED_DOC_SCOPE",
+      "unit_id": "S4_PREP_P04_EXTERNAL_BENCHMARK_DELTA",
+      "mode": "OFFICIAL_REFERENCES_READ_ONLY_DOC_ONLY",
+      "baseline_head": "55c5fb14bf346eaee0ad4a526b4f22ff5490c9a8",
+      "benchmark": "docs/v5/FARO_S4_P04_BENCHMARK_DELTA_20261113.md",
+      "benchmark_blob": "3f43ac170e812e3f363f02dea995d4a827de117b",
+      "audit_b7": "docs/v5/FARO_S4_P04_B7_20261113.md",
+      "audit_b7_blob": "2b424eb1ea8494327e90e19c8a6410ec7504f025",
+      "prior_reused": "docs/v5/FARO_S3_BENCHMARK_APPS_20261102.md",
+      "sources_indexed": 9,
+      "negative_tests_defined_not_executed": 18,
+      "license_review": "MIT_AGPL_ODBL_HIGH_LEVEL_ONLY_NO_CODE_IMPORTED",
+      "external_github_repos_checked": 6,
+      "code_changed": false,
+      "new_ci": "NOT_RUN_DOC_ONLY",
+      "physical": "NOT_RUN",
+      "v2_productive": false,
+      "writer_release_epoch": 866,
+      "closure": "B1_B5_COMPLETE_B6_DOC_ONLY_B7_REMOTE_AFTER_WRITER_RELEASE",
+      "next_task": "P05_FUNCTIONAL_SPEC_READ_ONLY_READY"
+    },
+    "p05": {
       "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
-      "objective": "Benchmark external delta: validate only gaps from P03 (Radar analytics, Shopping/Kitchen/evidence, Local-first), licenses, upkeep, offline, costs",
+      "goal": "Functional user journeys per domain, including manual offline finance/objectives/matters/SmartCompra-Cocina, Radar integrated with Chat/Asuntos, failure states and human approval gates",
       "inputs": [
         "docs/v5/FARO_S4_P00_DECISION_AUTHORITY_MATRIX_20261112.md",
         "docs/v5/FARO_S4_P01_V5_IMPLEMENTATION_INVENTORY_20261112.md",
         "docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md",
         "docs/v5/FARO_S4_P03_V44_TO_V5_REUSE_DELTA_MATRIX_20261113.md",
-        "docs/v5/FARO_S4_P03_B7_20261113.md"
+        "docs/v5/FARO_S4_P04_BENCHMARK_DELTA_20261113.md",
+        "docs/v5/FARO_S4_P04_B7_20261113.md"
       ],
-      "scope": "DOCUMENTAL_ONLY_S4_FORMAL_OFF_NO_PAID_APIS_NO_CODE_NO_LICENSE_IMPORT"
+      "scope": "DOC_ONLY_S4_FORMAL_OFF_NO_IMPLEMENTATION_NO_READY_NO_APIS_PAGAS",
+      "next": "P06 UX / P07 owners/projection; no approvals implicit"
     }
   },
   "s3_final_completion_handoff": {
