@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S3.G15.AUTO_PHYSICAL_RESULT.DOC_20261113",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3_A4_HUMAN_POLICY_AND_S4_P02_PAUSE.20261113",
   "token_hash": "19b7ec61f4c956372a984130547a2049176e3e6d0e2c066a5d0e5b2e82879237",
   "target_head": "13f34f4e1ffc037deda14f4adf974bb3708e5769",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 860,
-  "timestamp": 1794539135,
-  "scope": "DOC_ONLY_S3_G15_USER_REPORTED_PHYSICAL_EVIDENCE",
+  "epoch": 861,
+  "timestamp": 1794572454,
+  "scope": "DOC_ONLY_A4_HUMAN_POLICY_APPROVED_AND_S3_PAUSED_S4_P02_PREPARATION",
   "last_checkpoint": "13f34f4e1ffc037deda14f4adf974bb3708e5769"
 }
