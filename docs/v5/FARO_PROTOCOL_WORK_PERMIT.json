@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
   "reviewed_head": "79514b781bade8d5720ee90a78174e75f00c552b",
   "paths": [
@@ -82,26 +82,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "FAILED_TEST_COMPILE_NEW_NULLABILITY_CAUSE",
+    "B7": "RED_FIX_DOCUMENTED"
   },
   "last_code_review": {
-    "sha": "eb6c61e9cabd1cb20317b5ce96386004c73c9a20",
+    "sha": "43740e810db13174eb60dccfbe847efe2a3bdd48",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
-        "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
+        "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
+        "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "RED_FIX AGP9 Kotlin root, one path after guard43342879275 SUCCESS",
-  "how": "Replace java.srcDir with kotlin.srcDir only; preserve tests and identity checks",
+  "why": "Consume prior READY after failed code; preflight must not authorize old sourceSet correction again",
+  "how": "Guard doc redfix2 then issue independent one-test-path READY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "U02_RED_FIX2_TEST_NULLABILITY_PREAUDIT_REVIEWED_WAIT_NEW_READY",
   "needs_prep_document": null,
   "closure_document": null
 }
