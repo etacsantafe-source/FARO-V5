@@ -111,7 +111,7 @@ android {
         manifestPlaceholders["faroAppLabel"] = "FARO S3 IA AISLADA"
     }
     // Share existing audited host implementation, never the debug manifest.
-    sourceSets.getByName("x03AiDev").java.srcDir("src/debug/kotlin")
+    sourceSets.getByName("x03AiDev").kotlin.srcDir("src/debug/kotlin")
 
     buildFeatures {
         resValues = true
