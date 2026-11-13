@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 863
+    "expected_release_epoch": 864
   },
   "automation": {
     "activation_authorized": false,
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 863,
+  "last_writer_epoch_observed": 864,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
   "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
   "blocker": null,
-  "writer_release_epoch": 863,
+  "writer_release_epoch": 864,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3147,7 +3147,7 @@
       "source_commit": "bfa0ee71f5b9cd104baaadd71f1e77a61f203939",
       "baseline_head": "bae7eb4a2bd5d05f70b306ef3b07352d85271623",
       "matrix": "docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md",
-      "matrix_blob": "9a63888ae6be298eb6536a3dc81e1266bf4d42385",
+      "matrix_blob": "9a6388ae6be298eb6536a3dc81e1266bf4d42385",
       "matrix_commit": "666b365b021339496cae7d0e31e6c96d95e5a1f5",
       "audit_b7": "docs/v5/FARO_S4_P02_B7_20261113.md",
       "legacy_capability_rows": 20,
@@ -3156,8 +3156,8 @@
       "new_ci": "NOT_RUN_DOC_ONLY",
       "g15_physical": "NOT_RUN",
       "v2_productive": false,
-      "writer_release_epoch": 863,
-      "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_REMOTE_GATE_AFTER_RELEASE",
+      "writer_release_epoch": 864,
+      "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_SHA_RECONCILED_REMOTE_GATE_AFTER_RELEASE",
       "next_task": "P03_V44_V5_DELTA_READ_ONLY_READY"
     },
     "p03": {
