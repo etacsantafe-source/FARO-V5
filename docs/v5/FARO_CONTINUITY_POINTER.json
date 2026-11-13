@@ -3,10 +3,10 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-12",
+  "updated_local_date": "2026-11-13",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_PAUSED_S4_PREPARATION_P02_READ_ONLY_READY",
+  "phase": "S3_PAUSED_S4_PREPARATION_P03_READ_ONLY_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 861
+    "expected_release_epoch": 863
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "USER 2026-11-13 APPROVED S3.A4 local single-install private read policy with explicit foreground/per-source revocable grants; PRODUCT POLICY DECISION approved, code/integration NOT approved or implemented. S3 PAUSED no Wi-Fi, S3 formal0/5; resume S3 U01 B1-B5/permit then U03 and human H03/H05/H06-H08 later. S4 FORMAL OFF; continue S4 PREPARATION P02 historical V4.4 READ_ONLY audit in new chat. See docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md.",
+  "next": "USER_APPROVED S3.A4 single-install local foreground per-source revocable READ_POLICY only, no code/integration consent. S3 PAUSED by human, formal 0/5; resume separately S3 U01 delta preaudit/permit then U03 plus H03/H05/H06-H08. P00/P01/P02 DONE_VERIFIED_DOC_SCOPE; P02 historical V4.4 read-only audit matrix and B7 verified after release. NEXT: S4 PREPARATION P03 V4.4 <-> V5 documentary delta READ_ONLY; S4 FORMAL OFF, V2 productive OFF, no S3 reopening, no duplicate CI/G15, no paid APIs.",
   "checkpoint_status": "S3_FINAL_U00_DONE_U02_B7_PASS_SCOPED_U01_POLICY_U03_INTEGRATION_U04_HUMAN_PENDING_U05_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 859,
+  "last_writer_epoch_observed": 863,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
   "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
   "blocker": null,
-  "writer_release_epoch": 859,
+  "writer_release_epoch": 863,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3087,11 +3087,11 @@
     "productive_v2": false
   },
   "s4_preparation": {
-    "status": "P00_DONE_VERIFIED_DOC_SCOPE",
+    "status": "P00_P01_P02_DONE_VERIFIED_DOC_SCOPE",
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P02_V44_READ_ONLY_AUDIT_READY_START_NEW_CHAT",
+    "next_task": "P03_V44_V5_DELTA_READ_ONLY_READY",
     "sequence": [
       "P00",
       "P01",
@@ -3119,7 +3119,7 @@
     "p00_scope": "DECISION_RECONCILIATION_ONLY_S4_FORMAL_OFF",
     "p00_completion_date": "2026-11-12",
     "p00_closure": "B1_TO_B5_EVIDENCED_B6_DOC_ONLY_B7_SCOPED_FINAL_GATE_CHECK_AFTER_WRITER_RELEASE",
-    "downstream_units": "P02_TO_P08_NOT_STARTED",
+    "downstream_units": "P03_TO_P08_NOT_STARTED",
     "p01": {
       "status": "P01_DONE_VERIFIED_DOC_SCOPE",
       "unit_id": "S4_PREP_P01_V5_EVIDENCE_INVENTORY",
@@ -3140,11 +3140,37 @@
       "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_REMOTE_GATE"
     },
     "p02": {
-      "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
-      "goal": "V4.4 LEGACY CAPABILITY AND UX AUDIT",
+      "status": "P02_DONE_VERIFIED_DOC_SCOPE",
+      "unit_id": "S4_PREP_P02_V44_HISTORICAL_AUDIT",
+      "mode": "HISTORICAL_READ_ONLY_DOC_ONLY",
       "source_repository": "etacsantafe-source/FARO",
-      "mode": "READ_ONLY_NO_S4_OPEN",
-      "doc": "docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md"
+      "source_commit": "bfa0ee71f5b9cd104baaadd71f1e77a61f203939",
+      "baseline_head": "bae7eb4a2bd5d05f70b306ef3b07352d85271623",
+      "matrix": "docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md",
+      "matrix_blob": "9a63888ae6be298eb6536a3dc81e1266bf4d42385",
+      "matrix_commit": "666b365b021339496cae7d0e31e6c96d95e5a1f5",
+      "audit_b7": "docs/v5/FARO_S4_P02_B7_20261113.md",
+      "legacy_capability_rows": 20,
+      "contradictions_resolved": 10,
+      "code_changed": false,
+      "new_ci": "NOT_RUN_DOC_ONLY",
+      "g15_physical": "NOT_RUN",
+      "v2_productive": false,
+      "writer_release_epoch": 863,
+      "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_REMOTE_GATE_AFTER_RELEASE",
+      "next_task": "P03_V44_V5_DELTA_READ_ONLY_READY"
+    },
+    "p03": {
+      "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
+      "goal": "V4.4_TO_V5_CAPABILITY_DELTA_AND_OWNER_MAPPING",
+      "inputs": [
+        "docs/v5/FARO_S4_P00_DECISION_AUTHORITY_MATRIX_20261112.md",
+        "docs/v5/FARO_S4_P01_V5_IMPLEMENTATION_INVENTORY_20261112.md",
+        "docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md",
+        "docs/v5/FARO_S4_P02_B7_20261113.md"
+      ],
+      "scope": "DOCUMENTAL_ONLY_S4_FORMAL_OFF_NO_CODE_NO_READY",
+      "output": "CONSERVAR_ADAPTAR_REIMPLEMENTAR_DESCARTAR_INVESTIGAR per capability with owner, evidence and negative/parity tests"
     }
   },
   "s3_final_completion_handoff": {
