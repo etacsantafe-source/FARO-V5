@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-13",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_PAUSED_S4_P07_B1_B5_HUMAN_PAYMENT_CHOICE_PENDING",
+  "phase": "S3_PAUSED_S4_PREPARATION_P08_READ_ONLY_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 869
+    "expected_release_epoch": 870
   },
   "automation": {
     "activation_authorized": false,
@@ -502,7 +502,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 869,
+  "last_writer_epoch_observed": 870,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2190,7 +2190,7 @@
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
   "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
   "blocker": null,
-  "writer_release_epoch": 869,
+  "writer_release_epoch": 870,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3087,11 +3087,11 @@
     "productive_v2": false
   },
   "s4_preparation": {
-    "status": "P00_P01_P02_P03_P04_P05_P06_DONE_P07_B1_B5_OPEN_HUMAN_GATE",
+    "status": "P00_P01_P02_P03_P04_P05_P06_P07_DONE_VERIFIED_DOC_SCOPE",
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P07_HUMAN_H_P07_01_PAYMENT_CONFIRMATION_DECISION",
+    "next_task": "P08_WORK_PACKAGES_READ_ONLY_READY",
     "sequence": [
       "P00",
       "P01",
@@ -3119,7 +3119,7 @@
     "p00_scope": "DECISION_RECONCILIATION_ONLY_S4_FORMAL_OFF",
     "p00_completion_date": "2026-11-12",
     "p00_closure": "B1_TO_B5_EVIDENCED_B6_DOC_ONLY_B7_SCOPED_FINAL_GATE_CHECK_AFTER_WRITER_RELEASE",
-    "downstream_units": "P07_OPEN_P08_NOT_STARTED",
+    "downstream_units": "P08_NOT_STARTED_NO_FUNCTIONAL_PERMIT",
     "p01": {
       "status": "P01_DONE_VERIFIED_DOC_SCOPE",
       "unit_id": "S4_PREP_P01_V5_EVIDENCE_INVENTORY",
@@ -3257,7 +3257,7 @@
       "next_task": "P07_INTEGRATION_AND_PROJECTION_READ_ONLY_READY"
     },
     "p07": {
-      "status": "B1_B5_PREPARED_HOUSEHOLD_APPROVED_WAITING_HUMAN_PAYMENT_POLICY",
+      "status": "P07_DONE_VERIFIED_DOC_SCOPE_HUMAN_PAYMENT_POLICY_A",
       "unit_id": "S4_PREP_P07_INTEGRATION_PROJECTION",
       "mode": "DOCUMENTAL_ONLY_NO_FORMAL_S4",
       "baseline_head": "6ddf733026662e109471ace2d75744622a5a5e45",
@@ -3268,21 +3268,49 @@
       "household_independent_authority_design": "APPROVED_BY_USER_2026_11_13",
       "household_contracts_existing": 32,
       "total_catalog_contracts_unchanged": 180,
-      "payment_cross_owner_decision": "H_P07_01_PENDING_HUMAN_CHOICE",
+      "payment_cross_owner_decision": "H_P07_01_APPROVED_OPTION_A_SINGLE_REVIEW_ATOMIC_COMPOUND_ONLY",
       "owner_boundaries": 10,
       "forecast_rules": 14,
       "negative_tests_defined_not_executed": 22,
-      "formal_p07_closure": false,
+      "formal_p07_closure": true,
       "p08_not_started": true,
       "code_changed": false,
       "new_ci": "NOT_RUN_DOC_ONLY",
       "physical": "NOT_RUN",
-      "writer_release_epoch": 869,
-      "next_task": "ASK_USER_SINGLE_OR_TWO_REVIEW_SHOPPING_FINANCE"
+      "writer_release_epoch": 870,
+      "next_task": "P08_WORK_PACKAGES_READ_ONLY_READY",
+      "previous_interim_checkpoint": "5fc305449b9fe11bc9f4bb53e29ea2954c3cc085",
+      "final_delta": "docs/v5/FARO_S4_P07_PAYMENT_PROMOTIONS_FINAL_DELTA_20261113.md",
+      "final_delta_blob": "80d86b20d52c528e5a8dc629744701080d4aef49",
+      "final_b7": "docs/v5/FARO_S4_P07_B7_FINAL_20261113.md",
+      "final_b7_blob": "94681281934c90ebb1b78a7a330fdcc54370780d",
+      "shopping_role": "PRICE_PROMOTIONS_BY_PAYMENT_METHOD_BUDGET_COMMERCIAL_TRUTH",
+      "finance_role": "SOLE_AUTHORITY_MONEY_ACCOUNTS_FINANCIAL_EFFECTS_LIABILITIES",
+      "combined_apply_requirement": "FAIL_CLOSED_IF_ATOMICITY_UNVERIFIED_ONE_REVIEW_TWO_AUTHORITIES",
+      "delta_rules": 12,
+      "promotional_cases": 8,
+      "prior_negative_tests": 22,
+      "new_negative_tests_defined_not_executed": 18,
+      "total_negative_tests_defined_not_executed": 40,
+      "closure_kind": "DOCUMENTAL_ONLY_IMPLEMENTATION_NOT_AUTHORIZED",
+      "product_implementation_approved": false
     },
     "p08": {
-      "status": "NOT_STARTED_DEPENDS_ON_P07_FINAL",
-      "scope": "NO_READY_NO_PERMIT_NO_FUNCTIONAL_WORK"
+      "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
+      "objective": "Prepare independently bounded Work B1-B5 packages from P00-P07 UX and approved option A; prove cross-owner atomic Apply before code and require permits, preserve 180 operations, unique writer, G15 physical at end",
+      "inputs": [
+        "docs/v5/FARO_S4_P00_DECISION_AUTHORITY_MATRIX_20261112.md",
+        "docs/v5/FARO_S4_P01_V5_IMPLEMENTATION_INVENTORY_20261112.md",
+        "docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md",
+        "docs/v5/FARO_S4_P03_V44_TO_V5_REUSE_DELTA_MATRIX_20261113.md",
+        "docs/v5/FARO_S4_P04_BENCHMARK_DELTA_20261113.md",
+        "docs/v5/FARO_S4_P05_FUNCTIONAL_PRODUCT_SPEC_20261113.md",
+        "docs/v5/FARO_S4_P06_FINAL_UX_SPEC_20261113.md",
+        "docs/v5/FARO_S4_P07_INTEGRATION_PROJECTION_B1_B5_20261113.md",
+        "docs/v5/FARO_S4_P07_PAYMENT_PROMOTIONS_FINAL_DELTA_20261113.md",
+        "docs/v5/FARO_S4_P07_B7_FINAL_20261113.md"
+      ],
+      "scope": "READ_ONLY_DOC_ONLY_S4_FORMAL_OFF_NO_CODE_NO_READY_NO_APK_NO_PHYSICAL"
     }
   },
   "s3_final_completion_handoff": {
