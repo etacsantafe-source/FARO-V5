@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S4.P07.B1_B5.HOUSEHOLD.DOC.20261113",
-  "token_hash": "3e55b0742bb7ec83cf116e3bd3dd5d55fbda21e473e1129aae2fdf2ca0da7cf3",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S4.P07.FINAL_CONTRACT.DOC.20261113",
+  "token_hash": "6d679c80b331efbb74d7a95858c644c1b8ea767ed1540abb14a1d56412784d81",
   "target_head": "5fc305449b9fe11bc9f4bb53e29ea2954c3cc085",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 869,
-  "timestamp": 1794581454,
-  "scope": "DOC_ONLY_S4_P07_B1_B5_HUMAN_PENDING_RELEASED",
+  "epoch": 870,
+  "timestamp": 1794581865,
+  "scope": "DOC_ONLY_S4_P07_FINAL_B4_B7_PAYMENT_PROMOTIONS",
   "last_checkpoint": "5fc305449b9fe11bc9f4bb53e29ea2954c3cc085"
 }
