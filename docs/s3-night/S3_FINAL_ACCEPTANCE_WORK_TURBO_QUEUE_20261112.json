@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "id": "S3_FINAL_ACCEPTANCE_WORK_TURBO_20261112",
+  "mode": "DOCUMENTATION_HANDOFF_NO_CODE_PERMIT",
+  "baseline_head": "c8dacbe08b753881364fee30bc36ad01bfd04852",
+  "branch": "work/s3-night-20261102",
+  "repo": "etacsantafe-source/FARO-V5",
+  "s3": {
+    "development_estimate_pct": 40,
+    "scoped_closed": 3,
+    "scoped_total": 5,
+    "formal_closed": 0,
+    "formal_total": 5
+  },
+  "writer_baseline_epoch": 845,
+  "needs_writer_cas": true,
+  "previous_certifications_reuse": [
+    {
+      "unit": "G15_IME_ANDROID",
+      "run": 43302542761,
+      "tests": "2/2",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "unit": "G15_IME_HUMAN_VISIBLE",
+      "tests": "SCREENSHOT_1",
+      "status": "PASS_SCOPED_VISIBILITY_ONLY"
+    },
+    {
+      "unit": "A3_X04_X05",
+      "run": 43084379020,
+      "tests": "2/2",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "unit": "A3_FOLDERS_G15",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "unit": "X06_FOUR_OWNER",
+      "run": 43223365784,
+      "tests": "1/1",
+      "status": "PASS_SCOPED"
+    },
+    {
+      "unit": "A5_OFFLINE_REVIEW_APPLY_RECEIPT_ACTIVITY",
+      "run": 43305744264,
+      "tests": "4/4",
+      "status": "PASS_SCOPED"
+    }
+  ],
+  "sequence": [
+    {
+      "unit": "U00_S3_GATE_RECONCILE",
+      "mode": "READ_ONLY",
+      "permitted": true
+    },
+    {
+      "unit": "U01_A4_REAL_AUTH_POLICY_AND_HOST",
+      "mode": "B1_B5_ONLY_INITIAL",
+      "needs": "HUMAN_DECISION_IF_MONOUSER_LOCAL_POLICY_NOT_APPROVED",
+      "functional_permit": "BLOCKED"
+    },
+    {
+      "unit": "U02_X03_DISTINCT_APP_AND_GROQ",
+      "mode": "B1_B5_ONLY_INITIAL",
+      "needs": "DISTINCT_APP_ID_APP_UID_ANDROID_KEYSTORE_FREE_HUMAN_CONSENT",
+      "functional_permit": "BLOCKED"
+    },
+    {
+      "unit": "U03_A5_DELTA_INTEGRATION",
+      "mode": "CONDITIONAL_B1_B7_NEW_SCOPE_ONLY",
+      "functional_permit": "BLOCKED"
+    },
+    {
+      "unit": "U04_G15_MINIMAL_HUMAN_ACCEPTANCE",
+      "mode": "USER_ONLY_NO_UI_ROBOT",
+      "functional_permit": "NOT_APPLICABLE"
+    },
+    {
+      "unit": "U05_S3_FINAL_B7",
+      "mode": "AUDIT_AND_CHECKPOINT",
+      "global_pass_requires": "ALL_MATERIAL_ACCEPTANCE_GATES_VERIFIED"
+    }
+  ],
+  "physical_current": {
+    "adb_connected_last_observed": true,
+    "android": 15,
+    "model": "moto g15",
+    "isolated_package": "ar.com.faro.g15isolated.v2coredev",
+    "ime_visible": "PASS_SCOPED_SCREENSHOT",
+    "ime_home_return": "AUTOMATED_CONTROLS_SEEN_SECOND_SCREENSHOT_NOT_REVIEWED",
+    "a3_final": "BLOCKED_NOT_CHAT_OR_DEV_HOME_PRE_SEND",
+    "no_user_data_changed_by_last_a3_attempt": true,
+    "notification": "WORKED"
+  },
+  "forbidden": [
+    "TERMUX_UI_AUTOMATION",
+    "INSTALL_ANDROIDTEST_G15",
+    "REPEAT_CERTIFIED_RUNS",
+    "GROQ_KEY_IN_CHAT_OR_CI",
+    "S2_OVERWRITE",
+    "PAID_API_REQUIRED",
+    "V2_PRODUCTION_ON",
+    "S4_OPEN",
+    "AUTO_NIGHT_ON"
+  ],
+  "next": "START_WORK_MODE_WITH_HANDOFF_DOCUMENT; RECOVER_HEAD_AND_WRITER; U00_READ_ONLY; U01_U02_B1_B5_AND_NEW_INDIVIDUAL_PERMITS_ONLY_WHEN_VERIFIED"
+}

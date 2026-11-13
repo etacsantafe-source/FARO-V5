@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-12",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_WORK_TURBO_IME_AND_A5_OFFLINE_B7_PASS_GROQ_DEFERRED",
+  "phase": "S3_FINAL_ACCEPTANCE_WORK_TURBO_PREPARED_DOC_ONLY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 845
+    "expected_release_epoch": 846
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "WORK TURBO mission complete: IME B7 PASS scoped 2/2 API35 43302542761 source923910dd; A5 offline single-root explicit Review->approval->Apply->genuine COMMITTED receipt->separate authorized Activity B7 PASS scoped 4/4 API35 43305744264 code25c5ff41 guard43305743811. Both permits consumed; do not repeat. Writer RELEASED epoch842 after durable final docs. X03 real Groq/HTTP/Free/billing intentionally OPEN for later separate session; no remote calls in this mission. G15 physical no access. S3/A5 global still OPEN (formal0/5), productive V2/S4/Auto/Noche OFF. See closure and acceptance matrix for exact limits.",
+  "next": "S3 FINAL HANDOFF READY (DOC_ONLY): Work U00 delta read-only, then U01 A4 authority and U02 X03 distinct debug application B1-B5, individual READY only after protocol guard and preflight, scoped CI B6/B7. Physical G15 IME visible PASS scoped from user, A3 script BLOCKED pre-send; no Termux UI automation, no personal keys in chat. S3 formal0/5, V2 productive/S4/Auto/Noche OFF. docs/s3-night/S3_FINAL_ACCEPTANCE_WORK_TURBO_HANDOFF_20261112.md",
   "checkpoint_status": "TWO_AUTHORIZED_UNITS_B7_PASS_SCOPED_IME_2_2_A5_OFFLINE_4_4;GROQ_X03_LIVE_OPEN_DEFERRED;S3_A5_GLOBAL_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -3139,5 +3139,21 @@
       "next_task": "P02_V44_READ_ONLY_AUDIT_NOT_STARTED",
       "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_REMOTE_GATE"
     }
+  },
+  "s3_final_completion_handoff": {
+    "status": "DOC_ONLY_PREPARED_NOT_EXECUTED",
+    "document": "docs/s3-night/S3_FINAL_ACCEPTANCE_WORK_TURBO_HANDOFF_20261112.md",
+    "queue": "docs/s3-night/S3_FINAL_ACCEPTANCE_WORK_TURBO_QUEUE_20261112.json",
+    "baseline_head": "c8dacbe08b753881364fee30bc36ad01bfd04852",
+    "physical_ime": "PASS_SCOPED_ONE_SCREENSHOT_EDITOR_AND_SEND_ABOVE_GBOARD",
+    "physical_ime_second_home_capture": "NOT_INDEPENDENTLY_REVIEWED",
+    "physical_a3_last": "BLOCKED_NOT_CHAT_OR_DEV_HOME_BEFORE_SEND",
+    "termux_ui_automation": "STOP_USER_REQUEST",
+    "groq_live": "NOT_RUN_FREE_PLAN_AND_CONSENT_REQUIRED",
+    "functional_permission": "BLOCKED_CONSUMED_NO_NEW_READY",
+    "s3_global": "OPEN",
+    "s4": "OFF_P00_P01_CERTIFIED_P02_NEXT_AFTER_S3",
+    "work_session": "MUST_START_MANUALLY_NO_BACKGROUND",
+    "no_functional_code_changed": true
   }
 }
