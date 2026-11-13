@@ -1,27 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
-  "reviewed_head": "99958e361f7dcccb86f4b46d1cc3a209a0ad2dc6",
+  "status": "READY",
+  "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
+  "reviewed_head": "99ee5b376728ceb0dcc8dc4b3b8e7d01ed273437",
   "paths": [
-    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
-    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5A5OfflineActivityReceiptBridge.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5RealHistoryActivityHostBinding.kt",
-    "v5/app/src/androidTest/kotlin/ar/com/faro/v5/app/FaroV5S3A5OfflineReviewApplyActivityUiTest.kt",
-    ".github/workflows/faro-v5-s3-a5-offline-review-apply-activity-directed.yml"
+    "v5/app/build.gradle.kts",
+    "v5/app/src/x03AiDev/AndroidManifest.xml",
+    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalDistinctAppUiTest.kt",
+    ".github/workflows/faro-v5-s3-final-distinct-ia-app-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
-          "blob_sha": "1179d41421309b96bf897cefd0fe3d28c0abf047",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md",
-          "blob_sha": "103e9d89a49cbc4f7b92ff2e5b5ecc9393554fc5",
+          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B1"
         }
       ]
@@ -30,13 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
-          "blob_sha": "1179d41421309b96bf897cefd0fe3d28c0abf047",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md",
-          "blob_sha": "103e9d89a49cbc4f7b92ff2e5b5ecc9393554fc5",
+          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B2"
         }
       ]
@@ -45,13 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
-          "blob_sha": "1179d41421309b96bf897cefd0fe3d28c0abf047",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md",
-          "blob_sha": "103e9d89a49cbc4f7b92ff2e5b5ecc9393554fc5",
+          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B3"
         }
       ]
@@ -60,13 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
-          "blob_sha": "1179d41421309b96bf897cefd0fe3d28c0abf047",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md",
-          "blob_sha": "103e9d89a49cbc4f7b92ff2e5b5ecc9393554fc5",
+          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B4"
         }
       ]
@@ -75,19 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_WORK_OFFLINE_A5_REVIEW_APPLY_ACTIVITY_B1_B5_20261112.md",
-          "blob_sha": "1179d41421309b96bf897cefd0fe3d28c0abf047",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_WORK_A5_OFFLINE_READY_REVALIDATION_20261112.md",
-          "blob_sha": "103e9d89a49cbc4f7b92ff2e5b5ecc9393554fc5",
+          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
+          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_ANDROID_API35",
-    "B7": "PASS_SCOPED_OFFLINE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
@@ -101,11 +75,11 @@
       }
     ]
   },
-  "why": "Both authorized mission units B7 PASS scoped: IME Android2/2 and A5 offline same-root Android4/4; A5 permit consumed, not an active functional authorization.",
-  "how": "No repeat of certified tests. Read B7 closure, artifact verification and acceptance matrix. X03 live Groq and G15 physical are outside this completed mission; any future functional unit needs its own B1-B5 and READY.",
+  "why": "U02 isolation only after preaudit guard43341306829 SUCCESS; U01 policy and U03 global remain blocked",
+  "how": "Exact four-path preflight then new identity/consent tests API35; no historical suite rerun or HTTP",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A5_OFFLINE_B7_PASS_SCOPED_PERMIT_CONSUMED_MISSION_COMPLETE",
+  "blocked_reason": null,
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_B7_PASS_SCOPED_20261112.md"
+  "closure_document": null
 }
