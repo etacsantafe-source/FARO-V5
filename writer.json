@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.S3.FINAL.U00_U05.20261112",
   "token_hash": "19b7ec61f4c956372a984130547a2049176e3e6d0e2c066a5d0e5b2e82879237",
-  "target_head": "43740e810db13174eb60dccfbe847efe2a3bdd48",
+  "target_head": "eb057a166e5d0e6fd4c62daadfb3c6f0ebc1c4ab",
   "target_branch": "work/s3-night-20261102",
   "epoch": 854,
-  "timestamp": 1794532790,
+  "timestamp": 1794532796,
   "scope": "DOC_ONLY_U02_B7_RED_FIX2_ANDROID_NULLABLE_TEST_METADATA",
-  "last_checkpoint": "43740e810db13174eb60dccfbe847efe2a3bdd48"
+  "last_checkpoint": "eb057a166e5d0e6fd4c62daadfb3c6f0ebc1c4ab"
 }
