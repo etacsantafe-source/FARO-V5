@@ -1,0 +1,139 @@
+name: FARO S3 final distinct IA app API35
+on:
+  workflow_dispatch:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/build.gradle.kts
+      - v5/app/src/x03AiDev/AndroidManifest.xml
+      - v5/app/src/x03AndroidTest/**
+      - .github/workflows/faro-v5-s3-final-distinct-ia-app-directed.yml
+permissions:
+  contents: read
+concurrency:
+  group: faro-s3-final-distinct-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  distinct-ia-api35:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare SDK37
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile only distinct delta tests and identity comparison APKs
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          COMMON=(--no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Pkotlin.compiler.execution.strategy=in-process '-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8')
+          timeout --signal=TERM --kill-after=30s 1800 ./gradlew "${COMMON[@]}" -PfaroX03AndroidTest=true :app:assembleX03AiDev :app:assembleX03AiDevAndroidTest
+          timeout --signal=TERM --kill-after=30s 1800 ./gradlew "${COMMON[@]}" -PfaroP6PhysicalApplicationId=ar.com.faro.alpha.s2isolated :app:assembleDebug
+          timeout --signal=TERM --kill-after=30s 1800 ./gradlew "${COMMON[@]}" :app:assembleV2CoreDev
+      - name: Verify exact APK manifests permissions signer and hashes
+        run: |
+          set -euo pipefail
+          mkdir -p s3-final-evidence
+          ANALYZER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name apkanalyzer -print -quit)"
+          SIGNER="$ANDROID_HOME/build-tools/36.0.0/apksigner"
+          for KIND in x03AiDev debug v2CoreDev; do
+            APK="$(find "v5/app/build/outputs/apk/$KIND" -maxdepth 1 -name '*.apk' -print -quit)"
+            test -n "$APK"
+            "$ANALYZER" manifest print "$APK" > "s3-final-evidence/$KIND-manifest.xml"
+            "$SIGNER" verify --print-certs "$APK" > "s3-final-evidence/$KIND-signer.txt"
+            sha256sum "$APK" >> s3-final-evidence/apk-sha256.txt
+          done
+          TEST="$(find v5/app/build/outputs/apk/androidTest/x03AiDev -name '*.apk' -print -quit)"
+          "$ANALYZER" manifest print "$TEST" > s3-final-evidence/test-manifest.xml
+          "$SIGNER" verify --print-certs "$TEST" > s3-final-evidence/test-signer.txt
+          sha256sum "$TEST" >> s3-final-evidence/apk-sha256.txt
+          echo '${{ github.sha }}' > s3-final-evidence/source-sha.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as E
+          base=Path('s3-final-evidence'); a='{http://schemas.android.com/apk/res/android}'
+          x=E.parse(base/'x03AiDev-manifest.xml').getroot(); app=x.find('application')
+          assert x.get('package')=='ar.com.faro.alpha.x03aidev'
+          assert x.get(a+'sharedUserId') is None
+          assert app.get(a+'name')=='android.app.Application'
+          assert app.get(a+'allowBackup')=='false' and app.get(a+'debuggable')=='true'
+          assert not any(app.findall(n) for n in ('provider','service','receiver','activity-alias'))
+          activities={v.get(a+'name'):v for v in app.findall('activity')}
+          expected={'ar.com.faro.v5.app.FaroV5X03U02IsolatedAiActivity','ar.com.faro.v5.app.FaroV5AiSettingsActivity'}
+          assert set(activities)==expected, set(activities)
+          assert activities['ar.com.faro.v5.app.FaroV5AiSettingsActivity'].get(a+'exported')=='false'
+          launcher=activities['ar.com.faro.v5.app.FaroV5X03U02IsolatedAiActivity']
+          assert launcher.get(a+'exported')=='true' and launcher.get(a+'windowSoftInputMode') in ('adjustResize','0x10','0x00000010')
+          launchers=[v for v in app.findall('activity') if any(c.get(a+'name')=='android.intent.category.LAUNCHER' for c in v.findall('intent-filter/category'))]
+          assert len(launchers)==1
+          assert {p.get(a+'name') for p in x.findall('uses-permission')}=={'android.permission.INTERNET','ar.com.faro.alpha.x03aidev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'}
+          assert E.parse(base/'debug-manifest.xml').getroot().get('package')=='ar.com.faro.alpha.s2isolated.v5dev'
+          dev=E.parse(base/'v2CoreDev-manifest.xml').getroot()
+          assert dev.get('package')=='ar.com.faro.alpha.v2coredev'
+          assert 'android.permission.INTERNET' not in {p.get(a+'name') for p in dev.findall('uses-permission')}
+          test=E.parse(base/'test-manifest.xml').getroot()
+          assert test.find('instrumentation').get(a+'targetPackage')==x.get('package')
+          print('S3_FINAL_DISTINCT_BINARY_IDENTITY_PASS')
+          PY
+      - name: Enable KVM
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Verify coinstallation separate UID and two new admission tests without network
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: |
+            bash -euo pipefail -c 'adb install v5/app/build/outputs/apk/debug/app-debug.apk; adb shell run-as ar.com.faro.alpha.s2isolated.v5dev mkdir -p files; printf S2_UNCHANGED | adb shell run-as ar.com.faro.alpha.s2isolated.v5dev tee files/s3-final-s2-sentinel; adb install v5/app/build/outputs/apk/x03AiDev/app-x03AiDev.apk; adb install v5/app/build/outputs/apk/androidTest/x03AiDev/app-x03AiDev-androidTest.apk; adb shell svc wifi disable; adb shell svc data disable; adb shell pm list packages -U > s3-final-evidence/packages-uids.txt; adb shell am instrument -w -r -e class ar.com.faro.v5.app.FaroV5S3FinalDistinctAppUiTest ar.com.faro.alpha.x03aidev.test/androidx.test.runner.AndroidJUnitRunner > s3-final-evidence/instrumentation.log 2>&1; cat s3-final-evidence/instrumentation.log; adb shell run-as ar.com.faro.alpha.s2isolated.v5dev cat files/s3-final-s2-sentinel > s3-final-evidence/s2-sentinel-after.txt'
+      - name: Independently validate exact events UID and JUnit XML
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import xml.etree.ElementTree as E
+          p=Path('s3-final-evidence'); log=(p/'instrumentation.log').read_text()
+          assert 'OK (2 tests)' in log and 'INSTRUMENTATION_CODE: -1' in log
+          expected={'distinctPackageHasMinimalApplicationAndPrivateComponents','distinctAppStartsWithoutRemoteConsentAndNeverRestoresFreeGrant'}
+          events=[]; name=None
+          for line in log.splitlines():
+              if line.startswith('INSTRUMENTATION_STATUS: test='): name=line.split('=',1)[1]
+              if line.startswith('INSTRUMENTATION_STATUS_CODE:'):
+                  events.append((name,int(line.split(':',1)[1]))); name=None
+          assert sorted(events)==sorted((n,c) for n in expected for c in (1,0)),events
+          uids=dict(re.findall(r'package:(\S+) uid:(\d+)',(p/'packages-uids.txt').read_text()))
+          assert uids['ar.com.faro.alpha.x03aidev']!=uids['ar.com.faro.alpha.s2isolated.v5dev']
+          assert (p/'s2-sentinel-after.txt').read_text().strip()=='S2_UNCHANGED'
+          suite=E.Element('testsuite',name='S3_FINAL_DISTINCT_IA_API35',tests='2',failures='0',errors='0',skipped='0')
+          for n in sorted(expected): E.SubElement(suite,'testcase',classname='FaroV5S3FinalDistinctAppUiTest',name=n)
+          E.ElementTree(suite).write(p/'junit.xml',encoding='utf-8',xml_declaration=True)
+          print('S3_FINAL_DISTINCT_IA_XML_UID_SENTINEL_PASS 2/2')
+          PY
+      - name: Deliver application only and traceable evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-s3-ia-isolated-app-${{ github.sha }}
+          path: |
+            v5/app/build/outputs/apk/x03AiDev/*.apk
+            s3-final-evidence/**
+          if-no-files-found: error
+      - name: Preserve test APK separately never install on G15
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-s3-ia-isolated-androidTest-CI-ONLY-${{ github.sha }}
+          path: v5/app/build/outputs/apk/androidTest/x03AiDev/*.apk
+          if-no-files-found: warn

@@ -31,6 +31,18 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/g5AndroidTest")
     }
 
+    // Explicit test opt-in selects only the new package's two delta tests.
+    if (providers.gradleProperty("faroX03AndroidTest").orNull == "true") {
+        check(providers.gradleProperty("faroG5AndroidTestV2CoreDev").orNull != "true" &&
+            listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId,
+                s0PhysicalApplicationId, s1A5PhysicalApplicationId,
+                s1A6PhysicalApplicationId).isEmpty()) {
+            "X03 tests cannot combine G5 or historical physical application IDs"
+        }
+        testBuildType = "x03AiDev"
+        sourceSets.getByName("androidTest").setRoot("src/x03AndroidTest")
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(
@@ -89,6 +101,17 @@ android {
         matchingFallbacks += listOf("debug")
         manifestPlaceholders["faroAppLabel"] = "FARO V2 CORE DEV"
     }
+
+    // A distinct UID/Keystore for X03; never replaces the S2 debug package.
+    buildTypes.create("x03AiDev") {
+        initWith(buildTypes.getByName("debug"))
+        applicationIdSuffix = ".x03aidev"
+        versionNameSuffix = "-x03aidev"
+        matchingFallbacks += listOf("debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO S3 IA AISLADA"
+    }
+    // Share existing audited host implementation, never the debug manifest.
+    sourceSets.getByName("x03AiDev").java.srcDir("src/debug/kotlin")
 
     buildFeatures {
         resValues = true
