@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 859
+    "expected_release_epoch": 860
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "U01 human product policy decision from U04 guide, then new bounded B1-B5/READY only if needed; user-only G15 H01-H08 and Free/Groq/local key. U02 distinct APK B7 scoped verified, do not repeat 2/2 or historical X01-X12. S3 OPEN; productive V2/S4/Auto/Noche OFF.",
+  "next": "After G15 human PASS H01/H02/H04, auto H05 technical and X03 distinct launch, STOP repetitions. U01 local read-policy HUMAN APPROVAL still required; U03 needs integrated real provider+policy; H06/07/08 human-gated; H05 visual/TalkBack incomplete. Report docs/s3-night/S3_G15_AUTO_H05_X03_PHYSICAL_USER_EVIDENCE_20261113.md. S3 formal0/5, productive V2/S4/Auto/Noche OFF.",
   "checkpoint_status": "S3_FINAL_U00_DONE_U02_B7_PASS_SCOPED_U01_POLICY_U03_INTEGRATION_U04_HUMAN_PENDING_U05_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -3188,6 +3188,26 @@
     "tests": "2/0/0/0",
     "apk_sha256": "07c70c5c33e8061e3aeecd4ed7903242e2d16857f45e62bb9aae845fba2004b1",
     "certificate_sha256": "cb25feb673b7f9d8cbc9af8f21f7c6997c4f9bc56c3b6914f651a01db572688d",
-    "writer_release_epoch": 859
+    "writer_release_epoch": 859,
+    "g15_user_physical_20261113": {
+      "status": "PARTIAL_USER_REPORTED_NEEDS_HUMAN",
+      "document": "docs/s3-night/S3_G15_AUTO_H05_X03_PHYSICAL_USER_EVIDENCE_20261113.md",
+      "local_evidence": "/data/data/com.termux/files/home/faro-g15-isolated/s3-auto-20261112-235937",
+      "chat": "PASS_REPORTED_H01",
+      "bookmarks": "PASS_REPORTED_H02",
+      "search": "PASS_REPORTED_H04",
+      "h05": "PASS_TECHNICAL_HOME_RELAUNCH_FONT_200_VISUAL_NOT_VERIFIED",
+      "x03": "PASS_TECHNICAL_UID_AND_LAUNCH_ONLY",
+      "human_remaining": [
+        "H03_A4_POLICY",
+        "H05_TALKBACK_IF_REQUIRED",
+        "H06_GROQ_FREE_CONSENT_REMOTE",
+        "H07_INFLIGHT_REVOKE",
+        "H08_REVIEW_APPLY_INTEGRATION"
+      ],
+      "notification": "TERMUX_API_UNCONFIRMED",
+      "script_final": "PARCIAL_OK_REQUIERE_HUMANO",
+      "battery_reported": "5_PERCENT_AC_CHARGING"
+    }
   }
 }
