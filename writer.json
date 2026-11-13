@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.S3.FINAL.U00_U05.20261112",
   "token_hash": "19b7ec61f4c956372a984130547a2049176e3e6d0e2c066a5d0e5b2e82879237",
-  "target_head": "8a6f49257e0dbc3cbb210119380f2cce527482d8",
+  "target_head": "43740e810db13174eb60dccfbe847efe2a3bdd48",
   "target_branch": "work/s3-night-20261102",
   "epoch": 853,
-  "timestamp": 1794532341,
+  "timestamp": 1794532346,
   "scope": "B6_U02_KOTLIN_SOURCESET_REDFIX_PREFLIGHT_GUARD43343019346",
-  "last_checkpoint": "8a6f49257e0dbc3cbb210119380f2cce527482d8"
+  "last_checkpoint": "43740e810db13174eb60dccfbe847efe2a3bdd48"
 }
