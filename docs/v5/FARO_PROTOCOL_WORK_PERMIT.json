@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
   "reviewed_head": "03fcfcdfe043d24cf2b7f8d3d07c66e4bb435924",
   "paths": [
@@ -107,7 +107,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "WAIT_ANDROID_API35_43344576978",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -122,11 +122,11 @@
       }
     ]
   },
-  "why": "RED_FIX2 require metadata, guard43344240881 SUCCESS",
-  "how": "Only requireNotNull metadata arrays, unchanged identity and consent assertions",
+  "why": "Redfix2 test correction published; consume READY immediately before CI completes",
+  "how": "Wait exact source e6c90fbec03da1f214e140777fcadfb248559544; no further functional scope",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "U02_CODE_E6C90FBE_PUBLISHED_WAIT_ANDROID_43344576978_B7",
   "needs_prep_document": null,
   "closure_document": null
 }

@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 850
+    "expected_release_epoch": 858
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "U02 CI43342015516/B7 exact SHA; U01 product policy requires explicit human decision; U03 only allowed independent work, no global closure; U04 guide ready. No Termux UI/Groq credentials/production/S4/Auto/Noche.",
+  "next": "Wait exact U02 Android43344576978 sourcee6c90fbe; audit artifact independently, no historical rerun; then B7/U05 checkpoint. U01 human policy/U03 dependencies/U04 human still pending.",
   "checkpoint_status": "S3_FINAL_U00_DONE_U02_WAIT_CI_U01_POLICY_BLOCKED_U04_GUIDE_READY_GLOBAL_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -2187,8 +2187,8 @@
   "goal_id": "S3.A5.7",
   "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
   "block_id": 6,
-  "block_status": "WAIT_CI",
-  "expected_head": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+  "block_status": "WAIT_CI_AND_HUMAN_POLICY",
+  "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
   "blocker": null,
   "writer_release_epoch": 788,
   "last_observed_at": "2026-11-11",
@@ -2451,7 +2451,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "35ea27e171a48a53ec38dadb73dc1f582ac46c12",
+  "checkpoint_code_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_THIS_POINTER_AND_B7; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
@@ -3157,11 +3157,11 @@
     "no_functional_code_changed": true
   },
   "s3_final_execution": {
-    "status": "WAIT_U02_ANDROID_CI_HUMAN_POLICY_AND_PHYSICAL_PENDING",
+    "status": "U02_REDFIX2_WAIT_CI_OLD_ARTIFACTS_REJECTED",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
-    "source_sha": "eb6c61e9cabd1cb20317b5ce96386004c73c9a20",
-    "android_run": 43342015516,
-    "code_guard": 43342015370,
+    "source_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
+    "android_run": 43344576978,
+    "code_guard": 43344576823,
     "preaudit_guard": 43341306829,
     "permit_guard": 43341499041,
     "preaudit": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
@@ -3180,6 +3180,7 @@
     "formal_closed": "0/5",
     "physical": "NOT_ACCESSED",
     "termux_ui": "FORBIDDEN",
-    "note": "A2 means Busqueda, not Chat; the local-chat wording in initial U00 row is narrower supporting evidence and does not redefine the backlog."
+    "note": "A2 means Busqueda, not Chat; the local-chat wording in initial U00 row is narrower supporting evidence and does not redefine the backlog.",
+    "redfix2": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md"
   }
 }
