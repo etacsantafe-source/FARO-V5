@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.S3.FINAL.U00_U05.20261112",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S3.G15.AUTO_PHYSICAL_RESULT.DOC_20261113",
   "token_hash": "19b7ec61f4c956372a984130547a2049176e3e6d0e2c066a5d0e5b2e82879237",
   "target_head": "a2485de80adb61b3a040b44cf644f78472115efe",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 859,
-  "timestamp": 1794533663,
-  "scope": "DOC_ONLY_U02_B7_VERIFIED_ARTIFACT_U05_GLOBAL_OPEN_FINAL_CHECKPOINT",
+  "epoch": 860,
+  "timestamp": 1794539037,
+  "scope": "DOC_ONLY_S3_G15_USER_REPORTED_PHYSICAL_EVIDENCE",
   "last_checkpoint": "a2485de80adb61b3a040b44cf644f78472115efe"
 }
