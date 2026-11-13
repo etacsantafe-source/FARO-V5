@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3.FINAL_ACCEPTANCE_WORK_HANDOFF.20261112",
   "token_hash": "09c81525b07406d3f6d432d37ec81283aac8e20c66d6ddec9c6be79a649c15e1",
-  "target_head": "c8dacbe08b753881364fee30bc36ad01bfd04852",
+  "target_head": "3b97da5b7a2916189ab17d6ca4b26992b50f05cb",
   "target_branch": "work/s3-night-20261102",
   "epoch": 846,
-  "timestamp": 1794529200,
+  "timestamp": 1794531093,
   "scope": "DOC_ONLY_S3_FINAL_ACCEPTANCE_WORK_HANDOFF_NO_FUNCTIONAL_PERMIT",
-  "last_checkpoint": "c8dacbe08b753881364fee30bc36ad01bfd04852"
+  "last_checkpoint": "3b97da5b7a2916189ab17d6ca4b26992b50f05cb"
 }
