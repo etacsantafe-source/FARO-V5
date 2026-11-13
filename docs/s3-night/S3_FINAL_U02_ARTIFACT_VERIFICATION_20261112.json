@@ -1,0 +1,21 @@
+{
+  "source_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
+  "zip_sha256": "fd4b3c9b58a882e9a48c7ea2ff0a79fddc36cc86c4a0e49a58e6837989c0e50d",
+  "app_apk": "v5/app/build/outputs/apk/x03AiDev/app-x03AiDev.apk",
+  "apk_sha256": "07c70c5c33e8061e3aeecd4ed7903242e2d16857f45e62bb9aae845fba2004b1",
+  "certificate_sha256": "cb25feb673b7f9d8cbc9af8f21f7c6997c4f9bc56c3b6914f651a01db572688d",
+  "tests": "2/0/0/0",
+  "xml_events": "exact start+success per expected name",
+  "uids": {
+    "ar.com.faro.alpha.x03aidev": "10210",
+    "ar.com.faro.alpha.s2isolated.v5dev": "10209"
+  },
+  "s2_sentinel": "UNCHANGED",
+  "binary_manifests": "VERIFIED",
+  "groq_http": "NOT_RUN",
+  "g15": "NOT_ACCESSED",
+  "android_run": 43344576978,
+  "artifact_id": 14001167133,
+  "guard_run": 43344576823,
+  "b7_scope": "DISTINCT_APP_IDENTITY_ADMISSION_ONLY"
+}

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "id": "S3_FINAL_ACCEPTANCE_WORK_TURBO_20261112",
-  "mode": "DOCUMENTATION_HANDOFF_NO_CODE_PERMIT",
+  "mode": "PARTIALLY_EXECUTED_VERIFIED_U02_GLOBAL_OPEN",
   "baseline_head": "c8dacbe08b753881364fee30bc36ad01bfd04852",
   "branch": "work/s3-night-20261102",
   "repo": "etacsantafe-source/FARO-V5",
@@ -53,34 +53,40 @@
     {
       "unit": "U00_S3_GATE_RECONCILE",
       "mode": "READ_ONLY",
-      "permitted": true
+      "permitted": true,
+      "execution_status": "DONE_READ_ONLY_DELTA_RECONCILED"
     },
     {
       "unit": "U01_A4_REAL_AUTH_POLICY_AND_HOST",
       "mode": "B1_B5_ONLY_INITIAL",
       "needs": "HUMAN_DECISION_IF_MONOUSER_LOCAL_POLICY_NOT_APPROVED",
-      "functional_permit": "BLOCKED"
+      "functional_permit": "BLOCKED",
+      "execution_status": "BLOCKED_NEEDS_HUMAN_POLICY_DECISION"
     },
     {
       "unit": "U02_X03_DISTINCT_APP_AND_GROQ",
       "mode": "B1_B5_ONLY_INITIAL",
       "needs": "DISTINCT_APP_ID_APP_UID_ANDROID_KEYSTORE_FREE_HUMAN_CONSENT",
-      "functional_permit": "BLOCKED"
+      "functional_permit": "BLOCKED_CONSUMED_B7_PASS_SCOPED",
+      "execution_status": "B7_PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35"
     },
     {
       "unit": "U03_A5_DELTA_INTEGRATION",
       "mode": "CONDITIONAL_B1_B7_NEW_SCOPE_ONLY",
-      "functional_permit": "BLOCKED"
+      "functional_permit": "BLOCKED",
+      "execution_status": "BLOCKED_POLICY_AND_LIVE_PROVIDER_INTEGRATION_DEPENDENCIES_4_4_OFFLINE_REUSED"
     },
     {
       "unit": "U04_G15_MINIMAL_HUMAN_ACCEPTANCE",
       "mode": "USER_ONLY_NO_UI_ROBOT",
-      "functional_permit": "NOT_APPLICABLE"
+      "functional_permit": "NOT_APPLICABLE",
+      "execution_status": "GUIDE_H01_H08_READY_USER_ONLY_NOT_RUN_H03_CONDITIONAL"
     },
     {
       "unit": "U05_S3_FINAL_B7",
       "mode": "AUDIT_AND_CHECKPOINT",
-      "global_pass_requires": "ALL_MATERIAL_ACCEPTANCE_GATES_VERIFIED"
+      "global_pass_requires": "ALL_MATERIAL_ACCEPTANCE_GATES_VERIFIED",
+      "execution_status": "FINAL_PARTIAL_AUDIT_DONE_S3_GLOBAL_OPEN"
     }
   ],
   "physical_current": {
@@ -107,11 +113,11 @@
   ],
   "next": "START_WORK_MODE_WITH_HANDOFF_DOCUMENT; RECOVER_HEAD_AND_WRITER; U00_READ_ONLY; U01_U02_B1_B5_AND_NEW_INDIVIDUAL_PERMITS_ONLY_WHEN_VERIFIED",
   "execution": {
-    "status": "WAIT_U02_ANDROID_CI_HUMAN_POLICY_AND_PHYSICAL_PENDING",
+    "status": "U02_B7_PASS_SCOPED_U05_GLOBAL_OPEN_HUMAN_POLICY_AND_ACCEPTANCE_PENDING",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
-    "source_sha": "eb6c61e9cabd1cb20317b5ce96386004c73c9a20",
-    "android_run": 43342015516,
-    "code_guard": 43342015370,
+    "source_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
+    "android_run": 43344576978,
+    "code_guard": 43344576823,
     "preaudit_guard": 43341306829,
     "permit_guard": 43341499041,
     "preaudit": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
@@ -119,10 +125,10 @@
     "units": {
       "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
       "U01": "BLOCKED_NEEDS_HUMAN_POLICY_DECISION",
-      "U02": "B6_WAIT_CI",
-      "U03": "BLOCKED_U01_AND_LIVE_INTEGRATION_DEPENDENCIES_EXISTING_OFFLINE_4_4_REUSED",
-      "U04": "GUIDE_PREPARED_HUMAN_NOT_RUN",
-      "U05": "GLOBAL_OPEN_PENDING_MATERIAL_ACCEPTANCE"
+      "U02": "B7_PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35",
+      "U03": "BLOCKED_POLICY_AND_LIVE_PROVIDER_INTEGRATION_DEPENDENCIES_4_4_OFFLINE_REUSED",
+      "U04": "GUIDE_H01_H08_READY_USER_ONLY_NOT_RUN_H03_CONDITIONAL",
+      "U05": "FINAL_PARTIAL_AUDIT_DONE_S3_GLOBAL_OPEN"
     },
     "app_package": "ar.com.faro.alpha.x03aidev",
     "groq_live": "NOT_RUN_USER_ONLY_FREE_AND_CONSENT",
@@ -130,6 +136,14 @@
     "formal_closed": "0/5",
     "physical": "NOT_ACCESSED",
     "termux_ui": "FORBIDDEN",
-    "note": "A2 means Busqueda, not Chat; the local-chat wording in initial U00 row is narrower supporting evidence and does not redefine the backlog."
+    "note": "A2 means Busqueda, not Chat; the local-chat wording in initial U00 row is narrower supporting evidence and does not redefine the backlog.",
+    "redfix2": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
+    "artifact_id": 14001167133,
+    "verification": "docs/s3-night/S3_FINAL_U02_ARTIFACT_VERIFICATION_20261112.json",
+    "b7_document": "docs/s3-night/S3_FINAL_U02_B7_PASS_SCOPED_AND_U05_OPEN_20261112.md",
+    "tests": "2/0/0/0",
+    "apk_sha256": "07c70c5c33e8061e3aeecd4ed7903242e2d16857f45e62bb9aae845fba2004b1",
+    "certificate_sha256": "cb25feb673b7f9d8cbc9af8f21f7c6997c4f9bc56c3b6914f651a01db572688d",
+    "writer_release_epoch": 859
   }
 }

@@ -107,26 +107,26 @@
         }
       ]
     },
-    "B6": "WAIT_ANDROID_API35_43344576978",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_ANDROID_API35",
+    "B7": "PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION"
   },
   "last_code_review": {
-    "sha": "43740e810db13174eb60dccfbe847efe2a3bdd48",
+    "sha": "e6c90fbec03da1f214e140777fcadfb248559544",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
-        "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
+        "path": "docs/s3-night/S3_FINAL_U02_B7_PASS_SCOPED_AND_U05_OPEN_20261112.md",
+        "blob_sha": "eb5c33b568d63b18492292b16098a9ef56160905",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Redfix2 test correction published; consume READY immediately before CI completes",
-  "how": "Wait exact source e6c90fbec03da1f214e140777fcadfb248559544; no further functional scope",
+  "why": "U02 B7 PASS scoped, permit consumed; global U01/U03/human gates remain open",
+  "how": "Read final B7 and human guide. No new functional authorization; A4 policy decision and future own preaudit required",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "U02_CODE_E6C90FBE_PUBLISHED_WAIT_ANDROID_43344576978_B7",
+  "blocked_reason": "U02_B7_PASS_SCOPED_CONSUMED_GLOBAL_HUMAN_POLICY_PENDING",
   "needs_prep_document": null,
-  "closure_document": null
+  "closure_document": "docs/s3-night/S3_FINAL_U02_B7_PASS_SCOPED_AND_U05_OPEN_20261112.md"
 }

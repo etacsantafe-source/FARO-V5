@@ -1,0 +1,31 @@
+# S3 final — U02 B7 PASS scoped; U05 global OPEN
+Fecha AR 2026-11-12. Unidad S3_FINAL_U02_DISTINCT_IA_APP. Base inicial 3b97da5b7a2916189ab17d6ca4b26992b50f05cb.
+
+## B1–B5 reutilizados y red fix causal
+Preauditoría U00–U03 docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md, guard43341306829 SUCCESS; READY cuatro rutas guard43341499041 SUCCESS. Código original eb6c61e9cabd1cb20317b5ce96386004c73c9a20 falló compilando tests por source Kotlin registrado como Java. B7 RED_FIX causal docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md; guard43342879275 y READY un-path guard43343019346 SUCCESS. No repetir hipótesis fallida; se usó AndroidSourceSet.kotlin oficial AGP9. Artefactos13998974636 y14000563293 RECHAZADOS, nunca entregar. Segundo fallo por nullability del test en43343128100; B1–B5/B7 delta docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md. Guard43344106915 detectó READY consumido aún marcado READY y falló preflight, mientras auditoría histórica/selftests PASS; se corrigió consumiendo permiso y vinculando RED_FIX2 en03fcfcd, guard43344240881 SUCCESS. No se alteró la guardia para ocultar rojo. READY nuevo un-path después de B5 para exigir metadatos presentes sin debilitar aserciones.
+
+## B6
+Código final e6c90fbec03da1f214e140777fcadfb248559544, corrección fail-closed de metadatos nullable en test, previa autorización de la misma unidad; el sourceSet Kotlin quedó corregido en43740e8. La suma de diff funcional desde baseline solo cuatro rutas auditadas. CI Android35 run43344576978 SUCCESS, código guard43344576823 SUCCESS. Se mantienen default/debug/S2/v2CoreDev, manifest y providers de esos hosts; nuevo buildType x03AiDev. No cambios de catálogo180, stores, Activity host certificado, contratos, gateway, settings, main branch ni V4.4. Los workflows automáticos existentes se dispararon por su filtro build.gradle; no dispatch/rerun manual de suites históricas.
+
+## B7 — auditoría independiente del ZIP, no solo estado verde
+Se descargó artefacto14001167133, SHA256 ZIP `fd4b3c9b58a882e9a48c7ea2ff0a79fddc36cc86c4a0e49a58e6837989c0e50d`. Se extrajo sin rutas absolutas/.. y se verificó SHA de source exacto, eventos instrumentación reales (un start1 y success0 para cada nombre, sin extra), final OK2/INSTRUMENTATION_CODE -1 y XML2 tests/0 failures/0 errors/0 skips. Nombres: distinctPackageHasMinimalApplicationAndPrivateComponents y distinctAppStartsWithoutRemoteConsentAndNeverRestoresFreeGrant. Se decodificó además el manifest binario del APK local, se comprobó la definición DEX de X03 y se comparó el certificado DER del bloque APKv2 contra el SHA del firmante. Nunca contar X01–X12 históricos como dos pruebas nuevas.
+- APK aplicación SHA256 `07c70c5c33e8061e3aeecd4ed7903242e2d16857f45e62bb9aae845fba2004b1`; certificado público SHA256 `cb25feb673b7f9d8cbc9af8f21f7c6997c4f9bc56c3b6914f651a01db572688d`. Firma verificada por apksigner en runner; manifest binario impreso y contrastado en ZIP. Este certificado corresponde al APK congelado: otro runner puede generar clave debug distinta; no prometer actualización de firma estable ni publicar clave privada.
+- Paquete `ar.com.faro.alpha.x03aidev`, Application `android.app.Application`, backup false, debuggable true, sin sharedUserId. Solo dos Activities: X03 única exportada/launcher, settings interna. Sin providers/receivers/services/aliases. Permisos exactos INTERNET y permiso AndroidX propio .DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION. No notificaciones, alarmas ni instalación.
+- Coexisten S2 UID10209 y X03 UID10210, distintos; centinela privado S2 intacto y no legible por X03. CORE DEV paquete original sin INTERNET. Test target X03 correcto. Solo APK aplicación en artefacto de entrega; androidTest va separado, nunca G15.
+- Runtime de la nueva variante: Application mínima, componentes privados, sin remote consent inicial, Free no restaurado tras recreate, no host al faltar Free, settings FLAG_SECURE/password sin save/autofill. Red WiFi/datos deshabilitada en emulador, sin credencial y sin HTTP Groq. No garantiza cancelación de HTTP real ni plan Free de cuenta.
+**PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35_2_OF_2**. No PASS integrado Review/Apply en esta nueva variante: 4/4 histórica conserva root/debug y SHA original; no extender su certificación al APK nuevo. Sin instalación ni observación G15 en este turno.
+
+## U00–U05 reconciliación final honesta
+|Unidad|Resultado|Pendiente material|
+|---|---|---|
+|U00|DONE READ_ONLY delta|Ninguno documental; A2 es Búsqueda, no Chat. Corregida interpretación de la fila inicial sin reescribir evidencia histórica.|
+|U01 A4|B1–B5 delta, BLOCKED_POLICY|Aprobación humana de lectura monousuario/local por instalación, gesto foreground, permisos por fuente revocables. El core y montaje DEV anteriores siguen PASS; no hay permiso global productivo.|
+|U02 X03|B7 PASS scoped nuevo APK independiente|Free/cuenta, API key local, consulta y cancelación HTTP reales solo humano.|
+|U03 A5|DELTA RECONCILED, BLOCKED_DEPENDENCIES|4/4 offline existente reutilizado; integración global de política A4 y proveedor/candidato/recibo/Actividad en nueva variante aún no demostrada. No código añadido por inercia.|
+|U04|Guía humana preparada, NOT_RUN|docs/s3-night/S3_FINAL_U04_HUMAN_ACCEPTANCE_20261112.md, H01–H08 con H03 condicionado a nueva política/integración. No repetir negativos ya PASS ni carpetas/teclado.|
+|U05|B7 documental/parcial completo; GLOBAL OPEN|No puede certificar5/5 ni S3 CLOSED mientras U01/U03/humano/provider falten.|
+
+S3 alcance automatizado histórico A1+A2+A4 3/5=60%, formal0/5=0%. Estimación de desarrollo40% histórica no recalculada; ningún porcentaje nuevo inventado. S2 cerrado8/8; V2 productiva/S4/Auto/Noche OFF. Termómetro moderado. Writer liberar epoch859 después de este checkpoint y verificar guard del SHA documental final.
+
+## Próximo paso sin repetir
+Decisión humana A4 especificada en guía; registrar aprobación verificable antes de READY integrador nuevo. Usuario verifica identidad e instala solo aplicación IA entregada; pruebas H01–H08 sin Termux UI. Groq key exclusivamente Android Keystore/Settings y plan Free confirmado por usuario. Una observación N_A/BLOCKED/NOT_OBSERVED no es PASS. No volver a emitir permiso U02 consumido, ni recertificar2/2 sin nuevo delta.
