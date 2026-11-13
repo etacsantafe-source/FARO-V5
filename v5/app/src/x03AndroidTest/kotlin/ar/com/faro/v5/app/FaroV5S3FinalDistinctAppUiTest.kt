@@ -42,15 +42,16 @@ class FaroV5S3FinalDistinctAppUiTest {
         assertTrue(info.providers.isNullOrEmpty())
         assertTrue(info.services.isNullOrEmpty())
         assertTrue(info.receivers.isNullOrEmpty())
+        val activities = requireNotNull(info.activities) { "Activity metadata required" }
         assertEquals(setOf(FaroV5X03U02IsolatedAiActivity::class.java.name,
-            FaroV5AiSettingsActivity::class.java.name), info.activities.map { it.name }.toSet())
-        assertFalse(info.activities.single { it.name == FaroV5AiSettingsActivity::class.java.name }.exported)
+            FaroV5AiSettingsActivity::class.java.name), activities.map { it.name }.toSet())
+        assertFalse(activities.single { it.name == FaroV5AiSettingsActivity::class.java.name }.exported)
         val launch = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setPackage(context.packageName)
         @Suppress("DEPRECATION")
         val launchers = context.packageManager.queryIntentActivities(launch, 0)
         assertEquals(listOf(FaroV5X03U02IsolatedAiActivity::class.java.name), launchers.map { it.activityInfo.name })
         assertEquals(setOf("android.permission.INTERNET", context.packageName + ".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"),
-            info.requestedPermissions.toSet())
+            requireNotNull(info.requestedPermissions) { "Permission metadata required" }.toSet())
         // CI creates this marker using S2's UID before launching instrumentation.
         assertFalse(java.io.File("/data/user/0/ar.com.faro.alpha.s2isolated.v5dev/files/s3-final-s2-sentinel").canRead())
         assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
