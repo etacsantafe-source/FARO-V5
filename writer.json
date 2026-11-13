@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S4.P06.UX_SPEC.DOC.20261113",
   "token_hash": "b76f4562ef93b124ad8766fc0387f4bf1f2482ce4079e9587bbbc20c6304b576",
-  "target_head": "d095782fd32badac1e7a633f19df1151d8709720",
+  "target_head": "6ddf733026662e109471ace2d75744622a5a5e45",
   "target_branch": "work/s3-night-20261102",
   "epoch": 868,
-  "timestamp": 1794579340,
-  "scope": "DOC_ONLY_P06_APPROVED_UX_CHOICES",
-  "last_checkpoint": "d095782fd32badac1e7a633f19df1151d8709720"
+  "timestamp": 1794579922,
+  "scope": "DOC_ONLY_P06_UX_SPEC_PUBLISHED_RELEASED",
+  "last_checkpoint": "6ddf733026662e109471ace2d75744622a5a5e45"
 }
