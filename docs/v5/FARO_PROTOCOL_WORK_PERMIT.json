@@ -1,13 +1,10 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
-  "reviewed_head": "99ee5b376728ceb0dcc8dc4b3b8e7d01ed273437",
+  "reviewed_head": "79514b781bade8d5720ee90a78174e75f00c552b",
   "paths": [
-    "v5/app/build.gradle.kts",
-    "v5/app/src/x03AiDev/AndroidManifest.xml",
-    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalDistinctAppUiTest.kt",
-    ".github/workflows/faro-v5-s3-final-distinct-ia-app-directed.yml"
+    "v5/app/build.gradle.kts"
   ],
   "stages": {
     "B1": {
@@ -16,6 +13,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
           "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
+          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
           "marker": "## B1"
         }
       ]
@@ -27,6 +29,11 @@
           "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
           "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
+          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
+          "marker": "## B2"
         }
       ]
     },
@@ -36,6 +43,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
           "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
+          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
           "marker": "## B3"
         }
       ]
@@ -47,6 +59,11 @@
           "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
           "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
+          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
+          "marker": "## B4"
         }
       ]
     },
@@ -57,29 +74,34 @@
           "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
           "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
+          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "WAIT_ANDROID_API35_43342015516",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
-    "unit_id": "S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_SINGLE_ROOT",
-    "result": "PASS",
+    "sha": "eb6c61e9cabd1cb20317b5ce96386004c73c9a20",
+    "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_A5_OFFLINE_REVIEW_APPLY_ACTIVITY_B7_PASS_SCOPED_20261112.md",
-        "blob_sha": "be7fc2026598f81704026e17eeced5f0b63555ca",
+        "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
+        "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
         "marker": "## B7"
       }
     ]
   },
-  "why": "U02 four-path code committed; permit consumed; no further functional write until B7",
-  "how": "Wait run43342015516 exact eb6c61e9cabd1cb20317b5ce96386004c73c9a20; U01 policy and U03 integration blocked",
+  "why": "RED_FIX AGP9 Kotlin root, one path after guard43342879275 SUCCESS",
+  "how": "Replace java.srcDir with kotlin.srcDir only; preserve tests and identity checks",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "U02_CODE_PUBLISHED_WAIT_EXACT_ANDROID_CI_AND_B7",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
