@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-12",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_FINAL_ACCEPTANCE_WORK_TURBO_PREPARED_DOC_ONLY",
+  "phase": "S3_PAUSED_S4_PREPARATION_P02_READ_ONLY_READY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 860
+    "expected_release_epoch": 861
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "After G15 human PASS H01/H02/H04, auto H05 technical and X03 distinct launch, STOP repetitions. U01 local read-policy HUMAN APPROVAL still required; U03 needs integrated real provider+policy; H06/07/08 human-gated; H05 visual/TalkBack incomplete. Report docs/s3-night/S3_G15_AUTO_H05_X03_PHYSICAL_USER_EVIDENCE_20261113.md. S3 formal0/5, productive V2/S4/Auto/Noche OFF.",
+  "next": "USER 2026-11-13 APPROVED S3.A4 local single-install private read policy with explicit foreground/per-source revocable grants; PRODUCT POLICY DECISION approved, code/integration NOT approved or implemented. S3 PAUSED no Wi-Fi, S3 formal0/5; resume S3 U01 B1-B5/permit then U03 and human H03/H05/H06-H08 later. S4 FORMAL OFF; continue S4 PREPARATION P02 historical V4.4 READ_ONLY audit in new chat. See docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md.",
   "checkpoint_status": "S3_FINAL_U00_DONE_U02_B7_PASS_SCOPED_U01_POLICY_U03_INTEGRATION_U04_HUMAN_PENDING_U05_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -3091,7 +3091,7 @@
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P01_CLOSED_P02_NOT_STARTED_AWAIT_USER_INSTRUCTION",
+    "next_task": "P02_V44_READ_ONLY_AUDIT_READY_START_NEW_CHAT",
     "sequence": [
       "P00",
       "P01",
@@ -3138,6 +3138,13 @@
       "writer_release_epoch": 845,
       "next_task": "P02_V44_READ_ONLY_AUDIT_NOT_STARTED",
       "closure": "B1_TO_B5_DOCUMENTED_B6_PUBLISHED_B7_REMOTE_GATE"
+    },
+    "p02": {
+      "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
+      "goal": "V4.4 LEGACY CAPABILITY AND UX AUDIT",
+      "source_repository": "etacsantafe-source/FARO",
+      "mode": "READ_ONLY_NO_S4_OPEN",
+      "doc": "docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md"
     }
   },
   "s3_final_completion_handoff": {
@@ -3168,7 +3175,7 @@
     "human_guide": "docs/s3-night/S3_FINAL_U04_HUMAN_ACCEPTANCE_20261112.md",
     "units": {
       "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
-      "U01": "BLOCKED_NEEDS_HUMAN_POLICY_DECISION",
+      "U01": "HUMAN_POLICY_APPROVED_B1_B5_DELTA_AND_INTEGRATION_STILL_REQUIRED",
       "U02": "B7_PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35",
       "U03": "BLOCKED_POLICY_AND_LIVE_PROVIDER_INTEGRATION_DEPENDENCIES_4_4_OFFLINE_REUSED",
       "U04": "GUIDE_H01_H08_READY_USER_ONLY_NOT_RUN_H03_CONDITIONAL",
@@ -3209,5 +3216,41 @@
       "script_final": "PARCIAL_OK_REQUIERE_HUMANO",
       "battery_reported": "5_PERCENT_AC_CHARGING"
     }
+  },
+  "s3_a4_local_read_policy_approval": {
+    "status": "HUMAN_APPROVED_POLICY_ONLY",
+    "source": "USER_EXPLICIT_AUTHORIZATION_2026_11_13",
+    "doc": "docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md",
+    "policy_scope": "SINGLE_LOCAL_INSTALL_PRIVATE_DATA_FOREGROUND_EXPLICIT_PER_SOURCE_REVOKABLE_FAIL_CLOSED",
+    "not_approved": [
+      "CODE_READY",
+      "V2_PRODUCTION",
+      "REMOTE_EGRESS",
+      "APPLY_WRITE",
+      "IDENTITY_FROM_UID",
+      "CROSS_PROFILE",
+      "NETWORK_SYNC"
+    ],
+    "implementation": "NOT_STARTED_NEW_B1_B5_REQUIRED",
+    "a4_global": "OPEN"
+  },
+  "s3_pause_20261113": {
+    "status": "PAUSED_BY_USER_NO_WIFI",
+    "document": "docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md",
+    "physical_tests": "STOP_NO_TERMUX_REQUIRED",
+    "open_human_tests": [
+      "H03_AFTER_A4_INTEGRATION",
+      "H05_VISUAL_TALKBACK",
+      "H06_GROQ_FREE_CONSENT",
+      "H07_REMOTE_REVOKE",
+      "H08_REVIEW_APPLY"
+    ],
+    "resume_order": [
+      "S3_U01_A4_B1_B5_DELTA",
+      "S3_U03_A5_INTEGRATION",
+      "G15_HUMAN_REMAINING",
+      "U05_ACCEPTANCE"
+    ],
+    "no_automatic_background_execution": true
   }
 }
