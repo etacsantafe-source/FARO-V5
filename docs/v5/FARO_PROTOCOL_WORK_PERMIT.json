@@ -2,13 +2,8 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
-  "reviewed_head": "c4435c6b251914e76fb0258451b8af229b87eb3a",
+  "reviewed_head": "d5df49830da2f928d7444ca9c0a232bee165b881",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5NativeScreenInsets.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05NativeInsetsUiTest.kt",
-    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05X03InsetsUiTest.kt",
     ".github/workflows/faro-v5-s3-final-h05-insets-directed.yml"
   ],
   "stages": {
@@ -18,6 +13,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
           "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
+          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
           "marker": "## B1"
         }
       ]
@@ -29,6 +29,11 @@
           "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
           "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
+          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
+          "marker": "## B2"
         }
       ]
     },
@@ -38,6 +43,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
           "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
+          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
           "marker": "## B3"
         }
       ]
@@ -49,6 +59,11 @@
           "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
           "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
+          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
+          "marker": "## B4"
         }
       ]
     },
@@ -59,6 +74,11 @@
           "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
           "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
+          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
+          "marker": "## B5"
         }
       ]
     },
@@ -66,18 +86,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e6c90fbec03da1f214e140777fcadfb248559544",
-    "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
-    "result": "PASS",
+    "sha": "0cfaca114139c273ba94b3e9535912932e7a7a41",
+    "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_U02_B7_PASS_SCOPED_AND_U05_OPEN_20261112.md",
-        "blob_sha": "eb5c33b568d63b18492292b16098a9ef56160905",
+        "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
+        "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
         "marker": "## B7"
       }
     ]
   },
-  "why": "User mission; bounded native inset delta, preaudit guard43531737641 SUCCESS",
+  "why": "H05 exact offline permission assertion correction; B7 RED_FIX; guard red only missing updated disposition fixed here",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
