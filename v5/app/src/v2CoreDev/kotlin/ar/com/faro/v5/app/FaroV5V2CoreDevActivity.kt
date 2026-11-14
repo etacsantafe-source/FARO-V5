@@ -126,6 +126,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         }
         column.addView(upgradeButton)
         setContentView(ScrollView(this).apply {
+            FaroV5NativeScreenInsets.protect(this)
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -302,6 +303,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             }
         })
         setContentView(ScrollView(this).apply {
+            FaroV5NativeScreenInsets.protect(this)
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -368,6 +370,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             }
         })
         setContentView(ScrollView(this).apply {
+            FaroV5NativeScreenInsets.protect(this)
             addView(column, ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,
             ))
@@ -410,7 +413,10 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                                 bookmarkSourceTarget = target,
                             )
                         } catch (_: Exception) {
-                            setContentView(TextView(this).apply { text = "No disponible. Volvé al inicio DEV." })
+                            setContentView(TextView(this).apply {
+                                text = "No disponible. Volvé al inicio DEV."
+                                FaroV5NativeScreenInsets.protect(this)
+                            })
                         }
                     }
                 }

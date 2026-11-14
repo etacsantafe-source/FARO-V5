@@ -109,7 +109,10 @@ class FaroV5X03U02IsolatedAiActivity : ComponentActivity() {
             text = "Abrir Chat y Actividad offline"
             setOnClickListener { startChat(offline = true, requestActivityRead = true) }
         })
-        setContentView(ScrollView(this).apply { addView(column) })
+        setContentView(ScrollView(this).apply {
+            FaroV5NativeScreenInsets.protect(this)
+            addView(column)
+        })
     }
 
     private fun startChat(offline: Boolean = false, requestActivityRead: Boolean = false) {
