@@ -1,28 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
-  "reviewed_head": "03fcfcdfe043d24cf2b7f8d3d07c66e4bb435924",
+  "status": "READY",
+  "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
+  "reviewed_head": "c4435c6b251914e76fb0258451b8af229b87eb3a",
   "paths": [
-    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalDistinctAppUiTest.kt"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5NativeScreenInsets.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/debug/kotlin/ar/com/faro/v5/app/FaroV5X03U02IsolatedAiActivity.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05NativeInsetsUiTest.kt",
+    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05X03InsetsUiTest.kt",
+    ".github/workflows/faro-v5-s3-final-h05-insets-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
-          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
-          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
-          "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
+          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
+          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B1"
         }
       ]
@@ -31,18 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
-          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
-          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
-          "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
+          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
+          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B2"
         }
       ]
@@ -51,18 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
-          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
-          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
-          "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
+          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
+          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B3"
         }
       ]
@@ -71,18 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
-          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
-          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
-          "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
+          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
+          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B4"
         }
       ]
@@ -91,24 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_U00_U03_DELTA_PREAUDIT_20261112.md",
-          "blob_sha": "96083a7d8254066b9dcfbf6826e33da7035a6125",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX_20261112.md",
-          "blob_sha": "a7b8e66137fa78ad1a34b4b6a60f5af76f46baca",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_U02_B7_RED_FIX2_NULLABILITY_20261112.md",
-          "blob_sha": "1739b7ec08e557484e981625efe9ed3b819bb51f",
+          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
+          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_ANDROID_API35",
-    "B7": "PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e6c90fbec03da1f214e140777fcadfb248559544",
@@ -122,11 +77,11 @@
       }
     ]
   },
-  "why": "U02 B7 PASS scoped, permit consumed; global U01/U03/human gates remain open",
-  "how": "Read final B7 and human guide. No new functional authorization; A4 policy decision and future own preaudit required",
+  "why": "User mission; bounded native inset delta, preaudit guard43531737641 SUCCESS",
+  "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "U02_B7_PASS_SCOPED_CONSUMED_GLOBAL_HUMAN_POLICY_PENDING",
+  "blocked_reason": null,
   "needs_prep_document": null,
-  "closure_document": "docs/s3-night/S3_FINAL_U02_B7_PASS_SCOPED_AND_U05_OPEN_20261112.md"
+  "closure_document": null
 }
