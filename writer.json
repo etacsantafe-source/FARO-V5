@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
+  "status": "HELD",
   "owner": "FARO.WORK.S3.FINAL.20261113",
   "token_hash": "0b92c5746cb87a1e31b6bd54c9090bec92fd610312059d55179b75f71b4ba6fc",
-  "target_head": "ab5918e5de25e9d1f0b1d695bcda1f63e656baf0",
+  "target_head": "6c799f6026395e9461e5aed72e7fe39b097f7914",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 885,
-  "timestamp": 1794616658,
-  "scope": "A4_OPENING_POINTER_B6_THREE_PATHS",
+  "epoch": 886,
+  "timestamp": 1794616924,
+  "scope": "S3_ACTIVE_POINTER_A5_ADMISSION_REFINEMENT_DOC",
   "last_checkpoint": "6c799f6026395e9461e5aed72e7fe39b097f7914"
 }
