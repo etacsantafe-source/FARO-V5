@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
   "reviewed_head": "30bc0deffc9f358c7c6f97fc7a47f3960658fd47",
   "paths": [
@@ -132,7 +132,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -147,11 +147,11 @@
       }
     ]
   },
-  "why": "Environment restored; exact B1-B5 proof blobs and native lifecycle source revalidated. Renew only previously preaudited actual-native-Session fixture correction.",
+  "why": "Exact one-path READY consumed by 356312bccf9b9332f0b5158ad48d3db854420f08; no further functional commit before actual A4 B7 disposition",
   "how": "preflight the single exact authorized test path; no product edits",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "A4_NATIVE_SESSION_IMPLEMENTED_ANDROID_WAIT_CI_B7_PENDING",
   "needs_prep_document": null,
   "closure_document": null
 }
