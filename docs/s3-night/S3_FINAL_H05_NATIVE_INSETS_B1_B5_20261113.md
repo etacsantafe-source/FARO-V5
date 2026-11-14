@@ -1,0 +1,24 @@
+# S3 FINAL H05 — native screens / Android 15 / font 200%
+Base: 452efa574736623b17e94172425ab7f914dc271e. Unit S3_FINAL_H05_NATIVE_INSETS. S3 only; no physical execution or provider call.
+
+## B1
+HEAD equals user checkpoint; writer acquired with CAS epoch871 after RELEASED870. Permit consumed BLOCKED. Native CORE DEV admission, pending and bookmarks use ScrollView with fixed child padding but no system window insets. X03 admission has the same omission. API35+target36 enforces edge-to-edge; user reports title/status-bar and bottom/navigation overlap at 200%. Existing IME correction is Compose-owned, not these native admission views. Do not modify Compose/adjustResize or rerun X01-X12.
+A4 inspection: existing Session.openActivityAfterTrustedForegroundRequest mounts canonical Reality+Workspace; openAvisos mounts Auxiliary; openPending mounts N031 three-owner Reality8. Separate domains, pointer checks, per-request epochs and pause revocation exist. Policy approved 13/11, no new human decision. Reuse X01/X02, N031, local-read core and X08 evidence; not proof of these features in X03.
+A5: X03 same-root offline Review/Apply/receipt bridge exists, but Search/Guardados/Avisos/Pendientes not mounted in this variant. Consequently PROGRAMACION_S3_COMPLETA_VERIFICADA cannot be claimed from separate CORE DEV evidence.
+
+## B2
+Reuse native ScrollViews and Android framework WindowInsets (minSdk29); no library or owner. V4.4 drawer/Compose history already evaluated; this delta is target35 edge-to-edge behavior, not a V4.4 feature to port. Preserve original labels/actions/foreground gates and five owners. Only CORE DEV and X03 native screens call helper; settings and shipping remain unchanged in this unit. Existing Compose IME bounds suite remains historical evidence because no Compose or window soft-input changes are made.
+
+## B3
+Primary sources consulted 13/11/2026:
+- https://developer.android.com/develop/ui/views/layout/edge-to-edge : systemBars and displayCutout padding for custom native containers; no new dependency, Android SDK terms. ADAPT framework equivalent on API29+.
+- https://developer.android.com/codelabs/edge-to-edge : SociaLite real Android sample, custom containers require inset handling; REFERENCIA, do not copy app/framework.
+- https://github.com/android/nowinandroid/discussions/296 : real app's safeDrawing pattern, Apache2 project; REFERENCIA only, Compose consumption differs from native Views.
+Alternatives: fixed dp padding DESCARTAR (device/font/navigation dependent); disabling edge-to-edge DESCARTAR (target behavior and future compatibility); changing Compose shell DESCARTAR (wrong layer, IME regression risk); native system/cutout listener ELEGIR (API29 framework, no dependencies). Preserve bottom IME handling by existing adjustResize; native helper excludes Type.ime. Return original insets for descendants, use captured base padding to avoid accumulation. Large fonts keep system SP scaling and unbounded multiline text inside ScrollView.
+
+## B4
+Paths bounded: new v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5NativeScreenInsets.kt; CORE DEV Activity; X03 Activity; new v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05NativeInsetsUiTest.kt; new v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05X03InsetsUiTest.kt; new .github/workflows/faro-v5-s3-final-h05-insets-directed.yml.
+Helper applies bars+cutout insets to scroll viewport without changing child padding or font scale. CORE DEV all native pages including unavailable fallback; X03 admission only. API35 emulator font_scale=2.0 before launch; verify title top and final button after scroll inside actual safe rectangle, all controls accessible and multiline text not ellipsized; repeat insets application cannot accumulate padding; screenshots with source SHA and JUnit derived from actual named instrumentation events. Build exact application and test APK separately for both packages. No HTTP/credential fixtures, no G15.
+
+## B5
+Fail preflight without separate READY commit. Preserve IDs, signing defaults, manifest/permissions, flags and old callbacks. Do not substitute screenshot for geometry assertions, or count truncated invisible content as pass: last control must scroll fully above navigation bar, touch target >=48dp. Screenshots only synthetic admissions; app has no user data. No padding on decorView/Compose (avoids inherited double inset). Test failure => RED_FIX with logs before more functional commit. APK from another runner has different debug signer: never recommend update/uninstall to bypass mismatch; deliver identities/cert and disclose installation compatibility not yet established. Work cannot recover old private signing key, must not fetch one. Final audit by independent artifact/diff examination, not self-declared test pass. B7 PENDING.
