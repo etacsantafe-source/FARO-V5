@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
   "reviewed_head": "21f83732504baba53003417e95a7841c106a8a2c",
   "paths": [
@@ -111,22 +111,22 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0a69df9b8bc9086f2964f07de8b053f8a23148db",
+    "sha": "e1888ed1b444ba6761855f42200cd09b6c77a026",
     "unit_id": "S3_FINAL_A4_OPENING_POINTER",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
-        "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
+        "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+        "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A4 test direct lifecycle from current onActivity before each boundary; preaudit guard43537662497 SUCCESS",
+  "why": "A4 test exercised detached Session; use real native-owned Session with same strict assertions",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "A4_NATIVE_SESSION_FIXTURE_REQUIRES_READY",
   "needs_prep_document": null,
   "closure_document": null
 }
