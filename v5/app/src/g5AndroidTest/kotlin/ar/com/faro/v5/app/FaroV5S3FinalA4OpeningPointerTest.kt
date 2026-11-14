@@ -1,6 +1,10 @@
 package ar.com.faro.v5.app
 
 import android.app.Application
+import android.os.SystemClock
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -12,7 +16,6 @@ import ar.com.faro.v5.owner.reminders.api.*
 import ar.com.faro.v5.owner.monthlyplan.api.*
 import ar.com.faro.v5.store.reality.RealityPlanningBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityStore
-import java.nio.file.Files
 import java.time.*
 import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.runBlocking
@@ -29,7 +32,8 @@ class FaroV5S3FinalA4OpeningPointerTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("ar.com.faro.alpha.v2coredev", context.packageName)
         val app = context.applicationContext as Application
-        val root = Files.createTempDirectory(context.cacheDir.toPath(), "a4-final-real-")
+        val root = context.noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root")
+        check(!root.toFile().exists()) { "Fresh emulator root required; never reset existing data" }
         val zone = ZoneId.of("America/Argentina/Cordoba")
         val now = Instant.now()
         val tomorrow = now.atZone(zone).toLocalDate().plusDays(1)
@@ -58,13 +62,33 @@ class FaroV5S3FinalA4OpeningPointerTest {
             }
             ActivityScenario.launch(FaroV5V2CoreDevActivity::class.java).use { scenario ->
                 val nativeLifecycle = AtomicReference<Lifecycle>()
+                val nativeSession = AtomicReference<FaroV5V2CoreDevAuthority.Session>()
                 val resumed = { nativeLifecycle.get()?.currentState?.isAtLeast(Lifecycle.State.RESUMED) == true }
                 scenario.onActivity { a ->
                     assertEquals(Lifecycle.State.RESUMED, a.lifecycle.currentState)
                     nativeLifecycle.set(a.lifecycle)
+                    fun find(view: View): Button? {
+                        if (view is Button && view.text.toString() == "Abrir Chat local de desarrollo") return view
+                        if (view is ViewGroup) for (i in 0 until view.childCount) {
+                            find(view.getChildAt(i))?.let { return it }
+                        }
+                        return null
+                    }
+                    val open = checkNotNull(find(a.window.decorView))
+                    assertTrue(open.isEnabled)
+                    assertTrue(open.performClick())
                 }
+                val deadline = SystemClock.elapsedRealtime() + 60_000L
+                while (nativeSession.get() == null && SystemClock.elapsedRealtime() < deadline) {
+                    scenario.onActivity { a ->
+                        nativeSession.set(a.javaClass.getDeclaredField("session").apply { isAccessible = true }
+                            .get(a) as FaroV5V2CoreDevAuthority.Session?)
+                    }
+                    if (nativeSession.get() == null) SystemClock.sleep(50L)
+                }
+                val session = checkNotNull(nativeSession.get()) { "Native Activity never published its Session" }
                 assertTrue(resumed())
-                authority.open().use { session ->
+                run {
                     val history = checkNotNull(session.openActivityAfterTrustedForegroundRequest(app) { resumed() })
                     val dues = checkNotNull(session.openPendingAfterTrustedForegroundRequest(app) { resumed() })
                     assertNotNull(runBlocking { history.readActivity() })
@@ -89,8 +113,17 @@ class FaroV5S3FinalA4OpeningPointerTest {
                     assertTrue(resumed())
                     assertNull("Old history authority cannot resurrect", runBlocking { history.readActivity() })
                     assertNull("Old due authority cannot resurrect", dues.readAuthorized(now, zone))
+                    val freshHistory = checkNotNull(session.openActivityAfterTrustedForegroundRequest(app) { resumed() })
+                    val freshDues = checkNotNull(session.openPendingAfterTrustedForegroundRequest(app) { resumed() })
+                    assertNotNull(runBlocking { freshHistory.readActivity() })
+                    val freshPositive = checkNotNull(freshDues.readAuthorized(now, zone))
+                    assertEquals(positive.items.map { it.source }.toSet(), freshPositive.items.map { it.source }.toSet())
+                    assertEquals(3, freshPositive.items.size)
+                    assertFalse(freshPositive.globalAttentionComplete)
                     session.revokeActivityReadingOnPause()
                     session.revokePendingReadingOnPause()
+                    assertNull(runBlocking { freshHistory.readActivity() })
+                    assertNull(freshDues.readAuthorized(now, zone))
                     val b = StorageGenerationId("a4-other-generation")
                     assertNotNull(pointer.compareAndSet(pinned.generationId, b))
                     val restored = checkNotNull(pointer.compareAndSet(b, pinned.generationId))
