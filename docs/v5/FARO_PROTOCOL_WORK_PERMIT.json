@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
   "reviewed_head": "8cb8b2f6dfc6489c55ccc720db21f40dc203d588",
   "paths": [
@@ -83,7 +83,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -98,8 +98,9 @@
       }
     ]
   },
-  "why": "Only test receipt synchronization and workflow live screenshot; rerun two failed cases; product code unchanged",
+  "why": "Exact two-path RED_FIX consumed by a555d4d299b74b69c3c458a27d802e9d6ec24c25; only two pending groups rerun; product unchanged",
   "how": "Preflight all eleven exact paths. Reuse canonical graph and algorithms; separate app and API35 local delta tests; no provider, secrets or G15.",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "A5_TEST_ACKNOWLEDGMENT_RED_FIX_WAIT_CI"
 }
