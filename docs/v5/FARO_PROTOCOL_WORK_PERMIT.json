@@ -97,7 +97,7 @@
       }
     ]
   },
-  "why": "H05 code published, Android CI/B7 pending; A4 preaudit does not grant code",
+  "why": "H05 RED_FIX2 observed scroll/frame sampling; no functional READY",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,

@@ -1,0 +1,14 @@
+# H05 — B7 RED_FIX2: observe settled native frames
+Unit S3_FINAL_H05_NATIVE_INSETS. Previous workflow fix source e8e472fe42a015cc92a50c7b2d84c726aa4a838e. No final Android PASS.
+## B1
+Run43532156707 source0cfaca114139c273ba94b3e9535912932e7a7a41: both variants compiled. CORE DEV stopped at the known exact permission assertion, corrected separately. X03 passed identity/signature checks and ran the new named test; title/safe-area, fontScale2 and nonaccumulating padding assertions passed, but final button rect was103px of236px, test failure. APK/evidence artifact14088296618 downloaded and inspected: title.png is still a blank first frame, no visual acceptance. ZIP SHA256 ab64581966c723fa850120754cc1019a92c2f5349986455eb9b17bd7f4c5e97a. Runner named event=-2, no XML fabricated.
+## B2
+The native test calls fullScroll with default smooth scrolling and immediately samples after waitForIdleSync. This drains the message queue, not future animation/vsync. Reuse app helper unchanged until settled geometry is observed. No inferred app PASS or code defect beyond observed clipping. Existing IME tests untouched.
+## B3
+https://developer.android.com/reference/android/widget/ScrollView documents fullScroll and setSmoothScrollingEnabled (arrow transition animation). https://developer.android.com/reference/android/view/View#postOnAnimation(java.lang.Runnable) supplies frame scheduling. ADAPT bounded double-vsync latch plus UIAutomation.waitForIdle to ensure capture after rendering; disable smooth animation in TEST only. Alternatives arbitrary sleep DESCARTAR (race), weakening visible-height assertion DESCARTAR, changing app layout without settled evidence DESCARTAR. Android framework/no dependency or license change.
+## B4
+Only the two new H05 test files: wait for two actual animation frames and accessibility idle before captures/checks, disable smooth fullScroll in test, preserve original full-height/system-bar/48dp assertions. Both tests same settling bug; final test still fails if last control cannot actually fit after scrolling. No application/workflow/permission changes. The already-queued corrected-manifest run may reproduce old test failure; its result is diagnostic, not certified.
+## B5
+No extended font/layout bounds, skipped assertions, success manufactured from screenshots, or force-hiding system bars. UIAutomation waits bounded15s, test thread only, no blocking UI looper. Named successful instrumentation events required. Captures must visually contain actual UI before acceptance. First two failures of scroll timing hypothesis require review of captured geometry and framework implementation, not repeated CI by inertia.
+## B7
+RED_FIX previous e8e472fe42a015cc92a50c7b2d84c726aa4a838e for test settling; final acceptance pending. Separate path-bounded READY, preflight and CAS before correction.
