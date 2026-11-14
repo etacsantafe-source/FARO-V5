@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
-  "reviewed_head": "74b1605c38dd86ad9e7c6f54e0676316698ce452",
+  "reviewed_head": "21f83732504baba53003417e95a7841c106a8a2c",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt"
   ],
@@ -19,6 +19,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
           "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
           "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
+          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
+          "marker": "## B1"
         }
       ]
     },
@@ -33,6 +38,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
           "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
+          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
           "marker": "## B2"
         }
       ]
@@ -49,6 +59,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
           "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
           "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
+          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
+          "marker": "## B3"
         }
       ]
     },
@@ -63,6 +78,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
           "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
+          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
           "marker": "## B4"
         }
       ]
@@ -79,10 +99,15 @@
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
           "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
+          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_WAIT_ANDROID",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -97,11 +122,11 @@
       }
     ]
   },
-  "why": "A4 real source positives+pause observed, cached observer failed resume assertion; direct native lifecycle predicate required",
+  "why": "A4 test direct lifecycle from current onActivity before each boundary; preaudit guard43537662497 SUCCESS",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A4_TEST_LIFECYCLE_OBSERVATION_FIX_REQUIRES_READY",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
