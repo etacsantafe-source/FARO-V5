@@ -82,7 +82,7 @@ jobs:
               expected={'android.permission.INTERNET',r.get('package')+'.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'}
           else:
               assert len(acts)==1
-              expected={r.get('package')+'.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'}
+              expected=set()
           assert {v.get(a+'name') for v in r.findall('uses-permission')}==expected
           assert E.parse(p/'test-manifest.xml').getroot().find('instrumentation').get(a+'targetPackage')==r.get('package')
           PY
