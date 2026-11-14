@@ -1,0 +1,131 @@
+name: FARO S3 A4 original pointer grant boundary API35
+on:
+  workflow_dispatch:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt
+      - v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt
+      - .github/workflows/faro-v5-s3-final-a4-opening-pointer-directed.yml
+permissions:
+  contents: read
+concurrency:
+  group: s3-a4-opening-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  original-pointer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: v2CoreDev
+            task: V2CoreDev
+            flag: faroG5AndroidTestV2CoreDev
+            package: ar.com.faro.alpha.v2coredev
+            test: FaroV5S3FinalA4OpeningPointerTest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare SDK37
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Compile application and test separately
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 1800 ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Pkotlin.compiler.execution.strategy=in-process '-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8' -P${{ matrix.flag }}=true :app:assemble${{ matrix.task }} :app:assemble${{ matrix.task }}AndroidTest
+      - name: Verify manifest identity signer and hashes
+        env:
+          VARIANT: ${{ matrix.variant }}
+          EXPECTED_PACKAGE: ${{ matrix.package }}
+        run: |
+          set -euo pipefail
+          mkdir -p a4-evidence
+          APP="$(find v5/app/build/outputs/apk/$VARIANT -maxdepth 1 -name '*.apk' -print -quit)"
+          TEST="$(find v5/app/build/outputs/apk/androidTest/$VARIANT -name '*.apk' -print -quit)"
+          ANALYZER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -name apkanalyzer -print -quit)"
+          "$ANALYZER" manifest print "$APP" > a4-evidence/app-manifest.xml
+          "$ANALYZER" manifest print "$TEST" > a4-evidence/test-manifest.xml
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$APP" > a4-evidence/app-signer.txt
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$TEST" > a4-evidence/test-signer.txt
+          sha256sum "$APP" "$TEST" > a4-evidence/sha256.txt
+          echo '${{ github.sha }}' > a4-evidence/source-sha.txt
+          python3 - <<'PY'
+          import os,xml.etree.ElementTree as E
+          from pathlib import Path
+          a='{http://schemas.android.com/apk/res/android}'; p=Path('a4-evidence')
+          r=E.parse(p/'app-manifest.xml').getroot(); app=r.find('application')
+          assert r.get('package')==os.environ['EXPECTED_PACKAGE']
+          assert r.get(a+'sharedUserId') is None and app.get(a+'allowBackup')=='false'
+          assert app.get(a+'debuggable')=='true'
+          assert not any(app.findall(t) for t in ['service','receiver','provider','activity-alias'])
+          acts=app.findall('activity'); launch=[v for v in acts if v.get(a+'exported')=='true']
+          assert len(launch)==1
+          if os.environ['VARIANT']=='x03AiDev':
+              assert len(acts)==2 and app.get(a+'name')=='android.app.Application'
+              expected={'android.permission.INTERNET',r.get('package')+'.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'}
+          else:
+              assert len(acts)==1
+              expected=set()
+          assert {v.get(a+'name') for v in r.findall('uses-permission')}==expected
+          assert E.parse(p/'test-manifest.xml').getroot().find('instrumentation').get(a+'targetPackage')==r.get('package')
+          PY
+      - name: Enable KVM
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: API35 real local read and original pointer without network
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: |
+            bash -euo pipefail -c 'adb install v5/app/build/outputs/apk/${{ matrix.variant }}/app-${{ matrix.variant }}.apk; adb install v5/app/build/outputs/apk/androidTest/${{ matrix.variant }}/app-${{ matrix.variant }}-androidTest.apk; adb shell svc wifi disable; adb shell svc data disable; adb shell am instrument -w -r -e class ar.com.faro.v5.app.${{ matrix.test }} ${{ matrix.package }}.test/androidx.test.runner.AndroidJUnitRunner > a4-evidence/instrumentation.log 2>&1; cat a4-evidence/instrumentation.log'
+      - name: Verify actual named events and XML
+        env:
+          CLASS_NAME: ${{ matrix.test }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,xml.etree.ElementTree as E
+          p=Path('a4-evidence'); log=(p/'instrumentation.log').read_text()
+          assert 'OK (1 test)' in log and 'INSTRUMENTATION_CODE: -1' in log
+          events=[]; name=None
+          for l in log.splitlines():
+              if l.startswith('INSTRUMENTATION_STATUS: test='): name=l.split('=',1)[1]
+              if l.startswith('INSTRUMENTATION_STATUS_CODE:'):
+                  events.append((name,int(l.split(':',1)[1]))); name=None
+          n='realForegroundThreeOwnerReadRevokesAndStaleSessionCannotRegrantAfterAba'
+          assert sorted(events)==sorted([(n,1),(n,0)]),events
+          s=E.Element('testsuite',name='S3_A4_ORIGINAL_POINTER_API35',tests='1',failures='0',errors='0',skipped='0')
+          E.SubElement(s,'testcase',classname=os.environ['CLASS_NAME'],name=n)
+          E.ElementTree(s).write(p/'junit.xml',encoding='utf-8',xml_declaration=True)
+          PY
+      - name: Application and evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-s3-a4-opening-${{ matrix.variant }}-${{ github.sha }}
+          path: |
+            v5/app/build/outputs/apk/${{ matrix.variant }}/*.apk
+            a4-evidence/**
+          if-no-files-found: error
+      - name: CI test APK separate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-s3-a4-opening-${{ matrix.variant }}-androidTest-CI-ONLY-${{ github.sha }}
+          path: v5/app/build/outputs/apk/androidTest/${{ matrix.variant }}/*.apk
+          if-no-files-found: warn

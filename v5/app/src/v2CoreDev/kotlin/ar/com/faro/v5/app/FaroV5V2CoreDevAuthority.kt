@@ -460,7 +460,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
             val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
-            if (pinned.generationId.value != graph.generationId) return null
+            if (pinned != openingPointer || pinned.generationId.value != graph.generationId) return null
             val workspace = graph.workspace ?: return null
             val epoch = UUID.randomUUID().toString()
             val hostReady: () -> Boolean = {
@@ -717,7 +717,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
             val pinned = runCatching { pointer.read() }.getOrNull() ?: return null
-            if (pinned.generationId.value != graph.generationId) return null
+            if (pinned != openingPointer || pinned.generationId.value != graph.generationId) return null
             val epoch = UUID.randomUUID().toString()
             val hostReady: () -> Boolean = {
                 alive.get() && runCatching {
