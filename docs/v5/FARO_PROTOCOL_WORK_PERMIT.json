@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
   "reviewed_head": "ae2ad7cd5839ddb9de393c36c42160aa78cdb9a2",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "DONE_WAIT_ANDROID",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,11 +74,11 @@
       }
     ]
   },
-  "why": "A4 approved local policy; exact new grant ABA and three-source actual lifecycle fixture; preaudit guard43535088589 SUCCESS",
+  "why": "A4 exact pointer code published; Android/B7 pending; independent A5 B1-B5 refinement only",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "A4_WAIT_ANDROID_B7_BEFORE_A5",
   "needs_prep_document": null,
   "closure_document": null
 }

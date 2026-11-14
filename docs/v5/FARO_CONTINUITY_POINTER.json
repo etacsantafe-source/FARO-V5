@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-13",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_PAUSED_S4_PREPARATION_P08_READ_ONLY_READY",
+  "phase": "S3_ACTIVE_FINAL_PROGRAMMING_H05_PASS_A4_WAIT_CI_A5_PREAUDITED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 870
+    "expected_release_epoch": 886
   },
   "automation": {
     "activation_authorized": false,
@@ -43,7 +43,7 @@
   "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3 PAUSED BY HUMAN, local A4 policy approved only as product decision, no implementation; S3 formal 0/5, no Groq/physical now. S4 FORMAL OFF; P00/P01/P02/P03 DONE_VERIFIED_DOC_SCOPE, next P04 BENCHMARK DELTA READ_ONLY, not started. P03 matrix V4.4 L01-L20 -> V5 V01-V30, capability tests T01-T20, no code; P05/P06/P07 contract/UX/owners pending human approval. No paid APIs, V2 productive OFF.",
+  "next": "USER_WORK_MISSION_20261113: finish S3 programming only. H05 API35 font200 native CORE+X03 PASS scoped2/2 run43533538841 code061f7192b47afa58ee10435551baaa6971a71577. A4 opening-pointer delta code6c799f6026395e9461e5aed72e7fe39b097f7914 run43535432782 WAIT_CI. Then bounded A5 integrated DEV same-root host preaudit, new distinct package to avoid incompatible signer/uninstall. S4 P00-P07 frozen; P08/programming OFF. No provider/G15/Auto/Night.",
   "checkpoint_status": "S3_FINAL_U00_DONE_U02_B7_PASS_SCOPED_U01_POLICY_U03_INTEGRATION_U04_HUMAN_PENDING_U05_OPEN",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -3401,7 +3401,7 @@
     "a4_global": "OPEN"
   },
   "s3_pause_20261113": {
-    "status": "PAUSED_BY_USER_NO_WIFI",
+    "status": "RESUMED_EXPLICIT_USER_WORK_MISSION_S3_ONLY",
     "document": "docs/v5/FARO_S3_A4_LOCAL_READ_USER_APPROVED_S4_P02_PAUSE_20261113.md",
     "physical_tests": "STOP_NO_TERMUX_REQUIRED",
     "open_human_tests": [
@@ -3418,5 +3418,23 @@
       "U05_ACCEPTANCE"
     ],
     "no_automatic_background_execution": true
+  },
+  "s3_final_programming_20261113": {
+    "status": "IN_PROGRESS_NOT_COMPLETE",
+    "h05": "B7_PASS_SCOPED_2_OF_2_API35_FONT200",
+    "h05_evidence": "docs/s3-night/S3_FINAL_H05_ARTIFACT_VERIFICATION_20261113.json",
+    "a4": "WAIT_ANDROID_B7_ORIGINAL_POINTER_DELTA",
+    "a4_code": "6c799f6026395e9461e5aed72e7fe39b097f7914",
+    "a4_run": 43535432782,
+    "a4_preaudit": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
+    "a5": "PREAUDITED_NO_READY_NOT_IMPLEMENTED",
+    "a5_preaudit": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
+    "proposed_integrated_package": "ar.com.faro.alpha.s3integrateddev",
+    "x09_code_0cf_retry": "43532156573_ATTEMPT2_SUCCESS",
+    "s3_formal_closed": "0/5",
+    "productive_v2": false,
+    "s4_programming": false,
+    "physical": "USER_ONLY_NOT_ACCESSED",
+    "groq": "USER_ONLY_NOT_RUN"
   }
 }
