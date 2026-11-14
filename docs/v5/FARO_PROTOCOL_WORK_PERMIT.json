@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
   "reviewed_head": "7055223b7cd47ca5b41406f2dbfb405aba8a843a",
   "paths": [
@@ -67,7 +67,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "IMPLEMENTED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -82,8 +82,9 @@
       }
     ]
   },
-  "why": "Exact eleven-path same-root integrated DEV composition after A4 B7 verified; no global permission",
+  "why": "Exact eleven-path READY consumed by 285372f60ce303322ee943b48cd363cc4ee12bb2; waiting directed API35 integration and B7",
   "how": "Preflight all eleven exact paths. Reuse canonical graph and algorithms; separate app and API35 local delta tests; no provider, secrets or G15.",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "INTEGRATED_DEV_ANDROID_WAIT_CI_NOT_YET_CERTIFIED"
 }
