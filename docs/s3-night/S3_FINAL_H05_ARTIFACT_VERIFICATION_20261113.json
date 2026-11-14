@@ -1,0 +1,57 @@
+{
+  "unit": "S3_FINAL_H05_NATIVE_INSETS",
+  "source_sha": "061f7192b47afa58ee10435551baaa6971a71577",
+  "run": 43533538841,
+  "guard": 43533538873,
+  "variants": {
+    "core": {
+      "apk_sha256": "b56fa3b243af37825928a53d326e9d671d168e0a93fd5cad1703b00dc84fd539",
+      "apk_bytes": 63278287,
+      "package": "ar.com.faro.alpha.v2coredev",
+      "permissions": [],
+      "xml": "1/0/0/0",
+      "events": [
+        [
+          "font200NativeTitleAndLastControlStayInsideSystemBars",
+          1
+        ],
+        [
+          "font200NativeTitleAndLastControlStayInsideSystemBars",
+          0
+        ]
+      ],
+      "zip_sha256": "d80771761494eb322a6d24a2b7e3b9baa3fe463104c0d0d2f08ff6c6ade8f3c6",
+      "signer_runner_verified": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 8328d4311c52babd2050fd6361563c0b9d680574d666d9a754ac5fedaac3bfb2\nSigner #1 certificate SHA-1 digest: 6836a18642fcc47f612d46acaf0cb76742d16a01\nSigner #1 certificate MD5 digest: 446eb206b3c802f08cf718337ea1c06b\n",
+      "screenshots_inspected": [
+        "title.png",
+        "bottom.png"
+      ]
+    },
+    "x03": {
+      "apk_sha256": "c8fbcf9eacf3d36d5b78d9d5321b09427dc5c092b521a1a6d3f9a2eb7a2cab66",
+      "apk_bytes": 63278359,
+      "package": "ar.com.faro.alpha.x03aidev",
+      "permissions": [
+        "android.permission.INTERNET",
+        "ar.com.faro.alpha.x03aidev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+      ],
+      "xml": "1/0/0/0",
+      "events": [
+        [
+          "font200NativeTitleAndLastControlStayInsideSystemBars",
+          1
+        ],
+        [
+          "font200NativeTitleAndLastControlStayInsideSystemBars",
+          0
+        ]
+      ],
+      "zip_sha256": "f1ae9de5719383f732d5f5c5aeed84eb16590244649f107ea9786d0dcc8ea849",
+      "signer_runner_verified": "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 53e175b72d69bf41af9332902f004094572c55791cb1300d21ef08acb80031ea\nSigner #1 certificate SHA-1 digest: ba2303b8bab4e7967b06031156ab6f4cdfb337c5\nSigner #1 certificate MD5 digest: 56c7572bfa79f19042556f183c685440\n",
+      "screenshots_inspected": [
+        "title.png",
+        "bottom.png"
+      ]
+    }
+  }
+}

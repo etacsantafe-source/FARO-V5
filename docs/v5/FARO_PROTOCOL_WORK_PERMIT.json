@@ -108,26 +108,26 @@
         }
       ]
     },
-    "B6": "DONE_WAIT_ANDROID",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED_ANDROID_API35",
+    "B7": "PASS_SCOPED_NATIVE_SAFE_AREA_FONT200"
   },
   "last_code_review": {
-    "sha": "e8e472fe42a015cc92a50c7b2d84c726aa4a838e",
+    "sha": "061f7192b47afa58ee10435551baaa6971a71577",
     "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
-        "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+        "path": "docs/s3-night/S3_FINAL_H05_B7_PASS_SCOPED_20261113.md",
+        "blob_sha": "38b93df15c04eddf28a233b5c2ee1c30912b4e7b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "H05 frame correction published; final Android/B7 pending; A5 preaudit is not code authorization",
+  "why": "H05 B7 PASS scoped consumed; A4 preaudit ready for independent permit, X09 retry pending",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "H05_WAIT_ANDROID_B7_BEFORE_NEXT_UNIT",
+  "blocked_reason": "H05_CONSUMED_NEW_UNIT_PERMIT_REQUIRED",
   "needs_prep_document": null,
   "closure_document": null
 }
