@@ -2,7 +2,6 @@ package ar.com.faro.v5.app
 
 import android.app.Application
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -15,7 +14,7 @@ import ar.com.faro.v5.store.reality.RealityPlanningBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityStore
 import java.nio.file.Files
 import java.time.*
-import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
@@ -58,16 +57,16 @@ class FaroV5S3FinalA4OpeningPointerTest {
                 }
             }
             ActivityScenario.launch(FaroV5V2CoreDevActivity::class.java).use { scenario ->
-                val resumed = AtomicBoolean(false)
+                val nativeLifecycle = AtomicReference<Lifecycle>()
+                val resumed = { nativeLifecycle.get()?.currentState?.isAtLeast(Lifecycle.State.RESUMED) == true }
                 scenario.onActivity { a ->
-                    val observe = LifecycleEventObserver { _, _ -> resumed.set(a.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) }
-                    a.lifecycle.addObserver(observe)
-                    resumed.set(a.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED))
+                    assertEquals(Lifecycle.State.RESUMED, a.lifecycle.currentState)
+                    nativeLifecycle.set(a.lifecycle)
                 }
-                assertTrue(resumed.get())
+                assertTrue(resumed())
                 authority.open().use { session ->
-                    val history = checkNotNull(session.openActivityAfterTrustedForegroundRequest(app) { resumed.get() })
-                    val dues = checkNotNull(session.openPendingAfterTrustedForegroundRequest(app) { resumed.get() })
+                    val history = checkNotNull(session.openActivityAfterTrustedForegroundRequest(app) { resumed() })
+                    val dues = checkNotNull(session.openPendingAfterTrustedForegroundRequest(app) { resumed() })
                     assertNotNull(runBlocking { history.readActivity() })
                     val positive = checkNotNull(dues.readAuthorized(now, zone))
                     assertEquals(setOf(FaroV5N031DueSource.MATTER_DUE, FaroV5N031DueSource.REMINDER_OCCURRENCE,
@@ -75,11 +74,19 @@ class FaroV5S3FinalA4OpeningPointerTest {
                     assertEquals(3, positive.items.size)
                     assertFalse(positive.globalAttentionComplete)
                     scenario.moveToState(Lifecycle.State.STARTED)
-                    assertFalse(resumed.get())
+                    scenario.onActivity { a ->
+                        assertEquals(Lifecycle.State.STARTED, a.lifecycle.currentState)
+                        nativeLifecycle.set(a.lifecycle)
+                    }
+                    assertFalse(resumed())
                     assertNull(runBlocking { history.readActivity() })
                     assertNull(dues.readAuthorized(now, zone))
                     scenario.moveToState(Lifecycle.State.RESUMED)
-                    assertTrue(resumed.get())
+                    scenario.onActivity { a ->
+                        assertEquals(Lifecycle.State.RESUMED, a.lifecycle.currentState)
+                        nativeLifecycle.set(a.lifecycle)
+                    }
+                    assertTrue(resumed())
                     assertNull("Old history authority cannot resurrect", runBlocking { history.readActivity() })
                     assertNull("Old due authority cannot resurrect", dues.readAuthorized(now, zone))
                     session.revokeActivityReadingOnPause()
@@ -89,9 +96,9 @@ class FaroV5S3FinalA4OpeningPointerTest {
                     val restored = checkNotNull(pointer.compareAndSet(b, pinned.generationId))
                     assertTrue(restored.sequence > pinned.sequence)
                     assertNull("Old Session cannot issue a NEW history grant after ABA",
-                        session.openActivityAfterTrustedForegroundRequest(app) { resumed.get() })
+                        session.openActivityAfterTrustedForegroundRequest(app) { resumed() })
                     assertNull("Old Session cannot issue a NEW due grant after ABA",
-                        session.openPendingAfterTrustedForegroundRequest(app) { resumed.get() })
+                        session.openPendingAfterTrustedForegroundRequest(app) { resumed() })
                 }
             }
             assertFalse(FaroV5HostCertification.V2_ACTIVE_ENABLED)
