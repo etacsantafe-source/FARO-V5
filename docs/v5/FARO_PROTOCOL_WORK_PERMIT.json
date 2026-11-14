@@ -86,22 +86,22 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "6c799f6026395e9461e5aed72e7fe39b097f7914",
+    "sha": "0a69df9b8bc9086f2964f07de8b053f8a23148db",
     "unit_id": "S3_FINAL_A4_OPENING_POINTER",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
-        "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
+        "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
+        "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A4 corrected fixture published; Android/B7 pending; no A5 READY yet",
+  "why": "A4 real source positives+pause observed, cached observer failed resume assertion; direct native lifecycle predicate required",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A4_WAIT_ANDROID_B7_BEFORE_A5",
+  "blocked_reason": "A4_TEST_LIFECYCLE_OBSERVATION_FIX_REQUIRES_READY",
   "needs_prep_document": null,
   "closure_document": null
 }
