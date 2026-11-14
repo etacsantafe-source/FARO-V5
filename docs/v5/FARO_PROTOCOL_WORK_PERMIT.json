@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
-  "reviewed_head": "21f83732504baba53003417e95a7841c106a8a2c",
+  "reviewed_head": "fbca318ebb5e02362d582ce16cbc4902d9410e3e",
   "paths": [
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt"
   ],
@@ -24,6 +24,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
           "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
           "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "marker": "## B1"
         }
       ]
     },
@@ -43,6 +48,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
           "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
           "marker": "## B2"
         }
       ]
@@ -64,6 +74,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
           "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
           "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "marker": "## B3"
         }
       ]
     },
@@ -83,6 +98,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
           "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
           "marker": "## B4"
         }
       ]
@@ -104,6 +124,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
           "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "marker": "## B5"
         }
       ]
     },
@@ -122,11 +147,11 @@
       }
     ]
   },
-  "why": "A4 test exercised detached Session; use real native-owned Session with same strict assertions",
+  "why": "Actual native-owned Session and unchanged strict revocation/ABA; preaudit guard43539003820 SUCCESS",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A4_NATIVE_SESSION_FIXTURE_REQUIRES_READY",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
