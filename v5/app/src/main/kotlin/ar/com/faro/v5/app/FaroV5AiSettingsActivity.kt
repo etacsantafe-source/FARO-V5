@@ -38,6 +38,7 @@ class FaroV5AiSettingsActivity : ComponentActivity() {
         owner = FaroV5TrustedAssistantControlOwner.get(this)
 
         val scroll = ScrollView(this)
+        if (packageName == "ar.com.faro.alpha.s3integrateddev") FaroV5NativeScreenInsets.protect(scroll)
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val p = (24 * resources.displayMetrics.density).toInt()
@@ -82,7 +83,8 @@ class FaroV5AiSettingsActivity : ComponentActivity() {
             text = "Probar conexión Groq (solo debug)"
             isEnabled = false
             visibility = if ((applicationInfo.flags and
-                android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0)
+                android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0 &&
+                packageName != "ar.com.faro.alpha.s3integrateddev")
                 View.VISIBLE else View.GONE
         }
         column.addView(probe)

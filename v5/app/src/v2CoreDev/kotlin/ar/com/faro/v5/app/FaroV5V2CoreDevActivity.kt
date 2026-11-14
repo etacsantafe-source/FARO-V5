@@ -29,7 +29,8 @@ internal object FaroV5V2CoreDevPackagePolicy {
     private const val G15_ISOLATED_DEV = "ar.com.faro.g15isolated.v2coredev"
 
     fun accepts(packageName: String): Boolean =
-        packageName == ORIGINAL_DEV || packageName == G15_ISOLATED_DEV
+        packageName == ORIGINAL_DEV || packageName == G15_ISOLATED_DEV ||
+            packageName == "ar.com.faro.alpha.s3integrateddev"
 }
 
 /**
@@ -37,7 +38,14 @@ internal object FaroV5V2CoreDevPackagePolicy {
  * Explicit user action opens a durable local Workspace; no network, model,
  * reviewed Apply, Search ACL bypass, delivery, OS dispatch or credentials.
  */
-class FaroV5V2CoreDevActivity : ComponentActivity() {
+open class FaroV5V2CoreDevActivity : ComponentActivity() {
+    internal open fun rootPath() = noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root")
+    internal open fun screenTitle() = "FARO V2 — Núcleo local aislado"
+    internal open fun screenDescription() = "Workspace, Chat y Buscar local. Sin Groq/IA, Apply, notificaciones ni conexión a Internet. Los datos de FARO habitual no se comparten."
+    internal open fun addAdmissionControls(column: LinearLayout) = Unit
+    internal open fun beginOpening(): FaroV5DevOpenAdmission? = null
+    internal open fun trustedAssistantComponents(admission: FaroV5DevOpenAdmission): FaroV5TrustedAssistantComponents? = null
+
     private val executor = Executors.newSingleThreadExecutor()
     private val opening = AtomicBoolean(false)
     private val disposed = AtomicBoolean(false)
@@ -76,14 +84,15 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
             setPadding(p, p, p, p)
         }
         column.addView(TextView(this).apply {
-            text = "FARO V2 — Núcleo local aislado"
+            text = screenTitle()
             textSize = 22f
         })
         column.addView(TextView(this).apply {
-            text = "Workspace, Chat y Buscar local. Sin Groq/IA, Apply, notificaciones ni conexión a Internet. Los datos de FARO habitual no se comparten."
+            text = screenDescription()
         })
         status = TextView(this).apply { text = "Sin abrir. V2 habitual permanece apagada." }
         column.addView(status)
+        addAdmissionControls(column)
         openButton = Button(this).apply {
             text = "Abrir Chat local de desarrollo"
             setOnClickListener { openLocalChat() }
@@ -134,7 +143,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         })
     }
 
-    private fun openLocalChat(
+    internal fun openLocalChat(
         requestActivityRead: Boolean = false,
         requestAvisosRead: Boolean = false,
         requestPendingRead: Boolean = false,
@@ -158,14 +167,20 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
         // before the explicit Reality8 cutover can acquire the same global gate.
         session?.close()
         session = null
+        val admission = try { beginOpening() } catch (_: Exception) {
+            status.text = "No se abrió: confirmá plan Free y esperá el cierre anterior."
+            listOf(openButton, activityButton, avisosButton, dueButton, bookmarksButton, upgradeButton).forEach { it.isEnabled = true }
+            opening.set(false)
+            return
+        }
         status.text = if (requestPlanning8Upgrade)
             "Verificando origen, journal y Reality8 vacía (DEV)…"
         else "Verificando journal y cinco bases locales…"
         executor.execute {
             var opened: FaroV5V2CoreDevAuthority.Session? = null
             val failure = runCatching {
-                val root = noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root")
-                val authority = FaroV5V2CoreDevAuthority(root)
+                val root = rootPath()
+                val authority = FaroV5V2CoreDevAuthority(root, admission)
                 val current = if (requestPlanning8Upgrade) {
                     authority.upgradePlanning8AfterExplicitForegroundRequest {
                         !disposed.get() && !isFinishing && !isDestroyed &&
@@ -173,6 +188,7 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                     }
                 } else authority.open()
                 opened = current
+                if (admission != null) current.openAssistantPorts(trustedAssistantComponents(admission))
                 // Reading Guardados never creates/selects a conversation.
                 if (!requestBookmarkRead) {
                 val snapshot = runBlocking { current.workspaceReadPort.readSnapshot() }
@@ -194,9 +210,10 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                 }
                 }
             }.exceptionOrNull()
+            if (failure != null && opened == null) admission?.close()
             runOnUiThread {
                 try {
-                    if (disposed.get() || isFinishing || isDestroyed) {
+                    if (disposed.get() || isFinishing || isDestroyed || admission?.live?.get() == false) {
                         pendingAvisosReadRequest.set(false)
                         pendingActivityReadRequest.set(false)
                         pendingDueReadRequest.set(false)
@@ -247,6 +264,10 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                             timelineReadPort = active.timelineReadPort,
                             selectionPort = active.selectionPort,
                             composerPort = active.composerPort,
+                            reviewPort = active.assistantPorts?.reviewPort,
+                            reviewDisclosureMode = ar.com.faro.v5.surface.FaroV5ReviewDisclosureMode.EXPLICIT_OPEN,
+                            applyRequestPort = active.assistantPorts?.applyRequestPort,
+                            assistantTurnPort = active.assistantPorts?.assistantTurnPort,
                             assistantRequestMode = ar.com.faro.v5.surface.FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
                             searchReadPort = active.searchReadPort,
                             activityReadPort = activityRead,
@@ -405,7 +426,11 @@ class FaroV5V2CoreDevActivity : ComponentActivity() {
                                 timelineReadPort = active.timelineReadPort,
                                 selectionPort = active.selectionPort,
                                 composerPort = active.composerPort,
-                                assistantRequestMode = ar.com.faro.v5.surface.FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
+                                reviewPort = active.assistantPorts?.reviewPort,
+                            reviewDisclosureMode = ar.com.faro.v5.surface.FaroV5ReviewDisclosureMode.EXPLICIT_OPEN,
+                            applyRequestPort = active.assistantPorts?.applyRequestPort,
+                            assistantTurnPort = active.assistantPorts?.assistantTurnPort,
+                            assistantRequestMode = ar.com.faro.v5.surface.FaroV5AssistantRequestMode.EXPLICIT_CONSULT,
                                 searchReadPort = active.searchReadPort,
                                 bookmarkChatActions = active.bookmarkChatActions(application) {
                                     session === active && foreground()

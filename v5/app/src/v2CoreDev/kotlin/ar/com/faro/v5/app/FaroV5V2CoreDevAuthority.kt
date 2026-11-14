@@ -30,7 +30,10 @@ import java.util.function.Supplier
  * Local-only five-owner activation with a durable bootstrap journal and real active pointer.
  * No model gateway, Apply port, external action or OS-delivery port is constructed.
  */
-internal class FaroV5V2CoreDevAuthority(private val root: Path) {
+internal class FaroV5V2CoreDevAuthority(
+    private val root: Path,
+    private val admission: FaroV5DevOpenAdmission? = null,
+) {
     companion object {
         // One DEV material-write authority for all Activity sessions in this process.
         private val sharedGate = SingleProcessMaterialWriteGate()
@@ -227,7 +230,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val current = Supplier { pointer.read()?.generationId?.value ?: "" }
             val ready = BooleanSupplier {
                 val observed = pointer.read()
-                alive.get() && observed == openingPointer &&
+                alive.get() && admission?.live?.get() != false && observed == openingPointer &&
                     if (activeId == targetId)
                         journal.read(operationId) == oldFinalEntry &&
                             replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)
@@ -302,6 +305,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             Session(
                 graph, alive, reads.workspaceReadPort, reads.timelineReadPort,
                 selection.port, composer.port, search, readAccesses.toList(), pointer, observer, openingPointer,
+                gate, current, ready, admission,
             )
         } catch (failure: Throwable) {
             pointerObserver?.let { pointer.removeChangeListener(it) }
@@ -340,7 +344,21 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
         private val pointer: FileActiveGenerationPointer,
         private val pointerObserver: Runnable,
         private val openingPointer: ActiveGenerationPointer,
+        private val gate: MaterialWriteGate,
+        private val current: Supplier<String>,
+        private val ready: BooleanSupplier,
+        private val admission: FaroV5DevOpenAdmission?,
     ) : AutoCloseable {
+        private fun available() = alive.get() && ready.getAsBoolean()
+        internal var assistantPorts: FaroV5DevAssistantSessionPorts? = null
+            private set
+
+        /** Only native integrated opening supplies trusted components; default CORE never calls this. */
+        internal fun openAssistantPorts(trusted: FaroV5TrustedAssistantComponents?) {
+            check(admission != null && available() && assistantPorts == null)
+            assistantPorts = FaroV5DevAssistantSessionPorts.open(graph, gate, current, ready, trusted)
+        }
+
         @Volatile private var bookmarkFolders: FaroV5BookmarkFolderActionBinding? = null
         @Volatile private var bookmarkFoldersProbe: FaroV5AndroidSandboxPrincipal? = null
         @Volatile private var bookmarkReview: FaroV5BookmarkReviewPreparationBinding? = null
@@ -365,7 +383,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             application: Application,
             foreground: () -> Boolean,
         ): FaroV5AvisosReadPort? {
-            if (!alive.get() || avisosAuthority != null ||
+            if (!available() || avisosAuthority != null ||
                 !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
@@ -373,13 +391,13 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             if (pinned != openingPointer || pinned.generationId.value != graph.generationId) return null
             val epoch = UUID.randomUUID().toString()
             val hostReady = {
-                alive.get() && runCatching { pointer.read() == pinned }.getOrDefault(false)
+                available() && runCatching { pointer.read() == pinned }.getOrDefault(false)
             }
             val probe = FaroV5AndroidSandboxPrincipal(
                 expectedApplicationId = application.packageName,
                 pinned = pinned, activePointer = pointer,
                 expectedHostEpoch = epoch,
-                hostEpochOrNull = { if (alive.get()) epoch else null },
+                hostEpochOrNull = { if (available()) epoch else null },
                 facts = AndroidPlatformSandboxFactsReader(application),
             )
             val access = FaroV5LocalInstallReadAuthority(probe, pointer, hostReady, foreground)
@@ -455,7 +473,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             application: Application,
             foreground: () -> Boolean,
         ): FaroV5ActivityReadPort? {
-            if (!alive.get() || historyBinding != null ||
+            if (!available() || historyBinding != null ||
                 !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
@@ -464,7 +482,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val workspace = graph.workspace ?: return null
             val epoch = UUID.randomUUID().toString()
             val hostReady: () -> Boolean = {
-                alive.get() && runCatching {
+                available() && runCatching {
                     foreground() && pointer.read() == pinned
                 }.getOrDefault(false)
             }
@@ -478,7 +496,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                     pinned = pinned,
                     activePointer = pointer,
                     expectedHostEpoch = epoch,
-                    hostEpochOrNull = { if (alive.get()) epoch else null },
+                    hostEpochOrNull = { if (available()) epoch else null },
                     facts = AndroidPlatformSandboxFactsReader(application),
                 )
                 access = FaroV5LocalInstallReadAuthority(
@@ -502,7 +520,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                         workspace = workspace,
                         principalId = principal,
                         expectedHostEpoch = epoch,
-                        hostEpochOrNull = { if (alive.get()) epoch else null },
+                        hostEpochOrNull = { if (available()) epoch else null },
                         hostReady = hostReady,
                         readPolicy = access.historyReadPolicy(),
                         invalidations = access.invalidations,
@@ -532,14 +550,14 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             application: Application,
             foreground: () -> Boolean,
         ): FaroV5BookmarkReadHostBinding? {
-            if (!alive.get() || bookmarkBinding != null ||
+            if (!available() || bookmarkBinding != null ||
                 !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() && pointer.read() == openingPointer }.getOrDefault(false)
             ) return null
             val workspace = graph.workspace ?: return null
             val epoch = UUID.randomUUID().toString()
             val hostReady: () -> Boolean = {
-                alive.get() && runCatching {
+                available() && runCatching {
                     foreground() && pointer.read() == openingPointer
                 }.getOrDefault(false)
             }
@@ -552,7 +570,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                     expectedApplicationId = application.packageName,
                     pinned = openingPointer, activePointer = pointer,
                     expectedHostEpoch = epoch,
-                    hostEpochOrNull = { if (alive.get()) epoch else null },
+                    hostEpochOrNull = { if (available()) epoch else null },
                     facts = AndroidPlatformSandboxFactsReader(application),
                 )
                 access = FaroV5LocalInstallReadAuthority(
@@ -570,7 +588,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                         pinned = openingPointer, activePointer = pointer,
                         workspace = workspace, auxiliary = graph.auxiliary,
                         principalId = principal, expectedHostEpoch = epoch,
-                        hostEpochOrNull = { if (alive.get()) epoch else null },
+                        hostEpochOrNull = { if (available()) epoch else null },
                         hostReady = hostReady, readAuthority = access,
                     )
                     if (!hostReady()) null else {
@@ -602,7 +620,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             val principal = access.technicalPrincipalOrNull() ?: return null
             val workspace = graph.workspace ?: return null
             if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || bookmarkBinding !== reader) return null
-            val ready = { alive.get() && bookmarkBinding === reader && bookmarkEpoch == epoch &&
+            val ready = { available() && bookmarkBinding === reader && bookmarkEpoch == epoch &&
                 foreground() && pointer.read() == openingPointer }
             if (!ready()) return null
             return FaroV5BookmarkSourceNavigationBinding(openingPointer, pointer, workspace, graph.auxiliary,
@@ -615,13 +633,13 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             application: Application, foreground: () -> Boolean,
         ): FaroV5BookmarkFolderActionBinding? {
             revokeBookmarkFolderActionsOnPause()
-            if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || !alive.get() || !foreground() ||
+            if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || !available() || !foreground() ||
                 pointer.read() != openingPointer) return null
             val workspace = graph.workspace ?: return null
             val epoch = UUID.randomUUID().toString()
-            val ready = { alive.get() && foreground() && pointer.read() == openingPointer }
+            val ready = { available() && foreground() && pointer.read() == openingPointer }
             val probe = FaroV5AndroidSandboxPrincipal(application.packageName, openingPointer, pointer,
-                epoch, { if (alive.get()) epoch else null }, AndroidPlatformSandboxFactsReader(application))
+                epoch, { if (available()) epoch else null }, AndroidPlatformSandboxFactsReader(application))
             val reads = FaroV5LocalInstallReadAuthority(probe, pointer, ready, foreground)
             val mutations = FaroV5LocalInstallBookmarkMutationAuthority(probe, pointer, ready, foreground)
             val principal = reads.technicalPrincipalOrNull()
@@ -631,7 +649,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 reads.close(); mutations.close(); probe.close(); return null
             }
             val binding = FaroV5BookmarkFolderActionBinding(openingPointer, pointer, workspace,
-                graph.auxiliary, principal, epoch, { if (alive.get()) epoch else null }, ready, reads, mutations)
+                graph.auxiliary, principal, epoch, { if (available()) epoch else null }, ready, reads, mutations)
             synchronized(this) {
                 if (!ready()) { binding.close(); probe.close(); return null }
                 bookmarkFolders = binding; bookmarkFoldersProbe = probe
@@ -650,13 +668,13 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 override suspend fun prepare(conversationId: ConversationId, messageId: ConversationMessageId,
                     action: ar.com.faro.v5.surface.FaroV5BookmarkChatAction): ar.com.faro.v5.surface.FaroV5BookmarkChatReview? {
                     revokeBookmarkReviewOnPause()
-                    if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || !alive.get() || !foreground() ||
+                    if (!FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) || !available() || !foreground() ||
                         pointer.read() != openingPointer) return null
                     val workspace = graph.workspace ?: return null
                     val epoch = UUID.randomUUID().toString()
-                    val ready = { alive.get() && foreground() && pointer.read() == openingPointer }
+                    val ready = { available() && foreground() && pointer.read() == openingPointer }
                     val probe = FaroV5AndroidSandboxPrincipal(application.packageName, openingPointer, pointer,
-                        epoch, { if (alive.get()) epoch else null }, AndroidPlatformSandboxFactsReader(application))
+                        epoch, { if (available()) epoch else null }, AndroidPlatformSandboxFactsReader(application))
                     val reads = FaroV5LocalInstallReadAuthority(probe, pointer, ready, foreground)
                     val mutations = FaroV5LocalInstallBookmarkMutationAuthority(probe, pointer, ready, foreground)
                     val principal = reads.technicalPrincipalOrNull()
@@ -666,7 +684,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                         reads.close(); mutations.close(); probe.close(); return null
                     }
                     val binding = FaroV5BookmarkReviewPreparationBinding(openingPointer, pointer, workspace,
-                        graph.auxiliary, principal, epoch, { if (alive.get()) epoch else null }, ready, reads, mutations)
+                        graph.auxiliary, principal, epoch, { if (available()) epoch else null }, ready, reads, mutations)
                     synchronized(this@Session) {
                         if (!ready()) { binding.close(); probe.close(); return null }
                         bookmarkReview = binding; bookmarkReviewProbe = probe
@@ -691,7 +709,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             binding: FaroV5BookmarkReadHostBinding,
             page: FaroV5BookmarkHostPage,
             foreground: () -> Boolean,
-        ): Boolean = alive.get() && bookmarkBinding === binding &&
+        ): Boolean = available() && bookmarkBinding === binding &&
             runCatching { foreground() && pointer.read() == openingPointer }.getOrDefault(false) &&
             binding.isPageCurrent(page)
 
@@ -712,7 +730,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             application: Application,
             foreground: () -> Boolean,
         ): FaroV5N031ThreeOwnerDueHostBinding? {
-            if (!alive.get() || pendingBinding != null ||
+            if (!available() || pendingBinding != null ||
                 !FaroV5V2CoreDevPackagePolicy.accepts(application.packageName) ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return null
@@ -720,7 +738,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             if (pinned != openingPointer || pinned.generationId.value != graph.generationId) return null
             val epoch = UUID.randomUUID().toString()
             val hostReady: () -> Boolean = {
-                alive.get() && runCatching {
+                available() && runCatching {
                     foreground() && pointer.read() == pinned
                 }.getOrDefault(false)
             }
@@ -734,7 +752,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                     pinned = pinned,
                     activePointer = pointer,
                     expectedHostEpoch = epoch,
-                    hostEpochOrNull = { if (alive.get()) epoch else null },
+                    hostEpochOrNull = { if (available()) epoch else null },
                     facts = AndroidPlatformSandboxFactsReader(application),
                 )
                 access = FaroV5LocalInstallReadAuthority(
@@ -762,7 +780,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                         reality = graph.reality,
                         principalId = principal,
                         expectedHostEpoch = epoch,
-                        hostEpochOrNull = { if (alive.get()) epoch else null },
+                        hostEpochOrNull = { if (available()) epoch else null },
                         hostReady = hostReady,
                         readAuthority = access,
                     )
@@ -790,7 +808,7 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
             binding: FaroV5N031ThreeOwnerDueHostBinding,
             foreground: () -> Boolean,
         ): Boolean {
-            if (!alive.get() || pendingBinding !== binding ||
+            if (!available() || pendingBinding !== binding ||
                 !runCatching { foreground() }.getOrDefault(false)
             ) return false
             val access = pendingAuthority ?: return false
@@ -839,7 +857,10 @@ internal class FaroV5V2CoreDevAuthority(private val root: Path) {
                 revokeBookmarkReadingOnPause()
                 searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)
-                graph.close()
+                assistantPorts?.close()
+                gate.withQuiescedMaterialWrites { graph.close() }
+                // A failed close retains the integrated lease: never overlap an uncertain graph.
+                admission?.close()
             }
         }
     }

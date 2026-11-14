@@ -43,6 +43,15 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/x03AndroidTest")
     }
 
+    if (providers.gradleProperty("faroS3IntegratedAndroidTest").orNull == "true") {
+        check(providers.gradleProperty("faroG5AndroidTestV2CoreDev").orNull != "true" &&
+            providers.gradleProperty("faroX03AndroidTest").orNull != "true" &&
+            listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId, s0PhysicalApplicationId,
+                s1A5PhysicalApplicationId, s1A6PhysicalApplicationId).isEmpty())
+        testBuildType = "s3IntegratedDev"
+        sourceSets.getByName("androidTest").setRoot("src/s3IntegratedAndroidTest")
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(
@@ -112,6 +121,15 @@ android {
     }
     // Share existing audited host implementation, never the debug manifest.
     sourceSets.getByName("x03AiDev").kotlin.srcDir("src/debug/kotlin")
+
+    buildTypes.create("s3IntegratedDev") {
+        initWith(buildTypes.getByName("debug"))
+        applicationIdSuffix = ".s3integrateddev"
+        versionNameSuffix = "-s3integrateddev"
+        matchingFallbacks += listOf("debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO S3 INTEGRADA"
+    }
+    sourceSets.getByName("s3IntegratedDev").kotlin.srcDir("src/v2CoreDev/kotlin")
 
     buildFeatures {
         resValues = true
