@@ -17,8 +17,8 @@
   "s3_open": true,
   "s4_open": false,
   "writer": {
-    "status": "RELEASE_AFTER_DOCUMENT_CHECKPOINT",
-    "epoch": 905
+    "status": "RELEASE_AFTER_FINAL_DOC_CHECKPOINT",
+    "epoch": 906
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify focused Android43588792359 at a555d4d299b74b69c3c458a27d802e9d6ec24c25: two remaining cases only, retain original identity/recovery named successes. Product285372f60ce303322ee943b48cd363cc4ee12bb2 unchanged. A4 B7 PASS. Then exact artifact/PNG/XML/signature verification, A5/global B7, APK and human guide. No S4/provider/G15.",
-  "checkpoint_status": "S3_A4_B7_PASS_A5_IMPLEMENTED_WAIT_FOCUSED_ANDROID",
+  "next": "Human-only single G15 campaign using S3_FINAL_G15_SINGLE_CAMPAIGN_GUIDE_20261114.md. Programming and application artifact verified. Preserve H01/H02/H04; H03/H05 TalkBack/H06 Free consent/H07/H08 pending. No further functional code READY, no S4/provider/phone work by Work. Verify final doc guard/current writer on recovery.",
+  "checkpoint_status": "PROGRAMMING_S3_COMPLETE_VERIFIED_APK_READY_PHYSICAL_PENDING",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
@@ -208,20 +208,7 @@
       "limitations": "Generic multi-owner coordinator tested; actual Finance/other search read owners not yet bound; no UI federation enabled."
     }
   },
-  "chat_context_thermometer": {
-    "requested_by_user": "2026-11-04",
-    "enabled": true,
-    "cadence": "end of every FARO V5 turn with percent summary; preserve independently of progress metric",
-    "levels": [
-      "GREEN/VERDE: comfortable",
-      "YELLOW/AMARILLO: moderately loaded",
-      "ORANGE/NARANJA: recommend a new chat soon",
-      "RED/ROJO: migrate immediately"
-    ],
-    "display": "Compact 🌡️ indicator with current color/state and explicit change-chat guidance when orange/red",
-    "measurement": "Qualitative inference from conversation length/complexity, NOT an exact token count or instrumented percentage; never invent a precise context usage metric",
-    "carry_forward": "On new FARO V5 chats, recover this pointer and keep thermometer active. Never change development/CI/phase status merely for this preference."
-  },
+  "chat_context_thermometer": "HIGH_DURABLE_CHECKPOINT_USE_CURRENT_FINAL_B7",
   "manual_hybrid_strategy": {
     "approved": "2026-11-04",
     "priority": "V2_MIN_CORE",
@@ -499,7 +486,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 905,
+  "last_writer_epoch_observed": 906,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -930,10 +917,10 @@
   },
   "g5_physical_remaining": "S3_A5_FINAL_SINGLE_CAMPAIGN_NOT_RUN",
   "s3_a2_stage_status": "CLOSED_AUTOMATED_SCOPE_PENDING_FINAL_INTEGRATION",
-  "s3_scoped_stages_closed": 3,
+  "s3_scoped_stages_closed": 5,
   "s3_total_stages": 5,
-  "s3_formal_full_release": "NOT_APPROVED",
-  "current_s3_priority": "S3_FINAL_A5_TWO_CASE_CI_ARTIFACT_B7_THEN_HUMAN_CAMPAIGN",
+  "s3_formal_full_release": "NOT_APPROVED_PHYSICAL_PENDING",
+  "current_s3_priority": "G15_SINGLE_HUMAN_CAMPAIGN_ONLY",
   "s3_a5_final_acceptance": {
     "status": "PENDING_NOT_CERTIFIED",
     "x01_x12": "PENDING_FULL_INTEGRATION",
@@ -1095,7 +1082,7 @@
     "backup_restore": "B7_PASS_SCOPED",
     "ui": "DEV_AUTOMATED_M01_M05_B7_PASS_EXACT_NAV_AND_MUTATION",
     "physical": "NOT_RUN",
-    "next": "M01–M05 DONE_VERIFIED; no repetir. A3 pendiente únicamente aceptación física final G15, integrada en cierre global A5.",
+    "next": "M01\u2013M05 DONE_VERIFIED; no repetir. A3 pendiente \u00fanicamente aceptaci\u00f3n f\u00edsica final G15, integrada en cierre global A5.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -2181,13 +2168,13 @@
     "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
     "writer_epoch": 704
   },
-  "goal_id": "S3_FINAL_PROGRAMMING",
+  "goal_id": "S3_FINAL_HUMAN_ACCEPTANCE",
   "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
   "block_id": 6,
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
-  "expected_head": "5f16e49bac0c47cfb5fb9de3d6211181ff1b8104",
-  "blocker": "A5_TWO_CASE_API35_AND_FINAL_ARTIFACT_B7_PENDING",
-  "writer_release_epoch": 905,
+  "expected_head": "b6a796a88bcc7705cafe7d924397786e6e5604f3",
+  "blocker": "HUMAN_PHYSICAL_ACCEPTANCE_ONLY",
+  "writer_release_epoch": 906,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2239,7 +2226,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_A4_PASS_A5_B6_IMPLEMENTED_TWO_GROUPS_PASS_TWO_PENDING",
+  "checkpoint": "S3_PROGRAMMING_GLOBAL_B7_APK_INTEGRATED_READY_PHYSICAL_PENDING",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2449,7 +2436,7 @@
     }
   },
   "checkpoint_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
-  "checkpoint_commit_resolution": "COMMIT_CONTAINING_FINAL_U02_B7_AND_THIS_POINTER; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
+  "checkpoint_commit_resolution": "COMMIT_CONTAINING_S3_FINAL_PROGRAMMING_GLOBAL_B7_20261114_MD_FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
     "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
@@ -3327,7 +3314,7 @@
     "no_functional_code_changed": true
   },
   "s3_final_execution": {
-    "status": "OPEN_A4_PASS_A5_WAIT_FOCUSED_CI",
+    "status": "PROGRAMMING_VERIFIED_APK_READY_PHYSICAL_PENDING",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
     "source_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
     "android_run": 43344576978,
@@ -3340,9 +3327,9 @@
       "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
       "U01": "A4_B7_PASS_SCOPED_PHYSICAL_PENDING",
       "U02": "B7_PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35",
-      "U03": "B6_IMPLEMENTED_A5_B7_WAIT_TWO_CASES",
-      "U04": "GUIDE_H01_H08_READY_USER_ONLY_NOT_RUN_H03_CONDITIONAL",
-      "U05": "PARTIAL_CHECKPOINT_ENVIRONMENT_UNAVAILABLE"
+      "U03": "A5_B7_PASS_INTEGRATED_DEV_API35",
+      "U04": "UPDATED_SINGLE_HUMAN_CAMPAIGN_GUIDE_PENDING",
+      "U05": "PROGRAMMING_B7_COMPLETE_PHYSICAL_FORMAL_CLOSURE_PENDING"
     },
     "app_package": "ar.com.faro.alpha.x03aidev",
     "groq_live": "NOT_RUN_USER_ONLY_FREE_AND_CONSENT",
@@ -3417,14 +3404,14 @@
     "no_automatic_background_execution": true
   },
   "s3_final_programming_20261113": {
-    "status": "A4_B7_PASS_A5_IMPLEMENTED_WAIT_FOCUSED_CI",
+    "status": "PROGRAMMING_S3_COMPLETE_VERIFIED_APK_READY_PHYSICAL_PENDING",
     "h05": "B7_PASS_SCOPED_2_OF_2_API35_FONT200",
     "h05_evidence": "docs/s3-night/S3_FINAL_H05_ARTIFACT_VERIFICATION_20261113.json",
     "a4": "B7_PASS_SCOPED_NATIVE_SESSION_1_OF_1_API35",
     "a4_code": "6c799f6026395e9461e5aed72e7fe39b097f7914",
     "a4_run": 43585835221,
     "a4_preaudit": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-    "a5": "IMPLEMENTED_SAME_ROOT_NEW_PACKAGE_B7_PENDING",
+    "a5": "B7_PASS_SCOPED_SAME_ROOT_INTEGRATED_DEV",
     "a5_preaudit": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
     "proposed_integrated_package": "ar.com.faro.alpha.s3integrateddev",
     "x09_code_0cf_retry": "43532156573_ATTEMPT2_SUCCESS",
@@ -3433,14 +3420,73 @@
     "s4_programming": false,
     "physical": "USER_ONLY_NOT_ACCESSED",
     "groq": "USER_ONLY_NOT_RUN",
-    "checkpoint_document": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
+    "checkpoint_document": "docs/s3-night/S3_FINAL_PROGRAMMING_GLOBAL_B7_20261114.md",
     "a4_latest_test_code": "356312bccf9b9332f0b5158ad48d3db854420f08",
-    "a4_result": "FAILED_FIXTURE_DETACHED_FROM_NATIVE_SESSION",
+    "a4_result": "PASS_SCOPED_NATIVE_SESSION_REAL_POSITIVE_READS_REVOKE_AND_ABA",
     "a4_ready_not_executed": "a2339390ed1465cd33755e3af122995c28490cde",
     "a4_next_preaudit": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-    "programming_complete": false,
-    "final_integrated_apk": "BUILT_NOT_CERTIFIED_NOT_DELIVERED",
-    "writer_release_epoch_expected": 905,
+    "programming_complete": true,
+    "final_integrated_apk": {
+      "status": "ARTIFACT_VERIFIED_LOCAL_API35_SCOPE_PHYSICAL_PENDING",
+      "source_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
+      "product_code_sha": "285372f60ce303322ee943b48cd363cc4ee12bb2",
+      "run_id": 43588792359,
+      "artifact_id": 14111788066,
+      "artifact_name": "faro-s3-final-integrated-s3IntegratedDev-a555d4d299b74b69c3c458a27d802e9d6ec24c25",
+      "artifact_zip_sha256": "7d28768d68b6e03dd196b8b0f91c176590da58033ac38fd255dff75aba25d083",
+      "app_entry": "v5/app/build/outputs/apk/s3IntegratedDev/app-s3IntegratedDev.apk",
+      "app_sha256": "de6c7f24d684453e6d6fffda9c51dfe4efa697540c37aade98172bc6968d7af0",
+      "package": "ar.com.faro.alpha.s3integrateddev",
+      "version_code": "66",
+      "version_name": "5.0.0-dev-s3integrateddev",
+      "certificate_sha256": "0e7af3a8a9a7596573986df3ebb4b1c906cfda01a8a708ad44544a8b0337e1c5",
+      "signature": "APK_V2_CERTIFICATE_MATCHES_RUN_APKSIGNER_VERIFY",
+      "manifest": "BINARY_INDEPENDENTLY_PARSED_ONE_LAUNCHER_PRIVATE_SETTINGS_MINIMAL_APP_NO_SHARED_UID_NO_BACKGROUND_NO_BACKUP",
+      "permissions": [
+        "ar.com.faro.alpha.s3integrateddev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        "android.permission.INTERNET"
+      ],
+      "xml": "2/0/0/0",
+      "events": [
+        [
+          "nativeSourcesShareCanonicalWorkspaceRealityAndGeneration",
+          1
+        ],
+        [
+          "nativeSourcesShareCanonicalWorkspaceRealityAndGeneration",
+          0
+        ],
+        [
+          "syntheticConsultReviewApproveApplyCommitsOneSameRootReceipt",
+          1
+        ],
+        [
+          "syntheticConsultReviewApproveApplyCommitsOneSameRootReceipt",
+          0
+        ]
+      ],
+      "reused_run_id": 43587615082,
+      "reused_named_successes": [
+        "identityFreeAdmissionAndSettingsAreSecretFree",
+        "pauseLateReplyRecoveryAndAbaNeverReplayOrReauthorize"
+      ],
+      "reused_overall_run": "FAILURE_2_OF_4_NOT_GLOBAL_PASS",
+      "product_unchanged_between_runs": true,
+      "screenshot": {
+        "bytes": 251930,
+        "dimensions": [
+          1080,
+          2340
+        ],
+        "visual_review": "PASS_SCOPED_NATIVE_ADMISSION_FONT200_TITLE_AND_FIRST_CONTROLS_READABLE_WITH_SYSTEM_INSETS_SCROLL_REMAINDER_NOT_GLOBAL_ACCESSIBILITY",
+        "artifact_entry": "integrated-evidence/s3-integrated-font200.png"
+      },
+      "android_test_not_delivered": 14111907890,
+      "g15": "NOT_ACCESSED",
+      "groq_real": "NOT_RUN",
+      "s3_formally_closed": false
+    },
+    "writer_release_epoch_expected": 906,
     "a4_b7": "docs/s3-night/S3_FINAL_A4_NATIVE_SESSION_B7_PASS_20261114.md",
     "a5_product_code": "285372f60ce303322ee943b48cd363cc4ee12bb2",
     "a5_latest_test_code": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
@@ -3449,7 +3495,37 @@
       "identityFreeAdmissionAndSettingsAreSecretFree",
       "pauseLateReplyRecoveryAndAbaNeverReplayOrReauthorize"
     ],
-    "a5_pending_run": 43588792359,
-    "a5_redfix": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md"
+    "a5_pending_run": null,
+    "a5_redfix": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
+    "a5_b7": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_B7_PASS_SCOPED_20261114.md",
+    "a5_final_run": 43588792359
+  },
+  "s3_final_programming_completion_20261114": {
+    "PROGRAMACION_S3_COMPLETA_VERIFICADA": true,
+    "APK_INTEGRADA_LISTA": true,
+    "ACEPTACION_FISICA_PENDIENTE": true,
+    "S3_CERRADA_FORMALMENTE": false,
+    "programming_stages": "5/5_DEV_SCOPE",
+    "formal_closed": "0/5",
+    "global_b7": "docs/s3-night/S3_FINAL_PROGRAMMING_GLOBAL_B7_20261114.md",
+    "guide": "docs/s3-night/S3_FINAL_G15_SINGLE_CAMPAIGN_GUIDE_20261114.md",
+    "artifact_verification": "docs/s3-night/S3_FINAL_INTEGRATED_ARTIFACT_VERIFICATION_20261114.json",
+    "human_pending": [
+      "H03",
+      "H05_TALKBACK",
+      "H06_GROQ_FREE_AND_CONSENT",
+      "H07_REAL_INFLIGHT_REVOKE",
+      "H08_HUMAN_REVIEW_APPLY"
+    ],
+    "prior_physical_preserved": [
+      "H01",
+      "H02",
+      "H04"
+    ],
+    "catalog": 180,
+    "productive_v2": false,
+    "s4_programming": false,
+    "auto": false,
+    "night": false
   }
 }

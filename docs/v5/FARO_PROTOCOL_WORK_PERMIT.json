@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "BLOCKED",
   "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
-  "reviewed_head": "8cb8b2f6dfc6489c55ccc720db21f40dc203d588",
+  "reviewed_head": "b6a796a88bcc7705cafe7d924397786e6e5604f3",
   "paths": [
     "v5/app/src/s3IntegratedAndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3IntegratedHostUiTest.kt",
     ".github/workflows/faro-v5-s3-final-integrated-host-directed.yml"
@@ -83,24 +83,24 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_API35_VERIFIED_SCOPED",
+    "B7": "PASS_SCOPED_PHYSICAL_PENDING"
   },
   "last_code_review": {
-    "sha": "285372f60ce303322ee943b48cd363cc4ee12bb2",
+    "sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
     "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
-        "blob_sha": "dd1ad18421ace16395760332dac0af29e3642045",
+        "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_B7_PASS_SCOPED_20261114.md",
+        "blob_sha": "d480e4b56dca9bce0c91ba352dac2ed617e972b8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Exact two-path RED_FIX consumed by a555d4d299b74b69c3c458a27d802e9d6ec24c25; only two pending groups rerun; product unchanged",
+  "why": "Programming and integrated APK verified in DEV scope; permit consumed. Human campaign only, no new functional code authorized.",
   "how": "Preflight all eleven exact paths. Reuse canonical graph and algorithms; separate app and API35 local delta tests; no provider, secrets or G15.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A5_TEST_ACKNOWLEDGMENT_RED_FIX_WAIT_CI"
+  "blocked_reason": "CONSUMED_B7_PASS_NO_NEW_CODE_PHYSICAL_ACCEPTANCE_PENDING"
 }

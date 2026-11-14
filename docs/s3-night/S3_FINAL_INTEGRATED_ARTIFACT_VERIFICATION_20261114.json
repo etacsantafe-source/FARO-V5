@@ -1,0 +1,60 @@
+{
+  "status": "ARTIFACT_VERIFIED_LOCAL_API35_SCOPE_PHYSICAL_PENDING",
+  "source_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
+  "product_code_sha": "285372f60ce303322ee943b48cd363cc4ee12bb2",
+  "run_id": 43588792359,
+  "artifact_id": 14111788066,
+  "artifact_name": "faro-s3-final-integrated-s3IntegratedDev-a555d4d299b74b69c3c458a27d802e9d6ec24c25",
+  "artifact_zip_sha256": "7d28768d68b6e03dd196b8b0f91c176590da58033ac38fd255dff75aba25d083",
+  "app_entry": "v5/app/build/outputs/apk/s3IntegratedDev/app-s3IntegratedDev.apk",
+  "app_sha256": "de6c7f24d684453e6d6fffda9c51dfe4efa697540c37aade98172bc6968d7af0",
+  "package": "ar.com.faro.alpha.s3integrateddev",
+  "version_code": "66",
+  "version_name": "5.0.0-dev-s3integrateddev",
+  "certificate_sha256": "0e7af3a8a9a7596573986df3ebb4b1c906cfda01a8a708ad44544a8b0337e1c5",
+  "signature": "APK_V2_CERTIFICATE_MATCHES_RUN_APKSIGNER_VERIFY",
+  "manifest": "BINARY_INDEPENDENTLY_PARSED_ONE_LAUNCHER_PRIVATE_SETTINGS_MINIMAL_APP_NO_SHARED_UID_NO_BACKGROUND_NO_BACKUP",
+  "permissions": [
+    "ar.com.faro.alpha.s3integrateddev.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+    "android.permission.INTERNET"
+  ],
+  "xml": "2/0/0/0",
+  "events": [
+    [
+      "nativeSourcesShareCanonicalWorkspaceRealityAndGeneration",
+      1
+    ],
+    [
+      "nativeSourcesShareCanonicalWorkspaceRealityAndGeneration",
+      0
+    ],
+    [
+      "syntheticConsultReviewApproveApplyCommitsOneSameRootReceipt",
+      1
+    ],
+    [
+      "syntheticConsultReviewApproveApplyCommitsOneSameRootReceipt",
+      0
+    ]
+  ],
+  "reused_run_id": 43587615082,
+  "reused_named_successes": [
+    "identityFreeAdmissionAndSettingsAreSecretFree",
+    "pauseLateReplyRecoveryAndAbaNeverReplayOrReauthorize"
+  ],
+  "reused_overall_run": "FAILURE_2_OF_4_NOT_GLOBAL_PASS",
+  "product_unchanged_between_runs": true,
+  "screenshot": {
+    "bytes": 251930,
+    "dimensions": [
+      1080,
+      2340
+    ],
+    "visual_review": "PASS_SCOPED_NATIVE_ADMISSION_FONT200_TITLE_AND_FIRST_CONTROLS_READABLE_WITH_SYSTEM_INSETS_SCROLL_REMAINDER_NOT_GLOBAL_ACCESSIBILITY",
+    "artifact_entry": "integrated-evidence/s3-integrated-font200.png"
+  },
+  "android_test_not_delivered": 14111907890,
+  "g15": "NOT_ACCESSED",
+  "groq_real": "NOT_RUN",
+  "s3_formally_closed": false
+}
