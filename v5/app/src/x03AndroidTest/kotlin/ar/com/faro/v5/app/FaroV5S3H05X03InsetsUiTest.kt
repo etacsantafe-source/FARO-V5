@@ -15,6 +15,8 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 /** Disposable API35 emulator only; no data, click, key, provider or physical device. */
 @RunWith(AndroidJUnit4::class)
@@ -23,6 +25,17 @@ class FaroV5S3H05X03InsetsUiTest {
     private fun views(v: View): List<View> = buildList {
         add(v)
         if (v is ViewGroup) for (i in 0 until v.childCount) addAll(views(v.getChildAt(i)))
+    }
+    private fun settle(scenario: ActivityScenario<FaroV5X03U02IsolatedAiActivity>) {
+        val frames = CountDownLatch(1)
+        scenario.onActivity { a ->
+            a.window.decorView.postOnAnimation {
+                a.window.decorView.postOnAnimation { frames.countDown() }
+            }
+        }
+        assertTrue("Window did not render two frames", frames.await(15, TimeUnit.SECONDS))
+        instrumentation.waitForIdleSync()
+        instrumentation.uiAutomation.waitForIdle(500, 15000)
     }
     private fun capture(name: String) {
         val dir = File(instrumentation.targetContext.getExternalFilesDir(null), "h05-evidence").apply { mkdirs() }
@@ -45,6 +58,7 @@ class FaroV5S3H05X03InsetsUiTest {
                 if (!laidOut) Thread.sleep(50)
             }
             assertTrue("No window layout", laidOut)
+            settle(scenario)
             scenario.onActivity { a ->
                 assertEquals(2f, a.resources.configuration.fontScale, 0.01f)
                 val all = views(a.window.decorView)
@@ -61,8 +75,12 @@ class FaroV5S3H05X03InsetsUiTest {
                 assertEquals(before, listOf(scroll.paddingLeft, scroll.paddingTop, scroll.paddingRight, scroll.paddingBottom))
             }
             capture("title")
-            scenario.onActivity { a -> views(a.window.decorView).filterIsInstance<ScrollView>().single().fullScroll(View.FOCUS_DOWN) }
-            instrumentation.waitForIdleSync()
+            scenario.onActivity { a ->
+                val scroll = views(a.window.decorView).filterIsInstance<ScrollView>().single()
+                scroll.isSmoothScrollingEnabled = false
+                scroll.fullScroll(View.FOCUS_DOWN)
+            }
+            settle(scenario)
             scenario.onActivity { a ->
                 val all = views(a.window.decorView)
                 val button = all.filterIsInstance<Button>().single { it.text == "Abrir Chat y Actividad offline" }
