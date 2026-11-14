@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
   "reviewed_head": "d5df49830da2f928d7444ca9c0a232bee165b881",
   "paths": [
@@ -82,7 +82,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "DONE_WAIT_ANDROID",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -97,11 +97,11 @@
       }
     ]
   },
-  "why": "H05 exact offline permission assertion correction; B7 RED_FIX; guard red only missing updated disposition fixed here",
+  "why": "H05 code published, Android CI/B7 pending; A4 preaudit does not grant code",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "H05_WAIT_ANDROID_B7_BEFORE_NEXT_UNIT",
   "needs_prep_document": null,
   "closure_document": null
 }
