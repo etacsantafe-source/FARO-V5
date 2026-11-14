@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.lifecycle.Lifecycle
@@ -95,9 +96,12 @@ class FaroV5S3IntegratedHostUiTest {
         editors[editors.fetchSemanticsNodes().lastIndex].performTextInput(text)
         compose.onNodeWithText("Enviar").assertIsEnabled().performClick()
         compose.waitUntil(30_000L) { runCatching {
-            compose.onAllNodesWithText(text, useUnmergedTree = true).fetchSemanticsNodes().size == 1
+            val editors = compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes()
+            editors.isNotEmpty() && editors.last().config[SemanticsProperties.EditableText].text.isEmpty() &&
+                compose.onAllNodesWithText(text, useUnmergedTree = true).fetchSemanticsNodes().size == 1
         }.getOrDefault(false) }
         compose.waitForIdle()
+        compose.onNodeWithText("Enviar").assertIsNotEnabled()
     }
     private fun synthetic(session: FaroV5V2CoreDevAuthority.Session, gateway: ModelGateway): FaroV5DevAssistantSessionPorts {
         return FaroV5DevAssistantSessionPorts.open(graph(session), field(session, "gate") as MaterialWriteGate,
@@ -184,6 +188,9 @@ class FaroV5S3IntegratedHostUiTest {
             mount(s, current, ports)
             send("Cambiar nombre declarado de prueba")
             assertEquals(0, calls.get())
+            compose.waitUntil(30_000L) { runCatching {
+                compose.onNodeWithText("Consultar FARO").assertIsEnabled(); true
+            }.getOrDefault(false) }
             compose.onNodeWithText("Consultar FARO").performClick()
             waitText("Revisar cambios")
             val chat = checkNotNull(runBlocking { current.workspaceReadPort.readSnapshot() }.activeConversationId)
@@ -226,6 +233,9 @@ class FaroV5S3IntegratedHostUiTest {
         }).use { ports ->
             mount(s, current, ports); send("InterruptedSyntheticTurn")
             val chat = checkNotNull(runBlocking { current.workspaceReadPort.readSnapshot() }.activeConversationId)
+            compose.waitUntil(30_000L) { runCatching {
+                compose.onNodeWithText("Consultar FARO").assertIsEnabled(); true
+            }.getOrDefault(false) }
             compose.onNodeWithText("Consultar FARO").performClick()
             assertTrue(entered.await(20, TimeUnit.SECONDS))
             s.moveToState(Lifecycle.State.STARTED)
