@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-13",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_ACTIVE_FINAL_PROGRAMMING_H05_PASS_A4_WAIT_CI_A5_PREAUDITED",
+  "phase": "S3_FINAL_PROGRAMMING_BLOCKED_ENVIRONMENT_UNAVAILABLE",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -21,7 +21,7 @@
     "queue_ref": "refs/heads/faro-v5-night-queue",
     "must_revalidate_before_any_write": true,
     "no_auto_takeover": true,
-    "expected_release_epoch": 886
+    "expected_release_epoch": 896
   },
   "automation": {
     "activation_authorized": false,
@@ -40,15 +40,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/s3-night/S3_WORK_TURBO_IME_THEN_OFFLINE_A5_CHAIN_20261112.md",
+  "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "USER_WORK_MISSION_20261113: finish S3 programming only. H05 API35 font200 native CORE+X03 PASS scoped2/2 run43533538841 code061f7192b47afa58ee10435551baaa6971a71577. A4 opening-pointer delta code6c799f6026395e9461e5aed72e7fe39b097f7914 run43535432782 WAIT_CI. Then bounded A5 integrated DEV same-root host preaudit, new distinct package to avoid incompatible signer/uninstall. S4 P00-P07 frozen; P08/programming OFF. No provider/G15/Auto/Night.",
-  "checkpoint_status": "S3_FINAL_U00_DONE_U02_B7_PASS_SCOPED_U01_POLICY_U03_INTEGRATION_U04_HUMAN_PENDING_U05_OPEN",
+  "next": "Restore execution environment; recover current HEAD/writer; finish A4 native-owned Session test under renewed individual READY and exact Android B7; then A5 same-root integrated DEV app. H05 PASS2/2 and old X01-X12 reused. No S4/provider/G15/robot/production/Auto/Night.",
+  "checkpoint_status": "S3_PROGRAMMING_INCOMPLETE_ENVIRONMENT_UNAVAILABLE_H05_PASS_A4_RED_FIX_A5_PREAUDITED",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "25c5ff41c96476a5b98b64047b96e2bd345f043a",
-  "last_ci_run_id": 43305744264,
+  "last_code_sha": "e1888ed1b444ba6761855f42200cd09b6c77a026",
+  "last_ci_run_id": 43537916414,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -135,7 +135,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS",
+  "last_ci_conclusion": "FAILURE",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -3330,7 +3330,7 @@
     "no_functional_code_changed": true
   },
   "s3_final_execution": {
-    "status": "U02_B7_PASS_SCOPED_U05_GLOBAL_OPEN_HUMAN_POLICY_AND_ACCEPTANCE_PENDING",
+    "status": "OPEN_PROGRAMMING_NOT_COMPLETE_ENVIRONMENT_UNAVAILABLE",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
     "source_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
     "android_run": 43344576978,
@@ -3341,11 +3341,11 @@
     "human_guide": "docs/s3-night/S3_FINAL_U04_HUMAN_ACCEPTANCE_20261112.md",
     "units": {
       "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
-      "U01": "HUMAN_POLICY_APPROVED_B1_B5_DELTA_AND_INTEGRATION_STILL_REQUIRED",
+      "U01": "OPEN_APP_DELTA_IMPLEMENTED_ANDROID_NATIVE_SESSION_FIXTURE_PENDING",
       "U02": "B7_PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35",
-      "U03": "BLOCKED_POLICY_AND_LIVE_PROVIDER_INTEGRATION_DEPENDENCIES_4_4_OFFLINE_REUSED",
+      "U03": "OPEN_PREAUDITED_NO_READY_NOT_IMPLEMENTED",
       "U04": "GUIDE_H01_H08_READY_USER_ONLY_NOT_RUN_H03_CONDITIONAL",
-      "U05": "FINAL_PARTIAL_AUDIT_DONE_S3_GLOBAL_OPEN"
+      "U05": "PARTIAL_CHECKPOINT_ENVIRONMENT_UNAVAILABLE"
     },
     "app_package": "ar.com.faro.alpha.x03aidev",
     "groq_live": "NOT_RUN_USER_ONLY_FREE_AND_CONSENT",
@@ -3397,7 +3397,7 @@
       "CROSS_PROFILE",
       "NETWORK_SYNC"
     ],
-    "implementation": "NOT_STARTED_NEW_B1_B5_REQUIRED",
+    "implementation": "EXISTING_CORE_MOUNT_REUSED_OPENING_POINTER_DELTA_IMPLEMENTED_B7_PENDING",
     "a4_global": "OPEN"
   },
   "s3_pause_20261113": {
@@ -3420,12 +3420,12 @@
     "no_automatic_background_execution": true
   },
   "s3_final_programming_20261113": {
-    "status": "IN_PROGRESS_NOT_COMPLETE",
+    "status": "BLOCKED_ENVIRONMENT_UNAVAILABLE_NOT_COMPLETE",
     "h05": "B7_PASS_SCOPED_2_OF_2_API35_FONT200",
     "h05_evidence": "docs/s3-night/S3_FINAL_H05_ARTIFACT_VERIFICATION_20261113.json",
-    "a4": "WAIT_ANDROID_B7_ORIGINAL_POINTER_DELTA",
+    "a4": "APP_DELTA_IMPLEMENTED_TEST_RED_FIX_NATIVE_SESSION_PENDING",
     "a4_code": "6c799f6026395e9461e5aed72e7fe39b097f7914",
-    "a4_run": 43535432782,
+    "a4_run": 43537916414,
     "a4_preaudit": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
     "a5": "PREAUDITED_NO_READY_NOT_IMPLEMENTED",
     "a5_preaudit": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
@@ -3435,6 +3435,14 @@
     "productive_v2": false,
     "s4_programming": false,
     "physical": "USER_ONLY_NOT_ACCESSED",
-    "groq": "USER_ONLY_NOT_RUN"
+    "groq": "USER_ONLY_NOT_RUN",
+    "checkpoint_document": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
+    "a4_latest_test_code": "e1888ed1b444ba6761855f42200cd09b6c77a026",
+    "a4_result": "FAILED_FIXTURE_DETACHED_FROM_NATIVE_SESSION",
+    "a4_ready_not_executed": "a2339390ed1465cd33755e3af122995c28490cde",
+    "a4_next_preaudit": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
+    "programming_complete": false,
+    "final_integrated_apk": "NOT_CREATED",
+    "writer_release_epoch_expected": 896
   }
 }

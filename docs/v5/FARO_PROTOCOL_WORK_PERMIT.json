@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
   "reviewed_head": "fbca318ebb5e02362d582ce16cbc4902d9410e3e",
   "paths": [
@@ -132,8 +132,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "BLOCKED_ENVIRONMENT_UNAVAILABLE",
+    "B7": "RED_FIX_NATIVE_SESSION_FIXTURE_PENDING"
   },
   "last_code_review": {
     "sha": "e1888ed1b444ba6761855f42200cd09b6c77a026",
@@ -147,11 +147,11 @@
       }
     ]
   },
-  "why": "Actual native-owned Session and unchanged strict revocation/ABA; preaudit guard43539003820 SUCCESS",
+  "why": "Execution environment unavailable; READY native fixture correction was not executed; A4 B7 RED_FIX and A5 no functional authorization remain",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null,
+  "blocked_reason": "ENVIRONMENT_UNAVAILABLE_A4_NATIVE_FIXTURE_NOT_EXECUTED_A5_NOT_STARTED",
   "needs_prep_document": null,
   "closure_document": null
 }
