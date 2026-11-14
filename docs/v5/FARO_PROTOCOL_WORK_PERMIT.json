@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
-  "reviewed_head": "d5df49830da2f928d7444ca9c0a232bee165b881",
+  "reviewed_head": "405807203452ca397077da669bcabf0a9f74640d",
   "paths": [
-    ".github/workflows/faro-v5-s3-final-h05-insets-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05NativeInsetsUiTest.kt",
+    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05X03InsetsUiTest.kt"
   ],
   "stages": {
     "B1": {
@@ -18,6 +19,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
           "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
+          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
           "marker": "## B1"
         }
       ]
@@ -34,6 +40,11 @@
           "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
           "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
+          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "marker": "## B2"
         }
       ]
     },
@@ -48,6 +59,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
           "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
+          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
           "marker": "## B3"
         }
       ]
@@ -64,6 +80,11 @@
           "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
           "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
+          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "marker": "## B4"
         }
       ]
     },
@@ -79,29 +100,34 @@
           "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
           "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
+          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_WAIT_ANDROID",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0cfaca114139c273ba94b3e9535912932e7a7a41",
+    "sha": "e8e472fe42a015cc92a50c7b2d84c726aa4a838e",
     "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
-        "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
+        "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
+        "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
         "marker": "## B7"
       }
     ]
   },
-  "why": "H05 RED_FIX2 observed scroll/frame sampling; no functional READY",
+  "why": "H05 test frame settling only, preaudit guard43533317888 SUCCESS",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "H05_WAIT_ANDROID_B7_BEFORE_NEXT_UNIT",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
