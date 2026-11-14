@@ -45,11 +45,11 @@ class FaroV5S3FinalA4OpeningPointerTest {
             RealityStore(staged.directory.resolve(GenerationStoreFiles.REALITY).toString(), planningStage8 = true).use { r ->
                 r.planningBackupRestore.restoreOrVerify(RealityPlanningBackupSnapshot(8,
                     ReminderSnapshot(2L, listOf(ReminderRule(ReminderRuleId.of("a4-rule"), "private rule",
-                        zone.id, tomorrow, LocalTime.of(8, 0), ReminderRecurrence.ONCE, true, 20L)),
+                        zone.id, tomorrow, LocalTime.of(8, 0), ReminderRecurrence.ONCE, true, updatedAtEpochMillis = 20L)),
                         listOf(ReminderOccurrence(ReminderOccurrenceId.of("a4-occ"), ReminderRuleId.of("a4-rule"),
-                            tomorrow.atTime(8, 0).atZone(zone).toInstant().toEpochMilli(), ReminderOccurrenceStatus.PENDING, 21L))),
+                            tomorrow.atTime(8, 0).atZone(zone).toInstant().toEpochMilli(), ReminderOccurrenceStatus.PENDING, updatedAtEpochMillis = 21L))),
                     MonthlyPlanSnapshot(1L, listOf(MonthlyPlanItem(MonthlyPlanItemId.of("a4-bill"), "private bill",
-                        YearMonth.from(tomorrow), tomorrow, MonthlyPlanItemStatus.PLANNED, 14000L, "ARS", 22L)))))
+                        YearMonth.from(tomorrow), tomorrow, MonthlyPlanItemStatus.PLANNED, 14000L, "ARS", updatedAtEpochMillis = 22L)))))
                 r.run(TransactionId("a4-positive-fixture")) { scope ->
                     r.matterPersistence.upsert(MatterRecord(MatterId.of("a4-matter"), MatterTitle.of("private matter"),
                         MatterDetail.of("never expose"), MatterStatus.OPEN,
