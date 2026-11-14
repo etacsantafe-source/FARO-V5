@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.S3.FINAL.20261113",
   "token_hash": "0b92c5746cb87a1e31b6bd54c9090bec92fd610312059d55179b75f71b4ba6fc",
   "target_head": "0acd31e6cfbeee3aaac6dfe471cd549198dfa63f",
   "target_branch": "work/s3-night-20261102",
   "epoch": 891,
-  "timestamp": 1794617911,
+  "timestamp": 1794617924,
   "scope": "A4_B7_RED_FIX_LIFECYCLE_OBSERVATION_DOC",
-  "last_checkpoint": "0acd31e6cfbeee3aaac6dfe471cd549198dfa63f"
+  "last_checkpoint": "21f83732504baba53003417e95a7841c106a8a2c"
 }
