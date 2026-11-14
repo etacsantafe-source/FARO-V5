@@ -1,29 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
-  "reviewed_head": "405807203452ca397077da669bcabf0a9f74640d",
+  "status": "READY",
+  "unit_id": "S3_FINAL_A4_OPENING_POINTER",
+  "reviewed_head": "ae2ad7cd5839ddb9de393c36c42160aa78cdb9a2",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05NativeInsetsUiTest.kt",
-    "v5/app/src/x03AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3H05X03InsetsUiTest.kt"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt",
+    ".github/workflows/faro-v5-s3-final-a4-opening-pointer-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
-          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
-          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
-          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
+          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B1"
         }
       ]
@@ -32,18 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
-          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
-          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
-          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
+          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B2"
         }
       ]
@@ -52,18 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
-          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
-          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
-          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
+          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B3"
         }
       ]
@@ -72,18 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
-          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
-          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
-          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
+          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B4"
         }
       ]
@@ -92,24 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_H05_NATIVE_INSETS_B1_B5_20261113.md",
-          "blob_sha": "fffb2a50386b9cd3d2096eccfa5dd79c860da02d",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_MANIFEST_20261113.md",
-          "blob_sha": "b056b58ab6e8787a44102d81db0b2bd91012f7fb",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_H05_B7_RED_FIX_SCROLL_FRAME_20261113.md",
-          "blob_sha": "1cb90f1dadaa4e097ebbdb610a124255b4163aee",
+          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
+          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED_ANDROID_API35",
-    "B7": "PASS_SCOPED_NATIVE_SAFE_AREA_FONT200"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "061f7192b47afa58ee10435551baaa6971a71577",
@@ -123,11 +74,11 @@
       }
     ]
   },
-  "why": "H05 B7 PASS scoped consumed; A4 preaudit ready for independent permit, X09 retry pending",
+  "why": "A4 approved local policy; exact new grant ABA and three-source actual lifecycle fixture; preaudit guard43535088589 SUCCESS",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "H05_CONSUMED_NEW_UNIT_PERMIT_REQUIRED",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
