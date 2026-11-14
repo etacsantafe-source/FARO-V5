@@ -3,7 +3,7 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-13",
+  "updated_local_date": "2026-11-14",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
   "phase": "S3_FINAL_PROGRAMMING_BLOCKED_ENVIRONMENT_UNAVAILABLE",
@@ -17,11 +17,8 @@
   "s3_open": true,
   "s4_open": false,
   "writer": {
-    "coordination_ref": "refs/heads/faro-v5-writer-lock",
-    "queue_ref": "refs/heads/faro-v5-night-queue",
-    "must_revalidate_before_any_write": true,
-    "no_auto_takeover": true,
-    "expected_release_epoch": 896
+    "status": "RELEASE_AFTER_DOCUMENT_CHECKPOINT",
+    "epoch": 905
   },
   "automation": {
     "activation_authorized": false,
@@ -43,11 +40,11 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Restore execution environment; recover current HEAD/writer; finish A4 native-owned Session test under renewed individual READY and exact Android B7; then A5 same-root integrated DEV app. H05 PASS2/2 and old X01-X12 reused. No S4/provider/G15/robot/production/Auto/Night.",
-  "checkpoint_status": "S3_PROGRAMMING_INCOMPLETE_ENVIRONMENT_UNAVAILABLE_H05_PASS_A4_RED_FIX_A5_PREAUDITED",
+  "next": "Verify focused Android43588792359 at a555d4d299b74b69c3c458a27d802e9d6ec24c25: two remaining cases only, retain original identity/recovery named successes. Product285372f60ce303322ee943b48cd363cc4ee12bb2 unchanged. A4 B7 PASS. Then exact artifact/PNG/XML/signature verification, A5/global B7, APK and human guide. No S4/provider/G15.",
+  "checkpoint_status": "S3_A4_B7_PASS_A5_IMPLEMENTED_WAIT_FOCUSED_ANDROID",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "e1888ed1b444ba6761855f42200cd09b6c77a026",
+  "last_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
   "last_ci_run_id": 43537916414,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
@@ -502,7 +499,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 870,
+  "last_writer_epoch_observed": 905,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -757,7 +754,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+  "last_unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -936,7 +933,7 @@
   "s3_scoped_stages_closed": 3,
   "s3_total_stages": 5,
   "s3_formal_full_release": "NOT_APPROVED",
-  "current_s3_priority": "X02_AUXILIARY_NOTICE_READ_AUTH_PREP_X06_NEXT",
+  "current_s3_priority": "S3_FINAL_A5_TWO_CASE_CI_ARTIFACT_B7_THEN_HUMAN_CAMPAIGN",
   "s3_a5_final_acceptance": {
     "status": "PENDING_NOT_CERTIFIED",
     "x01_x12": "PENDING_FULL_INTEGRATION",
@@ -2184,13 +2181,13 @@
     "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
     "writer_epoch": 704
   },
-  "goal_id": "S3.A5.7",
-  "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
+  "goal_id": "S3_FINAL_PROGRAMMING",
+  "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
   "block_id": 6,
   "block_status": "BLOCKED_HUMAN_POLICY_AND_PHYSICAL_ACCEPTANCE",
-  "expected_head": "e6c90fbec03da1f214e140777fcadfb248559544",
-  "blocker": null,
-  "writer_release_epoch": 870,
+  "expected_head": "5f16e49bac0c47cfb5fb9de3d6211181ff1b8104",
+  "blocker": "A5_TWO_CASE_API35_AND_FINAL_ARTIFACT_B7_PENDING",
+  "writer_release_epoch": 905,
   "last_observed_at": "2026-11-11",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2242,7 +2239,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S3_FINAL_PARTIAL_U02_DISTINCT_APP_B7_PASS_GLOBAL_OPEN",
+  "checkpoint": "S3_A4_PASS_A5_B6_IMPLEMENTED_TWO_GROUPS_PASS_TWO_PENDING",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2451,7 +2448,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
+  "checkpoint_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_FINAL_U02_B7_AND_THIS_POINTER; FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
@@ -3330,7 +3327,7 @@
     "no_functional_code_changed": true
   },
   "s3_final_execution": {
-    "status": "OPEN_PROGRAMMING_NOT_COMPLETE_ENVIRONMENT_UNAVAILABLE",
+    "status": "OPEN_A4_PASS_A5_WAIT_FOCUSED_CI",
     "unit_id": "S3_FINAL_U02_DISTINCT_IA_APP",
     "source_sha": "e6c90fbec03da1f214e140777fcadfb248559544",
     "android_run": 43344576978,
@@ -3341,9 +3338,9 @@
     "human_guide": "docs/s3-night/S3_FINAL_U04_HUMAN_ACCEPTANCE_20261112.md",
     "units": {
       "U00": "DONE_READ_ONLY_DELTA_RECONCILED",
-      "U01": "OPEN_APP_DELTA_IMPLEMENTED_ANDROID_NATIVE_SESSION_FIXTURE_PENDING",
+      "U01": "A4_B7_PASS_SCOPED_PHYSICAL_PENDING",
       "U02": "B7_PASS_SCOPED_DISTINCT_APP_IDENTITY_ADMISSION_API35",
-      "U03": "OPEN_PREAUDITED_NO_READY_NOT_IMPLEMENTED",
+      "U03": "B6_IMPLEMENTED_A5_B7_WAIT_TWO_CASES",
       "U04": "GUIDE_H01_H08_READY_USER_ONLY_NOT_RUN_H03_CONDITIONAL",
       "U05": "PARTIAL_CHECKPOINT_ENVIRONMENT_UNAVAILABLE"
     },
@@ -3420,14 +3417,14 @@
     "no_automatic_background_execution": true
   },
   "s3_final_programming_20261113": {
-    "status": "BLOCKED_ENVIRONMENT_UNAVAILABLE_NOT_COMPLETE",
+    "status": "A4_B7_PASS_A5_IMPLEMENTED_WAIT_FOCUSED_CI",
     "h05": "B7_PASS_SCOPED_2_OF_2_API35_FONT200",
     "h05_evidence": "docs/s3-night/S3_FINAL_H05_ARTIFACT_VERIFICATION_20261113.json",
-    "a4": "APP_DELTA_IMPLEMENTED_TEST_RED_FIX_NATIVE_SESSION_PENDING",
+    "a4": "B7_PASS_SCOPED_NATIVE_SESSION_1_OF_1_API35",
     "a4_code": "6c799f6026395e9461e5aed72e7fe39b097f7914",
-    "a4_run": 43537916414,
+    "a4_run": 43585835221,
     "a4_preaudit": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-    "a5": "PREAUDITED_NO_READY_NOT_IMPLEMENTED",
+    "a5": "IMPLEMENTED_SAME_ROOT_NEW_PACKAGE_B7_PENDING",
     "a5_preaudit": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
     "proposed_integrated_package": "ar.com.faro.alpha.s3integrateddev",
     "x09_code_0cf_retry": "43532156573_ATTEMPT2_SUCCESS",
@@ -3437,12 +3434,22 @@
     "physical": "USER_ONLY_NOT_ACCESSED",
     "groq": "USER_ONLY_NOT_RUN",
     "checkpoint_document": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
-    "a4_latest_test_code": "e1888ed1b444ba6761855f42200cd09b6c77a026",
+    "a4_latest_test_code": "356312bccf9b9332f0b5158ad48d3db854420f08",
     "a4_result": "FAILED_FIXTURE_DETACHED_FROM_NATIVE_SESSION",
     "a4_ready_not_executed": "a2339390ed1465cd33755e3af122995c28490cde",
     "a4_next_preaudit": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
     "programming_complete": false,
-    "final_integrated_apk": "NOT_CREATED",
-    "writer_release_epoch_expected": 896
+    "final_integrated_apk": "BUILT_NOT_CERTIFIED_NOT_DELIVERED",
+    "writer_release_epoch_expected": 905,
+    "a4_b7": "docs/s3-night/S3_FINAL_A4_NATIVE_SESSION_B7_PASS_20261114.md",
+    "a5_product_code": "285372f60ce303322ee943b48cd363cc4ee12bb2",
+    "a5_latest_test_code": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
+    "a5_first_run": 43587615082,
+    "a5_named_scoped_successes": [
+      "identityFreeAdmissionAndSettingsAreSecretFree",
+      "pauseLateReplyRecoveryAndAbaNeverReplayOrReauthorize"
+    ],
+    "a5_pending_run": 43588792359,
+    "a5_redfix": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md"
   }
 }
