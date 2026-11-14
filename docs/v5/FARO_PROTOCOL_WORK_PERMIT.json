@@ -1,12 +1,10 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S3_FINAL_A4_OPENING_POINTER",
-  "reviewed_head": "ae2ad7cd5839ddb9de393c36c42160aa78cdb9a2",
+  "reviewed_head": "74b1605c38dd86ad9e7c6f54e0676316698ce452",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt",
-    ".github/workflows/faro-v5-s3-final-a4-opening-pointer-directed.yml"
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt"
   ],
   "stages": {
     "B1": {
@@ -15,6 +13,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
           "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
+          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
           "marker": "## B1"
         }
       ]
@@ -26,6 +29,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
           "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B2"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
+          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
+          "marker": "## B2"
         }
       ]
     },
@@ -35,6 +43,11 @@
         {
           "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
           "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
+          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
           "marker": "## B3"
         }
       ]
@@ -46,6 +59,11 @@
           "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
           "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B4"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
+          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
+          "marker": "## B4"
         }
       ]
     },
@@ -56,10 +74,15 @@
           "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
           "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
+          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
+          "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_WAIT_ANDROID",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,11 +97,11 @@
       }
     ]
   },
-  "why": "A4 fixture constructor timestamp RED_FIX, no Android result",
+  "why": "A4 exact three named fixture timestamp arguments; preaudit guard43536284931 SUCCESS",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A4_TEST_FIXTURE_COMPILE_FIX_REQUIRES_READY",
+  "blocked_reason": null,
   "needs_prep_document": null,
   "closure_document": null
 }
