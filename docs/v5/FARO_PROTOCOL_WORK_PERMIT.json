@@ -63,22 +63,22 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "061f7192b47afa58ee10435551baaa6971a71577",
-    "unit_id": "S3_FINAL_H05_NATIVE_INSETS",
-    "result": "PASS",
+    "sha": "6c799f6026395e9461e5aed72e7fe39b097f7914",
+    "unit_id": "S3_FINAL_A4_OPENING_POINTER",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_H05_B7_PASS_SCOPED_20261113.md",
-        "blob_sha": "38b93df15c04eddf28a233b5c2ee1c30912b4e7b",
+        "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
+        "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A4 exact pointer code published; Android/B7 pending; independent A5 B1-B5 refinement only",
+  "why": "A4 fixture constructor timestamp RED_FIX, no Android result",
   "how": "preflight exact six paths; preserve Compose IME; no provider/physical",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "A4_WAIT_ANDROID_B7_BEFORE_A5",
+  "blocked_reason": "A4_TEST_FIXTURE_COMPILE_FIX_REQUIRES_READY",
   "needs_prep_document": null,
   "closure_document": null
 }
