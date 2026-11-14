@@ -1,33 +1,28 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_FINAL_A4_OPENING_POINTER",
-  "reviewed_head": "30bc0deffc9f358c7c6f97fc7a47f3960658fd47",
+  "status": "READY",
+  "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
+  "reviewed_head": "7055223b7cd47ca5b41406f2dbfb405aba8a843a",
   "paths": [
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3FinalA4OpeningPointerTest.kt"
+    "v5/app/build.gradle.kts",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5InterruptedAssistantTurnRecovery.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5QuarantinedV2ChatHostBinding.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5DevAssistantSessionPorts.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5AiSettingsActivity.kt",
+    "v5/app/src/s3IntegratedDev/AndroidManifest.xml",
+    "v5/app/src/s3IntegratedDev/kotlin/ar/com/faro/v5/app/FaroV5S3IntegratedDevActivity.kt",
+    "v5/app/src/s3IntegratedAndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3IntegratedHostUiTest.kt",
+    ".github/workflows/faro-v5-s3-final-integrated-host-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
-          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
-          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
+          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
           "marker": "## B1"
         }
       ]
@@ -36,23 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
-          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
-          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
+          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
           "marker": "## B2"
         }
       ]
@@ -61,23 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
-          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
-          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
+          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
           "marker": "## B3"
         }
       ]
@@ -86,23 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
-          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
-          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
+          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
           "marker": "## B4"
         }
       ]
@@ -111,47 +61,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A4_OPENING_POINTER_B1_B5_20261113.md",
-          "blob_sha": "c7521ec32e6f9f90203331be77f25afe7191d429",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_FIXTURE_20261113.md",
-          "blob_sha": "35a1ac1241d2ddbda8dbb1218aed09c31b289824",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_LIFECYCLE_20261113.md",
-          "blob_sha": "91ea9aff05f7c7a209f60c2d35e838fce2cdf562",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-          "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
+          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e1888ed1b444ba6761855f42200cd09b6c77a026",
+    "sha": "356312bccf9b9332f0b5158ad48d3db854420f08",
     "unit_id": "S3_FINAL_A4_OPENING_POINTER",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_A4_B7_RED_FIX_NATIVE_SESSION_20261113.md",
-        "blob_sha": "c0e3d4575a9ce22e286e41a2c6946f2cde1ad68d",
+        "path": "docs/s3-night/S3_FINAL_A4_NATIVE_SESSION_B7_PASS_20261114.md",
+        "blob_sha": "686515ee17ffe478e14c81e16ed6748deafa47c3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Exact one-path READY consumed by 356312bccf9b9332f0b5158ad48d3db854420f08; no further functional commit before actual A4 B7 disposition",
-  "how": "preflight the single exact authorized test path; no product edits",
+  "why": "Exact eleven-path same-root integrated DEV composition after A4 B7 verified; no global permission",
+  "how": "Preflight all eleven exact paths. Reuse canonical graph and algorithms; separate app and API35 local delta tests; no provider, secrets or G15.",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "blocked_reason": "A4_NATIVE_SESSION_IMPLEMENTED_ANDROID_WAIT_CI_B7_PENDING",
-  "needs_prep_document": null,
-  "closure_document": null
+  "no_auto_night": true
 }
