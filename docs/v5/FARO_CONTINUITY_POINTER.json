@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": false,
   "writer": {
-    "status": "RELEASE_AFTER_S3_CLOSURE_DOC_CHECKPOINT",
-    "epoch": 908
+    "status": "RELEASE_AFTER_S4_P08_DOC_CHECKPOINT",
+    "epoch": 909
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3 CLOSED 5/5 DEV with explicit human-accepted H07-HOME exception; no H07 HOME PASS claim. Start S4 P08 documentary READ_ONLY using existing P00-P07, do not open S4 or write S4 code without new authority. Verify writer/guard/HEAD on recovery.",
-  "checkpoint_status": "S3_CLOSED_5_OF_5_DEV_H07_HOME_WAIVED_PENDING_FINAL_GUARD_WRITER_VERIFICATION",
+  "next": "S3 CLOSED 5/5 DEV with H07-HOME accepted exception (NOT PASS). S4 P00-P08 preparation documented (P08 post-release guard/writer verification required). W00-W11 only B1-B5 candidates, NOT READY. S4 formally OFF; next require separate human opening/owner and individual work permits; no code while BLOCKED.",
+  "checkpoint_status": "S4_P08_DOCUMENTARY_PUBLISHED_PENDING_NEW_HEAD_GUARD_WRITER_RELEASE",
   "notes": "S3 formal closed 5/5 DEV with user-accepted H07-HOME physical exception 2026-11-15. R00/H03/H05/H06/H07/H08 scopes in latest closure doc; H01/H02/H04 historical preserved. S2 frozen; S4 formal OFF; V2 productive/Auto/Night OFF; no secrets or paid APIs.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
@@ -2171,13 +2171,13 @@
     "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
     "writer_epoch": 704
   },
-  "goal_id": "S3_FORMAL_CLOSURE_COMPLETE",
-  "unit_id": "S3_FINAL_U05_FORMAL_H07_EXCEPTION_CLOSURE",
+  "goal_id": "S4_PREP_P08_DOCUMENTARY",
+  "unit_id": "S4_PREP_P08_WORK_PACKAGES_DOCUMENTARY",
   "block_id": 7,
-  "block_status": "DONE_VERIFIED_DOC_SCOPE_PENDING_GUARD",
+  "block_status": "B6_PUBLISHED_B7_POST_RELEASE_GATE_PENDING",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
-  "blocker": "NONE_S3_DEV_SCOPE_H07_HOME_EXCEPTION_ACCEPTED",
-  "writer_release_epoch": 908,
+  "blocker": "NONE_FOR_DOCUMENTARY_PUBLICATION_S4_FUNCTIONAL_NOT_AUTHORIZED",
+  "writer_release_epoch": 909,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3074,11 +3074,11 @@
     "productive_v2": false
   },
   "s4_preparation": {
-    "status": "P00_P01_P02_P03_P04_P05_P06_P07_DONE_VERIFIED_DOC_SCOPE",
+    "status": "P00_P08_DONE_VERIFIED_DOC_SCOPE_POST_RELEASE_GATE",
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P08_WORK_PACKAGES_READ_ONLY_READY",
+    "next_task": "P08_PUBLISHED_DOCUMENTARY_W00_W11_CANDIDATE_HUMAN_S4_OPENING_NOT_AUTHORIZED",
     "sequence": [
       "P00",
       "P01",
@@ -3283,21 +3283,36 @@
       "product_implementation_approved": false
     },
     "p08": {
-      "status": "READY_TO_START_READ_ONLY_NOT_EXECUTED",
-      "objective": "Prepare independently bounded Work B1-B5 packages from P00-P07 UX and approved option A; prove cross-owner atomic Apply before code and require permits, preserve 180 operations, unique writer, G15 physical at end",
-      "inputs": [
-        "docs/v5/FARO_S4_P00_DECISION_AUTHORITY_MATRIX_20261112.md",
-        "docs/v5/FARO_S4_P01_V5_IMPLEMENTATION_INVENTORY_20261112.md",
-        "docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md",
-        "docs/v5/FARO_S4_P03_V44_TO_V5_REUSE_DELTA_MATRIX_20261113.md",
-        "docs/v5/FARO_S4_P04_BENCHMARK_DELTA_20261113.md",
-        "docs/v5/FARO_S4_P05_FUNCTIONAL_PRODUCT_SPEC_20261113.md",
-        "docs/v5/FARO_S4_P06_FINAL_UX_SPEC_20261113.md",
-        "docs/v5/FARO_S4_P07_INTEGRATION_PROJECTION_B1_B5_20261113.md",
-        "docs/v5/FARO_S4_P07_PAYMENT_PROMOTIONS_FINAL_DELTA_20261113.md",
-        "docs/v5/FARO_S4_P07_B7_FINAL_20261113.md"
+      "status": "B1_B5_PACKAGES_PUBLISHED_B6_DOC_B7_POST_RELEASE_GATE_REQUIRED",
+      "unit_id": "S4_PREP_P08_WORK_PACKAGES_DOCUMENTARY",
+      "baseline_head": "91bf381c1cc482b942387866eef1ad1f860f0f1b",
+      "package_document": "docs/v5/FARO_S4_P08_W00_W11_B1_B5_20261115.md",
+      "package_document_blob": "b94b3b565e0050fe8a18ab692ada3400921e9b5b",
+      "audit_b7": "docs/v5/FARO_S4_P08_B7_DOCUMENTARY_20261115.md",
+      "audit_b7_blob": "216f408378f90970069bc1e29b8d2d20dd678da9",
+      "candidates": 12,
+      "work_units": "W00_TO_W11",
+      "candidate_blocks_each": [
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5"
       ],
-      "scope": "READ_ONLY_DOC_ONLY_S4_FORMAL_OFF_NO_CODE_NO_READY_NO_APK_NO_PHYSICAL"
+      "package_state": "PREAUDIT_CANDIDATE_NOT_READY",
+      "functional_permit": "BLOCKED",
+      "s4_open": false,
+      "code_changed": false,
+      "android_ci_new": "NOT_RUN_DOC_ONLY",
+      "physical_new": "NOT_RUN_DOC_ONLY",
+      "writer_release_epoch": 909,
+      "post_release_checks": [
+        "HEAD_DIFF_EXACT3DOCS",
+        "WRITER_RELEASED_909_HEAD_MATCH",
+        "GUARD_SEVEN_BLOCK_EVIDENCE_SUCCESS_NEW_SHA",
+        "PERMIT_BLOCKED_S4_OFF"
+      ],
+      "next_gate": "HUMAN_REVIEW_S4_SCOPE_AND_OWNER_AFTER_DOCUMENTARY_B7"
     }
   },
   "s3_final_completion_handoff": {
