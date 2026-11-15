@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W00_D1_SCOPED_ADMISSION_SHAPE_VALIDATOR",
-  "reviewed_head": "237bbc048f2d9089becd73e7596ef06c7a45572c",
+  "reviewed_head": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W00D1AdmissionShape.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00D1AdmissionShapeTest.kt",
@@ -59,17 +59,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_11_OF_11_CI_XML_VERIFIED",
+    "B7": "PASS_SCOPED_INERT_ADMISSION_SHAPE_ONLY"
   },
   "last_code_review": {
-    "sha": "b5c2906654c1a6b88aadfa4997c3324d3395f20b",
-    "unit_id": "S4_W00_C_COMPOSITE_HOST_FAIL_CLOSED_TEST",
+    "sha": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
+    "unit_id": "S4_W00_D1_SCOPED_ADMISSION_SHAPE_VALIDATOR",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W00_C_B7_PASS_SCOPED_20261115.md",
-        "blob_sha": "2a6d3d86115a038c66fc1c4dba8e1387e2286ae1",
+        "path": "docs/v5/FARO_S4_W00_D1_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "1ab4f89c10d4bc9c02c1f0a4affa2d25e4aa3437",
         "marker": "## B7"
       }
     ]
@@ -77,5 +77,6 @@
   "why": "Authorized S4 W00-D bounded phase1 structural multi-owner admission shape only, W00-C host remains deny",
   "how": "Three new files (inert internal Kotlin validator, 11 JVM tests, one directed CI); no existing hosts/owners/DB/catalog or Android UI changes",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "W00_D1_B7_PASS_SCOPED_PERMIT_CONSUMED_NEXT_UNIT_NEEDS_OWN_B1_B5_AND_READY"
 }

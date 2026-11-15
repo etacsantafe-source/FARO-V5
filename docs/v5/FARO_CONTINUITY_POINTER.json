@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_OPEN_W00_D_DOC_PREAUDIT_ONLY",
+  "phase": "S4_OPEN_W00_D1_B7_PASS_SCOPED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "RELEASE_AFTER_S4_W00D_DOC_CHECKPOINT",
-    "epoch": 924
+    "status": "RELEASE_AFTER_S4_W00D1_B7_DOC_CHECKPOINT",
+    "epoch": 927
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W00-A/B/C B7 scoped PASS 5+5+2. W00-D multi-authority host admission contract B1-B5+documentary B7 published, no tests run, no READY. W00 GLOBAL OPEN. Before host dual code, choose exact scope + authority and user approval for new Household implementation/grants. W01-W11 no code; W06 real Household+Finance prerequisite W07. V2 productive/Auto/Night OFF.",
-  "checkpoint_status": "S4_W00_D_DOC_B7_POST_RELEASE_GUARD_PENDING",
+  "next": "W00-A/B/C PASS scoped 5+5+2; W00-D1 inert multi-authority admission shape JVM 11/11 B7 PASS scoped. W00 global OPEN. A future separate W00-D2 host owner-grant/lease integration requires independently bounded B1-B5, explicit READY and verified host fencing; DO NOT remove single-node denial or enable Household. W06 Household+Finance REAL must PASS before W07. W01-W11 code not authorized by this unit. V2 productive/Auto/Night OFF.",
+  "checkpoint_status": "S4_W00_D1_B7_PASS_SCOPED_POST_RELEASE_GUARD_PENDING",
   "notes": "S3 formal closed 5/5 DEV with user-accepted H07-HOME physical exception 2026-11-15. R00/H03/H05/H06/H07/H08 scopes in latest closure doc; H01/H02/H04 historical preserved. S2 frozen; S4 formal OFF; V2 productive/Auto/Night OFF; no secrets or paid APIs.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "b5c2906654c1a6b88aadfa4997c3324d3395f20b",
@@ -3711,7 +3711,7 @@
   },
   "s4_w00_d": {
     "unit_id": "S4_W00_D_MULTI_AUTHORITY_HOST_CONTRACT_PREAUDIT",
-    "status": "B1_B5_DOCUMENTED_B7_DOC_POST_RELEASE_GATE",
+    "status": "B1_B5_DOCUMENTED_AND_D1_CODE_B7_PASS_SCOPED_PARENT_W00D_STILL_OPEN",
     "baseline_head": "1068254c1b7ca7b553ae6569cd1addab81294492",
     "b1_b5_document": "docs/v5/FARO_S4_W00_D_MULTI_AUTHORITY_HOST_CONTRACT_B1_B5_20261115.md",
     "b7_document": "docs/v5/FARO_S4_W00_D_DOCUMENTARY_B7_20261115.md",
@@ -3720,6 +3720,26 @@
     "functional_code_changed": false,
     "ready_permit": false,
     "writer_release_epoch": 924,
-    "next_gate": "REVIEW_OWNER_SCOPE_AND_GRANTS_BEFORE_CODE"
+    "next_gate": "REVIEW_OWNER_SCOPE_AND_GRANTS_BEFORE_CODE",
+    "d1_code_sha": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
+    "d1_ci": 43771193795,
+    "d1_b7_document": "docs/v5/FARO_S4_W00_D1_B7_PASS_SCOPED_20261115.md"
+  },
+  "s4_w00_d1": {
+    "unit_id": "S4_W00_D1_SCOPED_ADMISSION_SHAPE_VALIDATOR",
+    "status": "B7_PASS_SCOPED_JVM_SHAPE_ONLY",
+    "code_sha": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
+    "ci_run_id": 43771193795,
+    "ci_job_id": 132987258037,
+    "ci_artifact_id": 14184925212,
+    "ci_xml": "11/11 PASS, failures 0, errors 0, skipped 0",
+    "guard_code_run_id": 43771193752,
+    "b7_document": "docs/v5/FARO_S4_W00_D1_B7_PASS_SCOPED_20261115.md",
+    "scope": "INERT_INTERNAL_VALIDATOR_NOT_WIRED_NO_APPLY",
+    "permit": "BLOCKED_CONSUMED",
+    "writer_release_epoch": 927,
+    "host_composite_authorized": false,
+    "household_implemented": false,
+    "physical": "NOT_RUN"
   }
 }
