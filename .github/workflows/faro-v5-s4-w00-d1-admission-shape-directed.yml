@@ -1,0 +1,74 @@
+name: FARO V5 S4 W00-D1 inert multi-authority admission shape JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W00D1AdmissionShape.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00D1AdmissionShapeTest.kt"
+      - ".github/workflows/faro-v5-s4-w00-d1-admission-shape-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w00-d1
+  cancel-in-progress: false
+jobs:
+  test-inert-admission-shape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for app JVM unit tests
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run exact W00-D1 shape JVM tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W00D1AdmissionShapeTest"
+      - name: Verify 11 exact W00-D1 JUnit cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/app/build/test-results/testDebugUnitTest").glob("TEST-*S4W00D1AdmissionShapeTest.xml"))
+          if len(files)!=1: raise SystemExit("W00D1_XML_MISSING "+str(len(files)))
+          suite=ET.parse(files[0]).getroot()
+          counts=tuple(int(suite.get(n,"-1")) for n in ("tests","failures","errors","skipped"))
+          expected={
+            "twoDistinctScopedObservationsMatchImmutablePlanWithoutGrantingApply",
+            "missingSecondObservationFailsClosed",
+            "crossObjectScopeSwapFailsClosed",
+            "stalePolicyEpochFailsClosed",
+            "staleGenerationFailsClosed",
+            "hostLifecycleEpochDriftFailsClosed",
+            "reusedNonceAcrossOwnersFailsClosed",
+            "reviewFingerprintMismatchFailsClosed",
+            "singleNodePlanCannotBePromotedToComposite",
+            "duplicateAuthorityCannotImpersonateSecondOwner",
+            "grantRotatingDuringValidationFailsClosed",
+          }
+          cases=[(e.get("name") or "").removesuffix("()") for e in suite.findall("testcase")]
+          if counts!=(11,0,0,0) or len(cases)!=11 or set(cases)!=expected:
+              raise SystemExit("W00D1_XML_FAIL "+str((counts,cases)))
+          print("S4_W00_D1_ADMISSION_SHAPE_INERT_XML_PASS 11/11")
+          print("NOT_CERTIFIED: real policy authority, physical Android grants, cross-process fencing, multiowner COMMIT, Household or payments")
+          PY
+      - name: Retain W00-D1 XML evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-s4-w00-d1-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W00D1AdmissionShapeTest.xml
+          if-no-files-found: warn
