@@ -1,24 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
-  "reviewed_head": "b6a796a88bcc7705cafe7d924397786e6e5604f3",
+  "status": "READY",
+  "unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
+  "reviewed_head": "f2f9e0503126acd0242708cf40c06984db5e175a",
   "paths": [
-    "v5/app/src/s3IntegratedAndroidTest/kotlin/ar/com/faro/v5/app/FaroV5S3IntegratedHostUiTest.kt",
-    ".github/workflows/faro-v5-s3-final-integrated-host-directed.yml"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W00TwoOwnerAtomicityFeasibilityTest.kt",
+    ".github/workflows/faro-v5-s4-w00-a-two-owner-atomicity-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
-          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
-          "blob_sha": "dd1ad18421ace16395760332dac0af29e3642045",
+          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
+          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
           "marker": "## B1"
         }
       ]
@@ -27,13 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
-          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
-          "blob_sha": "dd1ad18421ace16395760332dac0af29e3642045",
+          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
+          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
           "marker": "## B2"
         }
       ]
@@ -42,13 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
-          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
-          "blob_sha": "dd1ad18421ace16395760332dac0af29e3642045",
+          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
+          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
           "marker": "## B3"
         }
       ]
@@ -57,13 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
-          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
-          "blob_sha": "dd1ad18421ace16395760332dac0af29e3642045",
+          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
+          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
           "marker": "## B4"
         }
       ]
@@ -72,19 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_INTEGRATION_B1_B5_20261113.md",
-          "blob_sha": "4e49b86379264d5ac7f4b0517f20134aa18757ff",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/s3-night/S3_FINAL_A5_B7_RED_FIX_RECEIPT_WAIT_20261114.md",
-          "blob_sha": "dd1ad18421ace16395760332dac0af29e3642045",
+          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
+          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_API35_VERIFIED_SCOPED",
-    "B7": "PASS_SCOPED_PHYSICAL_PENDING"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
@@ -98,9 +73,8 @@
       }
     ]
   },
-  "why": "Programming and integrated APK verified in DEV scope; permit consumed. Human campaign only, no new functional code authorized.",
-  "how": "Preflight all eleven exact paths. Reuse canonical graph and algorithms; separate app and API35 local delta tests; no provider, secrets or G15.",
+  "why": "User authorized S4 W00-A only; 2 test/CI paths with source and adversarial preaudit; no Household implementation",
+  "how": "CAS writer and preflight both paths; targeted JUnit 5/5 and guard then scoped B7",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "blocked_reason": "CONSUMED_B7_PASS_NO_NEW_CODE_PHYSICAL_ACCEPTANCE_PENDING"
+  "no_auto_night": true
 }
