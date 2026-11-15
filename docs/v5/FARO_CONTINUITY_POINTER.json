@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_OPEN_W00_D2_PREAUDITED_DOC_ONLY",
+  "phase": "S4_OPEN_W00_D2_READY_SCOPED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "RELEASE_AFTER_S4_W00D2_DOC_ONLY_CHECKPOINT",
-    "epoch": 928
+    "status": "RELEASE_AFTER_S4_W00D2_PERMIT_CHECKPOINT",
+    "epoch": 929
   },
   "automation": {
     "activation_authorized": false,
@@ -40,9 +40,9 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W00-D1 B7 PASS scoped JVM shape (11/11) checkpoint b4b95fcf; W00-D2 canonical approved composite Review scope read preaudited B1-B5+documentary B7 (7 designed cases NOT_RUN), no READY, no Kotlin. Next independently bound code permit only after revalidating HEAD/owner/paths and preflight. Do not wire dual host or create grants; W00 global OPEN, W06 Household+Finance real before W07; V2 productive/Auto/Night OFF.",
-  "checkpoint_status": "S4_W00_D2_PREAUDIT_DOC_B7_POST_RELEASE_GUARD_PENDING",
-  "notes": "S3 formal closed 5/5 DEV with user-accepted H07-HOME physical exception 2026-11-15. R00/H03/H05/H06/H07/H08 scopes in latest closure doc; H01/H02/H04 historical preserved. S2 frozen; S4 formal OFF; V2 productive/Auto/Night OFF; no secrets or paid APIs.",
+  "next": "W00-D2 scoped functional READY only for 3 new paths. Preflight exact paths; implement canonical two-owner approved Review scope READ_ONLY with T01-T07; CI XML+guard by SHA, B7, writer release, no dual-host/Household grant. Then only independent next unit. V2 productive/Auto/Noche OFF.",
+  "checkpoint_status": "S4_W00_D2_PERMIT_READY_DOC_GUARD_PENDING",
+  "notes": "W00-D2 preaudit B1-B5 refreshed & user authorized 2026-11-15; pending code. FARO records money, never external payments. S3 DEV closed 5/5 with H07 exception.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "b5c2906654c1a6b88aadfa4997c3324d3395f20b",
   "last_ci_run_id": 43768537598,

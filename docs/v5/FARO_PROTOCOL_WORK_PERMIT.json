@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W00_D1_SCOPED_ADMISSION_SHAPE_VALIDATOR",
-  "reviewed_head": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
+  "status": "READY",
+  "unit_id": "S4_W00_D2_CANONICAL_COMPOSITE_REVIEW_SCOPE_READ",
+  "reviewed_head": "2709849c80741d8c42b1d19135a374184932bffe",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W00D1AdmissionShape.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00D1AdmissionShapeTest.kt",
-    ".github/workflows/faro-v5-s4-w00-d1-admission-shape-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W00D2CompositeApprovedReviewScope.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00D2CompositeApprovedReviewScopeTest.kt",
+    ".github/workflows/faro-v5-s4-w00-d2-composite-review-read-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_D1_ADMISSION_SHAPE_B1_B5_20261115.md",
-          "blob_sha": "b82ebbfec2f1528cabbb455f678be795322de659",
+          "path": "docs/v5/FARO_S4_W00_D2_SCOPE_READ_IMPLEMENTATION_AUTHORIZATION_B1_B5_20261115.md",
+          "blob_sha": "4681b651f76413f547d0c462fef6bfb1b5710418",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_D1_ADMISSION_SHAPE_B1_B5_20261115.md",
-          "blob_sha": "b82ebbfec2f1528cabbb455f678be795322de659",
+          "path": "docs/v5/FARO_S4_W00_D2_SCOPE_READ_IMPLEMENTATION_AUTHORIZATION_B1_B5_20261115.md",
+          "blob_sha": "4681b651f76413f547d0c462fef6bfb1b5710418",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_D1_ADMISSION_SHAPE_B1_B5_20261115.md",
-          "blob_sha": "b82ebbfec2f1528cabbb455f678be795322de659",
+          "path": "docs/v5/FARO_S4_W00_D2_SCOPE_READ_IMPLEMENTATION_AUTHORIZATION_B1_B5_20261115.md",
+          "blob_sha": "4681b651f76413f547d0c462fef6bfb1b5710418",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_D1_ADMISSION_SHAPE_B1_B5_20261115.md",
-          "blob_sha": "b82ebbfec2f1528cabbb455f678be795322de659",
+          "path": "docs/v5/FARO_S4_W00_D2_SCOPE_READ_IMPLEMENTATION_AUTHORIZATION_B1_B5_20261115.md",
+          "blob_sha": "4681b651f76413f547d0c462fef6bfb1b5710418",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_D1_ADMISSION_SHAPE_B1_B5_20261115.md",
-          "blob_sha": "b82ebbfec2f1528cabbb455f678be795322de659",
+          "path": "docs/v5/FARO_S4_W00_D2_SCOPE_READ_IMPLEMENTATION_AUTHORIZATION_B1_B5_20261115.md",
+          "blob_sha": "4681b651f76413f547d0c462fef6bfb1b5710418",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_JVM_11_OF_11_CI_XML_VERIFIED",
-    "B7": "PASS_SCOPED_INERT_ADMISSION_SHAPE_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "Authorized S4 W00-D bounded phase1 structural multi-owner admission shape only, W00-C host remains deny",
-  "how": "Three new files (inert internal Kotlin validator, 11 JVM tests, one directed CI); no existing hosts/owners/DB/catalog or Android UI changes",
+  "why": "User-authorized bounded canonical READ_ONLY composite Review scope extraction, no Apply/no owner grants",
+  "how": "New internal Kotlin class + 7-case JVM test + directed CI workflow; exact three paths only",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "W00_D1_B7_PASS_SCOPED_PERMIT_CONSUMED_NEXT_UNIT_NEEDS_OWN_B1_B5_AND_READY"
+  "blocked_reason": null
 }
