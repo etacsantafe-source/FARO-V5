@@ -57,7 +57,7 @@ jobs:
               'staleSecondOwnerRejectsAndRollsBackNewFinanceWithoutDeletingOldObjective',
               'forbiddenNestedTransactionAfterFinanceRollsBackOuterScope',
           }
-          names={v.attrib.get('name') for v in root.findall('testcase')}
+          names={v.attrib.get('name','').removesuffix('()') for v in root.findall('testcase')}
           if counts!=(5,0,0,0) or names!=expected:
               raise SystemExit('S4_W00_A_XML_FAIL '+str((counts,names)))
           print('S4_W00_A_SQLITE_REAL_FEASIBILITY_PASS 5/5')
