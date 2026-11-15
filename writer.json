@@ -1,15 +1,15 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3.U05.EXCEPTION.CLOSURE.20261115",
   "token_hash": "768d7bdf72a112dbf29399776cdcc035df7afff4d56a2d6fd176abe1cd21a091",
   "target_head": "2e310269e7e3bd0b9afc254b24fc0d565d353a46",
   "target_branch": "work/s3-night-20261102",
   "epoch": 908,
   "timestamp": 1794759000,
-  "scope": "S3_FINAL_CLOSURE_DOC_ONLY_H07_HOME_WAIVER_EXPLICIT_HUMAN_AUTHORIZATION",
-  "last_checkpoint": "2e310269e7e3bd0b9afc254b24fc0d565d353a46",
-  "physical_acceptance": "PASS_SCOPED_FORMAL_S3_OPEN",
+  "scope": "S3_CLOSED_FORMAL_5_OF_5_DEV_H07_HOME_EXCEPTION_ACCEPTED_DOC_ONLY",
+  "last_checkpoint": "91bf381c1cc482b942387866eef1ad1f860f0f1b",
+  "physical_acceptance": "CLOSED_FORMAL_DEV_WITH_H07_HOME_EXCEPTION_ACCEPTED",
   "programming_complete": true,
   "integrated_apk_artifact": 14111788066
 }
