@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W00_D2_CANONICAL_COMPOSITE_REVIEW_SCOPE_READ",
-  "reviewed_head": "2709849c80741d8c42b1d19135a374184932bffe",
+  "reviewed_head": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W00D2CompositeApprovedReviewScope.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00D2CompositeApprovedReviewScopeTest.kt",
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_7_OF_7_CI_XML_VERIFIED",
+    "B7": "PASS_SCOPED_CANONICAL_REVIEW_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "caf4d2c0bb187e93f667b5a7a7f4eabd575ecc79",
-    "unit_id": "S4_W00_D1_SCOPED_ADMISSION_SHAPE_VALIDATOR",
+    "sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
+    "unit_id": "S4_W00_D2_CANONICAL_COMPOSITE_REVIEW_SCOPE_READ",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W00_D1_B7_PASS_SCOPED_20261115.md",
-        "blob_sha": "1ab4f89c10d4bc9c02c1f0a4affa2d25e4aa3437",
+        "path": "docs/v5/FARO_S4_W00_D2_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "074ffd40d1c8549a0cb58bf05af1dbcdc377ce95",
         "marker": "## B7"
       }
     ]
   },
-  "why": "User-authorized bounded canonical READ_ONLY composite Review scope extraction, no Apply/no owner grants",
+  "why": "W00-D2 7/7 B7 PASS scoped; next W00-D3 documentary preaudit only, no code permission",
   "how": "New internal Kotlin class + 7-case JVM test + directed CI workflow; exact three paths only",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W00_D2_B7_PASS_SCOPED_PERMIT_CONSUMED_D3_NO_READY"
 }
