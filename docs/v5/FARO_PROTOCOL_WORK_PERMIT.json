@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
-  "reviewed_head": "bd01b5e21b9d6a1bf5ce2711e35e14018a78ccda",
+  "reviewed_head": "743433fbdd9afcddec5dfade5c914330ba00a50c",
   "paths": [
     ".github/workflows/faro-v5-s4-w00-a-two-owner-atomicity-directed.yml"
   ],
@@ -57,23 +57,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_TESTS_JVM_5_OF_5_CI_VERIFIED",
+    "B7": "PASS_SCOPED_FEASIBILITY"
   },
   "last_code_review": {
-    "sha": "bd01b5e21b9d6a1bf5ce2711e35e14018a78ccda",
+    "sha": "743433fbdd9afcddec5dfade5c914330ba00a50c",
     "unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
-        "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
+        "path": "docs/v5/FARO_S4_W00_A_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "1ba70bc503bfd306a2bea1ca67c18b5c4604aab4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Only CI XML expected method names omit actual JUnit () suffix; Kotlin tests 5/5 PASS",
+  "why": "Five SQLite real tests passed scoped; no code beyond test/workflow, no Household/Apply receipt certification",
   "how": "Normalize trailing () only for five exact method name equality; no edits to tests",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "W00_A_B7_PASS_SCOPED_PERMIT_CONSUMED_NEXT_UNIT_NEEDS_NEW_HUMAN_SCOPE_AND_READY"
 }
