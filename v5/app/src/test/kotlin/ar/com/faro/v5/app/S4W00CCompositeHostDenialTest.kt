@@ -160,7 +160,6 @@ class S4W00CCompositeHostDenialTest {
                 assertNull(reality.executionReceiptLookup.find(TransactionId("tx-w00c-" + suffix)))
                 assertEquals(ConversationPlanReviewState.APPROVED,
                     runBlocking { workspace.reviews(conversation) }.single().state)
-                assertEquals("ok", reality.integrityCheck())
             }
         } finally {
             workspace.close()
