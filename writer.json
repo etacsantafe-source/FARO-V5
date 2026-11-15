@@ -1,15 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S4.W00B.B7.20261115",
-  "token_hash": "4c221c53465d09dc0dc99c00d5350fb88efeb9553c9ae64c8efa40ee8388f344",
-  "target_head": "6017e77b45c0ccd5633c863572bdb02934232ad6",
-  "target_branch": "work/s3-night-20261102",
-  "epoch": 918,
-  "timestamp": 1794780064,
-  "scope": "S4_W00_B_B7_PASS_SCOPED_RELEASED_PERMIT_CONSUMED",
-  "last_checkpoint": "6017e77b45c0ccd5633c863572bdb02934232ad6",
-  "physical_acceptance": "CLOSED_FORMAL_DEV_WITH_H07_HOME_EXCEPTION_ACCEPTED",
-  "programming_complete": false,
-  "integrated_apk_artifact": 14111788066
-}
+{"schema":1,"status":"HELD","owner":"FARO.MANUAL.S4.W00C.PREAUDIT.20261115","token_hash":"e7039036b558693839f713b10051b0a8e54942de3a16b972bb2b9688f158027b","target_head":"6017e77b45c0ccd5633c863572bdb02934232ad6","target_branch":"work/s3-night-20261102","epoch":919,"timestamp":1794780397,"scope":"S4_W00_C_B1_B5_DOC_ONLY_PREAUDIT"}
