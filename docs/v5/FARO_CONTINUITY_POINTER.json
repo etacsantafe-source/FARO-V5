@@ -3,10 +3,10 @@
   "project": "FARO V5",
   "trigger": "Continuar FARO V5",
   "trigger_action": "RECOVER_CI_WRITER_QUEUE_PROTOCOL_GATE_AUDIT_DOC_AND_PERMIT_BEFORE_FUNCTIONAL_V2",
-  "updated_local_date": "2026-11-14",
+  "updated_local_date": "2026-11-15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S3_FINAL_PROGRAMMING_BLOCKED_ENVIRONMENT_UNAVAILABLE",
+  "phase": "S3_FINAL_U05_PHYSICAL_B7_SCOPED_ACCEPTANCE_OPEN",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": false,
   "writer": {
     "status": "RELEASE_AFTER_FINAL_DOC_CHECKPOINT",
-    "epoch": 906
+    "epoch": 907
   },
   "automation": {
     "activation_authorized": false,
@@ -41,7 +41,7 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "Human-only single G15 campaign using S3_FINAL_G15_SINGLE_CAMPAIGN_GUIDE_20261114.md. Programming and application artifact verified. Preserve H01/H02/H04; H03/H05 TalkBack/H06 Free consent/H07/H08 pending. No further functional code READY, no S4/provider/phone work by Work. Verify final doc guard/current writer on recovery.",
-  "checkpoint_status": "PROGRAMMING_S3_COMPLETE_VERIFIED_APK_READY_PHYSICAL_PENDING",
+  "checkpoint_status": "S3_PHYSICAL_EVIDENCE_RECONCILED_SCOPED_U05_FORMAL_GATE_PENDING",
   "notes": "M01-M05 DONE_VERIFIED automated DEV. M05 11/11 XML+APK zip independently verified, B7 PASS; M05 functional permit consumed/BLOCKED (post-checkpoint preflight remediation); G15 physical NOT_RUN; S3.A3 OPEN.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
@@ -1082,7 +1082,7 @@
     "backup_restore": "B7_PASS_SCOPED",
     "ui": "DEV_AUTOMATED_M01_M05_B7_PASS_EXACT_NAV_AND_MUTATION",
     "physical": "NOT_RUN",
-    "next": "M01\u2013M05 DONE_VERIFIED; no repetir. A3 pendiente \u00fanicamente aceptaci\u00f3n f\u00edsica final G15, integrada en cierre global A5.",
+    "next": "M01–M05 DONE_VERIFIED; no repetir. A3 pendiente únicamente aceptación física final G15, integrada en cierre global A5.",
     "backup_code_sha": "196a48fa9ee78eef6fc60d9b13d69c40c323b92a",
     "backup_ci_run": 42920844145,
     "portability_preaudit": "docs/s3-night/S3_A3_BOOKMARKS_PORTABILITY_B1_B5_20261110.md",
@@ -3525,6 +3525,36 @@
     "catalog": 180,
     "productive_v2": false,
     "s4_programming": false,
+    "auto": false,
+    "night": false
+  },
+  "s3_g15_physical_acceptance_20261115": {
+    "unit": "S3_FINAL_U05_G15_PHYSICAL_ACCEPTANCE",
+    "b7_report": "docs/s3-night/S3_FINAL_G15_PHYSICAL_U05_B7_SCOPED_20261115.md",
+    "status": "PASS_SCOPED_EVIDENCE_RECONCILED_FORMAL_S3_OPEN",
+    "package": "ar.com.faro.alpha.s3integrateddev",
+    "apk_sha256": "de6c7f24d684453e6d6fffda9c51dfe4efa697540c37aade98172bc6968d7af0",
+    "android": "15",
+    "device": "moto g15",
+    "cases": {
+      "R00": "PASS_TECHNICAL_REALITY8_ACTIVE_JOURNAL_COMPLETED_FENCE",
+      "H01_H02_H04": "PRESERVE_HISTORICAL_SCOPE_NOT_REPEATED",
+      "H03": "PASS_SCOPED_ACTIVITY_COMMITTED_RECEIPT_AVISOS_ZERO_SOURCE_DUE_ZERO_WINDOW",
+      "H05": "PASS_SCOPED_FONT200_TALKBACK_G15_HUMAN",
+      "H06": "PASS_REAL_REMOTE_RESPONSE_GROQ_FREE_USER_ATTESTED_NOT_BILLING_INDEPENDENTLY_VERIFIED",
+      "H07": "PASS_SCOPED_INFLIGHT_APP_CLOSE_NO_LATE_REPLY_REVOKE_AND_REOPEN_DENIAL_HOME_EXACT_UNVERIFIED",
+      "H08": "PASS_SCOPED_REVIEW_APPROVE_APPLY_COMMITTED_RECEIPT_SAME_APP"
+    },
+    "gates_remaining": [
+      "H07_EXACT_HOME_INFLIGHT_EQUIVALENCE_OR_MINIMAL_HUMAN_SCOPE_DECISION",
+      "FORMAL_S3_HUMAN_SIGNOFF_AND_GUARD_CHECKPOINT"
+    ],
+    "programacion_dev": "5/5",
+    "formal_s3": "OPEN_0/5",
+    "source_head": "78aa1a7e314be1568116b913e23ee88971d01e5f",
+    "prior_guard_success": 43590131528,
+    "productive_v2": false,
+    "s4_open": false,
     "auto": false,
     "night": false
   }
