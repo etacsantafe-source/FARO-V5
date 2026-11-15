@@ -1,11 +1,15 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S3.U05.20261115",
   "token_hash": "bd6d82380e901463250da7375e5f73ab2127f4b02cae38c0073750ac3c481a21",
   "target_head": "78aa1a7e314be1568116b913e23ee88971d01e5f",
   "target_branch": "work/s3-night-20261102",
   "epoch": 907,
   "timestamp": 1794744000,
-  "scope": "S3_U05_DOC_ONLY_PHYSICAL_RECONCILIATION"
+  "scope": "S3_U05_SCOPED_B7_DOC_CHECKPOINT_PHYSICAL_ACCEPTANCE_PENDING_FORMAL",
+  "last_checkpoint": "2e310269e7e3bd0b9afc254b24fc0d565d353a46",
+  "physical_acceptance": "PASS_SCOPED_FORMAL_S3_OPEN",
+  "programming_complete": true,
+  "integrated_apk_artifact": 14111788066
 }
