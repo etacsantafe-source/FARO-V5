@@ -1,0 +1,65 @@
+name: FARO V5 S4 W00-C composite host fail-closed JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00CCompositeHostDenialTest.kt"
+      - ".github/workflows/faro-v5-s4-w00-c-host-denial-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w00-c-host-denial
+  cancel-in-progress: false
+jobs:
+  composite-host-denial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for app JVM test compile
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Only W00-C negative real-host two-owner JVM tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W00CCompositeHostDenialTest"
+      - name: Verify exact W00-C JUnit XML 2 of 2
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path("v5/app/build/test-results/testDebugUnitTest")
+          files=list(folder.glob("TEST-*S4W00CCompositeHostDenialTest.xml"))
+          if len(files)!=1: raise SystemExit("W00C_XML_MISSING "+str(len(files)))
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k, "-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+            "humanApprovedReminderThenMonthlyCompositeIsDeniedWithoutAttemptOrReceipt",
+            "humanApprovedMonthlyThenReminderCompositeIsDeniedWithoutAttemptOrReceipt",
+          }
+          cases=[(x.get("name") or "").removesuffix("()") for x in root.findall("testcase")]
+          if counts!=(2,0,0,0) or len(cases)!=2 or set(cases)!=expected:
+              raise SystemExit("W00C_XML_FAIL "+str((counts,cases)))
+          print("S4_W00C_TWO_OWNER_APPROVED_HOST_DENIAL_XML_PASS 2/2")
+          print("NOT_CERTIFIED: multi-owner approved host, any Household+Finance payment, external grant fencing, Android physical")
+          PY
+      - name: Keep exact W00-C XML evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-s4-w00-c-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W00CCompositeHostDenialTest.xml
+          if-no-files-found: warn
