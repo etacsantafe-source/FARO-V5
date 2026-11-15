@@ -1,15 +1,15 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.S4.W00A.20261115",
   "token_hash": "4c221c53465d09dc0dc99c00d5350fb88efeb9553c9ae64c8efa40ee8388f344",
-  "target_head": "f2f9e0503126acd0242708cf40c06984db5e175a",
+  "target_head": "551e0d74e7805e6bbc3ad8a325b57de8c3df2b96",
   "target_branch": "work/s3-night-20261102",
   "epoch": 911,
-  "timestamp": 1794777871,
-  "scope": "S4_W00_A_DOC_SCOPE_PREAUDIT_PERMISSION_AND_SINGLE_TEST_UNIT",
-  "last_checkpoint": "f2f9e0503126acd0242708cf40c06984db5e175a",
+  "timestamp": 1794778188,
+  "scope": "S4_W00_A_READY_B1_B5_DOC_ONLY_PENDING_GUARD_AND_B6",
+  "last_checkpoint": "551e0d74e7805e6bbc3ad8a325b57de8c3df2b96",
   "physical_acceptance": "CLOSED_FORMAL_DEV_WITH_H07_HOME_EXCEPTION_ACCEPTED",
-  "programming_complete": true,
+  "programming_complete": false,
   "integrated_apk_artifact": 14111788066
 }
