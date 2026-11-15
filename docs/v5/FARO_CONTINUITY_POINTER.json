@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": false,
   "writer": {
-    "status": "RELEASE_AFTER_S4_P08_DOC_CHECKPOINT",
-    "epoch": 909
+    "status": "RELEASE_AFTER_S4_W00_PRECODE_DOC_CHECKPOINT",
+    "epoch": 910
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S3 CLOSED 5/5 DEV with H07-HOME accepted exception (NOT PASS). S4 P00-P08 preparation documented (P08 post-release guard/writer verification required). W00-W11 only B1-B5 candidates, NOT READY. S4 formally OFF; next require separate human opening/owner and individual work permits; no code while BLOCKED.",
-  "checkpoint_status": "S4_P08_DOCUMENTARY_PUBLISHED_PENDING_NEW_HEAD_GUARD_WRITER_RELEASE",
+  "next": "S3 CLOSED 5/5 DEV with accepted H07-HOME exception (NOT PASS). S4 P00-P08 documented; W00 live source audit and exact first test-unit plan published DOC_ONLY. S4 formal OFF, permit BLOCKED, W00-A NOT READY; verify latest guard, secure human approval of S4 limited scope, then individual preflight/READY in separate docs commit. W06 real Household+Finance atomicity before W07. No code yet.",
+  "checkpoint_status": "S4_W00_PRECODE_B1_B5_PUBLISHED_B7_POST_RELEASE_GUARD_PENDING",
   "notes": "S3 formal closed 5/5 DEV with user-accepted H07-HOME physical exception 2026-11-15. R00/H03/H05/H06/H07/H08 scopes in latest closure doc; H01/H02/H04 historical preserved. S2 frozen; S4 formal OFF; V2 productive/Auto/Night OFF; no secrets or paid APIs.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
@@ -2171,13 +2171,13 @@
     "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
     "writer_epoch": 704
   },
-  "goal_id": "S4_PREP_P08_DOCUMENTARY",
-  "unit_id": "S4_PREP_P08_WORK_PACKAGES_DOCUMENTARY",
+  "goal_id": "S4_PRECODE_W00_FEASIBILITY",
+  "unit_id": "S4_W00_PRECODE_FEASIBILITY_REVIEW",
   "block_id": 7,
-  "block_status": "B6_PUBLISHED_B7_POST_RELEASE_GATE_PENDING",
+  "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
-  "blocker": "NONE_FOR_DOCUMENTARY_PUBLICATION_S4_FUNCTIONAL_NOT_AUTHORIZED",
-  "writer_release_epoch": 909,
+  "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
+  "writer_release_epoch": 910,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -3078,7 +3078,7 @@
     "handoff_document": "docs/v5/FARO_S4_PREPARATION_P00_P08_HANDOFF_20261112.md",
     "documentary_protocol_b7": "docs/v5/FARO_S4_PREPARATION_P00_P08_B7_20261112.md",
     "first_doc_commit": "9dd851cd44e58694f23784024f125097b710f932",
-    "next_task": "P08_PUBLISHED_DOCUMENTARY_W00_W11_CANDIDATE_HUMAN_S4_OPENING_NOT_AUTHORIZED",
+    "next_task": "W00_PRECODE_CHECKPOINT_GUARD_THEN_S4_OPENING_AND_EXACT_SCOPE_PERMIT",
     "sequence": [
       "P00",
       "P01",
@@ -3313,6 +3313,44 @@
         "PERMIT_BLOCKED_S4_OFF"
       ],
       "next_gate": "HUMAN_REVIEW_S4_SCOPE_AND_OWNER_AFTER_DOCUMENTARY_B7"
+    },
+    "w00": {
+      "status": "PRECODE_DOC_PUBLISHED_FIRST_CODE_UNIT_CANDIDATE_NOT_READY",
+      "unit_id": "S4_W00_PRECODE_FEASIBILITY_REVIEW",
+      "baseline_head": "42e889d2f66fd61e074790b6e1dde5454fc3ae56",
+      "b1_b5_document": "docs/v5/FARO_S4_W00_PRECODE_B1_B5_AND_FIRST_UNIT_20261115.md",
+      "b1_b5_document_blob": "67ebc91ec3ffee54e331376311323575bdb4cf37",
+      "b7_document": "docs/v5/FARO_S4_W00_PRECODE_B7_DOCUMENTARY_20261115.md",
+      "b7_document_blob": "209041e46d6b9e51e3032721acfa2bf54b080d4a",
+      "first_code_unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
+      "first_code_path_candidate": "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W00TwoOwnerAtomicityFeasibilityTest.kt",
+      "first_code_path_verified_existing": false,
+      "tests_planned": [
+        "W00-T01",
+        "W00-T02",
+        "W00-T03",
+        "W00-T04",
+        "W00-T05",
+        "W00-T06",
+        "W00-T07",
+        "W00-T08",
+        "W00-T09",
+        "W00-T10"
+      ],
+      "scope": "READ_ONLY_AND_DOC_ONLY_PRECODE",
+      "functional_permit": "BLOCKED",
+      "s4_open": false,
+      "household_owner": "DESIGN_ONLY_NOT_IMPLEMENTATION_APPROVED",
+      "guard": "POST_HEAD_NEW_SHA_SUCCESS_NOT_YET_VERIFIED",
+      "writer_release_epoch": 910,
+      "prerequisites_for_ready": [
+        "GUARD_SUCCESS_FINAL_SHA",
+        "FORMAL_HUMAN_S4_SCOPE_OPENING",
+        "VERIFY_TEST_PATH_AND_EXISTING_DELTA",
+        "W00_A_B1_B5_EVIDENCE_AND_PREFLIGHT",
+        "SCOPED_PERMIT_IN_DOC_ONLY_PARENT_COMMIT"
+      ],
+      "next": "Verify guard for final SHA; explicit human S4 opening limited first unit; then issue exact path READY permit in separate doc-only commit. NEVER code while BLOCKED."
     }
   },
   "s3_final_completion_handoff": {
