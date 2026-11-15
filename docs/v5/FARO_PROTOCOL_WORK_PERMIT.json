@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W00_C_COMPOSITE_HOST_FAIL_CLOSED_TEST",
-  "reviewed_head": "dbeb93134fa4dd6c9aee4d79423d8d304cef6796",
+  "reviewed_head": "b5c2906654c1a6b88aadfa4997c3324d3395f20b",
   "paths": [
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00CCompositeHostDenialTest.kt"
   ],
@@ -57,17 +57,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_2_OF_2_CI_XML_VERIFIED",
+    "B7": "PASS_SCOPED_REAL_HOST_FAIL_CLOSED"
   },
   "last_code_review": {
-    "sha": "dbeb93134fa4dd6c9aee4d79423d8d304cef6796",
+    "sha": "b5c2906654c1a6b88aadfa4997c3324d3395f20b",
     "unit_id": "S4_W00_C_COMPOSITE_HOST_FAIL_CLOSED_TEST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W00_C_COMPILER_VISIBILITY_REDFIX_B1_B5_B7_20261115.md",
-        "blob_sha": "80bdd6e35cd6689f696cf6762c180d8082209e5b",
+        "path": "docs/v5/FARO_S4_W00_C_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "2a6d3d86115a038c66fc1c4dba8e1387e2286ae1",
         "marker": "## B7"
       }
     ]
@@ -75,5 +75,6 @@
   "why": "JVM compile failed due to internal RealityStore.integrityCheck visibility from app test; no tests run",
   "how": "Delete only inaccessible redundant assertion; preserve owner state, journal, receipts and approved Review assertions",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "W00_C_B7_PASS_SCOPED_PERMIT_CONSUMED_NEXT_UNIT_REQUIRES_NEW_B1_B5_AND_READY"
 }
