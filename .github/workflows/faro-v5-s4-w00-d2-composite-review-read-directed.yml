@@ -1,0 +1,70 @@
+name: FARO V5 S4 W00-D2 canonical composite Review READ_ONLY JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W00D2CompositeApprovedReviewScope.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W00D2CompositeApprovedReviewScopeTest.kt"
+      - ".github/workflows/faro-v5-s4-w00-d2-composite-review-read-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w00-d2
+  cancel-in-progress: false
+jobs:
+  test-canonical-review-scope:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK for JVM
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run seven exact W00-D2 tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W00D2CompositeApprovedReviewScopeTest"
+      - name: Verify exact XML and seven test names
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files = list(Path("v5/app/build/test-results/testDebugUnitTest").glob("TEST-*S4W00D2CompositeApprovedReviewScopeTest.xml"))
+          if len(files) != 1: raise SystemExit("D2_XML_MISSING "+str(len(files)))
+          suite = ET.parse(files[0]).getroot()
+          counts = tuple(int(suite.get(k, "-1")) for k in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "approvedCanonicalWorkspacePairYieldsTwoReadOnlyScopesWithoutApply",
+              "pendingAndDiscardedReviewsAreDenied",
+              "descriptorRevocationDuringSecondLookupDenies",
+              "generationOrHostLifecycleDriftDenies",
+              "oneOrThreeNodesOrInvalidPayloadFailClosed",
+              "reviewOrEnvelopeChangingBetweenReadsDeniesWithoutAdvancing",
+              "reversedDagOrderRetainsEachNodeOwnerAndObjectIdentity",
+          }
+          cases = [(e.get("name") or "").removesuffix("()") for e in suite.findall("testcase")]
+          if counts != (7, 0, 0, 0) or set(cases) != expected or len(cases) != 7:
+              raise SystemExit("D2_XML_FAIL "+str((counts,cases)))
+          print("S4_W00_D2_CANONICAL_REVIEW_SCOPE_JVM_XML_PASS 7/7")
+          print("NOT_CERTIFIED: any Apply, owner lease, Household, external payments, or dual-host COMMIT")
+          PY
+      - name: Retain W00-D2 JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-s4-w00-d2-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W00D2CompositeApprovedReviewScopeTest.xml
+          if-no-files-found: warn
