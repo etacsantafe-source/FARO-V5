@@ -1,0 +1,68 @@
+name: FARO V5 S4 W00-B real multiowner Apply receipt recovery JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W00BMultiOwnerApplyReceiptRecoveryTest.kt"
+      - ".github/workflows/faro-v5-s4-w00-b-apply-receipt-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w00-b
+  cancel-in-progress: false
+jobs:
+  real-two-owner-apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android compile platform for Gradle configuration
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run exact W00-B Apply receipt recovery JVM tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.S4W00BMultiOwnerApplyReceiptRecoveryTest"
+      - name: Verify five named W00-B tests by JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root=Path('v5/store/reality/build/test-results/test')
+          files=list(root.glob('TEST-*S4W00BMultiOwnerApplyReceiptRecoveryTest.xml'))
+          if len(files)!=1: raise SystemExit('W00B_XML_MISSING '+str(len(files)))
+          suite=ET.parse(files[0]).getroot()
+          counts=tuple(int(suite.attrib.get(n,'-1')) for n in ('tests','failures','errors','skipped'))
+          expected={
+            'composedApplyCommitsBothOwnersOneReceiptAndReceiptFirstRetrySurvivesReopen',
+            'secondOwnerBindingRejectionRollsBackFinanceAndEmitsNoReceipt',
+            'simulatedRevocationAfterBothBindingsRejectsBeforeReceiptAndRollsBackBoth',
+            'interruptedCommitAfterReceiptInsertRollsBackBothAndRecoveryReusesPreparedIdentity',
+            'mismatchedCommitReceiptRollsBackBothOwnerWritesAndArtifacts',
+          }
+          cases=[(x.attrib.get('name') or '').removesuffix('()') for x in suite.findall('testcase')]
+          if counts!=(5,0,0,0) or len(cases)!=5 or set(cases)!=expected:
+            raise SystemExit('W00B_XML_FAIL '+str((counts,cases)))
+          print('W00B_TWO_REAL_OWNERS_TEST_ONLY_OBJECTIVE_BINDING_XML_PASS 5/5')
+          print('NOT_CERTIFIED: real host ACL, approved Objective product binding, Household+Finance, W06/W07, OS crash')
+          PY
+      - name: Keep exact W00-B XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-s4-w00-b-junit
+          path: v5/store/reality/build/test-results/test/TEST-*S4W00BMultiOwnerApplyReceiptRecoveryTest.xml
+          if-no-files-found: warn
