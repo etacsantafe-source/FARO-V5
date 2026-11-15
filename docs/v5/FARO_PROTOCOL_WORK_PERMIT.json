@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W00_B_REAL_MULTI_OWNER_APPLY_RECEIPT_RECOVERY_TEST",
-  "reviewed_head": "02d527c5f586fd5fbf4a8460afc60b300583c6f9",
+  "reviewed_head": "307ee6c851fefb33a215a40c345cd7c7de6bd7f0",
   "paths": [
     "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W00BMultiOwnerApplyReceiptRecoveryTest.kt",
     ".github/workflows/faro-v5-s4-w00-b-apply-receipt-directed.yml"
@@ -58,23 +58,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_5_OF_5_CI_VERIFIED",
+    "B7": "PASS_SCOPED_TEST_FIXTURE"
   },
   "last_code_review": {
-    "sha": "743433fbdd9afcddec5dfade5c914330ba00a50c",
-    "unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
+    "sha": "307ee6c851fefb33a215a40c345cd7c7de6bd7f0",
+    "unit_id": "S4_W00_B_REAL_MULTI_OWNER_APPLY_RECEIPT_RECOVERY_TEST",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W00_A_B7_PASS_SCOPED_20261115.md",
-        "blob_sha": "1ba70bc503bfd306a2bea1ca67c18b5c4604aab4",
+        "path": "docs/v5/FARO_S4_W00_B_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "50174109876f1853e9311ca485e032470088ae6c",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Human 'Continuamos' directly to announced W00-B bounded next step; tests only two real SQLite owners with test-only Objectives binding; no product changes",
-  "how": "Preflight 2 paths; B6 targeted JVM/XML5/5 then same SHA guard, independent B7; writer released during CI",
+  "why": "5/5 REAL SQLite Apply receipt/recovery with TEST_ONLY Objectives binding; next work not authorised",
+  "how": "Next W00 bounded admission/authorization test preaudit, individual approval and exact permit; W06 product Household+Finance later",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "W00_B_B7_PASS_CONSUMED_NEXT_UNIT_NEEDS_INDEPENDENT_B1_B5_AND_READY"
 }

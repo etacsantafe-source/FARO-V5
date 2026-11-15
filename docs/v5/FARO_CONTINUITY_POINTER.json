@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_OPEN_FORMAL_W00_B_PREAUDITED_TEST_ONLY",
+  "phase": "S4_OPEN_W00_B_B7_PASS_SCOPED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "RELEASE_AFTER_S4_W00B_READY_DOC_CHECKPOINT",
-    "epoch": 916
+    "status": "RELEASE_AFTER_S4_W00B_B7_DOC_CHECKPOINT",
+    "epoch": 918
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W00-A B7 PASS scoped. W00-B new authorized bounded real Apply/receipt/recovery 2-owner TEST-ONLY: preaudit B1-B5; after docs-only guard and exact preflight, B6 two test/CI paths, JUnit5/5, B7. Do not open W01-W11, Household or shipping. W06 is mandatory before W07.",
-  "checkpoint_status": "S4_W00_B_READY_B1_B5_ONLY_AWAIT_B6",
+  "next": "W00-A and W00-B certified scoped (5/5 each), no W00 global PASS; real owner-level host authority+receipt admission still future. W06 real Household+Finance before W07. W00-B permit consumed BLOCKED, next unit requires separate B1-B5 and READY, no W01-W11 coding.",
+  "checkpoint_status": "S4_W00_B_B7_PASS_SCOPED_POST_RELEASE_GUARD_PENDING",
   "notes": "S3 formal closed 5/5 DEV with user-accepted H07-HOME physical exception 2026-11-15. R00/H03/H05/H06/H07/H08 scopes in latest closure doc; H01/H02/H04 historical preserved. S2 frozen; S4 formal OFF; V2 productive/Auto/Night OFF; no secrets or paid APIs.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "743433fbdd9afcddec5dfade5c914330ba00a50c",
-  "last_ci_run_id": 43764890237,
+  "last_code_sha": "307ee6c851fefb33a215a40c345cd7c7de6bd7f0",
+  "last_ci_run_id": 43766359680,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -481,8 +481,8 @@
     "b7_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
   },
   "guard_last_inspected": {
-    "run_id": 43764890242,
-    "source_sha": "743433fbdd9afcddec5dfade5c914330ba00a50c",
+    "run_id": 43766359647,
+    "source_sha": "307ee6c851fefb33a215a40c345cd7c7de6bd7f0",
     "status": "completed",
     "conclusion": "success"
   },
@@ -3670,7 +3670,7 @@
   },
   "s4_w00_b": {
     "unit_id": "S4_W00_B_REAL_MULTI_OWNER_APPLY_RECEIPT_RECOVERY_TEST",
-    "status": "READY_B1_B5_DOCS_ONLY_PENDING_CODE",
+    "status": "B7_PASS_SCOPED",
     "user_scope": "2026-11-15 Continuamos directly after announced next W00-B",
     "preaudit": "docs/v5/FARO_S4_W00_B_APPLY_RECEIPT_B1_B5_20261115.md",
     "paths": [
@@ -3679,6 +3679,19 @@
     ],
     "expected_tests": 5,
     "tests_executed": 0,
-    "certification_limit": "test-only Objectives binding; real Finance and two persistent owner writes; no host auth"
+    "certification_limit": "test-only Objectives binding; real Finance and two persistent owner writes; no host auth",
+    "code_sha": "307ee6c851fefb33a215a40c345cd7c7de6bd7f0",
+    "ci_run_id": 43766359680,
+    "ci_status": "SUCCESS",
+    "tests": "5/0/0/0",
+    "artifact_id": 14182187978,
+    "guard_run_id": 43766359647,
+    "regression_runs": [
+      43766359700,
+      43766359625
+    ],
+    "b7_doc": "docs/v5/FARO_S4_W00_B_B7_PASS_SCOPED_20261115.md",
+    "permit": "BLOCKED_CONSUMED",
+    "limits": "fixture-only Objective binding, no host/product ACL, no Household+Finance"
   }
 }
