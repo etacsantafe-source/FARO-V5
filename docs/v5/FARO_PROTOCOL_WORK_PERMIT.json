@@ -2,9 +2,8 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
-  "reviewed_head": "f2f9e0503126acd0242708cf40c06984db5e175a",
+  "reviewed_head": "bd01b5e21b9d6a1bf5ce2711e35e14018a78ccda",
   "paths": [
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W00TwoOwnerAtomicityFeasibilityTest.kt",
     ".github/workflows/faro-v5-s4-w00-a-two-owner-atomicity-directed.yml"
   ],
   "stages": {
@@ -12,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
+          "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
+          "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
           "marker": "## B1"
         }
       ]
@@ -22,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
+          "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
+          "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
           "marker": "## B2"
         }
       ]
@@ -32,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
+          "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
+          "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
           "marker": "## B3"
         }
       ]
@@ -42,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
+          "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
+          "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
           "marker": "## B4"
         }
       ]
@@ -52,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W00_A_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "3972d47a54b065441c507aba6f2d2dfd71cdfeef",
+          "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
+          "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
           "marker": "## B5"
         }
       ]
@@ -62,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "a555d4d299b74b69c3c458a27d802e9d6ec24c25",
-    "unit_id": "S3_FINAL_A5_SAME_ROOT_DEV_HOST",
-    "result": "PASS",
+    "sha": "bd01b5e21b9d6a1bf5ce2711e35e14018a78ccda",
+    "unit_id": "S4_W00_A_REALITY_TWO_EXISTING_OWNERS_ATOMICITY_TEST",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/s3-night/S3_FINAL_A5_SAME_ROOT_B7_PASS_SCOPED_20261114.md",
-        "blob_sha": "d480e4b56dca9bce0c91ba352dac2ed617e972b8",
+        "path": "docs/v5/FARO_S4_W00_A_XML_RED_FIX_B1_B5_B7_20261115.md",
+        "blob_sha": "22de2b063bddb7ee236561a4aa60e49b8a796ed2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "User authorized S4 W00-A only; 2 test/CI paths with source and adversarial preaudit; no Household implementation",
-  "how": "CAS writer and preflight both paths; targeted JUnit 5/5 and guard then scoped B7",
+  "why": "Only CI XML expected method names omit actual JUnit () suffix; Kotlin tests 5/5 PASS",
+  "how": "Normalize trailing () only for five exact method name equality; no edits to tests",
   "productive_v2_enabled": false,
   "no_auto_night": true
 }
