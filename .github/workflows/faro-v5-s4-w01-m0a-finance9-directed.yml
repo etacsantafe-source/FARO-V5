@@ -1,0 +1,63 @@
+name: FARO V5 S4 W01-M0A Finance9 staged schema JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Schema.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9MigrationTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m0a-finance9-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w01-m0a
+  cancel-in-progress: false
+jobs:
+  finance9-staged-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exactly seven Finance9 staged SQL tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityFinance9MigrationTest"
+      - name: Verify exact directed JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/store/reality/build/test-results/test").glob("TEST-*RealityFinance9MigrationTest.xml"))
+          if len(files)!=1: raise SystemExit("M0A_XML_MISSING "+str(len(files)))
+          node=ET.parse(files[0]).getroot()
+          counts=tuple(int(node.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "sourceSevenIsUnchangedWhileIndependentSevenToEightToNineStageIsInstalled",
+              "stagedEightBecomesNineWithoutChangingLegacyOpeners",
+              "legacyOpeningRemainsUnknownRatherThanInferredZero",
+              "ddlFailureRollsBackEverythingIncludingSchemaVersion",
+              "foreignKeysAndTransferTriggerRejectUnmatchedEffects",
+              "durablePolicyEpochIsPresentButNoApplicationGrantIsCreated",
+              "unexpectedSchemaOrMissingPlanningTableFailsWithoutWrites",
+          }
+          names=[(c.get("name") or "").removesuffix("()") for c in node.findall("testcase")]
+          if counts!=(7,0,0,0) or set(names)!=expected or len(names)!=7:
+              raise SystemExit("M0A_XML_FAIL "+str((counts,names)))
+          print("S4_W01_M0A_FINANCE9_STAGED_SCHEMA_PASS 7/7")
+          print("NOT_CERTIFIED: generation admission, cross-process ACL, backup9, Android, G15, shipping")
+          PY
+      - name: Preserve M0A exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m0a-finance9-junit
+          path: v5/store/reality/build/test-results/test/TEST-*RealityFinance9MigrationTest.xml
+          if-no-files-found: warn
