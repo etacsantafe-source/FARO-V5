@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B2_C0_DEV_FINANCE_REVIEWED_APPLY_TEST_HOST",
   "reviewed_head": "f4f3080e30f930cb9f1551a1e42795f5d094f359",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_FINANCE_REALITY_TEMP_SQLITE_7_OF_7_XML",
+    "B7": "PASS_SCOPED_DEV_FINANCE_REVIEWED_APPLY_LOCAL_SQLITE"
   },
   "last_code_review": {
-    "sha": "9d3a0abba7ba4190225e547e2c2327e0512fbd1c",
+    "sha": "d441961bfd8dc5f1da961ee7c5f915be3548ce8b",
     "unit_id": "S4_W01_B2_C0_DEV_FINANCE_REVIEWED_APPLY_TEST_HOST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2_C0_RETURN_RED_FIX_B7_20261116.md",
-        "blob_sha": "fb2aeca59d064084ff505a3482060b719f02d624",
+        "path": "docs/v5/FARO_S4_W01_B2_C0_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "2cd99b1da72ea3d116c8bbc8f6ce414158f03929",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B2C0 Kotlin 5 labelled returns split from result, compile RETURN_TYPE_MISMATCH, 7 tests NOT_RUN",
-  "how": "Fix only app S4W01B2C0FinanceDevApplyHost.kt five returns and rerun exact seven tests",
+  "why": "B2C0 DEV isolated SQLite Finance reviewed Apply 7/7 PASS, permission consumed",
+  "how": "CI 43882851971 job 133353032899 XML 7/7, guard 43882851982, no production",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W01_B2C0_PASS_CONSUMED_C1_C2_NOT_READY"
 }
