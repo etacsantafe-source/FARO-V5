@@ -88,23 +88,18 @@ internal class S4W01B2C0FinanceDevApplyHost(
     fun executeOnlyWithSimulatedDevPolicy(
         context: ConversationPlanReviewContext,
     ): ConversationApplyHostOutcome = materialGate.withMaterialWrite {
-        if (!current()) return@withMaterialWrite
-            ConversationApplyHostOutcome.Denied("finance_dev_host_unavailable")
+        if (!current()) return@withMaterialWrite ConversationApplyHostOutcome.Denied("finance_dev_host_unavailable")
 
-        val scope = approved.read(context) ?: return@withMaterialWrite
-            ConversationApplyHostOutcome.Denied("finance_approved_scope_unavailable")
-        val first = workspace.load(context) ?: return@withMaterialWrite
-            ConversationApplyHostOutcome.Denied("finance_review_unavailable")
+        val scope = approved.read(context) ?: return@withMaterialWrite ConversationApplyHostOutcome.Denied("finance_approved_scope_unavailable")
+        val first = workspace.load(context) ?: return@withMaterialWrite ConversationApplyHostOutcome.Denied("finance_review_unavailable")
         if (first.review.context() != context ||
             first.review.state != ConversationPlanReviewState.APPROVED ||
             first.review.planFingerprint != scope.planFingerprint
-        ) return@withMaterialWrite
-            ConversationApplyHostOutcome.Denied("finance_review_not_approved")
+        ) return@withMaterialWrite ConversationApplyHostOutcome.Denied("finance_review_not_approved")
         val sealedEnvelope = first.envelope()
 
         val nonce = grants.grantAfterTrustedPolicyCheck(context, scope)
-            ?: return@withMaterialWrite
-                ConversationApplyHostOutcome.Denied("finance_dev_grant_unavailable")
+            ?: return@withMaterialWrite ConversationApplyHostOutcome.Denied("finance_dev_grant_unavailable")
         val lease = grants.withCurrentGrantLease(scope, pinned, nonce) {
             var admittedIdentity: ApplyAttemptIdentity? = null
             val authorization = ApplyTransactionAuthorizationPort {
