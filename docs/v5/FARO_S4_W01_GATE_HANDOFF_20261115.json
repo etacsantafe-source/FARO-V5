@@ -182,5 +182,15 @@
     "schema_paths_document": "docs/v5/FARO_S4_W01_ARCH03_DDL_ARCH06_EXACT_PATHS_20261116.md",
     "epoch_path_final_document": "docs/v5/FARO_S4_W01_ARCH02_ARCH06_MONOTONIC_EPOCH_PATH_FIX_20261116.md",
     "global_b7_document": "docs/v5/FARO_S4_W01_ARCHITECTURE_GLOBAL_B7_PASS_20261116.md"
+  },
+  "w01_m0a": {
+    "unit_id": "S4_W01_M0A_FINANCE9_STAGED_SCHEMA",
+    "status": "PREAUDIT_DOC_ONLY",
+    "document": "docs/v5/FARO_S4_W01_M0A_FINANCE9_PREAUDIT_B1_B5_20261116.md",
+    "paths": [
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Schema.kt",
+      "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9MigrationTest.kt",
+      ".github/workflows/faro-v5-s4-w01-m0a-finance9-directed.yml"
+    ]
   }
 }
