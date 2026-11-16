@@ -1,0 +1,64 @@
+name: FARO V5 S4 W01-M0C1 Finance9 FBS2v4 codec/fence JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9BackupCodec.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreSemanticCodec.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9Fbs2V4CodecFenceTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m0c1-finance9-codec-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w01-m0c1
+  cancel-in-progress: false
+jobs:
+  finance9-fbs2v4-codec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run six exact Finance9 FBS2v4 codec and restore-denial tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5Finance9Fbs2V4CodecFenceTest"
+      - name: Verify exact six JUnit XML cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/store/generation/build/test-results/test").glob("TEST-*FaroV5Finance9Fbs2V4CodecFenceTest.xml"))
+          if len(files)!=1: raise SystemExit("W01_M0C1_XML_MISSING "+str(len(files)))
+          node=ET.parse(files[0]).getroot()
+          counts=tuple(int(node.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "canonicalFinance9SectionHasEightTablesAndNoAclOrGrant",
+              "fbs2V4HasFiveMandatorySectionsAndRoundTrips",
+              "oldV1V2V3StillDecodeWithoutFinanceOrVersionReinterpretation",
+              "unexpectedTableNumericDuplicatedKeyCorruptDigestAndTruncatedV4FailClosed",
+              "farobak2AeadAuthenticatesAllFiveSections",
+              "legacyRestorersRejectV4BeforeAnyWritesOrArchivePin",
+          }
+          names=[(x.get("name") or "").removesuffix("()") for x in node.findall("testcase")]
+          if counts!=(6,0,0,0) or len(names)!=6 or set(names)!=expected:
+              raise SystemExit("W01_M0C1_XML_FAIL "+str((counts,names)))
+          print("S4_W01_M0C1_FINANCE9_FBS2V4_CODEC_FENCE_XML_PASS 6/6")
+          print("NOT_CERTIFIED: real Finance9 capture/restore, ACL, Android, G15, shipping")
+          PY
+      - name: Preserve exact M0C1 JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m0c1-finance9-fbs2v4-junit
+          path: v5/store/generation/build/test-results/test/TEST-*FaroV5Finance9Fbs2V4CodecFenceTest.xml
+          if-no-files-found: warn

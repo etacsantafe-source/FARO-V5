@@ -20,6 +20,8 @@ data class FaroV5FiveStoreSemanticSet(
     val g4Domains: RealityDomainBackupSnapshot? = null,
     /** Non-null only in FBS2 v3; absent is NOT a certified empty Planning owner. */
     val planningDomains: PlanningDomainSectionSnapshot? = null,
+    /** Finance9 data only; non-null exactly when FBS2v4 is present. */
+    val finance9: Finance9SectionSnapshot? = null,
 )
 
 /**
@@ -39,10 +41,12 @@ object FaroV5FiveStoreSemanticCodec {
     private const val VERSION = 1
     private const val G4_VERSION = 2
     private const val PLANNING_VERSION = 3
+    private const val FINANCE9_VERSION = 4
     private const val DIGEST_BYTES = 32
     private const val HEADER_BYTES = (4 * 4) + (DIGEST_BYTES * 2)
     private const val G4_HEADER_BYTES = (5 * 4) + (DIGEST_BYTES * 3)
     private const val PLANNING_HEADER_BYTES = (6 * 4) + (DIGEST_BYTES * 4)
+    private const val FINANCE9_HEADER_BYTES = (7 * 4) + (DIGEST_BYTES * 5)
     const val MAX_PLAINTEXT_BYTES = 16 * 1024 * 1024
 
     fun encode(set: FaroV5FiveStoreSemanticSet): ByteArray {
@@ -50,6 +54,7 @@ object FaroV5FiveStoreSemanticCodec {
             "FBS2 requires a valid FBS1 manifest/authority"
         }
         set.workspace.validateForRestore()
+        if (set.finance9 != null) return encodeFinance9V4(set)
         if (set.planningDomains != null) return encodePlanningV3(set)
         if (set.g4Domains != null) return encodeG4(set)
 
@@ -95,6 +100,7 @@ object FaroV5FiveStoreSemanticCodec {
             when (java.nio.ByteBuffer.wrap(bytes).getInt(4)) {
                 G4_VERSION -> return decodeG4(bytes)
                 PLANNING_VERSION -> return decodePlanningV3(bytes)
+                FINANCE9_VERSION -> return decodeFinance9V4(bytes)
             }
         }
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
@@ -334,6 +340,113 @@ object FaroV5FiveStoreSemanticCodec {
             } finally {
                 actual.forEach { it.fill(0) }
                 expected.forEach { it.fill(0) }
+            }
+        }
+    }
+
+    /**
+     * FBS2v4: five explicit sections (four-store, Workspace, G4, Planning8,
+     * Finance9). Section digests are for integrity, not authentication.
+     */
+    private fun encodeFinance9V4(set: FaroV5FiveStoreSemanticSet): ByteArray {
+        val g4 = checkNotNull(set.g4Domains) { "FBS2v4 cannot omit G4" }
+        val planning = checkNotNull(set.planningDomains) {
+            "FBS2v4 cannot omit Planning8"
+        }
+        val finance = checkNotNull(set.finance9)
+        val g4Bytes = FaroV5G4DomainSemanticCodec.encode(g4)
+        try {
+            val planBytes = FaroV5PlanningDomainSemanticCodec.encode(planning)
+            try {
+                val financeBytes = FaroV5Finance9BackupCodec.encode(finance)
+                try {
+                    val remaining = MAX_PLAINTEXT_BYTES.toLong() -
+                        FINANCE9_HEADER_BYTES - g4Bytes.size - planBytes.size -
+                        financeBytes.size
+                    check(remaining > 2L) { "FBS2v4 insufficient section space" }
+                    val fourBytes = SemanticBackupSetCodec.encodeWithin(
+                        set.fourStore, (remaining - 1L).toInt(),
+                    )
+                    try {
+                        val workspaceBytes = WorkspaceSemanticBackupCodec.encodeWithin(
+                            set.workspace, (remaining - fourBytes.size).toInt(),
+                        )
+                        try {
+                            val sections = arrayOf(
+                                fourBytes, workspaceBytes, g4Bytes, planBytes, financeBytes,
+                            )
+                            val total = FINANCE9_HEADER_BYTES.toLong() +
+                                sections.sumOf { it.size.toLong() }
+                            check(total <= MAX_PLAINTEXT_BYTES) {
+                                "FBS2v4 exceeds 16MiB"
+                            }
+                            return ByteArrayOutputStream(total.toInt()).use { buffer ->
+                                DataOutputStream(buffer).use { output ->
+                                    output.writeInt(MAGIC)
+                                    output.writeInt(FINANCE9_VERSION)
+                                    sections.forEach { output.writeInt(it.size) }
+                                    sections.forEach { output.write(sha256(it)) }
+                                    sections.forEach { output.write(it) }
+                                    output.flush()
+                                }
+                                buffer.toByteArray()
+                            }
+                        } finally {
+                            workspaceBytes.fill(0)
+                        }
+                    } finally {
+                        fourBytes.fill(0)
+                    }
+                } finally {
+                    financeBytes.fill(0)
+                }
+            } finally {
+                planBytes.fill(0)
+            }
+        } finally {
+            g4Bytes.fill(0)
+        }
+    }
+
+    /** Decode every section or fail, never project v4 onto a legacy layout. */
+    private fun decodeFinance9V4(bytes: ByteArray): FaroV5FiveStoreSemanticSet {
+        check(bytes.size in (FINANCE9_HEADER_BYTES + 5)..MAX_PLAINTEXT_BYTES) {
+            "FBS2v4 too short"
+        }
+        return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
+            check(input.readInt() == MAGIC && input.readInt() == FINANCE9_VERSION) {
+                "FBS2v4 magic/version mismatch"
+            }
+            val lengths = IntArray(5) { input.readInt() }
+            check(lengths.all { it > 0 } &&
+                lengths[2] <= FaroV5G4DomainSemanticCodec.MAX_BYTES &&
+                lengths[3] <= FaroV5PlanningDomainSemanticCodec.MAX_BYTES &&
+                lengths[4] <= FaroV5Finance9BackupCodec.MAX_BYTES &&
+                FINANCE9_HEADER_BYTES.toLong() + lengths.sumOf { it.toLong() } ==
+                    bytes.size.toLong()
+            ) { "FBS2v4 invalid section lengths" }
+            val digests = Array(5) { ByteArray(DIGEST_BYTES).also(input::readFully) }
+            val sections = Array(5) { i ->
+                ByteArray(lengths[i]).also(input::readFully)
+            }
+            try {
+                check(input.available() == 0) { "FBS2v4 trailing bytes" }
+                check((0 until 5).all { i ->
+                    MessageDigest.isEqual(digests[i], sha256(sections[i]))
+                }) { "FBS2v4 SHA256 section digest mismatch (not authentication)" }
+                val four = SemanticBackupSetCodec.decode(sections[0])
+                val workspace = WorkspaceSemanticBackupCodec.decode(sections[1])
+                val g4 = FaroV5G4DomainSemanticCodec.decode(sections[2])
+                val planning = FaroV5PlanningDomainSemanticCodec.decode(sections[3])
+                val finance = FaroV5Finance9BackupCodec.decode(sections[4])
+                check(SemanticBackupSetIntegrity.matches(four)) {
+                    "FBS2v4 four-store manifest mismatch"
+                }
+                workspace.validateForRestore()
+                FaroV5FiveStoreSemanticSet(four, workspace, g4, planning, finance)
+            } finally {
+                sections.forEach { it.fill(0) }
+                digests.forEach { it.fill(0) }
             }
         }
     }

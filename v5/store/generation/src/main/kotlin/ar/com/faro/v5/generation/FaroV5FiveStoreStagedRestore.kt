@@ -23,6 +23,8 @@ enum class FiveStoreStagedRestoreBlock {
     UNSUPPORTED_G4_ARCHIVE,
     /** v3 Planning has no schema8 durable restore port: never drop its section. */
     UNSUPPORTED_PLANNING_ARCHIVE,
+    /** M0C1: never drop a Finance9 v4 section on a legacy restore. */
+    UNSUPPORTED_FINANCE9_ARCHIVE,
 }
 
 sealed interface FiveStoreStagedRestoreResult {
@@ -121,6 +123,12 @@ class FaroV5FiveStoreStagedRestore(
                     )
                 }
                 val backup = (opened as FiveStorePortableBackupOpenResult.Opened).backupSet
+                // M0C1: no legacy restore may accept v4 before archive pin or writes.
+                if (backup.finance9 != null) {
+                    return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
+                        FiveStoreStagedRestoreBlock.UNSUPPORTED_FINANCE9_ARCHIVE,
+                    )
+                }
                 // FBS2 v2 can carry G4 Objective/Matter data. This legacy staged
                 // restore only knows the old Reality four-store segment, so accepting
                 // the new section would silently lose canonical owner data.
