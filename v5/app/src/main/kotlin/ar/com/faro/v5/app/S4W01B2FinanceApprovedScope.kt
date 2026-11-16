@@ -2,6 +2,7 @@ package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.PreparedPlanEnvelopeCodec
+import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
 import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.owner.finance.api.*
@@ -23,6 +24,7 @@ internal data class S4W01B2FinanceApprovedScope(
 
 internal class S4W01B2FinanceApprovedScopeReader(
     expectedGenerationId: String,
+    private val pinned: ActiveGenerationPointer,
     private val pointer: ActiveGenerationPointerPort,
     private val workspace: TrustedConversationApplyReviewPort,
     private val catalog: OperationContractLookupPort,
@@ -32,12 +34,14 @@ internal class S4W01B2FinanceApprovedScopeReader(
 ) {
     private val expectedGeneration = StorageGenerationId(expectedGenerationId)
 
-    init { require(expectedHostEpoch.isNotBlank()) }
+    init {
+        require(expectedHostEpoch.isNotBlank())
+        require(pinned.generationId == expectedGeneration)
+    }
 
     fun read(context: ConversationPlanReviewContext): S4W01B2FinanceApprovedScope? =
         runCatching {
-            val pinned = pointer.read() ?: return@runCatching null
-            if (pinned.generationId != expectedGeneration ||
+            if (pointer.read() != pinned ||
                 !hostReady() || hostEpochOrNull() != expectedHostEpoch
             ) return@runCatching null
 

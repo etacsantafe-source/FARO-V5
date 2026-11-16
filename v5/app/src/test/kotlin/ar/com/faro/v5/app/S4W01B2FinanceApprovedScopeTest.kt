@@ -103,7 +103,7 @@ class S4W01B2FinanceApprovedScopeTest {
             selectedCatalog: OperationContractLookupPort = official,
             epoch: () -> String? = { hostEpoch },
         ) = S4W01B2FinanceApprovedScopeReader(
-            generation.value, pointer, trusted, selectedCatalog,
+            generation.value, pinned, pointer, trusted, selectedCatalog,
             "host-epoch", epoch, { ready },
         )
 
