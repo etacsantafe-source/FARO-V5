@@ -62,19 +62,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "d441961bfd8dc5f1da961ee7c5f915be3548ce8b",
-    "unit_id": "S4_W01_B2_C0_DEV_FINANCE_REVIEWED_APPLY_TEST_HOST",
-    "result": "PASS",
+    "sha": "883018665bcf823bf3703e3ec49a382848634917",
+    "unit_id": "S4_W01_B2_C2_FINANCE_RECEIPT_ONLY_RECOVERY_JVM",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2_C0_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "2cd99b1da72ea3d116c8bbc8f6ce414158f03929",
+        "path": "docs/v5/FARO_S4_W01_B2_C2_INLINE_LATEINIT_RED_FIX_B7_20261116.md",
+        "blob_sha": "8e8abb1bf87bee57b84b5b106bdafe6cc10e79bf",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01 B2C2 test-only Finance receipt recovery after crash, no runtime",
-  "how": "Two new paths and 5 JUnit tests CI XML, no replay, B7 independent",
+  "why": "C2 test-only compile failure Kotlin inline value classes cannot use local lateinit",
+  "how": "Fix two inline lateinit locals only in C2 test file; preserve XML five-case suite",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null
