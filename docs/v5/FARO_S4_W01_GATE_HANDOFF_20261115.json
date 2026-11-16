@@ -5,7 +5,7 @@
   "branch": "work/s3-night-20261102",
   "unit": "S4_W01_FINANCE_MANUAL_LOCAL",
   "source_head": "55578538c33e5d43c5982bb6205f913023479f0a",
-  "status": "W01_OPEN_W01_A_B7_PASS_SCOPED_W01_B_PREAUDITED",
+  "status": "W01_OPEN_B0_PREAUDIT_CDE_SCOPE_APPROVED",
   "permit": "BLOCKED",
   "scope": "F02_F06_LOCAL_FINANCE_NO_EXTERNAL_PAYMENTS",
   "code_changed": false,
@@ -84,5 +84,19 @@
     "b7": "docs/v5/FARO_S4_W01_A_B7_PASS_SCOPED_20261115.md",
     "grant": false,
     "apply": false
+  },
+  "authorization": {
+    "status": "USER_APPROVED",
+    "date_local": "2026-11-15",
+    "catalog_extension": "W01_C_D_E_ONLY_AFTER_SCOPED_B1_B5_AND_READY",
+    "reality_versioned_migration": "AUTHORIZED_AFTER_COMPATIBILITY_AUDIT",
+    "external_payments": "NEVER",
+    "document": "docs/v5/FARO_S4_W01_CDE_AUTHORIZED_SCHEMA_CATALOG_SCOPE_B1_B5_20261115.md"
+  },
+  "w01_b0": {
+    "status": "B1_B5_DOC_ONLY",
+    "document": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
+    "tests": "12_NOT_RUN",
+    "next": "READY_AFTER_GUARD_AND_EXACT_PATH_PREFLIGHT"
   }
 }
