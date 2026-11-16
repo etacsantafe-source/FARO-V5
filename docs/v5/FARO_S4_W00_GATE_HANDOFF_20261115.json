@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "project": "FARO V5",
+  "date_local": "2026-11-15",
+  "branch": "work/s3-night-20261102",
+  "unit": "S4_W00_ARCHITECTURE_FEASIBILITY",
+  "source_head": "602d4ba491c9ef5821c02396b7af52b92154e002",
+  "status": "CLOSED_ARCHITECTURE_ONLY_POST_GUARD_PENDING",
+  "architecture_decision": "GO_SINGLE_REALITY_FILE_ONE_TRANSACTION_ONE_RECEIPT",
+  "dual_owner_productive_host": "STOP_MISSING_CROSS_PROCESS_FENCING_OWNER_IDENTITY_AND_HOUSEHOLD",
+  "scoped_certificates": [
+    {
+      "id": "W00-A",
+      "tests": 5,
+      "run": 43764890237,
+      "scope": "SQLite_REAL_FINANCE_OBJECTIVE_2_OWNERS"
+    },
+    {
+      "id": "W00-B",
+      "tests": 5,
+      "run": 43766359680,
+      "scope": "APPLY_RECEIPT_RECOVERY_OBJECTIVE_TEST_ONLY"
+    },
+    {
+      "id": "W00-C",
+      "tests": 2,
+      "run": 43768537598,
+      "scope": "SINGLE_HOST_DENIES_COMPOSITE"
+    },
+    {
+      "id": "W00-D1",
+      "tests": 11,
+      "run": 43771193795,
+      "scope": "INERT_SHAPE_ONLY"
+    },
+    {
+      "id": "W00-D2",
+      "tests": 7,
+      "run": 43776469935,
+      "scope": "CANONICAL_APPROVED_REVIEW_READ_ONLY"
+    }
+  ],
+  "total_scoped_tests_pass": 30,
+  "not_executed": [
+    "W00D-T01..T10",
+    "D3-T01..T08",
+    "DUAL_HOST_APPLY",
+    "HOUSEHOLD_FINANCE_REAL",
+    "G15_PHYSICAL",
+    "CROSS_PROCESS_REVOCATION_RACE"
+  ],
+  "next": "S4_W01_FINANCE_MANUAL_B1_B5_READ_ONLY_THEN_UNIT_READY",
+  "dependencies": {
+    "W04": "OWNER_HOUSEHOLD_EXPLICIT_APPROVAL_AND_SCOPE",
+    "W06": "REAL_OWNER_GRANTS_ATOMIC_COMMIT_RECOVERY",
+    "W07": "BLOCKED_UNTIL_W06_REAL_PASS"
+  },
+  "guardrails": {
+    "s2": "FROZEN",
+    "s3": "CLOSED_5_OF_5_DEV_H07_USER_EXCEPTION",
+    "s4": "OPEN",
+    "v2_productive": "OFF",
+    "auto": "OFF",
+    "night": "OFF",
+    "permit": "BLOCKED",
+    "main": "UNTOUCHED",
+    "external_payments": "NOT_SUPPORTED"
+  },
+  "b7_document": "docs/v5/FARO_S4_W00_FINAL_B7_ARCHITECTURE_20261115.md",
+  "d3_document": "docs/v5/FARO_S4_W00_D3_FINAL_FEASIBILITY_B1_B5_20261115.md",
+  "writer_release_expected_epoch": 932
+}
