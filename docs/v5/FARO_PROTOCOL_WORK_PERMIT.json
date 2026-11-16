@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M0C1_FINANCE9_FBS2V4_CODEC_FENCE",
   "reviewed_head": "a8dec11ad6210daa87a10646a8b64bba2be568b0",
   "paths": [
@@ -61,24 +61,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_FINANCE9_FBS2V4_CODEC_AND_LEGACY_FENCE_XML6_6",
+    "B7": "PASS_SCOPED_FBS2V4_SEMANTIC_AND_LEGACY_DENY"
   },
   "last_code_review": {
-    "sha": "a5cd3dc3798ee5b5f5a580a6044bff63e2ad2f37",
-    "unit_id": "S4_W01_M0B_FINANCE9_GENERATION_ADMISSION",
+    "sha": "c4d5cce1a434f74fa085f58a1f1c3078fffdb223",
+    "unit_id": "S4_W01_M0C1_FINANCE9_FBS2V4_CODEC_FENCE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M0B_FINANCE9_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "2af895ed010b59d9f6bd6e7ba32a4a8da9a39947",
+        "path": "docs/v5/FARO_S4_W01_M0C1_FBS2V4_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "4c2f823a531d79e3932615ca7bab2a9c53982d94",
         "marker": "## B7"
       }
     ]
   },
-  "why": "M0C1 FBS2v4 codec/fail-closed old restore bounded five paths; capture+restore9 remains M0C2",
-  "how": "B1-B5 preaudit guard43961104348 SUCCESS; M0B B7 PASS; only stage/dev, no app",
+  "why": "M0C1 6/6 JUnit and guard verified, v4 codec/fence only; permit consumed",
+  "how": "CI43962889585 job133634669804 XML6/6 artifact14275173380, guard43962889482; no Finance9 real backup",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "M0C1_B7_PASS_PERMISSION_CONSUMED_M0C2_NOT_READY"
 }
