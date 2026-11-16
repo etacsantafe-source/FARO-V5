@@ -40,7 +40,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W00 architecture/feasibility decision GO single Reality transaction and STOP unsafe dual-owner productive host. B7 scope W00 architectural only; total 30/30 prior scoped tests, D3 no tests. Postrelease guard and writer must be verified. Next W01 Finance individual B1-B5/read-only preaudit; W04 Household owner needs separate code approval; W06 real Finance+Household independent grants/cross-process fencing/atomic one commit must PASS before W07. V2 productive/Auto/Noche OFF.",
+  "next": "Close ARCH-01..ARCH-06 and W01 architecture B7 BEFORE any new W01 B6; then finish W01 code B7; only then W02 architecture.",
   "checkpoint_status": "W01_B2C2_B7_C1_SCHEMA_MATRIX_DOC_POST_RELEASE_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -4008,6 +4008,23 @@
         "permission": "CONSUMED_BLOCKED",
         "scope": "FINANCE_ACCOUNT_RECOVERY_ONLY"
       }
+    },
+    "architecture_first": {
+      "status": "IN_PROGRESS_NO_NEW_FUNCTIONAL_CODE",
+      "priority": "ARCHITECTURE_W01_COMPLETE_BEFORE_W01_CODE_BEFORE_W02",
+      "document": "docs/v5/FARO_S4_W01_ARCHITECTURE_FIRST_COMPLETE_BEFORE_CODE_GATE_20261116.md",
+      "scope": "F02_F06_ONLY",
+      "gates": [
+        "ARCH-01_COMPATIBILITY",
+        "ARCH-02_DURABLE_AUTHORITY",
+        "ARCH-03_SCHEMA_MIGRATION",
+        "ARCH-04_F02_F06_CONTRACTS",
+        "ARCH-05_UX_INTEGRATION",
+        "ARCH-06_IMPLEMENTATION_ACCEPTANCE"
+      ],
+      "exit": "W01_ARCHITECTURE_B7_PASS",
+      "code_permission": "BLOCKED",
+      "w02": "STOP_UNTIL_W01_CODE_AND_B7"
     }
   }
 }

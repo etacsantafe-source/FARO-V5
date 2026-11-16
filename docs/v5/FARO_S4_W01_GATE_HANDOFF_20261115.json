@@ -59,7 +59,7 @@
     "S3_S2_MAIN_V44",
     "V2_PRODUCTIVE_AUTO_NIGHT"
   ],
-  "next": "VERIFY_DOC_GUARD_RELEASE_THEN_W01_A_B1_B5_READY",
+  "next": "W01_ARCH-01_TO_ARCH-06_DOC_ONLY_THEN_B7_ARCH_THEN_W01_CODE",
   "w01_b": {
     "status": "B1_B5_DOC_PUBLISHED_CHECKPOINT_PENDING",
     "document": "docs/v5/FARO_S4_W01_B_MANUAL_REVIEW_APPLY_B1_B5_20261115.md",
@@ -155,5 +155,22 @@
     "c1_schema_matrix": "docs/v5/FARO_S4_W01_B2_C1_SCHEMA_AND_REVOCATION_COMPATIBILITY_MATRIX_20261116.md",
     "c1_migration": "NOT_READY",
     "c1_cross_process": "STOP"
+  },
+  "architecture_first": {
+    "status": "IN_PROGRESS_NO_NEW_FUNCTIONAL_CODE",
+    "priority": "ARCHITECTURE_W01_COMPLETE_BEFORE_W01_CODE_BEFORE_W02",
+    "document": "docs/v5/FARO_S4_W01_ARCHITECTURE_FIRST_COMPLETE_BEFORE_CODE_GATE_20261116.md",
+    "scope": "F02_F06_ONLY",
+    "gates": [
+      "ARCH-01_COMPATIBILITY",
+      "ARCH-02_DURABLE_AUTHORITY",
+      "ARCH-03_SCHEMA_MIGRATION",
+      "ARCH-04_F02_F06_CONTRACTS",
+      "ARCH-05_UX_INTEGRATION",
+      "ARCH-06_IMPLEMENTATION_ACCEPTANCE"
+    ],
+    "exit": "W01_ARCHITECTURE_B7_PASS",
+    "code_permission": "BLOCKED",
+    "w02": "STOP_UNTIL_W01_CODE_AND_B7"
   }
 }
