@@ -1,0 +1,73 @@
+name: FARO V5 S4 W01-A Finance manual draft pure preview JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceManualDraftPreview.kt"
+      - "v5/owner/finance/src/test/kotlin/ar/com/faro/v5/owner/finance/FinanceManualDraftPreviewTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-a-manual-preview-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w01-a
+  cancel-in-progress: false
+jobs:
+  w01-finance-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare Android SDK needed by Gradle configuration
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run ten exact W01-A preview tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :owner:finance:test --tests "ar.com.faro.v5.owner.finance.FinanceManualDraftPreviewTest"
+      - name: Verify exact XML and all ten names
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          found=list(Path("v5/owner/finance/build/test-results/test").glob("TEST-*FinanceManualDraftPreviewTest.xml"))
+          if len(found)!=1: raise SystemExit("W01_A_XML_MISSING "+str(len(found)))
+          root=ET.parse(found[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "openingMissingDeniedRatherThanDefaultZero",
+              "negativeOpeningDenied",
+              "duplicateAccountIdDenied",
+              "invalidCurrencyDenied",
+              "zeroOrNegativeEntryAmountDenied",
+              "entryAccountMissingDenied",
+              "effectiveTimeAfterRecordedDenied",
+              "duplicateEntryIdDenied",
+              "ledgerOverflowDeniedRatherThanWrapped",
+              "validPreviewsDoNotMutateSnapshotOrGrantApply",
+          }
+          cases=[(x.get("name") or "").removesuffix("()") for x in root.findall("testcase")]
+          if counts!=(10,0,0,0) or len(cases)!=10 or set(cases)!=expected:
+              raise SystemExit("W01_A_XML_FAIL "+str((counts,cases)))
+          print("S4_W01_A_FINANCE_MANUAL_PREVIEW_XML_PASS 10/10")
+          print("NOT CERTIFIED: Finance Apply, grants, UI, transfer, obligations, budgets or real payments")
+          PY
+      - name: Retain W01-A exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-s4-w01-a-junit
+          path: v5/owner/finance/build/test-results/test/TEST-*FinanceManualDraftPreviewTest.xml
+          if-no-files-found: warn
