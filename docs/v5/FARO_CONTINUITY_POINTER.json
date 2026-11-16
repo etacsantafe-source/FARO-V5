@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_OPEN_W01_B2C2_B7_PASS_C1_COMPATIBILITY_DOC_ONLY",
+  "phase": "S4_OPEN_W01_ARCH_01_06_DESIGN_DOC_ONLY_B7_PENDING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "RELEASE_AFTER_S4_W00_ARCH_FINAL_DOC_CHECKPOINT",
-    "epoch": 932
+    "status": "CHECK_REMOTE_WRITER_RELEASE_AFTER_DOC",
+    "epoch": 973
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Close ARCH-01..ARCH-06 and W01 architecture B7 BEFORE any new W01 B6; then finish W01 code B7; only then W02 architecture.",
-  "checkpoint_status": "W01_B2C2_B7_C1_SCHEMA_MATRIX_DOC_POST_RELEASE_GUARD_PENDING",
+  "next": "Audit and close W01 ARCH-01..ARCH-06 design decisions with global architecture B7; NO W01 new code before architecture B7; then W01 code/B7; only then W02.",
+  "checkpoint_status": "W01_ARCH_01_06_DESIGN_BASELINE_DOC_COMMITTED_GLOBAL_B7_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4024,7 +4024,17 @@
       ],
       "exit": "W01_ARCHITECTURE_B7_PASS",
       "code_permission": "BLOCKED",
-      "w02": "STOP_UNTIL_W01_CODE_AND_B7"
+      "w02": "STOP_UNTIL_W01_CODE_AND_B7",
+      "design_document": "docs/v5/FARO_S4_W01_ARCH01_ARCH06_DESIGN_DECISIONS_20261116.md",
+      "design_status": "B1_B5_DOC_BASELINE_UNVERIFIED_NO_GLOBAL_B7",
+      "gate_statuses": {
+        "ARCH-01": "DESIGN_CANDIDATE_B7_PENDING",
+        "ARCH-02": "DESIGN_CANDIDATE_B7_PENDING",
+        "ARCH-03": "DESIGN_CANDIDATE_B7_PENDING",
+        "ARCH-04": "DESIGN_CANDIDATE_B7_PENDING",
+        "ARCH-05": "DESIGN_CANDIDATE_B7_PENDING",
+        "ARCH-06": "DESIGN_CANDIDATE_B7_PENDING"
+      }
     }
   }
 }
