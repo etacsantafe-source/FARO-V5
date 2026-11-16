@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_OPEN_W01_A_READY_DOC_GUARD_PENDING",
+  "phase": "S4_OPEN_W01_A_RED_FIX_SAME_UNIT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -41,7 +41,7 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "W00 architecture/feasibility decision GO single Reality transaction and STOP unsafe dual-owner productive host. B7 scope W00 architectural only; total 30/30 prior scoped tests, D3 no tests. Postrelease guard and writer must be verified. Next W01 Finance individual B1-B5/read-only preaudit; W04 Household owner needs separate code approval; W06 real Finance+Household independent grants/cross-process fencing/atomic one commit must PASS before W07. V2 productive/Auto/Noche OFF.",
-  "checkpoint_status": "W01_A_READY_PERMISSION_PUBLISHED_WAIT_EXACT_SHA_GUARD",
+  "checkpoint_status": "S4_W01_A_RED_FIX_TEST_FIXTURE_DOC_RELEASE_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -3805,7 +3805,7 @@
     "code_changed": false,
     "writer_epoch_expected": 933,
     "w01_a": {
-      "status": "READY_DOC_ONLY_BEFORE_GUARD",
+      "status": "RED_FIX_NINE_OF_TEN_TESTS",
       "unit_id": "S4_W01_A_FINANCE_MANUAL_DRAFT_PREVIEW",
       "authorization": "docs/v5/FARO_S4_W01_A_IMPLEMENTATION_AUTHORIZATION_B1_B5_20261115.md",
       "paths": [
@@ -3814,7 +3814,11 @@
         ".github/workflows/faro-v5-s4-w01-a-manual-preview-directed.yml"
       ],
       "code": "NOT_RUN",
-      "tests": "NOT_RUN"
+      "tests": "NOT_RUN",
+      "failed_code_sha": "30c8e5e8079d4c2a5d81fd848b253cc26243e67c",
+      "failed_run": 43780897721,
+      "red_fix_doc": "docs/v5/FARO_S4_W01_A_RED_FIX_B7_20261115.md",
+      "next": "FIX_TEST_ONLY_SAME_UNIT_AND_RECHECK_XML"
     }
   }
 }

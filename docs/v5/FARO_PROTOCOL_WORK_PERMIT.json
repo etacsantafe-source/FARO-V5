@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
-    "unit_id": "S4_W00_D2_CANONICAL_COMPOSITE_REVIEW_SCOPE_READ",
-    "result": "PASS",
+    "sha": "30c8e5e8079d4c2a5d81fd848b253cc26243e67c",
+    "unit_id": "S4_W01_A_FINANCE_MANUAL_DRAFT_PREVIEW",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W00_D2_B7_PASS_SCOPED_20261115.md",
-        "blob_sha": "074ffd40d1c8549a0cb58bf05af1dbcdc377ce95",
+        "path": "docs/v5/FARO_S4_W01_A_RED_FIX_B7_20261115.md",
+        "blob_sha": "f97b536f2484226b5ff57315dad9e4d760ec4c20",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-A only: pure manual draft preview fail-closed, not Review Apply or finance money effect",
-  "how": "three new exact paths; 10 negative/positive delta JVM XML tests; no category/catalog/schema/host edits",
+  "why": "W01-A RED_FIX test fixture duplicate account ID; single test-path correction only",
+  "how": "Change only FinanceManualDraftPreviewTest helper and positive test accountId; 10 XML expected",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null
