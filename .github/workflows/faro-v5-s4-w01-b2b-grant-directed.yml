@@ -1,0 +1,71 @@
+name: FARO V5 S4 W01-B2B DEV Finance scoped grant owner
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2FinanceObjectGrantOwner.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2FinanceObjectGrantOwnerTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b2b-grant-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w01-b2b
+  cancel-in-progress: false
+jobs:
+  w01-b2b-scoped-finance-grants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile SDK
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run 8 exact DEV scoped grant cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01B2FinanceObjectGrantOwnerTest"
+      - name: Verify exact 8-case JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/app/build/test-results/testDebugUnitTest").glob("TEST-*S4W01B2FinanceObjectGrantOwnerTest.xml"))
+          if len(files)!=1: raise SystemExit("W01_B2B_XML_MISSING "+str(len(files)))
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "trustedDevPolicyMintsExactScopeNonceOnly",
+              "defaultDenyWithoutPolicyOrApprovedScope",
+              "otherObjectOrOperationCannotBorrowGrant",
+              "fullPointerAbaAndHostEpochRevokeGrant",
+              "policyEpochChangeInvalidatesAndNewNonceIsUnique",
+              "concurrentRevokeWaitsUntilInProcessLeaseEnds",
+              "newOwnerNeverRestoresPreviousNonce",
+              "ownerCloseInvalidPrincipalAndMissingHostDeny",
+          }
+          names=[(x.get("name") or "").removesuffix("()") for x in root.findall("testcase")]
+          if counts!=(8,0,0,0) or len(names)!=8 or set(names)!=expected:
+              raise SystemExit("W01_B2B_XML_FAIL "+str((counts,names)))
+          print("S4_W01_B2B_SCOPED_FINANCE_GRANT_XML_PASS 8/8")
+          print("NOT_CERTIFIED: cross-process policy, authenticated user, Finance Apply/receipt, production, Android")
+          PY
+      - name: Preserve exact W01-B2B JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-s4-w01-b2b-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01B2FinanceObjectGrantOwnerTest.xml
+          if-no-files-found: warn
