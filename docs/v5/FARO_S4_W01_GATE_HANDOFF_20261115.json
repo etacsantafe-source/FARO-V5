@@ -228,14 +228,15 @@
     "ci_run": 43962889585,
     "m0c2a": {
       "unit_id": "S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE",
-      "status": "B1_B5_DOC_GUARD_PENDING",
+      "status": "READY_EXACT4_B6_PENDING",
       "document": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_B1_B5_20261116.md",
       "paths": [
         "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
         "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9SealedSnapshotCapture.kt",
         "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9SealedCaptureTest.kt",
         ".github/workflows/faro-v5-s4-w01-m0c2a-finance9-capture-directed.yml"
-      ]
+      ],
+      "ready_document": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_READY_20261116.md"
     }
   }
 }
