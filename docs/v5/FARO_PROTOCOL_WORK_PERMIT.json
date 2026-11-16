@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B1_DEV_CANONICAL_FINANCE_REVIEW_CREATION",
   "reviewed_head": "9765bb663f8be97487ddfda06f147e60635b15b9",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_JVM_7_OF_7_XML_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_WORKSPACE_PENDING_REVIEW"
   },
   "last_code_review": {
-    "sha": "fad7545710800cc177fbcbb592bb6f764cb6223f",
+    "sha": "a7c670c7af7d8c7f41877fcbc0cdeb25e0e54ad5",
     "unit_id": "S4_W01_B1_DEV_CANONICAL_FINANCE_REVIEW_CREATION",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B1_RED_FIX_B7_20261115.md",
-        "blob_sha": "0fdcbbb92b96551e9f0d59377809c23996f964c0",
+        "path": "docs/v5/FARO_S4_W01_B1_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "f429f30d37c1eaba232c1da9a79cc54abefad39a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-B1 test expected a new chat even when current empty chat must be reused",
-  "how": "RED_FIX same unit test-only seed accepted USER message before switching chat; recheck 7 XML",
+  "why": "W01-B1 DEV Workspace PENDING Review 7/7 B7 scoped; next W01-B2-A no READY",
+  "how": "CI 43866046135 job 133294741928 XML 7/7, guard 43866046166 SUCCESS, test-only RED_FIX",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W01_B1_B7_PASS_PERMISSION_CONSUMED_W01_B2_A_NOT_READY"
 }
