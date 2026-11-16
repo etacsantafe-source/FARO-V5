@@ -5,7 +5,7 @@
   "branch": "work/s3-night-20261102",
   "unit": "S4_W01_FINANCE_MANUAL_LOCAL",
   "source_head": "55578538c33e5d43c5982bb6205f913023479f0a",
-  "status": "W01_ARCH_01_06_DESIGN_DOC_ONLY_B7_PENDING",
+  "status": "W01_ARCHITECTURE_B7_PASS_DOCUMENTARY_CODE_OPEN",
   "permit": "BLOCKED",
   "scope": "F02_F06_LOCAL_FINANCE_NO_EXTERNAL_PAYMENTS",
   "code_changed": false,
@@ -157,7 +157,7 @@
     "c1_cross_process": "STOP"
   },
   "architecture_first": {
-    "status": "IN_PROGRESS_NO_NEW_FUNCTIONAL_CODE",
+    "status": "W01_ARCHITECTURE_B7_PASS_DOCUMENTARY_SCOPED",
     "priority": "ARCHITECTURE_W01_COMPLETE_BEFORE_W01_CODE_BEFORE_W02",
     "document": "docs/v5/FARO_S4_W01_ARCHITECTURE_FIRST_COMPLETE_BEFORE_CODE_GATE_20261116.md",
     "scope": "F02_F06_ONLY",
@@ -170,7 +170,7 @@
       "ARCH-06_IMPLEMENTATION_ACCEPTANCE"
     ],
     "exit": "W01_ARCHITECTURE_B7_PASS",
-    "code_permission": "BLOCKED",
+    "code_permission": "BLOCKED_M0A_READY_NOT_YET_ISSUED",
     "w02": "STOP_UNTIL_W01_CODE_AND_B7",
     "design_document": "docs/v5/FARO_S4_W01_ARCH01_ARCH06_DESIGN_DECISIONS_20261116.md",
     "design_status": "ALL_GATES_DESIGNED_PENDING_INDEPENDENT_B7",
@@ -180,6 +180,7 @@
     "compat_auth_schema_document": "docs/v5/FARO_S4_W01_ARCH01_03_COMPAT_AUTH_SCHEMA_DECISIONS_20261116.md",
     "ux_acceptance_document": "docs/v5/FARO_S4_W01_ARCH05_06_UX_ACCEPTANCE_DECISIONS_20261116.md",
     "schema_paths_document": "docs/v5/FARO_S4_W01_ARCH03_DDL_ARCH06_EXACT_PATHS_20261116.md",
-    "epoch_path_final_document": "docs/v5/FARO_S4_W01_ARCH02_ARCH06_MONOTONIC_EPOCH_PATH_FIX_20261116.md"
+    "epoch_path_final_document": "docs/v5/FARO_S4_W01_ARCH02_ARCH06_MONOTONIC_EPOCH_PATH_FIX_20261116.md",
+    "global_b7_document": "docs/v5/FARO_S4_W01_ARCHITECTURE_GLOBAL_B7_PASS_20261116.md"
   }
 }
