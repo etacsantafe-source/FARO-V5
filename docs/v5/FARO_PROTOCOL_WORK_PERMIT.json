@@ -1,20 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B2_C0_DEV_FINANCE_REVIEWED_APPLY_TEST_HOST",
-  "reviewed_head": "f4f3080e30f930cb9f1551a1e42795f5d094f359",
+  "status": "READY",
+  "unit_id": "S4_W01_B2_C2_FINANCE_RECEIPT_ONLY_RECOVERY_JVM",
+  "reviewed_head": "036dbf172e66e4f478b3c353b2838caee419c9fc",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2C0FinanceDevApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2C0FinanceDevApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2c0-apply-dev-directed.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2C2FinanceReceiptRecoveryTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b2c2-receipt-recovery-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
-          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
+          "path": "docs/v5/FARO_S4_W01_B2_C2_RECEIPT_RECOVERY_B1_B5_20261116.md",
+          "blob_sha": "2d36ca3d0d177927e099dba59f538627ecbe5536",
           "marker": "## B1"
         }
       ]
@@ -23,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
-          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
+          "path": "docs/v5/FARO_S4_W01_B2_C2_RECEIPT_RECOVERY_B1_B5_20261116.md",
+          "blob_sha": "2d36ca3d0d177927e099dba59f538627ecbe5536",
           "marker": "## B2"
         }
       ]
@@ -33,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
-          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
+          "path": "docs/v5/FARO_S4_W01_B2_C2_RECEIPT_RECOVERY_B1_B5_20261116.md",
+          "blob_sha": "2d36ca3d0d177927e099dba59f538627ecbe5536",
           "marker": "## B3"
         }
       ]
@@ -43,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
-          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
+          "path": "docs/v5/FARO_S4_W01_B2_C2_RECEIPT_RECOVERY_B1_B5_20261116.md",
+          "blob_sha": "2d36ca3d0d177927e099dba59f538627ecbe5536",
           "marker": "## B4"
         }
       ]
@@ -53,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
-          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
+          "path": "docs/v5/FARO_S4_W01_B2_C2_RECEIPT_RECOVERY_B1_B5_20261116.md",
+          "blob_sha": "2d36ca3d0d177927e099dba59f538627ecbe5536",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_FINANCE_REALITY_TEMP_SQLITE_7_OF_7_XML",
-    "B7": "PASS_SCOPED_DEV_FINANCE_REVIEWED_APPLY_LOCAL_SQLITE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d441961bfd8dc5f1da961ee7c5f915be3548ce8b",
@@ -74,9 +73,9 @@
       }
     ]
   },
-  "why": "B2C0 DEV isolated SQLite Finance reviewed Apply 7/7 PASS, permission consumed",
-  "how": "CI 43882851971 job 133353032899 XML 7/7, guard 43882851982, no production",
+  "why": "W01 B2C2 test-only Finance receipt recovery after crash, no runtime",
+  "how": "Two new paths and 5 JUnit tests CI XML, no replay, B7 independent",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "W01_B2C0_PASS_CONSUMED_C1_C2_NOT_READY"
+  "blocked_reason": null
 }
