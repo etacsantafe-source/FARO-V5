@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M0B_FINANCE9_GENERATION_ADMISSION",
   "reviewed_head": "5b7aa35501d5819d8b0d83c0568ab7c1372fa512",
   "paths": [
@@ -60,24 +60,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_STAGE_GENERATION_JVM_7_OF_7_XML_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_GENERATION_STAGE_ONLY"
   },
   "last_code_review": {
-    "sha": "34fc3382d5c5495e81e35f7ab079f59c4acb9e08",
-    "unit_id": "S4_W01_M0A_FINANCE9_STAGED_SCHEMA",
+    "sha": "a5cd3dc3798ee5b5f5a580a6044bff63e2ad2f37",
+    "unit_id": "S4_W01_M0B_FINANCE9_GENERATION_ADMISSION",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M0A_FINANCE9_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "d2e60af4446d9601c7007dfc976cf9251f848059",
+        "path": "docs/v5/FARO_S4_W01_M0B_FINANCE9_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "2af895ed010b59d9f6bd6e7ba32a4a8da9a39947",
         "marker": "## B7"
       }
     ]
   },
-  "why": "M0B 4 scoped new paths stage9 generation owner with independent B1-B5",
-  "how": "guard 43952286232 SUCCESS; previous M0A code B7 PASS; stage-only no shipping",
+  "why": "M0B exact seven generation tests and guard PASS, permission consumed",
+  "how": "CI 43953191957 job133600796829 XML7/7, artifact14269056865, guard43953191939; no active or shipping",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "M0B_B7_PASS_PERMISSION_CONSUMED_M0C_NOT_READY"
 }
