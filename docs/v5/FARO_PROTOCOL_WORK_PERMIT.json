@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_A_FINANCE_MANUAL_DRAFT_PREVIEW",
   "reviewed_head": "761ec4b5049df55eea19df20dcf38cfda8214941",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_10_OF_10_XML_VERIFIED",
+    "B7": "PASS_SCOPED_FINANCE_DRAFT_PREVIEW_ONLY"
   },
   "last_code_review": {
-    "sha": "30c8e5e8079d4c2a5d81fd848b253cc26243e67c",
+    "sha": "3d62a39489b8007e651b5470991d7d2992eb6d6d",
     "unit_id": "S4_W01_A_FINANCE_MANUAL_DRAFT_PREVIEW",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_A_RED_FIX_B7_20261115.md",
-        "blob_sha": "f97b536f2484226b5ff57315dad9e4d760ec4c20",
+        "path": "docs/v5/FARO_S4_W01_A_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "d0de8a58734eade4b28d0ec4d26bf8c16ffb3478",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-A RED_FIX test fixture duplicate account ID; single test-path correction only",
-  "how": "Change only FinanceManualDraftPreviewTest helper and positive test accountId; 10 XML expected",
+  "why": "W01-A completed preview-only 10/10 XML scoped; W01-B permission not issued",
+  "how": "W01-A review commit exact 3d62a394; CI 43781556486; guard 43781556504",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W01_A_B7_PASS_SCOPE_CONSUMED_W01_B_NOT_AUTHORIZED"
 }
