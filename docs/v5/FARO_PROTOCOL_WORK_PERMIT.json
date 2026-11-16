@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "824be0c51c78c22f149106088874df0dbc2ea00e",
-    "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
-    "result": "PASS",
+    "sha": "fad7545710800cc177fbcbb592bb6f764cb6223f",
+    "unit_id": "S4_W01_B1_DEV_CANONICAL_FINANCE_REVIEW_CREATION",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B0_B7_PASS_SCOPED_20261115.md",
-        "blob_sha": "a079f3fbbd291aa02c5cd3c3c7194fee7d462db3",
+        "path": "docs/v5/FARO_S4_W01_B1_RED_FIX_B7_20261115.md",
+        "blob_sha": "0fdcbbb92b96551e9f0d59377809c23996f964c0",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-B1 dormant DEV canonical Workspace PENDING review, no Apply/Receipt",
-  "how": "three new paths exact 7 JVM tests",
+  "why": "W01-B1 test expected a new chat even when current empty chat must be reused",
+  "how": "RED_FIX same unit test-only seed accepted USER message before switching chat; recheck 7 XML",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null
