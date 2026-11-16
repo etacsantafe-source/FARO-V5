@@ -173,6 +173,9 @@
     "code_permission": "BLOCKED",
     "w02": "STOP_UNTIL_W01_CODE_AND_B7",
     "design_document": "docs/v5/FARO_S4_W01_ARCH01_ARCH06_DESIGN_DECISIONS_20261116.md",
-    "design_status": "DESIGN_CANDIDATE_NO_GLOBAL_B7"
+    "design_status": "DESIGN_CANDIDATE_NO_GLOBAL_B7",
+    "catalog_corrigendum": "docs/v5/FARO_S4_W01_ARCH04_CATALOG180_CORRECTION_AND_CONTRACTS_20261116.md",
+    "catalog_policy": "REUSE_180_EXISTING_NO_NEW_OPERATION_ID",
+    "gates_status": "ARCH04_DOC_DESIGN_B7_PENDING_OTHER_ARCH_OPEN"
   }
 }
