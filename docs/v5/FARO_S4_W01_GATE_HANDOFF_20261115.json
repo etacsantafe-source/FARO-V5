@@ -212,7 +212,7 @@
     "ci_run": 43953191957
   },
   "w01_m0c": {
-    "status": "SPLIT_M0C1_CODEC_FENCE_B1_B5_DOC",
+    "status": "M0C1_READY_EXACT5_B6_PENDING",
     "unit_id": "S4_W01_M0C1_FINANCE9_FBS2V4_CODEC_FENCE",
     "document": "docs/v5/FARO_S4_W01_M0C1_FINANCE9_FBS2V4_CODEC_B1_B5_20261116.md",
     "paths": [
@@ -221,6 +221,7 @@
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9Fbs2V4CodecFenceTest.kt",
       ".github/workflows/faro-v5-s4-w01-m0c1-finance9-codec-directed.yml"
-    ]
+    ],
+    "ready_document": "docs/v5/FARO_S4_W01_M0C1_FBS2V4_READY_20261116.md"
   }
 }
