@@ -5,7 +5,7 @@
   "branch": "work/s3-night-20261102",
   "unit": "S4_W01_FINANCE_MANUAL_LOCAL",
   "source_head": "55578538c33e5d43c5982bb6205f913023479f0a",
-  "status": "W01_OPEN_B2C0_B7_PASS_C1_C2_PREAUDITED",
+  "status": "W01_OPEN_B2C2_B7_PASS_C1_MATRIX_DOC_ONLY",
   "permit": "BLOCKED",
   "scope": "F02_F06_LOCAL_FINANCE_NO_EXTERNAL_PAYMENTS",
   "code_changed": false,
@@ -119,7 +119,7 @@
     "apply": false
   },
   "w01_b2": {
-    "status": "B2C0_B7_PASS_SCOPED_DEV_ONLY",
+    "status": "B2C2_B7_PASS_SCOPED",
     "document": "docs/v5/FARO_S4_W01_B2_FINANCE_APPLY_PREAUDIT_B1_B5_20261116.md",
     "grant": false,
     "apply": false,
@@ -146,6 +146,14 @@
     "b2c0_b7": "docs/v5/FARO_S4_W01_B2_C0_B7_PASS_SCOPED_20261116.md",
     "c1_audit": "docs/v5/FARO_S4_W01_B2_C1_CROSS_PROCESS_REVOCATION_B1_B5_20261116.md",
     "c2_audit": "docs/v5/FARO_S4_W01_B2_C2_RECEIPT_RECOVERY_B1_B5_20261116.md",
-    "c1": "CROSS_PROCESS_STOP"
+    "c1": "CROSS_PROCESS_STOP",
+    "b2c2_sha": "d49cc17d99b460651042a9f99c4a389cbcd28e01",
+    "b2c2_ci": 43886319792,
+    "b2c2_xml": "5/5",
+    "b2c2_guard": 43886319690,
+    "b2c2_b7": "docs/v5/FARO_S4_W01_B2_C2_B7_PASS_SCOPED_20261116.md",
+    "c1_schema_matrix": "docs/v5/FARO_S4_W01_B2_C1_SCHEMA_AND_REVOCATION_COMPATIBILITY_MATRIX_20261116.md",
+    "c1_migration": "NOT_READY",
+    "c1_cross_process": "STOP"
   }
 }

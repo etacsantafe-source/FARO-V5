@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B2_C2_FINANCE_RECEIPT_ONLY_RECOVERY_JVM",
   "reviewed_head": "036dbf172e66e4f478b3c353b2838caee419c9fc",
   "paths": [
@@ -58,24 +58,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_FINANCE_RECOVERY_5_OF_5_XML_VERIFIED",
+    "B7": "PASS_SCOPED_FINANCE_RECEIPT_ONLY_RECOVERY"
   },
   "last_code_review": {
-    "sha": "883018665bcf823bf3703e3ec49a382848634917",
+    "sha": "d49cc17d99b460651042a9f99c4a389cbcd28e01",
     "unit_id": "S4_W01_B2_C2_FINANCE_RECEIPT_ONLY_RECOVERY_JVM",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2_C2_INLINE_LATEINIT_RED_FIX_B7_20261116.md",
-        "blob_sha": "8e8abb1bf87bee57b84b5b106bdafe6cc10e79bf",
+        "path": "docs/v5/FARO_S4_W01_B2_C2_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "085c9c139b528bb96417d72d4c63a87406f043e7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C2 test-only compile failure Kotlin inline value classes cannot use local lateinit",
-  "how": "Fix two inline lateinit locals only in C2 test file; preserve XML five-case suite",
+  "why": "W01-B2C2 5/5 Finance receipt-only recovery test B7 PASS, unit permission consumed",
+  "how": "CI 43886319792 job133365329925 XML 5/5, guard43886319690; no production",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "B2C2_PASS_PERMISSION_CONSUMED_C1_CROSS_PROCESS_NO_READY"
 }
