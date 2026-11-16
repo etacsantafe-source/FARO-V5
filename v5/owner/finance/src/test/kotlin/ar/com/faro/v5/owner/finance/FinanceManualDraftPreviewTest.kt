@@ -72,7 +72,7 @@ class FinanceManualDraftPreviewTest {
     fun validPreviewsDoNotMutateSnapshotOrGrantApply() {
         val before = snapshot()
         val copy = before.copy()
-        val account = accountPreview(opening = 0L, snapshot = before)
+        val account = accountPreview(opening = 0L, snapshot = before, accountId = "account-new")
         val entry = entryPreview(snapshot = before, amount = 20L)
         assertNotNull(account)
         assertNotNull(entry)
@@ -89,8 +89,9 @@ class FinanceManualDraftPreviewTest {
         opening: Long?,
         currency: String = "ARS",
         snapshot: FinanceSnapshot = FinanceSnapshot(emptyList(), revision = 7L),
+        accountId: String = "account-existing",
     ) = FinanceManualDraftPreviews.account(
-        accountIdRaw = "account-existing",
+        accountIdRaw = accountId,
         displayNameRaw = "Principal",
         currencyRaw = currency,
         nature = FinanceAccountNature.BANK,
