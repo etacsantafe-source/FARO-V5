@@ -1,0 +1,70 @@
+name: FARO V5 S4 W01-B2C0 DEV Finance approved Apply isolated SQLite
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2C0FinanceDevApplyHost.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2C0FinanceDevApplyHostTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b2c0-apply-dev-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w01-b2c0
+  cancel-in-progress: false
+jobs:
+  w01-b2c0-dev-finance-apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile SDK
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run exactly seven DEV Finance SQLite reviewed Apply cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01B2C0FinanceDevApplyHostTest"
+      - name: Verify exact seven JUnit XML cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/app/build/test-results/testDebugUnitTest").glob("TEST-*S4W01B2C0FinanceDevApplyHostTest.xml"))
+          if len(files)!=1: raise SystemExit("W01_B2C0_XML_MISSING "+str(len(files)))
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "approvedAccountCreatesOneRealSqliteReceiptInTempDatabase",
+              "approvedEntryUpdatesExactLocalAccountAfterSeparateReview",
+              "pendingAndDiscardedNeverWriteReality",
+              "absentPolicyOrHostAdmissionDeniesWithoutWrite",
+              "spoofedFinanceContractFailsAgainstOfficialCatalog",
+              "pointerAbaOrLifecycleDriftDeniesBeforeSqlite",
+              "secondTapOnCommittedReviewNeverAllocatesAnotherReceipt",
+          }
+          names=[(x.get("name") or "").removesuffix("()") for x in root.findall("testcase")]
+          if counts!=(7,0,0,0) or len(names)!=7 or set(names)!=expected:
+              raise SystemExit("W01_B2C0_XML_FAIL "+str((counts,names)))
+          print("S4_W01_B2C0_FINANCE_DEV_REVIEWED_APPLY_XML_PASS 7/7")
+          print("NOT_CERTIFIED: real human policy, cross-process revocation, app composition, G15, production, C1/C2")
+          PY
+      - name: Preserve exact W01-B2C0 XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b2c0-dev-apply-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01B2C0FinanceDevApplyHostTest.xml
+          if-no-files-found: warn
