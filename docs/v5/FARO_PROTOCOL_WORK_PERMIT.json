@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B2_B_DEV_SCOPED_FINANCE_GRANT_OWNER",
-  "reviewed_head": "04872696d5518562c3c8537a696b3f7f92d8ced8",
+  "status": "READY",
+  "unit_id": "S4_W01_B2_C0_DEV_FINANCE_REVIEWED_APPLY_TEST_HOST",
+  "reviewed_head": "f4f3080e30f930cb9f1551a1e42795f5d094f359",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2FinanceObjectGrantOwner.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2FinanceObjectGrantOwnerTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2b-grant-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2C0FinanceDevApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2C0FinanceDevApplyHostTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b2c0-apply-dev-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
-          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
+          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
+          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
-          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
+          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
+          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
-          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
+          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
+          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
-          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
+          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
+          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
-          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
+          "path": "docs/v5/FARO_S4_W01_B2_C0_DEV_APPLY_B1_B5_20261116.md",
+          "blob_sha": "ac9a1e1eed7e6d7b4e459df50cb3363226e4939c",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_SCOPED_GRANT_JVM_8_OF_8_XML_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_FINANCE_GRANT_INPROCESS"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "8b9257aebc626c135abb2eee44396d84e1b54f7e",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "W01-B2B 8/8 in-process scoped owner grant PASS, permission consumed, B2C no READY",
-  "how": "CI 43871641948 job133314077362, guard43871641769; crossprocess remains STOP",
+  "why": "W01 B2C0 only isolated DEV approved Finance Apply host with temporary SQLite tests",
+  "how": "Exact three new file paths, 7 test XML, guard and B7; product V2/Auto/Noche OFF",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "W01_B2B_SCOPED_PASS_CONSUMED_B2C_NOT_READY"
+  "blocked_reason": null
 }
