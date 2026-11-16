@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M0C2B1_FINANCE9_AUTHENTICATED_SECTION_RESTORE",
   "reviewed_head": "8181d3e1a1cf8a2a70fbc3e98931b4f5045e9b04",
   "paths": [
@@ -60,24 +60,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_FINANCE9_AUTHENTICATED_STAGE_SECTION_XML7_OF_7",
+    "B7": "PASS_SCOPED_AUTHENTICATED_FINANCE9_SECTION_ONLY"
   },
   "last_code_review": {
-    "sha": "3fa8d9fcc4070f69b7f0d482a2a3c0fd35f11fd1",
-    "unit_id": "S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE",
+    "sha": "003de78e8ca97db5e11d42e90654f008e337ff33",
+    "unit_id": "S4_W01_M0C2B1_FINANCE9_AUTHENTICATED_SECTION_RESTORE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "2b8c1b57cdc096e5f0898d934594a71d18722755",
+        "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTH_FINANCE9_SECTION_B7_PASS_20261116.md",
+        "blob_sha": "c3096a21554c8cc37ed92cfd4f93b27724e50a13",
         "marker": "## B7"
       }
     ]
   },
-  "why": "M0C2B1 scoped authenticated Finance9 section-only restore, four paths; M0C2B2 full five stores future",
-  "how": "preaudit guard43978396576 SUCCESS; no new V2 product",
+  "why": "M0C2B1 staged Finance9 section 7/7 XML PASS, permission consumed; M0C2B2 full five-store restore remains OPEN",
+  "how": "CI43979784062 job133693002621 artifact14283525206 XML7/7; protocol guard43979783881 SUCCESS",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "M0C2B1_B7_PASS_PERMISSION_CONSUMED_M0C2B2_NOT_READY"
 }
