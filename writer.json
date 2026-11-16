@@ -1,1 +1,12 @@
-{"schema":1,"status":"RELEASED","owner":"FARO.MANUAL.S4.W01B2C2.B7.C1MATRIX.20261116","token_hash":"cef4fb3081d7439ad80ee932cdb399ff7b641746119e3c51a1dfa1c354bb3a42","target_head":"7b9c5dc68c36f57d396b4b3676928ee1cfb1a8ef","target_branch":"work/s3-night-20261102","epoch":971,"timestamp":1794839779,"scope":"W01_B2C2_B7_PASS_5OF5_C1_SCHEMA_MATRIX_DOC_ONLY","last_checkpoint":"7b9c5dc68c36f57d396b4b3676928ee1cfb1a8ef"}
+{
+  "schema": 1,
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S4.W01.ARCH_FIRST.20261116",
+  "token_hash": "5d9b27ea5f1049bcb684bec784ff9be9390fde107b9c5dc68c36f57d396b4b36",
+  "target_head": "7b9c5dc68c36f57d396b4b3676928ee1cfb1a8ef",
+  "target_branch": "work/s3-night-20261102",
+  "epoch": 972,
+  "timestamp": 1794843338,
+  "scope": "S4_W01_ARCHITECTURE_FIRST_DOC_ONLY",
+  "last_checkpoint": "7b9c5dc68c36f57d396b4b3676928ee1cfb1a8ef"
+}
