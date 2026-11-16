@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B2_B_DEV_SCOPED_FINANCE_GRANT_OWNER",
   "reviewed_head": "04872696d5518562c3c8537a696b3f7f92d8ced8",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_SCOPED_GRANT_JVM_8_OF_8_XML_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_FINANCE_GRANT_INPROCESS"
   },
   "last_code_review": {
-    "sha": "fa0e26376186961f05a24ebcc3b6bc3a76b3f388",
-    "unit_id": "S4_W01_B2_A_CANONICAL_FINANCE_APPROVED_SCOPE",
+    "sha": "8b9257aebc626c135abb2eee44396d84e1b54f7e",
+    "unit_id": "S4_W01_B2_B_DEV_SCOPED_FINANCE_GRANT_OWNER",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2_A_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "c42509e566c3920cec888ae40722c67e11c9ee38",
+        "path": "docs/v5/FARO_S4_W01_B2_B_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "1c241c0ad55872fed8e0385f151fe807c0d8cfae",
         "marker": "## B7"
       }
     ]
   },
-  "why": "DEV inert Finance-scoped owner grant policy with nonce and epoch, no Apply or user auth",
-  "how": "Three new exact files and 8 directed JVM tests, B7 separately",
+  "why": "W01-B2B 8/8 in-process scoped owner grant PASS, permission consumed, B2C no READY",
+  "how": "CI 43871641948 job133314077362, guard43871641769; crossprocess remains STOP",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W01_B2B_SCOPED_PASS_CONSUMED_B2C_NOT_READY"
 }
