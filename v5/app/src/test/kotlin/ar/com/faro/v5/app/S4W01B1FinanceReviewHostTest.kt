@@ -65,6 +65,22 @@ class S4W01B1FinanceReviewHostTest {
             value: FinanceEntryRecord = entry()) =
             host.createEntryPending(chat, value, key)
         fun reviews() = runBlocking { workspace.reviews(chat) }
+        fun seedAcceptedUserMessage() {
+            val observed = requireNotNull(runBlocking { workspace.readTimeline(chat) })
+            val result = runBlocking {
+                workspace.writeTimeline(ConversationTimelineWriteRequest(
+                    chat, observed.authorityToken, observed.revision,
+                    IdempotencyKey("seed-accepted-$label"),
+                    ConversationTimelineIntent.AcceptUser(ConversationMessage(
+                        ConversationMessageId("seed-user-$label"), chat,
+                        ConversationTurnId("seed-turn-$label"),
+                        ConversationMessageRole.USER, ConversationMessageState.ACCEPTED,
+                        "Mensaje aceptado de prueba", 101L,
+                    )),
+                ))
+            }
+            assertTrue(result is ConversationTimelineWriteResult.Saved)
+        }
         override fun close() { workspace.close() }
     }
 
@@ -141,6 +157,7 @@ class S4W01B1FinanceReviewHostTest {
 
     @Test fun workspaceRevisionAndChatSelectionAreRechecked() {
         Case("selection").use { f ->
+            f.seedAcceptedUserMessage()
             val other = ConversationId("other-chat")
             assertTrue(runBlocking {
                 f.workspace.createAndSelect(other, 200L, IdempotencyKey("create-other"))
@@ -149,6 +166,7 @@ class S4W01B1FinanceReviewHostTest {
             assertTrue(f.reviews().isEmpty())
         }
         Case("drift").use { f ->
+            f.seedAcceptedUserMessage()
             var checked = 0
             f.foregroundCallback = {
                 checked += 1
