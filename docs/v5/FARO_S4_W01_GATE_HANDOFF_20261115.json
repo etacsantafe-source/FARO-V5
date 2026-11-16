@@ -173,12 +173,13 @@
     "code_permission": "BLOCKED",
     "w02": "STOP_UNTIL_W01_CODE_AND_B7",
     "design_document": "docs/v5/FARO_S4_W01_ARCH01_ARCH06_DESIGN_DECISIONS_20261116.md",
-    "design_status": "DDL_AND_PATHS_AUDIT_PENDING",
+    "design_status": "ALL_GATES_DESIGNED_PENDING_INDEPENDENT_B7",
     "catalog_corrigendum": "docs/v5/FARO_S4_W01_ARCH04_CATALOG180_CORRECTION_AND_CONTRACTS_20261116.md",
     "catalog_policy": "REUSE_180_EXISTING_NO_NEW_OPERATION_ID",
     "gates_status": "ARCH04_DOC_DESIGN_B7_PENDING_OTHER_ARCH_OPEN",
     "compat_auth_schema_document": "docs/v5/FARO_S4_W01_ARCH01_03_COMPAT_AUTH_SCHEMA_DECISIONS_20261116.md",
     "ux_acceptance_document": "docs/v5/FARO_S4_W01_ARCH05_06_UX_ACCEPTANCE_DECISIONS_20261116.md",
-    "schema_paths_document": "docs/v5/FARO_S4_W01_ARCH03_DDL_ARCH06_EXACT_PATHS_20261116.md"
+    "schema_paths_document": "docs/v5/FARO_S4_W01_ARCH03_DDL_ARCH06_EXACT_PATHS_20261116.md",
+    "epoch_path_final_document": "docs/v5/FARO_S4_W01_ARCH02_ARCH06_MONOTONIC_EPOCH_PATH_FIX_20261116.md"
   }
 }
