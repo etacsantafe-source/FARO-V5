@@ -241,7 +241,7 @@
       "ci_run": 43965425488
     },
     "m0c2b": {
-      "status": "B1_B5_DOC_ONLY",
+      "status": "READY_EXACT4_B6_PENDING",
       "subunit": "S4_W01_M0C2B1_FINANCE9_AUTHENTICATED_SECTION_RESTORE",
       "document": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
       "paths": [
@@ -250,7 +250,8 @@
         "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9AuthenticatedSectionRestoreTest.kt",
         ".github/workflows/faro-v5-s4-w01-m0c2b1-finance9-restore-directed.yml"
       ],
-      "full_restore": "NOT_IMPLEMENTED"
+      "full_restore": "NOT_IMPLEMENTED",
+      "ready_document": "docs/v5/FARO_S4_W01_M0C2B1_READY_20261116.md"
     }
   }
 }

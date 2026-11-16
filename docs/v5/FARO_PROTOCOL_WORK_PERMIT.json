@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE",
-  "reviewed_head": "134021b49ea33d19bbd849f982cf5fb4693c817a",
+  "status": "READY",
+  "unit_id": "S4_W01_M0C2B1_FINANCE9_AUTHENTICATED_SECTION_RESTORE",
+  "reviewed_head": "8181d3e1a1cf8a2a70fbc3e98931b4f5045e9b04",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9SealedSnapshotCapture.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9SealedCaptureTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m0c2a-finance9-capture-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9StagedRowsRestorePort.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9AuthenticatedSectionRestore.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9AuthenticatedSectionRestoreTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m0c2b1-finance9-restore-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_B1_B5_20261116.md",
-          "blob_sha": "dd97d5662cdc7500f3fc45fe767ebd0042df0fd9",
+          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
+          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_B1_B5_20261116.md",
-          "blob_sha": "dd97d5662cdc7500f3fc45fe767ebd0042df0fd9",
+          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
+          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_B1_B5_20261116.md",
-          "blob_sha": "dd97d5662cdc7500f3fc45fe767ebd0042df0fd9",
+          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
+          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_B1_B5_20261116.md",
-          "blob_sha": "dd97d5662cdc7500f3fc45fe767ebd0042df0fd9",
+          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
+          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_B1_B5_20261116.md",
-          "blob_sha": "dd97d5662cdc7500f3fc45fe767ebd0042df0fd9",
+          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
+          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_SEALED_FINANCE9_DATA_CAPTURE_XML7_7",
-    "B7": "PASS_SCOPED_FINANCE9_STAGE_READ_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "3fa8d9fcc4070f69b7f0d482a2a3c0fd35f11fd1",
@@ -75,9 +75,9 @@
       }
     ]
   },
-  "why": "M0C2A directed CI7/7 guard SUCCESS, permission consumed; no full backup9",
-  "how": "CI43965425488 job133643488920 artifact14276821059 XML7/7 guard43965425327; dev only",
+  "why": "M0C2B1 scoped authenticated Finance9 section-only restore, four paths; M0C2B2 full five stores future",
+  "how": "preaudit guard43978396576 SUCCESS; no new V2 product",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "M0C2A_B7_PASS_PERMISSION_CONSUMED_M0C2B_NOT_READY"
+  "blocked_reason": null
 }
