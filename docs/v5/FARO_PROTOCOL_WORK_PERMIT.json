@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "a7c670c7af7d8c7f41877fcbc0cdeb25e0e54ad5",
-    "unit_id": "S4_W01_B1_DEV_CANONICAL_FINANCE_REVIEW_CREATION",
-    "result": "PASS",
+    "sha": "a1ff9c4598cc80fe282b9fa2edb40ebd936e9f02",
+    "unit_id": "S4_W01_B2_A_CANONICAL_FINANCE_APPROVED_SCOPE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B1_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "f429f30d37c1eaba232c1da9a79cc54abefad39a",
+        "path": "docs/v5/FARO_S4_W01_B2_A_ABA_RED_FIX_B7_20261116.md",
+        "blob_sha": "38445c21f120c41ed5c4f82e806f4491c62e4b19",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-B2A dormant DEV pure approved Finance scope lookup, no grant/Apply",
-  "how": "exact 3 new routes and 8 JUnit cases with XML, B7 separately",
+  "why": "B2A failed 7/8 ABA: pointer generation ID without pinned sequence accepted restored generation",
+  "how": "RED_FIX same unit 2 Kotlin/test routes; preserve 8 cases and repeat CI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null
