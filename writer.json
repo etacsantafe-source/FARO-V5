@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.S4.W01.ARCH_DDL.20261116",
-  "token_hash": "bc197596c12a4e107790a05f6712818c30d771aacac94264df7cd4c51150c94a",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.S4.W01.ARCH_EPOCH_CORR.20261116",
+  "token_hash": "5308fcaad7907cb6d7649008431ea753d5ac34c641ad44baf9f8f04e120b8a91",
   "target_head": "028baa66ddfd6ce4b7d003ccb08c7d3e5ab5d117",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 976,
-  "timestamp": 1794846227,
-  "scope": "S4_W01_ARCH03_DDL_PATHS_RELEASED_B7_PENDING",
+  "epoch": 977,
+  "timestamp": 1794846381,
+  "scope": "S4_W01_ARCH02_06_MONOTONIC_EPOCH_PATH_DOC_ONLY",
   "last_checkpoint": "028baa66ddfd6ce4b7d003ccb08c7d3e5ab5d117"
 }
