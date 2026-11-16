@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
-  "reviewed_head": "c2b1d9dc55f5b561a1967b711c1d3cfe911625e9",
+  "status": "READY",
+  "unit_id": "S4_W01_B1_DEV_CANONICAL_FINANCE_REVIEW_CREATION",
+  "reviewed_head": "9765bb663f8be97487ddfda06f147e60635b15b9",
   "paths": [
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceManualReviewedProposal.kt",
-    "v5/owner/finance/src/test/kotlin/ar/com/faro/v5/owner/finance/FinanceManualReviewedProposalTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b0-proposal-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B1FinanceReviewHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B1FinanceReviewHostTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b1-review-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
-          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
+          "path": "docs/v5/FARO_S4_W01_B1_DEV_WORKSPACE_REVIEW_B1_B5_20261115.md",
+          "blob_sha": "c6dd6a7ff8294fca71e03fc54454963bfcf190b4",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
-          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
+          "path": "docs/v5/FARO_S4_W01_B1_DEV_WORKSPACE_REVIEW_B1_B5_20261115.md",
+          "blob_sha": "c6dd6a7ff8294fca71e03fc54454963bfcf190b4",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
-          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
+          "path": "docs/v5/FARO_S4_W01_B1_DEV_WORKSPACE_REVIEW_B1_B5_20261115.md",
+          "blob_sha": "c6dd6a7ff8294fca71e03fc54454963bfcf190b4",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
-          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
+          "path": "docs/v5/FARO_S4_W01_B1_DEV_WORKSPACE_REVIEW_B1_B5_20261115.md",
+          "blob_sha": "c6dd6a7ff8294fca71e03fc54454963bfcf190b4",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
-          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
+          "path": "docs/v5/FARO_S4_W01_B1_DEV_WORKSPACE_REVIEW_B1_B5_20261115.md",
+          "blob_sha": "c6dd6a7ff8294fca71e03fc54454963bfcf190b4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_JVM_12_OF_12_XML_VERIFIED",
-    "B7": "PASS_SCOPED_FINANCE_CANONICAL_PROPOSAL_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "824be0c51c78c22f149106088874df0dbc2ea00e",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "B0 12/12 scoped PASS, READY consumed; W01-B1 separate B1-B5/READY",
-  "how": "Finance canonical inert proposals requiring independent human input (not authorization), CI 43787318935/guard 43787318934",
+  "why": "W01-B1 dormant DEV canonical Workspace PENDING review, no Apply/Receipt",
+  "how": "three new paths exact 7 JVM tests",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "W01_B0_PASS_PERMISSION_CONSUMED_NEXT_UNIT_NOT_READY"
+  "blocked_reason": null
 }
