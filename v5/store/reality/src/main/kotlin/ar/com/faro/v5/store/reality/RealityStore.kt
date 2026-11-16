@@ -98,6 +98,8 @@ class RealityStore(
     private val receiptClockEpochMillis: () -> Long = System::currentTimeMillis,
     /** Explicit quarantined STAGED schema8 only; default schema7 remains untouched. */
     private val planningStage8: Boolean = false,
+    /** STAGED schema9 only. Defaults OFF; cannot activate from normal openers. */
+    private val financeStage9: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -427,7 +429,11 @@ class RealityStore(
         withMaterialAdmission {
             synchronized(lock) {
                 configure(fileName)
-                if (planningStage8) initializePlanningStage8() else initializeSchema()
+                when {
+                    financeStage9 -> initializeFinanceStage9()
+                    planningStage8 -> initializePlanningStage8()
+                    else -> initializeSchema()
+                }
             }
         }
     }
@@ -1109,6 +1115,47 @@ class RealityStore(
         }
         validatePlanningStage8Tables()
     }
+
+    /**
+     * W01-M0C2B2A explicit STAGED9 read/write graph admission only.
+     * DO NOT migrate or create ANY table in this path. Default Reality7 and
+     * Planning8 staged opt-in remain byte-for-byte semantically unchanged.
+     */
+    private fun initializeFinanceStage9() {
+        check(financeStage9 && planningStage8) {
+            "Finance9 graph requires explicit isolated Planning+Finance staging"
+        }
+        check(readSchemaVersion() == 9) {
+            "Finance9 graph opens only an already-installed exact schema9"
+        }
+        check(receiptTimeColumnExists()) {
+            "Finance9 staged graph missing historical receipt commit timestamp"
+        }
+        listOf(
+            "profile_state", "apply_attempt", "execution_receipt",
+            "reality_outbox", "finance_state", "finance_account",
+            "finance_account_opening", "finance_entry",
+            "objective_state", "objective_record", "matter_state", "matter_record",
+            "reminder_state", "reminder_rule", "reminder_occurrence",
+            "monthly_plan_state", "monthly_plan_item",
+            "finance_acl_state", "finance_acl_policy", "finance_apply_grant",
+            "finance_opening_confirmation", "finance_transfer", "finance_debt",
+            "finance_schedule", "finance_plan_item", "finance_plan_item_payment",
+            "finance_budget_limit", "finance_schema_migration_audit",
+        ).forEach { table ->
+            check(tableExists(table)) { "Finance9 staged graph missing: $table" }
+        }
+        check(readIntegrityCheck() == "ok" && readForeignKeysHealthy()) {
+            "Finance9 staged graph SQLite integrity or FKs invalid"
+        }
+        readPlanningSnapshot().requireRestorable()
+    }
+
+    private fun isPlanningBackupSchemaMounted(): Boolean =
+        planningStage8 && (
+            readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
+                (financeStage9 && readSchemaVersion() == 9)
+        )
 
     private fun createPlanningStage8Tables() {
         connection.execSQL("""
@@ -1947,8 +1994,8 @@ class RealityStore(
     /** Direct SQL snapshot under the SAME Reality mutex as legacy and G4. */
     private fun readPlanningSnapshot(): RealityPlanningBackupSnapshot = synchronized(lock) {
         checkOpen()
-        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-            "Planning snapshot only available in isolated Reality8 stage"
+        check(isPlanningBackupSchemaMounted()) {
+            "Planning snapshot available only in isolated Reality8/Finance9 staging"
         }
         fun revision(table: String): Long =
             connection.prepare("SELECT revision FROM $table WHERE singleton_id=1").use { st ->
@@ -2328,8 +2375,8 @@ class RealityStore(
         backup: RealityPlanningBackupSnapshot,
     ): RealityPlanningBackupSnapshot = withMaterialAdmission { synchronized(lock) {
         checkOpen()
-        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-            "Planning restore requires isolated Reality8 stage"
+        check(isPlanningBackupSchemaMounted()) {
+            "Planning restore requires isolated Reality8/Finance9 staged graph"
         }
         check(activeTransactionId == null) { "Planning stage restore inside active Apply" }
         backup.requireRestorable() // wire size, row limits, revisions, FK intent, order
