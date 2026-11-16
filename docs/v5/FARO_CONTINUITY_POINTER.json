@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M0A_READY_EXACT3_B6_PENDING",
+  "phase": "S4_W01_M0A_B7_PASS_SCOPED_M0B_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "RECHECK_RELEASE_AFTER_READY_DOC",
-    "epoch": 980
+    "status": "RECHECK_REMOTE_AFTER_M0A_B7",
+    "epoch": 982
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Execute exact 3-path protocol preflight and M0A B6 code+directed CI, then B7, writer release; no W02.",
-  "checkpoint_status": "W01_M0A_READY_DOC_CHECKPOINT_POST_RELEASE_GUARD_REQUIRED",
+  "next": "W01-M0B B1–B5 staged generation admission, then READY exact paths, B6 CI B7; no W02 until W01-F B7.",
+  "checkpoint_status": "W01_M0A_JVM_7_OF_7_B7_SCOPED_POST_RELEASE_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4044,7 +4044,7 @@
     },
     "m0a": {
       "unit_id": "S4_W01_M0A_FINANCE9_STAGED_SCHEMA",
-      "status": "READY_EXACT3_PENDING_B6",
+      "status": "B7_PASS_SCOPED_FINANCE9_STAGE_ONLY",
       "document": "docs/v5/FARO_S4_W01_M0A_FINANCE9_PREAUDIT_B1_B5_20261116.md",
       "paths": [
         "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Schema.kt",
@@ -4054,7 +4054,18 @@
       "test_count": 7,
       "ci": "NOT_RUN",
       "b7": "NOT_RUN",
-      "permit_doc": "docs/v5/FARO_S4_W01_M0A_FINANCE9_READY_20261116.md"
+      "permit_doc": "docs/v5/FARO_S4_W01_M0A_FINANCE9_READY_20261116.md",
+      "code_sha": "34fc3382d5c5495e81e35f7ab079f59c4acb9e08",
+      "ci_run": 43950202913,
+      "ci_xml": "7/7",
+      "guard_run": 43950202231,
+      "b7_document": "docs/v5/FARO_S4_W01_M0A_FINANCE9_B7_PASS_SCOPED_20261116.md",
+      "permit": "CONSUMED_BLOCKED"
+    },
+    "m0b": {
+      "status": "NEXT_B1_B5_NOT_READY",
+      "code": "NOT_RUN",
+      "ci": "NOT_RUN"
     }
   }
 }

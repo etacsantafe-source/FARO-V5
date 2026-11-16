@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M0A_FINANCE9_STAGED_SCHEMA",
   "reviewed_head": "5ea02d77e5f9c65352acbdc650de1dce5d52ef9e",
   "paths": [
@@ -59,23 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_FINANCE9_STAGE_SQL_JVM_7_OF_7_XML_VERIFIED",
+    "B7": "PASS_SCOPED_FINANCE9_STAGE_SQL_ONLY"
   },
   "last_code_review": {
-    "sha": "d49cc17d99b460651042a9f99c4a389cbcd28e01",
-    "unit_id": "S4_W01_B2_C2_FINANCE_RECEIPT_ONLY_RECOVERY_JVM",
+    "sha": "34fc3382d5c5495e81e35f7ab079f59c4acb9e08",
+    "unit_id": "S4_W01_M0A_FINANCE9_STAGED_SCHEMA",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2_C2_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "085c9c139b528bb96417d72d4c63a87406f043e7",
+        "path": "docs/v5/FARO_S4_W01_M0A_FINANCE9_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "d2e60af4446d9601c7007dfc976cf9251f848059",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01 global architecture B7 DOC PASS; M0A B1-B5 separately evidenced, exactly 3 paths staged9 JVM, no product access",
-  "how": "guard 43909101705 success on preaudit 5ea02d77; B6 only after independent preflight; no S2/S3/main/V4.4 changes",
+  "why": "M0A 7/7 JUnit pass and guard verified; permission consumed, M0B independent READY required",
+  "how": "CI 43950202913 job133590355809 exact XML7/7, artifact14267971393, guard43950202231 SUCCESS; no productive code",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "M0A_B7_PASS_PERMISSION_CONSUMED_M0B_NOT_READY"
 }
