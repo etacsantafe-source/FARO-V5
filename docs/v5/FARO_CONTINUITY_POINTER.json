@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M0A_B7_PASS_SCOPED_M0B_NEXT",
+  "phase": "S4_W01_M0B_B1_B5_DOC_ONLY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "RECHECK_REMOTE_AFTER_M0A_B7",
-    "epoch": 982
+    "status": "RECHECK_RELEASE_AFTER_M0B_DOC",
+    "epoch": 983
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01-M0B B1–B5 staged generation admission, then READY exact paths, B6 CI B7; no W02 until W01-F B7.",
-  "checkpoint_status": "W01_M0A_JVM_7_OF_7_B7_SCOPED_POST_RELEASE_GUARD_PENDING",
+  "next": "M0B guard, READY for four paths, B6 code CI 7/7, B7; W02 STOP.",
+  "checkpoint_status": "W01_M0B_B1_B5_DOC_PENDING_GUARD",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4063,9 +4063,18 @@
       "permit": "CONSUMED_BLOCKED"
     },
     "m0b": {
-      "status": "NEXT_B1_B5_NOT_READY",
+      "unit_id": "S4_W01_M0B_FINANCE9_GENERATION_ADMISSION",
+      "status": "B1_B5_DOC_ONLY",
+      "document": "docs/v5/FARO_S4_W01_M0B_STAGE_GENERATION_B1_B5_20261116.md",
+      "paths": [
+        "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9StagedFilePort.kt",
+        "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9StagedMigration.kt",
+        "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9StagedMigrationTest.kt",
+        ".github/workflows/faro-v5-s4-w01-m0b-finance9-generation-directed.yml"
+      ],
       "code": "NOT_RUN",
-      "ci": "NOT_RUN"
+      "ci": "NOT_RUN",
+      "b7": "NOT_RUN"
     }
   }
 }
