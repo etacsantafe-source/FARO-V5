@@ -9,6 +9,26 @@ class FinanceManualReviewedProposalTest {
     private val accountId = FinanceAccountId.of("account-existing")
     private val currency = FinanceCurrencyCode.of("ARS")
     private val goodIntent = "human:finance:intent-123"
+    private fun prepareAccount(
+        preview: FinanceManualDraftPreview.Account,
+        humanIntentKey: String,
+        readSnapshot: () -> FinanceSnapshot?,
+        catalog: OperationContractLookupPort,
+        confirmedHumanInput: FinanceAccountCreate = accountPreview().create,
+    ): PreparedOperation? = FinanceManualReviewedProposal.prepareAccount(
+        preview, confirmedHumanInput, humanIntentKey, readSnapshot, catalog,
+    )
+
+    private fun prepareEntry(
+        preview: FinanceManualDraftPreview.Entry,
+        humanIntentKey: String,
+        readSnapshot: () -> FinanceSnapshot?,
+        catalog: OperationContractLookupPort,
+        confirmedHumanInput: FinanceEntryRecord = entryPreview().record,
+    ): PreparedOperation? = FinanceManualReviewedProposal.prepareEntry(
+        preview, confirmedHumanInput, humanIntentKey, readSnapshot, catalog,
+    )
+
     private val empty = FinanceSnapshot(emptyList(), revision = 3L)
 
     private fun snapshot() = FinanceSnapshot(
@@ -52,7 +72,7 @@ class FinanceManualReviewedProposalTest {
         ))
 
     @Test fun validAccountProposalIsCanonicalButInert() {
-        val result = FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, { empty }, catalog())
+        val result = prepareAccount(accountPreview(), goodIntent, { empty }, catalog())
         assertNotNull(result)
         assertEquals(FinanceOperations.ACCOUNT_CREATE, result?.contract?.operationId)
         assertEquals(accountPreview().create, FinanceAccountCreatePayload.decode(result!!.payload))
@@ -62,7 +82,7 @@ class FinanceManualReviewedProposalTest {
 
     @Test fun validEntryProposalPinsFinanceAccountAndRevision() {
         val before = snapshot()
-        val result = FinanceManualReviewedProposal.prepareEntry(entryPreview(before), goodIntent, { before }, catalog())
+        val result = prepareEntry(entryPreview(before), goodIntent, { before }, catalog())
         assertNotNull(result)
         assertEquals(entryPreview(before).record, FinanceEntryRecordPayload.decode(result!!.payload))
         assertEquals(
@@ -73,19 +93,19 @@ class FinanceManualReviewedProposalTest {
 
     @Test fun missingCatalogDenies() {
         val none = OperationContractLookupPort { null }
-        assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, { empty }, none))
-        assertNull(FinanceManualReviewedProposal.prepareEntry(entryPreview(), goodIntent, { snapshot() }, none))
+        assertNull(prepareAccount(accountPreview(), goodIntent, { empty }, none))
+        assertNull(prepareEntry(entryPreview(), goodIntent, { snapshot() }, none))
     }
 
     @Test fun spoofedCapabilityExecutorOrProfileDenies() {
         val fake = OperationContractLookupPort { id ->
             descriptor(id).copy(canonicalExecutor = ExecutorId("household"))
         }
-        assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, { empty }, fake))
+        assertNull(prepareAccount(accountPreview(), goodIntent, { empty }, fake))
         val wrongProfile = OperationContractLookupPort { id ->
             descriptor(id).copy(executionProfile = ExecutionProfile.READ_ONLY)
         }
-        assertNull(FinanceManualReviewedProposal.prepareEntry(entryPreview(), goodIntent, { snapshot() }, wrongProfile))
+        assertNull(prepareEntry(entryPreview(), goodIntent, { snapshot() }, wrongProfile))
     }
 
     @Test fun internalOnlyOrWrongMetadataVersionDenies() {
@@ -95,8 +115,8 @@ class FinanceManualReviewedProposalTest {
         val badVersion = OperationContractLookupPort { id ->
             descriptor(id).copy(contractVersion = ContractVersion("1"))
         }
-        assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, { empty }, internal))
-        assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, { empty }, badVersion))
+        assertNull(prepareAccount(accountPreview(), goodIntent, { empty }, internal))
+        assertNull(prepareAccount(accountPreview(), goodIntent, { empty }, badVersion))
     }
 
     @Test fun revisionDriftOrChangedCatalogDuringRecheckDenies() {
@@ -105,40 +125,40 @@ class FinanceManualReviewedProposalTest {
             read += 1
             if (read == 1) empty else empty.copy(revision = 4L)
         }
-        assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, source, catalog()))
+        assertNull(prepareAccount(accountPreview(), goodIntent, source, catalog()))
         var lookupCount = 0
         val changing = OperationContractLookupPort { id ->
             lookupCount += 1
             descriptor(id).copy(contractFingerprint = ContractFingerprint((if (lookupCount == 1) "a" else "b").repeat(64)))
         }
-        assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), goodIntent, { empty }, changing))
+        assertNull(prepareAccount(accountPreview(), goodIntent, { empty }, changing))
     }
 
     @Test fun forgedAccountPreviewAndDuplicateAccountDenied() {
         val good = accountPreview()
         val forged = good.copy(create = good.create.copy(openingBalanceMinor = 77L))
-        assertNull(FinanceManualReviewedProposal.prepareAccount(forged, goodIntent, { empty }, catalog()))
+        assertNull(prepareAccount(forged, goodIntent, { empty }, catalog()))
         val present = FinanceSnapshot(
             listOf(FinanceAccountSnapshot(good.create.accountId, good.create.displayName,
                 good.create.currency, good.create.nature, 0L)), revision = good.sourceRevision
         )
-        assertNull(FinanceManualReviewedProposal.prepareAccount(good, goodIntent, { present }, catalog()))
+        assertNull(prepareAccount(good, goodIntent, { present }, catalog()))
     }
 
     @Test fun missingEntryAccountDeniedWithoutMutation() {
         val original = snapshot()
         val missing = FinanceSnapshot(emptyList(), revision = original.revision)
-        assertNull(FinanceManualReviewedProposal.prepareEntry(entryPreview(original), goodIntent, { missing }, catalog()))
+        assertNull(prepareEntry(entryPreview(original), goodIntent, { missing }, catalog()))
     }
 
     @Test fun spoofedEntryCurrencyOrProjectedBalanceDenied() {
         val before = snapshot()
         val normal = entryPreview(before)
-        assertNull(FinanceManualReviewedProposal.prepareEntry(
+        assertNull(prepareEntry(
             normal.copy(accountCurrency = FinanceCurrencyCode.of("USD")),
             goodIntent, { before }, catalog(),
         ))
-        assertNull(FinanceManualReviewedProposal.prepareEntry(
+        assertNull(prepareEntry(
             normal.copy(balanceAfterIfCommittedMinor = 1L),
             goodIntent, { before }, catalog(),
         ))
@@ -146,7 +166,7 @@ class FinanceManualReviewedProposalTest {
 
     @Test fun invalidIntentKeysDenied() {
         for (invalid in listOf("", "short", "bad intent", "bad\nintent", "👀")) {
-            assertNull(FinanceManualReviewedProposal.prepareAccount(accountPreview(), invalid, { empty }, catalog()))
+            assertNull(prepareAccount(accountPreview(), invalid, { empty }, catalog()))
         }
     }
 
@@ -154,16 +174,16 @@ class FinanceManualReviewedProposalTest {
         val before = snapshot()
         val valid = entryPreview(before)
         val altered = valid.copy(record = valid.record.copy(amountMinor = 999L))
-        assertNull(FinanceManualReviewedProposal.prepareEntry(altered, goodIntent, { before }, catalog()))
+        assertNull(prepareEntry(altered, goodIntent, { before }, catalog()))
         val max = before.copy(accounts = before.accounts.map { it.copy(openingBalanceMinor = Long.MAX_VALUE) })
-        assertNull(FinanceManualReviewedProposal.prepareEntry(valid, goodIntent, { max }, catalog()))
+        assertNull(prepareEntry(valid, goodIntent, { max }, catalog()))
     }
 
     @Test fun repeatedIntentIsDeterministicAndSourceIsNeverMutated() {
         val before = snapshot()
         val copy = before.copy()
-        val one = FinanceManualReviewedProposal.prepareEntry(entryPreview(before), goodIntent, { before }, catalog())
-        val two = FinanceManualReviewedProposal.prepareEntry(entryPreview(before), goodIntent, { before }, catalog())
+        val one = prepareEntry(entryPreview(before), goodIntent, { before }, catalog())
+        val two = prepareEntry(entryPreview(before), goodIntent, { before }, catalog())
         assertNotNull(one)
         assertEquals(one, two)
         assertEquals(before, copy)

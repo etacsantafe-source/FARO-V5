@@ -36,6 +36,7 @@ object FinanceManualReviewedProposal {
 
     fun prepareAccount(
         preview: FinanceManualDraftPreview.Account,
+        confirmedHumanInput: FinanceAccountCreate,
         humanIntentKey: String,
         readSnapshot: () -> FinanceSnapshot?,
         catalog: OperationContractLookupPort,
@@ -44,6 +45,7 @@ object FinanceManualReviewedProposal {
         val before = requireNotNull(readSnapshot())
         require(before.revision == preview.sourceRevision)
         val create = preview.create
+        require(create == confirmedHumanInput)
         val validated = FinanceManualDraftPreviews.account(
             accountIdRaw = create.accountId.value,
             displayNameRaw = create.displayName.value,
@@ -68,6 +70,7 @@ object FinanceManualReviewedProposal {
 
     fun prepareEntry(
         preview: FinanceManualDraftPreview.Entry,
+        confirmedHumanInput: FinanceEntryRecord,
         humanIntentKey: String,
         readSnapshot: () -> FinanceSnapshot?,
         catalog: OperationContractLookupPort,
@@ -76,6 +79,7 @@ object FinanceManualReviewedProposal {
         val before = requireNotNull(readSnapshot())
         require(before.revision == preview.sourceRevision)
         val entry = preview.record
+        require(entry == confirmedHumanInput)
         val validated = FinanceManualDraftPreviews.entry(
             entryIdRaw = entry.entryId.value,
             accountIdRaw = entry.accountId.value,
