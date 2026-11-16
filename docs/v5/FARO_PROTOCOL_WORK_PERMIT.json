@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B2_A_CANONICAL_FINANCE_APPROVED_SCOPE",
-  "reviewed_head": "609d43305eed0c4718a7a1574d14b558b8db3022",
+  "status": "READY",
+  "unit_id": "S4_W01_B2_B_DEV_SCOPED_FINANCE_GRANT_OWNER",
+  "reviewed_head": "04872696d5518562c3c8537a696b3f7f92d8ced8",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2FinanceApprovedScope.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2FinanceApprovedScopeTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2a-scope-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2FinanceObjectGrantOwner.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2FinanceObjectGrantOwnerTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b2b-grant-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_FINANCE_APPLY_PREAUDIT_B1_B5_20261116.md",
-          "blob_sha": "358333aee5f9b9dd3a910a4a3e0a226bbb00f381",
+          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
+          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_FINANCE_APPLY_PREAUDIT_B1_B5_20261116.md",
-          "blob_sha": "358333aee5f9b9dd3a910a4a3e0a226bbb00f381",
+          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
+          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_FINANCE_APPLY_PREAUDIT_B1_B5_20261116.md",
-          "blob_sha": "358333aee5f9b9dd3a910a4a3e0a226bbb00f381",
+          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
+          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_FINANCE_APPLY_PREAUDIT_B1_B5_20261116.md",
-          "blob_sha": "358333aee5f9b9dd3a910a4a3e0a226bbb00f381",
+          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
+          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2_FINANCE_APPLY_PREAUDIT_B1_B5_20261116.md",
-          "blob_sha": "358333aee5f9b9dd3a910a4a3e0a226bbb00f381",
+          "path": "docs/v5/FARO_S4_W01_B2_B_FINANCE_GRANT_POLICY_B1_B5_20261116.md",
+          "blob_sha": "978c6cd5ed65d3e9b160dba5fd6b5d08110d4fa5",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_READ_ONLY_JVM_8_OF_8_XML_VERIFIED",
-    "B7": "PASS_SCOPED_FINANCE_CANONICAL_APPROVED_SCOPE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "fa0e26376186961f05a24ebcc3b6bc3a76b3f388",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "W01-B2A 8/8 canonical read-only scope B7, READY consumed",
-  "how": "CI 43869877546 job 133307910354, guard 43869877438, SHA fa0e26376186961f05a24ebcc3b6bc3a76b3f388",
+  "why": "DEV inert Finance-scoped owner grant policy with nonce and epoch, no Apply or user auth",
+  "how": "Three new exact files and 8 directed JVM tests, B7 separately",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "W01_B2A_PASS_PERMISSION_CONSUMED_B2B_NOT_READY"
+  "blocked_reason": null
 }
