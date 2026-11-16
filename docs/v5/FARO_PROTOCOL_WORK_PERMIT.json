@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
   "reviewed_head": "c2b1d9dc55f5b561a1967b711c1d3cfe911625e9",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_JVM_12_OF_12_XML_VERIFIED",
+    "B7": "PASS_SCOPED_FINANCE_CANONICAL_PROPOSAL_ONLY"
   },
   "last_code_review": {
-    "sha": "ecfc7cf1b93e93e440de359d39b36f113ff33a32",
+    "sha": "824be0c51c78c22f149106088874df0dbc2ea00e",
     "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B0_RED_FIX_B7_20261115.md",
-        "blob_sha": "b699a4730c8ede8438a083c1135f72d0ca00c1e5",
+        "path": "docs/v5/FARO_S4_W01_B0_B7_PASS_SCOPED_20261115.md",
+        "blob_sha": "a079f3fbbd291aa02c5cd3c3c7194fee7d462db3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-B0 failed 11/12: preview account could be altered without independent human confirmed input",
-  "how": "SAME UNIT RED_FIX exact Kotlin+test paths only, no workflow changes",
+  "why": "B0 12/12 scoped PASS, READY consumed; W01-B1 separate B1-B5/READY",
+  "how": "Finance canonical inert proposals requiring independent human input (not authorization), CI 43787318935/guard 43787318934",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W01_B0_PASS_PERMISSION_CONSUMED_NEXT_UNIT_NOT_READY"
 }
