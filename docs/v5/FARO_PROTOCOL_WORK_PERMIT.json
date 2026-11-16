@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M0C2B1_FINANCE9_AUTHENTICATED_SECTION_RESTORE",
-  "reviewed_head": "8181d3e1a1cf8a2a70fbc3e98931b4f5045e9b04",
+  "status": "READY",
+  "unit_id": "S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_ADMISSION",
+  "reviewed_head": "4361f7dc15d525fcdd8d7335f45b17319ac8e36f",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9StagedRowsRestorePort.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9AuthenticatedSectionRestore.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9AuthenticatedSectionRestoreTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m0c2b1-finance9-restore-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9StageGraphAdmissionTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m0c2b2a-finance9-graph-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
-          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
+          "path": "docs/v5/FARO_S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_B1_B5_20261116.md",
+          "blob_sha": "5be11de02f705066c9d1fc50e5e87a787bd899b2",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
-          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
+          "path": "docs/v5/FARO_S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_B1_B5_20261116.md",
+          "blob_sha": "5be11de02f705066c9d1fc50e5e87a787bd899b2",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
-          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
+          "path": "docs/v5/FARO_S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_B1_B5_20261116.md",
+          "blob_sha": "5be11de02f705066c9d1fc50e5e87a787bd899b2",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
-          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
+          "path": "docs/v5/FARO_S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_B1_B5_20261116.md",
+          "blob_sha": "5be11de02f705066c9d1fc50e5e87a787bd899b2",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B1_AUTHENTICATED_FINANCE9_SECTION_RESTORE_B1_B5_20261116.md",
-          "blob_sha": "b8c488e99482a31a8854ef90a0e240753918ae8a",
+          "path": "docs/v5/FARO_S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_B1_B5_20261116.md",
+          "blob_sha": "5be11de02f705066c9d1fc50e5e87a787bd899b2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_FINANCE9_AUTHENTICATED_STAGE_SECTION_XML7_OF_7",
-    "B7": "PASS_SCOPED_AUTHENTICATED_FINANCE9_SECTION_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "003de78e8ca97db5e11d42e90654f008e337ff33",
@@ -75,9 +75,9 @@
       }
     ]
   },
-  "why": "M0C2B1 staged Finance9 section 7/7 XML PASS, permission consumed; M0C2B2 full five-store restore remains OPEN",
-  "how": "CI43979784062 job133693002621 artifact14283525206 XML7/7; protocol guard43979783881 SUCCESS",
+  "why": "M0C2B2A finance9 five-store staged graph only, exact four paths; full backup/replay M0C2B2B later",
+  "how": "B1-B5 preaudit guard43981110773 SUCCESS, prior M0C2B1 B7 PASS, no shipping",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "M0C2B1_B7_PASS_PERMISSION_CONSUMED_M0C2B2_NOT_READY"
+  "blocked_reason": null
 }
