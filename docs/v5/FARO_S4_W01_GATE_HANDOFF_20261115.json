@@ -257,8 +257,15 @@
       "b7_document": "docs/v5/FARO_S4_W01_M0C2B1_AUTH_FINANCE9_SECTION_B7_PASS_20261116.md"
     },
     "m0c2b2": {
-      "status": "NEXT_B1_B5_NOT_READY",
-      "code": "NOT_RUN"
+      "unit_id": "S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_ADMISSION",
+      "status": "B1_B5_DOC_ONLY",
+      "document": "docs/v5/FARO_S4_W01_M0C2B2A_FINANCE9_STAGE_GRAPH_B1_B5_20261116.md",
+      "paths": [
+        "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+        "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+        "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9StageGraphAdmissionTest.kt",
+        ".github/workflows/faro-v5-s4-w01-m0c2b2a-finance9-graph-directed.yml"
+      ]
     }
   }
 }
