@@ -137,13 +137,13 @@ class S4W01B2C2FinanceReceiptRecoveryTest {
         lateinit var applying: ConversationPlanReviewContext
         lateinit var workspacePath: String
         lateinit var realityPath: String
-        lateinit var chat: ConversationId
-        lateinit var account: FinanceAccountId
+        val chat = ConversationId("chat-crash")
+        val account = FinanceAccountId.of("finance-recover-crash")
         Rig("crash").use { f ->
             workspacePath = f.workspacePath
             realityPath = f.realityPath
-            chat = f.chat
-            account = f.accountId
+            assertEquals(chat, f.chat)
+            assertEquals(account, f.accountId)
             val (begun, identity) = f.begin()
             applying = begun.context()
             expected = f.commitRealityWithoutWorkspaceObserve(identity)
