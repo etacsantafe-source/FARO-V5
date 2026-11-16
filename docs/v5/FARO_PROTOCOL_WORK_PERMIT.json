@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B2_A_CANONICAL_FINANCE_APPROVED_SCOPE",
   "reviewed_head": "609d43305eed0c4718a7a1574d14b558b8db3022",
   "paths": [
@@ -59,24 +59,24 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_READ_ONLY_JVM_8_OF_8_XML_VERIFIED",
+    "B7": "PASS_SCOPED_FINANCE_CANONICAL_APPROVED_SCOPE"
   },
   "last_code_review": {
-    "sha": "a1ff9c4598cc80fe282b9fa2edb40ebd936e9f02",
+    "sha": "fa0e26376186961f05a24ebcc3b6bc3a76b3f388",
     "unit_id": "S4_W01_B2_A_CANONICAL_FINANCE_APPROVED_SCOPE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2_A_ABA_RED_FIX_B7_20261116.md",
-        "blob_sha": "38445c21f120c41ed5c4f82e806f4491c62e4b19",
+        "path": "docs/v5/FARO_S4_W01_B2_A_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "c42509e566c3920cec888ae40722c67e11c9ee38",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B2A failed 7/8 ABA: pointer generation ID without pinned sequence accepted restored generation",
-  "how": "RED_FIX same unit 2 Kotlin/test routes; preserve 8 cases and repeat CI",
+  "why": "W01-B2A 8/8 canonical read-only scope B7, READY consumed",
+  "how": "CI 43869877546 job 133307910354, guard 43869877438, SHA fa0e26376186961f05a24ebcc3b6bc3a76b3f388",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": null
+  "blocked_reason": "W01_B2A_PASS_PERMISSION_CONSUMED_B2B_NOT_READY"
 }
