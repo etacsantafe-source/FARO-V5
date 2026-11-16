@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "3d62a39489b8007e651b5470991d7d2992eb6d6d",
-    "unit_id": "S4_W01_A_FINANCE_MANUAL_DRAFT_PREVIEW",
-    "result": "PASS",
+    "sha": "ecfc7cf1b93e93e440de359d39b36f113ff33a32",
+    "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_A_B7_PASS_SCOPED_20261115.md",
-        "blob_sha": "d0de8a58734eade4b28d0ec4d26bf8c16ffb3478",
+        "path": "docs/v5/FARO_S4_W01_B0_RED_FIX_B7_20261115.md",
+        "blob_sha": "b699a4730c8ede8438a083c1135f72d0ca00c1e5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01-B0 inert canonical prepared-operation only, no grants or Apply",
-  "how": "three exact new paths with 12 JVM tests, no schema or catalogue changes",
+  "why": "W01-B0 failed 11/12: preview account could be altered without independent human confirmed input",
+  "how": "SAME UNIT RED_FIX exact Kotlin+test paths only, no workflow changes",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocked_reason": null

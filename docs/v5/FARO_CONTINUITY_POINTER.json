@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-15",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_OPEN_W01_B0_READY_DOC_GUARD_PENDING",
+  "phase": "S4_OPEN_W01_B0_RED_FIX_SOURCE_CONSISTENCY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -41,7 +41,7 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "W00 architecture/feasibility decision GO single Reality transaction and STOP unsafe dual-owner productive host. B7 scope W00 architectural only; total 30/30 prior scoped tests, D3 no tests. Postrelease guard and writer must be verified. Next W01 Finance individual B1-B5/read-only preaudit; W04 Household owner needs separate code approval; W06 real Finance+Household independent grants/cross-process fencing/atomic one commit must PASS before W07. V2 productive/Auto/Noche OFF.",
-  "checkpoint_status": "W01_B0_READY_DOC_POST_RELEASE_GUARD_PENDING",
+  "checkpoint_status": "W01_B0_RED_FIX_DOC_POST_RELEASE_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -3843,7 +3843,7 @@
       "original_catalog_count": 180
     },
     "w01_b0": {
-      "status": "READY_DOC_WAIT_GUARD",
+      "status": "RED_FIX_11_OF_12",
       "document": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
       "paths": [
         "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceManualReviewedProposal.kt",
@@ -3853,7 +3853,11 @@
       "tests": "NOT_RUN",
       "code": "NOT_RUN",
       "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
-      "authorization": "docs/v5/FARO_S4_W01_B0_IMPLEMENTATION_AUTHORIZATION_20261115.md"
+      "authorization": "docs/v5/FARO_S4_W01_B0_IMPLEMENTATION_AUTHORIZATION_20261115.md",
+      "failed_sha": "ecfc7cf1b93e93e440de359d39b36f113ff33a32",
+      "ci_failed": 43786516543,
+      "red_fix_doc": "docs/v5/FARO_S4_W01_B0_RED_FIX_B7_20261115.md",
+      "next": "REQUIRE_INDEPENDENT_CONFIRMED_ACCOUNT_AND_ENTRY_PAYLOAD"
     }
   }
 }
