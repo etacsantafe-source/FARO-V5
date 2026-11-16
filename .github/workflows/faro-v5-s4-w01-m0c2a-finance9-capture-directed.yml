@@ -1,0 +1,64 @@
+name: FARO V5 S4 W01-M0C2A Finance9 sealed data capture JVM
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9SealedSnapshotCapture.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9SealedCaptureTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m0c2a-finance9-capture-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-s4-w01-m0c2a
+  cancel-in-progress: false
+jobs:
+  finance9-sealed-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exact seven stage9 data capture cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:generation:test --tests "ar.com.faro.v5.generation.FaroV5Finance9SealedCaptureTest"
+      - name: Assert exact seven directed JUnit XML cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/store/generation/build/test-results/test").glob("TEST-*FaroV5Finance9SealedCaptureTest.xml"))
+          if len(files)!=1: raise SystemExit("W01_M0C2A_XML_MISSING "+str(len(files)))
+          node=ET.parse(files[0]).getroot()
+          counts=tuple(int(node.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "canonicalSealedNineReadsEightTablesWithoutPointerMutation",
+              "realBudgetDebtAndGrantRowsAreCapturedOnlyFromWhitelistedDataTables",
+              "unknownLegacyOpeningIsNotConvertedIntoConfirmedZero",
+              "activeTargetIsDeniedBeforeAnySealedSqliteRead",
+              "forgedDescriptorAndUncheckpointedSidecarAreDenied",
+              "pointerAbaAfterSnapshotReadFailsBeforeReturningData",
+              "UnknownVersionAndAddedColumnCannotBecomePartialBackup",
+          }
+          names=[(c.get("name") or "").removesuffix("()") for c in node.findall("testcase")]
+          if counts!=(7,0,0,0) or set(names)!=expected or len(names)!=7:
+              raise SystemExit("W01_M0C2A_XML_FAIL "+str((counts,names)))
+          print("S4_W01_M0C2A_FINANCE9_SEALED_CAPTURE_XML_PASS 7/7")
+          print("NOT_CERTIFIED: complete FBS2v4 capture/restore, ACL, Android, G15, shipping")
+          PY
+      - name: Preserve M0C2A exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m0c2a-finance9-sealed-junit
+          path: v5/store/generation/build/test-results/test/TEST-*FaroV5Finance9SealedCaptureTest.xml
+          if-no-files-found: warn
