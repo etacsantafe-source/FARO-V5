@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_A_FINANCE_MANUAL_DRAFT_PREVIEW",
-  "reviewed_head": "761ec4b5049df55eea19df20dcf38cfda8214941",
+  "status": "READY",
+  "unit_id": "S4_W01_B0_FINANCE_CANONICAL_PREPARED_OPERATION",
+  "reviewed_head": "c2b1d9dc55f5b561a1967b711c1d3cfe911625e9",
   "paths": [
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceManualDraftPreview.kt",
-    "v5/owner/finance/src/test/kotlin/ar/com/faro/v5/owner/finance/FinanceManualDraftPreviewTest.kt",
-    ".github/workflows/faro-v5-s4-w01-a-manual-preview-directed.yml"
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceManualReviewedProposal.kt",
+    "v5/owner/finance/src/test/kotlin/ar/com/faro/v5/owner/finance/FinanceManualReviewedProposalTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b0-proposal-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_FINANCE_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "71bd619d283295fd366087a7654ceb832d0365f8",
+          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
+          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_FINANCE_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "71bd619d283295fd366087a7654ceb832d0365f8",
+          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
+          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_FINANCE_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "71bd619d283295fd366087a7654ceb832d0365f8",
+          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
+          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_FINANCE_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "71bd619d283295fd366087a7654ceb832d0365f8",
+          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
+          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_FINANCE_PREAUDIT_B1_B5_20261115.md",
-          "blob_sha": "71bd619d283295fd366087a7654ceb832d0365f8",
+          "path": "docs/v5/FARO_S4_W01_B0_CANONICAL_PROPOSAL_B1_B5_20261115.md",
+          "blob_sha": "8f99e0ee209d58e0df40e330432204bfdfe17f3f",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_JVM_10_OF_10_XML_VERIFIED",
-    "B7": "PASS_SCOPED_FINANCE_DRAFT_PREVIEW_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "3d62a39489b8007e651b5470991d7d2992eb6d6d",
@@ -74,9 +74,9 @@
       }
     ]
   },
-  "why": "W01-A completed preview-only 10/10 XML scoped; W01-B permission not issued",
-  "how": "W01-A review commit exact 3d62a394; CI 43781556486; guard 43781556504",
+  "why": "W01-B0 inert canonical prepared-operation only, no grants or Apply",
+  "how": "three exact new paths with 12 JVM tests, no schema or catalogue changes",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocked_reason": "W01_A_B7_PASS_SCOPE_CONSUMED_W01_B_NOT_AUTHORIZED"
+  "blocked_reason": null
 }
