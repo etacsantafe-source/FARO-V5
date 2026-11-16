@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_ARCH04_CATALOG180_CORRECTED_ARCH_ALL_B7_PENDING",
+  "phase": "S4_W01_ARCH01_06_DESIGN_ALL_DECIDED_B7_INDEPENDENT_PENDING",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -17,8 +17,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_DOC",
-    "epoch": 974
+    "status": "CHECK_REMOTE_RELEASE_AFTER_ARCH_DOC",
+    "epoch": 975
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Independently audit ARCH04 catalog correction; finish ARCH01/02/03/05/06 global architecture B7 before new W01 B6; W02 STOP.",
-  "checkpoint_status": "W01_ARCH04_EXISTING_CATALOG_REUSE_B1_B5_DOC_ONLY_B7_PENDING",
+  "next": "Independent B7 global audit ARCH01..06 against exact HEAD and sources; then separate code READY per W01 M0→M1→B→C→D→E→F; no W02 before W01 B7.",
+  "checkpoint_status": "W01_ALL_SIX_ARCH_DESIGN_DOCS_PUBLISHED_B7_GLOBAL_NOT_YET_VERIFIED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4026,16 +4026,18 @@
       "code_permission": "BLOCKED",
       "w02": "STOP_UNTIL_W01_CODE_AND_B7",
       "design_document": "docs/v5/FARO_S4_W01_ARCH01_ARCH06_DESIGN_DECISIONS_20261116.md",
-      "design_status": "B1_B5_DOC_BASELINE_UNVERIFIED_NO_GLOBAL_B7",
+      "design_status": "SIX_ARCH_DESIGN_DECIDED_PENDING_INDEPENDENT_B7",
       "gate_statuses": {
-        "ARCH-01": "DESIGN_CANDIDATE_B7_PENDING",
-        "ARCH-02": "DESIGN_CANDIDATE_B7_PENDING",
-        "ARCH-03": "DESIGN_CANDIDATE_B7_PENDING",
+        "ARCH-01": "DESIGN_DECIDED_B7_NOT_VERIFIED",
+        "ARCH-02": "DESIGN_DECIDED_B7_NOT_VERIFIED",
+        "ARCH-03": "DESIGN_DECIDED_B7_NOT_VERIFIED",
         "ARCH-04": "CATALOG180_CORRECTED_DESIGN_B1_B5_B7_PENDING",
-        "ARCH-05": "DESIGN_CANDIDATE_B7_PENDING",
-        "ARCH-06": "DESIGN_CANDIDATE_B7_PENDING"
+        "ARCH-05": "DESIGN_DECIDED_B7_NOT_VERIFIED",
+        "ARCH-06": "DESIGN_DECIDED_B7_NOT_VERIFIED"
       },
-      "catalog_corrigendum": "docs/v5/FARO_S4_W01_ARCH04_CATALOG180_CORRECTION_AND_CONTRACTS_20261116.md"
+      "catalog_corrigendum": "docs/v5/FARO_S4_W01_ARCH04_CATALOG180_CORRECTION_AND_CONTRACTS_20261116.md",
+      "compat_auth_schema_document": "docs/v5/FARO_S4_W01_ARCH01_03_COMPAT_AUTH_SCHEMA_DECISIONS_20261116.md",
+      "ux_acceptance_document": "docs/v5/FARO_S4_W01_ARCH05_06_UX_ACCEPTANCE_DECISIONS_20261116.md"
     }
   }
 }
