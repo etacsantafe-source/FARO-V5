@@ -1,0 +1,88 @@
+name: FARO V5 W01 B3B1B1B1A fixed Finance9 read policy issuer DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyIssuerPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyIssuerTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b1b1a-read-issuer-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1b1b1a-read-issuer
+  cancel-in-progress: false
+jobs:
+  read-policy-stage9:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run eight new real SQLite9 tests and affected existing readers
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9TrustedReadPolicyIssuerTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9ObservedSourceReadTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9ReadPolicyObservationTest"
+      - name: Check eight new XML cases, affected readers and no product wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base = Path("v5/store/reality/build/test-results/test")
+          expected = {
+            "r01SchemaSevenEightCannotCreateReadPolicyIssuer",
+            "r02ReadPolicyIsDurableButDoesNotIssueAnApplyGrant",
+            "r03AtomicReadObservesOnlyTheFixedReadScope",
+            "r04ForeignPrincipalPointerGenerationAndWriteScopeNeverRead",
+            "r05TtlAndExpiryBoundaryFailClosed",
+            "r06RenewalNeverResurrectsTheOldEpoch",
+            "r07ExternalSqlRevokeDeniesAndNextIssueUsesFreshEpoch",
+            "r08ClosedIssuerMalformedRequestAndAllSideEffectsDeny",
+          }
+          for classname in ("RealityFinance9TrustedReadPolicyIssuerTest",
+              "RealityFinance9ObservedSourceReadTest",
+              "RealityFinance9ReadPolicyObservationTest"):
+            found = list(base.glob("TEST-*" + classname + ".xml"))
+            if len(found) != 1: raise SystemExit("READ_POLICY_XML_MISSING " + classname)
+            node = ET.parse(found[0]).getroot()
+            counts = tuple(int(node.get(k, "-1")) for k in
+              ("tests", "failures", "errors", "skipped"))
+            if counts != (8, 0, 0, 0):
+              raise SystemExit("READ_POLICY_XML_RED " + classname + " " + str(counts))
+            if classname == "RealityFinance9TrustedReadPolicyIssuerTest":
+              actual = {item.get("name", "").removesuffix("()")
+                for item in node.findall("testcase")}
+              if actual != expected:
+                raise SystemExit("READ_POLICY_XML_NAMES_RED " + str(actual))
+          for p in (
+            "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+            "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+          ):
+            s=Path(p).read_text()
+            if "finance9TrustedReadPolicyIssuerForDevOnly" in s:
+              raise SystemExit("READ_POLICY_SHIPPING_MOUNT " + p)
+          print("W01_B3B1B1B1A_FIXED_READ_SQL_POLICY_8_OF_8_PASS")
+          print("W01_B3B1B1B1A_B3B1A_8_AND_B3B1B0_8_REGRESSIONS_PASS")
+          print("NO_ANDROID_BIOMETRICS_OR_PRODUCTION_READ_ATTESTED")
+          PY
+      - name: Preserve exact three XML test suites
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1b1b1a-read-issuer-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9TrustedReadPolicyIssuerTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9ObservedSourceReadTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9ReadPolicyObservationTest.xml
+          if-no-files-found: warn

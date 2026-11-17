@@ -811,6 +811,56 @@ class RealityStore(
     }
 
     /**
+     * W01-B3B1B1B1A: isolated Finance9 READ policy issuer, STAGED9 DEV ONLY.
+     * A caller can forge the request/clock/principal: this port NEVER provides
+     * AndroidKeyStore, human authorization, a shipping read grant or UI access.
+     *
+     * Emits only finance_acl_policy with fixed finance.snapshot.read/finance:all
+     * via the existing monotonic SQLite ACL owner. No finance_apply_grant,
+     * receipt or material Finance effect is issued here.
+     */
+    fun finance9TrustedReadPolicyIssuerForDevOnly():
+        RealityFinance9TrustedReadPolicyIssuerPort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Read policy issuer requires explicit STAGED9 Reality"
+        }
+        RealityFinance9TrustedReadPolicyIssuerPort { request ->
+            runCatching {
+                withMaterialAdmission {
+                    synchronized(lock) {
+                        if (closed || !financeStage9 || !planningStage8 ||
+                            activeTransactionId != null || readSchemaVersion() != 9
+                        ) null else {
+                            val scope = Finance9AclScope(
+                                principalHash = request.principalHash,
+                                generationId = request.generationId,
+                                pointerSequence = request.pointerSequence,
+                                operationId = RealityFinance9ReadPolicyObservationPort.OPERATION_ID,
+                                objectScope = RealityFinance9ReadPolicyObservationPort.OBJECT_SCOPE,
+                            )
+                            val epoch = RealityFinance9Acl(
+                                connection,
+                                stagedAdmission = {
+                                    financeStage9 && planningStage8 && !closed &&
+                                        activeTransactionId == null &&
+                                        readSchemaVersion() == 9
+                                },
+                            ).issueAfterTrustedStageAdmission(
+                                scope, request.issuedAtMs, request.expiresAtMs,
+                            )
+                            Finance9ReadPolicyIssueRecord(
+                                request.principalHash, request.generationId,
+                                request.pointerSequence, epoch, request.expiresAtMs,
+                            )
+                        }
+                    }
+                }
+            }.getOrNull()
+        }
+    }
+
+    /**
      * M1C0: STAGED9-only Finance policy check INSIDE this very Reality SQLite
      * BEGIN IMMEDIATE transaction. The caller must already hold this store's
      * actual Apply scope; this port neither creates a grant nor executes Apply.
