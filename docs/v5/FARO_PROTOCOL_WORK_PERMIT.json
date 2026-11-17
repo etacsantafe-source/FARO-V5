@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B0_FINANCE9_OPENING_PROVENANCE_READ_DEV",
-  "reviewed_head": "3befada49f6bbafb54c094d35e61b7b654d75f64",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1A_FINANCE9_READ_POLICY_OBSERVATION_DEV",
+  "reviewed_head": "fbc9bff487797934389550bcccd772c54fa763f1",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ReadPolicyObservationPort.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b0-opening-provenance-directed.yml"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ReadPolicyObservationTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1a-read-policy-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B0_OPENING_PROVENANCE_READY_20261117.md",
-          "blob_sha": "c129220d0070662f257637cd865d4f4c7087df71",
+          "path": "docs/v5/FARO_S4_W01_B3B1A_READ_POLICY_OBSERVER_READY_20261117.md",
+          "blob_sha": "42f21a049b0046c1f758661aa7c4038a83cddd8b",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B0_OPENING_PROVENANCE_READY_20261117.md",
-          "blob_sha": "c129220d0070662f257637cd865d4f4c7087df71",
+          "path": "docs/v5/FARO_S4_W01_B3B1A_READ_POLICY_OBSERVER_READY_20261117.md",
+          "blob_sha": "42f21a049b0046c1f758661aa7c4038a83cddd8b",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B0_OPENING_PROVENANCE_READY_20261117.md",
-          "blob_sha": "c129220d0070662f257637cd865d4f4c7087df71",
+          "path": "docs/v5/FARO_S4_W01_B3B1A_READ_POLICY_OBSERVER_READY_20261117.md",
+          "blob_sha": "42f21a049b0046c1f758661aa7c4038a83cddd8b",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B0_OPENING_PROVENANCE_READY_20261117.md",
-          "blob_sha": "c129220d0070662f257637cd865d4f4c7087df71",
+          "path": "docs/v5/FARO_S4_W01_B3B1A_READ_POLICY_OBSERVER_READY_20261117.md",
+          "blob_sha": "42f21a049b0046c1f758661aa7c4038a83cddd8b",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B0_OPENING_PROVENANCE_READY_20261117.md",
-          "blob_sha": "c129220d0070662f257637cd865d4f4c7087df71",
+          "path": "docs/v5/FARO_S4_W01_B3B1A_READ_POLICY_OBSERVER_READY_20261117.md",
+          "blob_sha": "42f21a049b0046c1f758661aa7c4038a83cddd8b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_STAGE9_OPENING_8_8_XML_20_CI",
-    "B7": "PASS_SCOPED_DEV_OPENING_8_8_XML"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9cfab42fa147aedd109eafc872263055cd4d6aec",
@@ -75,8 +75,8 @@
       }
     ]
   },
-  "why": "Independent B5 Finance9 opening source: COALESCE false zero must never attest confirmed opening; single WAL read snapshot. Guard 44079410651 success.",
-  "how": "Exact4 dev-only stage9 provenance typed reader, RealityStore transaction, eight JUnit SQL, directed CI. No app/Surface/Apply/ACL claim.",
+  "why": "Independent security B5: readonly scoped policy observation in Finance9, never a product/user ACL; guard 44083559345 success.",
+  "how": "Only exact4 DEV staged9 read DTO, RealityStore snapshot observer, 8 SQLite tests, directed CI. No grants, no Apply, no shell/app wiring.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -96,9 +96,9 @@
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
   },
-  "red_fix_scope": "NONE_20_CI_SUCCESS",
+  "red_fix_scope": null,
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B0_B7_PASS_CONSUMED_B3B1_ACL_ADAPTER_NOT_AUTHORIZED",
+  "blocked_reason": null,
   "blocker": null
 }
