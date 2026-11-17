@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1127
+    "epoch": 1130
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 same B3B1B1B1B1B1B RED_FIX: remove provider from v2CoreDev (zero-provider invariant), create separate w01FinanceDev build type+manifest, extend exact permit after independent B5 and guard; directed JVM 8/8+new manifest passed but V2 core 44151067496 RED. S3 integrated 44151067469 historical nativeSourcesShare case remains separate. No W2, no productive V2.",
-  "checkpoint_status": "W01_B3B1B1B1B1B1B_B7_RED_FIX_NEW_V2_CORE_PROVIDER_UNEXPECTED_ISOLATE_DEV_VARIANT",
+  "next": "RED_FIX same W01 B3B1B1B1B1B1B exact4 after B1-B5 + independent guard 44153482281 SUCCESS: remove provider from v2CoreDev zero-provider package; add dedicated w01FinanceDev build type+manifest, verify provider exclusively there, compile both + JVM8 + old V2 Core isolation regression. Same unit code only; S3 integrated nativeSourcesShare remains separate. W2 STOP/V2 productive OFF.",
+  "checkpoint_status": "W01_B3B1B1B1B1B1B_RED_FIX_READY_EXACT4_W01FINANCEDEV_PRIVATE_PROVIDER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "db714a0e25426c6f6b66936cef632685d4f62291",
@@ -4706,18 +4706,17 @@
   },
   "w01_b3b1b1b1b1b1b": {
     "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
-    "status": "B7_RED_FIX_V2_CORE_UNEXPECTED_PROVIDER",
+    "status": "RED_FIX_READY_EXACT4",
     "base_head": "67fe81f1fcd92b18ada21f465bbe7465114d041a",
     "proof_blob": "4a67804e336d89583be89689a9fabce40f980c49",
     "independent_b5_blob": "f555ddc3b0f886d63c2f9e0074139409a206fbe8",
     "paths": [
-      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationProvider.kt",
-      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidation.kt",
-      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationTest.kt",
+      "v5/app/build.gradle.kts",
       "v5/app/src/v2CoreDev/AndroidManifest.xml",
+      "v5/app/src/w01FinanceDev/AndroidManifest.xml",
       ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
     ],
-    "writer_release_epoch_expected": 1127,
+    "writer_release_epoch_expected": 1130,
     "w2": "STOP",
     "B6": "NOT_RUN",
     "B7": "PENDING",
@@ -4731,6 +4730,11 @@
     "s3_integrated_red": 44151067469,
     "b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_B7_RED_FIX_20261117.md",
     "b7_blob": "e51cba14d8e241f042e1e3ed66f4bc9f78b273a0",
-    "need_new_independent_b5": true
+    "need_new_independent_b5": true,
+    "redfix_base_head": "7f77a89b88626c04bbcb732d3ca2110386b48a47",
+    "redfix_preaudit_blob": "c38c0ea179ce720c77287103205b14d94ab2f740",
+    "redfix_b5_blob": "507740592201b7d5a6c29af32ae00f4559336ea2",
+    "redfix_B6": "NOT_RUN",
+    "redfix_B7": "PENDING"
   }
 }

@@ -1,13 +1,12 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
-  "reviewed_head": "67fe81f1fcd92b18ada21f465bbe7465114d041a",
+  "reviewed_head": "7f77a89b88626c04bbcb732d3ca2110386b48a47",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationProvider.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidation.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationTest.kt",
+    "v5/app/build.gradle.kts",
     "v5/app/src/v2CoreDev/AndroidManifest.xml",
+    "v5/app/src/w01FinanceDev/AndroidManifest.xml",
     ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
   ],
   "stages": {
@@ -15,8 +14,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
+          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
           "marker": "## B1"
         }
       ]
@@ -25,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
+          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
           "marker": "## B2"
         }
       ]
@@ -35,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
+          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
           "marker": "## B3"
         }
       ]
@@ -45,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
+          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
           "marker": "## B4"
         }
       ]
@@ -55,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "f555ddc3b0f886d63c2f9e0074139409a206fbe8",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "507740592201b7d5a6c29af32ae00f4559336ea2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_8_JVM_PASS_ANDROID_COMPILE_BUT_V2_CORE_REGRESSION_RED",
-    "B7": "RED_FIX_V2_CORE_ZERO_PROVIDER_INVARIANT"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "db714a0e25426c6f6b66936cef632685d4f62291",
@@ -76,11 +75,9 @@
       }
     ]
   },
-  "why": "V2_CORE_M2B_UNEXPECTED_PROVIDERS_ON_44151067496_WHILE_W01_DIRECTED_44151067699_SUCCESS;S3_INTEGRATED_SEPARATE_KNOWN_RED",
-  "how": "EXACT5_ONLY;NO_PRODUCT_UI;MANDATORY_MERGED_MANIFEST_AND_JUNIT8_ANDROID_COMPILE",
+  "why": "SAME_UNIT_RED_FIX_TO_PRESERVE_V2_CORE_ZERO_PROVIDER_WITH_W01_DEDICATED_OFFLINE_DEV_VARIANT",
+  "how": "EXACT4;V2_CORE_0_PROVIDERS;W01_FINANCE_DEV_1_PRIVATE_PROVIDER;APP_JUNIT8;V2_CORE_FULL_REGRESSION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": "RED_FIX_SAME_UNIT_REQUIRES_ISOLATED_DEV_VARIANT_AND_NEW_B1_B5",
-  "consumed_code_sha": "db714a0e25426c6f6b66936cef632685d4f62291"
+  "blocker": null
 }
