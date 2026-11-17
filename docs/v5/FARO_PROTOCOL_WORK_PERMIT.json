@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
   "reviewed_head": "c5dadb5e1e491b3a018898653e8ced554bf0ad90",
   "paths": [
@@ -59,17 +59,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_KERNEL_FINAL_COMMIT_GATE_D01_D06_SPLIT_S3_LEGACY_13_NEW_6",
+    "B7": "PASS_SCOPED_M1C1B1A_KERNEL_POST_RECEIPT_FINAL_COMMIT_GATE_13_PLUS_6"
   },
   "last_code_review": {
-    "sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
+    "sha": "68db898115683e7acf3c36d156447908e0de6341",
     "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
-        "blob_sha": "1fae8e16ea777a3d5aae7acb05bb5d1f6e409268",
+        "path": "docs/v5/FARO_S4_W01_M1C1B1A_POST_RECEIPT_GATE_B7_PASS_20261117.md",
+        "blob_sha": "a8dcc6027058b82fc38040a2bbb75943e2c3d8f9",
         "marker": "## B7"
       }
     ]
@@ -82,7 +82,7 @@
     "failed_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
     "run": 44034166682,
     "error": "S3_A4_LEGACY_XML_EXPECTS_13_GOT_19_ZERO_FAILED",
-    "state": "RED_FIX_READY_SAME_UNIT_ONLY",
+    "state": "RESOLVED_B7_PASS_AFTER_LEGACY_S3_REGRESSION_GREEN",
     "same_unit_only": true,
     "paths": [
       "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
@@ -91,6 +91,10 @@
     "document": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
     "no_production_code_changes": true,
     "permit_correction": "B7_PENDING_LAST_CODE_REVIEW_RED_FIX_WITH_EXACT_DOCUMENT_BLOB",
-    "failed_guard_run": 44034925436
-  }
+    "failed_guard_run": 44034925436,
+    "fixed_code_sha": "68db898115683e7acf3c36d156447908e0de6341",
+    "ci_run": 44035460133,
+    "legacy_run": 44035460249
+  },
+  "blocked_reason": "M1C1B1A_B7_PASS_CONSUMED_NEXT_M1C1B1B_FINANCE9_ANDROID_HOST_NOT_AUTHORIZED"
 }

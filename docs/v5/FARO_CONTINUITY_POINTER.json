@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M1C1B1A_RED_FIX_READY_SAME_UNIT",
+  "phase": "S4_W01_M1C1B1A_B7_PASS_SCOPED_NEXT_M1C1B1B_HOST",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1035
+    "epoch": 1037
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "M1C1B1A RED_FIX test-only split S3 13 and new 6; keep permit B7 pending + last_code_review RED_FIX exact old code, then CI regression and B7; W2 STOP",
-  "checkpoint_status": "B7_RED_FIX_AUDITED_PREPARED_NO_CODE_CHANGE",
+  "next": "M1C1B1B B1-B5 actual Finance9 staged final-commit gate wiring with trusted local principal and Android biometric proof; own READY/CI/physical later; W1 B-F OPEN, W2 STOP",
+  "checkpoint_status": "M1C1B1A_B7_PASS_SCOPED_DOC_COMMITTED_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4371,7 +4371,7 @@
   },
   "w01_m1c1b1a": {
     "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
-    "status": "RED_FIX_READY_SAME_UNIT_TESTS_ONLY",
+    "status": "B7_PASS_SCOPED_KERNEL_FINAL_COMMIT_GATE",
     "document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
     "paths": [
       "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
@@ -4383,10 +4383,24 @@
     "w2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_READY_20261117.md",
     "failed_regression_run": 44034166682,
-    "ci_run": 44034166788,
-    "code_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
+    "ci_run": 44035460133,
+    "code_sha": "68db898115683e7acf3c36d156447908e0de6341",
     "red_fix_document": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
     "last_code_review": "RED_FIX",
-    "red_fix_permit_guard_run": 44034925436
+    "red_fix_permit_guard_run": 44034925436,
+    "initial_code_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
+    "guard_code_run": 44035460120,
+    "legacy_s3_regression_run": 44035460249,
+    "xml": "13 legacy + 6 new = 19/19 PASS",
+    "junit_artifact_id": 14306054305,
+    "proof": "docs/v5/FARO_S4_W01_M1C1B1A_POST_RECEIPT_GATE_B7_PASS_20261117.md",
+    "proof_blob_sha": "a8dcc6027058b82fc38040a2bbb75943e2c3d8f9",
+    "writer_release_epoch": 1037,
+    "next_step": "M1C1B1B_B1_B5"
+  },
+  "w01_m1c1b1b": {
+    "status": "NEXT_B1_B5_NOT_READY",
+    "physical": "NOT_RUN",
+    "w2": "STOP"
   }
 }
