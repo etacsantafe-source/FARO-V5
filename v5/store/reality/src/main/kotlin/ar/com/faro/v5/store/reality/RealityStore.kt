@@ -860,6 +860,56 @@ class RealityStore(
         }
     }
 
+
+    /**
+     * W01-B3B1B1B1B1A: isolated STAGED9 DEV-only READ revocation owner.
+     * Reuses the existing SQLite BEGIN IMMEDIATE/COMMIT/ROLLBACK ACL and
+     * fixed READ scope; no synthetic human authorization, Apply grant,
+     * ContentObserver event, Finance mutation or UI read permission.
+     * A repeated revoke returns the SAME observed revoked epoch, not a
+     * new transition signal.
+     */
+    fun finance9TrustedReadPolicyRevokerForDevOnly():
+        RealityFinance9TrustedReadPolicyRevocationPort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Read policy revoker requires explicit STAGED9 Reality"
+        }
+        RealityFinance9TrustedReadPolicyRevocationPort { request ->
+            runCatching {
+                withMaterialAdmission {
+                    synchronized(lock) {
+                        if (closed || !financeStage9 || !planningStage8 ||
+                            activeTransactionId != null || readSchemaVersion() != 9
+                        ) null else {
+                            val scope = Finance9AclScope(
+                                principalHash = request.principalHash,
+                                generationId = request.generationId,
+                                pointerSequence = request.pointerSequence,
+                                operationId = RealityFinance9ReadPolicyObservationPort.OPERATION_ID,
+                                objectScope = RealityFinance9ReadPolicyObservationPort.OBJECT_SCOPE,
+                            )
+                            RealityFinance9Acl(
+                                connection,
+                                stagedAdmission = {
+                                    financeStage9 && planningStage8 && !closed &&
+                                        activeTransactionId == null && readSchemaVersion() == 9
+                                },
+                            ).revoke(scope)?.let { epoch ->
+                                Finance9ObservedRevokedReadPolicyRecord(
+                                    principalHash = request.principalHash,
+                                    generationId = request.generationId,
+                                    pointerSequence = request.pointerSequence,
+                                    observedRevokedPolicyEpoch = epoch,
+                                )
+                            }
+                        }
+                    }
+                }
+            }.getOrNull()
+        }
+    }
+
     /**
      * M1C0: STAGED9-only Finance policy check INSIDE this very Reality SQLite
      * BEGIN IMMEDIATE transaction. The caller must already hold this store's

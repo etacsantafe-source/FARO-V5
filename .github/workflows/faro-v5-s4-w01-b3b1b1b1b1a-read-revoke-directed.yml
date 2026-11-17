@@ -1,0 +1,98 @@
+name: FARO V5 W01 B3B1B1B1B1A SQL READ revocation DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1b1b1b1a-read-revoke
+  cancel-in-progress: false
+jobs:
+  fixed-read-sql-revoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preflight READY exact4 on unmodified parent before test execution
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-ready-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-ready-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-ready-parent" --mode preflight \
+            --unit "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV" \
+            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationPort.kt" \
+            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt" \
+            --path "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml"
+          git worktree remove "$RUNNER_TEMP/faro-ready-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run eight new real SQLite9 tests and affected read-policy regressions
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9TrustedReadPolicyRevocationTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9TrustedReadPolicyIssuerTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9ReadPolicyObservationTest"
+      - name: Exact JUnit XML, two PID and no shipping wiring checks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path("v5/store/reality/build/test-results/test")
+          expected={
+            "r01SchemaSevenEightClosedAndActiveApplyFailClosed",
+            "r02FixedReadScopeRevokesWithoutApplyOrLedgerEffects",
+            "r03AbsentAndIdempotentRepeatDoNotAdvanceCounter",
+            "r04ForeignPrincipalPointerGenerationAndApplyScopeAreIsolated",
+            "r05ReissueAbaOldEpochNeverResurrects",
+            "r06ExpiryNeverGrantsReadOrRestartsOldEpoch",
+            "r07RealSecondOsPidRevocationAndNewOwnerRevocationPersist",
+            "r08MalformedRequestAndSqlAbortRollbackNeverReportSuccess",
+          }
+          for c in (
+            "RealityFinance9TrustedReadPolicyRevocationTest",
+            "RealityFinance9TrustedReadPolicyIssuerTest",
+            "RealityFinance9ReadPolicyObservationTest",
+          ):
+            found=list(base.glob("TEST-*"+c+".xml"))
+            if len(found)!=1: raise SystemExit("REVOKE_XML_MISSING "+c)
+            n=ET.parse(found[0]).getroot()
+            counts=tuple(int(n.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+            if counts!=(8,0,0,0): raise SystemExit("REVOKE_XML_RED "+c+" "+str(counts))
+            if c=="RealityFinance9TrustedReadPolicyRevocationTest":
+              actual={i.get("name","").removesuffix("()") for i in n.findall("testcase")}
+              if actual!=expected: raise SystemExit("REVOKE_XML_NAMES_RED "+str(actual))
+          for p in (
+            "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+            "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+          ):
+            if "finance9TrustedReadPolicyRevokerForDevOnly" in Path(p).read_text():
+              raise SystemExit("REVOKE_PRODUCT_WIRING "+p)
+          print("W01_B3B1B1B1B1A_DEV_SQL_READ_REVOKE_8_OF_8_PASS")
+          print("W01_B3B1B1B1B1A_ISSUER_8_OBSERVATION_8_REGRESSIONS_PASS")
+          print("TWO_PID_READ_SCOPE_CASE_R07_PASS_NO_ANDROID_UI_CLAIMS")
+          PY
+      - name: Preserve exact scoped JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1b1b1b1a-read-revoke-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9TrustedReadPolicyRevocationTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9TrustedReadPolicyIssuerTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9ReadPolicyObservationTest.xml
+          if-no-files-found: warn
