@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.W01.M1B.READY.20261116",
-  "token_hash": "0f17a90cf1765b88f1d3c7be112916806b9203ca6f3372d8e925a989b2f93848",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.W01.M1B.B6.20261116",
+  "token_hash": "fa2013100c177813269eb0700d8be76b6bf2ab8747bb29d8f05b8a8451d63494",
   "target_head": "32bf3a65186dd70907e47c95e543b326015a7c46",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1012,
-  "timestamp": 1794883002,
-  "scope": "W01_M1B_READY_RELEASED",
+  "epoch": 1013,
+  "timestamp": 1794883072,
+  "scope": "M1B_B6_ANDROID_DORMANT_EXACT5",
   "last_checkpoint": "32bf3a65186dd70907e47c95e543b326015a7c46"
 }
