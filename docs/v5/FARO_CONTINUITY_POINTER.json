@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1122
+    "epoch": 1125
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 B3B1B1B1B1B1A foreground SQL reconciliation DEV B7 PASS scoped 8 new JVM+Android compile, code 5ed88bdf6abb26fd97eca2216dac4ef71372db89, run 44132878065 SUCCESS, protocol guard 44132877719 SUCCESS, permit BLOCKED consumed. Next B3B1B1B1B1B1B Android app-private publisher after SQL COMMIT + ContentObserver DEV, B1–B5 and independent B5 before READY; v2CoreDev manifest uses provider removeAll, cannot silently bypass, and raw SQLite 2nd PID bypasses signals: always resume reconcile. No shipping UI; B3B2 G15 later. W2 STOP, V2 productiva OFF. No repetition of B3B1B1B1B1A revoker, B0 lifecycle, B1A reconciler.",
-  "checkpoint_status": "W01_B3B1B1B1B1B1A_B7_PASS_SCOPED_8_JVM_ANDROID_COMPILE_PERMIT_BLOCKED_NEXT_PRIVATE_PUBLISHER_PREAUDIT",
+  "next": "W01 B3B1B1B1B1B1B exact5 private Android invalidation infrastructure DEV READY after independent B5 guard 44149965743 SUCCESS. Implement B6 only after exact preflight and CAS, XML 8/8 and Android DEV compile + merged manifest provider. NOT a real post-SQL commit publisher, G15 IPC NOT_RUN. W2 STOP; V2 productive OFF.",
+  "checkpoint_status": "W01_B3B1B1B1B1B1B_READY_EXACT5_PRIVATE_INVALIDATION_INFRA_DEV_NOT_SQL_COMMIT",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
@@ -4703,5 +4703,25 @@
     "still_running": 4,
     "recorded": "2026-11-17",
     "scope": "INFORMATIONAL_NOT_REQUIRED_FOR_SCOPED_B7"
+  },
+  "w01_b3b1b1b1b1b1b": {
+    "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
+    "status": "B1_B5_READY_SCOPE_ONLY",
+    "base_head": "67fe81f1fcd92b18ada21f465bbe7465114d041a",
+    "proof_blob": "4a67804e336d89583be89689a9fabce40f980c49",
+    "independent_b5_blob": "f555ddc3b0f886d63c2f9e0074139409a206fbe8",
+    "paths": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationProvider.kt",
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidation.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationTest.kt",
+      "v5/app/src/v2CoreDev/AndroidManifest.xml",
+      ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
+    ],
+    "writer_release_epoch_expected": 1125,
+    "w2": "STOP",
+    "B6": "NOT_RUN",
+    "B7": "PENDING",
+    "physical": "NOT_RUN",
+    "productive_v2": "OFF"
   }
 }

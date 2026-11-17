@@ -1,21 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1B1B1B1A_FOREGROUND_SQL_RECONCILIATION_DEV",
-  "reviewed_head": "83299a2bf1f098e8acfba99559ded0670700992f",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
+  "reviewed_head": "67fe81f1fcd92b18ada21f465bbe7465114d041a",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundReconciliation.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundLifecycleAdapter.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundReconciliationTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1a-foreground-reconcile.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationProvider.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidation.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationTest.kt",
+    "v5/app/src/v2CoreDev/AndroidManifest.xml",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ac930b0ca0271f382d0329d88b769e48498877e3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
           "marker": "## B1"
         }
       ]
@@ -24,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ac930b0ca0271f382d0329d88b769e48498877e3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
           "marker": "## B2"
         }
       ]
@@ -34,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ac930b0ca0271f382d0329d88b769e48498877e3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
           "marker": "## B3"
         }
       ]
@@ -44,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ac930b0ca0271f382d0329d88b769e48498877e3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "4a67804e336d89583be89689a9fabce40f980c49",
           "marker": "## B4"
         }
       ]
@@ -54,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ac930b0ca0271f382d0329d88b769e48498877e3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "f555ddc3b0f886d63c2f9e0074139409a206fbe8",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_FOREGROUND_SQL_RECONCILIATION_8_JVM_ANDROID_COMPILE_SUCCESS",
-    "B7": "PASS_SCOPED_DEV_FOREGROUND_SQL_RECONCILIATION_8_JVM_ANDROID_COMPILE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
@@ -75,30 +76,9 @@
       }
     ]
   },
-  "why": "No product UI mount, only lost-notice synthetic JVM and Android DEV compile; next private provider needs new permit, real Android IPC checks.",
-  "how": "Read-only foreground catch-up scoped B7 PASS, do not reuse permission for notifier/manifest/writer path.",
+  "why": "PREAUDITED_DEV_PRIVATE_CONTENT_PROVIDER_OBSERVER_INFRASTRUCTURE_ONLY_NOT_SQL_COMMIT_PUBLISHER",
+  "how": "EXACT5_ONLY;NO_PRODUCT_UI;MANDATORY_MERGED_MANIFEST_AND_JUNIT8_ANDROID_COMPILE",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "preflight_red_fix": {
-    "failed_sha": "bbeb00d565bcbf24091a403144649e8fd3030295",
-    "run": 44058347307,
-    "failed_step": "Verify exact READY permit preflight on GitHub checkout",
-    "cause": "B6_NOT_RUN_AND_B7_PENDING_ENUMS_INVALID_FOR_READY",
-    "required": "B6_READY_TO_IMPLEMENT;B7_PENDING_FINAL_AUDIT",
-    "change": "DOC_ONLY_TWO_STAGE_ENUMS",
-    "no_code": true
-  },
-  "consumed_code_sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
-  "red_fix_doc_only": {
-    "guard_failed": 44059421580,
-    "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
-    "fix": "BLOCKED_IMMEDIATELY_AFTER_B6",
-    "code_guard_success": 44059395073,
-    "ci_running": 44059395512
-  },
-  "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
-  "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
-  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B1B1B1B1A_B7_PASS_CONSUMED_NEXT_B3B1B1B1B1B1B_PRIVATE_ANDROID_PUBLISHER_NEEDS_NEW_B1_B5",
   "blocker": null
 }
