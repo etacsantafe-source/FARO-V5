@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV",
-  "reviewed_head": "6053ed2c525b77d433bbac297764493cfb7623ae",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1B1B1B0_DEV_READ_HOST_LIFECYCLE_ABORT",
+  "reviewed_head": "2651712db6fc6c83ea4f0dc296aa873efe351080",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadSessionLifecycle.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadAuthHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadSessionLifecycleTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b0-lifecycle-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "d5179b845504f51c803b25f602b22cac3e9152fe",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "d5179b845504f51c803b25f602b22cac3e9152fe",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "d5179b845504f51c803b25f602b22cac3e9152fe",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "d5179b845504f51c803b25f602b22cac3e9152fe",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "d5179b845504f51c803b25f602b22cac3e9152fe",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_READ_REVOCATION_8_NEW_JVM_16_AFFECTED_TWO_PID_DIRECTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_DEV_SQL_READ_REVOCATION_8_NEW_16_AFFECTED_TWO_PID"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9",
@@ -75,8 +75,8 @@
       }
     ]
   },
-  "why": "Scoped DEV READ revoke verified: 8 new+16 affected tests, real second PID, exact guard. No Android/Compose delivery.",
-  "how": "Code commit 80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9 B7 doc 85eb3d23dbd2358e32e329f85e4284b4379789d5, permission consumed. Next B3B1B1B1B1B B1-B5 independent before new READY.",
+  "why": "Lifecycle tear-down of dormant DEV READ biometric host only, no UI or Android cross-process notification warranty",
+  "how": "Exact four paths, lifecycle close on STOP/DESTROY; JUnit 8 + DEV Kotlin compile, not G15",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": "80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9",
+  "consumed_code_sha": null,
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B1B1B1A_B7_PASS_CONSUMED_NEXT_ANDROID_PUBLISHER_LIFECYCLE_B3B1B1B1B1B_NOT_AUTHORIZED",
+  "blocked_reason": null,
   "blocker": null
 }
