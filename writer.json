@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.W01.D0.RED_FIX_CODE.20261117",
   "token_hash": "d633004987df75be4a1a5e9677d3c651922cc30fd384a5c81294c8bdc3124432",
   "target_head": "b03e708b3e3d864a7a45a488399aa79a7a17996a",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1143,
   "timestamp": 1794945800,
-  "scope": "D0_RED_FIX_WORKFLOW_ONLY",
-  "last_checkpoint": "b03e708b3e3d864a7a45a488399aa79a7a17996a"
+  "scope": "D0_RED_FIX_AGP9_WORKFLOW_WAIT_CI",
+  "last_checkpoint": "014372cc071ff0eddf704b82066f93bb86ec480e"
 }
