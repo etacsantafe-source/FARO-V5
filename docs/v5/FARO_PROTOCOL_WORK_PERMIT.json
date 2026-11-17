@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B1B1A_FINANCE9_READ_ONLY_POLICY_ISSUER_DEV",
   "reviewed_head": "5096516b4af77f6386517acacc493e71cbf5baf4",
   "paths": [
@@ -60,8 +60,8 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_READ_ONLY_POLICY_8_NEW_16_REGRESSION_22_CI_SUCCESS_ONE_PENDING",
+    "B7": "PENDING_EXTERNAL_CI_44110607195_NOT_PASS"
   },
   "last_code_review": {
     "sha": "3216747249fec29f79ce6ba35b3ba0b6c793282f",
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": "3216747249fec29f79ce6ba35b3ba0b6c793282f",
+  "consumed_code_sha": "8a4d79ca3a27e5d312345df0a1c50503749487e0",
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": null,
-  "blocker": null
+  "blocked_reason": "B3B1B1B1A_B6_CI_HOLD_ONE_OF_23_PENDING_B7_NOT_VERIFIED",
+  "blocker": "CI_44110607195_IN_PROGRESS_NOT_HUMAN"
 }
