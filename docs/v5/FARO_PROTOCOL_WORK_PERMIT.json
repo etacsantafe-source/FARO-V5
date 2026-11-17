@@ -1,21 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
-  "reviewed_head": "7f77a89b88626c04bbcb732d3ca2110386b48a47",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV",
+  "reviewed_head": "f2a19f8a9a9ffd9dfbd427d3b6786a9ce66bff63",
   "paths": [
-    "v5/app/build.gradle.kts",
-    "v5/app/src/v2CoreDev/AndroidManifest.xml",
-    "v5/app/src/w01FinanceDev/AndroidManifest.xml",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangePort.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisher.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangeTest.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisherTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
-          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
+          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
           "marker": "## B1"
         }
       ]
@@ -24,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
-          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
+          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
           "marker": "## B2"
         }
       ]
@@ -34,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
-          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
+          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
           "marker": "## B3"
         }
       ]
@@ -44,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_RED_FIX_B1_B5_20261117.md",
-          "blob_sha": "c38c0ea179ce720c77287103205b14d94ab2f740",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
+          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
           "marker": "## B4"
         }
       ]
@@ -54,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_ISOLATED_VARIANT_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "507740592201b7d5a6c29af32ae00f4559336ea2",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "6ebc4b4bb2bcdd4c84d904de57e8506c5d9eefc1",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_RED_FIX_ISOLATED_W01FINANCEDEV_8_JVM_ANDROID_BOTH_COMPILE",
-    "B7": "PASS_SCOPED_DEV_PRIVATE_INVALIDATION_W01_ISOLATED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6eece332b81436af3dbff955b2800557440045ff",
@@ -75,11 +78,9 @@
       }
     ]
   },
-  "why": "PASS_SCOPE_DEV_PRIVATE_PROVIDER_W01FINANCEDEV_ONLY;BOTH_ANDROID_VARIANTS_COMPILE_AND_V2_CORE_ZERO_PROVIDER_RESTORED;SQL_POST_COMMIT_IPC_NOT_COVERED",
-  "how": "EXACT4;V2_CORE_0_PROVIDERS;W01_FINANCE_DEV_1_PRIVATE_PROVIDER;APP_JUNIT8;V2_CORE_FULL_REGRESSION",
+  "why": "STAGED9_DEV_ONLY_POST_SQL_COMMIT_READ_POLICY_CHANGE_NOTICE_SCOPED",
+  "how": "EXACT7;STORE_REAL_SQL_8;APP_JVM_8;ANDROID_DEV_COMPILE;V2_CORE_ZERO_PROVIDER;NO_PRODUCT_UI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": "READY_CONSUMED_AFTER_B7_NEXT_COOPERATIVE_SQL_PUBLISHER_NEEDS_NEW_B1_B5",
-  "consumed_code_sha": "6eece332b81436af3dbff955b2800557440045ff"
+  "blocker": null
 }
