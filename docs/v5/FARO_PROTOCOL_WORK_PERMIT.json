@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B1B1B1B1A_FOREGROUND_SQL_RECONCILIATION_DEV",
   "reviewed_head": "83299a2bf1f098e8acfba99559ded0670700992f",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_FOREGROUND_SQL_RECONCILIATION_8_JVM_ANDROID_COMPILE_SUCCESS",
+    "B7": "PASS_SCOPED_DEV_FOREGROUND_SQL_RECONCILIATION_8_JVM_ANDROID_COMPILE"
   },
   "last_code_review": {
-    "sha": "fce49a3cee5b1836f7088f5cd484e12e702b0254",
-    "unit_id": "S4_W01_B3B1B1B1B1B0_DEV_READ_HOST_LIFECYCLE_ABORT",
+    "sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
+    "unit_id": "S4_W01_B3B1B1B1B1B1A_FOREGROUND_SQL_RECONCILIATION_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "92d9f6cdf4293d0b8ecb7c36a9d8dd1e019f8713",
+        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "7dd0f494f103cf08d4f99ce16fb99b2c92e811c8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Isolated DEV-only foreground reconciliation; lost external SQLite notice caught by fresh double SQL observation on RESUME; no Android IPC provider or product UI.",
-  "how": "Exact4 fresh-fence owner+Android lifecycle adapter+8 JVM tests+workflow, no manifest/provider/writer grants, parent preflight B1-B5 proof.",
+  "why": "No product UI mount, only lost-notice synthetic JVM and Android DEV compile; next private provider needs new permit, real Android IPC checks.",
+  "how": "Read-only foreground catch-up scoped B7 PASS, do not reuse permission for notifier/manifest/writer path.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": null,
+  "consumed_code_sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": null,
+  "blocked_reason": "B3B1B1B1B1B1A_B7_PASS_CONSUMED_NEXT_B3B1B1B1B1B1B_PRIVATE_ANDROID_PUBLISHER_NEEDS_NEW_B1_B5",
   "blocker": null
 }
