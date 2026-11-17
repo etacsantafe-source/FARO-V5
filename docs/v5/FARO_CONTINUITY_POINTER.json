@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_B3B1B1B1B0_B7_PASS_NEXT_B3B1B1B1B1_REVOKE_OWNER_PREAUDIT",
+  "phase": "S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_PREAUDIT_DOC_NEXT_B5_INDEPENDENT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1108
+    "epoch": 1110
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "READ_ONLY B3B1B1B1B1 cross-process finance policy revoke and pointer cutover notifications + lifecycle read session B1-B5 independent; then READY/code only scoped. B3B2 G15 and shipping afterward. W2 STOP, V2 productiva OFF.",
-  "checkpoint_status": "B3B1B1B1B0_B7_PASS_8_JVM_5_CI_GUARD_DOC_PENDING",
+  "next": "B3B1B1B1B1A independent B5 exact read-only revoker STAGED9 before READY. Then DEV code and real two-PID CI; next Android revoke publisher + lifecycle B3B1B1B1B1B; G15 B3B2 later. W2 STOP, V2 productiva OFF.",
+  "checkpoint_status": "W01_B3B1B1B0_B7_PASS_8_JVM_5_CI_PLUS_B3B1B1B1B1_DOC_B1_B5_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "bb20a48266f69ded178f5e9c806c8127149fdfe9",
@@ -4689,5 +4689,10 @@
     "b7_doc": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_B7_PASS_SCOPED_20261117.md",
     "writer_release_expected": 1108,
     "next": "B3B1B1B1B1_B1_B5_NO_READY"
+  },
+  "w01_b3b1b1b1b1": {
+    "status": "B1_B5_PARENT_PREAUDIT_DOC_ONLY_NO_READY",
+    "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
+    "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   }
 }
