@@ -63,18 +63,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
-    "unit_id": "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV",
-    "result": "PASS",
+    "sha": "1f05ed3a28db2f66a86fcb8c394c83dcfe035323",
+    "unit_id": "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_POST_COMMIT_NOTICE_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "20c92147001b61b4756d68cc6f7aa835d5a727d2",
+        "path": "docs/v5/FARO_S4_W01_D0_LAUNCH_B7_RED_FIX_20261117.md",
+        "blob_sha": "cf7cdda795d3c2a7c4377b9923178b4576934f47",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W01 exact applicationId not admitted by existing DEV launcher, B1-B5 independent evidence verified",
+  "why": "D0 SAME-UNIT RED_FIX: AGP9 nondebug test task not enabled; existing V2 workflow verifies -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false",
   "how": "ONLY EXACT3 local DEV allowlist/test/workflow no provider/financial data/UI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
