@@ -274,5 +274,20 @@
     "m0c2b2b": {
       "status": "NEXT_B1_B5_NOT_READY"
     }
+  },
+  "w01_m0c2b2b": {
+    "unit_id": "S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_CAPTURE_RESTORE",
+    "status": "B1_B5_DOC_PUBLISHED_GUARD_PENDING_B6_STOP",
+    "document": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
+    "paths": [
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9FullArchiveCoordinator.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9FullArchiveCoordinatorTest.kt",
+      ".github/workflows/faro-v5-s4-w01-m0c2b2b-finance9-full-archive-directed.yml"
+    ],
+    "code_changed": false,
+    "next": "DOC_GUARD_THEN_SEPARATE_READY",
+    "w2": "STOP"
   }
 }
