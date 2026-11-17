@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify guard exact READY checkpoint, run preflight exact one test path; then test-only import and CI directed + S3 Home, B7 independent. W2 STOP",
-  "checkpoint_status": "M1C1B1B_READY_TEST_IMPORT_PROTOCOL_ENUM_FIXED_WAIT_GUARD",
+  "next": "Verify B7 checkpoint guard and writer RELEASED1049. Continue W1 trusted Android human principal/grant issuer B1-B5 then UI/transfers/debts/budgets/integration; W2 STOP.",
+  "checkpoint_status": "M1C1B1B_B7_PASS_SCOPED_DOC_COMMITTED_FINAL_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4400,7 +4400,7 @@
   },
   "w01_m1c1b1b": {
     "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-    "status": "READY_SECOND_IMPORT_ONE_TEST_PROTOCOL_ENUM_FIXED_GUARD_PENDING",
+    "status": "B7_PASS_SCOPED_DEV_STAGED9",
     "document": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
     "document_commit": "b2da1e1e8af2e62a5e4a745a4f9ba58db17f941a",
     "scope": "DEV_STAGED9_ONLY_NO_PRODUCT_APPLY",
@@ -4412,22 +4412,22 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt",
       ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
     ],
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_AFTER_NEXT_CI",
+    "B6": "IMPLEMENTED",
+    "B7": "PASS_SCOPED_19_19",
     "physical": "NOT_RUN",
     "w2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_READY_20261117.md",
     "permit_commit": "49ff318b702c217886200ff573d73abf35fed891",
-    "permission": "READY_ONE_TEST_ONLY",
+    "permission": "CONSUMED_BLOCKED",
     "preflight_red_fix": {
       "failed_sha": "bbeb00d565bcbf24091a403144649e8fd3030295",
       "run": 44058347307,
       "reason": "B6 B7 incorrect enum",
       "fixed_sha": "9864f50aa07e741aa3aff22956b3c68ccd2dd0e4"
     },
-    "code_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+    "code_sha": "a52dbb3cea2210f84b66893f30a5450672bef235",
     "ci": "WAIT_CI",
-    "code_guard_run": 44059395073,
+    "code_guard_run": 44061977682,
     "code_guard": "SUCCESS",
     "directed_ci_run": 44059395512,
     "directed_ci": "IN_PROGRESS",
@@ -4447,6 +4447,14 @@
     "red_fix_second_ready": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
     "red_fix_second_ready_commit": "e84e550dbd75f0a34da72f1b1e8f800d6e74903f",
     "ready_enum_fix_sha": "fb0877639bcb0ab9b2ec5ba792088d8cefbf6d76",
-    "last_ready_guard_failure": 44061553082
+    "last_ready_guard_failure": 44061553082,
+    "ci_run": 44061977799,
+    "xml": "REALITY9_5_5_APP_6_6_REGRESSION_8_8_TOTAL_19_19",
+    "s3_home_regression_run": 44061977693,
+    "junit_artifact_id": 14318194618,
+    "b7_document": "docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_B7_PASS_SCOPED_20261117.md",
+    "b7_proof_blob_sha": "e8266dfc7b0c18c18edf84afcf307c085b9892f7",
+    "writer_release_epoch": 1049,
+    "next_step": "NEXT_TRUSTED_HUMAN_ANDROID_LOCAL_PRINCIPAL_AND_GRANT_ISSUER_PREAUDIT_B1_B5"
   }
 }

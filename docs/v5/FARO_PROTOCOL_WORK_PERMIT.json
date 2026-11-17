@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
   "reviewed_head": "3feb4e41a24bccdff1f74f1bb44a4ba3f3555073",
   "paths": [
@@ -57,17 +57,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_STAGED9_19_OF_19_JUNIT",
+    "B7": "PASS_SCOPED_DEV_STAGED9_19_OF_19"
   },
   "last_code_review": {
-    "sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
+    "sha": "a52dbb3cea2210f84b66893f30a5450672bef235",
     "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_RED_FIX_B7_20261117.md",
-        "blob_sha": "7b7bc733560ee6dbef5be3b8321f4066a8a62c13",
+        "path": "docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "e8266dfc7b0c18c18edf84afcf307c085b9892f7",
         "marker": "## B7"
       }
     ]
@@ -94,7 +94,8 @@
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
   },
-  "red_fix_scope": "SECOND_TEST_ONLY_IMPORT_EXACT_ONE_PATH_M1C1B1B",
+  "red_fix_scope": "RESOLVED_TEST_ONLY_TWO_IMPORTS_NO_PRODUCT_CODE_DELTA",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
-  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616"
+  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+  "blocked_reason": "M1C1B1B_B7_PASS_CONSUMED_NEXT_HUMAN_ANDROID_GRANT_ISSUER_NOT_AUTHORIZED"
 }
