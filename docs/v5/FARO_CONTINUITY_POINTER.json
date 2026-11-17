@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1A_ACTIVE_FINANCE_READ_B7_PASS_SCOPED_D1B1B_NEXT",
+  "phase": "S4_W01_D1B1B_SINGLE_SESSION_NATIVE_FINANCE_DEV_B7_PASS_SCOPED_D1B1C_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1149
+    "epoch": 1173
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1B1A ACTIVE FinanceSnapshot double-read/UID/host/ACL guard B7 PASS scoped, 10/10 JVM + W01 Android Kotlin compile, code 0900e751, run 44191824683 SUCCESS, guard 44191824581 SUCCESS; no real Finance9 SQL/data Activity/G15. Siguiente D1B1B: único dueño Session ACTIVE + Android Activity foreground real sin biometría, B1-B5/READY propios, no repetir D1B1A ni D0/D1A/D1B0. D1B1C Finance9 active cutover posterior. W1 OPEN, W2 STOP, V2 productiva OFF.",
-  "checkpoint_status": "W01_D1B1A_10_JVM_10_PASS_W01_KOTLIN_COMPILE_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "next": "D1B1B DEV ACTIVE FinanceSnapshot same Session+Activity native B7 PASS scoped, 6/6 JVM + W01 Android Kotlin compile SHA bf30b5ea37791eda6909175e2508e0c488a5a940, CI 44199936375 SUCCESS, guard 44199936427 SUCCESS; no biometría obligatoria, no segundo grafo, Finance9 STAGED, sin saldo VERIFIED ni prueba física. Próxima D1B1C: migración/cutover Finance9 ACTIVE bajo B1-B5 y READY nuevos antes de B6; no repetir D0 D1A D1B0 D1B1A D1B1B. W1 OPEN, W2 STOP, V2 productiva OFF.",
+  "checkpoint_status": "W01_D1B1B_6_JVM_6_PASS_W01_KOTLIN_COMPILE_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
-  "last_ci_run_id": 44168268784,
+  "last_code_sha": "bf30b5ea37791eda6909175e2508e0c488a5a940",
+  "last_ci_run_id": 44199936375,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -4855,5 +4855,31 @@
     "b7_document": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_B7_PASS_SCOPED_20261117.md",
     "b7_blob_sha": "23f638bc696dfa0eae934d19cddac93946730f6c",
     "next": "D1B1B_SINGLE_ACTIVE_OWNER_SESSION_FOREGROUND_INTEGRATION"
+  },
+  "w01_d1b1b": {
+    "status": "B7_PASS_SCOPED_DEV_SINGLE_SESSION_FINANCE_UI_NATIVE",
+    "unit_id": "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV",
+    "initial_sha": "0886082dd3e1b10bf0b10a43fd702b26cd15d6aa",
+    "first_code_sha": "b54637060fe7ab7f69840e50275fd62b3c8eab1c",
+    "red_fix_shas": [
+      "fde63d76e1979270dba0fda5cd8ad6ea0a7697f5"
+    ],
+    "code_sha": "bf30b5ea37791eda6909175e2508e0c488a5a940",
+    "ci_run_id": 44199936375,
+    "ci_job_id": 134451112945,
+    "guard_code_run": 44199936427,
+    "junit": "6_OF_6_PASS",
+    "android_compile": "W01_FINANCE_DEV_KOTLIN_PASS",
+    "ui_source_wired": true,
+    "physical_android_instrumented": "NOT_RUN",
+    "real_g15": "NOT_RUN",
+    "finance9_active": false,
+    "biometric_required": false,
+    "second_graph": false,
+    "security_optional_default_off": true,
+    "permit": "CONSUMED_BLOCKED",
+    "b7_document": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B7_PASS_SCOPED_20261117.md",
+    "b7_blob_sha": "620bdf977040c132e6fe1c713aecd24b8c96b5a5",
+    "next": "D1B1C_FINANCE9_ACTIVE_CUTOVER_PREAUDIT_FIRST"
   }
 }

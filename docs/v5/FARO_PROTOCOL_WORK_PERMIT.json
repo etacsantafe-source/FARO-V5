@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV",
   "reviewed_head": "facfcf28c4414baab2942cbea9ecedded0de5635",
   "paths": [
@@ -62,26 +62,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SINGLE_ACTIVE_OWNER_NATIVE_FINANCE_DEV_6_JVM_W01_KOTLIN_COMPILE",
+    "B7": "PASS_SCOPED_DEV_SINGLE_OWNER_NATIVE_FINANCE_UI_6_JVM_AND_W01_KOTLIN_COMPILE"
   },
   "last_code_review": {
-    "sha": "fde63d76e1979270dba0fda5cd8ad6ea0a7697f5",
+    "sha": "bf30b5ea37791eda6909175e2508e0c488a5a940",
     "unit_id": "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B7_RED_FIX2_NATIVE_20261117.md",
-        "blob_sha": "038938b6058d4246af2f3901dcd05f8bc250b3fc",
+        "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "620bdf977040c132e6fe1c713aecd24b8c96b5a5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1B1B B7 RED_FIX #2: app variant lacks direct Compose UI/material3; use existing native Activity + surface policy, same exact6",
-  "how": "Correct root compile classpath cause without changing Gradle, two exact6 routes only",
+  "why": "D1B1B DEV same ACTIVE graph owner Session read seam + native Activity 6/6 JVM Kotlin W01 compile B7 scoped",
+  "how": "EXACT6 2 RED_FIX documented, no biometric, no second graph; Finance9 still STAGED, user balances not physically verified",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocked_reason": "D1B1B_READY_CONSUMED_D1B1C_NEEDS_B1_B5_READY",
+  "consumed_code_sha": "bf30b5ea37791eda6909175e2508e0c488a5a940"
 }
