@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_B3B1B1B1B1B1A_FOREGROUND_SQL_RECONCILIATION_DEV_READY_EXACT4",
+  "phase": "S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_B7_PASS_SCOPED_NEXT_PRIVATE_PUBLISHER_B3B1B1B1B1B1B_B1_B5",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1120
+    "epoch": 1122
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "B3B1B1B1B1B1A foreground SQL reconciliation isolated DEV READY exact4, B5 independent, protocol guard on READY commit pending verification. Acquire writer CAS after guard then B6 exact4; GitHub Actions official parent preflight 8 new JVM + Android DEV compile, B7. App-private ContentProvider notifyChange future B3B1B1B1B1B1B NOT_READY; direct SQLite writes bypass notices; UI remains DORMANT; W2 STOP and V2 productiva OFF.",
-  "checkpoint_status": "W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_INDEPENDENT_B5_READY_EXACT4_GUARD_PENDING_NO_CODE",
+  "next": "W01 B3B1B1B1B1B1A foreground SQL reconciliation DEV B7 PASS scoped 8 new JVM+Android compile, code 5ed88bdf6abb26fd97eca2216dac4ef71372db89, run 44132878065 SUCCESS, protocol guard 44132877719 SUCCESS, permit BLOCKED consumed. Next B3B1B1B1B1B1B Android app-private publisher after SQL COMMIT + ContentObserver DEV, B1–B5 and independent B5 before READY; v2CoreDev manifest uses provider removeAll, cannot silently bypass, and raw SQLite 2nd PID bypasses signals: always resume reconcile. No shipping UI; B3B2 G15 later. W2 STOP, V2 productiva OFF. No repetition of B3B1B1B1B1A revoker, B0 lifecycle, B1A reconciler.",
+  "checkpoint_status": "W01_B3B1B1B1B1B1A_B7_PASS_SCOPED_8_JVM_ANDROID_COMPILE_PERMIT_BLOCKED_NEXT_PRIVATE_PUBLISHER_PREAUDIT",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "fce49a3cee5b1836f7088f5cd484e12e702b0254",
-  "last_ci_run_id": 44129165643,
+  "last_code_sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
+  "last_ci_run_id": 44132878065,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -4695,7 +4695,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_B7_PASS_SCOPED_20261117.md",
+  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_B7_PASS_SCOPED_20261117.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
