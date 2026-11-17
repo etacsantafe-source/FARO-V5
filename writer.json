@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.W01.M1C1B1B.PREFLIGHT_RED_FIX.20261117",
-  "token_hash": "a1be2cb467ed86135a2d04c82da55a86ea62bfb0c4f5af1490d71cc3c0017649",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.W01.M1C1B1B.B6.20261117",
+  "token_hash": "f2d90c6b4a163efe38bd5c461c3d1f0be8a902cdeb89b676a0cbf8d035e243a1",
   "target_head": "312552b7ed085762f88759967ca5dbc95c61a28e",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1040,
-  "timestamp": 1794909531,
-  "scope": "M1C1B1B_PREFLIGHT_ENUM_RED_FIX_DOC_RELEASED",
+  "epoch": 1041,
+  "timestamp": 1794909672,
+  "scope": "M1C1B1B_B6_EXACT_SIX_DEV_STAGE9",
   "last_checkpoint": "312552b7ed085762f88759967ca5dbc95c61a28e"
 }
