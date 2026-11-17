@@ -471,6 +471,92 @@ class RealityStore(
             expectedPolicyEpoch
     }
 
+    /**
+     * M1C1B0 STAGED9 ONLY: bind a previously issued Finance grant to a REAL
+     * receipt already inserted by RealityStore.commit, then consume the grant
+     * in the SAME SQLite BEGIN IMMEDIATE transaction as Finance effects.
+     *
+     * This method cannot begin/commit a transaction and never authenticates a
+     * human or supplies a product Apply grant. Caller MUST Rollback the active
+     * Reality transaction if false. Product post-receipt hook is M1C1B1 STOP.
+     */
+    internal fun finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
+        transactionScope: RealityTransactionScope,
+        key: Finance9AclScope,
+        grantId: String,
+        expectedPolicyEpoch: Long,
+        identity: ApplyAttemptIdentity,
+        receipt: ExecutionReceipt,
+        consumedAtEpochMillis: Long,
+    ): Boolean = synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        check(activeApplyScope === transactionScope &&
+            transactionScope.transactionId == identity.transactionId &&
+            activeTransactionId == identity.transactionId
+        ) { "Finance9 grant requires exact active Reality transaction" }
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Finance9 grant requires explicit STAGED9 Reality"
+        }
+        if (consumedAtEpochMillis < 0L || expectedPolicyEpoch <= 0L ||
+            grantId.length !in 1..128 || grantId != grantId.trim() ||
+            grantId.any { it.code < 32 || it.code == 127 } ||
+            !Regex("[0-9a-f]{64}").matches(identity.planFingerprint.value) ||
+            receipt.transactionId != identity.transactionId ||
+            receipt.planFingerprint != identity.planFingerprint ||
+            findReceipt(identity.transactionId) != receipt
+        ) return@synchronized false
+
+        val attempt = findAttempt(identity.transactionId)
+        if (attempt == null ||
+            attempt.state != ApplyAttemptJournalState.COMMITTED ||
+            attempt.planFingerprint != identity.planFingerprint ||
+            !finance9AclCurrentInsideApplyTransaction(
+                transactionScope, key, expectedPolicyEpoch, consumedAtEpochMillis,
+            )
+        ) return@synchronized false
+
+        connection.prepare(
+            """
+            UPDATE finance_apply_grant
+            SET used_at_ms=?,receipt_id=?
+            WHERE grant_id=? AND principal_hash=? AND generation_id=?
+              AND pointer_sequence=? AND operation_id=? AND object_scope=?
+              AND policy_epoch=? AND fingerprint=?
+              AND used_at_ms IS NULL AND receipt_id IS NULL
+              AND issued_at_ms<=? AND expires_at_ms>?
+            """.trimIndent()
+        ).use { st ->
+            st.bindLong(1, consumedAtEpochMillis)
+            st.bindText(2, receipt.receiptId.value)
+            st.bindText(3, grantId)
+            st.bindText(4, key.principalHash)
+            st.bindText(5, key.generationId)
+            st.bindLong(6, key.pointerSequence)
+            st.bindText(7, key.operationId)
+            st.bindText(8, key.objectScope)
+            st.bindLong(9, expectedPolicyEpoch)
+            st.bindText(10, identity.planFingerprint.value)
+            st.bindLong(11, consumedAtEpochMillis)
+            st.bindLong(12, consumedAtEpochMillis)
+            st.step()
+        }
+        val changed = connection.prepare("SELECT changes()").use { st ->
+            check(st.step())
+            st.getLong(0)
+        }
+        if (changed != 1L) return@synchronized false
+        connection.prepare(
+            "SELECT used_at_ms,receipt_id FROM finance_apply_grant WHERE grant_id=?"
+        ).use { st ->
+            st.bindText(1, grantId)
+            check(st.step() && st.getLong(0) == consumedAtEpochMillis &&
+                st.getText(1) == receipt.receiptId.value && !st.step()
+            ) { "Finance9 grant/receipt link not durable inside Reality transaction" }
+        }
+        true
+    }
+
     override fun <T> run(
         transactionId: TransactionId,
         block: (RealityTransactionScope) -> AtomicApplyTransactionDecision<T>,

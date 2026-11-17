@@ -1,0 +1,67 @@
+name: FARO V5 S4 W01 M1C1B0 staged Finance9 grant real receipt SQL
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9GrantReceiptStageTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1c1b0-grant-receipt-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1c1b0-stage9-grant-real-receipt
+  cancel-in-progress: false
+jobs:
+  staged-grant-real-receipt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exactly eight real SQLite9 receipt grant stage cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityFinance9GrantReceiptStageTest"
+      - name: Verify exactly eight executed JUnit cases, no forged successes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/store/reality/build/test-results/test").glob(
+              "TEST-*RealityFinance9GrantReceiptStageTest.xml"))
+          if len(files)!=1: raise SystemExit("M1C1B0_XML_MISSING "+str(len(files)))
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "r01PolicyBoundGrantIssuedAndDurablyUnusedAcrossReopen",
+              "r02RealRealityCommitAndFinanceEffectAtomicallyConsumeGrantWithReceipt",
+              "r03RevocationBeforeApplyForcesRollbackOfFinanceAndRealReceipt",
+              "r04ForeignScopeFingerprintAndGrantIdDenyWithoutReceipt",
+              "r05ExpiredGrantOrPolicyDenyAndLeaveGrantUnused",
+              "r06ConsumedGrantAndOriginalAttemptCannotBeReplayed",
+              "r07FailureAfterGrantLinkBeforeSqlCommitRollsBackAllAndMayRetry",
+              "r08LegacyStageDeniedAndUniqueIntentOrAdmissionCannotBypass",
+          }
+          names=[(x.get("name") or "").removesuffix("()")
+                 for x in root.findall("testcase")]
+          if counts!=(8,0,0,0) or set(names)!=expected or len(names)!=8:
+              raise SystemExit("M1C1B0_XML_FAIL "+str((counts,names)))
+          print("W01_M1C1B0_SQLITE9_REAL_RECEIPT_GRANT_STAGE_PASS_8_OF_8")
+          print("NOT_CERTIFIED: trusted principal, Android Keystore physical, productive Apply host, G15, W02")
+          PY
+      - name: Save actual JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1c1b0-real-sql-receipt-junit
+          path: v5/store/reality/build/test-results/test/TEST-*RealityFinance9GrantReceiptStageTest.xml
+          if-no-files-found: warn
