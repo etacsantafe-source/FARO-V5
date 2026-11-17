@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST",
   "reviewed_head": "63e26924c3ff8991f2918b35b191d66568a404e7",
   "paths": [
@@ -59,26 +59,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_WITH_RED_FIX_EXACT3_PLUS_EXACT1_JVM8_ANDROID_DEV_COMPILE",
+    "B7": "PASS_SCOPED_DEV_PACKAGE_ALLOWLIST_8_JVM_2_ANDROID_COMPILATIONS"
   },
   "last_code_review": {
-    "sha": "1f05ed3a28db2f66a86fcb8c394c83dcfe035323",
+    "sha": "014372cc071ff0eddf704b82066f93bb86ec480e",
     "unit_id": "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D0_LAUNCH_B7_RED_FIX_20261117.md",
-        "blob_sha": "cf7cdda795d3c2a7c4377b9923178b4576934f47",
+        "path": "docs/v5/FARO_S4_W01_D0_DEV_LAUNCH_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "aa4c6f35247dea93ef10b7a42731d2ad9e12676f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D0 SAME-UNIT RED_FIX: AGP9 nondebug test task not enabled; existing V2 workflow verifies -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false",
+  "why": "D0 B7 PASS scoped; permit consumed; no next code without new unit B1-B5 READY",
   "how": "ONLY EXACT3 local DEV allowlist/test/workflow no provider/financial data/UI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316"
+  "blocked_reason": "D0_READY_CONSUMED_AFTER_B7_NEXT_D1A_REQUIRES_INDEPENDENT_B5_AND_OWN_READY",
+  "consumed_code_sha": "014372cc071ff0eddf704b82066f93bb86ec480e"
 }

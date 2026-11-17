@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D0_WAIT_CI_D1A_B1_B5_DOC_ONLY",
+  "phase": "S4_W01_D0_B7_PASS_SCOPED_D1A_PREAUDITED_DOC_ONLY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1144
+    "epoch": 1145
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D0 workflow 44165550511 pending (guard 44165550515 SUCCESS); if directed passes, write D0 B7 scoped and consume permit. D1A two-PID Android ContentObserver transport B1-B5 DOC_ONLY now prepared, requires independent B5 and dedicated READY after D0 PASS. D1B lifecycle/real DEV owner pending. W2 STOP / V2 productive OFF.",
-  "checkpoint_status": "D0_RED_FIX_014372_WAIT_CI_D1A_PREAUDIT_DOC_ONLY_NO_READY",
+  "next": "D0 B7 PASS scoped code 014372cc... directed run 44165550511 success 8/8 JVM W01/V2Core Android compile; guard 44165550515 SUCCESS. Permit D0 consumed BLOCKED. D1A real Android two-PID ContentObserver transport B1-B5 DOC_ONLY prepared c5e532... ; next independent B5+guard and individual READY exact5, then B6/B7; D1B owner/lifecycle later. W2 STOP V2 productive OFF.",
+  "checkpoint_status": "W01_D0_B7_PASS_SCOPED_8_JVM_DEV_ANDROID_COMPILE_PERMIT_CONSUMED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
-  "last_ci_run_id": 44160015632,
+  "last_code_sha": "014372cc071ff0eddf704b82066f93bb86ec480e",
+  "last_ci_run_id": 44165550511,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -132,7 +132,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_STORE_8_JVM_APP_8_ANDROID_W01_V2CORE_COMPILE_DEV_NO_TWO_PID_CLAIM",
+  "last_ci_conclusion": "SUCCESS_D0_JVM8_TWO_ANDROID_DEV_COMPILES_NO_TWO_PID_OR_G15",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
