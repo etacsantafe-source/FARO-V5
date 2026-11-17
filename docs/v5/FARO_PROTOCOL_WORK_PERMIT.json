@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1B1B0_ANDROID_READ_CONSENT_STAGE_DEV",
-  "reviewed_head": "14747d00d3e56bd9c335b5f44775c39eaa08c42b",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV",
+  "reviewed_head": "6053ed2c525b77d433bbac297764493cfb7623ae",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadConsentScope.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadAuthHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadAuthPolicyTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b0-read-auth-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "fe9466b35f2584b2cdf999e03497ab9b9ded4de3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "fe9466b35f2584b2cdf999e03497ab9b9ded4de3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "fe9466b35f2584b2cdf999e03497ab9b9ded4de3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "fe9466b35f2584b2cdf999e03497ab9b9ded4de3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "fe9466b35f2584b2cdf999e03497ab9b9ded4de3",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_READ_REVOKER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "ff9339c0acef8a91de2e39688468c7d629498cc8",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_READ_BIOMETRIC_8_JVM_5_CI_SUCCESS",
-    "B7": "PASS_SCOPED_DEV_READ_BIOMETRIC_CODE_8_JVM_5_CI_NO_G15"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "bb20a48266f69ded178f5e9c806c8127149fdfe9",
@@ -75,8 +75,8 @@
       }
     ]
   },
-  "why": "DEV-only READ challenge bound to AndroidKeystore CryptoObject/UID/pointer and read-only SQL issuer; no shipping read nor revoked UI guarantee",
-  "how": "4 exact files: pure gate, Android DEV host, eight synthetic Java-EC JVM tests, dedicated workflow. No product wiring.",
+  "why": "Independent B5 limits READ-only STAGED9 revocation; existing ACL.revoke returns same epoch for repeated revoke; result is an observation, NEVER new change notification or UI read lease",
+  "how": "4 exact paths; fixed finance.snapshot.read/finance:all; two real OS-PID targeted READ tests; no product wiring/Android notifications",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": "bb20a48266f69ded178f5e9c806c8127149fdfe9",
+  "consumed_code_sha": null,
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B1B1B0_B7_PASS_CONSUMED_B3B1B1B1B1_CROSS_PROCESS_REVOCATION_NOT_AUTHORIZED",
+  "blocked_reason": null,
   "blocker": null
 }
