@@ -85,7 +85,10 @@ jobs:
               if forbidden in w01:
                   raise SystemExit("D1B1B_UNAUTHORIZED_OWNER_OR_AUTH "+forbidden)
           assert "S4W01D1B1BFinanceSessionHandoff" in w01
-          assert "FaroV5FinanceReadScreen(financePort)" in w01
+          assert "FaroV5FinanceSurfacePolicy.overview" in w01
+          assert "executor.execute" in w01
+          assert "androidx.compose.ui" not in w01
+          assert "androidx.compose.material3" not in w01
           assert "financePort.leave()" in w01
           print("W01_D1B1B_SIX_OF_SIX_JVM_PASS")
           print("W01_D1B1B_ANDROID_W01_DEV_KOTLIN_COMPILE_PASS")

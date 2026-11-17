@@ -5,21 +5,24 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.os.SystemClock
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
-import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import ar.com.faro.v5.surface.FaroV5FinanceReadPort
-import ar.com.faro.v5.surface.FaroV5FinanceReadScreen
+import ar.com.faro.v5.surface.FaroV5FinanceCoverage
+import ar.com.faro.v5.surface.FaroV5FinanceSurfacePolicy
 import ar.com.faro.v5.surface.FaroV5FinanceUiSnapshot
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import java.lang.ref.WeakReference
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 /**
  * One-shot in-process handoff. The Session never travels in an Intent and
@@ -149,6 +152,9 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
     private var privateInvalidation: S4W01FinanceReadPrivateInvalidation? = null
     private val clears = AtomicInteger(0)
     private val financePort = S4W01D1B1BFinanceReadPort()
+    private val executor = Executors.newSingleThreadExecutor()
+    private val viewGeneration = AtomicLong(0L)
+    private var display: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,32 +164,34 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
 
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            FaroV5NativeScreenInsets.protect(this)
-        }
-        column.addView(TextView(this).apply {
-            text = "Fuente: Finance ACTIVE local (no Finance9). " +
-                "Cuentas informativas; saldos de apertura pendientes de validación. " +
-                "Sin huella ni PIN."
             val p = (16 * resources.displayMetrics.density).toInt()
             setPadding(p, p, p, p)
+        }
+        column.addView(TextView(this).apply {
+            text = "Finanzas — fuente ACTIVE local, no Finance9. " +
+                "Cuentas informativas y saldos de apertura aún sin verificar. " +
+                "Seguridad opcional desactivada; sin huella ni PIN."
+            textSize = 18f
         })
         column.addView(Button(this).apply {
-            text = "Volver al inicio DEV"
+            text = "Volver al Chat DEV"
             setOnClickListener { finish() }
         })
-        column.addView(ComposeView(this).apply {
-            setContent { FaroV5FinanceReadScreen(financePort) }
-        }, LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f,
-        ))
-        setContentView(column)
+        display = TextView(this).apply {
+            text = "Finanzas no disponible. Ningún saldo supuesto."
+            textSize = 16f
+        }
+        column.addView(checkNotNull(display))
+        setContentView(ScrollView(this).apply {
+            FaroV5NativeScreenInsets.protect(this)
+            addView(column)
+        })
 
-        // Preserve the existing D1B0 Finance9 fail-closed reconciliation.
-        // D1B1B borrows a different ACTIVE Finance read-only owner; never
-        // fabricates a Finance9 grant to bypass these existing checks.
+        // Keep D1B0's Finance9 denial in place. The separate ACTIVE
+        // informational read does not issue a Finance9 read policy.
         val owner = S4W01FinanceReadForegroundReconciliation(
             newObservedFence = {
-                throw SecurityException("Finance9 is STAGED; no ACTIVE Finance9 read")
+                throw SecurityException("Finance9 STAGED, never ACTIVE from W01 UI")
             },
             clearBeforeRead = { clears.incrementAndGet() },
         )
@@ -199,17 +207,51 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
         }
     }
 
+    private fun foreground(): Boolean =
+        !isFinishing && !isDestroyed &&
+            lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+
+    /** UI uses the already certified read presentation policy, not Compose classes. */
+    private fun renderNativeFinance(snapshot: FaroV5FinanceUiSnapshot?): String {
+        val overview = FaroV5FinanceSurfacePolicy.overview(snapshot)
+        val items = snapshot?.takeIf {
+            it.coverage == FaroV5FinanceCoverage.PARTIAL ||
+                it.coverage == FaroV5FinanceCoverage.READY
+        }?.accounts.orEmpty()
+        val accountLines = items.joinToString("\n") { account ->
+            account.label + " (" + account.currencyCode + "): " +
+                FaroV5FinanceSurfacePolicy.balanceText(account)
+        }
+        return overview +
+            (if (accountLines.isBlank()) "" else "\n\n" + accountLines) +
+            "\n\n" + FaroV5FinanceSurfacePolicy.projectionMessage()
+    }
+
     override fun onResume() {
         super.onResume()
-        val session = S4W01D1B1BFinanceSessionHandoff.consume(this)
-        financePort.enter(session, application) {
-            !isFinishing && !isDestroyed &&
-                lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        val id = viewGeneration.incrementAndGet()
+        // RESUMED is dispatched by Android after onResume returns on some
+        // API levels. Posting the one-shot handoff prevents false denial.
+        display?.post {
+            if (viewGeneration.get() != id || !foreground()) return@post
+            val session = S4W01D1B1BFinanceSessionHandoff.consume(this)
+            financePort.enter(session, application, ::foreground)
+            display?.text = "Consultando Finance ACTIVE local…"
+            executor.execute {
+                val observed = runCatching { runBlocking { financePort.readFinance() } }.getOrNull()
+                runOnUiThread {
+                    if (viewGeneration.get() == id && foreground()) {
+                        display?.text = renderNativeFinance(observed)
+                    }
+                }
+            }
         }
     }
 
     override fun onPause() {
-        financePort.leave() // invalidate visible data before window loses foreground
+        viewGeneration.incrementAndGet()
+        financePort.leave() // permanently revoke old loan + clear screen first
+        display?.text = "Finanzas no disponible. Volvé a entrar desde el Chat."
         super.onPause()
     }
 
@@ -220,6 +262,9 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
         reconciliation?.isClosed() ?: true
 
     override fun onDestroy() {
+        viewGeneration.incrementAndGet()
+        display = null
+        executor.shutdownNow()
         financePort.close()
         privateInvalidation?.close()
         lifecycleBinding?.close()
