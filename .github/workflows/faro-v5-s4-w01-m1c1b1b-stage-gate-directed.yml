@@ -1,0 +1,78 @@
+name: FARO V5 W01 M1C1B1B Finance9 STAGED grant final commit gate
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantPort.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGate.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantPortTest.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1c1b1b-stage-only
+  cancel-in-progress: false
+jobs:
+  stage9-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run new Reality9 bridge and affected legacy receipt tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityFinance9TrustedStageGrantPortTest" --tests "ar.com.faro.v5.store.reality.RealityFinance9GrantReceiptStageTest"
+      - name: Run dormant DEV app final commit gate tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01M1C1B1BFinance9StageGateTest"
+      - name: Verify 5 new Reality plus 6 new app and 8 affected legacy tests
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          def checked(folder, suffix, count):
+              files=list(Path(folder).glob("TEST-*" + suffix + ".xml"))
+              if len(files)!=1:
+                  raise SystemExit("M1C1B1B_XML_ABSENT " + suffix + " " + str(len(files)))
+              root=ET.parse(files[0]).getroot()
+              nums=tuple(int(root.get(k, "-1")) for k in ("tests","failures","errors","skipped"))
+              if nums!=(count,0,0,0):
+                  raise SystemExit("M1C1B1B_XML_FAILURE " + suffix + " " + str(nums))
+              cases=[x.get("name","").removesuffix("()") for x in root.findall("testcase")]
+              if len(cases)!=count or len(set(cases))!=count:
+                  raise SystemExit("M1C1B1B_XML_DUPLICATES " + suffix)
+              return set(cases)
+          a=checked("v5/store/reality/build/test-results/test","RealityFinance9TrustedStageGrantPortTest",5)
+          old=checked("v5/store/reality/build/test-results/test","RealityFinance9GrantReceiptStageTest",8)
+          b=checked("v5/app/build/test-results/testDebugUnitTest","S4W01M1C1B1BFinance9StageGateTest",6)
+          if a != {"g01FactoryRejectsNormalSevenAndPlanningEight","g02StagePortConsumesRealSqlReceiptAndFinanceEffectAtomically","g03RevocationBeforeFinalGateRollsBackFinanceAndReceipt","g04ForeignGenerationOrScopeRollsBackAll","g05ExpiredGrantCannotPublishReceipt"}:
+              raise SystemExit("M1C1B1B_REALITY_CASE_MISMATCH")
+          if b != {"h01MatchingStageGateCallsRealityPortOnce","h02SecondInvocationCannotReuseSameGate","h03ForeignReceiptOrFingerprintNeverConsumesGrant","h04ScopeAndGenerationMismatchesDeny","h05PointerAbaAndHostRevocationDeny","h06DownstreamExceptionPropagatesForExecutorRecovery"}:
+              raise SystemExit("M1C1B1B_APP_CASE_MISMATCH")
+          print("M1C1B1B_STAGE_REALITY_5_OF_5;APP_6_OF_6;M1C1B0_AFFECTED_REGRESSION_8_OF_8;TOTAL_19_OF_19")
+          print("NOT_CERTIFIED_ANDROID_HARDWARE_OR_PRODUCT_APPLY")
+          PY
+      - name: Save new and affected legacy JUnit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1c1b1b-stage-gate-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9*Test.xml
+            v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01M1C1B1BFinance9StageGateTest.xml
+          if-no-files-found: warn

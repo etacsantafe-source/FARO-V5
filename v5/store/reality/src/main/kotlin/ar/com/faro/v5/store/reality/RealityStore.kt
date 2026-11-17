@@ -439,6 +439,30 @@ class RealityStore(
     }
 
     /**
+     * M1C1B1B: explicitly quarantined STAGED9-only cross-module bridge.
+     * No public SQLite handle or policy/grant issuance. Closing this store,
+     * using a foreign transaction scope or opening legacy 7/8 fails closed.
+     * NEVER mount this factory in product Android composition.
+     */
+    fun finance9TrustedStageGrantPortForDevOnly(): RealityFinance9TrustedStageGrantPort =
+        synchronized(lock) {
+            checkOpen()
+            check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+                "Finance9 trusted grant port requires explicit STAGED9-only Reality"
+            }
+            RealityFinance9TrustedStageGrantPort { scope, grant, identity, receipt, at ->
+                finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
+                    scope,
+                    Finance9AclScope(
+                        grant.principalHash, grant.generationId, grant.pointerSequence,
+                        grant.operationId, grant.objectScope,
+                    ),
+                    grant.grantId, grant.expectedPolicyEpoch, identity, receipt, at,
+                )
+            }
+        }
+
+    /**
      * M1C0: STAGED9-only Finance policy check INSIDE this very Reality SQLite
      * BEGIN IMMEDIATE transaction. The caller must already hold this store's
      * actual Apply scope; this port neither creates a grant nor executes Apply.
