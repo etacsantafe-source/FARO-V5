@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST",
-  "reviewed_head": "63e26924c3ff8991f2918b35b191d66568a404e7",
+  "status": "READY",
+  "unit_id": "S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV",
+  "reviewed_head": "eafe984a090f81532ed43f5637d957c9d829cedf",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W01DevLaunchPackagePolicyTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
+    "v5/app/build.gradle.kts",
+    "v5/app/src/w01FinanceDev/AndroidManifest.xml",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadNoticeProbeService.kt",
+    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceTwoPidNoticeAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1a-two-pid-notice.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
-          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
+          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
-          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
+          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
-          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
+          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
-          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
+          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
+          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
           "marker": "## B4"
         }
       ]
@@ -53,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "b240acc0a20118ef4d196305e54ce070554a6fc0",
+          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "1cc4275d6f6732cf56f59aa48c47b28619316e75",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WITH_RED_FIX_EXACT3_PLUS_EXACT1_JVM8_ANDROID_DEV_COMPILE",
-    "B7": "PASS_SCOPED_DEV_PACKAGE_ALLOWLIST_8_JVM_2_ANDROID_COMPILATIONS"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "014372cc071ff0eddf704b82066f93bb86ec480e",
@@ -74,11 +76,11 @@
       }
     ]
   },
-  "why": "D0 B7 PASS scoped; permit consumed; no next code without new unit B1-B5 READY",
-  "how": "ONLY EXACT3 local DEV allowlist/test/workflow no provider/financial data/UI",
+  "why": "D1A only two real Android PIDs for synthetic empty ContentResolver transport, no SQL commit or owner authorization",
+  "how": "EXACT5 DEV probe service Messenger same UID private provider + Android instrumentation API35; no shipping/finance read",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": "D0_READY_CONSUMED_AFTER_B7_NEXT_D1A_REQUIRES_INDEPENDENT_B5_AND_OWN_READY",
+  "blocked_reason": null,
   "consumed_code_sha": "014372cc071ff0eddf704b82066f93bb86ec480e"
 }
