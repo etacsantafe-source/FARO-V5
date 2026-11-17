@@ -286,7 +286,7 @@
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9FullArchiveCoordinatorTest.kt",
       ".github/workflows/faro-v5-s4-w01-m0c2b2b-finance9-full-archive-directed.yml"
     ],
-    "code_changed": false,
+    "code_changed": true,
     "next": "M1_B1_B5",
     "w2": "STOP",
     "code_sha": "b67a06c87a66551dd05b03afe0058a5e1a7e11fc",
@@ -294,5 +294,17 @@
     "regressions": "6/6 workflows SUCCESS",
     "new_tests": "10/10 PASS",
     "B7_doc": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_B7_PASS_20261116.md"
+  },
+  "w01_m1a": {
+    "unit_id": "S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL",
+    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
+    "paths": [
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
+      "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclStage9Test.kt",
+      ".github/workflows/faro-v5-s4-w01-m1a-finance9-acl-stage-directed.yml"
+    ],
+    "code_changed": false,
+    "w2": "STOP"
   }
 }
