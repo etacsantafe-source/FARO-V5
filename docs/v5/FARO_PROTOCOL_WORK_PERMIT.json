@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1A_FINANCE9_INERT_UI_MAPPER_DEV",
-  "reviewed_head": "a8a6a263a13cf99d3e15e0862fdd5cf35cfcb516",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1B0_FINANCE9_STAGED_READ_SESSION_FENCE",
+  "reviewed_head": "7106d2abec18646c28dc9b68ae19f050a9063f6a",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapper.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapperTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1a-mapper-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1B1B0ObservedReadFence.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1B1B0ObservedReadFenceTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b0-fence-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_INERT_MAPPER_8_JUNIT_AND_5_CI",
-    "B7": "PASS_SCOPED_DEV_INERT_MAPPER_EXACT3"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "78761e59d19b21fac9ec77beca71c736635a6e27",
@@ -74,8 +74,8 @@
       }
     ]
   },
-  "why": "B3B1B0 one-snapshot observed DTO is already B7 PASS; B3B1B1A is ONLY a dormant pure map to B3A UI model, no authority, host or read port; B3B1B1B remains blocked.",
-  "how": "Exact3: new internal Kotlin pure mapper, eight new JVM tests, directed Android DEV compile workflow; independent B5 guard preconditions and no shipping wiring.",
+  "why": "Scoped DEV-only read fence detects pointer/host/revoke change between two SQL snapshots; cannot authenticate principal or guarantee revocations after second read; no UI.",
+  "how": "Exact 3 new files: internal mechanical double-observation fence, eight synthetic JVM tests, directed DEV workflow, no shipping wiring.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -98,6 +98,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B1A_B7_PASS_CONSUMED_B3B1B1B_TRUSTED_HOST_NOT_AUTHORIZED",
+  "blocked_reason": null,
   "blocker": null
 }
