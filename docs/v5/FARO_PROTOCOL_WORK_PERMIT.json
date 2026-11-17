@@ -1,18 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-  "reviewed_head": "3feb4e41a24bccdff1f74f1bb44a4ba3f3555073",
+  "status": "READY",
+  "unit_id": "S4_W01_M1C1B1C_TRUSTED_LOCAL_GRANT_ADMISSION",
+  "reviewed_head": "2ed821ff5942c1a351abeab5daec2dc8baa81a46",
   "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceAuthHost.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1B1CTrustedGrantAdmission.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantIssuerPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1CTrustedGrantAdmissionTest.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantIssuerPortTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m1c1b1c-grant-admission-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
-          "blob_sha": "23cb7eb974570bd27f586d36286964474deafa3e",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
+          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
           "marker": "## B1"
         }
       ]
@@ -21,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
-          "blob_sha": "23cb7eb974570bd27f586d36286964474deafa3e",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
+          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
           "marker": "## B2"
         }
       ]
@@ -31,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
-          "blob_sha": "23cb7eb974570bd27f586d36286964474deafa3e",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
+          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
           "marker": "## B3"
         }
       ]
@@ -41,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
-          "blob_sha": "23cb7eb974570bd27f586d36286964474deafa3e",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
+          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
           "marker": "## B4"
         }
       ]
@@ -51,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
-          "blob_sha": "23cb7eb974570bd27f586d36286964474deafa3e",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
+          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_STAGED9_19_OF_19_JUNIT",
-    "B7": "PASS_SCOPED_DEV_STAGED9_19_OF_19"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a52dbb3cea2210f84b66893f30a5450672bef235",
@@ -72,8 +78,8 @@
       }
     ]
   },
-  "why": "After second missing import root cause and B2/B3/B5 re-audit. Exact SHA 3feb4e41 guard 44061265226 SUCCESS, READY audit source blob 23cb7eb974570bd27f586d36286964474deafa3e. Last code RED_FIX sha b3f4086.",
-  "how": "ONE import ar.com.faro.v5.kernel.runtime.BuiltInContractCatalog in existing app test, no production changes; CI directed M1C1B1B + affected S3 Home, no product Apply",
+  "why": "M1C1B1C independent B5 docs, guard 44071698213 SUCCESS exact reviewed_head; DEV-STAGED9 only; signed callback origin, no arbitrary evidence as authorization",
+  "how": "Seven exact paths; stage-only issuer factory, host callback + key pinned; 6 JVM app policy + 4 Reality SQL tests directed CI; no hardware/app shipping",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -86,7 +92,7 @@
     "no_code": true
   },
   "consumed_code_sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
-  "blocker": "RED_FIX_EXACT_CI_AND_B7_PENDING",
+  "blocker": null,
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -94,8 +100,8 @@
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
   },
-  "red_fix_scope": "RESOLVED_TEST_ONLY_TWO_IMPORTS_NO_PRODUCT_CODE_DELTA",
+  "red_fix_scope": null,
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "M1C1B1B_B7_PASS_CONSUMED_NEXT_HUMAN_ANDROID_GRANT_ISSUER_NOT_AUTHORIZED"
+  "blocked_reason": null
 }
