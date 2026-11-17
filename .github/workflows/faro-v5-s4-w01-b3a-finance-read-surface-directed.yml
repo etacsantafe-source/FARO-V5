@@ -1,0 +1,107 @@
+name: FARO V5 W01 B3A Finance read-only UI surface DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5FinanceReadSurface.kt"
+      - "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5FinanceReadSurfaceContractTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3a-finance-read-surface-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3a-finance-read-surface
+  cancel-in-progress: false
+jobs:
+  finance-read-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK compile platform
+        run: |
+          set -euo pipefail
+          test -n "$ANDROID_HOME"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Compile DEV surface without product wiring
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :surface:compileDebugKotlin
+      - name: Run 8 new UI policy tests plus relevant shell regressions
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :surface:testDebugUnitTest \
+            --tests "ar.com.faro.v5.surface.FaroV5FinanceReadSurfaceContractTest" \
+            --tests "ar.com.faro.v5.surface.FaroV5HomeIndicatorsContractTest" \
+            --tests "ar.com.faro.v5.surface.FaroV5AvisosSurfaceContractTest" \
+            --tests "ar.com.faro.v5.surface.FaroV5ShellNavigationContractTest"
+      - name: Verify exact XML and no shipping UI wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          root=Path("v5/surface/build/test-results/testDebugUnitTest")
+          expected={
+            "FaroV5FinanceReadSurfaceContractTest":(8,{
+              "t01DeniedUnavailableAndStaleNeverCreateFakeZeroOrRetainAccounts",
+              "t02ConfirmedEmptyRequiresRealSourceRevisionAndNoAccountRows",
+              "t03ReadyRequiresVerifiedBalancesAndRejectsDuplicateIdentity",
+              "t04UnconfirmedOpeningAndPartialCannotCarryAnAmount",
+              "t05ArsUsdAreSeparatedNegativeBalanceVisibleWithoutFxSum",
+              "t06GenerationPointerAndRevisionMustBeAdmittedNotStale",
+              "t07UnsupportedCurrencyNeverInheritsArsUsdMinorExponent",
+              "t08ProjectionIsUnavailableUntilW08NoInventedSeries",
+            }),
+            "FaroV5HomeIndicatorsContractTest":None,
+            "FaroV5AvisosSurfaceContractTest":None,
+            "FaroV5ShellNavigationContractTest":None,
+          }
+          count=0
+          for suffix,spec in expected.items():
+            paths=list(root.glob("TEST-*"+suffix+".xml"))
+            if len(paths)!=1: raise SystemExit("W01_B3A_XML_MISSING "+suffix)
+            xml=ET.parse(paths[0]).getroot()
+            n=tuple(int(xml.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+            if n[0]<1 or n[1:]!=(0,0,0): raise SystemExit("W01_B3A_XML_FAILURE "+suffix+" "+str(n))
+            if spec:
+              names={t.get("name","").removesuffix("()") for t in xml.findall("testcase")}
+              if n[0]!=spec[0] or names!=spec[1]:
+                raise SystemExit("W01_B3A_NEW_CASES_MISMATCH "+str(names))
+            count+=n[0]
+          for p in [
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"),
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt"),
+            Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java"),
+          ]:
+            if "FaroV5FinanceReadScreen(" in p.read_text():
+              raise SystemExit("W01_B3A_SHIPPING_WIRING_FOUND")
+          print("W01_B3A_FINANCE_SURFACE_POLICY_8_OF_8")
+          print("W01_B3A_RELEVANT_NAVIGATION_HOME_AVISOS_REGRESSIONS_SUCCESS",count-8)
+          print("NO_PRODUCT_FINANCE_READ_OR_ANDROID_G15_ATTESTED")
+          PY
+      - name: Save scoped JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3a-finance-read-surface-junit
+          path: |
+            v5/surface/build/test-results/testDebugUnitTest/TEST-*FaroV5FinanceReadSurfaceContractTest.xml
+            v5/surface/build/test-results/testDebugUnitTest/TEST-*FaroV5HomeIndicatorsContractTest.xml
+            v5/surface/build/test-results/testDebugUnitTest/TEST-*FaroV5AvisosSurfaceContractTest.xml
+            v5/surface/build/test-results/testDebugUnitTest/TEST-*FaroV5ShellNavigationContractTest.xml
+          if-no-files-found: warn
