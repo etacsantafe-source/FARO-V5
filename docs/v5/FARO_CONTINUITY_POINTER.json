@@ -41,7 +41,7 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "Verify guard exact READY checkpoint, run preflight exact one test path; then test-only import and CI directed + S3 Home, B7 independent. W2 STOP",
-  "checkpoint_status": "M1C1B1B_SECOND_IMPORT_ONE_TEST_READY_DOC_PENDING_GUARD",
+  "checkpoint_status": "M1C1B1B_READY_TEST_IMPORT_PROTOCOL_ENUM_FIXED_WAIT_GUARD",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4400,7 +4400,7 @@
   },
   "w01_m1c1b1b": {
     "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-    "status": "READY_SECOND_IMPORT_ONE_TEST_ONLY_GUARD_PENDING",
+    "status": "READY_SECOND_IMPORT_ONE_TEST_PROTOCOL_ENUM_FIXED_GUARD_PENDING",
     "document": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
     "document_commit": "b2da1e1e8af2e62a5e4a745a4f9ba58db17f941a",
     "scope": "DEV_STAGED9_ONLY_NO_PRODUCT_APPLY",
@@ -4412,7 +4412,7 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt",
       ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
     ],
-    "B6": "NOT_RUN_READY_ONE_TEST_IMPORT",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_AFTER_NEXT_CI",
     "physical": "NOT_RUN",
     "w2": "STOP",
@@ -4445,6 +4445,8 @@
     "failed_s3_home": 44060376148,
     "red_fix_next": "READY_ONE_TEST_IMPORT_AFTER_GUARD",
     "red_fix_second_ready": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_READY_20261117.md",
-    "red_fix_second_ready_commit": "e84e550dbd75f0a34da72f1b1e8f800d6e74903f"
+    "red_fix_second_ready_commit": "e84e550dbd75f0a34da72f1b1e8f800d6e74903f",
+    "ready_enum_fix_sha": "fb0877639bcb0ab9b2ec5ba792088d8cefbf6d76",
+    "last_ready_guard_failure": 44061553082
   }
 }
