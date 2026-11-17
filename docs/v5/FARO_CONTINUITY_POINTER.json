@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1A_TWO_PID_ANDROID_NOTICE_READY_EXACT5",
+  "phase": "S4_W01_D1A_TWO_PID_TRANSPORT_B7_PASS_SCOPED_D1B_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1147
+    "epoch": 1149
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D0 B7 PASS scoped, no repeat. D1A B1-B5 + independent B5 and guard 44167472171 SUCCESS; READY exact5 only. Next preflight five code paths at parent, B6 two-PID remote Messenger DEV synthetic notice + emulator API35, B7 independent; NOT SQL COMMIT, not owner lifecycle. D1B W1 open, W2 STOP V2 productive OFF.",
-  "checkpoint_status": "W01_D1A_READY_EXACT5_ANDROID_INSTRUMENTATION_NOT_RUN",
+  "next": "D1A B7 PASS scoped actual Android API35 two PID synthetic ContentObserver 2/2, code a6a15af..., run 44168268784 SUCCESS, protocol guard 44168268447 SUCCESS. No SQL COMMIT/human auth/Finance Activity claim. Next D1B true W01 foreground owner and lifecycle preaudit B1-B5/READY individual, no repeat D0/D1A. W2 STOP V2 productive OFF.",
+  "checkpoint_status": "W01_D1A_ANDROID_API35_TWO_PID_2_OF_2_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "014372cc071ff0eddf704b82066f93bb86ec480e",
-  "last_ci_run_id": 44165550511,
+  "last_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
+  "last_ci_run_id": 44168268784,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -132,7 +132,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_D0_JVM8_TWO_ANDROID_DEV_COMPILES_NO_TWO_PID_OR_G15",
+  "last_ci_conclusion": "SUCCESS_ANDROID_API35_SYNTHETIC_REAL_TWO_PID_2_OF_2_PASS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -4772,5 +4772,16 @@
     "physical": "NOT_RUN",
     "android_two_pid_ipc": "NOT_RUN",
     "shipping_ui": "NOT_MOUNTED"
+  },
+  "w01_d1a": {
+    "status": "B7_PASS_SCOPED_REAL_ANDROID_API35_TWO_PID_SYNTHETIC_TRANSPORT",
+    "code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
+    "ci_run_id": 44168268784,
+    "guard_run_id": 44168268447,
+    "b7_document": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B7_PASS_SCOPED_20261117.md",
+    "physical": "NOT_RUN",
+    "real_sql_commit": "NOT_TESTED",
+    "actual_finance_owner_lifecycle": "D1B_PENDING",
+    "permit": "CONSUMED_BLOCKED"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV",
   "reviewed_head": "eafe984a090f81532ed43f5637d957c9d829cedf",
   "paths": [
@@ -61,26 +61,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_ANDROID_API35_TWO_PID_PROBE_2_OF_2_PASS",
+    "B7": "PASS_SCOPED_REAL_ANDROID_API35_TWO_PID_SYNTHETIC_TRANSPORT"
   },
   "last_code_review": {
-    "sha": "014372cc071ff0eddf704b82066f93bb86ec480e",
-    "unit_id": "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST",
+    "sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
+    "unit_id": "S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D0_DEV_LAUNCH_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "aa4c6f35247dea93ef10b7a42731d2ad9e12676f",
+        "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "2ef14eb26d4e67f478e653be2abcc145167fc690",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1A only two real Android PIDs for synthetic empty ContentResolver transport, no SQL commit or owner authorization",
+  "why": "D1A Android real OS 2 PIDs synthetic transport B7 scoped; permit consumed",
   "how": "EXACT5 DEV probe service Messenger same UID private provider + Android instrumentation API35; no shipping/finance read",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": "014372cc071ff0eddf704b82066f93bb86ec480e"
+  "blocked_reason": "D1A_READY_CONSUMED_AFTER_B7_D1B_REQUIRES_OWN_B1_B5_PERMIT",
+  "consumed_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35"
 }
