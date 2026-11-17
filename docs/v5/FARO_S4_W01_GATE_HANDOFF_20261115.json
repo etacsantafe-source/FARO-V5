@@ -297,15 +297,45 @@
   },
   "w01_m1a": {
     "unit_id": "S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL",
-    "status": "READY_EXACT3_B6_NOT_RUN",
+    "status": "B7_PASS_SCOPED_STAGED_SQL_ONLY",
     "document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
     "paths": [
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
       "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclStage9Test.kt",
       ".github/workflows/faro-v5-s4-w01-m1a-finance9-acl-stage-directed.yml"
     ],
-    "code_changed": false,
+    "code_changed": true,
     "w2": "STOP",
-    "ready_document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_ACL_STAGE_SQL_READY_20261116.md"
+    "ready_document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_ACL_STAGE_SQL_READY_20261116.md",
+    "code_sha": "f8d3d7bb27d1d5e254a0aab03f588aa7d9cd720f",
+    "ci_run": 43997988814,
+    "xml": "7/7",
+    "regression_runs": [
+      43997988682,
+      43997988702,
+      43997988704
+    ],
+    "guard_run": 43997988767,
+    "b7_document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B7_PASS_20261116.md",
+    "next": "M1B_B1_B5"
+  },
+  "w01_m1b": {
+    "status": "NOT_READY",
+    "next": "B1_B5_ANDROID_HOST_HUMAN_AUTH"
+  },
+  "w01_m1c": {
+    "status": "STOP",
+    "next": "REAL_OS_TWO_PROCESS_SQL_COMMIT_FENCE"
+  },
+  "w01_remaining": {
+    "status": "WAIT_M1B_M1C",
+    "sequence": [
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "w2": "STOP"
   }
 }

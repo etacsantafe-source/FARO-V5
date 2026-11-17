@@ -1,0 +1,17 @@
+# FARO V5 — S4 W01 M1A Finance9 staged SQL ACL · B7 PASS scoped
+Fecha local 2026-11-16; CI 2026-11-17. Unidad `S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL`. Código exacto SHA `f8d3d7bb27d1d5e254a0aab03f588aa7d9cd720f`. B1–B5 `docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md` blob `938594bc7da00dfd3a45c4f49f5c1b0f0754fbe8`; READY independiente en `3f10679c2afbe09c42e93c39b2f398c9042e5b8d`, guard `43997606136` SUCCESS. Writer liberado tras código epoch1009 antes de CI.
+
+## B7
+**PASS ACOTADO: M1A únicamente Finance9 policy SQL9 STAGED; NO credencial/consentimiento humano ni Apply productivo.**
+- `43997988814` COMPLETED/SUCCESS en SHA `f8d3d7bb27d1d5e254a0aab03f588aa7d9cd720f`: `BUILD SUCCESSFUL in 2m 17s`, JUnit XML exacto **7/7**, sin error/failure/skipped. Artefacto `faro-v5-w01-m1a-finance9-durable-acl-sql-junit` ID `14289969652`; validador imprime `S4_W01_M1A_DURABLE_ACL_SQL_STAGE_PASS 7/7`.
+- Regresiones por modificación del módulo Reality, todas en mismo SHA y COMPLETED/SUCCESS: `43997988682` G4 Reality domain; `43997988702` S3 Reality receipt history; `43997988704` V2 core M1/M2 aislado. Históricas sólo corridas automáticamente por delta, no recertificación de S3.
+- Guardia obligatoria B1–B7 `43997988767` COMPLETED/SUCCESS, SHA exacto `f8d3d7bb27d1d5e254a0aab03f588aa7d9cd720f`.
+- Diff `3f10679c2afbe09c42e93c39b2f398c9042e5b8d..f8d3d7bb27d1d5e254a0aab03f588aa7d9cd720f` exactamente un commit funcional y **tres** rutas exactas READY: `RealityFinance9Acl.kt`, `RealityFinance9AclStage9Test.kt`, workflow JVM M1A. No paths de main/V4.4/S2/S3, no shipping App/Android/host, ni control+code mezclados.
+- El dueño interno exige SQLite9 con FK ON, tres tablas reales y admisión STAGED externa. `finance_acl_state` mantiene `next_policy_epoch` y `policy_revision` durables; `BEGIN IMMEDIATE` serializa issue/revoke, `policy_epoch` no se recicla, revoke marca `revoked=1` sin DELETE; overflow DENY, rollback antes de COMMIT atómico. Lectura observada de policy no es un grant de Apply; no se crean grants, receipts, ledger ni monedas.
+- JUnit A1–A7: persistencia tras reabrir DB, revoke/regrant sin ABA, DOS CONEXIONES SQLite con lectura de revocación, schema7/8 y stage fence denegados, overflow, scopes extraños/expiración, crash inyectado y rollback. **Dos conexiones no equivalen a dos procesos OS.**
+- M0C2B2B full FBS2v4 CAPTURE/RESTORE conserva B7 scoped previo `ebb8ae17414c7ce248730e53f5d43aa71891fdad`, no fue reescrito ni recertificado.
+- **NO CERTIFICADOS**: M1B Android principal confiable/Keystore/consentimiento humano real; M1C dos OS procesos + verificación de revocación y policy dentro **del mismo** Reality `BEGIN IMMEDIATE…COMMIT` que Apply+receipt; acceso productivo Finance, Compose W01-B, transfer C, deudas D, presupuesto E, integración F y G15 físico. Ningún código nuevo habilita V2 productiva. W2 STOP.
+- Orden siguiente: M1B B1–B5 + READY específico con pruebas Android JVM/CI/host y campaña G15 si procede; después M1C autoridad SQL transaccional cross-process y Apply; sólo entonces W01 B/C/D/E/F. Reutilizar los B7 previos W01-A/B0/B1/B2A/B2B/B2C0/B2C2 sin repetir.
+
+## Cierre controlado
+Permiso READY M1A CONSUMIDO/BLOCKED, `last_code_review` anclado a SHA de código y a blob exacto de este B7; writer epoch1010 se debe liberar CAS y verificar remoto; guard documental de nuevo HEAD también requiere SUCCESS independiente. No confundir este alcance con M1 global.
