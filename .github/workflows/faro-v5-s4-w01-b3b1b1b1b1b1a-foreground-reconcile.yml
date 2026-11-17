@@ -1,0 +1,93 @@
+name: FARO V5 W01 B3B1B1B1B1B1A DEV foreground SQL reconcile
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundReconciliation.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundLifecycleAdapter.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundReconciliationTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1a-foreground-reconcile.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1b1b1b1b1a-foreground-reconcile
+  cancel-in-progress: false
+jobs:
+  foreground-sql-reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preflight exact READY permit before functional commit
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-ready-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-ready-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-ready-parent" --mode preflight \
+            --unit "S4_W01_B3B1B1B1B1B1A_FOREGROUND_SQL_RECONCILIATION_DEV" \
+            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundReconciliation.kt" \
+            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundLifecycleAdapter.kt" \
+            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundReconciliationTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1a-foreground-reconcile.yml"
+          git worktree remove "$RUNNER_TEMP/faro-ready-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run new eight JVM tests plus Android DEV compile
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01FinanceReadForegroundReconciliationTest"
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:compileV2CoreDevKotlin
+      - name: Verify exact JUnit and dormant Android lifecycle bridge
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path("v5/app/build/test-results/testDebugUnitTest")
+          found=list(base.glob("TEST-*S4W01FinanceReadForegroundReconciliationTest.xml"))
+          if len(found)!=1: raise SystemExit("W01_SQL_RECONCILE_JUNIT_XML_MISSING")
+          root=ET.parse(found[0]).getroot()
+          values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          if values!=(8,0,0,0): raise SystemExit("W01_SQL_RECONCILE_JUNIT_RED "+str(values))
+          expected={
+            "r01NoReadBeforeForegroundResume",
+            "r02ResumeClearsBeforeEveryNewDoubleSqlFence",
+            "r03PauseStopDenyUntilFreshResumeAndClearAgain",
+            "r04LostRemoteSqlRevocationDuringStopStillDeniesOnResume",
+            "r05PointerAbaAcrossBackgroundDeniedEvenOriginalGeneration",
+            "r06RevisionChangesBetweenFreshSqlSnapshotsNeverReturned",
+            "r07ConcurrentExternalSignalDuringReadInvalidatesResult",
+            "r08ClearExceptionPoisonAndCloseNeverResurrect",
+          }
+          actual={c.get("name","").removesuffix("()") for c in root.findall("testcase")}
+          if actual!=expected: raise SystemExit("W01_SQL_RECONCILE_WRONG_TESTS "+str(actual))
+          adapter=Path("v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadForegroundLifecycleAdapter.kt").read_text()
+          for key in ("LifecycleEventObserver","Lifecycle.Event.ON_RESUME",
+                      "Lifecycle.Event.ON_PAUSE","Lifecycle.Event.ON_STOP",
+                      "Lifecycle.Event.ON_DESTROY","lifecycle.removeObserver"):
+            if key not in adapter: raise SystemExit("W01_SQL_RECONCILE_NO_LIFECYCLE "+key)
+          product=Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java").read_text()
+          if "S4W01FinanceReadForegroundReconciliation" in product:
+            raise SystemExit("W01_SQL_RECONCILE_SHIPPING_MOUNT")
+          manifest=Path("v5/app/src/main/AndroidManifest.xml").read_text()
+          if ".finance9read" in manifest:
+            raise SystemExit("W01_SQL_RECONCILE_UNSCOPED_PROVIDER")
+          print("W01_B3B1B1B1B1B1A_FOREGROUND_SQL_RECONCILE_8_OF_8_JVM_PASS")
+          print("W01_B3B1B1B1B1B1A_ANDROID_DEV_COMPILE_PASS_NO_SHIPPING_MOUNT")
+          print("LOST_EXTERNAL_SQL_NOTICE_SYNTHETIC_NOT_ANDROID_IPC_CERTIFICATION")
+          PY
+      - name: Retain exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1b1b1b1b1a-foreground-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01FinanceReadForegroundReconciliationTest.xml
+          if-no-files-found: warn
