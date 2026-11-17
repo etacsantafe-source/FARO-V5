@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_READ_ONLY_POLICY_8_NEW_16_REGRESSION_22_CI_SUCCESS_ONE_PENDING",
-    "B7": "PENDING_EXTERNAL_CI_44110607195_NOT_PASS"
+    "B6": "IMPLEMENTED_DEV_READ_ONLY_POLICY_8_NEW_16_REGRESSION_23_CI_SUCCESS",
+    "B7": "PASS_SCOPED_DEV_SQL_READ_POLICY_ONLY_8_NEW_16_AFFECTED_23_CI"
   },
   "last_code_review": {
-    "sha": "3216747249fec29f79ce6ba35b3ba0b6c793282f",
-    "unit_id": "S4_W01_B3B1B1B0_FINANCE9_STAGED_READ_SESSION_FENCE",
+    "sha": "8a4d79ca3a27e5d312345df0a1c50503749487e0",
+    "unit_id": "S4_W01_B3B1B1B1A_FINANCE9_READ_ONLY_POLICY_ISSUER_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B0_READ_SESSION_FENCE_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "a4e87077d20a6ac6415460a20adc8a0062ff2fc7",
+        "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_ISSUER_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "34a330f5c91f5f5addcc3b8dccefd3a2abdb9af8",
         "marker": "## B7"
       }
     ]
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B1B1A_B6_CI_HOLD_ONE_OF_23_PENDING_B7_NOT_VERIFIED",
-  "blocker": "CI_44110607195_IN_PROGRESS_NOT_HUMAN"
+  "blocked_reason": "B3B1B1B1A_B7_PASS_CONSUMED_B3B1B1B1B_TRUSTED_ANDROID_HOST_NOT_READY",
+  "blocker": null
 }
