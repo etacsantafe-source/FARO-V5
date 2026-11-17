@@ -1,0 +1,121 @@
+name: FARO V5 W01 D1B1A ACTIVE Finance snapshot bounded read-only seam
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotRead.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotReadTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d1b1a-active-finance-read.yml"
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-d1b1a-active-finance
+  cancel-in-progress: false
+jobs:
+  bounded-active-finance-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preflight exact3 READY permit in functional parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-d1b1a-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-d1b1a-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-d1b1a-parent" --mode preflight \
+            --unit "S4_W01_D1B1A_ACTIVE_FINANCE_SNAPSHOT_READ_FENCE_DEV" \
+            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotRead.kt" \
+            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotReadTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-d1b1a-active-finance-read.yml"
+          git worktree remove "$RUNNER_TEMP/faro-d1b1a-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK37 for Kotlin compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run only D1B1A 10 JVM tests and compile W01 isolated Android Kotlin
+        working-directory: v5
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 2200 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01D1B1AActiveFinanceSnapshotReadTest" \
+              :app:compileW01FinanceDevKotlin
+      - name: Verify exactly 10 tests and no Stage9, biometric or shipping mount
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path("v5/app/build/test-results/testDebugUnitTest")
+          found=list(base.glob("TEST-*S4W01D1B1AActiveFinanceSnapshotReadTest.xml"))
+          if len(found)!=1:
+              raise SystemExit("D1B1A_EXPECTED_ONE_JUNIT_XML "+str(len(found)))
+          root=ET.parse(found[0]).getroot()
+          values=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          if values!=(10,0,0,0):
+              raise SystemExit("D1B1A_JUNIT_RED "+str(values))
+          cases={x.get("name","").removesuffix("()") for x in root.findall("testcase")}
+          expected={
+              "r01NoForegroundOrClosedOwnerDeniesBeforeSourceRead",
+              "r02StableActiveOwnerReadsTwiceAndNeverMixesCurrency",
+              "r03WrongPackageOrApplicationUidNeverReads",
+              "r04FullPointerAbaCannotReviveTheOldReadSession",
+              "r05HostEpochDriftBetweenOwnerReadsDenies",
+              "r06AclRevokeAndRegrantAfterFailedReadNeverRevives",
+              "r07ChangingOwnerRevisionAcrossDoubleReadIsDenied",
+              "r08ChangingOwnerPayloadWithoutRevisionStillDenied",
+              "r09LedgerOverflowDoesNotProduceInventedBalance",
+              "r10SqlFailureOrCloseDuringReadFailsClosed",
+          }
+          if cases!=expected:
+              raise SystemExit("D1B1A_WRONG_JUNIT_CASES "+str(cases))
+          src=Path("v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotRead.kt").read_text()
+          for s in ["FinanceSnapshotReadApi", "pointer.read() != pinned",
+                    "sessionAclEpochOrNull()", "foregroundReady()",
+                    "first != second", "ledgerMinor",
+                    "ACTIVE_FINANCE_SNAPSHOT_NOT_FINANCE9", "AtomicBoolean"]:
+              if s not in src:
+                  raise SystemExit("D1B1A_MISSING_FENCE "+s)
+          for forbidden in ["BiometricPrompt(", "S4W01FinanceReadAuthHost(",
+                            "finance9ObservedSourceReadForDevOnly(",
+                            "RealityStore(", "FaroV5GenerationStoreGraph.open",
+                            "issueAfterExternallyVerifiedReadAdmission("]:
+              if forbidden in src:
+                  raise SystemExit("D1B1A_UNAUTHORIZED_API "+forbidden)
+          product=Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java").read_text()
+          if "S4W01D1B1AActiveFinanceSnapshotRead" in product:
+              raise SystemExit("D1B1A_SHIPPING_MOUNT")
+          manifest=Path("v5/app/src/main/AndroidManifest.xml").read_text()
+          if ".finance9read" in manifest:
+              raise SystemExit("D1B1A_SHIPPING_PROVIDER")
+          print("W01_D1B1A_ACTIVE_FINANCE_READ_10_OF_10_JVM_PASS")
+          print("W01_D1B1A_ANDROID_W01_DEV_KOTLIN_COMPILE_PASS_NO_UI_MOUNT")
+          print("W01_D1B1A_NO_BIOMETRIC_NO_STAGE9_ACTIVE_NO_SECOND_DB")
+          PY
+      - name: Retain directed 10-JUnit XML evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-d1b1a-read-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01D1B1AActiveFinanceSnapshotReadTest.xml
+          if-no-files-found: warn
