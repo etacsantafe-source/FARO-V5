@@ -1,0 +1,142 @@
+name: FARO V5 W01 D1A synthetic private Android real two-PID ContentObserver
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/w01FinanceDev/AndroidManifest.xml"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadNoticeProbeService.kt"
+      - "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceTwoPidNoticeAndroidTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d1a-two-pid-notice.yml"
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-d1a-two-pid
+  cancel-in-progress: false
+jobs:
+  android-w01-two-pid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify parent READY exactly five paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-d1a-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-d1a-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-d1a-parent" --mode preflight \
+            --unit "S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV" \
+            --path "v5/app/build.gradle.kts" \
+            --path "v5/app/src/w01FinanceDev/AndroidManifest.xml" \
+            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadNoticeProbeService.kt" \
+            --path "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceTwoPidNoticeAndroidTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-d1a-two-pid-notice.yml"
+          git worktree remove "$RUNNER_TEMP/faro-d1a-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Prepare SDK 37 for compile while testing real Android API35
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Build only isolated W01 DEV APK and Android test APK
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 2400 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              -PfaroW01AndroidTest=true \
+              :app:assembleW01FinanceDev :app:assembleW01FinanceDevAndroidTest \
+              :app:processV2CoreDevManifestForPackage
+          test "$(find app/build/outputs/apk/w01FinanceDev -name '*.apk' | wc -l)" -eq 1
+          test "$(find app/build/outputs/apk/androidTest/w01FinanceDev -name '*.apk' | wc -l)" -eq 1
+      - name: Manifest/variant isolation and synthetic-only restrictions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          ns="{http://schemas.android.com/apk/res/android}"
+          base=Path("v5/app/build/intermediates/packaged_manifests")
+          appid="ar.com.faro.alpha.w01financedev"
+          def read(name):
+              folder=base/name
+              files=sorted(folder.rglob("AndroidManifest.xml"))
+              if len(files)!=1:
+                  raise SystemExit(f"W01_D1A_MANIFEST_COUNT_{name} {len(files)}")
+              return ET.parse(files[0]).getroot()
+          w=read("w01FinanceDev")
+          core=read("v2CoreDev")
+          if w.get("package")!=appid:
+              raise SystemExit("W01_D1A_PACKAGE_WRONG")
+          wa=w.find("application")
+          ca=core.find("application")
+          if wa is None or ca is None:
+              raise SystemExit("W01_D1A_APPLICATION_MISSING")
+          providers=wa.findall("provider")
+          if len(providers)!=1:
+              raise SystemExit("W01_D1A_PROVIDER_COUNT_RED")
+          p=providers[0]
+          if p.get(ns+"exported")!="false" or p.get(ns+"authorities")!=appid+".finance9read" or p.get(ns+"grantUriPermissions")=="true":
+              raise SystemExit("W01_D1A_PROVIDER_EXPORTED_OR_WRONG")
+          services=wa.findall("service")
+          if len(services)!=1:
+              raise SystemExit("W01_D1A_REMOTE_SERVICE_COUNT_RED")
+          s=services[0]
+          if (s.get(ns+"name")!="ar.com.faro.v5.app.S4W01FinanceReadNoticeProbeService" or
+              s.get(ns+"exported")!="false" or
+              s.get(ns+"process") not in (":w01ReadProbe",appid+":w01ReadProbe")):
+              raise SystemExit("W01_D1A_SERVICE_NOT_ISOLATED")
+          if ca.findall("provider") or ca.findall("service"):
+              raise SystemExit("W01_D1A_V2_CORE_CONTAMINATED")
+          if any(x.get(ns+"name")=="android.permission.INTERNET" for x in w.findall("uses-permission")):
+              raise SystemExit("W01_D1A_INTERNET_FORBIDDEN")
+          for source in (
+              "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadNoticeProbeService.kt",
+              "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceTwoPidNoticeAndroidTest.kt",
+          ):
+              body=Path(source).read_text()
+              if "S4W01FinanceReadPostCommitPublisher" in body or "publishAfterVerifiedCommitForDevOnly(" in body:
+                  raise SystemExit("W01_D1A_SYNTHETIC_MUST_NOT_CALL_POST_COMMIT")
+          print("W01_D1A_PRIVATE_PROVIDER_AND_REMOTE_SERVICE_DEV_ONLY_PASS")
+          print("W01_D1A_NEVER_A_SQL_COMMIT_OR_HUMAN_AUTH_TEST")
+          PY
+      - name: Allow KVM acceleration when available
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Android API35 execute real two-PID Binder and ContentObserver test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            APP="$(find v5/app/build/outputs/apk/w01FinanceDev -type f -name "*.apk" -print -quit)";
+            TEST="$(find v5/app/build/outputs/apk/androidTest/w01FinanceDev -type f -name "*.apk" -print -quit)";
+            test -n "$APP" && test -n "$TEST";
+            adb install "$APP";
+            adb install "$TEST";
+            OUT="$(adb shell am instrument -w -r -e class ar.com.faro.v5.app.S4W01FinanceTwoPidNoticeAndroidTest ar.com.faro.alpha.w01financedev.test/androidx.test.runner.AndroidJUnitRunner 2>&1)" || { printf "%s\n" "$OUT"; exit 1; };
+            printf "%s\n" "$OUT";
+            printf "%s\n" "$OUT" | grep -Fq "OK (2 tests)";
+            printf "%s\n" "$OUT" | grep -Fq "INSTRUMENTATION_CODE: -1";
+            echo "W01_D1A_ANDROID_API35_REAL_TWO_PID_SYNTHETIC_NOTICE_2_OF_2_PASS"
+            '

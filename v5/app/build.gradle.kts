@@ -52,6 +52,21 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/s3IntegratedAndroidTest")
     }
 
+    // W01 D1A synthetic private ContentResolver transport instrumentation ONLY.
+    // This switch never changes the default test variant or shipping products.
+    if (providers.gradleProperty("faroW01AndroidTest").orNull == "true") {
+        check(providers.gradleProperty("faroG5AndroidTestV2CoreDev").orNull != "true" &&
+            providers.gradleProperty("faroX03AndroidTest").orNull != "true" &&
+            providers.gradleProperty("faroS3IntegratedAndroidTest").orNull != "true" &&
+            listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId,
+                s0PhysicalApplicationId, s1A5PhysicalApplicationId,
+                s1A6PhysicalApplicationId).isEmpty()) {
+            "W01 two-PID tests require exclusive isolated W01 DEV build"
+        }
+        testBuildType = "w01FinanceDev"
+        sourceSets.getByName("androidTest").setRoot("src/w01AndroidTest")
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(

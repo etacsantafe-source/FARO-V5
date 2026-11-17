@@ -39,6 +39,12 @@
             tools:node="merge" />
         <receiver tools:node="removeAll" />
         <service tools:node="removeAll" />
+        <!-- D1A only: explicit private Messenger service for real two-PID Android CI.
+             No Finance data, SQL access, grants, background dispatch or external IPC. -->
+        <service
+            android:name="ar.com.faro.v5.app.S4W01FinanceReadNoticeProbeService"
+            android:exported="false"
+            android:process=":w01ReadProbe" />
         <activity-alias tools:node="removeAll" />
 
         <activity
