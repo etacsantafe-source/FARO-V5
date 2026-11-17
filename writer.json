@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.W01.B3A.PREAUDIT.20261117",
   "token_hash": "bac8fd6e07d5d91a3ed09379c1a3ed9ba147f1cfed35d9a7a57a515966c72fa7",
-  "target_head": "df06051dd71bbe9330111f0acd54c67d36f9351b",
+  "target_head": "d7b7ceab9a6feeab4b51c22d4f1498d687498341",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1055,
-  "timestamp": 1794914900,
-  "scope": "W01_B3A_FINANCE_READ_SURFACE_B1_B5_DOC_ONLY",
-  "last_checkpoint": "df06051dd71bbe9330111f0acd54c67d36f9351b"
+  "timestamp": 1794914970,
+  "scope": "W01_B3A_B1_B5_DOC_RELEASED",
+  "last_checkpoint": "d7b7ceab9a6feeab4b51c22d4f1498d687498341"
 }
