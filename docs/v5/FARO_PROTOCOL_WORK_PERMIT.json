@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
-  "reviewed_head": "9671d5802982368a4d4427d2456856dc29f92f75",
+  "status": "READY",
+  "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
+  "reviewed_head": "c5dadb5e1e491b3a018898653e8ced554bf0ad90",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9GrantReceiptStageTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m1c1b0-grant-receipt-directed.yml"
+    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
+    "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m1c1b1a-final-commit-gate-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
-          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
+          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
-          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
+          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
-          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
+          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
-          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
+          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
-          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
+          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_FINANCE9_STAGED_GRANT_LINKED_REAL_RECEIPT_WITHIN_SQL_COMMIT_JVM8_8",
-    "B7": "PASS_SCOPED_M1C1B0_FINANCE9_GRANT_RECEIPT_SAME_SQL_COMMIT_DEV_STAGE_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0684cc59039c1dc031a6cd8e328cd685ab0c8ab8",
@@ -75,9 +74,8 @@
       }
     ]
   },
-  "why": "B1-B5 verified staged-only Finance grant consumption against REAL RealityStore receipt, source blob f1e33a37385939a691727f8935d8a7d2ff7dcda6 guard 44011584108 SUCCESS",
-  "how": "Exact four code paths, 8 negative/positive real SQLite9 receipt+rollback JVM tests, no Android/human/production Apply; W2 STOP",
+  "why": "M1C1B1A B1-B5 verified source blob 8b0f86d9b13987c6aa1d1b5305b80063e68edbd4; guard 44033595901 SUCCESS; M1C1B0 B7 PASS scoped",
+  "how": "Exactly 3 paths, existing ApplyTransactionExecutor adds optional final-commit callback post receipt in same transaction; D01-D06 JVM with legacy regression; NO live Android/Finance product Apply; W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "blocked_reason": "M1C1B0_B7_PASS_CONSUMED_M1C1B1_ANDROID_PRODUCT_HOST_NOT_AUTHORIZED"
+  "no_auto_night": true
 }

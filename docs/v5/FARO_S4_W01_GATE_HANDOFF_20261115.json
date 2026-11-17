@@ -440,7 +440,7 @@
   },
   "w01_m1c1b1a": {
     "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
-    "status": "B1_B5_DOC_GUARD_PENDING_NO_READY",
+    "status": "READY_EXACT3_B6_NOT_RUN",
     "document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
     "paths": [
       "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
@@ -448,6 +448,7 @@
       ".github/workflows/faro-v5-s4-w01-m1c1b1a-final-commit-gate-directed.yml"
     ],
     "code_changed": false,
-    "w2": "STOP"
+    "w2": "STOP",
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_READY_20261117.md"
   }
 }
