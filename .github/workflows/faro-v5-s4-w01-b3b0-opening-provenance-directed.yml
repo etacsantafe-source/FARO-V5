@@ -1,0 +1,84 @@
+name: FARO V5 W01 B3B0 Finance9 opening provenance DEV read
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b0-opening-provenance-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b0-opening-provenance-dev
+  cancel-in-progress: false
+jobs:
+  finance9-opening-provenance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and execute exact new SQLite9 provenance cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9OpeningProvenanceReadTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9MigrationTest.legacyOpeningRemainsUnknownRatherThanInferredZero"
+      - name: Verify exact eight JUnit cases, migrated legacy behavior, and stage isolation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root=Path("v5/store/reality/build/test-results/test")
+          expected={
+            "o01LegacyPositiveOpeningMigratesUnverifiedAndNeverShowsAmount",
+            "o02MissingConfirmationRowCannotBecomeZeroBalance",
+            "o03OnlyExplicitSqlConfirmationOfZeroMayShowZero",
+            "o04PositivePhysicalOpeningMismatchFailsClosed",
+            "o05PositiveConfirmedWithoutPhysicalOpeningFailsClosed",
+            "o06IncomeExpenseExactBalanceAndOverflowFailClosed",
+            "o07WalReaderSeesStableOldSnapshotAndLaterReadSeesNewRevision",
+            "o08LegacyFactoriesAndClosedReaderDenyWithoutCreatingSchemaNine",
+          }
+          p=list(root.glob("TEST-*RealityFinance9OpeningProvenanceReadTest.xml"))
+          if len(p)!=1: raise SystemExit("W01_B3B0_NO_EXACT_NEW_XML")
+          suite=ET.parse(p[0]).getroot()
+          stats=tuple(int(suite.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          names=[c.get("name","").removesuffix("()") for c in suite.findall("testcase")]
+          if stats!=(8,0,0,0) or len(names)!=8 or set(names)!=expected:
+            raise SystemExit("W01_B3B0_NEW_XML_RED "+str(stats)+" "+str(names))
+          p=list(root.glob("TEST-*RealityFinance9MigrationTest.xml"))
+          if len(p)!=1: raise SystemExit("W01_B3B0_NO_LEGACY_XML")
+          suite=ET.parse(p[0]).getroot()
+          stats=tuple(int(suite.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          names=[c.get("name","").removesuffix("()") for c in suite.findall("testcase")]
+          if stats!=(1,0,0,0) or names!=["legacyOpeningRemainsUnknownRatherThanInferredZero"]:
+            raise SystemExit("W01_B3B0_LEGACY_XML_RED "+str(stats)+" "+str(names))
+          for f in [
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"),
+            Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java"),
+          ]:
+            if "finance9OpeningProvenanceReadForDevOnly" in f.read_text():
+              raise SystemExit("W01_B3B0_SHIPPING_WIRING_FOUND")
+          print("W01_B3B0_REAL_SQL_OPENING_8_OF_8_PASS")
+          print("W01_B3B0_MIGRATION_LEGACY_REGRESSION_1_OF_1_PASS")
+          print("NO_ACTUAL_HUMAN_AUTH_OR_PRODUCT_FINANCE_ADMISSION_ATTESTED")
+          PY
+      - name: Preserve exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b0-opening-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9OpeningProvenanceReadTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9MigrationTest.xml
+          if-no-files-found: warn

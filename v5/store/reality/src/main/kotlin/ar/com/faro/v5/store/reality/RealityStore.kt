@@ -463,6 +463,145 @@ class RealityStore(
         }
 
     /**
+     * W01-B3B0 DEV-STAGED9 ONLY: opening provenance reading in one WAL
+     * snapshot. This does NOT check a user's ACL or prove human confirmation.
+     * No ordinary Android CompositionRoot mounts this port.
+     */
+    fun finance9OpeningProvenanceReadForDevOnly():
+        RealityFinance9OpeningProvenanceReadPort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Finance opening provenance requires explicit STAGED9"
+        }
+        RealityFinance9OpeningProvenanceReadPort {
+            readFinance9OpeningProvenanceForDevOnly()
+        }
+    }
+
+    private data class Finance9OpeningRow(
+        val physicalOpeningMinor: Long?,
+        val confirmationState: String?,
+        val confirmationMinor: Long?,
+        val confirmationAtMs: Long?,
+        val confirmationProvenance: String?,
+    )
+
+    /**
+     * BEGIN DEFERRED transaction pins ONE SQLite WAL read snapshot after the
+     * first SELECT. The existing mutex alone cannot exclude OS-process writes.
+     * Always ROLLBACK the read-only transaction, even when the read fails.
+     */
+    private fun readFinance9OpeningProvenanceForDevOnly():
+        RealityFinance9OpeningProvenanceSnapshot? = synchronized(lock) {
+        if (closed || !financeStage9 || !planningStage8 ||
+            activeTransactionId != null || readSchemaVersion() != 9
+        ) return@synchronized null
+
+        var beganRead = false
+        var result: RealityFinance9OpeningProvenanceSnapshot? = null
+        try {
+            connection.execSQL("BEGIN DEFERRED TRANSACTION")
+            beganRead = true
+
+            // The first SELECT pins a snapshot, shared by Finance and opening.
+            val finance = readFinance()
+            check(finance.accounts.size <= 100) {
+                "Bound Finance9 stage read to 100 accounts"
+            }
+
+            val openings = linkedMapOf<String, Finance9OpeningRow>()
+            connection.prepare(
+                """
+                SELECT a.account_id, o.amount_minor, c.confirmation_state,
+                       c.amount_minor, c.confirmed_at_ms, c.provenance
+                FROM finance_account a
+                LEFT JOIN finance_account_opening o ON o.account_id=a.account_id
+                LEFT JOIN finance_opening_confirmation c ON c.account_id=a.account_id
+                ORDER BY a.account_id
+                """.trimIndent()
+            ).use { st ->
+                while (st.step()) {
+                    val accountId = st.getText(0)
+                    check(!openings.containsKey(accountId)) {
+                        "Finance9 duplicate opening provenance identity"
+                    }
+                    openings[accountId] = Finance9OpeningRow(
+                        physicalOpeningMinor = if (st.isNull(1)) null else st.getLong(1),
+                        confirmationState = if (st.isNull(2)) null else st.getText(2),
+                        confirmationMinor = if (st.isNull(3)) null else st.getLong(3),
+                        confirmationAtMs = if (st.isNull(4)) null else st.getLong(4),
+                        confirmationProvenance = if (st.isNull(5)) null else st.getText(5),
+                    )
+                }
+            }
+            check(openings.size == finance.accounts.size) {
+                "Finance9 account/provenance read identities must match"
+            }
+            val rows = finance.accounts.map { account ->
+                val source = checkNotNull(openings[account.accountId.value])
+                val state = when (source.confirmationState) {
+                    null -> {
+                        check(source.confirmationMinor == null &&
+                            source.confirmationAtMs == null &&
+                            source.confirmationProvenance == null)
+                        RealityFinance9OpeningProvenanceState.MISSING_CONFIRMATION
+                    }
+                    "LEGACY_UNVERIFIED" -> {
+                        check(source.confirmationMinor == null &&
+                            source.confirmationAtMs == null &&
+                            !source.confirmationProvenance.isNullOrBlank())
+                        RealityFinance9OpeningProvenanceState.LEGACY_UNVERIFIED
+                    }
+                    "CONFIRMED" -> {
+                        val explicit = checkNotNull(source.confirmationMinor)
+                        check(explicit >= 0L && source.confirmationAtMs != null &&
+                            source.confirmationAtMs >= 0L &&
+                            !source.confirmationProvenance.isNullOrBlank()) {
+                            "Finance9 confirmed opening has invalid provenance"
+                        }
+                        // A physically absent opening is zero for arithmetic
+                        // ONLY when an independent explicit CONFIRMED row says 0.
+                        val physical = source.physicalOpeningMinor ?: 0L
+                        check(explicit == physical &&
+                            (physical == 0L || source.physicalOpeningMinor != null)) {
+                            "Finance9 opening confirmation contradicts physical ledger"
+                        }
+                        RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL
+                    }
+                    else -> error("Finance9 unexpected opening confirmation state")
+                }
+                val confirmed = if (
+                    state == RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL
+                ) source.confirmationMinor else null
+                RealityFinance9OpeningProvenanceAccount(
+                    accountId = account.accountId.value,
+                    displayName = account.displayName.value,
+                    currencyCode = account.currency.value,
+                    state = state,
+                    confirmedOpeningMinor = confirmed,
+                    ledgerBalanceMinor = if (confirmed == null) null
+                        else finance.ledgerMinor(account.accountId),
+                )
+            }
+            result = RealityFinance9OpeningProvenanceSnapshot(
+                sourceRevision = finance.revision,
+                accounts = rows,
+            )
+        } catch (_: Exception) {
+            result = null // closed, malformed SQL, inconsistent source, overflow
+        } finally {
+            if (beganRead) {
+                try {
+                    connection.execSQL("ROLLBACK TRANSACTION")
+                } catch (_: Exception) {
+                    result = null // cannot trust a connection with failed rollback
+                }
+            }
+        }
+        result
+    }
+
+    /**
      * M1C1B1C: DEV-only owner of SQL policy+grant issuance after EXTERNAL
      * trusted Android host admission. This does not validate a biometric
      * signature: the host must do that before requesting issuance.
