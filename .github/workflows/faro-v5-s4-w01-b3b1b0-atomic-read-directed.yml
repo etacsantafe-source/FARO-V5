@@ -1,0 +1,87 @@
+name: FARO V5 W01 B3B1B0 one-snapshot Finance9 policy and opening DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ObservedSourceReadPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ObservedSourceReadTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b0-atomic-read-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1b0-atomic-sql-dev
+  cancel-in-progress: false
+jobs:
+  atomic-observed-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exact new tests plus affected B3B0 and B3B1A helper regressions
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9ObservedSourceReadTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9OpeningProvenanceReadTest" \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9ReadPolicyObservationTest"
+      - name: Verify named XML counts and no Product wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path("v5/store/reality/build/test-results/test")
+          exact={
+            "RealityFinance9ObservedSourceReadTest":{
+              "t01MissingPolicyNeverReleasesAnOpeningSource",
+              "t02ExactSqlPolicyAndConfirmedOpeningObservedTogether",
+              "t03WriteOnlyAndForeignReadPolicyCannotObserveData",
+              "t04RevocationAndRenewalNeverRecycleTheOldReadEpoch",
+              "t05ExpiryAtTheBoundaryDeniesEvenCoherentLedger",
+              "t06UnknownOpeningIsNullEvenWhenPolicyObserved",
+              "t07ContradictionAndLedgerOverflowFailClosed",
+              "t08LegacyFactoriesClosedPortAndNoWriteSideEffects",
+            },
+            "RealityFinance9OpeningProvenanceReadTest":None,
+            "RealityFinance9ReadPolicyObservationTest":None,
+          }
+          for classname,names in exact.items():
+            paths=list(base.glob("TEST-*"+classname+".xml"))
+            if len(paths)!=1: raise SystemExit("W01_B3B1B0_MISSING_XML "+classname)
+            root=ET.parse(paths[0]).getroot()
+            vals=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+            if vals!=(8,0,0,0):
+              raise SystemExit("W01_B3B1B0_XML_RED "+classname+" "+str(vals))
+            if names:
+              found=[x.get("name","").removesuffix("()") for x in root.findall("testcase")]
+              if len(found)!=8 or set(found)!=names:
+                raise SystemExit("W01_B3B1B0_NAMED_NEW_XML_RED "+str(found))
+          for f in [
+            Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java"),
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"),
+          ]:
+            if "finance9ObservedSourceReadForDevOnly" in f.read_text():
+              raise SystemExit("W01_B3B1B0_PRODUCT_WIRING_FOUND")
+          print("W01_B3B1B0_ATOMIC_SQL_OBSERVED_8_OF_8_PASS")
+          print("W01_B3B1B0_AFFECTED_B3B0_8_OF_8_B3B1A_8_OF_8_PASS")
+          print("NO_TRUSTED_ANDROID_USER_OR_PRODUCT_FINANCE_AUTH_ATTESTED")
+          PY
+      - name: Preserve only affected JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1b0-atomic-read-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9ObservedSourceReadTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9OpeningProvenanceReadTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9ReadPolicyObservationTest.xml
+          if-no-files-found: warn

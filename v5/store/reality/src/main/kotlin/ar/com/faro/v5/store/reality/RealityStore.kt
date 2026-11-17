@@ -538,6 +538,83 @@ class RealityStore(
     }
 
     /**
+     * B3B1B0: DEV-STAGED9 only, one SQL WAL snapshot for observed read policy
+     * and Finance9 opening provenance. It is NOT Android/human read authority.
+     * A later trusted app adapter must verify principal, active pointer and
+     * revocation/restore invalidations before ANY product UI read.
+     */
+    fun finance9ObservedSourceReadForDevOnly():
+        RealityFinance9ObservedSourceReadPort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Finance9 observed source requires explicit STAGED9"
+        }
+        RealityFinance9ObservedSourceReadPort { request ->
+            observeFinance9SourceInSingleSnapshotForDevOnly(request)
+        }
+    }
+
+    private fun observeFinance9SourceInSingleSnapshotForDevOnly(
+        request: RealityFinance9ReadPolicyObservationRequest,
+    ): RealityFinance9ObservedSourceRead? = synchronized(lock) {
+        if (closed || !financeStage9 || !planningStage8 ||
+            activeTransactionId != null || readSchemaVersion() != 9
+        ) return@synchronized null
+        var beganRead = false
+        var observed: RealityFinance9ObservedSourceRead? = null
+        try {
+            // ONE read transaction; do not call the other two public ports.
+            connection.execSQL("BEGIN DEFERRED TRANSACTION")
+            beganRead = true
+            val scope = Finance9AclScope(
+                principalHash = request.principalHash,
+                generationId = request.generationId,
+                pointerSequence = request.pointerSequence,
+                operationId = RealityFinance9ReadPolicyObservationPort.OPERATION_ID,
+                objectScope = RealityFinance9ReadPolicyObservationPort.OBJECT_SCOPE,
+            )
+            val acl = RealityFinance9Acl(
+                connection,
+                stagedAdmission = {
+                    financeStage9 && planningStage8 && activeTransactionId == null &&
+                        !closed && readSchemaVersion() == 9
+                },
+            )
+            val epoch = acl.observedCurrentEpochOrNull(
+                scope, request.observedAtMs,
+            )
+            if (epoch != null && epoch == request.expectedPolicyEpoch) {
+                val (nextEpoch, revision) = acl.observedCounterForStageTest()
+                check(nextEpoch > epoch && revision > 0L) {
+                    "Observed Finance9 ACL state must stay monotonic"
+                }
+                // This helper MUST NOT execute a second BEGIN or COMMIT.
+                val source = readFinance9OpeningProvenanceInsideReadTransaction()
+                observed = RealityFinance9ObservedSourceRead(
+                    observedPolicy = RealityFinance9ObservedReadPolicy(
+                        generationId = request.generationId,
+                        pointerSequence = request.pointerSequence,
+                        policyEpoch = epoch,
+                        globalPolicyRevision = revision,
+                    ),
+                    openingSource = source,
+                )
+            }
+        } catch (_: Exception) {
+            observed = null
+        } finally {
+            if (beganRead) {
+                try {
+                    connection.execSQL("ROLLBACK TRANSACTION")
+                } catch (_: Exception) {
+                    observed = null
+                }
+            }
+        }
+        observed
+    }
+
+    /**
      * W01-B3B0 DEV-STAGED9 ONLY: opening provenance reading in one WAL
      * snapshot. This does NOT check a user's ACL or prove human confirmation.
      * No ordinary Android CompositionRoot mounts this port.
@@ -578,90 +655,8 @@ class RealityStore(
             connection.execSQL("BEGIN DEFERRED TRANSACTION")
             beganRead = true
 
-            // The first SELECT pins a snapshot, shared by Finance and opening.
-            val finance = readFinance()
-            check(finance.accounts.size <= 100) {
-                "Bound Finance9 stage read to 100 accounts"
-            }
-
-            val openings = linkedMapOf<String, Finance9OpeningRow>()
-            connection.prepare(
-                """
-                SELECT a.account_id, o.amount_minor, c.confirmation_state,
-                       c.amount_minor, c.confirmed_at_ms, c.provenance
-                FROM finance_account a
-                LEFT JOIN finance_account_opening o ON o.account_id=a.account_id
-                LEFT JOIN finance_opening_confirmation c ON c.account_id=a.account_id
-                ORDER BY a.account_id
-                """.trimIndent()
-            ).use { st ->
-                while (st.step()) {
-                    val accountId = st.getText(0)
-                    check(!openings.containsKey(accountId)) {
-                        "Finance9 duplicate opening provenance identity"
-                    }
-                    openings[accountId] = Finance9OpeningRow(
-                        physicalOpeningMinor = if (st.isNull(1)) null else st.getLong(1),
-                        confirmationState = if (st.isNull(2)) null else st.getText(2),
-                        confirmationMinor = if (st.isNull(3)) null else st.getLong(3),
-                        confirmationAtMs = if (st.isNull(4)) null else st.getLong(4),
-                        confirmationProvenance = if (st.isNull(5)) null else st.getText(5),
-                    )
-                }
-            }
-            check(openings.size == finance.accounts.size) {
-                "Finance9 account/provenance read identities must match"
-            }
-            val rows = finance.accounts.map { account ->
-                val source = checkNotNull(openings[account.accountId.value])
-                val state = when (source.confirmationState) {
-                    null -> {
-                        check(source.confirmationMinor == null &&
-                            source.confirmationAtMs == null &&
-                            source.confirmationProvenance == null)
-                        RealityFinance9OpeningProvenanceState.MISSING_CONFIRMATION
-                    }
-                    "LEGACY_UNVERIFIED" -> {
-                        check(source.confirmationMinor == null &&
-                            source.confirmationAtMs == null &&
-                            !source.confirmationProvenance.isNullOrBlank())
-                        RealityFinance9OpeningProvenanceState.LEGACY_UNVERIFIED
-                    }
-                    "CONFIRMED" -> {
-                        val explicit = checkNotNull(source.confirmationMinor)
-                        check(explicit >= 0L && source.confirmationAtMs != null &&
-                            source.confirmationAtMs >= 0L &&
-                            !source.confirmationProvenance.isNullOrBlank()) {
-                            "Finance9 confirmed opening has invalid provenance"
-                        }
-                        // A physically absent opening is zero for arithmetic
-                        // ONLY when an independent explicit CONFIRMED row says 0.
-                        val physical = source.physicalOpeningMinor ?: 0L
-                        check(explicit == physical &&
-                            (physical == 0L || source.physicalOpeningMinor != null)) {
-                            "Finance9 opening confirmation contradicts physical ledger"
-                        }
-                        RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL
-                    }
-                    else -> error("Finance9 unexpected opening confirmation state")
-                }
-                val confirmed = if (
-                    state == RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL
-                ) source.confirmationMinor else null
-                RealityFinance9OpeningProvenanceAccount(
-                    accountId = account.accountId.value,
-                    displayName = account.displayName.value,
-                    currencyCode = account.currency.value,
-                    state = state,
-                    confirmedOpeningMinor = confirmed,
-                    ledgerBalanceMinor = if (confirmed == null) null
-                        else finance.ledgerMinor(account.accountId),
-                )
-            }
-            result = RealityFinance9OpeningProvenanceSnapshot(
-                sourceRevision = finance.revision,
-                accounts = rows,
-            )
+            // Reuse the exact prior B3B0 SQL body, now inside this read transaction.
+            result = readFinance9OpeningProvenanceInsideReadTransaction()
         } catch (_: Exception) {
             result = null // closed, malformed SQL, inconsistent source, overflow
         } finally {
@@ -674,6 +669,98 @@ class RealityStore(
             }
         }
         result
+    }
+
+    /**
+     * Pure B3B0 SQL body: caller MUST own the same RealityStore read transaction.
+     * Kept byte-equivalent in query and provenance rules to the B3B0 B7 reader.
+     */
+    private fun readFinance9OpeningProvenanceInsideReadTransaction():
+        RealityFinance9OpeningProvenanceSnapshot {
+        // The first SELECT pins a snapshot, shared by Finance and opening.
+        val finance = readFinance()
+        check(finance.accounts.size <= 100) {
+            "Bound Finance9 stage read to 100 accounts"
+        }
+
+        val openings = linkedMapOf<String, Finance9OpeningRow>()
+        connection.prepare(
+            """
+            SELECT a.account_id, o.amount_minor, c.confirmation_state,
+                   c.amount_minor, c.confirmed_at_ms, c.provenance
+            FROM finance_account a
+            LEFT JOIN finance_account_opening o ON o.account_id=a.account_id
+            LEFT JOIN finance_opening_confirmation c ON c.account_id=a.account_id
+            ORDER BY a.account_id
+            """.trimIndent()
+        ).use { st ->
+            while (st.step()) {
+                val accountId = st.getText(0)
+                check(!openings.containsKey(accountId)) {
+                    "Finance9 duplicate opening provenance identity"
+                }
+                openings[accountId] = Finance9OpeningRow(
+                    physicalOpeningMinor = if (st.isNull(1)) null else st.getLong(1),
+                    confirmationState = if (st.isNull(2)) null else st.getText(2),
+                    confirmationMinor = if (st.isNull(3)) null else st.getLong(3),
+                    confirmationAtMs = if (st.isNull(4)) null else st.getLong(4),
+                    confirmationProvenance = if (st.isNull(5)) null else st.getText(5),
+                )
+            }
+        }
+        check(openings.size == finance.accounts.size) {
+            "Finance9 account/provenance read identities must match"
+        }
+        val rows = finance.accounts.map { account ->
+            val source = checkNotNull(openings[account.accountId.value])
+            val state = when (source.confirmationState) {
+                null -> {
+                    check(source.confirmationMinor == null &&
+                        source.confirmationAtMs == null &&
+                        source.confirmationProvenance == null)
+                    RealityFinance9OpeningProvenanceState.MISSING_CONFIRMATION
+                }
+                "LEGACY_UNVERIFIED" -> {
+                    check(source.confirmationMinor == null &&
+                        source.confirmationAtMs == null &&
+                        !source.confirmationProvenance.isNullOrBlank())
+                    RealityFinance9OpeningProvenanceState.LEGACY_UNVERIFIED
+                }
+                "CONFIRMED" -> {
+                    val explicit = checkNotNull(source.confirmationMinor)
+                    check(explicit >= 0L && source.confirmationAtMs != null &&
+                        source.confirmationAtMs >= 0L &&
+                        !source.confirmationProvenance.isNullOrBlank()) {
+                        "Finance9 confirmed opening has invalid provenance"
+                    }
+                    // A physically absent opening is zero for arithmetic
+                    // ONLY when an independent explicit CONFIRMED row says 0.
+                    val physical = source.physicalOpeningMinor ?: 0L
+                    check(explicit == physical &&
+                        (physical == 0L || source.physicalOpeningMinor != null)) {
+                        "Finance9 opening confirmation contradicts physical ledger"
+                    }
+                    RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL
+                }
+                else -> error("Finance9 unexpected opening confirmation state")
+            }
+            val confirmed = if (
+                state == RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL
+            ) source.confirmationMinor else null
+            RealityFinance9OpeningProvenanceAccount(
+                accountId = account.accountId.value,
+                displayName = account.displayName.value,
+                currencyCode = account.currency.value,
+                state = state,
+                confirmedOpeningMinor = confirmed,
+                ledgerBalanceMinor = if (confirmed == null) null
+                    else finance.ledgerMinor(account.accountId),
+            )
+        }
+        return RealityFinance9OpeningProvenanceSnapshot(
+            sourceRevision = finance.revision,
+            accounts = rows,
+        )
     }
 
     /**
