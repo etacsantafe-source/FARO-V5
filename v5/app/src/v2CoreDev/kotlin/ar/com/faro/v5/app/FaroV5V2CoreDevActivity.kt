@@ -24,13 +24,15 @@ import kotlinx.coroutines.runBlocking
 class FaroV5V2CoreDevApplication : Application()
 
 internal object FaroV5V2CoreDevPackagePolicy {
-    // Both IDs are sandbox-separated DEV installations. Never use suffix/wildcard matching.
+    // Explicitly approved sandbox-separated DEV application IDs only. Never use suffix/wildcard matching.
     private const val ORIGINAL_DEV = "ar.com.faro.alpha.v2coredev"
     private const val G15_ISOLATED_DEV = "ar.com.faro.g15isolated.v2coredev"
+    private const val W01_FINANCE_DEV = "ar.com.faro.alpha.w01financedev"
 
     fun accepts(packageName: String): Boolean =
         packageName == ORIGINAL_DEV || packageName == G15_ISOLATED_DEV ||
-            packageName == "ar.com.faro.alpha.s3integrateddev"
+            packageName == "ar.com.faro.alpha.s3integrateddev" ||
+            packageName == W01_FINANCE_DEV
 }
 
 /**

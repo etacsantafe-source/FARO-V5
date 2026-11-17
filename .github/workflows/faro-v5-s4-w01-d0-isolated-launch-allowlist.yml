@@ -1,0 +1,113 @@
+name: FARO V5 W01 D0 exact isolated DEV launcher allowlist
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W01DevLaunchPackagePolicyTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-d0-launch-allowlist
+  cancel-in-progress: false
+jobs:
+  isolated-w01-dev-launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify parent READY exact3 before any functional build
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-d0-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-d0-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-d0-parent" --mode preflight \
+            --unit "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST" \
+            --path "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt" \
+            --path "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W01DevLaunchPackagePolicyTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
+          git worktree remove "$RUNNER_TEMP/faro-d0-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Eight exact package policy JVM checks plus two Android DEV variant builds
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :app:testV2CoreDevUnitTest \
+            --tests "ar.com.faro.v5.app.S4W01DevLaunchPackagePolicyTest"
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :app:compileW01FinanceDevKotlin :app:compileV2CoreDevKotlin \
+            :app:processW01FinanceDevManifestForPackage :app:processV2CoreDevManifestForPackage
+      - name: Verify exact eight XML results and fail-closed package manifests
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          folder=Path("v5/app/build/test-results/testV2CoreDevUnitTest")
+          files=list(folder.glob("TEST-*S4W01DevLaunchPackagePolicyTest.xml"))
+          if len(files)!=1: raise SystemExit("W01_D0_JUNIT_XML_MISSING")
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+            "d01OriginalDevRemainsAllowed",
+            "d02G15IsolatedDevRemainsAllowed",
+            "d03S3IntegratedDevRemainsAllowed",
+            "d04W01FinanceDevExactApplicationIdAllowed",
+            "d05ProductiveAndOrdinaryDebugDenied",
+            "d06W01PrefixAndSuffixImpostorsDenied",
+            "d07UnapprovedDevAndS3ImpostorsDenied",
+            "d08EmptyAndCaseVariationDenied",
+          }
+          names={n.get("name","").removesuffix("()") for n in root.findall("testcase")}
+          if counts!=(8,0,0,0) or names!=expected:
+            raise SystemExit("W01_D0_JUNIT_RED "+repr((counts,names)))
+          manifests=Path("v5/app/build/intermediates/packaged_manifests")
+          ns="{http://schemas.android.com/apk/res/android}"
+          provider="ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationProvider"
+          for variant,appid,expected_providers in (
+            ("w01FinanceDev","ar.com.faro.alpha.w01financedev",1),
+            ("v2CoreDev","ar.com.faro.alpha.v2coredev",0),
+          ):
+            files=sorted(p for p in manifests.rglob("AndroidManifest.xml")
+                         if "/"+variant+"/" in str(p))
+            if not files: raise SystemExit("W01_D0_MANIFEST_MISSING "+variant)
+            for file in files:
+              tree=ET.parse(file).getroot()
+              app=tree.find("application")
+              if app is None: raise SystemExit("W01_D0_APPLICATION_MISSING")
+              providers=app.findall("provider")
+              if len(providers)!=expected_providers:
+                raise SystemExit("W01_D0_PROVIDER_COUNT_RED "+variant)
+              if expected_providers:
+                p=providers[0]
+                if (p.get(ns+"name")!=provider or
+                    p.get(ns+"exported")!="false" or
+                    p.get(ns+"authorities")!=appid+".finance9read"):
+                  raise SystemExit("W01_D0_PROVIDER_NOT_PRIVATE")
+              if any(p.get(ns+"name")=="android.permission.INTERNET"
+                     for p in tree.findall("uses-permission")):
+                raise SystemExit("W01_D0_INTERNET_FORBIDDEN "+variant)
+              if not any(a.get(ns+"name")=="ar.com.faro.v5.app.FaroV5V2CoreDevActivity"
+                         for a in app.findall("activity")):
+                raise SystemExit("W01_D0_LAUNCHER_MISSING "+variant)
+          print("W01_D0_EXACT_PACKAGE_POLICY_8_OF_8_PASS")
+          print("W01_D0_W01_PRIVATE_PROVIDER_V2CORE_ZERO_PROVIDER_DEV_COMPILES_PASS")
+          print("NOT_AN_ANDROID_LAUNCH_OR_TWO_PID_TEST")
+          PY
+      - name: Preserve eight JUnit XML reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-d0-isolated-dev-allowlist-junit
+          path: v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*S4W01DevLaunchPackagePolicyTest.xml
+          if-no-files-found: warn
