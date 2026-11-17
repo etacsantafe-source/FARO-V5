@@ -321,7 +321,7 @@
   },
   "w01_m1b": {
     "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
-    "status": "B1_B5_DOC_GUARD_PENDING",
+    "status": "READY_EXACT5_B6_NOT_RUN",
     "doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
     "paths": [
       "v5/app/build.gradle.kts",
@@ -332,7 +332,8 @@
     ],
     "physical": "NOT_RUN",
     "code_changed": false,
-    "w2": "STOP"
+    "w2": "STOP",
+    "ready_doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_READY_20261116.md"
   },
   "w01_m1c": {
     "status": "STOP",
