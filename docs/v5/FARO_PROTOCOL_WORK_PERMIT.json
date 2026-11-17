@@ -60,16 +60,16 @@
       ]
     },
     "B6": "READY_TO_IMPLEMENT",
-    "B7": "RED_FIX_S3_A4_TEST_CLASS_COUNT_19_VS_13_NO_TEST_FAILURES"
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0684cc59039c1dc031a6cd8e328cd685ab0c8ab8",
-    "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
-    "result": "PASS",
+    "sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
+    "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B7_PASS_20261117.md",
-        "blob_sha": "152010676a349fa973450b42765b7563fa29f312",
+        "path": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
+        "blob_sha": "1fae8e16ea777a3d5aae7acb05bb5d1f6e409268",
         "marker": "## B7"
       }
     ]
@@ -82,13 +82,15 @@
     "failed_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
     "run": 44034166682,
     "error": "S3_A4_LEGACY_XML_EXPECTS_13_GOT_19_ZERO_FAILED",
-    "state": "RED_FIX_BOUND_TO_SAME_UNIT",
+    "state": "RED_FIX_READY_SAME_UNIT_ONLY",
     "same_unit_only": true,
     "paths": [
       "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
       ".github/workflows/faro-v5-s4-w01-m1c1b1a-final-commit-gate-directed.yml"
     ],
     "document": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
-    "no_production_code_changes": true
+    "no_production_code_changes": true,
+    "permit_correction": "B7_PENDING_LAST_CODE_REVIEW_RED_FIX_WITH_EXACT_DOCUMENT_BLOB",
+    "failed_guard_run": 44034925436
   }
 }
