@@ -42,7 +42,7 @@ jobs:
         run: |
           set -euo pipefail
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
-            :app:testV2CoreDevUnitTest \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest \
             --tests "ar.com.faro.v5.app.S4W01DevLaunchPackagePolicyTest"
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
             :app:compileW01FinanceDevKotlin :app:compileV2CoreDevKotlin \
