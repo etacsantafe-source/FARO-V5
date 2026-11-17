@@ -1,22 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
-  "reviewed_head": "be99fe41e7895eb0e5dac1e3b16197c1821eaf14",
+  "status": "READY",
+  "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
+  "reviewed_head": "2bf753fb8daec6b2012ff683e9786a1a67fc4cec",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclCrossProcessTest.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclProcessWorker.kt",
-    ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinder.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinderTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m1c1a-review-presence-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
-          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
+          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
+          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
           "marker": "## B1"
         }
       ]
@@ -25,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
-          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
+          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
+          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
           "marker": "## B2"
         }
       ]
@@ -35,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
-          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
+          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
+          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
           "marker": "## B3"
         }
       ]
@@ -45,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
-          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
+          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
+          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
           "marker": "## B4"
         }
       ]
@@ -55,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
-          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
+          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
+          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_M1C0_SAME_REALITY_TRANSACTION_WITH_TWO_REAL_OS_PID_XML8_8",
-    "B7": "PASS_SCOPED_FINANCE9_TWO_PROCESS_STAGE_SQL_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d228d00c8ae7cb801a67d85375688ea83b91e873",
@@ -76,17 +74,8 @@
       }
     ]
   },
-  "why": "M1C B1-B5 documented blob c92289aea2381a7495d35523a7c55cf7652e8f1e; M1B B7 scoped PASS and guard 44006769756 SUCCESS; staged two-real-OS-process SQL fence ONLY",
-  "how": "Exact5 paths; two OS PIDs confirmed; no human or productive Apply; C01-C08 exact XML; isolated policy check inside same Reality transaction before COMMIT; W2 STOP",
+  "why": "M1C1A B1-B5 preaudit verified source blob ada0b0d02edd517664c41a6a3d1a992479aef3f4; guard 44009994626 SUCCESS; no physical human or SQLite grant authority",
+  "how": "Exactly 3 new paths, one-shot approved canonical Workspace+M1B local presence proof binder; 9 JVM tests, compile DEV, no Finance Apply/DDL, W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "red_fix_scope": {
-    "failed_sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
-    "run": 44007717182,
-    "error": "KOTLIN_RETURN_TYPE_MISMATCH_COMPILE_TEST_LINE259",
-    "target_path": "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclCrossProcessTest.kt",
-    "state": "RED_FIX_BOUND_TO_SAME_UNIT",
-    "no_production_code_changes": true
-  },
-  "blocked_reason": "M1C0_B7_PASS_CONSUMED_NEXT_M1C1_NOT_AUTHORIZED_HUMAN_ANDROID_PHYSICAL_NOT_RUN"
+  "no_auto_night": true
 }

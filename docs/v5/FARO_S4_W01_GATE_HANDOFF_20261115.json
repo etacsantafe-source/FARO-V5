@@ -391,7 +391,7 @@
   },
   "w01_m1c1a": {
     "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
-    "status": "B1_B5_DOC_GUARD_PENDING",
+    "status": "READY_EXACT3_B6_NOT_RUN",
     "document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
     "code_changed": false,
     "paths": [
@@ -399,6 +399,7 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinderTest.kt",
       ".github/workflows/faro-v5-s4-w01-m1c1a-review-presence-directed.yml"
     ],
-    "w2": "STOP"
+    "w2": "STOP",
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_READY_20261117.md"
   }
 }
