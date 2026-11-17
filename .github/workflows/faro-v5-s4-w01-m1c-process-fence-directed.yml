@@ -1,0 +1,81 @@
+name: FARO V5 S4 W01 M1C0 Finance9 two real OS process SQLite fence
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclCrossProcessTest.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclProcessWorker.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1c0-two-real-os-process
+  cancel-in-progress: false
+jobs:
+  real-two-os-process-sqlite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify Python SQLite second OS worker available
+        run: |
+          python3 - <<'PY'
+          import os,sqlite3
+          print("M1C0_PYTHON_SECOND_OS_EXECUTABLE",os.getpid(),sqlite3.sqlite_version)
+          PY
+      - name: Run eight distinct-OS-PID stage9 Finance policy SQLite tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityFinance9AclCrossProcessTest"
+      - name: Assert exactly eight JUnit XML cases and captured PID evidence
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          import re
+          files=list(Path("v5/store/reality/build/test-results/test").glob(
+              "TEST-*RealityFinance9AclCrossProcessTest.xml"))
+          if len(files)!=1: raise SystemExit("M1C0_XML_MISSING "+str(len(files)))
+          node=ET.parse(files[0]).getroot()
+          counts=tuple(int(node.get(k,"-1")) for k in
+                       ("tests","failures","errors","skipped"))
+          expected={
+              "remoteRevocationCommittedBeforeBeginDeniesLedgerAndReceipt",
+              "beginImmediateBlocksSecondOsPidRevocationUntilLedgerCommit",
+              "reviewObservedBeforeOtherOsRevokeDoesNotAuthorizeLaterApply",
+              "realSecondOsProcessDeathBeforeSqliteCommitRollsBackFinance",
+              "realSqliteGrantAndReceiptBindOnceWithForeignKeysAndUniqueIntent",
+              "revokeRegrantEpochAndPointerAbaRejectOldPermission",
+              "legacySevenAndPlanningEightRejectFinance9ApplyPolicy",
+              "foreignScopeAndExpiredEpochNeverGrantWithinCurrentSqliteTransaction",
+          }
+          names=[(c.get("name") or "").removesuffix("()")
+                 for c in node.findall("testcase")]
+          if counts!=(8,0,0,0) or len(names)!=8 or set(names)!=expected:
+              raise SystemExit("M1C0_XML_FAIL "+str((counts,names)))
+          evidence="".join(node.itertext())
+          pid_pairs=re.findall(r"M1C0_REAL_TWO_PID_CONFIRMED parent=(\d+) child=(\d+)",evidence)
+          if len(pid_pairs)<3 or any(a==b for a,b in pid_pairs):
+              raise SystemExit("M1C0_NO_DISTINCT_OS_PID_XML_EVIDENCE "+str(pid_pairs))
+          print("S4_W01_M1C0_TWO_REAL_OS_PROCESS_SQLITE_STAGE_PASS 8/8")
+          print("M1C0_DISTINCT_OS_PID_PAIRS",len(pid_pairs))
+          print("NOT_CERTIFIED: human Android biometrics, product Finance grant host, M1C1 real App Apply COMMIT, G15, W02")
+          PY
+      - name: Preserve exact M1C0 two PID JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1c0-two-os-process-stage-junit
+          path: v5/store/reality/build/test-results/test/TEST-*RealityFinance9AclCrossProcessTest.xml
+          if-no-files-found: warn

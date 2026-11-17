@@ -438,6 +438,39 @@ class RealityStore(
         }
     }
 
+    /**
+     * M1C0: STAGED9-only Finance policy check INSIDE this very Reality SQLite
+     * BEGIN IMMEDIATE transaction. The caller must already hold this store's
+     * actual Apply scope; this port neither creates a grant nor executes Apply.
+     * A second OS process can only revoke once this transaction commits.
+     * Never expose to the ordinary schema7/Planning8 or shipping composition.
+     */
+    internal fun finance9AclCurrentInsideApplyTransaction(
+        transactionScope: RealityTransactionScope,
+        key: Finance9AclScope,
+        expectedPolicyEpoch: Long,
+        observedAtEpochMillis: Long,
+    ): Boolean = synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        check(activeApplyScope === transactionScope &&
+            activeTransactionId == transactionScope.transactionId
+        ) { "Finance9 policy check requires the exact active Reality SQL transaction" }
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Finance9 policy check requires explicit STAGED9-only Reality"
+        }
+        if (expectedPolicyEpoch <= 0L || observedAtEpochMillis < 0L)
+            return@synchronized false
+        RealityFinance9Acl(
+            connection,
+            stagedAdmission = {
+                financeStage9 && planningStage8 &&
+                    activeApplyScope === transactionScope
+            },
+        ).observedCurrentEpochOrNull(key, observedAtEpochMillis) ==
+            expectedPolicyEpoch
+    }
+
     override fun <T> run(
         transactionId: TransactionId,
         block: (RealityTransactionScope) -> AtomicApplyTransactionDecision<T>,
