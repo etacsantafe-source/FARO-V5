@@ -62,8 +62,8 @@
         }
       ]
     },
-    "B6": "NOT_RUN",
-    "B7": "PENDING"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "68db898115683e7acf3c36d156447908e0de6341",
@@ -80,5 +80,14 @@
   "why": "M1C1B1B B1-B5 audited source blob e408bbbff39387babe41ac16b4f6eb52a300c583; independent B5 READY rationale docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_READY_20261117.md blob 04892f945871b9a9d3ed36452d9040ae694a2b68; guard documentary 44058021176 SUCCESS; prior M1C1B1A B7 PASS scoped",
   "how": "Six paths only. Implement STAGED9 DEV intermodule port and optional host-unregistered mandatory Finance finalCommitGate, G01-G10 JVM; no human principal issuance, no product Android Apply, W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "preflight_red_fix": {
+    "failed_sha": "bbeb00d565bcbf24091a403144649e8fd3030295",
+    "run": 44058347307,
+    "failed_step": "Verify exact READY permit preflight on GitHub checkout",
+    "cause": "B6_NOT_RUN_AND_B7_PENDING_ENUMS_INVALID_FOR_READY",
+    "required": "B6_READY_TO_IMPLEMENT;B7_PENDING_FINAL_AUDIT",
+    "change": "DOC_ONLY_TWO_STAGE_ENUMS",
+    "no_code": true
+  }
 }
