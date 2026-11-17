@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_DEV",
-  "reviewed_head": "4456cfd95dafc628ccccbf2079ce7f253566e1e5",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B1A_ACTIVE_FINANCE_SNAPSHOT_READ_FENCE_DEV",
+  "reviewed_head": "71fe979f28c91c1d7512230b81b7f482b5b5aa1a",
   "paths": [
-    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
-    "v5/app/src/w01FinanceDev/AndroidManifest.xml",
-    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceForegroundOwnerAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d1b0-foreground-owner.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotRead.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotReadTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b1a-active-finance-read.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
-          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
+          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
+          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
-          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
+          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
+          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
-          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
+          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
+          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
-          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
+          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
+          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "0eb0fac3e2b98cde4ed9955840767b06acb575eb",
+          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "321f11e72e636bb748541008fb11fd1a3f21ce7c",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_W01_DEV_ANDROID_ACTIVITY_API35_2_OF_2_PASS",
-    "B7": "PASS_SCOPED_REAL_ANDROID_FOREGROUND_SHELL_NO_SQL"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "f2fa5f72814ec3e23d153241244c758b74205f0b",
@@ -75,11 +74,11 @@
       }
     ]
   },
-  "why": "D1B0 Android API35 real FragmentActivity isolated foreground lifecycle, B7 PASS scoped",
-  "how": "W01 DEV isolated host, no authorized SQL, no BiometricPrompt or balances",
+  "why": "D1B1A DEV-only real-owner FinanceSnapshot double read guard without biometric mandatory; exact3 and no Activity mount",
+  "how": "bounded canonical active FinanceSnapshot observation under sandbox/pointer/host/ACL fences; 10 new JVM tests+Android compile",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": "D1B0_READY_CONSUMED_D1B1_REQUIRES_NEW_B1_B5",
-  "consumed_code_sha": "f2fa5f72814ec3e23d153241244c758b74205f0b"
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }
