@@ -4,10 +4,12 @@ on:
     branches:
       - work/s3-night-20261102
     paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/v2CoreDev/AndroidManifest.xml"
+      - "v5/app/src/w01FinanceDev/AndroidManifest.xml"
       - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationProvider.kt"
       - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidation.kt"
       - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationTest.kt"
-      - "v5/app/src/v2CoreDev/AndroidManifest.xml"
       - ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
   workflow_dispatch:
 permissions:
@@ -18,94 +20,98 @@ concurrency:
 jobs:
   private-invalidation:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify exact B1-B5 READY permit in code parent
+      - name: Verify same-unit RED_FIX READY in parent exact4
         shell: bash
         run: |
           set -euo pipefail
-          git worktree add --detach "$RUNNER_TEMP/faro-code-parent" HEAD^
-          python3 "$RUNNER_TEMP/faro-code-parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$RUNNER_TEMP/faro-code-parent" --mode preflight \
+          git worktree add --detach "$RUNNER_TEMP/faro-redfix-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-redfix-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-redfix-parent" --mode preflight \
             --unit "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV" \
-            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationProvider.kt" \
-            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidation.kt" \
-            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPrivateInvalidationTest.kt" \
+            --path "v5/app/build.gradle.kts" \
             --path "v5/app/src/v2CoreDev/AndroidManifest.xml" \
+            --path "v5/app/src/w01FinanceDev/AndroidManifest.xml" \
             --path ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
-          git worktree remove "$RUNNER_TEMP/faro-code-parent"
+          git worktree remove "$RUNNER_TEMP/faro-redfix-parent"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
-      - name: Run 8 JVM tests, compile V2 DEV and materialize merged manifest
+      - name: Verify 8 JVM tests and compile two isolated DEV variants
         working-directory: v5
         run: |
           set -euo pipefail
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
             :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationTest"
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
-            :app:compileV2CoreDevKotlin :app:processV2CoreDevMainManifest
-      - name: Verify JUnit XML, merged manifest and no shipping mount
+            :app:compileV2CoreDevKotlin :app:processV2CoreDevMainManifest :app:processV2CoreDevManifestForPackage
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :app:compileW01FinanceDevKotlin :app:processW01FinanceDevMainManifest :app:processW01FinanceDevManifestForPackage
+      - name: Verify test XML plus both merged and packaged manifests
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
-          base=Path("v5/app/build/test-results/testDebugUnitTest")
-          found=list(base.glob("TEST-*S4W01FinanceReadPrivateInvalidationTest.xml"))
-          if len(found)!=1: raise SystemExit("W01_PRIVATE_INVALIDATION_JUNIT_MISSING")
-          xml=ET.parse(found[0]).getroot()
+          tests=list(Path("v5/app/build/test-results/testDebugUnitTest").glob("TEST-*S4W01FinanceReadPrivateInvalidationTest.xml"))
+          if len(tests)!=1: raise SystemExit("W01_RED_FIX_JUNIT_MISSING")
+          xml=ET.parse(tests[0]).getroot()
           vals=tuple(int(xml.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
-          if vals!=(8,0,0,0): raise SystemExit("W01_PRIVATE_INVALIDATION_TEST_RED "+str(vals))
-          expected={
-            "i01BeforeRegistrationNeverInvalidates",
-            "i02RegistrationClearsBeforeAnyRead",
-            "i03NoticeTriggersAnotherClearNotPermission",
-            "i04CloseRejectsLateCallback",
+          if vals!=(8,0,0,0): raise SystemExit("W01_RED_FIX_JUNIT_RED "+str(vals))
+          expected={"i01BeforeRegistrationNeverInvalidates","i02RegistrationClearsBeforeAnyRead",
+            "i03NoticeTriggersAnotherClearNotPermission","i04CloseRejectsLateCallback",
             "i05FailingRegistrationClearPermanentlyPoisons",
             "i06FailedLaterNoticePermanentlyPoisons",
             "i07DoubleRegistrationDoesNotCreateNewSession",
-            "i08CloseIdempotentAndCannotResurrect",
-          }
+            "i08CloseIdempotentAndCannotResurrect"}
           actual={n.get("name","").removesuffix("()") for n in xml.findall("testcase")}
-          if actual!=expected: raise SystemExit("W01_PRIVATE_INVALIDATION_WRONG_TESTS "+str(actual))
-          sources=Path("v5/app/build/intermediates")
-          paths=sorted(p for p in sources.rglob("AndroidManifest.xml")
-            if "v2CoreDev" in str(p) and ("merged_manifest" in str(p)))
-          if not paths: raise SystemExit("W01_PRIVATE_INVALIDATION_MERGED_MANIFEST_MISSING")
+          if actual!=expected: raise SystemExit("W01_RED_FIX_WRONG_TESTS "+str(actual))
           ns="{http://schemas.android.com/apk/res/android}"
-          expected_name="ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationProvider"
-          expected_authority="ar.com.faro.alpha.v2coredev.finance9read"
-          for p in paths:
-            root=ET.parse(p).getroot()
-            application=root.find("application")
-            if application is None: raise SystemExit("W01_PRIVATE_INVALIDATION_NO_APPLICATION "+str(p))
-            providers=application.findall("provider")
-            ours=[x for x in providers if x.get(ns+"name")==expected_name]
-            if len(ours)!=1: raise SystemExit("W01_PRIVATE_INVALIDATION_PROVIDER_MERGE_MISSING "+str(p))
-            own=ours[0]
-            if own.get(ns+"exported")!="false" or own.get(ns+"authorities")!=expected_authority:
-              raise SystemExit("W01_PRIVATE_INVALIDATION_WRONG_PRIVATE_AUTHORITY "+str(p))
-            if len(providers)!=1: raise SystemExit("W01_PRIVATE_INVALIDATION_EXTRA_PROVIDER "+str(p))
-            if any(x.get(ns+"name")=="android.permission.INTERNET" for x in root.findall("uses-permission")):
-              raise SystemExit("W01_PRIVATE_INVALIDATION_DEV_INTERNET "+str(p))
+          base=Path("v5/app/build/intermediates")
+          expectedProvider="ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationProvider"
+          for variant,expectedPackage,count in [
+            ("v2CoreDev","ar.com.faro.alpha.v2coredev",0),
+            ("w01FinanceDev","ar.com.faro.alpha.w01financedev",1)]:
+            for family in ("merged_manifest","packaged_manifests"):
+              matches=sorted(p for p in base.rglob("AndroidManifest.xml")
+                if family in str(p) and ("/"+variant+"/") in str(p))
+              if not matches: raise SystemExit("W01_RED_FIX_MISSING_MANIFEST "+variant+" "+family)
+              for path in matches:
+                root=ET.parse(path).getroot()
+                application=root.find("application")
+                if application is None: raise SystemExit("W01_RED_FIX_NO_APPLICATION "+str(path))
+                providers=application.findall("provider")
+                if len(providers)!=count:
+                  raise SystemExit("W01_RED_FIX_WRONG_PROVIDER_COUNT "+variant+" "+str(path)+" "+str(len(providers)))
+                if any(x.get(ns+"name")=="android.permission.INTERNET" for x in root.findall("uses-permission")):
+                  raise SystemExit("W01_RED_FIX_INTERNET "+variant+" "+str(path))
+                if variant=="w01FinanceDev":
+                  provider=providers[0]
+                  if provider.get(ns+"name")!=expectedProvider or provider.get(ns+"exported")!="false" or provider.get(ns+"grantUriPermissions")!="false" or provider.get(ns+"authorities")!=expectedPackage+".finance9read":
+                    raise SystemExit("W01_RED_FIX_BAD_PROVIDER "+str(path))
+                if family=="packaged_manifests" and root.get("package")!=expectedPackage:
+                  raise SystemExit("W01_RED_FIX_APP_ID "+variant+" "+str(path)+" "+str(root.get("package")))
+          v2=Path("v5/app/src/v2CoreDev/AndroidManifest.xml").read_text()
+          w01=Path("v5/app/src/w01FinanceDev/AndroidManifest.xml").read_text()
           main=Path("v5/app/src/main/AndroidManifest.xml").read_text()
           product=Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java").read_text()
-          if expected_name in main or expected_name in product or "S4W01FinanceReadPrivateInvalidation(" in product:
-            raise SystemExit("W01_PRIVATE_INVALIDATION_SHIPPING_MOUNT")
-          print("W01_PRIVATE_INVALIDATION_JVM_8_OF_8_PASS")
-          print("W01_PRIVATE_INVALIDATION_DEV_MERGED_MANIFEST_PRIVATE_NO_DATA")
-          print("CONTENT_OBSERVER_ANDROID_TWO_PID_AND_POST_SQL_COMMIT_NOT_CERTIFIED")
+          if expectedProvider in v2 or expectedProvider not in w01 or expectedProvider in main or expectedProvider in product:
+            raise SystemExit("W01_RED_FIX_PROVIDER_DECLARED_OUTSIDE_ISOLATED_VARIANT")
+          print("W01_RED_FIX_JVM_8_OF_8_PASS")
+          print("V2_CORE_ZERO_PROVIDERS_PRESERVED")
+          print("W01_FINANCE_DEV_ONE_PRIVATE_PROVIDER_OFFLINE")
+          print("NO_SQL_COMMIT_PUBLISHER_OR_ANDROID_TWO_PID_CERTIFIED")
           PY
-      - name: Save exact JVM XML
+      - name: Keep exact JUnit8 XML
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: faro-v5-w01-b3b1b1b1b1b1b-private-invalidation-junit
+          name: faro-v5-w01-b3b1b1b1b1b1b-redfix-junit
           path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01FinanceReadPrivateInvalidationTest.xml
           if-no-files-found: warn

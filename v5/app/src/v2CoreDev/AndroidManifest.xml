@@ -30,13 +30,6 @@
         <activity android:name="ar.com.faro.v5.platform.android.cert.FaroV5P6CertificationActivity" tools:node="remove" />
         <!-- No background execution, certification providers or OS dispatch in this UID. -->
         <provider tools:node="removeAll" />
-        <!-- W01 DEV-only private URI anchor. This is NOT a Finance data provider. -->
-        <provider
-            android:name="ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationProvider"
-            android:authorities="${applicationId}.finance9read"
-            android:exported="false"
-            android:grantUriPermissions="false"
-            tools:node="merge" />
         <receiver tools:node="removeAll" />
         <service tools:node="removeAll" />
         <activity-alias tools:node="removeAll" />

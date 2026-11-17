@@ -111,6 +111,16 @@ android {
         manifestPlaceholders["faroAppLabel"] = "FARO V2 CORE DEV"
     }
 
+    // RED_FIX W01: separate offline DEV package. V2 Core remains zero-provider.
+    buildTypes.create("w01FinanceDev") {
+        initWith(buildTypes.getByName("v2CoreDev"))
+        applicationIdSuffix = ".w01financedev"
+        versionNameSuffix = "-w01financedev"
+        matchingFallbacks += listOf("v2CoreDev", "debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO W01 FINANZAS DEV"
+    }
+    sourceSets.getByName("w01FinanceDev").kotlin.srcDir("src/v2CoreDev/kotlin")
+
     // A distinct UID/Keystore for X03; never replaces the S2 debug package.
     buildTypes.create("x03AiDev") {
         initWith(buildTypes.getByName("debug"))
