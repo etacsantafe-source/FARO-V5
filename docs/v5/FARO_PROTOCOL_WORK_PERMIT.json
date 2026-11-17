@@ -65,13 +65,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "100254bcfa3ef93ceb9ffcdccb8c57e627cf3b14",
-    "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
-    "result": "PASS",
+    "sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
+    "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1B_LOCAL_BIOMETRIC_B7_PASS_SCOPED_20261116.md",
-        "blob_sha": "3a85284314b377db88f46730b3bff593fb52dd7c",
+        "path": "docs/v5/FARO_S4_W01_M1C0_TWO_OS_PID_RED_FIX_20261116.md",
+        "blob_sha": "fa6f050a4230c683ac422589e343c91bd2b6fa58",
         "marker": "## B7"
       }
     ]
@@ -79,5 +79,13 @@
   "why": "M1C B1-B5 documented blob c92289aea2381a7495d35523a7c55cf7652e8f1e; M1B B7 scoped PASS and guard 44006769756 SUCCESS; staged two-real-OS-process SQL fence ONLY",
   "how": "Exact5 paths; two OS PIDs confirmed; no human or productive Apply; C01-C08 exact XML; isolated policy check inside same Reality transaction before COMMIT; W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "red_fix_scope": {
+    "failed_sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
+    "run": 44007717182,
+    "error": "KOTLIN_RETURN_TYPE_MISMATCH_COMPILE_TEST_LINE259",
+    "target_path": "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclCrossProcessTest.kt",
+    "state": "RED_FIX_BOUND_TO_SAME_UNIT",
+    "no_production_code_changes": true
+  }
 }

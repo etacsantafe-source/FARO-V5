@@ -346,9 +346,9 @@
   },
   "w01_m1c": {
     "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
-    "status": "READY_EXACT5_STAGE_SQL_ONLY",
+    "status": "B7_RED_FIX_COMPILE_TEST_ONLY",
     "document": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
-    "code_changed": false,
+    "code_changed": true,
     "paths": [
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
@@ -357,8 +357,11 @@
       ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
     ],
     "w2": "STOP",
-    "next": "M1C0_B6_TESTS",
-    "ready_document": "docs/v5/FARO_S4_W01_M1C0_FINANCE9_STAGED_FENCE_READY_20261116.md"
+    "next": "SAME_UNIT_TEST_LINE259_ONLY",
+    "ready_document": "docs/v5/FARO_S4_W01_M1C0_FINANCE9_STAGED_FENCE_READY_20261116.md",
+    "code_sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
+    "CI_run": 44007717182,
+    "b7_redfix_doc": "docs/v5/FARO_S4_W01_M1C0_TWO_OS_PID_RED_FIX_20261116.md"
   },
   "w01_remaining": {
     "status": "WAIT_M1B_M1C",
