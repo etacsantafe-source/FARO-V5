@@ -1,0 +1,22 @@
+# FARO V5 — W01 B3B1B1A · auditoría B5 separada + READY exact3 del mapper inerte DEV
+Fecha AR: 2026-11-17. Unidad `S4_W01_B3B1B1A_FINANCE9_INERT_UI_MAPPER_DEV`. HEAD de evaluación `a8a6a263a13cf99d3e15e0862fdd5cf35cfcb516`.
+Preauditoría original: `docs/v5/FARO_S4_W01_B3B1B1_TRUSTED_READ_ADAPTER_B1_B5_20261117.md` blob `1ab8b0792325fb63d38bca3e32b3629896a80e67`; guard de HEAD `44090592005` completed/SUCCESS. Esta autorización NO es B3B1B1B host ni prueba biométrica ni acceso productivo.
+## B1
+Contraste de fuente exacta: `RealityFinance9ObservedSourceRead` transporta policy observado y opening coherentes bajo UN WAL snapshot; `FaroV5FinanceUiSnapshot` exige revision y saldos sólo para VERIFIED; `RealityFinance9OpeningProvenanceAccount` impone saldo null si apertura es LEGACY_UNVERIFIED/MISSING. B3A 8/8, B3B0 8/8, B3B1A 8/8, B3B1B0 8 nuevos +16 regresión y 22 workflows SUCCESS en su SHA histórico; NO repetir.
+## B2
+Reutilizar los DTOs existentes sin alterar APIs, tablas, ACL, FBS2, Compose, RealityStore, V4.4 o owners. El mapper únicamente transforma un valor recibido; no llama SQL, no calcula identidad, no toma pointer, no implementa FaroV5FinanceReadPort ni se conecta a CompositionRoot/Activity/Chat. V4.4 sólo sirve de criterio para no inventar permisos ni volver a ejecutar Apply.
+## B3
+DECISIÓN A: aceptar conversión pura interna al módulo app, sin efectos. SQLite garantiza snapshot coherente, NO autoridad para futuro render: https://www.sqlite.org/isolation.html. La pantalla Compose descarta datos al recibir invalidación, pero un flujo no es una ACL de host: https://developer.android.com/guide/components/activities/activity-lifecycle. DESCARTAR cache, issuer, grant, callbacks de usuario, FileObserver como garantía exclusiva, identidad derivada de texto o importes supuestos. Sin nuevas dependencias.
+## B4
+Exact3 autorizados sólo para B6 siguiente:
+1. `v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapper.kt`: NEW internal `S4W01B3B1Finance9UiMapper` puro. Firma `mapObserved(observed: RealityFinance9ObservedSourceRead?): FaroV5FinanceUiSnapshot`. null => UNAVAILABLE sin valores ni IDs. Para fuente no nula: DTO fijo policy generation+sequence + opening sourceRevision. CONFIRMED_IN_SQL ARS/USD => VERIFIED con ledgerBalanceMinor real (incluido negativo/cero real); LEGACY_UNVERIFIED/MISSING => OPENING_UNVERIFIED sin amount; CONFIRMED JPY/u otra divisa con exponente no contratado => PARTIAL sin amount. Sin cuentas => EMPTY_CONFIRMED; todas verificadas no vacías => READY; mezcla => PARTIAL. DTO observado NO autentica host y jamás habilita shipping.
+2. `v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapperTest.kt`: NEW 8 JUnit: null->unavailable, vacío observado, ARS/USD/negativo, cero real, LEGACY_UNVERIFIED, MISSING, divisa no admitida, payload/revision/duplicado inválido fail-closed. NO test biométrico.
+3. `.github/workflows/faro-v5-s4-w01-b3b1b1a-mapper-directed.yml`: NEW workflow dirigido `:app:testDebugUnitTest` + `:app:compileV2CoreDevKotlin`, confirmar JUnit XML 8 casos y regresión UI B3A al reutilizar tipos; protocolo guard y cero montajes productivos.
+No modificar manifest/Navigation/Surface/Store/DB/Main/S2/S3/Finance owner. FARO-UNIT obligatorio y preflight de CADA ruta previo a B6.
+## B5
+Revisión adversarial: el mapper inerte acepta DTOs construibles desde tests, por tanto NUNCA representa una credencial. No expone `Flow`, no conserva estado ni emite `FaroV5FinanceReadPort`; riesgo de uso incorrecto futuro se reduce manteniendo objeto `internal`, comentario DEV/STAGED9, y prohibiendo todo wiring. Verificaciones negativas exigidas en B6: N01 null no es empty; N02 sin saldo para legacy; N03 sin 0 por inferencia; N04 sin moneda con escala desconocida; N05 coherencia source revision; N06 rechazo duplicados; N07 no conversiones FX; N08 no importación desde Activity, Chat ni Compose. La generación+secuencia del observed son información, NO autorización de pantalla.
+Dictamen B5: **PASS_PARA_MAPPER_PURO_DEV_EXACT3**. El adapter host B3B1B1B sigue **STOP/NOT_READY** hasta root trust UID/Keystore, pointer/hostEpoch real y revocación interproceso + reinicio/reanudación. También B3B2/G15 NOT_RUN. V2 productiva OFF, W2 STOP, Auto/Noche OFF, sin pagos reales.
+## B6
+READY_TO_IMPLEMENT sólo exact3 y tras preflight exitoso; ningún código ejecutado en este commit documental.
+## B7
+PENDING_FINAL_AUDIT. Requiere SHA code, CI XML, guard, diff exact3, writer RELEASED; no inferir PASS de pruebas históricas.

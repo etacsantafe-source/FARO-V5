@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B0_FINANCE9_SINGLE_SNAPSHOT_POLICY_AND_OPENING_DEV",
-  "reviewed_head": "ca79c7753004447160f87d5e0190162724231209",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1A_FINANCE9_INERT_UI_MAPPER_DEV",
+  "reviewed_head": "a8a6a263a13cf99d3e15e0862fdd5cf35cfcb516",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ObservedSourceReadPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ObservedSourceReadTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b0-atomic-read-directed.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapper.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapperTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1a-mapper-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_POLICY_SOURCE_READY_20261117.md",
-          "blob_sha": "bd5cbe84f01311b69410ebac1b944db2e2bb1e82",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_POLICY_SOURCE_READY_20261117.md",
-          "blob_sha": "bd5cbe84f01311b69410ebac1b944db2e2bb1e82",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_POLICY_SOURCE_READY_20261117.md",
-          "blob_sha": "bd5cbe84f01311b69410ebac1b944db2e2bb1e82",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_POLICY_SOURCE_READY_20261117.md",
-          "blob_sha": "bd5cbe84f01311b69410ebac1b944db2e2bb1e82",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_POLICY_SOURCE_READY_20261117.md",
-          "blob_sha": "bd5cbe84f01311b69410ebac1b944db2e2bb1e82",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1A_MAPPER_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "96acb29645e76eaee5814688dd78e30e46b78720",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_SINGLE_SNAPSHOT_8_NEW_16_REGRESSION_22_CI",
-    "B7": "PASS_SCOPED_DEV_SINGLE_SNAPSHOT_8_NEW_22_CI"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "ba6b83c39fdbfe2274fad64e103fe5d93a871bd2",
@@ -75,8 +74,8 @@
       }
     ]
   },
-  "why": "B3B0/B3B1A two independent read transactions create interprocess TOCTOU; independent B5 and guard 44086447791 SUCCESS confirms one SQL WAL snapshot dev-only.",
-  "how": "Exact4: typed observed composite DEV port, refactor private B3B0 SQL body in RealityStore, eight new real SQLite tests, directed workflow. No Android shipping auth.",
+  "why": "B3B1B0 one-snapshot observed DTO is already B7 PASS; B3B1B1A is ONLY a dormant pure map to B3A UI model, no authority, host or read port; B3B1B1B remains blocked.",
+  "how": "Exact3: new internal Kotlin pure mapper, eight new JVM tests, directed Android DEV compile workflow; independent B5 guard preconditions and no shipping wiring.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -99,6 +98,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B0_B7_PASS_CONSUMED_B3B1B1_TRUSTED_APP_ACL_ADAPTER_NOT_AUTHORIZED",
+  "blocked_reason": null,
   "blocker": null
 }
