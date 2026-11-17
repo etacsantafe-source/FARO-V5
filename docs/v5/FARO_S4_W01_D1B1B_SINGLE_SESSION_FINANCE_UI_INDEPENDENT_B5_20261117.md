@@ -1,0 +1,11 @@
+# FARO W01 D1B1B — auditoría independiente B5 de sesión única y UI
+Fecha: 2026-11-17. Base `0886082dd3e1b10bf0b10a43fd702b26cd15d6aa`. Previa al código. B5 **no** certifica implementación. W1 OPEN / W2 STOP / V2 OFF.
+
+## B5
+1. **Doble graph / writer:** `FaroV5V2CoreDevActivity.session` mantiene graph único. El préstamo no puede llamar `FaroV5ActiveGenerationGraphOwner.open` ni `openValidatedV2Finance9Stage`; aceptar únicamente `graph.reality.financePersistence.read()` desde la Session existente. Si no hay Session, no abrir segunda a escondidas: iniciar la sesión por la ruta ya certificada y sólo después navegar.
+2. **Límites Android:** launcher tiene `onPause` revocando Search pero NO cerrando graph; Activity Finance está `exported=false` en W01, UID aislado y sin INTERNET o USE_BIOMETRIC. Handoff mismo proceso no pone Session en Intent/Bundle. TTL y consumo one-shot. En background child debe cerrar préstamo y eliminar vista inmediatamente; no conceder reanudación implícita.
+3. **Fences D1B1A:** construir con `AndroidPlatformSandboxFactsReader(application)` y `FaroV5AndroidSandboxPrincipal`; UID real desde Application, pointer exacto de Session, host epoch y ACL efímeros no reutilizables. Antes y después de leer aplicar D1B1A, incluso si se recibe invalidación parcial/cross-process. Si falla algo, UNAVAILABLE y limpiar.
+4. **Finanzas reales ≠ Finance9:** `FinanceSnapshot` ACTIVE es Finance8/Planning8, Finance9 STAGED. No etiquetar como Finance9 confirmado ni mostrar como verificado el `ledgerMinor` legado. D1B1B conecta Session a UI usando cuentas etiquetadas provisionales, saldos sin valor hasta cutover D1B1C.
+5. **Regresiones:** hook base de Activity por defecto devuelve false y sólo W01 lo implementa; no alterar Search/Chat/Guardados ni S2/S3. Probar 6 rutas de presentación independientes, compilar W01 Android exacto, CI de guard, examinar diff. No afirmar pruebas instrumentadas/flujo real si sólo compila.
+6. **NO-READY sin evidencia:** B1–B5 y SHA del blob de este documento deben quedar registrados en permiso READY acotado antes de B6. El writer CAS se libera antes de CI. B7 posterior independiente, no repetir pruebas previas.
+Dictamen: GO a un permiso EXACT6 **sólo** si evidencia/guardia documental están verificadas; no es permiso para código anticipado.
