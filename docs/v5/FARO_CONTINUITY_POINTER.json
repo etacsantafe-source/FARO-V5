@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M1C0_B7_RED_FIX_COMPILE_TEST_ONLY",
+  "phase": "S4_W01_M1C0_B7_PASS_SCOPED_NEXT_M1C1_AUTH_HOST",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1020
+    "epoch": 1022
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "M1C0 test line259 Unit return fix only; guard+real PID XML 8/8; then M1C0 B7; M1C1 human host later; W2 STOP",
-  "checkpoint_status": "M1C0_B7_RED_FIX_NO_PASS",
+  "next": "M1C1 B1-B5 actual Android Review+local biometric + SQL ACL grant until COMMIT, independent READY/CI/hardware; then W01 B/C/D/E/F; W2 STOP",
+  "checkpoint_status": "M1C0_B7_SCOPED_PASS_DOC_COMMITTED_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4259,22 +4259,30 @@
     "goal_id": "S4_W01_FINANCE9",
     "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
     "block_id": 7,
-    "block_status": "B7_RED_FIX_COMPILER_TEST_ONLY_NO_PASS",
+    "block_status": "M1C0_B7_PASS_TWO_OS_PID_STAGE_SQL_ONLY",
     "expected_head": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
     "acceptance": "C01_C08_2_OS_PID_AND_SQL_COMMIT_RECEIPT_FENCE",
     "evidence": [
       "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md"
     ],
-    "next_step": "RED_FIX_TEST_LINE259_ONLY",
-    "blocker": "TEST_COMPILE_RETURN_TYPE_MISMATCH_XML_NOT_RUN",
-    "writer_release_epoch": 1020,
+    "next_step": "M1C1_B1_B5",
+    "blocker": "M1C1_ACTUAL_ANDROID_HUMAN_GRANT_TO_APPLY_NOT_IMPLEMENTED",
+    "writer_release_epoch": 1022,
     "last_observed_at": "2026-11-16",
     "w2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_M1C0_FINANCE9_STAGED_FENCE_READY_20261116.md",
     "failed_code_sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
-    "ci_run": 44007717182,
-    "proof": "docs/v5/FARO_S4_W01_M1C0_TWO_OS_PID_RED_FIX_20261116.md",
-    "proof_blob_sha": "fa6f050a4230c683ac422589e343c91bd2b6fa58"
+    "ci_run": 44008366750,
+    "proof": "docs/v5/FARO_S4_W01_M1C0_TWO_PROCESS_STAGE_B7_PASS_20261116.md",
+    "proof_blob_sha": "c39640a6e1dd5de5d7a8e39a30add63dfe777917",
+    "status": "B7_PASS_SCOPED_STAGE_SQL",
+    "code_sha": "d228d00c8ae7cb801a67d85375688ea83b91e873",
+    "guard_code_run": 44008366768,
+    "xml": "8/8 PASS, 4 distinct PID pairs",
+    "regression_runs": [
+      44008366760,
+      44008366992
+    ]
   },
   "w01_remaining": {
     "status": "BLOCKED_UNTIL_M1B_M1C_B7",
@@ -4292,5 +4300,11 @@
     "conclusion": "FAILURE",
     "failed_case": "nativeSourcesShareCanonicalWorkspaceRealityAndGeneration",
     "status": "UNRESOLVED_SEPARATE_REGRESSION_DO_NOT_MARK_PASS"
+  },
+  "w01_m1c1": {
+    "status": "NEXT_B1_B5_NOT_READY",
+    "scope": "TRUSTED_LOCAL_CONSENT_SQL_TRANSACTION_HOST",
+    "physical": "NOT_RUN",
+    "w2": "STOP"
   }
 }

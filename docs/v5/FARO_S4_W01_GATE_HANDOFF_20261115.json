@@ -346,7 +346,7 @@
   },
   "w01_m1c": {
     "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
-    "status": "B7_RED_FIX_COMPILE_TEST_ONLY",
+    "status": "M1C0_B7_PASS_SCOPED_TWO_PID_STAGE_SQL_ONLY",
     "document": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
     "code_changed": true,
     "paths": [
@@ -357,11 +357,15 @@
       ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
     ],
     "w2": "STOP",
-    "next": "SAME_UNIT_TEST_LINE259_ONLY",
+    "next": "M1C1_B1_B5",
     "ready_document": "docs/v5/FARO_S4_W01_M1C0_FINANCE9_STAGED_FENCE_READY_20261116.md",
-    "code_sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
+    "code_sha": "d228d00c8ae7cb801a67d85375688ea83b91e873",
     "CI_run": 44007717182,
-    "b7_redfix_doc": "docs/v5/FARO_S4_W01_M1C0_TWO_OS_PID_RED_FIX_20261116.md"
+    "b7_redfix_doc": "docs/v5/FARO_S4_W01_M1C0_TWO_OS_PID_RED_FIX_20261116.md",
+    "ci_run": 44008366750,
+    "xml": "8/8 and four distinct OS PID pairs",
+    "b7_document": "docs/v5/FARO_S4_W01_M1C0_TWO_PROCESS_STAGE_B7_PASS_20261116.md",
+    "guard_run": 44008366768
   },
   "w01_remaining": {
     "status": "WAIT_M1B_M1C",
@@ -378,5 +382,11 @@
     "run": 44004832751,
     "status": "FAILURE_1_2_ANDROID_UI_SEPARATE_TRIAGE",
     "not_certified": true
+  },
+  "w01_m1c1": {
+    "status": "NOT_READY",
+    "next": "B1_B5_TRUSTED_REVIEW_AUTH_AND_APPLY_TRANSACTION",
+    "physical": "NOT_RUN",
+    "w2": "STOP"
   }
 }

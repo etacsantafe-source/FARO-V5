@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
   "reviewed_head": "be99fe41e7895eb0e5dac1e3b16197c1821eaf14",
   "paths": [
@@ -61,17 +61,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_M1C0_SAME_REALITY_TRANSACTION_WITH_TWO_REAL_OS_PID_XML8_8",
+    "B7": "PASS_SCOPED_FINANCE9_TWO_PROCESS_STAGE_SQL_ONLY"
   },
   "last_code_review": {
-    "sha": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
+    "sha": "d228d00c8ae7cb801a67d85375688ea83b91e873",
     "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C0_TWO_OS_PID_RED_FIX_20261116.md",
-        "blob_sha": "fa6f050a4230c683ac422589e343c91bd2b6fa58",
+        "path": "docs/v5/FARO_S4_W01_M1C0_TWO_PROCESS_STAGE_B7_PASS_20261116.md",
+        "blob_sha": "c39640a6e1dd5de5d7a8e39a30add63dfe777917",
         "marker": "## B7"
       }
     ]
@@ -87,5 +87,6 @@
     "target_path": "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclCrossProcessTest.kt",
     "state": "RED_FIX_BOUND_TO_SAME_UNIT",
     "no_production_code_changes": true
-  }
+  },
+  "blocked_reason": "M1C0_B7_PASS_CONSUMED_NEXT_M1C1_NOT_AUTHORIZED_HUMAN_ANDROID_PHYSICAL_NOT_RUN"
 }
