@@ -1,20 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B1A_ACTIVE_FINANCE_SNAPSHOT_READ_FENCE_DEV",
-  "reviewed_head": "71fe979f28c91c1d7512230b81b7f482b5b5aa1a",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV",
+  "reviewed_head": "facfcf28c4414baab2942cbea9ecedded0de5635",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotRead.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1AActiveFinanceSnapshotReadTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d1b1a-active-finance-read.yml"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapper.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapperTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b1b-single-session-ui.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
-          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
+          "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B1_B5_20261117.md",
+          "blob_sha": "60ea64e9130831f4da4a107e10cd895e2a21ecb0",
           "marker": "## B1"
         }
       ]
@@ -23,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
-          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
+          "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B1_B5_20261117.md",
+          "blob_sha": "60ea64e9130831f4da4a107e10cd895e2a21ecb0",
           "marker": "## B2"
         }
       ]
@@ -33,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
-          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
+          "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B1_B5_20261117.md",
+          "blob_sha": "60ea64e9130831f4da4a107e10cd895e2a21ecb0",
           "marker": "## B3"
         }
       ]
@@ -43,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_EXACT3_B1_B5_20261117.md",
-          "blob_sha": "d40bbe6ef50ea6521850f84f6499687ffab53b7e",
+          "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B1_B5_20261117.md",
+          "blob_sha": "60ea64e9130831f4da4a107e10cd895e2a21ecb0",
           "marker": "## B4"
         }
       ]
@@ -53,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "321f11e72e636bb748541008fb11fd1a3f21ce7c",
+          "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "9e24d47bd98c6488cf6dc6cbc34a458ee1992599",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_BOUNDED_ACTIVE_FINANCE_SNAPSHOT_10_JVM_W01_COMPILE",
-    "B7": "PASS_SCOPED_DEV_ACTIVE_FINANCE_DOUBLE_READ_FENCE_10_JVM"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0900e75135c913cf11b70915b7e7561006ee87f1",
@@ -74,11 +77,11 @@
       }
     ]
   },
-  "why": "D1B1A active FinanceSnapshot read-only fence 10/10 JVM and Android W01 compile B7 scoped",
-  "how": "EXACT3 no UI, no second SQLite, no biometric or finance9 ACTIVE",
+  "why": "D1B1B B1-B5 exact6 independently reviewed; 44196873130 guard SUCCESS; no Finance9 active",
+  "how": "W01 DEV same Session borrower + Activity foreground, D1B1A read fence, no biometric, no second DB, unverified Finance8 presentation",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": "D1B1A_READY_CONSUMED_D1B1B_NEEDS_B1_B5_READY",
-  "consumed_code_sha": "0900e75135c913cf11b70915b7e7561006ee87f1"
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }
