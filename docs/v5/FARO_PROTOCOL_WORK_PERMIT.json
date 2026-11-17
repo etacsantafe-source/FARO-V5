@@ -66,19 +66,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "0900e75135c913cf11b70915b7e7561006ee87f1",
-    "unit_id": "S4_W01_D1B1A_ACTIVE_FINANCE_SNAPSHOT_READ_FENCE_DEV",
-    "result": "PASS",
+    "sha": "b54637060fe7ab7f69840e50275fd62b3c8eab1c",
+    "unit_id": "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "23f638bc696dfa0eae934d19cddac93946730f6c",
+        "path": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B7_RED_FIX_20261117.md",
+        "blob_sha": "aa9a13faed4d7d332965f0431ba0b03da6a84778",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1B1B B1-B5 exact6 independently reviewed; 44196873130 guard SUCCESS; no Finance9 active",
-  "how": "W01 DEV same Session borrower + Activity foreground, D1B1A read fence, no biometric, no second DB, unverified Finance8 presentation",
+  "why": "RED_FIX: W01 missing app direct material3 compile dependency; remove wrapper only",
+  "how": "same-unit same-path two-line correction after B7 RED_FIX; no reapproval of other 5 paths",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
