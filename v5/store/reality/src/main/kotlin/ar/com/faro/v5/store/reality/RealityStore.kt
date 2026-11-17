@@ -463,6 +463,53 @@ class RealityStore(
         }
 
     /**
+     * M1C1B1C: DEV-only owner of SQL policy+grant issuance after EXTERNAL
+     * trusted Android host admission. This does not validate a biometric
+     * signature: the host must do that before requesting issuance.
+     * The port is never installed in the productive composition.
+     */
+    fun finance9TrustedStageGrantIssuerForDevOnly():
+        RealityFinance9TrustedStageGrantIssuerPort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Finance9 grant issuer requires explicit STAGED9 Reality"
+        }
+        RealityFinance9TrustedStageGrantIssuerPort { request ->
+            withMaterialAdmission {
+                synchronized(lock) {
+                    checkOpen()
+                    if (!financeStage9 || !planningStage8 || readSchemaVersion() != 9) {
+                        null
+                    } else runCatching {
+                        val key = Finance9AclScope(
+                            request.principalHash, request.generationId,
+                            request.pointerSequence, request.operationId,
+                            request.objectScope,
+                        )
+                        val acl = RealityFinance9Acl(
+                            connection,
+                            stagedAdmission = {
+                                financeStage9 && planningStage8 && readSchemaVersion() == 9
+                            },
+                        )
+                        val epoch = acl.issueAfterTrustedStageAdmission(
+                            key, request.issuedAtMs, request.expiresAtMs,
+                        )
+                        if (!acl.issueGrantAfterTrustedStageAdmission(
+                            key, epoch, request.grantId, request.fingerprintHex,
+                            request.intentKey, request.issuedAtMs, request.expiresAtMs,
+                        )) null else Finance9TrustedStageGrant(
+                            request.principalHash, request.generationId,
+                            request.pointerSequence, request.operationId,
+                            request.objectScope, request.grantId, epoch,
+                        )
+                    }.getOrNull()
+                }
+            }
+        }
+    }
+
+    /**
      * M1C0: STAGED9-only Finance policy check INSIDE this very Reality SQLite
      * BEGIN IMMEDIATE transaction. The caller must already hold this store's
      * actual Apply scope; this port neither creates a grant nor executes Apply.

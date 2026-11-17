@@ -1,0 +1,102 @@
+name: FARO V5 W01 M1C1B1C DEV trusted-host staged grant admission
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceAuthHost.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1B1CTrustedGrantAdmission.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantIssuerPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1CTrustedGrantAdmissionTest.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantIssuerPortTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1c1b1c-grant-admission-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1c1b1c-stage-only
+  cancel-in-progress: false
+jobs:
+  stage9-android-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exact new Reality9 issuer JUnit
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityFinance9TrustedStageGrantIssuerPortTest"
+      - name: Run new app stage policy and affected S3 Home regression JUnit
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01M1C1B1CTrustedGrantAdmissionTest" --tests "ar.com.faro.v5.app.FaroV5HomeNoticeBindingFactoryTest"
+      - name: Compile isolated V2 core DEV Android host without installing
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:compileV2CoreDevKotlin
+      - name: Verify named JUnit XML and no production CompositionRoot wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          def checked(folder, suffix, count=None):
+              files = list(Path(folder).glob("TEST-*" + suffix + ".xml"))
+              if len(files) != 1:
+                  raise SystemExit("M1C1B1C_XML_ABSENT " + suffix + " " + str(len(files)))
+              root = ET.parse(files[0]).getroot()
+              nums = tuple(int(root.get(k, "-1")) for k in ("tests","failures","errors","skipped"))
+              if nums[0] < 1 or any(nums[1:]) or (count is not None and nums[0] != count):
+                  raise SystemExit("M1C1B1C_XML_FAILURE " + suffix + " " + str(nums))
+              cases = [c.get("name","").removesuffix("()") for c in root.findall("testcase")]
+              if len(cases) != nums[0] or len(set(cases)) != nums[0]:
+                  raise SystemExit("M1C1B1C_XML_DUPLICATES " + suffix)
+              return cases
+          r = checked("v5/store/reality/build/test-results/test","RealityFinance9TrustedStageGrantIssuerPortTest",4)
+          a = checked("v5/app/build/test-results/testDebugUnitTest","S4W01M1C1B1CTrustedGrantAdmissionTest",6)
+          home = checked("v5/app/build/test-results/testDebugUnitTest","FaroV5HomeNoticeBindingFactoryTest")
+          if set(r) != {
+              "s01FactoryDenyLegacySevenAndPlanningEight",
+              "s02RealStageNinePolicyGrantDurableAndUnused",
+              "s03DuplicateGrantFailClosedWithoutSecondUsableGrant",
+              "s04MalformedScopedRequestNeverCreatesSqlRows",
+          }: raise SystemExit("M1C1B1C_REALITY_NAMED_CASE_MISMATCH")
+          if set(a) != {
+              "i01HostBoundMatchingReviewCreatesOneStageRequest",
+              "i02SingleUseAndFailedFirstAttemptCannotReplay",
+              "i03ForgedOrForeignReviewScopeCannotReachIssuer",
+              "i04PointerAbaOrRevokedHostEpochDeny",
+              "i05ExpiredForeignUidOrBadPrincipalDeny",
+              "i06IssuerErrorAndFalseReceiptFieldsNeverReturnStageGrant",
+          }: raise SystemExit("M1C1B1C_APP_NAMED_CASE_MISMATCH")
+          for path in [
+              Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java"),
+              Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5BootstrapActivity.java")
+          ]:
+              if "M1C1B1CTrustedGrantAdmission" in path.read_text():
+                  raise SystemExit("M1C1B1C_PRODUCT_WIRING_FOUND")
+          print("M1C1B1C_REALITY_4_OF_4;APP_STAGE_6_OF_6;TOTAL_NEW_10_OF_10")
+          print("S3_HOME_AFFECTED_REGRESSION_SUCCESS_CASES",len(home))
+          print("NO_ANDROID_HARDWARE_BIOMETRIC_OR_PRODUCT_APPLY_ATTESTED")
+          PY
+      - name: Save exact test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1c1b1c-stage-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9TrustedStageGrantIssuerPortTest.xml
+            v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01M1C1B1CTrustedGrantAdmissionTest.xml
+            v5/app/build/test-results/testDebugUnitTest/TEST-*FaroV5HomeNoticeBindingFactoryTest.xml
+          if-no-files-found: warn

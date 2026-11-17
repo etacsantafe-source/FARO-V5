@@ -2,6 +2,10 @@ package ar.com.faro.v5.app
 
 import android.os.Build
 import android.os.Looper
+import android.os.Process
+import ar.com.faro.v5.kernel.contracts.ConversationPlanReviewContext
+import ar.com.faro.v5.store.reality.Finance9TrustedStageGrant
+import ar.com.faro.v5.store.reality.RealityFinance9TrustedStageGrantIssuerPort
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.biometric.BiometricManager
@@ -14,6 +18,7 @@ import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
 import java.nio.charset.StandardCharsets
 import java.security.KeyPairGenerator
 import java.security.KeyStore
+import java.security.MessageDigest
 import java.security.Signature
 import java.security.spec.ECGenParameterSpec
 
@@ -28,10 +33,10 @@ import java.security.spec.ECGenParameterSpec
  */
 internal class S4W01FinanceAuthHost(
     private val activity: FragmentActivity,
-    pinned: ActiveGenerationPointer,
-    activePointer: ActiveGenerationPointerPort,
-    expectedHostEpoch: String,
-    hostEpochOrNull: () -> String?,
+    private val pinned: ActiveGenerationPointer,
+    private val activePointer: ActiveGenerationPointerPort,
+    private val expectedHostEpoch: String,
+    private val hostEpochOrNull: () -> String?,
 ) : AutoCloseable {
     private val lock = Any()
     private var requested = false
@@ -137,6 +142,51 @@ internal class S4W01FinanceAuthHost(
         }
     }
 
+    /**
+     * M1C1B1C DEV/STAGED9 ONLY. The caller supplies review context and an SQL
+     * port, NEVER a biometric evidence DTO or an approved scope as authority.
+     * The evidence is obtained solely inside THIS host's real CryptoObject
+     * callback; no shipping Activity/CompositionRoot mounts this method.
+     */
+    internal fun requestTrustedStageGrantAfterForegroundReview(
+        scope: S4W01FinanceLocalConsentScope,
+        reviewContext: ConversationPlanReviewContext,
+        binder: S4W01M1C1AReviewPresenceBinder,
+        stagedIssuer: RealityFinance9TrustedStageGrantIssuerPort,
+        onOutcome: (Finance9TrustedStageGrant?) -> Unit,
+    ) {
+        val uid = Process.myUid()
+        val gate = S4W01M1C1B1CTrustedGrantAdmission(
+            pinned = pinned,
+            pointer = activePointer,
+            expectedApplicationId = activity.application.packageName,
+            expectedApplicationUid = uid,
+            expectedHostEpoch = expectedHostEpoch,
+            hostEpochOrNull = hostEpochOrNull,
+            hostReady = {
+                activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+            },
+            issuer = stagedIssuer,
+        )
+        requestAfterForegroundReview(scope) { verifiedFromThisHost ->
+            val issued = runCatching {
+                val match = if (verifiedFromThisHost != null) {
+                    binder.bindAfterTrustedPresence(reviewContext, verifiedFromThisHost)
+                } else null
+                val principalHash = if (match != null) {
+                    signingKey.technicalLocalPrincipalHash(
+                        activity.application.packageName, uid,
+                    )
+                } else null
+                gate.issueAfterVerifiedHostCallback(
+                    scope, verifiedFromThisHost, match, principalHash,
+                )
+            }.getOrNull()
+            gate.close()
+            onOutcome(issued)
+        }
+    }
+
     private fun finish(result: S4W01FinanceLocalPresenceEvidence?) {
         val complete = synchronized(lock) {
             if (finished) return
@@ -196,6 +246,28 @@ private class S4W01FinanceKeystoreSignature {
         Signature.getInstance("SHA256withECDSA").apply {
             initSign(existingOrCreateKey())
         }
+
+    /**
+     * Stable LOCAL TECHNICAL principal based on the fixed app-scoped
+     * AndroidKeyStore certificate, package and UID. Not human identity.
+     * This is consulted ONLY after verified CryptoObject signature success.
+     */
+    fun technicalLocalPrincipalHash(applicationId: String, uid: Int): String? =
+        runCatching {
+            if (uid <= 0 || applicationId.isBlank()) return@runCatching null
+            val pinnedKey = store().getCertificate(alias)?.publicKey?.encoded
+                ?: return@runCatching null
+            if (pinnedKey.isEmpty()) return@runCatching null
+            val digest = MessageDigest.getInstance("SHA-256")
+            digest.update("FARO_W01_LOCAL_KEY_PRINCIPAL_V1".toByteArray(StandardCharsets.US_ASCII))
+            digest.update(0.toByte())
+            digest.update(applicationId.toByteArray(StandardCharsets.UTF_8))
+            digest.update(0.toByte())
+            digest.update(uid.toString().toByteArray(StandardCharsets.US_ASCII))
+            digest.update(0.toByte())
+            digest.update(pinnedKey)
+            digest.digest().joinToString("") { "%02x".format(it.toInt() and 255) }
+        }.getOrNull()
 
     /** Never accept an untrusted public key or a signature-only boolean. */
     fun verify(digestHex: String, signature: ByteArray): Boolean = runCatching {
