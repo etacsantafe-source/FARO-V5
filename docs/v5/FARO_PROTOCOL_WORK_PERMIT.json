@@ -1,22 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
-  "reviewed_head": "4a0780ede90eef3e24477f02e2fb16f6378e7148",
+  "status": "READY",
+  "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
+  "reviewed_head": "be99fe41e7895eb0e5dac1e3b16197c1821eaf14",
   "paths": [
-    "v5/app/build.gradle.kts",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceLocalPrincipal.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceAuthHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceLocalPrincipalTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclCrossProcessTest.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclProcessWorker.kt",
+    ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
-          "blob_sha": "97ff925257a8d9fa822ff66a8bdcbbceece24d04",
+          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
+          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
-          "blob_sha": "97ff925257a8d9fa822ff66a8bdcbbceece24d04",
+          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
+          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
-          "blob_sha": "97ff925257a8d9fa822ff66a8bdcbbceece24d04",
+          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
+          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
-          "blob_sha": "97ff925257a8d9fa822ff66a8bdcbbceece24d04",
+          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
+          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
           "marker": "## B4"
         }
       ]
@@ -55,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
-          "blob_sha": "97ff925257a8d9fa822ff66a8bdcbbceece24d04",
+          "path": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
+          "blob_sha": "c92289aea2381a7495d35523a7c55cf7652e8f1e",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DORMANT_ANDROID_LOCAL_BIOMETRIC_CRYPTO_JVM9_9_APK_DEV_BUILD_SUCCESS_AFTER_WORKFLOW_RED_FIX",
-    "B7": "PASS_SCOPED_M1B_DORMANT_JVM9_9_APK_DEV_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "100254bcfa3ef93ceb9ffcdccb8c57e627cf3b14",
@@ -76,17 +76,8 @@
       }
     ]
   },
-  "why": "B1-B5 independent doc blob 97ff925257a8d9fa822ff66a8bdcbbceece24d04; documentary guard 44004088951 SUCCESS; no hardware or product grant authorized",
-  "how": "Exactly five paths; Android BiometricPrompt CryptoObject + KeyStore per-use and JVM review-bound one-shot state tests; isolated build; M1C and W2 STOP",
+  "why": "M1C B1-B5 documented blob c92289aea2381a7495d35523a7c55cf7652e8f1e; M1B B7 scoped PASS and guard 44006769756 SUCCESS; staged two-real-OS-process SQL fence ONLY",
+  "how": "Exact5 paths; two OS PIDs confirmed; no human or productive Apply; C01-C08 exact XML; isolated policy check inside same Reality transaction before COMMIT; W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "red_fix_scope": {
-    "failed_sha": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
-    "run": 44004832900,
-    "code": "D8_JAVA_HEAP_OUT_OF_MEMORY",
-    "target_path": ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml",
-    "state": "RED_FIX_BOUND_TO_SAME_UNIT",
-    "no_kotlin_changes": true
-  },
-  "blocked_reason": "M1B_B7_SCOPED_PASS_READY_CONSUMED_M1C_NOT_AUTHORIZED_ANDROID_PHYSICAL_NOT_RUN"
+  "no_auto_night": true
 }

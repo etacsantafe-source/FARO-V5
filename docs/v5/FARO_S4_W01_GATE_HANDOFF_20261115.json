@@ -345,8 +345,8 @@
     "guard": 44005792968
   },
   "w01_m1c": {
-    "unit_id": "S4_W01_M1C_FINANCE9_TWO_PROCESS_COMMIT_FENCE",
-    "status": "B1_B5_PUBLISHED_NO_READY",
+    "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
+    "status": "READY_EXACT5_STAGE_SQL_ONLY",
     "document": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
     "code_changed": false,
     "paths": [
@@ -357,7 +357,8 @@
       ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
     ],
     "w2": "STOP",
-    "next": "INDEPENDENT_READY_AFTER_FINAL_B7_DOC_GUARD"
+    "next": "M1C0_B6_TESTS",
+    "ready_document": "docs/v5/FARO_S4_W01_M1C0_FINANCE9_STAGED_FENCE_READY_20261116.md"
   },
   "w01_remaining": {
     "status": "WAIT_M1B_M1C",
