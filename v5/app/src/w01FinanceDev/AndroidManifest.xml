@@ -47,8 +47,14 @@
             android:process=":w01ReadProbe" />
         <activity-alias tools:node="removeAll" />
 
+        <!-- D1B0 isolated, non-exported FragmentActivity for future trusted Finance READ. -->
         <activity
-            android:name="ar.com.faro.v5.app.FaroV5V2CoreDevActivity"
+            android:name="ar.com.faro.v5.app.FaroV5W01FinanceReadDevActivity"
+            android:exported="false"
+            android:label="Finanzas DEV · lectura protegida" />
+
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5W01FinanceDevLauncherActivity"
             android:exported="true"
             android:label="FARO W01 FINANZAS DEV"
             android:excludeFromRecents="false"
