@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1_LOCAL_ACTIVE_FINANCE_READ_B1_B5_PREAUDIT_D1B1A_NEXT",
+  "phase": "S4_W01_D1B1A_ACTIVE_FINANCE_READ_B7_PASS_SCOPED_D1B1B_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1B1 B1-B5 revisado con usuario: Finanzas SIN huella por defecto. Hallazgo real: Finance9 STAGED-only no ACTIVE; no montar SQL9 directamente en Activity. Próximo D1B1A read-only FinanceSnapshot del único owner ACTIVE con UID/pointer/epoch/foreground/revision y sin abrir otro grafo; B5 independiente registrado, aún NO READY ni B6. D1B1B handoff Android único y D1B1C migración Finance9 bajo gates posteriores. NO repetir D0/D1A/D1B0. W1 OPEN, W2 STOP.",
-  "checkpoint_status": "W01_D1B1_B1_B5_DOC_ONLY_NO_READY_NO_CODE_W2_STOP",
+  "next": "D1B1A ACTIVE FinanceSnapshot double-read/UID/host/ACL guard B7 PASS scoped, 10/10 JVM + W01 Android Kotlin compile, code 0900e751, run 44191824683 SUCCESS, guard 44191824581 SUCCESS; no real Finance9 SQL/data Activity/G15. Siguiente D1B1B: único dueño Session ACTIVE + Android Activity foreground real sin biometría, B1-B5/READY propios, no repetir D1B1A ni D0/D1A/D1B0. D1B1C Finance9 active cutover posterior. W1 OPEN, W2 STOP, V2 productiva OFF.",
+  "checkpoint_status": "W01_D1B1A_10_JVM_10_PASS_W01_KOTLIN_COMPILE_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
@@ -4822,7 +4822,7 @@
     "W2": "STOP"
   },
   "w01_d1b1_route": {
-    "status": "B1_B5_DOC_ONLY_ACTIVE_FINANCE_READ_NO_B6",
+    "status": "D1B1A_B7_PASS_SCOPED_D1B1B_NEXT",
     "base_head": "55c0041186f39ddb41fd33cec2cbcf04c81bd98c",
     "preaudit": "docs/v5/FARO_S4_W01_D1B1_ACTIVE_FINANCE_LOCAL_READ_B1_B5_20261117.md",
     "independent_b5": "docs/v5/FARO_S4_W01_D1B1_ACTIVE_FINANCE_LOCAL_READ_INDEPENDENT_B5_20261117.md",
@@ -4836,5 +4836,24 @@
     ],
     "D0_D1A_D1B0": "B7_PASS_DO_NOT_REPEAT",
     "w2": "STOP"
+  },
+  "w01_d1b1a": {
+    "status": "B7_PASS_SCOPED_DEV_ACTIVE_FINANCE_SNAPSHOT_FENCE_10_JVM",
+    "unit_id": "S4_W01_D1B1A_ACTIVE_FINANCE_SNAPSHOT_READ_FENCE_DEV",
+    "code_sha": "0900e75135c913cf11b70915b7e7561006ee87f1",
+    "ci_run_id": 44191824683,
+    "ci_job_id": 134422931814,
+    "guard_code_run": 44191824581,
+    "junit": "10_OF_10_PASS",
+    "android_compile": "W01_FINANCE_DEV_KOTLIN_PASS",
+    "android_instrumented": "NOT_RUN",
+    "real_sql_finance_read": "NOT_WIRED",
+    "finance9_active": "NO",
+    "biometric_required": false,
+    "ui_mounted": false,
+    "permit": "CONSUMED_BLOCKED",
+    "b7_document": "docs/v5/FARO_S4_W01_D1B1A_ACTIVE_FINANCE_READ_B7_PASS_SCOPED_20261117.md",
+    "b7_blob_sha": "23f638bc696dfa0eae934d19cddac93946730f6c",
+    "next": "D1B1B_SINGLE_ACTIVE_OWNER_SESSION_FOREGROUND_INTEGRATION"
   }
 }
