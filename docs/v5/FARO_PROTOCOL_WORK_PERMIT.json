@@ -1,24 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1C1B1C_TRUSTED_LOCAL_GRANT_ADMISSION",
-  "reviewed_head": "2ed821ff5942c1a351abeab5daec2dc8baa81a46",
+  "status": "READY",
+  "unit_id": "S4_W01_B3A_FINANCE_READ_SURFACE_DEV",
+  "reviewed_head": "d7b7ceab9a6feeab4b51c22d4f1498d687498341",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceAuthHost.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1B1CTrustedGrantAdmission.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantIssuerPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1CTrustedGrantAdmissionTest.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantIssuerPortTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m1c1b1c-grant-admission-directed.yml"
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5FinanceReadSurface.kt",
+    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5FinanceReadSurfaceContractTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3a-finance-read-surface-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
-          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
+          "path": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_READY_20261117.md",
+          "blob_sha": "e57e99b74109d34294df6698728751b864ecd29e",
           "marker": "## B1"
         }
       ]
@@ -27,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
-          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
+          "path": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_READY_20261117.md",
+          "blob_sha": "e57e99b74109d34294df6698728751b864ecd29e",
           "marker": "## B2"
         }
       ]
@@ -37,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
-          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
+          "path": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_READY_20261117.md",
+          "blob_sha": "e57e99b74109d34294df6698728751b864ecd29e",
           "marker": "## B3"
         }
       ]
@@ -47,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
-          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
+          "path": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_READY_20261117.md",
+          "blob_sha": "e57e99b74109d34294df6698728751b864ecd29e",
           "marker": "## B4"
         }
       ]
@@ -57,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1C_TRUSTED_GRANT_STAGE_ONLY_READY_20261117.md",
-          "blob_sha": "7b64c98aa2f2785b7aaff0a8fa35cc0206427c32",
+          "path": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_READY_20261117.md",
+          "blob_sha": "e57e99b74109d34294df6698728751b864ecd29e",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_STAGED9_10_OF_10_JUNIT_22_OF_22_CI",
-    "B7": "PASS_SCOPED_DEV_STAGE9_10_OF_10_XML"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "3f0900d54b70f4f8da03fd2022ecf5c75fc41e9d",
@@ -78,8 +74,8 @@
       }
     ]
   },
-  "why": "M1C1B1C independent B5 docs, guard 44071698213 SUCCESS exact reviewed_head; DEV-STAGED9 only; signed callback origin, no arbitrary evidence as authorization",
-  "how": "Seven exact paths; stage-only issuer factory, host callback + key pinned; 6 JVM app policy + 4 Reality SQL tests directed CI; no hardware/app shipping",
+  "why": "Preaudited exact3 Finance read-only dormant surface; preaudit guard 44076134595 SUCCESS; B5 independent denies false zero, FX, projection, stale data; dev-only",
+  "how": "Add type+Compose+8 pure JUnit tests+one directed CI. Never mount shipping, never touch Apply/Reality/Finance owner, no G15 physical.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -92,7 +88,6 @@
     "no_code": true
   },
   "consumed_code_sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
-  "blocker": null,
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -102,6 +97,5 @@
   },
   "red_fix_scope": "NONE_22_22_CI_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
-  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "M1C1B1C_B7_PASS_CONSUMED_NEXT_HARDWARE_ROOT_OF_TRUST_AND_PRODUCT_UI_NOT_AUTHORIZED"
+  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616"
 }
