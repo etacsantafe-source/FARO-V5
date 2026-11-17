@@ -1,22 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_CAPTURE_RESTORE",
-  "reviewed_head": "a078e29eb7925bda4bddcb773fe1ce0f45815f31",
+  "status": "READY",
+  "unit_id": "S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL",
+  "reviewed_head": "48c5735910c565494baa0a9f3a28546919ba6716",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9FullArchiveCoordinator.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9FullArchiveCoordinatorTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m0c2b2b-finance9-full-archive-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclStage9Test.kt",
+    ".github/workflows/faro-v5-s4-w01-m1a-finance9-acl-stage-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
-          "blob_sha": "17818964b61a5c6dffba15629f767d5534fdf49a",
+          "path": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
+          "blob_sha": "938594bc7da00dfd3a45c4f49f5c1b0f0754fbe8",
           "marker": "## B1"
         }
       ]
@@ -25,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
-          "blob_sha": "17818964b61a5c6dffba15629f767d5534fdf49a",
+          "path": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
+          "blob_sha": "938594bc7da00dfd3a45c4f49f5c1b0f0754fbe8",
           "marker": "## B2"
         }
       ]
@@ -35,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
-          "blob_sha": "17818964b61a5c6dffba15629f767d5534fdf49a",
+          "path": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
+          "blob_sha": "938594bc7da00dfd3a45c4f49f5c1b0f0754fbe8",
           "marker": "## B3"
         }
       ]
@@ -45,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
-          "blob_sha": "17818964b61a5c6dffba15629f767d5534fdf49a",
+          "path": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
+          "blob_sha": "938594bc7da00dfd3a45c4f49f5c1b0f0754fbe8",
           "marker": "## B4"
         }
       ]
@@ -55,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
-          "blob_sha": "17818964b61a5c6dffba15629f767d5534fdf49a",
+          "path": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
+          "blob_sha": "938594bc7da00dfd3a45c4f49f5c1b0f0754fbe8",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_FINANCE9_FULL_FBS2V4_STAGE_ONLY_XML10_10_REGRESSIONS6_6",
-    "B7": "PASS_SCOPED_FINANCE9_FULL_FBS2V4_STAGE_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "b67a06c87a66551dd05b03afe0058a5e1a7e11fc",
@@ -76,9 +74,8 @@
       }
     ]
   },
-  "why": "M0C2B2A B7 6/6 and 19/19; M0C2B2B B1-B5 doc guard SUCCESS 43994971047",
-  "how": "Exact five paths; stage-only full FBS2v4; no V2 productive",
+  "why": "M0C2B2B B7 scoped PASS + M1A B1-B5 guard success 43997338912; only stage SQL ACL no host",
+  "how": "Exact3 paths M1A; seven tests A1-A7 and XML; M1B/1C and W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "blocked_reason": "M0C2B2B_B7_PASS_CONSUMED_NEXT_M1_NOT_AUTHORIZED"
+  "no_auto_night": true
 }

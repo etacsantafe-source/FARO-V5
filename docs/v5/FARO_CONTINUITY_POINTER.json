@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M1A_ACL_STAGE_SQL_B1_B5_PUBLISHED_GUARD_PENDING",
+  "phase": "S4_W01_M1A_ACL_STAGE_SQL_READY_B6_NOT_RUN",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1007
+    "epoch": 1008
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify M1A B1–B5 document guard, READY independent exact3, implement staged SQL ACL; M1B Android/M1C crossprocess later; W01 B-F, W2 STOP.",
-  "checkpoint_status": "M1A_B1_B5_DOC_ONLY_B6_NOT_RUN",
+  "next": "M1A B6 exact3 paths + JVM 7 XML then B7; M1B/C only after own READY; W01 B-F later; W2 STOP",
+  "checkpoint_status": "M1A_READY_B6_NOT_RUN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4202,15 +4202,17 @@
   },
   "w01_m1a": {
     "unit_id": "S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL",
-    "status": "B1_B5_DOC_PUBLISHED_GUARD_PENDING",
+    "status": "B1_B5_VERIFIED_READY_B6_NOT_RUN",
     "document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B1_B5_20261116.md",
     "code": "NOT_RUN",
-    "next": "READY_EXACT3_AFTER_GUARD",
+    "next": "M1A_B6_EXACT3",
     "not_certified": [
       "M1B_HUMAN_ANDROID",
       "M1C_CROSS_PROCESS",
       "PRODUCTIVE_APPLY"
     ],
-    "w2": "STOP"
+    "w2": "STOP",
+    "ready_document": "docs/v5/FARO_S4_W01_M1A_FINANCE9_ACL_STAGE_SQL_READY_20261116.md",
+    "writer_release_epoch": 1008
   }
 }
