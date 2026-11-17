@@ -1,0 +1,67 @@
+name: FARO V5 S4 W01-M1A Finance9 durable ACL SQL stage-only
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclStage9Test.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1a-finance9-acl-stage-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1a-stage-acl
+  cancel-in-progress: false
+jobs:
+  finance9-durable-acl-sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run seven stage9 SQLite Finance ACL tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :store:reality:test --tests "ar.com.faro.v5.store.reality.RealityFinance9AclStage9Test"
+      - name: Assert seven exact JUnit XML cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          xml=list(Path("v5/store/reality/build/test-results/test").glob(
+              "TEST-*RealityFinance9AclStage9Test.xml"))
+          if len(xml)!=1:
+              raise SystemExit("W01_M1A_XML_MISSING "+str(len(xml)))
+          root=ET.parse(xml[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in (
+              "tests","failures","errors","skipped"))
+          names=[(e.get("name") or "").removesuffix("()")
+                 for e in root.findall("testcase")]
+          expected={
+              "stage9WithExactAclTablesAdmitsIssueAndDurableEpoch",
+              "revokeAndRegrantNeverRecyclePolicyEpoch",
+              "twoSqliteConnectionsSerializeRevocationAndCurrentLookup",
+              "wrongSchemaAndDeniedStageFenceNeverMutate",
+              "epochOrRevisionOverflowFailsClosedAndRollsBack",
+              "foreignPrincipalGenerationPointerAndExpiryDeny",
+              "injectedFailureRollsBackPolicyAndCounter",
+          }
+          if counts!=(7,0,0,0) or len(names)!=7 or set(names)!=expected:
+              raise SystemExit("W01_M1A_XML_FAIL "+str((counts,names)))
+          print("S4_W01_M1A_DURABLE_ACL_SQL_STAGE_PASS 7/7")
+          print("NOT_CERTIFIED: OS two-process, real Android identity, consent, product Apply, W02")
+          PY
+      - name: Preserve M1A ACL SQL exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1a-finance9-durable-acl-sql-junit
+          path: v5/store/reality/build/test-results/test/TEST-*RealityFinance9AclStage9Test.xml
+          if-no-files-found: warn
