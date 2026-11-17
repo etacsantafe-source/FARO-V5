@@ -415,7 +415,7 @@
   },
   "w01_m1c1b0": {
     "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
-    "status": "B1_B5_DOC_GUARD_PENDING_NO_READY",
+    "status": "READY_EXACT4_B6_NOT_RUN",
     "document": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
     "paths": [
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
@@ -424,6 +424,7 @@
       ".github/workflows/faro-v5-s4-w01-m1c1b0-grant-receipt-directed.yml"
     ],
     "code_changed": false,
-    "w2": "STOP"
+    "w2": "STOP",
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_RECEIPT_READY_20261117.md"
   }
 }

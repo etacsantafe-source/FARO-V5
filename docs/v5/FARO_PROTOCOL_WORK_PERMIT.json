@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
-  "reviewed_head": "2bf753fb8daec6b2012ff683e9786a1a67fc4cec",
+  "status": "READY",
+  "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
+  "reviewed_head": "9671d5802982368a4d4427d2456856dc29f92f75",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinder.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinderTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m1c1a-review-presence-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9GrantReceiptStageTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m1c1b0-grant-receipt-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
-          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
+          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
-          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
+          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
-          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
+          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
-          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
+          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
           "marker": "## B4"
         }
       ]
@@ -53,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
-          "blob_sha": "ada0b0d02edd517664c41a6a3d1a992479aef3f4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
+          "blob_sha": "f1e33a37385939a691727f8935d8a7d2ff7dcda6",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_READ_ONLY_CANONICAL_APPROVED_M1B_PRESENCE_BINDER_TESTED_JVM9_9_DEV_COMPILE",
-    "B7": "PASS_SCOPED_M1C1A_READ_ONLY_BINDER_JVM9_9_DEV_COMPILE_NO_SQL_APPLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "18e87fadce1b979140aa4ffea4d082d9e1c69813",
@@ -74,9 +75,8 @@
       }
     ]
   },
-  "why": "M1C1A B1-B5 preaudit verified source blob ada0b0d02edd517664c41a6a3d1a992479aef3f4; guard 44009994626 SUCCESS; no physical human or SQLite grant authority",
-  "how": "Exactly 3 new paths, one-shot approved canonical Workspace+M1B local presence proof binder; 9 JVM tests, compile DEV, no Finance Apply/DDL, W2 STOP",
+  "why": "B1-B5 verified staged-only Finance grant consumption against REAL RealityStore receipt, source blob f1e33a37385939a691727f8935d8a7d2ff7dcda6 guard 44011584108 SUCCESS",
+  "how": "Exact four code paths, 8 negative/positive real SQLite9 receipt+rollback JVM tests, no Android/human/production Apply; W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "blocked_reason": "M1C1A_B7_PASS_CONSUMED_M1C1B_NOT_AUTHORIZED_ANDROID_PHYSICAL_NOT_RUN"
+  "no_auto_night": true
 }
