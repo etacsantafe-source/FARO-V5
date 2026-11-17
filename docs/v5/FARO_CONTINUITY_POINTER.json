@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1125
+    "epoch": 1127
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 B3B1B1B1B1B1B exact5 private Android invalidation infrastructure DEV READY after independent B5 guard 44149965743 SUCCESS. Implement B6 only after exact preflight and CAS, XML 8/8 and Android DEV compile + merged manifest provider. NOT a real post-SQL commit publisher, G15 IPC NOT_RUN. W2 STOP; V2 productive OFF.",
-  "checkpoint_status": "W01_B3B1B1B1B1B1B_READY_EXACT5_PRIVATE_INVALIDATION_INFRA_DEV_NOT_SQL_COMMIT",
+  "next": "W01 same B3B1B1B1B1B1B RED_FIX: remove provider from v2CoreDev (zero-provider invariant), create separate w01FinanceDev build type+manifest, extend exact permit after independent B5 and guard; directed JVM 8/8+new manifest passed but V2 core 44151067496 RED. S3 integrated 44151067469 historical nativeSourcesShare case remains separate. No W2, no productive V2.",
+  "checkpoint_status": "W01_B3B1B1B1B1B1B_B7_RED_FIX_NEW_V2_CORE_PROVIDER_UNEXPECTED_ISOLATE_DEV_VARIANT",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "5ed88bdf6abb26fd97eca2216dac4ef71372db89",
-  "last_ci_run_id": 44132878065,
+  "last_code_sha": "db714a0e25426c6f6b66936cef632685d4f62291",
+  "last_ci_run_id": 44151067699,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -132,7 +132,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_8_JVM_ANDROID_DEV_COMPILE",
+  "last_ci_conclusion": "W01_DIRECTED_SUCCESS_8_8_BUT_V2_CORE_44151067496_FAILURE_S3_INTEGRATED_44151067469_FAILURE",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -4695,7 +4695,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1A_FOREGROUND_RECONCILIATION_B7_PASS_SCOPED_20261117.md",
+  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_B7_RED_FIX_20261117.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -4706,7 +4706,7 @@
   },
   "w01_b3b1b1b1b1b1b": {
     "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
-    "status": "B1_B5_READY_SCOPE_ONLY",
+    "status": "B7_RED_FIX_V2_CORE_UNEXPECTED_PROVIDER",
     "base_head": "67fe81f1fcd92b18ada21f465bbe7465114d041a",
     "proof_blob": "4a67804e336d89583be89689a9fabce40f980c49",
     "independent_b5_blob": "f555ddc3b0f886d63c2f9e0074139409a206fbe8",
@@ -4717,11 +4717,20 @@
       "v5/app/src/v2CoreDev/AndroidManifest.xml",
       ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
     ],
-    "writer_release_epoch_expected": 1125,
+    "writer_release_epoch_expected": 1127,
     "w2": "STOP",
     "B6": "NOT_RUN",
     "B7": "PENDING",
     "physical": "NOT_RUN",
-    "productive_v2": "OFF"
+    "productive_v2": "OFF",
+    "code_sha": "db714a0e25426c6f6b66936cef632685d4f62291",
+    "ci_directed": 44151067699,
+    "ci_directed_result": "SUCCESS_8_JVM_MANIFEST_COMPILE",
+    "guard_code": 44151067703,
+    "core_red": 44151067496,
+    "s3_integrated_red": 44151067469,
+    "b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_B7_RED_FIX_20261117.md",
+    "b7_blob": "e51cba14d8e241f042e1e3ed66f4bc9f78b273a0",
+    "need_new_independent_b5": true
   }
 }
