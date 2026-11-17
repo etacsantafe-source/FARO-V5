@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_B3B1B1B0_READ_FENCE_READY_EXACT3",
+  "phase": "S4_W01_B3B1B1B0_B7_PASS_NEXT_B3B1B1B1_ANDROID_READ_HOST",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1086
+    "epoch": 1090
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "B3B1B1B0 preflight then B6/CI/B7. B3B1B1B1 root trust and cross-process revocation independent NEXT. W2 STOP; V2 productiva OFF.",
-  "checkpoint_status": "W01_B3B1B1B0_B5_SEPARATE_PASS_READY_DOC_GUARD_PENDING",
+  "next": "B3B1B1B1 READ_ONLY B1-B5 trusted AndroidKeyStore/UID principal, separate finance.snapshot.read policy issuer, cross-process revocation + lifecycle before READY. Then B3B2/G15. W2 STOP, V2 productiva OFF.",
+  "checkpoint_status": "W01_B3B1B1B0_B7_PASS_SCOPED_8_JUNIT_5_CI_GUARD_DOC_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "78761e59d19b21fac9ec77beca71c736635a6e27",
-  "last_ci_run_id": 44091802896,
+  "last_code_sha": "3216747249fec29f79ce6ba35b3ba0b6c793282f",
+  "last_ci_run_id": 44095814499,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -4658,14 +4658,13 @@
   },
   "w01_b3b1b1b0": {
     "unit": "S4_W01_B3B1B1B0_FINANCE9_STAGED_READ_SESSION_FENCE",
-    "status": "READY_AFTER_GUARD_ONLY",
-    "ready_doc": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
-    "code": "NOT_RUN",
-    "tests": "NOT_RUN",
-    "paths": [
-      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1B1B0ObservedReadFence.kt",
-      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1B1B0ObservedReadFenceTest.kt",
-      ".github/workflows/faro-v5-s4-w01-b3b1b1b0-fence-directed.yml"
-    ]
+    "status": "B7_PASS_SCOPED_DEV_INERT_NO_PRODUCT_UI",
+    "code_sha": "3216747249fec29f79ce6ba35b3ba0b6c793282f",
+    "ci_directed": 44095814499,
+    "ci_junit": "8/8",
+    "ci_all": "5/5 SUCCESS",
+    "b7_doc": "docs/v5/FARO_S4_W01_B3B1B1B0_READ_SESSION_FENCE_B7_PASS_SCOPED_20261117.md",
+    "writer_release_expected": 1090,
+    "next": "B3B1B1B1_B1_B5_NO_READY"
   }
 }
