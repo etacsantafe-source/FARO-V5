@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.W01.M1C0.RED_FIX_DOC.20261116",
   "token_hash": "c1e5176c19d27dab3c7ec7707461ea6431244c7f38e95f75edc586c4452d7209",
-  "target_head": "dd5915f8b3b10329233b28b7fd6f75575b3155ff",
+  "target_head": "61995efec5eb4461013d227fbc11cde54f390184",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1020,
-  "timestamp": 1794884940,
-  "scope": "M1C0_B7_RED_FIX_COMPILER_UNIT_IN_TEST",
-  "last_checkpoint": "dd5915f8b3b10329233b28b7fd6f75575b3155ff"
+  "timestamp": 1794884998,
+  "scope": "M1C0_B7_RED_FIX_DOC_RELEASED",
+  "last_checkpoint": "61995efec5eb4461013d227fbc11cde54f390184"
 }
