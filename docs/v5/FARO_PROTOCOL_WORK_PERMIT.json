@@ -1,20 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
-  "reviewed_head": "c5dadb5e1e491b3a018898653e8ced554bf0ad90",
+  "status": "READY",
+  "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
+  "reviewed_head": "5280bc2e1e164447f712b680ec31ee175d26c9bb",
   "paths": [
-    "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
-    "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m1c1b1a-final-commit-gate-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantPort.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGate.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantPortTest.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt",
+    ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
-          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
+          "blob_sha": "e408bbbff39387babe41ac16b4f6eb52a300c583",
           "marker": "## B1"
         }
       ]
@@ -23,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
-          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
+          "blob_sha": "e408bbbff39387babe41ac16b4f6eb52a300c583",
           "marker": "## B2"
         }
       ]
@@ -33,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
-          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
+          "blob_sha": "e408bbbff39387babe41ac16b4f6eb52a300c583",
           "marker": "## B3"
         }
       ]
@@ -43,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
-          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
+          "blob_sha": "e408bbbff39387babe41ac16b4f6eb52a300c583",
           "marker": "## B4"
         }
       ]
@@ -53,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
-          "blob_sha": "8b0f86d9b13987c6aa1d1b5305b80063e68edbd4",
+          "path": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
+          "blob_sha": "e408bbbff39387babe41ac16b4f6eb52a300c583",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_KERNEL_FINAL_COMMIT_GATE_D01_D06_SPLIT_S3_LEGACY_13_NEW_6",
-    "B7": "PASS_SCOPED_M1C1B1A_KERNEL_POST_RECEIPT_FINAL_COMMIT_GATE_13_PLUS_6"
+    "B6": "NOT_RUN",
+    "B7": "PENDING"
   },
   "last_code_review": {
     "sha": "68db898115683e7acf3c36d156447908e0de6341",
@@ -74,27 +77,8 @@
       }
     ]
   },
-  "why": "M1C1B1A B1-B5 verified source blob 8b0f86d9b13987c6aa1d1b5305b80063e68edbd4; guard 44033595901 SUCCESS; M1C1B0 B7 PASS scoped",
-  "how": "Exactly 3 paths, existing ApplyTransactionExecutor adds optional final-commit callback post receipt in same transaction; D01-D06 JVM with legacy regression; NO live Android/Finance product Apply; W2 STOP",
+  "why": "M1C1B1B B1-B5 audited source blob e408bbbff39387babe41ac16b4f6eb52a300c583; independent B5 READY rationale docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_READY_20261117.md blob 04892f945871b9a9d3ed36452d9040ae694a2b68; guard documentary 44058021176 SUCCESS; prior M1C1B1A B7 PASS scoped",
+  "how": "Six paths only. Implement STAGED9 DEV intermodule port and optional host-unregistered mandatory Finance finalCommitGate, G01-G10 JVM; no human principal issuance, no product Android Apply, W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true,
-  "red_fix_scope": {
-    "failed_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
-    "run": 44034166682,
-    "error": "S3_A4_LEGACY_XML_EXPECTS_13_GOT_19_ZERO_FAILED",
-    "state": "RESOLVED_B7_PASS_AFTER_LEGACY_S3_REGRESSION_GREEN",
-    "same_unit_only": true,
-    "paths": [
-      "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
-      ".github/workflows/faro-v5-s4-w01-m1c1b1a-final-commit-gate-directed.yml"
-    ],
-    "document": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
-    "no_production_code_changes": true,
-    "permit_correction": "B7_PENDING_LAST_CODE_REVIEW_RED_FIX_WITH_EXACT_DOCUMENT_BLOB",
-    "failed_guard_run": 44034925436,
-    "fixed_code_sha": "68db898115683e7acf3c36d156447908e0de6341",
-    "ci_run": 44035460133,
-    "legacy_run": 44035460249
-  },
-  "blocked_reason": "M1C1B1A_B7_PASS_CONSUMED_NEXT_M1C1B1B_FINANCE9_ANDROID_HOST_NOT_AUTHORIZED"
+  "no_auto_night": true
 }
