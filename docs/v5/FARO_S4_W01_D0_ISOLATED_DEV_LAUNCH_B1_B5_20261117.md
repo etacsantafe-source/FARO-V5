@@ -1,6 +1,6 @@
 # FARO V5 — S4 W01 D0: launcher DEV aislado, preauditoría B1–B5
 Fecha: 2026-11-17 (Argentina). Unidad candidata: `S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST`.
-Estado: **PREAUDITADO DOC_ONLY; NO READY, NO B6 NI B7.** Checkpoint base `14c63d8b54c1c6ea374dd5381c8ed254f77084a8`.
+Estado: **PREAUDITADO CORREGIDO POR B5 INDEPENDIENTE; NO READY, NO B6 NI B7.** Checkpoint base `14c63d8b54c1c6ea374dd5381c8ed254f77084a8`.
 
 ## B1 — Evidencia / reproducción estática
 - `v5/app/build.gradle.kts` blob `06efa77d0b8bb09911b0a74fb200e8d883fe1464`: buildType `w01FinanceDev`, `applicationIdSuffix=".w01financedev"`, applicationId final `ar.com.faro.alpha.w01financedev`, código Kotlin `src/v2CoreDev/kotlin`.
@@ -26,13 +26,13 @@ Estado: **PREAUDITADO DOC_ONLY; NO READY, NO B6 NI B7.** Checkpoint base `14c63d
 ## B4 — Unidad mínima exacta, sin mezclar dos PID
 Cambios funcionales propuestos, sólo DESPUÉS de READY de esta unidad:
 1. `v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt`: constante `W01_FINANCE_DEV`, añadir igualdad exacta a `accepts`, sin tocar otros gates ni el lifecycle.
-2. `v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01DevLaunchPackagePolicyTest.kt` (nuevo): casos JUnit explícitos de las cuatro identidades DEV, denegación del productivo `ar.com.faro.alpha`, variantes parecidas, vacío y mayúsculas, sin Android UI simulada.
+2. `v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W01DevLaunchPackagePolicyTest.kt` (nuevo): casos JUnit de testV2CoreDev explícitos de las cuatro identidades DEV, denegación del productivo `ar.com.faro.alpha`, variantes parecidas, vacío y mayúsculas, sin Android UI simulada.
 3. `.github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml` (nuevo): preflight del SHA padre exact3, ejecutar JUnit, compilar `W01FinanceDev` y `V2CoreDev`, inspeccionar manifest de W01 y cero providers V2 Core; no equiparar CI con prueba física.
 
 Fuera de scope: conectar `S4W01FinanceReadForegroundReconciliation`, `ContentObserver`, `S4W01FinanceReadPostCommitPublisher`, dos PID, alterar Reality9, agregar finanzas a UI o hacer cualquier grant. Esos son D1 posterior con preauditoría y permiso propios. W1 abierto; W2 STOP.
 
 ## B5 — Adversarial previo a READY
-- R01 la igualdad exacta W01 debe pasar; variantes inesperadas `.w01financedev.fake`, mayúsculas, vacío, productivo, x03 y s3/shipping deben fallar.
+- R01 la igualdad exacta W01 debe pasar; variantes inesperadas `.w01financedev.fake`, mayúsculas, vacío, productivo, x03 y cualquier identificador S3 distinto del DEV exacto deben fallar; `ar.com.faro.alpha.s3integrateddev` permanece aceptado.
 - R02 las tres identidades DEV existentes conservan su comportamiento; seguridad `debuggable` y V2 productiva OFF no se alteran.
 - R03 `w01FinanceDev` mantiene URI provider privado (`exported=false`), sin Internet, y `v2CoreDev` cero providers; no modificar manifests.
 - R04 no generar/leer grants, saldos, datos reales, claves, tokens ni tocar terminal, G15, main, S3 o W2.
