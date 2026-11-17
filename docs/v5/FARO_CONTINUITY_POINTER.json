@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M1C1B1A_B7_PASS_SCOPED_NEXT_M1C1B1B_HOST",
+  "phase": "S4_W01_B3B1B1_READ_ADAPTER_B1_B5_DOC_ONLY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1037
+    "epoch": 1076
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify B3B1B0 B7 doc guard and RELEASED1074; then B3B1B1 trusted app adapter B1-B5. W2 STOP. V2 productive OFF.",
-  "checkpoint_status": "W01_B3B1B0_B7_PASS_SCOPED_8_24_XML_22_CI_DOC_GUARD_PENDING",
+  "next": "Independent B5 of B3B1B1A inert mapper, then exact3 READY only if safe; B3B1B1B trusted app host remains NOT_READY. W2 STOP.",
+  "checkpoint_status": "W01_B3B1B1_B1_B5_DOC_ONLY_PENDING_GUARD_NO_FUNCTIONAL_CODE",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4637,5 +4637,12 @@
     "writer_release_epoch": 1074,
     "physical": "NOT_RUN",
     "next_step": "W01_B3B1B1_TRUSTED_APP_ACL_POINTER_AND_INVALIDATIONS_B1_B5"
+  },
+  "w01_b3b1b1_preaudit": {
+    "path": "docs/v5/FARO_S4_W01_B3B1B1_TRUSTED_READ_ADAPTER_B1_B5_20261117.md",
+    "status": "DOC_ONLY_NO_READY",
+    "source_head": "de39726466f2fe5a590671b815ba4366a4349869",
+    "code": "NOT_RUN",
+    "tests": "NOT_RUN"
   }
 }
