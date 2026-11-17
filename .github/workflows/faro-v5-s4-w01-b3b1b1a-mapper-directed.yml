@@ -1,0 +1,79 @@
+name: FARO V5 W01 B3B1B1A inert Finance9 UI mapper DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapper.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1Finance9UiMapperTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b1a-mapper-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1b1a-mapper
+  cancel-in-progress: false
+jobs:
+  mapper-dev-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      GRADLE_OPTS: "-Xmx4g -XX:MaxMetaspaceSize=1g"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run exactly eight new mapper contract JUnit cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01B3B1Finance9UiMapperTest"
+      - name: Compile isolated V2 DEV variant without mounting shipping
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:compileV2CoreDevKotlin
+      - name: Verify exact named JUnit XML and zero product wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+          root=Path("v5/app/build/test-results/testDebugUnitTest")
+          files=list(root.glob("TEST-*S4W01B3B1Finance9UiMapperTest.xml"))
+          if len(files)!=1: raise SystemExit("B3B1B1A_XML_MISSING")
+          xml=ET.parse(files[0]).getroot()
+          counts=tuple(int(xml.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          if counts!=(8,0,0,0): raise SystemExit("B3B1B1A_XML_COUNTS "+str(counts))
+          names={x.get("name","").removesuffix("()") for x in xml.findall("testcase")}
+          expected={
+            "m01NullSourceIsUnavailableAndCarriesNoIdentifiers",
+            "m02EmptyObservedSourceIsDistinguishedFromUnavailable",
+            "m03RealObservedArsUsdAndNegativeAreKeptSeparate",
+            "m04ObservedConfirmedZeroIsNotInventedFromNull",
+            "m05LegacyUnverifiedOpeningHasNoAmountOrZero",
+            "m06MissingOpeningHasNoAmountOrZero",
+            "m07UnknownCurrencyScaleCannotDisplayMinorUnits",
+            "m08MalformedDuplicateSourceDeniesConstructionAndMapperIsStateless",
+          }
+          if names!=expected: raise SystemExit("B3B1B1A_XML_NAMES_MISMATCH "+str(names))
+          for p in (
+            Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java"),
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"),
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AdaptiveShell.kt"),
+          ):
+            if "S4W01B3B1Finance9UiMapper" in p.read_text():
+              raise SystemExit("B3B1B1A_SHIPPING_WIRING_FOUND")
+          print("W01_B3B1B1A_INERT_MAPPER_8_OF_8")
+          print("NO_AUTHENTICATED_READ_OR_ANDROID_G15_ATTESTED")
+          PY
+      - name: Preserve scoped XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1b1a-mapper-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01B3B1Finance9UiMapperTest.xml
+          if-no-files-found: warn
