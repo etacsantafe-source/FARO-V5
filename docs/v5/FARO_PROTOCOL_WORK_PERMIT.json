@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B1B1B1B0_DEV_READ_HOST_LIFECYCLE_ABORT",
   "reviewed_head": "2651712db6fc6c83ea4f0dc296aa873efe351080",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_READ_LIFECYCLE_8_JVM_ANDROID_COMPILE_SUCCESS",
+    "B7": "PASS_SCOPED_DEV_READ_HOST_LIFECYCLE_8_JVM_ANDROID_COMPILE"
   },
   "last_code_review": {
-    "sha": "80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9",
-    "unit_id": "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV",
+    "sha": "fce49a3cee5b1836f7088f5cd484e12e702b0254",
+    "unit_id": "S4_W01_B3B1B1B1B1B0_DEV_READ_HOST_LIFECYCLE_ABORT",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "7ba2a5d2833b234b2c58ce30fe269c220b469810",
+        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B0_LIFECYCLE_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "92d9f6cdf4293d0b8ecb7c36a9d8dd1e019f8713",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Lifecycle tear-down of dormant DEV READ biometric host only, no UI or Android cross-process notification warranty",
-  "how": "Exact four paths, lifecycle close on STOP/DESTROY; JUnit 8 + DEV Kotlin compile, not G15",
+  "why": "Host dormant DEV-only ON_STOP/ON_DESTROY cancellation B7 PASS 8 JVM compile Android; no Android G15 or cross-process revoke notifications.",
+  "how": "Next publisher+readPort requires independent B1–B5 and new exact permit; prior READ lifecycle permission consumed.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": null,
+  "consumed_code_sha": "fce49a3cee5b1836f7088f5cd484e12e702b0254",
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": null,
+  "blocked_reason": "B3B1B1B1B1B0_B7_PASS_CONSUMED_NEXT_B3B1B1B1B1B1_ANDROID_PUBLISHER_AND_RECONCILIATION_NOT_READY",
   "blocker": null
 }
