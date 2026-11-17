@@ -93,12 +93,29 @@ class FaroV5FiveStoreStagedRestore(
             allowG4StageOnly = true, allowPlanningStageOnly = true,
         )
 
+    /**
+     * INTERNAL Finance9 base replay. Restores only the legacy Reality/G4/Planning
+     * and remaining four stores; Finance9 is restored AFTER this graph closes by
+     * the separately authenticated, sealed SQL9 port. Never a public entrypoint.
+     */
+    internal fun restoreAuthenticatedFinance9BaseStageOnly(
+        operationId: MaintenanceOperationId,
+        encryptedArchive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreStagedRestoreResult =
+        restoreAuthenticatedImpl(
+            operationId, encryptedArchive, passphrase,
+            allowG4StageOnly = true, allowPlanningStageOnly = true,
+            allowFinance9BaseStageOnly = true,
+        )
+
     private fun restoreAuthenticatedImpl(
         operationId: MaintenanceOperationId,
         encryptedArchive: ByteArray,
         passphrase: CharArray,
         allowG4StageOnly: Boolean,
         allowPlanningStageOnly: Boolean = false,
+        allowFinance9BaseStageOnly: Boolean = false,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
@@ -124,7 +141,15 @@ class FaroV5FiveStoreStagedRestore(
                 }
                 val backup = (opened as FiveStorePortableBackupOpenResult.Opened).backupSet
                 // M0C1: no legacy restore may accept v4 before archive pin or writes.
-                if (backup.finance9 != null) {
+                // Public/legacy entrypoints still reject v4 before archive pin.
+                // Only the internal full-archive orchestrator may restore its
+                // five legacy sections while Finance9 remains sealed for phase 2.
+                val realitySchema = graph.reality.maintenance.inspect().schemaVersion
+                if ((backup.finance9 != null && !allowFinance9BaseStageOnly) ||
+                    (allowFinance9BaseStageOnly && (
+                        backup.finance9 == null || backup.g4Domains == null ||
+                            backup.planningDomains == null || realitySchema != 9))
+                ) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.UNSUPPORTED_FINANCE9_ARCHIVE,
                     )
@@ -135,7 +160,8 @@ class FaroV5FiveStoreStagedRestore(
                 // Reject BEFORE archive pinning, SQLite writes or any UI state change.
                 // FBS2 v3 Planning MUST NOT reach archive pin, Reality or Workspace.
                 // This also applies to the internal G4-stage-only entrypoint.
-                val realityStage8 = graph.reality.maintenance.inspect().schemaVersion == 8
+                val realityStage8 = realitySchema == 8 ||
+                    (allowFinance9BaseStageOnly && realitySchema == 9)
                 // Never silently drop a v3 section, and never interpret v1/v2
                 // as a certified empty Planning owner of a schema8 target.
                 if ((backup.planningDomains != null && !allowPlanningStageOnly) ||
