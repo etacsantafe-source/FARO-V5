@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV",
   "reviewed_head": "6053ed2c525b77d433bbac297764493cfb7623ae",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_READ_REVOCATION_8_NEW_JVM_16_AFFECTED_TWO_PID_DIRECTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_DEV_SQL_READ_REVOCATION_8_NEW_16_AFFECTED_TWO_PID"
   },
   "last_code_review": {
-    "sha": "bb20a48266f69ded178f5e9c806c8127149fdfe9",
-    "unit_id": "S4_W01_B3B1B1B1B0_ANDROID_READ_CONSENT_STAGE_DEV",
+    "sha": "80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9",
+    "unit_id": "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "7b4d7d6513d7a4d7cfe59a95d19c6a16c2e0a605",
+        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "7ba2a5d2833b234b2c58ce30fe269c220b469810",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Independent B5 limits READ-only STAGED9 revocation; existing ACL.revoke returns same epoch for repeated revoke; result is an observation, NEVER new change notification or UI read lease",
-  "how": "4 exact paths; fixed finance.snapshot.read/finance:all; two real OS-PID targeted READ tests; no product wiring/Android notifications",
+  "why": "Scoped DEV READ revoke verified: 8 new+16 affected tests, real second PID, exact guard. No Android/Compose delivery.",
+  "how": "Code commit 80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9 B7 doc 85eb3d23dbd2358e32e329f85e4284b4379789d5, permission consumed. Next B3B1B1B1B1B B1-B5 independent before new READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": null,
+  "consumed_code_sha": "80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9",
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": null,
+  "blocked_reason": "B3B1B1B1B1A_B7_PASS_CONSUMED_NEXT_ANDROID_PUBLISHER_LIFECYCLE_B3B1B1B1B1B_NOT_AUTHORIZED",
   "blocker": null
 }
