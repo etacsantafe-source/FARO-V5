@@ -60,7 +60,7 @@
       ]
     },
     "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B7": "RED_FIX_S3_A4_TEST_CLASS_COUNT_19_VS_13_NO_TEST_FAILURES"
   },
   "last_code_review": {
     "sha": "0684cc59039c1dc031a6cd8e328cd685ab0c8ab8",
@@ -77,5 +77,18 @@
   "why": "M1C1B1A B1-B5 verified source blob 8b0f86d9b13987c6aa1d1b5305b80063e68edbd4; guard 44033595901 SUCCESS; M1C1B0 B7 PASS scoped",
   "how": "Exactly 3 paths, existing ApplyTransactionExecutor adds optional final-commit callback post receipt in same transaction; D01-D06 JVM with legacy regression; NO live Android/Finance product Apply; W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "red_fix_scope": {
+    "failed_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
+    "run": 44034166682,
+    "error": "S3_A4_LEGACY_XML_EXPECTS_13_GOT_19_ZERO_FAILED",
+    "state": "RED_FIX_BOUND_TO_SAME_UNIT",
+    "same_unit_only": true,
+    "paths": [
+      "v5/kernel/apply/src/test/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutorTest.kt",
+      ".github/workflows/faro-v5-s4-w01-m1c1b1a-final-commit-gate-directed.yml"
+    ],
+    "document": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md",
+    "no_production_code_changes": true
+  }
 }

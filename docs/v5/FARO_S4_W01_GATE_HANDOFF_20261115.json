@@ -440,7 +440,7 @@
   },
   "w01_m1c1b1a": {
     "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
-    "status": "READY_EXACT3_B6_NOT_RUN",
+    "status": "B7_RED_FIX_TEST_CLASS_COUNT",
     "document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_B1_B5_20261117.md",
     "paths": [
       "v5/kernel/apply/src/main/kotlin/ar/com/faro/v5/kernel/apply/ApplyTransactionExecutor.kt",
@@ -449,6 +449,10 @@
     ],
     "code_changed": false,
     "w2": "STOP",
-    "ready_document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_READY_20261117.md"
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1B1A_FINAL_COMMIT_GATE_READY_20261117.md",
+    "code_sha": "6b6b828a6f5daca0731995c45a1b53024bcd07d6",
+    "ci_run": 44034166788,
+    "failed_regression_run": 44034166682,
+    "red_fix_document": "docs/v5/FARO_S4_W01_M1C1B1A_S3_A4_XML_COUNT_RED_FIX_20261117.md"
   }
 }
