@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
   "reviewed_head": "5280bc2e1e164447f712b680ec31ee175d26c9bb",
   "paths": [
@@ -62,7 +62,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "PUBLISHED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -89,5 +89,14 @@
     "required": "B6_READY_TO_IMPLEMENT;B7_PENDING_FINAL_AUDIT",
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
+  },
+  "consumed_code_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+  "blocker": "B7_REQUIRES_EXACT_SHA_CI_XML_AND_INDEPENDENT_AUDIT",
+  "red_fix_doc_only": {
+    "guard_failed": 44059421580,
+    "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
+    "fix": "BLOCKED_IMMEDIATELY_AFTER_B6",
+    "code_guard_success": 44059395073,
+    "ci_running": 44059395512
   }
 }
