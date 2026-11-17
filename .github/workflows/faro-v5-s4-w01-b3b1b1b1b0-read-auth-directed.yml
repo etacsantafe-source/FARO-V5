@@ -1,0 +1,77 @@
+name: FARO V5 W01 B3B1B1B1B0 isolated biometric READ consent DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadConsentScope.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadAuthHost.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadAuthPolicyTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b1b1b0-read-auth-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1b1b1b0-read-consent
+  cancel-in-progress: false
+jobs:
+  read-consent-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run eight new pure JVM READ policy tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01FinanceReadAuthPolicyTest"
+      - name: Compile isolated Android DEV with Keystore and BiometricPrompt code
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :app:compileV2CoreDevKotlin
+      - name: Assert eight exact JUnit cases and no product shipping wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root=Path("v5/app/build/test-results/testDebugUnitTest")
+          matches=list(root.glob("TEST-*S4W01FinanceReadAuthPolicyTest.xml"))
+          if len(matches)!=1: raise SystemExit("READ_AUTH_XML_MISSING")
+          suite=ET.parse(matches[0]).getroot()
+          counts=tuple(int(suite.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+            "r01FixedReadChallengeIsOneShotAndNotApplyReview",
+            "r02JvmEcdsaIssuesOnlyShortReadPolicyRecord",
+            "r03TamperedDigestBadSignatureAndReplayDeny",
+            "r04FullPointerAbaAndHostEpochDriftDeny",
+            "r05SandboxUidSessionAndForegroundDeny",
+            "r06ExpiryRewoundClockAndWeakEntropyDeny",
+            "r07IssuerExceptionOrForeignResponseDeny",
+            "r08CloseAndUntrustedVerifierNeverIssue",
+          }
+          names={x.get("name","").removesuffix("()") for x in suite.findall("testcase")}
+          if counts!=(8,0,0,0) or names!=expected:
+            raise SystemExit("READ_AUTH_XML_FAIL "+str(counts)+" "+str(names))
+          for p in (
+            "v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java",
+            "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+          ):
+            if "S4W01FinanceReadAuthHost" in Path(p).read_text():
+              raise SystemExit("READ_AUTH_SHIPPING_MOUNT "+p)
+          print("W01_B3B1B1B1B0_JVM_READ_CONSENT_8_OF_8_PASS")
+          print("NO_ANDROID_BIOMETRIC_HARDWARE_G15_OR_CROSS_PROCESS_REVOKE_ATTESTED")
+          PY
+      - name: Archive exact JUnit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1b1b1b0-read-auth-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01FinanceReadAuthPolicyTest.xml
+          if-no-files-found: warn
