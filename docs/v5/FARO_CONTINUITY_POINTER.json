@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_B7_PASS_SCOPED_NEXT_ANDROID_B3B1B1B1B1B_PREAUDIT",
+  "phase": "S4_W01_B3B1B1B1B1B0_DEV_READ_LIFECYCLE_PREAUDIT_INDEPENDENT_B5",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1115
+    "epoch": 1116
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 B3B1B1B1B1A SQL READ revoker B7 PASS scoped 8 new +16 affected exact CI 44125813960 SUCCESS, code 80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9, permit BLOCKED consumed; no repeat. Next B3B1B1B1B1B Android publisher+host lifecycle B1-B5 investigation/independent B5, only new READY exact scope before B6. GitHub DNS container issue bypass via connector+Actions; see FARO_GITHUB_CONNECTOR_DNS_FALLBACK_AND_W01_B6_CI_20261117.md. W2 STOP, V2 productiva OFF.",
-  "checkpoint_status": "W01_B3B1B1B1B1A_B7_PASS_SCOPED_TWO_PID_8_NEW_16_AFFECTED_CI_SUCCESS_PERMIT_BLOCKED_NEXT_ANDROID_PREAUDIT",
+  "next": "B3B1B1B1B1B0 DEV READ host lifecycle independent B5 doc ddc58aca; guard 44128251832 pending verification, then READY exact4 in separate docs commit; preflight, B6 host cleanup on ON_STOP/ON_DESTROY with 8 JVM and Android DEV compile, B7; B3B1B1B1B1B1 Android publisher separately blocked. W2 STOP and productive V2 OFF.",
+  "checkpoint_status": "W01_B3B1B1B1B1B0_B1_B5_INDEPENDENT_DOC_COMMITTED_GUARD_PENDING_NO_READY_NO_CODE",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "80e46887d8b46f7030fbbe4fc9c5bc93a93cb6c9",
