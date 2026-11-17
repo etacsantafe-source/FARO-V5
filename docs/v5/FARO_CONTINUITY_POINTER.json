@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify exact SHA b3f4086d import-only red fix guard and directed CI XML, affected regressions, B7 independent; W2 STOP",
-  "checkpoint_status": "M1C1B1B_RED_FIX_CODE_PUBLISHED_WAIT_CI_NO_B7",
+  "next": "After exact guard SUCCESS, issue independent READY for BuiltInContractCatalog import in the one test; then re-run directed and S3 Home CI on exact new code SHA; no W2.",
+  "checkpoint_status": "M1C1B1B_SECOND_TEST_IMPORT_RED_FIX_B7_RECORDED_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4400,7 +4400,7 @@
   },
   "w01_m1c1b1b": {
     "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-    "status": "B6_RED_FIX_CODE_PUBLISHED_B7_WAIT_CI",
+    "status": "RED_FIX_B7_SECOND_COMPILER_IMPORT_DOC_COMMITTED_NO_READY",
     "document": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
     "document_commit": "b2da1e1e8af2e62a5e4a745a4f9ba58db17f941a",
     "scope": "DEV_STAGED9_ONLY_NO_PRODUCT_APPLY",
@@ -4412,8 +4412,8 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt",
       ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
     ],
-    "B6": "RED_FIX_NOT_RUN",
-    "B7": "PENDING_FINAL_AUDIT",
+    "B6": "RED_FIX_REQUIRED_TEST_ONLY",
+    "B7": "RED_FIX",
     "physical": "NOT_RUN",
     "w2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_READY_20261117.md",
@@ -4438,6 +4438,11 @@
     "red_fix_permit": "READY_EXACT_ONE_TEST_PATH",
     "red_fix_code_sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
     "red_fix_guard": "PENDING",
-    "red_fix_ci": "PENDING"
+    "red_fix_ci": "PENDING",
+    "red_fix_second_document": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_RED_FIX_B7_20261117.md",
+    "failed_red_fix_sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
+    "failed_red_fix_ci": 44060376069,
+    "failed_s3_home": 44060376148,
+    "red_fix_next": "READY_ONE_TEST_IMPORT_AFTER_GUARD"
   }
 }
