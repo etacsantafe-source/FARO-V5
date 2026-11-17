@@ -1,24 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV",
-  "reviewed_head": "f2a19f8a9a9ffd9dfbd427d3b6786a9ce66bff63",
+  "status": "READY",
+  "unit_id": "S4_W01_D0_ISOLATED_DEV_LAUNCH_PACKAGE_ALLOWLIST",
+  "reviewed_head": "63e26924c3ff8991f2918b35b191d66568a404e7",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangePort.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisher.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangeTest.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisherTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W01DevLaunchPackagePolicyTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
-          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
+          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
+          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
           "marker": "## B1"
         }
       ]
@@ -27,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
-          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
+          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
+          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
           "marker": "## B2"
         }
       ]
@@ -37,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
-          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
+          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
+          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
           "marker": "## B3"
         }
       ]
@@ -47,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_B1_B5_20261117.md",
-          "blob_sha": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
+          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_B1_B5_20261117.md",
+          "blob_sha": "c00a91de64cd67d5754257a649a15cbaf7ca6385",
           "marker": "## B4"
         }
       ]
@@ -57,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_COMMITTED_POLICY_NOTICE_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "6ebc4b4bb2bcdd4c84d904de57e8506c5d9eefc1",
+          "path": "docs/v5/FARO_S4_W01_D0_ISOLATED_DEV_LAUNCH_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "b240acc0a20118ef4d196305e54ce070554a6fc0",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_SQL_STORE8_APP8_ANDROID_W01_DEV_V2_CORE_COMPILE",
-    "B7": "PASS_SCOPED_DEV_SQL_COMMIT_NOTICES_NO_REAL_IPC"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
@@ -78,11 +74,11 @@
       }
     ]
   },
-  "why": "B7_SCOPED_16_REAL_SQL_AND_JVM_JUNIT_ANDROID_COMPILE_NO_PRODUCT_UI_OR_TWO_PID_IPC",
-  "how": "EXACT7;STORE_REAL_SQL_8;APP_JVM_8;ANDROID_DEV_COMPILE;V2_CORE_ZERO_PROVIDER;NO_PRODUCT_UI",
+  "why": "W01 exact applicationId not admitted by existing DEV launcher, B1-B5 independent evidence verified",
+  "how": "ONLY EXACT3 local DEV allowlist/test/workflow no provider/financial data/UI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": "READY_CONSUMED_AFTER_B7_NEXT_DEV_ANDROID_IPC_REQUIRES_OWN_B1_B5",
+  "blocked_reason": null,
   "consumed_code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316"
 }
