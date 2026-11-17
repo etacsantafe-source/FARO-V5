@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.W01.D1.PREAUDIT.20261117",
   "token_hash": "91488cccebd7104672798c11e3bf7b9751159a5203eb34ebfb342690fb520aa4",
   "target_head": "014372cc071ff0eddf704b82066f93bb86ec480e",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1144,
   "timestamp": 1794946500,
-  "scope": "D1_ANDROID_TWO_PID_B1_B5_DOC_ONLY",
-  "last_checkpoint": "014372cc071ff0eddf704b82066f93bb86ec480e"
+  "scope": "D1A_B1_B5_DOC_ONLY_NO_READY",
+  "last_checkpoint": "c5e532b379a985fb3a2923a372677d393b728139"
 }
