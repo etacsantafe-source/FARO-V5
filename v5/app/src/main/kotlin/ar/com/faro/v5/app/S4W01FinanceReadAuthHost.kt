@@ -1,6 +1,7 @@
 package ar.com.faro.v5.app
 
 import android.os.Build
+import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import android.security.keystore.KeyGenParameterSpec
@@ -10,6 +11,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
 import ar.com.faro.v5.store.reality.Finance9ReadPolicyIssueRecord
@@ -69,12 +71,32 @@ internal class S4W01FinanceReadAuthHost(
         issuer = issuer,
     )
 
+    /** A terminal foreground loss aborts the pending READ biometric challenge. */
+    private val lifecycleFence = S4W01FinanceReadSessionLifecycle { close() }
+    private val lifecycleObserver = LifecycleEventObserver { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_STOP -> lifecycleFence.onStop()
+            Lifecycle.Event.ON_DESTROY -> lifecycleFence.onDestroy()
+            else -> Unit
+        }
+    }
+
+    init {
+        check(Looper.myLooper() == Looper.getMainLooper()) {
+            "DEV READ auth host lifecycle must be installed on Android main thread"
+        }
+        activity.lifecycle.addObserver(lifecycleObserver)
+        if (activity.lifecycle.currentState == Lifecycle.State.DESTROYED) {
+            lifecycleFence.onDestroy()
+        }
+    }
+
     /** Explicit foreground user action only; never an automatic background read. */
     fun requestAfterExplicitForegroundReadRequest(
         onOutcome: (Finance9ReadPolicyIssueRecord?) -> Unit,
     ) {
         val accepted = synchronized(mutex) {
-            if (requested || finished) false else {
+            if (requested || finished || !lifecycleFence.isOpen()) false else {
                 requested = true
                 callback = onOutcome
                 true
@@ -85,6 +107,7 @@ internal class S4W01FinanceReadAuthHost(
             return
         }
         if (Looper.myLooper() != Looper.getMainLooper() ||
+            !lifecycleFence.isOpen() ||
             !activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) ||
             BiometricManager.from(activity).canAuthenticate(
                 BiometricManager.Authenticators.BIOMETRIC_STRONG,
@@ -121,7 +144,7 @@ internal class S4W01FinanceReadAuthHost(
                         result: BiometricPrompt.AuthenticationResult,
                     ) {
                         val outcome = runCatching {
-                            if (!activity.lifecycle.currentState
+                            if (!lifecycleFence.isOpen() || !activity.lifecycle.currentState
                                     .isAtLeast(Lifecycle.State.RESUMED)
                             ) return@runCatching null
                             val unlocked = result.cryptoObject?.signature
@@ -137,6 +160,12 @@ internal class S4W01FinanceReadAuthHost(
                 },
             )
             synchronized(mutex) { if (!finished) prompt = localPrompt }
+            if (!lifecycleFence.isOpen() ||
+                !activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+            ) {
+                finish(null)
+                return
+            }
             localPrompt.authenticate(info, BiometricPrompt.CryptoObject(signature))
         } catch (_: Exception) {
             finish(null)
@@ -144,6 +173,10 @@ internal class S4W01FinanceReadAuthHost(
     }
 
     private fun finish(outcome: Finance9ReadPolicyIssueRecord?) {
+        // A late biometric result cannot survive a terminal lifecycle event.
+        val safeOutcome = if (outcome != null && lifecycleFence.isOpen() &&
+            activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        ) outcome else null
         val cb = synchronized(mutex) {
             if (finished) null else {
                 finished = true
@@ -153,12 +186,25 @@ internal class S4W01FinanceReadAuthHost(
                 previous
             }
         }
+        lifecycleFence.close() // irreversible, without recursive terminator
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            activity.lifecycle.removeObserver(lifecycleObserver)
+        } else {
+            Handler(Looper.getMainLooper()).post {
+                activity.lifecycle.removeObserver(lifecycleObserver)
+            }
+        }
         gate.close()
         sandbox.close()
-        cb?.invoke(outcome)
+        cb?.invoke(safeOutcome)
     }
 
     override fun close() {
+        lifecycleFence.close() // synchronous fail-closed even from worker thread
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            Handler(Looper.getMainLooper()).post { close() }
+            return
+        }
         val old = synchronized(mutex) { prompt }
         runCatching { old?.cancelAuthentication() }
         finish(null)
