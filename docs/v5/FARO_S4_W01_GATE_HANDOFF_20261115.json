@@ -320,8 +320,19 @@
     "next": "M1B_B1_B5"
   },
   "w01_m1b": {
-    "status": "NOT_READY",
-    "next": "B1_B5_ANDROID_HOST_HUMAN_AUTH"
+    "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
+    "status": "B1_B5_DOC_GUARD_PENDING",
+    "doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
+    "paths": [
+      "v5/app/build.gradle.kts",
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceLocalPrincipal.kt",
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceAuthHost.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceLocalPrincipalTest.kt",
+      ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml"
+    ],
+    "physical": "NOT_RUN",
+    "code_changed": false,
+    "w2": "STOP"
   },
   "w01_m1c": {
     "status": "STOP",
