@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
   "reviewed_head": "e6f59efa7341b77251a524f0166888960eae02be",
   "paths": [
@@ -57,7 +57,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "RED_FIX_CODE_PUBLISHED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -85,8 +85,8 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocker": "B7_REQUIRES_EXACT_SHA_CI_XML_AND_INDEPENDENT_AUDIT",
+  "consumed_code_sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
+  "blocker": "RED_FIX_EXACT_CI_AND_B7_PENDING",
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -94,5 +94,7 @@
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
   },
-  "red_fix_scope": "TEST_ONLY_SINGLE_IMPORT_PREPARED_PLAN; no functional production changes; exact previous code SHA remains RED_FIX"
+  "red_fix_scope": "TEST_ONLY_SINGLE_IMPORT_PREPARED_PLAN; no functional production changes; exact previous code SHA remains RED_FIX",
+  "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
+  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616"
 }
