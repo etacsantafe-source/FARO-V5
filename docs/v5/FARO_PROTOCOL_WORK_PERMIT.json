@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_DEV",
   "reviewed_head": "4456cfd95dafc628ccccbf2079ce7f253566e1e5",
   "paths": [
@@ -60,26 +60,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_W01_DEV_ANDROID_ACTIVITY_API35_2_OF_2_PASS",
+    "B7": "PASS_SCOPED_REAL_ANDROID_FOREGROUND_SHELL_NO_SQL"
   },
   "last_code_review": {
-    "sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
-    "unit_id": "S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV",
+    "sha": "f2fa5f72814ec3e23d153241244c758b74205f0b",
+    "unit_id": "S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "2ef14eb26d4e67f478e653be2abcc145167fc690",
+        "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "4badce82007f7e21761c5d4704966203717c1053",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1B0 bind real Android W01 FragmentActivity foreground lifecycle DEV only; no authorized SQL balances or biometric yet",
-  "how": "W01-only subclass launcher, private FragmentActivity + lifecycle reconciler observer, real Android API35 acceptance EXACT4",
+  "why": "D1B0 Android API35 real FragmentActivity isolated foreground lifecycle, B7 PASS scoped",
+  "how": "W01 DEV isolated host, no authorized SQL, no BiometricPrompt or balances",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocked_reason": "D1B0_READY_CONSUMED_D1B1_REQUIRES_NEW_B1_B5",
+  "consumed_code_sha": "f2fa5f72814ec3e23d153241244c758b74205f0b"
 }

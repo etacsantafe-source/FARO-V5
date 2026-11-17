@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1A_TWO_PID_TRANSPORT_B7_PASS_SCOPED_D1B_NEXT",
+  "phase": "S4_W01_D1B0_ANDROID_FOREGROUND_SHELL_B7_PASS_SCOPED_D1B1_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1A B7 PASS scoped actual Android API35 two PID synthetic ContentObserver 2/2, code a6a15af..., run 44168268784 SUCCESS, protocol guard 44168268447 SUCCESS. No SQL COMMIT/human auth/Finance Activity claim. Next D1B true W01 foreground owner and lifecycle preaudit B1-B5/READY individual, no repeat D0/D1A. W2 STOP V2 productive OFF.",
-  "checkpoint_status": "W01_D1A_ANDROID_API35_TWO_PID_2_OF_2_B7_PASS_SCOPED_PERMIT_CONSUMED",
+  "next": "D1B0 real FragmentActivity W01 lifecycle and ContentObserver 2/2 Android API35 PASS, code f2fa5f7, run 44173197061 SUCCESS, guard 44173196782 SUCCESS, Home regression 44173196847 SUCCESS. B7 scoped NO SQL/human biometric/Finance balances. D1B1 real trusted SQL source + biometric permission and host epoch with new B1-B5/READY. W1 OPEN, W2 STOP, V2 productiva OFF; D0/D1A/D1B0 no repetir.",
+  "checkpoint_status": "W01_D1B0_ANDROID_API35_2_OF_2_B7_PASS_SCOPED_PERMIT_CONSUMED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
@@ -4783,5 +4783,27 @@
     "real_sql_commit": "NOT_TESTED",
     "actual_finance_owner_lifecycle": "D1B_PENDING",
     "permit": "CONSUMED_BLOCKED"
+  },
+  "w01_d1b0": {
+    "unit_id": "S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_DEV",
+    "status": "B7_PASS_SCOPED_REAL_ANDROID_API35_FOREGROUND_ACTIVITY_2_OF_2_NO_FINANCE_DATA",
+    "code_sha": "f2fa5f72814ec3e23d153241244c758b74205f0b",
+    "ci_run_id": 44173197061,
+    "ci_job_id": 134357494122,
+    "guard_code_run": 44173196782,
+    "s3_home_regression_run": 44173196847,
+    "android_tests": "2/2 PASS",
+    "b7_document": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B7_PASS_SCOPED_20261117.md",
+    "b7_blob_sha": "4badce82007f7e21761c5d4704966203717c1053",
+    "old_auto_trigger_preflight_red_runs": [
+      44173196849,
+      44173196751
+    ],
+    "permit": "CONSUMED_BLOCKED",
+    "physical": "NOT_RUN",
+    "finance_sql_read": "NOT_CONNECTED",
+    "biometric": "NOT_RUN",
+    "w2": "STOP",
+    "next_step": "D1B1_REAL_SQL_AND_BIOMETRIC_FOREGROUND_OWNER_B1_B5"
   }
 }
