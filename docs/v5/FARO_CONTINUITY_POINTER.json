@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M0C2B2B_READY_CODE_NOT_STARTED",
+  "phase": "S4_W01_M0C2B2B_B7_SCOPED_PASS_NEXT_M1_PREAUDIT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1004
+    "epoch": 1006
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Exact 5-path preflight; code+directed XML+guard+B7; then M1 and W01; W2 STOP",
-  "checkpoint_status": "M0C2B2B_READY_B6_NOT_RUN",
+  "next": "M1 Finance9 durable ACL + host/principal cross-process B1–B5 independently; W01 B/C/D/E/F later, W02 STOP.",
+  "checkpoint_status": "M0C2B2B_B7_PASS_DOC_COMMITTED_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4180,19 +4180,24 @@
   "w01_finance9_full_archive": {
     "goal_id": "S4_W01_FINANCE9",
     "unit_id": "S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_CAPTURE_RESTORE",
-    "block_id": 5,
-    "block_status": "B1_B5_VERIFIED_READY_B6_NOT_RUN",
-    "expected_head": "a078e29eb7925bda4bddcb773fe1ce0f45815f31",
+    "block_id": 7,
+    "block_status": "B7_PASS_SCOPED_FINANCE9_FBS2V4_STAGE_ONLY",
+    "expected_head": "b67a06c87a66551dd05b03afe0058a5e1a7e11fc",
     "acceptance": "T01_T10_FULL_CAPTURE_RESTORE_STAGE_ONLY_XML_AND_GUARD",
     "evidence": [
       "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md"
     ],
-    "next_step": "RUN_EXACT_PREFLIGHT_THEN_B6",
-    "blocker": "B6_NOT_RUN",
-    "writer_release_epoch": 1004,
+    "next_step": "M1_B1_B5",
+    "blocker": "PRODUCTIVE_INTERPROCESS_ACL_AND_REAL_LOCAL_PRINCIPAL_NOT_CERTIFIED",
+    "writer_release_epoch": 1006,
     "last_observed_at": "2026-11-16",
     "w2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_M0C2B2B_READY_20261116.md",
-    "guard_preflight_run": 43994971047
+    "guard_preflight_run": 43994971047,
+    "code_head": "b67a06c87a66551dd05b03afe0058a5e1a7e11fc",
+    "CI": 43996195275,
+    "tests": "10/10 XML PASS; 6 regression workflows SUCCESS; guard 43996195209 SUCCESS",
+    "proof": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_B7_PASS_20261116.md",
+    "proof_blob_sha": "b98108f92347410e59f093b9639ef813e8074fb0"
   }
 }

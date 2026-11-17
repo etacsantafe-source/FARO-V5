@@ -1,0 +1,17 @@
+# FARO V5 — W01 M0C2B2B FULL Finance9 FBS2v4 · B7 PASS scoped
+Date local 2026-11-16 / CI 2026-11-17T01:34–01:36Z. Unit `S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_CAPTURE_RESTORE`. Exact code SHA `b67a06c87a66551dd05b03afe0058a5e1a7e11fc`. Base B1–B5 document `docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md` SHA blob `17818964b61a5c6dffba15629f767d5534fdf49a`. READY permit issued separately on `461961df1477b2382b138e6799b202b0353285f6`. Writer released after code commit epoch1005 before CI.
+
+## B7
+**PASS SCOPED · complete five-store Finance9 FBS2v4 DEV-only STAGED capture and authenticated replay.**
+- Directed workflow [43996195275](https://github.com/etacsantafe-source/FARO-V5/actions/runs/43996195275) = COMPLETED SUCCESS at SHA `b67a06c87a66551dd05b03afe0058a5e1a7e11fc`; Kotlin/JVM BUILD SUCCESSFUL; exactly **10/10 JUnit cases, 0 failures, 0 errors, 0 skipped**, validated from TEST-*FaroV5Finance9FullArchiveCoordinatorTest.xml by the exact names gate; artifact `faro-v5-w01-m0c2b2b-finance9-full-fbs2v4-junit` ID `14289413814`.
+- Historical compatibility auto-triggered at the same SHA, all SUCCESS: `43996195241` V2-core M1/M2; `43996195207` Planning8 full FBS2v3; `43996195239` G4 legacy fence; `43996195216` N031 FBS2v3; `43996195219` G4 stage replay; `43996195185` M0C1 FBS2v4 codec/fence. Those are regressions CAUSED by common restore change, not repeat of historical unrelated certifications.
+- Mandatory protocol guard `43996195209` at exact code SHA = COMPLETED SUCCESS.
+- Exact one-commit diff compared to READY SHA: **four modified/added paths**, subset of five READY paths. One changed shared helper + one internal coordinator + one new ten-case test class + one new directed workflow. No control files mixed into code. No main/V4.4/S2/S3 edits.
+- Capture: one injected global lease, sealed Finance9 read before graph opens, complete five-store+G4+Planning authenticated by existing FBS2v4/FAROBAK2 with whitelisted 8 Finance data tables; ACL/policy/grants excluded. Archive owner identity from canonical stage descriptor, exact pointer ID+sequence.
+- Restore: authenticate before writes; immutable encrypted archive SHA + operation+target pin durable; legacy Reality/G4/Planning + four stores replay under same lease; CLOSE SQLite graph, then restore Finance9 data and verify exact sealed stage; after crash/replay same op and archive idempotent; no cutover/ACTIVE, no imported ACL authority, no spoofed human consent.
+- Adversarial coverage: wrong passphrase, tamper, v3 rejected, sidecars/stale descriptor/ABA blocked, nonfresh Finance preserved, archive or target swap blocked, injected crash after Reality and after Finance SQL COMMIT recovered via same pin.
+- **NOT CERTIFIED:** M1 cross-OS-process global quiescence or actual human principal; Android hardware/biometric; product Apply/cutover, user-facing backup/export; G15 physical; later W01 UI/operations, W02 STOP. A JVM pass is never cross-process or hardware proof.
+- The exact owner health of this scoped B6 is PASS; no general V2 production or S4 shipping permission inferred. As of this B7, status next M1 OPEN; then W01 B/C/D/E/F with independent B1–B7. Do not execute W02.
+
+## Closure
+Consumed READY permission to BLOCKED; B6 recorded implemented and B7 scoped PASS, `last_code_review` anchors this exact `b67a06c87a66551dd05b03afe0058a5e1a7e11fc` with this proof blob. Writer CAS release for epoch1006 and final guard on B7 documentation MUST be independently confirmed before declaring closure of this turn.

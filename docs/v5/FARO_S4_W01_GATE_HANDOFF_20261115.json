@@ -277,7 +277,7 @@
   },
   "w01_m0c2b2b": {
     "unit_id": "S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_CAPTURE_RESTORE",
-    "status": "READY_EXACT5_B6_NOT_RUN",
+    "status": "B7_PASS_SCOPED_FINANCE9_FULL_STAGE_ONLY",
     "document": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_ARCHIVE_B1_B5_20261116.md",
     "paths": [
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
@@ -287,7 +287,12 @@
       ".github/workflows/faro-v5-s4-w01-m0c2b2b-finance9-full-archive-directed.yml"
     ],
     "code_changed": false,
-    "next": "PREFLIGHT_EXACT5_THEN_CODE_CI_B7",
-    "w2": "STOP"
+    "next": "M1_B1_B5",
+    "w2": "STOP",
+    "code_sha": "b67a06c87a66551dd05b03afe0058a5e1a7e11fc",
+    "CI_run": 43996195275,
+    "regressions": "6/6 workflows SUCCESS",
+    "new_tests": "10/10 PASS",
+    "B7_doc": "docs/v5/FARO_S4_W01_M0C2B2B_FINANCE9_FULL_FBS2V4_B7_PASS_20261116.md"
   }
 }
