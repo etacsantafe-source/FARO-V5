@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B1B1B0_FINANCE9_STAGED_READ_SESSION_FENCE",
-  "reviewed_head": "7106d2abec18646c28dc9b68ae19f050a9063f6a",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B1B1B1A_FINANCE9_READ_ONLY_POLICY_ISSUER_DEV",
+  "reviewed_head": "5096516b4af77f6386517acacc493e71cbf5baf4",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B3B1B1B0ObservedReadFence.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B3B1B1B0ObservedReadFenceTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b0-fence-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyIssuerPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyIssuerTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b1a-read-issuer-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "bfe9c98671d5d6295ef9f4d43db39848621c2358",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "bfe9c98671d5d6295ef9f4d43db39848621c2358",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "bfe9c98671d5d6295ef9f4d43db39848621c2358",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "bfe9c98671d5d6295ef9f4d43db39848621c2358",
           "marker": "## B4"
         }
       ]
@@ -53,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B1B1B0_FENCE_INDEPENDENT_B5_READY_20261117.md",
-          "blob_sha": "a57ad2f87ff89681f950a0162aa5328093ae6222",
+          "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_INDEPENDENT_B5_READY_20261117.md",
+          "blob_sha": "bfe9c98671d5d6295ef9f4d43db39848621c2358",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_DEV_DOUBLE_READ_8_JUNIT_5_CI",
-    "B7": "PASS_SCOPED_DEV_DOUBLE_OBSERVED_READ_FENCE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "3216747249fec29f79ce6ba35b3ba0b6c793282f",
@@ -74,8 +75,8 @@
       }
     ]
   },
-  "why": "Scoped DEV-only read fence detects pointer/host/revoke change between two SQL snapshots; cannot authenticate principal or guarantee revocations after second read; no UI.",
-  "how": "Exact 3 new files: internal mechanical double-observation fence, eight synthetic JVM tests, directed DEV workflow, no shipping wiring.",
+  "why": "DEV stage9 fixed finance.snapshot.read/finance:all policy issuer without Apply grants; not Android-authenticated, no UI.",
+  "how": "New typed read-only policy request/record, existing RealityStore stage9 factory, 8 real SQLite tests and one directed workflow; exact four paths.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "preflight_red_fix": {
@@ -98,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": "B3B1B1B0_B7_PASS_CONSUMED_B3B1B1B1_ANDROID_READ_HOST_NOT_AUTHORIZED",
+  "blocked_reason": null,
   "blocker": null
 }
