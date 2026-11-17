@@ -1,22 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV",
-  "reviewed_head": "eafe984a090f81532ed43f5637d957c9d829cedf",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_DEV",
+  "reviewed_head": "4456cfd95dafc628ccccbf2079ce7f253566e1e5",
   "paths": [
-    "v5/app/build.gradle.kts",
+    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
     "v5/app/src/w01FinanceDev/AndroidManifest.xml",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadNoticeProbeService.kt",
-    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceTwoPidNoticeAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d1a-two-pid-notice.yml"
+    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceForegroundOwnerAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b0-foreground-owner.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
+          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
+          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
           "marker": "## B1"
         }
       ]
@@ -25,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
+          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
+          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
           "marker": "## B2"
         }
       ]
@@ -35,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
+          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
+          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
           "marker": "## B3"
         }
       ]
@@ -45,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_B1_B5_20261117.md",
-          "blob_sha": "8255db8b8e5c270033f5110587bc48e02b2ccdc7",
+          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_B1_B5_20261117.md",
+          "blob_sha": "89bcd1590a0e80c06406d32ced1d76fbc62cea6f",
           "marker": "## B4"
         }
       ]
@@ -55,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1A_TWO_PID_INVALIDATION_INDEPENDENT_B5_20261117.md",
-          "blob_sha": "1cc4275d6f6732cf56f59aa48c47b28619316e75",
+          "path": "docs/v5/FARO_S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_INDEPENDENT_B5_20261117.md",
+          "blob_sha": "0eb0fac3e2b98cde4ed9955840767b06acb575eb",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_ANDROID_API35_TWO_PID_PROBE_2_OF_2_PASS",
-    "B7": "PASS_SCOPED_REAL_ANDROID_API35_TWO_PID_SYNTHETIC_TRANSPORT"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
@@ -76,11 +75,11 @@
       }
     ]
   },
-  "why": "D1A Android real OS 2 PIDs synthetic transport B7 scoped; permit consumed",
-  "how": "EXACT5 DEV probe service Messenger same UID private provider + Android instrumentation API35; no shipping/finance read",
+  "why": "D1B0 bind real Android W01 FragmentActivity foreground lifecycle DEV only; no authorized SQL balances or biometric yet",
+  "how": "W01-only subclass launcher, private FragmentActivity + lifecycle reconciler observer, real Android API35 acceptance EXACT4",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "blocker": null,
-  "blocked_reason": "D1A_READY_CONSUMED_AFTER_B7_D1B_REQUIRES_OWN_B1_B5_PERMIT",
-  "consumed_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35"
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }
