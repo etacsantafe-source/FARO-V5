@@ -1,0 +1,18 @@
+# FARO V5 — W01 M1C1A · B7 PASS scoped Review canónica ↔ presencia local
+Fecha AR 2026-11-17. Unidad `S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING`. Último código `18e87fadce1b979140aa4ffea4d082d9e1c69813`. Rama `work/s3-night-20261102`. Sólo código DEV inactivo y JVM, no host Apply/Android productivo.
+
+## B7
+**PASS_SCOPED_READ_ONLY_REVIEW_PRESENCE_JVM9_9_DEV_COMPILE.** 
+- HEAD base M1C0 B7 PASS `12c644f6693e5ec782796d2deb61f9ac0081c1c9`, writer RELEASED1022 y guard 44009124231 SUCCESS. No recertificado.
+- B1–B5 `docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md` blob `ada0b0d02edd517664c41a6a3d1a992479aef3f4`; publicación `2bf753fb8daec6b2012ff683e9786a1a67fc4cec`, guard 44009994626 SUCCESS, writer RELEASED1023.
+- READY exact3 independiente `2293c73c08568babe461a03da54720c882286669`, guard 44010169034 SUCCESS; writer RELEASED1024. Código no mezclado con permiso.
+- Código `18e87fadce1b979140aa4ffea4d082d9e1c69813`, diff exacto de **tres archivos nuevos** vs READY: `v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinder.kt`, `v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinderTest.kt`, `.github/workflows/faro-v5-s4-w01-m1c1a-review-presence-directed.yml`. Ningún `RealityStore`, UI, manifest, ACL ni owner histórico modificado. Writer RELEASED1025 antes de CI; guard código 44010490206 SUCCESS.
+- CI dirigida https://github.com/etacsantafe-source/FARO-V5/actions/runs/44010490301 COMPLETED/SUCCESS sobre SHA `18e87fadce1b979140aa4ffea4d082d9e1c69813`: `:app:testDebugUnitTest --tests S4W01M1C1AReviewPresenceBinderTest` BUILD SUCCESSFUL, **9/9 JUnit XML exact names, 0 failures/errors/skips**, `:app:compileV2CoreDevKotlin` BUILD SUCCESSFUL. Artefacto `faro-v5-w01-m1c1a-reviewed-presence-junit` id `14296736442`.
+- Nueve escenarios: coincidencia APPROVED+fingerprint+objeto+texto exacto, consumo único por instancia, operación/objeto ajenos, fingerprint/review context ajenos, texto cambiado/truncado/Review >120, UID/package ajenos, pointer ABA y host epoch, expiración/hash inválido/close, Workspace mutado entre dos lecturas o PENDING DENY.
+- **Límites NO PASS:** Los tests usan `S4W01FinanceLocalPresenceEvidence` sintética. Esta clase Kotlin no autentica el origen del proof por sí sola; prueba criptográfica física y anclaje a alias AndroidKeyStore del G15 NOT_RUN. La coincidencia estructural es **informativa**, NO principal humano, NO SQL policyEpoch, NO `finance_apply_grant`, NO Reality receipt, NO Apply productivo, no host Android composable. No habilitar V2 productiva ni W2.
+- Regresiones automáticas de código `18e87fadce1b979140aa4ffea4d082d9e1c69813`: S3 Home notice `44010490245` SUCCESS; V2 core M1/M2 `44010490226` y M5 package `44010490215` estaban IN_PROGRESS al redactar B7; no afirmar su PASS hasta verificarlos. Los B7 M1B/M1C0 siguen independientes y vigentes, no reabrirlos.
+- **Siguiente unidad M1C1B:** implementar la identidad estable local de clave Android Keystore y grant durable por Review/fingerprint/objeto, ligarlo al verdadero `ApplyTransactionExecutor` y exigir consumo/receipt hasta COMMIT bajo Reality SQLite9 con concurrencia de proceso. Requiere preauditoría B1–B5 específica, READY separada, tests host y campaña física G15. No emitir permisos ni código de M1C1B con el READY de este módulo.
+- W1 B/C/D/E/F globales siguen OPEN; W2 STOP. Writer epoch1026 debe liberarse y guard documental del cierre verificarse.
+
+## Checkpoint
+Consumir READY M1C1A a BLOCKED, `last_code_review` anclado al SHA funcional exacto y blob de este documento con `marker: ## B7`. No inferir cierre de W01 completo.

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M1C1A_REVIEW_PRESENCE_READY_EXACT3",
+  "phase": "S4_W01_M1C1A_B7_PASS_NEXT_M1C1B_SQL_GRANT_HOST",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1024
+    "epoch": 1026
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "M1C1A B6 exact3 Kotlin binder+9 JVM and isolated DEV compile, B7 independent; M1C1B SQL grant until real Apply COMMIT pending; W2 STOP",
-  "checkpoint_status": "M1C1A_READY_NO_CODE",
+  "next": "M1C1B B1-B5 AndroidKeystore principal identity + durable finance9 grant/Apply receipt same SQL COMMIT; own READY and CI; G15 physical later. W1 B-F OPEN, W2 STOP",
+  "checkpoint_status": "M1C1A_B7_SCOPED_PASS_DOC_COMMITTED_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4309,7 +4309,7 @@
   },
   "w01_m1c1a": {
     "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
-    "status": "READY_EXACT3_B6_NOT_RUN",
+    "status": "B7_PASS_SCOPED_READ_ONLY_JVM_AND_DEV_COMPILE",
     "expected_head": "12c644f6693e5ec782796d2deb61f9ac0081c1c9",
     "docs": [
       "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md"
@@ -4322,6 +4322,22 @@
     "ci": "NOT_RUN",
     "physical": "NOT_RUN",
     "w2": "STOP",
-    "ready_document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_READY_20261117.md"
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_READY_20261117.md",
+    "code_sha": "18e87fadce1b979140aa4ffea4d082d9e1c69813",
+    "ci_run": 44010490301,
+    "guard_code_run": 44010490206,
+    "xml": "9/9 PASS",
+    "artifact_id": 14296736442,
+    "proof": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_PRESENCE_B7_PASS_20261117.md",
+    "proof_blob_sha": "4151eb4fee6c0818f3274fb5772da860f649aa81",
+    "next_step": "M1C1B_B1_B5",
+    "blocker": "NO_DURABLE_GRANT_APPLY_HUMAN_PHYSICAL",
+    "writer_release_epoch": 1026
+  },
+  "w01_m1c1b": {
+    "status": "NEXT_B1_B5_NO_READY",
+    "required": "ANDROIDE_KEY_ATTESTATION_DURABLE_SQL_GRANT_REAL_APPLY_RECEIPT_COMMIT",
+    "physical": "NOT_RUN",
+    "w2": "STOP"
   }
 }

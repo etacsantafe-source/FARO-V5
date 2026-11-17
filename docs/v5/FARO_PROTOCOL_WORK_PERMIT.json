@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
   "reviewed_head": "2bf753fb8daec6b2012ff683e9786a1a67fc4cec",
   "paths": [
@@ -59,17 +59,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_READ_ONLY_CANONICAL_APPROVED_M1B_PRESENCE_BINDER_TESTED_JVM9_9_DEV_COMPILE",
+    "B7": "PASS_SCOPED_M1C1A_READ_ONLY_BINDER_JVM9_9_DEV_COMPILE_NO_SQL_APPLY"
   },
   "last_code_review": {
-    "sha": "d228d00c8ae7cb801a67d85375688ea83b91e873",
-    "unit_id": "S4_W01_M1C0_FINANCE9_TWO_PROCESS_STAGED_COMMIT_FENCE",
+    "sha": "18e87fadce1b979140aa4ffea4d082d9e1c69813",
+    "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C0_TWO_PROCESS_STAGE_B7_PASS_20261116.md",
-        "blob_sha": "c39640a6e1dd5de5d7a8e39a30add63dfe777917",
+        "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_PRESENCE_B7_PASS_20261117.md",
+        "blob_sha": "4151eb4fee6c0818f3274fb5772da860f649aa81",
         "marker": "## B7"
       }
     ]
@@ -77,5 +77,6 @@
   "why": "M1C1A B1-B5 preaudit verified source blob ada0b0d02edd517664c41a6a3d1a992479aef3f4; guard 44009994626 SUCCESS; no physical human or SQLite grant authority",
   "how": "Exactly 3 new paths, one-shot approved canonical Workspace+M1B local presence proof binder; 9 JVM tests, compile DEV, no Finance Apply/DDL, W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "M1C1A_B7_PASS_CONSUMED_M1C1B_NOT_AUTHORIZED_ANDROID_PHYSICAL_NOT_RUN"
 }

@@ -391,7 +391,7 @@
   },
   "w01_m1c1a": {
     "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
-    "status": "READY_EXACT3_B6_NOT_RUN",
+    "status": "B7_PASS_SCOPED_DORMANT_JVM9_9",
     "document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_B1_B5_20261117.md",
     "code_changed": false,
     "paths": [
@@ -400,6 +400,17 @@
       ".github/workflows/faro-v5-s4-w01-m1c1a-review-presence-directed.yml"
     ],
     "w2": "STOP",
-    "ready_document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_READY_20261117.md"
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_LOCAL_PRESENCE_READY_20261117.md",
+    "code_sha": "18e87fadce1b979140aa4ffea4d082d9e1c69813",
+    "ci_run": 44010490301,
+    "guard_run": 44010490206,
+    "b7_document": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_PRESENCE_B7_PASS_20261117.md",
+    "junit_artifact_id": 14296736442,
+    "physical": "NOT_RUN"
+  },
+  "w01_m1c1b": {
+    "status": "NOT_READY",
+    "next": "B1_B5_ANDROID_KEY_LOCAL_PERSON_PRINCIPAL_SQL_GRANT_RECEIPT",
+    "w2": "STOP"
   }
 }
