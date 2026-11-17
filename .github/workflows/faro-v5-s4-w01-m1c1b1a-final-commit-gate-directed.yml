@@ -25,21 +25,29 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Execute six new final gate cases and all 13 existing executor regressions
+      - name: Run legacy S3 A4 exact13 and new M1C1B1A exact6 separately
         working-directory: v5
         run: |
           set -euo pipefail
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :kernel:apply:test --tests "ar.com.faro.v5.kernel.apply.ApplyTransactionExecutorTest"
-      - name: Enforce exact new D01-D06 and 19 total real XML testcases
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :kernel:apply:test --tests "ar.com.faro.v5.kernel.apply.ApplyTransactionExecutorTest" --tests "ar.com.faro.v5.kernel.apply.ApplyTransactionFinalCommitGateTest"
+      - name: Verify TWO independent JUnit XML suites (13 legacy plus 6 new)
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree as ET
-          paths=list(Path("v5/kernel/apply/build/test-results/test").glob(
-              "TEST-*ApplyTransactionExecutorTest.xml"))
-          if len(paths)!=1: raise SystemExit("M1C1B1A_XML_MISSING "+str(len(paths)))
-          root=ET.parse(paths[0]).getroot()
-          stats=tuple(int(root.get(x,"-1")) for x in ("tests","failures","errors","skipped"))
+          folder=Path("v5/kernel/apply/build/test-results/test")
+          def suite(class_name,expected_count):
+              files=list(folder.glob("TEST-*"+class_name+".xml"))
+              if len(files)!=1: raise SystemExit("M1C1B1A_XML_MISSING "+class_name+" "+str(len(files)))
+              root=ET.parse(files[0]).getroot()
+              stats=tuple(int(root.get(x,"-1")) for x in ("tests","failures","errors","skipped"))
+              if stats!=(expected_count,0,0,0): raise SystemExit("M1C1B1A_XML_FAIL "+class_name+" "+str(stats))
+              names=[(x.get("name") or "").removesuffix("()") for x in root.findall("testcase")]
+              if len(names)!=expected_count or len(set(names))!=expected_count:
+                  raise SystemExit("M1C1B1A_TESTCASE_DUPLICATE "+class_name)
+              return set(names)
+          legacy=suite("ApplyTransactionExecutorTest",13)
+          final=suite("ApplyTransactionFinalCommitGateTest",6)
           expected={
               "d01FinalGateObservesMatchingReceiptAfterBindingsBeforeSqlCommit",
               "d02FinalGateDenialAfterReceiptRollsBackInsteadOfCommitting",
@@ -48,17 +56,17 @@ jobs:
               "d05ReceiptIdentityMismatchNeverInvokesFinalCommitGate",
               "d06BindingRejectionNeverCreatesReceiptOrCallsFinalGate",
           }
-          names=[(x.get("name") or "").removesuffix("()") for x in root.findall("testcase")]
-          if stats!=(19,0,0,0) or len(names)!=19 or len(set(names))!=19 or not expected.issubset(set(names)):
-              raise SystemExit("M1C1B1A_XML_FAIL "+str((stats,names)))
-          print("W01_M1C1B1A_KERNEL_POST_RECEIPT_GATE_JVM_PASS_19_OF_19")
-          print("M1C1B1A_DIRECTED_NEW_TESTS_PASS_6_OF_6")
-          print("NOT_CERTIFIED: actual Finance9 Android host, biometric, durable principal, G15, shipping V2 or W2")
+          if final!=expected or legacy.intersection(expected):
+              raise SystemExit("M1C1B1A_MIXED_LEGACY_NEW_TEST_NAMES")
+          print("S3_A4_LEGACY_TRANSACTION_HOOK_JVM_PASS_13_OF_13")
+          print("W01_M1C1B1A_FINAL_COMMIT_GATE_NEW_JVM_PASS_6_OF_6")
+          print("W01_M1C1B1A_COMBINED_TOTAL_PASS_19_OF_19")
+          print("NOT_CERTIFIED: real Finance9 Android host, biometric G15, productive V2 or W2")
           PY
-      - name: Save exact JUnit XML evidence
+      - name: Save BOTH independent JUnit XML files
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: faro-v5-w01-m1c1b1a-kernel-final-commit-junit
-          path: v5/kernel/apply/build/test-results/test/TEST-*ApplyTransactionExecutorTest.xml
+          path: v5/kernel/apply/build/test-results/test/TEST-*ApplyTransaction*Test.xml
           if-no-files-found: warn

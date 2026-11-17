@@ -455,6 +455,170 @@ class ApplyTransactionExecutorTest {
         assertEquals(1, tx.rollbacks)
     }
 
+    internal fun resolve(
+        plan: PreparedPlanView,
+        bindings: List<OperationBindingPort>,
+    ): ApplyBindingResolution.Resolved =
+        ApplyBindingResolutionGate(bindings).resolve(plan) as ApplyBindingResolution.Resolved
+
+    internal fun binding(
+        operationId: String,
+        executor: String,
+        body: (PreparedOperation, RealityTransactionScope) -> OperationBindingExecutionResult =
+            { _, _ -> OperationBindingExecutionResult.Completed },
+    ): OperationBindingPort = object : OperationBindingPort {
+        override val descriptor = OperationBindingDescriptor(
+            OperationId(operationId),
+            ExecutorId(executor),
+            ExecutionProfile.REALITY_MUTATION,
+        )
+
+        override fun execute(
+            preparedOperation: PreparedOperation,
+            transactionScope: RealityTransactionScope,
+        ): OperationBindingExecutionResult =
+            body(preparedOperation, transactionScope)
+    }
+
+    private fun effect(
+        effectId: String,
+        transactionId: String,
+    ) = OutboxEffectIntent(
+        effectId = EffectId(effectId),
+        sourceTransactionId = TransactionId(transactionId),
+        idempotencyKey = IdempotencyKey("idem-" + effectId),
+        payload = CanonicalPayload.fromEncoded(
+            "effect-v1",
+            effectId.toByteArray(),
+        ),
+    )
+
+    internal fun plan(): PreparedPlanView {
+        val a = node("a", "fixture.a", "finance", emptySet())
+        val b = node("b", "fixture.b", "planning", setOf(PlanNodeId("a")))
+        val applyPlan = ApplyPlan.of(b, a)
+        return object : PreparedPlanView {
+            override val applyPlan = applyPlan
+            override val planFingerprint = PlanFingerprint("plan-tx")
+        }
+    }
+
+    private fun node(
+        nodeId: String,
+        operationId: String,
+        executor: String,
+        dependsOn: Set<PlanNodeId>,
+    ) = ApplyPlanNode(
+        PlanNodeId(nodeId),
+        PreparedOperation(
+            OperationContractDescriptor(
+                OperationId(operationId),
+                CapabilityId("N-025"),
+                ExecutorId(executor),
+                ExecutionProfile.REALITY_MUTATION,
+                ContractVersion("1"),
+                ContractFingerprint("contract-" + operationId),
+                ContractExposure.BINDABLE,
+            ),
+            CanonicalPayload.fromEncoded("fixture-v1", operationId.toByteArray()),
+            DependencyStampSet.of(
+                DependencyStamp(
+                    AuthorityBoundaryId("reality." + executor),
+                    DependencyKey("entity:" + operationId),
+                    DependencyStampValue("revision:1"),
+                )
+            ),
+            IdempotencyKey("intent-" + operationId),
+        ),
+        dependsOn,
+    )
+
+    internal class RecordingCommitPort(
+        private val tx: RecordingTransactionPort,
+        private val returnedTransactionId: TransactionId? = null,
+        private val throwOnCommit: Boolean = false,
+    ) : ApplyCommitPort {
+        var calls = 0
+        var lastOutbox: List<OutboxEffectIntent> = emptyList()
+
+        override fun commit(
+            transactionScope: RealityTransactionScope,
+            identity: ApplyAttemptIdentity,
+            outboxIntents: List<OutboxEffectIntent>,
+        ): ExecutionReceipt {
+            calls += 1
+            assertTrue(tx.active)
+            assertEquals(identity.transactionId, transactionScope.transactionId)
+            lastOutbox = outboxIntents.toList()
+            if (throwOnCommit) error("commit failed")
+            return ExecutionReceipt(
+                receiptId = ReceiptId("receipt-" + identity.transactionId.value),
+                transactionId = returnedTransactionId ?: identity.transactionId,
+                planFingerprint = identity.planFingerprint,
+            )
+        }
+    }
+
+    internal class RecordingTransactionPort(
+        private val scopeTransactionId: TransactionId? = null,
+    ) : AtomicApplyTransactionPort {
+        var entries = 0
+        var commits = 0
+        var rollbacks = 0
+        var active = false
+
+        override fun <T> run(
+            transactionId: TransactionId,
+            block: (RealityTransactionScope) -> AtomicApplyTransactionDecision<T>,
+        ): T {
+            entries += 1
+            active = true
+            val scope = object : RealityTransactionScope {
+                override val transactionId =
+                    scopeTransactionId ?: transactionId
+            }
+            try {
+                return when (val decision = block(scope)) {
+                    is AtomicApplyTransactionDecision.Commit -> {
+                        commits += 1
+                        decision.value
+                    }
+                    is AtomicApplyTransactionDecision.Rollback -> {
+                        rollbacks += 1
+                        decision.value
+                    }
+                }
+            } catch (failure: Throwable) {
+                rollbacks += 1
+                throw failure
+            } finally {
+                active = false
+            }
+        }
+    }
+}
+
+private typealias RecordingTransactionPort = ApplyTransactionExecutorTest.RecordingTransactionPort
+private typealias RecordingCommitPort = ApplyTransactionExecutorTest.RecordingCommitPort
+
+/**
+ * M1C1B1A RED_FIX: six new post-receipt tests live in a SEPARATE JUnit class.
+ * The original ApplyTransactionExecutorTest still has EXACTLY 13 legacy tests,
+ * preserving the certified S3 A4 XML contract without touching its workflow.
+ */
+class ApplyTransactionFinalCommitGateTest {
+    private val legacyFixture = ApplyTransactionExecutorTest()
+    private fun plan(): PreparedPlanView = legacyFixture.plan()
+    private fun resolve(
+        plan: PreparedPlanView, bindings: List<OperationBindingPort>,
+    ): ApplyBindingResolution.Resolved = legacyFixture.resolve(plan, bindings)
+    private fun binding(
+        operationId: String,
+        executor: String,
+        body: (PreparedOperation, RealityTransactionScope) -> OperationBindingExecutionResult =
+            { _, _ -> OperationBindingExecutionResult.Completed },
+    ): OperationBindingPort = legacyFixture.binding(operationId, executor, body)
+
     @Test
     fun d01FinalGateObservesMatchingReceiptAfterBindingsBeforeSqlCommit() {
         val tx = RecordingTransactionPort()
@@ -659,145 +823,4 @@ class ApplyTransactionExecutorTest {
         assertEquals(1, tx.rollbacks)
     }
 
-    private fun resolve(
-        plan: PreparedPlanView,
-        bindings: List<OperationBindingPort>,
-    ): ApplyBindingResolution.Resolved =
-        ApplyBindingResolutionGate(bindings).resolve(plan) as ApplyBindingResolution.Resolved
-
-    private fun binding(
-        operationId: String,
-        executor: String,
-        body: (PreparedOperation, RealityTransactionScope) -> OperationBindingExecutionResult =
-            { _, _ -> OperationBindingExecutionResult.Completed },
-    ) = object : OperationBindingPort {
-        override val descriptor = OperationBindingDescriptor(
-            OperationId(operationId),
-            ExecutorId(executor),
-            ExecutionProfile.REALITY_MUTATION,
-        )
-
-        override fun execute(
-            preparedOperation: PreparedOperation,
-            transactionScope: RealityTransactionScope,
-        ): OperationBindingExecutionResult =
-            body(preparedOperation, transactionScope)
-    }
-
-    private fun effect(
-        effectId: String,
-        transactionId: String,
-    ) = OutboxEffectIntent(
-        effectId = EffectId(effectId),
-        sourceTransactionId = TransactionId(transactionId),
-        idempotencyKey = IdempotencyKey("idem-" + effectId),
-        payload = CanonicalPayload.fromEncoded(
-            "effect-v1",
-            effectId.toByteArray(),
-        ),
-    )
-
-    private fun plan(): PreparedPlanView {
-        val a = node("a", "fixture.a", "finance", emptySet())
-        val b = node("b", "fixture.b", "planning", setOf(PlanNodeId("a")))
-        val applyPlan = ApplyPlan.of(b, a)
-        return object : PreparedPlanView {
-            override val applyPlan = applyPlan
-            override val planFingerprint = PlanFingerprint("plan-tx")
-        }
-    }
-
-    private fun node(
-        nodeId: String,
-        operationId: String,
-        executor: String,
-        dependsOn: Set<PlanNodeId>,
-    ) = ApplyPlanNode(
-        PlanNodeId(nodeId),
-        PreparedOperation(
-            OperationContractDescriptor(
-                OperationId(operationId),
-                CapabilityId("N-025"),
-                ExecutorId(executor),
-                ExecutionProfile.REALITY_MUTATION,
-                ContractVersion("1"),
-                ContractFingerprint("contract-" + operationId),
-                ContractExposure.BINDABLE,
-            ),
-            CanonicalPayload.fromEncoded("fixture-v1", operationId.toByteArray()),
-            DependencyStampSet.of(
-                DependencyStamp(
-                    AuthorityBoundaryId("reality." + executor),
-                    DependencyKey("entity:" + operationId),
-                    DependencyStampValue("revision:1"),
-                )
-            ),
-            IdempotencyKey("intent-" + operationId),
-        ),
-        dependsOn,
-    )
-
-    private class RecordingCommitPort(
-        private val tx: RecordingTransactionPort,
-        private val returnedTransactionId: TransactionId? = null,
-        private val throwOnCommit: Boolean = false,
-    ) : ApplyCommitPort {
-        var calls = 0
-        var lastOutbox: List<OutboxEffectIntent> = emptyList()
-
-        override fun commit(
-            transactionScope: RealityTransactionScope,
-            identity: ApplyAttemptIdentity,
-            outboxIntents: List<OutboxEffectIntent>,
-        ): ExecutionReceipt {
-            calls += 1
-            assertTrue(tx.active)
-            assertEquals(identity.transactionId, transactionScope.transactionId)
-            lastOutbox = outboxIntents.toList()
-            if (throwOnCommit) error("commit failed")
-            return ExecutionReceipt(
-                receiptId = ReceiptId("receipt-" + identity.transactionId.value),
-                transactionId = returnedTransactionId ?: identity.transactionId,
-                planFingerprint = identity.planFingerprint,
-            )
-        }
-    }
-
-    private class RecordingTransactionPort(
-        private val scopeTransactionId: TransactionId? = null,
-    ) : AtomicApplyTransactionPort {
-        var entries = 0
-        var commits = 0
-        var rollbacks = 0
-        var active = false
-
-        override fun <T> run(
-            transactionId: TransactionId,
-            block: (RealityTransactionScope) -> AtomicApplyTransactionDecision<T>,
-        ): T {
-            entries += 1
-            active = true
-            val scope = object : RealityTransactionScope {
-                override val transactionId =
-                    scopeTransactionId ?: transactionId
-            }
-            try {
-                return when (val decision = block(scope)) {
-                    is AtomicApplyTransactionDecision.Commit -> {
-                        commits += 1
-                        decision.value
-                    }
-                    is AtomicApplyTransactionDecision.Rollback -> {
-                        rollbacks += 1
-                        decision.value
-                    }
-                }
-            } catch (failure: Throwable) {
-                rollbacks += 1
-                throw failure
-            } finally {
-                active = false
-            }
-        }
-    }
 }
