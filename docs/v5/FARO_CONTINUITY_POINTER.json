@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify B3B1B0 preflight; B6 exact4 atomic observed read and B3B0/B3B1A regressions, B7; W2 STOP.",
-  "checkpoint_status": "W01_B3B1B0_EXACT4_READY_ATOMIC_SQL_GUARD_PENDING",
+  "next": "Verify B3B1B0 B7 doc guard and RELEASED1074; then B3B1B1 trusted app adapter B1-B5. W2 STOP. V2 productive OFF.",
+  "checkpoint_status": "W01_B3B1B0_B7_PASS_SCOPED_8_24_XML_22_CI_DOC_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4569,12 +4569,12 @@
   },
   "w01_b3b1": {
     "unit_id": "S4_W01_B3B1_FINANCE_ACL_READ_ADAPTER",
-    "status": "B3B1A_OBSERVED_ONLY_B7_PASS_B3B1B_PENDING",
+    "status": "B3B1A_AND_B3B1B0_B7_PASS_SCOPED_B3B1B1_NEXT",
     "document": "docs/v5/FARO_S4_W01_B3B1_FINANCE_ACL_READ_ADAPTER_B1_B5_20261117.md",
     "proof_sha": "e70129ac9a5e053392c3e74139c76ec10fe9eea1",
     "B6": "B3B1A_IMPLEMENTED",
     "B7": "B3B1A_PASS_SCOPED",
-    "next": "B3B1B requires one transactional ACL+data snapshot, trusted principal and invalidations; no UI product",
+    "next": "Trusted host app source, UID/Keystore/generation/pointer epoch + cross-process revocation invalidations, no product UI without evidence.",
     "w2": "STOP"
   },
   "w01_b3b1a": {
@@ -4608,14 +4608,14 @@
   },
   "w01_b3b1b0": {
     "unit_id": "S4_W01_B3B1B0_FINANCE9_SINGLE_SNAPSHOT_POLICY_AND_OPENING_DEV",
-    "status": "READY_EXACT4_DEV_ATOMIC_SQL_GUARD_PENDING",
+    "status": "B7_PASS_SCOPED_DEV_SINGLE_SNAPSHOT_POLICY_OPENING",
     "document": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_READ_ACL_SOURCE_B1_B5_20261117.md",
     "proof_blob": "08ba7a557ed4a4921224dd7ee09c64002b7924cf",
-    "B6": "READY",
-    "B7": "PENDING",
+    "B6": "IMPLEMENTED",
+    "B7": "PASS_SCOPED",
     "blocker": "INDEPENDENT_B5_SQL_HELPER_EXTRACTION_AND_EXACT4_READY",
     "w2": "STOP",
-    "permission": "READY",
+    "permission": "CONSUMED_BLOCKED",
     "ready_document": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_POLICY_SOURCE_READY_20261117.md",
     "ready_sha": "bd5cbe84f01311b69410ebac1b944db2e2bb1e82",
     "independent_b5": "docs/v5/FARO_S4_W01_B3B1B0_SINGLE_TRANSACTION_INDEPENDENT_B5_20261117.md",
@@ -4624,6 +4624,18 @@
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
       "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ObservedSourceReadTest.kt",
       ".github/workflows/faro-v5-s4-w01-b3b1b0-atomic-read-directed.yml"
-    ]
+    ],
+    "code_sha": "ba6b83c39fdbfe2274fad64e103fe5d93a871bd2",
+    "directed_ci": 44087261313,
+    "new_xml": "8_8",
+    "affected_regression_xml": "B3B0_8_8_B3B1A_8_8",
+    "artifact_id": 14329473968,
+    "guard_code_run": 44087261177,
+    "all_workflows": "22_22_SUCCESS",
+    "b7_document": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_SQL_SOURCE_B7_PASS_SCOPED_20261117.md",
+    "b7_blob_sha": "475a34a754ee2a2eed9a8a9abc3284d5f99ec348",
+    "writer_release_epoch": 1074,
+    "physical": "NOT_RUN",
+    "next_step": "W01_B3B1B1_TRUSTED_APP_ACL_POINTER_AND_INVALIDATIONS_B1_B5"
   }
 }

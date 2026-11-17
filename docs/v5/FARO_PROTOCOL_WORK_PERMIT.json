@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B0_FINANCE9_SINGLE_SNAPSHOT_POLICY_AND_OPENING_DEV",
   "reviewed_head": "ca79c7753004447160f87d5e0190162724231209",
   "paths": [
@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_SINGLE_SNAPSHOT_8_NEW_16_REGRESSION_22_CI",
+    "B7": "PASS_SCOPED_DEV_SINGLE_SNAPSHOT_8_NEW_22_CI"
   },
   "last_code_review": {
-    "sha": "ea17c533544553728a23b79f2534f4f41ffec56c",
-    "unit_id": "S4_W01_B3B1A_FINANCE9_READ_POLICY_OBSERVATION_DEV",
+    "sha": "ba6b83c39fdbfe2274fad64e103fe5d93a871bd2",
+    "unit_id": "S4_W01_B3B1B0_FINANCE9_SINGLE_SNAPSHOT_POLICY_AND_OPENING_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1A_READ_POLICY_OBSERVER_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "64fd6b934187e8571a0726317878b5ef9c3124c2",
+        "path": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_SQL_SOURCE_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "475a34a754ee2a2eed9a8a9abc3284d5f99ec348",
         "marker": "## B7"
       }
     ]
@@ -96,9 +96,9 @@
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
   },
-  "red_fix_scope": null,
+  "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": null,
+  "blocked_reason": "B3B1B0_B7_PASS_CONSUMED_B3B1B1_TRUSTED_APP_ACL_ADAPTER_NOT_AUTHORIZED",
   "blocker": null
 }
