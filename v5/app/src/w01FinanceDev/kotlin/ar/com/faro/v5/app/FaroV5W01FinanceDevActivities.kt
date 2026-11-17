@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
@@ -173,7 +172,7 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
             setOnClickListener { finish() }
         })
         column.addView(ComposeView(this).apply {
-            setContent { MaterialTheme { FaroV5FinanceReadScreen(financePort) } }
+            setContent { FaroV5FinanceReadScreen(financePort) }
         }, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f,
         ))
