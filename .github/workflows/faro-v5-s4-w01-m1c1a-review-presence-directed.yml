@@ -1,0 +1,79 @@
+name: FARO V5 S4 W01 M1C1A canonical reviewed local presence DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinder.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1AReviewPresenceBinderTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1c1a-review-presence-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1c1a-reviewed-presence
+  cancel-in-progress: false
+jobs:
+  canonical-approved-review-presence-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install isolated Android compile SDK
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run exactly nine M1C1A read-only Review presence JVM cases
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8" :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01M1C1AReviewPresenceBinderTest"
+      - name: Compile isolated v2CoreDev Kotlin only (no redundant APK)
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Dorg.gradle.jvmargs="-Xmx3g -XX:MaxMetaspaceSize=1g -Dfile.encoding=UTF-8" :app:compileV2CoreDevKotlin
+          echo "W01_M1C1A_DORMANT_BRIDGE_ISOLATED_DEV_COMPILE_SUCCESS"
+      - name: Verify exact nine named JUnit XML cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/app/build/test-results/testDebugUnitTest").glob(
+              "TEST-*S4W01M1C1AReviewPresenceBinderTest.xml"))
+          if len(files)!=1: raise SystemExit("M1C1A_XML_MISSING "+str(len(files)))
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+              "t01CanonicalApprovedReviewAndMatchingPresenceProduceOnlyInformationalBinding",
+              "t02OneShotMatchCannotBeReplayedEvenWithIdenticalPresence",
+              "t03ForeignOperationOrObjectNeverBindsApprovedScope",
+              "t04ModifiedFingerprintOrForeignReviewContextCannotPass",
+              "t05UnreviewedOrTruncatedPromptTextAndOversizedReviewAreDenied",
+              "t06DifferentAndroidUidOrPackageDeniesRegardlessOfMatchingReview",
+              "t07PointerAbaAndHostEpochOrReadinessRevocationDeny",
+              "t08ExpiredInvalidDigestsAndExplicitCloseFailClosed",
+              "t09WorkspaceMutationBetweenReadsAndPendingReviewDeny",
+          }
+          names=[(c.get("name") or "").removesuffix("()") for c in root.findall("testcase")]
+          if counts!=(9,0,0,0) or set(names)!=expected or len(names)!=9:
+              raise SystemExit("M1C1A_JUNIT_EXACT_FAIL "+str((counts,names)))
+          print("W01_M1C1A_CANONICAL_WORKSPACE_LOCAL_PRESENCE_JVM_PASS_9_OF_9")
+          print("NOT_CERTIFIED: Android biometric hardware, human identity, SQL Finance grant/receipt, production Apply, G15 or W02")
+          PY
+      - name: Preserve M1C1A directed exact JUnit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1c1a-reviewed-presence-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01M1C1AReviewPresenceBinderTest.xml
+          if-no-files-found: warn
