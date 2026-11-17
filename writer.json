@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.W01.D0.PERMIT.20261117",
   "token_hash": "7e33586fb55d68c39ee73f934e1e0c2310471026bd8848c1804516ff679b7458",
   "target_head": "63e26924c3ff8991f2918b35b191d66568a404e7",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1140,
   "timestamp": 1794945000,
-  "scope": "D0_READY_EXACT3_DOCUMENT_ONLY",
-  "last_checkpoint": "63e26924c3ff8991f2918b35b191d66568a404e7"
+  "scope": "D0_PERMIT_READY_EXACT3_DOC_ONLY",
+  "last_checkpoint": "7c1cf1d2d81e862c99918a182b3bf7ebf28ae3af"
 }
