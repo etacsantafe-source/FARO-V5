@@ -1,15 +1,10 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-  "reviewed_head": "5280bc2e1e164447f712b680ec31ee175d26c9bb",
+  "reviewed_head": "e6f59efa7341b77251a524f0166888960eae02be",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantPort.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGate.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedStageGrantPortTest.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt",
-    ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt"
   ],
   "stages": {
     "B1": {
@@ -62,22 +57,22 @@
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "68db898115683e7acf3c36d156447908e0de6341",
-    "unit_id": "S4_W01_M1C1B1A_POST_RECEIPT_FINAL_COMMIT_GATE",
-    "result": "PASS",
+    "sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+    "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C1B1A_POST_RECEIPT_GATE_B7_PASS_20261117.md",
-        "blob_sha": "a8dcc6027058b82fc38040a2bbb75943e2c3d8f9",
+        "path": "docs/v5/FARO_S4_W01_M1C1B1B_PREPARED_PLAN_IMPORT_RED_FIX_B7_20261117.md",
+        "blob_sha": "f7460ff3aa81520ea5c638370bbe1083c51a91b0",
         "marker": "## B7"
       }
     ]
   },
-  "why": "M1C1B1B B1-B5 audited source blob e408bbbff39387babe41ac16b4f6eb52a300c583; independent B5 READY rationale docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_READY_20261117.md blob 04892f945871b9a9d3ed36452d9040ae694a2b68; guard documentary 44058021176 SUCCESS; prior M1C1B1A B7 PASS scoped",
+  "why": "Independent B7 RED_FIX documented; four app regressions fail identical missing test import, real SQLite tests passed; preserve prior B1-B5",
   "how": "Six paths only. Implement STAGED9 DEV intermodule port and optional host-unregistered mandatory Finance finalCommitGate, G01-G10 JVM; no human principal issuance, no product Android Apply, W2 STOP",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -98,5 +93,6 @@
     "fix": "BLOCKED_IMMEDIATELY_AFTER_B6",
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
-  }
+  },
+  "red_fix_scope": "TEST_ONLY_SINGLE_IMPORT_PREPARED_PLAN; no functional production changes; exact previous code SHA remains RED_FIX"
 }
