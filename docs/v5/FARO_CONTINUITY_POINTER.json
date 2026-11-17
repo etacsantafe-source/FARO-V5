@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify protocol guard preflight at exact SHA; then bounded B6 if green. W2 STOP.",
-  "checkpoint_status": "M1C1B1B_READY_ENUM_RED_FIX_GUARD_PENDING",
+  "next": "Inspect exact SHA protocol guard and directed JVM tests, XML evidence; B7 or same-unit RED_FIX only. W2 STOP.",
+  "checkpoint_status": "M1C1B1B_CODE_PUBLISHED_WAIT_CI_NO_B7",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4400,7 +4400,7 @@
   },
   "w01_m1c1b1b": {
     "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
-    "status": "READY_EXACT_SIX_PREFLIGHT_RED_FIX_COMMITTED_GUARD_PENDING",
+    "status": "B6_CODE_PUBLISHED_WAIT_CI",
     "document": "docs/v5/FARO_S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE_B1_B5_20261117.md",
     "document_commit": "b2da1e1e8af2e62a5e4a745a4f9ba58db17f941a",
     "scope": "DEV_STAGED9_ONLY_NO_PRODUCT_APPLY",
@@ -4412,8 +4412,8 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01M1C1B1BFinance9StageGateTest.kt",
       ".github/workflows/faro-v5-s4-w01-m1c1b1b-stage-gate-directed.yml"
     ],
-    "B6": "NOT_RUN",
-    "B7": "NOT_RUN",
+    "B6": "PUBLISHED_WAIT_CI",
+    "B7": "PENDING_FINAL_AUDIT",
     "physical": "NOT_RUN",
     "w2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_M1C1B1B_STAGE_GATE_READY_20261117.md",
@@ -4424,6 +4424,8 @@
       "run": 44058347307,
       "reason": "B6 B7 incorrect enum",
       "fixed_sha": "9864f50aa07e741aa3aff22956b3c68ccd2dd0e4"
-    }
+    },
+    "code_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+    "ci": "WAIT_CI"
   }
 }
