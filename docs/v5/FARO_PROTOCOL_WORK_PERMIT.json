@@ -65,13 +65,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "f8d3d7bb27d1d5e254a0aab03f588aa7d9cd720f",
-    "unit_id": "S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL",
-    "result": "PASS",
+    "sha": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
+    "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1A_FINANCE9_DURABLE_ACL_STAGE_SQL_B7_PASS_20261116.md",
-        "blob_sha": "de3bec82b2cfc337616d2838e0ac9eebcd778eb9",
+        "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_RED_FIX_20261116.md",
+        "blob_sha": "cfc39a2d2ba3551594d5e5a23968700e5c93df0a",
         "marker": "## B7"
       }
     ]
@@ -79,5 +79,13 @@
   "why": "B1-B5 independent doc blob 97ff925257a8d9fa822ff66a8bdcbbceece24d04; documentary guard 44004088951 SUCCESS; no hardware or product grant authorized",
   "how": "Exactly five paths; Android BiometricPrompt CryptoObject + KeyStore per-use and JVM review-bound one-shot state tests; isolated build; M1C and W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "red_fix_scope": {
+    "failed_sha": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
+    "run": 44004832900,
+    "code": "D8_JAVA_HEAP_OUT_OF_MEMORY",
+    "target_path": ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml",
+    "state": "RED_FIX_BOUND_TO_SAME_UNIT",
+    "no_kotlin_changes": true
+  }
 }

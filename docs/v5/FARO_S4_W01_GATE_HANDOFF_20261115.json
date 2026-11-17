@@ -321,7 +321,7 @@
   },
   "w01_m1b": {
     "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
-    "status": "READY_EXACT5_B6_NOT_RUN",
+    "status": "B7_RED_FIX_D8_OOM",
     "doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
     "paths": [
       "v5/app/build.gradle.kts",
@@ -331,9 +331,13 @@
       ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml"
     ],
     "physical": "NOT_RUN",
-    "code_changed": false,
+    "code_changed": true,
     "w2": "STOP",
-    "ready_doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_READY_20261116.md"
+    "ready_doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_READY_20261116.md",
+    "code_sha": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
+    "CI_run": 44004832900,
+    "b7_redfix_doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_RED_FIX_20261116.md",
+    "next": "SAME_UNIT_WORKFLOW_ONLY_HEAP_FIX"
   },
   "w01_m1c": {
     "unit_id": "S4_W01_M1C_FINANCE9_TWO_PROCESS_COMMIT_FENCE",
