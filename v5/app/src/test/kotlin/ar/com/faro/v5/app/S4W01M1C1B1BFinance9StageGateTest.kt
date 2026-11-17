@@ -2,6 +2,7 @@ package ar.com.faro.v5.app
 
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.PreparedPlan
+import ar.com.faro.v5.kernel.runtime.BuiltInContractCatalog
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.owner.finance.api.*
 import ar.com.faro.v5.store.reality.*
