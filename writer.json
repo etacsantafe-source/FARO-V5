@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.W01.D1A.CODE.20261117",
   "token_hash": "5e63797da4a7c7d351cb46aa30bdecc6bc58188cfed87ef7349a13c8be72e900",
   "target_head": "43819d566a1e351ebc3c063a74a226dc80973fdb",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1148,
   "timestamp": 1794948400,
-  "scope": "D1A_CODE_EXACT5_READY",
-  "last_checkpoint": "43819d566a1e351ebc3c063a74a226dc80973fdb"
+  "scope": "D1A_CODE_EXACT5_WAIT_ANDROID_EMULATOR_CI",
+  "last_checkpoint": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35"
 }
