@@ -78,10 +78,31 @@ fun interface ApplyTransactionAuthorizationPort {
     ): Boolean
 }
 
+/**
+ * Optional trusted final-commit gate, invoked INSIDE the same transaction
+ * after ApplyCommitPort has generated a matching receipt, but BEFORE Reality
+ * makes any receipt/effect durable with SQL COMMIT.
+ *
+ * A Finance host MUST supply this port to consume its Finance9 grant against
+ * the actual receipt. Merely implementing the interface never authenticates
+ * Android humans, grants authority, or activates the DEV finance host.
+ * A false response rolls the entire Reality transaction back.
+ */
+fun interface ApplyTransactionFinalCommitGate {
+    fun allowCommit(
+        preparedPlan: PreparedPlanView,
+        identity: ApplyAttemptIdentity,
+        receipt: ExecutionReceipt,
+        checkedNodes: List<ApplyPlanNode>,
+        transactionScope: RealityTransactionScope,
+    ): Boolean
+}
+
 class ApplyTransactionExecutor(
     private val transactions: AtomicApplyTransactionPort,
     private val commits: ApplyCommitPort,
     private val authorization: ApplyTransactionAuthorizationPort? = null,
+    private val finalCommitGate: ApplyTransactionFinalCommitGate? = null,
 ) {
     fun execute(
         preparedPlan: PreparedPlanView,
@@ -200,6 +221,25 @@ class ApplyTransactionExecutor(
                     return@run AtomicApplyTransactionDecision.Rollback(
                         ApplyTransactionExecution.Rejected(
                             ApplyTransactionRejection.COMMIT_RECEIPT_MISMATCH,
+                        )
+                    )
+                }
+
+                // M1C1B1A: provisional receipt exists inside Reality.run.
+                // The host may now bind it to a durable grant in this SAME
+                // transaction. False must roll back the receipt, effects and
+                // any grant mutation; a thrown failure follows recovery path.
+                if (finalCommitGate != null && !finalCommitGate.allowCommit(
+                        preparedPlan,
+                        identity,
+                        receipt,
+                        checkedNodes.toList(),
+                        scope,
+                    )
+                ) {
+                    return@run AtomicApplyTransactionDecision.Rollback(
+                        ApplyTransactionExecution.Rejected(
+                            ApplyTransactionRejection.AUTHORIZATION_REJECTED,
                         )
                     )
                 }

@@ -455,6 +455,210 @@ class ApplyTransactionExecutorTest {
         assertEquals(1, tx.rollbacks)
     }
 
+    @Test
+    fun d01FinalGateObservesMatchingReceiptAfterBindingsBeforeSqlCommit() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        val calls = mutableListOf<String>()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance") { _, _ ->
+                calls += "binding-a"
+                OperationBindingExecutionResult.Completed
+            },
+            binding("fixture.b", "planning") { _, _ ->
+                calls += "binding-b"
+                OperationBindingExecutionResult.Completed
+            },
+        ))
+        val gate = ApplyTransactionFinalCommitGate { actualPlan, identity, receipt, nodes, scope ->
+            calls += "final-gate"
+            assertTrue(tx.active)
+            assertEquals(0, tx.commits)
+            assertEquals(1, commits.calls) // actual receipt already exists provisionally
+            assertSame(prepared, actualPlan)
+            assertEquals(TransactionId("tx-1"), identity.transactionId)
+            assertEquals(identity.transactionId, scope.transactionId)
+            assertEquals(identity.transactionId, receipt.transactionId)
+            assertEquals(prepared.planFingerprint, receipt.planFingerprint)
+            assertEquals(listOf("a", "b"), nodes.map { it.nodeId.value })
+            true
+        }
+
+        val result = ApplyTransactionExecutor(tx, commits, finalCommitGate = gate).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint),
+            resolved,
+        )
+
+        assertTrue(result is ApplyTransactionExecution.Completed)
+        assertEquals(listOf("binding-a", "binding-b", "final-gate"), calls)
+        assertEquals(1, tx.commits)
+        assertEquals(0, tx.rollbacks)
+    }
+
+    @Test
+    fun d02FinalGateDenialAfterReceiptRollsBackInsteadOfCommitting() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance"),
+            binding("fixture.b", "planning"),
+        ))
+        var called = 0
+        val gate = ApplyTransactionFinalCommitGate { _, _, _, _, _ ->
+            called++
+            assertTrue(tx.active)
+            assertEquals(1, commits.calls)
+            false
+        }
+
+        val result = ApplyTransactionExecutor(tx, commits, finalCommitGate = gate).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint),
+            resolved,
+        )
+
+        assertEquals(
+            ApplyTransactionExecution.Rejected(ApplyTransactionRejection.AUTHORIZATION_REJECTED),
+            result,
+        )
+        assertEquals(1, called)
+        assertEquals(1, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
+    @Test
+    fun d03FinalGateDetectsRevocationAfterBindingsWithoutPublishingSuccess() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        var policyCurrent = true
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance") { _, _ ->
+                OperationBindingExecutionResult.Completed
+            },
+            binding("fixture.b", "planning") { _, _ ->
+                policyCurrent = false
+                OperationBindingExecutionResult.Completed
+            },
+        ))
+        val gate = ApplyTransactionFinalCommitGate { _, _, receipt, _, _ ->
+            assertEquals(PlanFingerprint("plan-tx"), receipt.planFingerprint)
+            policyCurrent
+        }
+        val result = ApplyTransactionExecutor(tx, commits, finalCommitGate = gate).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint),
+            resolved,
+        )
+        assertEquals(
+            ApplyTransactionExecution.Rejected(ApplyTransactionRejection.AUTHORIZATION_REJECTED),
+            result,
+        )
+        assertEquals(1, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
+    @Test
+    fun d04FinalGateExceptionForcesRecoveryAndTransactionRollback() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance"),
+            binding("fixture.b", "planning"),
+        ))
+        val gate = ApplyTransactionFinalCommitGate { _, _, _, _, _ ->
+            assertTrue(tx.active)
+            error("injected final Finance ACL connection failure")
+        }
+        val result = ApplyTransactionExecutor(tx, commits, finalCommitGate = gate).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint),
+            resolved,
+        )
+
+        assertEquals(
+            ApplyTransactionExecution.RecoveryRequired(
+                TransactionId("tx-1"),
+                ApplyTransactionRecoveryReason.TRANSACTION_EXECUTION_UNCERTAIN,
+            ),
+            result,
+        )
+        assertEquals(ExecutionOutcomeState.RECOVERING_UNKNOWN, result.outcome.state)
+        assertEquals(1, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
+    @Test
+    fun d05ReceiptIdentityMismatchNeverInvokesFinalCommitGate() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx, returnedTransactionId = TransactionId("tx-other"))
+        val prepared = plan()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance"),
+            binding("fixture.b", "planning"),
+        ))
+        var invoked = false
+        val gate = ApplyTransactionFinalCommitGate { _, _, _, _, _ ->
+            invoked = true
+            true
+        }
+
+        val result = ApplyTransactionExecutor(tx, commits, finalCommitGate = gate).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint),
+            resolved,
+        )
+
+        assertEquals(
+            ApplyTransactionExecution.Rejected(
+                ApplyTransactionRejection.COMMIT_RECEIPT_MISMATCH,
+            ),
+            result,
+        )
+        assertFalse(invoked)
+        assertEquals(1, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
+    @Test
+    fun d06BindingRejectionNeverCreatesReceiptOrCallsFinalGate() {
+        val tx = RecordingTransactionPort()
+        val commits = RecordingCommitPort(tx)
+        val prepared = plan()
+        val resolved = resolve(prepared, listOf(
+            binding("fixture.a", "finance") { _, _ ->
+                OperationBindingExecutionResult.Rejected("not-approved")
+            },
+            binding("fixture.b", "planning"),
+        ))
+        var invoked = false
+        val gate = ApplyTransactionFinalCommitGate { _, _, _, _, _ ->
+            invoked = true
+            true
+        }
+
+        val result = ApplyTransactionExecutor(tx, commits, finalCommitGate = gate).execute(
+            prepared, ApplyAttemptIdentity(TransactionId("tx-1"), prepared.planFingerprint),
+            resolved,
+        )
+
+        assertEquals(
+            ApplyTransactionExecution.Rejected(
+                ApplyTransactionRejection.BINDING_REJECTED,
+                PlanNodeId("a"),
+                "not-approved",
+            ),
+            result,
+        )
+        assertFalse(invoked)
+        assertEquals(0, commits.calls)
+        assertEquals(0, tx.commits)
+        assertEquals(1, tx.rollbacks)
+    }
+
     private fun resolve(
         plan: PreparedPlanView,
         bindings: List<OperationBindingPort>,
