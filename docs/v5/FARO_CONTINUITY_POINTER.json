@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Validate READY exact3 guard+preflight, then code B6+CI and B7; do not mount product Finance UI or start W2.",
-  "checkpoint_status": "W01_B3A_READY_EXACT3_SURFACE_GUARD_PENDING",
+  "next": "Verify B3A B7 doc guard and RELEASED1058; then W01-B3B authorized Finance9 source read port preaudit B1-B5. No W2 or product UI.",
+  "checkpoint_status": "W01_B3A_B7_PASS_SCOPED_DEV_UI_DOC_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4501,11 +4501,11 @@
   },
   "w01_b3a": {
     "unit_id": "S4_W01_B3A_FINANCE_READ_SURFACE_DEV",
-    "status": "READY_EXACT3_DEV_READ_ONLY_GUARD_PENDING",
+    "status": "B7_PASS_SCOPED_DEV_DORMANT_READ_SURFACE",
     "doc": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_B1_B5_20261117.md",
     "doc_blob_sha": "937cac22cdde8b8ae03eac8c0f40f2a36efbae6e",
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT",
+    "B6": "IMPLEMENTED",
+    "B7": "PASS_SCOPED",
     "ui": "DORMANT",
     "W2": "STOP",
     "ready_document": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_READY_20261117.md",
@@ -4514,6 +4514,20 @@
       "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5FinanceReadSurface.kt",
       "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5FinanceReadSurfaceContractTest.kt",
       ".github/workflows/faro-v5-s4-w01-b3a-finance-read-surface-directed.yml"
-    ]
+    ],
+    "permission": "CONSUMED_BLOCKED",
+    "code_sha": "f9c524cfc3b0ddda93d3def16371efbbcda9f933",
+    "ci": 44076899701,
+    "new_xml": "8_8",
+    "regression_xml": "19_PASS",
+    "junit_artifact": 14325363846,
+    "guard_code": 44076899531,
+    "s3_surface_run": 44076899540,
+    "b7_doc": "docs/v5/FARO_S4_W01_B3A_FINANCE_READ_SURFACE_B7_PASS_SCOPED_20261117.md",
+    "proof_blob_sha": "6d28a2ebe26bcf749b4878fb4960ed82e2469488",
+    "writer_epoch_release": 1058,
+    "physical": "NOT_RUN",
+    "w2": "STOP",
+    "next_step": "W01_B3B_AUTHORIZED_FINANCE9_SOURCE_ADAPTER_B1_B5"
   }
 }
