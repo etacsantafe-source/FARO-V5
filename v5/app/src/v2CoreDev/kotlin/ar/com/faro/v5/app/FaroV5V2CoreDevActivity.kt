@@ -47,6 +47,10 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     internal open fun addAdmissionControls(column: LinearLayout) = Unit
     internal open fun beginOpening(): FaroV5DevOpenAdmission? = null
     internal open fun trustedAssistantComponents(admission: FaroV5DevOpenAdmission): FaroV5TrustedAssistantComponents? = null
+    // Inert in every variant except the explicitly isolated W01 DEV launcher.
+    internal open fun skipChatSelectionForDedicatedRoute(): Boolean = false
+    internal open fun onDedicatedOwnerSessionOpened(active: FaroV5V2CoreDevAuthority.Session): Boolean = false
+    internal open fun onDedicatedOwnerOpenFailed() = Unit
 
     private val executor = Executors.newSingleThreadExecutor()
     private val opening = AtomicBoolean(false)
@@ -172,6 +176,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
         val admission = try { beginOpening() } catch (_: Exception) {
             status.text = "No se abrió: confirmá plan Free y esperá el cierre anterior."
             listOf(openButton, activityButton, avisosButton, dueButton, bookmarksButton, upgradeButton).forEach { it.isEnabled = true }
+            onDedicatedOwnerOpenFailed()
             opening.set(false)
             return
         }
@@ -192,7 +197,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 opened = current
                 if (admission != null) current.openAssistantPorts(trustedAssistantComponents(admission))
                 // Reading Guardados never creates/selects a conversation.
-                if (!requestBookmarkRead) {
+                if (!requestBookmarkRead && !skipChatSelectionForDedicatedRoute()) {
                 val snapshot = runBlocking { current.workspaceReadPort.readSnapshot() }
                 if (snapshot.conversations.isEmpty()) {
                     check(runBlocking {
@@ -224,6 +229,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                     } else if (failure != null) {
                         opened?.close()
                         status.text = "No se abrió: ${failure.javaClass.simpleName}. Los datos permanecen intactos."
+                        onDedicatedOwnerOpenFailed()
                         pendingAvisosReadRequest.set(false)
                         pendingActivityReadRequest.set(false)
                         pendingDueReadRequest.set(false)
@@ -256,7 +262,11 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                         } else null
                         val userRequestedPending = pendingDueReadRequest.getAndSet(false)
                         val userRequestedBookmarks = pendingBookmarkReadRequest.getAndSet(false)
-                        if (userRequestedBookmarks) {
+                        if (onDedicatedOwnerSessionOpened(active)) {
+                            // W01-only route consumed the just-opened Session. Chat remains untouched.
+                            listOf(openButton, activityButton, avisosButton, dueButton,
+                                bookmarksButton, upgradeButton).forEach { it.isEnabled = true }
+                        } else if (userRequestedBookmarks) {
                             openBookmarksView(active)
                         } else if (userRequestedPending) {
                             openPendingView(active)

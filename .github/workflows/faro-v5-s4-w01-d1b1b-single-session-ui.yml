@@ -1,0 +1,93 @@
+name: FARO V5 W01 D1B1B single Session Finance DEV integration
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapper.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapperTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d1b1b-single-session-ui.yml"
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-d1b1b-single-session-ui
+  cancel-in-progress: false
+jobs:
+  w01-single-session-ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preflight exact6 READY permit in functional parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-d1b1b-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-d1b1b-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-d1b1b-parent" --mode preflight \
+            --unit "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV" \
+            --path "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt" \
+            --path "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt" \
+            --path "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt" \
+            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapper.kt" \
+            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapperTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-d1b1b-single-session-ui.yml"
+          git worktree remove "$RUNNER_TEMP/faro-d1b1b-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK37 for W01 Kotlin compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run 6 new mapper JVM tests and compile isolated W01 Android
+        shell: bash
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 2200 \
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+              -Pkotlin.compiler.execution.strategy=in-process \
+              "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+              :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01D1B1BActiveFinanceUiMapperTest" \
+              :app:compileW01FinanceDevKotlin
+      - name: Verify exact XML and no second database or biometric call in W01 route
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path("v5/app/build/test-results/testDebugUnitTest")
+          found=list(base.glob("TEST-*S4W01D1B1BActiveFinanceUiMapperTest.xml"))
+          if len(found)!=1:
+              raise SystemExit("D1B1B_XML_MISSING_OR_DUPLICATE")
+          root=ET.parse(found[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          if counts!=(6,0,0,0):
+              raise SystemExit("D1B1B_XML_RED "+str(counts))
+          w01=Path("v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt").read_text()
+          for forbidden in ("BiometricPrompt", "openValidatedV2Finance9Stage", "FaroV5ActiveGenerationGraphOwner.open", "RealityStore.open"):
+              if forbidden in w01:
+                  raise SystemExit("D1B1B_UNAUTHORIZED_OWNER_OR_AUTH "+forbidden)
+          assert "S4W01D1B1BFinanceSessionHandoff" in w01
+          assert "FaroV5FinanceReadScreen(financePort)" in w01
+          assert "financePort.leave()" in w01
+          print("W01_D1B1B_SIX_OF_SIX_JVM_PASS")
+          print("W01_D1B1B_ANDROID_W01_DEV_KOTLIN_COMPILE_PASS")
+          print("W01_D1B1B_ONE_SESSION_NO_SECOND_DB_NO_BIOMETRIC_STAGE9_STILL_OFF")
+          PY

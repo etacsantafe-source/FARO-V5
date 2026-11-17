@@ -847,9 +847,79 @@ internal class FaroV5V2CoreDevAuthority(
             historyAuthority = null
         }
 
+
+        @Volatile private var w01FinanceBorrow: S4W01D1B1BActiveFinanceBorrow? = null
+
+        /**
+         * D1B1B: borrow the SAME ACTIVE Finance owner of this Session.
+         * The only trusted caller is a W01 non-exported RESUMED Activity reached
+         * via an in-process, one-shot launcher handoff. Opens no second graph.
+         */
+        @Synchronized
+        internal fun borrowW01ActiveFinanceRead(
+            application: Application,
+            foreground: () -> Boolean,
+        ): S4W01D1B1BActiveFinanceBorrow? {
+            if (application.packageName != S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID ||
+                application.applicationInfo.uid <= 0 || !available() ||
+                w01FinanceBorrow != null || !runCatching { foreground() }.getOrDefault(false) ||
+                !runCatching { pointer.read() == openingPointer }.getOrDefault(false) ||
+                graph.generationId != openingPointer.generationId.value
+            ) return null
+            val epoch = UUID.randomUUID().toString()
+            val acl = UUID.randomUUID().toString()
+            val leaseAlive = AtomicBoolean(true)
+            val ownerReady = {
+                leaseAlive.get() && available() &&
+                    runCatching { pointer.read() == openingPointer }.getOrDefault(false)
+            }
+            val probe = FaroV5AndroidSandboxPrincipal(
+                expectedApplicationId = S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID,
+                pinned = openingPointer,
+                activePointer = pointer,
+                expectedHostEpoch = epoch,
+                hostEpochOrNull = { if (ownerReady()) epoch else null },
+                facts = AndroidPlatformSandboxFactsReader(application),
+            )
+            val reader = runCatching {
+                S4W01D1B1AActiveFinanceSnapshotRead(
+                    pinned = openingPointer,
+                    pointer = pointer,
+                    expectedApplicationUid = application.applicationInfo.uid,
+                    expectedHostEpoch = epoch,
+                    hostEpochOrNull = { if (ownerReady()) epoch else null },
+                    ownerReady = ownerReady,
+                    foregroundReady = foreground,
+                    sessionAclEpochOrNull = {
+                        if (ownerReady() && runCatching { foreground() }.getOrDefault(false)) acl else null
+                    },
+                    sandboxEvidenceOrNull = { probe.currentEvidenceOrNull() },
+                    owner = FinanceSnapshotReadApi { graph.reality.financePersistence.read() },
+                )
+            }.getOrNull()
+            if (reader == null) {
+                probe.close()
+                return null
+            }
+            var loan: S4W01D1B1BActiveFinanceBorrow? = null
+            loan = S4W01D1B1BActiveFinanceBorrow(reader, probe, leaseAlive) {
+                synchronized(this@Session) {
+                    if (w01FinanceBorrow === loan) w01FinanceBorrow = null
+                }
+            }
+            if (!ownerReady() || !runCatching { foreground() }.getOrDefault(false)) {
+                loan.close()
+                return null
+            }
+            w01FinanceBorrow = loan
+            return loan
+        }
+
         @Synchronized
         override fun close() {
             if (alive.compareAndSet(true, false)) {
+                w01FinanceBorrow?.close()
+                w01FinanceBorrow = null
                 revokeAvisosReadingOnPause()
                 revokeActivityReadingOnPause()
                 revokePendingReadingOnPause()
@@ -862,6 +932,29 @@ internal class FaroV5V2CoreDevAuthority(
                 // A failed close retains the integrated lease: never overlap an uncertain graph.
                 admission?.close()
             }
+        }
+    }
+}
+
+
+/** One short-lived, read-only W01 loan. It never owns or closes the graph. */
+internal class S4W01D1B1BActiveFinanceBorrow(
+    private val reader: S4W01D1B1AActiveFinanceSnapshotRead,
+    private val probe: FaroV5AndroidSandboxPrincipal,
+    private val alive: AtomicBoolean,
+    private val onClose: () -> Unit,
+) : AutoCloseable {
+    fun observedForDevOnly(): S4W01D1B1AActiveFinanceObservation? {
+        if (!alive.get()) return null
+        val observation = reader.observedForDevOnly()
+        return observation?.takeIf { alive.get() && !reader.isClosed() }
+    }
+
+    override fun close() {
+        if (alive.compareAndSet(true, false)) {
+            reader.close()
+            probe.close()
+            onClose()
         }
     }
 }
