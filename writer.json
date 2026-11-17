@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.W01.D1A.PERMIT.20261117",
-  "token_hash": "8174d89b02dd2c0bcefc259eaa1ac7126b17cbddaa0ca080b6342f1b166bf208",
-  "target_head": "eafe984a090f81532ed43f5637d957c9d829cedf",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.W01.D1A.CODE.20261117",
+  "token_hash": "5e63797da4a7c7d351cb46aa30bdecc6bc58188cfed87ef7349a13c8be72e900",
+  "target_head": "43819d566a1e351ebc3c063a74a226dc80973fdb",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1147,
-  "timestamp": 1794948000,
-  "scope": "D1A_READY_EXACT5_NO_CODE_YET",
+  "epoch": 1148,
+  "timestamp": 1794948400,
+  "scope": "D1A_CODE_EXACT5_READY",
   "last_checkpoint": "43819d566a1e351ebc3c063a74a226dc80973fdb"
 }
