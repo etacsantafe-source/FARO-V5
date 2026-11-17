@@ -155,6 +155,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
     implementation(libs.androidx.core.splashscreen)
+    // M1B dormant AndroidKeyStore CryptoObject host; no Activity integration.
+    implementation(libs.androidx.biometric)
     implementation(libs.okhttp)
     implementation(libs.kotlinx.serialization.json)
 

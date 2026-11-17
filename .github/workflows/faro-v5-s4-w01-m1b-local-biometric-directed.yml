@@ -1,0 +1,86 @@
+name: FARO V5 S4 W01 M1B local biometric crypto proof DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceLocalPrincipal.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceAuthHost.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceLocalPrincipalTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-m1b-local-crypto
+  cancel-in-progress: false
+jobs:
+  isolated-android-crypto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK37 for isolated DEV build
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run exactly nine M1B JVM policy tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests "ar.com.faro.v5.app.S4W01FinanceLocalPrincipalTest"
+      - name: Compile dormant AndroidX BiometricPrompt and isolated DEV APK
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:assembleV2CoreDev
+          mapfile -t apks < <(find app/build/outputs/apk/v2CoreDev -maxdepth 1 -type f -name '*.apk')
+          test "${#apks[@]}" -eq 1
+          sha256sum "${apks[0]}"
+          echo "W01_M1B_DORMANT_V2_DEV_APK_COMPILED"
+      - name: Validate exact nine JUnit XML cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/app/build/test-results/testDebugUnitTest").glob(
+              "TEST-*S4W01FinanceLocalPrincipalTest.xml"))
+          if len(files)!=1: raise SystemExit("M1B_JUNIT_XML_MISSING "+str(len(files)))
+          root=ET.parse(files[0]).getroot()
+          counts=tuple(int(root.get(k,"-1")) for k in
+                       ("tests","failures","errors","skipped"))
+          expected={
+            "canonicalReviewedScopeAndSandboxProduceOneFreshChallengeOnly",
+            "signedOneShotProofReturnsReadOnlyEvidenceNeverAnApplyGrant",
+            "fakeOrUntrustedSignatureIsDeniedAndCannotRetry",
+            "foreignOperationSummaryOrChallengeCannotBeSwapped",
+            "generationPointerAbaInvalidatesOldSignature",
+            "hostLifecycleEpochDriftInvalidatesOldChallengePermanently",
+            "fakeSandboxMissingOrChangedAppUidNeverAuthenticates",
+            "expiredOrRewoundClockCannotConfirmProof",
+            "closeMalformedScopeOrCryptoVerifierFailureFailClosed",
+          }
+          names=[(x.get("name") or "").removesuffix("()")
+                 for x in root.findall("testcase")]
+          if counts!=(9,0,0,0) or len(names)!=9 or set(names)!=expected:
+              raise SystemExit("M1B_XML_FAIL "+str((counts,names)))
+          print("S4_W01_M1B_DORMANT_LOCAL_BIOMETRIC_PROOF_JVM_PASS 9/9")
+          print("NOT_CERTIFIED: physical biometrics, AndroidKeyStore runtime, G15, informed financial consent, M1C cross-process COMMIT, productive V2/W2")
+          PY
+      - name: Preserve exact M1B JUnit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-m1b-local-biometric-jvm
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01FinanceLocalPrincipalTest.xml
+          if-no-files-found: warn
