@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B1B1B0_ANDROID_READ_CONSENT_STAGE_DEV",
   "reviewed_head": "14747d00d3e56bd9c335b5f44775c39eaa08c42b",
   "paths": [
@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DEV_READ_BIOMETRIC_8_JVM_5_CI_SUCCESS",
+    "B7": "PASS_SCOPED_DEV_READ_BIOMETRIC_CODE_8_JVM_5_CI_NO_G15"
   },
   "last_code_review": {
-    "sha": "8a4d79ca3a27e5d312345df0a1c50503749487e0",
-    "unit_id": "S4_W01_B3B1B1B1A_FINANCE9_READ_ONLY_POLICY_ISSUER_DEV",
+    "sha": "bb20a48266f69ded178f5e9c806c8127149fdfe9",
+    "unit_id": "S4_W01_B3B1B1B1B0_ANDROID_READ_CONSENT_STAGE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B1A_READ_POLICY_ISSUER_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "34a330f5c91f5f5addcc3b8dccefd3a2abdb9af8",
+        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B0_READ_CONSENT_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "7b4d7d6513d7a4d7cfe59a95d19c6a16c2e0a605",
         "marker": "## B7"
       }
     ]
@@ -88,7 +88,7 @@
     "change": "DOC_ONLY_TWO_STAGE_ENUMS",
     "no_code": true
   },
-  "consumed_code_sha": "8a4d79ca3a27e5d312345df0a1c50503749487e0",
+  "consumed_code_sha": "bb20a48266f69ded178f5e9c806c8127149fdfe9",
   "red_fix_doc_only": {
     "guard_failed": 44059421580,
     "reason": "READY_AFTER_FUNCTIONAL_CODE_CAUSED_PREFLIGHT_B7_STOP",
@@ -99,6 +99,6 @@
   "red_fix_scope": "NONE_22_WORKFLOWS_SUCCESS",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
   "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
-  "blocked_reason": null,
+  "blocked_reason": "B3B1B1B1B0_B7_PASS_CONSUMED_B3B1B1B1B1_CROSS_PROCESS_REVOCATION_NOT_AUTHORIZED",
   "blocker": null
 }
