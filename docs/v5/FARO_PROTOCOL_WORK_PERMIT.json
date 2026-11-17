@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
   "reviewed_head": "4a0780ede90eef3e24477f02e2fb16f6378e7148",
   "paths": [
@@ -61,17 +61,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_DORMANT_ANDROID_LOCAL_BIOMETRIC_CRYPTO_JVM9_9_APK_DEV_BUILD_SUCCESS_AFTER_WORKFLOW_RED_FIX",
+    "B7": "PASS_SCOPED_M1B_DORMANT_JVM9_9_APK_DEV_ONLY"
   },
   "last_code_review": {
-    "sha": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
+    "sha": "100254bcfa3ef93ceb9ffcdccb8c57e627cf3b14",
     "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_RED_FIX_20261116.md",
-        "blob_sha": "cfc39a2d2ba3551594d5e5a23968700e5c93df0a",
+        "path": "docs/v5/FARO_S4_W01_M1B_LOCAL_BIOMETRIC_B7_PASS_SCOPED_20261116.md",
+        "blob_sha": "3a85284314b377db88f46730b3bff593fb52dd7c",
         "marker": "## B7"
       }
     ]
@@ -87,5 +87,6 @@
     "target_path": ".github/workflows/faro-v5-s4-w01-m1b-local-biometric-directed.yml",
     "state": "RED_FIX_BOUND_TO_SAME_UNIT",
     "no_kotlin_changes": true
-  }
+  },
+  "blocked_reason": "M1B_B7_SCOPED_PASS_READY_CONSUMED_M1C_NOT_AUTHORIZED_ANDROID_PHYSICAL_NOT_RUN"
 }

@@ -321,7 +321,7 @@
   },
   "w01_m1b": {
     "unit_id": "S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF",
-    "status": "B7_RED_FIX_D8_OOM",
+    "status": "B7_PASS_SCOPED_DORMANT_JVM_APK_ONLY",
     "doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_B1_B5_20261116.md",
     "paths": [
       "v5/app/build.gradle.kts",
@@ -334,14 +334,19 @@
     "code_changed": true,
     "w2": "STOP",
     "ready_doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_PROOF_READY_20261116.md",
-    "code_sha": "bc94fdd61482527ea80e56ea6d24ed03e0883a60",
+    "code_sha": "100254bcfa3ef93ceb9ffcdccb8c57e627cf3b14",
     "CI_run": 44004832900,
     "b7_redfix_doc": "docs/v5/FARO_S4_W01_M1B_ANDROID_LOCAL_BIOMETRIC_RED_FIX_20261116.md",
-    "next": "SAME_UNIT_WORKFLOW_ONLY_HEAP_FIX"
+    "next": "SAME_UNIT_WORKFLOW_ONLY_HEAP_FIX",
+    "ci_run": 44005792970,
+    "xml": "9/9 PASS",
+    "apk_sha256": "4df2d392a172f32c24e52cd35eaebe4fe406db2aad143990ee02c133251d2a31",
+    "b7_document": "docs/v5/FARO_S4_W01_M1B_LOCAL_BIOMETRIC_B7_PASS_SCOPED_20261116.md",
+    "guard": 44005792968
   },
   "w01_m1c": {
     "unit_id": "S4_W01_M1C_FINANCE9_TWO_PROCESS_COMMIT_FENCE",
-    "status": "B1_B5_DOC_GUARD_PENDING_NO_READY",
+    "status": "B1_B5_PUBLISHED_NO_READY",
     "document": "docs/v5/FARO_S4_W01_M1C_TWO_PROCESS_FINANCE_COMMIT_B1_B5_20261116.md",
     "code_changed": false,
     "paths": [
@@ -351,7 +356,8 @@
       "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9AclProcessWorker.kt",
       ".github/workflows/faro-v5-s4-w01-m1c-process-fence-directed.yml"
     ],
-    "w2": "STOP"
+    "w2": "STOP",
+    "next": "INDEPENDENT_READY_AFTER_FINAL_B7_DOC_GUARD"
   },
   "w01_remaining": {
     "status": "WAIT_M1B_M1C",
@@ -363,5 +369,10 @@
       "F"
     ],
     "w2": "STOP"
+  },
+  "s3_integrated_regression_signal": {
+    "run": 44004832751,
+    "status": "FAILURE_1_2_ANDROID_UI_SEPARATE_TRIAGE",
+    "not_certified": true
   }
 }
