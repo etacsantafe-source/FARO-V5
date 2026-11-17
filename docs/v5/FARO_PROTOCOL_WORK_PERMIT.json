@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV",
   "reviewed_head": "f2a19f8a9a9ffd9dfbd427d3b6786a9ce66bff63",
   "paths": [
@@ -63,24 +63,26 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_SQL_STORE8_APP8_ANDROID_W01_DEV_V2_CORE_COMPILE",
+    "B7": "PASS_SCOPED_DEV_SQL_COMMIT_NOTICES_NO_REAL_IPC"
   },
   "last_code_review": {
-    "sha": "6eece332b81436af3dbff955b2800557440045ff",
-    "unit_id": "S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV",
+    "sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
+    "unit_id": "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_B7_PASS_SCOPED_20261117.md",
-        "blob_sha": "b70ca72c892ffdaf6973531ba3b9952b5ea4908d",
+        "path": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_POST_COMMIT_NOTICE_B7_PASS_SCOPED_20261117.md",
+        "blob_sha": "20c92147001b61b4756d68cc6f7aa835d5a727d2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "STAGED9_DEV_ONLY_POST_SQL_COMMIT_READ_POLICY_CHANGE_NOTICE_SCOPED",
+  "why": "B7_SCOPED_16_REAL_SQL_AND_JVM_JUNIT_ANDROID_COMPILE_NO_PRODUCT_UI_OR_TWO_PID_IPC",
   "how": "EXACT7;STORE_REAL_SQL_8;APP_JVM_8;ANDROID_DEV_COMPILE;V2_CORE_ZERO_PROVIDER;NO_PRODUCT_UI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null
+  "blocker": null,
+  "blocked_reason": "READY_CONSUMED_AFTER_B7_NEXT_DEV_ANDROID_IPC_REQUIRES_OWN_B1_B5",
+  "consumed_code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316"
 }

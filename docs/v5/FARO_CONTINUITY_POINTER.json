@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1135
+    "epoch": 1137
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 B3B1B1B1B1B1C post-COMMIT true SQL transition notifier DEV READY exact7: stage9 issue/revoke, no-op revocation must not notify, update fixed seven files only. B1-B5 and separate B5 guard 44158861570 SUCCESS; next preflight parent exact7, B6/CI/B7; scope DEV W01Finances only; no UI shipping or claim Android two PID. W2 STOP, V2 productive OFF.",
-  "checkpoint_status": "W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_READY_EXACT7",
+  "next": "W01 B3B1B1B1B1B1C post-COMMIT READ transition DEV B7 PASS scoped code e68549b1b1ee2155aea37e27d4f8861661db1316, run 44160015632 SUCCESS 8 SQL+8 app JVM, Android W01Finances and V2 Core compile, guard 44160015459 SUCCESS. Next: PREAUDIT real Android two-PID ContentObserver delivery + lifecycle DEV owner integration (without shipping UI, no claim of raw SQLite notifications). W2 STOP, V2 productive OFF. One historical revocation workflow 44160015639 failed at old-unit preflight, not a regression run; other workflows pending are not global certified.",
+  "checkpoint_status": "W01_B3B1B1B1B1B1C_B7_PASS_SCOPED_16_JVM_ANDROID_DEV_COMPILE_PERMIT_BLOCKED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "6eece332b81436af3dbff955b2800557440045ff",
-  "last_ci_run_id": 44154198775,
+  "last_code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
+  "last_ci_run_id": 44160015632,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -132,7 +132,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W01_8_JVM_PRIVATE_DEV_MERGED_PACKAGED_MANIFEST_2_VARIANTS_V2_CORE_REGRESSION_SUCCESS;M1B_MAVEN_429_UNRELATED",
+  "last_ci_conclusion": "SUCCESS_STORE_8_JVM_APP_8_ANDROID_W01_V2CORE_COMPILE_DEV_NO_TWO_PID_CLAIM",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -4695,7 +4695,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1B_PRIVATE_INVALIDATION_B7_PASS_SCOPED_20261117.md",
+  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_POST_COMMIT_NOTICE_B7_PASS_SCOPED_20261117.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -4744,7 +4744,7 @@
   },
   "w01_b3b1b1b1b1b1c": {
     "unit_id": "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV",
-    "status": "B1_B5_READY_EXACT7",
+    "status": "B7_PASS_SCOPED_SQL_COMMIT_ANDROID_OPTIONAL_NOTICE_DEV",
     "base_head": "f2a19f8a9a9ffd9dfbd427d3b6786a9ce66bff63",
     "preaudit_blob": "51e652081c3cf4c41d8200e5e1599471bf7d9245",
     "independent_b5_blob": "6ebc4b4bb2bcdd4c84d904de57e8506c5d9eefc1",
@@ -4757,10 +4757,20 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisherTest.kt",
       ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
     ],
-    "writer_release_epoch_expected": 1135,
+    "writer_release_epoch_expected": 1137,
     "B6": "NOT_RUN",
     "B7": "PENDING",
     "g15": "NOT_RUN",
-    "w2": "STOP"
+    "w2": "STOP",
+    "code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
+    "ci_run_id": 44160015632,
+    "ci_result": "SUCCESS_8_REAL_SQL_8_JVM_APP_ANDROID_DEV_TWO_VARIANTS_COMPILE",
+    "guard_code": 44160015459,
+    "b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_POST_COMMIT_NOTICE_B7_PASS_SCOPED_20261117.md",
+    "b7_blob": "20c92147001b61b4756d68cc6f7aa835d5a727d2",
+    "permission": "CONSUMED_BLOCKED",
+    "physical": "NOT_RUN",
+    "android_two_pid_ipc": "NOT_RUN",
+    "shipping_ui": "NOT_MOUNTED"
   }
 }
