@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.W01.M1C1B1A.RED_FIX_PERMIT.20261117",
-  "token_hash": "7745f56bdeb387c16f57070f218923ec94f562689e129c3a6bd948eca76492f8",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.W01.M1C1B1A.RED_FIX_CODE.20261117",
+  "token_hash": "90091b9bb55bf219d06212b9ae7c5d32cb87fa13b22341fc601ed12969cf457e",
   "target_head": "4bf28b84bc13999c503c7d50a837adee9895e1e3",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1035,
-  "timestamp": 1794898737,
-  "scope": "M1C1B1A_RED_FIX_PERMIT_RELEASED",
+  "epoch": 1036,
+  "timestamp": 1794898772,
+  "scope": "M1C1B1A_RED_FIX_TEST_CLASS_SPLIT_S3_A4_13_NEW_6",
   "last_checkpoint": "4bf28b84bc13999c503c7d50a837adee9895e1e3"
 }
