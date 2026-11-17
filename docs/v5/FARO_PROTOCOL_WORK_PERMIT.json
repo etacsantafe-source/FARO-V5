@@ -57,17 +57,17 @@
         }
       ]
     },
-    "B6": "RED_FIX_CODE_PUBLISHED_WAIT_CI",
+    "B6": "TEST_IMPORT_COMPILE_FAILURE_RED_FIX_REQUIRED",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+    "sha": "b3f4086d1cf62b06a8ca50028c8eff5cda76c826",
     "unit_id": "S4_W01_M1C1B1B_FINANCE9_ANDROID_STAGE_GATE",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C1B1B_PREPARED_PLAN_IMPORT_RED_FIX_B7_20261117.md",
-        "blob_sha": "f7460ff3aa81520ea5c638370bbe1083c51a91b0",
+        "path": "docs/v5/FARO_S4_W01_M1C1B1B_CATALOG_IMPORT_RED_FIX_B7_20261117.md",
+        "blob_sha": "7b7bc733560ee6dbef5be3b8321f4066a8a62c13",
         "marker": "## B7"
       }
     ]
@@ -94,7 +94,8 @@
     "code_guard_success": 44059395073,
     "ci_running": 44059395512
   },
-  "red_fix_scope": "TEST_ONLY_SINGLE_IMPORT_PREPARED_PLAN; no functional production changes; exact previous code SHA remains RED_FIX",
+  "red_fix_scope": "TEST_ONLY_MISSING_BUILTINCONTRACTCATALOG_IMPORT_AFTER_SECOND_FAILURE_B2_B3_B5_REVIEWED; exact one test file; no production mutation",
   "code_delta": "ONE_IMPORT_LINE_TEST_ONLY",
-  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616"
+  "previous_red_fix_sha": "bcd29ccabdf1e4f6144aadaadee2bef578f49616",
+  "blocked_reason": "M1C1B1B_B7_RED_FIX_SECOND_MISSING_IMPORT_PENDING_INDEPENDENT_READY"
 }
