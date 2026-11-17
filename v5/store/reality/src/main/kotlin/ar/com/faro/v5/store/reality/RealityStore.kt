@@ -463,6 +463,81 @@ class RealityStore(
         }
 
     /**
+     * W01-B3B1A: only an observed READ policy row, never a user ACL grant.
+     * The fixed operation/scope cannot be replaced with a write Apply grant.
+     * This port is not wired into the Android product or Finance UI.
+     */
+    fun finance9ReadPolicyObservationForDevOnly():
+        RealityFinance9ReadPolicyObservationPort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Finance read policy observation requires explicit STAGED9"
+        }
+        RealityFinance9ReadPolicyObservationPort { request ->
+            observeFinance9ReadPolicyForDevOnly(request)
+        }
+    }
+
+    private fun observeFinance9ReadPolicyForDevOnly(
+        request: RealityFinance9ReadPolicyObservationRequest,
+    ): RealityFinance9ObservedReadPolicy? = synchronized(lock) {
+        if (closed || !financeStage9 || !planningStage8 ||
+            activeTransactionId != null || readSchemaVersion() != 9
+        ) return@synchronized null
+
+        var beganRead = false
+        var observation: RealityFinance9ObservedReadPolicy? = null
+        try {
+            // One stable SQLite WAL snapshot across policy row + global epoch.
+            // Never take BEGIN IMMEDIATE or create/consume any Finance grant.
+            connection.execSQL("BEGIN DEFERRED TRANSACTION")
+            beganRead = true
+            val scope = Finance9AclScope(
+                principalHash = request.principalHash,
+                generationId = request.generationId,
+                pointerSequence = request.pointerSequence,
+                operationId = RealityFinance9ReadPolicyObservationPort.OPERATION_ID,
+                objectScope = RealityFinance9ReadPolicyObservationPort.OBJECT_SCOPE,
+            )
+            val acl = RealityFinance9Acl(
+                connection,
+                stagedAdmission = {
+                    financeStage9 && planningStage8 && activeTransactionId == null &&
+                        !closed && readSchemaVersion() == 9
+                },
+            )
+            val observedEpoch = acl.observedCurrentEpochOrNull(
+                scope, request.observedAtMs,
+            )
+            if (observedEpoch != null &&
+                observedEpoch == request.expectedPolicyEpoch
+            ) {
+                val (nextEpoch, revision) = acl.observedCounterForStageTest()
+                check(nextEpoch > observedEpoch && revision > 0L) {
+                    "Observed Finance read policy epoch exceeds durable ACL state"
+                }
+                observation = RealityFinance9ObservedReadPolicy(
+                    generationId = request.generationId,
+                    pointerSequence = request.pointerSequence,
+                    policyEpoch = observedEpoch,
+                    globalPolicyRevision = revision,
+                )
+            }
+        } catch (_: Exception) {
+            observation = null // corrupt/expired/foreign/closed => fail-closed
+        } finally {
+            if (beganRead) {
+                try {
+                    connection.execSQL("ROLLBACK TRANSACTION")
+                } catch (_: Exception) {
+                    observation = null // rollback uncertainty cannot be admitted
+                }
+            }
+        }
+        observation
+    }
+
+    /**
      * W01-B3B0 DEV-STAGED9 ONLY: opening provenance reading in one WAL
      * snapshot. This does NOT check a user's ACL or prove human confirmation.
      * No ordinary Android CompositionRoot mounts this port.

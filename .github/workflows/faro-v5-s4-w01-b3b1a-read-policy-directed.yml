@@ -1,0 +1,73 @@
+name: FARO V5 W01 B3B1A staged Finance9 read policy observation
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ReadPolicyObservationPort.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ReadPolicyObservationTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1a-read-policy-directed.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-v5-w01-b3b1a-read-policy-dev
+  cancel-in-progress: false
+jobs:
+  read-policy-observation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile and run eight exact DEV SQL policy observations
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache :store:reality:test \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9ReadPolicyObservationTest"
+      - name: Verify exact named eight cases with no failures, skip or product wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          base=Path("v5/store/reality/build/test-results/test")
+          exact=list(base.glob("TEST-*RealityFinance9ReadPolicyObservationTest.xml"))
+          if len(exact)!=1: raise SystemExit("W01_B3B1A_MISSING_TEST_XML")
+          suite=ET.parse(exact[0]).getroot()
+          status=tuple(int(suite.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+          expected={
+            "q01NoReadPolicyIsNotObservedAndDoesNotCreateRows",
+            "q02ExactExplicitSqlReadPolicyObservedButNeverAuthorizesDisplay",
+            "q03ForeignPrincipalGenerationPointerOrEpochAlwaysDenied",
+            "q04WriteOnlyPolicyCannotBeSubstitutedForReadOperation",
+            "q05ExpiryAtBoundaryAndInvalidTimeCannotBeAdmitted",
+            "q06RevocationAndRenewalDoNotResurrectAnOldPolicyEpoch",
+            "q07SchemaSevenEightAndClosedRealityPortDeny",
+            "q08MalformedRequestAndRepeatedObservationNeverCreateGrants",
+          }
+          names=[x.get("name","").removesuffix("()") for x in suite.findall("testcase")]
+          if status!=(8,0,0,0) or len(names)!=8 or set(names)!=expected:
+            raise SystemExit("W01_B3B1A_NAMED_XML_RED "+str(status)+" "+str(names))
+          for path in [
+            Path("v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt"),
+            Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java"),
+          ]:
+            if "finance9ReadPolicyObservationForDevOnly" in path.read_text():
+              raise SystemExit("W01_B3B1A_PRODUCT_WIRING_FOUND")
+          print("W01_B3B1A_OBSERVED_ONLY_SQL_POLICY_8_OF_8")
+          print("NO_FINANCE_UI_AUTHORIZATION_NO_ANDROID_HUMAN_ATTESTATION")
+          PY
+      - name: Preserve exact JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b3b1a-read-policy-junit
+          path: v5/store/reality/build/test-results/test/TEST-*RealityFinance9ReadPolicyObservationTest.xml
+          if-no-files-found: warn
