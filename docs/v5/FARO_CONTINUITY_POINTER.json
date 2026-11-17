@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify B3B1A doc guard RELEASED1069, then independent B3B1B same-snapshot Finance9 read+ACL B1-B5; W2 STOP.",
-  "checkpoint_status": "W01_B3B1A_B7_PASS_8_8_21_CI_DOC_GUARD_PENDING",
+  "next": "Verify B3B1B0 doc guard and RELEASED1070; independent B5 refactor exact4, then READY and code. No product UI, W2 STOP.",
+  "checkpoint_status": "W01_B3B1A_B7_PASS_B3B1B0_PREAUDIT_PENDING_GUARD",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4605,5 +4605,15 @@
     "writer_release_epoch": 1069,
     "physical": "NOT_RUN",
     "next_step": "W01_B3B1B_ATOMIC_FINANCE9_READ_ACL_AND_DATA_B1_B5"
+  },
+  "w01_b3b1b0": {
+    "unit_id": "S4_W01_B3B1B0_FINANCE9_SINGLE_SNAPSHOT_POLICY_AND_OPENING_DEV",
+    "status": "B1_B5_PREAUDIT_ONLY_NO_READY",
+    "document": "docs/v5/FARO_S4_W01_B3B1B0_ATOMIC_READ_ACL_SOURCE_B1_B5_20261117.md",
+    "proof_blob": "08ba7a557ed4a4921224dd7ee09c64002b7924cf",
+    "B6": "NOT_RUN",
+    "B7": "NOT_RUN",
+    "blocker": "INDEPENDENT_B5_SQL_HELPER_EXTRACTION_AND_EXACT4_READY",
+    "w2": "STOP"
   }
 }
