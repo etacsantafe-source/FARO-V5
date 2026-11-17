@@ -256,7 +256,7 @@ class RealityFinance9AclCrossProcessTest {
                         store.finance9AclCurrentInsideApplyTransaction(
                             scope, policy, 1L, 1000L,
                         )
-                        AtomicApplyTransactionDecision.Commit(true)
+                        AtomicApplyTransactionDecision.Commit(Unit)
                     }
                 }
                 assertEquals(0, store.financePersistence.read().accounts.size)
