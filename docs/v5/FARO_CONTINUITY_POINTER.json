@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B0_B7_PASS_SECURITY_DEFAULT_OFF_DECISION_REGISTERED_D1B1_REDESIGN_NEXT",
+  "phase": "S4_W01_D1B1_LOCAL_ACTIVE_FINANCE_READ_B1_B5_PREAUDIT_D1B1A_NEXT",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Usuario 2026-11-17: Finanzas SIN huella ni PIN obligatorios; seguridad optativa en Configuración, OFF por defecto. Decisión documentada en docs/v5/FARO_S4_W01_SECURITY_OPTIONAL_DEFAULT_OFF_USER_DECISION_20261117.md. D1B1 necesita nueva B1-B5 para trust/read SQL local sin biometría obligatoria, NO saltar sandbox/ACL. D0/D1A/D1B0 B7 PASS NO REPETIR. W1 OPEN, W2 STOP, V2 productiva OFF.",
-  "checkpoint_status": "W01_D1B0_ANDROID_API35_2_OF_2_B7_PASS_SECURITY_OPTIONAL_DEFAULT_OFF_DOCUMENTED",
+  "next": "D1B1 B1-B5 revisado con usuario: Finanzas SIN huella por defecto. Hallazgo real: Finance9 STAGED-only no ACTIVE; no montar SQL9 directamente en Activity. Próximo D1B1A read-only FinanceSnapshot del único owner ACTIVE con UID/pointer/epoch/foreground/revision y sin abrir otro grafo; B5 independiente registrado, aún NO READY ni B6. D1B1B handoff Android único y D1B1C migración Finance9 bajo gates posteriores. NO repetir D0/D1A/D1B0. W1 OPEN, W2 STOP.",
+  "checkpoint_status": "W01_D1B1_B1_B5_DOC_ONLY_NO_READY_NO_CODE_W2_STOP",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "a6a15af2ff0cce1a9874336c66f3f8643ff27f35",
@@ -4820,5 +4820,21 @@
     "biometric_host": "DORMANT_NOT_MOUNTED",
     "D1B1": "MUST_REDESIGN_READ_OWNER_NO_DEFAULT_BIOMETRIC",
     "W2": "STOP"
+  },
+  "w01_d1b1_route": {
+    "status": "B1_B5_DOC_ONLY_ACTIVE_FINANCE_READ_NO_B6",
+    "base_head": "55c0041186f39ddb41fd33cec2cbcf04c81bd98c",
+    "preaudit": "docs/v5/FARO_S4_W01_D1B1_ACTIVE_FINANCE_LOCAL_READ_B1_B5_20261117.md",
+    "independent_b5": "docs/v5/FARO_S4_W01_D1B1_ACTIVE_FINANCE_LOCAL_READ_INDEPENDENT_B5_20261117.md",
+    "finance9_stage_only": true,
+    "active_stage9_not_certified": true,
+    "technical_local_auth_no_biometric": true,
+    "immediate": "D1B1A_ACTIVE_FINANCE_SNAPSHOT_READ_CONTRACT_B1_B5_NEW_READY_ONLY_AFTER_REVIEW",
+    "later": [
+      "D1B1B_SINGLE_SESSION_ANDROID_HANDOFF",
+      "D1B1C_FINANCE9_ACTIVE_CUTOVER"
+    ],
+    "D0_D1A_D1B0": "B7_PASS_DO_NOT_REPEAT",
+    "w2": "STOP"
   }
 }

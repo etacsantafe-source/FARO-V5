@@ -1,0 +1,12 @@
+# FARO V5 — W01 D1B1 auditoría B5 independiente de la ruta sin biometría
+Fecha 2026-11-17. Estado **B5 REVISADO DOC_ONLY, NO READY**.
+
+## B5
+Se contrastó la nueva decisión de seguridad opcional OFF con rutas concretas y dos fuentes técnicas distintas:
+1. **CRÍTICO / STOP:** `FaroV5GenerationStoreGraph.openValidatedV2Finance9Stage` exige schema9 en generación STAGED NO ACTIVE. `FaroV5ActiveGenerationGraphOwner.openExistingPlanning8ForCertifiedHost` sólo admite schema8. No es aceptable conectar la Activity W01 a Finance9-STAGED como si fuera la base de datos activa. Se corrige la propuesta previa D1B1: primero lectura informativa del owner ACTIVE, luego migración Finance9 bajo unidad propia.
+2. **CRÍTICO / STOP:** la sesión en `FaroV5V2CoreDevActivity` se queda viva tras abrir nueva Activity. Dos GraphOwner con la misma ruta serían ambiguos. D1B1A debe limitarse a adaptador read-only / contrato sin crear segundo grafo; D1B1B exige dueño y lifecycle únicos antes de mostrar datos.
+3. **CRÍTICO / STOP:** `S4W01FinanceReadAuthHost` es biométrico obligatorio en su API; no invocarlo ni reemplazarlo con firmas sintéticas. El cambio de UX no habilita ACL spoofing, script de firmas, `trusted readPolicy` emitido desde UI ni salteo de auditorías.
+4. **SEGURIDAD SUFICIENTE:** comprobar UID del Application real, sandbox no aislado, paquete exacto de W01, pointer completo, host epoch + foreground, revision y source coherentes en cada lectura; sin huella ni PIN. El puerto es sólo informativo, jamás permiso de Apply.
+5. **Datos:** saldo desconocido/null no igual a cero, moneda ARS/USD separada, ledger y confirmación de fuente verificadas, no presentar version8 como Finance9, cache descartada ante STOP y notificaciones.
+6. **Alcance y pruebas:** no tocar S2/S3 ni main/V4.4/W2, no pagos ni APIs; pruebas nuevas a favor de D1B1A con casos fallidos UID/pointer ABA/foreground/revision/owner-close. La condición `security_lock_enabled=false` es de UX pero no desactiva integridad.
+Dictamen: **GO sólo a diseñar permiso exacto para D1B1A** después de guard documental y revisión de rutas; NO READY para montar Finance9 activo ni lanzar pantalla que muestre datos. Esto evita rehacer D0/D1A/D1B0.
