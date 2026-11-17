@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-16",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_M1C1B0_STAGED_GRANT_REAL_RECEIPT_READY_EXACT4",
+  "phase": "S4_W01_M1C1B0_B7_PASS_SCOPED_NEXT_M1C1B1_HOST",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1028
+    "epoch": 1030
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "M1C1B0 B6 exact4 staged grant/receipt COMMIT tests CI and B7; M1C1B1 real Android/Apply host separate; W2 STOP",
-  "checkpoint_status": "M1C1B0_READY_B6_NOT_RUN",
+  "next": "M1C1B1 B1-B5 mandatory actual Android Keystore identity + human reviewed grant + ApplyTransactionExecutor post-receipt same SQL COMMIT; independent READY/hardware; W1 B-F OPEN, W2 STOP",
+  "checkpoint_status": "M1C1B0_B7_SCOPED_PASS_DOC_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8c329744fce9013d779ea6113dad8e3f0a6b84c8",
@@ -4342,7 +4342,7 @@
   },
   "w01_m1c1b0": {
     "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
-    "status": "READY_EXACT4_B6_NOT_RUN",
+    "status": "B7_PASS_SCOPED_REAL_RECEIPT_SQL_ONLY",
     "document": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B1_B5_20261117.md",
     "paths": [
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
@@ -4352,6 +4352,21 @@
     ],
     "ci": "NOT_RUN",
     "w2": "STOP",
-    "ready_document": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_RECEIPT_READY_20261117.md"
+    "ready_document": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_RECEIPT_READY_20261117.md",
+    "code_sha": "0684cc59039c1dc031a6cd8e328cd685ab0c8ab8",
+    "ci_run": 44012135325,
+    "xml": "8/8 PASS",
+    "guard_code_run": 44012135260,
+    "junit_artifact_id": 14297810336,
+    "proof": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B7_PASS_20261117.md",
+    "proof_blob_sha": "152010676a349fa973450b42765b7563fa29f312",
+    "writer_release_epoch": 1030,
+    "next_step": "M1C1B1_B1_B5",
+    "blocker": "NO_REAL_ANDROID_HUMAN_APPLY_HOST"
+  },
+  "w01_m1c1b1": {
+    "status": "NOT_READY_NEXT_B1_B5",
+    "physical": "NOT_RUN",
+    "w2": "STOP"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
   "reviewed_head": "9671d5802982368a4d4427d2456856dc29f92f75",
   "paths": [
@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_FINANCE9_STAGED_GRANT_LINKED_REAL_RECEIPT_WITHIN_SQL_COMMIT_JVM8_8",
+    "B7": "PASS_SCOPED_M1C1B0_FINANCE9_GRANT_RECEIPT_SAME_SQL_COMMIT_DEV_STAGE_ONLY"
   },
   "last_code_review": {
-    "sha": "18e87fadce1b979140aa4ffea4d082d9e1c69813",
-    "unit_id": "S4_W01_M1C1A_CANONICAL_REVIEW_LOCAL_PRESENCE_BINDING",
+    "sha": "0684cc59039c1dc031a6cd8e328cd685ab0c8ab8",
+    "unit_id": "S4_W01_M1C1B0_FINANCE9_STAGED_GRANT_REAL_RECEIPT_ATOMIC",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_M1C1A_REVIEW_PRESENCE_B7_PASS_20261117.md",
-        "blob_sha": "4151eb4fee6c0818f3274fb5772da860f649aa81",
+        "path": "docs/v5/FARO_S4_W01_M1C1B0_GRANT_REAL_RECEIPT_B7_PASS_20261117.md",
+        "blob_sha": "152010676a349fa973450b42765b7563fa29f312",
         "marker": "## B7"
       }
     ]
@@ -78,5 +78,6 @@
   "why": "B1-B5 verified staged-only Finance grant consumption against REAL RealityStore receipt, source blob f1e33a37385939a691727f8935d8a7d2ff7dcda6 guard 44011584108 SUCCESS",
   "how": "Exact four code paths, 8 negative/positive real SQLite9 receipt+rollback JVM tests, no Android/human/production Apply; W2 STOP",
   "productive_v2_enabled": false,
-  "no_auto_night": true
+  "no_auto_night": true,
+  "blocked_reason": "M1C1B0_B7_PASS_CONSUMED_M1C1B1_ANDROID_PRODUCT_HOST_NOT_AUTHORIZED"
 }
