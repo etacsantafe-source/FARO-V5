@@ -1,0 +1,144 @@
+name: FARO V5 W01 B3B1B1B1B1B1C SQL post-COMMIT READ notice DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangePort.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisher.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangeTest.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisherTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-post-commit-read-policy
+  cancel-in-progress: false
+jobs:
+  post-commit-read-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Preflight B1-B5 independent READY exact7 in code parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          git worktree add --detach "$RUNNER_TEMP/faro-policy-parent" HEAD^
+          python3 "$RUNNER_TEMP/faro-policy-parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$RUNNER_TEMP/faro-policy-parent" --mode preflight \
+            --unit "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV" \
+            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt" \
+            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt" \
+            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangePort.kt" \
+            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisher.kt" \
+            --path "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangeTest.kt" \
+            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisherTest.kt" \
+            --path ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
+          git worktree remove "$RUNNER_TEMP/faro-policy-parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Eight REAL SQLite9 post-COMMIT transition tests
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :store:reality:test \
+            --tests "ar.com.faro.v5.store.reality.RealityFinance9CommittedReadPolicyChangeTest"
+      - name: Eight JVM publication ordering and no-op checks
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest \
+            --tests "ar.com.faro.v5.app.S4W01FinanceReadPostCommitPublisherTest"
+      - name: Compile isolated Android W01 and V2 CORE without mounting UI
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            :app:compileW01FinanceDevKotlin :app:compileV2CoreDevKotlin \
+            :app:processW01FinanceDevManifestForPackage :app:processV2CoreDevManifestForPackage
+      - name: Verify exact 16 JUnit tests, private provider and no shipping wiring
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          groups=(
+            (Path("v5/store/reality/build/test-results/test"),
+             "RealityFinance9CommittedReadPolicyChangeTest",
+             {"c01IssueResultIsVisibleOnIndependentConnectionAfterCommit",
+              "c02FirstRevokeIsOneCommittedTransition",
+              "c03SecondRevokeIsNoOpAndDoesNotAdvanceEpoch",
+              "c04AbsentOrForeignScopeReturnsNullWithoutAdvancingState",
+              "c05ReissueCreatesNewEpochAndNewRevocation",
+              "c06SqlAbortRollsBackAndReturnsNoCommittedResult",
+              "c07SchemaEightAndClosedStoreNeverIssueCommittedResult",
+              "c08PoliciesNeverCreateApplyGrantsLedgerOrReceipts"}),
+            (Path("v5/app/build/test-results/testDebugUnitTest"),
+             "S4W01FinanceReadPostCommitPublisherTest",
+             {"a01AbsentSqlResultNeverNotifies",
+              "a02IssuedCommittedResultNotifiesOnlyAfterPortReturns",
+              "a03RevokedCommittedTransitionNotifiesOnce",
+              "a04IdempotentRevokeNeverNotifies",
+              "a05ReissueIsNewTransitionAndCanNotifyAgain",
+              "a06UnavailableAndroidDeliveryKeepsCommittedSqlOutcome",
+              "a07ThrownAndroidDeliveryIsReportedAsNotDelivered",
+              "a08FailedSqlAndAbsentRevocationNeverNotify"}),
+          )
+          for folder,classname,names in groups:
+            files=list(folder.glob("TEST-*"+classname+".xml"))
+            if len(files)!=1: raise SystemExit("W01_POST_COMMIT_XML_MISSING "+classname)
+            root=ET.parse(files[0]).getroot()
+            counts=tuple(int(root.get(k,"-1")) for k in ("tests","failures","errors","skipped"))
+            actual={x.get("name","").removesuffix("()") for x in root.findall("testcase")}
+            if counts!=(8,0,0,0) or actual!=names:
+              raise SystemExit("W01_POST_COMMIT_XML_RED "+classname+" "+str(counts)+" "+str(actual))
+          base=Path("v5/app/build/intermediates/packaged_manifests")
+          ns="{http://schemas.android.com/apk/res/android}"
+          provider="ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationProvider"
+          for variant,expected,kind in (
+            ("v2CoreDev","ar.com.faro.alpha.v2coredev",0),
+            ("w01FinanceDev","ar.com.faro.alpha.w01financedev",1),
+          ):
+            matches=sorted(p for p in base.rglob("AndroidManifest.xml") if "/"+variant+"/" in str(p))
+            if not matches: raise SystemExit("W01_POST_COMMIT_MANIFEST_MISSING "+variant)
+            for file in matches:
+              root=ET.parse(file).getroot()
+              app=root.find("application")
+              if app is None: raise SystemExit("W01_POST_COMMIT_NO_APP "+variant)
+              providers=app.findall("provider")
+              if len(providers)!=kind: raise SystemExit("W01_POST_COMMIT_WRONG_PROVIDER_COUNT "+variant)
+              if kind:
+                only=providers[0]
+                if only.get(ns+"name")!=provider or only.get(ns+"exported")!="false" or only.get(ns+"authorities")!=expected+".finance9read":
+                  raise SystemExit("W01_POST_COMMIT_WRONG_PRIVATE_PROVIDER")
+              if any(x.get(ns+"name")=="android.permission.INTERNET" for x in root.findall("uses-permission")):
+                raise SystemExit("W01_POST_COMMIT_INTERNET "+variant)
+          shipping=Path("v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java").read_text()
+          mainmanifest=Path("v5/app/src/main/AndroidManifest.xml").read_text()
+          for symbol in ("S4W01FinanceReadPostCommitPublisher", "finance9CommittedReadPolicyChangesForDevOnly"):
+            if symbol in shipping or symbol in mainmanifest:
+              raise SystemExit("W01_POST_COMMIT_SHIPPING_WIRING "+symbol)
+          print("W01_POST_COMMIT_SQL_8_OF_8_AND_APP_8_OF_8_PASS")
+          print("W01_POST_COMMIT_ANDROID_DEV_TWO_VARIANTS_PRIVATE_PROVIDER_ISOLATED")
+          print("NO_ANDROID_TWO_PID_NOTICE_OR_HUMAN_AUTH_CLAIMS")
+          PY
+      - name: Keep exact JUnit XML (16 new cases)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-post-commit-read-policy-junit
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityFinance9CommittedReadPolicyChangeTest.xml
+            v5/app/build/test-results/testDebugUnitTest/TEST-*S4W01FinanceReadPostCommitPublisherTest.xml
+          if-no-files-found: warn

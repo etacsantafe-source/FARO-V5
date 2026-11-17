@@ -187,9 +187,22 @@ internal class RealityFinance9Acl(
      * Marks the old policy REVOKED, never deletes its row or recycles an epoch.
      * Repeated revoke is idempotent. Returns null for absent/foreign scope.
      */
-    fun revoke(key: Finance9AclScope): Long? = transaction {
+    fun revoke(key: Finance9AclScope): Long? =
+        revokeWithCommittedTransition(key)?.observedPolicyEpoch
+
+    /**
+     * Same SQL transaction and legacy semantics, plus an exact changed flag.
+     * The returned result exists only AFTER COMMIT; a callback may inspect
+     * changed outside this method, never from afterWriteBeforeCommit.
+     */
+    fun revokeWithCommittedTransition(
+        key: Finance9AclScope,
+    ): Finance9CommittedReadPolicyChange? = transaction {
         val old = policy(key) ?: return@transaction null
-        if (old.revoked) return@transaction old.epoch
+        if (old.revoked) return@transaction Finance9CommittedReadPolicyChange(
+            observedPolicyEpoch = old.epoch,
+            changed = false,
+        )
         val before = state()
         check(before.next < Long.MAX_VALUE && before.revision < Long.MAX_VALUE)
         connection.prepare(
@@ -210,7 +223,10 @@ internal class RealityFinance9Acl(
         check(policy(key) == Policy(before.next, true, old.expiresAtMs)) {
             "Finance9 policy revoke did not persist"
         }
-        before.next
+        Finance9CommittedReadPolicyChange(
+            observedPolicyEpoch = before.next,
+            changed = true,
+        )
     }
 
     /**

@@ -911,6 +911,59 @@ class RealityStore(
     }
 
     /**
+     * W01 B3B1B1B1B1B1C: only cooperative READ-policy changes from this
+     * STAGED9 DEV Reality owner. Each result is produced after SQLite COMMIT.
+     * A caller may send a *hint* after return; SQL and Android are not coupled.
+     * No human auth, product rendering lease or Apply right is conferred.
+     */
+    fun finance9CommittedReadPolicyChangesForDevOnly():
+        RealityFinance9CommittedReadPolicyChangePort = synchronized(lock) {
+        checkOpen()
+        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
+            "Read policy transition reporter requires explicit STAGED9 Reality"
+        }
+        val issuer = finance9TrustedReadPolicyIssuerForDevOnly()
+        object : RealityFinance9CommittedReadPolicyChangePort {
+            override fun issueAfterExternallyVerifiedReadAdmission(
+                request: Finance9TrustedReadPolicyIssueRequest,
+            ): Finance9CommittedReadPolicyChange? =
+                issuer.issueAfterExternallyVerifiedReadAdmission(request)?.let { issued ->
+                    Finance9CommittedReadPolicyChange(
+                        observedPolicyEpoch = issued.policyEpoch,
+                        changed = true,
+                    )
+                }
+
+            override fun revokeAfterExternallyVerifiedReadAdmission(
+                request: Finance9TrustedReadPolicyRevocationRequest,
+            ): Finance9CommittedReadPolicyChange? = runCatching {
+                withMaterialAdmission {
+                    synchronized(lock) {
+                        if (closed || !financeStage9 || !planningStage8 ||
+                            activeTransactionId != null || readSchemaVersion() != 9
+                        ) null else {
+                            val scope = Finance9AclScope(
+                                principalHash = request.principalHash,
+                                generationId = request.generationId,
+                                pointerSequence = request.pointerSequence,
+                                operationId = RealityFinance9ReadPolicyObservationPort.OPERATION_ID,
+                                objectScope = RealityFinance9ReadPolicyObservationPort.OBJECT_SCOPE,
+                            )
+                            RealityFinance9Acl(
+                                connection,
+                                stagedAdmission = {
+                                    financeStage9 && planningStage8 && !closed &&
+                                        activeTransactionId == null && readSchemaVersion() == 9
+                                },
+                            ).revokeWithCommittedTransition(scope)
+                        }
+                    }
+                }
+            }.getOrNull()
+        }
+    }
+
+    /**
      * M1C0: STAGED9-only Finance policy check INSIDE this very Reality SQLite
      * BEGIN IMMEDIATE transaction. The caller must already hold this store's
      * actual Apply scope; this port neither creates a grant nor executes Apply.
