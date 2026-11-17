@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D0_SAME_UNIT_B7_RED_FIX_TASK_SELECTION",
+  "phase": "S4_W01_D0_WAIT_CI_D1A_B1_B5_DOC_ONLY",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1142
+    "epoch": 1144
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 D0 first functional 1f05ed3... guard success, directed CI 44164344121 FAILURE 'testV2CoreDevUnitTest task not found'; SAME UNIT RED_FIX workflow-only add AGP9 -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false, evidence B7 RED_FIX documented, parent READY. Re-run directed CI, B7 before D1. W2 STOP V2 OFF.",
-  "checkpoint_status": "W01_D0_RED_FIX_CI_TASK_NOT_FOUND_DOCUMENTED_NEXT_RETRY",
+  "next": "D0 workflow 44165550511 pending (guard 44165550515 SUCCESS); if directed passes, write D0 B7 scoped and consume permit. D1A two-PID Android ContentObserver transport B1-B5 DOC_ONLY now prepared, requires independent B5 and dedicated READY after D0 PASS. D1B lifecycle/real DEV owner pending. W2 STOP / V2 productive OFF.",
+  "checkpoint_status": "D0_RED_FIX_014372_WAIT_CI_D1A_PREAUDIT_DOC_ONLY_NO_READY",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "e68549b1b1ee2155aea37e27d4f8861661db1316",
