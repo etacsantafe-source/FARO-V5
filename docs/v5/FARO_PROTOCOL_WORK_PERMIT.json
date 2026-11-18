@@ -1,24 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING",
-  "reviewed_head": "294ffc2486ded348765e585e7865ef8a0af4f26f",
+  "status": "READY",
+  "unit_id": "S4_W01_C0_FINANCE_TRANSFER_ATOMIC",
+  "reviewed_head": "4a6d58916d6f77ba2e77e4c8e7227549747fbedc",
   "paths": [
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt",
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceTransferRecord.kt",
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceTransferRecordBinding.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadPort.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2d0-active-finance9-grant.yml"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TransferApplyTest.kt",
+    ".github/workflows/faro-v5-s4-w01-c0-transfer-atomic.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
-          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
+          "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B1_B5_20261118.md",
+          "blob_sha": "83c8a7215172a32dd95e85a874491207ffc64948",
           "marker": "## B1"
         }
       ]
@@ -27,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
-          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
+          "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B1_B5_20261118.md",
+          "blob_sha": "83c8a7215172a32dd95e85a874491207ffc64948",
           "marker": "## B2"
         }
       ]
@@ -37,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
-          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
+          "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B1_B5_20261118.md",
+          "blob_sha": "83c8a7215172a32dd95e85a874491207ffc64948",
           "marker": "## B3"
         }
       ]
@@ -47,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
-          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
+          "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B1_B5_20261118.md",
+          "blob_sha": "83c8a7215172a32dd95e85a874491207ffc64948",
           "marker": "## B4"
         }
       ]
@@ -57,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
-          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
+          "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B1_B5_20261118.md",
+          "blob_sha": "83c8a7215172a32dd95e85a874491207ffc64948",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ACTIVE_OPENING_SQLITE_6_AND_REVIEW_5",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "b324911839c7d1893d637fea9c80e614bff0584c",
@@ -78,8 +77,8 @@
       }
     ]
   },
-  "why": "Preserve explicit F02 opening provenance in the active receipt transaction.",
-  "how": "Exact seven paths after guard 44321698754 SUCCESS. Reused JVM CI, no ADB.",
+  "why": "Implement registered same-currency transfer as one Reality9 transaction.",
+  "how": "Exact six paths after guard 44324698802 SUCCESS. JVM SQL tests, no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,8 +87,5 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  },
-  "blocker": "C0_SCOPED_READY_PENDING",
-  "blocked_reason": "B3B2 consumed. C0 has its own exact audit. Android mounting remains pending emulator-only CI authorization.",
-  "consumed_code_sha": "b324911839c7d1893d637fea9c80e614bff0584c"
+  }
 }
