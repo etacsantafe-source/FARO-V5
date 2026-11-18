@@ -1,0 +1,63 @@
+name: FARO V5 W01 B2D0 active Finance9 grant and receipt
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPort.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b2d0-active-finance9-grant.yml"
+permissions:
+  contents: read
+jobs:
+  active-finance9-sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify seven-block evidence
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - name: Run directed active Finance9 SQL cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityFinance9ActiveDevGrantPortTest
+      - name: Verify exact active Finance9 JUnit report
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          report = Path("v5/store/reality/build/test-results/test") / (
+              "TEST-ar.com.faro.v5.store.reality.RealityFinance9ActiveDevGrantPortTest.xml"
+          )
+          suite = ElementTree.parse(report).getroot()
+          counts = tuple(int(suite.get(key, "-1")) for key in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "deniesLegacyAndStageStores",
+              "commitsAccountAndEntryAsSeparateDurableReceipts",
+              "duplicateIntentDoesNotInvalidateTheOriginalGrant",
+              "deniesUnsupportedOperationsAndLostForeground",
+              "deniesWrongFingerprintAndExpiredGrantWithoutPublishingEffects",
+          }
+          names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
+          if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):
+              raise SystemExit(f"B2D0 unexpected JUnit evidence: {counts}, {names}")
+          print(f"W01_B2D0_ACTIVE_FINANCE9_GRANT_PASS {len(expected)}/{len(expected)}")
+          PY
+      - name: Preserve exact active Finance9 JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b2d0-active-finance9-junit
+          path: v5/store/reality/build/test-results/test/TEST-ar.com.faro.v5.store.reality.RealityFinance9ActiveDevGrantPortTest.xml
+          if-no-files-found: warn

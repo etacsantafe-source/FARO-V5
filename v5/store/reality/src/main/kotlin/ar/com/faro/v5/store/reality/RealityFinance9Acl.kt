@@ -26,9 +26,9 @@ internal data class Finance9AclScope(
 }
 
 /**
- * Finance9 M1A: STAGED-only SQLite primitive, never an authorization host.
+ * Finance9 SQLite primitive for an independently admitted owner.
  *
- * The caller supplies an already validated SQLite9 STAGED connection and
+ * The caller supplies an already validated SQLite9 connection and
  * an independent generation/owner fence. This class cannot prove either
  * condition itself; the sandbox gate remains in the future M1B/M1C owner.
  * No active pointer, product Apply, Android, human authentication, grant,
@@ -58,9 +58,9 @@ internal class RealityFinance9Acl(
         st.step()
     }
 
-    private fun requireStage9() {
+    private fun requireAdmittedFinance9() {
         check(stagedAdmission()) {
-            "Finance9 policy SQL requires independent staged owner admission"
+            "Finance9 policy SQL requires independent owner admission"
         }
         check(scalar("PRAGMA user_version") == 9L) {
             "Finance9 policy SQL never opens schema7, 8 or arbitrary versions"
@@ -122,13 +122,13 @@ internal class RealityFinance9Acl(
     }
 
     private fun <T> transaction(block: () -> T): T {
-        requireStage9()
+        requireAdmittedFinance9()
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         return try {
-            requireStage9()
+            requireAdmittedFinance9()
             val value = block()
             afterWriteBeforeCommit() // stage-only fault seam for durable rollback
-            requireStage9()
+            requireAdmittedFinance9()
             connection.execSQL("COMMIT TRANSACTION")
             value
         } catch (failure: Throwable) {
@@ -145,7 +145,9 @@ internal class RealityFinance9Acl(
         key: Finance9AclScope,
         issuedAtMs: Long,
         expiresAtMs: Long,
-    ): Long = transaction {
+    ): Long = transaction { issuePolicy(key, issuedAtMs, expiresAtMs) }
+
+    private fun issuePolicy(key: Finance9AclScope, issuedAtMs: Long, expiresAtMs: Long): Long {
         require(issuedAtMs >= 0 && expiresAtMs > issuedAtMs) {
             "Finance9 policy cannot be born expired"
         }
@@ -178,9 +180,9 @@ internal class RealityFinance9Acl(
         }
         advance(before)
         check(policy(key) == Policy(before.next, false, expiresAtMs)) {
-            "Finance9 policy issue not durable in staged SQL"
+            "Finance9 policy issue not durable in SQL"
         }
-        before.next
+        return before.next
     }
 
     /**
@@ -244,6 +246,32 @@ internal class RealityFinance9Acl(
         issuedAtMs: Long,
         expiresAtMs: Long,
     ): Boolean = transaction {
+        insertGrant(key, expectedPolicyEpoch, grantId, fingerprintHex, intentKey, issuedAtMs, expiresAtMs)
+    }
+
+    /** Roll back the policy advance as well if the grant cannot be inserted. */
+    fun issueActiveDevPolicyAndGrant(
+        key: Finance9AclScope,
+        grantId: String,
+        fingerprintHex: String,
+        intentKey: String,
+        issuedAtMs: Long,
+        expiresAtMs: Long,
+    ): Long = transaction {
+        val epoch = issuePolicy(key, issuedAtMs, expiresAtMs)
+        check(insertGrant(key, epoch, grantId, fingerprintHex, intentKey, issuedAtMs, expiresAtMs))
+        epoch
+    }
+
+    private fun insertGrant(
+        key: Finance9AclScope,
+        expectedPolicyEpoch: Long,
+        grantId: String,
+        fingerprintHex: String,
+        intentKey: String,
+        issuedAtMs: Long,
+        expiresAtMs: Long,
+    ): Boolean {
         require(expectedPolicyEpoch > 0L)
         require(grantId.length in 1..128 && grantId == grantId.trim() &&
             grantId.none { it.code < 32 || it.code == 127 })
@@ -251,11 +279,11 @@ internal class RealityFinance9Acl(
             intentKey.none { it.code < 32 || it.code == 127 })
         require(Regex("[0-9a-f]{64}").matches(fingerprintHex))
         require(issuedAtMs >= 0L && expiresAtMs > issuedAtMs)
-        val current = policy(key) ?: return@transaction false
+        val current = policy(key) ?: return false
         if (current.revoked || current.epoch != expectedPolicyEpoch ||
             current.expiresAtMs <= issuedAtMs ||
             expiresAtMs > current.expiresAtMs
-        ) return@transaction false
+        ) return false
         connection.prepare(
             """
             INSERT INTO finance_apply_grant(
@@ -280,10 +308,10 @@ internal class RealityFinance9Acl(
         }
         connection.prepare("SELECT changes()").use { st ->
             check(st.step() && st.getLong(0) == 1L) {
-                "Finance9 staged grant insertion was not exact once"
+                "Finance9 grant insertion was not exact once"
             }
         }
-        true
+        return true
     }
 
     /**
@@ -291,14 +319,14 @@ internal class RealityFinance9Acl(
      * M1C must re-check inside the SAME Reality transaction as Apply COMMIT.
      */
     fun observedCurrentEpochOrNull(key: Finance9AclScope, atMs: Long): Long? {
-        requireStage9()
+        requireAdmittedFinance9()
         if (atMs < 0L) return null
         val policy = policy(key) ?: return null
         return policy.epoch.takeIf { !policy.revoked && policy.expiresAtMs > atMs }
     }
 
     fun observedCounterForStageTest(): Pair<Long, Long> {
-        requireStage9()
+        requireAdmittedFinance9()
         val value = state()
         return value.next to value.revision
     }

@@ -48,6 +48,7 @@ import ar.com.faro.v5.owner.finance.api.FinanceEntryId
 import ar.com.faro.v5.owner.finance.api.FinanceEntryKind
 import ar.com.faro.v5.owner.finance.api.FinanceEntryConcept
 import ar.com.faro.v5.owner.finance.api.FinanceEntryCategory
+import ar.com.faro.v5.owner.finance.api.FinanceOperations
 import ar.com.faro.v5.owner.finance.spi.FinancePersistencePort
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetail
 import ar.com.faro.v5.owner.objectives.api.ObjectiveId
@@ -473,6 +474,58 @@ class RealityStore(
                 )
             }
         }
+
+    /**
+     * The isolated ACTIVE9 session owns the pinned identity and the live
+     * foreground check. The check must never call Workspace or Reality.
+     */
+    fun finance9ActiveDevGrantIssuer(
+        principalHash: String,
+        generationId: String,
+        pointerSequence: Long,
+        ownerAdmission: () -> Boolean,
+        nowMs: () -> Long = System::currentTimeMillis,
+    ): RealityFinance9ActiveDevGrantIssuer = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) {
+            "Finance grant issuer requires ACTIVE9 DEV Reality"
+        }
+        RealityFinance9ActiveDevGrantIssuer { operation, objectScope, fingerprint, intent ->
+            if (operation != FinanceOperations.ACCOUNT_CREATE &&
+                operation != FinanceOperations.ENTRY_RECORD
+            ) return@RealityFinance9ActiveDevGrantIssuer null
+
+            runCatching {
+                withMaterialAdmission {
+                    synchronized(lock) transaction@{
+                        if (closed || activeTransactionId != null || !ownerAdmission())
+                            return@transaction null
+                        val key = Finance9AclScope(
+                            principalHash, generationId, pointerSequence, operation.value, objectScope,
+                        )
+                        val issued = nowMs()
+                        val expires = Math.addExact(issued, 30_000L)
+                        val grantId = UUID.randomUUID().toString()
+                        val epoch = RealityFinance9Acl(
+                            connection,
+                            stagedAdmission = {
+                                !closed && activeTransactionId == null && ownerAdmission()
+                            },
+                        ).issueActiveDevPolicyAndGrant(
+                            key, grantId, fingerprint.value, intent.value, issued, expires,
+                        )
+                        RealityFinance9ActiveDevGrant { scope, identity, receipt ->
+                            identity.planFingerprint == fingerprint && ownerAdmission() &&
+                                finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
+                                    scope, key, grantId, epoch, identity, receipt, nowMs(),
+                                    activeOwnerFence = ownerAdmission,
+                                ) && ownerAdmission()
+                        }
+                    }
+                }
+            }.getOrNull()
+        }
+    }
 
     /**
      * W01-B3B1A: only an observed READ policy row, never a user ACL grant.
@@ -987,22 +1040,29 @@ class RealityStore(
         key: Finance9AclScope,
         expectedPolicyEpoch: Long,
         observedAtEpochMillis: Long,
+    ): Boolean = finance9AclCurrentInsideApplyTransaction(
+        transactionScope, key, expectedPolicyEpoch, observedAtEpochMillis, null,
+    )
+
+    private fun finance9AclCurrentInsideApplyTransaction(
+        transactionScope: RealityTransactionScope,
+        key: Finance9AclScope,
+        expectedPolicyEpoch: Long,
+        observedAtEpochMillis: Long,
+        activeOwnerFence: (() -> Boolean)?,
     ): Boolean = synchronized(lock) {
         checkOpen()
         requireActiveScope(transactionScope)
         check(activeApplyScope === transactionScope &&
             activeTransactionId == transactionScope.transactionId
         ) { "Finance9 policy check requires the exact active Reality SQL transaction" }
-        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
-            "Finance9 policy check requires explicit STAGED9-only Reality"
-        }
+        checkFinance9GrantMode(activeOwnerFence)
         if (expectedPolicyEpoch <= 0L || observedAtEpochMillis < 0L)
             return@synchronized false
         RealityFinance9Acl(
             connection,
             stagedAdmission = {
-                financeStage9 && planningStage8 &&
-                    activeApplyScope === transactionScope
+                activeApplyScope === transactionScope && (activeOwnerFence?.invoke() ?: true)
             },
         ).observedCurrentEpochOrNull(key, observedAtEpochMillis) ==
             expectedPolicyEpoch
@@ -1025,6 +1085,20 @@ class RealityStore(
         identity: ApplyAttemptIdentity,
         receipt: ExecutionReceipt,
         consumedAtEpochMillis: Long,
+    ): Boolean = finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
+        transactionScope, key, grantId, expectedPolicyEpoch, identity, receipt,
+        consumedAtEpochMillis, null,
+    )
+
+    private fun finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
+        transactionScope: RealityTransactionScope,
+        key: Finance9AclScope,
+        grantId: String,
+        expectedPolicyEpoch: Long,
+        identity: ApplyAttemptIdentity,
+        receipt: ExecutionReceipt,
+        consumedAtEpochMillis: Long,
+        activeOwnerFence: (() -> Boolean)?,
     ): Boolean = synchronized(lock) {
         checkOpen()
         requireActiveScope(transactionScope)
@@ -1032,9 +1106,7 @@ class RealityStore(
             transactionScope.transactionId == identity.transactionId &&
             activeTransactionId == identity.transactionId
         ) { "Finance9 grant requires exact active Reality transaction" }
-        check(financeStage9 && planningStage8 && readSchemaVersion() == 9) {
-            "Finance9 grant requires explicit STAGED9 Reality"
-        }
+        checkFinance9GrantMode(activeOwnerFence)
         if (consumedAtEpochMillis < 0L || expectedPolicyEpoch <= 0L ||
             grantId.length !in 1..128 || grantId != grantId.trim() ||
             grantId.any { it.code < 32 || it.code == 127 } ||
@@ -1049,7 +1121,7 @@ class RealityStore(
             attempt.state != ApplyAttemptJournalState.COMMITTED ||
             attempt.planFingerprint != identity.planFingerprint ||
             !finance9AclCurrentInsideApplyTransaction(
-                transactionScope, key, expectedPolicyEpoch, consumedAtEpochMillis,
+                transactionScope, key, expectedPolicyEpoch, consumedAtEpochMillis, activeOwnerFence,
             )
         ) return@synchronized false
 
@@ -1092,6 +1164,13 @@ class RealityStore(
             ) { "Finance9 grant/receipt link not durable inside Reality transaction" }
         }
         true
+    }
+
+    private fun checkFinance9GrantMode(activeOwnerFence: (() -> Boolean)?) {
+        val admittedMode = if (activeOwnerFence == null) financeStage9 else financeActive9
+        check(admittedMode && planningStage8 && readSchemaVersion() == 9) {
+            "Finance9 grant requires the corresponding admitted Reality mode"
+        }
     }
 
     override fun <T> run(

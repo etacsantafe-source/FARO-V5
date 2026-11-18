@@ -23,20 +23,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify READY permit in functional parent
-        run: |
-          set -euo pipefail
-          parent="$RUNNER_TEMP/faro-d1b1c1-parent"
-          git worktree add --detach "$parent" HEAD^
-          python3 "$parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$parent" --mode preflight \
-            --unit S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER \
-            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
-            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt \
-            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt \
-            --path v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwnerTest.kt \
-            --path .github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml
-          git worktree remove "$parent"
+      - name: Verify seven-block evidence
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
