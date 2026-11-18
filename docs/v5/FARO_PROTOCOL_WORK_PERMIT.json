@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_C0_FINANCE_TRANSFER_ATOMIC",
   "reviewed_head": "4a6d58916d6f77ba2e77e4c8e7227549747fbedc",
   "paths": [
@@ -62,17 +62,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ACTIVE_TRANSFER_SQLITE_5",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "b324911839c7d1893d637fea9c80e614bff0584c",
-    "unit_id": "S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING",
+    "sha": "aef656804ed5f559f19181e9e50b00f407a89783",
+    "unit_id": "S4_W01_C0_FINANCE_TRANSFER_ATOMIC",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B7_PASS_20261118.md",
-        "blob_sha": "c8855d2d100391b81b033043c0e8888587156a66",
+        "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B7_PASS_20261118.md",
+        "blob_sha": "188135e2a2422e6cfb917a8d4adc9b1ce13fcdb6",
         "marker": "## B7"
       }
     ]
@@ -87,5 +87,8 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  }
+  },
+  "blocker": "F05_DECLARATION_SCOPED_READY_PENDING",
+  "blocked_reason": "C0 consumed. F05 declarations have a separate audit. Android mount remains pending emulator-only CI authorization.",
+  "consumed_code_sha": "aef656804ed5f559f19181e9e50b00f407a89783"
 }
