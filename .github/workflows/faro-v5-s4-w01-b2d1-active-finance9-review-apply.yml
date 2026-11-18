@@ -4,6 +4,7 @@ on:
     branches:
       - work/s3-night-20261102
     paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01F1FinanceReviewOperations.kt"
       - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt"
       - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt"
       - ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
@@ -53,6 +54,9 @@ jobs:
               "rejectsStaleFinanceDependencyBeforeApply",
               "rejectsApprovedReviewFromAnUnselectedConversation",
               "recoveryDoesNotStartApplyForAnApprovedReview",
+              "appliesReviewedTransferAndReceivesOneReceipt",
+              "appliesReviewedCommitmentsPaymentAndBudgetThroughSameGraph",
+              "refusesMalformedAndAlteredAdditionalReviewText",
           }
           names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
           if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):

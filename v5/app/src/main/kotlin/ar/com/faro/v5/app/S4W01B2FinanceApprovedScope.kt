@@ -15,7 +15,7 @@ import ar.com.faro.v5.owner.finance.api.*
 internal data class S4W01B2FinanceApprovedScope(
     val operationId: OperationId,
     val objectId: String,
-    val accountId: FinanceAccountId,
+    val accountId: FinanceAccountId?,
     val accountCurrencyIfDeclared: FinanceCurrencyCode?,
     val planFingerprint: PlanFingerprint,
 ) {
@@ -31,6 +31,7 @@ internal class S4W01B2FinanceApprovedScopeReader(
     private val expectedHostEpoch: String,
     private val hostEpochOrNull: () -> String?,
     private val hostReady: () -> Boolean,
+    private val allowActiveW01Additional: Boolean = false,
 ) {
     private val expectedGeneration = StorageGenerationId(expectedGenerationId)
 
@@ -59,7 +60,9 @@ internal class S4W01B2FinanceApprovedScopeReader(
             if (node.dependsOn.isNotEmpty()) return@runCatching null
             val op = node.preparedOperation
             val descriptor = op.contract
-            if (descriptor.capabilityId != FinanceOperations.CAPABILITY_ID ||
+            val additional = allowActiveW01Additional &&
+                descriptor.operationId in FinanceOperations.ACTIVE_W01_ADDITIONAL_REVIEW
+            if ((!additional && descriptor.capabilityId != FinanceOperations.CAPABILITY_ID) ||
                 descriptor.canonicalExecutor != FinanceOperations.EXECUTOR_ID ||
                 descriptor.executionProfile != ExecutionProfile.REALITY_MUTATION ||
                 descriptor.exposure != ContractExposure.BINDABLE ||
@@ -83,7 +86,15 @@ internal class S4W01B2FinanceApprovedScopeReader(
                         entry.accountId, null, plan.planFingerprint,
                     )
                 }
-                else -> return@runCatching null
+                else -> {
+                    if (!additional) return@runCatching null
+                    val preview = S4W01F1FinanceReviewOperations.preview(descriptor.operationId, op.payload)
+                        ?: return@runCatching null
+                    if (review.reviewText != preview.text) return@runCatching null
+                    S4W01B2FinanceApprovedScope(
+                        descriptor.operationId, preview.objectId, null, null, plan.planFingerprint,
+                    )
+                }
             }
 
             // This is a READ-ONLY double-check, not a commit-time ACL fence.

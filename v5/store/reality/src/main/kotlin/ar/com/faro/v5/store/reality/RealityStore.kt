@@ -627,6 +627,7 @@ class RealityStore(
             val validOpening = when (operation) {
                 FinanceOperations.ACCOUNT_CREATE -> opening != null && opening >= 0L
                 FinanceOperations.ENTRY_RECORD -> opening == null
+                in FinanceOperations.ACTIVE_W01_ADDITIONAL_REVIEW -> opening == null
                 else -> false
             }
             if (!validOpening) return@RealityFinance9ActiveDevGrantIssuer null

@@ -24,4 +24,10 @@ object FinanceOperations {
     val SCHEDULE_CREATE = OperationId("finance.schedule.create")
     val PLAN_ITEM_CREATE = OperationId("finance.plan_item.create")
     val TRANSFER_RECORD = OperationId("finance.transfer.record")
+
+    val ACTIVE_W01_ADDITIONAL_REVIEW = setOf(
+        TRANSFER_RECORD, DEBT_CREATE, SCHEDULE_CREATE, PLAN_ITEM_CREATE,
+        DEBT_PAYMENT_RECORD, PLAN_ITEM_EXECUTE, SCHEDULE_UPDATE, SCHEDULE_SET_ACTIVE,
+        SCHEDULE_DELETE, PLAN_ITEM_CANCEL, BUDGET_SET, BUDGET_CLEAR,
+    )
 }

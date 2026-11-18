@@ -86,6 +86,9 @@ class S4W01B2D1ActiveFinanceApplyHostTest {
             ) as WorkspacePlanReviewWriteResult.Saved).review
         }
 
+        fun operation(id: OperationId, payload: CanonicalPayload, intent: String): ConversationPlanReviewSnapshot =
+            (review.createActiveW01OperationPending(chat, id, payload, intent) as WorkspacePlanReviewWriteResult.Saved).review
+
         fun approve(review: ConversationPlanReviewSnapshot): ConversationPlanReviewSnapshot =
             (runBlocking {
                 workspace.decide(
@@ -152,5 +155,87 @@ class S4W01B2D1ActiveFinanceApplyHostTest {
         assertTrue(recovered is ConversationApplyHostOutcome.Denied)
         assertEquals(approved, runBlocking { rig.workspace.reviews(rig.chat) }.single())
         assertTrue(rig.reality.financePersistence.read().accounts.isEmpty())
+    }
+
+    @Test fun appliesReviewedTransferAndReceivesOneReceipt() = Rig().use { rig ->
+        val ars = FinanceCurrencyCode.of("ARS")
+        val destination = FinanceAccountId.of("savings")
+        assertTrue(rig.apply(rig.approve(rig.account())) is ConversationApplyHostOutcome.Committed)
+        assertTrue(rig.apply(rig.approve(rig.account(destination, "destination"))) is ConversationApplyHostOutcome.Committed)
+        val transfer = FinanceTransferRecord(
+            FinanceTransferId("reviewed-transfer"), rig.accountId, destination, ars, 30, 90, 100,
+            FinanceEntryConcept.of("Ahorros"), false,
+        )
+        val review = rig.operation(FinanceOperations.TRANSFER_RECORD, FinanceTransferRecordPayload.payload(transfer), "transfer")
+        assertTrue(review.reviewText.contains("ARS 0.30"))
+        assertTrue(rig.apply(review) is ConversationApplyHostOutcome.Denied)
+        val result = rig.apply(rig.approve(review)) as ConversationApplyHostOutcome.Committed
+        assertEquals(result.receipt, rig.reality.executionReceiptLookup.find(result.receipt.transactionId))
+        val ledger = rig.reality.financePersistence.read()
+        assertEquals(70L, ledger.ledgerMinor(rig.accountId))
+        assertEquals(130L, ledger.ledgerMinor(destination))
+        assertEquals(2, ledger.entries.size)
+    }
+
+    @Test fun appliesReviewedCommitmentsPaymentAndBudgetThroughSameGraph() = Rig().use { rig ->
+        val ars = FinanceCurrencyCode.of("ARS")
+        val month = java.time.YearMonth.of(2026, 11)
+        val concept = FinanceEntryConcept.of("Cuota real")
+        val category = FinanceEntryCategory.of("Cuotas")
+        assertTrue(rig.apply(rig.approve(rig.account())) is ConversationApplyHostOutcome.Committed)
+        val debt = FinanceCommitmentCreate.Debt(FinanceCommitmentId("debt"), "Deuda", "Acreedor", ars, 100, 100)
+        val declaration = FinanceCommitmentCreate.PlanItem(
+            FinanceCommitmentId("item"), null, debt.id, month, 1, month.atDay(10), ars, 100, 100,
+        )
+        val expense = FinanceEntryRecord(FinanceEntryId.of("debt-expense"), rig.accountId, 50,
+            FinanceEntryKind.EXPENSE, concept, category, 90, 100)
+        val payment = FinanceCommitmentPayment(declaration.id, debt.id, ars, 0, expense)
+        val commits = listOf(
+            Triple(FinanceOperations.DEBT_CREATE, FinanceCommitmentCreatePayload.payload(debt), "debt"),
+            Triple(FinanceOperations.PLAN_ITEM_CREATE, FinanceCommitmentCreatePayload.payload(declaration), "item"),
+            Triple(FinanceOperations.DEBT_PAYMENT_RECORD,
+                FinanceCommitmentPaymentPayload.payload(FinanceOperations.DEBT_PAYMENT_RECORD, payment), "pay"),
+        )
+        for ((id, payload, intent) in commits) {
+            val result = rig.apply(rig.approve(rig.operation(id, payload, intent))) as ConversationApplyHostOutcome.Committed
+            assertEquals(result.receipt, rig.reality.executionReceiptLookup.find(result.receipt.transactionId))
+        }
+        assertEquals(listOf(expense.entryId), rig.reality.financePersistence.read().entries.map { it.entryId })
+        val key = FinanceBudgetKey(month, category, ars)
+        val budget = FinanceBudgetChange(key, rig.reality.financePersistence.read().revision, 500, 100)
+        val review = rig.operation(FinanceOperations.BUDGET_SET, FinanceBudgetChangePayload.payload(budget), "budget")
+        val result = rig.apply(rig.approve(review)) as ConversationApplyHostOutcome.Committed
+        assertEquals(result.receipt, rig.reality.executionReceiptLookup.find(result.receipt.transactionId))
+        val observed = rig.reality.finance9ActiveDevBudgetRead { true }
+            .read(FinanceBudgetQuery(key, java.time.ZoneOffset.UTC))
+        assertEquals(500L, observed.limitMinor)
+        assertEquals(50L, observed.uncategorizedCommitmentsMinor)
+    }
+
+    @Test fun refusesMalformedAndAlteredAdditionalReviewText() = Rig().use { rig ->
+        val ars = FinanceCurrencyCode.of("ARS")
+        val debt = FinanceCommitmentCreate.Debt(FinanceCommitmentId("tamper"), "Deuda", "Acreedor", ars, 100, 100)
+        val payload = FinanceCommitmentCreatePayload.payload(debt)
+        val corrupt = CanonicalPayload.fromEncoded(payload.formatId, payload.copyBytes() + byteArrayOf(0))
+        assertNull(rig.review.createActiveW01OperationPending(rig.chat, FinanceOperations.DEBT_CREATE, corrupt, "corrupt"))
+        val review = rig.operation(FinanceOperations.DEBT_CREATE, payload, "original")
+        val stored = requireNotNull(rig.workspace.load(review.context()))
+        val before = rig.workspace.snapshot()
+        val forged = rig.workspace.createPlanReview(ar.com.faro.v5.workspace.WorkspacePlanReviewCreateRequest(
+            conversationId = rig.chat,
+            reviewId = "w01:finance:forged",
+            authorityToken = review.authorityToken,
+            expectedWorkspaceRevision = before.revision,
+            planFingerprint = review.planFingerprint,
+            reviewText = "Declarar deuda por ARS 9.00.",
+            planEnvelope = stored.envelope(),
+            idempotencyKey = IdempotencyKey("forged-review"),
+        )) as WorkspacePlanReviewWriteResult.Saved
+        assertTrue(rig.apply(rig.approve(forged.review)) is ConversationApplyHostOutcome.Denied)
+        val calendar = rig.reality.finance9ActiveDevCommitmentCalendar { true }.read(
+            FinanceCommitmentCalendarQuery(java.time.YearMonth.of(2026, 11), java.time.YearMonth.of(2026, 11),
+                java.time.LocalDate.of(2026, 11, 18), ars),
+        )
+        assertTrue(requireNotNull(calendar).debts.isEmpty())
     }
 }

@@ -81,6 +81,22 @@ internal class S4W01B1FinanceReviewHost(
             )
         }
 
+    fun createActiveW01OperationPending(
+        conversationId: ConversationId,
+        operationId: OperationId,
+        payload: CanonicalPayload,
+        humanIntentKey: String,
+    ): WorkspacePlanReviewWriteResult? {
+        val preview = S4W01F1FinanceReviewOperations.preview(operationId, payload) ?: return null
+        return submit(conversationId, humanIntentKey, operationId.value, preview.text) {
+            val contract = catalog.current(operationId)?.takeIf {
+                it.canonicalExecutor == FinanceOperations.EXECUTOR_ID &&
+                    it.executionProfile == ExecutionProfile.REALITY_MUTATION && it.exposure == ContractExposure.BINDABLE
+            } ?: return@submit null
+            PreparedOperation(contract, payload, DependencyStampSet.empty(), IdempotencyKey(humanIntentKey))
+        }
+    }
+
     private fun submit(
         conversationId: ConversationId,
         humanIntentKey: String,

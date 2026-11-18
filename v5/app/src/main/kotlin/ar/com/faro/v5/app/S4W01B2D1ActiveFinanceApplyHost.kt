@@ -11,7 +11,7 @@ import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import java.security.MessageDigest
 
-/** F02/F03 Apply for the isolated active Finance9 session. */
+/** F02–F06 Apply for the isolated active Finance9 session. */
 internal class S4W01B2D1ActiveFinanceApplyHost(
     private val pinned: ActiveGenerationPointer,
     private val pointer: ActiveGenerationPointerPort,
@@ -31,7 +31,7 @@ internal class S4W01B2D1ActiveFinanceApplyHost(
 
     private val approved = S4W01B2FinanceApprovedScopeReader(
         pinned.generationId.value, pinned, pointer, workspace, catalog, hostEpoch,
-        hostEpochOrNull, ::current,
+        hostEpochOrNull, ::current, allowActiveW01Additional = true,
     )
 
     private fun current(): Boolean = runCatching {
@@ -53,7 +53,8 @@ internal class S4W01B2D1ActiveFinanceApplyHost(
             node.takeIf {
                 it.dependsOn.isEmpty() &&
                     (descriptor.operationId == FinanceOperations.ACCOUNT_CREATE ||
-                        descriptor.operationId == FinanceOperations.ENTRY_RECORD) &&
+                        descriptor.operationId == FinanceOperations.ENTRY_RECORD ||
+                        descriptor.operationId in FinanceOperations.ACTIVE_W01_ADDITIONAL_REVIEW) &&
                     catalog.current(descriptor.operationId) == descriptor
             }
         }.getOrNull()
@@ -134,12 +135,12 @@ internal class S4W01B2D1ActiveFinanceApplyHost(
             operationRevalidators = listOf(
                 FinanceAccountCreateRevalidation(),
                 FinanceEntryRecordRevalidation(reality.financePersistence),
-            ),
+            ) + S4W01F1FinanceReviewOperations.revalidators(reality),
         ),
         bindings = ApplyBindingResolutionGate(listOf(
             FinanceAccountCreateBinding(reality.financePersistence),
             FinanceEntryRecordBinding(reality.financePersistence),
-        )),
+        ) + S4W01F1FinanceReviewOperations.bindings(reality)),
         executor = ApplyTransactionExecutor(reality, reality, authorization, finalGate),
         attempts = reality.applyAttemptLookup,
         receipts = reality.executionReceiptLookup,
