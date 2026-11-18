@@ -49,6 +49,7 @@ import ar.com.faro.v5.owner.finance.api.FinanceEntryKind
 import ar.com.faro.v5.owner.finance.api.FinanceEntryConcept
 import ar.com.faro.v5.owner.finance.api.FinanceEntryCategory
 import ar.com.faro.v5.owner.finance.api.FinanceOperations
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentPaymentPort
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentWritePort
 import ar.com.faro.v5.owner.finance.api.FinanceTransferRecord
 import ar.com.faro.v5.owner.finance.api.FinanceTransferWritePort
@@ -194,6 +195,23 @@ class RealityStore(
                 checkOpen()
                 requireActiveScope(scope)
                 writer.create(command)
+            }
+        }
+    }
+
+    fun finance9CommitmentPaymentForDevOnly(): FinanceCommitmentPaymentPort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) {
+            "Commitment payments require ACTIVE9 DEV Reality"
+        }
+        val writer = RealityFinance9CommitmentWriter(connection)
+        FinanceCommitmentPaymentPort { payment, scope ->
+            synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                writer.recordPayment(payment) {
+                    recordFinanceEntry(payment.expense, scope)
+                }
             }
         }
     }

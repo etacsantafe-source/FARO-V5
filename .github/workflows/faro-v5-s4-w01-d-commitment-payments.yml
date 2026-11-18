@@ -1,0 +1,64 @@
+name: FARO V5 W01 D F05 commitment payments
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt"
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentPayment.kt"
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentPaymentBinding.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentWriter.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentPaymentTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d-commitment-payments.yml"
+permissions:
+  contents: read
+jobs:
+  active-finance9-payments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify seven-block evidence
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - name: Run exact Finance9 commitment payment cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityFinance9CommitmentPaymentTest
+      - name: Verify exact commitment payment JUnit report
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          report = Path("v5/store/reality/build/test-results/test") / (
+              "TEST-ar.com.faro.v5.store.reality.RealityFinance9CommitmentPaymentTest.xml"
+          )
+          suite = ElementTree.parse(report).getroot()
+          counts = tuple(int(suite.get(key, "-1")) for key in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "allocatesPartialAndFullPaymentsWithOriginalReceipts",
+              "rejectsDebtMismatchCurrencyCancelledAndExcessBeforePosting",
+              "rollsBackExpenseWhenPaymentLinkFails",
+              "rejectsDuplicateEntryAndMalformedPayload",
+          }
+          names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
+          if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):
+              raise SystemExit(f"F05 unexpected JUnit evidence: {counts}, {names}")
+          print(f"W01_D_F05_COMMITMENT_PAYMENTS_SQLITE_PASS {len(expected)}/{len(expected)}")
+          PY
+      - name: Preserve exact commitment payment JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-d-f05-payments-junit
+          path: v5/store/reality/build/test-results/test/TEST-ar.com.faro.v5.store.reality.RealityFinance9CommitmentPaymentTest.xml
+          if-no-files-found: warn

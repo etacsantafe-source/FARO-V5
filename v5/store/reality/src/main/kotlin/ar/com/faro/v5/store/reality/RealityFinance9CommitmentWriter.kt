@@ -4,7 +4,9 @@ import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.SQLiteStatement
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentCreate
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentId
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentPayment
 import ar.com.faro.v5.owner.finance.api.FinanceCurrencyCode
+import ar.com.faro.v5.owner.finance.api.FinanceEntrySnapshot
 import ar.com.faro.v5.owner.finance.api.FinanceScheduleRecurrence
 import java.time.YearMonth
 
@@ -15,6 +17,59 @@ internal class RealityFinance9CommitmentWriter(private val connection: SQLiteCon
             is FinanceCommitmentCreate.Debt -> insertDebt(command)
             is FinanceCommitmentCreate.Schedule -> insertSchedule(command)
             is FinanceCommitmentCreate.PlanItem -> insertPlanItem(command)
+        }
+        check(connection.prepare("SELECT changes()").use { it.step() && it.getLong(0) == 1L })
+    }
+
+    fun recordPayment(payment: FinanceCommitmentPayment, recordExpense: () -> FinanceEntrySnapshot) {
+        requireMatchingDebt(payment.debtId, payment.currency)
+        val expected = connection.prepare(
+            """
+            SELECT expected_minor, debt_id FROM finance_plan_item
+            WHERE plan_item_id = ? AND currency_code = ? AND state = 'PLANNED'
+            """.trimIndent(),
+        ).use { statement ->
+            statement.bindText(1, payment.planItemId.value)
+            statement.bindText(2, payment.currency.value)
+            check(statement.step()) { "Commitment payment needs a planned item in the declared currency" }
+            val debtId = if (statement.isNull(1)) null else statement.getText(1)
+            check(debtId == payment.debtId?.value) { "Commitment payment debt changed" }
+            statement.getLong(0)
+        }
+
+        val paid = connection.prepare(
+            """
+            SELECT p.amount_minor, e.kind, e.amount_minor, e.currency_code
+            FROM finance_plan_item_payment p
+            LEFT JOIN finance_entry e ON e.entry_id = p.entry_id
+            WHERE p.plan_item_id = ?
+            """.trimIndent(),
+        ).use { statement ->
+            statement.bindText(1, payment.planItemId.value)
+            var total = 0L
+            while (statement.step()) {
+                val amount = statement.getLong(0)
+                check(amount > 0L && !statement.isNull(1) && statement.getText(1) == "EXPENSE" &&
+                    statement.getLong(2) == amount && statement.getText(3) == payment.currency.value
+                ) { "Inconsistent commitment payment history" }
+                total = Math.addExact(total, amount)
+            }
+            total
+        }
+        check(paid == payment.expectedPreviouslyPaidMinor) { "Commitment payment review is stale" }
+        check(paid <= expected && payment.expense.amountMinor <= expected - paid) {
+            "Commitment payment exceeds the outstanding amount"
+        }
+
+        val expense = recordExpense()
+        check(expense.currency == payment.currency) { "Commitment payment account currency differs" }
+        connection.prepare(
+            "INSERT INTO finance_plan_item_payment(plan_item_id, entry_id, amount_minor) VALUES (?, ?, ?)",
+        ).use { statement ->
+            statement.bindText(1, payment.planItemId.value)
+            statement.bindText(2, expense.entryId.value)
+            statement.bindLong(3, expense.amountMinor)
+            statement.step()
         }
         check(connection.prepare("SELECT changes()").use { it.step() && it.getLong(0) == 1L })
     }
