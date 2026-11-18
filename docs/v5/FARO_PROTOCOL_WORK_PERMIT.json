@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_E_F06_FINANCE_BUDGET",
   "reviewed_head": "0cef983d3e0ecda2584f0fb243a0f5098d93939c",
   "paths": [
@@ -63,23 +63,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ACTIVE9_BUDGET_JVM_4",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "44cd027abce43b2cd2a9be06b7afd25e109d4f14",
-    "unit_id": "S4_W01_D_F05_COMMITMENT_PAYMENTS",
+    "sha": "9d25a7920fe40537de979dab63300b1986e5936e",
+    "unit_id": "S4_W01_E_F06_FINANCE_BUDGET",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B7_PASS_20261118.md",
-        "blob_sha": "0267a82545ffffdaef80d5a44cfa39868e40fdf0",
+        "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B7_PASS_20261118.md",
+        "blob_sha": "918454f1d4ab3632ad7254fafc8117e6ec9bac82",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Write exact monthly budget limits and derive admitted actual and projected data per currency.",
-  "how": "Guard 44377504727 SUCCESS. Exact seven paths and SQLite JVM CI.",
+  "why": "F06 scoped owner certified. Calendar lifecycle requires individual READY.",
+  "how": "B7 on exact SHA with verified XML, no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
