@@ -3,6 +3,8 @@ on:
   push:
     branches: [work/s3-night-20261102]
     paths:
+      - 'v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt'
+      - 'v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/ActiveGenerationStorageLocator.kt'
       - 'v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01Finance9SessionAndroidTest.kt'
       - '.github/workflows/faro-v5-s4-w01-d1b1c2d-finance9-session.yml'
 permissions:

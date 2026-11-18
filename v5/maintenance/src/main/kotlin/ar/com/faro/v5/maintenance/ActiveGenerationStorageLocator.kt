@@ -20,6 +20,25 @@ class ActiveGenerationStorageLocator(
     fun ensureInitialGenerationAndGetDirectory(
         initialGenerationId: String,
         schemaSetFingerprint: String,
+    ): Path = ensureInitialGeneration(initialGenerationId, schemaSetFingerprint, leaseRecord = null)
+
+    /** The isolated W01 caller must hold the Finance9 root lease for this call. */
+    @Synchronized
+    fun ensureInitialGenerationAndGetDirectoryUnderFinance9DevLease(
+        initialGenerationId: String,
+        schemaSetFingerprint: String,
+    ): Path {
+        val leaseRecord = storageRoot.resolve("finance9-dev-root.lock")
+        check(Files.isRegularFile(leaseRecord, LinkOption.NOFOLLOW_LINKS) && Files.size(leaseRecord) == 0L) {
+            "Finance9 DEV bootstrap requires its empty root lock transport"
+        }
+        return ensureInitialGeneration(initialGenerationId, schemaSetFingerprint, leaseRecord)
+    }
+
+    private fun ensureInitialGeneration(
+        initialGenerationId: String,
+        schemaSetFingerprint: String,
+        leaseRecord: Path?,
     ): Path {
         val existing = pointer.read()
         if (existing != null) {
@@ -31,7 +50,7 @@ class ActiveGenerationStorageLocator(
             return recovered
         }
 
-        requirePristineInitialBootstrapStorage()
+        requirePristineInitialBootstrapStorage(leaseRecord)
 
         val staged =
             layout.stage(
@@ -193,7 +212,7 @@ class ActiveGenerationStorageLocator(
         }
     }
 
-    private fun requirePristineInitialBootstrapStorage() {
+    private fun requirePristineInitialBootstrapStorage(leaseRecord: Path?) {
         check(!Files.isSymbolicLink(storageRoot)) {
             "storage root must not be a symbolic link"
         }
@@ -210,7 +229,7 @@ class ActiveGenerationStorageLocator(
                 generationsRoot,
                 bootstrapRoot,
                 activeRoot,
-            )
+            ) + listOfNotNull(leaseRecord)
 
         Files.walk(storageRoot).use { paths ->
             val unexpected =

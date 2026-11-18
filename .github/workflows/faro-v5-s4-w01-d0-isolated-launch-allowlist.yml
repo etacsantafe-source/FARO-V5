@@ -64,9 +64,9 @@ jobs:
           manifests=Path("v5/app/build/intermediates/packaged_manifests")
           ns="{http://schemas.android.com/apk/res/android}"
           provider="ar.com.faro.v5.app.S4W01FinanceReadPrivateInvalidationProvider"
-          for variant,appid,expected_providers in (
-            ("w01FinanceDev","ar.com.faro.alpha.w01financedev",1),
-            ("v2CoreDev","ar.com.faro.alpha.v2coredev",0),
+          for variant,appid,expected_providers,launcher in (
+            ("w01FinanceDev","ar.com.faro.alpha.w01financedev",1,"FaroV5W01FinanceDevLauncherActivity"),
+            ("v2CoreDev","ar.com.faro.alpha.v2coredev",0,"FaroV5V2CoreDevActivity"),
           ):
             files=sorted(p for p in manifests.rglob("AndroidManifest.xml")
                          if "/"+variant+"/" in str(p))
@@ -87,9 +87,20 @@ jobs:
               if any(p.get(ns+"name")=="android.permission.INTERNET"
                      for p in tree.findall("uses-permission")):
                 raise SystemExit("W01_D0_INTERNET_FORBIDDEN "+variant)
-              if not any(a.get(ns+"name")=="ar.com.faro.v5.app.FaroV5V2CoreDevActivity"
-                         for a in app.findall("activity")):
-                raise SystemExit("W01_D0_LAUNCHER_MISSING "+variant)
+              launchers=[
+                  activity for activity in app.findall("activity")
+                  if any(
+                      any(action.get(ns+"name")=="android.intent.action.MAIN"
+                          for action in intent.findall("action")) and
+                      any(category.get(ns+"name")=="android.intent.category.LAUNCHER"
+                          for category in intent.findall("category"))
+                      for intent in activity.findall("intent-filter")
+                  )
+              ]
+              if (tree.get("package")!=appid or len(launchers)!=1 or
+                  launchers[0].get(ns+"name")!="ar.com.faro.v5.app."+launcher or
+                  launchers[0].get(ns+"exported")!="true"):
+                raise SystemExit("W01_D0_LAUNCHER_MISMATCH "+variant)
           print("W01_D0_EXACT_PACKAGE_POLICY_8_OF_8_PASS")
           print("W01_D0_W01_PRIVATE_PROVIDER_V2CORE_ZERO_PROVIDER_DEV_COMPILES_PASS")
           print("NOT_AN_ANDROID_LAUNCH_OR_TWO_PID_TEST")

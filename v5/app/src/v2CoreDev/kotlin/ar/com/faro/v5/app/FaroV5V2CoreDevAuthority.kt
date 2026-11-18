@@ -73,22 +73,27 @@ internal class FaroV5V2CoreDevAuthority(
         financeUpgrade: (() -> Boolean)?,
     ): Session {
         val recovered = runtime?.recover()
+        // Initial bootstrap checks pristine transport before any journal or
+        // replay-fence constructor can materialize its directories.
+        val pointer = FileActiveGenerationPointer(normalized)
+        if (pointer.read() == null) {
+            check(recovered == null && planningUpgrade == null)
+            val locator = ActiveGenerationStorageLocator(normalized)
+            if (runtime == null) {
+                locator.ensureInitialGenerationAndGetDirectory(
+                    initialId.value, "v2-core-dev-recovery-base-1",
+                )
+            } else {
+                locator.ensureInitialGenerationAndGetDirectoryUnderFinance9DevLease(
+                    initialId.value, "v2-core-dev-recovery-base-1",
+                )
+            }
+        }
         val planning8 = FaroV5V2Planning8DevHost(normalized, gate)
         if (planningUpgrade != null) {
             check(recovered == null) { "DEV root already has a Finance9 cutover record" }
             planning8.promoteAfterExplicitForegroundRequest(planningUpgrade)
         }
-        // The existing first-generation bootstrap establishes a recoverable V1 authority.
-        // Never initialize it again after a real pointer was durably published.
-        val pointer = FileActiveGenerationPointer(normalized)
-        if (pointer.read() == null) {
-            check(recovered == null)
-            ActiveGenerationStorageLocator(normalized).ensureInitialGenerationAndGetDirectory(
-                initialId.value, "v2-core-dev-recovery-base-1",
-            )
-        }
-        // Recovery is allowed ONLY for a previously foreground-authorized
-        // Reality8 journal. Normal Chat open never starts a new stage.
         if (recovered == null) planning8.recoverPreviouslyAuthorizedOrFail()
         val financeSelection = if (
             financeUpgrade != null && recovered?.status != FaroV5Finance9DevCutoverRuntime.Status.ACTIVE_NINE
