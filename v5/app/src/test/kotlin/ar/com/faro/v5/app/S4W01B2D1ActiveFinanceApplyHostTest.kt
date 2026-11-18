@@ -218,7 +218,7 @@ class S4W01B2D1ActiveFinanceApplyHostTest {
         val payload = FinanceCommitmentCreatePayload.payload(debt)
         val corrupt = CanonicalPayload.fromEncoded(payload.formatId, payload.copyBytes() + byteArrayOf(0))
         assertNull(rig.review.createActiveW01OperationPending(rig.chat, FinanceOperations.DEBT_CREATE, corrupt, "corrupt"))
-        val review = rig.operation(FinanceOperations.DEBT_CREATE, payload, "original")
+        val review = rig.approve(rig.operation(FinanceOperations.DEBT_CREATE, payload, "original"))
         val stored = requireNotNull(rig.workspace.load(review.context()))
         val before = rig.workspace.snapshot()
         val forged = rig.workspace.createPlanReview(ar.com.faro.v5.workspace.WorkspacePlanReviewCreateRequest(
