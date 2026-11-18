@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
   "reviewed_head": "ded9a84383f6174cff0a3ab6b844b76c2ac06f47",
   "paths": [
@@ -65,13 +65,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "06bb02c5c4f7874a202a6e924f9e0eb99a0dfd4e",
-    "unit_id": "S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT",
-    "result": "PASS",
+    "sha": "9561ee8659b39ed333c98c10ee8da814fc4b5fbc",
+    "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT_B7_PASS_20261117.md",
-        "blob_sha": "edcfbd51e1069c775385b822c8d7b23b7bd5ba47",
+        "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
+        "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
         "marker": "## B7"
       }
     ]
@@ -80,7 +80,7 @@
   "how": "B1-B5 audited and guard 44224147583 SUCCESS; EXACT5",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocker": "D1B1C1_CI_REGRESSION_GATE_RED_FIX_PENDING_EXACT2",
+  "blocked_reason": "Two inherited CI triggers validate historical permits against D1B1C1; no failures in directed tests",
+  "consumed_code_sha": "9561ee8659b39ed333c98c10ee8da814fc4b5fbc"
 }

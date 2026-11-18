@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1C1_DEV_CUTOVER_READY_EXACT5",
+  "phase": "S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1183
+    "epoch": 1185
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1B1C1 journaled cutover in controlled DEV JVM root, exact5. Validate guard and writer then B6/CI/B7. No W01 Android startup mounting until D1B1C2.",
-  "checkpoint_status": "W01_D1B1C0_B7_PASS_D1B1C1_READY",
+  "next": "Issue same-unit CI RED_FIX permit exact2 after guard. Then run and verify both regressions. W2 STOP V2 productive OFF.",
+  "checkpoint_status": "W01_D1B1C1_DIRECTED_6_PASS_REGRESSION_RED_FIX",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "06bb02c5c4f7874a202a6e924f9e0eb99a0dfd4e",
-  "last_ci_run_id": 44223168620,
+  "last_code_sha": "9561ee8659b39ed333c98c10ee8da814fc4b5fbc",
+  "last_ci_run_id": 44224896409,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -132,7 +132,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_JVM_EXACT12_AND_PROTOCOL_GUARD",
+  "last_ci_conclusion": "DIRECTED_6_PASS_RED_FIX_TWO_TRIGGERED_PRECONDITIONS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -4914,7 +4914,7 @@
     "next": "D1B1C_DEV_CUTOVER_PREAUDIT_FIRST"
   },
   "w01_d1b1c1": {
-    "status": "READY_EXACT5",
+    "status": "RED_FIX_DOCUMENTED_WAIT_GUARD",
     "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
     "preaudit": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
     "preaudit_guard_run_id": 44224147583,
@@ -4924,6 +4924,19 @@
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt",
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwnerTest.kt",
       ".github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml"
+    ],
+    "code_sha": "9561ee8659b39ed333c98c10ee8da814fc4b5fbc",
+    "ci_run_id": 44224896409,
+    "junit": "6_OF_6_PASS",
+    "guard_code_run": 44224896391,
+    "red_fix_doc": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
+    "red_runs": [
+      44224896087,
+      44224896239
+    ],
+    "red_fix_paths": [
+      ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml",
+      ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
     ]
   }
 }
