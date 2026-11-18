@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT",
-  "reviewed_head": "6014970d673599aa4c7f90f2812327c1891e7b80",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
+  "reviewed_head": "ded9a84383f6174cff0a3ab6b844b76c2ac06f47",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverPreflight.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverPreflightTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d1b1c0-finance9-preflight.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwnerTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_B1_B5_20261117.md",
-          "blob_sha": "b392005b268727c9c53a5ed3cd134111b316862f",
+          "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
+          "blob_sha": "76ca7a77c7274d820a51c18206654a76e187be4e",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_B1_B5_20261117.md",
-          "blob_sha": "b392005b268727c9c53a5ed3cd134111b316862f",
+          "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
+          "blob_sha": "76ca7a77c7274d820a51c18206654a76e187be4e",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_B1_B5_20261117.md",
-          "blob_sha": "b392005b268727c9c53a5ed3cd134111b316862f",
+          "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
+          "blob_sha": "76ca7a77c7274d820a51c18206654a76e187be4e",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_B1_B5_20261117.md",
-          "blob_sha": "b392005b268727c9c53a5ed3cd134111b316862f",
+          "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
+          "blob_sha": "76ca7a77c7274d820a51c18206654a76e187be4e",
           "marker": "## B4"
         }
       ]
@@ -53,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_ADVERSARIAL_B5_20261117.md",
-          "blob_sha": "14768c4cbcf9d4170527b6e15e00529021e27a29",
+          "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
+          "blob_sha": "76ca7a77c7274d820a51c18206654a76e187be4e",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_12_OF_12",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "06bb02c5c4f7874a202a6e924f9e0eb99a0dfd4e",
@@ -74,11 +76,11 @@
       }
     ]
   },
-  "why": "EXACT3 CODEX pilot read-only DEV Finance9 staged9 cutover preflight; no real cutover, pointer mutation, new graph, or active Finance9",
-  "how": "B1-B5 sourced preaudit+adversarial separate docs, documentary guard run 44214565161 SUCCESS; code still NOT_RUN; exact3 only",
+  "why": "Controlled Finance9 cutover scoped to DEV JVM maintenance",
+  "how": "B1-B5 audited and guard 44224147583 SUCCESS; EXACT5",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": "D1B1C_REQUIRES_OWN_B1_B5_AND_READY",
-  "blocked_reason": "D1B1C0 exact3 consumed by verified B7",
-  "consumed_code_sha": "06bb02c5c4f7874a202a6e924f9e0eb99a0dfd4e"
+  "blocker": null,
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }
