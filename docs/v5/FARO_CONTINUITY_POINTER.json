@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1C2A_PRESERVE_STAGE_READY_EXACT3",
+  "phase": "S4_W01_D1B1C2A_B7_PASS_D1B1C2B_PREAUDITED",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1189
+    "epoch": 1191
   },
   "automation": {
     "activation_authorized": false,
@@ -40,12 +40,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1B1C2A existing-data stage preparation, READY exact3 after guard. Integration W01 Android C2B follows. W2 STOP V2 productive OFF.",
-  "checkpoint_status": "W01_D1B1C1_B7_PASS_D1B1C2A_READY",
+  "next": "D1B1C2B exclusive root lease and durable cutover admission before W01 app binding. Verify documentary guard and separate READY. W2 STOP V2 productive OFF.",
+  "checkpoint_status": "W01_D1B1C2A_DATA_PRESERVING_STAGE_B7_PASS_SCOPED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "1eb6a5d078a0c4f84489a1d6b3a31c7b3d2f77f5",
-  "last_ci_run_id": 44226243338,
+  "last_code_sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70",
+  "last_ci_run_id": 44227604408,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -132,7 +132,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_DIRECTED_6_AND_AFFECTED_40",
+  "last_ci_conclusion": "SUCCESS_DIRECTED_7_OF_7_AND_GUARD",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -4949,7 +4949,7 @@
     "b7_document": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B7_PASS_20261117.md"
   },
   "w01_d1b1c2a": {
-    "status": "READY_EXACT3",
+    "status": "B7_PASS_SCOPED_EXISTING_DATA_PRESERVED_STAGE_ONLY",
     "unit_id": "S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE",
     "preaudit": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
     "paths": [
@@ -4957,6 +4957,16 @@
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparationTest.kt",
       ".github/workflows/faro-v5-s4-w01-d1b1c2a-finance9-preserve-stage.yml"
     ],
-    "preaudit_guard_run": 44227015097
+    "preaudit_guard_run": 44227015097,
+    "code_sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70",
+    "b6_ci_run_id": 44227604408,
+    "guard_code_run": 44227604168,
+    "b7_document": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B7_PASS_20261117.md",
+    "junit": "7_OF_7_PASS"
+  },
+  "w01_d1b1c2b": {
+    "status": "PREAUDITED",
+    "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
+    "preaudit": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md"
   }
 }

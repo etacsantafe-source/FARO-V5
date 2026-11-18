@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE",
   "reviewed_head": "a90d1b01a7e9a2b6a363af5793964f32f0f6ef6a",
   "paths": [
@@ -59,17 +59,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_JVM_7_OF_7",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "1eb6a5d078a0c4f84489a1d6b3a31c7b3d2f77f5",
-    "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
+    "sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70",
+    "unit_id": "S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B7_PASS_20261117.md",
-        "blob_sha": "63c3a4d9713bebf468643575d7bcfc784f027174",
+        "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B7_PASS_20261117.md",
+        "blob_sha": "71b8058219498c6be1147aabf0b41a811083a9fd",
         "marker": "## B7"
       }
     ]
@@ -78,7 +78,7 @@
   "how": "Exact3, prior B7 and B1-B5 guarded by 44227015097",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocker": "D1B1C2B_DURABLE_DEV_HOST_REQUIRES_OWN_READY",
+  "blocked_reason": "D1B1C2A B7 PASS consumes its exact3 permit",
+  "consumed_code_sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70"
 }
