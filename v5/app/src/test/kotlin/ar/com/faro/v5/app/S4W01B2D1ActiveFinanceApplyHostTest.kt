@@ -116,6 +116,10 @@ class S4W01B2D1ActiveFinanceApplyHostTest {
         assertTrue(rig.apply(entry) is ConversationApplyHostOutcome.Denied)
         assertEquals(440L, rig.reality.financePersistence.read().ledgerMinor(rig.accountId))
         assertEquals(1, rig.reality.financePersistence.read().entries.size)
+        val reader = rig.reality.finance9ActiveDevOpeningProvenanceRead { rig.runtime.isCurrent(rig.selection) }
+        val confirmed = requireNotNull(reader.read()).accounts.single()
+        assertEquals(100L, confirmed.confirmedOpeningMinor)
+        assertEquals(440L, confirmed.ledgerBalanceMinor)
     }
 
     @Test fun rejectsPendingReviewAndAbsentForegroundConfirmation() = Rig().use { rig ->

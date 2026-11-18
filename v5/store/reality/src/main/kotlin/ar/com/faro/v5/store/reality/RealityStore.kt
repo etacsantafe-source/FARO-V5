@@ -490,10 +490,13 @@ class RealityStore(
         check(financeActive9 && readSchemaVersion() == 9) {
             "Finance grant issuer requires ACTIVE9 DEV Reality"
         }
-        RealityFinance9ActiveDevGrantIssuer { operation, objectScope, fingerprint, intent ->
-            if (operation != FinanceOperations.ACCOUNT_CREATE &&
-                operation != FinanceOperations.ENTRY_RECORD
-            ) return@RealityFinance9ActiveDevGrantIssuer null
+        RealityFinance9ActiveDevGrantIssuer { operation, objectScope, fingerprint, intent, opening ->
+            val validOpening = when (operation) {
+                FinanceOperations.ACCOUNT_CREATE -> opening != null && opening >= 0L
+                FinanceOperations.ENTRY_RECORD -> opening == null
+                else -> false
+            }
+            if (!validOpening) return@RealityFinance9ActiveDevGrantIssuer null
 
             runCatching {
                 withMaterialAdmission {
@@ -514,17 +517,49 @@ class RealityStore(
                         ).issueActiveDevPolicyAndGrant(
                             key, grantId, fingerprint.value, intent.value, issued, expires,
                         )
-                        RealityFinance9ActiveDevGrant { scope, identity, receipt ->
-                            identity.planFingerprint == fingerprint && ownerAdmission() &&
-                                finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
-                                    scope, key, grantId, epoch, identity, receipt, nowMs(),
-                                    activeOwnerFence = ownerAdmission,
-                                ) && ownerAdmission()
+                        RealityFinance9ActiveDevGrant finalize@{ scope, identity, receipt ->
+                            if (identity.planFingerprint != fingerprint || !ownerAdmission()) return@finalize false
+                            val consumedAt = nowMs()
+                            val accepted = finance9ConsumeGrantAgainstReceiptInsideApplyTransaction(
+                                scope, key, grantId, epoch, identity, receipt, consumedAt,
+                                activeOwnerFence = ownerAdmission,
+                            )
+                            accepted && (opening == null || confirmFinance9Opening(
+                                key.objectScope, opening, consumedAt, receipt,
+                            )) && ownerAdmission()
                         }
                     }
                 }
             }.getOrNull()
         }
+    }
+
+    /** Runs inside the Apply SQL transaction after the grant and receipt were verified. */
+    private fun confirmFinance9Opening(
+        accountId: String,
+        openingMinor: Long,
+        confirmedAt: Long,
+        receipt: ExecutionReceipt,
+    ): Boolean {
+        connection.prepare(
+            """
+            INSERT INTO finance_opening_confirmation(
+                account_id, amount_minor, confirmation_state, confirmed_at_ms, provenance
+            )
+            SELECT a.account_id, ?, 'CONFIRMED', ?, ?
+            FROM finance_account a
+            LEFT JOIN finance_account_opening o ON o.account_id = a.account_id
+            WHERE a.account_id = ? AND COALESCE(o.amount_minor, 0) = ?
+            """.trimIndent()
+        ).use { statement ->
+            statement.bindLong(1, openingMinor)
+            statement.bindLong(2, confirmedAt)
+            statement.bindText(3, "w01-review-receipt:" + receipt.receiptId.value)
+            statement.bindText(4, accountId)
+            statement.bindLong(5, openingMinor)
+            statement.step()
+        }
+        return connection.prepare("SELECT changes()").use { it.step() && it.getLong(0) == 1L }
     }
 
     /**
@@ -695,6 +730,21 @@ class RealityStore(
         }
     }
 
+    /** The ACTIVE9 session owns the live technical admission to this SQL read. */
+    fun finance9ActiveDevOpeningProvenanceRead(
+        ownerAdmission: () -> Boolean,
+    ): RealityFinance9OpeningProvenanceReadPort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) {
+            "Finance opening provenance requires ACTIVE9 DEV Reality"
+        }
+        RealityFinance9OpeningProvenanceReadPort {
+            runCatching {
+                withMaterialAdmission { readFinance9OpeningProvenanceForDevOnly(ownerAdmission) }
+            }.getOrNull()
+        }
+    }
+
     private data class Finance9OpeningRow(
         val physicalOpeningMinor: Long?,
         val confirmationState: String?,
@@ -708,11 +758,14 @@ class RealityStore(
      * first SELECT. The existing mutex alone cannot exclude OS-process writes.
      * Always ROLLBACK the read-only transaction, even when the read fails.
      */
-    private fun readFinance9OpeningProvenanceForDevOnly():
-        RealityFinance9OpeningProvenanceSnapshot? = synchronized(lock) {
-        if (closed || !financeStage9 || !planningStage8 ||
+    private fun readFinance9OpeningProvenanceForDevOnly(
+        activeOwnerFence: (() -> Boolean)? = null,
+    ): RealityFinance9OpeningProvenanceSnapshot? = synchronized(lock) {
+        val ownerMode = if (activeOwnerFence == null) financeStage9 else financeActive9
+        if (closed || !ownerMode || !planningStage8 ||
             activeTransactionId != null || readSchemaVersion() != 9
         ) return@synchronized null
+        if (activeOwnerFence != null && !activeOwnerFence()) return@synchronized null
 
         var beganRead = false
         var result: RealityFinance9OpeningProvenanceSnapshot? = null
@@ -733,7 +786,7 @@ class RealityStore(
                 }
             }
         }
-        result
+        result?.takeIf { activeOwnerFence?.invoke() ?: true }
     }
 
     /**

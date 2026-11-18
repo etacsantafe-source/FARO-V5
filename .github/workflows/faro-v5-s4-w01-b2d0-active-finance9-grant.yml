@@ -48,6 +48,7 @@ jobs:
               "duplicateIntentDoesNotInvalidateTheOriginalGrant",
               "deniesUnsupportedOperationsAndLostForeground",
               "deniesWrongFingerprintAndExpiredGrantWithoutPublishingEffects",
+              "mismatchedOpeningRollsBackAccountGrantAndReceipt",
           }
           names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
           if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):

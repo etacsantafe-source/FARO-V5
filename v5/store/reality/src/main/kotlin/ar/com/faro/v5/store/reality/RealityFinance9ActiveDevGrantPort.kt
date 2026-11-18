@@ -15,6 +15,7 @@ fun interface RealityFinance9ActiveDevGrantIssuer {
         objectScope: String,
         fingerprint: PlanFingerprint,
         intentKey: IdempotencyKey,
+        confirmedOpeningMinor: Long?,
     ): RealityFinance9ActiveDevGrant?
 }
 

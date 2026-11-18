@@ -67,6 +67,10 @@ internal class S4W01B2D1ActiveFinanceApplyHost(
             val envelope = review.envelope()
             val node = financeNode(envelope, scope.planFingerprint) ?: return@withMaterialWrite denied
             if (node.preparedOperation.contract.operationId != scope.operationId) return@withMaterialWrite denied
+            val opening = if (scope.operationId == FinanceOperations.ACCOUNT_CREATE) {
+                FinanceAccountCreatePayload.decode(node.preparedOperation.payload)?.openingBalanceMinor
+                    ?: return@withMaterialWrite denied
+            } else null
 
             // Keep the complete canonical intent, including inputs above the SQL key length.
             val digest = MessageDigest.getInstance("SHA-256").digest(
@@ -100,7 +104,7 @@ internal class S4W01B2D1ActiveFinanceApplyHost(
                     applying.revision - context.expectedRevision != 1L ||
                     !reread.envelope().contentEquals(envelope) || !isSelectedReview(applying.context())
                 ) return@coordinator false
-                grant = grants.issue(scope.operationId, scope.objectId, scope.planFingerprint, grantKey)
+                grant = grants.issue(scope.operationId, scope.objectId, scope.planFingerprint, grantKey, opening)
                 if (grant == null) return@coordinator false
                 admitted = identity
                 true

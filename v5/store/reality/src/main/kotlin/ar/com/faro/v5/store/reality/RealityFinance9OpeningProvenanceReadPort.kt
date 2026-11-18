@@ -1,9 +1,8 @@
 package ar.com.faro.v5.store.reality
 
 /**
- * W01-B3B0 DEV/STAGED9 only. A CONFIRMED SQL row is database consistency
- * evidence, NOT proof of authenticated human consent or a Finance ACL grant.
- * A future app-owned adapter must enforce principal, pointer and ACL fences.
+ * Finance9 DEV provenance from Reality SQL. The session owns admission and
+ * enforces principal, pointer, and ACL fences before exposing a balance.
  */
 enum class RealityFinance9OpeningProvenanceState {
     LEGACY_UNVERIFIED,
@@ -48,7 +47,7 @@ data class RealityFinance9OpeningProvenanceSnapshot(
 }
 
 /**
- * No biometric, no ACL, no receipt, no Apply. Staged SQL read only.
+ * Read-only Finance9 provenance. ACTIVE9 requires a live owner fence.
  * null = denied/closed/contradiction/overflow; it NEVER means empty accounts.
  */
 fun interface RealityFinance9OpeningProvenanceReadPort {

@@ -17,16 +17,14 @@ class RealityFinance9ActiveDevGrantPortTest {
     private var admitted = true
     private var clock = 1_000L
 
-    private fun database(version: Int = 9): Path {
+    private fun database(seedPlanning: (RealityStore) -> Unit = {}): Path {
         val file = root.resolve("reality.db")
-        RealityStore(file.toString(), planningStage8 = version != 7).close()
-        if (version == 9) {
-            BundledSQLiteDriver().open(file.toString()).use { db ->
-                db.execSQL("PRAGMA foreign_keys=ON")
-                RealityFinance9Schema.installOnStagedEightConnection(
-                    db, "stage-finance", "b".repeat(64), clock,
-                )
-            }
+        RealityStore(file.toString(), planningStage8 = true).use(seedPlanning)
+        BundledSQLiteDriver().open(file.toString()).use { db ->
+            db.execSQL("PRAGMA foreign_keys=ON")
+            RealityFinance9Schema.installOnStagedEightConnection(
+                db, "stage-finance", "b".repeat(64), clock,
+            )
         }
         return file
     }
@@ -42,8 +40,8 @@ class RealityFinance9ActiveDevGrantPortTest {
         "c".repeat(64), "finance-dev", 7L, { admitted }, { clock },
     )
 
-    private fun accountGrant(issuer: RealityFinance9ActiveDevGrantIssuer) = issuer.issue(
-        FinanceOperations.ACCOUNT_CREATE, account.value, fingerprint, IdempotencyKey("account-intent"),
+    private fun accountGrant(issuer: RealityFinance9ActiveDevGrantIssuer, opening: Long? = 0L) = issuer.issue(
+        FinanceOperations.ACCOUNT_CREATE, account.value, fingerprint, IdempotencyKey("account-intent"), opening,
     )
 
     private fun prepare(file: Path, label: String, hash: PlanFingerprint = fingerprint): ApplyAttemptIdentity {
@@ -60,10 +58,15 @@ class RealityFinance9ActiveDevGrantPortTest {
         return id
     }
 
-    private fun createAccount(store: RealityStore, scope: RealityTransactionScope) {
+    private fun createAccount(
+        store: RealityStore,
+        scope: RealityTransactionScope,
+        opening: Long = 0L,
+        id: FinanceAccountId = account,
+    ) {
         store.financePersistence.createAccount(FinanceAccountCreate(
-            account, FinanceAccountDisplayName.of("Efectivo"), FinanceCurrencyCode.of("ARS"),
-            FinanceAccountNature.CASH, 0L,
+            id, FinanceAccountDisplayName.of(id.value), FinanceCurrencyCode.of("ARS"),
+            FinanceAccountNature.CASH, opening,
         ), scope)
     }
 
@@ -90,11 +93,20 @@ class RealityFinance9ActiveDevGrantPortTest {
         }
         RealityStore(database().toString(), planningStage8 = true, financeStage9 = true).use { store ->
             assertThrows(IllegalStateException::class.java) { issuer(store) }
+            assertThrows(IllegalStateException::class.java) {
+                store.finance9ActiveDevOpeningProvenanceRead { true }
+            }
         }
     }
 
     @Test fun commitsAccountAndEntryAsSeparateDurableReceipts() {
-        val file = database()
+        val legacy = FinanceAccountId.of("legacy")
+        val file = database { store ->
+            store.run(TransactionId("seed-before-migration")) { scope ->
+                createAccount(store, scope, opening = 70L, id = legacy)
+                AtomicApplyTransactionDecision.Commit(Unit)
+            }
+        }
         val receipts = active(file).use { store ->
             val issuer = issuer(store)
             val accountId = prepare(file, "account")
@@ -103,7 +115,7 @@ class RealityFinance9ActiveDevGrantPortTest {
 
             val entryId = prepare(file, "entry", PlanFingerprint("d".repeat(64)))
             val record = requireNotNull(issuer.issue(
-                FinanceOperations.ENTRY_RECORD, "income", entryId.planFingerprint, IdempotencyKey("entry-intent"),
+                FinanceOperations.ENTRY_RECORD, "income", entryId.planFingerprint, IdempotencyKey("entry-intent"), null,
             ))
             requireNotNull(apply(store, entryId, record) { scope ->
                 store.financePersistence.recordEntry(FinanceEntryRecord(
@@ -119,6 +131,15 @@ class RealityFinance9ActiveDevGrantPortTest {
         active(file).use { store ->
             assertEquals(340L, store.financePersistence.read().ledgerMinor(account))
             receipts.forEach { assertEquals(it, store.executionReceiptLookup.find(it.transactionId)) }
+            val observed = requireNotNull(store.finance9ActiveDevOpeningProvenanceRead { admitted }.read())
+            val zero = observed.accounts.single { it.accountId == account.value }
+            assertEquals(RealityFinance9OpeningProvenanceState.CONFIRMED_IN_SQL, zero.state)
+            assertEquals(0L, zero.confirmedOpeningMinor)
+            assertEquals(340L, zero.ledgerBalanceMinor)
+            val inherited = observed.accounts.single { it.accountId == legacy.value }
+            assertEquals(RealityFinance9OpeningProvenanceState.LEGACY_UNVERIFIED, inherited.state)
+            assertNull(inherited.confirmedOpeningMinor)
+            assertNull(inherited.ledgerBalanceMinor)
         }
         BundledSQLiteDriver().open(file.toString()).use { db ->
             db.prepare("SELECT receipt_id FROM finance_apply_grant WHERE used_at_ms IS NOT NULL").use { st ->
@@ -152,8 +173,13 @@ class RealityFinance9ActiveDevGrantPortTest {
         active(file).use { store ->
             val issuer = issuer(store)
             assertNull(issuer.issue(
-                OperationId("finance.transfer.record"), "another", fingerprint, IdempotencyKey("transfer-intent"),
+                OperationId("finance.transfer.record"), "another", fingerprint, IdempotencyKey("transfer-intent"), null,
             ))
+            assertNull(accountGrant(issuer, opening = null))
+            assertNull(issuer.issue(
+                FinanceOperations.ENTRY_RECORD, "income", fingerprint, IdempotencyKey("entry-intent"), 0L,
+            ))
+            val reader = store.finance9ActiveDevOpeningProvenanceRead { admitted }
             val grant = requireNotNull(accountGrant(issuer))
             val id = prepare(file, "lost-foreground")
             assertNull(apply(store, id, grant) {
@@ -161,8 +187,27 @@ class RealityFinance9ActiveDevGrantPortTest {
                 admitted = false
             })
             assertNull(accountGrant(issuer))
+            assertNull(reader.read())
             assertNull(store.executionReceiptLookup.find(id.transactionId))
             assertTrue(store.financePersistence.read().accounts.isEmpty())
+        }
+    }
+
+    @Test fun mismatchedOpeningRollsBackAccountGrantAndReceipt() {
+        val file = database()
+        active(file).use { store ->
+            val grant = requireNotNull(accountGrant(issuer(store), opening = 50L))
+            val id = prepare(file, "opening-mismatch")
+            assertNull(apply(store, id, grant) { createAccount(store, it, opening = 49L) })
+            assertNull(store.executionReceiptLookup.find(id.transactionId))
+            assertTrue(store.financePersistence.read().accounts.isEmpty())
+
+            val receipt = requireNotNull(apply(store, id, grant) { createAccount(store, it, opening = 50L) })
+            assertEquals(receipt, store.executionReceiptLookup.find(id.transactionId))
+            val reader = store.finance9ActiveDevOpeningProvenanceRead { admitted }
+            val confirmed = requireNotNull(reader.read()).accounts.single()
+            assertEquals(50L, confirmed.confirmedOpeningMinor)
+            assertEquals(50L, confirmed.ledgerBalanceMinor)
         }
     }
 
