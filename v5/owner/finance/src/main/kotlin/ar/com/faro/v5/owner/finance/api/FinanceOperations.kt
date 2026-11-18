@@ -10,4 +10,5 @@ object FinanceOperations {
     val SNAPSHOT_READ = OperationId("finance.snapshot.read")
     val ACCOUNT_CREATE = OperationId("finance.account.create")
     val ENTRY_RECORD = OperationId("finance.entry.record")
+    val TRANSFER_RECORD = OperationId("finance.transfer.record")
 }

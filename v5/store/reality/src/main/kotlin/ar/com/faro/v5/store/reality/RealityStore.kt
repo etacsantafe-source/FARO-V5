@@ -49,6 +49,8 @@ import ar.com.faro.v5.owner.finance.api.FinanceEntryKind
 import ar.com.faro.v5.owner.finance.api.FinanceEntryConcept
 import ar.com.faro.v5.owner.finance.api.FinanceEntryCategory
 import ar.com.faro.v5.owner.finance.api.FinanceOperations
+import ar.com.faro.v5.owner.finance.api.FinanceTransferRecord
+import ar.com.faro.v5.owner.finance.api.FinanceTransferWritePort
 import ar.com.faro.v5.owner.finance.spi.FinancePersistencePort
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetail
 import ar.com.faro.v5.owner.objectives.api.ObjectiveId
@@ -170,6 +172,14 @@ class RealityStore(
             ): FinanceEntrySnapshot =
                 recordFinanceEntry(record, transactionScope)
         }
+
+    fun finance9TransferWriteForDevOnly(): FinanceTransferWritePort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) {
+            "Registered transfers require ACTIVE9 DEV Reality"
+        }
+        FinanceTransferWritePort(::recordFinanceTransfer)
+    }
 
 
     /** Real owner ports bound to the existing single Reality transaction gate. */
@@ -2544,6 +2554,61 @@ class RealityStore(
         )
     }
 
+
+    /** Both ledger entries and their link belong to the caller's Apply transaction. */
+    private fun recordFinanceTransfer(
+        transfer: FinanceTransferRecord,
+        transactionScope: RealityTransactionScope,
+    ) = synchronized(lock) {
+        checkOpen()
+        requireActiveScope(transactionScope)
+        val snapshot = readFinance()
+        check(transfer.matchesAccounts(snapshot)) { "Transfer accounts must share the declared currency" }
+
+        val debitBalance = Math.subtractExact(
+            snapshot.ledgerMinor(transfer.fromAccountId), transfer.amountMinor,
+        )
+        Math.addExact(snapshot.ledgerMinor(transfer.toAccountId), transfer.amountMinor)
+        check(transfer.balanceWarningAccepted ||
+            (debitBalance >= 0L && hasConfirmedFinanceOpening(transfer.fromAccountId))
+        ) { "Transfer requires explicit acceptance of the source balance warning" }
+
+        val debit = recordFinanceEntry(transfer.entry(FinanceEntryKind.EXPENSE), transactionScope)
+        val credit = recordFinanceEntry(transfer.entry(FinanceEntryKind.INCOME), transactionScope)
+        connection.prepare(
+            """
+            INSERT INTO finance_transfer(
+                transfer_id, from_account_id, to_account_id, debit_entry_id, credit_entry_id,
+                currency_code, amount_minor, effective_at_epoch_millis, recorded_at_epoch_millis
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """.trimIndent()
+        ).use { statement ->
+            statement.bindText(1, transfer.transferId.value)
+            statement.bindText(2, transfer.fromAccountId.value)
+            statement.bindText(3, transfer.toAccountId.value)
+            statement.bindText(4, debit.entryId.value)
+            statement.bindText(5, credit.entryId.value)
+            statement.bindText(6, transfer.currency.value)
+            statement.bindLong(7, transfer.amountMinor)
+            statement.bindLong(8, transfer.effectiveAtEpochMillis)
+            statement.bindLong(9, transfer.recordedAtEpochMillis)
+            statement.step()
+        }
+        check(connection.prepare("SELECT changes()").use { it.step() && it.getLong(0) == 1L })
+    }
+
+    private fun hasConfirmedFinanceOpening(accountId: FinanceAccountId): Boolean =
+        connection.prepare(
+            """
+            SELECT 1 FROM finance_opening_confirmation c
+            LEFT JOIN finance_account_opening o ON o.account_id = c.account_id
+            WHERE c.account_id = ? AND c.confirmation_state = 'CONFIRMED'
+              AND c.amount_minor = COALESCE(o.amount_minor, 0)
+            """.trimIndent()
+        ).use { statement ->
+            statement.bindText(1, accountId.value)
+            statement.step()
+        }
 
     private fun readObjectives(): ObjectiveSnapshot = synchronized(lock) {
         checkOpen()
