@@ -1,24 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D_F05_COMMITMENT_PAYMENTS",
-  "reviewed_head": "dd9586d96883d32140b362359edecbced960872e",
+  "status": "READY",
+  "unit_id": "S4_W01_E_F06_FINANCE_BUDGET",
+  "reviewed_head": "0cef983d3e0ecda2584f0fb243a0f5098d93939c",
   "paths": [
     "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt",
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentPayment.kt",
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentPaymentBinding.kt",
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceBudget.kt",
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceBudgetBinding.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentWriter.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentPaymentTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d-commitment-payments.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Budget.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9BudgetTest.kt",
+    ".github/workflows/faro-v5-s4-w01-e-finance-budget.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B1_B5_20261118.md",
-          "blob_sha": "5a70e52a8f7585973ed6ea123fbe3f3ddd8a09ab",
+          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
+          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
           "marker": "## B1"
         }
       ]
@@ -27,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B1_B5_20261118.md",
-          "blob_sha": "5a70e52a8f7585973ed6ea123fbe3f3ddd8a09ab",
+          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
+          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
           "marker": "## B2"
         }
       ]
@@ -37,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B1_B5_20261118.md",
-          "blob_sha": "5a70e52a8f7585973ed6ea123fbe3f3ddd8a09ab",
+          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
+          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
           "marker": "## B3"
         }
       ]
@@ -47,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B1_B5_20261118.md",
-          "blob_sha": "5a70e52a8f7585973ed6ea123fbe3f3ddd8a09ab",
+          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
+          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
           "marker": "## B4"
         }
       ]
@@ -57,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B1_B5_20261118.md",
-          "blob_sha": "5a70e52a8f7585973ed6ea123fbe3f3ddd8a09ab",
+          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
+          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ACTIVE9_COMMITMENT_PAYMENTS_JVM_4",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "44cd027abce43b2cd2a9be06b7afd25e109d4f14",
@@ -78,8 +78,8 @@
       }
     ]
   },
-  "why": "Commitment payments verified. F06 requires separate READY.",
-  "how": "B7 on exact code SHA, verified JUnit reports, no ADB.",
+  "why": "Write exact monthly budget limits and derive admitted actual and projected data per currency.",
+  "how": "Guard 44377504727 SUCCESS. Exact seven paths and SQLite JVM CI.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
