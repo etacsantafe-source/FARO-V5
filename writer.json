@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.CODEX.PILOT.PREP.20261117",
   "token_hash": "7f71bad44c49291154c94cca05d85a616d00124066ed8b1f1bf1c4dd58a5d98e",
-  "target_head": "d7e582b4083b103fab8af3c440ba1b7ec90befea",
+  "target_head": "f01aa27de4a81ff68a8c5d6e60da2e51b21950f2",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1174,
-  "timestamp": 1794964303,
-  "scope": "CODEX_W01_D1B1C0_PREPARATION_DOC_ONLY",
-  "last_checkpoint": "d7e582b4083b103fab8af3c440ba1b7ec90befea"
+  "epoch": 1175,
+  "timestamp": 1794964312,
+  "scope": "DOC_COMMITTED",
+  "last_checkpoint": "f01aa27de4a81ff68a8c5d6e60da2e51b21950f2"
 }
