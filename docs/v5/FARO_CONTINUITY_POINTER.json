@@ -6,13 +6,13 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1C2D_BOOTSTRAP_RED_FIX_PREAUDIT",
+  "phase": "S4_W01_D1B1C2D_RED_FIX_READY_EXACT4",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
     "where": "GitHub Actions emulator only",
     "physical_g15": false,
-    "code_ready": false
+    "code_ready": true
   },
   "s2": {
     "status": "CLOSED",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1205
+    "epoch": 1208
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1B1C2D bootstrap RED_FIX exact2 after documentary guard and separate READY.",
-  "checkpoint_status": "S4_W01_D1B1C2D_BOOTSTRAP_RED_FIX_PREAUDIT",
+  "next": "Implement exact4 bootstrap+CI RED_FIX then validate exact SHA and XML.",
+  "checkpoint_status": "S4_W01_D1B1C2D_RED_FIX_READY_EXACT4",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8de423a7342e6ceefa27f89753be76a540bf1bd0",
@@ -5014,22 +5014,17 @@
     "regression_junit": "8_OF_8_PASS"
   },
   "w01_d1b1c2d": {
-    "status": "RED_FIX_PREAUDIT",
+    "status": "RED_FIX_READY_EXACT4",
     "handoff": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_CI_SCOPE_HANDOFF_20261117.md",
     "reason": "ADB emulator workflows automatically triggered by W01 and V2 CORE Android source paths",
     "preaudit": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B1_B5_20261118.md",
     "unit_id": "S4_W01_D1B1C2D_ANDROID_FINANCE9_SESSION",
-    "preaudit_guard_run": 44291369695,
+    "preaudit_guard_run": 44293676811,
     "paths": [
       "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-      "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-      "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHost.kt",
-      "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
-      "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01Finance9SessionAndroidTest.kt",
+      "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/ActiveGenerationStorageLocator.kt",
       ".github/workflows/faro-v5-s4-w01-d1b1c2d-finance9-session.yml",
-      ".github/workflows/faro-v5-s4-w01-d1b0-foreground-owner.yml",
-      ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml",
-      ".github/workflows/faro-v5-s4-w01-d1b1b-single-session-ui.yml"
+      ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
     ],
     "failed_code_sha": "8de423a7342e6ceefa27f89753be76a540bf1bd0",
     "red_fix": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md"

@@ -1,26 +1,31 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W01_D1B1C2D_ANDROID_FINANCE9_SESSION",
-  "reviewed_head": "c913413adc70f1b7a4cedd9563a8b9742ac61391",
+  "reviewed_head": "2053fd73bfbdd1a38bd7ccde79776cdbb046f028",
   "paths": [
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2Planning8DevHost.kt",
-    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
-    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01Finance9SessionAndroidTest.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/ActiveGenerationStorageLocator.kt",
     ".github/workflows/faro-v5-s4-w01-d1b1c2d-finance9-session.yml",
-    ".github/workflows/faro-v5-s4-w01-d1b0-foreground-owner.yml",
-    ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml",
-    ".github/workflows/faro-v5-s4-w01-d1b1b-single-session-ui.yml"
+    ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B1_B5_20261118.md",
-          "blob_sha": "fdd4960b7bc82a8b43f1722b76534379d875ea70",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
+          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
+          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
+          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
           "marker": "## B1"
         }
       ]
@@ -29,8 +34,18 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B1_B5_20261118.md",
-          "blob_sha": "fdd4960b7bc82a8b43f1722b76534379d875ea70",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
+          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
+          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
+          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
           "marker": "## B2"
         }
       ]
@@ -39,8 +54,18 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B1_B5_20261118.md",
-          "blob_sha": "fdd4960b7bc82a8b43f1722b76534379d875ea70",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
+          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
+          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
+          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
           "marker": "## B3"
         }
       ]
@@ -49,8 +74,18 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B1_B5_20261118.md",
-          "blob_sha": "fdd4960b7bc82a8b43f1722b76534379d875ea70",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
+          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
+          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
+          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
           "marker": "## B4"
         }
       ]
@@ -59,8 +94,18 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B1_B5_20261118.md",
-          "blob_sha": "fdd4960b7bc82a8b43f1722b76534379d875ea70",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
+          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
+          "marker": "## B5"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
+          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
+          "marker": "## B5"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
+          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
           "marker": "## B5"
         }
       ]
@@ -80,18 +125,18 @@
       }
     ]
   },
-  "why": "W01 Android uses the same Finance9 DEV graph under the root lease.",
-  "how": "Documented exact9 B1-B5 with green guard 44291369695",
+  "why": "Repair fresh bootstrap and verify correct W01 launcher in D0.",
+  "how": "Same unit RED_FIX exact4 with green guard 44293676811",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": "D1B1C2D_FRESH_BOOTSTRAP_RED_FIX",
-  "blocked_reason": "Planning8 constructor creates maintenance directories before pristine bootstrap; W01 lock marker must be admitted by narrow initializer.",
+  "blocker": null,
+  "blocked_reason": null,
   "consumed_code_sha": null,
   "adb_ci_human_authorization": {
     "authorized": true,
     "date": "2026-11-18",
     "emulator_only": true,
     "physical_allowed": false,
-    "code_ready": false
+    "code_ready": true
   }
 }
