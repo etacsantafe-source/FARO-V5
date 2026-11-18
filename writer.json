@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.CHAT.ADB_EMULATOR_SCOPE.20261118",
   "token_hash": "b765329ead9ba20758688b2ef7591b796f6df1ecacea2924f2098e1e6feee0a8",
   "target_head": "75e90213c4253f2197890f72d761e5b47bbadf70",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1201,
-  "timestamp": 1794997500,
-  "scope": "W01_D1B1C2D_HUMAN_ADB_EMULATOR_CI_SCOPE_DOC_ONLY",
-  "last_checkpoint": "75e90213c4253f2197890f72d761e5b47bbadf70"
+  "timestamp": 1794997501,
+  "scope": "W01_D1B1C2D_ADB_CI_AUTHORIZED_B1_B5_PENDING",
+  "last_checkpoint": "c6d381029ddf917c4f07e4008ef9c2816efed3f1"
 }
