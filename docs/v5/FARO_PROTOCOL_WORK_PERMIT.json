@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D_F05_COMMITMENT_LIFECYCLE",
   "reviewed_head": "6debd887263dca968dd4d30adfc0ab7d0dcd0df4",
   "paths": [
@@ -63,23 +63,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_EXACT_CI_XML_4",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "9d25a7920fe40537de979dab63300b1986e5936e",
-    "unit_id": "S4_W01_E_F06_FINANCE_BUDGET",
+    "sha": "16f06446fa9b7f8fa4b0bcbe09234c603b8626ed",
+    "unit_id": "S4_W01_D_F05_COMMITMENT_LIFECYCLE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B7_PASS_20261118.md",
-        "blob_sha": "918454f1d4ab3632ad7254fafc8117e6ec9bac82",
+        "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B7_PASS_20261118.md",
+        "blob_sha": "49e24a31a1d0d912b5696db1634e0a2a98101562",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Persist versioned calendar changes and read due commitments in ACTIVE9.",
-  "how": "Guard 44379081281 SUCCESS. Exact 7 paths.",
+  "why": "Scoped B7 PASS. Next unit requires a separate READY.",
+  "how": "Exact CI and independently verified JUnit XML.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
