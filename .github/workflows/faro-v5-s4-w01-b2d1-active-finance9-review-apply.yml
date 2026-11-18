@@ -1,0 +1,68 @@
+name: FARO V5 W01 B2D1 active Finance9 Review Apply
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
+permissions:
+  contents: read
+jobs:
+  active-finance9-review-apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify seven-block evidence
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - name: Install Android compile SDK
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER" && test -x "$SDKMANAGER"
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install 'platforms;android-37.0' 'build-tools;36.0.0'
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run directed Finance9 Workspace and Reality cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W01B2D1ActiveFinanceApplyHostTest
+      - name: Verify exact Finance9 Review Apply JUnit report
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          report = Path("v5/app/build/test-results/testDebugUnitTest") / (
+              "TEST-ar.com.faro.v5.app.S4W01B2D1ActiveFinanceApplyHostTest.xml"
+          )
+          suite = ElementTree.parse(report).getroot()
+          counts = tuple(int(suite.get(key, "-1")) for key in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "commitsAccountAndEntryFromApprovedReviewsWithRealReceipts",
+              "rejectsPendingReviewAndAbsentForegroundConfirmation",
+              "rejectsStaleFinanceDependencyBeforeApply",
+              "rejectsApprovedReviewFromAnUnselectedConversation",
+              "recoveryDoesNotStartApplyForAnApprovedReview",
+          }
+          names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
+          if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):
+              raise SystemExit(f"B2D1 unexpected JUnit evidence: {counts}, {names}")
+          print(f"W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_PASS {len(expected)}/{len(expected)}")
+          PY
+      - name: Preserve exact Finance9 Review Apply JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-b2d1-review-apply-junit
+          path: v5/app/build/test-results/testDebugUnitTest/TEST-ar.com.faro.v5.app.S4W01B2D1ActiveFinanceApplyHostTest.xml
+          if-no-files-found: warn
