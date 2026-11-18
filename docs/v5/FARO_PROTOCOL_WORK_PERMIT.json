@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
   "reviewed_head": "ee0979d774a0825581d9bab1c3af590df89988b1",
   "paths": [
@@ -58,17 +58,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_VM_6_OF_6_AND_REGRESSIONS_40_OF_40",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "9561ee8659b39ed333c98c10ee8da814fc4b5fbc",
+    "sha": "1eb6a5d078a0c4f84489a1d6b3a31c7b3d2f77f5",
     "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
-        "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
+        "path": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B7_PASS_20261117.md",
+        "blob_sha": "63c3a4d9713bebf468643575d7bcfc784f027174",
         "marker": "## B7"
       }
     ]
@@ -77,7 +77,7 @@
   "how": "RED_FIX B1-B5 and guard 44225966998 SUCCESS; EXACT2 workflow-only same unit",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocker": "D1B1C2A_STAGE_PREPARATION_REQUIRES_OWN_READY",
+  "blocked_reason": "D1B1C1 B7 PASS consumes its last permit",
+  "consumed_code_sha": "1eb6a5d078a0c4f84489a1d6b3a31c7b3d2f77f5"
 }
