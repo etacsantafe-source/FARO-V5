@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_F2_IMPORTED_CURRENCY_UI",
   "reviewed_head": "57e14abbb05b6f31bd7b302f81aaebf48b58287c",
   "paths": [
@@ -58,23 +58,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ANDROID_API35_IMPORTED_CURRENCIES_AND_FLOW",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "447afb3cc941f2726ac722a0226c296d72952f1f",
-    "unit_id": "S4_W01_F2_FINANCE_ANDROID_INTEGRATION",
+    "sha": "6b4bf55ad002e50287fcad5616fcc5c6d6b72f0f",
+    "unit_id": "S4_W01_F2_IMPORTED_CURRENCY_UI",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B7_PASS_20261118.md",
-        "blob_sha": "26cc76aaa16016d2b2f053b33e96b6b35e290d30",
+        "path": "docs/v5/FARO_S4_W01_FINANCE_B7_GLOBAL_PASS_20261118.md",
+        "blob_sha": "f3252d961041575bea7ad9862d1a3fdf3e935b50",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Preserve imported currency amounts and prevent an unconfigured decimal input.",
-  "how": "Guard 44390586505 SUCCESS. Two paths.",
+  "why": "W1 Finance closed with global B7 in isolated Android DEV. W2 remains STOP.",
+  "how": "Exact final SHA, verified JUnit XML, and shared regression green.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
