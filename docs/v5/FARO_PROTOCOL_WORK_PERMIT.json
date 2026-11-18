@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE",
-  "reviewed_head": "a90d1b01a7e9a2b6a363af5793964f32f0f6ef6a",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
+  "reviewed_head": "3468bab5f13b5d2b7d68c35b910915dd1f8c9a23",
   "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparationTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d1b1c2a-finance9-preserve-stage.yml"
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
-          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
+          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
-          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
+          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
-          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
+          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
-          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
+          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
           "marker": "## B4"
         }
       ]
@@ -53,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
-          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
+          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_7_OF_7",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70",
@@ -74,11 +75,11 @@
       }
     ]
   },
-  "why": "Prepare a sealed Finance9 DEV stage with a verified copy of existing Planning8",
-  "how": "Exact3, prior B7 and B1-B5 guarded by 44227015097",
+  "why": "Exclusive private DEV root and durable scope for Finance9 cutover recovery",
+  "how": "Exact4, prior B7 and B1-B5 guarded by 44228244241",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": "D1B1C2B_DURABLE_DEV_HOST_REQUIRES_OWN_READY",
-  "blocked_reason": "D1B1C2A B7 PASS consumes its exact3 permit",
-  "consumed_code_sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70"
+  "blocker": null,
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }

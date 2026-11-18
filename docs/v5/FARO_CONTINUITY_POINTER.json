@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1C2A_B7_PASS_D1B1C2B_PREAUDITED",
+  "phase": "S4_W01_D1B1C2B_DURABLE_HOST_READY_EXACT4",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1191
+    "epoch": 1192
   },
   "automation": {
     "activation_authorized": false,
@@ -40,8 +40,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D1B1C2B exclusive root lease and durable cutover admission before W01 app binding. Verify documentary guard and separate READY. W2 STOP V2 productive OFF.",
-  "checkpoint_status": "W01_D1B1C2A_DATA_PRESERVING_STAGE_B7_PASS_SCOPED",
+  "next": "D1B1C2B root lease and durable origin/consent, READY exact4 after guard. W01 Android wiring after JVM B7. W2 STOP V2 productive OFF.",
+  "checkpoint_status": "W01_D1B1C2A_B7_PASS_D1B1C2B_READY",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70",
@@ -4965,8 +4965,15 @@
     "junit": "7_OF_7_PASS"
   },
   "w01_d1b1c2b": {
-    "status": "PREAUDITED",
+    "status": "READY_EXACT4",
     "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
-    "preaudit": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md"
+    "preaudit": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
+    "paths": [
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt",
+      ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml"
+    ],
+    "preaudit_guard_run": 44228244241
   }
 }
