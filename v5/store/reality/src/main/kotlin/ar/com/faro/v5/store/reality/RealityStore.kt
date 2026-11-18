@@ -100,6 +100,8 @@ class RealityStore(
     private val planningStage8: Boolean = false,
     /** STAGED schema9 only. Defaults OFF; cannot activate from normal openers. */
     private val financeStage9: Boolean = false,
+    /** Exact schema9 already admitted by the isolated active generation owner. */
+    private val financeActive9: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -110,7 +112,12 @@ class RealityStore(
     /** Opt-in staged V2; never activate without one shared five-owner gate. */
     private fun <T> withMaterialAdmission(block: () -> T): T =
         materialWriteGate?.withMaterialWrite(block) ?: block()
-    private val connection: SQLiteConnection = driver.open(fileName)
+    private val connection: SQLiteConnection = run {
+        check(!financeActive9 || (planningStage8 && !financeStage9 && materialWriteGate != null)) {
+            "Active Finance9 requires the shared gate and a distinct active mode"
+        }
+        driver.open(fileName)
+    }
     private var closed = false
     private var activeTransactionId: TransactionId? = null
     /** Exact lease identity prevents stale scope reuse when a transaction ID repeats. */
@@ -426,15 +433,20 @@ class RealityStore(
         }
 
     init {
-        withMaterialAdmission {
-            synchronized(lock) {
-                configure(fileName)
-                when {
-                    financeStage9 -> initializeFinanceStage9()
-                    planningStage8 -> initializePlanningStage8()
-                    else -> initializeSchema()
+        try {
+            withMaterialAdmission {
+                synchronized(lock) {
+                    configure(fileName)
+                    when {
+                        financeStage9 || financeActive9 -> validateExistingFinance9()
+                        planningStage8 -> initializePlanningStage8()
+                        else -> initializeSchema()
+                    }
                 }
             }
+        } catch (failure: Throwable) {
+            runCatching { connection.close() }
+            throw failure
         }
     }
 
@@ -1761,19 +1773,16 @@ class RealityStore(
     }
 
     /**
-     * W01-M0C2B2A explicit STAGED9 read/write graph admission only.
-     * DO NOT migrate or create ANY table in this path. Default Reality7 and
-     * Planning8 staged opt-in remain byte-for-byte semantically unchanged.
+     * Exact schema9 validation shared by separately admitted STAGED and ACTIVE graphs.
+     * This path never creates tables or upgrades an older Reality schema.
      */
-    private fun initializeFinanceStage9() {
-        check(financeStage9 && planningStage8) {
-            "Finance9 graph requires explicit isolated Planning+Finance staging"
-        }
+    private fun validateExistingFinance9() {
+        check(planningStage8 && (financeStage9 || financeActive9))
         check(readSchemaVersion() == 9) {
             "Finance9 graph opens only an already-installed exact schema9"
         }
         check(receiptTimeColumnExists()) {
-            "Finance9 staged graph missing historical receipt commit timestamp"
+            "Finance9 graph missing historical receipt commit timestamp"
         }
         listOf(
             "profile_state", "apply_attempt", "execution_receipt",
@@ -1787,10 +1796,10 @@ class RealityStore(
             "finance_schedule", "finance_plan_item", "finance_plan_item_payment",
             "finance_budget_limit", "finance_schema_migration_audit",
         ).forEach { table ->
-            check(tableExists(table)) { "Finance9 staged graph missing: $table" }
+            check(tableExists(table)) { "Finance9 graph missing: $table" }
         }
         check(readIntegrityCheck() == "ok" && readForeignKeysHealthy()) {
-            "Finance9 staged graph SQLite integrity or FKs invalid"
+            "Finance9 graph SQLite integrity or FKs invalid"
         }
         readPlanningSnapshot().requireRestorable()
     }
@@ -1798,7 +1807,7 @@ class RealityStore(
     private fun isPlanningBackupSchemaMounted(): Boolean =
         planningStage8 && (
             readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
-                (financeStage9 && readSchemaVersion() == 9)
+                ((financeStage9 || financeActive9) && readSchemaVersion() == 9)
         )
 
     private fun createPlanningStage8Tables() {

@@ -18,6 +18,7 @@ import ar.com.faro.v5.store.reality.StagedSqlitePreflight
 import ar.com.faro.v5.store.reality.RealityFinance9SealedReadPort
 import ar.com.faro.v5.store.reality.ActiveSqlitePreflight
 import java.nio.file.Files
+import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.Path
 
 class FaroV5GenerationStoreGraph private constructor(
@@ -132,37 +133,60 @@ class FaroV5GenerationStoreGraph private constructor(
             expectedPointerSequence: Long,
             planVerifier: PreparedPlanEnvelopeVerificationPort,
             materialWriteGate: MaterialWriteGate,
+        ): FaroV5GenerationStoreGraph = reopenVerifiedActivePlanning(
+            storageRoot, staged, expectedPointerSequence, planVerifier, materialWriteGate,
+            finance9 = false,
+        )
+
+        internal fun reopenVerifiedActiveFinance9Dev(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expectedPointerSequence: Long,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            materialWriteGate: MaterialWriteGate,
+        ): FaroV5GenerationStoreGraph = reopenVerifiedActivePlanning(
+            storageRoot, staged, expectedPointerSequence, planVerifier, materialWriteGate,
+            finance9 = true,
+        )
+
+        private fun reopenVerifiedActivePlanning(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expectedPointerSequence: Long,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            materialWriteGate: MaterialWriteGate,
+            finance9: Boolean,
         ): FaroV5GenerationStoreGraph {
             require(expectedPointerSequence > 0L) {
-                "Active Reality8 requires a positive durable pointer sequence"
+                "Active Planning generation requires a positive durable pointer sequence"
             }
             val pointer = FileActiveGenerationPointer(storageRoot)
             val observed = checkNotNull(pointer.read()) {
-                "Active Reality8 requires an existing durable generation pointer"
+                "Active Planning generation requires an existing durable generation pointer"
             }
             check(observed.generationId == staged.descriptor.generationId &&
                 observed.sequence == expectedPointerSequence
-            ) { "Active Reality8 generation pointer identity/sequence mismatch" }
+            ) { "Active Planning generation generation pointer identity/sequence mismatch" }
             val canonical = FileStorageGenerationLayout(storageRoot)
                 .requireStaged(staged.descriptor.generationId)
             check(canonical.descriptor == staged.descriptor &&
                 canonical.directory.toAbsolutePath().normalize() ==
                     staged.directory.toAbsolutePath().normalize()
-            ) { "Active Reality8 requires an exact canonical immutable descriptor" }
-            // Header, marker, exact schema8 and all five read-only WAL checks are
+            ) { "Active Planning generation requires an exact canonical immutable descriptor" }
+            // Header, marker, exact schema and all five read-only WAL checks are
             // inside openValidatedV2Internal, before any writable SQLite open.
             val graph = openValidatedV2Internal(
                 canonical, planVerifier, materialWriteGate,
-                activeGeneration = true, planningStage8 = true,
+                activeGeneration = true, planningStage8 = true, financeStage9 = finance9,
                 checkedPlanning8Active = true,
             )
             try {
                 check(pointer.read() == observed) {
-                    "Active Reality8 generation pointer changed during store open"
+                    "Active Planning generation generation pointer changed during store open"
                 }
                 check(graph.generationId == observed.generationId.value &&
                     graph.verifyHealthy()
-                ) { "Active Reality8 reopened graph health/identity mismatch" }
+                ) { "Active Planning generation reopened graph health/identity mismatch" }
                 return graph
             } catch (failure: Throwable) {
                 graph.close()
@@ -298,9 +322,8 @@ class FaroV5GenerationStoreGraph private constructor(
             check(!planningStage8 || !activeGeneration || checkedPlanning8Active) {
                 "Planning8 active open requires exact internal pointer/reopen admission"
             }
-            check(!financeStage9 || (planningStage8 && !activeGeneration &&
-                !checkedPlanning8Active)) {
-                "Finance9 graph is STAGED-only and cannot use an active host"
+            check(!financeStage9 || (planningStage8 && activeGeneration == checkedPlanning8Active)) {
+                "Finance9 ACTIVE requires explicit exact-pointer admission"
             }
             check(!checkedPlanning8Active || (planningStage8 && activeGeneration)) {
                 "Planning8 active admission cannot be used in another generation path"
@@ -333,7 +356,7 @@ class FaroV5GenerationStoreGraph private constructor(
             requireStrictV2StoreSchemas(
                 normalized, activeGeneration, planningStage8, financeStage9,
             )
-            if (financeStage9) {
+            if (financeStage9 && !activeGeneration) {
                 RealityFinance9SealedReadPort.readTrustedSealedStage9(
                     normalized.resolve(GenerationStoreFiles.REALITY),
                 )
@@ -352,7 +375,9 @@ class FaroV5GenerationStoreGraph private constructor(
                 workspace.backup.snapshot().validateForRestore()
                 return openStores(
                     normalized, staged.descriptor.generationId.value, workspace,
-                    materialWriteGate, planningStage8, financeStage9,
+                    materialWriteGate, planningStage8,
+                    financeStage9 = financeStage9 && !activeGeneration,
+                    financeActive9 = financeStage9 && activeGeneration,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -374,6 +399,7 @@ class FaroV5GenerationStoreGraph private constructor(
             activeGeneration: Boolean,
             planningStage8: Boolean = false,
             financeStage9: Boolean = false,
+            exactAuxiliary: Boolean = activeGeneration,
         ) {
             // Reality schema7 adds nullable, durable receipt commit time.
             // The only admitted older layouts are exact schema6 (full domains)
@@ -392,9 +418,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 "finance_account_opening", "finance_entry",
             )
             val realityProfile = if (financeStage9) {
-                check(!activeGeneration && planningStage8) {
-                    "Finance9 sealed schema9 cannot admit ACTIVE"
-                }
+                check(planningStage8) { "Finance9 requires Planning owner schema" }
                 StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.REALITY, 9,
                     realityCurrentTables + listOf(
@@ -445,8 +469,8 @@ class FaroV5GenerationStoreGraph private constructor(
                     ),
                     // Only a sealed STAGED generation may use the certified
                     // owner migration. Never migrate an active Auxiliary DB.
-                    legacyVersion = if (activeGeneration) null else 2,
-                    legacyTables = if (activeGeneration) emptyList() else
+                    legacyVersion = if (exactAuxiliary) null else 2,
+                    legacyTables = if (exactAuxiliary) emptyList() else
                         listOf("delivery_notice", "delivery_intent"),
                 ),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WORKSPACE, 4, listOf(
@@ -459,6 +483,20 @@ class FaroV5GenerationStoreGraph private constructor(
             else StagedSqlitePreflight.requireAll(directory, schemas)
         }
 
+        internal fun requireSealedFinance9ForDevCutover(staged: StagedStorageGeneration) {
+            check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
+            for (file in GenerationStoreFiles.WORKSPACE_V2) {
+                for (suffix in listOf("-wal", "-shm", "-journal")) {
+                    check(Files.notExists(staged.directory.resolve(file + suffix), NOFOLLOW_LINKS))
+                }
+            }
+            requireStrictV2StoreSchemas(
+                staged.directory, activeGeneration = false, planningStage8 = true,
+                financeStage9 = true, exactAuxiliary = true,
+            )
+            RealityFinance9SealedReadPort.readTrustedSealedStage9(staged.directory.resolve(GenerationStoreFiles.REALITY))
+        }
+
         private fun openStores(
             normalized: Path,
             generationId: String,
@@ -466,6 +504,7 @@ class FaroV5GenerationStoreGraph private constructor(
             materialWriteGate: MaterialWriteGate? = null,
             planningStage8: Boolean = false,
             financeStage9: Boolean = false,
+            financeActive9: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -479,6 +518,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         materialWriteGate = materialWriteGate,
                         planningStage8 = planningStage8,
                         financeStage9 = financeStage9,
+                        financeActive9 = financeActive9,
                     )
                 reality = openedReality
                 commercial =

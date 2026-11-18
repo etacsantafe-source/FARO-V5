@@ -1,0 +1,79 @@
+name: FARO V5 W01 D1B1C1 Finance9 DEV journaled cutover
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwnerTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml"
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-d1b1c1-finance9-cutover
+  cancel-in-progress: false
+jobs:
+  finance9-cutover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify READY permit in functional parent
+        run: |
+          set -euo pipefail
+          parent="$RUNNER_TEMP/faro-d1b1c1-parent"
+          git worktree add --detach "$parent" HEAD^
+          python3 "$parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$parent" --mode preflight \
+            --unit S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
+            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt \
+            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt \
+            --path v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwnerTest.kt \
+            --path .github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml
+          git worktree remove "$parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run directed DEV cutover tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Finance9DevCutoverOwnerTest
+      - name: Verify exact D1B1C1 JUnit report
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          report = Path("v5/store/generation/build/test-results/test") / (
+              "TEST-ar.com.faro.v5.generation.FaroV5Finance9DevCutoverOwnerTest.xml"
+          )
+          suite = ElementTree.parse(report).getroot()
+          counts = tuple(int(suite.get(key, "-1")) for key in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "exactFinanceNineActivatesAndExistingEightBytesRemainIntact",
+              "restartAfterPointerPublicationConvergesWithoutSecondSwitch",
+              "unhealthyTargetRollsBackToExactPlanningEightBeforeWriteAdmission",
+              "uncertifiedHostDoesNotSwitchOrAdvanceTheJournal",
+              "sameIdWithChangedSequenceIsDeniedBeforeAnySwitch",
+              "schemaDowngradeIsDeniedBeforeAnySwitch",
+          }
+          names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
+          if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):
+              raise SystemExit(f"D1B1C1 unexpected JUnit evidence: {counts}, {names}")
+          print(f"D1B1C1_FINANCE9_DEV_CUTOVER_PASS {len(expected)}/{len(expected)}")
+          PY
+      - name: Preserve exact D1B1C1 JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-w01-d1b1c1-finance9-cutover-junit
+          path: v5/store/generation/build/test-results/test/TEST-ar.com.faro.v5.generation.FaroV5Finance9DevCutoverOwnerTest.xml
+          if-no-files-found: warn
