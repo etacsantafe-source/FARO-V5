@@ -26,22 +26,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Preflight B1-B5 independent READY exact7 in code parent
+      - name: Verify FARO protocol for this checkout
         shell: bash
-        run: |
-          set -euo pipefail
-          git worktree add --detach "$RUNNER_TEMP/faro-policy-parent" HEAD^
-          python3 "$RUNNER_TEMP/faro-policy-parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$RUNNER_TEMP/faro-policy-parent" --mode preflight \
-            --unit "S4_W01_B3B1B1B1B1B1C_POST_COMMIT_READ_POLICY_NOTICE_DEV" \
-            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt" \
-            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt" \
-            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangePort.kt" \
-            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisher.kt" \
-            --path "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommittedReadPolicyChangeTest.kt" \
-            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01FinanceReadPostCommitPublisherTest.kt" \
-            --path ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
-          git worktree remove "$RUNNER_TEMP/faro-policy-parent"
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

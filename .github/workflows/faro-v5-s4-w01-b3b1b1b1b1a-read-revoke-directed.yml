@@ -23,18 +23,9 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Preflight READY exact4 on unmodified parent before test execution
-        run: |
-          set -euo pipefail
-          git worktree add --detach "$RUNNER_TEMP/faro-ready-parent" HEAD^
-          python3 "$RUNNER_TEMP/faro-ready-parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$RUNNER_TEMP/faro-ready-parent" --mode preflight \
-            --unit "S4_W01_B3B1B1B1B1A_SQL_READ_REVOCATION_OWNER_DEV" \
-            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationPort.kt" \
-            --path "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt" \
-            --path "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9TrustedReadPolicyRevocationTest.kt" \
-            --path ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml"
-          git worktree remove "$RUNNER_TEMP/faro-ready-parent"
+      - name: Verify FARO protocol for this checkout
+        shell: bash
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
