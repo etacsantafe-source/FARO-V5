@@ -60,9 +60,9 @@ class RealityFinance9ActiveDevGrantPortTest {
         return id
     }
 
-    private fun createAccount(store: RealityStore, scope: RealityTransactionScope, id: FinanceAccountId = account) {
+    private fun createAccount(store: RealityStore, scope: RealityTransactionScope) {
         store.financePersistence.createAccount(FinanceAccountCreate(
-            id, FinanceAccountDisplayName.of("Efectivo"), FinanceCurrencyCode.of("ARS"),
+            account, FinanceAccountDisplayName.of("Efectivo"), FinanceCurrencyCode.of("ARS"),
             FinanceAccountNature.CASH, 0L,
         ), scope)
     }
@@ -135,11 +135,14 @@ class RealityFinance9ActiveDevGrantPortTest {
             val original = requireNotNull(accountGrant(issuer))
             assertNull(accountGrant(issuer))
             val id = prepare(file, "original")
-            assertNotNull(apply(store, id, original) { createAccount(store, it) })
-
-            val replay = prepare(file, "replay")
-            assertNull(apply(store, replay, original) { createAccount(store, it, FinanceAccountId.of("copy")) })
-            assertNull(store.executionReceiptLookup.find(replay.transactionId))
+            val receipt = store.run(id.transactionId) { scope ->
+                createAccount(store, scope)
+                val issuedReceipt = store.commit(scope, id, emptyList())
+                assertTrue(original.consumeInsideFinalCommit(scope, id, issuedReceipt))
+                assertFalse(original.consumeInsideFinalCommit(scope, id, issuedReceipt))
+                AtomicApplyTransactionDecision.Commit(issuedReceipt)
+            }
+            assertEquals(receipt, store.executionReceiptLookup.find(id.transactionId))
             assertEquals(listOf(account), store.financePersistence.read().accounts.map { it.accountId })
         }
     }
