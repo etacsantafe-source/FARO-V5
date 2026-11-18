@@ -1,5 +1,5 @@
 # FARO V5 — Codex Cloud / piloto W01 D1B1C0 (preparación, NO ejecución)
-Fecha: 2026-11-17 (Argentina). Documento DOC_ONLY. **No concede READY ni autoriza código.**
+Fecha: 2026-11-17 (Argentina). Documento DOC_ONLY. **El permiso READY, si está vigente en HEAD, se consulta únicamente en `FARO_PROTOCOL_WORK_PERMIT.json`: EXACT3 para el preflight DEV; no autoriza cutover.**
 Repositorio: `etacsantafe-source/FARO-V5`; rama funcional única: `work/s3-night-20261102`.
 Baseline al preparar: `d7e582b4083b103fab8af3c440ba1b7ec90befea`; último código B7: `bf30b5ea37791eda6909175e2508e0c488a5a940`.
 Unidad piloto propuesta: `S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT`. W1 OPEN; W2 STOP; V2 productiva OFF; biometría opcional OFF por defecto.
@@ -27,7 +27,7 @@ Rutas **candidatas, NO autorizadas todavía**: nuevo helper en `v5/store/generat
 
 ## 3. Protocolo FARO (obligatorio)
 - Leer primero `AGENTS.md`, `docs/v5/FARO_CONTINUITY_POINTER.json`, `docs/v5/FARO_PROTOCOL_WORK_PERMIT.json`, `docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md` **en HEAD real**, no en un checkpoint pegado.
-- La autorización vigente tras D1B1B está **BLOCKED / consumida**. Hasta generar B1–B5 verificados, auditoría B5 adversarial separada, guardia documental verde y nuevo permiso READY scoped por rutas en commit **solo documental**, Codex **NO puede escribir código funcional**, aunque el prompt lo sugiera.
+- El permiso D1B1B previo está consumido. La nueva unidad D1B1C0 posee B1–B5 en `FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_B1_B5_20261117.md`, B5 adversarial en `FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_ADVERSARIAL_B5_20261117.md` y permiso READY EXACT3 **solo si HEAD real aún lo confirma**. No repetir estos bloques cuando sigan vigentes; si no hay READY, Codex NO escribe código.
 - Antes de cualquier escritura a rama, usar writer global CAS `faro-v5-writer-lock:writer.json` con HEAD exacto; no tomar un writer ajeno HELD/UNKNOWN; liberar tras checkpoint y antes de esperar CI. No trabajar en paralelo sobre mismo writer.
 - B1 evidencia → B2 comparar/reusar → B3 fuentes externas reales/alternativas → B4 delta → B5 adversarial → READY separado → B6 código+CI → B7 independiente. En cada commit funcional `FARO-UNIT:S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT` y gate preflight para TODAS las rutas exactas; no combinar READY y código.
 - Si CI roja, corregir solo delta del piloto y registrar RED_FIX; si entorno no soporta Android no simular compilación: para este piloto usar JVM `:store:generation:test`. No dar PASS sin logs XML SHA-run ni guardia.
@@ -49,10 +49,10 @@ Leer primero docs/v5/FARO_CODEX_W01_D1B1C0_PILOT_HANDOFF_20261117.md y AGENTS.md
 Revalidar HEAD, continuidad, permiso, writer y CI. No asumir checkpoint estático.
 Objetivo: preparar/implementar SOLO el preflight fail-closed read-only previo al cutover Finance9 DEV, unidad S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT.
 NO activar Finance9, NO tocar UI/manifest/shipping, NO crear graph SQLite nuevo, NO biometría, NO W2 ni repetir D0/D1A/D1B0/D1B1A/D1B1B/M0B.
-IMPORTANTE: permiso actual BLOCKED. Ejecutar primero B1–B5 para esta unidad con evidencia, alternativas externas y auditoría adversarial de verdad. Registrar paths EXACTOS y obtener nuevo READY documental + guardia verificada ANTES de B6. Si no puede verificar guard/writer/READY, STOP sin cambios funcionales y reportar qué falta.
+B1–B5 para esta unidad están documentados y auditados antes de Codex; NO repetir. Verificar permiso READY EXACT3 en HEAD y la guardia documental verde. Si no puede verificar guard, writer CAS o READY, STOP sin cambios funcionales y reportar qué falta. No ampliar paths.
 Si READY y writer CAS válidos: hacer delta mínimo de Kotlin/tests/CI acotados, pasar JVM dirigida con JUnit XML exacto, guard protocolar, B7; dejar writer RELEASED. No repetir certificaciones antiguas. Reportar commit SHA, archivos, tests, run y coste/uso consumido si visible. Si el preflight ya está implementado, STOP con evidencia: no escribir por escribir.
 ```
 
 ## 6. Medición y cierre del piloto
 Medir saldo antes/después desde UI del producto si está visible, duración y uso aproximado, archivos cambiados, tests nuevos PASS, CI + guard, y utilidad real para D1B1C. **Éxito**: 1 delta revisado + pruebas nuevas + writer RELEASED + progreso hacia cutover, sin mover V2 productiva. Si solo se completa preauditoría, reportar PREAUDIT_READY/BLOCKED según evidencia, **no** venderlo como código entregado.
-Estado de este documento: **PREPARED_DOC_ONLY**, Codex **NOT_STARTED**, ambiente Cloud **NOT_VERIFIED/PUBLISH_HUMAN_REQUIRED**, permiso D1B1C0 **NOT_READY**, CI nueva **NOT_RUN**.
+Estado de este documento: **PREPARED_WITH_EXACT3_READY_SCOPED** (ver HEAD+permit), Codex **NOT_STARTED**, ambiente Cloud **NOT_VERIFIED/PUBLISH_HUMAN_REQUIRED**, código D1B1C0 **NOT_RUN**, CI nueva **NOT_RUN**. El entorno debe publicarlo la persona usuaria.
