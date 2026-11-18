@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1C2B_DURABLE_HOST_READY_EXACT4",
+  "phase": "S4_W01_D1B1C2B_SCOPE_ADDENDUM_WAIT_GUARD",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1192
+    "epoch": 1194
   },
   "automation": {
     "activation_authorized": false,
@@ -4965,15 +4965,17 @@
     "junit": "7_OF_7_PASS"
   },
   "w01_d1b1c2b": {
-    "status": "READY_EXACT4",
+    "status": "PREAUDITED_EXACT5_WAIT_GUARD",
     "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
     "preaudit": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
     "paths": [
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt",
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt",
-      ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml"
+      ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml",
+      ".github/workflows/faro-v5-s4-w01-d1b1c2a-finance9-preserve-stage.yml"
     ],
-    "preaudit_guard_run": 44228244241
+    "preaudit_guard_run": 44228244241,
+    "addendum": "docs/v5/FARO_S4_W01_D1B1C2B_SHARED_TRIGGER_SCOPE_ADDENDUM_20261117.md"
   }
 }

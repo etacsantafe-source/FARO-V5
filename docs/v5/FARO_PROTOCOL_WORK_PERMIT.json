@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
   "reviewed_head": "3468bab5f13b5d2b7d68c35b910915dd1f8c9a23",
   "paths": [
@@ -79,7 +79,7 @@
   "how": "Exact4, prior B7 and B1-B5 guarded by 44228244241",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
+  "blocker": "D1B1C2B_SCOPE_ADDENDUM_WAIT_GUARD",
+  "blocked_reason": "Shared stage helper activates C2A workflow with historical exact permit",
   "consumed_code_sha": null
 }
