@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-18",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D_F05_LIFECYCLE_B7_PASS_SCOPED",
+  "phase": "S4_W01_F1_ACTIVE_FINANCE_REVIEW_TEST_RED_FIX",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1242
+    "epoch": 1247
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01-F1 ACTIVE9 Review READY. Preflight exact eight paths, CAS, B6/CI/XML/B7, then Android mount.",
-  "checkpoint_status": "S4_W01_D_F05_LIFECYCLE_B7_PASS_SCOPED",
+  "next": "F1 one-path RED_FIX READY. Verify documentary guard, preflight, CAS, verify exact suite then B7 and W01-F2 Android.",
+  "checkpoint_status": "S4_W01_F1_ACTIVE_FINANCE_REVIEW_TEST_RED_FIX",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "16f06446fa9b7f8fa4b0bcbe09234c603b8626ed",
-  "last_ci_run_id": 44380090879,
+  "last_code_sha": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d",
+  "last_ci_run_id": 44382213057,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_XML_4_OF_4",
+  "last_ci_conclusion": "FAILURE_EXACT_7_OF_8_TEST_FIXTURE",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5242,7 +5242,7 @@
   },
   "w01_f1_review": {
     "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
-    "status": "READY_8_PATHS",
+    "status": "READY_RED_FIX_1_PATH",
     "preaudit": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
     "preaudit_blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
     "paths": [
@@ -5255,6 +5255,9 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
       ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
     ],
-    "preaudit_guard": 44380952150
+    "preaudit_guard": 44380952150,
+    "red_fix": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
+    "failed_run": 44382213057,
+    "failed_sha": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d"
   }
 }

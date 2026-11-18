@@ -2,16 +2,9 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
-  "reviewed_head": "4bf12fb49729d88c5864b7484c7d47b7ce062950",
+  "reviewed_head": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d",
   "paths": [
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B1FinanceReviewHost.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2FinanceApprovedScope.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01F1FinanceReviewOperations.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt"
   ],
   "stages": {
     "B1": {
@@ -20,6 +13,11 @@
         {
           "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
           "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
+          "blob_sha": "95985be7f34128a64302bc371e3342b047574cea",
           "marker": "## B1"
         }
       ]
@@ -61,6 +59,11 @@
           "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
           "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
           "marker": "## B5"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
+          "blob_sha": "95985be7f34128a64302bc371e3342b047574cea",
+          "marker": "## B5"
         }
       ]
     },
@@ -68,19 +71,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "16f06446fa9b7f8fa4b0bcbe09234c603b8626ed",
-    "unit_id": "S4_W01_D_F05_COMMITMENT_LIFECYCLE",
-    "result": "PASS",
+    "sha": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d",
+    "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B7_PASS_20261118.md",
-        "blob_sha": "49e24a31a1d0d912b5696db1634e0a2a98101562",
+        "path": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
+        "blob_sha": "95985be7f34128a64302bc371e3342b047574cea",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Reuse canonical ACTIVE9 review, grant, Apply and receipt across W01 operations.",
-  "how": "Guard 44380952150 SUCCESS. Exact 8 paths.",
+  "why": "Correct the failing test setup without changing the assertions or the runtime.",
+  "how": "Same unit, one path, exact CI and XML.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
