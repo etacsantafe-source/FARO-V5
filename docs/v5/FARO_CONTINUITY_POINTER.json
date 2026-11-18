@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1173
+    "epoch": 1175
   },
   "automation": {
     "activation_authorized": false,
@@ -4881,5 +4881,15 @@
     "b7_document": "docs/v5/FARO_S4_W01_D1B1B_SINGLE_SESSION_FINANCE_UI_B7_PASS_SCOPED_20261117.md",
     "b7_blob_sha": "620bdf977040c132e6fe1c713aecd24b8c96b5a5",
     "next": "D1B1C_FINANCE9_ACTIVE_CUTOVER_PREAUDIT_FIRST"
+  },
+  "codex_pilot": {
+    "status": "PREPARED_DOC_ONLY_NO_READY",
+    "unit_id": "S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT",
+    "handoff_doc": "docs/v5/FARO_CODEX_W01_D1B1C0_PILOT_HANDOFF_20261117.md",
+    "code_sha_at_prep": "bf30b5ea37791eda6909175e2508e0c488a5a940",
+    "codex_started": false,
+    "cloud_environment_verified": false,
+    "needs_human_publish": true,
+    "finance9_active": false
   }
 }
