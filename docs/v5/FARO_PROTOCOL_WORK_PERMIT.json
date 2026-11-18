@@ -1,23 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_F2_FINANCE_ANDROID_INTEGRATION",
-  "reviewed_head": "3468be82e194709288a10088e081f6611dec4930",
+  "status": "READY",
+  "unit_id": "S4_W01_F2_IMPORTED_CURRENCY_UI",
+  "reviewed_head": "57e14abbb05b6f31bd7b302f81aaebf48b58287c",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W01F2FinanceSessionActions.kt",
-    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
     "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceForms.kt",
-    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceIntegratedAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w01-f2-finance-integration-android.yml"
+    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceIntegratedAndroidTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
-          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
+          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
+          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
           "marker": "## B1"
         }
       ]
@@ -26,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
-          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
+          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
+          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
           "marker": "## B2"
         }
       ]
@@ -36,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
-          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
+          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
+          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
           "marker": "## B3"
         }
       ]
@@ -46,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
-          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
+          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
+          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
           "marker": "## B4"
         }
       ]
@@ -56,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
-          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
+          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
+          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_W01_ANDROID_API35_JUNIT_1",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "447afb3cc941f2726ac722a0226c296d72952f1f",
@@ -77,8 +73,8 @@
       }
     ]
   },
-  "why": "W01 Android DEV verified. Global gate is waiting for shared S3 regression rerun.",
-  "how": "Exact API35 XML and W01 regressions. No functional routes open.",
+  "why": "Preserve imported currency amounts and prevent an unconfigured decimal input.",
+  "how": "Guard 44390586505 SUCCESS. Two paths.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
