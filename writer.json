@@ -1,11 +1,21 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.MANUAL.WORK.W01.20261118",
   "token_hash": "648cdeea2630eaa45c8c7cbd3115f8c6cd54ad2285ffcdee6a93a74c7b8db136",
   "target_head": "ca6348a6db485bb913b2460278d64e414a2b3d93",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1230,
-  "timestamp": 1795013186,
-  "scope": "W01_F05_DECLARATIONS_B6"
+  "timestamp": 1795023516,
+  "scope": "W01_F05_DECLARATIONS_B6",
+  "recovery": {
+    "kind": "HUMAN_AUTHORIZED_MANUAL_ABANDONED_SESSION",
+    "reason": "Work W1 credits exhausted, session cannot release token; user explicitly authorized recovery in chat on 2026-11-18",
+    "original_owner": "FARO.MANUAL.WORK.W01.20261118",
+    "original_epoch": 1230,
+    "previous_ref": "fafe1d4b2073874a99414fe1e9041c5631d99480",
+    "validated_target_head": "ca6348a6db485bb913b2460278d64e414a2b3d93",
+    "work_tree_mutated": false,
+    "not_automatic_takeover": true
+  }
 }
