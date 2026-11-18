@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
   "reviewed_head": "9c6704e9cc6a33afd77b6bc1a28337aaddbdbe9d",
   "paths": [
@@ -62,17 +62,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "EXECUTED_XML_4_OF_5",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "99611d677e59b7f97de39661abb698bafbe2d204",
-    "unit_id": "S4_W01_D1B1C2D_ANDROID_FINANCE9_SESSION",
-    "result": "PASS",
+    "sha": "2e6d2b23da350f24468bcda7cf2874e942bfd20c",
+    "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_SESSION_B7_PASS_20261118.md",
-        "blob_sha": "c03ea932f66da4c99f893bebadecb3399c6b8b18",
+        "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
+        "blob_sha": "8672af98dcab368570e66043b076f595425da470",
         "marker": "## B7"
       }
     ]
@@ -87,5 +87,7 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  }
+  },
+  "blocker": "B2D0_FIXTURE_REPAIR_READY_PENDING",
+  "blocked_reason": "The functional commit consumed READY. Guard 44317444930 audited history successfully and rejected the stale READY preflight at the documentary head. This records RED_FIX before renewing exact one."
 }
