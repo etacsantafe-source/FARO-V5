@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_F2_FINANCE_ANDROID_INTEGRATION",
   "reviewed_head": "3468be82e194709288a10088e081f6611dec4930",
   "paths": [
@@ -62,23 +62,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_W01_ANDROID_API35_JUNIT_1",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "0ad128358157b9411d7eabb7a18296de7acee200",
-    "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
+    "sha": "447afb3cc941f2726ac722a0226c296d72952f1f",
+    "unit_id": "S4_W01_F2_FINANCE_ANDROID_INTEGRATION",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B7_PASS_20261118.md",
-        "blob_sha": "68f0da7cb1e29ac07d7d3c7f5a88dde75659ad3b",
+        "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B7_PASS_20261118.md",
+        "blob_sha": "26cc76aaa16016d2b2f053b33e96b6b35e290d30",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Mount W01 Finance forms, reviews and owner reads in the existing isolated Android session.",
-  "how": "Guard 44384662813 SUCCESS. Exact 6 paths.",
+  "why": "W01 Android DEV verified. Global gate is waiting for shared S3 regression rerun.",
+  "how": "Exact API35 XML and W01 regressions. No functional routes open.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
