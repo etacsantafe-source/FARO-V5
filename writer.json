@@ -1,12 +1,12 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.MANUAL.W01.D1B1B.20261117",
-  "token_hash": "ac853edd2a92ab35dfcc8a69f37a6890f46042290c86b0676ef68b06a1aa5a35",
-  "target_head": "bf30b5ea37791eda6909175e2508e0c488a5a940",
+  "status": "HELD",
+  "owner": "FARO.MANUAL.CODEX.PILOT.PREP.20261117",
+  "token_hash": "7f71bad44c49291154c94cca05d85a616d00124066ed8b1f1bf1c4dd58a5d98e",
+  "target_head": "d7e582b4083b103fab8af3c440ba1b7ec90befea",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1173,
-  "timestamp": 1794958751,
-  "scope": "D1B1B_B7_PASS_SCOPED_6_JVM_W01_KOTLIN_COMPILE_PERMIT_CONSUMED",
+  "epoch": 1174,
+  "timestamp": 1794964303,
+  "scope": "CODEX_W01_D1B1C0_PREPARATION_DOC_ONLY",
   "last_checkpoint": "d7e582b4083b103fab8af3c440ba1b7ec90befea"
 }
