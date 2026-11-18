@@ -1,27 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
-  "reviewed_head": "abf7629d73ba27bed02a411c1a5717723e03283e",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT",
+  "reviewed_head": "26d8569be18e3c02fac8eeb4674674b647a8bb27",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt",
-    ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml",
-    ".github/workflows/faro-v5-s4-w01-d1b1c2a-finance9-preserve-stage.yml"
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevSingleGraphMountTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b1c2c-finance9-single-graph.yml",
+    ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
-          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_SHARED_TRIGGER_SCOPE_ADDENDUM_20261117.md",
-          "blob_sha": "73687f60a8b948d2bf89dac37fc72325dc9043e0",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B1_B5_20261117.md",
+          "blob_sha": "aaaefc384e9ba8b6f6fd4b7a400cfe9699e4a526",
           "marker": "## B1"
         }
       ]
@@ -30,13 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
-          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_SHARED_TRIGGER_SCOPE_ADDENDUM_20261117.md",
-          "blob_sha": "73687f60a8b948d2bf89dac37fc72325dc9043e0",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B1_B5_20261117.md",
+          "blob_sha": "aaaefc384e9ba8b6f6fd4b7a400cfe9699e4a526",
           "marker": "## B2"
         }
       ]
@@ -45,13 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
-          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_SHARED_TRIGGER_SCOPE_ADDENDUM_20261117.md",
-          "blob_sha": "73687f60a8b948d2bf89dac37fc72325dc9043e0",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B1_B5_20261117.md",
+          "blob_sha": "aaaefc384e9ba8b6f6fd4b7a400cfe9699e4a526",
           "marker": "## B3"
         }
       ]
@@ -60,13 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
-          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_SHARED_TRIGGER_SCOPE_ADDENDUM_20261117.md",
-          "blob_sha": "73687f60a8b948d2bf89dac37fc72325dc9043e0",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B1_B5_20261117.md",
+          "blob_sha": "aaaefc384e9ba8b6f6fd4b7a400cfe9699e4a526",
           "marker": "## B4"
         }
       ]
@@ -75,19 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B1_B5_20261117.md",
-          "blob_sha": "017582cbfe722cf3639bcce4935be5b6be57a38a",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2B_SHARED_TRIGGER_SCOPE_ADDENDUM_20261117.md",
-          "blob_sha": "73687f60a8b948d2bf89dac37fc72325dc9043e0",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B1_B5_20261117.md",
+          "blob_sha": "aaaefc384e9ba8b6f6fd4b7a400cfe9699e4a526",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_8_AND_AFFECTED_7",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "29cbcf8458bf49f4bf4eba56093b54cdd2e0e23e",
@@ -101,11 +75,11 @@
       }
     ]
   },
-  "why": "Exclusive private DEV root and durable scope for Finance9 cutover recovery",
-  "how": "Exact5 after shared trigger addendum and guard 44228879233 SUCCESS",
+  "why": "One exact committed Finance9 graph under existing private DEV root lease",
+  "how": "Exact4 B1-B5 guard 44229884898 SUCCESS",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": "D1B1C2C_SINGLE_GRAPH_MOUNT_REQUIRES_OWN_READY",
-  "blocked_reason": "D1B1C2B exact5 permit consumed by B7",
-  "consumed_code_sha": "29cbcf8458bf49f4bf4eba56093b54cdd2e0e23e"
+  "blocker": null,
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }
