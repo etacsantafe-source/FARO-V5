@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-18",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_B2D0_B7_PASS_ACTIVE_FINANCE9_SQL",
+  "phase": "S4_W01_B2D1_B7_PASS_ACTIVE_FINANCE9_REVIEW_APPLY",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1218
+    "epoch": 1221
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01 B2D1 canonical Finance9 Review and Apply. B1–B5 attached, exact READY pending. W2 STOP; V2 productive OFF.",
-  "checkpoint_status": "S4_W01_B2D0_B7_PASS_ACTIVE_FINANCE9_SQL",
+  "next": "W01 B3B2 confirm and read explicit opening on Finance9 DEV; exact READY pending. W2 STOP; V2 productive OFF.",
+  "checkpoint_status": "S4_W01_B2D1_B7_PASS_ACTIVE_FINANCE9_REVIEW_APPLY",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "a0913a63c2c7123322d323e9b0a1cabe93eaab23",
-  "last_ci_run_id": 44318145242,
+  "last_code_sha": "58d70ffc4d6610cdc854b9cdcdb69e1cf314c02a",
+  "last_ci_run_id": 44320103402,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -4292,7 +4292,7 @@
     ]
   },
   "w01_remaining": {
-    "status": "F02_F03_ACTIVE_FINANCE9_SQL_GRANT_B7_PASS_REVIEW_APPLY_PENDING",
+    "status": "F02_F03_ACTIVE_REVIEW_APPLY_B7_PASS_OPENING_AND_ANDROID_PENDING",
     "order": [
       "B_F02_F03_REVIEW_APPLY_UI",
       "C_F04_TRANSFER",
@@ -5077,12 +5077,33 @@
   },
   "w01_b2d1": {
     "unit_id": "S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY",
-    "status": "B1_B5_PREAUDITED_READY_PENDING",
-    "preaudit": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
+    "status": "B7_PASS_SCOPED_ACTIVE_REAL_SQLITE_JVM",
+    "code_sha": "58d70ffc4d6610cdc854b9cdcdb69e1cf314c02a",
+    "b7_document": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B7_PASS_20261118.md",
+    "b7_blob_sha": "02d1557da5880629e795040015a427d5276dce8b",
+    "ci_run": 44320103402,
+    "ci_guard": 44320103204,
+    "artifact": 14433799060,
+    "junit": "5_OF_5_PASS",
+    "writer_release_epoch": 1221,
     "paths": [
       "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt",
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
       ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
+    ]
+  },
+  "w01_b3b2": {
+    "unit_id": "S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING",
+    "status": "B1_B5_PREAUDITED_READY_PENDING",
+    "preaudit": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
+    "paths": [
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPort.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadPort.kt",
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt",
+      "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
+      ".github/workflows/faro-v5-s4-w01-b2d0-active-finance9-grant.yml"
     ]
   }
 }
