@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1238
+    "epoch": 1239
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F05 calendar lifecycle and due reading: verify document guard, issue READY, acquire CAS after preflight, execute B6/CI/XML/B7. Then W01-F Android.",
+  "next": "F05 lifecycle READY. Preflight exact paths, writer CAS, B6/CI/XML/B7; next W01-F Android.",
   "checkpoint_status": "S4_W01_E_F06_BUDGET_B7_PASS_SCOPED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -5218,8 +5218,18 @@
   },
   "w01_f05_lifecycle": {
     "unit_id": "S4_W01_D_F05_COMMITMENT_LIFECYCLE",
-    "status": "B1_B5_PREAUDITED_READY_PENDING_GUARD",
+    "status": "READY_7_PATHS",
     "preaudit": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B1_B5_20261118.md",
-    "preaudit_blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee"
+    "preaudit_blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee",
+    "paths": [
+      "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt",
+      "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentLifecycle.kt",
+      "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentLifecycleBinding.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentWriter.kt",
+      "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentLifecycleTest.kt",
+      ".github/workflows/faro-v5-s4-w01-d-commitment-lifecycle.yml"
+    ],
+    "preaudit_guard": 44379081281
   }
 }

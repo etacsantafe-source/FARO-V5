@@ -1,24 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_E_F06_FINANCE_BUDGET",
-  "reviewed_head": "0cef983d3e0ecda2584f0fb243a0f5098d93939c",
+  "status": "READY",
+  "unit_id": "S4_W01_D_F05_COMMITMENT_LIFECYCLE",
+  "reviewed_head": "6debd887263dca968dd4d30adfc0ab7d0dcd0df4",
   "paths": [
     "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt",
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceBudget.kt",
-    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceBudgetBinding.kt",
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentLifecycle.kt",
+    "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceCommitmentLifecycleBinding.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Budget.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9BudgetTest.kt",
-    ".github/workflows/faro-v5-s4-w01-e-finance-budget.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentWriter.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentLifecycleTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d-commitment-lifecycle.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
-          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
+          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B1_B5_20261118.md",
+          "blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee",
           "marker": "## B1"
         }
       ]
@@ -27,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
-          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
+          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B1_B5_20261118.md",
+          "blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee",
           "marker": "## B2"
         }
       ]
@@ -37,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
-          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
+          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B1_B5_20261118.md",
+          "blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee",
           "marker": "## B3"
         }
       ]
@@ -47,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
-          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
+          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B1_B5_20261118.md",
+          "blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee",
           "marker": "## B4"
         }
       ]
@@ -57,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
-          "blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba",
+          "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_LIFECYCLE_B1_B5_20261118.md",
+          "blob_sha": "defd652673ee61ca7ac23686b8d2597e5b3f55ee",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ACTIVE9_BUDGET_JVM_4",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9d25a7920fe40537de979dab63300b1986e5936e",
@@ -78,8 +78,8 @@
       }
     ]
   },
-  "why": "F06 scoped owner certified. Calendar lifecycle requires individual READY.",
-  "how": "B7 on exact SHA with verified XML, no ADB.",
+  "why": "Persist versioned calendar changes and read due commitments in ACTIVE9.",
+  "how": "Guard 44379081281 SUCCESS. Exact 7 paths.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
