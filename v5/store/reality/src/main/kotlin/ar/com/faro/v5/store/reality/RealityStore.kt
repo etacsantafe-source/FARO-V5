@@ -49,6 +49,7 @@ import ar.com.faro.v5.owner.finance.api.FinanceEntryKind
 import ar.com.faro.v5.owner.finance.api.FinanceEntryConcept
 import ar.com.faro.v5.owner.finance.api.FinanceEntryCategory
 import ar.com.faro.v5.owner.finance.api.FinanceOperations
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentWritePort
 import ar.com.faro.v5.owner.finance.api.FinanceTransferRecord
 import ar.com.faro.v5.owner.finance.api.FinanceTransferWritePort
 import ar.com.faro.v5.owner.finance.spi.FinancePersistencePort
@@ -181,6 +182,21 @@ class RealityStore(
         FinanceTransferWritePort(::recordFinanceTransfer)
     }
 
+
+    fun finance9CommitmentWriteForDevOnly(): FinanceCommitmentWritePort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) {
+            "Commitment declarations require ACTIVE9 DEV Reality"
+        }
+        val writer = RealityFinance9CommitmentWriter(connection)
+        FinanceCommitmentWritePort { command, scope ->
+            synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                writer.create(command)
+            }
+        }
+    }
 
     /** Real owner ports bound to the existing single Reality transaction gate. */
     val objectivePersistence: ObjectivePersistencePort =
