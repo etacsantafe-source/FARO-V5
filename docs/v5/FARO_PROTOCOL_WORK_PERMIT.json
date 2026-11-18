@@ -1,18 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
-  "reviewed_head": "21eb1655022cbdc01f63afee39b9c07774d3c238",
+  "status": "READY",
+  "unit_id": "S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY",
+  "reviewed_head": "a17e5692cfb6db41cb8504660902602e86805bc2",
   "paths": [
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
-          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
+          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
           "marker": "## B1"
         }
       ]
@@ -21,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
-          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
+          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
           "marker": "## B2"
         }
       ]
@@ -31,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
-          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
+          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
           "marker": "## B3"
         }
       ]
@@ -41,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
-          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
+          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
           "marker": "## B4"
         }
       ]
@@ -51,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
-          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
+          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SQLITE_JVM_5_AND_REGRESSIONS",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a0913a63c2c7123322d323e9b0a1cabe93eaab23",
@@ -72,8 +74,8 @@
       }
     ]
   },
-  "why": "Repair the duplicate-fingerprint fixture in the same unit.",
-  "how": "One exact test path after guard 44317684326 SUCCESS.",
+  "why": "Connect canonical approved Workspace Review to the active DEV SQL grant and receipt.",
+  "how": "Exact three audited paths after documentary guard 44319237414 SUCCESS. JVM tests against the real active Finance9 graph; no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -82,8 +84,5 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  },
-  "blocker": "B2D1_SCOPED_READY_PENDING",
-  "blocked_reason": "B2D0 consumed. B2D1 has a separate audit and must receive an exact READY.",
-  "consumed_code_sha": "a0913a63c2c7123322d323e9b0a1cabe93eaab23"
+  }
 }
