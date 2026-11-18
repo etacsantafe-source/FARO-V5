@@ -160,10 +160,23 @@ internal class FaroV5V2Planning8DevHost(
         requireCompleted(checkNotNull(pointer.read()))
     }
 
-    fun requireCompleted(active: ActiveGenerationPointer) {
+    fun requireCompleted(active: ActiveGenerationPointer) =
+        requireCommittedPointer(active, afterFinance9Attempt = false)
+
+    /** Caller has already verified the exact Finance9 retain/rollback selection. */
+    fun requireFinance9Predecessor(active: ActiveGenerationPointer) =
+        requireCommittedPointer(active, afterFinance9Attempt = true)
+
+    private fun requireCommittedPointer(
+        active: ActiveGenerationPointer,
+        afterFinance9Attempt: Boolean,
+    ) {
         val origin = requireOrigin()
-        check(active == ActiveGenerationPointer(Math.addExact(origin.sequence, 1L), targetId) &&
-            pointer.read() == active) { "DEV Reality8 full pointer is not committed" }
+        val installed = Math.addExact(origin.sequence, 1L)
+        check(active.generationId == targetId && pointer.read() == active &&
+            (active.sequence == installed ||
+                (afterFinance9Attempt && active.sequence > installed && (active.sequence - installed) % 2L == 0L))
+        ) { "DEV Reality8 full pointer is not committed" }
         val entry = checkNotNull(journal.read(operationId))
         check(entry.kind == MaintenanceOperationKind.RESTORE &&
             entry.previousGenerationId == origin.generationId &&

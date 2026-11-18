@@ -3,6 +3,7 @@ package ar.com.faro.v5.app
 import android.app.Application
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
+import ar.com.faro.v5.generation.FaroV5Finance9DevCutoverRuntime
 import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
@@ -33,6 +34,7 @@ import java.util.function.Supplier
 internal class FaroV5V2CoreDevAuthority(
     private val root: Path,
     private val admission: FaroV5DevOpenAdmission? = null,
+    private val w01Finance9: Boolean = false,
 ) {
     companion object {
         // One DEV material-write authority for all Activity sessions in this process.
@@ -43,23 +45,75 @@ internal class FaroV5V2CoreDevAuthority(
     private val targetId = StorageGenerationId("v2-core-dev-workspace-1")
     private val operationId = MaintenanceOperationId("v2-core-dev-first-activation-1")
 
-    fun open(): Session {
+    fun open(): Session = openWithLease()
+
+    private fun openWithLease(
+        planningUpgrade: (() -> Boolean)? = null,
+        financeUpgrade: (() -> Boolean)? = null,
+    ): Session {
         val normalized = root.toAbsolutePath().normalize()
         check(!Files.isSymbolicLink(normalized)) { "DEV root must not be a symlink" }
-        Files.createDirectories(normalized)
+        if (planningUpgrade == null) Files.createDirectories(normalized)
         check(Files.isDirectory(normalized, LinkOption.NOFOLLOW_LINKS))
+        val runtime = if (w01Finance9) FaroV5Finance9DevCutoverRuntime.acquire(
+            normalized, gate, CanonicalPreparedPlanEnvelopeVerifier,
+        ) else null
+        return try {
+            openSession(normalized, runtime, planningUpgrade, financeUpgrade)
+        } catch (failure: Throwable) {
+            runCatching { runtime?.close() }.exceptionOrNull()?.let(failure::addSuppressed)
+            throw failure
+        }
+    }
+
+    private fun openSession(
+        normalized: Path,
+        runtime: FaroV5Finance9DevCutoverRuntime?,
+        planningUpgrade: (() -> Boolean)?,
+        financeUpgrade: (() -> Boolean)?,
+    ): Session {
+        val recovered = runtime?.recover()
+        val planning8 = FaroV5V2Planning8DevHost(normalized, gate)
+        if (planningUpgrade != null) {
+            check(recovered == null) { "DEV root already has a Finance9 cutover record" }
+            planning8.promoteAfterExplicitForegroundRequest(planningUpgrade)
+        }
         // The existing first-generation bootstrap establishes a recoverable V1 authority.
         // Never initialize it again after a real pointer was durably published.
         val pointer = FileActiveGenerationPointer(normalized)
         if (pointer.read() == null) {
+            check(recovered == null)
             ActiveGenerationStorageLocator(normalized).ensureInitialGenerationAndGetDirectory(
                 initialId.value, "v2-core-dev-recovery-base-1",
             )
         }
         // Recovery is allowed ONLY for a previously foreground-authorized
         // Reality8 journal. Normal Chat open never starts a new stage.
-        val planning8 = FaroV5V2Planning8DevHost(normalized, gate)
-        planning8.recoverPreviouslyAuthorizedOrFail()
+        if (recovered == null) planning8.recoverPreviouslyAuthorizedOrFail()
+        val financeSelection = if (
+            financeUpgrade != null && recovered?.status != FaroV5Finance9DevCutoverRuntime.Status.ACTIVE_NINE
+        ) {
+            val origin = checkNotNull(pointer.read())
+            if (recovered == null) planning8.requireCompleted(origin)
+            else {
+                check(checkNotNull(runtime).isCurrent(recovered))
+                planning8.requireFinance9Predecessor(origin)
+            }
+            val id = "w01-finance9-" + UUID.randomUUID()
+            val now = System.currentTimeMillis()
+            checkNotNull(runtime).start(
+                MaintenanceOperationId(id),
+                StorageGenerationDescriptor(StorageGenerationId(id), "w01-finance9-dev-v1", now),
+                origin,
+                now,
+                financeUpgrade,
+            )
+        } else recovered
+        val financeOwnsGraph = financeSelection?.status == FaroV5Finance9DevCutoverRuntime.Status.ACTIVE_NINE
+        if (financeSelection != null) {
+            check(checkNotNull(runtime).isCurrent(financeSelection))
+            if (!financeOwnsGraph) planning8.requireFinance9Predecessor(financeSelection.pointer)
+        }
         val layout = FileStorageGenerationLayout(normalized)
         val journal = FileBootstrapJournal(normalized)
         val replayFence = FileGenerationReplayFence(normalized)
@@ -108,7 +162,7 @@ internal class FaroV5V2CoreDevAuthority(
             ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
         }
 
-        when (pointer.read()?.generationId) {
+        if (financeSelection == null) when (pointer.read()?.generationId) {
             initialId -> {
                 // Resume only the exact pending DEV operation. A completed, foreign
                 // or already-writing journal cannot be replayed against the V1 pointer.
@@ -204,8 +258,9 @@ internal class FaroV5V2CoreDevAuthority(
         // Pin FULL pointer on every session: a past generation ID is never an
         // adequate authorization token after ABA or a Reality7→8 cutover.
         val openingPointer = checkNotNull(pointer.read()) { "DEV active pointer missing" }
+        check(financeSelection == null || financeSelection.pointer == openingPointer)
         val activeId = openingPointer.generationId
-        val oldFinalEntry = if (activeId == targetId) {
+        val oldFinalEntry = if (financeSelection != null) null else if (activeId == targetId) {
             checkNotNull(journal.read(operationId)).also {
                 check(it.phase == BootstrapPhase.COMPLETED && it.materialWritesAccepted &&
                     replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId))
@@ -215,7 +270,9 @@ internal class FaroV5V2CoreDevAuthority(
             planning8.requireCompleted(openingPointer)
             null
         }
-        val graph = if (activeId == planning8.targetId)
+        val graph = if (financeOwnsGraph) {
+            checkNotNull(runtime).openCommittedFinance9(checkNotNull(financeSelection))
+        } else if (activeId == planning8.targetId)
             FaroV5ActiveGenerationGraphOwner.openExistingPlanning8ForCertifiedHost(
                 normalized, activeId.value, openingPointer.sequence, gate, true,
             )
@@ -231,7 +288,12 @@ internal class FaroV5V2CoreDevAuthority(
             val ready = BooleanSupplier {
                 val observed = pointer.read()
                 alive.get() && admission?.live?.get() != false && observed == openingPointer &&
-                    if (activeId == targetId)
+                    if (financeSelection != null) {
+                        checkNotNull(runtime).isCurrent(financeSelection) &&
+                            (financeOwnsGraph || runCatching {
+                                planning8.requireFinance9Predecessor(openingPointer)
+                            }.isSuccess)
+                    } else if (activeId == targetId)
                         journal.read(operationId) == oldFinalEntry &&
                             replayFence.isInstalled(MaintenanceOperationKind.RESTORE, targetId)
                     else planning8.isCommittedCurrent(openingPointer)
@@ -305,12 +367,15 @@ internal class FaroV5V2CoreDevAuthority(
             Session(
                 graph, alive, reads.workspaceReadPort, reads.timelineReadPort,
                 selection.port, composer.port, search, readAccesses.toList(), pointer, observer, openingPointer,
-                gate, current, ready, admission,
+                gate, current, ready, admission, runtime, financeOwnsGraph,
             )
         } catch (failure: Throwable) {
-            pointerObserver?.let { pointer.removeChangeListener(it) }
-            readAccesses.forEach { it.close() }
-            graph.close()
+            try {
+                pointerObserver?.let { pointer.removeChangeListener(it) }
+                readAccesses.forEach { it.close() }
+            } finally {
+                if (!financeOwnsGraph) graph.close()
+            }
             throw failure
         }
     }
@@ -324,12 +389,12 @@ internal class FaroV5V2CoreDevAuthority(
         foreground: () -> Boolean,
     ): Session {
         check(foreground()) { "DEV upgrade denied without foreground click" }
-        val normalized = root.toAbsolutePath().normalize()
-        check(!Files.isSymbolicLink(normalized) &&
-            Files.isDirectory(normalized, LinkOption.NOFOLLOW_LINKS))
-        FaroV5V2Planning8DevHost(normalized, gate)
-            .promoteAfterExplicitForegroundRequest(foreground)
-        return open()
+        return openWithLease(planningUpgrade = foreground)
+    }
+
+    internal fun upgradeFinance9AfterExplicitForegroundRequest(foreground: () -> Boolean): Session {
+        check(w01Finance9 && foreground()) { "DEV Finance9 requires a W01 foreground click" }
+        return openWithLease(financeUpgrade = foreground)
     }
 
     class Session internal constructor(
@@ -348,6 +413,8 @@ internal class FaroV5V2CoreDevAuthority(
         private val current: Supplier<String>,
         private val ready: BooleanSupplier,
         private val admission: FaroV5DevOpenAdmission?,
+        private val financeRuntime: FaroV5Finance9DevCutoverRuntime?,
+        private val financeOwnsGraph: Boolean,
     ) : AutoCloseable {
         private fun available() = alive.get() && ready.getAsBoolean()
         internal var assistantPorts: FaroV5DevAssistantSessionPorts? = null
@@ -928,7 +995,8 @@ internal class FaroV5V2CoreDevAuthority(
                 searchAccesses.forEach { it.close() }
                 pointer.removeChangeListener(pointerObserver)
                 assistantPorts?.close()
-                gate.withQuiescedMaterialWrites { graph.close() }
+                if (!financeOwnsGraph) gate.withQuiescedMaterialWrites { graph.close() }
+                financeRuntime?.close()
                 // A failed close retains the integrated lease: never overlap an uncertain graph.
                 admission?.close()
             }

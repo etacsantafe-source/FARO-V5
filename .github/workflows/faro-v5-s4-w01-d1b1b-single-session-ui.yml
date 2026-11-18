@@ -24,21 +24,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Preflight exact6 READY permit in functional parent
-        shell: bash
-        run: |
-          set -euo pipefail
-          git worktree add --detach "$RUNNER_TEMP/faro-d1b1b-parent" HEAD^
-          python3 "$RUNNER_TEMP/faro-d1b1b-parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$RUNNER_TEMP/faro-d1b1b-parent" --mode preflight \
-            --unit "S4_W01_D1B1B_SINGLE_ACTIVE_SESSION_FINANCE_UI_DEV" \
-            --path "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt" \
-            --path "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt" \
-            --path "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt" \
-            --path "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapper.kt" \
-            --path "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01D1B1BActiveFinanceUiMapperTest.kt" \
-            --path ".github/workflows/faro-v5-s4-w01-d1b1b-single-session-ui.yml"
-          git worktree remove "$RUNNER_TEMP/faro-d1b1b-parent"
+      - name: Validate FARO protocol for this checkout
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

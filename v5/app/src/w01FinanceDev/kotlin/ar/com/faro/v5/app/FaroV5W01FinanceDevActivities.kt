@@ -71,6 +71,7 @@ internal object S4W01D1B1BFinanceSessionHandoff {
 class FaroV5W01FinanceDevLauncherActivity : FaroV5V2CoreDevActivity() {
     private var financeRequested = false
 
+    override fun enablesW01Finance9(): Boolean = true
     override fun screenTitle(): String = "FARO W01 Finanzas — DEV aislado"
     override fun skipChatSelectionForDedicatedRoute(): Boolean = financeRequested
     override fun onDedicatedOwnerOpenFailed() { financeRequested = false }
@@ -88,9 +89,15 @@ class FaroV5W01FinanceDevLauncherActivity : FaroV5V2CoreDevActivity() {
             text = "Finanzas (DEV · sin huella ni PIN)"
             setOnClickListener {
                 if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                    financeRequested = true
-                    // The certified launcher opens the ONE real ACTIVE owner.
-                    openLocalChat()
+                    openLocalChat(onAccepted = { financeRequested = true })
+                }
+            }
+        })
+        column.addView(Button(this).apply {
+            text = "Activar Finance9 (DEV)"
+            setOnClickListener {
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    openLocalChat(requestFinance9Upgrade = true, onAccepted = { financeRequested = true })
                 }
             }
         })
@@ -103,9 +110,8 @@ class FaroV5W01FinanceDevLauncherActivity : FaroV5V2CoreDevActivity() {
 }
 
 /**
- * Finance8/Planning8 ACTIVE read mapped to the existing W01 Finance UI.
- * The same Session provides the only SQL owner. No balances are promoted to
- * Finance9 VERIFIED until D1B1C migration/cutover is separately certified.
+ * The launcher Session owns the active graph. The read mapper preserves
+ * snapshot certainty across Planning8 and Finance9.
  */
 internal class S4W01D1B1BFinanceReadPort : FaroV5FinanceReadPort, AutoCloseable {
     private val changes = MutableStateFlow(0L)
@@ -168,7 +174,7 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
             setPadding(p, p, p, p)
         }
         column.addView(TextView(this).apply {
-            text = "Finanzas — fuente ACTIVE local, no Finance9. " +
+            text = "Finanzas — fuente activa local. " +
                 "Cuentas informativas y saldos de apertura aún sin verificar. " +
                 "Seguridad opcional desactivada; sin huella ni PIN."
             textSize = 18f
@@ -191,7 +197,7 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
         // informational read does not issue a Finance9 read policy.
         val owner = S4W01FinanceReadForegroundReconciliation(
             newObservedFence = {
-                throw SecurityException("Finance9 STAGED, never ACTIVE from W01 UI")
+                throw SecurityException("El lector independiente requiere autorización propia")
             },
             clearBeforeRead = { clears.incrementAndGet() },
         )

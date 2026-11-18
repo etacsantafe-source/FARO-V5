@@ -45,6 +45,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     internal open fun screenTitle() = "FARO V2 — Núcleo local aislado"
     internal open fun screenDescription() = "Workspace, Chat y Buscar local. Sin Groq/IA, Apply, notificaciones ni conexión a Internet. Los datos de FARO habitual no se comparten."
     internal open fun addAdmissionControls(column: LinearLayout) = Unit
+    internal open fun enablesW01Finance9(): Boolean = false
     internal open fun beginOpening(): FaroV5DevOpenAdmission? = null
     internal open fun trustedAssistantComponents(admission: FaroV5DevOpenAdmission): FaroV5TrustedAssistantComponents? = null
     // Inert in every variant except the explicitly isolated W01 DEV launcher.
@@ -155,9 +156,12 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
         requestPendingRead: Boolean = false,
         requestPlanning8Upgrade: Boolean = false,
         requestBookmarkRead: Boolean = false,
+        requestFinance9Upgrade: Boolean = false,
+        onAccepted: () -> Unit = {},
     ) {
         if ((requestBookmarkRead || requestAvisosRead) && !lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
         if (!opening.compareAndSet(false, true)) return
+        onAccepted()
         // Only this dedicated foreground button can request an Activity read.
         pendingActivityReadRequest.set(requestActivityRead)
         pendingAvisosReadRequest.set(requestAvisosRead)
@@ -187,13 +191,19 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
             var opened: FaroV5V2CoreDevAuthority.Session? = null
             val failure = runCatching {
                 val root = rootPath()
-                val authority = FaroV5V2CoreDevAuthority(root, admission)
-                val current = if (requestPlanning8Upgrade) {
-                    authority.upgradePlanning8AfterExplicitForegroundRequest {
-                        !disposed.get() && !isFinishing && !isDestroyed &&
-                            lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
-                    }
-                } else authority.open()
+                val authority = FaroV5V2CoreDevAuthority(root, admission,
+                    w01Finance9 = enablesW01Finance9() &&
+                        packageName == S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID,
+                )
+                val foreground = {
+                    !disposed.get() && !isFinishing && !isDestroyed &&
+                        lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+                }
+                val current = when {
+                    requestFinance9Upgrade -> authority.upgradeFinance9AfterExplicitForegroundRequest(foreground)
+                    requestPlanning8Upgrade -> authority.upgradePlanning8AfterExplicitForegroundRequest(foreground)
+                    else -> authority.open()
+                }
                 opened = current
                 if (admission != null) current.openAssistantPorts(trustedAssistantComponents(admission))
                 // Reading Guardados never creates/selects a conversation.

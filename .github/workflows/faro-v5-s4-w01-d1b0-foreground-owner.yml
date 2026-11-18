@@ -22,18 +22,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Validate parent B1-B5 READY exactly four W01 DEV paths
-        run: |
-          set -euo pipefail
-          git worktree add --detach "$RUNNER_TEMP/faro-d1b0-parent" HEAD^
-          python3 "$RUNNER_TEMP/faro-d1b0-parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$RUNNER_TEMP/faro-d1b0-parent" --mode preflight \
-            --unit "S4_W01_D1B0_REAL_ANDROID_FOREGROUND_READ_SHELL_DEV" \
-            --path "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt" \
-            --path "v5/app/src/w01FinanceDev/AndroidManifest.xml" \
-            --path "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceForegroundOwnerAndroidTest.kt" \
-            --path ".github/workflows/faro-v5-s4-w01-d1b0-foreground-owner.yml"
-          git worktree remove "$RUNNER_TEMP/faro-d1b0-parent"
+      - name: Validate FARO protocol for this checkout
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
