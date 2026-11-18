@@ -1,31 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B1C2D_ANDROID_FINANCE9_SESSION",
-  "reviewed_head": "2053fd73bfbdd1a38bd7ccde79776cdbb046f028",
+  "status": "READY",
+  "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
+  "reviewed_head": "9c6704e9cc6a33afd77b6bc1a28337aaddbdbe9d",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/ActiveGenerationStorageLocator.kt",
-    ".github/workflows/faro-v5-s4-w01-d1b1c2d-finance9-session.yml",
-    ".github/workflows/faro-v5-s4-w01-d0-isolated-launch-allowlist.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt",
+    ".github/workflows/faro-v5-s4-w01-b2d0-active-finance9-grant.yml",
+    ".github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
-          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
-          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
-          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
+          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
           "marker": "## B1"
         }
       ]
@@ -34,18 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
-          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
-          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
-          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
+          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
           "marker": "## B2"
         }
       ]
@@ -54,18 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
-          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
-          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
-          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
+          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
           "marker": "## B3"
         }
       ]
@@ -74,18 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
-          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
-          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
-          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
+          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
           "marker": "## B4"
         }
       ]
@@ -94,24 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
-          "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_CI_TRIGGER_20261118.md",
-          "blob_sha": "340da04dea982db44b6d73939bdecea688806466",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_D1B1C2D_RED_FIX_D0_MANIFEST_20261118.md",
-          "blob_sha": "8b142d5d2ac2d0c390e575a5c1033b836462686d",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
+          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ANDROID_2_AND_AFFECTED_CI_17",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "99611d677e59b7f97de39661abb698bafbe2d204",
@@ -125,13 +77,10 @@
       }
     ]
   },
-  "why": "Repair fresh bootstrap and verify correct W01 launcher in D0.",
-  "how": "Same unit RED_FIX exact4 with green guard 44293676811",
+  "why": "Active DEV Finance9 needs one-use SQL admission for F02/F03.",
+  "how": "Exact six paths from approved B1–B5. Audit guard 44315254967 SUCCESS. JVM real SQLite, no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": "W01_F02_F03_ACTIVE_REVIEW_APPLY_B1_B5_AND_READY_PENDING",
-  "blocked_reason": "D1B1C2D consumed; next active F02/F03 unit needs independent scoped READY.",
-  "consumed_code_sha": "99611d677e59b7f97de39661abb698bafbe2d204",
   "adb_ci_human_authorization": {
     "authorized": true,
     "date": "2026-11-18",
