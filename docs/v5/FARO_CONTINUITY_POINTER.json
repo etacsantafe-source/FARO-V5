@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-17",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX",
+  "phase": "S4_W01_D1B1C1_RED_FIX_READY_EXACT2",
   "s2": {
     "status": "CLOSED",
     "certified": 8,
@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1185
+    "epoch": 1186
   },
   "automation": {
     "activation_authorized": false,
@@ -40,7 +40,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Issue same-unit CI RED_FIX permit exact2 after guard. Then run and verify both regressions. W2 STOP V2 productive OFF.",
+  "next": "D1B1C1 same-unit RED_FIX EXACT2. Fix CI validation against the actual SHA, rerun the two regressions, then B7.",
   "checkpoint_status": "W01_D1B1C1_DIRECTED_6_PASS_REGRESSION_RED_FIX",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -4914,7 +4914,7 @@
     "next": "D1B1C_DEV_CUTOVER_PREAUDIT_FIRST"
   },
   "w01_d1b1c1": {
-    "status": "RED_FIX_DOCUMENTED_WAIT_GUARD",
+    "status": "RED_FIX_READY_EXACT2",
     "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
     "preaudit": "docs/v5/FARO_S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER_B1_B5_20261117.md",
     "preaudit_guard_run_id": 44224147583,
@@ -4937,6 +4937,7 @@
     "red_fix_paths": [
       ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml",
       ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
-    ]
+    ],
+    "red_fix_doc_guard": 44225966998
   }
 }
