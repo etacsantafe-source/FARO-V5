@@ -1,23 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
-  "reviewed_head": "9c6704e9cc6a33afd77b6bc1a28337aaddbdbe9d",
+  "reviewed_head": "21eb1655022cbdc01f63afee39b9c07774d3c238",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Acl.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2d0-active-finance9-grant.yml",
-    ".github/workflows/faro-v5-s4-w01-d1b1c1-finance9-cutover.yml"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
-          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
+          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
           "marker": "## B1"
         }
       ]
@@ -26,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
-          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
+          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
           "marker": "## B2"
         }
       ]
@@ -36,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
-          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
+          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
           "marker": "## B3"
         }
       ]
@@ -46,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
-          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
+          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
           "marker": "## B4"
         }
       ]
@@ -56,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B1_B5_20261118.md",
-          "blob_sha": "4a58803f708f4a0ac542e1a619e3a9073e37e1a3",
+          "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
+          "blob_sha": "8672af98dcab368570e66043b076f595425da470",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "EXECUTED_XML_4_OF_5",
-    "B7": "RED_FIX"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2e6d2b23da350f24468bcda7cf2874e942bfd20c",
@@ -77,8 +72,8 @@
       }
     ]
   },
-  "why": "Active DEV Finance9 needs one-use SQL admission for F02/F03.",
-  "how": "Exact six paths from approved B1–B5. Audit guard 44315254967 SUCCESS. JVM real SQLite, no ADB.",
+  "why": "Repair the duplicate-fingerprint fixture in the same unit.",
+  "how": "One exact test path after guard 44317684326 SUCCESS.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,7 +82,5 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  },
-  "blocker": "B2D0_FIXTURE_REPAIR_READY_PENDING",
-  "blocked_reason": "The functional commit consumed READY. Guard 44317444930 audited history successfully and rejected the stale READY preflight at the documentary head. This records RED_FIX before renewing exact one."
+  }
 }
