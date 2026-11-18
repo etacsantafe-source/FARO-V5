@@ -14,6 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
+import ar.com.faro.v5.owner.finance.api.FinanceCurrencyCode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -24,6 +25,15 @@ class S4W01FinanceIntegratedAndroidTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
 
     @Test fun nativeFinanceRecordsAccountsMovementTransferAndBudgetAndReopensReceipts() {
+        val ars = FinanceCurrencyCode.of("ARS")
+        val usd = FinanceCurrencyCode.of("USD")
+        val imported = FinanceCurrencyCode.of("JPY")
+        assertEquals("ARS 1.25", FaroV5W01FinanceForms.money(125, ars))
+        assertEquals("USD 1.25", FaroV5W01FinanceForms.money(125, usd))
+        assertEquals("JPY 125 unidades menores", FaroV5W01FinanceForms.money(125, imported))
+        assertTrue(FaroV5W01FinanceForms.hasDecimalEditor(ars))
+        assertTrue(FaroV5W01FinanceForms.hasDecimalEditor(usd))
+        assertTrue(!FaroV5W01FinanceForms.hasDecimalEditor(imported))
         val app = instrumentation.targetContext.applicationContext as Application
         assertEquals(S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID, app.packageName)
         val authority = FaroV5V2CoreDevAuthority(app.noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root"), w01Finance9 = true)

@@ -319,8 +319,11 @@ internal class FaroV5W01FinanceForms(
     }
 
     private fun accounts(label: String = "Cuenta", target: LinearLayout = details): (() -> FinanceAccountSnapshot)? {
-        val items = overview?.finance?.accounts.orEmpty()
-        if (items.isEmpty()) { status.text = "Primero registrá una cuenta."; return null }
+        val items = overview?.finance?.accounts.orEmpty().filter { hasDecimalEditor(it.currency) }
+        if (items.isEmpty()) {
+            status.text = "Para registrar esta operación, elegí una cuenta en ARS o USD."
+            return null
+        }
         return choices(label, items, items.map { "${it.displayName.value} (${it.currency.value})" }, target)
     }
 
@@ -367,7 +370,14 @@ internal class FaroV5W01FinanceForms(
     private fun minor(field: EditText) = BigDecimal(field.value().replace(',', '.')).movePointRight(2).longValueExact()
     private fun time(field: EditText) = LocalDate.parse(field.value()).atStartOfDay(zone).toInstant().toEpochMilli()
     private fun identity(prefix: String) = "$prefix-${UUID.randomUUID()}"
-    private fun money(value: Long, currency: FinanceCurrencyCode) = "${currency.value} ${BigDecimal.valueOf(value, 2)}"
+    companion object {
+        fun hasDecimalEditor(currency: FinanceCurrencyCode): Boolean =
+            currency.value == "ARS" || currency.value == "USD"
+
+        fun money(value: Long, currency: FinanceCurrencyCode): String =
+            if (hasDecimalEditor(currency)) "${currency.value} ${BigDecimal.valueOf(value, 2)}"
+            else "${currency.value} $value unidades menores"
+    }
     private fun stateLabel(state: FinanceCommitmentState) = when (state) {
         FinanceCommitmentState.PLANNED -> "Previsto"
         FinanceCommitmentState.DUE -> "Vencido"
