@@ -1,23 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
-  "reviewed_head": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d",
+  "status": "READY",
+  "unit_id": "S4_W01_F2_FINANCE_ANDROID_INTEGRATION",
+  "reviewed_head": "3468be82e194709288a10088e081f6611dec4930",
   "paths": [
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W01F2FinanceSessionActions.kt",
+    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
+    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceForms.kt",
+    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceIntegratedAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w01-f2-finance-integration-android.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
-          "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
-          "blob_sha": "95985be7f34128a64302bc371e3342b047574cea",
+          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
+          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
           "marker": "## B1"
         }
       ]
@@ -26,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
-          "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
+          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
+          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
           "marker": "## B2"
         }
       ]
@@ -36,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
-          "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
+          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
+          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
           "marker": "## B3"
         }
       ]
@@ -46,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
-          "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
+          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
+          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
           "marker": "## B4"
         }
       ]
@@ -56,19 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B1_B5_20261118.md",
-          "blob_sha": "a34a1f3ea993cfb58d00bcfe407dbdb38e7c6f7b",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
-          "blob_sha": "95985be7f34128a64302bc371e3342b047574cea",
+          "path": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
+          "blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_EXACT_CI_XML_8",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0ad128358157b9411d7eabb7a18296de7acee200",
@@ -82,8 +77,8 @@
       }
     ]
   },
-  "why": "Scoped B7 PASS. Next unit requires a separate READY.",
-  "how": "Exact CI and independently verified JUnit XML.",
+  "why": "Mount W01 Finance forms, reviews and owner reads in the existing isolated Android session.",
+  "how": "Guard 44384662813 SUCCESS. Exact 6 paths.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {

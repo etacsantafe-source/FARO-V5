@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1250
+    "epoch": 1251
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W01-F2 mount existing session, finance forms and reviewed actions in Android DEV. Verify guard, separate READY, preflight/CAS, code/API35/CI/XML, then final B7.",
+  "next": "W01-F2 Android READY. Preflight six exact paths, writer CAS, implement and verify Android API35 CI/XML before final W1 audit.",
   "checkpoint_status": "S4_W01_F1_ACTIVE_FINANCE_REVIEW_B7_PASS_SCOPED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -5270,8 +5270,17 @@
   },
   "w01_f2_android": {
     "unit_id": "S4_W01_F2_FINANCE_ANDROID_INTEGRATION",
-    "status": "B1_B5_PREAUDITED_READY_PENDING_GUARD",
+    "status": "READY_6_PATHS",
     "preaudit": "docs/v5/FARO_S4_W01_F2_FINANCE_ANDROID_B1_B5_20261118.md",
-    "preaudit_blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908"
+    "preaudit_blob_sha": "333207cb16cedcbdecc9fdccef1918e13adba908",
+    "paths": [
+      "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+      "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W01F2FinanceSessionActions.kt",
+      "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceDevActivities.kt",
+      "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceForms.kt",
+      "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceIntegratedAndroidTest.kt",
+      ".github/workflows/faro-v5-s4-w01-f2-finance-integration-android.yml"
+    ],
+    "preaudit_guard": 44384662813
   }
 }
