@@ -2,12 +2,19 @@ package ar.com.faro.v5.store.reality
 
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.SQLiteStatement
+import ar.com.faro.v5.owner.finance.api.FinanceCalendarItem
+import ar.com.faro.v5.owner.finance.api.FinanceCalendarSchedule
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentCalendar
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentCalendarQuery
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentLifecycle
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentState
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentCreate
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentId
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentPayment
 import ar.com.faro.v5.owner.finance.api.FinanceCurrencyCode
 import ar.com.faro.v5.owner.finance.api.FinanceEntrySnapshot
 import ar.com.faro.v5.owner.finance.api.FinanceScheduleRecurrence
+import java.time.LocalDate
 import java.time.YearMonth
 
 /** Uses the single Reality connection inside the caller's active AtomicApply transaction. */
@@ -73,6 +80,192 @@ internal class RealityFinance9CommitmentWriter(private val connection: SQLiteCon
         }
         check(connection.prepare("SELECT changes()").use { it.step() && it.getLong(0) == 1L })
     }
+
+    fun change(command: FinanceCommitmentLifecycle) {
+        when (command) {
+            is FinanceCommitmentLifecycle.Edit -> editSchedule(command)
+            is FinanceCommitmentLifecycle.SetActive -> setScheduleActive(command)
+            is FinanceCommitmentLifecycle.Retire -> retireSchedule(command)
+            is FinanceCommitmentLifecycle.Cancel -> cancelPlanItem(command)
+        }
+        check(connection.prepare("SELECT changes()").use { it.step() && it.getLong(0) == 1L }) {
+            "Calendar review is stale or the object has dependent history"
+        }
+    }
+
+    private fun editSchedule(command: FinanceCommitmentLifecycle.Edit) {
+        val replacement = command.replacement
+        requireMatchingDebt(replacement.debtId, replacement.currency)
+        connection.prepare(
+            """
+            UPDATE finance_schedule SET debt_id = ?, installment_minor = ?, start_period = ?,
+                total_count = ?, recurrence = ?, updated_at_ms = ?, version = ?
+            WHERE schedule_id = ? AND version = ? AND currency_code = ? AND updated_at_ms <= ?
+            """.trimIndent(),
+        ).use { st ->
+            st.bindCommitmentId(1, replacement.debtId)
+            st.bindLong(2, replacement.installmentMinor)
+            st.bindText(3, replacement.startPeriod.toString())
+            val total = replacement.totalCount
+            if (total == null) st.bindNull(4) else st.bindLong(4, total.toLong())
+            st.bindText(5, replacement.recurrence.name)
+            st.bindLong(6, command.recordedAtEpochMillis)
+            st.bindLong(7, nextVersion(command.expectedVersion))
+            st.bindText(8, command.id.value)
+            st.bindLong(9, command.expectedVersion)
+            st.bindText(10, replacement.currency.value)
+            st.bindLong(11, command.recordedAtEpochMillis)
+            st.step()
+        }
+    }
+
+    private fun setScheduleActive(command: FinanceCommitmentLifecycle.SetActive) {
+        connection.prepare(
+            """
+            UPDATE finance_schedule SET active = ?, updated_at_ms = ?, version = ?
+            WHERE schedule_id = ? AND version = ? AND updated_at_ms <= ? AND active <> ?
+            """.trimIndent(),
+        ).use { st ->
+            val active = if (command.active) 1L else 0L
+            st.bindLong(1, active)
+            st.bindLong(2, command.recordedAtEpochMillis)
+            st.bindLong(3, nextVersion(command.expectedVersion))
+            st.bindText(4, command.id.value)
+            st.bindLong(5, command.expectedVersion)
+            st.bindLong(6, command.recordedAtEpochMillis)
+            st.bindLong(7, active)
+            st.step()
+        }
+    }
+
+    private fun retireSchedule(command: FinanceCommitmentLifecycle.Retire) {
+        connection.prepare(
+            """
+            UPDATE finance_schedule SET active = 0, version = ?, updated_at_ms = ?
+            WHERE schedule_id = ? AND version = ? AND updated_at_ms <= ?
+              AND NOT EXISTS (SELECT 1 FROM finance_plan_item WHERE schedule_id = ?)
+            """.trimIndent(),
+        ).use { st ->
+            st.bindLong(1, RETIRED_VERSION)
+            st.bindLong(2, command.recordedAtEpochMillis)
+            st.bindText(3, command.id.value)
+            st.bindLong(4, command.expectedVersion)
+            st.bindLong(5, command.recordedAtEpochMillis)
+            st.bindText(6, command.id.value)
+            st.step()
+        }
+    }
+
+    private fun cancelPlanItem(command: FinanceCommitmentLifecycle.Cancel) {
+        connection.prepare(
+            """
+            UPDATE finance_plan_item SET state = 'CANCELLED', updated_at_ms = ?
+            WHERE plan_item_id = ? AND state = 'PLANNED' AND updated_at_ms <= ?
+              AND NOT EXISTS (SELECT 1 FROM finance_plan_item_payment WHERE plan_item_id = ?)
+            """.trimIndent(),
+        ).use { st ->
+            st.bindLong(1, command.recordedAtEpochMillis)
+            st.bindText(2, command.id.value)
+            st.bindLong(3, command.recordedAtEpochMillis)
+            st.bindText(4, command.id.value)
+            st.step()
+        }
+    }
+
+    fun readCalendar(query: FinanceCommitmentCalendarQuery): FinanceCommitmentCalendar =
+        FinanceCommitmentCalendar(readDebts(query.currency), readSchedules(query.currency), readItems(query))
+
+    private fun readDebts(currency: FinanceCurrencyCode): List<FinanceCommitmentCreate.Debt> =
+        connection.prepare(
+            """
+            SELECT debt_id, title, creditor, principal_minor, created_at_ms FROM finance_debt
+            WHERE currency_code = ? ORDER BY debt_id LIMIT 2001
+            """.trimIndent(),
+        ).use { st ->
+            st.bindText(1, currency.value)
+            buildList {
+                while (st.step()) {
+                    check(size < MAX_CALENDAR_ROWS)
+                    add(FinanceCommitmentCreate.Debt(
+                        FinanceCommitmentId(st.getText(0)), st.getText(1), st.getText(2), currency,
+                        st.getLong(3), st.getLong(4),
+                    ))
+                }
+            }
+        }
+
+    private fun readSchedules(currency: FinanceCurrencyCode): List<FinanceCalendarSchedule> =
+        connection.prepare(
+            """
+            SELECT schedule_id, debt_id, installment_minor, start_period, recurrence,
+                total_count, updated_at_ms, version, active
+            FROM finance_schedule WHERE currency_code = ? AND version < ?
+            ORDER BY schedule_id LIMIT 2001
+            """.trimIndent(),
+        ).use { st ->
+            st.bindText(1, currency.value)
+            st.bindLong(2, RETIRED_VERSION)
+            buildList {
+                while (st.step()) {
+                    check(size < MAX_CALENDAR_ROWS)
+                    add(FinanceCalendarSchedule(
+                        FinanceCommitmentCreate.Schedule(
+                            FinanceCommitmentId(st.getText(0)), st.commitmentIdOrNull(1), currency, st.getLong(2),
+                            YearMonth.parse(st.getText(3)), FinanceScheduleRecurrence.valueOf(st.getText(4)),
+                            if (st.isNull(5)) null else Math.toIntExact(st.getLong(5)), st.getLong(6),
+                        ),
+                        st.getLong(7), st.getLong(8) == 1L,
+                    ))
+                }
+            }
+        }
+
+    private fun readItems(query: FinanceCommitmentCalendarQuery): List<FinanceCalendarItem> =
+        connection.prepare(
+            """
+            SELECT p.plan_item_id, p.schedule_id, p.schedule_version, p.debt_id, p.due_local_date,
+                p.expected_minor, p.state, COALESCE(SUM(a.amount_minor), 0), COUNT(a.entry_id), COUNT(e.entry_id)
+            FROM finance_plan_item p
+            LEFT JOIN finance_plan_item_payment a ON p.plan_item_id = a.plan_item_id
+            LEFT JOIN finance_entry e ON e.entry_id = a.entry_id AND e.kind = 'EXPENSE'
+                AND e.currency_code = p.currency_code AND e.amount_minor = a.amount_minor
+            WHERE p.currency_code = ? AND p.period BETWEEN ? AND ?
+            GROUP BY p.plan_item_id ORDER BY p.due_local_date, p.plan_item_id LIMIT 2001
+            """.trimIndent(),
+        ).use { st ->
+            st.bindText(1, query.currency.value)
+            st.bindText(2, query.from.toString())
+            st.bindText(3, query.through.toString())
+            buildList {
+                while (st.step()) {
+                    check(size < MAX_CALENDAR_ROWS)
+                    val expected = st.getLong(5)
+                    val paid = st.getLong(7)
+                    check(paid in 0..expected && st.getLong(8) == st.getLong(9))
+                    val cancelled = st.getText(6) == "CANCELLED"
+                    check(!cancelled || paid == 0L)
+                    val dueDate = LocalDate.parse(st.getText(4))
+                    val remaining = if (cancelled) 0L else expected - paid
+                    val due = remaining > 0 && !dueDate.isAfter(query.asOf)
+                    val state = when {
+                        cancelled -> FinanceCommitmentState.CANCELLED
+                        remaining == 0L -> FinanceCommitmentState.PAID_CONFIRMED
+                        paid > 0L -> FinanceCommitmentState.PARTIAL
+                        due -> FinanceCommitmentState.DUE
+                        else -> FinanceCommitmentState.PLANNED
+                    }
+                    val scheduled = st.commitmentIdOrNull(1)?.let {
+                        FinanceCommitmentCreate.ScheduleReference(it, st.getLong(2))
+                    }
+                    add(FinanceCalendarItem(
+                        FinanceCommitmentId(st.getText(0)), scheduled, st.commitmentIdOrNull(3), dueDate,
+                        expected, paid, remaining, state, due,
+                    ))
+                }
+            }
+        }
+
+    private fun nextVersion(current: Long): Long = Math.incrementExact(current).also { check(it < RETIRED_VERSION) }
 
     private fun insertDebt(debt: FinanceCommitmentCreate.Debt) {
         connection.prepare(
@@ -178,9 +371,27 @@ internal class RealityFinance9CommitmentWriter(private val connection: SQLiteCon
             val expectedPeriod = YearMonth.parse(statement.getText(2)).plusMonths(ordinal - 1)
             check(item.period == expectedPeriod) { "Finance installment period differs from the schedule" }
         }
+        connection.prepare(
+            """
+            SELECT 1 FROM finance_plan_item
+            WHERE schedule_id = ? AND period = ? AND state = 'PLANNED' LIMIT 1
+            """.trimIndent(),
+        ).use { statement ->
+            statement.bindText(1, reference.id.value)
+            statement.bindText(2, item.period.toString())
+            check(!statement.step()) { "Finance schedule already has an item for this period" }
+        }
     }
 
     private fun SQLiteStatement.bindCommitmentId(index: Int, id: FinanceCommitmentId?) {
         if (id == null) bindNull(index) else bindText(index, id.value)
+    }
+
+    private fun SQLiteStatement.commitmentIdOrNull(index: Int): FinanceCommitmentId? =
+        if (isNull(index)) null else FinanceCommitmentId(getText(index))
+
+    private companion object {
+        const val RETIRED_VERSION = Long.MAX_VALUE
+        const val MAX_CALENDAR_ROWS = 2000
     }
 }

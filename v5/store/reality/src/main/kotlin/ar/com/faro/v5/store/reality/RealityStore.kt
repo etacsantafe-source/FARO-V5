@@ -53,6 +53,8 @@ import ar.com.faro.v5.owner.finance.api.FinanceEntryKind
 import ar.com.faro.v5.owner.finance.api.FinanceEntryConcept
 import ar.com.faro.v5.owner.finance.api.FinanceEntryCategory
 import ar.com.faro.v5.owner.finance.api.FinanceOperations
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentCalendarReadPort
+import ar.com.faro.v5.owner.finance.api.FinanceCommitmentLifecyclePort
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentPaymentPort
 import ar.com.faro.v5.owner.finance.api.FinanceCommitmentWritePort
 import ar.com.faro.v5.owner.finance.api.FinanceTransferRecord
@@ -260,6 +262,46 @@ class RealityStore(
                     }
                 }
             }.getOrDefault(unavailable)
+        }
+    }
+
+    fun finance9CommitmentLifecycleForDevOnly(): FinanceCommitmentLifecyclePort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) { "Calendar changes require ACTIVE9 DEV Reality" }
+        val writer = RealityFinance9CommitmentWriter(connection)
+        FinanceCommitmentLifecyclePort { command, scope ->
+            synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                writer.change(command)
+            }
+        }
+    }
+
+    /** The ACTIVE9 host supplies live foreground and finance:all read admission. */
+    fun finance9ActiveDevCommitmentCalendar(
+        ownerAdmission: () -> Boolean,
+    ): FinanceCommitmentCalendarReadPort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) { "Calendar reads require ACTIVE9 DEV Reality" }
+        val owner = RealityFinance9CommitmentWriter(connection)
+        FinanceCommitmentCalendarReadPort { query ->
+            runCatching {
+                withMaterialAdmission {
+                    synchronized(lock) observation@{
+                        if (closed || activeTransactionId != null || readSchemaVersion() != 9 ||
+                            !ownerAdmission()
+                        ) return@observation null
+                        connection.execSQL("BEGIN DEFERRED TRANSACTION")
+                        val result = try {
+                            owner.readCalendar(query)
+                        } finally {
+                            connection.execSQL("ROLLBACK TRANSACTION")
+                        }
+                        result.takeIf { ownerAdmission() }
+                    }
+                }
+            }.getOrNull()
         }
     }
 
