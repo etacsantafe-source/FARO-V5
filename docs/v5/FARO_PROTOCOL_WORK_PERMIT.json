@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
   "reviewed_head": "21eb1655022cbdc01f63afee39b9c07774d3c238",
   "paths": [
@@ -57,17 +57,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SQLITE_JVM_5_AND_REGRESSIONS",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "2e6d2b23da350f24468bcda7cf2874e942bfd20c",
+    "sha": "a0913a63c2c7123322d323e9b0a1cabe93eaab23",
     "unit_id": "S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_RED_FIX_20261118.md",
-        "blob_sha": "8672af98dcab368570e66043b076f595425da470",
+        "path": "docs/v5/FARO_S4_W01_B2D0_ACTIVE_FINANCE9_SQL_GRANT_B7_PASS_20261118.md",
+        "blob_sha": "e3962594fc2c1d5861f665ea3b2f0c8ee76d7900",
         "marker": "## B7"
       }
     ]
@@ -82,5 +82,8 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  }
+  },
+  "blocker": "B2D1_SCOPED_READY_PENDING",
+  "blocked_reason": "B2D0 consumed. B2D1 has a separate audit and must receive an exact READY.",
+  "consumed_code_sha": "a0913a63c2c7123322d323e9b0a1cabe93eaab23"
 }
