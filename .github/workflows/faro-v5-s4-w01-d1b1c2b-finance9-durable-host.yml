@@ -22,19 +22,8 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Verify READY permit in functional parent
-        run: |
-          set -euo pipefail
-          parent="$RUNNER_TEMP/faro-d1b1c2b-parent"
-          git worktree add --detach "$parent" HEAD^
-          python3 "$parent/scripts/quality/faro-protocol-gate.py" \
-            --repo "$parent" --mode preflight \
-            --unit S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST \
-            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt \
-            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt \
-            --path v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt \
-            --path .github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml
-          git worktree remove "$parent"
+      - name: Verify FARO protocol for this checkout
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

@@ -7,6 +7,7 @@ import ar.com.faro.v5.maintenance.BootstrapPhase
 import ar.com.faro.v5.maintenance.BootstrapTransitionPolicy
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.FileBootstrapJournal
+import ar.com.faro.v5.maintenance.FileGenerationReplayFence
 import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
 import ar.com.faro.v5.maintenance.GenerationActivationResult
 import ar.com.faro.v5.maintenance.GenerationSwitchFaultPoint
@@ -33,9 +34,10 @@ import java.security.MessageDigest
 
 /**
  * Exclusive maintenance lease for a private, isolated Finance DEV root.
- * It keeps the original request durable without retaining a store graph.
+ * Maintenance keeps the original request durable. A subsequent mount can
+ * retain one committed graph for this lease.
  */
-internal class FaroV5Finance9DevCutoverRuntime private constructor(
+class FaroV5Finance9DevCutoverRuntime private constructor(
     private val root: Path,
     private val gate: SingleProcessMaterialWriteGate,
     private val planVerifier: PreparedPlanEnvelopeVerificationPort,
@@ -57,6 +59,7 @@ internal class FaroV5Finance9DevCutoverRuntime private constructor(
 
     private val ticket = root.resolve("bootstrap").resolve("finance9-dev-cutover-v1.bin")
     private var closed = false
+    private var mountedGraph: FaroV5GenerationStoreGraph? = null
 
     fun start(
         operationId: MaintenanceOperationId,
@@ -66,6 +69,7 @@ internal class FaroV5Finance9DevCutoverRuntime private constructor(
         confirmInForeground: () -> Boolean,
     ): Selection = gate.withQuiescedMaterialWrites {
         requireLive()
+        check(mountedGraph == null) { "Close the DEV graph before maintenance" }
         check(confirmInForeground()) { "Finance9 cutover requires explicit foreground confirmation" }
         check(recover()?.status != Status.ACTIVE_NINE) { "Finance9 root already finished cutover" }
         val pointer = FileActiveGenerationPointer(root)
@@ -89,9 +93,73 @@ internal class FaroV5Finance9DevCutoverRuntime private constructor(
 
     fun recover(): Selection? = gate.withQuiescedMaterialWrites {
         requireLive()
+        check(mountedGraph == null) { "Close the DEV graph before recovery" }
         val intent = readIntent() ?: return@withQuiescedMaterialWrites null
         if (intent.sourceFingerprint == null) retainOrigin(intent)
         else activate(intent, recovery = true)
+    }
+
+    /** Opens only a committed target under this lease and retains ownership until close. */
+    fun openCommittedFinance9(selection: Selection): FaroV5GenerationStoreGraph =
+        gate.withQuiescedMaterialWrites {
+            requireLive()
+            check(mountedGraph == null) { "This DEV root already has a mounted graph" }
+            check(selection.status == Status.ACTIVE_NINE && isCurrent(selection))
+            val intent = checkNotNull(readIntent())
+            val stage = FileStorageGenerationLayout(root).requireStaged(selection.pointer.generationId)
+            check(stage.descriptor == intent.target)
+            val graph = FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Dev(
+                root, stage, selection.pointer.sequence, planVerifier, gate,
+            )
+            try {
+                check(isCurrent(selection)) { "Finance9 selection changed during mount" }
+                mountedGraph = graph
+                graph
+            } catch (failure: Throwable) {
+                graph.close()
+                throw failure
+            }
+        }
+
+    /** Rechecks session readiness from durable metadata without opening another graph. */
+    fun isCurrent(selection: Selection): Boolean = runCatching {
+        gate.withMaterialWrite {
+            requireLive()
+            val intent = checkNotNull(readIntent())
+            val bootstrap = ticket.parent
+            check(listOf("active", "journal").all { Files.isDirectory(bootstrap.resolve(it), NOFOLLOW_LINKS) })
+            val pointer = FileActiveGenerationPointer(root)
+            val journal = FileBootstrapJournal(root)
+            val record = journal.read(intent.operationId)
+            check(pointer.read() == selection.pointer && journal.pending().isEmpty())
+            check(record == null || (record.kind == MaintenanceOperationKind.RESTORE &&
+                record.previousGenerationId == intent.origin.generationId &&
+                record.targetGenerationId == intent.target.generationId))
+
+            when (selection.status) {
+                Status.ACTIVE_NINE -> intent.sourceFingerprint != null &&
+                    selection.pointer == ActiveGenerationPointer(
+                        Math.addExact(intent.origin.sequence, 1L), intent.target.generationId,
+                    ) && record != null && record.phase == BootstrapPhase.COMPLETED && record.materialWritesAccepted &&
+                    hasReplayFence(MaintenanceOperationKind.RESTORE, intent.target.generationId)
+                Status.ORIGIN_RETAINED -> intent.sourceFingerprint == null &&
+                    selection.pointer == intent.origin &&
+                    (record == null || record.phase == BootstrapPhase.ABORTED_PRE_SWITCH)
+                Status.ROLLED_BACK -> intent.sourceFingerprint != null &&
+                    selection.pointer == ActiveGenerationPointer(
+                        Math.addExact(intent.origin.sequence, 2L), intent.origin.generationId,
+                    ) && record != null && record.phase == BootstrapPhase.ROLLBACK_VERIFIED && !record.materialWritesAccepted &&
+                    !hasReplayFence(MaintenanceOperationKind.RESTORE, intent.target.generationId) &&
+                    !hasReplayFence(MaintenanceOperationKind.MIGRATION, intent.target.generationId)
+            }
+        }
+    }.getOrDefault(false)
+
+    private fun hasReplayFence(kind: MaintenanceOperationKind, targetId: StorageGenerationId): Boolean {
+        val directory = ticket.parent.resolve("replay-fences")
+        if (Files.notExists(directory, NOFOLLOW_LINKS)) return false
+        check(Files.isDirectory(directory, NOFOLLOW_LINKS))
+        return FileGenerationReplayFence(root).isInstalled(kind, targetId)
     }
 
     private fun retainOrigin(intent: Intent): Selection {
@@ -201,6 +269,8 @@ internal class FaroV5Finance9DevCutoverRuntime private constructor(
     override fun close() = gate.withQuiescedMaterialWrites {
         synchronized(heldRoots) {
             if (!closed) {
+                mountedGraph?.close()
+                mountedGraph = null
                 closed = true
                 try {
                     lock.release()
@@ -224,8 +294,14 @@ internal class FaroV5Finance9DevCutoverRuntime private constructor(
             storageRoot: Path,
             gate: SingleProcessMaterialWriteGate,
             planVerifier: PreparedPlanEnvelopeVerificationPort,
-            fault: (GenerationSwitchFaultPoint) -> Unit = {},
-            afterAuthorization: () -> Unit = {},
+        ): FaroV5Finance9DevCutoverRuntime = acquire(storageRoot, gate, planVerifier, {}, {})
+
+        internal fun acquire(
+            storageRoot: Path,
+            gate: SingleProcessMaterialWriteGate,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            fault: (GenerationSwitchFaultPoint) -> Unit,
+            afterAuthorization: () -> Unit,
         ): FaroV5Finance9DevCutoverRuntime = synchronized(heldRoots) {
             check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
             val root = storageRoot.toRealPath()
