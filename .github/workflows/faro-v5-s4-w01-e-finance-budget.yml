@@ -1,0 +1,64 @@
+name: FARO V5 W01 E F06 monthly budget
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceOperations.kt"
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceBudget.kt"
+      - "v5/owner/finance/src/main/kotlin/ar/com/faro/v5/owner/finance/api/FinanceBudgetBinding.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9Budget.kt"
+      - "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9BudgetTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-e-finance-budget.yml"
+permissions:
+  contents: read
+jobs:
+  active-finance9-budget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Verify seven-block evidence
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - name: Run exact Finance9 monthly budget cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityFinance9BudgetTest
+      - name: Verify exact monthly budget JUnit report
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          report = Path("v5/store/reality/build/test-results/test") / (
+              "TEST-ar.com.faro.v5.store.reality.RealityFinance9BudgetTest.xml"
+          )
+          suite = ElementTree.parse(report).getroot()
+          counts = tuple(int(suite.get(key, "-1")) for key in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "keepsZeroAbsentCurrencyAndRevisionDistinct",
+              "usesCivilMonthAndExcludesOnlyLinkedInternalTransfers",
+              "reportsUncategorizedResidualAndUsesOnlyPostedPaymentsAsActual",
+              "deniesBeforeAfterAndHidesOverflow",
+          }
+          names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
+          if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):
+              raise SystemExit(f"F06 unexpected JUnit evidence: {counts}, {names}")
+          print(f"W01_E_F06_FINANCE_BUDGET_SQLITE_PASS {len(expected)}/{len(expected)}")
+          PY
+      - name: Preserve exact monthly budget JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-v5-w01-e-f06-budget-junit
+          path: v5/store/reality/build/test-results/test/TEST-ar.com.faro.v5.store.reality.RealityFinance9BudgetTest.xml
+          if-no-files-found: warn

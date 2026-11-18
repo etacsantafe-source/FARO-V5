@@ -7,6 +7,9 @@ import ar.com.faro.v5.kernel.contracts.OperationId
 object FinanceOperations {
     val CAPABILITY_ID = CapabilityId("N-025")
     val EXECUTOR_ID = ExecutorId("finance")
+    val BUDGET_READ = OperationId("finance.budget.read")
+    val BUDGET_SET = OperationId("finance.budget.set")
+    val BUDGET_CLEAR = OperationId("finance.budget.clear")
     val SNAPSHOT_READ = OperationId("finance.snapshot.read")
     val ACCOUNT_CREATE = OperationId("finance.account.create")
     val ENTRY_RECORD = OperationId("finance.entry.record")

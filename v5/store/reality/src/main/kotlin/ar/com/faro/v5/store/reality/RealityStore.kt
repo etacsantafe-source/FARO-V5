@@ -35,6 +35,10 @@ import ar.com.faro.v5.owner.profile.api.DeclaredDisplayName
 import ar.com.faro.v5.owner.profile.api.ProfileFieldProvenance
 import ar.com.faro.v5.owner.profile.api.ProfileSnapshot
 import ar.com.faro.v5.owner.profile.spi.ProfilePersistencePort
+import ar.com.faro.v5.owner.finance.api.FinanceBudgetCoverage
+import ar.com.faro.v5.owner.finance.api.FinanceBudgetObservation
+import ar.com.faro.v5.owner.finance.api.FinanceBudgetReadPort
+import ar.com.faro.v5.owner.finance.api.FinanceBudgetWritePort
 import ar.com.faro.v5.owner.finance.api.FinanceAccountCreate
 import ar.com.faro.v5.owner.finance.api.FinanceAccountId
 import ar.com.faro.v5.owner.finance.api.FinanceAccountNature
@@ -213,6 +217,49 @@ class RealityStore(
                     recordFinanceEntry(payment.expense, scope)
                 }
             }
+        }
+    }
+
+    fun finance9BudgetWriteForDevOnly(): FinanceBudgetWritePort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) { "Budget changes require ACTIVE9 DEV Reality" }
+        val budget = RealityFinance9Budget(connection)
+        FinanceBudgetWritePort { command, scope ->
+            synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                budget.change(command)
+            }
+        }
+    }
+
+    /** The ACTIVE9 host supplies live foreground and finance:all read admission. */
+    fun finance9ActiveDevBudgetRead(ownerAdmission: () -> Boolean): FinanceBudgetReadPort = synchronized(lock) {
+        checkOpen()
+        check(financeActive9 && readSchemaVersion() == 9) { "Budget reads require ACTIVE9 DEV Reality" }
+        val budget = RealityFinance9Budget(connection)
+        val denied = FinanceBudgetObservation(FinanceBudgetCoverage.DENIED)
+        val unavailable = FinanceBudgetObservation(FinanceBudgetCoverage.UNAVAILABLE)
+        FinanceBudgetReadPort { query ->
+            runCatching {
+                withMaterialAdmission {
+                    synchronized(lock) {
+                        when {
+                            closed || activeTransactionId != null || readSchemaVersion() != 9 -> unavailable
+                            !ownerAdmission() -> denied
+                            else -> {
+                                connection.execSQL("BEGIN DEFERRED TRANSACTION")
+                                val result = try {
+                                    budget.observe(query)
+                                } finally {
+                                    connection.execSQL("ROLLBACK TRANSACTION")
+                                }
+                                if (ownerAdmission()) result else denied
+                            }
+                        }
+                    }
+                }
+            }.getOrDefault(unavailable)
         }
     }
 
