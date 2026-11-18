@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C2D_ANDROID_FINANCE9_SESSION",
   "reviewed_head": "c913413adc70f1b7a4cedd9563a8b9742ac61391",
   "paths": [
@@ -69,13 +69,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "ed0134c3d22d9f667a45d33d6696947ee9522273",
-    "unit_id": "S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT",
-    "result": "PASS",
+    "sha": "8de423a7342e6ceefa27f89753be76a540bf1bd0",
+    "unit_id": "S4_W01_D1B1C2D_ANDROID_FINANCE9_SESSION",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B7_PASS_20261117.md",
-        "blob_sha": "c77714b20131111b6c5b610a9661866e9f18f90a",
+        "path": "docs/v5/FARO_S4_W01_D1B1C2D_ANDROID_BOOTSTRAP_RED_FIX_20261118.md",
+        "blob_sha": "10a35a4a18848717a0af754189848ed88e5e819c",
         "marker": "## B7"
       }
     ]
@@ -84,14 +84,14 @@
   "how": "Documented exact9 B1-B5 with green guard 44291369695",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
+  "blocker": "D1B1C2D_FRESH_BOOTSTRAP_RED_FIX",
+  "blocked_reason": "Planning8 constructor creates maintenance directories before pristine bootstrap; W01 lock marker must be admitted by narrow initializer.",
   "consumed_code_sha": null,
   "adb_ci_human_authorization": {
     "authorized": true,
     "date": "2026-11-18",
     "emulator_only": true,
     "physical_allowed": false,
-    "code_ready": true
+    "code_ready": false
   }
 }
