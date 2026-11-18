@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D_F05_COMMITMENT_DECLARATIONS",
   "reviewed_head": "2c5cc9738a6ea5f101b22d7066a8a21b9d917d6a",
   "paths": [
@@ -63,23 +63,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ACTIVE9_DECLARATIONS_JVM_4",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "aef656804ed5f559f19181e9e50b00f407a89783",
-    "unit_id": "S4_W01_C0_FINANCE_TRANSFER_ATOMIC",
+    "sha": "615660cc325a3851d87897df9bcfddcdfa5a7d80",
+    "unit_id": "S4_W01_D_F05_COMMITMENT_DECLARATIONS",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_C0_FINANCE_TRANSFER_ATOMIC_B7_PASS_20261118.md",
-        "blob_sha": "188135e2a2422e6cfb917a8d4adc9b1ce13fcdb6",
+        "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_DECLARATIONS_B7_PASS_20261118.md",
+        "blob_sha": "dfebe79c8bb8c51584e1cac493ddeac7fe15b4f3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Persist F05 debt, schedule and installment declarations in ACTIVE9.",
-  "how": "Exact seven paths after guard 44327570954 SUCCESS. JVM SQL tests, no ADB.",
+  "why": "F05 declarations verified. Payment unit requires separate READY.",
+  "how": "B7 exact SHA, verified JUnit XML, no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
