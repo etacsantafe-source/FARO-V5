@@ -105,7 +105,10 @@ internal class FaroV5Finance9DevStagePreparation(
      * A source can change without changing the active pointer. Recheck a
      * prepared copy under the same lease immediately before starting cutover.
      */
-    fun requireSourceUnchanged(prepared: Prepared) = gate.withQuiescedMaterialWrites {
+    fun requireSourceUnchanged(
+        prepared: Prepared,
+        resumeSwitchBeforePublish: Boolean = false,
+    ) = gate.withQuiescedMaterialWrites {
         assertExclusiveClosedDevHost()
         requireExistingRoot()
         val pointer = FileActiveGenerationPointer(root)
@@ -114,11 +117,14 @@ internal class FaroV5Finance9DevStagePreparation(
         val source = layout.requireStaged(prepared.origin.generationId)
         check(layout.requireStaged(prepared.target.descriptor.generationId) == prepared.target)
         val journal = FileBootstrapJournal(root)
+        val entry = checkNotNull(journal.read(prepared.operationId))
+        check(entry.phase == BootstrapPhase.VALIDATED ||
+            (resumeSwitchBeforePublish && entry.phase == BootstrapPhase.SWITCH_PREPARED))
         val expected = BootstrapJournalEntry(
             prepared.operationId, MaintenanceOperationKind.RESTORE, prepared.origin.generationId,
-            prepared.target.descriptor.generationId, BootstrapPhase.VALIDATED,
+            prepared.target.descriptor.generationId, entry.phase,
         )
-        check(journal.read(prepared.operationId) == expected && journal.pending().singleOrNull() == expected)
+        check(entry == expected && journal.pending().singleOrNull() == expected)
         check(ExistingGenerationFormatReader.requireAndRead(source) == GenerationStoreFormat.WORKSPACE_V2)
         check(fingerprint(prepared.origin, readSealedFiles(source.directory)) == prepared.sourceFingerprint &&
             pointer.read() == prepared.origin) { "Finance9 stage source fingerprint is stale" }

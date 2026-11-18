@@ -1,0 +1,79 @@
+name: FARO V5 W01 D1B1C2B Finance9 DEV durable cutover host
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt"
+      - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt"
+      - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt"
+      - ".github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml"
+permissions:
+  contents: read
+concurrency:
+  group: faro-w01-d1b1c2b-finance9-durable-host
+  cancel-in-progress: false
+jobs:
+  finance9-durable-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify READY permit in functional parent
+        run: |
+          set -euo pipefail
+          parent="$RUNNER_TEMP/faro-d1b1c2b-parent"
+          git worktree add --detach "$parent" HEAD^
+          python3 "$parent/scripts/quality/faro-protocol-gate.py" \
+            --repo "$parent" --mode preflight \
+            --unit S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST \
+            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt \
+            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt \
+            --path v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntimeTest.kt \
+            --path .github/workflows/faro-v5-s4-w01-d1b1c2b-finance9-durable-host.yml
+          git worktree remove "$parent"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run directed DEV durable-host tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Finance9DevCutoverRuntimeTest
+      - name: Verify exact D1B1C2B JUnit report
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          report = Path("v5/store/generation/build/test-results/test") / (
+              "TEST-ar.com.faro.v5.generation.FaroV5Finance9DevCutoverRuntimeTest.xml"
+          )
+          suite = ElementTree.parse(report).getroot()
+          counts = tuple(int(suite.get(key, "-1")) for key in ("tests", "failures", "errors", "skipped"))
+          expected = {
+              "exclusiveRootSpansBothJvmAndRealOsProcess",
+              "explicitConfirmationActivatesAndReacquisitionReadsSameDurableChoice",
+              "noInitialConfirmationLeavesNoIntentOrJournal",
+              "lostForegroundAfterCopyRetainsOriginAndAllowsNewAttempt",
+              "prepareOnlyRecordNeverPromotesAfterRestart",
+              "durableAuthorizationRecoversAfterPointerCasWithoutNewConfirmation",
+              "sourceDriftDuringSwitchPreparedCannotPromoteOldCopy",
+              "damagedAuthorizationRecordFailsClosed",
+          }
+          names = [case.attrib["name"].removesuffix("()") for case in suite.findall("testcase")]
+          if counts != (len(expected), 0, 0, 0) or set(names) != expected or len(names) != len(expected):
+              raise SystemExit(f"D1B1C2B unexpected JUnit evidence: {counts}, {names}")
+          print(f"D1B1C2B_FINANCE9_DEV_DURABLE_HOST_PASS {len(expected)}/{len(expected)}")
+          PY
+      - name: Preserve exact D1B1C2B JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: faro-w01-d1b1c2b-finance9-durable-host-junit
+          path: v5/store/generation/build/test-results/test/TEST-ar.com.faro.v5.generation.FaroV5Finance9DevCutoverRuntimeTest.xml
+          if-no-files-found: warn
