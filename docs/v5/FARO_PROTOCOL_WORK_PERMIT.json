@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D_F05_COMMITMENT_PAYMENTS",
   "reviewed_head": "dd9586d96883d32140b362359edecbced960872e",
   "paths": [
@@ -63,23 +63,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ACTIVE9_COMMITMENT_PAYMENTS_JVM_4",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "615660cc325a3851d87897df9bcfddcdfa5a7d80",
-    "unit_id": "S4_W01_D_F05_COMMITMENT_DECLARATIONS",
+    "sha": "44cd027abce43b2cd2a9be06b7afd25e109d4f14",
+    "unit_id": "S4_W01_D_F05_COMMITMENT_PAYMENTS",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_DECLARATIONS_B7_PASS_20261118.md",
-        "blob_sha": "dfebe79c8bb8c51584e1cac493ddeac7fe15b4f3",
+        "path": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B7_PASS_20261118.md",
+        "blob_sha": "0267a82545ffffdaef80d5a44cfa39868e40fdf0",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Record partial or full registered commitment payments in ACTIVE9.",
-  "how": "Guard 44375615336 SUCCESS. Exact seven paths and SQLite JVM CI.",
+  "why": "Commitment payments verified. F06 requires separate READY.",
+  "how": "B7 on exact code SHA, verified JUnit reports, no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {

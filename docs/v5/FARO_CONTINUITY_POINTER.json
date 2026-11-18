@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-18",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W01_D_F05_DECLARATIONS_B7_PASS_SCOPED",
+  "phase": "S4_W01_D_F05_PAYMENTS_B7_PASS_SCOPED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1233
+    "epoch": 1235
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F05 registered commitment payments READY. Run preflight for all seven paths, writer CAS, B6 and exact CI/XML, then B7.",
-  "checkpoint_status": "S4_W01_D_F05_DECLARATIONS_B7_PASS_SCOPED",
+  "next": "F06 budget limits and read: verify guard and emit separate READY. Then preflight, writer CAS, exact B6/CI/XML and B7. F05 calendar lifecycle and W01-F remain open.",
+  "checkpoint_status": "S4_W01_D_F05_PAYMENTS_B7_PASS_SCOPED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "615660cc325a3851d87897df9bcfddcdfa5a7d80",
-  "last_ci_run_id": 44374508754,
+  "last_code_sha": "44cd027abce43b2cd2a9be06b7afd25e109d4f14",
+  "last_ci_run_id": 44376679445,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EXACT_F05_4_OF_4_C0_REGRESSION_AND_GUARD",
+  "last_ci_conclusion": "SUCCESS_EXACT_F05_PAYMENTS_4_OF_4_AND_GUARD",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5170,7 +5170,7 @@
   },
   "w01_f05_payments": {
     "unit_id": "S4_W01_D_F05_COMMITMENT_PAYMENTS",
-    "status": "READY_7_PATHS",
+    "status": "B7_PASS_SCOPED_ACTIVE_REAL_SQLITE_JVM",
     "preaudit": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B1_B5_20261118.md",
     "preaudit_blob_sha": "5a70e52a8f7585973ed6ea123fbe3f3ddd8a09ab",
     "paths": [
@@ -5182,6 +5182,20 @@
       "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9CommitmentPaymentTest.kt",
       ".github/workflows/faro-v5-s4-w01-d-commitment-payments.yml"
     ],
-    "preaudit_guard": 44375615336
+    "preaudit_guard": 44375615336,
+    "code_sha": "44cd027abce43b2cd2a9be06b7afd25e109d4f14",
+    "b7_document": "docs/v5/FARO_S4_W01_D_F05_COMMITMENT_PAYMENTS_B7_PASS_20261118.md",
+    "b7_blob_sha": "0267a82545ffffdaef80d5a44cfa39868e40fdf0",
+    "ci_run": 44376679445,
+    "ci_guard": 44376678868,
+    "artifact": 14460849029,
+    "junit": "4_OF_4_PASS",
+    "writer_release_epoch": 1234
+  },
+  "w01_f06_budget": {
+    "unit_id": "S4_W01_E_F06_FINANCE_BUDGET",
+    "status": "B1_B5_PREAUDITED_READY_PENDING_GUARD",
+    "preaudit": "docs/v5/FARO_S4_W01_E_FINANCE_BUDGET_B1_B5_20261118.md",
+    "preaudit_blob_sha": "7c29a26aa11f86fb1ff06a6fa438fcda089ecbba"
   }
 }
