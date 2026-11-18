@@ -18,7 +18,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1175
+    "epoch": 1177
   },
   "automation": {
     "activation_authorized": false,
@@ -4883,13 +4883,21 @@
     "next": "D1B1C_FINANCE9_ACTIVE_CUTOVER_PREAUDIT_FIRST"
   },
   "codex_pilot": {
-    "status": "PREPARED_DOC_ONLY_NO_READY",
+    "status": "PREAUDIT_B1_B5_DOCS_PENDING_GUARD",
     "unit_id": "S4_W01_D1B1C0_FINANCE9_DEV_CUTOVER_PREFLIGHT",
     "handoff_doc": "docs/v5/FARO_CODEX_W01_D1B1C0_PILOT_HANDOFF_20261117.md",
     "code_sha_at_prep": "bf30b5ea37791eda6909175e2508e0c488a5a940",
     "codex_started": false,
     "cloud_environment_verified": false,
     "needs_human_publish": true,
-    "finance9_active": false
+    "finance9_active": false,
+    "preaudit_doc": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_B1_B5_20261117.md",
+    "adversarial_doc": "docs/v5/FARO_S4_W01_D1B1C0_CODEX_PREFLIGHT_ADVERSARIAL_B5_20261117.md",
+    "scope_exact3": [
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverPreflight.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverPreflightTest.kt",
+      ".github/workflows/faro-v5-s4-w01-d1b1c0-finance9-preflight.yml"
+    ],
+    "ready_permit": false
   }
 }
