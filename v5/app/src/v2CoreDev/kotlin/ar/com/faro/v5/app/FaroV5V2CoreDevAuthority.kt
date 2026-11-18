@@ -988,6 +988,30 @@ internal class FaroV5V2CoreDevAuthority(
         }
 
         @Synchronized
+        internal fun mountW01FinanceActions(
+            application: Application,
+            foreground: () -> Boolean,
+        ): S4W01F2FinanceSessionActions? {
+            val loan = w01FinanceBorrow ?: return null
+            if (!financeOwnsGraph || application.packageName != S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID) return null
+            val workspace = graph.workspace ?: return null
+            val epoch = UUID.randomUUID().toString()
+            val admitted = {
+                w01FinanceBorrow === loan && available() && foreground() &&
+                    pointer.read() == openingPointer && loan.isAdmittedForW01()
+            }
+            return runCatching {
+                if (!admitted()) return@runCatching null
+                val identity = "${application.packageName}:${application.applicationInfo.uid}"
+                val principal = java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(identity.toByteArray(Charsets.UTF_8))
+                    .joinToString("") { "%02x".format(it.toInt() and 0xff) }
+                S4W01F2FinanceSessionActions(openingPointer, pointer, workspace, graph.reality,
+                    gate, principal, epoch, admitted)
+            }.getOrNull()
+        }
+
+        @Synchronized
         override fun close() {
             if (alive.compareAndSet(true, false)) {
                 w01FinanceBorrow?.close()
@@ -1017,6 +1041,9 @@ internal class S4W01D1B1BActiveFinanceBorrow(
     private val alive: AtomicBoolean,
     private val onClose: () -> Unit,
 ) : AutoCloseable {
+    fun isAdmittedForW01(): Boolean =
+        alive.get() && !reader.isClosed() && probe.currentEvidenceOrNull() != null
+
     fun observedForDevOnly(): S4W01D1B1AActiveFinanceObservation? {
         if (!alive.get()) return null
         val observation = reader.observedForDevOnly()

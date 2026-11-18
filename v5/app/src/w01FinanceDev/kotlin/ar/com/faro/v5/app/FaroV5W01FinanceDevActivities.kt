@@ -161,6 +161,7 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
     private val executor = Executors.newSingleThreadExecutor()
     private val viewGeneration = AtomicLong(0L)
     private var display: TextView? = null
+    private var financeControls: LinearLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,6 +189,8 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
             textSize = 16f
         }
         column.addView(checkNotNull(display))
+        financeControls = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        column.addView(checkNotNull(financeControls))
         setContentView(ScrollView(this).apply {
             FaroV5NativeScreenInsets.protect(this)
             addView(column)
@@ -242,6 +245,19 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
             if (viewGeneration.get() != id || !foreground()) return@post
             val session = S4W01D1B1BFinanceSessionHandoff.consume(this)
             financePort.enter(session, application, ::foreground)
+            val controls = financeControls
+            val actions = session?.mountW01FinanceActions(application, ::foreground)
+            if (actions != null && controls != null) {
+                display?.text = "Finanzas Finance9"
+                FaroV5W01FinanceForms(
+                    controls, actions,
+                    execute = { work -> executor.execute { work() } },
+                    deliver = { apply ->
+                        runOnUiThread { if (viewGeneration.get() == id && foreground()) apply() }
+                    },
+                ).show()
+                return@post
+            }
             display?.text = "Consultando Finance ACTIVE local…"
             executor.execute {
                 val observed = runCatching { runBlocking { financePort.readFinance() } }.getOrNull()
@@ -257,6 +273,7 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
     override fun onPause() {
         viewGeneration.incrementAndGet()
         financePort.leave() // permanently revoke old loan + clear screen first
+        financeControls?.removeAllViews()
         display?.text = "Finanzas no disponible. Volvé a entrar desde el Chat."
         super.onPause()
     }
@@ -270,6 +287,7 @@ class FaroV5W01FinanceReadDevActivity : FragmentActivity() {
     override fun onDestroy() {
         viewGeneration.incrementAndGet()
         display = null
+        financeControls = null
         executor.shutdownNow()
         financePort.close()
         privateInvalidation?.close()
