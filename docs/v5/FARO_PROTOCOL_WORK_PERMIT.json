@@ -1,20 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY",
-  "reviewed_head": "a17e5692cfb6db41cb8504660902602e86805bc2",
+  "status": "READY",
+  "unit_id": "S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING",
+  "reviewed_head": "294ffc2486ded348765e585e7865ef8a0af4f26f",
   "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9OpeningProvenanceReadPort.kt",
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHost.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityFinance9ActiveDevGrantPortTest.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W01B2D1ActiveFinanceApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w01-b2d1-active-finance9-review-apply.yml"
+    ".github/workflows/faro-v5-s4-w01-b2d0-active-finance9-grant.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
-          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
+          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
+          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
           "marker": "## B1"
         }
       ]
@@ -23,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
-          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
+          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
+          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
           "marker": "## B2"
         }
       ]
@@ -33,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
-          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
+          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
+          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
           "marker": "## B3"
         }
       ]
@@ -43,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
-          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
+          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
+          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
           "marker": "## B4"
         }
       ]
@@ -53,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_B2D1_ACTIVE_FINANCE9_REVIEW_APPLY_B1_B5_20261118.md",
-          "blob_sha": "a819a62967261e620cc0095101f5faba1b26b69b",
+          "path": "docs/v5/FARO_S4_W01_B3B2_ACTIVE_FINANCE9_CONFIRMED_OPENING_B1_B5_20261118.md",
+          "blob_sha": "21acb9d94de608103c1bdd649e72651b91c65000",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ACTIVE_REVIEW_APPLY_JVM_5_AND_AFFECTED_CI",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "58d70ffc4d6610cdc854b9cdcdb69e1cf314c02a",
@@ -74,8 +78,8 @@
       }
     ]
   },
-  "why": "Connect canonical approved Workspace Review to the active DEV SQL grant and receipt.",
-  "how": "Exact three audited paths after documentary guard 44319237414 SUCCESS. JVM tests against the real active Finance9 graph; no ADB.",
+  "why": "Preserve explicit F02 opening provenance in the active receipt transaction.",
+  "how": "Exact seven paths after guard 44321698754 SUCCESS. Reused JVM CI, no ADB.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -84,8 +88,5 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  },
-  "blocker": "B3B2_SCOPED_READY_PENDING",
-  "blocked_reason": "B2D1 consumed. B3B2 requires its exact permit.",
-  "consumed_code_sha": "58d70ffc4d6610cdc854b9cdcdb69e1cf314c02a"
+  }
 }
