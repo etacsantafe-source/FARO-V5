@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
   "reviewed_head": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d",
   "paths": [
@@ -67,23 +67,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_EXACT_CI_XML_8",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "8f283c74d53d8f1ff3dd7cfd4bc093a2a3e05d1d",
+    "sha": "0ad128358157b9411d7eabb7a18296de7acee200",
     "unit_id": "S4_W01_F1_ACTIVE_FINANCE_REVIEW",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_F1_REVIEW_TEST_FIX_B7_RED_FIX_20261118.md",
-        "blob_sha": "95985be7f34128a64302bc371e3342b047574cea",
+        "path": "docs/v5/FARO_S4_W01_F1_ACTIVE_FINANCE_REVIEW_B7_PASS_20261118.md",
+        "blob_sha": "68f0da7cb1e29ac07d7d3c7f5a88dde75659ad3b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Correct the failing test setup without changing the assertions or the runtime.",
-  "how": "Same unit, one path, exact CI and XML.",
+  "why": "Scoped B7 PASS. Next unit requires a separate READY.",
+  "how": "Exact CI and independently verified JUnit XML.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
