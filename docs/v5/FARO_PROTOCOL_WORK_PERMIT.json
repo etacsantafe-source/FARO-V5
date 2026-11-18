@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT",
   "reviewed_head": "26d8569be18e3c02fac8eeb4674674b647a8bb27",
   "paths": [
@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_JVM_5_AND_AFFECTED_8",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "29cbcf8458bf49f4bf4eba56093b54cdd2e0e23e",
-    "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
+    "sha": "ed0134c3d22d9f667a45d33d6696947ee9522273",
+    "unit_id": "S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B7_PASS_20261117.md",
-        "blob_sha": "7ef9c719adc5c1e6700d42b585d4009f1ac227a0",
+        "path": "docs/v5/FARO_S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT_B7_PASS_20261117.md",
+        "blob_sha": "c77714b20131111b6c5b610a9661866e9f18f90a",
         "marker": "## B7"
       }
     ]
@@ -79,7 +79,7 @@
   "how": "Exact4 B1-B5 guard 44229884898 SUCCESS",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocker": "D1B1C2D_ANDROID_WIRING_ADB_CI_AUTHORIZATION_PENDING",
+  "blocked_reason": "Shared W01 Android launcher/authority paths automatically trigger existing ADB emulator workflows; user restricts ADB until final campaign",
+  "consumed_code_sha": "ed0134c3d22d9f667a45d33d6696947ee9522273"
 }
