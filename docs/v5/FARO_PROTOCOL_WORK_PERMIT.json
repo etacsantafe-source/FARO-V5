@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
   "reviewed_head": "abf7629d73ba27bed02a411c1a5717723e03283e",
   "paths": [
@@ -86,17 +86,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_JVM_8_AND_AFFECTED_7",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "896cce4385a5ad9aa075a57c64515c5e4a6adc70",
-    "unit_id": "S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE",
+    "sha": "29cbcf8458bf49f4bf4eba56093b54cdd2e0e23e",
+    "unit_id": "S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B7_PASS_20261117.md",
-        "blob_sha": "71b8058219498c6be1147aabf0b41a811083a9fd",
+        "path": "docs/v5/FARO_S4_W01_D1B1C2B_FINANCE9_DEV_DURABLE_HOST_B7_PASS_20261117.md",
+        "blob_sha": "7ef9c719adc5c1e6700d42b585d4009f1ac227a0",
         "marker": "## B7"
       }
     ]
@@ -105,7 +105,7 @@
   "how": "Exact5 after shared trigger addendum and guard 44228879233 SUCCESS",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": null,
-  "blocked_reason": null,
-  "consumed_code_sha": null
+  "blocker": "D1B1C2C_SINGLE_GRAPH_MOUNT_REQUIRES_OWN_READY",
+  "blocked_reason": "D1B1C2B exact5 permit consumed by B7",
+  "consumed_code_sha": "29cbcf8458bf49f4bf4eba56093b54cdd2e0e23e"
 }
