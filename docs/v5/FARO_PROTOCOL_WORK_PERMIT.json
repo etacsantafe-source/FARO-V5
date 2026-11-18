@@ -1,19 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_D1B1C1_FINANCE9_DEV_JOURNALED_CUTOVER",
-  "reviewed_head": "ee0979d774a0825581d9bab1c3af590df89988b1",
+  "status": "READY",
+  "unit_id": "S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE",
+  "reviewed_head": "a90d1b01a7e9a2b6a363af5793964f32f0f6ef6a",
   "paths": [
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1a-read-revoke-directed.yml",
-    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1c-post-commit-policy-notice.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparationTest.kt",
+    ".github/workflows/faro-v5-s4-w01-d1b1c2a-finance9-preserve-stage.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
-          "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
+          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
           "marker": "## B1"
         }
       ]
@@ -22,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
-          "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
+          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
           "marker": "## B2"
         }
       ]
@@ -32,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
-          "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
+          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
           "marker": "## B3"
         }
       ]
@@ -42,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
-          "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
+          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
           "marker": "## B4"
         }
       ]
@@ -52,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_D1B1C1_REGRESSION_GATE_RED_FIX_20261117.md",
-          "blob_sha": "cc93e462424bed352cc6b100c71af29354c2670a",
+          "path": "docs/v5/FARO_S4_W01_D1B1C2A_FINANCE9_DEV_PRESERVE_STAGE_B1_B5_20261117.md",
+          "blob_sha": "c79338e1f0aa003dc27d121a1cf436dd8a3ef5cd",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_VM_6_OF_6_AND_REGRESSIONS_40_OF_40",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "1eb6a5d078a0c4f84489a1d6b3a31c7b3d2f77f5",
@@ -73,11 +74,11 @@
       }
     ]
   },
-  "why": "Two regressions are blocked by out-of-date fixed permit lookups",
-  "how": "RED_FIX B1-B5 and guard 44225966998 SUCCESS; EXACT2 workflow-only same unit",
+  "why": "Prepare a sealed Finance9 DEV stage with a verified copy of existing Planning8",
+  "how": "Exact3, prior B7 and B1-B5 guarded by 44227015097",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "blocker": "D1B1C2A_STAGE_PREPARATION_REQUIRES_OWN_READY",
-  "blocked_reason": "D1B1C1 B7 PASS consumes its last permit",
-  "consumed_code_sha": "1eb6a5d078a0c4f84489a1d6b3a31c7b3d2f77f5"
+  "blocker": null,
+  "blocked_reason": null,
+  "consumed_code_sha": null
 }
