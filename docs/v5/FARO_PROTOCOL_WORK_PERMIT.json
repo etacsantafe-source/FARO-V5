@@ -4,16 +4,7 @@
   "unit_id": "S4_W02_C_OBJECTIVE_HISTORY",
   "reviewed_head": "bc9719b322aa27a4513a0daf12dc3df197d536b9",
   "paths": [
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt",
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveHistory.kt",
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveHistoryOperations.kt",
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveReviewedEditBinding.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetails.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W02ObjectiveReviewHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W02ObjectiveHistoryTest.kt",
-    ".github/workflows/faro-v5-s4-w02-c-objective-history.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W02ObjectiveHistoryTest.kt"
   ],
   "stages": {
     "B1": {
@@ -70,18 +61,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "b504a6e809f064e892ff2a8ce6320ed1212a4700",
-    "unit_id": "S4_W02_B_OBJECTIVE_REVIEW_APPLY",
-    "result": "PASS",
+    "sha": "a297b8358c5e9b8d5cf3ef413e3bace58ecd02ae",
+    "unit_id": "S4_W02_C_OBJECTIVE_HISTORY",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B7_PASS_20261118.md",
-        "blob_sha": "95b4a57dffdfffd6ba5daea4e1016fafbf1d6301",
+        "path": "docs/v5/FARO_S4_W02_C_OBJECTIVE_HISTORY_B7_RED_FIX_20261118.md",
+        "blob_sha": "f85b6e8eb3685376bf1477d61f090248d467c739",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W02-C reviewed history, correction and lifecycle with persistence and backup.",
+  "why": "Restore JUnit discovery of the lifecycle acceptance case; same W02-C.",
   "how": "Preaudit guard 44442641919 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
