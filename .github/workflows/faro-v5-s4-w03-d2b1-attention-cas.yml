@@ -1,0 +1,90 @@
+name: FARO V5 W03-D2B1 Notice Attention CAS
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt
+      - v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/S4W03AuxiliaryNoticeAttentionCasTest.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHostTest.kt
+      - .github/workflows/faro-v5-s4-w03-d2b1-attention-cas.yml
+
+permissions:
+  contents: read
+
+jobs:
+  attention-cas-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Preflight W03-D2B1 exact five READY paths
+        run: |
+          set -euo pipefail
+          unit=S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV
+          count=0
+          while IFS= read -r p; do
+            test -n "$p"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" --path "$p"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -ge 1 && test "$count" -le 5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for app JVM compilation
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test Attention CAS on real Auxiliary SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test \
+            --tests ar.com.faro.v5.store.auxiliary.S4W03AuxiliaryNoticeAttentionCasTest
+      - name: Test scoped click against active Finance9 DEV graph
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest \
+            --tests ar.com.faro.v5.app.S4W03NoticeAttentionCasHostTest
+      - name: Verify 8/8 directed JUnit XML and no skipped
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          targets=[
+             (Path('v5/store/auxiliary/build/test-results'),
+              'S4W03AuxiliaryNoticeAttentionCasTest',5),
+             (Path('v5/app/build/test-results'),
+              'S4W03NoticeAttentionCasHostTest',3),
+          ]
+          for root,name,n in targets:
+              reports=list(root.rglob('TEST-*'+name+'.xml'))
+              assert len(reports)==1,(name,reports)
+              suite=ElementTree.parse(reports[0]).getroot()
+              totals=tuple(int(suite.attrib[x]) for x in ('tests','failures','errors','skipped'))
+              assert totals==(n,0,0,0),(name,totals)
+              print(name,n,'PASS')
+          print('W03_D2B1_NOTICE_ATTENTION_CAS_XML_PASS 8/8')
+          PY
+      - name: Upload directed JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-d2b1-attention-cas-xml
+          if-no-files-found: error
+          path: |
+            v5/store/auxiliary/build/test-results/**/TEST-*S4W03AuxiliaryNoticeAttentionCasTest.xml
+            v5/app/build/test-results/**/TEST-*S4W03NoticeAttentionCasHostTest.xml

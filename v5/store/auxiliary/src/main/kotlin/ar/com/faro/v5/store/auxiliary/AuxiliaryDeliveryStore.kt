@@ -41,6 +41,19 @@ internal enum class AuxiliaryDeliveryFaultPoint {
     AFTER_NOTICE_INSERT,
 }
 
+/**
+ * W03-D2B1: the committed NoticeSnapshot itself is the durable CAS outcome.
+ * There is deliberately NO request-key idempotency receipt in schema3.
+ * An independent append-only receipt ledger needs a staged schema4 cutover.
+ */
+sealed interface S4W03NoticeAttentionCasResult {
+    data class Saved(val notice: NoticeSnapshot) : S4W03NoticeAttentionCasResult
+    data class Stale(val revision: Long) : S4W03NoticeAttentionCasResult
+    data object Terminal : S4W03NoticeAttentionCasResult
+    data object NotFound : S4W03NoticeAttentionCasResult
+    data object Denied : S4W03NoticeAttentionCasResult
+}
+
 class AuxiliaryDeliveryStore private constructor(
     fileName: String,
     driver: SQLiteDriver,
@@ -203,6 +216,82 @@ class AuxiliaryDeliveryStore private constructor(
                 initializeSchema()
             }
         }
+    }
+
+    /**
+     * W03-D2B1 trusted, explicit-click CAS mutation on an existing LOCAL_ONLY
+     * Reminder Notice. This never updates Reminder/Matter nor OS delivery.
+     * The admission callback must only inspect in-memory scoped policy/pointer;
+     * it must NOT acquire Reality or Workspace locks.
+     *
+     * Distinct request-key receipts are a separate schema4 migration task.
+     */
+    fun mutateReminderNoticeAttention(
+        noticeId: NoticeId,
+        expectedRevision: Long,
+        target: NoticeAttention,
+        admitted: () -> Boolean,
+    ): S4W03NoticeAttentionCasResult {
+        require(expectedRevision > 0L && expectedRevision < Long.MAX_VALUE)
+        require(target == NoticeAttention.SEEN || target == NoticeAttention.DISMISSED)
+        val result = withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            if (!admitted()) return@synchronized S4W03NoticeAttentionCasResult.Denied
+            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+            try {
+                fun abort(outcome: S4W03NoticeAttentionCasResult): S4W03NoticeAttentionCasResult {
+                    connection.execSQL("ROLLBACK TRANSACTION")
+                    return outcome
+                }
+                val prior = readRouteByNoticeId(noticeId)
+                    ?: return@synchronized abort(S4W03NoticeAttentionCasResult.NotFound)
+                val notice = prior.notice
+                if (!notice.sourceRef.value.startsWith("reminder:") ||
+                    !notice.noticeKey.value.startsWith("reminder:") ||
+                    notice.destinationRef.value != "faro:avisos.local" ||
+                    prior.intent.state != DeliveryEffectState.SUPPRESSED_POLICY
+                ) return@synchronized abort(S4W03NoticeAttentionCasResult.Denied)
+                if (notice.revision != expectedRevision)
+                    return@synchronized abort(S4W03NoticeAttentionCasResult.Stale(notice.revision))
+                if (notice.relevance != NoticeRelevance.OPEN ||
+                    notice.attention == NoticeAttention.DISMISSED ||
+                    notice.attention == target
+                ) return@synchronized abort(S4W03NoticeAttentionCasResult.Terminal)
+                if (!admitted())
+                    return@synchronized abort(S4W03NoticeAttentionCasResult.Denied)
+                connection.prepare(
+                    """
+                    UPDATE delivery_notice SET attention = ?, revision = revision + 1
+                    WHERE notice_id = ? AND revision = ? AND relevance = ?
+                      AND attention = ?
+                    """.trimIndent()
+                ).use { statement ->
+                    statement.bindText(1, target.name)
+                    statement.bindText(2, noticeId.value)
+                    statement.bindLong(3, expectedRevision)
+                    statement.bindText(4, NoticeRelevance.OPEN.name)
+                    statement.bindText(5, notice.attention.name)
+                    statement.step()
+                }
+                connection.prepare("SELECT changes()").use { statement ->
+                    check(statement.step() && statement.getLong(0) == 1L) {
+                        "Notice attention CAS expected exactly one row"
+                    }
+                }
+                val committed = checkNotNull(readRouteByNoticeId(noticeId)).notice
+                check(committed.revision == expectedRevision + 1L &&
+                    committed.attention == target)
+                if (!admitted())
+                    return@synchronized abort(S4W03NoticeAttentionCasResult.Denied)
+                connection.execSQL("COMMIT TRANSACTION")
+                S4W03NoticeAttentionCasResult.Saved(committed)
+            } catch (failure: Throwable) {
+                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                throw failure
+            }
+        } }
+        if (result is S4W03NoticeAttentionCasResult.Saved) publishNoticeCommit()
+        return result
     }
 
     override fun readNotices(): List<NoticeSnapshot> = synchronized(lock) {
