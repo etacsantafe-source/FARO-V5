@@ -2,16 +2,9 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
-  "reviewed_head": "017c39e84fe9ad73b21828467cb71296d749cea0",
+  "reviewed_head": "3446cc2dbde6134af3f18cf6f2f28c0c9b272fb8",
   "paths": [
-    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterModel.kt",
-    "v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityMatterDetails.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W03MatterDetailsTest.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5MatterDetailsBackupTest.kt",
-    ".github/workflows/faro-v5-s4-w03-a-matter-persistence.yml"
+    "v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt"
   ],
   "stages": {
     "B1": {
@@ -68,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "b32a6aa5b7eb7b953af3d0749b86ed0cdb043099",
-    "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
-    "result": "PASS",
+    "sha": "3446cc2dbde6134af3f18cf6f2f28c0c9b272fb8",
+    "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_OBJECTIVES_B7_GLOBAL_PASS_20261119.md",
-        "blob_sha": "1dfffc13c3edccc2997b87696fdc30b0b184dadb",
+        "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_RED_FIX_20261119.md",
+        "blob_sha": "87afd778b304deb77345c6b9f209fcf462fbde9d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-A individual B1-B5 verified at documentary guard 44532412469; exact eight routes, including G4 backup codec and CI; W01/W02 unchanged.",
-  "how": "Model priority/review/history, atomic Reality extension and versioned FBS2 G4. Preflight required for each path. Code still NOT_RUN at this permit commit.",
+  "why": "W03-A first B6 failed only one inverted assertion at MatterModelTest.kt:107; RED_FIX same-unit test-only scope.",
+  "how": "Correct new.retainsHistoryOf(old); original eight-route B1-B5 remains valid; recheck full W03-A suite after fix.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
