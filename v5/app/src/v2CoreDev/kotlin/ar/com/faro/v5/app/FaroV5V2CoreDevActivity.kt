@@ -32,7 +32,7 @@ internal object FaroV5V2CoreDevPackagePolicy {
     fun accepts(packageName: String): Boolean =
         packageName == ORIGINAL_DEV || packageName == G15_ISOLATED_DEV ||
             packageName == "ar.com.faro.alpha.s3integrateddev" ||
-            packageName == W01_FINANCE_DEV
+            packageName == W01_FINANCE_DEV || packageName == W02_OBJECTIVES_DEV_ID
 }
 
 /**

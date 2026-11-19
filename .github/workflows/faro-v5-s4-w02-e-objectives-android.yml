@@ -1,0 +1,98 @@
+name: FARO V5 W02-E Objectives Android API35
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/build.gradle.kts
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W02ObjectiveSessionActions.kt
+      - v5/app/src/w02ObjectivesDev/AndroidManifest.xml
+      - v5/app/src/w02ObjectivesDev/kotlin/ar/com/faro/v5/app/FaroV5W02ObjectivesDevActivity.kt
+      - v5/app/src/w02ObjectivesDev/kotlin/ar/com/faro/v5/app/FaroV5W02ObjectivesPanel.kt
+      - v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt
+      - v5/app/src/w02AndroidTest/kotlin/ar/com/faro/v5/app/S4W02ObjectivesAndroidTest.kt
+      - .github/workflows/faro-v5-s4-w02-e-objectives-android.yml
+permissions:
+  contents: read
+jobs:
+  android-w02-objectives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate FARO protocol
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform 37
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Allow hardware acceleration
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Exercise Chat and Objectives on API35 at 200 percent
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            adb shell settings put system font_scale 2.0 &&
+            cd v5 && ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8"
+            -PfaroW02AndroidTest=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W02ObjectivesAndroidTest
+            :app:connectedW02ObjectivesDevAndroidTest
+      - name: Verify API35 JUnit XML and isolated APK
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          reports = list(Path("v5/app/build/outputs/androidTest-results").rglob("TEST-*.xml"))
+          cases = [case for report in reports for case in ET.parse(report).getroot().iter("testcase")]
+          assert len(cases) == 1, cases
+          case = cases[0]
+          assert case.attrib.get("classname") == "ar.com.faro.v5.app.S4W02ObjectivesAndroidTest", case.attrib
+          assert case.attrib.get("name") == "objectivesFromChatCommitsProgressAndRestoresAtFontScale200", case.attrib
+          assert all(case.find(key) is None for key in ("failure", "error", "skipped")), case.attrib
+          print("W02 Android API35 1/1 PASS")
+          PY
+          apk="$(find v5/app/build/outputs/apk/w02ObjectivesDev -maxdepth 1 -type f -name '*.apk' -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" > /tmp/faro-w02-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path("/tmp/faro-w02-badging.txt").read_text()
+          assert "package: name='ar.com.faro.alpha.w02objectivesdev'" in text
+          assert text.count("launchable-activity:") == 1
+          assert "launchable-activity: name='ar.com.faro.v5.app.FaroV5W02ObjectivesDevActivity'" in text
+          for permission in ("INTERNET", "POST_NOTIFICATIONS", "SCHEDULE_EXACT_ALARM", "RECEIVE_BOOT_COMPLETED"):
+              assert "android.permission." + permission not in text, permission
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w02-e-objectives-android-xml-apk
+          if-no-files-found: error
+          path: |
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/w02ObjectivesDev/*.apk

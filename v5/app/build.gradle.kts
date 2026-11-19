@@ -67,6 +67,16 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/w01AndroidTest")
     }
 
+    if (providers.gradleProperty("faroW02AndroidTest").orNull == "true") {
+        val others = listOf("faroG5AndroidTestV2CoreDev", "faroX03AndroidTest",
+            "faroS3IntegratedAndroidTest", "faroW01AndroidTest")
+        check(others.none { providers.gradleProperty(it).orNull == "true" })
+        check(listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId, s0PhysicalApplicationId,
+            s1A5PhysicalApplicationId, s1A6PhysicalApplicationId).isEmpty())
+        testBuildType = "w02ObjectivesDev"
+        sourceSets.getByName("androidTest").setRoot("src/w02AndroidTest")
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(
@@ -135,6 +145,15 @@ android {
         manifestPlaceholders["faroAppLabel"] = "FARO W01 FINANZAS DEV"
     }
     sourceSets.getByName("w01FinanceDev").kotlin.srcDir("src/v2CoreDev/kotlin")
+
+    buildTypes.create("w02ObjectivesDev") {
+        initWith(buildTypes.getByName("v2CoreDev"))
+        applicationIdSuffix = ".w02objectivesdev"
+        versionNameSuffix = "-w02objectivesdev"
+        matchingFallbacks += listOf("v2CoreDev", "debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO Objetivos DEV"
+    }
+    sourceSets.getByName("w02ObjectivesDev").kotlin.srcDir("src/v2CoreDev/kotlin")
 
     // A distinct UID/Keystore for X03; never replaces the S2 debug package.
     buildTypes.create("x03AiDev") {

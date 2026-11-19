@@ -987,6 +987,30 @@ internal class FaroV5V2CoreDevAuthority(
             return loan
         }
 
+        internal fun mountW02ObjectiveActions(
+            application: Application,
+            foreground: () -> Boolean,
+        ): S4W02ObjectiveSessionActions? = runCatching {
+            if (application.packageName != W02_OBJECTIVES_DEV_ID || !foreground()) return@runCatching null
+            val workspace = graph.workspace ?: return@runCatching null
+            val epoch = UUID.randomUUID().toString()
+            val ownerCurrent = { available() && pointer.read() == openingPointer }
+            if (!ownerCurrent()) return@runCatching null
+            val probe = FaroV5AndroidSandboxPrincipal(
+                W02_OBJECTIVES_DEV_ID, openingPointer, pointer, epoch,
+                { if (ownerCurrent()) epoch else null }, AndroidPlatformSandboxFactsReader(application),
+            )
+            val evidence = probe.currentEvidenceOrNull()
+            if (evidence == null || !foreground()) {
+                probe.close()
+                return@runCatching null
+            }
+            S4W02ObjectiveSessionActions(
+                openingPointer, pointer, workspace, graph.reality, gate, probe, ownerCurrent, foreground,
+                epoch, evidence.sessionNonce,
+            )
+        }.getOrNull()
+
         @Synchronized
         internal fun mountW01FinanceActions(
             application: Application,

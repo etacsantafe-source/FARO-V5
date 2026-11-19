@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- No external network or remote AI calls in V2 DEV. -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" tools:node="remove" />
+    <!-- M4 RED_FIX: suppress manifest-merged permissions in offline local DEV only. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" tools:node="remove" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" tools:node="remove" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" tools:node="remove" />
+    <uses-permission android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" tools:node="remove" />
+    <application
+        android:name="ar.com.faro.v5.app.FaroV5V2CoreDevApplication"
+        tools:replace="android:name">
+
+        <!-- None of the shipping or legacy certification launchers may start in this UID. -->
+        <activity android:name="ar.com.faro.v5.app.FaroV5BootstrapActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5AiSettingsActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5FiveStoreSafConsentActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5P5PhysicalActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5F1QuarantineCertificationActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5F1IsolatedChatActivity" tools:node="remove" />
+        <activity android:name="ar.com.faro.v5.app.FaroV5T4SafIntegralActivity" tools:node="remove" />
+        <!-- The debug platform module's certification Activity is never part of local DEV. -->
+        <activity android:name="ar.com.faro.v5.platform.android.cert.FaroV5P6CertificationActivity" tools:node="remove" />
+        <!-- No background execution, certification providers or OS dispatch in this UID. -->
+        <provider tools:node="removeAll" />
+        <receiver tools:node="removeAll" />
+        <service tools:node="removeAll" />
+        <activity-alias tools:node="removeAll" />
+
+        <activity
+            android:name="ar.com.faro.v5.app.FaroV5W02ObjectivesDevActivity"
+            android:exported="true"
+            android:label="FARO Objetivos DEV"
+            android:excludeFromRecents="false"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
