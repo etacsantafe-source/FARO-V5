@@ -22,8 +22,9 @@ internal object S4W03ReminderLocalNoticeProjection {
         val seen = source.occurrences.associateBy { it.id }
         val result = ArrayList<NoticeCandidate>()
         for (rule in source.rules.sortedBy { it.id.value }) {
+            val linkId = rule.linkedMatterId
             if (!rule.enabled ||
-                (rule.linkedMatterId != null && !linkedMatterVisible(rule.linkedMatterId))
+                (linkId != null && !linkedMatterVisible(linkId))
             ) continue
             val due = ReminderCivilExpansion.expand(
                 rule, fromEpochMillis, untilEpochMillis, offset = 0, limit = 128,
@@ -39,7 +40,7 @@ internal object S4W03ReminderLocalNoticeProjection {
                     sourceRef = SourceRef.of("reminder:" + rule.id.value),
                     occurrenceRef = OccurrenceRef.of(candidate.id.value),
                     materiality = NoticeMateriality.NOTICE,
-                    sensitivity = if (rule.linkedMatterId == null)
+                    sensitivity = if (linkId == null)
                         NoticeSensitivity.NORMAL else NoticeSensitivity.SENSITIVE,
                     summary = NoticeSummary.of(rule.title),
                     destinationRef = DestinationRef.of("faro:avisos.local"),
