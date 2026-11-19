@@ -1,26 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
-  "reviewed_head": "dfb0ecaf888f0db3d2684e1897b97e4ad77506b7",
+  "status": "READY",
+  "unit_id": "S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE",
+  "reviewed_head": "21e4b77d53719fdbd20a99b2856fc0889598ffe7",
   "paths": [
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderMutationContract.kt",
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/S4W03ReminderMutationBinding.kt",
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/spi/ReminderPersistencePort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03ReminderReviewHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03ReminderReviewHostTest.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03ReminderLocalNoticeProjection.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03ReminderLocalNoticeProjectionTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d1-reminder-core.yml"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/S4W03AuxiliaryReminderLocalNoticeTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03ReminderNoticeReconcileHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03ReminderNoticeReconcileHostTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d2a-reminder-notice.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
-          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
+          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
+          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
           "marker": "## B1"
         }
       ]
@@ -29,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
-          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
+          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
+          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
           "marker": "## B2"
         }
       ]
@@ -39,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
-          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
+          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
+          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
           "marker": "## B3"
         }
       ]
@@ -49,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
-          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
+          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
+          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
           "marker": "## B4"
         }
       ]
@@ -59,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
-          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
+          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
+          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SQLITE_DEV_JVM_9_OF_9",
-    "B7": "PASS_SCOPED_W03_D1_DEV_JVM_9_OF_9"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0e4333a25d74c1bb59863f1835683f4b0b687256",
@@ -80,8 +76,8 @@
       }
     ]
   },
-  "why": "W03-D1 B7 PASS scoped DEV 9/9, CI44566044923 SUCCESS, guard44566045497 SUCCESS, artifact14552217418. Permit consumed; W03-D2 own READY required.",
-  "how": "D1 create/update/cancel/attend Review/Apply receipts, source NoticeCandidate only; W03-D2 separate Auxiliary owner persistent Notice route/seen/dismiss NOT_RUN.",
+  "why": "W03-D2A B1-B5 exact five routes audited and guard44574650567 SUCCESS; W03-D1 B7 PASS9/9 preserved. Local-only Auxiliary notices, OS effect SUPPRESSED_POLICY.",
+  "how": "Implement 5 paths only, strict source ACL and pointer fences, separate Auxiliary store and 9 directed JVM XML checks. Do not activate OS delivery, Android UI, seen/dismiss D2-B.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -91,6 +87,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44557705130,
-  "last_ci_run_id": 44566044923
+  "preaudit_guard": 44574650567,
+  "last_ci_run_id": null
 }
