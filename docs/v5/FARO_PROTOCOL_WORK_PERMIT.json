@@ -2,17 +2,17 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
-  "reviewed_head": "3446cc2dbde6134af3f18cf6f2f28c0c9b272fb8",
+  "reviewed_head": "2a8cb086cbe850f9706e3bf488c30e98868a0f01",
   "paths": [
-    "v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt"
+    ".github/workflows/faro-v5-s4-w03-a-matter-persistence.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
-          "blob_sha": "009953ad3d1dfcd78a34186cfd8c3948a72556f5",
+          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
+          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
-          "blob_sha": "009953ad3d1dfcd78a34186cfd8c3948a72556f5",
+          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
+          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
-          "blob_sha": "009953ad3d1dfcd78a34186cfd8c3948a72556f5",
+          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
+          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
-          "blob_sha": "009953ad3d1dfcd78a34186cfd8c3948a72556f5",
+          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
+          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
           "marker": "## B4"
         }
       ]
@@ -51,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
-          "blob_sha": "009953ad3d1dfcd78a34186cfd8c3948a72556f5",
+          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
+          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
           "marker": "## B5"
         }
       ]
@@ -61,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "3446cc2dbde6134af3f18cf6f2f28c0c9b272fb8",
+    "sha": "2a8cb086cbe850f9706e3bf488c30e98868a0f01",
     "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_RED_FIX_20261119.md",
-        "blob_sha": "87afd778b304deb77345c6b9f209fcf462fbde9d",
+        "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
+        "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-A first B6 failed only one inverted assertion at MatterModelTest.kt:107; RED_FIX same-unit test-only scope.",
-  "how": "Correct new.retainsHistoryOf(old); original eight-route B1-B5 remains valid; recheck full W03-A suite after fix.",
+  "why": "W03-A test-only RED_FIX 2a8cb guard SUCCESS, directed CI STOP because workflow had static preflight paths outside one-route parent permit.",
+  "how": "Workflow-only RED_FIX: run preflight for actual functional files in git diff HEAD^ HEAD; keep original JVM/XML suites and seven-block CI.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -83,5 +83,5 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44532412469
+  "preaudit_guard": 44535644065
 }
