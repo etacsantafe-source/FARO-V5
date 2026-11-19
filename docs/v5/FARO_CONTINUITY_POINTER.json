@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV_READY",
+  "phase": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV_B7_PASS_SCOPED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1340
+    "epoch": 1342
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-D2B2B3A READY exact five routes, preflight/CAS then code. Cutover, host, W03-D/E/G to follow.",
-  "checkpoint_status": "W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_READY_VERIFY_GUARD_WRITER",
+  "next": "W03-D2B2B3B DEV durable authorized cutover+recovery under same root lease, own exact READY after guard. Then host/D/E/G.",
+  "checkpoint_status": "W03_D2B2B3A_ACTIVE_PREFLIGHT_B7_PUBLISHED_VERIFY_GUARD_WRITER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "5e84764a7e3e6ea86677ed5d22342e2b3b3fde08",
-  "last_ci_run_id": 44605196641,
+  "last_code_sha": "0f86b186e99f4effdb2bb733f57d3b034078fff7",
+  "last_ci_run_id": 44607263020,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_AUTH_FBS2V5_DEV_STAGED_JVM_4_OF_4",
+  "last_ci_conclusion": "SUCCESS_ACTIVE_AUX4_DEV_JVM_5_OF_5",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5561,10 +5561,21 @@
     "b7_doc": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B7_PASS_20261119.md"
   },
   "w03_d2b2b3a": {
-    "status": "READY",
+    "status": "PASS_SCOPED_ACTIVE_AUX4_PREFLIGHT_DEV",
     "document": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B1_B5_20261119.md",
     "reviewed_head": "63d61633f4a095d2c27c6d4add5a837f401d0b00",
     "preaudit_guard": 44606428390,
-    "ci_scope_addendum": "docs/v5/FARO_S4_W03_D2B2B3A_PREFLIGHT_CI_ADDENDUM_20261119.md"
+    "ci_scope_addendum": "docs/v5/FARO_S4_W03_D2B2B3A_PREFLIGHT_CI_ADDENDUM_20261119.md",
+    "code_sha": "0f86b186e99f4effdb2bb733f57d3b034078fff7",
+    "ci_run_id": 44607263020,
+    "guard_run_id": 44607263280,
+    "xml": "5/5",
+    "artifact_id": 14571310744,
+    "artifact_sha256": "sha256:fda15ee870287667f85052d6320242484f5c93a9eb68831e63bc0de05db9d98e",
+    "b7_doc": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B7_PASS_20261119.md"
+  },
+  "w03_d2b2b3b": {
+    "status": "PREAUDIT",
+    "document": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md"
   }
 }

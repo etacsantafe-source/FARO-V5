@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV",
   "reviewed_head": "40d94374b4bb57cdb0bb0a01827d4992802b4488",
   "paths": [
@@ -71,23 +71,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ACTIVE_AUX4_DEV_JVM_5_OF_5",
+    "B7": "PASS_SCOPED_ACTIVE_AUX4_PREFLIGHT_DEV"
   },
   "last_code_review": {
-    "sha": "5e84764a7e3e6ea86677ed5d22342e2b3b3fde08",
-    "unit_id": "S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_DEV",
+    "sha": "0f86b186e99f4effdb2bb733f57d3b034078fff7",
+    "unit_id": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B7_PASS_20261119.md",
-        "blob_sha": "dd72e1bd290ab8e91dab19b9827c96c5b9dafcd4",
+        "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B7_PASS_20261119.md",
+        "blob_sha": "76c8545774de41af56446d10b46e613fe9c12021",
         "marker": "## B7"
       }
     ]
   },
-  "why": "ACTIVE4 audit and CI addendum guard 44606428390 SUCCESS. Exact five routes.",
-  "how": "ACTIVE4 exact preflight only. No pointer switch, host or migration of ACTIVE.",
+  "why": "Exact ACTIVE4 DEV preflight B7 PASS 5/5. READY consumed.",
+  "how": "Next B3B durable cutover and recovery, own exact READY after preaudit guard.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -98,5 +98,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44606428390,
-  "last_ci_run_id": 44605196641
+  "last_ci_run_id": 44607263020
 }
