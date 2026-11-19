@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.W03.D2B2B2.B1B5",
-  "token_hash": "551e3937dee18cf81d455ebd8475de030deab6b1bfb0cfb7f93bea228b679977",
+  "status": "HELD",
+  "owner": "FARO.WORK.W03.D2B2B2.READY",
+  "token_hash": "f7f47b9c234f06bb71d0b8a4c4f2d548b2bc672c17cdd90fd7fca34cd2821ca0",
   "target_head": "a378321a7995bf37769103b4359c6612b888edf1",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1331,
-  "timestamp": 1795117632,
-  "scope": "W03_D2B2B2_AUX4_BACKUP_PREAUDIT"
+  "epoch": 1332,
+  "timestamp": 1795117688,
+  "scope": "W03_D2B2B2_AUX4_BACKUP_READY"
 }
