@@ -4,7 +4,6 @@
   "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
   "reviewed_head": "b73ebe8b8dc62f941f2962beadab69dfef4fd00b",
   "paths": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
     "v5/app/src/w02AndroidTest/kotlin/ar/com/faro/v5/app/S4W02ObjectivesAndroidTest.kt"
   ],
   "stages": {
@@ -62,18 +61,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "c27607dff1843ee771afb8bc4ee5875226b63616",
+    "sha": "97e1b6d2d22011c0d1fe7e6607f223399f47f6a4",
     "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_E_OBJECTIVES_ANDROID_CHAT_REFRESH_RED_FIX_20261119.md",
-        "blob_sha": "92e2f2ca0b5d582c3b0da0d5375c94720a47dce7",
+        "path": "docs/v5/FARO_S4_W02_E_OBJECTIVES_ANDROID_DRAWER_RED_FIX_20261119.md",
+        "blob_sha": "139d5349ceab0c0fcc98c7134133717a2a9d9362",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Invalidate canonical Chat Review read on Objectives return and verify the full path.",
+  "why": "Select the Objective drawer click action, not the heading, after Android recreation.",
   "how": "Preaudit guard 44446518356 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
