@@ -4,16 +4,8 @@
   "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
   "reviewed_head": "b73ebe8b8dc62f941f2962beadab69dfef4fd00b",
   "paths": [
-    "v5/app/build.gradle.kts",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W02ObjectiveSessionActions.kt",
-    "v5/app/src/w02ObjectivesDev/AndroidManifest.xml",
     "v5/app/src/w02ObjectivesDev/kotlin/ar/com/faro/v5/app/FaroV5W02ObjectivesDevActivity.kt",
-    "v5/app/src/w02ObjectivesDev/kotlin/ar/com/faro/v5/app/FaroV5W02ObjectivesPanel.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
-    "v5/app/src/w02AndroidTest/kotlin/ar/com/faro/v5/app/S4W02ObjectivesAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w02-e-objectives-android.yml"
+    "v5/app/src/w02AndroidTest/kotlin/ar/com/faro/v5/app/S4W02ObjectivesAndroidTest.kt"
   ],
   "stages": {
     "B1": {
@@ -70,18 +62,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "1978c4dc5d4c344432b02a039916e6a6a3d36518",
-    "unit_id": "S4_W02_D_OBJECTIVE_PLAN",
-    "result": "PASS",
+    "sha": "bfbfa8469a1fbbf799d8a3511f37da8ddff137e9",
+    "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_D_OBJECTIVE_PLAN_B7_PASS_20261118.md",
-        "blob_sha": "cb1ad088cf8487d4bfddec4b168b8765294d6bdf",
+        "path": "docs/v5/FARO_S4_W02_E_OBJECTIVES_ANDROID_B7_RED_FIX_20261118.md",
+        "blob_sha": "4902d6bf87a4c708f15a4f189e76ebb0282d8b4d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Mount Objective plan, history, reviews and grants only in isolated Android DEV; run API35.",
+  "why": "Align Android test with actual re-open approval and resume lifecycle.",
   "how": "Preaudit guard 44446518356 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
