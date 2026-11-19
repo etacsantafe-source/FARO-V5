@@ -1,6 +1,9 @@
 package ar.com.faro.v5.store.auxiliary
 
+import ar.com.faro.v5.delivery.api.NoticeAttention
+import ar.com.faro.v5.delivery.api.NoticeId
 import ar.com.faro.v5.delivery.api.NoticeSnapshot
+import ar.com.faro.v5.kernel.contracts.CanonicalHashBuilder
 
 data class AuxiliaryBackupSnapshot(
     val schemaVersion: Int,
@@ -33,3 +36,49 @@ interface AuxiliaryBackupPort {
      */
     fun restoreOrVerify(snapshot: AuxiliaryBackupSnapshot): AuxiliaryBackupSnapshot
 }
+
+/**
+ * Auxiliary4 durable data. The base is the common Auxiliary3 projection used
+ * in the legacy FBS2 block. An empty ledger is an explicit value in schema 4.
+ */
+data class AuxiliaryReceiptBackupSnapshot(
+    val base: AuxiliaryBackupSnapshot,
+    val receipts: List<S4W03NoticeAttentionReceiptV4>,
+) {
+    init {
+        validate()
+    }
+
+    internal fun validate() {
+        require(base.schemaVersion == 3 && base.bookmarks != null)
+        require(receipts.zipWithNext().all { (left, right) ->
+            left.requestKey < right.requestKey
+        }) { "Receipt backup keys must be sorted and unique" }
+        val notices = base.notices.associateBy { it.noticeId }
+        val usedRevisions = mutableSetOf<Pair<NoticeId, Long>>()
+        for (receipt in receipts) {
+            val notice = requireNotNull(notices[receipt.noticeId]) {
+                "Receipt backup must retain the referenced Notice"
+            }
+            require(notice.sourceRef.value.startsWith("reminder:") &&
+                notice.noticeKey.value.startsWith("reminder:") &&
+                notice.destinationRef.value == "faro:avisos.local")
+            require(receipt.resultRevision in 2L..notice.revision &&
+                usedRevisions.add(receipt.noticeId to receipt.resultRevision) &&
+                (receipt.resultRevision != notice.revision || receipt.target == notice.attention))
+            require(receipt.requestHash == noticeAttentionReceiptHash(
+                receipt.noticeId, receipt.expectedRevision, receipt.target,
+            )) { "Receipt backup fingerprint mismatch" }
+        }
+    }
+}
+
+internal fun noticeAttentionReceiptHash(
+    noticeId: NoticeId,
+    expectedRevision: Long,
+    target: NoticeAttention,
+): String = CanonicalHashBuilder.domain("faro-notice-attention-receipt-v4")
+    .string("noticeId", noticeId.value)
+    .string("expectedRevision", expectedRevision.toString())
+    .string("targetAttention", target.name)
+    .sha256Hex()

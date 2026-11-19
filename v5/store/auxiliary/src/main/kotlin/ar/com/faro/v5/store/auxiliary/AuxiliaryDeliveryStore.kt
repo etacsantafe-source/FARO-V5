@@ -34,7 +34,6 @@ import ar.com.faro.v5.delivery.spi.NotificationProjectionRequest
 import ar.com.faro.v5.delivery.spi.NotificationReconcileClaim
 import ar.com.faro.v5.delivery.spi.NotificationSinkOutcome
 import ar.com.faro.v5.kernel.contracts.EffectId
-import ar.com.faro.v5.kernel.contracts.CanonicalHashBuilder
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -343,10 +342,7 @@ class AuxiliaryDeliveryStore private constructor(
         require(requestKey.matches(Regex("[A-Za-z0-9][A-Za-z0-9._:/-]{0,191}")))
         require(expectedRevision > 0L && expectedRevision < Long.MAX_VALUE)
         require(target == NoticeAttention.SEEN || target == NoticeAttention.DISMISSED)
-        val fingerprint = CanonicalHashBuilder.domain("faro-notice-attention-receipt-v4")
-            .string("noticeId", noticeId.value)
-            .string("expectedRevision", expectedRevision.toString())
-            .string("targetAttention", target.name).sha256Hex()
+        val fingerprint = noticeAttentionReceiptHash(noticeId, expectedRevision, target)
         val result = withMaterialAdmission { synchronized(lock) {
             checkOpen()
             val fence = checkNotNull(receiptStage4Fence) {
@@ -405,20 +401,11 @@ class AuxiliaryDeliveryStore private constructor(
                         "Notice receipt mutation requires one row CAS"
                     }
                 }
-                connection.prepare("""
-                    INSERT INTO notice_attention_receipt(
-                        request_key, request_hash, notice_id,
-                        expected_revision, target_attention, result_revision
-                    ) VALUES(?,?,?,?,?,?)
-                """.trimIndent()).use { st ->
-                    st.bindText(1, requestKey)
-                    st.bindText(2, fingerprint)
-                    st.bindText(3, noticeId.value)
-                    st.bindLong(4, expectedRevision)
-                    st.bindText(5, target.name)
-                    st.bindLong(6, expectedRevision + 1L)
-                    st.step()
-                }
+                insertReceiptV4(
+                    S4W03NoticeAttentionReceiptV4(
+                        requestKey, fingerprint, noticeId, expectedRevision, target, expectedRevision + 1L,
+                    )
+                )
                 if (!fence() || !admitted())
                     return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Denied)
                 connection.execSQL("COMMIT TRANSACTION")
@@ -440,19 +427,39 @@ class AuxiliaryDeliveryStore private constructor(
         synchronized(lock) {
             checkOpen()
             check(receiptStage4Fence?.invoke() == true && readSchemaVersion() == 4)
-            val receipts = mutableListOf<S4W03NoticeAttentionReceiptV4>()
-            connection.prepare("""
-                SELECT request_key, request_hash, notice_id,
-                       expected_revision, target_attention, result_revision
-                FROM notice_attention_receipt ORDER BY request_key
-            """.trimIndent()).use { st ->
-                while (st.step()) receipts += S4W03NoticeAttentionReceiptV4(
-                    st.getText(0), st.getText(1), NoticeId.of(st.getText(2)),
-                    st.getLong(3), NoticeAttention.valueOf(st.getText(4)), st.getLong(5),
-                )
-            }
-            receipts
+            readAllReceiptsV4()
         }
+
+    private fun readAllReceiptsV4(): List<S4W03NoticeAttentionReceiptV4> =
+        connection.prepare("""
+            SELECT request_key, request_hash, notice_id,
+                   expected_revision, target_attention, result_revision
+            FROM notice_attention_receipt ORDER BY request_key
+        """.trimIndent()).use { statement ->
+            buildList {
+                while (statement.step()) add(S4W03NoticeAttentionReceiptV4(
+                    statement.getText(0), statement.getText(1), NoticeId.of(statement.getText(2)),
+                    statement.getLong(3), NoticeAttention.valueOf(statement.getText(4)), statement.getLong(5),
+                ))
+            }
+        }
+
+    private fun insertReceiptV4(receipt: S4W03NoticeAttentionReceiptV4) {
+        connection.prepare("""
+            INSERT INTO notice_attention_receipt(
+                request_key, request_hash, notice_id,
+                expected_revision, target_attention, result_revision
+            ) VALUES(?,?,?,?,?,?)
+        """.trimIndent()).use { statement ->
+            statement.bindText(1, receipt.requestKey)
+            statement.bindText(2, receipt.requestHash)
+            statement.bindText(3, receipt.noticeId.value)
+            statement.bindLong(4, receipt.expectedRevision)
+            statement.bindText(5, receipt.target.name)
+            statement.bindLong(6, receipt.resultRevision)
+            statement.step()
+        }
+    }
 
     private fun readReceiptV4(key: String): S4W03NoticeAttentionReceiptV4? =
         connection.prepare("""
@@ -1020,19 +1027,55 @@ class AuxiliaryDeliveryStore private constructor(
         synchronized(lock) {
             checkOpen()
             check(receiptStage4Fence == null) { "Stage4 backup requires receipt codec" }
-            AuxiliaryBackupSnapshot(
-                schemaVersion = readSchemaVersion(),
-                notices = readNotices(),
-                bookmarks = AuxiliaryBookmarkBackupStorage.read(connection),
-            )
+            readBackupProjection(readSchemaVersion())
         }
+
+    private fun readBackupProjection(schemaVersion: Int) = AuxiliaryBackupSnapshot(
+        schemaVersion, readNotices(), AuxiliaryBookmarkBackupStorage.read(connection),
+    )
+
+    private fun requireStagedReceiptBackupAuthority() {
+        check(receiptStage4Fence?.invoke() == true && readSchemaVersion() == 4) {
+            "Receipt backup requires the pinned Auxiliary4 stage"
+        }
+    }
+
+    /** Capture the owner and its ledger from the same SQLite read transaction. */
+    fun snapshotStagedReceiptBackup(): AuxiliaryReceiptBackupSnapshot = synchronized(lock) {
+        checkOpen()
+        requireStagedReceiptBackupAuthority()
+        connection.execSQL("BEGIN DEFERRED TRANSACTION")
+        try {
+            val health = inspectForMaintenance()
+            check(health.integrityHealthy && health.foreignKeysHealthy)
+            val snapshot = AuxiliaryReceiptBackupSnapshot(
+                readBackupProjection(SCHEMA_VERSION), readAllReceiptsV4(),
+            )
+            requireStagedReceiptBackupAuthority()
+            snapshot
+        } finally {
+            connection.execSQL("ROLLBACK TRANSACTION")
+        }
+    }
+
+    /** Restore every durable Auxiliary4 row together, excluding DeliveryIntent. */
+    fun restoreOrVerifyStagedReceiptBackup(snapshot: AuxiliaryReceiptBackupSnapshot) {
+        snapshot.validate()
+        restoreOrVerifyBackup(snapshot.base, snapshot.receipts)
+    }
 
     private fun restoreOrVerifyBackup(
         snapshot: AuxiliaryBackupSnapshot,
-    ): AuxiliaryBackupSnapshot =
-        withMaterialAdmission { synchronized(lock) {
+        receipts: List<S4W03NoticeAttentionReceiptV4>? = null,
+    ): AuxiliaryBackupSnapshot = withMaterialAdmission {
+        synchronized(lock) {
             checkOpen()
-            check(receiptStage4Fence == null) { "Stage4 restore requires receipt codec" }
+            if (receipts == null) {
+                check(receiptStage4Fence == null) { "Stage4 restore requires receipt codec" }
+                check(readSchemaVersion() == SCHEMA_VERSION)
+            } else {
+                requireStagedReceiptBackupAuthority()
+            }
             check(snapshot.schemaVersion == SCHEMA_VERSION) {
                 "Auxiliary backup schema requires explicit migration"
             }
@@ -1042,67 +1085,80 @@ class AuxiliaryDeliveryStore private constructor(
             bookmarkSnapshot.validate()
             connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
             try {
-            val current = readBackupSnapshot()
-            if (current == snapshot && deliveryIntentCount() == 0) {
-                connection.execSQL("ROLLBACK TRANSACTION")
-                return@synchronized current
-            }
-            val before = inspectForMaintenance()
-            check(before.integrityHealthy && before.foreignKeysHealthy) {
-                "Auxiliary restore target must be healthy"
-            }
-            check(before.noticeCount == 0L && before.deliveryIntentCount == 0L) {
-                "Auxiliary restore target must be fresh or exactly match backup"
-            }
-            check(current.bookmarks == BookmarkBackupSnapshot.EMPTY) {
-                "Auxiliary restore cannot overwrite retained Guardados"
-            }
-                snapshot.notices.forEach { notice ->
-                    connection.prepare(
-                        """
-                        INSERT INTO delivery_notice(
-                            notice_id, notice_key, source_ref, occurrence_ref,
-                            materiality, sensitivity, summary, destination_ref,
-                            relevance, attention, revision, resolution_reason
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """.trimIndent()
-                    ).use { statement ->
-                        statement.bindText(1, notice.noticeId.value)
-                        statement.bindText(2, notice.noticeKey.value)
-                        statement.bindText(3, notice.sourceRef.value)
-                        statement.bindText(4, notice.occurrenceRef.value)
-                        statement.bindText(5, notice.materiality.name)
-                        statement.bindText(6, notice.sensitivity.name)
-                        statement.bindText(7, notice.summary.value)
-                        statement.bindText(8, notice.destinationRef.value)
-                        statement.bindText(9, notice.relevance.name)
-                        statement.bindText(10, notice.attention.name)
-                        statement.bindLong(11, notice.revision)
-                        notice.resolutionReason?.let { statement.bindText(12, it.name) }
-                            ?: statement.bindNull(12)
-                        statement.step()
+                val current = readBackupProjection(SCHEMA_VERSION)
+                val currentReceipts = receipts?.let { readAllReceiptsV4() }
+                if (current == snapshot && currentReceipts == receipts && deliveryIntentCount() == 0) {
+                    if (receipts != null) {
+                        val health = inspectForMaintenance()
+                        check(health.integrityHealthy && health.foreignKeysHealthy)
+                        requireStagedReceiptBackupAuthority()
                     }
+                    connection.execSQL("ROLLBACK TRANSACTION")
+                    return@synchronized current
                 }
-            AuxiliaryBookmarkBackupStorage.restore(connection, bookmarkSnapshot)
+                val before = inspectForMaintenance()
+                check(before.integrityHealthy && before.foreignKeysHealthy) {
+                    "Auxiliary restore target must be healthy"
+                }
+                check(before.deliveryIntentCount == 0L && currentReceipts.isNullOrEmpty()) {
+                    "Auxiliary restore cannot overwrite delivery intents or receipts"
+                }
 
-            val after = inspectForMaintenance()
-            check(after.integrityHealthy && after.foreignKeysHealthy) {
-                "Auxiliary restore target failed integrity checks"
-            }
-            check(after.deliveryIntentCount == 0L) {
-                "Auxiliary restore must strip Class D DeliveryIntent rows"
-            }
-            val restored = readBackupSnapshot()
-            check(restored == snapshot) {
-                "Auxiliary restore verification failed"
-            }
-            connection.execSQL("COMMIT TRANSACTION")
-            restored
+                val exactBaseForReceipts = receipts != null && current == snapshot
+                if (!exactBaseForReceipts) {
+                    check(before.noticeCount == 0L && current.bookmarks == BookmarkBackupSnapshot.EMPTY) {
+                        "Auxiliary restore target must be fresh or exactly match backup"
+                    }
+                    snapshot.notices.forEach { notice ->
+                        connection.prepare(
+                            """
+                            INSERT INTO delivery_notice(
+                                notice_id, notice_key, source_ref, occurrence_ref,
+                                materiality, sensitivity, summary, destination_ref,
+                                relevance, attention, revision, resolution_reason
+                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            """.trimIndent()
+                        ).use { statement ->
+                            statement.bindText(1, notice.noticeId.value)
+                            statement.bindText(2, notice.noticeKey.value)
+                            statement.bindText(3, notice.sourceRef.value)
+                            statement.bindText(4, notice.occurrenceRef.value)
+                            statement.bindText(5, notice.materiality.name)
+                            statement.bindText(6, notice.sensitivity.name)
+                            statement.bindText(7, notice.summary.value)
+                            statement.bindText(8, notice.destinationRef.value)
+                            statement.bindText(9, notice.relevance.name)
+                            statement.bindText(10, notice.attention.name)
+                            statement.bindLong(11, notice.revision)
+                            notice.resolutionReason?.let { statement.bindText(12, it.name) }
+                                ?: statement.bindNull(12)
+                            statement.step()
+                        }
+                    }
+                    AuxiliaryBookmarkBackupStorage.restore(connection, bookmarkSnapshot)
+                }
+                receipts?.forEach(::insertReceiptV4)
+
+                val after = inspectForMaintenance()
+                check(after.integrityHealthy && after.foreignKeysHealthy) {
+                    "Auxiliary restore target failed integrity checks"
+                }
+                check(after.deliveryIntentCount == 0L) {
+                    "Auxiliary restore must strip Class D DeliveryIntent rows"
+                }
+                val restored = readBackupProjection(SCHEMA_VERSION)
+                check(restored == snapshot && (receipts == null || readAllReceiptsV4() == receipts)) {
+                    "Auxiliary restore verification failed"
+                }
+                if (receipts != null) requireStagedReceiptBackupAuthority()
+                connection.execSQL("COMMIT TRANSACTION")
+                restored
             } catch (failure: Throwable) {
                 runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
                 throw failure
             }
-        } }
+        }
+    }
 
     private fun insertNew(
         candidate: NoticeCandidate,

@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   w03-d2a-local-notice:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE')
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:

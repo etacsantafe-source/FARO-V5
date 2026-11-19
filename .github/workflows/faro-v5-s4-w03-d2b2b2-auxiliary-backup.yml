@@ -1,0 +1,62 @@
+name: FARO V5 W03-D2B2B2 staged Auxiliary4 backup
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt
+      - v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ReceiptBackupTest.kt
+      - .github/workflows/faro-v5-s4-w03-d2b2b2-auxiliary-backup.yml
+
+permissions:
+  contents: read
+
+jobs:
+  auxiliary4-receipt-backup-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Protocol preflight for the staged backup routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r path; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
+              --unit S4_W03_D2B2B2_AUX4_STAGED_BACKUP_DEV --path "$path"
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Test Auxiliary4 receipt backup on JVM and SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Auxiliary4ReceiptBackupTest
+      - name: Verify five JUnit results
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          reports = list(Path('v5/store/generation/build/test-results').rglob(
+              'TEST-*FaroV5Auxiliary4ReceiptBackupTest.xml',
+          ))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+          assert counts == (5, 0, 0, 0), counts
+          print('W03_D2B2B2_AUX4_BACKUP_XML_PASS 5/5')
+          PY
+      - name: Upload directed JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-d2b2b2-auxiliary-backup-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/**/TEST-*FaroV5Auxiliary4ReceiptBackupTest.xml
