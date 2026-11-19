@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W02_C_OBJECTIVE_HISTORY",
   "reviewed_head": "bc9719b322aa27a4513a0daf12dc3df197d536b9",
   "paths": [
@@ -57,22 +57,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_REVIEWED_HISTORY_REAL_SQLITE_AND_G4_JVM",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "a297b8358c5e9b8d5cf3ef413e3bace58ecd02ae",
+    "sha": "90cfc36e99870bad80dd4c1ff86c6a63b095683c",
     "unit_id": "S4_W02_C_OBJECTIVE_HISTORY",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_C_OBJECTIVE_HISTORY_B7_RED_FIX_20261118.md",
-        "blob_sha": "f85b6e8eb3685376bf1477d61f090248d467c739",
+        "path": "docs/v5/FARO_S4_W02_C_OBJECTIVE_HISTORY_B7_PASS_20261118.md",
+        "blob_sha": "085ea5522b8996598eb4ac9dd19488c3617ea752",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Restore JUnit discovery of the lifecycle acceptance case; same W02-C.",
+  "why": "W02-C verified in JVM, including corrected lifecycle test discovery.",
   "how": "Preaudit guard 44442641919 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,

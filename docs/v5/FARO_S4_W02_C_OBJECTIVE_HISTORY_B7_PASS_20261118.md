@@ -1,0 +1,8 @@
+# FARO V5 · W02-C · B7 verificado en JVM
+
+## B7
+- Unidad S4_W02_C_OBJECTIVE_HISTORY, implementación `a297b8358c5e9b8d5cf3ef413e3bace58ecd02ae`, corrección de descubrimiento JUnit `90cfc36e99870bad80dd4c1ff86c6a63b095683c`. [Guardia final 44444524091](https://github.com/etacsantafe-source/FARO-V5/actions/runs/44444524091) SUCCESS. [CI 44444524112](https://github.com/etacsantafe-source/FARO-V5/actions/runs/44444524112) SUCCESS.
+- [XML 14492393554](https://github.com/etacsantafe-source/FARO-V5/actions/runs/44444524112/artifacts/14492393554) descargado y verificado con digest `6e6d84a35fdd66ef7e71a4d0c22d69743cb2d77da6ce1d52e1f9f3a6a92f8184`. Objetivos historial 4/4, Review/Apply 4/4, cero omitidos, errores o fallas. El caso de lifecycle omitido en el primer run se ejecutó en el SHA de corrección.
+- Casos observados: avance cuantitativo y cualitativo, corrección que conserva original y actualiza proyección, evento con paquete G4 y restore SQLite, estados explícitos, edición posterior sin perder historial, ausencia de porcentaje para dato cualitativo, rechazo de stale y de grant denegado. Las rutas funcionales coinciden con los permisos en cada checkpoint.
+- Regresión W02-A sobre la implementación de C [44443303146](https://github.com/etacsantafe-source/FARO-V5/actions/runs/44443303146) SUCCESS; el SHA final modifica sólo la firma del test de lifecycle. No se contabiliza como PASS la regresión ajena de S3 que recibió un HTTP 429 de Maven antes de compilar. El fallo histórico del test W01 B2D0 permanece documentado en B7 de W02-A.
+- Writer RELEASED al publicar la corrección, epoch 1270. Alcance JVM, Android API35 no ejecutado. W02-D requiere permiso propio; E/F pendientes.
