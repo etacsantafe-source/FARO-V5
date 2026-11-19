@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_DEV",
   "reviewed_head": "8f2a28446e5c9a982f43c0b1797c752a310f6ef1",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_STAGED_V4_JVM_16_OF_16",
+    "B7": "PASS_SCOPED_W03_D2B2A_STAGED_DEV_JVM_16_OF_16"
   },
   "last_code_review": {
-    "sha": "156d5ac185c0a8aaf1ee3f842bceb84b755697ef",
-    "unit_id": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
+    "sha": "5156d98eb924477293ad054759ea0d2068d5b581",
+    "unit_id": "S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B7_PASS_20261119.md",
-        "blob_sha": "d78feec8805dc268c8b8a83e4dbc1c31059a4636",
+        "path": "docs/v5/FARO_S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_B7_PASS_20261119.md",
+        "blob_sha": "4a33d9b1838e366b0518935b0f72e3d8e35442a4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D2B2A isolated staged V3->V4 Notice receipts B1-B5 approved exact4 guard 44589970857 SUCCESS. No active migration, no FBS2 export/restore, production OFF.",
-  "how": "Develop schema4 only on verified quiescent sealed STAGED generation; durable request-key CAS+receipt and guards; directed generation tests + Auxiliary regression, XML/CI.",
+  "why": "D2B2A STAGED-ONLY schema4 receipt CAS B7 16/16, CI44591846981 SUCCESS guard44591846342 SUCCESS artifact14562778382. READY consumed. Active/FBS2 cutover not done.",
+  "how": "NEXT D2B2B receipt-inclusive backup/restore and active preflight/host, own B1–B5 and exact READY. No ACTIVE Aux3 migration permitted.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,5 +87,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44589970857,
-  "last_ci_run_id": null
+  "last_ci_run_id": 44591846981
 }
