@@ -1,21 +1,29 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV",
-  "reviewed_head": "2f66d62a0042a5467dc4841b42ee3a2d11045c70",
+  "status": "READY",
+  "unit_id": "S4_W03_E_MATTERS_ANDROID_DEV",
+  "reviewed_head": "b985e5a72dc51e0a77163f073cb84d3282266f2c",
   "paths": [
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W03OwnerSessionActions.kt",
+    "v5/app/build.gradle.kts",
+    "v5/app/src/w03MattersDev/AndroidManifest.xml",
+    "v5/app/src/w03MattersDev/kotlin/ar/com/faro/v5/app/FaroV5W03MattersDevActivity.kt",
+    "v5/app/src/w03MattersDev/kotlin/ar/com/faro/v5/app/FaroV5W03MattersPanel.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W03OwnerSessionIntegrationTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d-owner-integration.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactory.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AvisosSurface.kt",
+    ".github/workflows/faro-v5-s4-w03-e-matters-android.yml",
+    ".github/workflows/faro-v5-s4-w01-d1a-two-pid-notice.yml",
+    ".github/workflows/faro-v5-s4-w01-b3b1b1b1b1b1b-private-invalidation.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
-          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
+          "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B1_B5_20261119.md",
+          "blob_sha": "3059d3029329e934036cd1405c51f4beaeb7e7d7",
           "marker": "## B1"
         }
       ]
@@ -24,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
-          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
+          "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B1_B5_20261119.md",
+          "blob_sha": "3059d3029329e934036cd1405c51f4beaeb7e7d7",
           "marker": "## B2"
         }
       ]
@@ -34,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
-          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
+          "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B1_B5_20261119.md",
+          "blob_sha": "3059d3029329e934036cd1405c51f4beaeb7e7d7",
           "marker": "## B3"
         }
       ]
@@ -44,8 +52,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
-          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
+          "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B1_B5_20261119.md",
+          "blob_sha": "3059d3029329e934036cd1405c51f4beaeb7e7d7",
           "marker": "## B4"
         }
       ]
@@ -54,14 +62,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
-          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
+          "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B1_B5_20261119.md",
+          "blob_sha": "3059d3029329e934036cd1405c51f4beaeb7e7d7",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_INTEGRATED_W03_D_JVM_3_OF_3",
-    "B7": "PASS_SCOPED_W03_D_OWNER_INTEGRATION_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "79928d698592fcbc7823d666cfb731b2c15e26d9",
@@ -75,8 +83,8 @@
       }
     ]
   },
-  "why": "W03-D owner integration B7 PASS 3/3, READY consumed.",
-  "how": "W03-E Android, own B1-B5 guard/exact permit. Then W03-G.",
+  "why": "W03-E exact audit guard 44615253846 SUCCESS.",
+  "how": "W03 Android isolated package, native owner actions and Avisos; assemble and manifest CI. E does not certify G.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
