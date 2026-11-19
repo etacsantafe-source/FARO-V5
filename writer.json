@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.W03.D2B2B3A.CI.AUDIT",
   "token_hash": "9b2a3d08541f479b3aae989f7ce56b2bb4ef2e36b874f16447c6ee6c1a27d42e",
-  "target_head": "f1e100709d441008558bf62e1feb803b0bdcf86e",
+  "target_head": "40d94374b4bb57cdb0bb0a01827d4992802b4488",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1339,
-  "timestamp": 1795119173,
+  "timestamp": 1795119205,
   "scope": "W03_D2B2B3A_PREAUDIT_CI_ADDENDUM"
 }
