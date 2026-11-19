@@ -1,0 +1,73 @@
+name: FARO V5 W03-B Matter Review Apply
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterOperations.kt
+      - v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterReviewBinding.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03MatterReviewHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03MatterReviewHostTest.kt
+      - .github/workflows/faro-v5-s4-w03-b-matter-review.yml
+
+permissions:
+  contents: read
+
+jobs:
+  matter-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: W03-B exact-route protocol preflight against parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W03_B_MATTER_REVIEW_APPLY
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test Matter Review Apply and durable receipts on real SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W03MatterReviewHostTest
+      - name: Verify eight W03-B JUnit XML tests
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/app/build/test-results').rglob('TEST-*S4W03MatterReviewHostTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          totals = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+          assert totals == (8,0,0,0), totals
+          print('S4W03MatterReviewHostTest 8/8 PASS')
+          PY
+      - name: Preserve W03-B JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-b-matter-review-xml
+          if-no-files-found: error
+          path: v5/app/build/test-results/**/TEST-*S4W03MatterReviewHostTest.xml
