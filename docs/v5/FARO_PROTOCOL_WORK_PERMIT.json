@@ -1,24 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2B2B2_AUX4_STAGED_BACKUP_DEV",
-  "reviewed_head": "a378321a7995bf37769103b4359c6612b888edf1",
+  "status": "READY",
+  "unit_id": "S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_DEV",
+  "reviewed_head": "b7a4ff18c8a04b01bcc15063d4575503bef6504f",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ReceiptBackupTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2b2b2-auxiliary-backup.yml",
-    ".github/workflows/faro-v5-s4-w03-d2a-reminder-notice.yml",
-    ".github/workflows/faro-v5-s4-w03-d2b1-attention-cas.yml",
-    ".github/workflows/faro-v5-s4-w03-d2b2a-stage4-receipts.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ArchiveCoordinator.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCapture.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ArchiveCoordinatorTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d2b2b2-authenticated-archive.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
-          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "642a98840f02e3b6c3aa9b72187ba59b4387cd0a",
           "marker": "## B1"
         }
       ]
@@ -27,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
-          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "642a98840f02e3b6c3aa9b72187ba59b4387cd0a",
           "marker": "## B2"
         }
       ]
@@ -37,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
-          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "642a98840f02e3b6c3aa9b72187ba59b4387cd0a",
           "marker": "## B3"
         }
       ]
@@ -47,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
-          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "642a98840f02e3b6c3aa9b72187ba59b4387cd0a",
           "marker": "## B4"
         }
       ]
@@ -57,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
-          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "642a98840f02e3b6c3aa9b72187ba59b4387cd0a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_AUX4_STAGED_BACKUP_JVM_5_OF_5",
-    "B7": "PASS_SCOPED_AUX4_STAGED_BACKUP_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0b1efa6b958276b7137287faaa98b3ce3c1b09d3",
@@ -78,8 +78,8 @@
       }
     ]
   },
-  "why": "Auxiliary4 receipt-aware owner backup B7 PASS 5/5. READY consumed.",
-  "how": "Next authenticated FBS2v5 archive. Independent guard and exact READY.",
+  "why": "Preaudit on exact head, guard 44603960218 SUCCESS.",
+  "how": "Scope exact. FBS2v5 authenticated archive STAGED. No cutover and no Android host.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -89,6 +89,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44601921963,
+  "preaudit_guard": 44603960218,
   "last_ci_run_id": 44602951476
 }
