@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1310
+    "epoch": 1311
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-D1 Reminder Review/Apply core DONE B7 PASS scoped DEV 9/9; next W03-D2 Auxiliary local Notice durable route, seen/dismiss, owner permission and isolation; own B1–B5 and READY before code. W03-E Android and G global NOT_RUN; no OS notifications or G15 physical. W01/W02/W03-A/B/C not repeated.",
-  "checkpoint_status": "W03_D1_B7_DOC_PUBLISHED_VERIFY_GUARD_AND_WRITER",
+  "next": "W03-D1 B7 PASS scoped DEV 9/9. W03-D2 preaudit DOC_ONLY staged at docs/v5/FARO_S4_W03_D2_AUXILIARY_LOCAL_NOTICE_PREAUDIT_20261119.md; split D2-A source-to-Auxiliary LOCAL_ONLY + D2-B attention seen/dismiss. D2-A individual B1–B5 exact/guard/READY before B6, D2-B separately. W03-E/G and G15 NOT_RUN.",
+  "checkpoint_status": "W03_D2_PREAUDIT_DOC_PUBLISHED_VERIFY_GUARD_WRITER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "0e4333a25d74c1bb59863f1835683f4b0b687256",
@@ -5481,5 +5481,11 @@
     "xml": "9/9",
     "b7_doc": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B7_PASS_20261119.md",
     "writer_epoch_expected": 1310
+  },
+  "w03_d2": {
+    "status": "PREAUDIT_DOC_ONLY_NO_READY",
+    "document": "docs/v5/FARO_S4_W03_D2_AUXILIARY_LOCAL_NOTICE_PREAUDIT_20261119.md",
+    "next_unit": "S4_W03_D2_A_SOURCE_TO_AUXILIARY_LOCAL_NOTICE",
+    "writer_epoch_expected": 1311
   }
 }
