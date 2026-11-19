@@ -8,6 +8,7 @@ import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.auxiliary.S4W03NoticeAttentionCasResult
+import ar.com.faro.v5.store.auxiliary.S4W03NoticeAttentionReceiptV4Result
 
 /**
  * W03-D2B1 trusted DEV host only; one explicit foreground click.
@@ -46,22 +47,50 @@ internal class S4W03NoticeAttentionCasHost(
         noticeId: NoticeId,
         expectedRevision: Long,
         target: NoticeAttention,
-    ): S4W03NoticeAttentionCasResult = gate.withMaterialWrite {
-        if (!current() || expectedRevision <= 0L ||
+    ): S4W03NoticeAttentionCasResult = withClick(
+        noticeId, expectedRevision, target, S4W03NoticeAttentionCasResult.Denied,
+    ) { admission ->
+        auxiliary.mutateReminderNoticeAttention(noticeId, expectedRevision, target, admission)
+    }
+
+    fun explicitClickWithReceipt(
+        requestKey: String,
+        noticeId: NoticeId,
+        expectedRevision: Long,
+        target: NoticeAttention,
+    ): S4W03NoticeAttentionReceiptV4Result {
+        if (!requestKey.matches(Regex("[A-Za-z0-9][A-Za-z0-9._:/-]{0,191}"))) {
+            return S4W03NoticeAttentionReceiptV4Result.Denied
+        }
+        return withClick(
+            noticeId, expectedRevision, target, S4W03NoticeAttentionReceiptV4Result.Denied,
+        ) { admission ->
+            auxiliary.mutateReminderNoticeAttentionWithReceipt(requestKey, noticeId, expectedRevision, target, admission)
+        }
+    }
+
+    private fun <T> withClick(
+        noticeId: NoticeId,
+        expectedRevision: Long,
+        target: NoticeAttention,
+        denied: T,
+        mutation: (() -> Boolean) -> T,
+    ): T = gate.withMaterialWrite {
+        if (!current() || noticeId.value.length > 128 || expectedRevision <= 0L ||
             expectedRevision == Long.MAX_VALUE ||
             (target != NoticeAttention.SEEN && target != NoticeAttention.DISMISSED)
-        ) return@withMaterialWrite S4W03NoticeAttentionCasResult.Denied
+        ) return@withMaterialWrite denied
 
         val objectId = noticeId.value
         val readScope = Planning8ObjectScope(OperationId("notice.read"), objectId)
         val operation = if (target == NoticeAttention.SEEN) "notice.seen.set" else "notice.dismiss"
         val mutationScope = Planning8ObjectScope(OperationId(operation), objectId)
         val readNonce = grants.grantAfterTrustedPolicyCheck(readScope)
-            ?: return@withMaterialWrite S4W03NoticeAttentionCasResult.Denied
+            ?: return@withMaterialWrite denied
         val mutationNonce = grants.grantAfterTrustedPolicyCheck(mutationScope)
             ?: run {
                 grants.revokeAll()
-                return@withMaterialWrite S4W03NoticeAttentionCasResult.Denied
+                return@withMaterialWrite denied
             }
         try {
             // This callback must be pure policy/pointer logic, never Reality SQL.
@@ -70,10 +99,8 @@ internal class S4W03NoticeAttentionCasHost(
                     grants.epochOrNull(readScope, pinned) == readNonce &&
                     grants.epochOrNull(mutationScope, pinned) == mutationNonce
             }
-            if (!admission()) return@withMaterialWrite S4W03NoticeAttentionCasResult.Denied
-            auxiliary.mutateReminderNoticeAttention(
-                noticeId, expectedRevision, target, admission,
-            )
+            if (!admission()) return@withMaterialWrite denied
+            mutation(admission)
         } finally {
             grants.revokeAll()
         }

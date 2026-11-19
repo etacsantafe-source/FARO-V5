@@ -1,0 +1,82 @@
+name: FARO V5 W03-D2B2B3C real Avisos receipt host
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionReceiptHostTest.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4RestoredNoticeRouteTest.kt
+      - .github/workflows/faro-v5-s4-w03-d2b2b3-notice-receipt-host.yml
+
+permissions:
+  contents: read
+
+jobs:
+  real-avisos-receipts:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Check exact host routes against authorization parent
+        run: |
+          set -euo pipefail
+          while IFS= read -r path; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
+              --unit S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV --path "$path"
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for compilation on CI
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Verify restored notices and suppressed projection on SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Auxiliary4RestoredNoticeRouteTest
+      - name: Verify scoped receipt host and compile the bound Android DEV session
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W03NoticeAttentionReceiptHostTest \
+            :app:compileV2CoreDevKotlin
+      - name: Verify 8 JUnit results
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          targets = {
+              'v5/store/generation/build/test-results': 'FaroV5Auxiliary4RestoredNoticeRouteTest',
+              'v5/app/build/test-results': 'S4W03NoticeAttentionReceiptHostTest',
+          }
+          for root, name in targets.items():
+              files = list(Path(root).rglob('TEST-*' + name + '.xml'))
+              assert len(files) == 1, files
+              suite = ElementTree.parse(files[0]).getroot()
+              counts = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+              assert counts == (4, 0, 0, 0), (name, counts)
+          print('W03_D2B2B3C_NOTICE_RECEIPT_HOST_XML_PASS 8/8')
+          PY
+      - name: Upload host and SQLite test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-d2b2b3c-notice-receipt-host-xml
+          if-no-files-found: error
+          path: |
+            v5/store/generation/build/test-results/**/TEST-*FaroV5Auxiliary4RestoredNoticeRouteTest.xml
+            v5/app/build/test-results/**/TEST-*S4W03NoticeAttentionReceiptHostTest.xml

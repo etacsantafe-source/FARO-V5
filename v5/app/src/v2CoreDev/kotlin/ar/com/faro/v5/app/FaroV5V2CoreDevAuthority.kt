@@ -1,6 +1,8 @@
 package ar.com.faro.v5.app
 
 import android.app.Application
+import ar.com.faro.v5.delivery.api.NoticeAttention
+import ar.com.faro.v5.delivery.api.NoticeId
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.generation.FaroV5Finance9DevCutoverRuntime
@@ -9,6 +11,7 @@ import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
+import ar.com.faro.v5.store.auxiliary.S4W03NoticeAttentionReceiptV4Result
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.owner.finance.api.FinanceSnapshotReadApi
 import kotlinx.coroutines.flow.map
@@ -50,16 +53,17 @@ internal class FaroV5V2CoreDevAuthority(
     private fun openWithLease(
         planningUpgrade: (() -> Boolean)? = null,
         financeUpgrade: (() -> Boolean)? = null,
+        auxiliaryUpgrade: (() -> Boolean)? = null,
     ): Session {
         val normalized = root.toAbsolutePath().normalize()
         check(!Files.isSymbolicLink(normalized)) { "DEV root must not be a symlink" }
-        if (planningUpgrade == null) Files.createDirectories(normalized)
+        if (planningUpgrade == null && auxiliaryUpgrade == null) Files.createDirectories(normalized)
         check(Files.isDirectory(normalized, LinkOption.NOFOLLOW_LINKS))
         val runtime = if (w01Finance9) FaroV5Finance9DevCutoverRuntime.acquire(
             normalized, gate, CanonicalPreparedPlanEnvelopeVerifier,
         ) else null
         return try {
-            openSession(normalized, runtime, planningUpgrade, financeUpgrade)
+            openSession(normalized, runtime, planningUpgrade, financeUpgrade, auxiliaryUpgrade)
         } catch (failure: Throwable) {
             runCatching { runtime?.close() }.exceptionOrNull()?.let(failure::addSuppressed)
             throw failure
@@ -71,13 +75,14 @@ internal class FaroV5V2CoreDevAuthority(
         runtime: FaroV5Finance9DevCutoverRuntime?,
         planningUpgrade: (() -> Boolean)?,
         financeUpgrade: (() -> Boolean)?,
+        auxiliaryUpgrade: (() -> Boolean)?,
     ): Session {
         val recovered = runtime?.recover()
         // Initial bootstrap checks pristine transport before any journal or
         // replay-fence constructor can materialize its directories.
         val pointer = FileActiveGenerationPointer(normalized)
         if (pointer.read() == null) {
-            check(recovered == null && planningUpgrade == null)
+            check(recovered == null && planningUpgrade == null && auxiliaryUpgrade == null)
             val locator = ActiveGenerationStorageLocator(normalized)
             if (runtime == null) {
                 locator.ensureInitialGenerationAndGetDirectory(
@@ -95,7 +100,7 @@ internal class FaroV5V2CoreDevAuthority(
             planning8.promoteAfterExplicitForegroundRequest(planningUpgrade)
         }
         if (recovered == null) planning8.recoverPreviouslyAuthorizedOrFail()
-        val financeSelection = if (
+        val finance9 = if (
             financeUpgrade != null && recovered?.status != FaroV5Finance9DevCutoverRuntime.Status.ACTIVE_NINE
         ) {
             val origin = checkNotNull(pointer.read())
@@ -114,7 +119,22 @@ internal class FaroV5V2CoreDevAuthority(
                 financeUpgrade,
             )
         } else recovered
-        val financeOwnsGraph = financeSelection?.status == FaroV5Finance9DevCutoverRuntime.Status.ACTIVE_NINE
+        val activeNine = FaroV5Finance9DevCutoverRuntime.Status.ACTIVE_NINE
+        val alreadyAuxiliary4 = finance9?.let { it.auxiliary4 && it.status == activeNine } == true
+        val financeSelection = if (auxiliaryUpgrade != null && !alreadyAuxiliary4) {
+            val active = checkNotNull(finance9) { "Auxiliary4 requires a completed Finance9 generation" }
+            val owner = checkNotNull(runtime)
+            check((active.status == activeNine || active.auxiliary4) && owner.isCurrent(active))
+            val id = "w03-auxiliary4-" + UUID.randomUUID()
+            val now = System.currentTimeMillis()
+            owner.startAuxiliary4(
+                MaintenanceOperationId(id),
+                StorageGenerationDescriptor(StorageGenerationId(id), "w03-auxiliary4-dev-v1", now),
+                active.pointer, now, auxiliaryUpgrade,
+            )
+        } else finance9
+        val financeOwnsGraph = financeSelection?.let { it.status == activeNine || it.auxiliary4 } == true
+        val auxiliary4Selected = financeSelection?.let { it.status == activeNine && it.auxiliary4 } == true
         if (financeSelection != null) {
             check(checkNotNull(runtime).isCurrent(financeSelection))
             if (!financeOwnsGraph) planning8.requireFinance9Predecessor(financeSelection.pointer)
@@ -372,7 +392,7 @@ internal class FaroV5V2CoreDevAuthority(
             Session(
                 graph, alive, reads.workspaceReadPort, reads.timelineReadPort,
                 selection.port, composer.port, search, readAccesses.toList(), pointer, observer, openingPointer,
-                gate, current, ready, admission, runtime, financeOwnsGraph,
+                gate, current, ready, admission, runtime, financeOwnsGraph, auxiliary4Selected,
             )
         } catch (failure: Throwable) {
             try {
@@ -402,6 +422,12 @@ internal class FaroV5V2CoreDevAuthority(
         return openWithLease(financeUpgrade = foreground)
     }
 
+    /** The previous session must be closed before requesting this native DEV upgrade. */
+    internal fun upgradeAuxiliary4AfterExplicitForegroundRequest(foreground: () -> Boolean): Session {
+        check(w01Finance9 && foreground()) { "DEV Auxiliary4 requires an explicit foreground click" }
+        return openWithLease(auxiliaryUpgrade = foreground)
+    }
+
     class Session internal constructor(
         private val graph: FaroV5GenerationStoreGraph,
         private val alive: AtomicBoolean,
@@ -420,6 +446,7 @@ internal class FaroV5V2CoreDevAuthority(
         private val admission: FaroV5DevOpenAdmission?,
         private val financeRuntime: FaroV5Finance9DevCutoverRuntime?,
         private val financeOwnsGraph: Boolean,
+        internal val auxiliary4Selected: Boolean,
     ) : AutoCloseable {
         private fun available() = alive.get() && ready.getAsBoolean()
         internal var assistantPorts: FaroV5DevAssistantSessionPorts? = null
@@ -522,6 +549,43 @@ internal class FaroV5V2CoreDevAuthority(
                     access.close()
                 }
             }
+        }
+
+        @Synchronized
+        internal fun applyAvisosAttentionAfterExplicitClick(
+            requestKey: String,
+            noticeId: NoticeId,
+            expectedRevision: Long,
+            target: NoticeAttention,
+            foreground: () -> Boolean,
+        ): S4W03NoticeAttentionReceiptV4Result {
+            val denied = S4W03NoticeAttentionReceiptV4Result.Denied
+            if (!auxiliary4Selected || !available() || !runCatching(foreground).getOrDefault(false)) return denied
+            val access = avisosAuthority ?: return denied
+            val principal = access.technicalPrincipalOrNull() ?: return denied
+            val domain = FaroV5LocalReadDomain.AUXILIARY_NOTICE
+            val readGrant = access.epochOrNull(principal, domain, openingPointer) ?: return denied
+            val operation = when (target) {
+                NoticeAttention.SEEN -> OperationId("notice.seen.set")
+                NoticeAttention.DISMISSED -> OperationId("notice.dismiss")
+                else -> return denied
+            }
+            val epoch = UUID.randomUUID().toString()
+            val activeEpoch = {
+                epoch.takeIf {
+                    available() && foreground() &&
+                        access.epochOrNull(principal, domain, openingPointer) == readGrant
+                }
+            }
+            val policy = Planning8TrustedObjectPolicyPort { observed, scope, observedPointer ->
+                if (observed == principal && observedPointer == openingPointer && scope.objectId == noticeId.value &&
+                    (scope.operationId == OperationId("notice.read") || scope.operationId == operation)
+                ) activeEpoch() else null
+            }
+            return S4W03NoticeAttentionCasHost(
+                openingPointer, pointer, graph.auxiliary, gate,
+                principal, epoch, activeEpoch, { available() }, foreground, policy,
+            ).use { it.explicitClickWithReceipt(requestKey, noticeId, expectedRevision, target) }
         }
 
         @Synchronized

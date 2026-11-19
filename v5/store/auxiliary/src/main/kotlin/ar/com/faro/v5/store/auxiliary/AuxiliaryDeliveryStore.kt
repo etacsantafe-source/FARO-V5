@@ -381,7 +381,7 @@ class AuxiliaryDeliveryStore private constructor(
                         ) else S4W03NoticeAttentionReceiptV4Result.IdentityConflict
                     )
                 }
-                val priorRoute = readRouteByNoticeId(noticeId)
+                val priorRoute = readOrRestoreLocalRoute(noticeId)
                     ?: return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.NotFound)
                 val notice = priorRoute.notice
                 if (!notice.sourceRef.value.startsWith("reminder:") ||
@@ -561,13 +561,14 @@ class AuxiliaryDeliveryStore private constructor(
                 candidate.destinationRef.value == "faro:avisos.local" &&
                 candidate.materiality == NoticeMateriality.NOTICE
         ) { "W03-D2A only routes real local Reminder Notice candidates" }
-        val ids = reminderLocalIds(candidate)
+        val ids = reminderLocalIds(candidate.noticeKey, candidate.occurrenceRef)
         val result = withMaterialAdmission { synchronized(lock) {
             checkOpen()
             check(admitted()) { "Reminder local Notice admission missing" }
             connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
             try {
                 val prior = readRoute(candidate.noticeKey, candidate.occurrenceRef)
+                    ?: readOrRestoreLocalRoute(ids.noticeId)
                 val routed = if (prior == null) {
                     insertNew(candidate, ids, DeliveryEffectState.SUPPRESSED_POLICY)
                 } else {
@@ -575,7 +576,9 @@ class AuxiliaryDeliveryStore private constructor(
                         prior.notice.sourceRef == candidate.sourceRef &&
                             prior.notice.destinationRef == candidate.destinationRef &&
                             prior.intent.state == DeliveryEffectState.SUPPRESSED_POLICY &&
-                            prior.intent.desiredAction == DeliveryDesiredAction.UPSERT &&
+                            (prior.intent.desiredAction == DeliveryDesiredAction.UPSERT ||
+                                (receiptAuthorityFence != null && prior.notice.relevance == NoticeRelevance.RESOLVED &&
+                                    prior.intent.desiredAction == DeliveryDesiredAction.CANCEL)) &&
                             prior.intent.sink == DeliverySink.ANDROID_NOTIFICATION
                     ) { "Local Notice refuses to take over an OS or resolved route" }
                     coalesce(prior, candidate)
@@ -583,7 +586,9 @@ class AuxiliaryDeliveryStore private constructor(
                 check(routed.deliveryIntent.state == DeliveryEffectState.SUPPRESSED_POLICY) {
                     "Local Reminder Notice unexpectedly became dispatchable"
                 }
-                check(admitted()) { "Reminder local Notice permission revoked before commit" }
+                check(admitted() && receiptAuthorityFence?.invoke() != false) {
+                    "Reminder local Notice authority revoked before commit"
+                }
                 connection.execSQL("COMMIT TRANSACTION")
                 routed
             } catch (failure: Throwable) {
@@ -608,7 +613,7 @@ class AuxiliaryDeliveryStore private constructor(
             check(admitted()) { "Reminder local resolution admission missing" }
             connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
             try {
-                val prior = readRouteByNoticeId(noticeId)
+                val prior = readOrRestoreLocalRoute(noticeId)
                 val resolved = when {
                     prior == null -> NoticeResolveResult.NotFound
                     else -> {
@@ -657,7 +662,9 @@ class AuxiliaryDeliveryStore private constructor(
                         }
                     }
                 }
-                check(admitted()) { "Reminder local Notice resolution permission revoked" }
+                check(admitted() && receiptAuthorityFence?.invoke() != false) {
+                    "Reminder local Notice resolution authority revoked"
+                }
                 connection.execSQL("COMMIT TRANSACTION")
                 resolved
             } catch (failure: Throwable) {
@@ -669,19 +676,46 @@ class AuxiliaryDeliveryStore private constructor(
         return result
     }
 
-    private fun reminderLocalIds(candidate: NoticeCandidate): NoticeMaterializationIds {
+    private fun reminderLocalIds(key: NoticeKey, occurrence: OccurrenceRef): NoticeMaterializationIds {
         val digest = java.security.MessageDigest.getInstance("SHA-256")
-        for (part in listOf(candidate.noticeKey.value, candidate.occurrenceRef.value)) {
+        for (part in listOf(key.value, occurrence.value)) {
             val bytes = part.toByteArray(Charsets.UTF_8)
             digest.update(java.nio.ByteBuffer.allocate(4).putInt(bytes.size).array())
             digest.update(bytes)
         }
-        val key = digest.digest().joinToString("") { "%02x".format(it.toInt() and 255) }
+        val digestKey = digest.digest().joinToString("") { "%02x".format(it.toInt() and 255) }
         return NoticeMaterializationIds(
-            noticeId = NoticeId.of("rnotice-" + key),
-            deliveryIntentId = DeliveryIntentId.of("rdelivery-" + key),
-            effectId = EffectId("reffect-" + key),
+            noticeId = NoticeId.of("rnotice-" + digestKey),
+            deliveryIntentId = DeliveryIntentId.of("rdelivery-" + digestKey),
+            effectId = EffectId("reffect-" + digestKey),
         )
+    }
+
+    /** Restore only the local, non-dispatchable intent stripped from an Auxiliary4 backup. */
+    private fun readOrRestoreLocalRoute(noticeId: NoticeId): StoredRoute? {
+        val existing = readRouteByNoticeId(noticeId)
+        if (existing != null || receiptAuthorityFence?.invoke() != true) return existing
+
+        val notice = connection.prepare("""
+            SELECT notice_id, notice_key, source_ref, occurrence_ref,
+                   materiality, sensitivity, summary, destination_ref,
+                   relevance, attention, revision, resolution_reason
+            FROM delivery_notice WHERE notice_id=?
+        """.trimIndent()).use {
+            it.bindText(1, noticeId.value)
+            if (it.step()) it.toNoticeSnapshot() else null
+        } ?: return null
+        val ids = reminderLocalIds(notice.noticeKey, notice.occurrenceRef)
+        if (ids.noticeId != noticeId || !notice.noticeKey.value.startsWith("reminder:") ||
+            !notice.sourceRef.value.startsWith("reminder:") ||
+            notice.destinationRef.value != "faro:avisos.local" ||
+            notice.materiality != NoticeMateriality.NOTICE
+        ) return null
+
+        val action = if (notice.relevance == NoticeRelevance.RESOLVED)
+            DeliveryDesiredAction.CANCEL else DeliveryDesiredAction.UPSERT
+        insertDeliveryProjection(ids, action, DeliveryEffectState.SUPPRESSED_POLICY)
+        return checkNotNull(readRouteByNoticeId(noticeId))
     }
 
     override fun resolve(
@@ -1208,6 +1242,23 @@ class AuxiliaryDeliveryStore private constructor(
 
         faultInjector(AuxiliaryDeliveryFaultPoint.AFTER_NOTICE_INSERT)
 
+        insertDeliveryProjection(ids, DeliveryDesiredAction.UPSERT, initialState)
+
+        val stored = checkNotNull(readRoute(candidate.noticeKey, candidate.occurrenceRef)) {
+            "materialized Delivery route disappeared before commit"
+        }
+        return NoticeRouteResult.Materialized(
+            notice = stored.notice,
+            deliveryIntent = stored.intent,
+            created = true,
+        )
+    }
+
+    private fun insertDeliveryProjection(
+        ids: NoticeMaterializationIds,
+        action: DeliveryDesiredAction,
+        state: DeliveryEffectState,
+    ) {
         connection.prepare(
             """
             INSERT INTO delivery_intent(
@@ -1224,19 +1275,10 @@ class AuxiliaryDeliveryStore private constructor(
             statement.bindText(2, ids.effectId.value)
             statement.bindText(3, ids.noticeId.value)
             statement.bindText(4, DeliverySink.ANDROID_NOTIFICATION.name)
-            statement.bindText(5, DeliveryDesiredAction.UPSERT.name)
-            statement.bindText(6, initialState.name)
+            statement.bindText(5, action.name)
+            statement.bindText(6, state.name)
             statement.step()
         }
-
-        val stored = checkNotNull(readRoute(candidate.noticeKey, candidate.occurrenceRef)) {
-            "materialized Delivery route disappeared before commit"
-        }
-        return NoticeRouteResult.Materialized(
-            notice = stored.notice,
-            deliveryIntent = stored.intent,
-            created = true,
-        )
     }
 
     private fun coalesce(
