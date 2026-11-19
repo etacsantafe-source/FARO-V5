@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
@@ -106,7 +108,9 @@ class S4W02ObjectivesAndroidTest {
             rule.onAllNodesWithContentDescription("Abrir menú").fetchSemanticsNodes().isNotEmpty()
         }
         rule.onNodeWithContentDescription("Abrir menú").assertIsDisplayed().performClick()
-        clickComposeText("Objetivos")
+        val destination = hasText("Objetivos") and hasClickAction()
+        rule.waitUntil(20_000) { rule.onAllNodes(destination).fetchSemanticsNodes().size == 1 }
+        rule.onNode(destination).performClick()
     }
 
     private fun clickComposeText(label: String) {
