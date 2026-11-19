@@ -1,22 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE",
-  "reviewed_head": "21e4b77d53719fdbd20a99b2856fc0889598ffe7",
+  "status": "READY",
+  "unit_id": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
+  "reviewed_head": "acb1925d377873616ddeb2ceda1e46aeef18c316",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/S4W03AuxiliaryReminderLocalNoticeTest.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03ReminderNoticeReconcileHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03ReminderNoticeReconcileHostTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2a-reminder-notice.yml"
+    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/S4W03AuxiliaryNoticeAttentionCasTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHostTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d2b1-attention-cas.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
-          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
+          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
+          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
-          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
+          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
+          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
-          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
+          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
+          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
-          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
+          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
+          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
           "marker": "## B4"
         }
       ]
@@ -55,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B1_B5_20261119.md",
-          "blob_sha": "f14cbd2e0f9c6ec8cfbee75a7017f8d53bbd2c83",
+          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
+          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SQLITE_FINANCE9_DEV_JVM_9_OF_9",
-    "B7": "PASS_SCOPED_W03_D2A_DEV_JVM_9_OF_9"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "ecc21ba2d40672660420515fed56728edaa5a2b2",
@@ -76,8 +76,8 @@
       }
     ]
   },
-  "why": "W03-D2A B7 PASS 9/9: CI44576678840 SUCCESS, guard44576678898 SUCCESS, XML artifact14556702721. READY consumed; D2-B separate permit.",
-  "how": "Source Reminder/Reality -> durable local Auxiliary Notice SUPPRESSED_POLICY via trusted DEV host. No OS, no Android shipping, no seen/dismiss.",
+  "why": "W03-D2B1 B1-B5 CAS only guard44583237000 SUCCESS, five exact routes. Real Attention SEEN/DISMISSED state/revision, NO idempotency-key receipt ledger until D2B2 schema4 staged migration.",
+  "how": "Implement 5 approved routes; targeted Auxiliary 5 + app3 JVM, XML8/8, OS suppressed, no schema version change, independent scoped click grants.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,6 +87,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44574650567,
-  "last_ci_run_id": 44576678840
+  "preaudit_guard": 44583237000,
+  "last_ci_run_id": null
 }
