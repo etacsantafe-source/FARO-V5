@@ -1,24 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W02_A_OBJECTIVE_PERSISTENCE",
-  "reviewed_head": "8a4f7add19c612435421b47f19eebf026d2ef117",
+  "status": "READY",
+  "unit_id": "S4_W02_B_OBJECTIVE_REVIEW_APPLY",
+  "reviewed_head": "ba32c66aeef82c4825cd95d9923744ecf80e0004",
   "paths": [
-    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetails.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetailsTest.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ObjectiveDetailsBackupTest.kt",
-    ".github/workflows/faro-v5-s4-w02-a-objective-persistence.yml"
+    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveReviewedEdit.kt",
+    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveReviewedEditBinding.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W02ObjectiveReviewHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W02ObjectiveReviewHostTest.kt",
+    ".github/workflows/faro-v5-s4-w02-b-objective-review.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
-          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
+          "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "99935600321dde317ba5ea2b1b04d867874a425a",
           "marker": "## B1"
         }
       ]
@@ -27,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
-          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
+          "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "99935600321dde317ba5ea2b1b04d867874a425a",
           "marker": "## B2"
         }
       ]
@@ -37,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
-          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
+          "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "99935600321dde317ba5ea2b1b04d867874a425a",
           "marker": "## B3"
         }
       ]
@@ -47,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
-          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
+          "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "99935600321dde317ba5ea2b1b04d867874a425a",
           "marker": "## B4"
         }
       ]
@@ -57,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
-          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
+          "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B1_B5_20261118.md",
+          "blob_sha": "99935600321dde317ba5ea2b1b04d867874a425a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_REAL_SQLITE_JVM_AND_G4_BACKUP_XML",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6c1d1edea9b64015dd0ba2dbc5c6919f186c1ceb",
@@ -78,8 +76,8 @@
       }
     ]
   },
-  "why": "W02-A verified in JVM. W02-B requires its own READY after its preaudit guard.",
-  "how": "Preaudit guard 44439791813 SUCCESS. Exact path preflight and current guard required before B6.",
+  "why": "W02-B manual create/edit Review and same-Reality Apply with scoped grants and receipts.",
+  "how": "Preaudit guard 44441382784 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -89,5 +87,5 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44439791813
+  "preaudit_guard": 44441382784
 }
