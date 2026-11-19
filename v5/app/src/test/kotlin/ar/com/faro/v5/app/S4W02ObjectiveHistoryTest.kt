@@ -143,17 +143,19 @@ class S4W02ObjectiveHistoryTest {
         }
     }
 
-    @Test fun lifecycleIsExplicitAndEditsKeepTheJournal() = Rig().use { rig ->
-        rig.create()
-        val lifecycle = ObjectiveHistoryChange.Lifecycle(ObjectiveStatus.PLANNED, ObjectiveStatus.ACTIVE, "Arrancar")
-        assertTrue(rig.apply(rig.approve(rig.history("start", lifecycle))) is ConversationApplyHostOutcome.Committed)
-        val edit = rig.submit("edit", ObjectiveReviewOperations.UPDATE, title = "Práctica")
-        assertTrue(rig.apply(rig.approve(edit)) is ConversationApplyHostOutcome.Committed)
-        val result = rig.reality.objectivePersistence.read().objectives.single()
-        assertEquals(ObjectiveStatus.ACTIVE, result.status)
-        assertEquals(lifecycle, result.details.history.single().change)
-        assertThrows(IllegalArgumentException::class.java) {
-            ObjectiveHistoryChange.Lifecycle(ObjectiveStatus.ARCHIVED, ObjectiveStatus.PAUSED, "Inválido")
+    @Test fun lifecycleIsExplicitAndEditsKeepTheJournal() {
+        Rig().use { rig ->
+            rig.create()
+            val lifecycle = ObjectiveHistoryChange.Lifecycle(ObjectiveStatus.PLANNED, ObjectiveStatus.ACTIVE, "Arrancar")
+            assertTrue(rig.apply(rig.approve(rig.history("start", lifecycle))) is ConversationApplyHostOutcome.Committed)
+            val edit = rig.submit("edit", ObjectiveReviewOperations.UPDATE, title = "Práctica")
+            assertTrue(rig.apply(rig.approve(edit)) is ConversationApplyHostOutcome.Committed)
+            val result = rig.reality.objectivePersistence.read().objectives.single()
+            assertEquals(ObjectiveStatus.ACTIVE, result.status)
+            assertEquals(lifecycle, result.details.history.single().change)
+            assertThrows(IllegalArgumentException::class.java) {
+                ObjectiveHistoryChange.Lifecycle(ObjectiveStatus.ARCHIVED, ObjectiveStatus.PAUSED, "Inválido")
+            }
         }
     }
 
