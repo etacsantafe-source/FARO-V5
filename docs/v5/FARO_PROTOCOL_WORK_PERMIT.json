@@ -69,19 +69,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "66d63fe189f3cdf5c85ab290d7b3e849e6d197d0",
-    "unit_id": "S4_W03_C_REMINDER_CIVIL_DUE",
-    "result": "PASS",
+    "sha": "de726c927e88a68a8504a2556f3148dfbe7b40eb",
+    "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B7_PASS_20261119.md",
-        "blob_sha": "ff9bca02102fb9a8f72f75a97d77d0d23f3ce7f5",
+        "path": "docs/v5/FARO_S4_W03_D1_REMINDER_CORE_B7_RED_FIX_20261119.md",
+        "blob_sha": "0681e7d5d6a88442571297ff82caddbfe155ab44",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-D1 independent B1-B5 audited, guard 44557705130 SUCCESS; W03-C B7 10/10 retained; exactly nine routes scoped, local Notice candidates non-durable.",
-  "how": "Preflight all nine paths; code only transaction-backed reminder mutation, Review/Apply, candidate source. W03-D2 independently gated for actual Auxiliary Notice route/dismiss.",
+  "why": "W03-D1 RED_FIX Kotlin SMARTCAST_IMPOSSIBLE CI 44559946864; targeted fix requires one Notice projection path + workflow count audit, same unit. Original code guard success; actual tests NOT_RUN.",
+  "how": "Use currently READY same-unit permit; only two RED_FIX paths; recheck preflight, CI, XML, B7.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -92,5 +92,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44557705130,
-  "last_ci_run_id": 44554497464
+  "last_ci_run_id": 44559946864
 }
