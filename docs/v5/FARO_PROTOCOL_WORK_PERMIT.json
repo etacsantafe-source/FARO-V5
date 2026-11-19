@@ -69,19 +69,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "6d3499262848fc9b07188f8cceb03b3308e3a80a",
+    "sha": "3973690406dba3671f1f62cf408886319de300e6",
     "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D1_REMINDER_CORE_B7_RED_FIX2_20261119.md",
-        "blob_sha": "bef76210889fa097a1b924b0f83918137b7e3deb",
+        "path": "docs/v5/FARO_S4_W03_D1_REMINDER_CORE_B7_RED_FIX3_20261119.md",
+        "blob_sha": "b3ff47674688c54638846449bb2d98d12f1bad2a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-D1 RED_FIX2 Kotlin INVISIBLE_REFERENCE CI44561974090. Encapsulated Reality factory required. Same unit paths RealityStore, ReminderReviewHost, ReminderReviewHostTest. Other operations not authorized.",
-  "how": "Use READY original nine-path permit + latest RED_FIX2 B7 evidence. Correct exact 3 routes then rerun directed JVM/XML.",
+  "why": "W03-D1 RED_FIX3: CI 44563843348 ran 9 tests 7 failed due schema8-only factory vs active Finance9. Official isPlanningBackupSchemaMounted() guarded predicate to use, same unit.",
+  "how": "Exactly RealityStore.kt RED_FIX one-path using existing admitted schema8/Finance9 predicate in Reminder read/factory/Apply. XML no PASS yet.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -92,5 +92,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44557705130,
-  "last_ci_run_id": 44561974090
+  "last_ci_run_id": 44563843348
 }
