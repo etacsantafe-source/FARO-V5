@@ -265,6 +265,145 @@ class AuxiliaryDeliveryStore private constructor(
     }
 
 
+    /**
+     * W03-D2A: dedicated, LOCAL_ONLY Reminder Notice materialization.
+     * Never dispatches Android nor changes the Reminder/Matter source owner.
+     * Trusted DEV composition must supply a fresh scoped policy fence.
+     * The admission callback MUST NOT acquire Reality/Workspace mutexes.
+     */
+    fun routeReminderLocalOnly(
+        candidate: NoticeCandidate,
+        admitted: () -> Boolean,
+    ): NoticeRouteResult.Materialized {
+        require(
+            candidate.noticeKey.value.startsWith("reminder:") &&
+                candidate.sourceRef.value.startsWith("reminder:") &&
+                candidate.destinationRef.value == "faro:avisos.local" &&
+                candidate.materiality == NoticeMateriality.NOTICE
+        ) { "W03-D2A only routes real local Reminder Notice candidates" }
+        val ids = reminderLocalIds(candidate)
+        val result = withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            check(admitted()) { "Reminder local Notice admission missing" }
+            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+            try {
+                val prior = readRoute(candidate.noticeKey, candidate.occurrenceRef)
+                val routed = if (prior == null) {
+                    insertNew(candidate, ids, DeliveryEffectState.SUPPRESSED_POLICY)
+                } else {
+                    check(
+                        prior.notice.sourceRef == candidate.sourceRef &&
+                            prior.notice.destinationRef == candidate.destinationRef &&
+                            prior.intent.state == DeliveryEffectState.SUPPRESSED_POLICY &&
+                            prior.intent.desiredAction == DeliveryDesiredAction.UPSERT &&
+                            prior.intent.sink == DeliverySink.ANDROID_NOTIFICATION
+                    ) { "Local Notice refuses to take over an OS or resolved route" }
+                    coalesce(prior, candidate)
+                }
+                check(routed.deliveryIntent.state == DeliveryEffectState.SUPPRESSED_POLICY) {
+                    "Local Reminder Notice unexpectedly became dispatchable"
+                }
+                check(admitted()) { "Reminder local Notice permission revoked before commit" }
+                connection.execSQL("COMMIT TRANSACTION")
+                routed
+            } catch (failure: Throwable) {
+                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                throw failure
+            }
+        } }
+        publishNoticeCommit()
+        return result
+    }
+
+    /**
+     * Source resolution ONLY; preserves Notice identity and attention history.
+     * Never re-arms the OS (state remains SUPPRESSED_POLICY).
+     */
+    fun resolveReminderLocalOnly(
+        noticeId: NoticeId,
+        admitted: () -> Boolean,
+    ): NoticeResolveResult {
+        val result = withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            check(admitted()) { "Reminder local resolution admission missing" }
+            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+            try {
+                val prior = readRouteByNoticeId(noticeId)
+                val resolved = when {
+                    prior == null -> NoticeResolveResult.NotFound
+                    else -> {
+                        check(
+                            prior.notice.sourceRef.value.startsWith("reminder:") &&
+                                prior.notice.destinationRef.value == "faro:avisos.local" &&
+                                prior.intent.state == DeliveryEffectState.SUPPRESSED_POLICY
+                        ) { "Cannot resolve an OS or non-Reminder route using local-only API" }
+                        if (prior.notice.relevance == NoticeRelevance.RESOLVED) {
+                            NoticeResolveResult.AlreadyResolved(prior.notice, prior.intent)
+                        } else {
+                            connection.prepare("""
+                                UPDATE delivery_notice SET relevance=?, resolution_reason=?,
+                                    revision=revision+1
+                                WHERE notice_id=? AND relevance=?
+                            """.trimIndent()).use { statement ->
+                                statement.bindText(1, NoticeRelevance.RESOLVED.name)
+                                statement.bindText(2, NoticeResolutionReason.SOURCE_RESOLVED.name)
+                                statement.bindText(3, noticeId.value)
+                                statement.bindText(4, NoticeRelevance.OPEN.name)
+                                statement.step()
+                            }
+                            connection.prepare("SELECT changes()").use { statement ->
+                                check(statement.step() && statement.getLong(0) == 1L) {
+                                    "Local Notice resolution CAS failed"
+                                }
+                            }
+                            connection.prepare("""
+                                UPDATE delivery_intent SET desired_action=?
+                                WHERE notice_id=? AND state=? AND desired_action=?
+                            """.trimIndent()).use { statement ->
+                                statement.bindText(1, DeliveryDesiredAction.CANCEL.name)
+                                statement.bindText(2, noticeId.value)
+                                statement.bindText(3, DeliveryEffectState.SUPPRESSED_POLICY.name)
+                                statement.bindText(4, DeliveryDesiredAction.UPSERT.name)
+                                statement.step()
+                            }
+                            connection.prepare("SELECT changes()").use { statement ->
+                                check(statement.step() && statement.getLong(0) == 1L) {
+                                    "Local Notice intent cancellation CAS failed"
+                                }
+                            }
+                            val after = checkNotNull(readRouteByNoticeId(noticeId))
+                            check(after.intent.state == DeliveryEffectState.SUPPRESSED_POLICY)
+                            NoticeResolveResult.Resolved(after.notice, after.intent)
+                        }
+                    }
+                }
+                check(admitted()) { "Reminder local Notice resolution permission revoked" }
+                connection.execSQL("COMMIT TRANSACTION")
+                resolved
+            } catch (failure: Throwable) {
+                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                throw failure
+            }
+        } }
+        if (result is NoticeResolveResult.Resolved) publishNoticeCommit()
+        return result
+    }
+
+    private fun reminderLocalIds(candidate: NoticeCandidate): NoticeMaterializationIds {
+        val digest = java.security.MessageDigest.getInstance("SHA-256")
+        for (part in listOf(candidate.noticeKey.value, candidate.occurrenceRef.value)) {
+            val bytes = part.toByteArray(Charsets.UTF_8)
+            digest.update(java.nio.ByteBuffer.allocate(4).putInt(bytes.size).array())
+            digest.update(bytes)
+        }
+        val key = digest.digest().joinToString("") { "%02x".format(it.toInt() and 255) }
+        return NoticeMaterializationIds(
+            noticeId = NoticeId.of("rnotice-" + key),
+            deliveryIntentId = DeliveryIntentId.of("rdelivery-" + key),
+            effectId = EffectId("reffect-" + key),
+        )
+    }
+
     override fun resolve(
         noticeId: NoticeId,
         reason: NoticeResolutionReason,
@@ -704,6 +843,7 @@ class AuxiliaryDeliveryStore private constructor(
     private fun insertNew(
         candidate: NoticeCandidate,
         ids: NoticeMaterializationIds,
+        initialState: DeliveryEffectState = DeliveryEffectState.PLANNED,
     ): NoticeRouteResult.Materialized {
         connection.prepare(
             """
@@ -754,7 +894,7 @@ class AuxiliaryDeliveryStore private constructor(
             statement.bindText(3, ids.noticeId.value)
             statement.bindText(4, DeliverySink.ANDROID_NOTIFICATION.name)
             statement.bindText(5, DeliveryDesiredAction.UPSERT.name)
-            statement.bindText(6, DeliveryEffectState.PLANNED.name)
+            statement.bindText(6, initialState.name)
             statement.step()
         }
 
