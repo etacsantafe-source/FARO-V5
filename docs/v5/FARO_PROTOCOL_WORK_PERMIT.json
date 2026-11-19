@@ -1,22 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_B_MATTER_REVIEW_APPLY",
-  "reviewed_head": "6b16acc7937206c9bd60a371cf379023d0900e6f",
+  "status": "READY",
+  "unit_id": "S4_W03_C_REMINDER_CIVIL_DUE",
+  "reviewed_head": "179428a2e5683fc46a9b6ecd01561e2e5c30b3c4",
   "paths": [
-    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterOperations.kt",
-    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterReviewBinding.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03MatterReviewHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03MatterReviewHostTest.kt",
-    ".github/workflows/faro-v5-s4-w03-b-matter-review.yml"
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCivilExpansion.kt",
+    "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/S4W03ReminderCivilExpansionTest.kt",
+    ".github/workflows/faro-v5-s4-w03-c-reminder-civil.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
-          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
+          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
+          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
           "marker": "## B1"
         }
       ]
@@ -25,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
-          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
+          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
+          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
           "marker": "## B2"
         }
       ]
@@ -35,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
-          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
+          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
+          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
           "marker": "## B3"
         }
       ]
@@ -45,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
-          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
+          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
+          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
           "marker": "## B4"
         }
       ]
@@ -55,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
-          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
+          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
+          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_8_8_MATTER_REVIEW_APPLY_DEV",
-    "B7": "PASS_SCOPED_W03_B_DEV_JVM_8_8"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "4b959ac90f29548e79a74a0b594f0b2867c2c836",
@@ -76,8 +74,8 @@
       }
     ]
   },
-  "why": "W03-B B7 PASS scoped DEV 8/8, CI 44546592178 SUCCESS, guard 44546591982 SUCCESS; permit consumed. W03-C needs B1-B5 and own READY.",
-  "how": "Code 4b959ac90f29548e79a74a0b594f0b2867c2c836; 5 exact scoped paths. W03-B XML artifact 14541013204 digest f86ac856...; G4 legacy XML 4-vs-6 separately blocked outside W03-B.",
+  "why": "W03-C B1–B5 own blob verified; W03-B prior B7 8/8 PASS retained. Guard 44553464609 SUCCESS. Exact three routes ONLY.",
+  "how": "No edits W03-A/B/W01/W02/ReminderModel; pure recurrence projection and CI directed 10 tests. Preflight for every route against READY parent. Writer CAS and B7 after exact CI.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,6 +85,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44544546037,
+  "preaudit_guard": 44553464609,
   "last_ci_run_id": 44546592178
 }
