@@ -68,7 +68,9 @@ class FaroV5W02ObjectivesDevActivity : FaroV5V2CoreDevActivity() {
 
     override fun onResume() {
         super.onResume()
-        panel?.reloadIfAttached()
+        window.decorView.post {
+            if (foreground()) panel?.reloadIfAttached()
+        }
     }
 
     override fun onDestroy() {

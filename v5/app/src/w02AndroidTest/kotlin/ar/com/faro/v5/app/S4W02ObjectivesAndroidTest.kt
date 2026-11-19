@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -44,9 +45,10 @@ class S4W02ObjectivesAndroidTest {
         fill("Unidad o código de moneda", "láminas")
         click("Revisar objetivo")
         click("Ver revisión en Chat")
-        rule.onNodeWithText("Revisar cambios").performClick()
-        rule.onNodeWithText("Confirmar propuesta").performClick()
-        rule.onNodeWithText("Aplicar cambios").performClick()
+        clickComposeText("Revisar cambios")
+        clickComposeText("Confirmar propuesta")
+        clickComposeText("Ver propuesta aprobada")
+        clickComposeText("Aplicar cambios")
         rule.waitUntil(20_000) {
             rule.onAllNodesWithText("Aplicado y registrado").fetchSemanticsNodes().isNotEmpty()
         }
@@ -97,8 +99,16 @@ class S4W02ObjectivesAndroidTest {
     }
 
     private fun objectives() {
+        rule.waitUntil(20_000) {
+            rule.onAllNodesWithContentDescription("Abrir menú").fetchSemanticsNodes().isNotEmpty()
+        }
         rule.onNodeWithContentDescription("Abrir menú").assertIsDisplayed().performClick()
-        rule.onNodeWithText("Objetivos").performClick()
+        clickComposeText("Objetivos")
+    }
+
+    private fun clickComposeText(label: String) {
+        rule.waitUntil(20_000) { rule.onAllNodesWithText(label).fetchSemanticsNodes().isNotEmpty() }
+        rule.onNodeWithText(label).performClick()
     }
 
     private fun commitNative() {
