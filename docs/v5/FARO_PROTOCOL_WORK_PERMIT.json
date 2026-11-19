@@ -1,22 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV",
-  "reviewed_head": "40d94374b4bb57cdb0bb0a01827d4992802b4488",
+  "status": "READY",
+  "unit_id": "S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_DEV",
+  "reviewed_head": "53378338bd92f3dd74a222787238a5926fc7cc5b",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ActivePreflightTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2b2b3-active-preflight.yml",
-    ".github/workflows/faro-v5-s4-w03-d2b2b2-auxiliary-backup.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverPreflight.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4DevCutoverRuntimeTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d2b2b3-auxiliary4-cutover.yml",
+    ".github/workflows/faro-v5-s4-w01-d1b1c0-finance9-preflight.yml",
+    ".github/workflows/faro-v5-s4-w01-d1b1c2c-finance9-single-graph.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B1_B5_20261119.md",
-          "blob_sha": "3a51aedd08179dd890e30ca159ebb720ecf05b75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
+          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
           "marker": "## B1"
         }
       ]
@@ -25,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B1_B5_20261119.md",
-          "blob_sha": "3a51aedd08179dd890e30ca159ebb720ecf05b75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
+          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
           "marker": "## B2"
         }
       ]
@@ -35,8 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B1_B5_20261119.md",
-          "blob_sha": "3a51aedd08179dd890e30ca159ebb720ecf05b75",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
+          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
           "marker": "## B3"
         }
       ]
@@ -45,13 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B1_B5_20261119.md",
-          "blob_sha": "3a51aedd08179dd890e30ca159ebb720ecf05b75",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_PREFLIGHT_CI_ADDENDUM_20261119.md",
-          "blob_sha": "4e7a1af70b40e2e1631679b535b3d89cad9fc7bf",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
+          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
           "marker": "## B4"
         }
       ]
@@ -60,19 +58,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B1_B5_20261119.md",
-          "blob_sha": "3a51aedd08179dd890e30ca159ebb720ecf05b75",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3A_PREFLIGHT_CI_ADDENDUM_20261119.md",
-          "blob_sha": "4e7a1af70b40e2e1631679b535b3d89cad9fc7bf",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
+          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ACTIVE_AUX4_DEV_JVM_5_OF_5",
-    "B7": "PASS_SCOPED_ACTIVE_AUX4_PREFLIGHT_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0f86b186e99f4effdb2bb733f57d3b034078fff7",
@@ -86,8 +79,8 @@
       }
     ]
   },
-  "why": "Exact ACTIVE4 DEV preflight B7 PASS 5/5. READY consumed.",
-  "how": "Next B3B durable cutover and recovery, own exact READY after preaudit guard.",
+  "why": "Cutover preaudit guard 44608397244 SUCCESS. Scope exact.",
+  "how": "Only DEV durable cutover with authorized pointer, recovery and rollback. Host later.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -97,6 +90,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44606428390,
+  "preaudit_guard": 44608397244,
   "last_ci_run_id": 44607263020
 }
