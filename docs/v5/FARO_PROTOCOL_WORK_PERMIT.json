@@ -65,19 +65,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "ecc21ba2d40672660420515fed56728edaa5a2b2",
-    "unit_id": "S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE",
-    "result": "PASS",
+    "sha": "9ce50306d9f91285eb0e8ae29e241029de01a62f",
+    "unit_id": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B7_PASS_20261119.md",
-        "blob_sha": "cac878e1cbaa36e3321566893724038698db3ac6",
+        "path": "docs/v5/FARO_S4_W03_D2B1_ATTENTION_CAS_B7_RED_FIX_20261119.md",
+        "blob_sha": "3d7a7506790cc821e752095f995a5f03d4bdbec1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-D2B1 B1-B5 CAS only guard44583237000 SUCCESS, five exact routes. Real Attention SEEN/DISMISSED state/revision, NO idempotency-key receipt ledger until D2B2 schema4 staged migration.",
-  "how": "Implement 5 approved routes; targeted Auxiliary 5 + app3 JVM, XML8/8, OS suppressed, no schema version change, independent scoped click grants.",
+  "why": "W03-D2B1 RED_FIX Kotlin UNRESOLVED_REFERENCE import only in approved app test; original Auxiliary test 5/5 success. No B7 yet.",
+  "how": "RED_FIX one existing READY route S4W03NoticeAttentionCasHostTest.kt, add exact kernel.runtime verifier import; rerun full8 XML.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,5 +88,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44583237000,
-  "last_ci_run_id": null
+  "last_ci_run_id": 44584639967
 }
