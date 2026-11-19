@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV",
   "reviewed_head": "63d61633f4a095d2c27c6d4add5a837f401d0b00",
   "paths": [
@@ -75,7 +75,7 @@
       }
     ]
   },
-  "why": "Preaudit on exact head, guard 44606027445 SUCCESS.",
+  "why": "Active preflight targets expanded by one inspected CI route. Pending guard/addendum exact READY.",
   "how": "ACTIVE4 exact preflight only. No pointer switch, host or migration of ACTIVE.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
