@@ -4,6 +4,8 @@ import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.SQLiteDriver
 import androidx.sqlite.execSQL
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_READWRITE
 import ar.com.faro.v5.delivery.api.DeliveryDesiredAction
 import ar.com.faro.v5.delivery.api.DeliveryEffectState
 import ar.com.faro.v5.delivery.api.DeliveryIntent
@@ -87,7 +89,8 @@ class AuxiliaryDeliveryStore private constructor(
     private val faultInjector: (AuxiliaryDeliveryFaultPoint) -> Unit,
     private val materialWriteGate: MaterialWriteGate?,
     private val bookmarkAuthorityGate: BookmarkAuthorityGate?,
-    private val receiptStage4Fence: (() -> Boolean)?,
+    private val receiptAuthorityFence: (() -> Boolean)?,
+    private val stagedReceiptOwner: Boolean = false,
 ) : DeliveryPersistencePort,
     DeliveryDispatchPersistencePort,
     DeliveryProjectionPersistencePort,
@@ -103,7 +106,7 @@ class AuxiliaryDeliveryStore private constructor(
         faultInjector = {},
         materialWriteGate = materialWriteGate,
         bookmarkAuthorityGate = bookmarkAuthorityGate,
-        receiptStage4Fence = null,
+        receiptAuthorityFence = null,
     )
 
     internal constructor(
@@ -115,7 +118,7 @@ class AuxiliaryDeliveryStore private constructor(
         faultInjector = faultInjector,
         materialWriteGate = null,
         bookmarkAuthorityGate = null,
-        receiptStage4Fence = null,
+        receiptAuthorityFence = null,
     )
     private val lock = Any()
     // Owner-originated, process-local notice commits. Not an ACL/generation watcher.
@@ -233,7 +236,7 @@ class AuxiliaryDeliveryStore private constructor(
     private fun readPortabilitySnapshot(): AuxiliaryPortabilitySnapshot =
         synchronized(lock) {
             checkOpen()
-            check(receiptStage4Fence == null) { "Stage4 portability requires receipt codec" }
+            check(receiptAuthorityFence == null) { "Stage4 portability requires receipt codec" }
             AuxiliaryPortabilityProjection.fromStored(
                 schemaVersion = readSchemaVersion(),
                 notices = readNotices(),
@@ -241,13 +244,21 @@ class AuxiliaryDeliveryStore private constructor(
         }
 
     init {
-        withMaterialAdmission {
-            synchronized(lock) {
-                receiptStage4Fence?.let { check(it()) { "isolated stage4 authority absent" } }
-                configure(fileName)
-                if (receiptStage4Fence == null) initializeSchema()
-                else initializeReceiptStage4()
+        try {
+            withMaterialAdmission {
+                synchronized(lock) {
+                    receiptAuthorityFence?.let { fence ->
+                        check(fence()) { "Auxiliary4 owner lost generation authority" }
+                        if (!stagedReceiptOwner) validateSchema4ReceiptTable()
+                    }
+                    configure(fileName)
+                    if (receiptAuthorityFence == null) initializeSchema()
+                    else initializeReceiptSchema4()
+                }
             }
+        } catch (failure: Throwable) {
+            runCatching { connection.close() }
+            throw failure
         }
     }
 
@@ -328,9 +339,9 @@ class AuxiliaryDeliveryStore private constructor(
     }
 
     /**
-     * Staged-only receipt CAS: one SQLite owner, lock, BEGIN IMMEDIATE,
+     * Receipt CAS: one SQLite owner, lock, BEGIN IMMEDIATE,
      * canonical request fingerprint, durable replay and before-COMMIT fences.
-     * Unsupported on active/default schema3, which stays unchanged.
+     * Requires explicit schema4 generation authority.
      */
     fun mutateReminderNoticeAttentionWithReceipt(
         requestKey: String,
@@ -345,8 +356,8 @@ class AuxiliaryDeliveryStore private constructor(
         val fingerprint = noticeAttentionReceiptHash(noticeId, expectedRevision, target)
         val result = withMaterialAdmission { synchronized(lock) {
             checkOpen()
-            val fence = checkNotNull(receiptStage4Fence) {
-                "Receipt ledger requires quarantined STAGED Auxiliary4"
+            val fence = checkNotNull(receiptAuthorityFence) {
+                "Receipt ledger requires authorized Auxiliary4"
             }
             check(readSchemaVersion() == 4) { "Notice receipt requires schema4" }
             if (!fence() || !admitted())
@@ -426,7 +437,7 @@ class AuxiliaryDeliveryStore private constructor(
     fun readIsolatedStage4NoticeReceipts(): List<S4W03NoticeAttentionReceiptV4> =
         synchronized(lock) {
             checkOpen()
-            check(receiptStage4Fence?.invoke() == true && readSchemaVersion() == 4)
+            check(stagedReceiptOwner && receiptAuthorityFence?.invoke() == true && readSchemaVersion() == 4)
             readAllReceiptsV4()
         }
 
@@ -1026,7 +1037,7 @@ class AuxiliaryDeliveryStore private constructor(
     private fun readBackupSnapshot(): AuxiliaryBackupSnapshot =
         synchronized(lock) {
             checkOpen()
-            check(receiptStage4Fence == null) { "Stage4 backup requires receipt codec" }
+            check(receiptAuthorityFence == null) { "Stage4 backup requires receipt codec" }
             readBackupProjection(readSchemaVersion())
         }
 
@@ -1035,7 +1046,7 @@ class AuxiliaryDeliveryStore private constructor(
     )
 
     private fun requireStagedReceiptBackupAuthority() {
-        check(receiptStage4Fence?.invoke() == true && readSchemaVersion() == 4) {
+        check(stagedReceiptOwner && receiptAuthorityFence?.invoke() == true && readSchemaVersion() == 4) {
             "Receipt backup requires the pinned Auxiliary4 stage"
         }
     }
@@ -1071,7 +1082,7 @@ class AuxiliaryDeliveryStore private constructor(
         synchronized(lock) {
             checkOpen()
             if (receipts == null) {
-                check(receiptStage4Fence == null) { "Stage4 restore requires receipt codec" }
+                check(receiptAuthorityFence == null) { "Stage4 restore requires receipt codec" }
                 check(readSchemaVersion() == SCHEMA_VERSION)
             } else {
                 requireStagedReceiptBackupAuthority()
@@ -1591,11 +1602,13 @@ class AuxiliaryDeliveryStore private constructor(
     }
 
     /** Staged-only schema4 receipt ledger; default v3 opener NEVER calls this. */
-    private fun initializeReceiptStage4() {
-        val fence = checkNotNull(receiptStage4Fence)
+    private fun initializeReceiptSchema4() {
+        val fence = checkNotNull(receiptAuthorityFence)
         check(fence()) { "STAGED authority absent before schema4" }
         val version = readSchemaVersion()
-        check(version == 3 || version == 4) { "Receipt stage requires exact Auxiliary3 or4" }
+        check(version == 4 || (version == 3 && stagedReceiptOwner)) {
+            "Auxiliary4 migration requires a quarantined Auxiliary3 stage"
+        }
         validateRequiredSchema()
         validateNoticeResolutionRows()
         check(readIntegrityCheck().equals("ok", ignoreCase = true) && readForeignKeysHealthy()) {
@@ -1625,12 +1638,32 @@ class AuxiliaryDeliveryStore private constructor(
             setSchemaVersion(4)
             check(fence()) { "STAGED authority revoked before schema4 commit" }
         }
-        check(readSchemaVersion() == 4 && tableExists("notice_attention_receipt") &&
-            columnExists("notice_attention_receipt", "request_hash") &&
-            columnExists("notice_attention_receipt", "result_revision") &&
-            readForeignKeysHealthy() && readIntegrityCheck().equals("ok", ignoreCase = true)
-        ) { "Receipt stage4 schema incomplete" }
-        check(fence()) { "STAGED authority changed after schema4 verification" }
+        validateSchema4ReceiptTable()
+        check(readForeignKeysHealthy() && readIntegrityCheck().equals("ok", ignoreCase = true))
+        check(fence()) { "Auxiliary4 authority changed after schema verification" }
+    }
+
+    private fun validateSchema4ReceiptTable() {
+        check(readSchemaVersion() == 4 && tableExists("notice_attention_receipt")) {
+            "Auxiliary4 receipt schema is missing"
+        }
+        val actual = connection.prepare("PRAGMA table_info(notice_attention_receipt)").use { st ->
+            buildList {
+                while (st.step()) {
+                    check(st.getLong(3) == 1L) { "Auxiliary4 receipt columns must be required" }
+                    add(Triple(st.getText(1), st.getText(2), st.getLong(5)))
+                }
+            }
+        }
+        check(actual == listOf(
+            Triple("request_key", "TEXT", 1L), Triple("request_hash", "TEXT", 0L),
+            Triple("notice_id", "TEXT", 0L), Triple("expected_revision", "INTEGER", 0L),
+            Triple("target_attention", "TEXT", 0L), Triple("result_revision", "INTEGER", 0L),
+        )) { "Auxiliary4 receipt column or primary key mismatch" }
+        check(connection.prepare("PRAGMA foreign_key_list(notice_attention_receipt)").use { st ->
+            st.step() && st.getText(2) == "delivery_notice" &&
+                st.getText(3) == "notice_id" && st.getText(4) == "notice_id" && !st.step()
+        }) { "Auxiliary4 receipt Notice foreign key is missing" }
     }
 
     private fun initializeSchema() {
@@ -1815,8 +1848,27 @@ class AuxiliaryDeliveryStore private constructor(
             fileName: String,
             stageFence: () -> Boolean,
         ): AuxiliaryDeliveryStore = AuxiliaryDeliveryStore(
-            fileName, BundledSQLiteDriver(), {}, null, null, stageFence,
+            fileName, BundledSQLiteDriver(), {}, null, null, stageFence, stagedReceiptOwner = true,
         )
+
+        /** Open exactly schema4 after the generation owner has checked the active pointer and graph. */
+        @JvmStatic
+        fun openActiveReceiptV4ForTrustedGeneration(
+            fileName: String,
+            materialWriteGate: MaterialWriteGate,
+            activeFence: () -> Boolean,
+        ): AuxiliaryDeliveryStore {
+            check(activeFence()) { "Auxiliary4 active generation authority absent" }
+            return AuxiliaryDeliveryStore(
+                fileName, existingReceiptDriver, {}, materialWriteGate, null, activeFence,
+            )
+        }
+
+        private val existingReceiptDriver = object : SQLiteDriver {
+            override fun open(fileName: String): SQLiteConnection = BundledSQLiteDriver().open(
+                fileName, SQLITE_OPEN_READWRITE or SQLITE_OPEN_NOFOLLOW,
+            )
+        }
 
         @JvmStatic
         fun open(fileName: String): AuxiliaryDeliveryStore = AuxiliaryDeliveryStore(fileName)

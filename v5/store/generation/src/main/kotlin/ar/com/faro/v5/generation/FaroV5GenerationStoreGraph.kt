@@ -205,6 +205,17 @@ class FaroV5GenerationStoreGraph private constructor(
             finance9 = true,
         )
 
+        internal fun reopenVerifiedActiveFinance9Auxiliary4Dev(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expectedPointerSequence: Long,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            materialWriteGate: MaterialWriteGate,
+        ): FaroV5GenerationStoreGraph = reopenVerifiedActivePlanning(
+            storageRoot, staged, expectedPointerSequence, planVerifier, materialWriteGate,
+            finance9 = true, auxiliary4 = true,
+        )
+
         private fun reopenVerifiedActivePlanning(
             storageRoot: Path,
             staged: StagedStorageGeneration,
@@ -212,6 +223,7 @@ class FaroV5GenerationStoreGraph private constructor(
             planVerifier: PreparedPlanEnvelopeVerificationPort,
             materialWriteGate: MaterialWriteGate,
             finance9: Boolean,
+            auxiliary4: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             require(expectedPointerSequence > 0L) {
                 "Active Planning generation requires a positive durable pointer sequence"
@@ -235,6 +247,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 canonical, planVerifier, materialWriteGate,
                 activeGeneration = true, planningStage8 = true, financeStage9 = finance9,
                 checkedPlanning8Active = true,
+                auxiliaryReceiptFence = if (auxiliary4) ({ pointer.read() == observed }) else null,
             )
             try {
                 check(pointer.read() == observed) {
@@ -402,8 +415,7 @@ class FaroV5GenerationStoreGraph private constructor(
             checkedPlanning8Active: Boolean = false,
             auxiliaryReceiptFence: (() -> Boolean)? = null,
         ): FaroV5GenerationStoreGraph {
-            check(auxiliaryReceiptFence == null || (!activeGeneration && financeStage9 &&
-                auxiliaryReceiptFence()))
+            check(auxiliaryReceiptFence == null || (financeStage9 && auxiliaryReceiptFence()))
             check(!planningStage8 || !activeGeneration || checkedPlanning8Active) {
                 "Planning8 active open requires exact internal pointer/reopen admission"
             }
@@ -630,13 +642,18 @@ class FaroV5GenerationStoreGraph private constructor(
                         materialWriteGate = materialWriteGate,
                     )
                 val auxiliaryPath = normalized.resolve(GenerationStoreFiles.AUXILIARY).toString()
-                auxiliary = if (auxiliaryReceiptFence == null) {
-                    AuxiliaryDeliveryStore(auxiliaryPath, materialWriteGate = materialWriteGate)
-                } else {
-                    check(auxiliaryReceiptFence())
-                    AuxiliaryDeliveryStore.openQuarantinedStagedReceiptV4ForTrustedGeneration(
-                        auxiliaryPath, auxiliaryReceiptFence,
+                auxiliary = when {
+                    auxiliaryReceiptFence == null ->
+                        AuxiliaryDeliveryStore(auxiliaryPath, materialWriteGate = materialWriteGate)
+                    financeActive9 -> AuxiliaryDeliveryStore.openActiveReceiptV4ForTrustedGeneration(
+                        auxiliaryPath, checkNotNull(materialWriteGate), auxiliaryReceiptFence,
                     )
+                    else -> {
+                        check(auxiliaryReceiptFence())
+                        AuxiliaryDeliveryStore.openQuarantinedStagedReceiptV4ForTrustedGeneration(
+                            auxiliaryPath, auxiliaryReceiptFence,
+                        )
+                    }
                 }
                 val graph =
                     FaroV5GenerationStoreGraph(
