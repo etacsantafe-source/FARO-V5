@@ -11,7 +11,9 @@ import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToString
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
@@ -45,6 +47,7 @@ class S4W02ObjectivesAndroidTest {
         fill("Unidad o código de moneda", "láminas")
         click("Revisar objetivo")
         click("Ver revisión en Chat")
+        awaitComposeText("Chat")
         clickComposeText("Revisar cambios")
         clickComposeText("Confirmar propuesta")
         clickComposeText("Ver propuesta aprobada")
@@ -107,8 +110,17 @@ class S4W02ObjectivesAndroidTest {
     }
 
     private fun clickComposeText(label: String) {
-        rule.waitUntil(20_000) { rule.onAllNodesWithText(label).fetchSemanticsNodes().isNotEmpty() }
+        awaitComposeText(label)
         rule.onNodeWithText(label).performClick()
+    }
+
+    private fun awaitComposeText(label: String) {
+        try {
+            rule.waitUntil(20_000) { rule.onAllNodesWithText(label).fetchSemanticsNodes().isNotEmpty() }
+        } catch (failure: Exception) {
+            val tree = rule.onRoot(useUnmergedTree = true).printToString().take(6_000)
+            throw AssertionError("No aparece $label en la interfaz de prueba: \n$tree", failure)
+        }
     }
 
     private fun commitNative() {

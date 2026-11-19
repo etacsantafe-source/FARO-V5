@@ -2,6 +2,8 @@ package ar.com.faro.v5.surface
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import android.view.View
@@ -44,6 +46,11 @@ object FaroV5SurfaceHost {
             androidx.compose.runtime.CompositionLocalProvider(LocalFaroV5BookmarkChatActions provides bookmarkChatActions) {
             FaroV5Theme {
                 val backStack = rememberFaroV5ShellBackStack()
+                val objectivesReviewRefresh = remember { mutableIntStateOf(0) }
+                val currentReviewPort = remember(reviewPort, objectivesReviewRefresh.intValue) {
+                    if (objectivesReviewRefresh.intValue == 0) reviewPort
+                    else reviewPort?.let { base -> object : ConversationReviewPort by base {} }
+                }
                 FaroV5AdaptiveShell(
                     backStack = backStack,
                     destinationContent = { destination ->
@@ -53,6 +60,7 @@ object FaroV5SurfaceHost {
                                     objectivesViewFactory {
                                         backStack.clear()
                                         backStack.add(FaroV5ShellDestination.CHAT)
+                                        objectivesReviewRefresh.intValue++
                                     }
                                 },
                                 modifier = Modifier.fillMaxSize(),
@@ -64,7 +72,7 @@ object FaroV5SurfaceHost {
                     workspaceReadPort = workspaceReadPort,
                     timelineReadPort = timelineReadPort,
                     composerPort = composerPort,
-                    reviewPort = reviewPort,
+                    reviewPort = currentReviewPort,
                     selectionPort = selectionPort,
                     applyRequestPort = applyRequestPort,
                     assistantTurnPort = assistantTurnPort,
