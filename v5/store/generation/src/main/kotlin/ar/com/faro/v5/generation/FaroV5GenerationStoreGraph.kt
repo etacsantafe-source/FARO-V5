@@ -7,6 +7,7 @@ import ar.com.faro.v5.maintenance.GenerationStoreFiles
 import ar.com.faro.v5.maintenance.GenerationStoreFormat
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
+import ar.com.faro.v5.maintenance.ActiveGenerationPointerPort
 import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
@@ -71,6 +72,61 @@ class FaroV5GenerationStoreGraph private constructor(
             ExistingGenerationFormatReader.requireLegacyUnmarkedCandidate(normalized)
             GenerationStoreFiles.requireMaterialized(normalized)
             return openStores(normalized, generationId, workspace = null)
+        }
+
+        /**
+         * W03-D2B2A: ONLY a sealed, quiescent, INACTIVE V2 STAGED generation.
+         * This does NOT change the active pointer, regular v3 openers or FBS2.
+         * A version4 ledger cannot be promoted until the receipt-inclusive
+         * backup/restore codec and active preflight are separately certified.
+         */
+        @JvmStatic
+        fun openQuarantinedAuxiliaryReceiptV4Stage(
+            staged: StagedStorageGeneration,
+            activePointer: ActiveGenerationPointerPort,
+        ): AuxiliaryDeliveryStore {
+            val pinned = activePointer.read()
+            check(pinned?.generationId != staged.descriptor.generationId) {
+                "Receipt stage4 cannot open the current ACTIVE generation"
+            }
+            check(ExistingGenerationFormatReader.requireAndRead(staged) ==
+                GenerationStoreFormat.WORKSPACE_V2) {
+                "Notice receipt stage4 requires immutable V2 generation marker"
+            }
+            val v3Tables = listOf(
+                "delivery_notice", "delivery_intent", "bookmark_scope",
+                "bookmark_folder", "bookmark_item", "bookmark_receipt",
+            )
+            StagedSqlitePreflight.requireAll(staged.directory, listOf(
+                StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.AUXILIARY, 4,
+                    v3Tables + "notice_attention_receipt",
+                    legacyVersion = 3, legacyTables = v3Tables,
+                ),
+            ))
+            // Immutable full pointer (sequence AND ID) detects switch-away-back.
+            val fence: () -> Boolean = {
+                activePointer.read() == pinned &&
+                    pinned?.generationId != staged.descriptor.generationId
+            }
+            check(fence()) { "ACTIVE pointer changed during receipt preflight" }
+            val owner = AuxiliaryDeliveryStore
+                .openQuarantinedStagedReceiptV4ForTrustedGeneration(
+                    staged.directory.resolve(GenerationStoreFiles.AUXILIARY).toString(),
+                    fence,
+                )
+            if (!fence()) {
+                owner.close()
+                error("ACTIVE pointer changed after receipt migration")
+            }
+            val health = owner.maintenance.inspect()
+            if (!health.integrityHealthy || !health.foreignKeysHealthy ||
+                health.schemaVersion != 4
+            ) {
+                owner.close()
+                error("Staged Notice receipt schema4 failed owner health")
+            }
+            return owner
         }
 
         /**

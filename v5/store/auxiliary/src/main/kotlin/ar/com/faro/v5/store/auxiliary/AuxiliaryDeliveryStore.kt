@@ -34,6 +34,7 @@ import ar.com.faro.v5.delivery.spi.NotificationProjectionRequest
 import ar.com.faro.v5.delivery.spi.NotificationReconcileClaim
 import ar.com.faro.v5.delivery.spi.NotificationSinkOutcome
 import ar.com.faro.v5.kernel.contracts.EffectId
+import ar.com.faro.v5.kernel.contracts.CanonicalHashBuilder
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -54,12 +55,40 @@ sealed interface S4W03NoticeAttentionCasResult {
     data object Denied : S4W03NoticeAttentionCasResult
 }
 
+/** Historical committed revision, not a claim about current Notice state. */
+data class S4W03NoticeAttentionReceiptV4(
+    val requestKey: String,
+    val requestHash: String,
+    val noticeId: NoticeId,
+    val expectedRevision: Long,
+    val target: NoticeAttention,
+    val resultRevision: Long,
+) {
+    init {
+        require(requestKey.matches(Regex("[A-Za-z0-9][A-Za-z0-9._:/-]{0,191}")))
+        require(requestHash.matches(Regex("[0-9a-f]{64}")))
+        require(target == NoticeAttention.SEEN || target == NoticeAttention.DISMISSED)
+        require(expectedRevision > 0L && resultRevision == expectedRevision + 1L)
+    }
+}
+
+sealed interface S4W03NoticeAttentionReceiptV4Result {
+    data class Committed(val resultRevision: Long, val replayed: Boolean) :
+        S4W03NoticeAttentionReceiptV4Result
+    data class Stale(val currentRevision: Long) : S4W03NoticeAttentionReceiptV4Result
+    data object IdentityConflict : S4W03NoticeAttentionReceiptV4Result
+    data object Terminal : S4W03NoticeAttentionReceiptV4Result
+    data object NotFound : S4W03NoticeAttentionReceiptV4Result
+    data object Denied : S4W03NoticeAttentionReceiptV4Result
+}
+
 class AuxiliaryDeliveryStore private constructor(
     fileName: String,
     driver: SQLiteDriver,
     private val faultInjector: (AuxiliaryDeliveryFaultPoint) -> Unit,
     private val materialWriteGate: MaterialWriteGate?,
     private val bookmarkAuthorityGate: BookmarkAuthorityGate?,
+    private val receiptStage4Fence: (() -> Boolean)?,
 ) : DeliveryPersistencePort,
     DeliveryDispatchPersistencePort,
     DeliveryProjectionPersistencePort,
@@ -75,6 +104,7 @@ class AuxiliaryDeliveryStore private constructor(
         faultInjector = {},
         materialWriteGate = materialWriteGate,
         bookmarkAuthorityGate = bookmarkAuthorityGate,
+        receiptStage4Fence = null,
     )
 
     internal constructor(
@@ -86,6 +116,7 @@ class AuxiliaryDeliveryStore private constructor(
         faultInjector = faultInjector,
         materialWriteGate = null,
         bookmarkAuthorityGate = null,
+        receiptStage4Fence = null,
     )
     private val lock = Any()
     // Owner-originated, process-local notice commits. Not an ACL/generation watcher.
@@ -203,6 +234,7 @@ class AuxiliaryDeliveryStore private constructor(
     private fun readPortabilitySnapshot(): AuxiliaryPortabilitySnapshot =
         synchronized(lock) {
             checkOpen()
+            check(receiptStage4Fence == null) { "Stage4 portability requires receipt codec" }
             AuxiliaryPortabilityProjection.fromStored(
                 schemaVersion = readSchemaVersion(),
                 notices = readNotices(),
@@ -212,8 +244,10 @@ class AuxiliaryDeliveryStore private constructor(
     init {
         withMaterialAdmission {
             synchronized(lock) {
+                receiptStage4Fence?.let { check(it()) { "isolated stage4 authority absent" } }
                 configure(fileName)
-                initializeSchema()
+                if (receiptStage4Fence == null) initializeSchema()
+                else initializeReceiptStage4()
             }
         }
     }
@@ -293,6 +327,145 @@ class AuxiliaryDeliveryStore private constructor(
         if (result is S4W03NoticeAttentionCasResult.Saved) publishNoticeCommit()
         return result
     }
+
+    /**
+     * Staged-only receipt CAS: one SQLite owner, lock, BEGIN IMMEDIATE,
+     * canonical request fingerprint, durable replay and before-COMMIT fences.
+     * Unsupported on active/default schema3, which stays unchanged.
+     */
+    fun mutateReminderNoticeAttentionWithReceipt(
+        requestKey: String,
+        noticeId: NoticeId,
+        expectedRevision: Long,
+        target: NoticeAttention,
+        admitted: () -> Boolean,
+    ): S4W03NoticeAttentionReceiptV4Result {
+        require(requestKey.matches(Regex("[A-Za-z0-9][A-Za-z0-9._:/-]{0,191}")))
+        require(expectedRevision > 0L && expectedRevision < Long.MAX_VALUE)
+        require(target == NoticeAttention.SEEN || target == NoticeAttention.DISMISSED)
+        val fingerprint = CanonicalHashBuilder.domain("faro-notice-attention-receipt-v4")
+            .string("noticeId", noticeId.value)
+            .string("expectedRevision", expectedRevision.toString())
+            .string("targetAttention", target.name).sha256Hex()
+        val result = withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            val fence = checkNotNull(receiptStage4Fence) {
+                "Receipt ledger requires quarantined STAGED Auxiliary4"
+            }
+            check(readSchemaVersion() == 4) { "Notice receipt requires schema4" }
+            if (!fence() || !admitted())
+                return@synchronized S4W03NoticeAttentionReceiptV4Result.Denied
+            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+            try {
+                fun abort(v: S4W03NoticeAttentionReceiptV4Result): S4W03NoticeAttentionReceiptV4Result {
+                    connection.execSQL("ROLLBACK TRANSACTION")
+                    return v
+                }
+                val prior = readReceiptV4(requestKey)
+                if (prior != null) {
+                    if (!fence() || !admitted())
+                        return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Denied)
+                    return@synchronized abort(
+                        if (prior.requestHash == fingerprint &&
+                            prior.noticeId == noticeId &&
+                            prior.expectedRevision == expectedRevision && prior.target == target
+                        ) S4W03NoticeAttentionReceiptV4Result.Committed(
+                            prior.resultRevision, replayed = true,
+                        ) else S4W03NoticeAttentionReceiptV4Result.IdentityConflict
+                    )
+                }
+                val priorRoute = readRouteByNoticeId(noticeId)
+                    ?: return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.NotFound)
+                val notice = priorRoute.notice
+                if (!notice.sourceRef.value.startsWith("reminder:") ||
+                    !notice.noticeKey.value.startsWith("reminder:") ||
+                    notice.destinationRef.value != "faro:avisos.local" ||
+                    priorRoute.intent.state != DeliveryEffectState.SUPPRESSED_POLICY
+                ) return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Denied)
+                if (notice.revision != expectedRevision)
+                    return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Stale(notice.revision))
+                if (notice.relevance != NoticeRelevance.OPEN ||
+                    notice.attention == NoticeAttention.DISMISSED || notice.attention == target
+                ) return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Terminal)
+                if (!fence() || !admitted())
+                    return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Denied)
+                connection.prepare("""
+                    UPDATE delivery_notice SET attention=?, revision=revision+1
+                    WHERE notice_id=? AND revision=? AND relevance=? AND attention=?
+                """.trimIndent()).use { st ->
+                    st.bindText(1, target.name)
+                    st.bindText(2, noticeId.value)
+                    st.bindLong(3, expectedRevision)
+                    st.bindText(4, NoticeRelevance.OPEN.name)
+                    st.bindText(5, notice.attention.name)
+                    st.step()
+                }
+                connection.prepare("SELECT changes()").use { st ->
+                    check(st.step() && st.getLong(0) == 1L) {
+                        "Notice receipt mutation requires one row CAS"
+                    }
+                }
+                connection.prepare("""
+                    INSERT INTO notice_attention_receipt(
+                        request_key, request_hash, notice_id,
+                        expected_revision, target_attention, result_revision
+                    ) VALUES(?,?,?,?,?,?)
+                """.trimIndent()).use { st ->
+                    st.bindText(1, requestKey)
+                    st.bindText(2, fingerprint)
+                    st.bindText(3, noticeId.value)
+                    st.bindLong(4, expectedRevision)
+                    st.bindText(5, target.name)
+                    st.bindLong(6, expectedRevision + 1L)
+                    st.step()
+                }
+                if (!fence() || !admitted())
+                    return@synchronized abort(S4W03NoticeAttentionReceiptV4Result.Denied)
+                connection.execSQL("COMMIT TRANSACTION")
+                S4W03NoticeAttentionReceiptV4Result.Committed(
+                    expectedRevision + 1L, replayed = false,
+                )
+            } catch (failure: Throwable) {
+                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                throw failure
+            }
+        } }
+        if (result is S4W03NoticeAttentionReceiptV4Result.Committed && !result.replayed)
+            publishNoticeCommit()
+        return result
+    }
+
+    /** Inspect isolated receipts. This is NOT a receipt-aware FBS2 backup. */
+    fun readIsolatedStage4NoticeReceipts(): List<S4W03NoticeAttentionReceiptV4> =
+        synchronized(lock) {
+            checkOpen()
+            check(receiptStage4Fence?.invoke() == true && readSchemaVersion() == 4)
+            val receipts = mutableListOf<S4W03NoticeAttentionReceiptV4>()
+            connection.prepare("""
+                SELECT request_key, request_hash, notice_id,
+                       expected_revision, target_attention, result_revision
+                FROM notice_attention_receipt ORDER BY request_key
+            """.trimIndent()).use { st ->
+                while (st.step()) receipts += S4W03NoticeAttentionReceiptV4(
+                    st.getText(0), st.getText(1), NoticeId.of(st.getText(2)),
+                    st.getLong(3), NoticeAttention.valueOf(st.getText(4)), st.getLong(5),
+                )
+            }
+            receipts
+        }
+
+    private fun readReceiptV4(key: String): S4W03NoticeAttentionReceiptV4? =
+        connection.prepare("""
+            SELECT request_key, request_hash, notice_id,
+                   expected_revision, target_attention, result_revision
+            FROM notice_attention_receipt WHERE request_key=?
+        """.trimIndent()).use { st ->
+            st.bindText(1, key)
+            if (!st.step()) null else S4W03NoticeAttentionReceiptV4(
+                st.getText(0), st.getText(1), NoticeId.of(st.getText(2)),
+                st.getLong(3), NoticeAttention.valueOf(st.getText(4)), st.getLong(5),
+            )
+        }
 
     override fun readNotices(): List<NoticeSnapshot> = synchronized(lock) {
         checkOpen()
@@ -846,6 +1019,7 @@ class AuxiliaryDeliveryStore private constructor(
     private fun readBackupSnapshot(): AuxiliaryBackupSnapshot =
         synchronized(lock) {
             checkOpen()
+            check(receiptStage4Fence == null) { "Stage4 backup requires receipt codec" }
             AuxiliaryBackupSnapshot(
                 schemaVersion = readSchemaVersion(),
                 notices = readNotices(),
@@ -858,6 +1032,7 @@ class AuxiliaryDeliveryStore private constructor(
     ): AuxiliaryBackupSnapshot =
         withMaterialAdmission { synchronized(lock) {
             checkOpen()
+            check(receiptStage4Fence == null) { "Stage4 restore requires receipt codec" }
             check(snapshot.schemaVersion == SCHEMA_VERSION) {
                 "Auxiliary backup schema requires explicit migration"
             }
@@ -1359,6 +1534,49 @@ class AuxiliaryDeliveryStore private constructor(
         )
     }
 
+    /** Staged-only schema4 receipt ledger; default v3 opener NEVER calls this. */
+    private fun initializeReceiptStage4() {
+        val fence = checkNotNull(receiptStage4Fence)
+        check(fence()) { "STAGED authority absent before schema4" }
+        val version = readSchemaVersion()
+        check(version == 3 || version == 4) { "Receipt stage requires exact Auxiliary3 or4" }
+        validateRequiredSchema()
+        validateNoticeResolutionRows()
+        check(readIntegrityCheck().equals("ok", ignoreCase = true) && readForeignKeysHealthy()) {
+            "Receipt stage requires healthy existing owners"
+        }
+        if (version == 3) schemaTransaction {
+            check(fence()) { "STAGED authority changed before receipt migration" }
+            connection.execSQL("""
+                CREATE TABLE notice_attention_receipt(
+                    request_key TEXT NOT NULL PRIMARY KEY
+                        CHECK(length(request_key) BETWEEN 1 AND 192),
+                    request_hash TEXT NOT NULL CHECK(length(request_hash)=64),
+                    notice_id TEXT NOT NULL,
+                    expected_revision INTEGER NOT NULL CHECK(expected_revision>0),
+                    target_attention TEXT NOT NULL
+                        CHECK(target_attention IN ('SEEN','DISMISSED')),
+                    result_revision INTEGER NOT NULL
+                        CHECK(result_revision=expected_revision+1),
+                    FOREIGN KEY(notice_id) REFERENCES delivery_notice(notice_id)
+                )
+            """.trimIndent())
+            connection.execSQL("""
+                CREATE INDEX idx_notice_attention_receipt_notice
+                ON notice_attention_receipt(notice_id)
+            """.trimIndent())
+            check(fence()) { "STAGED authority revoked before schema4 version" }
+            setSchemaVersion(4)
+            check(fence()) { "STAGED authority revoked before schema4 commit" }
+        }
+        check(readSchemaVersion() == 4 && tableExists("notice_attention_receipt") &&
+            columnExists("notice_attention_receipt", "request_hash") &&
+            columnExists("notice_attention_receipt", "result_revision") &&
+            readForeignKeysHealthy() && readIntegrityCheck().equals("ok", ignoreCase = true)
+        ) { "Receipt stage4 schema incomplete" }
+        check(fence()) { "STAGED authority changed after schema4 verification" }
+    }
+
     private fun initializeSchema() {
         val version = readSchemaVersion()
         check(version in 0..SCHEMA_VERSION) {
@@ -1532,6 +1750,18 @@ class AuxiliaryDeliveryStore private constructor(
     )
 
     companion object {
+        /**
+         * Only from generation owner AFTER sealed STAGED preflight.
+         * Not registered for startup, active generation or shipping UI.
+         */
+        @JvmStatic
+        fun openQuarantinedStagedReceiptV4ForTrustedGeneration(
+            fileName: String,
+            stageFence: () -> Boolean,
+        ): AuxiliaryDeliveryStore = AuxiliaryDeliveryStore(
+            fileName, BundledSQLiteDriver(), {}, null, null, stageFence,
+        )
+
         @JvmStatic
         fun open(fileName: String): AuxiliaryDeliveryStore = AuxiliaryDeliveryStore(fileName)
 

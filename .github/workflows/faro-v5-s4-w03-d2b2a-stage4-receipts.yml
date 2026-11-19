@@ -1,0 +1,84 @@
+name: FARO V5 W03-D2B2A isolated staged Notice receipt v4
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/S4W03NoticeReceiptStage4Test.kt
+      - .github/workflows/faro-v5-s4-w03-d2b2a-stage4-receipts.yml
+
+permissions:
+  contents: read
+
+jobs:
+  isolated-receipt-stage4-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Protocol preflight exact four READY paths
+        run: |
+          set -euo pipefail
+          count=0
+          unit=S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_DEV
+          while IFS= read -r path; do
+            test -n "$path"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" --path "$path"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -ge 1 && test "$count" -le 4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Test Auxiliary3 original D2B1 CAS regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:auxiliary:test \
+            --tests ar.com.faro.v5.store.auxiliary.S4W03AuxiliaryNoticeAttentionCasTest
+      - name: Test sealed Auxiliary4 receipts and active Auxiliary3 admission regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.S4W03NoticeReceiptStage4Test \
+            --tests ar.com.faro.v5.generation.FaroV5AuxiliaryV3PreflightTest
+      - name: Validate exact directed 16 JUnit XML and zero skip
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          targets=[
+            (Path('v5/store/auxiliary/build/test-results'),
+             'S4W03AuxiliaryNoticeAttentionCasTest', 5),
+            (Path('v5/store/generation/build/test-results'),
+             'S4W03NoticeReceiptStage4Test', 6),
+            (Path('v5/store/generation/build/test-results'),
+             'FaroV5AuxiliaryV3PreflightTest', 5),
+          ]
+          for root, cls, expected in targets:
+            reports=list(root.rglob('TEST-*'+cls+'.xml'))
+            assert len(reports)==1, (cls, reports)
+            suite=ElementTree.parse(reports[0]).getroot()
+            vals=tuple(int(suite.attrib[k]) for k in
+                ('tests','failures','errors','skipped'))
+            assert vals==(expected,0,0,0), (cls, vals)
+            print(cls, expected, 'PASS')
+          print('W03_D2B2A_STAGED_NOTICE_RECEIPT4_XML_PASS 16/16')
+          PY
+      - name: Upload directed JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-d2b2a-staged-receipt-v4-xml
+          if-no-files-found: error
+          path: |
+            v5/store/auxiliary/build/test-results/**/TEST-*S4W03AuxiliaryNoticeAttentionCasTest.xml
+            v5/store/generation/build/test-results/**/TEST-*S4W03NoticeReceiptStage4Test.xml
+            v5/store/generation/build/test-results/**/TEST-*FaroV5AuxiliaryV3PreflightTest.xml
