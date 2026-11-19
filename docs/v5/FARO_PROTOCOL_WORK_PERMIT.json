@@ -1,20 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2B2B1_FBS2_RECEIPT_CODEC_DEV",
-  "reviewed_head": "b92ce5e8e05a013875ea55a4c1650021a7fbac0b",
+  "status": "READY",
+  "unit_id": "S4_W03_D2B2B2_AUX4_STAGED_BACKUP_DEV",
+  "reviewed_head": "a378321a7995bf37769103b4359c6612b888edf1",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4Fbs2Codec.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2b2b1-receipt-codec.yml"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryBackupPort.kt",
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ReceiptBackupTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d2b2b2-auxiliary-backup.yml",
+    ".github/workflows/faro-v5-s4-w03-d2a-reminder-notice.yml",
+    ".github/workflows/faro-v5-s4-w03-d2b1-attention-cas.yml",
+    ".github/workflows/faro-v5-s4-w03-d2b2a-stage4-receipts.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B1_FBS2_RECEIPT_CODEC_B1_B5_20261119.md",
-          "blob_sha": "cb6bed555574bf745d7693d39762d12326ed2a65",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
+          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
           "marker": "## B1"
         }
       ]
@@ -23,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B1_FBS2_RECEIPT_CODEC_B1_B5_20261119.md",
-          "blob_sha": "cb6bed555574bf745d7693d39762d12326ed2a65",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
+          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
           "marker": "## B2"
         }
       ]
@@ -33,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B1_FBS2_RECEIPT_CODEC_B1_B5_20261119.md",
-          "blob_sha": "cb6bed555574bf745d7693d39762d12326ed2a65",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
+          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
           "marker": "## B3"
         }
       ]
@@ -43,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B1_FBS2_RECEIPT_CODEC_B1_B5_20261119.md",
-          "blob_sha": "cb6bed555574bf745d7693d39762d12326ed2a65",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
+          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
           "marker": "## B4"
         }
       ]
@@ -53,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B1_FBS2_RECEIPT_CODEC_B1_B5_20261119.md",
-          "blob_sha": "cb6bed555574bf745d7693d39762d12326ed2a65",
+          "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B1_B5_20261119.md",
+          "blob_sha": "b11a78fc407d1ad0d3315d602322cc589f71ba75",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_SQLITE_5_OF_5",
-    "B7": "PASS_SCOPED_FBS2V5_CODEC_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "71c174a7e8f534fe946d071c6c67bc28d6069850",
@@ -74,8 +78,8 @@
       }
     ]
   },
-  "why": "D2B2B1 codec B7 PASS 5/5, READY consumed.",
-  "how": "Next D2B2B2 staged receipt-inclusive backup and restore. Own B1-B5 and exact READY.",
+  "why": "D2B2B2 staged auxiliary backup preaudit guard 44601921963 SUCCESS.",
+  "how": "Scope exact. Receipt-aware Auxiliary4 owner only; do not change ACTIVE.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -85,6 +89,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44599758048,
+  "preaudit_guard": 44601921963,
   "last_ci_run_id": 44600744259
 }
