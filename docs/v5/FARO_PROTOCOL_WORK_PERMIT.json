@@ -1,23 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV",
-  "reviewed_head": "b987bdc25e85aaac14ae42dcee5e71df68f88ff8",
+  "status": "READY",
+  "unit_id": "S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV",
+  "reviewed_head": "2f66d62a0042a5467dc4841b42ee3a2d11045c70",
   "paths": [
-    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHost.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W03OwnerSessionActions.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionReceiptHostTest.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4RestoredNoticeRouteTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2b2b3-notice-receipt-host.yml"
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W03OwnerSessionIntegrationTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d-owner-integration.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
-          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
+          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
+          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
           "marker": "## B1"
         }
       ]
@@ -26,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
-          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
+          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
+          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
           "marker": "## B2"
         }
       ]
@@ -36,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
-          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
+          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
+          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
           "marker": "## B3"
         }
       ]
@@ -46,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
-          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
+          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
+          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
           "marker": "## B4"
         }
       ]
@@ -56,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
-          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
+          "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md",
+          "blob_sha": "6a2350c5d2e0d442f62ebc335f64804f02874cad",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ACTIVE_NOTICE_HOST_XML_8_OF_8_DEV_COMPILED",
-    "B7": "PASS_SCOPED_ACTIVE_NOTICE_HOST_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "7ed59b8d770b279fbcecd7c007910e9f37d7bef0",
@@ -77,8 +75,8 @@
       }
     ]
   },
-  "why": "W03-D2B2B3C real Notice receipt host B7 PASS 8/8; DEV compiled. READY consumed.",
-  "how": "Next W03-D integration of owner actions, Review/Apply/receipt and recurrence to Notices. Own exact READY.",
+  "why": "D owner integration preaudit guard 44612839417 SUCCESS.",
+  "how": "Exact four paths. Same verified Android DEV graph, W3 typed owner actions and review-to-notice integration.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,6 +86,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44610390077,
+  "preaudit_guard": 44612839417,
   "last_ci_run_id": 44611463388
 }
