@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
   "reviewed_head": "dfb0ecaf888f0db3d2684e1897b97e4ad77506b7",
   "paths": [
@@ -65,23 +65,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SQLITE_DEV_JVM_9_OF_9",
+    "B7": "PASS_SCOPED_W03_D1_DEV_JVM_9_OF_9"
   },
   "last_code_review": {
-    "sha": "3973690406dba3671f1f62cf408886319de300e6",
+    "sha": "0e4333a25d74c1bb59863f1835683f4b0b687256",
     "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D1_REMINDER_CORE_B7_RED_FIX3_20261119.md",
-        "blob_sha": "b3ff47674688c54638846449bb2d98d12f1bad2a",
+        "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B7_PASS_20261119.md",
+        "blob_sha": "793283d0cac91f6be3ad86da4bc739f550685e17",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-D1 RED_FIX3: CI 44563843348 ran 9 tests 7 failed due schema8-only factory vs active Finance9. Official isPlanningBackupSchemaMounted() guarded predicate to use, same unit.",
-  "how": "Exactly RealityStore.kt RED_FIX one-path using existing admitted schema8/Finance9 predicate in Reminder read/factory/Apply. XML no PASS yet.",
+  "why": "W03-D1 B7 PASS scoped DEV 9/9, CI44566044923 SUCCESS, guard44566045497 SUCCESS, artifact14552217418. Permit consumed; W03-D2 own READY required.",
+  "how": "D1 create/update/cancel/attend Review/Apply receipts, source NoticeCandidate only; W03-D2 separate Auxiliary owner persistent Notice route/seen/dismiss NOT_RUN.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -92,5 +92,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44557705130,
-  "last_ci_run_id": 44563843348
+  "last_ci_run_id": 44566044923
 }
