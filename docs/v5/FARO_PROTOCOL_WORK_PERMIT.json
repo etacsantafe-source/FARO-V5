@@ -1,20 +1,26 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_C_REMINDER_CIVIL_DUE",
-  "reviewed_head": "179428a2e5683fc46a9b6ecd01561e2e5c30b3c4",
+  "status": "READY",
+  "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
+  "reviewed_head": "dfb0ecaf888f0db3d2684e1897b97e4ad77506b7",
   "paths": [
-    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderCivilExpansion.kt",
-    "v5/owner/reminders/src/test/kotlin/ar/com/faro/v5/owner/reminders/api/S4W03ReminderCivilExpansionTest.kt",
-    ".github/workflows/faro-v5-s4-w03-c-reminder-civil.yml"
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/ReminderMutationContract.kt",
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/api/S4W03ReminderMutationBinding.kt",
+    "v5/owner/reminders/src/main/kotlin/ar/com/faro/v5/owner/reminders/spi/ReminderPersistencePort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03ReminderReviewHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03ReminderReviewHostTest.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03ReminderLocalNoticeProjection.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03ReminderLocalNoticeProjectionTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d1-reminder-core.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
-          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
+          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
+          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
           "marker": "## B1"
         }
       ]
@@ -23,8 +29,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
-          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
+          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
+          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
           "marker": "## B2"
         }
       ]
@@ -33,8 +39,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
-          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
+          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
+          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
           "marker": "## B3"
         }
       ]
@@ -43,8 +49,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
-          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
+          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
+          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
           "marker": "## B4"
         }
       ]
@@ -53,14 +59,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B1_B5_20261119.md",
-          "blob_sha": "9f6b5f089681ff38287e47b06c5377e7fe2dd7c3",
+          "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B1_B5_20261119.md",
+          "blob_sha": "ad7af2c9d72b608a4ddac812c0a9617b557321f0",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_10_10_REMINDER_CIVIL_DEV",
-    "B7": "PASS_SCOPED_W03_C_DEV_JVM_10_10"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "66d63fe189f3cdf5c85ab290d7b3e849e6d197d0",
@@ -74,8 +80,8 @@
       }
     ]
   },
-  "why": "W03-C B7 PASS 10/10 CI 44554497464, guard 44554497245, docs B7; READY consumed. W03-D requires its own B1–B5 and READY.",
-  "how": "No further W03-C code allowed without NEW audit. W03-D Reminder Review/Apply+Auxiliary local Notice next.",
+  "why": "W03-D1 independent B1-B5 audited, guard 44557705130 SUCCESS; W03-C B7 10/10 retained; exactly nine routes scoped, local Notice candidates non-durable.",
+  "how": "Preflight all nine paths; code only transaction-backed reminder mutation, Review/Apply, candidate source. W03-D2 independently gated for actual Auxiliary Notice route/dismiss.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -85,6 +91,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44553464609,
+  "preaudit_guard": 44557705130,
   "last_ci_run_id": 44554497464
 }
