@@ -20,5 +20,10 @@ Mantener misma raíz/lease que Finance9; el ticket Auxiliary4 tiene archivo prop
 - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4DevCutoverRuntimeTest.kt
 - .github/workflows/faro-v5-s4-w03-d2b2b3-auxiliary4-cutover.yml
 
+- .github/workflows/faro-v5-s4-w01-d1b1c0-finance9-preflight.yml
+- .github/workflows/faro-v5-s4-w01-d1b1c2c-finance9-single-graph.yml
+
+Los dos jobs históricos W01 anteriores hacen preflight hardcoded a su unidad y coinciden con dos archivos compartidos. Limitar sus jobs al marcador de unidad propio. La regresión relevante de runtime original continúa a través del job W01-D1B1C2B con guardia global.
+
 ## B5 — Auditoría previa
 Negativas: confirmación inicial ausente, revocación antes de autorizar, destino existente ajeno, archivos cambiados tras staging, pointer ABA, sidecar, health de destino fallido y journal/receipt fence incoherente. Pruebas: corte tras publicar puntero y recovery sin segundo switch, rollback y gate de escritura antes del fence, preservar hashes de origen, Notice/Guardados/Reality intactos y ledger vacío. Los tests se ejecutan en root DEV temporal. No mount de UI, OS, V2 productiva ni G15. Próxima unidad enlaza Avisos grant+idempotencia/reproyección local y define closure D.
