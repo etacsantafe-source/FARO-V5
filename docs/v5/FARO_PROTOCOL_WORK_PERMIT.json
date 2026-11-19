@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV",
   "reviewed_head": "2f66d62a0042a5467dc4841b42ee3a2d11045c70",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_INTEGRATED_W03_D_JVM_3_OF_3",
+    "B7": "PASS_SCOPED_W03_D_OWNER_INTEGRATION_DEV"
   },
   "last_code_review": {
-    "sha": "7ed59b8d770b279fbcecd7c007910e9f37d7bef0",
-    "unit_id": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV",
+    "sha": "79928d698592fcbc7823d666cfb731b2c15e26d9",
+    "unit_id": "S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B7_PASS_20261119.md",
-        "blob_sha": "1773d7a2a47f04a87f90e11823906b9559355156",
+        "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B7_PASS_20261119.md",
+        "blob_sha": "063ee134b9f1aaae791e4690474bbf1c9c3ca53b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D owner integration preaudit guard 44612839417 SUCCESS.",
-  "how": "Exact four paths. Same verified Android DEV graph, W3 typed owner actions and review-to-notice integration.",
+  "why": "W03-D owner integration B7 PASS 3/3, READY consumed.",
+  "how": "W03-E Android, own B1-B5 guard/exact permit. Then W03-G.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,5 +87,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44611463388
+  "last_ci_run_id": 44614062695
 }
