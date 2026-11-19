@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_B_MATTER_REVIEW_APPLY",
   "reviewed_head": "6b16acc7937206c9bd60a371cf379023d0900e6f",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_JVM_8_8_MATTER_REVIEW_APPLY_DEV",
+    "B7": "PASS_SCOPED_W03_B_DEV_JVM_8_8"
   },
   "last_code_review": {
-    "sha": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
-    "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
+    "sha": "4b959ac90f29548e79a74a0b594f0b2867c2c836",
+    "unit_id": "S4_W03_B_MATTER_REVIEW_APPLY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_PASS_20261119.md",
-        "blob_sha": "334cb22665535e3e56e264721997a6fa95ea4c0b",
+        "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B7_PASS_20261119.md",
+        "blob_sha": "e6c9e8d5d83f85ea52dd20015e5eca44ab16ba24",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-A B7 PASS 33/33, permit consumed; W03-B B1-B5 scoped against exact SHA, separate guard 44544546037 SUCCESS; no B6/B7 yet.",
-  "how": "W03-B only Matter N-031 Review/Apply, receipts + compensating Undo, 5 new paths. GitHub guard 44544546037 SUCCESS. Preflight every path before B6.",
+  "why": "W03-B B7 PASS scoped DEV 8/8, CI 44546592178 SUCCESS, guard 44546591982 SUCCESS; permit consumed. W03-C needs B1-B5 and own READY.",
+  "how": "Code 4b959ac90f29548e79a74a0b594f0b2867c2c836; 5 exact scoped paths. W03-B XML artifact 14541013204 digest f86ac856...; G4 legacy XML 4-vs-6 separately blocked outside W03-B.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,5 +87,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44544546037
+  "preaudit_guard": 44544546037,
+  "last_ci_run_id": 44546592178
 }

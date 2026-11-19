@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_PASS_DEV",
+  "phase": "S4_W03_B_MATTER_REVIEW_APPLY_B7_PASS_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1292
+    "epoch": 1296
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-A complete B7 DEV (JVM/SQLite/G4 33/33), permit consumed BLOCKED. W03-B Matter Review/Apply: re-audit own B1-B5, issue exact-route READY after guard then code. Known stale S3 G4 owner XML count 4 vs actual 6; separate permit if fixing. No repeat W01/W02.",
-  "checkpoint_status": "W03_A_B7_DOC_PUBLISHED_VERIFY_GUARD_AND_WRITER",
+  "next": "W03-B Review/Apply core DONE B7 PASS scoped DEV 8/8; next W03-C Reminder civil due: B1–B5 own, exact-route READY after guard, then B6/CI/B7. W03-A 33/33 and W01/W02 not repeated. Separate S3 G4 XML fixed-count 4-vs-6 failure not modified.",
+  "checkpoint_status": "W03_B_B7_DOC_PUBLISHED_VERIFY_GUARD_AND_WRITER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
-  "last_ci_run_id": 44536914638,
+  "last_code_sha": "4b959ac90f29548e79a74a0b594f0b2867c2c836",
+  "last_ci_run_id": 44546592178,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W03_A_DEV_JVM_33_OF_33",
+  "last_ci_conclusion": "SUCCESS_W03_B_DEV_JVM_8_OF_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5446,5 +5446,18 @@
     "zip_sha256": "d9561fb5b584818fe52c31bb0ccb213cd62830102ca5e332f16c5790ec6f6733",
     "next_unit": "S4_W03_B_MATTER_REVIEW_APPLY",
     "legacy_s3_g4_workflow": "XML_COUNT_EXPECTED_4_ACTUAL_6_RUN_44535643996_NOT_FIXED"
+  },
+  "w03_b_checkpoint": {
+    "unit": "S4_W03_B_MATTER_REVIEW_APPLY",
+    "status": "B7_PASS_SCOPED_DEV_JVM",
+    "code_sha": "4b959ac90f29548e79a74a0b594f0b2867c2c836",
+    "ci_run": 44546592178,
+    "guard_run": 44546591982,
+    "xml": "8/8_0_FAILURE_0_ERROR_0_SKIPPED",
+    "artifact_id": 14541013204,
+    "artifact_sha256": "f86ac856505c93b876be970c8d0ac0106ae1c02cf65f7446039dc043ff14e759",
+    "historical_g4_xml_run_failed": 44546592005,
+    "physical": "NOT_RUN",
+    "productive_v2": false
   }
 }
