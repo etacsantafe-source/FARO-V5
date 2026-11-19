@@ -1,19 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W01_F2_IMPORTED_CURRENCY_UI",
-  "reviewed_head": "57e14abbb05b6f31bd7b302f81aaebf48b58287c",
+  "status": "READY",
+  "unit_id": "S4_W02_A_OBJECTIVE_PERSISTENCE",
+  "reviewed_head": "8a4f7add19c612435421b47f19eebf026d2ef117",
   "paths": [
-    "v5/app/src/w01FinanceDev/kotlin/ar/com/faro/v5/app/FaroV5W01FinanceForms.kt",
-    "v5/app/src/w01AndroidTest/kotlin/ar/com/faro/v5/app/S4W01FinanceIntegratedAndroidTest.kt"
+    "v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetails.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetailsTest.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ObjectiveDetailsBackupTest.kt",
+    ".github/workflows/faro-v5-s4-w02-a-objective-persistence.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
-          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
+          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
+          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
           "marker": "## B1"
         }
       ]
@@ -22,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
-          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
+          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
+          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
           "marker": "## B2"
         }
       ]
@@ -32,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
-          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
+          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
+          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
           "marker": "## B3"
         }
       ]
@@ -42,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
-          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
+          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
+          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
           "marker": "## B4"
         }
       ]
@@ -52,14 +57,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W01_F2_IMPORTED_CURRENCY_B1_B5_20261118.md",
-          "blob_sha": "fbc632d36716181ab140674848911c07bd4801b7",
+          "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B1_B5_20261118.md",
+          "blob_sha": "4c6a5b751d631e20431c084570f26b015d68832b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_ANDROID_API35_IMPORTED_CURRENCIES_AND_FLOW",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6b4bf55ad002e50287fcad5616fcc5c6d6b72f0f",
@@ -73,8 +78,8 @@
       }
     ]
   },
-  "why": "W1 Finance closed with global B7 in isolated Android DEV. W2 remains STOP.",
-  "how": "Exact final SHA, verified JUnit XML, and shared regression green.",
+  "why": "W02-A preaudit addresses durable Objective fields, historical upgrades and G4 backup without changing W01.",
+  "how": "Preaudit guard 44439791813 SUCCESS. Exact path preflight and current guard required before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -83,5 +88,6 @@
     "emulator_only": true,
     "physical_allowed": false,
     "code_ready": false
-  }
+  },
+  "preaudit_guard": 44439791813
 }
