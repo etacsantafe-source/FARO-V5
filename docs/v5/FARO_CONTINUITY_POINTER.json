@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_DOC_ONLY",
+  "phase": "S4_W03_A_MATTER_DETAILS_PERSISTENCE_EXACT_ROUTE_READY",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1285
+    "epoch": 1286
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-A individual B1-B5 preaudit submitted; verify guard SHA, then exact-route READY in separate DOC-ONLY commit before code. W01/W02 no-repeat.",
-  "checkpoint_status": "W03_A_INDIVIDUAL_PREAUDIT_WAIT_GUARD",
+  "next": "W03-A exact-route permit READY; do preflight for all eight routes, implement scoped code and CI; then B7 and consume permit. W01/W02 no-repeat.",
+  "checkpoint_status": "W03_A_READY_DOC_ONLY_WAIT_CODE",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "b32a6aa5b7eb7b953af3d0749b86ed0cdb043099",
@@ -5424,7 +5424,7 @@
     "w03": "STOP"
   },
   "w03": {
-    "status": "A_INDIVIDUAL_B1_B5_WAIT_GUARD",
+    "status": "A_READY_B6_PENDING",
     "baseline_head": "bfc7b1ec967d0465fcdd95617516300e84f96ad4",
     "preaudit": "docs/v5/FARO_S4_W03_MATTERS_B1_B5_PREAUDIT_20261119.md",
     "work_handoff": "docs/v5/FARO_S4_W03_WORK_TURBO_HANDOFF_PREP_20261119.md",
@@ -5436,6 +5436,7 @@
     "w01_w02": "B7_GLOBAL_PASS_DEV_NO_REPEAT",
     "epoch": 1284,
     "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
-    "audit": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md"
+    "audit": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
+    "permit_reviewed_head": "017c39e84fe9ad73b21828467cb71296d749cea0"
   }
 }
