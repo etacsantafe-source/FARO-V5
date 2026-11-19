@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W03.A.B7.FINAL.20261119",
   "token_hash": "2215b2afda65b72ee9a1598c0b388814c2138f8c26c7a6535fff98de995a8c26",
-  "target_head": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
+  "target_head": "17191e67419d03a44e73f9da5bb36d2cd41effae",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1292,
   "timestamp": 1795096389,
-  "scope": "W03_A_B7_FINAL_DOC_ONLY_CLOSE_PERMIT"
+  "scope": "W03_A_B7_SCOPED_DEV_DONE_CONSUMED_PERMIT"
 }
