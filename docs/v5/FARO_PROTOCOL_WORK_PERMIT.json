@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W02_D_OBJECTIVE_PLAN",
   "reviewed_head": "1d85ba2a5ebd2e2a2befe7aa9088e1c1e1ff6d87",
   "paths": [
@@ -64,22 +64,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_OBJECTIVE_STEPS_DEPENDENCIES_AND_REFERENCES_JVM",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "90cfc36e99870bad80dd4c1ff86c6a63b095683c",
-    "unit_id": "S4_W02_C_OBJECTIVE_HISTORY",
+    "sha": "1978c4dc5d4c344432b02a039916e6a6a3d36518",
+    "unit_id": "S4_W02_D_OBJECTIVE_PLAN",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_C_OBJECTIVE_HISTORY_B7_PASS_20261118.md",
-        "blob_sha": "085ea5522b8996598eb4ac9dd19488c3617ea752",
+        "path": "docs/v5/FARO_S4_W02_D_OBJECTIVE_PLAN_B7_PASS_20261118.md",
+        "blob_sha": "cb1ad088cf8487d4bfddec4b168b8765294d6bdf",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W02-D local next steps, dependency checks, source-authorized references and backup.",
+  "why": "W02-D verified in JVM. W02-E needs its own exact READY.",
   "how": "Preaudit guard 44445159789 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
