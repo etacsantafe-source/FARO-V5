@@ -104,9 +104,9 @@ class MatterModelTest {
             MatterHistoryEntry(1, 80, MatterHistoryKind.EDITED, MatterStatus.WAITING, "a\nb")
         }
         val old = MatterDetails(history = listOf(event))
-        assertEquals(true, old.retainsHistoryOf(old.copy(
+        assertEquals(true, old.copy(
             history = listOf(event, event.copy(sequence = 2, recordedAtEpochMillis = 81)),
-        )))
+        ).retainsHistoryOf(old))
         assertEquals(false, old.copy(history = emptyList()).retainsHistoryOf(old))
     }
 
