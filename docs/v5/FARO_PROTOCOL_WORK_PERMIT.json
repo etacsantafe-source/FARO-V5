@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_DEV",
   "reviewed_head": "53378338bd92f3dd74a222787238a5926fc7cc5b",
   "paths": [
@@ -64,23 +64,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_AUX4_DURABLE_CUTOVER_JVM_6_OF_6",
+    "B7": "PASS_SCOPED_AUX4_DURABLE_CUTOVER_DEV"
   },
   "last_code_review": {
-    "sha": "0f86b186e99f4effdb2bb733f57d3b034078fff7",
-    "unit_id": "S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_DEV",
+    "sha": "032bbea4e8e9819a158dd142f6b8a84828cd0f54",
+    "unit_id": "S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B2B3A_ACTIVE_AUX4_PREFLIGHT_B7_PASS_20261119.md",
-        "blob_sha": "76c8545774de41af56446d10b46e613fe9c12021",
+        "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B7_PASS_20261119.md",
+        "blob_sha": "dd752394f045f8941d4a46ecf2f87e3cd2259855",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Cutover preaudit guard 44608397244 SUCCESS. Scope exact.",
-  "how": "Only DEV durable cutover with authorized pointer, recovery and rollback. Host later.",
+  "why": "DEV versioned cutover and recovery B7 PASS 6/6. READY consumed.",
+  "how": "Next B3C Avisos host and local-only reprojection, own exact READY after guard.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -91,5 +91,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44608397244,
-  "last_ci_run_id": 44607263020
+  "last_ci_run_id": 44609511296
 }
