@@ -34,7 +34,7 @@ internal class S4W02ObjectiveReviewHost(
     private val grants = FaroV5Planning8ObjectGrantOwner(
         principal, pinned, pointer, currentEpoch, hostEpoch, policy,
     )
-    private val bindings = ObjectiveReviewOperations.editable.map {
+    private val bindings = ObjectiveHistoryOperations.supported.map {
         ObjectiveReviewedEditBinding(it, reality.objectivePersistence, catalog)
     }
 
@@ -50,6 +50,60 @@ internal class S4W02ObjectiveReviewHost(
         operation: OperationId,
         intent: ObjectiveEditIntent,
         localRequestId: String,
+    ): WorkspacePlanReviewWriteResult? {
+        if (operation !in ObjectiveReviewOperations.editable) return null
+    val form = intent.form
+    val action = if (operation == ObjectiveReviewOperations.CREATE) "Crear" else "Editar"
+    val summary = buildString {
+        append("$action objetivo «${form.title.value}». Prioridad ${form.priority.name}.")
+        form.dueDate?.let { append(" Fecha $it.") }
+        form.target?.let {
+            val unit = if (it.unit.kind == ObjectiveMetricUnit.Kind.MONETARY)
+                "unidades menores (${it.unit.label})" else it.unit.label
+            append(" Meta: ${it.value} $unit.")
+        }
+        if (form.detail.value.isNotEmpty()) {
+            append(" Finalidad: ")
+            append(form.detail.value.take(3000))
+            if (form.detail.value.length > 3000) append("…")
+        }
+    }
+        return submitPrepared(chat, operation, ObjectiveEditPayload.encode(intent), summary, localRequestId)
+    }
+
+    fun submitHistory(
+        chat: ConversationId,
+        intent: ObjectiveHistoryIntent,
+        localRequestId: String,
+    ): WorkspacePlanReviewWriteResult? {
+        val description = when (val event = intent.entry.change) {
+            is ObjectiveHistoryChange.Progress -> "Registrar avance · " + describeReport(event.report)
+            is ObjectiveHistoryChange.Correction -> "Corregir avance #${event.originalSequence} · " +
+                describeReport(event.replacement) + "\n" + event.explanation
+            is ObjectiveHistoryChange.Lifecycle ->
+                "Cambiar estado ${event.before.name} → ${event.after.name}: ${event.explanation}"
+        }
+        val summary = "Objetivo ${intent.objectiveId.value}\n$description"
+        return submitPrepared(chat, intent.operation, ObjectiveHistoryPayload.encode(intent), summary, localRequestId)
+    }
+
+    private fun describeReport(report: ObjectiveProgressReport): String = buildString {
+        append(report.localDate)
+        report.reading?.let {
+            val unit = if (it.unit.kind == ObjectiveMetricUnit.Kind.MONETARY)
+                "unidades menores (${it.unit.label})" else it.unit.label
+            append(" · ${it.value} $unit")
+        }
+        append(" · ")
+        append(report.explanation)
+    }
+
+    private fun submitPrepared(
+        chat: ConversationId,
+        operation: OperationId,
+        payload: CanonicalPayload,
+        summary: String,
+        localRequestId: String,
     ): WorkspacePlanReviewWriteResult? = runCatching {
         gate.withMaterialWrite {
             if (!selected(chat) || localRequestId.length !in 1..256 || localRequestId.isBlank()) {
@@ -60,31 +114,15 @@ internal class S4W02ObjectiveReviewHost(
             if (timeline.revision != before.revision || timeline.authorityToken.isBlank()) {
                 return@withMaterialWrite null
             }
-            val contract = catalog.current(operation)?.takeIf(ObjectiveReviewOperations::allows)
+            val contract = catalog.current(operation)?.takeIf(ObjectiveHistoryOperations::allows)
                 ?: return@withMaterialWrite null
             val key = stableKey(chat, operation, localRequestId)
             val prepared = PreparedOperation(
-                contract, ObjectiveEditPayload.encode(intent), DependencyStampSet.empty(), IdempotencyKey("w02:edit:" + key),
+                contract, payload, DependencyStampSet.empty(), IdempotencyKey("w02:edit:" + key),
             )
             val validator = bindings.single { it.operationId == operation }
             if (validator.revalidate(prepared) != OperationRevalidationResult.Valid) return@withMaterialWrite null
             val plan = PreparedPlan.of(ApplyPlanNode(PlanNodeId("objective"), prepared, emptySet()))
-            val form = intent.form
-            val action = if (operation == ObjectiveReviewOperations.CREATE) "Crear" else "Editar"
-            val summary = buildString {
-                append("$action objetivo «${form.title.value}». Prioridad ${form.priority.name}.")
-                form.dueDate?.let { append(" Fecha $it.") }
-                form.target?.let {
-                    val unit = if (it.unit.kind == ObjectiveMetricUnit.Kind.MONETARY)
-                        "unidades menores (${it.unit.label})" else it.unit.label
-                    append(" Meta: ${it.value} $unit.")
-                }
-                if (form.detail.value.isNotEmpty()) {
-                    append(" Finalidad: ")
-                    append(form.detail.value.take(3000))
-                    if (form.detail.value.length > 3000) append("…")
-                }
-            }
             val reviewId = "w02:objective:" + key
             val existing = runBlocking { workspace.reviews(chat) }.firstOrNull { it.reviewId == reviewId }
             if (!selected(chat) || workspace.snapshot().revision != before.revision) return@withMaterialWrite null
@@ -108,8 +146,12 @@ internal class S4W02ObjectiveReviewHost(
             if (approved.review.state != ConversationPlanReviewState.APPROVED) return@withMaterialWrite denied
             val envelope = approved.envelope()
             val node = objectiveNode(context, envelope) ?: return@withMaterialWrite denied
-            val intent = ObjectiveEditPayload.decode(node.preparedOperation.payload) ?: return@withMaterialWrite denied
-            val scope = Planning8ObjectScope(node.preparedOperation.contract.operationId, intent.form.id.value)
+            val operation = node.preparedOperation.contract.operationId
+            val payload = node.preparedOperation.payload
+            val targetId = ObjectiveHistoryPayload.decode(payload)?.takeIf { it.operation == operation }?.objectiveId
+                ?: ObjectiveEditPayload.decode(payload)?.takeIf { operation in ObjectiveReviewOperations.editable }?.form?.id
+                ?: return@withMaterialWrite denied
+            val scope = Planning8ObjectScope(operation, targetId.value)
             val nonce = grants.grantAfterTrustedPolicyCheck(scope) ?: return@withMaterialWrite denied
             try {
                 val leased = grants.withCurrentGrantLease(scope, pinned, nonce) {
@@ -161,7 +203,7 @@ internal class S4W02ObjectiveReviewHost(
             if (decoded.planFingerprint != context.planFingerprint) return@runCatching null
             decoded.applyPlan.nodesInTopologicalOrder().singleOrNull()?.takeIf {
                 val contract = it.preparedOperation.contract
-                it.dependsOn.isEmpty() && ObjectiveReviewOperations.allows(contract) &&
+                it.dependsOn.isEmpty() && ObjectiveHistoryOperations.allows(contract) &&
                     catalog.current(contract.operationId) == contract
             }
         }.getOrNull()

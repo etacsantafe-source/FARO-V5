@@ -8,6 +8,7 @@ import ar.com.faro.v5.owner.matters.api.MatterStatus
 import ar.com.faro.v5.owner.matters.api.MatterTitle
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetail
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetails
+import ar.com.faro.v5.owner.objectives.api.ObjectiveHistoryEntryCodec
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMeasurement
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetric
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetricUnit
@@ -35,6 +36,7 @@ object FaroV5G4DomainSemanticCodec {
     private const val MAGIC = 0x47344231 // G4B1
     private const val LEGACY_VERSION = 1
     private const val EXTENDED_VERSION = 2
+    private const val HISTORY_VERSION = 3
     private const val REALITY_SCHEMA = 7
     private const val MAX_ROWS = 100_000
     private const val MAX_FIELD_BYTES = 16_384
@@ -42,11 +44,15 @@ object FaroV5G4DomainSemanticCodec {
 
     fun encode(snapshot: RealityDomainBackupSnapshot): ByteArray {
         validate(snapshot)
-        val extended = snapshot.objectives.objectives.any { it.details != ObjectiveDetails() }
+        val version = when {
+            snapshot.objectives.objectives.any { it.details.history.isNotEmpty() } -> HISTORY_VERSION
+            snapshot.objectives.objectives.any { it.details != ObjectiveDetails() } -> EXTENDED_VERSION
+            else -> LEGACY_VERSION
+        }
         return BoundedBytes(MAX_BYTES).use { buffer ->
             DataOutputStream(buffer).use { output ->
                 output.writeInt(MAGIC)
-                output.writeInt(if (extended) EXTENDED_VERSION else LEGACY_VERSION)
+                output.writeInt(version)
                 output.writeInt(snapshot.schemaVersion)
                 output.writeLong(snapshot.objectives.revision)
                 output.writeInt(snapshot.objectives.objectives.size)
@@ -56,7 +62,15 @@ object FaroV5G4DomainSemanticCodec {
                     putText(output, item.detail.value)
                     putText(output, item.status.name)
                     output.writeLong(item.updatedAtEpochMillis)
-                    if (extended) putObjectiveDetails(output, item.details)
+                    if (version >= EXTENDED_VERSION) putObjectiveDetails(output, item.details)
+                    if (version >= HISTORY_VERSION) {
+                        output.writeInt(item.details.history.size)
+                        item.details.history.forEach { entry ->
+                            val bytes = ObjectiveHistoryEntryCodec.encode(entry)
+                            output.writeInt(bytes.size)
+                            output.write(bytes)
+                        }
+                    }
                 }
                 output.writeLong(snapshot.matters.revision)
                 output.writeInt(snapshot.matters.matters.size)
@@ -79,7 +93,7 @@ object FaroV5G4DomainSemanticCodec {
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "invalid G4 section magic" }
             val version = input.readInt()
-            check(version == LEGACY_VERSION || version == EXTENDED_VERSION) {
+            check(version in LEGACY_VERSION..HISTORY_VERSION) {
                 "unsupported G4 section version"
             }
             val schema = input.readInt()
@@ -88,18 +102,25 @@ object FaroV5G4DomainSemanticCodec {
             val objectiveCount = getCount(input)
             val objectives = buildList(objectiveCount) {
                 repeat(objectiveCount) {
-                    add(ObjectiveRecord(
-                        id = ObjectiveId.of(getText(input)),
-                        title = ObjectiveTitle.of(getText(input)),
-                        detail = ObjectiveDetail.of(getText(input)),
-                        status = ObjectiveStatus.valueOf(getText(input)),
-                        updatedAtEpochMillis = input.readLong(),
-                        details = if (version == EXTENDED_VERSION) getObjectiveDetails(input) else ObjectiveDetails(),
-                    ))
+                    val id = ObjectiveId.of(getText(input))
+                    val title = ObjectiveTitle.of(getText(input))
+                    val detail = ObjectiveDetail.of(getText(input))
+                    val status = ObjectiveStatus.valueOf(getText(input))
+                    val updatedAt = input.readLong()
+                    val details = if (version >= EXTENDED_VERSION) getObjectiveDetails(input) else ObjectiveDetails()
+                    val history = if (version < HISTORY_VERSION) emptyList() else List(getCount(input)) {
+                        val size = input.readInt()
+                        require(size in 1..ObjectiveHistoryEntryCodec.MAX_BYTES && size <= input.available())
+                        ObjectiveHistoryEntryCodec.decode(ByteArray(size).also(input::readFully))
+                    }
+                    add(ObjectiveRecord(id, title, detail, status, updatedAt, details.copy(history = history)))
                 }
             }
             check(version == LEGACY_VERSION || objectives.any { it.details != ObjectiveDetails() }) {
                 "noncanonical G4 extension"
+            }
+            check(version < HISTORY_VERSION || objectives.any { it.details.history.isNotEmpty() }) {
+                "Noncanonical G4 history version"
             }
             val matterRevision = input.readLong()
             val matterCount = getCount(input)

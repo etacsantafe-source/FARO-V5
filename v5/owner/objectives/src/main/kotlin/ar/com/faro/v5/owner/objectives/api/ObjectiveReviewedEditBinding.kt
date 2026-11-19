@@ -8,7 +8,7 @@ class ObjectiveReviewedEditBinding(
     private val persistence: ObjectivePersistencePort,
     private val catalog: OperationContractLookupPort,
 ) : OperationBindingPort, OperationRevalidationPort {
-    init { require(operationId in ObjectiveReviewOperations.editable) }
+    init { require(operationId in ObjectiveHistoryOperations.supported) }
 
     override val descriptor = OperationBindingDescriptor(
         operationId, ObjectiveReviewOperations.EXECUTOR, ExecutionProfile.REALITY_MUTATION,
@@ -32,11 +32,17 @@ class ObjectiveReviewedEditBinding(
 
     private fun replacement(prepared: PreparedOperation): ObjectiveRecord? {
         val contract = prepared.contract
-        if (contract.operationId != operationId || !ObjectiveReviewOperations.allows(contract) ||
+        if (contract.operationId != operationId || !ObjectiveHistoryOperations.allows(contract) ||
             catalog.current(operationId) != contract || prepared.dependencyStamps != DependencyStampSet.empty()
         ) return null
-        val intent = ObjectiveEditPayload.decode(prepared.payload) ?: return null
         val snapshot = persistence.read()
+        val history = ObjectiveHistoryPayload.decode(prepared.payload)
+        if (history != null) {
+            if (history.operation != operationId || snapshot.revision != history.expectedRevision) return null
+            return snapshot.objectives.firstOrNull { it.id == history.objectiveId }?.let(history::applyOn)
+        }
+        if (operationId !in ObjectiveReviewOperations.editable) return null
+        val intent = ObjectiveEditPayload.decode(prepared.payload) ?: return null
         if (snapshot.revision != intent.expectedRevision) return null
         val form = intent.form
         val existing = snapshot.objectives.firstOrNull { it.id == form.id }
@@ -46,8 +52,8 @@ class ObjectiveReviewedEditBinding(
         ) return null
         return ObjectiveRecord(
             form.id, form.title, form.detail, existing?.status ?: ObjectiveStatus.PLANNED,
-            intent.editedAtEpochMillis, ObjectiveDetails(
-                form.target, form.dueDate, form.priority, existing?.details?.measurements.orEmpty(),
+            intent.editedAtEpochMillis, (existing?.details ?: ObjectiveDetails()).copy(
+                target = form.target, dueDate = form.dueDate, priority = form.priority,
             ),
         )
     }

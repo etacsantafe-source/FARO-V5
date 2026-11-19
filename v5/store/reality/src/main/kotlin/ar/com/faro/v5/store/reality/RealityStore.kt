@@ -2816,11 +2816,7 @@ class RealityStore(
                 "objective update timestamp must advance"
             }
         }
-        require(record.details.measurements.size >= previousDetails.measurements.size &&
-            previousDetails.measurements.indices.all {
-                record.details.measurements[it] == previousDetails.measurements[it]
-            }
-        ) { "Objective measurements are append-only" }
+        require(record.details.retainsHistoryOf(previousDetails)) { "Objective history is append-only" }
         connection.prepare(
             """
             INSERT INTO objective_record(

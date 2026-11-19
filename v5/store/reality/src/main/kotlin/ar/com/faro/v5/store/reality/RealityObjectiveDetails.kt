@@ -3,6 +3,8 @@ package ar.com.faro.v5.store.reality
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetails
+import ar.com.faro.v5.owner.objectives.api.ObjectiveHistoryEntry
+import ar.com.faro.v5.owner.objectives.api.ObjectiveHistoryEntryCodec
 import ar.com.faro.v5.owner.objectives.api.ObjectiveId
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMeasurement
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetric
@@ -13,7 +15,11 @@ import java.time.LocalDate
 /** Extension of the existing objective owner, on the caller's Reality connection. */
 internal class RealityObjectiveDetails(private val connection: SQLiteConnection) {
     fun read(): Map<ObjectiveId, ObjectiveDetails> {
-        if (!installed()) return emptyMap()
+        val history = readHistory()
+        if (!installed()) {
+            check(history.isEmpty()) { "Orphan Objective history schema" }
+            return emptyMap()
+        }
         val measurements = mutableMapOf<ObjectiveId, MutableList<ObjectiveMeasurement>>()
         connection.prepare("""
             SELECT objective_id, sequence, recorded_at_ms, unit_kind, unit, value
@@ -40,19 +46,18 @@ internal class RealityObjectiveDetails(private val connection: SQLiteConnection)
                         dueDate = if (st.isNull(1)) null else LocalDate.ofEpochDay(st.getLong(1)),
                         priority = ObjectivePriority.valueOf(st.getText(2)),
                         measurements = measurements.remove(id).orEmpty(),
+                        history = history.remove(id).orEmpty(),
                     ))
                 }
             }
-            check(measurements.isEmpty()) { "Orphan objective measurement" }
+            check(measurements.isEmpty() && history.isEmpty()) { "Orphan objective history or measurement" }
         }
     }
 
     /** The canonical objective row must already exist in the same transaction. */
     fun write(id: ObjectiveId, previous: ObjectiveDetails, updated: ObjectiveDetails) {
         if (updated == previous) return
-        require(updated.measurements.size >= previous.measurements.size &&
-            previous.measurements.indices.all { previous.measurements[it] == updated.measurements[it] }
-        ) { "Objective measurements are append-only" }
+        require(updated.retainsHistoryOf(previous)) { "Objective history is append-only" }
 
         if (updated == ObjectiveDetails()) {
             connection.prepare("DELETE FROM objective_details WHERE objective_id = ?").use { st ->
@@ -104,7 +109,54 @@ internal class RealityObjectiveDetails(private val connection: SQLiteConnection)
                 st.reset()
             }
         }
+        appendHistory(id, previous.history.size, updated.history)
     }
+
+    private fun readHistory(): MutableMap<ObjectiveId, MutableList<ObjectiveHistoryEntry>> {
+        val result = mutableMapOf<ObjectiveId, MutableList<ObjectiveHistoryEntry>>()
+        if (!hasHistoryTable()) return result
+        connection.prepare("""
+            SELECT objective_id, sequence, event_blob FROM objective_history
+            ORDER BY objective_id, sequence
+        """.trimIndent()).use { st ->
+            while (st.step()) {
+                val event = ObjectiveHistoryEntryCodec.decode(st.getBlob(2))
+                check(event.sequence.toLong() == st.getLong(1)) { "Objective event sequence mismatch" }
+                result.getOrPut(ObjectiveId.of(st.getText(0)), ::mutableListOf).add(event)
+            }
+        }
+        return result
+    }
+
+    private fun appendHistory(id: ObjectiveId, previousSize: Int, history: List<ObjectiveHistoryEntry>) {
+        if (previousSize == history.size) return
+        if (!hasHistoryTable()) {
+            connection.execSQL("""
+                CREATE TABLE objective_history (
+                    objective_id TEXT NOT NULL REFERENCES objective_details(objective_id),
+                    sequence INTEGER NOT NULL CHECK(sequence BETWEEN 1 AND 100000),
+                    event_blob BLOB NOT NULL CHECK(length(event_blob) BETWEEN 1 AND 8192),
+                    PRIMARY KEY(objective_id, sequence)
+                )
+            """.trimIndent())
+        }
+        connection.prepare("""
+            INSERT INTO objective_history(objective_id, sequence, event_blob) VALUES (?, ?, ?)
+        """.trimIndent()).use { st ->
+            for (index in previousSize until history.size) {
+                val event = history[index]
+                st.bindText(1, id.value)
+                st.bindLong(2, event.sequence.toLong())
+                st.bindBlob(3, ObjectiveHistoryEntryCodec.encode(event))
+                st.step()
+                st.reset()
+            }
+        }
+    }
+
+    private fun hasHistoryTable(): Boolean = connection.prepare(
+        "SELECT 1 FROM sqlite_schema WHERE type = 'table' AND name = 'objective_history'"
+    ).use { it.step() }
 
     private fun installed(): Boolean = connection.prepare("""
         SELECT count(*) FROM sqlite_schema WHERE type = 'table'

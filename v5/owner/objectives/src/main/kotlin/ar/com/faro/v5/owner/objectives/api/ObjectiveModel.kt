@@ -89,12 +89,37 @@ data class ObjectiveDetails(
     val dueDate: LocalDate? = null,
     val priority: ObjectivePriority = ObjectivePriority.NORMAL,
     val measurements: List<ObjectiveMeasurement> = emptyList(),
+    val history: List<ObjectiveHistoryEntry> = emptyList(),
 ) {
     init {
         require(measurements.size <= 100_000 && measurements.indices.all { measurements[it].sequence == it + 1 }) {
             "Objective measurements must form a contiguous sequence"
         }
+        require(history.size <= 100_000)
+        var lifecycle: ObjectiveStatus? = null
+        history.forEachIndexed { index, entry ->
+            require(entry.sequence == index + 1 && (index == 0 ||
+                entry.recordedAtEpochMillis > history[index - 1].recordedAtEpochMillis)
+            ) { "Invalid objective history order" }
+            when (val event = entry.change) {
+                is ObjectiveHistoryChange.Progress -> Unit
+                is ObjectiveHistoryChange.Correction -> require(
+                    event.originalSequence < entry.sequence &&
+                        history[event.originalSequence - 1].change is ObjectiveHistoryChange.Progress
+                ) { "A correction must refer to a prior progress entry" }
+                is ObjectiveHistoryChange.Lifecycle -> {
+                    require(lifecycle == null || event.before == lifecycle) { "Invalid objective state history" }
+                    lifecycle = event.after
+                }
+            }
+        }
     }
+
+    fun retainsHistoryOf(previous: ObjectiveDetails): Boolean =
+        measurements.size >= previous.measurements.size &&
+            previous.measurements.indices.all { previous.measurements[it] == measurements[it] } &&
+            history.size >= previous.history.size &&
+            previous.history.indices.all { previous.history[it] == history[it] }
 }
 
 data class ObjectiveRecord(
@@ -107,6 +132,11 @@ data class ObjectiveRecord(
 ) {
     init {
         require(updatedAtEpochMillis >= 0L) { "objective timestamp must be non-negative" }
+        require((details.history.lastOrNull()?.recordedAtEpochMillis ?: 0L) <= updatedAtEpochMillis)
+        val lifecycle = details.history.asReversed().firstNotNullOfOrNull {
+            it.change as? ObjectiveHistoryChange.Lifecycle
+        }
+        require(lifecycle == null || lifecycle.after == status) { "Objective state differs from history" }
     }
 }
 
