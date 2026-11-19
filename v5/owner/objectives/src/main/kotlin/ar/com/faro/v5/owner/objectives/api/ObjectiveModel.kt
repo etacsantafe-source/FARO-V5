@@ -1,5 +1,7 @@
 package ar.com.faro.v5.owner.objectives.api
 
+import java.time.LocalDate
+
 /**
  * G4 domain contract only. No persistent owner, host ACL, or Search registration
  * is created by these types. A later Reality-backed owner must provide storage,
@@ -46,12 +48,62 @@ enum class ObjectiveStatus {
     PLANNED, ACTIVE, PAUSED, COMPLETED, ARCHIVED
 }
 
+enum class ObjectivePriority { LOW, NORMAL, HIGH }
+
+data class ObjectiveMetricUnit(val kind: Kind, val label: String) {
+    enum class Kind { QUANTITY, MONETARY }
+
+    init {
+        require(label.length in 1..40 && label == label.trim() && label.none(Char::isISOControl)) {
+            "Invalid objective metric unit"
+        }
+        if (kind == Kind.MONETARY) {
+            require(label.length == 3 && label.all { it in 'A'..'Z' }) {
+                "A monetary objective requires an explicit currency code"
+            }
+        }
+    }
+}
+
+data class ObjectiveMetric(val value: Long, val unit: ObjectiveMetricUnit) {
+    init {
+        require(value > 0) { "Objective metric target must be positive" }
+    }
+}
+
+data class ObjectiveMeasurement(
+    val sequence: Int,
+    val recordedAtEpochMillis: Long,
+    val unit: ObjectiveMetricUnit,
+    val value: Long,
+) {
+    init {
+        require(sequence in 1..100_000 && recordedAtEpochMillis >= 0 && value >= 0) {
+            "Invalid objective measurement"
+        }
+    }
+}
+
+data class ObjectiveDetails(
+    val target: ObjectiveMetric? = null,
+    val dueDate: LocalDate? = null,
+    val priority: ObjectivePriority = ObjectivePriority.NORMAL,
+    val measurements: List<ObjectiveMeasurement> = emptyList(),
+) {
+    init {
+        require(measurements.size <= 100_000 && measurements.indices.all { measurements[it].sequence == it + 1 }) {
+            "Objective measurements must form a contiguous sequence"
+        }
+    }
+}
+
 data class ObjectiveRecord(
     val id: ObjectiveId,
     val title: ObjectiveTitle,
     val detail: ObjectiveDetail,
     val status: ObjectiveStatus,
     val updatedAtEpochMillis: Long,
+    val details: ObjectiveDetails = ObjectiveDetails(),
 ) {
     init {
         require(updatedAtEpochMillis >= 0L) { "objective timestamp must be non-negative" }

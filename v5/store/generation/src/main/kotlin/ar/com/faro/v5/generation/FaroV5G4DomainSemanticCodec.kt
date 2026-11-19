@@ -7,6 +7,11 @@ import ar.com.faro.v5.owner.matters.api.MatterSnapshot
 import ar.com.faro.v5.owner.matters.api.MatterStatus
 import ar.com.faro.v5.owner.matters.api.MatterTitle
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetail
+import ar.com.faro.v5.owner.objectives.api.ObjectiveDetails
+import ar.com.faro.v5.owner.objectives.api.ObjectiveMeasurement
+import ar.com.faro.v5.owner.objectives.api.ObjectiveMetric
+import ar.com.faro.v5.owner.objectives.api.ObjectiveMetricUnit
+import ar.com.faro.v5.owner.objectives.api.ObjectivePriority
 import ar.com.faro.v5.owner.objectives.api.ObjectiveId
 import ar.com.faro.v5.owner.objectives.api.ObjectiveRecord
 import ar.com.faro.v5.owner.objectives.api.ObjectiveSnapshot
@@ -20,6 +25,7 @@ import java.io.DataOutputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
 import java.nio.charset.CodingErrorAction
+import java.time.LocalDate
 
 /**
  * Private canonical G4 section for FBS2 VERSION 2, not a standalone export.
@@ -27,7 +33,8 @@ import java.nio.charset.CodingErrorAction
  */
 object FaroV5G4DomainSemanticCodec {
     private const val MAGIC = 0x47344231 // G4B1
-    private const val VERSION = 1
+    private const val LEGACY_VERSION = 1
+    private const val EXTENDED_VERSION = 2
     private const val REALITY_SCHEMA = 7
     private const val MAX_ROWS = 100_000
     private const val MAX_FIELD_BYTES = 16_384
@@ -35,10 +42,11 @@ object FaroV5G4DomainSemanticCodec {
 
     fun encode(snapshot: RealityDomainBackupSnapshot): ByteArray {
         validate(snapshot)
+        val extended = snapshot.objectives.objectives.any { it.details != ObjectiveDetails() }
         return BoundedBytes(MAX_BYTES).use { buffer ->
             DataOutputStream(buffer).use { output ->
                 output.writeInt(MAGIC)
-                output.writeInt(VERSION)
+                output.writeInt(if (extended) EXTENDED_VERSION else LEGACY_VERSION)
                 output.writeInt(snapshot.schemaVersion)
                 output.writeLong(snapshot.objectives.revision)
                 output.writeInt(snapshot.objectives.objectives.size)
@@ -48,6 +56,7 @@ object FaroV5G4DomainSemanticCodec {
                     putText(output, item.detail.value)
                     putText(output, item.status.name)
                     output.writeLong(item.updatedAtEpochMillis)
+                    if (extended) putObjectiveDetails(output, item.details)
                 }
                 output.writeLong(snapshot.matters.revision)
                 output.writeInt(snapshot.matters.matters.size)
@@ -69,7 +78,10 @@ object FaroV5G4DomainSemanticCodec {
         check(bytes.size in 1..MAX_BYTES) { "G4 section outside bounded size" }
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "invalid G4 section magic" }
-            check(input.readInt() == VERSION) { "unsupported G4 section version" }
+            val version = input.readInt()
+            check(version == LEGACY_VERSION || version == EXTENDED_VERSION) {
+                "unsupported G4 section version"
+            }
             val schema = input.readInt()
             check(schema == REALITY_SCHEMA) { "unsupported G4 Reality schema" }
             val objectiveRevision = input.readLong()
@@ -82,8 +94,12 @@ object FaroV5G4DomainSemanticCodec {
                         detail = ObjectiveDetail.of(getText(input)),
                         status = ObjectiveStatus.valueOf(getText(input)),
                         updatedAtEpochMillis = input.readLong(),
+                        details = if (version == EXTENDED_VERSION) getObjectiveDetails(input) else ObjectiveDetails(),
                     ))
                 }
+            }
+            check(version == LEGACY_VERSION || objectives.any { it.details != ObjectiveDetails() }) {
+                "noncanonical G4 extension"
             }
             val matterRevision = input.readLong()
             val matterCount = getCount(input)
@@ -111,6 +127,49 @@ object FaroV5G4DomainSemanticCodec {
             ).also(::validate)
         }
     }
+
+    private fun putObjectiveDetails(output: DataOutputStream, details: ObjectiveDetails) {
+        val target = details.target
+        output.writeBoolean(target != null)
+        if (target != null) {
+            output.writeLong(target.value)
+            putMetricUnit(output, target.unit)
+        }
+        output.writeBoolean(details.dueDate != null)
+        details.dueDate?.let { output.writeLong(it.toEpochDay()) }
+        putText(output, details.priority.name)
+        output.writeInt(details.measurements.size)
+        details.measurements.forEach { entry ->
+            output.writeLong(entry.recordedAtEpochMillis)
+            putMetricUnit(output, entry.unit)
+            output.writeLong(entry.value)
+        }
+    }
+
+    private fun getObjectiveDetails(input: DataInputStream): ObjectiveDetails {
+        val target = if (getFlag(input)) ObjectiveMetric(input.readLong(), getMetricUnit(input)) else null
+        val dueDate = if (getFlag(input)) LocalDate.ofEpochDay(input.readLong()) else null
+        val priority = ObjectivePriority.valueOf(getText(input))
+        val count = getCount(input)
+        val history = List(count) { index ->
+            ObjectiveMeasurement(index + 1, input.readLong(), getMetricUnit(input), input.readLong())
+        }
+        return ObjectiveDetails(target, dueDate, priority, history)
+    }
+
+    private fun getFlag(input: DataInputStream): Boolean = when (input.readUnsignedByte()) {
+        0 -> false
+        1 -> true
+        else -> error("invalid G4 objective field presence flag")
+    }
+
+    private fun putMetricUnit(output: DataOutputStream, unit: ObjectiveMetricUnit) {
+        putText(output, unit.kind.name)
+        putText(output, unit.label)
+    }
+
+    private fun getMetricUnit(input: DataInputStream): ObjectiveMetricUnit =
+        ObjectiveMetricUnit(ObjectiveMetricUnit.Kind.valueOf(getText(input)), getText(input))
 
     private fun validate(value: RealityDomainBackupSnapshot) {
         check(value.schemaVersion == REALITY_SCHEMA) { "G4 Reality schema mismatch" }

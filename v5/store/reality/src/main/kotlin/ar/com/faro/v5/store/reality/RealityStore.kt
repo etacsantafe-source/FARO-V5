@@ -61,6 +61,7 @@ import ar.com.faro.v5.owner.finance.api.FinanceTransferRecord
 import ar.com.faro.v5.owner.finance.api.FinanceTransferWritePort
 import ar.com.faro.v5.owner.finance.spi.FinancePersistencePort
 import ar.com.faro.v5.owner.objectives.api.ObjectiveDetail
+import ar.com.faro.v5.owner.objectives.api.ObjectiveDetails
 import ar.com.faro.v5.owner.objectives.api.ObjectiveId
 import ar.com.faro.v5.owner.objectives.api.ObjectiveRecord
 import ar.com.faro.v5.owner.objectives.api.ObjectiveSnapshot
@@ -2734,14 +2735,17 @@ class RealityStore(
             statement.step()
         }
 
+    private fun objectiveRevision(): Long = connection.prepare(
+        "SELECT revision FROM objective_state WHERE singleton_id = 1"
+    ).use { statement ->
+        check(statement.step()) { "objective state missing" }
+        statement.getLong(0)
+    }
+
     private fun readObjectives(): ObjectiveSnapshot = synchronized(lock) {
         checkOpen()
-        val revision = connection.prepare(
-            "SELECT revision FROM objective_state WHERE singleton_id = 1"
-        ).use { statement ->
-            check(statement.step()) { "objective state missing" }
-            statement.getLong(0)
-        }
+        val revision = objectiveRevision()
+        val details = RealityObjectiveDetails(connection).read().toMutableMap()
         val records = buildList {
             connection.prepare(
                 """
@@ -2750,16 +2754,20 @@ class RealityStore(
                 """.trimIndent()
             ).use { statement ->
                 while (statement.step()) {
+                    val id = ObjectiveId.of(statement.getText(0))
                     add(ObjectiveRecord(
-                        id = ObjectiveId.of(statement.getText(0)),
+                        id = id,
                         title = ObjectiveTitle.of(statement.getText(1)),
                         detail = ObjectiveDetail.of(statement.getText(2)),
                         status = ObjectiveStatus.valueOf(statement.getText(3)),
                         updatedAtEpochMillis = statement.getLong(4),
+                        details = details.remove(id) ?: ObjectiveDetails(),
                     ))
                 }
             }
         }
+        check(objectiveRevision() == revision) { "Objective state changed during read" }
+        check(details.isEmpty()) { "Orphan objective details" }
         ObjectiveSnapshot(revision, records)
     }
 
@@ -2802,11 +2810,17 @@ class RealityStore(
         requireActiveScope(transactionScope)
         val existing = readObjectives().objectives.firstOrNull { it.id == record.id }
         if (existing == record) return@synchronized record
+        val previousDetails = existing?.details ?: ObjectiveDetails()
         if (existing != null) {
             require(record.updatedAtEpochMillis > existing.updatedAtEpochMillis) {
                 "objective update timestamp must advance"
             }
         }
+        require(record.details.measurements.size >= previousDetails.measurements.size &&
+            previousDetails.measurements.indices.all {
+                record.details.measurements[it] == previousDetails.measurements[it]
+            }
+        ) { "Objective measurements are append-only" }
         connection.prepare(
             """
             INSERT INTO objective_record(
@@ -2825,6 +2839,7 @@ class RealityStore(
             statement.bindLong(5, record.updatedAtEpochMillis)
             statement.step()
         }
+        RealityObjectiveDetails(connection).write(record.id, previousDetails, record.details)
         connection.execSQL(
             "UPDATE objective_state SET revision = revision + 1 WHERE singleton_id = 1"
         )
@@ -2921,6 +2936,10 @@ class RealityStore(
                     statement.bindLong(5, record.updatedAtEpochMillis)
                     statement.step()
                 }
+            }
+            val objectiveDetails = RealityObjectiveDetails(connection)
+            for (record in backup.objectives.objectives) {
+                objectiveDetails.write(record.id, ObjectiveDetails(), record.details)
             }
             for (record in backup.matters.matters) {
                 connection.prepare(

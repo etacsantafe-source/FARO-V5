@@ -1,0 +1,71 @@
+name: FARO V5 W02-A Objectives persistence
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetails.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetailsTest.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ObjectiveDetailsBackupTest.kt
+      - .github/workflows/faro-v5-s4-w02-a-objective-persistence.yml
+
+permissions:
+  contents: read
+
+jobs:
+  objectives-persistence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run W02-A and verify shared boundaries
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :owner:objectives:test \
+            :store:reality:test --tests '*RealityObjectiveDetailsTest' --tests '*RealityDomainOwnersT2Test' --tests '*RealityG4DomainRestoreT2Test' \
+            :store:generation:test --tests '*FaroV5ObjectiveDetailsBackupTest' --tests '*FaroV5Fbs2G4CodecTest' --tests '*FaroV5Finance9FullArchiveCoordinatorTest'
+      - name: Verify Objectives XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          for module, name, count in [
+              ('reality', 'RealityObjectiveDetailsTest', 3),
+              ('generation', 'FaroV5ObjectiveDetailsBackupTest', 2),
+          ]:
+              root = Path(f'v5/store/{module}/build/test-results/test')
+              reports = list(root.glob(f'TEST-*{name}.xml'))
+              assert len(reports) == 1, reports
+              suite = ElementTree.parse(reports[0]).getroot()
+              totals = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+              assert totals == (count, 0, 0, 0), (name, totals)
+              print(f'{name} {count}/{count} PASS')
+          PY
+      - name: Preserve JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w02-a-objective-persistence-xml
+          if-no-files-found: error
+          path: |
+            v5/**/build/test-results/test/TEST-*.xml

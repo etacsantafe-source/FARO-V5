@@ -1,0 +1,150 @@
+package ar.com.faro.v5.store.reality
+
+import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.execSQL
+import ar.com.faro.v5.owner.objectives.api.ObjectiveDetails
+import ar.com.faro.v5.owner.objectives.api.ObjectiveId
+import ar.com.faro.v5.owner.objectives.api.ObjectiveMeasurement
+import ar.com.faro.v5.owner.objectives.api.ObjectiveMetric
+import ar.com.faro.v5.owner.objectives.api.ObjectiveMetricUnit
+import ar.com.faro.v5.owner.objectives.api.ObjectivePriority
+import java.time.LocalDate
+
+/** Extension of the existing objective owner, on the caller's Reality connection. */
+internal class RealityObjectiveDetails(private val connection: SQLiteConnection) {
+    fun read(): Map<ObjectiveId, ObjectiveDetails> {
+        if (!installed()) return emptyMap()
+        val measurements = mutableMapOf<ObjectiveId, MutableList<ObjectiveMeasurement>>()
+        connection.prepare("""
+            SELECT objective_id, sequence, recorded_at_ms, unit_kind, unit, value
+            FROM objective_measurement ORDER BY objective_id, sequence
+        """.trimIndent()).use { st ->
+            while (st.step()) {
+                val id = ObjectiveId.of(st.getText(0))
+                measurements.getOrPut(id, ::mutableListOf).add(
+                    ObjectiveMeasurement(Math.toIntExact(st.getLong(1)), st.getLong(2), readUnit(st.getText(3), st.getText(4)), st.getLong(5)),
+                )
+            }
+        }
+        return buildMap {
+            connection.prepare("""
+                SELECT objective_id, due_epoch_day, priority, metric_target, metric_kind, metric_unit
+                FROM objective_details
+            """.trimIndent()).use { st ->
+                while (st.step()) {
+                    val id = ObjectiveId.of(st.getText(0))
+                    put(id, ObjectiveDetails(
+                        target = if (st.isNull(3)) null else ObjectiveMetric(
+                            st.getLong(3), readUnit(st.getText(4), st.getText(5)),
+                        ),
+                        dueDate = if (st.isNull(1)) null else LocalDate.ofEpochDay(st.getLong(1)),
+                        priority = ObjectivePriority.valueOf(st.getText(2)),
+                        measurements = measurements.remove(id).orEmpty(),
+                    ))
+                }
+            }
+            check(measurements.isEmpty()) { "Orphan objective measurement" }
+        }
+    }
+
+    /** The canonical objective row must already exist in the same transaction. */
+    fun write(id: ObjectiveId, previous: ObjectiveDetails, updated: ObjectiveDetails) {
+        if (updated == previous) return
+        require(updated.measurements.size >= previous.measurements.size &&
+            previous.measurements.indices.all { previous.measurements[it] == updated.measurements[it] }
+        ) { "Objective measurements are append-only" }
+
+        if (updated == ObjectiveDetails()) {
+            connection.prepare("DELETE FROM objective_details WHERE objective_id = ?").use { st ->
+                st.bindText(1, id.value)
+                st.step()
+            }
+            return
+        }
+
+        install()
+        connection.prepare("""
+            INSERT INTO objective_details(objective_id, due_epoch_day, priority, metric_target, metric_kind, metric_unit)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON CONFLICT(objective_id) DO UPDATE SET
+                due_epoch_day = excluded.due_epoch_day,
+                priority = excluded.priority,
+                metric_target = excluded.metric_target,
+                metric_kind = excluded.metric_kind,
+                metric_unit = excluded.metric_unit
+        """.trimIndent()).use { st ->
+            st.bindText(1, id.value)
+            updated.dueDate?.let { st.bindLong(2, it.toEpochDay()) } ?: st.bindNull(2)
+            st.bindText(3, updated.priority.name)
+            val target = updated.target
+            if (target == null) {
+                st.bindNull(4)
+                st.bindNull(5)
+                st.bindNull(6)
+            } else {
+                st.bindLong(4, target.value)
+                st.bindText(5, target.unit.kind.name)
+                st.bindText(6, target.unit.label)
+            }
+            st.step()
+        }
+        connection.prepare("""
+            INSERT INTO objective_measurement(objective_id, sequence, recorded_at_ms, unit_kind, unit, value)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """.trimIndent()).use { st ->
+            for (index in previous.measurements.size until updated.measurements.size) {
+                val entry = updated.measurements[index]
+                st.bindText(1, id.value)
+                st.bindLong(2, entry.sequence.toLong())
+                st.bindLong(3, entry.recordedAtEpochMillis)
+                st.bindText(4, entry.unit.kind.name)
+                st.bindText(5, entry.unit.label)
+                st.bindLong(6, entry.value)
+                st.step()
+                st.reset()
+            }
+        }
+    }
+
+    private fun installed(): Boolean = connection.prepare("""
+        SELECT count(*) FROM sqlite_schema WHERE type = 'table'
+        AND name IN ('objective_details', 'objective_measurement')
+    """.trimIndent()).use { st ->
+        check(st.step())
+        val count = st.getLong(0)
+        check(count == 0L || count == 2L) { "Incomplete Objective extension schema" }
+        count == 2L
+    }
+
+    private fun install() {
+        if (installed()) return
+        connection.execSQL("""
+            CREATE TABLE objective_details (
+                objective_id TEXT NOT NULL PRIMARY KEY REFERENCES objective_record(objective_id),
+                due_epoch_day INTEGER,
+                priority TEXT NOT NULL CHECK(priority IN ('LOW', 'NORMAL', 'HIGH')),
+                metric_target INTEGER,
+                metric_kind TEXT,
+                metric_unit TEXT,
+                CHECK((metric_target IS NULL AND metric_kind IS NULL AND metric_unit IS NULL) OR
+                      (metric_target IS NOT NULL AND metric_target > 0 AND metric_kind IS NOT NULL
+                       AND metric_kind IN ('QUANTITY','MONETARY') AND metric_unit IS NOT NULL))
+            )
+        """.trimIndent())
+        connection.execSQL("""
+            CREATE TABLE objective_measurement (
+                objective_id TEXT NOT NULL REFERENCES objective_details(objective_id),
+                sequence INTEGER NOT NULL CHECK(sequence BETWEEN 1 AND 100000),
+                recorded_at_ms INTEGER NOT NULL CHECK(recorded_at_ms >= 0),
+                unit_kind TEXT NOT NULL CHECK(unit_kind IN ('QUANTITY','MONETARY')),
+                unit TEXT NOT NULL,
+                value INTEGER NOT NULL CHECK(value >= 0),
+                PRIMARY KEY(objective_id, sequence)
+            )
+        """.trimIndent())
+    }
+
+    private fun readUnit(kind: String, label: String) = ObjectiveMetricUnit(
+        ObjectiveMetricUnit.Kind.valueOf(kind), label,
+    )
+}
