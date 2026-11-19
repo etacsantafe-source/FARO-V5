@@ -1,0 +1,61 @@
+name: FARO V5 W03-D2B2B2 authenticated receipt archive
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ArchiveCoordinator.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4ArchiveCoordinatorTest.kt
+      - .github/workflows/faro-v5-s4-w03-d2b2b2-authenticated-archive.yml
+
+permissions:
+  contents: read
+
+jobs:
+  auxiliary4-authenticated-archive-jvm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Protocol preflight for the authenticated archive routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r path; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
+              --unit S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_DEV --path "$path"
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Test authenticated receipt archive on JVM and SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Auxiliary4ArchiveCoordinatorTest
+      - name: Verify four JUnit results
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+
+          reports = list(Path('v5/store/generation/build/test-results').rglob(
+              'TEST-*FaroV5Auxiliary4ArchiveCoordinatorTest.xml',
+          ))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+          assert counts == (4, 0, 0, 0), counts
+          print('W03_D2B2B2_AUTH_ARCHIVE_XML_PASS 4/4')
+          PY
+      - name: Upload directed JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-d2b2b2-authenticated-archive-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/**/TEST-*FaroV5Auxiliary4ArchiveCoordinatorTest.xml

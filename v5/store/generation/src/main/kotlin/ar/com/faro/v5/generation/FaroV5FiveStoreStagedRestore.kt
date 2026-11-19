@@ -1,5 +1,6 @@
 package ar.com.faro.v5.generation
 
+import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.ExistingGenerationFormatReader
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
@@ -8,6 +9,7 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.RestoreArchiveIdentityPort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.store.auxiliary.AuxiliaryReceiptBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityFbs2BackupSnapshot
 import ar.com.faro.v5.store.reality.RealityPlanningBackupSnapshot
 import java.nio.file.Path
@@ -109,6 +111,18 @@ class FaroV5FiveStoreStagedRestore(
             allowFinance9BaseStageOnly = true,
         )
 
+    internal fun restoreAuthenticatedAuxiliary4StageOnly(
+        operationId: MaintenanceOperationId,
+        encryptedArchive: ByteArray,
+        passphrase: CharArray,
+        expectedActive: ActiveGenerationPointer,
+    ): FiveStoreStagedRestoreResult =
+        restoreAuthenticatedImpl(
+            operationId, encryptedArchive, passphrase,
+            allowG4StageOnly = true, allowPlanningStageOnly = true,
+            allowFinance9BaseStageOnly = true, auxiliary4Origin = expectedActive,
+        )
+
     private fun restoreAuthenticatedImpl(
         operationId: MaintenanceOperationId,
         encryptedArchive: ByteArray,
@@ -116,30 +130,46 @@ class FaroV5FiveStoreStagedRestore(
         allowG4StageOnly: Boolean,
         allowPlanningStageOnly: Boolean = false,
         allowFinance9BaseStageOnly: Boolean = false,
+        auxiliary4Origin: ActiveGenerationPointer? = null,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
                 try {
-                    requireStagedNonActiveTarget()
+                    requireStagedNonActiveTarget(auxiliary4Origin)
                 } catch (_: Exception) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED,
                     )
                 }
-                val opened = try {
-                    FaroV5FiveStorePortableBackupCrypto().open(encryptedArchive, passphrase)
+                val (backup, receiptBackup) = try {
+                    val crypto = FaroV5FiveStorePortableBackupCrypto()
+                    if (auxiliary4Origin == null) {
+                        when (val opened = crypto.open(encryptedArchive, passphrase)) {
+                            is FiveStorePortableBackupOpenResult.Opened -> opened.backupSet to null
+                            is FiveStorePortableBackupOpenResult.Rejected ->
+                                return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
+                                    FiveStoreStagedRestoreBlock.INVALID_ARCHIVE, opened.reason,
+                                )
+                        }
+                    } else {
+                        when (val opened = crypto.openWithReceipts(encryptedArchive, passphrase)) {
+                            is FiveStoreAuthenticatedPayload.Opened -> {
+                                val snapshot = opened.payload
+                                snapshot.base to AuxiliaryReceiptBackupSnapshot(
+                                    snapshot.base.fourStore.auxiliary, snapshot.receipts,
+                                )
+                            }
+                            is FiveStoreAuthenticatedPayload.Rejected ->
+                                return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
+                                    FiveStoreStagedRestoreBlock.INVALID_ARCHIVE, opened.reason,
+                                )
+                        }
+                    }
                 } catch (_: Exception) {
                     return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
                         FiveStoreStagedRestoreBlock.INVALID_ARCHIVE,
                     )
                 }
-                if (opened is FiveStorePortableBackupOpenResult.Rejected) {
-                    return@withMaterialWritesQuiesced FiveStoreStagedRestoreResult.Blocked(
-                        FiveStoreStagedRestoreBlock.INVALID_ARCHIVE,
-                        opened.reason,
-                    )
-                }
-                val backup = (opened as FiveStorePortableBackupOpenResult.Opened).backupSet
                 // M0C1: no legacy restore may accept v4 before archive pin or writes.
                 // Public/legacy entrypoints still reject v4 before archive pin.
                 // Only the internal full-archive orchestrator may restore its
@@ -200,6 +230,7 @@ class FaroV5FiveStoreStagedRestore(
                     // All semantic bytes are authenticated/decoded before the
                     // first store changes. Each store refuses nonfresh targets,
                     // except exact idempotent replays of its prior restore.
+                    requireAuxiliary4Origin(auxiliary4Origin)
                     val expectedG4 = backup.g4Domains
                     if (expectedG4 == null) {
                         graph.reality.backup.restoreOrVerify(backup.fourStore.reality)
@@ -260,7 +291,11 @@ class FaroV5FiveStoreStagedRestore(
                     afterSection(FiveStoreStagedRestoreSection.COMMERCIAL_EVIDENCE)
                     graph.webEvidence.backup.restoreOrVerify(backup.fourStore.webEvidence)
                     afterSection(FiveStoreStagedRestoreSection.WEB_EVIDENCE)
-                    graph.auxiliary.backup.restoreOrVerify(backup.fourStore.auxiliary)
+                    if (receiptBackup == null) {
+                        graph.auxiliary.backup.restoreOrVerify(backup.fourStore.auxiliary)
+                    } else {
+                        graph.auxiliary.restoreOrVerifyStagedReceiptBackup(receiptBackup)
+                    }
                     afterSection(FiveStoreStagedRestoreSection.AUXILIARY)
                     checkNotNull(graph.workspace).backup.restoreOrVerify(backup.workspace)
                     afterSection(FiveStoreStagedRestoreSection.WORKSPACE)
@@ -279,13 +314,18 @@ class FaroV5FiveStoreStagedRestore(
                                 },
                             )
                     }
+                    val auxiliaryMatches = if (receiptBackup == null) {
+                        graph.auxiliary.backup.snapshot() == backup.fourStore.auxiliary
+                    } else {
+                        graph.auxiliary.snapshotStagedReceiptBackup() == receiptBackup
+                    }
                     check(realityMatches &&
                         graph.commercialEvidence.backup.snapshot() == backup.fourStore.commercialEvidence &&
                         graph.webEvidence.backup.snapshot() == backup.fourStore.webEvidence &&
-                        graph.auxiliary.backup.snapshot() == backup.fourStore.auxiliary &&
+                        auxiliaryMatches &&
                         graph.workspace!!.backup.snapshot() == backup.workspace
                     ) { "five-store restored snapshot differs from authenticated backup" }
-                    requireStagedNonActiveTarget()
+                    requireStagedNonActiveTarget(auxiliary4Origin)
                     FiveStoreStagedRestoreResult.StagedVerified(target.descriptor.generationId.value)
                 } catch (_: Exception) {
                     FiveStoreStagedRestoreResult.Blocked(
@@ -302,7 +342,14 @@ class FaroV5FiveStoreStagedRestore(
         }
     }
 
-    private fun requireStagedNonActiveTarget() {
+    private fun requireAuxiliary4Origin(origin: ActiveGenerationPointer?) {
+        check(origin == null || FileActiveGenerationPointer(storageRoot).read() == origin) {
+            "Auxiliary4 restore origin pointer changed"
+        }
+    }
+
+    private fun requireStagedNonActiveTarget(auxiliary4Origin: ActiveGenerationPointer?) {
+        requireAuxiliary4Origin(auxiliary4Origin)
         val canonical = FileStorageGenerationLayout(storageRoot)
             .requireStaged(target.descriptor.generationId)
         check(canonical.descriptor == target.descriptor &&

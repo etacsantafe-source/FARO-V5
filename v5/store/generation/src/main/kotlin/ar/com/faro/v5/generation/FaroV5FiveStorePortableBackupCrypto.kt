@@ -29,6 +29,14 @@ sealed interface FiveStorePortableBackupOpenResult {
         FiveStorePortableBackupOpenResult
 }
 
+internal sealed interface FiveStoreAuthenticatedPayload<out T> {
+    data class Opened<T>(val payload: T) : FiveStoreAuthenticatedPayload<T> {
+        override fun toString(): String = "FiveStoreAuthenticatedPayload.Opened"
+    }
+    data class Rejected(val reason: FiveStorePortableBackupOpenFailure) :
+        FiveStoreAuthenticatedPayload<Nothing>
+}
+
 /**
  * FAROBAK2: standalone authenticated envelope exclusively for a bounded FBS2
  * five-store semantic plaintext. FAROBAK1 and FBS1 remain four-store/V1.
@@ -45,9 +53,17 @@ sealed interface FiveStorePortableBackupOpenResult {
 class FaroV5FiveStorePortableBackupCrypto(
     private val secureRandom: SecureRandom = SecureRandom(),
 ) {
-    fun seal(set: FaroV5FiveStoreSemanticSet, passphrase: CharArray): ByteArray {
+    fun seal(set: FaroV5FiveStoreSemanticSet, passphrase: CharArray): ByteArray =
+        sealPayload(passphrase) { FaroV5FiveStoreSemanticCodec.encode(set) }
+
+    internal fun sealWithReceipts(
+        set: FaroV5Auxiliary4Fbs2Snapshot,
+        passphrase: CharArray,
+    ): ByteArray = sealPayload(passphrase) { FaroV5Auxiliary4Fbs2Codec.encode(set) }
+
+    private fun sealPayload(passphrase: CharArray, encode: () -> ByteArray): ByteArray {
         requirePassphrase(passphrase)
-        val plaintext = FaroV5FiveStoreSemanticCodec.encode(set)
+        val plaintext = encode()
         try {
             val salt = ByteArray(SALT_BYTES).also(secureRandom::nextBytes)
             val nonce = ByteArray(NONCE_BYTES).also(secureRandom::nextBytes)
@@ -87,12 +103,35 @@ class FaroV5FiveStorePortableBackupCrypto(
         }
     }
 
-    fun open(archive: ByteArray, passphrase: CharArray): FiveStorePortableBackupOpenResult {
+    fun open(archive: ByteArray, passphrase: CharArray): FiveStorePortableBackupOpenResult =
+        when (val result = openPayload(archive, passphrase, FaroV5FiveStoreSemanticCodec::decode)) {
+            is FiveStoreAuthenticatedPayload.Opened ->
+                FiveStorePortableBackupOpenResult.Opened(result.payload)
+            is FiveStoreAuthenticatedPayload.Rejected ->
+                FiveStorePortableBackupOpenResult.Rejected(result.reason)
+        }
+
+    internal fun admitsArchiveSize(size: Int): Boolean =
+        size in (HEADER_BYTES + TAG_BYTES + 1)..(
+            HEADER_BYTES + TAG_BYTES + FaroV5FiveStoreSemanticCodec.MAX_PLAINTEXT_BYTES
+        )
+
+    internal fun openWithReceipts(
+        archive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreAuthenticatedPayload<FaroV5Auxiliary4Fbs2Snapshot> =
+        openPayload(archive, passphrase, FaroV5Auxiliary4Fbs2Codec::decode)
+
+    private fun <T> openPayload(
+        archive: ByteArray,
+        passphrase: CharArray,
+        decode: (ByteArray) -> T,
+    ): FiveStoreAuthenticatedPayload<T> {
         requirePassphrase(passphrase)
         val parsed = try {
             parseHeader(archive)
         } catch (_: Exception) {
-            return FiveStorePortableBackupOpenResult.Rejected(
+            return FiveStoreAuthenticatedPayload.Rejected(
                 FiveStorePortableBackupOpenFailure.INVALID_ENVELOPE
             )
         }
@@ -101,7 +140,7 @@ class FaroV5FiveStorePortableBackupCrypto(
             val key = try {
                 deriveKey(passphrase, parsed.salt)
             } catch (_: GeneralSecurityException) {
-                return FiveStorePortableBackupOpenResult.Rejected(
+                return FiveStoreAuthenticatedPayload.Rejected(
                     FiveStorePortableBackupOpenFailure.CRYPTO_UNAVAILABLE
                 )
             }
@@ -119,24 +158,22 @@ class FaroV5FiveStorePortableBackupCrypto(
                     "FAROBAK2 authenticated plaintext length mismatch"
                 }
             } catch (_: BadPaddingException) {
-                return FiveStorePortableBackupOpenResult.Rejected(
+                return FiveStoreAuthenticatedPayload.Rejected(
                     FiveStorePortableBackupOpenFailure.AUTHENTICATION_FAILED
                 )
             } catch (_: GeneralSecurityException) {
-                return FiveStorePortableBackupOpenResult.Rejected(
+                return FiveStoreAuthenticatedPayload.Rejected(
                     FiveStorePortableBackupOpenFailure.CRYPTO_UNAVAILABLE
                 )
             } finally {
                 key.fill(0)
             }
             return try {
-                FiveStorePortableBackupOpenResult.Opened(
-                    FaroV5FiveStoreSemanticCodec.decode(
-                        plaintext ?: error("FAROBAK2 authenticated plaintext missing")
-                    )
+                FiveStoreAuthenticatedPayload.Opened(
+                    decode(plaintext ?: error("FAROBAK2 authenticated plaintext missing")),
                 )
             } catch (_: Exception) {
-                FiveStorePortableBackupOpenResult.Rejected(
+                FiveStoreAuthenticatedPayload.Rejected(
                     FiveStorePortableBackupOpenFailure.INVALID_FIVE_STORE_PAYLOAD
                 )
             }

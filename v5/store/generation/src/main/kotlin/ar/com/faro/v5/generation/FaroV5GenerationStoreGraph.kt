@@ -334,6 +334,30 @@ class FaroV5GenerationStoreGraph private constructor(
         internal fun openValidatedV2Finance9Stage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
+        ): FaroV5GenerationStoreGraph =
+            openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = false)
+
+        internal fun openValidatedV2Finance9Auxiliary4Stage(
+            staged: StagedStorageGeneration,
+            expectedActive: ActiveGenerationPointer,
+        ): FaroV5GenerationStoreGraph =
+            openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true)
+
+        internal fun requireFinance9ReceiptArchiveStage(
+            staged: StagedStorageGeneration,
+            allowAuxiliary3: Boolean,
+        ) {
+            check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
+            requireStrictV2StoreSchemas(
+                staged.directory, activeGeneration = false, planningStage8 = true,
+                financeStage9 = true, auxiliary4 = true, allowAuxiliary3 = allowAuxiliary3,
+            )
+        }
+
+        private fun openFinance9ArchiveStage(
+            staged: StagedStorageGeneration,
+            expectedActive: ActiveGenerationPointer,
+            auxiliary4: Boolean,
         ): FaroV5GenerationStoreGraph {
             val generationsDir = staged.directory.toAbsolutePath().normalize().parent
             check(generationsDir.fileName.toString() == "generations") {
@@ -351,9 +375,11 @@ class FaroV5GenerationStoreGraph private constructor(
                 expectedActive.generationId != staged.descriptor.generationId) {
                 "Finance9 staged graph requires nonactive target and pinned pointer"
             }
+            val receiptFence: (() -> Boolean)? =
+                if (auxiliary4) ({ pointer.read() == expectedActive }) else null
             val graph = openValidatedV2Internal(
                 staged, planVerifier = null,
-                planningStage8 = true, financeStage9 = true,
+                planningStage8 = true, financeStage9 = true, auxiliaryReceiptFence = receiptFence,
             )
             try {
                 check(pointer.read() == expectedActive) {
@@ -374,7 +400,10 @@ class FaroV5GenerationStoreGraph private constructor(
             planningStage8: Boolean = false,
             financeStage9: Boolean = false,
             checkedPlanning8Active: Boolean = false,
+            auxiliaryReceiptFence: (() -> Boolean)? = null,
         ): FaroV5GenerationStoreGraph {
+            check(auxiliaryReceiptFence == null || (!activeGeneration && financeStage9 &&
+                auxiliaryReceiptFence()))
             check(!planningStage8 || !activeGeneration || checkedPlanning8Active) {
                 "Planning8 active open requires exact internal pointer/reopen admission"
             }
@@ -411,6 +440,7 @@ class FaroV5GenerationStoreGraph private constructor(
             // initializer can run schema migrations or create WAL sidecars.
             requireStrictV2StoreSchemas(
                 normalized, activeGeneration, planningStage8, financeStage9,
+                auxiliary4 = auxiliaryReceiptFence != null,
             )
             if (financeStage9 && !activeGeneration) {
                 RealityFinance9SealedReadPort.readTrustedSealedStage9(
@@ -434,6 +464,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     materialWriteGate, planningStage8,
                     financeStage9 = financeStage9 && !activeGeneration,
                     financeActive9 = financeStage9 && activeGeneration,
+                    auxiliaryReceiptFence = auxiliaryReceiptFence,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -456,6 +487,8 @@ class FaroV5GenerationStoreGraph private constructor(
             planningStage8: Boolean = false,
             financeStage9: Boolean = false,
             exactAuxiliary: Boolean = activeGeneration,
+            auxiliary4: Boolean = false,
+            allowAuxiliary3: Boolean = false,
         ) {
             // Reality schema7 adds nullable, durable receipt commit time.
             // The only admitted older layouts are exact schema6 (full domains)
@@ -512,23 +545,31 @@ class FaroV5GenerationStoreGraph private constructor(
                     olderLegacyVersion = 5, olderLegacyTables = historicalBase,
                 )
             }
+            val auxiliaryTables = listOf(
+                "delivery_notice", "delivery_intent", "bookmark_scope",
+                "bookmark_folder", "bookmark_item", "bookmark_receipt",
+            )
+            val auxiliarySchema = if (auxiliary4) {
+                StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.AUXILIARY, 4, auxiliaryTables + "notice_attention_receipt",
+                    legacyVersion = if (allowAuxiliary3) 3 else null,
+                    legacyTables = if (allowAuxiliary3) auxiliaryTables else emptyList(),
+                )
+            } else {
+                StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.AUXILIARY, 3, auxiliaryTables,
+                    legacyVersion = if (exactAuxiliary) null else 2,
+                    legacyTables = if (exactAuxiliary) emptyList() else
+                        listOf("delivery_notice", "delivery_intent"),
+                )
+            }
             val schemas = listOf(
                 realityProfile,
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1, listOf("commercial_evidence")),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WEB_EVIDENCE, 2, listOf(
                     "web_evidence", "web_search_evidence",
                 )),
-                StagedSqlitePreflight.Schema(
-                    GenerationStoreFiles.AUXILIARY, 3, listOf(
-                        "delivery_notice", "delivery_intent", "bookmark_scope",
-                        "bookmark_folder", "bookmark_item", "bookmark_receipt",
-                    ),
-                    // Only a sealed STAGED generation may use the certified
-                    // owner migration. Never migrate an active Auxiliary DB.
-                    legacyVersion = if (exactAuxiliary) null else 2,
-                    legacyTables = if (exactAuxiliary) emptyList() else
-                        listOf("delivery_notice", "delivery_intent"),
-                ),
+                auxiliarySchema,
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WORKSPACE, 4, listOf(
                     "workspace_conversation", "workspace_meta", "workspace_receipt",
                     "workspace_draft", "workspace_authority", "workspace_message",
@@ -561,6 +602,7 @@ class FaroV5GenerationStoreGraph private constructor(
             planningStage8: Boolean = false,
             financeStage9: Boolean = false,
             financeActive9: Boolean = false,
+            auxiliaryReceiptFence: (() -> Boolean)? = null,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -587,11 +629,15 @@ class FaroV5GenerationStoreGraph private constructor(
                         normalized.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString(),
                         materialWriteGate = materialWriteGate,
                     )
-                auxiliary =
-                    AuxiliaryDeliveryStore(
-                        normalized.resolve(GenerationStoreFiles.AUXILIARY).toString(),
-                        materialWriteGate = materialWriteGate,
+                val auxiliaryPath = normalized.resolve(GenerationStoreFiles.AUXILIARY).toString()
+                auxiliary = if (auxiliaryReceiptFence == null) {
+                    AuxiliaryDeliveryStore(auxiliaryPath, materialWriteGate = materialWriteGate)
+                } else {
+                    check(auxiliaryReceiptFence())
+                    AuxiliaryDeliveryStore.openQuarantinedStagedReceiptV4ForTrustedGeneration(
+                        auxiliaryPath, auxiliaryReceiptFence,
                     )
+                }
                 val graph =
                     FaroV5GenerationStoreGraph(
                         generationDirectory = normalized,

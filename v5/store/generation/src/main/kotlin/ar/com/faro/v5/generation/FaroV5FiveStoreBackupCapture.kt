@@ -5,6 +5,9 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.SemanticBackupCaptureCoordinator
 import ar.com.faro.v5.maintenance.StorageGenerationId
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupPort
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupSnapshot
+import ar.com.faro.v5.store.auxiliary.AuxiliaryReceiptBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityBackupPort
 import ar.com.faro.v5.store.reality.RealityBackupSnapshot
 import ar.com.faro.v5.store.reality.RealityDomainBackupSnapshot
@@ -27,6 +30,40 @@ class FaroV5FiveStoreBackupCapture(
         backupSetId: BackupSetId,
         productVersion: String,
         createdAtEpochMillis: Long,
+    ): FaroV5FiveStoreSemanticSet = captureWithAuxiliary(
+        operationId, backupSetId, productVersion, createdAtEpochMillis, graph.auxiliary.backup,
+    )
+
+    internal fun captureReceiptProjection(
+        operationId: MaintenanceOperationId,
+        backupSetId: BackupSetId,
+        productVersion: String,
+        createdAtEpochMillis: Long,
+    ): Pair<FaroV5FiveStoreSemanticSet, AuxiliaryReceiptBackupSnapshot> {
+        var observed: AuxiliaryReceiptBackupSnapshot? = null
+        val projected = object : AuxiliaryBackupPort {
+            override fun snapshot(): AuxiliaryBackupSnapshot {
+                check(observed == null) { "Auxiliary4 snapshot must be read once under the lease" }
+                val receiptBackup = graph.auxiliary.snapshotStagedReceiptBackup()
+                observed = receiptBackup
+                return receiptBackup.base
+            }
+
+            override fun restoreOrVerify(snapshot: AuxiliaryBackupSnapshot): AuxiliaryBackupSnapshot =
+                error("Auxiliary4 capture projection cannot restore")
+        }
+        val base = captureWithAuxiliary(
+            operationId, backupSetId, productVersion, createdAtEpochMillis, projected,
+        )
+        return base to checkNotNull(observed)
+    }
+
+    private fun captureWithAuxiliary(
+        operationId: MaintenanceOperationId,
+        backupSetId: BackupSetId,
+        productVersion: String,
+        createdAtEpochMillis: Long,
+        auxiliary: AuxiliaryBackupPort,
     ): FaroV5FiveStoreSemanticSet {
         // No fallback to four-store V1 capture if Workspace is absent.
         val workspace = checkNotNull(graph.workspace) {
@@ -55,7 +92,7 @@ class FaroV5FiveStoreBackupCapture(
             reality = pairedReality,
             commercialEvidence = graph.commercialEvidence.backup,
             webEvidence = graph.webEvidence.backup,
-            auxiliary = graph.auxiliary.backup,
+            auxiliary = auxiliary,
         )
         val (four, workspaceSnapshot) = capture.captureWithAdditionalSnapshot(
             operationId = operationId,
