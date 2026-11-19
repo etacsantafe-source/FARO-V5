@@ -1051,6 +1051,33 @@ internal class FaroV5V2CoreDevAuthority(
             return loan
         }
 
+        internal fun mountW03OwnerActions(
+            application: Application,
+            foreground: () -> Boolean,
+        ): S4W03OwnerSessionActions? = runCatching {
+            if (!auxiliary4Selected || application.packageName != W03_MATTERS_DEV_ID || !foreground()) {
+                return@runCatching null
+            }
+            val workspace = graph.workspace ?: return@runCatching null
+            val epoch = UUID.randomUUID().toString()
+            val ownerCurrent = { available() && pointer.read() == openingPointer }
+            if (!ownerCurrent()) return@runCatching null
+            val probe = FaroV5AndroidSandboxPrincipal(
+                W03_MATTERS_DEV_ID, openingPointer, pointer, epoch,
+                { if (ownerCurrent()) epoch else null }, AndroidPlatformSandboxFactsReader(application),
+            )
+            val evidence = probe.currentEvidenceOrNull()
+            if (evidence == null || !foreground()) {
+                probe.close()
+                return@runCatching null
+            }
+            S4W03OwnerSessionActions(
+                openingPointer, pointer, workspace, graph.reality, graph.auxiliary, gate,
+                evidence.sessionNonce, epoch, { ownerCurrent() && probe.currentEvidenceOrNull() != null },
+                foreground, probe::close,
+            )
+        }.getOrNull()
+
         internal fun mountW02ObjectiveActions(
             application: Application,
             foreground: () -> Boolean,

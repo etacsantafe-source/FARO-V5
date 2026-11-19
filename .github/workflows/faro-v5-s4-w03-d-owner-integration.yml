@@ -1,0 +1,69 @@
+name: FARO V5 W03-D actual owner integration
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/S4W03OwnerSessionActions.kt
+      - v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/S4W03OwnerSessionIntegrationTest.kt
+      - .github/workflows/faro-v5-s4-w03-d-owner-integration.yml
+
+permissions:
+  contents: read
+
+jobs:
+  w03-d-integration:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Check exact D routes
+        run: |
+          set -euo pipefail
+          while IFS= read -r path; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
+              --unit S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV --path "$path"
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Review Apply recurring Reminder and local Notice on real SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
+            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.S4W03OwnerSessionIntegrationTest
+      - name: Verify three exact JUnit cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/app/build/test-results').rglob('TEST-*S4W03OwnerSessionIntegrationTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert counts == (3, 0, 0, 0), counts
+          print('W03_D_REAL_OWNER_INTEGRATION_XML_PASS 3/3')
+          PY
+      - name: Upload real owner integration report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-d-real-owner-integration-xml
+          if-no-files-found: error
+          path: v5/app/build/test-results/**/TEST-*S4W03OwnerSessionIntegrationTest.xml
