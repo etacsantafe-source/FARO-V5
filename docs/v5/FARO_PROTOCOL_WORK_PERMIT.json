@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
   "reviewed_head": "b73ebe8b8dc62f941f2962beadab69dfef4fd00b",
   "paths": [
@@ -57,23 +57,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ANDROID_DEV_API35_FONT200_REOPEN_AND_APK",
+    "B7": "PASS_GLOBAL_W02_ANDROID_DEV"
   },
   "last_code_review": {
-    "sha": "97e1b6d2d22011c0d1fe7e6607f223399f47f6a4",
+    "sha": "b32a6aa5b7eb7b953af3d0749b86ed0cdb043099",
     "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_E_OBJECTIVES_ANDROID_DRAWER_RED_FIX_20261119.md",
-        "blob_sha": "139d5349ceab0c0fcc98c7134133717a2a9d9362",
+        "path": "docs/v5/FARO_S4_W02_OBJECTIVES_B7_GLOBAL_PASS_20261119.md",
+        "blob_sha": "1dfffc13c3edccc2997b87696fdc30b0b184dadb",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Select the Objective drawer click action, not the heading, after Android recreation.",
-  "how": "Preaudit guard 44446518356 SUCCESS. Run exact preflights and current guard before B6.",
+  "why": "W02 Objectives completed in Android DEV. Functional permit consumed; W03 remains stopped.",
+  "how": "Exact API35 44450545982, protocol guard 44450546802, JUnit XML and isolated APK. W02 JVM evidence independently checked.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
