@@ -1,25 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_DEV",
-  "reviewed_head": "53378338bd92f3dd74a222787238a5926fc7cc5b",
+  "status": "READY",
+  "unit_id": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV",
+  "reviewed_head": "b987bdc25e85aaac14ae42dcee5e71df68f88ff8",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevStagePreparation.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverPreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverOwner.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Finance9DevCutoverRuntime.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4DevCutoverRuntimeTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2b2b3-auxiliary4-cutover.yml",
-    ".github/workflows/faro-v5-s4-w01-d1b1c0-finance9-preflight.yml",
-    ".github/workflows/faro-v5-s4-w01-d1b1c2c-finance9-single-graph.yml"
+    "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHost.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionReceiptHostTest.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Auxiliary4RestoredNoticeRouteTest.kt",
+    ".github/workflows/faro-v5-s4-w03-d2b2b3-notice-receipt-host.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
-          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
+          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
           "marker": "## B1"
         }
       ]
@@ -28,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
-          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
+          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
           "marker": "## B2"
         }
       ]
@@ -38,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
-          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
+          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
           "marker": "## B3"
         }
       ]
@@ -48,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
-          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
+          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
           "marker": "## B4"
         }
       ]
@@ -58,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B1_B5_20261119.md",
-          "blob_sha": "30b3f90479d9a4e6b10a667d774a708fe066e84c",
+          "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
+          "blob_sha": "58270c59aac39e8e538f40b41cf078b6e942f146",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_AUX4_DURABLE_CUTOVER_JVM_6_OF_6",
-    "B7": "PASS_SCOPED_AUX4_DURABLE_CUTOVER_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "032bbea4e8e9819a158dd142f6b8a84828cd0f54",
@@ -79,8 +77,8 @@
       }
     ]
   },
-  "why": "DEV versioned cutover and recovery B7 PASS 6/6. READY consumed.",
-  "how": "Next B3C Avisos host and local-only reprojection, own exact READY after guard.",
+  "why": "Avisos host preaudit guard 44610390077 SUCCESS.",
+  "how": "Exact six paths. Foreground receipt host/session and local-only reprojection.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -90,6 +88,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44608397244,
+  "preaudit_guard": 44610390077,
   "last_ci_run_id": 44609511296
 }
