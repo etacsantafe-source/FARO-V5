@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W02_B_OBJECTIVE_REVIEW_APPLY",
   "reviewed_head": "ba32c66aeef82c4825cd95d9923744ecf80e0004",
   "paths": [
@@ -61,22 +61,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_REVIEW_APPLY_REAL_SQLITE_JVM",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "6c1d1edea9b64015dd0ba2dbc5c6919f186c1ceb",
-    "unit_id": "S4_W02_A_OBJECTIVE_PERSISTENCE",
+    "sha": "b504a6e809f064e892ff2a8ce6320ed1212a4700",
+    "unit_id": "S4_W02_B_OBJECTIVE_REVIEW_APPLY",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B7_PASS_20261118.md",
-        "blob_sha": "9e24c4d8ff12ab73d796c9a84d6e3d9cc1817ba8",
+        "path": "docs/v5/FARO_S4_W02_B_OBJECTIVE_REVIEW_APPLY_B7_PASS_20261118.md",
+        "blob_sha": "95b4a57dffdfffd6ba5daea4e1016fafbf1d6301",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W02-B manual create/edit Review and same-Reality Apply with scoped grants and receipts.",
+  "why": "W02-B verified in JVM. W02-C requires its own READY after its preaudit guard.",
   "how": "Preaudit guard 44441382784 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
