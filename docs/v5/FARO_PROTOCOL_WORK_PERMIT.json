@@ -1,18 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
-  "reviewed_head": "2a8cb086cbe850f9706e3bf488c30e98868a0f01",
+  "status": "READY",
+  "unit_id": "S4_W03_B_MATTER_REVIEW_APPLY",
+  "reviewed_head": "6b16acc7937206c9bd60a371cf379023d0900e6f",
   "paths": [
-    ".github/workflows/faro-v5-s4-w03-a-matter-persistence.yml"
+    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterOperations.kt",
+    "v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterReviewBinding.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03MatterReviewHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03MatterReviewHostTest.kt",
+    ".github/workflows/faro-v5-s4-w03-b-matter-review.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
-          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
+          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
+          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
           "marker": "## B1"
         }
       ]
@@ -21,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
-          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
+          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
+          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
           "marker": "## B2"
         }
       ]
@@ -31,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
-          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
+          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
+          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
           "marker": "## B3"
         }
       ]
@@ -41,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
-          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
+          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
+          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
           "marker": "## B4"
         }
       ]
@@ -51,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
-          "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
+          "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B1_B5_20261119.md",
+          "blob_sha": "0800c42e8e2c4ea27fb76a91f2f6e9f2a1e91515",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_JVM_33_33_G4_SQLITE_DEV",
-    "B7": "PASS_SCOPED_W03_A_DEV_JVM"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
@@ -72,8 +76,8 @@
       }
     ]
   },
-  "why": "W03-A finalized in DEV JVM/SQLite/backup with 33/33 tests, guard 44536914665 and XML artifact verified; permit consumed. W03-B needs its own READY.",
-  "how": "W03-A code 3446cc2 + test RED_FIX 2a8cb + workflow RED_FIX 59f74; CI 44536914638 SUCCESS, 7 XML, zip sha256 d9561...; historical S3 G4 fixed-count workflow needs separate authorization.",
+  "why": "W03-A B7 PASS 33/33, permit consumed; W03-B B1-B5 scoped against exact SHA, separate guard 44544546037 SUCCESS; no B6/B7 yet.",
+  "how": "W03-B only Matter N-031 Review/Apply, receipts + compensating Undo, 5 new paths. GitHub guard 44544546037 SUCCESS. Preflight every path before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -83,5 +87,5 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44536617765
+  "preaudit_guard": 44544546037
 }
