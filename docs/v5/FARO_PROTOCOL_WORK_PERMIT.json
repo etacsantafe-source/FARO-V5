@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_C_REMINDER_CIVIL_DUE",
   "reviewed_head": "179428a2e5683fc46a9b6ecd01561e2e5c30b3c4",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_JVM_10_10_REMINDER_CIVIL_DEV",
+    "B7": "PASS_SCOPED_W03_C_DEV_JVM_10_10"
   },
   "last_code_review": {
-    "sha": "4b959ac90f29548e79a74a0b594f0b2867c2c836",
-    "unit_id": "S4_W03_B_MATTER_REVIEW_APPLY",
+    "sha": "66d63fe189f3cdf5c85ab290d7b3e849e6d197d0",
+    "unit_id": "S4_W03_C_REMINDER_CIVIL_DUE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_B_MATTER_REVIEW_APPLY_B7_PASS_20261119.md",
-        "blob_sha": "e6c9e8d5d83f85ea52dd20015e5eca44ab16ba24",
+        "path": "docs/v5/FARO_S4_W03_C_REMINDER_CIVIL_DUE_B7_PASS_20261119.md",
+        "blob_sha": "ff9bca02102fb9a8f72f75a97d77d0d23f3ce7f5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-C B1–B5 own blob verified; W03-B prior B7 8/8 PASS retained. Guard 44553464609 SUCCESS. Exact three routes ONLY.",
-  "how": "No edits W03-A/B/W01/W02/ReminderModel; pure recurrence projection and CI directed 10 tests. Preflight for every route against READY parent. Writer CAS and B7 after exact CI.",
+  "why": "W03-C B7 PASS 10/10 CI 44554497464, guard 44554497245, docs B7; READY consumed. W03-D requires its own B1–B5 and READY.",
+  "how": "No further W03-C code allowed without NEW audit. W03-D Reminder Review/Apply+Auxiliary local Notice next.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -86,5 +86,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44553464609,
-  "last_ci_run_id": 44546592178
+  "last_ci_run_id": 44554497464
 }
