@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV",
   "reviewed_head": "b987bdc25e85aaac14ae42dcee5e71df68f88ff8",
   "paths": [
@@ -62,23 +62,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_ACTIVE_NOTICE_HOST_XML_8_OF_8_DEV_COMPILED",
+    "B7": "PASS_SCOPED_ACTIVE_NOTICE_HOST_DEV"
   },
   "last_code_review": {
-    "sha": "032bbea4e8e9819a158dd142f6b8a84828cd0f54",
-    "unit_id": "S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_DEV",
+    "sha": "7ed59b8d770b279fbcecd7c007910e9f37d7bef0",
+    "unit_id": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B7_PASS_20261119.md",
-        "blob_sha": "dd752394f045f8941d4a46ecf2f87e3cd2259855",
+        "path": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B7_PASS_20261119.md",
+        "blob_sha": "1773d7a2a47f04a87f90e11823906b9559355156",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Avisos host preaudit guard 44610390077 SUCCESS.",
-  "how": "Exact six paths. Foreground receipt host/session and local-only reprojection.",
+  "why": "W03-D2B2B3C real Notice receipt host B7 PASS 8/8; DEV compiled. READY consumed.",
+  "how": "Next W03-D integration of owner actions, Review/Apply/receipt and recurrence to Notices. Own exact READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -89,5 +89,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44610390077,
-  "last_ci_run_id": 44609511296
+  "last_ci_run_id": 44611463388
 }

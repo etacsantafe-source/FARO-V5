@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV_READY",
+  "phase": "S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_DEV_B7_PASS_SCOPED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1347
+    "epoch": 1349
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-D2B2B3C real Avisos receipts, authorized session and restore-safe local projection. Then D, E Android, G.",
-  "checkpoint_status": "W03_D2B2B3C_ACTIVE_NOTICE_HOST_READY_VERIFY_GUARD_WRITER",
+  "next": "W03-D integrate owners and permissions in one DEV session, exact READY after preaudit guard; then UI W03-E and global W03-G. OS F deferred.",
+  "checkpoint_status": "W03_D2B2B3C_ACTIVE_RECEIPTS_B7_PUBLISHED_VERIFY_GUARD_WRITER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "032bbea4e8e9819a158dd142f6b8a84828cd0f54",
-  "last_ci_run_id": 44609511296,
+  "last_code_sha": "7ed59b8d770b279fbcecd7c007910e9f37d7bef0",
+  "last_ci_run_id": 44611463388,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_AUX4_DURABLE_CUTOVER_JVM_6_OF_6",
+  "last_ci_conclusion": "SUCCESS_ACTIVE_NOTICE_HOST_SQLITE_JVM_8_OF_8_DEV_COMPILED",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5588,9 +5588,20 @@
     "b7_doc": "docs/v5/FARO_S4_W03_D2B2B3B_AUX4_DURABLE_CUTOVER_B7_PASS_20261119.md"
   },
   "w03_d2b2b3c": {
-    "status": "READY",
+    "status": "PASS_SCOPED_ACTIVE_NOTICE_HOST_DEV",
     "document": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B1_B5_20261119.md",
     "reviewed_head": "b987bdc25e85aaac14ae42dcee5e71df68f88ff8",
-    "preaudit_guard": 44610390077
+    "preaudit_guard": 44610390077,
+    "code_sha": "7ed59b8d770b279fbcecd7c007910e9f37d7bef0",
+    "ci_run_id": 44611463388,
+    "guard_run_id": 44611463263,
+    "xml": "8/8",
+    "artifact_id": 14573506616,
+    "artifact_sha256": "sha256:72927b834536ca5e301e0f9bd231ae844d5eea9aa77f6862d57f1e8f0533645d",
+    "b7_doc": "docs/v5/FARO_S4_W03_D2B2B3C_ACTIVE_NOTICE_RECEIPT_HOST_B7_PASS_20261119.md"
+  },
+  "w03_d_integration": {
+    "status": "PREAUDIT",
+    "document": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B1_B5_20261119.md"
   }
 }
