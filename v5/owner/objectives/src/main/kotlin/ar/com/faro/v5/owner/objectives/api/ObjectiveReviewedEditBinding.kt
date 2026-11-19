@@ -36,6 +36,11 @@ class ObjectiveReviewedEditBinding(
             catalog.current(operationId) != contract || prepared.dependencyStamps != DependencyStampSet.empty()
         ) return null
         val snapshot = persistence.read()
+        val plan = ObjectivePlanCodec.decodeIntent(prepared.payload)
+        if (plan != null) {
+            if (operationId != ObjectiveReviewOperations.UPDATE) return null
+            return plan.applyOn(snapshot)
+        }
         val history = ObjectiveHistoryPayload.decode(prepared.payload)
         if (history != null) {
             if (history.operation != operationId || snapshot.revision != history.expectedRevision) return null

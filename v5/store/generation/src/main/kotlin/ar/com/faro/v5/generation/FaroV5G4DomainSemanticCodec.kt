@@ -13,6 +13,8 @@ import ar.com.faro.v5.owner.objectives.api.ObjectiveMeasurement
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetric
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetricUnit
 import ar.com.faro.v5.owner.objectives.api.ObjectivePriority
+import ar.com.faro.v5.owner.objectives.api.ObjectivePlan
+import ar.com.faro.v5.owner.objectives.api.ObjectivePlanCodec
 import ar.com.faro.v5.owner.objectives.api.ObjectiveId
 import ar.com.faro.v5.owner.objectives.api.ObjectiveRecord
 import ar.com.faro.v5.owner.objectives.api.ObjectiveSnapshot
@@ -37,6 +39,7 @@ object FaroV5G4DomainSemanticCodec {
     private const val LEGACY_VERSION = 1
     private const val EXTENDED_VERSION = 2
     private const val HISTORY_VERSION = 3
+    private const val PLAN_VERSION = 4
     private const val REALITY_SCHEMA = 7
     private const val MAX_ROWS = 100_000
     private const val MAX_FIELD_BYTES = 16_384
@@ -45,6 +48,7 @@ object FaroV5G4DomainSemanticCodec {
     fun encode(snapshot: RealityDomainBackupSnapshot): ByteArray {
         validate(snapshot)
         val version = when {
+            snapshot.objectives.objectives.any { it.details.plan != ObjectivePlan() } -> PLAN_VERSION
             snapshot.objectives.objectives.any { it.details.history.isNotEmpty() } -> HISTORY_VERSION
             snapshot.objectives.objectives.any { it.details != ObjectiveDetails() } -> EXTENDED_VERSION
             else -> LEGACY_VERSION
@@ -71,6 +75,11 @@ object FaroV5G4DomainSemanticCodec {
                             output.write(bytes)
                         }
                     }
+                    if (version >= PLAN_VERSION) {
+                        val plan = ObjectivePlanCodec.encode(item.details.plan)
+                        output.writeInt(plan.size)
+                        output.write(plan)
+                    }
                 }
                 output.writeLong(snapshot.matters.revision)
                 output.writeInt(snapshot.matters.matters.size)
@@ -93,7 +102,7 @@ object FaroV5G4DomainSemanticCodec {
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "invalid G4 section magic" }
             val version = input.readInt()
-            check(version in LEGACY_VERSION..HISTORY_VERSION) {
+            check(version in LEGACY_VERSION..PLAN_VERSION) {
                 "unsupported G4 section version"
             }
             val schema = input.readInt()
@@ -113,14 +122,22 @@ object FaroV5G4DomainSemanticCodec {
                         require(size in 1..ObjectiveHistoryEntryCodec.MAX_BYTES && size <= input.available())
                         ObjectiveHistoryEntryCodec.decode(ByteArray(size).also(input::readFully))
                     }
-                    add(ObjectiveRecord(id, title, detail, status, updatedAt, details.copy(history = history)))
+                    val plan = if (version < PLAN_VERSION) ObjectivePlan() else {
+                        val size = input.readInt()
+                        require(size in 1..ObjectivePlanCodec.MAX_BYTES && size <= input.available())
+                        ObjectivePlanCodec.decode(ByteArray(size).also(input::readFully))
+                    }
+                    add(ObjectiveRecord(id, title, detail, status, updatedAt, details.copy(history = history, plan = plan)))
                 }
             }
             check(version == LEGACY_VERSION || objectives.any { it.details != ObjectiveDetails() }) {
                 "noncanonical G4 extension"
             }
-            check(version < HISTORY_VERSION || objectives.any { it.details.history.isNotEmpty() }) {
+            check(version != HISTORY_VERSION || objectives.any { it.details.history.isNotEmpty() }) {
                 "Noncanonical G4 history version"
+            }
+            check(version != PLAN_VERSION || objectives.any { it.details.plan != ObjectivePlan() }) {
+                "Noncanonical G4 plan version"
             }
             val matterRevision = input.readLong()
             val matterCount = getCount(input)

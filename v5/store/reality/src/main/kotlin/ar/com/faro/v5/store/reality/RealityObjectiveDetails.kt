@@ -10,14 +10,17 @@ import ar.com.faro.v5.owner.objectives.api.ObjectiveMeasurement
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetric
 import ar.com.faro.v5.owner.objectives.api.ObjectiveMetricUnit
 import ar.com.faro.v5.owner.objectives.api.ObjectivePriority
+import ar.com.faro.v5.owner.objectives.api.ObjectivePlan
+import ar.com.faro.v5.owner.objectives.api.ObjectivePlanCodec
 import java.time.LocalDate
 
 /** Extension of the existing objective owner, on the caller's Reality connection. */
 internal class RealityObjectiveDetails(private val connection: SQLiteConnection) {
     fun read(): Map<ObjectiveId, ObjectiveDetails> {
         val history = readHistory()
+        val plans = readPlans()
         if (!installed()) {
-            check(history.isEmpty()) { "Orphan Objective history schema" }
+            check(history.isEmpty() && plans.isEmpty()) { "Orphan Objective extension" }
             return emptyMap()
         }
         val measurements = mutableMapOf<ObjectiveId, MutableList<ObjectiveMeasurement>>()
@@ -47,10 +50,13 @@ internal class RealityObjectiveDetails(private val connection: SQLiteConnection)
                         priority = ObjectivePriority.valueOf(st.getText(2)),
                         measurements = measurements.remove(id).orEmpty(),
                         history = history.remove(id).orEmpty(),
+                        plan = plans.remove(id) ?: ObjectivePlan(),
                     ))
                 }
             }
-            check(measurements.isEmpty() && history.isEmpty()) { "Orphan objective history or measurement" }
+            check(measurements.isEmpty() && history.isEmpty() && plans.isEmpty()) {
+                "Orphan objective details"
+            }
         }
     }
 
@@ -60,6 +66,7 @@ internal class RealityObjectiveDetails(private val connection: SQLiteConnection)
         require(updated.retainsHistoryOf(previous)) { "Objective history is append-only" }
 
         if (updated == ObjectiveDetails()) {
+            writePlan(id, previous.plan, updated.plan)
             connection.prepare("DELETE FROM objective_details WHERE objective_id = ?").use { st ->
                 st.bindText(1, id.value)
                 st.step()
@@ -110,7 +117,53 @@ internal class RealityObjectiveDetails(private val connection: SQLiteConnection)
             }
         }
         appendHistory(id, previous.history.size, updated.history)
+        writePlan(id, previous.plan, updated.plan)
     }
+
+    private fun readPlans(): MutableMap<ObjectiveId, ObjectivePlan> {
+        val plans = mutableMapOf<ObjectiveId, ObjectivePlan>()
+        if (!hasPlanTable()) return plans
+        connection.prepare("SELECT objective_id, plan_blob FROM objective_plan").use { st ->
+            while (st.step()) {
+                val id = ObjectiveId.of(st.getText(0))
+                val plan = ObjectivePlanCodec.decode(st.getBlob(1))
+                check(plan != ObjectivePlan()) { "Stored objective plan must have content" }
+                plans[id] = plan
+            }
+        }
+        return plans
+    }
+
+    private fun writePlan(id: ObjectiveId, previous: ObjectivePlan, plan: ObjectivePlan) {
+        if (previous == plan) return
+        if (plan == ObjectivePlan()) {
+            connection.prepare("DELETE FROM objective_plan WHERE objective_id = ?").use { st ->
+                st.bindText(1, id.value)
+                st.step()
+            }
+            return
+        }
+        if (!hasPlanTable()) {
+            connection.execSQL("""
+                CREATE TABLE objective_plan (
+                    objective_id TEXT NOT NULL PRIMARY KEY REFERENCES objective_details(objective_id),
+                    plan_blob BLOB NOT NULL CHECK(length(plan_blob) BETWEEN 1 AND 40000)
+                )
+            """.trimIndent())
+        }
+        connection.prepare("""
+            INSERT INTO objective_plan(objective_id, plan_blob) VALUES (?, ?)
+            ON CONFLICT(objective_id) DO UPDATE SET plan_blob = excluded.plan_blob
+        """.trimIndent()).use { st ->
+            st.bindText(1, id.value)
+            st.bindBlob(2, ObjectivePlanCodec.encode(plan))
+            st.step()
+        }
+    }
+
+    private fun hasPlanTable(): Boolean = connection.prepare(
+        "SELECT 1 FROM sqlite_schema WHERE type = 'table' AND name = 'objective_plan'"
+    ).use { it.step() }
 
     private fun readHistory(): MutableMap<ObjectiveId, MutableList<ObjectiveHistoryEntry>> {
         val result = mutableMapOf<ObjectiveId, MutableList<ObjectiveHistoryEntry>>()

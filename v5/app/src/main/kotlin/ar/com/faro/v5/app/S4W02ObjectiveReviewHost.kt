@@ -29,6 +29,7 @@ internal class S4W02ObjectiveReviewHost(
     private val ownerReady: () -> Boolean,
     private val trustedForeground: () -> Boolean,
     policy: Planning8TrustedObjectPolicyPort,
+    private val referenceAuthority: ObjectiveReferenceAuthority? = null,
 ) : AutoCloseable {
     @Volatile private var closed = false
     private val grants = FaroV5Planning8ObjectGrantOwner(
@@ -52,22 +53,22 @@ internal class S4W02ObjectiveReviewHost(
         localRequestId: String,
     ): WorkspacePlanReviewWriteResult? {
         if (operation !in ObjectiveReviewOperations.editable) return null
-    val form = intent.form
-    val action = if (operation == ObjectiveReviewOperations.CREATE) "Crear" else "Editar"
-    val summary = buildString {
-        append("$action objetivo «${form.title.value}». Prioridad ${form.priority.name}.")
-        form.dueDate?.let { append(" Fecha $it.") }
-        form.target?.let {
-            val unit = if (it.unit.kind == ObjectiveMetricUnit.Kind.MONETARY)
-                "unidades menores (${it.unit.label})" else it.unit.label
-            append(" Meta: ${it.value} $unit.")
+        val form = intent.form
+        val action = if (operation == ObjectiveReviewOperations.CREATE) "Crear" else "Editar"
+        val summary = buildString {
+            append("$action objetivo «${form.title.value}». Prioridad ${form.priority.name}.")
+            form.dueDate?.let { append(" Fecha $it.") }
+            form.target?.let {
+                val unit = if (it.unit.kind == ObjectiveMetricUnit.Kind.MONETARY)
+                    "unidades menores (${it.unit.label})" else it.unit.label
+                append(" Meta: ${it.value} $unit.")
+            }
+            if (form.detail.value.isNotEmpty()) {
+                append(" Finalidad: ")
+                append(form.detail.value.take(3000))
+                if (form.detail.value.length > 3000) append("…")
+            }
         }
-        if (form.detail.value.isNotEmpty()) {
-            append(" Finalidad: ")
-            append(form.detail.value.take(3000))
-            if (form.detail.value.length > 3000) append("…")
-        }
-    }
         return submitPrepared(chat, operation, ObjectiveEditPayload.encode(intent), summary, localRequestId)
     }
 
@@ -85,6 +86,37 @@ internal class S4W02ObjectiveReviewHost(
         }
         val summary = "Objetivo ${intent.objectiveId.value}\n$description"
         return submitPrepared(chat, intent.operation, ObjectiveHistoryPayload.encode(intent), summary, localRequestId)
+    }
+
+    fun submitPlan(
+        chat: ConversationId,
+        intent: ObjectivePlanIntent,
+        localRequestId: String,
+    ): WorkspacePlanReviewWriteResult? {
+        if (!selected(chat)) return null
+        val reference = intent.externalLinkToAdd()
+        if (reference != null && referenceAuthority?.authorized(reference) == null) return null
+        val description = when (val change = intent.change) {
+            is ObjectivePlanChange.PutStep -> buildString {
+                append(if (change.step.done) "Completar paso «" else "Guardar paso «")
+                append(change.step.title)
+                append("»")
+                change.step.dueDate?.let { append(" · Fecha $it") }
+            }
+            is ObjectivePlanChange.RemoveStep -> "Quitar próximo paso"
+            is ObjectivePlanChange.SetLink -> {
+                val source = when (change.link.owner) {
+                    ObjectiveLinkOwner.OBJECTIVE -> "Objetivos"
+                    ObjectiveLinkOwner.MATTER -> "Asuntos"
+                    ObjectiveLinkOwner.FINANCE -> "Finanzas"
+                }
+                if (change.add) "Vincular una referencia de $source" else "Quitar una referencia de $source"
+            }
+        }
+        return submitPrepared(
+            chat, ObjectiveReviewOperations.UPDATE, ObjectivePlanCodec.encodeIntent(intent),
+            description, localRequestId,
+        )
     }
 
     private fun describeReport(report: ObjectiveProgressReport): String = buildString {
@@ -148,7 +180,14 @@ internal class S4W02ObjectiveReviewHost(
             val node = objectiveNode(context, envelope) ?: return@withMaterialWrite denied
             val operation = node.preparedOperation.contract.operationId
             val payload = node.preparedOperation.payload
-            val targetId = ObjectiveHistoryPayload.decode(payload)?.takeIf { it.operation == operation }?.objectiveId
+            val objectivePlan = ObjectivePlanCodec.decodeIntent(payload)?.takeIf {
+                operation == ObjectiveReviewOperations.UPDATE
+            }
+            val reference = objectivePlan?.externalLinkToAdd()
+            val referenceEpoch = if (reference == null) null
+                else referenceAuthority?.authorized(reference)?.first ?: return@withMaterialWrite denied
+            val targetId = objectivePlan?.objectiveId
+                ?: ObjectiveHistoryPayload.decode(payload)?.takeIf { it.operation == operation }?.objectiveId
                 ?: ObjectiveEditPayload.decode(payload)?.takeIf { operation in ObjectiveReviewOperations.editable }?.form?.id
                 ?: return@withMaterialWrite denied
             val scope = Planning8ObjectScope(operation, targetId.value)
@@ -159,7 +198,9 @@ internal class S4W02ObjectiveReviewHost(
                     val authorize = ApplyTransactionAuthorizationPort { plan, identity, actual, tx ->
                         current() && attempt == identity && tx.transactionId == identity.transactionId &&
                             plan.planFingerprint == context.planFingerprint && actual == node &&
-                            grants.epochOrNull(scope, pinned) == nonce
+                            grants.epochOrNull(scope, pinned) == nonce &&
+                            (reference == null || (referenceEpoch != null &&
+                                referenceAuthority?.current(reference, referenceEpoch) == true))
                     }
                     val finalGate = ApplyTransactionFinalCommitGate { plan, identity, _, checked, tx ->
                         checked.singleOrNull() == node && authorize.isAuthorized(plan, identity, node, tx)

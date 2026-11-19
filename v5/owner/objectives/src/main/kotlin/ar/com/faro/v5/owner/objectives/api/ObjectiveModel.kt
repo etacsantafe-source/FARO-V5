@@ -90,6 +90,7 @@ data class ObjectiveDetails(
     val priority: ObjectivePriority = ObjectivePriority.NORMAL,
     val measurements: List<ObjectiveMeasurement> = emptyList(),
     val history: List<ObjectiveHistoryEntry> = emptyList(),
+    val plan: ObjectivePlan = ObjectivePlan(),
 ) {
     init {
         require(measurements.size <= 100_000 && measurements.indices.all { measurements[it].sequence == it + 1 }) {
@@ -149,6 +150,7 @@ data class ObjectiveSnapshot(
         require(objectives.map { it.id }.distinct().size == objectives.size) {
             "duplicate objective id"
         }
+        requireAcyclicObjectiveLinks(objectives)
     }
 }
 

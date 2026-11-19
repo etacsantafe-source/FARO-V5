@@ -1,0 +1,65 @@
+name: FARO V5 W02-D Objectives steps and links
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveModel.kt
+      - v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectivePlan.kt
+      - v5/owner/objectives/src/main/kotlin/ar/com/faro/v5/owner/objectives/api/ObjectiveReviewedEditBinding.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityObjectiveDetails.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W02ObjectiveReviewHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W02ObjectivePlanTest.kt
+      - .github/workflows/faro-v5-s4-w02-d-objective-plan.yml
+
+permissions:
+  contents: read
+
+jobs:
+  objectives-plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Verify steps, links and W02 regressions with SQLite
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W02ObjectivePlanTest --tests ar.com.faro.v5.app.S4W02ObjectiveHistoryTest --tests ar.com.faro.v5.app.S4W02ObjectiveReviewHostTest
+      - name: Verify precise Objective Review XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/app/build/test-results').rglob('TEST-*S4W02ObjectivePlanTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          totals = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+          assert totals == (3, 0, 0, 0), totals
+          print('S4W02ObjectivePlanTest 3/3 PASS')
+          PY
+      - name: Preserve JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w02-d-objective-plan-xml
+          if-no-files-found: error
+          path: |
+            v5/app/build/test-results/**/TEST-*S4W02Objective*.xml
