@@ -1,22 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
-  "reviewed_head": "acb1925d377873616ddeb2ceda1e46aeef18c316",
+  "status": "READY",
+  "unit_id": "S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_DEV",
+  "reviewed_head": "8f2a28446e5c9a982f43c0b1797c752a310f6ef1",
   "paths": [
     "v5/store/auxiliary/src/main/kotlin/ar/com/faro/v5/store/auxiliary/AuxiliaryDeliveryStore.kt",
-    "v5/store/auxiliary/src/test/kotlin/ar/com/faro/v5/store/auxiliary/S4W03AuxiliaryNoticeAttentionCasTest.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W03NoticeAttentionCasHostTest.kt",
-    ".github/workflows/faro-v5-s4-w03-d2b1-attention-cas.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/S4W03NoticeReceiptStage4Test.kt",
+    ".github/workflows/faro-v5-s4-w03-d2b2a-stage4-receipts.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
-          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
+          "path": "docs/v5/FARO_S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_B1_B5_20261119.md",
+          "blob_sha": "90d5c14eaf474b380d6a81c08324a9088f6c6b88",
           "marker": "## B1"
         }
       ]
@@ -25,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
-          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
+          "path": "docs/v5/FARO_S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_B1_B5_20261119.md",
+          "blob_sha": "90d5c14eaf474b380d6a81c08324a9088f6c6b88",
           "marker": "## B2"
         }
       ]
@@ -35,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
-          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
+          "path": "docs/v5/FARO_S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_B1_B5_20261119.md",
+          "blob_sha": "90d5c14eaf474b380d6a81c08324a9088f6c6b88",
           "marker": "## B3"
         }
       ]
@@ -45,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
-          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
+          "path": "docs/v5/FARO_S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_B1_B5_20261119.md",
+          "blob_sha": "90d5c14eaf474b380d6a81c08324a9088f6c6b88",
           "marker": "## B4"
         }
       ]
@@ -55,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B1_B5_20261119.md",
-          "blob_sha": "3c680487cf0d99f94fa17e6e3673a24d836626f3",
+          "path": "docs/v5/FARO_S4_W03_D2B2A_STAGE4_NOTICE_RECEIPTS_B1_B5_20261119.md",
+          "blob_sha": "90d5c14eaf474b380d6a81c08324a9088f6c6b88",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_SQLITE_FINANCE9_DEV_JVM_8_OF_8",
-    "B7": "PASS_SCOPED_W03_D2B1_NOTICE_ATTENTION_CAS_DEV_JVM_8_OF_8"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "156d5ac185c0a8aaf1ee3f842bceb84b755697ef",
@@ -76,8 +75,8 @@
       }
     ]
   },
-  "why": "W03-D2B1 seen/dismiss CAS B7 scoped DEV 8/8, CI44586288009 SUCCESS guard44586287930 SUCCESS, artifact14559654491. READY consumed. D2B2 receipt ledger NOT_RUN.",
-  "how": "Durable NoticeSnapshot attention+revision atomic CAS and separate DEV object policy; no receipt-key replay ledger, no schema4, no shipping UI. Next W03-D2B2 separate B1-B5/READY.",
+  "why": "D2B2A isolated staged V3->V4 Notice receipts B1-B5 approved exact4 guard 44589970857 SUCCESS. No active migration, no FBS2 export/restore, production OFF.",
+  "how": "Develop schema4 only on verified quiescent sealed STAGED generation; durable request-key CAS+receipt and guards; directed generation tests + Auxiliary regression, XML/CI.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,6 +86,6 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44583237000,
-  "last_ci_run_id": 44586288009
+  "preaudit_guard": 44589970857,
+  "last_ci_run_id": null
 }
