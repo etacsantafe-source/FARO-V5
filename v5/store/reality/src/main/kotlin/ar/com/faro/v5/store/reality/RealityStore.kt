@@ -471,13 +471,13 @@ class RealityStore(
     fun planningDueReadOwnersForTrustedHost(): RealityPlanningDueReadOwners =
         synchronized(lock) {
             checkOpen()
-            check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-                "Planning due read requires existing Reality schema8"
+            check(isPlanningBackupSchemaMounted()) {
+                "Planning due read requires admitted Reality8/Finance9"
             }
             fun checkedSnapshot(): RealityPlanningBackupSnapshot = synchronized(lock) {
                 checkOpen()
-                check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-                    "Planning due source no longer schema8"
+                check(isPlanningBackupSchemaMounted()) {
+                    "Planning due source no longer mounted Reality8/Finance9"
                 }
                 check(activeTransactionId == null) {
                     "Planning due read cannot observe uncommitted Reality Apply"
@@ -562,8 +562,8 @@ class RealityStore(
         linkedMatterGranted: (String) -> Boolean = { false },
     ): List<S4W03ReminderMutationBinding> = synchronized(lock) {
         checkOpen()
-        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-            "Reminder mutation bindings require existing Reality schema8"
+        check(isPlanningBackupSchemaMounted()) {
+            "Reminder mutation bindings require admitted Reality8/Finance9"
         }
         S4W03ReminderOperations.supported.map { operation ->
             S4W03ReminderMutationBinding(
@@ -3180,8 +3180,8 @@ class RealityStore(
         command: RealityPlanningStageInsert,
     ): RealityPlanningBackupSnapshot {
         checkOpen()
-        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-            "Planning insert requires an explicit isolated schema8 stage"
+        check(isPlanningBackupSchemaMounted()) {
+            "Planning Apply insert requires admitted Reality8/Finance9"
         }
         require(command.expectedOwnerRevision in 0 until Long.MAX_VALUE) {
             "Planning owner CAS revision cannot be negative or overflow"
@@ -3333,8 +3333,8 @@ class RealityStore(
         checkOpen()
         requireActiveScope(scope)
         check(activeApplyScope === scope) { "Reminder mutation needs exact active Apply SQL lease" }
-        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
-            "Reminder mutation requires active isolated Reality8"
+        check(isPlanningBackupSchemaMounted()) {
+            "Reminder mutation requires admitted Reality8/Finance9"
         }
         check(change.expectedRevision in 0 until Long.MAX_VALUE)
         val before = readPlanningSnapshot()
