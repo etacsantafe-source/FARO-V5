@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W02_A_OBJECTIVE_PERSISTENCE",
   "reviewed_head": "8a4f7add19c612435421b47f19eebf026d2ef117",
   "paths": [
@@ -63,22 +63,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_REAL_SQLITE_JVM_AND_G4_BACKUP_XML",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "6b4bf55ad002e50287fcad5616fcc5c6d6b72f0f",
-    "unit_id": "S4_W01_F2_IMPORTED_CURRENCY_UI",
+    "sha": "6c1d1edea9b64015dd0ba2dbc5c6919f186c1ceb",
+    "unit_id": "S4_W02_A_OBJECTIVE_PERSISTENCE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W01_FINANCE_B7_GLOBAL_PASS_20261118.md",
-        "blob_sha": "f3252d961041575bea7ad9862d1a3fdf3e935b50",
+        "path": "docs/v5/FARO_S4_W02_A_OBJECTIVE_PERSISTENCE_B7_PASS_20261118.md",
+        "blob_sha": "9e24c4d8ff12ab73d796c9a84d6e3d9cc1817ba8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W02-A preaudit addresses durable Objective fields, historical upgrades and G4 backup without changing W01.",
+  "why": "W02-A verified in JVM. W02-B requires its own READY after its preaudit guard.",
   "how": "Preaudit guard 44439791813 SUCCESS. Exact path preflight and current guard required before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
