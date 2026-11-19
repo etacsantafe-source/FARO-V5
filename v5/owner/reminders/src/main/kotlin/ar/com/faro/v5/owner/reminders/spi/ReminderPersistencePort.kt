@@ -40,3 +40,31 @@ interface ReminderCancellationPersistencePort : ReminderSnapshotReadApi {
         transactionScope: RealityTransactionScope,
     ): ReminderSnapshot
 }
+
+/**
+ * W03-D1 reviewed mutations. Every call MUST run within the existing active
+ * Reality Apply SQL transaction and CAS the one Reminder owner revision.
+ * These are not raw UI methods, independent transactions or grants.
+ */
+interface ReminderMutationPersistencePort : ReminderSnapshotReadApi {
+    fun updateRule(
+        original: ReminderRule,
+        revised: ReminderRule,
+        expectedOwnerRevision: Long,
+        transactionScope: RealityTransactionScope,
+    ): ReminderSnapshot
+
+    fun cancelReviewedRule(
+        original: ReminderRule,
+        cancelledAtEpochMillis: Long,
+        expectedOwnerRevision: Long,
+        transactionScope: RealityTransactionScope,
+    ): ReminderSnapshot
+
+    fun attendOccurrence(
+        acknowledged: ar.com.faro.v5.owner.reminders.api.ReminderOccurrence,
+        expectedOwnerRevision: Long,
+        transactionScope: RealityTransactionScope,
+    ): ReminderSnapshot
+}
+

@@ -79,6 +79,7 @@ import ar.com.faro.v5.owner.matters.spi.MatterPersistencePort
 import ar.com.faro.v5.owner.reminders.api.*
 import ar.com.faro.v5.owner.monthlyplan.api.*
 import ar.com.faro.v5.owner.reminders.spi.ReminderPersistencePort
+import ar.com.faro.v5.owner.reminders.spi.ReminderMutationPersistencePort
 import ar.com.faro.v5.owner.reminders.spi.ReminderCancellationPersistencePort
 import ar.com.faro.v5.owner.reminders.spi.ReminderOwnerDependency
 import ar.com.faro.v5.owner.monthlyplan.spi.MonthlyPlanPersistencePort
@@ -402,6 +403,45 @@ class RealityStore(
                     RealityPlanningStageInsert.Rule(rule, expectedOwnerRevision),
                     transactionScope,
                 ).reminders
+        }
+
+    /**
+     * W03-D1: typed reviewed Reminder mutation SPI. ONLY available to a trusted
+     * isolated DEV Review/Apply host; same active Reality transaction and receipt.
+     * Never install in shipping, nor expose raw mutation from a UI.
+     */
+    internal val reminderMutationPersistence: ReminderMutationPersistencePort =
+        object : ReminderMutationPersistencePort {
+            override fun read(): ReminderSnapshot = planningBackup.snapshot().reminders
+
+            override fun updateRule(
+                original: ReminderRule,
+                revised: ReminderRule,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): ReminderSnapshot = reviewedReminderMutation(
+                ReviewedReminderMutation.Update(original, revised, expectedOwnerRevision),
+                transactionScope,
+            )
+
+            override fun cancelReviewedRule(
+                original: ReminderRule,
+                cancelledAtEpochMillis: Long,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): ReminderSnapshot = reviewedReminderMutation(
+                ReviewedReminderMutation.Cancel(original, cancelledAtEpochMillis, expectedOwnerRevision),
+                transactionScope,
+            )
+
+            override fun attendOccurrence(
+                acknowledged: ReminderOccurrence,
+                expectedOwnerRevision: Long,
+                transactionScope: RealityTransactionScope,
+            ): ReminderSnapshot = reviewedReminderMutation(
+                ReviewedReminderMutation.Attend(acknowledged, expectedOwnerRevision),
+                transactionScope,
+            )
         }
 
     internal val monthlyPlanPersistence: MonthlyPlanPersistencePort =
@@ -3241,6 +3281,164 @@ class RealityStore(
         ) { "Planning write changed another owner or missed revision" }
         return after
     }
+
+    /** W03-D1 one-owner atomic mutation within the PREPARED Apply SQL lease. */
+    private sealed interface ReviewedReminderMutation {
+        val expectedRevision: Long
+
+        data class Update(
+            val original: ReminderRule,
+            val revised: ReminderRule,
+            override val expectedRevision: Long,
+        ) : ReviewedReminderMutation
+
+        data class Cancel(
+            val original: ReminderRule,
+            val cancelledAt: Long,
+            override val expectedRevision: Long,
+        ) : ReviewedReminderMutation
+
+        data class Attend(
+            val acknowledged: ReminderOccurrence,
+            override val expectedRevision: Long,
+        ) : ReviewedReminderMutation
+    }
+
+    private fun reviewedReminderMutation(
+        change: ReviewedReminderMutation,
+        scope: RealityTransactionScope,
+    ): ReminderSnapshot = withMaterialAdmission { synchronized(lock) {
+        checkOpen()
+        requireActiveScope(scope)
+        check(activeApplyScope === scope) { "Reminder mutation needs exact active Apply SQL lease" }
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Reminder mutation requires active isolated Reality8"
+        }
+        check(change.expectedRevision in 0 until Long.MAX_VALUE)
+        val before = readPlanningSnapshot()
+        val original = before.reminders
+        check(original.revision == change.expectedRevision) { "stale Reminder mutation CAS" }
+
+        val expected: ReminderSnapshot = when (change) {
+            is ReviewedReminderMutation.Update -> {
+                val previous = change.original
+                val revised = change.revised
+                check(previous.id == revised.id && revised != previous &&
+                    revised.updatedAtEpochMillis > previous.updatedAtEpochMillis &&
+                    original.rules.singleOrNull { it.id == previous.id } == previous
+                ) { "Reminder update source changed" }
+                connection.prepare("""
+                    UPDATE reminder_rule SET title=?,zone_id=?,anchor_local_date=?,
+                        anchor_local_time=?,recurrence=?,enabled=?,linked_matter_id=?,
+                        updated_at_epoch_millis=?
+                    WHERE rule_id=? AND updated_at_epoch_millis=?
+                """.trimIndent()).use { st ->
+                    st.bindText(1, revised.title)
+                    st.bindText(2, revised.zoneId)
+                    st.bindText(3, revised.anchorLocalDate.toString())
+                    st.bindText(4, revised.anchorLocalTime.toString())
+                    st.bindText(5, revised.recurrence.name)
+                    st.bindLong(6, if (revised.enabled) 1L else 0L)
+                    revised.linkedMatterId?.let { st.bindText(7, it) } ?: st.bindNull(7)
+                    st.bindLong(8, revised.updatedAtEpochMillis)
+                    st.bindText(9, revised.id.value)
+                    st.bindLong(10, previous.updatedAtEpochMillis)
+                    st.step()
+                }
+                original.copy(
+                    revision = original.revision + 1L,
+                    rules = original.rules.map { if (it.id == previous.id) revised else it },
+                )
+            }
+            is ReviewedReminderMutation.Cancel -> {
+                val previous = change.original
+                check(previous.enabled &&
+                    change.cancelledAt > previous.updatedAtEpochMillis &&
+                    original.rules.singleOrNull { it.id == previous.id } == previous
+                ) { "Reminder cancel source changed" }
+                connection.prepare("""
+                    UPDATE reminder_rule SET enabled=0,updated_at_epoch_millis=?
+                    WHERE rule_id=? AND enabled=1 AND updated_at_epoch_millis=?
+                """.trimIndent()).use { st ->
+                    st.bindLong(1, change.cancelledAt)
+                    st.bindText(2, previous.id.value)
+                    st.bindLong(3, previous.updatedAtEpochMillis)
+                    st.step()
+                }
+                original.copy(
+                    revision = original.revision + 1L,
+                    rules = original.rules.map {
+                        if (it.id == previous.id) it.copy(enabled = false,
+                            updatedAtEpochMillis = change.cancelledAt) else it
+                    },
+                )
+            }
+            is ReviewedReminderMutation.Attend -> {
+                val acknowledged = change.acknowledged
+                check(S4W03ReminderIntent(original.revision,
+                    S4W03ReminderChange.Attend(acknowledged)).validOn(original)
+                ) { "Reminder ATTEND is not exact pending civil occurrence" }
+                val was = original.occurrences.singleOrNull { it.id == acknowledged.id }
+                if (was == null) {
+                    connection.prepare("""
+                        INSERT INTO reminder_occurrence(
+                            occurrence_id,rule_id,due_at_epoch_millis,status,
+                            acknowledged_at_epoch_millis,updated_at_epoch_millis
+                        ) VALUES (?,?,?,?,?,?)
+                    """.trimIndent()).use { st ->
+                        st.bindText(1, acknowledged.id.value)
+                        st.bindText(2, acknowledged.ruleId.value)
+                        st.bindLong(3, acknowledged.dueAtEpochMillis)
+                        st.bindText(4, acknowledged.status.name)
+                        st.bindLong(5, requireNotNull(acknowledged.acknowledgedAtEpochMillis))
+                        st.bindLong(6, acknowledged.updatedAtEpochMillis)
+                        st.step()
+                    }
+                } else {
+                    connection.prepare("""
+                        UPDATE reminder_occurrence SET status='ACKNOWLEDGED',
+                            acknowledged_at_epoch_millis=?,updated_at_epoch_millis=?
+                        WHERE occurrence_id=? AND rule_id=? AND due_at_epoch_millis=?
+                            AND status='PENDING' AND acknowledged_at_epoch_millis IS NULL
+                    """.trimIndent()).use { st ->
+                        st.bindLong(1, requireNotNull(acknowledged.acknowledgedAtEpochMillis))
+                        st.bindLong(2, acknowledged.updatedAtEpochMillis)
+                        st.bindText(3, acknowledged.id.value)
+                        st.bindText(4, acknowledged.ruleId.value)
+                        st.bindLong(5, acknowledged.dueAtEpochMillis)
+                        st.step()
+                    }
+                }
+                original.copy(
+                    revision = original.revision + 1L,
+                    occurrences = (
+                        original.occurrences.filterNot { it.id == acknowledged.id } + acknowledged
+                    ).sortedBy { it.id.value },
+                )
+            }
+        }
+        connection.prepare("SELECT changes()").use { st ->
+            check(st.step() && st.getLong(0) == 1L) {
+                "Reminder mutation must affect exactly one owner row"
+            }
+        }
+        connection.prepare("""
+            UPDATE reminder_state SET revision=revision+1
+            WHERE singleton_id=1 AND revision=?
+        """.trimIndent()).use { st ->
+            st.bindLong(1, change.expectedRevision)
+            st.step()
+        }
+        connection.prepare("SELECT changes()").use { st ->
+            check(st.step() && st.getLong(0) == 1L) { "Reminder revision CAS failed" }
+        }
+        val after = readPlanningSnapshot()
+        check(after.reminders == expected && after.monthlyPlan == before.monthlyPlan) {
+            "Reminder mutation affected wrong owner or result"
+        }
+        check(readForeignKeysHealthy()) { "Reminder mutation broke FK" }
+        after.reminders
+    } }
 
     /**
      * N033C3 INTERNAL ONLY. Requires the exact active Apply SQL lease and
