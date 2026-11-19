@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_D2A_AUX_LOCAL_NOTICE_B7_PASS_DEV",
+  "phase": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_B7_PASS_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1315
+    "epoch": 1321
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-D2A B7 PASS scoped DEV 9/9; next W03-D2B Auxiliary NoticeAttention SEEN/DISMISSED CAS receipts and independent permission. Own B1–B5/guard/READY required. W03-E Android and G final OPEN; OS delivery deferred and G15 NOT_RUN; W03-A/B/C/D1 and W01/W02 do not repeat.",
-  "checkpoint_status": "W03_D2A_B7_DOC_PUBLISHED_VERIFY_GUARD_AND_WRITER",
+  "next": "W03-D2B1 scoped CAS B7 PASS 8/8. NEXT W03-D2B2 durable Notice attention idempotency-key receipt ledger with versioned Auxiliary schema4 STAGED-only migration, backup/restore and active preflight, own B1-B5+READY. W03-D global/W03-E/G open; OS F deferred, G15 NOT_RUN; W01/W02/W03-A/B/C/D1/D2A no repeats.",
+  "checkpoint_status": "W03_D2B1_B7_DOC_PUBLISHED_VERIFY_GUARD_AND_WRITER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "ecc21ba2d40672660420515fed56728edaa5a2b2",
-  "last_ci_run_id": 44576678840,
+  "last_code_sha": "156d5ac185c0a8aaf1ee3f842bceb84b755697ef",
+  "last_ci_run_id": 44586288009,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W03_D2A_DEV_JVM_9_OF_9",
+  "last_ci_conclusion": "SUCCESS_W03_D2B1_DEV_JVM_8_OF_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5498,5 +5498,16 @@
     "xml": "9/9",
     "b7_doc": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B7_PASS_20261119.md",
     "writer_epoch_expected": 1315
+  },
+  "w03_d2b1_checkpoint": {
+    "unit": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
+    "status": "PASS_SCOPED_DEV_SQLITE_FINANCE9_JVM_NO_REQUEST_RECEIPT_LEDGER",
+    "code_sha": "156d5ac185c0a8aaf1ee3f842bceb84b755697ef",
+    "ci_run_id": 44586288009,
+    "guard_run_id": 44586287930,
+    "artifact_id": 14559654491,
+    "xml": "8/8",
+    "b7_doc": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B7_PASS_20261119.md",
+    "writer_epoch_expected": 1321
   }
 }

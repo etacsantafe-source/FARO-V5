@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
   "reviewed_head": "acb1925d377873616ddeb2ceda1e46aeef18c316",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SQLITE_FINANCE9_DEV_JVM_8_OF_8",
+    "B7": "PASS_SCOPED_W03_D2B1_NOTICE_ATTENTION_CAS_DEV_JVM_8_OF_8"
   },
   "last_code_review": {
-    "sha": "9ce50306d9f91285eb0e8ae29e241029de01a62f",
+    "sha": "156d5ac185c0a8aaf1ee3f842bceb84b755697ef",
     "unit_id": "S4_W03_D2B1_NOTICE_ATTENTION_CAS_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B1_ATTENTION_CAS_B7_RED_FIX_20261119.md",
-        "blob_sha": "3d7a7506790cc821e752095f995a5f03d4bdbec1",
+        "path": "docs/v5/FARO_S4_W03_D2B1_NOTICE_ATTENTION_CAS_B7_PASS_20261119.md",
+        "blob_sha": "d78feec8805dc268c8b8a83e4dbc1c31059a4636",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-D2B1 RED_FIX Kotlin UNRESOLVED_REFERENCE import only in approved app test; original Auxiliary test 5/5 success. No B7 yet.",
-  "how": "RED_FIX one existing READY route S4W03NoticeAttentionCasHostTest.kt, add exact kernel.runtime verifier import; rerun full8 XML.",
+  "why": "W03-D2B1 seen/dismiss CAS B7 scoped DEV 8/8, CI44586288009 SUCCESS guard44586287930 SUCCESS, artifact14559654491. READY consumed. D2B2 receipt ledger NOT_RUN.",
+  "how": "Durable NoticeSnapshot attention+revision atomic CAS and separate DEV object policy; no receipt-key replay ledger, no schema4, no shipping UI. Next W03-D2B2 separate B1-B5/READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,5 +88,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44583237000,
-  "last_ci_run_id": 44584639967
+  "last_ci_run_id": 44586288009
 }
