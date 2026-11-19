@@ -38,12 +38,8 @@ internal class S4W03ReminderReviewHost(
     private val grants = FaroV5Planning8ObjectGrantOwner(
         principal, pinned, pointer, currentEpoch, hostEpoch, policy,
     )
-    private val bindings = S4W03ReminderOperations.supported.map { operation ->
-        S4W03ReminderMutationBinding(
-            operation, reality.reminderPersistence, reality.reminderMutationPersistence, catalog,
-        ) { id ->
-            grants.epochOrNull(matterScope(id), pinned) != null
-        }
+    private val bindings = reality.reminderMutationBindingsForTrustedHost(catalog) { id ->
+        grants.epochOrNull(matterScope(id), pinned) != null
     }
 
     private fun matterScope(id: String) = Planning8ObjectScope(
@@ -116,7 +112,7 @@ internal class S4W03ReminderReviewHost(
         val node = reminderNode(context, envelope) ?: return@withMaterialWrite denied
         val intent = S4W03ReminderMutationPayload.decode(node.preparedOperation.payload)
             ?: return@withMaterialWrite denied
-        val snapshot = runCatching { reality.reminderPersistence.read() }.getOrNull()
+        val snapshot = runCatching { reality.planningDueReadOwnersForTrustedHost().reminders.read() }.getOrNull()
             ?: return@withMaterialWrite denied
         if (!intent.validOn(snapshot)) return@withMaterialWrite denied
 

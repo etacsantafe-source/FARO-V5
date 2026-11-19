@@ -552,6 +552,28 @@ class RealityStore(
     }
 
     /**
+     * W03-D1 trusted DEV host factory. Retain all owner SPI ports INTERNAL to
+     * Reality; expose only canonical-operation bindings (never raw CRUD).
+     * The caller must still enforce Workspace Review, active generation,
+     * foreground, independent Matter-link policy and same-Apply SQL PEP.
+     */
+    fun reminderMutationBindingsForTrustedHost(
+        catalog: OperationContractLookupPort,
+        linkedMatterGranted: (String) -> Boolean = { false },
+    ): List<S4W03ReminderMutationBinding> = synchronized(lock) {
+        checkOpen()
+        check(planningStage8 && readSchemaVersion() == PLANNING_SCHEMA_VERSION) {
+            "Reminder mutation bindings require existing Reality schema8"
+        }
+        S4W03ReminderOperations.supported.map { operation ->
+            S4W03ReminderMutationBinding(
+                operation, reminderPersistence, reminderMutationPersistence,
+                catalog, linkedMatterGranted,
+            )
+        }
+    }
+
+    /**
      * N033C2B4 trusted-host composition ONLY: exposes the two EXISTING
      * owner SPI bindings, not raw CRUD nor a write/authorization capability.
      * The Android host must supply a canonical official descriptor catalog,

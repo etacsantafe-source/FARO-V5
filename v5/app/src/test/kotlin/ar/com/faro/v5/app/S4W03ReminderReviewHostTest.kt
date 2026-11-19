@@ -86,7 +86,7 @@ class S4W03ReminderReviewHostTest {
         fun submit(
             key: String,
             change: S4W03ReminderChange = S4W03ReminderChange.Create(rule()),
-            revision: Long = reality.reminderPersistence.read().revision,
+            revision: Long = reality.planningDueReadOwnersForTrustedHost().reminders.read().revision,
         ): ConversationPlanReviewSnapshot {
             val intent = S4W03ReminderIntent(revision, change)
             return (host.submit(chat, intent, key) as WorkspacePlanReviewWriteResult.Saved).review
@@ -164,15 +164,15 @@ class S4W03ReminderReviewHostTest {
         val ready = rig.approve(pending)
         val created = rig.apply(ready) as ConversationApplyHostOutcome.Committed
         assertTrue(rig.apply(ready) is ConversationApplyHostOutcome.Denied)
-        val original = rig.reality.reminderPersistence.read().rules.single()
+        val original = rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single()
         val edited = rig.approve(rig.submit(
             "update", S4W03ReminderChange.Update(
                 original, original.copy(title = "Título modificado", updatedAtEpochMillis = 200L),
             ),
         ))
         val updated = rig.apply(edited) as ConversationApplyHostOutcome.Committed
-        assertEquals(2L, rig.reality.reminderPersistence.read().revision)
-        assertEquals("Título modificado", rig.reality.reminderPersistence.read().rules.single().title)
+        assertEquals(2L, rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().revision)
+        assertEquals("Título modificado", rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single().title)
         for (receipt in listOf(created.receipt, updated.receipt)) {
             assertEquals(receipt, rig.reality.executionReceiptLookup.find(receipt.transactionId))
         }
@@ -180,14 +180,14 @@ class S4W03ReminderReviewHostTest {
 
     @Test fun cancelKeepsRuleAndAcknowledgedHistory() = Rig().use { rig ->
         rig.apply(rig.approve(rig.submit("create")))
-        val rule = rig.reality.reminderPersistence.read().rules.single()
+        val rule = rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single()
         assertTrue(rig.apply(rig.approve(rig.submit(
             "attend", S4W03ReminderChange.Attend(rig.ack(rule)),
         ))) is ConversationApplyHostOutcome.Committed)
         assertTrue(rig.apply(rig.approve(rig.submit(
             "cancel", S4W03ReminderChange.Cancel(rule, 201L),
         ))) is ConversationApplyHostOutcome.Committed)
-        val saved = rig.reality.reminderPersistence.read()
+        val saved = rig.reality.planningDueReadOwnersForTrustedHost().reminders.read()
         assertEquals(3L, saved.revision)
         assertFalse(saved.rules.single().enabled)
         assertEquals(ReminderOccurrenceStatus.ACKNOWLEDGED, saved.occurrences.single().status)
@@ -195,23 +195,23 @@ class S4W03ReminderReviewHostTest {
 
     @Test fun attendRejectsForgedCivilIdAndCannotDoubleAcknowledge() = Rig().use { rig ->
         rig.apply(rig.approve(rig.submit("create")))
-        val rule = rig.reality.reminderPersistence.read().rules.single()
+        val rule = rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single()
         val valid = rig.ack(rule)
         val forged = valid.copy(id = ReminderOccurrenceId.of("fake"))
         assertFalse(S4W03ReminderIntent(1L,
-            S4W03ReminderChange.Attend(forged)).validOn(rig.reality.reminderPersistence.read()))
+            S4W03ReminderChange.Attend(forged)).validOn(rig.reality.planningDueReadOwnersForTrustedHost().reminders.read()))
         val ready = rig.approve(rig.submit(
             "valid-ack", S4W03ReminderChange.Attend(valid),
         ))
         assertTrue(rig.apply(ready) is ConversationApplyHostOutcome.Committed)
         assertFalse(S4W03ReminderIntent(2L,
-            S4W03ReminderChange.Attend(valid)).validOn(rig.reality.reminderPersistence.read()))
-        assertEquals(1, rig.reality.reminderPersistence.read().occurrences.size)
+            S4W03ReminderChange.Attend(valid)).validOn(rig.reality.planningDueReadOwnersForTrustedHost().reminders.read()))
+        assertEquals(1, rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().occurrences.size)
     }
 
     @Test fun concurrentStaleAndDiscardNeverOverwrite() = Rig().use { rig ->
         rig.apply(rig.approve(rig.submit("create")))
-        val old = rig.reality.reminderPersistence.read().rules.single()
+        val old = rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single()
         val first = rig.approve(rig.submit(
             "edit-one", S4W03ReminderChange.Update(old,
                 old.copy(title = "Uno", updatedAtEpochMillis = 201L)),
@@ -224,11 +224,11 @@ class S4W03ReminderReviewHostTest {
         assertTrue(rig.apply(stale) is ConversationApplyHostOutcome.Denied)
         val discarded = rig.discard(rig.submit(
             "discard", S4W03ReminderChange.Cancel(
-                rig.reality.reminderPersistence.read().rules.single(), 500L,
+                rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single(), 500L,
             ),
         ))
         assertTrue(rig.apply(discarded) is ConversationApplyHostOutcome.Denied)
-        assertEquals("Uno", rig.reality.reminderPersistence.read().rules.single().title)
+        assertEquals("Uno", rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single().title)
     }
 
     @Test fun foregroundPolicyAndSelectionDeny() = Rig().use { rig ->
@@ -241,7 +241,7 @@ class S4W03ReminderReviewHostTest {
         rig.foreground = true
         rig.select(ConversationId("another-reminder-chat"))
         assertTrue(rig.apply(ready) is ConversationApplyHostOutcome.Denied)
-        assertEquals(0L, rig.reality.reminderPersistence.read().revision)
+        assertEquals(0L, rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().revision)
     }
 
     @Test fun linkedMatterRequiresIndependentGrant() = Rig().use { rig ->
@@ -249,16 +249,16 @@ class S4W03ReminderReviewHostTest {
         val pending = rig.submit("linked", S4W03ReminderChange.Create(rig.rule(matter = "m1")))
         val ready = rig.approve(pending)
         assertTrue(rig.apply(ready) is ConversationApplyHostOutcome.Denied)
-        assertEquals(0L, rig.reality.reminderPersistence.read().revision)
+        assertEquals(0L, rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().revision)
         rig.linkAllows = true
         assertTrue(rig.apply(ready) is ConversationApplyHostOutcome.Committed)
-        assertEquals("m1", rig.reality.reminderPersistence.read().rules.single().linkedMatterId)
-        assertEquals(1L, rig.reality.reminderPersistence.read().revision)
+        assertEquals("m1", rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().rules.single().linkedMatterId)
+        assertEquals(1L, rig.reality.planningDueReadOwnersForTrustedHost().reminders.read().revision)
         assertEquals(1L, rig.reality.matterPersistence.read().revision)
     }
 
     @Test fun canonicalTamperingAndReconcileOnlyFailClosed() = Rig().use { rig ->
-        val before = rig.reality.reminderPersistence.read()
+        val before = rig.reality.planningDueReadOwnersForTrustedHost().reminders.read()
         val intent = S4W03ReminderIntent(0L,
             S4W03ReminderChange.Create(rig.rule()))
         val original = S4W03ReminderMutationPayload.encode(intent)
@@ -271,6 +271,6 @@ class S4W03ReminderReviewHostTest {
         assertTrue(rig.host.reconcileCommittedOnly(
             pending.context(),
         ) is ConversationApplyHostOutcome.Denied)
-        assertEquals(before, rig.reality.reminderPersistence.read())
+        assertEquals(before, rig.reality.planningDueReadOwnersForTrustedHost().reminders.read())
     }
 }
