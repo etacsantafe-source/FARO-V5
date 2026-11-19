@@ -1,0 +1,89 @@
+name: FARO V5 W03-A Matters typed persistence
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterModel.kt
+      - v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityMatterDetails.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W03MatterDetailsTest.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5MatterDetailsBackupTest.kt
+      - .github/workflows/faro-v5-s4-w03-a-matter-persistence.yml
+
+permissions:
+  contents: read
+
+jobs:
+  matter-persistence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Exact-route B1-B5 preflight against code commit parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W03_A_MATTER_DETAILS_PERSISTENCE
+          for PATH_IN_SCOPE in \
+            v5/owner/matters/src/main/kotlin/ar/com/faro/v5/owner/matters/api/MatterModel.kt \
+            v5/owner/matters/src/test/kotlin/ar/com/faro/v5/owner/matters/MatterModelTest.kt \
+            v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
+            v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityMatterDetails.kt \
+            v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/S4W03MatterDetailsTest.kt \
+            v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5G4DomainSemanticCodec.kt \
+            v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5MatterDetailsBackupTest.kt \
+            .github/workflows/faro-v5-s4-w03-a-matter-persistence.yml
+          do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$PATH_IN_SCOPE"
+          done
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test W03-A, rollback and shared G4 / Finance9 restore
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :owner:matters:test \
+            :store:reality:test --tests '*S4W03MatterDetailsTest' --tests '*RealityG4DomainRestoreT2Test' \
+            :store:generation:test --tests '*FaroV5MatterDetailsBackupTest' --tests '*FaroV5ObjectiveDetailsBackupTest' --tests '*FaroV5Fbs2G4CodecTest' --tests '*FaroV5Finance9FullArchiveCoordinatorTest'
+      - name: Verify new XML assertions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          for module, suite, count in [
+              ('owner/matters', 'MatterModelTest', 6),
+              ('store/reality', 'S4W03MatterDetailsTest', 3),
+              ('store/generation', 'FaroV5MatterDetailsBackupTest', 2),
+          ]:
+              root = Path('v5') / module / 'build/test-results/test'
+              reports = list(root.glob(f'TEST-*{suite}.xml'))
+              assert len(reports) == 1, reports
+              xml = ElementTree.parse(reports[0]).getroot()
+              totals = tuple(int(xml.attrib[k]) for k in ('tests','failures','errors','skipped'))
+              assert totals == (count,0,0,0), (suite,totals)
+              print(f'{suite} {count}/{count} PASS')
+          PY
+      - name: Preserve JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w03-a-matter-persistence-xml
+          if-no-files-found: error
+          path: v5/**/build/test-results/test/TEST-*.xml

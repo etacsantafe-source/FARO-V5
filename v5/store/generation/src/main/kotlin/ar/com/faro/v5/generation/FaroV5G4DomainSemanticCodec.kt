@@ -1,6 +1,10 @@
 package ar.com.faro.v5.generation
 
 import ar.com.faro.v5.owner.matters.api.MatterDetail
+import ar.com.faro.v5.owner.matters.api.MatterDetails
+import ar.com.faro.v5.owner.matters.api.MatterHistoryEntry
+import ar.com.faro.v5.owner.matters.api.MatterHistoryKind
+import ar.com.faro.v5.owner.matters.api.MatterPriority
 import ar.com.faro.v5.owner.matters.api.MatterId
 import ar.com.faro.v5.owner.matters.api.MatterRecord
 import ar.com.faro.v5.owner.matters.api.MatterSnapshot
@@ -40,6 +44,7 @@ object FaroV5G4DomainSemanticCodec {
     private const val EXTENDED_VERSION = 2
     private const val HISTORY_VERSION = 3
     private const val PLAN_VERSION = 4
+    private const val MATTER_VERSION = 5
     private const val REALITY_SCHEMA = 7
     private const val MAX_ROWS = 100_000
     private const val MAX_FIELD_BYTES = 16_384
@@ -48,6 +53,7 @@ object FaroV5G4DomainSemanticCodec {
     fun encode(snapshot: RealityDomainBackupSnapshot): ByteArray {
         validate(snapshot)
         val version = when {
+            snapshot.matters.matters.any { it.details != MatterDetails() } -> MATTER_VERSION
             snapshot.objectives.objectives.any { it.details.plan != ObjectivePlan() } -> PLAN_VERSION
             snapshot.objectives.objectives.any { it.details.history.isNotEmpty() } -> HISTORY_VERSION
             snapshot.objectives.objectives.any { it.details != ObjectiveDetails() } -> EXTENDED_VERSION
@@ -91,6 +97,7 @@ object FaroV5G4DomainSemanticCodec {
                     output.writeBoolean(item.dueAtEpochMillis != null)
                     item.dueAtEpochMillis?.let(output::writeLong)
                     output.writeLong(item.updatedAtEpochMillis)
+                    if (version >= MATTER_VERSION) putMatterDetails(output, item.details)
                 }
             }
             buffer.toByteArray()
@@ -102,7 +109,7 @@ object FaroV5G4DomainSemanticCodec {
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "invalid G4 section magic" }
             val version = input.readInt()
-            check(version in LEGACY_VERSION..PLAN_VERSION) {
+            check(version in LEGACY_VERSION..MATTER_VERSION) {
                 "unsupported G4 section version"
             }
             val schema = input.readInt()
@@ -130,7 +137,7 @@ object FaroV5G4DomainSemanticCodec {
                     add(ObjectiveRecord(id, title, detail, status, updatedAt, details.copy(history = history, plan = plan)))
                 }
             }
-            check(version == LEGACY_VERSION || objectives.any { it.details != ObjectiveDetails() }) {
+            check(version !in EXTENDED_VERSION..PLAN_VERSION || objectives.any { it.details != ObjectiveDetails() }) {
                 "noncanonical G4 extension"
             }
             check(version != HISTORY_VERSION || objectives.any { it.details.history.isNotEmpty() }) {
@@ -143,19 +150,22 @@ object FaroV5G4DomainSemanticCodec {
             val matterCount = getCount(input)
             val matters = buildList(matterCount) {
                 repeat(matterCount) {
-                    add(MatterRecord(
-                        id = MatterId.of(getText(input)),
-                        title = MatterTitle.of(getText(input)),
-                        detail = MatterDetail.of(getText(input)),
-                        status = MatterStatus.valueOf(getText(input)),
-                        dueAtEpochMillis = when (input.readUnsignedByte()) {
-                            0 -> null
-                            1 -> input.readLong()
-                            else -> error("invalid G4 due-date presence flag")
-                        },
-                        updatedAtEpochMillis = input.readLong(),
-                    ))
+                    val id = MatterId.of(getText(input))
+                    val title = MatterTitle.of(getText(input))
+                    val detail = MatterDetail.of(getText(input))
+                    val status = MatterStatus.valueOf(getText(input))
+                    val dueAt = when (input.readUnsignedByte()) {
+                        0 -> null
+                        1 -> input.readLong()
+                        else -> error("invalid G4 due-date presence flag")
+                    }
+                    val updatedAt = input.readLong()
+                    val details = if (version >= MATTER_VERSION) getMatterDetails(input) else MatterDetails()
+                    add(MatterRecord(id, title, detail, status, dueAt, updatedAt, details))
                 }
+            }
+            check(version != MATTER_VERSION || matters.any { it.details != MatterDetails() }) {
+                "Noncanonical G4 Matter extension"
             }
             check(input.available() == 0) { "trailing G4 bytes" }
             RealityDomainBackupSnapshot(
@@ -164,6 +174,34 @@ object FaroV5G4DomainSemanticCodec {
                 matters = MatterSnapshot(matterRevision, matters),
             ).also(::validate)
         }
+    }
+
+    private fun putMatterDetails(output: DataOutputStream, details: MatterDetails) {
+        putText(output, details.priority.name)
+        output.writeBoolean(details.reviewDate != null)
+        details.reviewDate?.let { output.writeLong(it.toEpochDay()) }
+        output.writeInt(details.history.size)
+        details.history.forEach { entry ->
+            output.writeLong(entry.recordedAtEpochMillis)
+            putText(output, entry.kind.name)
+            putText(output, entry.resultingStatus.name)
+            putText(output, entry.reason)
+        }
+    }
+
+    private fun getMatterDetails(input: DataInputStream): MatterDetails {
+        val priority = MatterPriority.valueOf(getText(input))
+        val date = if (getFlag(input)) LocalDate.ofEpochDay(input.readLong()) else null
+        val history = List(getCount(input)) { index ->
+            MatterHistoryEntry(
+                sequence = index + 1,
+                recordedAtEpochMillis = input.readLong(),
+                kind = MatterHistoryKind.valueOf(getText(input)),
+                resultingStatus = MatterStatus.valueOf(getText(input)),
+                reason = getText(input),
+            )
+        }
+        return MatterDetails(priority, date, history)
     }
 
     private fun putObjectiveDetails(output: DataOutputStream, details: ObjectiveDetails) {

@@ -69,6 +69,7 @@ import ar.com.faro.v5.owner.objectives.api.ObjectiveStatus
 import ar.com.faro.v5.owner.objectives.api.ObjectiveTitle
 import ar.com.faro.v5.owner.objectives.spi.ObjectivePersistencePort
 import ar.com.faro.v5.owner.matters.api.MatterDetail
+import ar.com.faro.v5.owner.matters.api.MatterDetails
 import ar.com.faro.v5.owner.matters.api.MatterId
 import ar.com.faro.v5.owner.matters.api.MatterRecord
 import ar.com.faro.v5.owner.matters.api.MatterSnapshot
@@ -2779,6 +2780,7 @@ class RealityStore(
             check(statement.step()) { "matter state missing" }
             statement.getLong(0)
         }
+        val extended = RealityMatterDetails(connection).read()
         val records = buildList {
             connection.prepare(
                 """
@@ -2788,17 +2790,20 @@ class RealityStore(
                 """.trimIndent()
             ).use { statement ->
                 while (statement.step()) {
+                    val id = MatterId.of(statement.getText(0))
                     add(MatterRecord(
-                        id = MatterId.of(statement.getText(0)),
+                        id = id,
                         title = MatterTitle.of(statement.getText(1)),
                         detail = MatterDetail.of(statement.getText(2)),
                         status = MatterStatus.valueOf(statement.getText(3)),
                         dueAtEpochMillis = if (statement.isNull(4)) null else statement.getLong(4),
                         updatedAtEpochMillis = statement.getLong(5),
+                        details = extended.remove(id) ?: MatterDetails(),
                     ))
                 }
             }
         }
+        check(extended.isEmpty()) { "Orphan Matter details" }
         MatterSnapshot(revision, records)
     }
 
@@ -2877,6 +2882,9 @@ class RealityStore(
             statement.bindLong(6, record.updatedAtEpochMillis)
             statement.step()
         }
+        RealityMatterDetails(connection).write(
+            record.id, existing?.details ?: MatterDetails(), record.details,
+        )
         connection.execSQL(
             "UPDATE matter_state SET revision = revision + 1 WHERE singleton_id = 1"
         )
@@ -2955,6 +2963,10 @@ class RealityStore(
                     statement.bindLong(6, record.updatedAtEpochMillis)
                     statement.step()
                 }
+            }
+            val matterDetails = RealityMatterDetails(connection)
+            for (record in backup.matters.matters) {
+                matterDetails.write(record.id, MatterDetails(), record.details)
             }
             connection.prepare(
                 "UPDATE objective_state SET revision = ? WHERE singleton_id = 1"

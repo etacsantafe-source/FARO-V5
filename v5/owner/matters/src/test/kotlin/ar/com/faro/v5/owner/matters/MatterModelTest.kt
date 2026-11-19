@@ -4,6 +4,7 @@ import ar.com.faro.v5.owner.matters.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
+import java.time.LocalDate
 
 class MatterModelTest {
     @Test
@@ -56,6 +57,57 @@ class MatterModelTest {
         assertEquals(expected, reader.read())
         assertEquals(1, reads)
         assertEquals(MatterStatus.WAITING, reader.read().matters.single().status)
+    }
+
+
+    @Test
+    fun extendedValuesDefaultOnlyForLegacyAndKeepCivilReviewDate() {
+        val legacy = record()
+        assertEquals(MatterDetails(), legacy.details)
+        val history = MatterHistoryEntry(
+            1, 78L, MatterHistoryKind.STATUS_CHANGED, MatterStatus.OPEN, "Retomar asunto",
+        )
+        val updated = legacy.copy(
+            status = MatterStatus.OPEN, updatedAtEpochMillis = 78,
+            details = MatterDetails(
+                MatterPriority.HIGH, LocalDate.of(2028, 2, 29), listOf(history),
+            ),
+        )
+        assertEquals(LocalDate.of(2028, 2, 29), updated.details.reviewDate)
+        assertEquals(MatterPriority.HIGH, updated.details.priority)
+        assertEquals(1, updated.details.history.single().sequence)
+    }
+
+    @Test
+    fun rejectsOutOfOrderHistoryTimeStatusAndMissingLifecycleReason() {
+        val event = MatterHistoryEntry(
+            1, 80, MatterHistoryKind.EDITED, MatterStatus.WAITING, "Fecha",
+        )
+        assertThrows(IllegalArgumentException::class.java) {
+            MatterDetails(history = listOf(event.copy(sequence = 2)))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MatterDetails(history = listOf(event, event.copy(sequence = 2)))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            record(updatedAt = 79).copy(details = MatterDetails(history = listOf(event)))
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            record(updatedAt = 80).copy(
+                status = MatterStatus.OPEN, details = MatterDetails(history = listOf(event)),
+            )
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MatterHistoryEntry(1, 80, MatterHistoryKind.STATUS_CHANGED, MatterStatus.WAITING, "")
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            MatterHistoryEntry(1, 80, MatterHistoryKind.EDITED, MatterStatus.WAITING, "a\nb")
+        }
+        val old = MatterDetails(history = listOf(event))
+        assertEquals(true, old.retainsHistoryOf(old.copy(
+            history = listOf(event, event.copy(sequence = 2, recordedAtEpochMillis = 81)),
+        )))
+        assertEquals(false, old.copy(history = emptyList()).retainsHistoryOf(old))
     }
 
     private fun record(dueAt: Long? = null, updatedAt: Long = 77L) = MatterRecord(
