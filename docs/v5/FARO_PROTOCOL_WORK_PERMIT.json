@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_DEV",
   "reviewed_head": "b7a4ff18c8a04b01bcc15063d4575503bef6504f",
   "paths": [
@@ -63,23 +63,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_AUTH_FBS2V5_JVM_4_OF_4",
+    "B7": "PASS_SCOPED_AUTH_FBS2V5_DEV_STAGED"
   },
   "last_code_review": {
-    "sha": "0b1efa6b958276b7137287faaa98b3ce3c1b09d3",
-    "unit_id": "S4_W03_D2B2B2_AUX4_STAGED_BACKUP_DEV",
+    "sha": "5e84764a7e3e6ea86677ed5d22342e2b3b3fde08",
+    "unit_id": "S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D2B2B2_AUX4_STAGED_BACKUP_B7_PASS_20261119.md",
-        "blob_sha": "f25c26aad40e497515d6dfdac038e07c5e095940",
+        "path": "docs/v5/FARO_S4_W03_D2B2B2_AUTHENTICATED_ARCHIVE_B7_PASS_20261119.md",
+        "blob_sha": "dd72e1bd290ab8e91dab19b9827c96c5b9dafcd4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Preaudit on exact head, guard 44603960218 SUCCESS.",
-  "how": "Scope exact. FBS2v5 authenticated archive STAGED. No cutover and no Android host.",
+  "why": "Authenticated FBS2v5 W03-D2B2B2 STAGED B7 PASS 4/4. READY consumed.",
+  "how": "Next preflight ACTIVE4 exact, no cutover until authorized.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -90,5 +90,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44603960218,
-  "last_ci_run_id": 44602951476
+  "last_ci_run_id": 44605196641
 }
