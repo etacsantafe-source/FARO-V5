@@ -16,6 +16,7 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationKind
 import ar.com.faro.v5.maintenance.MaterialWriteGateQuiescence
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
 import ar.com.faro.v5.maintenance.StorageGenerationDescriptor
+import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import java.nio.channels.FileChannel
 import java.nio.file.Files
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
@@ -40,6 +41,7 @@ internal class FaroV5Finance9DevStagePreparation(
         val origin: ActiveGenerationPointer,
         val target: StagedStorageGeneration,
         val sourceFingerprint: String,
+        val auxiliary4: Boolean = false,
     )
 
     private val root = storageRoot.toAbsolutePath().normalize()
@@ -49,6 +51,7 @@ internal class FaroV5Finance9DevStagePreparation(
         targetDescriptor: StorageGenerationDescriptor,
         origin: ActiveGenerationPointer,
         finishedAtEpochMillis: Long,
+        auxiliary4: Boolean = false,
     ): Prepared = gate.withQuiescedMaterialWrites {
         assertExclusiveClosedDevHost()
         requireExistingRoot()
@@ -62,6 +65,7 @@ internal class FaroV5Finance9DevStagePreparation(
         check(journal.read(operationId) == null && journal.pending().isEmpty()) {
             "Finance9 stage preparation found prior or competing maintenance"
         }
+        if (auxiliary4) FaroV5GenerationStoreGraph.requireSealedFinance9ForDevCutover(source)
         val sealedSource = readSealedFiles(source.directory)
         val sourceFingerprint = fingerprint(origin, sealedSource)
 
@@ -77,8 +81,13 @@ internal class FaroV5Finance9DevStagePreparation(
         force(target.directory.parent, directory = true)
         assertExclusiveClosedDevHost()
 
-        val prepared = FaroV5Finance9StagedMigration(root, MaterialWriteGateQuiescence(gate))
-            .migrate(operationId, target, origin, sourceFingerprint, finishedAtEpochMillis)
+        val prepared = if (auxiliary4) {
+            migrateAuxiliaryOnCopy(target, pointer, origin, sealedSource)
+            target
+        } else {
+            FaroV5Finance9StagedMigration(root, MaterialWriteGateQuiescence(gate))
+                .migrate(operationId, target, origin, sourceFingerprint, finishedAtEpochMillis)
+        }
         assertExclusiveClosedDevHost()
         check(pointer.read() == origin && readSealedFiles(source.directory) == sealedSource) {
             "Finance9 stage source changed during preparation"
@@ -98,7 +107,11 @@ internal class FaroV5Finance9DevStagePreparation(
         force(root.resolve("bootstrap").resolve("journal"), directory = true)
         force(root.resolve("bootstrap"), directory = true)
         check(pointer.read() == origin && journal.pending().singleOrNull() == validated)
-        Prepared(operationId, origin, prepared, sourceFingerprint)
+        Prepared(
+            operationId, origin, prepared,
+            cutoverFingerprint(origin, sealedSource, prepared, auxiliary4),
+            auxiliary4,
+        )
     }
 
     /**
@@ -126,9 +139,52 @@ internal class FaroV5Finance9DevStagePreparation(
         )
         check(entry == expected && journal.pending().singleOrNull() == expected)
         check(ExistingGenerationFormatReader.requireAndRead(source) == GenerationStoreFormat.WORKSPACE_V2)
-        check(fingerprint(prepared.origin, readSealedFiles(source.directory)) == prepared.sourceFingerprint &&
-            pointer.read() == prepared.origin) { "Finance9 stage source fingerprint is stale" }
+        check(cutoverFingerprint(
+            prepared.origin, readSealedFiles(source.directory), prepared.target, prepared.auxiliary4,
+        ) == prepared.sourceFingerprint && pointer.read() == prepared.origin) {
+            "DEV cutover source or Auxiliary4 target changed after preparation"
+        }
         assertExclusiveClosedDevHost()
+    }
+
+    private fun migrateAuxiliaryOnCopy(
+        target: StagedStorageGeneration,
+        pointer: FileActiveGenerationPointer,
+        origin: ActiveGenerationPointer,
+        originFiles: Map<String, String>,
+    ) {
+        check(pointer.read() == origin && target.descriptor.generationId != origin.generationId)
+        val file = target.directory.resolve(GenerationStoreFiles.AUXILIARY)
+        val (before, intentCount) = AuxiliaryDeliveryStore(file.toString()).use { owner ->
+            val health = owner.maintenance.inspect()
+            check(health.schemaVersion == 3 && health.integrityHealthy && health.foreignKeysHealthy)
+            owner.backup.snapshot() to health.deliveryIntentCount
+        }
+        check(pointer.read() == origin)
+        FaroV5GenerationStoreGraph.openQuarantinedAuxiliaryReceiptV4Stage(target, pointer).use { owner ->
+            val migrated = owner.snapshotStagedReceiptBackup()
+            check(migrated.base == before && migrated.receipts.isEmpty() &&
+                owner.maintenance.inspect().deliveryIntentCount == intentCount
+            ) { "Auxiliary4 copy changed existing owner data" }
+        }
+        force(file, directory = false)
+        FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(target, allowAuxiliary3 = false)
+        check(readSealedFiles(target.directory) - GenerationStoreFiles.AUXILIARY ==
+            originFiles - GenerationStoreFiles.AUXILIARY)
+        check(pointer.read() == origin)
+    }
+
+    private fun cutoverFingerprint(
+        origin: ActiveGenerationPointer,
+        sourceFiles: Map<String, String>,
+        target: StagedStorageGeneration,
+        auxiliary4: Boolean,
+    ): String {
+        val source = fingerprint(origin, sourceFiles)
+        if (!auxiliary4) return source
+        val staged = fingerprint(origin, readSealedFiles(target.directory))
+        return MessageDigest.getInstance("SHA-256")
+            .digest(("FARO_AUX4_DEV_CUTOVER|" + source + "|" + staged).toByteArray(Charsets.UTF_8)).toHex()
     }
 
     private fun requireExistingRoot() {

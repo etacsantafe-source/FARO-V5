@@ -33,6 +33,7 @@ internal class FaroV5Finance9DevCutoverOwner(
     private val assertExclusiveDevHost: () -> Unit,
     private val fault: (GenerationSwitchFaultPoint) -> Unit = {},
     private val targetRuntimeHealthy: () -> Boolean = { true },
+    private val auxiliary4: Boolean = false,
 ) {
     fun activateValidated(
         operationId: MaintenanceOperationId,
@@ -83,7 +84,7 @@ internal class FaroV5Finance9DevCutoverOwner(
         val quiescence = MaterialWriteGateQuiescence(gate)
         if (record.phase == BootstrapPhase.VALIDATED) {
             check(FaroV5Finance9DevCutoverPreflight(root, quiescence)
-                .inspect(operationId, canonical, origin) ==
+                .inspect(operationId, canonical, origin, auxiliary4) ==
                 FaroV5Finance9DevCutoverPreflight.Observation.OBSERVED_SEALED_STAGED9_ONLY)
         }
 
@@ -101,14 +102,17 @@ internal class FaroV5Finance9DevCutoverOwner(
             assertExclusiveDevHost()
             check(pointer.read() == expected)
             val candidate = layout.requireStaged(expected.generationId)
-            val finance9 = expected == target
-            val graph = if (finance9) {
-                check(targetRuntimeHealthy() && candidate == canonical)
-                FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Dev(
+            val isTarget = expected == target
+            if (isTarget) check(targetRuntimeHealthy() && candidate == canonical)
+            val finance9 = isTarget || auxiliary4
+            val graph = when {
+                isTarget && auxiliary4 -> FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Auxiliary4Dev(
                     root, candidate, expected.sequence, planVerifier, gate,
                 )
-            } else {
-                FaroV5GenerationStoreGraph.reopenVerifiedActivePlanning8(
+                finance9 -> FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Dev(
+                    root, candidate, expected.sequence, planVerifier, gate,
+                )
+                else -> FaroV5GenerationStoreGraph.reopenVerifiedActivePlanning8(
                     root, candidate, expected.sequence, planVerifier, gate,
                 )
             }
@@ -149,7 +153,13 @@ internal class FaroV5Finance9DevCutoverOwner(
                                 pending.phase in setOf(BootstrapPhase.VALIDATED, BootstrapPhase.SWITCH_PREPARED) &&
                                 journal.pending().singleOrNull() == pending)
                             check(layout.requireStaged(targetId) == canonical)
-                            FaroV5GenerationStoreGraph.requireSealedFinance9ForDevCutover(canonical)
+                            if (auxiliary4) {
+                                FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(
+                                    canonical, allowAuxiliary3 = false,
+                                )
+                            } else {
+                                FaroV5GenerationStoreGraph.requireSealedFinance9ForDevCutover(canonical)
+                            }
                             pointer.read() == origin
                         }
                         target -> checkActive(target)

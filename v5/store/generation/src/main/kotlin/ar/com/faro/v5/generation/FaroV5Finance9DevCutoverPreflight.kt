@@ -45,9 +45,10 @@ internal class FaroV5Finance9DevCutoverPreflight(
         operationId: MaintenanceOperationId,
         staged: StagedStorageGeneration,
         expectedActive: ActiveGenerationPointer,
+        auxiliary4: Boolean = false,
     ): Observation = try {
         quiescence.withMaterialWritesQuiesced(operationId) {
-            observe(operationId, staged, expectedActive)
+            observe(operationId, staged, expectedActive, auxiliary4)
         }
     } catch (_: InterruptedException) {
         Thread.currentThread().interrupt()
@@ -60,6 +61,7 @@ internal class FaroV5Finance9DevCutoverPreflight(
         operationId: MaintenanceOperationId,
         staged: StagedStorageGeneration,
         expectedActive: ActiveGenerationPointer,
+        auxiliary4: Boolean,
     ): Observation {
         val target = staged.descriptor.generationId
         if (target == expectedActive.generationId) return Observation.DENIED(Reason.ACTIVE_TARGET)
@@ -100,7 +102,11 @@ internal class FaroV5Finance9DevCutoverPreflight(
 
         if (pointer.read() != expectedActive) return Observation.DENIED(Reason.ACTIVE_POINTER_CHANGED)
         if (!sidecarsAbsent(canonical.directory)) return Observation.DENIED(Reason.SIDECAR_PRESENT)
-        StagedSqlitePreflight.requireAll(canonical.directory, finance9Schemas)
+        if (auxiliary4) {
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(canonical, allowAuxiliary3 = false)
+        } else {
+            StagedSqlitePreflight.requireAll(canonical.directory, finance9Schemas)
+        }
         if (!sidecarsAbsent(canonical.directory)) return Observation.DENIED(Reason.SIDECAR_PRESENT)
 
         if (layout.requireStaged(target) != canonical ||

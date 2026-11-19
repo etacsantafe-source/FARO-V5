@@ -45,19 +45,26 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
     private val lock: FileLock,
     private val fault: (GenerationSwitchFaultPoint) -> Unit,
     private val afterAuthorization: () -> Unit,
+    private val targetRuntimeHealthy: () -> Boolean,
 ) : AutoCloseable {
     enum class Status { ORIGIN_RETAINED, ACTIVE_NINE, ROLLED_BACK }
 
-    data class Selection(val status: Status, val pointer: ActiveGenerationPointer)
+    data class Selection(
+        val status: Status,
+        val pointer: ActiveGenerationPointer,
+        val auxiliary4: Boolean = false,
+    )
 
     private data class Intent(
         val operationId: MaintenanceOperationId,
         val origin: ActiveGenerationPointer,
         val target: StorageGenerationDescriptor,
         val sourceFingerprint: String? = null,
+        val auxiliary4: Boolean = false,
     )
 
     private val ticket = root.resolve("bootstrap").resolve("finance9-dev-cutover-v1.bin")
+    private val auxiliaryTicket = root.resolve("bootstrap").resolve("auxiliary4-dev-cutover-v1.bin")
     private var closed = false
     private var mountedGraph: FaroV5GenerationStoreGraph? = null
 
@@ -67,25 +74,53 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
         origin: ActiveGenerationPointer,
         finishedAtEpochMillis: Long,
         confirmInForeground: () -> Boolean,
+    ): Selection = startUpgrade(
+        operationId, target, origin, finishedAtEpochMillis, confirmInForeground, auxiliary4 = false,
+    )
+
+    fun startAuxiliary4(
+        operationId: MaintenanceOperationId,
+        target: StorageGenerationDescriptor,
+        origin: ActiveGenerationPointer,
+        finishedAtEpochMillis: Long,
+        confirmInForeground: () -> Boolean,
+    ): Selection = startUpgrade(
+        operationId, target, origin, finishedAtEpochMillis, confirmInForeground, auxiliary4 = true,
+    )
+
+    private fun startUpgrade(
+        operationId: MaintenanceOperationId,
+        target: StorageGenerationDescriptor,
+        origin: ActiveGenerationPointer,
+        finishedAtEpochMillis: Long,
+        confirmInForeground: () -> Boolean,
+        auxiliary4: Boolean,
     ): Selection = gate.withQuiescedMaterialWrites {
         requireLive()
         check(mountedGraph == null) { "Close the DEV graph before maintenance" }
         check(confirmInForeground()) { "Finance9 cutover requires explicit foreground confirmation" }
-        check(recover()?.status != Status.ACTIVE_NINE) { "Finance9 root already finished cutover" }
+        val previousAuxiliary = readIntent(auxiliary4 = true)
+        if (auxiliary4) {
+            if (previousAuxiliary != null) check(recover()?.status != Status.ACTIVE_NINE)
+        } else {
+            check(previousAuxiliary == null && recover()?.status != Status.ACTIVE_NINE) {
+                "Finance9 root already finished cutover"
+            }
+        }
         val pointer = FileActiveGenerationPointer(root)
         check(pointer.read() == origin && target.generationId != origin.generationId)
         val journal = FileBootstrapJournal(root)
         check(journal.pending().isEmpty() && journal.read(operationId) == null)
 
-        val intent = Intent(operationId, origin, target)
+        val intent = Intent(operationId, origin, target, auxiliary4 = auxiliary4)
         publish(intent)
         val preparation = stagePreparation()
-        val staged = preparation.prepare(operationId, target, origin, finishedAtEpochMillis)
+        val staged = preparation.prepare(operationId, target, origin, finishedAtEpochMillis, auxiliary4)
         preparation.requireSourceUnchanged(staged)
         if (!confirmInForeground()) return@withQuiescedMaterialWrites retainOrigin(intent)
 
         val authorized = intent.copy(sourceFingerprint = staged.sourceFingerprint)
-        check(readIntent() == intent) { "Finance9 PREPARE record changed" }
+        check(readIntent(auxiliary4) == intent) { "DEV cutover PREPARE record changed" }
         publish(authorized)
         afterAuthorization()
         activate(authorized, recovery = false)
@@ -94,7 +129,7 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
     fun recover(): Selection? = gate.withQuiescedMaterialWrites {
         requireLive()
         check(mountedGraph == null) { "Close the DEV graph before recovery" }
-        val intent = readIntent() ?: return@withQuiescedMaterialWrites null
+        val intent = readIntent(auxiliary4 = true) ?: readIntent() ?: return@withQuiescedMaterialWrites null
         if (intent.sourceFingerprint == null) retainOrigin(intent)
         else activate(intent, recovery = true)
     }
@@ -104,13 +139,20 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
         gate.withQuiescedMaterialWrites {
             requireLive()
             check(mountedGraph == null) { "This DEV root already has a mounted graph" }
-            check(selection.status == Status.ACTIVE_NINE && isCurrent(selection))
-            val intent = checkNotNull(readIntent())
+            check((selection.status == Status.ACTIVE_NINE || selection.auxiliary4) && isCurrent(selection))
+            val intent = checkNotNull(readIntent(selection.auxiliary4))
             val stage = FileStorageGenerationLayout(root).requireStaged(selection.pointer.generationId)
-            check(stage.descriptor == intent.target)
-            val graph = FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Dev(
-                root, stage, selection.pointer.sequence, planVerifier, gate,
-            )
+            val selectedTarget = selection.status == Status.ACTIVE_NINE
+            if (selectedTarget) check(stage.descriptor == intent.target)
+            val graph = if (selectedTarget && selection.auxiliary4) {
+                FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Auxiliary4Dev(
+                    root, stage, selection.pointer.sequence, planVerifier, gate,
+                )
+            } else {
+                FaroV5GenerationStoreGraph.reopenVerifiedActiveFinance9Dev(
+                    root, stage, selection.pointer.sequence, planVerifier, gate,
+                )
+            }
             try {
                 check(isCurrent(selection)) { "Finance9 selection changed during mount" }
                 mountedGraph = graph
@@ -125,7 +167,7 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
     fun isCurrent(selection: Selection): Boolean = runCatching {
         gate.withMaterialWrite {
             requireLive()
-            val intent = checkNotNull(readIntent())
+            val intent = checkNotNull(readIntent(selection.auxiliary4))
             val bootstrap = ticket.parent
             check(listOf("active", "journal").all { Files.isDirectory(bootstrap.resolve(it), NOFOLLOW_LINKS) })
             val pointer = FileActiveGenerationPointer(root)
@@ -178,7 +220,7 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
                 forceDirectory(ticket.parent.resolve("journal"))
             }
         }
-        return Selection(Status.ORIGIN_RETAINED, intent.origin)
+        return Selection(Status.ORIGIN_RETAINED, intent.origin, intent.auxiliary4)
     }
 
     private fun activate(intent: Intent, recovery: Boolean): Selection {
@@ -186,12 +228,15 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
         val staged = FileStorageGenerationLayout(root).requireStaged(intent.target.generationId)
         check(staged.descriptor == intent.target)
         val prepared = FaroV5Finance9DevStagePreparation.Prepared(
-            intent.operationId, intent.origin, staged, checkNotNull(intent.sourceFingerprint),
+            intent.operationId, intent.origin, staged, checkNotNull(intent.sourceFingerprint), intent.auxiliary4,
         )
         if (pointer.read() == intent.origin) {
             stagePreparation().requireSourceUnchanged(prepared, resumeSwitchBeforePublish = recovery)
         }
-        val cutover = FaroV5Finance9DevCutoverOwner(root, gate, planVerifier, ::requireLive, fault)
+        val cutover = FaroV5Finance9DevCutoverOwner(
+            root, gate, planVerifier, ::requireLive, fault,
+            targetRuntimeHealthy = targetRuntimeHealthy, auxiliary4 = intent.auxiliary4,
+        )
         val result = if (recovery) cutover.recover(intent.operationId, staged, intent.origin)
             else cutover.activateValidated(intent.operationId, staged, intent.origin)
         val status = when (result) {
@@ -199,17 +244,18 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
             is GenerationActivationResult.RolledBack -> Status.ROLLED_BACK
             is GenerationActivationResult.Blocked -> error("Finance9 exact recovery blocked: ${result.reason}")
         }
-        return Selection(status, checkNotNull(pointer.read()))
+        return Selection(status, checkNotNull(pointer.read()), intent.auxiliary4)
     }
 
     private fun stagePreparation() = FaroV5Finance9DevStagePreparation(root, gate, ::requireLive)
 
     private fun publish(intent: Intent) {
         requireLive()
-        check(Files.isDirectory(ticket.parent, NOFOLLOW_LINKS))
+        val destination = if (intent.auxiliary4) auxiliaryTicket else ticket
+        check(Files.isDirectory(destination.parent, NOFOLLOW_LINKS))
         val payload = ByteArrayOutputStream().use { buffer ->
             DataOutputStream(buffer).use { out ->
-                out.writeUTF(RECORD_VERSION)
+                out.writeUTF(if (intent.auxiliary4) AUXILIARY_RECORD_VERSION else RECORD_VERSION)
                 out.writeUTF(intent.operationId.value)
                 out.writeUTF(intent.origin.generationId.value)
                 out.writeLong(intent.origin.sequence)
@@ -222,33 +268,34 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
         }
         val bytes = payload + sha256(payload)
         check(bytes.size <= RECORD_LIMIT)
-        val temporary = Files.createTempFile(ticket.parent, ".finance9-dev-cutover-", ".tmp")
+        val temporary = Files.createTempFile(destination.parent, ".faro-dev-cutover-", ".tmp")
         try {
             FileChannel.open(temporary, WRITE, NOFOLLOW_LINKS).use { output ->
                 val buffer = ByteBuffer.wrap(bytes)
                 while (buffer.hasRemaining()) output.write(buffer)
                 output.force(true)
             }
-            Files.move(temporary, ticket, ATOMIC_MOVE, REPLACE_EXISTING)
-            forceDirectory(ticket.parent)
+            Files.move(temporary, destination, ATOMIC_MOVE, REPLACE_EXISTING)
+            forceDirectory(destination.parent)
         } finally {
             Files.deleteIfExists(temporary)
         }
-        check(readIntent() == intent)
+        check(readIntent(intent.auxiliary4) == intent)
     }
 
-    private fun readIntent(): Intent? {
-        if (Files.notExists(ticket, NOFOLLOW_LINKS)) return null
-        check(Files.isDirectory(ticket.parent, NOFOLLOW_LINKS) &&
-            Files.isRegularFile(ticket, NOFOLLOW_LINKS) && Files.size(ticket) in 33L..RECORD_LIMIT)
-        val bytes = Files.readAllBytes(ticket)
+    private fun readIntent(auxiliary4: Boolean = false): Intent? {
+        val file = if (auxiliary4) auxiliaryTicket else ticket
+        if (Files.notExists(file, NOFOLLOW_LINKS)) return null
+        check(Files.isDirectory(file.parent, NOFOLLOW_LINKS) &&
+            Files.isRegularFile(file, NOFOLLOW_LINKS) && Files.size(file) in 33L..RECORD_LIMIT)
+        val bytes = Files.readAllBytes(file)
         val offset = bytes.size - 32
         val payload = bytes.copyOfRange(0, offset)
         check(MessageDigest.isEqual(sha256(payload), bytes.copyOfRange(offset, bytes.size))) {
             "Finance9 DEV cutover record checksum mismatch"
         }
         return DataInputStream(ByteArrayInputStream(payload)).use { input ->
-            check(input.readUTF() == RECORD_VERSION)
+            check(input.readUTF() == (if (auxiliary4) AUXILIARY_RECORD_VERSION else RECORD_VERSION))
             val operationId = MaintenanceOperationId(input.readUTF())
             val originId = StorageGenerationId(input.readUTF())
             val origin = ActiveGenerationPointer(input.readLong(), originId)
@@ -258,7 +305,7 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
             val fingerprint = input.readUTF().ifEmpty { null }
             check(input.available() == 0 && target.generationId != origin.generationId &&
                 (fingerprint == null || fingerprint.matches(Regex("[0-9a-f]{64}"))))
-            Intent(operationId, origin, target, fingerprint)
+            Intent(operationId, origin, target, fingerprint, auxiliary4)
         }
     }
 
@@ -288,6 +335,7 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
     companion object {
         private const val RECORD_LIMIT = 8192L
         private const val RECORD_VERSION = "FARO_FINANCE9_DEV_CUTOVER_V1"
+        private const val AUXILIARY_RECORD_VERSION = "FARO_AUXILIARY4_DEV_CUTOVER_V1"
         private val heldRoots = mutableSetOf<Path>()
 
         fun acquire(
@@ -302,6 +350,7 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
             planVerifier: PreparedPlanEnvelopeVerificationPort,
             fault: (GenerationSwitchFaultPoint) -> Unit,
             afterAuthorization: () -> Unit,
+            targetRuntimeHealthy: () -> Boolean = { true },
         ): FaroV5Finance9DevCutoverRuntime = synchronized(heldRoots) {
             check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
             val root = storageRoot.toRealPath()
@@ -310,7 +359,9 @@ class FaroV5Finance9DevCutoverRuntime private constructor(
             try {
                 val lock = checkNotNull(channel.tryLock()) { "Finance9 DEV root is already held by another process" }
                 heldRoots.add(root)
-                FaroV5Finance9DevCutoverRuntime(root, gate, planVerifier, channel, lock, fault, afterAuthorization)
+                FaroV5Finance9DevCutoverRuntime(
+                    root, gate, planVerifier, channel, lock, fault, afterAuthorization, targetRuntimeHealthy,
+                )
             } catch (failure: Throwable) {
                 runCatching { channel.close() }
                 throw failure

@@ -15,6 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   finance9-single-graph:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W01_D1B1C2C_FINANCE9_DEV_SINGLE_GRAPH_MOUNT')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
