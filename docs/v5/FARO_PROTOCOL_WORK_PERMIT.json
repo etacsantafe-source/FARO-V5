@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
   "reviewed_head": "2a8cb086cbe850f9706e3bf488c30e98868a0f01",
   "paths": [
@@ -57,23 +57,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_JVM_33_33_G4_SQLITE_DEV",
+    "B7": "PASS_SCOPED_W03_A_DEV_JVM"
   },
   "last_code_review": {
-    "sha": "2a8cb086cbe850f9706e3bf488c30e98868a0f01",
+    "sha": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
     "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_WORKFLOW_RED_FIX_20261119.md",
-        "blob_sha": "682526c090d943065a7639733bceef18b6dc3246",
+        "path": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_PASS_20261119.md",
+        "blob_sha": "334cb22665535e3e56e264721997a6fa95ea4c0b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-A test-only RED_FIX 2a8cb guard SUCCESS, directed CI STOP because workflow had static preflight paths outside one-route parent permit.",
-  "how": "Workflow-only RED_FIX: run preflight for actual functional files in git diff HEAD^ HEAD; keep original JVM/XML suites and seven-block CI.",
+  "why": "W03-A finalized in DEV JVM/SQLite/backup with 33/33 tests, guard 44536914665 and XML artifact verified; permit consumed. W03-B needs its own READY.",
+  "how": "W03-A code 3446cc2 + test RED_FIX 2a8cb + workflow RED_FIX 59f74; CI 44536914638 SUCCESS, 7 XML, zip sha256 d9561...; historical S3 G4 fixed-count workflow needs separate authorization.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -83,5 +83,5 @@
     "physical_allowed": false,
     "code_ready": false
   },
-  "preaudit_guard": 44535644065
+  "preaudit_guard": 44536617765
 }

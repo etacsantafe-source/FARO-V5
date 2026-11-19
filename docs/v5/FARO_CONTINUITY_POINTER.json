@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_A_WORKFLOW_RED_FIX_DOC_ONLY_READY",
+  "phase": "S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_PASS_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AND_GUARD",
-    "epoch": 1290
+    "epoch": 1292
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W03-A second RED_FIX: workflow static preflight checks 8 paths while test-only parent permit allows 1; workflow-only READY after guard; implement changed-path preflight, rerun JVM, verify B7.",
-  "checkpoint_status": "W03_A_WORKFLOW_RED_FIX_B1_B5_READY_WAIT_GUARD",
+  "next": "W03-A complete B7 DEV (JVM/SQLite/G4 33/33), permit consumed BLOCKED. W03-B Matter Review/Apply: re-audit own B1-B5, issue exact-route READY after guard then code. Known stale S3 G4 owner XML count 4 vs actual 6; separate permit if fixing. No repeat W01/W02.",
+  "checkpoint_status": "W03_A_B7_DOC_PUBLISHED_VERIFY_GUARD_AND_WRITER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "2a8cb086cbe850f9706e3bf488c30e98868a0f01",
-  "last_ci_run_id": 44535644245,
+  "last_code_sha": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
+  "last_ci_run_id": 44536914638,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_STATIC_PREFLIGHT_OVERBROAD_JVM_NOT_RUN",
+  "last_ci_conclusion": "SUCCESS_W03_A_DEV_JVM_33_OF_33",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5424,21 +5424,27 @@
     "w03": "STOP"
   },
   "w03": {
-    "status": "A_WORKFLOW_RED_FIX_READY",
+    "status": "A_DONE_B7_SCOPED_DEV",
     "baseline_head": "bfc7b1ec967d0465fcdd95617516300e84f96ad4",
     "preaudit": "docs/v5/FARO_S4_W03_MATTERS_B1_B5_PREAUDIT_20261119.md",
     "work_handoff": "docs/v5/FARO_S4_W03_WORK_TURBO_HANDOFF_PREP_20261119.md",
-    "code_changed": false,
-    "permit": "BLOCKED_UNCHANGED",
-    "tests": "DESIGNED_NOT_RUN",
-    "android": "NOT_RUN",
+    "code_changed": true,
+    "permit": "BLOCKED_CONSUMED_W03_A",
+    "tests": "A_33_OF_33_JVM_SQLITE_G4_PASS",
+    "android": "NOT_RUN_W03",
     "g15": "NOT_RUN",
     "w01_w02": "B7_GLOBAL_PASS_DEV_NO_REPEAT",
-    "epoch": 1284,
+    "epoch": 1292,
     "unit_id": "S4_W03_A_MATTER_DETAILS_PERSISTENCE",
     "audit": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B1_B5_20261119.md",
     "permit_reviewed_head": "017c39e84fe9ad73b21828467cb71296d749cea0",
     "failed_ci": 44535644245,
-    "code_sha": "2a8cb086cbe850f9706e3bf488c30e98868a0f01"
+    "code_sha": "59f74aed5fa7ccc68e35f2ce8a6884fe9f185d5c",
+    "b7_document": "docs/v5/FARO_S4_W03_A_MATTER_DETAILS_PERSISTENCE_B7_PASS_20261119.md",
+    "b7_ci_run": 44536914638,
+    "b7_guard_run": 44536914665,
+    "zip_sha256": "d9561fb5b584818fe52c31bb0ccb213cd62830102ca5e332f16c5790ec6f6733",
+    "next_unit": "S4_W03_B_MATTER_REVIEW_APPLY",
+    "legacy_s3_g4_workflow": "XML_COUNT_EXPECTED_4_ACTUAL_6_RUN_44535643996_NOT_FIXED"
   }
 }
