@@ -4,7 +4,7 @@
   "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
   "reviewed_head": "b73ebe8b8dc62f941f2962beadab69dfef4fd00b",
   "paths": [
-    "v5/app/src/w02ObjectivesDev/kotlin/ar/com/faro/v5/app/FaroV5W02ObjectivesDevActivity.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
     "v5/app/src/w02AndroidTest/kotlin/ar/com/faro/v5/app/S4W02ObjectivesAndroidTest.kt"
   ],
   "stages": {
@@ -62,18 +62,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "bfbfa8469a1fbbf799d8a3511f37da8ddff137e9",
+    "sha": "c27607dff1843ee771afb8bc4ee5875226b63616",
     "unit_id": "S4_W02_E_OBJECTIVES_ANDROID_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W02_E_OBJECTIVES_ANDROID_B7_RED_FIX_20261118.md",
-        "blob_sha": "4902d6bf87a4c708f15a4f189e76ebb0282d8b4d",
+        "path": "docs/v5/FARO_S4_W02_E_OBJECTIVES_ANDROID_CHAT_REFRESH_RED_FIX_20261119.md",
+        "blob_sha": "92e2f2ca0b5d582c3b0da0d5375c94720a47dce7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Align Android test with actual re-open approval and resume lifecycle.",
+  "why": "Invalidate canonical Chat Review read on Objectives return and verify the full path.",
   "how": "Preaudit guard 44446518356 SUCCESS. Run exact preflights and current guard before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,

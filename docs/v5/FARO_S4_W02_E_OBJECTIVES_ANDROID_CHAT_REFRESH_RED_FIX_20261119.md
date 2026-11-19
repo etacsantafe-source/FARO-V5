@@ -1,0 +1,7 @@
+# FARO V5 · W02-E · RED_FIX de lectura al regresar a Chat
+
+## B7
+- [API35 44447940044](https://github.com/etacsantafe-source/FARO-V5/actions/runs/44447940044) FAILURE en `c27607dff1843ee771afb8bc4ee5875226b63616`, job 135304545946 y guardia 44447940036 SUCCESS. El emulador abrió Objetivos, descartó una Review y generó la nueva; la prueba agotó 20 s en el primer «Revisar cambios» después de «Ver revisión en Chat». El run anterior 44447323486 falló en esa misma acción sin espera.
+- Comparación dirigida. FaroV5ActiveChatScreen recarga Reviews sólo por id activo, identidad de reviewPort o reviewVersion. Volver desde Objetivos mutaba únicamente backStack. Navigation3 puede retener la entrada anterior de Chat, y el mismo id/puerto deja el listado anterior como observable. La evidencia descarta aumentar otra vez el timeout como corrección.
+- Unificación. Al volver de una Review nueva de Objetivos, invalidar de forma explícita la lectura de Chat usando una envoltura nueva del mismo ConversationReviewPort. Reusar la misma sesión y sus fences, volver por el mismo stack. Verificar primero que la ruta diga Chat y después la Review y el Apply. Si falla, incluir sólo semántica del fixture de prueba para localizar pantalla/ruta. No modificar Workspace, catálogo, permisos externos, botón de aprobación ni W01.
+- RED_FIX limitado a `FaroV5SurfaceHost.kt` y `S4W02ObjectivesAndroidTest.kt` en las rutas de E. Writer RELEASED epoch 1278 al empezar. Verificar guardia y ruta exacta antes de B6; no dar PASS Android hasta XML y APK del SHA reparado.
