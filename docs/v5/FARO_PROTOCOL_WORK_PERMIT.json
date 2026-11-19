@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE",
   "reviewed_head": "21e4b77d53719fdbd20a99b2856fc0889598ffe7",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_SQLITE_FINANCE9_DEV_JVM_9_OF_9",
+    "B7": "PASS_SCOPED_W03_D2A_DEV_JVM_9_OF_9"
   },
   "last_code_review": {
-    "sha": "0e4333a25d74c1bb59863f1835683f4b0b687256",
-    "unit_id": "S4_W03_D1_REMINDER_MUTATION_CORE",
+    "sha": "ecc21ba2d40672660420515fed56728edaa5a2b2",
+    "unit_id": "S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D1_REMINDER_MUTATION_CORE_B7_PASS_20261119.md",
-        "blob_sha": "793283d0cac91f6be3ad86da4bc739f550685e17",
+        "path": "docs/v5/FARO_S4_W03_D2A_SOURCE_TO_AUX_LOCAL_NOTICE_B7_PASS_20261119.md",
+        "blob_sha": "cac878e1cbaa36e3321566893724038698db3ac6",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-D2A B1-B5 exact five routes audited and guard44574650567 SUCCESS; W03-D1 B7 PASS9/9 preserved. Local-only Auxiliary notices, OS effect SUPPRESSED_POLICY.",
-  "how": "Implement 5 paths only, strict source ACL and pointer fences, separate Auxiliary store and 9 directed JVM XML checks. Do not activate OS delivery, Android UI, seen/dismiss D2-B.",
+  "why": "W03-D2A B7 PASS 9/9: CI44576678840 SUCCESS, guard44576678898 SUCCESS, XML artifact14556702721. READY consumed; D2-B separate permit.",
+  "how": "Source Reminder/Reality -> durable local Auxiliary Notice SUPPRESSED_POLICY via trusted DEV host. No OS, no Android shipping, no seen/dismiss.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,5 +88,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44574650567,
-  "last_ci_run_id": null
+  "last_ci_run_id": 44576678840
 }
