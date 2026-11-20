@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
   "reviewed_head": "2a9bfb6038d545bfde736f86be1819d040cc1386",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "2a9bfb6038d545bfde736f86be1819d040cc1386",
+    "sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
     "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_CI_GATE_B7_RED_FIX_20261120.md",
-        "blob_sha": "916ec206e3d3b78227d78cbe39d1e8f20c85d25c",
+        "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B7_PASS_20261120.md",
+        "blob_sha": "4f141778176fffc57b941a88345cde1f69ae9d45",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1b1 fix commit 2a9b failed directed workflow 44813118438 because preflight erroneously requires four changed files; actual protocol preflight PASS for one exact path.",
-  "how": "Change only authorized C1b1 workflow path, accept 1..4 exact changes; rerun JVM and XML.",
+  "why": "C1b1 Evidence2 staged DEV only: B7 PASS, guard 44813495275 and directed :evidence:test 44813495451 SUCCESS XML9/9; permit consumed. C1b2 requires versioned backup/portability and own READY.",
+  "how": "No more C1b1 code. C1b2 preaudit doc exists; freeze precise routes/permissions, guard and READY separately before B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,9 +86,9 @@
   "preaudit_guard": 44811730659,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B1_B6_TYPED_TERMS_STAGED_ONLY",
-  "completed_guard": 44803997203,
-  "completed_ci": 44813118438,
-  "completed_xml": "NOT_GENERATED_WORKFLOW_PREFLIGHT_GATE_FAIL",
-  "completed_artifact_id": 14663835058
+  "next": "W04_C1B2_EVIDENCE2_LOSSLESS_INTEGRATION_PREAUDIT_NO_READY",
+  "completed_guard": 44813495275,
+  "completed_ci": 44813495451,
+  "completed_xml": "9/9_PASS",
+  "completed_artifact_id": 14668891893
 }

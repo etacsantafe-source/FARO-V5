@@ -4,7 +4,7 @@
   "unit": "S4_W04_C_PREAUDIT",
   "baseline_head": "a60c184d116bd0c8a9ddc6941a6eb3478b5455a6",
   "branch": "work/s3-night-20261102",
-  "scope": "DOC_ONLY_B1_B5",
+  "scope": "W04_C1B1_B7_PASS_DEV_AND_C1B2_PREAUDIT_DOC",
   "first_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
   "first_unit_paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
@@ -26,7 +26,7 @@
     },
     {
       "id": "C1",
-      "status": "OPEN_C1A_B7_PASS_C1B_PREAUDIT_ONLY",
+      "status": "OPEN_C1A_B7_PASS_C1B1_B7_PASS_C1B2_PREAUDIT",
       "children": [
         {
           "id": "C1A",
@@ -37,8 +37,18 @@
           "xml": "9/9"
         },
         {
-          "id": "C1B",
-          "status": "DESIGN_PREAUDIT_ONLY_NO_READY_NO_CODE"
+          "id": "C1B1",
+          "status": "B7_PASS_STAGED_DEV_9_9",
+          "code_sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
+          "guard_run_id": 44813495275,
+          "ci_run_id": 44813495451,
+          "artifact_id": 14668891893,
+          "xml": "9/9"
+        },
+        {
+          "id": "C1B2",
+          "status": "B1_B5_PREAUDIT_DESIGN_ONLY_NO_READY_NO_CODE",
+          "preaudit": "docs/v5/FARO_S4_W04_C1B2_LOSSLESS_INTEGRATION_PREAUDIT_20261120.md"
         }
       ]
     },
@@ -49,9 +59,9 @@
   ],
   "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
   "new_functional_code": true,
-  "tests_run_this_turn": "W04_C1A_JVM_9_OF_9_XML_VERIFIED",
-  "writer": "RELEASE_AFTER_B7_DOC_COMMIT_EPOCH_1441",
-  "next": "C1b B1-B5 path freeze and guarded READY; no C1b B6 or C2/C3 now; C1a B7 PASS reuse",
+  "tests_run_this_turn": "W04_C1B1_EVIDENCE_JVM_9_OF_9_XML_VERIFIED_CI_44813495451",
+  "writer": "RELEASE_AFTER_B7_DOC_COMMIT_EPOCH_1450",
+  "next": "C1b2 exact route freeze, own guard/READY, B6/B7. C1b1 not repeat.",
   "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
   "guard_documental": {
     "run_id": 44770729719,
@@ -64,7 +74,7 @@
   "first_unit_ci_run": 44782895246,
   "first_unit_artifact_id": 14652917867,
   "b7_document": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-  "last_code_sha": "42c7a6366b7aeced94250ffe84ed9fd7f6694ef1",
+  "last_code_sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
   "c0b_b7_document": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "c0b_ci_run": 44789820660,
   "c0b_guard_run": 44789820679,
@@ -73,5 +83,11 @@
   "c1a_guard_run": 44803997203,
   "c1a_ci_run": 44803997142,
   "c1a_artifact_id": 14663835058,
-  "c1b_preaudit": "docs/v5/FARO_S4_W04_C1B_TYPED_TERMS_PREAUDIT_20261120.md"
+  "c1b_preaudit": "docs/v5/FARO_S4_W04_C1B_TYPED_TERMS_PREAUDIT_20261120.md",
+  "c1b1_b7_document": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B7_PASS_20261120.md",
+  "c1b1_code_sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
+  "c1b1_ci_run": 44813495451,
+  "c1b1_guard_run": 44813495275,
+  "c1b1_artifact_id": 14668891893,
+  "c1b2_preaudit": "docs/v5/FARO_S4_W04_C1B2_LOSSLESS_INTEGRATION_PREAUDIT_20261120.md"
 }
