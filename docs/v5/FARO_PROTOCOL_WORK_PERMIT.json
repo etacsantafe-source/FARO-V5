@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV",
   "reviewed_head": "8be008b06d5826746c6eb07d1cc32871fb064a5f",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "4f9808cc26956e6e49b3836487dee68f5b0b9d99",
-    "unit_id": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
+    "sha": "42c7a6366b7aeced94250ffe84ed9fd7f6694ef1",
+    "unit_id": "S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-        "blob_sha": "0fd580549112a21c66c57267f9f67a689d965574",
+        "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B7_PASS_20261120.md",
+        "blob_sha": "d0a5b1aa8c9d8c71f0f3a6239662c053d44ce25d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1a v1 observational-write only; B1-B5 exact5 preaudit guard 44803118083 SUCCESS; C1b typed metadata/migration independent NOT_READY.",
-  "how": "Scoped B6 exact5; canonical commercial.evidence.record, trusted confirmation, idempotency, same graph gate; JVM/XML & B7 before C1b.",
+  "why": "C1a B7 PASS scoped DEV: confirmed/idempotent v1 manual Evidence; 9/9 JVM XML, guard success. C1a permit consumed; C1b metadata not ready.",
+  "how": "C1b own B1-B5 route freeze, guard, independent READY before B6; schema2 staged/migration/backup required. No C1a repeat.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -87,9 +87,9 @@
   "preaudit_guard": 44803118083,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1A_B6_EXACT5_JVM_B7_C1B_PREAUDIT",
-  "completed_guard": 44789820679,
-  "completed_ci": 44789820660,
+  "next": "W04_C1B_TYPED_COMMERCIAL_TERMS_MIGRATION_DEV_PREAUDIT_DELTA_NO_READY",
+  "completed_guard": 44803997203,
+  "completed_ci": 44803997142,
   "completed_xml": "9/9_PASS",
-  "completed_artifact_id": 14656895187
+  "completed_artifact_id": 14663835058
 }
