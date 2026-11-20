@@ -1,22 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
-  "reviewed_head": "db7140665028d3fa5846e5c155a271115d5cfcb1",
+  "status": "READY",
+  "unit_id": "S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV",
+  "reviewed_head": "8be008b06d5826746c6eb07d1cc32871fb064a5f",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialPriceReadHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialPriceReadHostTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c0b-price-read.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ManualPriceObservationHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ManualPriceObservationHostTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c1a-manual-observation.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
-          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
+          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
+          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
-          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
+          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
+          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
-          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
+          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
+          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
-          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
+          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
+          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
           "marker": "## B4"
         }
       ]
@@ -55,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
-          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
+          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
+          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "4f9808cc26956e6e49b3836487dee68f5b0b9d99",
@@ -76,18 +76,18 @@
       }
     ]
   },
-  "why": "W04-C0B B7 PASS scoped DEV, real Household/Commercial Evidence one-root integration, 9/9 JUnit XML; permit consumed.",
-  "how": "C1 requires own B1–B5 delta/guard/READY, not inherited C0B permit; old B1A trigger failure separately documented.",
+  "why": "C1a v1 observational-write only; B1-B5 exact5 preaudit guard 44803118083 SUCCESS; C1b typed metadata/migration independent NOT_READY.",
+  "how": "Scoped B6 exact5; canonical commercial.evidence.record, trusted confirmation, idempotency, same graph gate; JVM/XML & B7 before C1b.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "Continuation to next W04-C0B after C0A B7: B1-B5, permission and B6 scoped DEV"
+    "scope": "Continue W04-C1; C1a observation v1 B6 DEV, C1b migration separate; no physical tests"
   },
-  "preaudit_guard": 44786710268,
-  "previous_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-  "next": "W04_C1_MANUAL_QUOTE_EVIDENCE_DEV_B1_B5_DELTA_NO_READY",
+  "preaudit_guard": 44803118083,
+  "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
+  "next": "W04_C1A_B6_EXACT5_JVM_B7_C1B_PREAUDIT",
   "completed_guard": 44789820679,
   "completed_ci": 44789820660,
   "completed_xml": "9/9_PASS",
