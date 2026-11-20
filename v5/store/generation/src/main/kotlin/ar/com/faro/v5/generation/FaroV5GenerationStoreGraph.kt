@@ -66,7 +66,7 @@ class FaroV5GenerationStoreGraph private constructor(
     }
 
     internal class Household10DevReadSession(
-        private val graph: FaroV5GenerationStoreGraph,
+        internal val graph: FaroV5GenerationStoreGraph,
         private val gate: MaterialWriteGate,
         private val lease: FileLock,
     ) : AutoCloseable {
@@ -82,6 +82,15 @@ class FaroV5GenerationStoreGraph private constructor(
                 }
             }
         }
+    }
+
+    /** Runtime graph held by the trusted Household DEV composition root. */
+    class Household10DevApplySession internal constructor(
+        private val session: Household10DevReadSession,
+    ) : AutoCloseable {
+        val workspace: ConversationWorkspaceStore get() = checkNotNull(session.graph.workspace)
+        val reality: RealityStore get() = session.graph.reality
+        override fun close() = session.close()
     }
 
     companion object {
@@ -395,6 +404,29 @@ class FaroV5GenerationStoreGraph private constructor(
             expected: ActiveGenerationPointer,
             materialWriteGate: MaterialWriteGate,
             ownerAdmission: () -> Boolean,
+        ): Household10DevReadSession = openActiveHousehold10Dev(
+            storageRoot, staged, expected, materialWriteGate, ownerAdmission,
+        )
+
+        fun openActiveHousehold10DevForApplyHost(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expected: ActiveGenerationPointer,
+            materialWriteGate: MaterialWriteGate,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            ownerAdmission: () -> Boolean,
+        ): Household10DevApplySession = Household10DevApplySession(openActiveHousehold10Dev(
+            storageRoot, staged, expected, materialWriteGate, ownerAdmission, planVerifier, writable = true,
+        ))
+
+        private fun openActiveHousehold10Dev(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expected: ActiveGenerationPointer,
+            materialWriteGate: MaterialWriteGate,
+            ownerAdmission: () -> Boolean,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+            writable: Boolean = false,
         ): Household10DevReadSession = materialWriteGate.withMaterialWrite {
             check(expected.sequence > 0L && ownerAdmission()) { "Household10 DEV admission denied" }
             check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
@@ -416,10 +448,10 @@ class FaroV5GenerationStoreGraph private constructor(
                     "Household10 DEV requires the canonical generation"
                 }
                 val graph = openValidatedV2Internal(
-                    canonical, planVerifier = null, materialWriteGate = materialWriteGate,
+                    canonical, planVerifier = planVerifier, materialWriteGate = materialWriteGate,
                     activeGeneration = true, planningStage8 = true, financeStage9 = true,
                     checkedPlanning8Active = true, auxiliaryReceiptFence = fence,
-                    householdActive10Dev = true,
+                    householdActive10Dev = true, householdNeedsWritableDev = writable,
                 )
                 try {
                     check(graph.verifyHealthy() && fence()) { "Household10 DEV graph health or admission changed" }
@@ -551,7 +583,9 @@ class FaroV5GenerationStoreGraph private constructor(
             auxiliaryReceiptFence: (() -> Boolean)? = null,
             householdStage10: Boolean = false,
             householdActive10Dev: Boolean = false,
+            householdNeedsWritableDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!householdNeedsWritableDev || (householdActive10Dev && planVerifier != null))
             check(!householdActive10Dev || (activeGeneration && !householdStage10 &&
                 financeStage9 && auxiliaryReceiptFence != null && materialWriteGate != null))
             check(!householdStage10 || (financeStage9 && !activeGeneration && auxiliaryReceiptFence != null))
@@ -630,6 +664,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     auxiliaryReceiptFence = auxiliaryReceiptFence,
                     householdStage10 = householdStage10,
                     householdActive10Dev = householdActive10Dev,
+                    householdNeedsWritableDev = householdNeedsWritableDev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -771,6 +806,7 @@ class FaroV5GenerationStoreGraph private constructor(
             auxiliaryReceiptFence: (() -> Boolean)? = null,
             householdStage10: Boolean = false,
             householdActive10Dev: Boolean = false,
+            householdNeedsWritableDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -787,6 +823,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         financeActive9 = financeActive9,
                         householdStage10ReadOnly = householdStage10,
                         householdActive10Dev = if (householdActive10Dev) checkNotNull(auxiliaryReceiptFence) else null,
+                        householdNeedsWritableDev = householdNeedsWritableDev,
                     )
                 reality = openedReality
                 commercial =

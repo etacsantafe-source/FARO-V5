@@ -710,13 +710,23 @@ class RealityStore(
             }
         } }
 
-    internal fun householdNeedsPersistenceForTrustedDev(): HouseholdNeedPersistencePort {
+    /** Capability of the explicitly admitted Household10 DEV Apply graph. */
+    fun householdNeedsPersistenceForTrustedDev(): HouseholdNeedPersistencePort {
         check(householdNeedsWritableDev) { "Household persistence requires its writable DEV mode" }
         val fence = checkNotNull(householdActive10Dev)
         val persistence = RealityHouseholdNeedPersistence(connection)
         return object : HouseholdNeedPersistencePort {
-            override fun read(): HouseholdNeedsSnapshot =
-                RealityHouseholdNeedPersistence.typedSnapshot(household10ActiveDevReadForTrustedHost(fence))
+            override fun read(): HouseholdNeedsSnapshot = withMaterialAdmission { synchronized(lock) {
+                checkOpen()
+                check(fence()) { "Household generation changed" }
+                val rows = if (activeApplyScope == null) {
+                    household10ActiveDevReadForTrustedHost(fence)
+                } else {
+                    readValidatedHousehold10Rows(connection)
+                }
+                check(fence()) { "Household generation changed" }
+                RealityHouseholdNeedPersistence.typedSnapshot(rows)
+            } }
 
             override fun mutate(
                 expectedRevision: Long,
