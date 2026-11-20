@@ -16,3 +16,6 @@ Chat puede recuperar/depurar B1–B5, revisar código/CI y redactar documentos a
 - W03-F OS, V2 productiva, main, V4.4, Auto/Noche, G15 físico, APIs pagas: OFF/NOT_RUN.
 - W04 no es pago: Household gestiona necesidades, ofertas, presupuestos; Finance maneja dinero. No compra automática, no stock físico hasta recepción W05, no transacción doble Household+Finance hasta W06 PASS.
 - Cierre solo con SHA exacto, logs/XML, checksum si hay artefacto, checkpoint y writer RELEASED.
+
+## ADDENDUM — verificación 2026-11-19, después de B1–B5
+W04-A permiso READY exact5 **YA FUE EMITIDO**: HEAD `2a6233b99cb398e48af68488998d7b48c60a5c20`, guard `44659590393` SUCCESS; NO repetir pasos 1–2 del handoff histórico. La única ejecución funcional inmediata es W04-A B6 → CI/XML/guard → B7/consumir READY/release. La segunda revisión publicada en `docs/v5/FARO_S4_W04_B0_C0_PARALLEL_PREAUDIT_20261119.md` anticipa W04-B0 (persistencia staged/backup y riesgos) y W04-C0 (reutilización del store Evidence). Ninguno está READY: B0 y C0 deberán revalidarse contra el modelo A efectivo y sus propias rutas/guardia. Conservar W04-A READY hasta consumirlo correctamente.
