@@ -65,19 +65,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "ebaaf5afbabda5a848fd266a5296a85ff597ef1f",
-    "unit_id": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
-    "result": "PASS",
+    "sha": "b7cd33869fdb8309bf694357a7539a05fff7f620",
+    "unit_id": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-        "blob_sha": "e2b1b48d924c03868daa8492cb563e77dacaa7ea",
+        "path": "docs/v5/FARO_S4_W04_C0B_B7_RED_FIX_20261120.md",
+        "blob_sha": "916fda5d366865fe1b34e3fda29117d08e7446f1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-C0B B1-B5 scoped exact5 documented; doc guard 44786710268 SUCCESS; C0A B7 PASS scoped reused.",
-  "how": "B6 only five paths, preflight against parent; real JVM XML + guard per SHA; independent B7; no scheme/second root/Finance/stock.",
+  "why": "RED_FIX of C0B initial B6: app test unresolved AndroidX SQLite driver import, run 44787942512 FAILURE; only test fixture delta.",
+  "how": "Fix only one already-permitted test file; no dependencies/schemas/host code. Rerun exact5 B6 preflight on changed-file subset and JVM 9/9.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
