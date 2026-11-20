@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV",
-  "reviewed_head": "e84b5bcb8b93485c4e81fe670f6a93616fa7941c",
+  "status": "READY",
+  "unit_id": "S4_W04_B0C3A_HOUSEHOLD10_SEALED_SQL_RESTORE_DEV",
+  "reviewed_head": "5d7bc1de4d880d73238143eb8c61ab1e81a3deb5",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b0c2-household10-fbs2.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10SealedRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10StagedRowsRestorePort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10SealedRowsRestoreTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0c3a-household10-sql-rows.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
-          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
+          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
-          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
+          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
-          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
+          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
-          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
+          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
-          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
+          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_FBS2V6_JVM_5_5"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "768c56824d04b051d323988aa2129461d8d16dd6",
@@ -75,7 +75,7 @@
       }
     ]
   },
-  "why": "W04-B0C2 B7 PASS scoped JVM FBS2v6 (5/5 XML verified in CI logs), guard SUCCESS 44668249799; permission consumed. Next B0C3A requires its own READY after guard.",
+  "why": "W04-B0C3A B1–B5 documented, B0C2 scoped JVM B7 PASS + guard 44720117721 SUCCESS. Only typed sealed Household10 SQL rows reader/restorer and directed JVM tests.",
   "how": "Four exact paths. No database capture or restore, cutover, Apply, Android, or production.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -86,7 +86,7 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44667712329,
+  "preaudit_guard": 44720117721,
   "last_ci_run_id": 44666984553,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
@@ -97,5 +97,6 @@
   "completed_guard": 44668249799,
   "completed_ci": 44668249894,
   "completed_xml": "5/5_PASS",
-  "completed_artifact_id": 14598807349
+  "completed_artifact_id": 14598807349,
+  "next": "Work B0C3A B6 exact4 with SQL stage10 only; CI XML/guard then B7. No graph/cutover/UI/Finance/payment."
 }

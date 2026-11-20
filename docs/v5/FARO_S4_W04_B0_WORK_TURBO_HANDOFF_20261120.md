@@ -30,3 +30,6 @@ HEAD, unidad B0 exacta, B1–B7 estado, run IDs+XML, cambios/rutas, B0 cerrado o
 
 ## ADDENDUM de B0C2 B7
 B0C2 ya tuvo revisión independiente de código+CI y documento docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B7_PASS_20261120.md. Su permiso se consumió en el cierre. NO REPETIR el paso 0 si la guardia del checkpoint B7 es SUCCESS. Siguiente único READY futuro: W04-B0C3A, con permiso exact4 tras verificar guardia y B1–B5. Si hay rojo de guardia, parar hasta resolver. No reemitir B0C2 READY.
+
+## ADDENDUM — permiso B0C3A emitido
+Después del cierre B0C2, guard 44720117721 SUCCESS y su permiso BLOCKED, B0C3A ya tiene permiso READY **exclusivo para sus 4 rutas** en docs/v5/FARO_PROTOCOL_WORK_PERMIT.json. Work debe arrancar directamente con B6 de B0C3A; no reemitir autorización de B0C2 ni de C3A si el HEAD actual conserva el permiso. B0C3B y B0D siguen sin READY hasta sus turnos respectivos.
