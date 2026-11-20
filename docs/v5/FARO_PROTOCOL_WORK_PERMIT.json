@@ -63,23 +63,23 @@
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "5b087ef3cc34c2d8da0d3440dff8d9fc10c3be85",
-    "unit_id": "S4_W04_B1D0_ACTIVE_HOUSEHOLD10_FBS2V6_DEV",
+    "sha": "52db8e5d7c5c4d4c8f013af5d2d81fd3f29724d8",
+    "unit_id": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B1D0_HOUSEHOLD10_ACTIVE_ARCHIVE_B7_PASS_20261120.md",
-        "blob_sha": "a49abf4a2fedf2c8f0c05eacd289e5bcb0561d2e",
+        "path": "docs/v5/FARO_S4_W04_B1_HOUSEHOLD10_GLOBAL_B7_PASS_20261120.md",
+        "blob_sha": "311727649e5ca9288b85c223cb6df5d9517bad14",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1D1 B6 publicada. B7 pendiente de la CI y del XML exactos.",
-  "how": "Validar la ejecución sobre el SHA funcional. El padre de B6 conserva el READY original.",
+  "why": "B1D1 y B1 integral B7 PASS. Permiso D1 consumido.",
+  "how": "C0 tiene relevo documental y requiere permiso propio antes de B6.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -97,11 +97,9 @@
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44754902246,
-  "completed_ci": 44754902344,
-  "completed_xml": "4/4_PASS",
-  "completed_artifact_id": 14636459983,
-  "next": "B7 integral después de verificar CI y XML de D1",
-  "pending_code_sha": "52db8e5d7c5c4d4c8f013af5d2d81fd3f29724d8",
-  "pending_ci_run_id": 44766456887
+  "completed_guard": 44766456766,
+  "completed_ci": 44766456887,
+  "completed_xml": "17/17_PASS",
+  "completed_artifact_id": 14646151944,
+  "next": "W04-C0 exact mapping and scoped READY delta"
 }
