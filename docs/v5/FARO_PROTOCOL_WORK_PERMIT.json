@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B0D2_HOUSEHOLD10_ACTIVATE_RECOVERY_DEV",
   "reviewed_head": "8f7a903f8845a3b4da04a327d8f3516a3f4ad7c1",
   "paths": [
@@ -60,22 +60,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_DEV_CUTOVER_RECOVERY_9_9"
   },
   "last_code_review": {
-    "sha": "a4d8f4ebd4ff300605bbdec3e9bc321b5bf7edf4",
-    "unit_id": "S4_W04_B0D1_HOUSEHOLD10_PREFLIGHT_ACTIVE_GRAPH_DEV",
+    "sha": "7381c8767a062a740b4729d1fa353499eb654611",
+    "unit_id": "S4_W04_B0D2_HOUSEHOLD10_ACTIVATE_RECOVERY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_PREFLIGHT_B7_PASS_20261120.md",
-        "blob_sha": "f993cbd13762c4012113d60cea8810287605f344",
+        "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_CUTOVER_B7_PASS_20261120.md",
+        "blob_sha": "870ae4df2a71db11cf570c2f60b46e3ad3512813",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B0D1 B7 PASS, guard SUCCESS and B0D2 scope verified.",
+  "why": "W04-B0D2 PASS JVM XML 9/9 and global B0 B7 recorded. All B0 READY permits consumed.",
   "how": "Four exact routes for journaled Household10 activation/recovery and integrated DEV evidence.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -94,9 +94,9 @@
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44727157893,
-  "completed_ci": 44727157959,
-  "completed_xml": "6/6_PASS",
-  "completed_artifact_id": 14623704350,
-  "next": "B0D2 B6, exact JVM XML and final audit."
+  "completed_guard": 44728570497,
+  "completed_ci": 44728570347,
+  "completed_xml": "9/9_PASS",
+  "completed_artifact_id": 14625736200,
+  "next": "W04-B1 Household persistence via own B1–B5 and exact READY."
 }
