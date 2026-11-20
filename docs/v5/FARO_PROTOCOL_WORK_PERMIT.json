@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B0C3B2_HOUSEHOLD10_ARCHIVE_REPLAY_DEV",
   "reviewed_head": "97cfa4a910ea80a882949f7633fbce39db25d2be",
   "paths": [
@@ -60,22 +60,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_FBS2V6_ROUNDTRIP_7_7"
   },
   "last_code_review": {
-    "sha": "6fe4e70c011256536575ba189493e4654538dddb",
-    "unit_id": "S4_W04_B0C3B1_HOUSEHOLD10_ARCHIVE_CAPTURE_DEV",
+    "sha": "b3f4fd0a0c082ef7dd5a6ac864094e8c087a1f17",
+    "unit_id": "S4_W04_B0C3B2_HOUSEHOLD10_ARCHIVE_REPLAY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_B7_PASS_20261120.md",
-        "blob_sha": "ac49f77a37ee304d5e6b24e10bd04961cf5806b1",
+        "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_B7_PASS_20261120.md",
+        "blob_sha": "ac055685df6a45475afe6ad570f94419d7dae55b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B0C3B1 B7 PASS, guard SUCCESS and C3B2 delta reviewed.",
+  "why": "B0C3B2 B7 PASS scoped JVM XML 7/7; permiso consumido.",
   "how": "Exact four routes for authenticated five-store staged replay and Household restore.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -94,9 +94,9 @@
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44722980442,
-  "completed_ci": 44722980567,
-  "completed_xml": "5/5_PASS",
-  "completed_artifact_id": 14623645542,
-  "next": "C3B2 B6, exact JVM XML and B7. D1 independent permit."
+  "completed_guard": 44724997438,
+  "completed_ci": 44724997544,
+  "completed_xml": "7/7_PASS",
+  "completed_artifact_id": 14623896463,
+  "next": "D1 exact admission delta, guard and READY"
 }

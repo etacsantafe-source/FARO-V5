@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_READY",
-    "epoch": 1394
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_B7",
+    "epoch": 1396
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-B0C3B2 B6 exact four, verify CI and XML then B7. D1/D2 pending.",
+  "next": "W04-B0D1 verify documentary guard then emit own exact READY.",
   "checkpoint_status": "W04_B0C2_B7_CLOSED_B0C3A_READY_EXACT4_C3B_D1_D2_PREAUDITED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "6fe4e70c011256536575ba189493e4654538dddb",
-  "last_ci_run_id": 44722980567,
+  "last_code_sha": "b3f4fd0a0c082ef7dd5a6ac864094e8c087a1f17",
+  "last_ci_run_id": 44724997544,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -4704,7 +4704,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_B7_PASS_20261120.md",
+  "last_b7_document": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_B7_PASS_20261120.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -5769,7 +5769,7 @@
     "b7": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_B7_PASS_20261120.md"
   },
   "w04_b0c3b2": {
-    "status": "B1_B5_VERIFIED_READY_EXACT4",
+    "status": "PASS_SCOPED_FBS2V6_ROUNDTRIP_7_7",
     "audit": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_DELTA_B1_B5_20261120.md",
     "paths": [
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinator.kt",
@@ -5777,9 +5777,27 @@
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveRestoreTest.kt",
       ".github/workflows/faro-v5-s4-w04-b0c3b2-household10-restore.yml"
     ],
-    "permit": "READY_EXACT4",
-    "next": "B6_EXACT4",
+    "permit": "BLOCKED_CONSUMED",
+    "next": "B0D1",
     "unit_id": "S4_W04_B0C3B2_HOUSEHOLD10_ARCHIVE_REPLAY_DEV",
-    "ready_guard": 44724334409
+    "ready_guard": 44724334409,
+    "code_sha": "b3f4fd0a0c082ef7dd5a6ac864094e8c087a1f17",
+    "ci": 44724997544,
+    "guard": 44724997438,
+    "artifact_id": 14623896463,
+    "xml": "7/7_PASS",
+    "b7": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_B7_PASS_20261120.md"
+  },
+  "w04_b0d1": {
+    "status": "B1_B5_DELTA_DOC_ONLY",
+    "audit": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_ADMISSION_DELTA_B1_B5_20261120.md",
+    "paths": [
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflightTest.kt",
+      ".github/workflows/faro-v5-s4-w04-b0d1-household10-preflight.yml"
+    ],
+    "permit": "NO_READY",
+    "next": "Guard of this commit then own exact READY"
   }
 }
