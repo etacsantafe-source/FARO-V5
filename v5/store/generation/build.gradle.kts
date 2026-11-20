@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":store:reality"))
     implementation(project(":owner:reminders"))
     implementation(project(":owner:monthlyplan"))
+    implementation(project(":owner:household"))
     implementation(project(":store:auxiliary"))
     implementation(project(":evidence"))
 
