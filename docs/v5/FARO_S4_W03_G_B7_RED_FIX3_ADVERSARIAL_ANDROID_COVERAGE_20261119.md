@@ -1,0 +1,14 @@
+# FARO V5 — W03-G B7 RED_FIX3 · Cobertura Android adversarial pendiente
+
+Fecha de cierre auditable: 2026-11-19 (Argentina), CI final emitida 2026-11-20 UTC.
+Unidad: `S4_W03_G_GLOBAL_B7_ANDROID_DEV`. Código precedente `b65c69cc47ae7ee9103cf7cc7f72c420ff424703`.
+
+## B7 — RED_FIX (misma unidad G, no PASS global)
+
+**Evidencia positiva, no repetir:** protocolo de código `44651954508` SUCCESS (SHA `b65c69cc47ae7ee9103cf7cc7f72c420ff424703`), compilación W03-E `44651954515` SUCCESS, emulador W03-G `44651954338` SUCCESS, job `136008760365`, real Android API35 fuente 200%, JUnit XML **1/1 PASS, 0 failures, 0 errors, 0 skipped** y manifest offline PASS. Aplicó en owner real altas de Matter/Reminder con Review→Approve→Apply y recibos, descarte de borrador, cambio de estado, local Reminder→Avisos, Seen→Dismiss con CAS y observación de versión, pausa/reabrir y persistencia. APK `app-w03MattersDev.apk` sha256 `0df6b2906a5e9ff8b15d9b93a36a42a5be6a16fc3e87dd9297e0b75a069f9cdd`. Artifact id `14591514004` ZIP digest `sha256:13322b110c49a83a758b0eabf4600bfc7ed0579d4f967845d52e515512831151`. Material W03-A–D dueño y política: B7 ya certificados aparte, sin reejecución.
+
+**RED_FIX por cobertura incompleta, no por fallo del test verde:** G B4/B5 requiere también Android edit/Undo de estado, fecha válida e inválida, cambio de Recordatorio y verificación tras recrear. Los tests JVM de Matter/Notice ya probaron stale/ACL/receipt/rollback, pero no sustituyen esas acciones de UI. No se declara G PASS hasta validar este agregado en emulador API35 y contrastar B5. Test físico Moto G15, TalkBack real, OS delivery F y V2 productiva **NOT_RUN / OFF**, fuera de esta aceptación aislada.
+
+**Corrección obligatoria de historial:** tras `b65c69cc47ae7ee9103cf7cc7f72c420ff424703`, se publicó `2163211ca98ae5c3e16ad6dd480ca0ccc41e0537` (test ampliado) sin intercalar este B7. La guardia `44653967450` dio `FARO_PROTOCOL_GATE_STOP: previous code change has no B7 disposition` y el workflow Android `44653967485` se detuvo en preflight **antes de compilar/ejecutar el test**. Se recupera SOLO ese commit fallido mediante sustitución CAS, preservando código de test exacto con nueva ascendencia: `b65c69cc47ae7ee9103cf7cc7f72c420ff424703` → **este B7 documental + permiso RED_FIX** → nuevo commit funcional G `FARO-UNIT:S4_W03_G_GLOBAL_B7_ANDROID_DEV`. Nunca silenciar gate ni reescribir checkpoints previos. Esta recuperación consume únicamente la referencia temporal roja `2163211ca98ae5c3e16ad6dd480ca0ccc41e0537`; la rama work conserva integridad; main intacta.
+
+**Alcance:** mismo permiso G READY y 10 rutas, cambio funcional único al test `v5/app/src/w03AndroidTest/kotlin/ar/com/faro/v5/app/S4W03MattersAndroidTest.kt`; no nueva autoridad, OS, migration, ni redeployment productivo. Si CI roja por UI, documentar B7 RED_FIX con causa real antes de otro código. Writer CAS exclusivo y RELEASED durante CI.
