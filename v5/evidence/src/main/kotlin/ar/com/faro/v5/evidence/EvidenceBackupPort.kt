@@ -3,9 +3,21 @@ package ar.com.faro.v5.evidence
 data class CommercialEvidenceBackupSnapshot(
     val schemaVersion: Int,
     val records: List<CommercialEvidenceRecord>,
+    /** Null for EVERY historical schema1 backup. Required for schema2. */
+    val stagedTyped: CommercialEvidenceStagedTypedBackupSnapshot? = null,
 ) {
     init {
         require(schemaVersion >= 0)
+        if (schemaVersion == 2) {
+            require(stagedTyped?.schemaVersion == 2 &&
+                stagedTyped.rows.map { it.record } == records) {
+                "schema2 Commercial backup requires complete canonical typed rows"
+            }
+        } else {
+            require(stagedTyped == null) {
+                "legacy Commercial backup cannot carry typed rows"
+            }
+        }
         require(records == records.sortedBy { it.evidenceId.value }) {
             "Commercial Evidence backup records must be canonical"
         }

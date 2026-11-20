@@ -649,11 +649,22 @@ class CommercialEvidenceStore(
     private fun readBackupSnapshot(): CommercialEvidenceBackupSnapshot =
         synchronized(lock) {
             checkOpen()
-            check(readSchemaVersion() == 1) { "Evidence2 backup requires lossless codec v2" }
-            CommercialEvidenceBackupSnapshot(
-                schemaVersion = readSchemaVersion(),
-                records = readAllRecords(),
-            )
+            val version = readSchemaVersion()
+            if (version == 2) {
+                check(stagedTypedTermsV2) { "schema2 backup requires staged Evidence2 owner" }
+                val typed = readStagedTypedBackupSnapshot()
+                CommercialEvidenceBackupSnapshot(
+                    schemaVersion = 2,
+                    records = typed.rows.map { it.record },
+                    stagedTyped = typed,
+                )
+            } else {
+                check(version == 1) { "unsupported commercial backup schema" }
+                CommercialEvidenceBackupSnapshot(
+                    schemaVersion = version,
+                    records = readAllRecords(),
+                )
+            }
         }
 
     private fun readPortabilitySnapshot(): CommercialEvidencePortabilitySnapshot =
@@ -671,7 +682,36 @@ class CommercialEvidenceStore(
     ): CommercialEvidenceBackupSnapshot =
         withMaterialAdmission { synchronized(lock) {
             checkOpen()
-            check(readSchemaVersion() == 1) { "Evidence2 restore requires lossless codec v2" }
+            if (snapshot.schemaVersion == 2) {
+                check(stagedTypedTermsV2 && readSchemaVersion() == 2) {
+                    "schema2 backup restore requires explicit staged Evidence2"
+                }
+                val typed = checkNotNull(snapshot.stagedTyped)
+                val current = readBackupSnapshot()
+                if (current == snapshot) return@synchronized current
+                val before = inspectForMaintenance()
+                check(before.integrityHealthy && before.foreignKeysHealthy &&
+                    before.recordCount == 0L) {
+                    "schema2 backup restore target must be healthy and fresh"
+                }
+                connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+                try {
+                    typed.rows.forEach { row ->
+                        insert(row.record)
+                        row.terms?.let { insertTypedTerms(row.record.evidenceId, it) }
+                    }
+                    connection.execSQL("COMMIT TRANSACTION")
+                } catch (failure: Throwable) {
+                    runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                    throw failure
+                }
+                val restored = readBackupSnapshot()
+                check(restored == snapshot) {
+                    "schema2 Commercial backup restore verification failed"
+                }
+                return@synchronized restored
+            }
+            check(readSchemaVersion() == 1) { "schema1 restore cannot open schema2" }
             check(snapshot.schemaVersion == SCHEMA_VERSION) {
                 "Commercial Evidence backup schema requires explicit migration"
             }

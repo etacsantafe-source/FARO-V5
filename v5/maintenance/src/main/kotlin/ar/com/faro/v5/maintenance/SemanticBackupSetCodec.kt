@@ -14,6 +14,14 @@ import ar.com.faro.v5.delivery.api.OccurrenceRef
 import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.evidence.CommercialCurrencyCode
 import ar.com.faro.v5.evidence.CommercialEvidenceBackupSnapshot
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupSnapshot
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupRow
+import ar.com.faro.v5.evidence.CommercialEvidenceTypedTerms
+import ar.com.faro.v5.evidence.CommercialLocalityKind
+import ar.com.faro.v5.evidence.CommercialPresentationUnit
+import ar.com.faro.v5.evidence.CommercialPaymentMethod
+import ar.com.faro.v5.evidence.CommercialEligibility
+import ar.com.faro.v5.evidence.CommercialPromotionKind
 import ar.com.faro.v5.evidence.CommercialEvidenceId
 import ar.com.faro.v5.evidence.CommercialEvidenceRecord
 import ar.com.faro.v5.evidence.CommercialEvidenceSourceKind
@@ -65,6 +73,7 @@ object SemanticBackupSetCodec {
     private const val LEGACY_VERSION = 1
     private const val TIMED_VERSION = 2
     private const val BOOKMARK_VERSION = 3
+    private const val COMMERCIAL_TYPED_VERSION = 4
     const val MAX_PLAINTEXT_BYTES: Int = 64 * 1024 * 1024
     private const val MAX_STRING_BYTES = 64 * 1024
     private const val MAX_RECORDS = 100_000
@@ -84,16 +93,25 @@ object SemanticBackupSetCodec {
             BoundedByteArrayOutputStream(maxBytes).use { buffer ->
                 DataOutputStream(buffer).use { output ->
                     output.writeInt(MAGIC)
-                    val version = if (backupSet.auxiliary.bookmarks != null) BOOKMARK_VERSION else if (backupSet.reality.committedReceipts.any {
-                        it.commitRecordedAtEpochMillis != null
-                    }) TIMED_VERSION else LEGACY_VERSION
+                    val version =
+                        if (backupSet.commercialEvidence.schemaVersion == 2) COMMERCIAL_TYPED_VERSION
+                        else if (backupSet.auxiliary.bookmarks != null) BOOKMARK_VERSION
+                        else if (backupSet.reality.committedReceipts.any {
+                            it.commitRecordedAtEpochMillis != null
+                        }) TIMED_VERSION else LEGACY_VERSION
                     output.writeInt(version)
+                    // New v4 header only; legacy v1..v3 bytes remain IDENTICAL.
+                    if (version == COMMERCIAL_TYPED_VERSION) {
+                        output.writeBoolean(backupSet.auxiliary.bookmarks != null)
+                    }
                     writeManifest(output, backupSet.manifest)
                     writeReality(output, backupSet.reality, version)
-                    writeCommercial(output, backupSet.commercialEvidence)
+                    writeCommercial(output, backupSet.commercialEvidence, version)
                     writeWeb(output, backupSet.webEvidence)
                     writeAuxiliary(output, backupSet.auxiliary)
-                    if (version >= BOOKMARK_VERSION) writeBookmarks(output, checkNotNull(backupSet.auxiliary.bookmarks))
+                    if (version == BOOKMARK_VERSION ||
+                        (version == COMMERCIAL_TYPED_VERSION && backupSet.auxiliary.bookmarks != null)
+                    ) writeBookmarks(output, checkNotNull(backupSet.auxiliary.bookmarks))
                 }
                 buffer.toByteArray()
             }
@@ -110,17 +128,19 @@ object SemanticBackupSetCodec {
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             check(input.readInt() == MAGIC) { "semantic backup magic mismatch" }
             val version = input.readInt()
-            check(version in LEGACY_VERSION..BOOKMARK_VERSION) {
+            check(version in LEGACY_VERSION..COMMERCIAL_TYPED_VERSION) {
                 "unsupported semantic backup codec version"
             }
+            val hasBookmarks = if (version == COMMERCIAL_TYPED_VERSION)
+                readStrictBoolean(input) else version >= BOOKMARK_VERSION
             val decoded =
                 SemanticBackupSet(
-                    manifest = readManifest(input, version),
+                    manifest = readManifest(input, hasBookmarks),
                     reality = readReality(input, version),
-                    commercialEvidence = readCommercial(input),
+                    commercialEvidence = readCommercial(input, version),
                     webEvidence = readWeb(input),
                     auxiliary = readAuxiliary(input).let { auxiliary ->
-                        if (version >= BOOKMARK_VERSION) auxiliary.copy(bookmarks = readBookmarks(input)) else auxiliary
+                        if (hasBookmarks) auxiliary.copy(bookmarks = readBookmarks(input)) else auxiliary
                     },
                 )
             check(input.available() == 0) { "semantic backup plaintext has trailing bytes" }
@@ -149,7 +169,7 @@ object SemanticBackupSetCodec {
         writeString(output, manifest.setFingerprint)
     }
 
-    private fun readManifest(input: DataInputStream, version: Int): BackupSetManifest {
+    private fun readManifest(input: DataInputStream, hasBookmarks: Boolean): BackupSetManifest {
         val formatVersion = input.readInt()
         val backupSetId = BackupSetId(readString(input))
         val sourceGenerationId = StorageGenerationId(readString(input))
@@ -177,7 +197,7 @@ object SemanticBackupSetCodec {
             productVersion = productVersion,
             createdAtEpochMillis = createdAt,
             sections = sections,
-            classDecisions = if (version >= BOOKMARK_VERSION) BackupClassPolicy.decisionsWithBookmarks
+            classDecisions = if (hasBookmarks) BackupClassPolicy.decisionsWithBookmarks
                 else BackupClassPolicy.decisions,
             restoreReplayFenceRequired = input.readBoolean(),
             setFingerprint = readString(input),
@@ -302,13 +322,84 @@ object SemanticBackupSetCodec {
         )
     }
 
+    private fun writeNullableLong(output: DataOutputStream, value: Long?) {
+        output.writeBoolean(value != null)
+        value?.let(output::writeLong)
+    }
+
+    private fun readNullableLong(input: DataInputStream): Long? =
+        if (readStrictBoolean(input)) input.readLong() else null
+
+    private fun writeTypedCommercialTerms(output: DataOutputStream, terms: CommercialEvidenceTypedTerms) {
+        writeString(output, terms.fingerprint())
+        writeString(output, terms.localityKind.name)
+        writeNullableString(output, terms.localityCode)
+        writeNullableLong(output, terms.issuedAtEpochMillis)
+        writeNullableLong(output, terms.validFromEpochMillis)
+        writeNullableLong(output, terms.validUntilEpochMillis)
+        writeNullableLong(output, terms.presentationQuantityThousandths)
+        writeNullableString(output, terms.presentationUnit?.name)
+        writeNullableLong(output, terms.packCount?.toLong())
+        writeString(output, terms.paymentMethod.name)
+        writeString(output, terms.eligibility.name)
+        writeNullableString(output, terms.conditions)
+        writeString(output, terms.promotionKind.name)
+        writeNullableLong(output, terms.promotionValue)
+        writeNullableString(output, terms.promotionSourceRef)
+    }
+
+    private fun readTypedCommercialTerms(input: DataInputStream): CommercialEvidenceTypedTerms {
+        val fingerprint = readString(input)
+        val localityKind = CommercialLocalityKind.valueOf(readString(input))
+        val localityCode = readNullableString(input)
+        val issued = readNullableLong(input)
+        val from = readNullableLong(input)
+        val until = readNullableLong(input)
+        val quantity = readNullableLong(input)
+        val presentation = readNullableString(input)?.let { CommercialPresentationUnit.valueOf(it) }
+        val rawPack = readNullableLong(input)
+        check(rawPack == null || rawPack in 1L..Int.MAX_VALUE.toLong()) {
+            "commercial pack count outside bounds"
+        }
+        val payment = CommercialPaymentMethod.valueOf(readString(input))
+        val eligibility = CommercialEligibility.valueOf(readString(input))
+        val conditions = readNullableString(input)
+        val promotionKind = CommercialPromotionKind.valueOf(readString(input))
+        val promotionValue = readNullableLong(input)
+        val promotionSourceRef = readNullableString(input)
+        val terms = CommercialEvidenceTypedTerms(
+            localityKind = localityKind,
+            localityCode = localityCode,
+            issuedAtEpochMillis = issued,
+            validFromEpochMillis = from,
+            validUntilEpochMillis = until,
+            presentationQuantityThousandths = quantity,
+            presentationUnit = presentation,
+            packCount = rawPack?.toInt(),
+            paymentMethod = payment,
+            eligibility = eligibility,
+            conditions = conditions,
+            promotionKind = promotionKind,
+            promotionValue = promotionValue,
+            promotionSourceRef = promotionSourceRef,
+        )
+        check(terms.fingerprint() == fingerprint) {
+            "commercial typed metadata fingerprint mismatch"
+        }
+        return terms
+    }
+
     private fun writeCommercial(
         output: DataOutputStream,
         snapshot: CommercialEvidenceBackupSnapshot,
+        wireVersion: Int,
     ) {
+        check((snapshot.schemaVersion == 2) == (wireVersion == COMMERCIAL_TYPED_VERSION)) {
+            "schema2 commercial evidence requires FBS1 wire version4"
+        }
         output.writeInt(snapshot.schemaVersion)
         writeCount(output, snapshot.records.size, MAX_RECORDS)
-        snapshot.records.forEach { record ->
+        snapshot.records.forEachIndexed { index, record ->
             writeString(output, record.evidenceId.value)
             writeString(output, record.idempotencyKey.value)
             writeString(output, record.payloadFingerprint.value)
@@ -321,12 +412,21 @@ object SemanticBackupSetCodec {
             output.writeBoolean(record.observation.observedAtEpochMillis != null)
             record.observation.observedAtEpochMillis?.let(output::writeLong)
             output.writeLong(record.acquiredAtEpochMillis)
+            if (wireVersion == COMMERCIAL_TYPED_VERSION) {
+                val terms = checkNotNull(snapshot.stagedTyped).rows[index].terms
+                output.writeBoolean(terms != null)
+                terms?.let { writeTypedCommercialTerms(output, it) }
+            }
         }
     }
 
-    private fun readCommercial(input: DataInputStream): CommercialEvidenceBackupSnapshot {
+    private fun readCommercial(input: DataInputStream, wireVersion: Int): CommercialEvidenceBackupSnapshot {
         val schemaVersion = input.readInt()
+        check((schemaVersion == 2) == (wireVersion == COMMERCIAL_TYPED_VERSION)) {
+            "commercial evidence schema/wire version mismatch"
+        }
         val count = readCount(input, MAX_RECORDS)
+        val typedRows = mutableListOf<CommercialEvidenceStagedTypedBackupRow>()
         val records =
             buildList(count) {
                 repeat(count) {
@@ -344,20 +444,26 @@ object SemanticBackupSetCodec {
                             observedAtEpochMillis =
                                 if (input.readBoolean()) input.readLong() else null,
                         )
-                    add(
-                        CommercialEvidenceRecord(
-                            evidenceId = evidenceId,
-                            idempotencyKey = idempotency,
-                            payloadFingerprint = payloadFingerprint,
-                            observation = observation,
-                            acquiredAtEpochMillis = input.readLong(),
-                        )
+                    val record = CommercialEvidenceRecord(
+                        evidenceId = evidenceId,
+                        idempotencyKey = idempotency,
+                        payloadFingerprint = payloadFingerprint,
+                        observation = observation,
+                        acquiredAtEpochMillis = input.readLong(),
                     )
+                    add(record)
+                    if (wireVersion == COMMERCIAL_TYPED_VERSION) {
+                        val terms = if (readStrictBoolean(input))
+                            readTypedCommercialTerms(input) else null
+                        typedRows.add(CommercialEvidenceStagedTypedBackupRow(record, terms))
+                    }
                 }
             }
         return CommercialEvidenceBackupSnapshot(
             schemaVersion = schemaVersion,
             records = records,
+            stagedTyped = if (wireVersion == COMMERCIAL_TYPED_VERSION)
+                CommercialEvidenceStagedTypedBackupSnapshot(2, typedRows) else null,
         )
     }
 

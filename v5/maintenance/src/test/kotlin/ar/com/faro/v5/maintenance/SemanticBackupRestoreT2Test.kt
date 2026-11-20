@@ -16,6 +16,16 @@ import ar.com.faro.v5.delivery.api.OccurrenceRef
 import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.evidence.CommercialCurrencyCode
 import ar.com.faro.v5.evidence.CommercialEvidenceBackupSnapshot
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupSnapshot
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupRow
+import ar.com.faro.v5.evidence.CommercialEvidenceTypedTerms
+import ar.com.faro.v5.evidence.CommercialLocalityKind
+import ar.com.faro.v5.evidence.CommercialPresentationUnit
+import ar.com.faro.v5.evidence.CommercialPaymentMethod
+import ar.com.faro.v5.evidence.CommercialEligibility
+import ar.com.faro.v5.evidence.CommercialPromotionKind
+import ar.com.faro.v5.evidence.CommercialEvidenceBackupPort
+import ar.com.faro.v5.evidence.WebEvidenceBackupPort
 import ar.com.faro.v5.evidence.CommercialEvidenceId
 import ar.com.faro.v5.evidence.CommercialEvidenceRecord
 import ar.com.faro.v5.evidence.CommercialEvidenceSourceKind
@@ -33,8 +43,10 @@ import ar.com.faro.v5.kernel.contracts.EffectId
 import ar.com.faro.v5.kernel.contracts.IdempotencyKey
 import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
 import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupSnapshot
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupPort
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityBackupSnapshot
+import ar.com.faro.v5.store.reality.RealityBackupPort
 import ar.com.faro.v5.store.reality.RealityCommittedReceiptBackup
 import ar.com.faro.v5.store.reality.RealityMigrationAccount
 import ar.com.faro.v5.store.reality.RealityMigrationEntry
@@ -213,6 +225,136 @@ class SemanticBackupRestoreT2Test {
         assertFalse(SemanticBackupSetIntegrity.matches(forged))
         assertThrows(IllegalArgumentException::class.java) {
             SemanticBackupSetCodec.encode(forged)
+        }
+    }
+
+    private fun typedBackupSample(withBookmarks: Boolean): SemanticBackupSet {
+        val legacy = sampleBackupSet()
+        val first = legacy.commercialEvidence.records.single()
+        val second = first.copy(
+            evidenceId = CommercialEvidenceId("commercial-2"),
+            idempotencyKey = IdempotencyKey("commercial-idem-2"),
+            observation = first.observation.copy(
+                sourceKind = CommercialEvidenceSourceKind.TOOL,
+                sourceRef = "literal:commercial-flyer",
+            ),
+        )
+        val terms = CommercialEvidenceTypedTerms(
+            localityKind = CommercialLocalityKind.KNOWN,
+            localityCode = "AR-SF",
+            issuedAtEpochMillis = 100L,
+            validFromEpochMillis = 110L,
+            validUntilEpochMillis = 200L,
+            presentationQuantityThousandths = 1000L,
+            presentationUnit = CommercialPresentationUnit.MILLILITER,
+            packCount = 1,
+            paymentMethod = CommercialPaymentMethod.DEBIT,
+            eligibility = CommercialEligibility.GENERAL,
+            conditions = "only with loyalty card",
+            promotionKind = CommercialPromotionKind.DISCOUNT_PERCENT,
+            promotionValue = 1500L,
+            promotionSourceRef = "manual:offer-ticket",
+        )
+        val stagedRows = CommercialEvidenceStagedTypedBackupSnapshot(
+            2,
+            listOf(
+                CommercialEvidenceStagedTypedBackupRow(first, null),
+                CommercialEvidenceStagedTypedBackupRow(second, terms),
+            ),
+        )
+        CommercialEvidenceStore(":memory:", stagedTypedTermsV2 = true).use { commercial ->
+            commercial.stagedTypedBackup.restoreOrVerify(stagedRows)
+            val realityPort = object : RealityBackupPort {
+                override fun snapshot(): RealityBackupSnapshot = legacy.reality
+                override fun restoreOrVerify(snapshot: RealityBackupSnapshot): RealityBackupSnapshot =
+                    error("capture-only Reality")
+            }
+            val webPort = object : WebEvidenceBackupPort {
+                override fun snapshot(): WebEvidenceBackupSnapshot = legacy.webEvidence
+                override fun restoreOrVerify(snapshot: WebEvidenceBackupSnapshot): WebEvidenceBackupSnapshot =
+                    error("capture-only Web")
+            }
+            val auxPayload = if (withBookmarks) legacy.auxiliary
+                else legacy.auxiliary.copy(bookmarks = null)
+            val auxPort = object : AuxiliaryBackupPort {
+                override fun snapshot(): AuxiliaryBackupSnapshot = auxPayload
+                override fun restoreOrVerify(snapshot: AuxiliaryBackupSnapshot): AuxiliaryBackupSnapshot =
+                    error("capture-only Auxiliary")
+            }
+            return SemanticBackupCaptureCoordinator(
+                quiescence = RecordingQuiescence(),
+                reality = realityPort,
+                commercialEvidence = commercial.backup,
+                webEvidence = webPort,
+                auxiliary = auxPort,
+            ).capture(
+                operationId = MaintenanceOperationId("typed-backup-capture"),
+                backupSetId = BackupSetId("typed-backup-set"),
+                sourceGenerationId = StorageGenerationId("generation-staged-typed"),
+                productVersion = "5-staged-v2",
+                createdAtEpochMillis = 2_500L,
+            )
+        }
+    }
+
+    @Test fun typedEvidence2Fbs1V4WithBookmarksRoundTripsAllFields() {
+        val set = typedBackupSample(withBookmarks = true)
+        assertTrue(SemanticBackupSetIntegrity.matches(set))
+        assertEquals(2, set.commercialEvidence.schemaVersion)
+        val bytes = SemanticBackupSetCodec.encode(set)
+        assertEquals(4, java.nio.ByteBuffer.wrap(bytes).getInt(4))
+        val decoded = SemanticBackupSetCodec.decode(bytes)
+        assertEquals(set, decoded)
+        assertEquals(bytes.toList(), SemanticBackupSetCodec.encode(decoded).toList())
+        val typed = checkNotNull(decoded.commercialEvidence.stagedTyped)
+        assertEquals(2, typed.rows.size)
+        assertEquals(null, typed.rows[0].terms)
+        assertEquals("AR-SF", typed.rows[1].terms?.localityCode)
+        assertEquals("literal:commercial-flyer",
+            typed.rows[1].record.observation.sourceRef)
+    }
+
+    @Test fun typedEvidence2Fbs1V4WithoutBookmarksRoundTrips() {
+        val set = typedBackupSample(withBookmarks = false)
+        assertEquals(BackupClassPolicy.decisions, set.manifest.classDecisions)
+        val bytes = SemanticBackupSetCodec.encode(set)
+        assertEquals(4, java.nio.ByteBuffer.wrap(bytes).getInt(4))
+        val decoded = SemanticBackupSetCodec.decode(bytes)
+        assertEquals(set, decoded)
+        assertEquals(null, decoded.auxiliary.bookmarks)
+        assertEquals(bytes.toList(), SemanticBackupSetCodec.encode(decoded).toList())
+    }
+
+    @Test fun typedEvidence2TermsMutationWithoutNewManifestFailsClosed() {
+        val set = typedBackupSample(withBookmarks = true)
+        val typed = checkNotNull(set.commercialEvidence.stagedTyped)
+        val modified = typed.copy(rows = typed.rows.mapIndexed { index, row ->
+            if (index == 1) row.copy(
+                terms = checkNotNull(row.terms).copy(
+                    validUntilEpochMillis = 250L,
+                ),
+            ) else row
+        })
+        val changed = set.copy(commercialEvidence =
+            set.commercialEvidence.copy(stagedTyped = modified))
+        assertFalse(SemanticBackupSetIntegrity.matches(changed))
+        assertThrows(IllegalArgumentException::class.java) {
+            SemanticBackupSetCodec.encode(changed)
+        }
+    }
+
+    @Test fun typedEvidence2MissingTermsOrDowngradedWireRejected() {
+        val set = typedBackupSample(withBookmarks = true)
+        assertThrows(IllegalArgumentException::class.java) {
+            CommercialEvidenceBackupSnapshot(
+                schemaVersion = 2,
+                records = set.commercialEvidence.records,
+            )
+        }
+        val bytes = SemanticBackupSetCodec.encode(set)
+        bytes[7] = 3.toByte()
+        assertThrows(Exception::class.java) {
+            SemanticBackupSetCodec.decode(bytes)
         }
     }
 

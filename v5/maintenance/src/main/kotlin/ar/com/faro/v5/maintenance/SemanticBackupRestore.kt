@@ -573,12 +573,19 @@ private object BackupManifestBuilder {
     private fun commercialSection(
         snapshot: CommercialEvidenceBackupSnapshot,
     ): BackupSectionManifest {
+        val typed = if (snapshot.schemaVersion == 2) checkNotNull(snapshot.stagedTyped) else null
         val hash =
             CanonicalHashBuilder
-                .domain("faro-v5-backup-commercial-evidence-v1")
+                .domain(if (typed == null) "faro-v5-backup-commercial-evidence-v1"
+                    else "faro-v5-backup-commercial-evidence-v2")
                 .string("schemaVersion", snapshot.schemaVersion.toString())
         snapshot.records.forEachIndexed { index, record ->
             addCommercialRecord(hash, index, record)
+            if (typed != null) {
+                val terms = typed.rows[index].terms
+                hash.string("record.$index.termsPresent", (terms != null).toString())
+                    .string("record.$index.termsFingerprint", terms?.fingerprint() ?: "")
+            }
         }
         return BackupSectionManifest(
             sectionId = "commercial-evidence",
