@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_E_MATTERS_ANDROID_DEV",
   "reviewed_head": "b985e5a72dc51e0a77163f073cb84d3282266f2c",
   "paths": [
@@ -68,23 +68,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_BUILD_AND_ISOLATION"
   },
   "last_code_review": {
-    "sha": "79928d698592fcbc7823d666cfb731b2c15e26d9",
-    "unit_id": "S4_W03_D_INTEGRATED_MATTER_REMINDER_NOTICE_DEV",
+    "sha": "5a2ae5417b0f25cf04b2291f72276d1f89e53f83",
+    "unit_id": "S4_W03_E_MATTERS_ANDROID_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_D_OWNER_INTEGRATION_B7_PASS_20261119.md",
-        "blob_sha": "063ee134b9f1aaae791e4690474bbf1c9c3ca53b",
+        "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B7_PASS_SCOPED_20261119.md",
+        "blob_sha": "b115ce4e8b5086e8f8c3becc0cc93137618fc1a8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-E exact audit guard 44615253846 SUCCESS.",
-  "how": "W03 Android isolated package, native owner actions and Avisos; assemble and manifest CI. E does not certify G.",
+  "why": "W03 E B7 PASS scoped Android APK/manifest; Actions 44645128424 + guard 44645128397 SUCCESS. G requires separate READY.",
+  "how": "E permit consumed; W03-G preaudit pending guard, then distinct permit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -95,5 +95,5 @@
     "code_ready": false
   },
   "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44614062695
+  "last_ci_run_id": 44645128424
 }
