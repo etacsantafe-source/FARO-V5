@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
-  "reviewed_head": "2a9bfb6038d545bfde736f86be1819d040cc1386",
+  "status": "READY",
+  "unit_id": "S4_W04_C1B2E_STAGED_TYPED_BACKUP_DEV",
+  "reviewed_head": "c48369b7e81ec829634df7b2d63a3b315323c9d6",
   "paths": [
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
-    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceTypedTerms.kt",
-    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceTypedTermsTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c1b1-terms-staged.yml"
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/EvidenceBackupPort.kt",
+    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceStagedTypedBackupTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c1b2e-staged-backup.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
-          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
+          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
+          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
-          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
+          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
+          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
-          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
+          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
+          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
-          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
+          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
+          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
-          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
+          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
+          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
@@ -75,20 +75,20 @@
       }
     ]
   },
-  "why": "C1b1 Evidence2 staged DEV only: B7 PASS, guard 44813495275 and directed :evidence:test 44813495451 SUCCESS XML9/9; permit consumed. C1b2 requires versioned backup/portability and own READY.",
-  "how": "No more C1b1 code. C1b2 preaudit doc exists; freeze precise routes/permissions, guard and READY separately before B6.",
+  "why": "W04-C1b2E B1-B5 blob 421478fe93ed70541d7a5d84f5c5e60c77227bcc preaudit exact4; guard 44820637021 SUCCESS on c48369b7e81ec829634df7b2d63a3b315323c9d6; C1b1 PASS preserved. Stage-only new typed backup port, legacy FBS1/FBS2 fail closed.",
+  "how": "B6 only the four exact approved routes after preflight parent; :evidence:test JVM XML, B7 independent. No active opener, FBS1/FBS2 or portable export.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "User requested W04-C1b typed terms; first scoped staged-only C1b1 B6 after own guard and READY; no physical tests"
+    "scope": "Continue W04-C1b2 after B1-B5 staged Evidence2 typed backup own guard/READY; no physical, finance, or productive V2 writes."
   },
-  "preaudit_guard": 44811730659,
+  "preaudit_guard": 44820637021,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2_EVIDENCE2_LOSSLESS_INTEGRATION_PREAUDIT_NO_READY",
-  "completed_guard": 44813495275,
-  "completed_ci": 44813495451,
-  "completed_xml": "9/9_PASS",
-  "completed_artifact_id": 14668891893
+  "next": "W04_C1B2E_EXACT4_B6_DEV_READY",
+  "completed_guard": null,
+  "completed_ci": null,
+  "completed_xml": "NOT_RUN_C1B2E",
+  "completed_artifact_id": null
 }
