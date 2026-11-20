@@ -1,0 +1,72 @@
+name: FARO V5 W04-B0A Household10 Staged Schema
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10Schema.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10MigrationTest.kt
+      - .github/workflows/faro-v5-s4-w04-b0a-household10-schema.yml
+
+permissions:
+  contents: read
+
+jobs:
+  household10-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: W04-B0A exact-route protocol preflight against parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for multi-project Gradle config
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test isolated Reality9 to Household10 SQL on JVM
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityHousehold10MigrationTest
+      - name: Verify exactly 6 W04-B0A JUnit XML tests
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/store/reality/build/test-results/test').glob(
+              'TEST-*RealityHousehold10MigrationTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          totals = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert totals == (6,0,0,0), totals
+          print('W04_B0A_HOUSEHOLD10_SCHEMA_XML_PASS 6/6')
+          PY
+      - name: Preserve W04-B0A JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-b0a-household10-schema-xml
+          if-no-files-found: error
+          path: v5/store/reality/build/test-results/test/TEST-*RealityHousehold10MigrationTest.xml
