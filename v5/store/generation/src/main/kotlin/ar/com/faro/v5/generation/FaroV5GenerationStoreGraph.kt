@@ -363,6 +363,37 @@ class FaroV5GenerationStoreGraph private constructor(
         ): FaroV5GenerationStoreGraph =
             openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true, householdStage10 = true)
 
+        /** Health projection of an already-selected DEV root while its owner holds the closed-host lease. */
+        internal fun verifyReopenedHousehold10Dev(
+            root: Path,
+            staged: StagedStorageGeneration,
+            expected: ActiveGenerationPointer,
+            assertExclusiveClosedDevHost: () -> Unit,
+        ): Boolean {
+            assertExclusiveClosedDevHost()
+            val pointer = FileActiveGenerationPointer(root)
+            val canonical = FileStorageGenerationLayout(root).requireStaged(expected.generationId)
+            check(canonical.descriptor == staged.descriptor &&
+                canonical.directory == staged.directory.toAbsolutePath().normalize() &&
+                pointer.read() == expected) { "Household10 DEV reopen pointer or descriptor changed" }
+            requireSealedHousehold10ArchiveStage(canonical)
+            val healthy = openValidatedV2Internal(
+                canonical, planVerifier = null,
+                planningStage8 = true, financeStage9 = true,
+                auxiliaryReceiptFence = {
+                    assertExclusiveClosedDevHost()
+                    pointer.read() == expected
+                },
+                householdStage10 = true,
+            ).use { graph ->
+                graph.workspace != null && graph.verifyHealthy() &&
+                    graph.reality.maintenance.inspect().schemaVersion == 10
+            }
+            assertExclusiveClosedDevHost()
+            requireSealedHousehold10ArchiveStage(canonical)
+            return healthy && pointer.read() == expected
+        }
+
         internal fun requireSealedHousehold10ArchiveStage(staged: StagedStorageGeneration) {
             check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
             val directory = staged.directory.toAbsolutePath().normalize()
@@ -371,6 +402,10 @@ class FaroV5GenerationStoreGraph private constructor(
                 val file = directory.resolve(name)
                 check(Files.isRegularFile(file, NOFOLLOW_LINKS) &&
                     (Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                val header = Files.newInputStream(file, NOFOLLOW_LINKS).use { it.readNBytes(20) }
+                check(header.size == 20 && header[18] == 2.toByte() && header[19] == 2.toByte()) {
+                    "Household10 DEV requires sealed WAL-mode stores"
+                }
                 for (suffix in listOf("-wal", "-shm", "-journal")) {
                     check(Files.notExists(directory.resolve(name + suffix), NOFOLLOW_LINKS))
                 }
