@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "date_local": "2026-11-20",
+  "unit": "S4_W04_C_PREAUDIT",
+  "baseline_head": "a60c184d116bd0c8a9ddc6941a6eb3478b5455a6",
+  "branch": "work/s3-night-20261102",
+  "scope": "DOC_ONLY_B1_B5",
+  "first_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
+  "first_unit_paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelectionTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c0a-match.yml"
+  ],
+  "units": [
+    {
+      "id": "C0A",
+      "status": "B1_B5_PREAUDITED_WAIT_GUARD_READY"
+    },
+    {
+      "id": "C0B",
+      "status": "DESIGN_B1_B5_CANDIDATE_PATHS_NOT_READY"
+    },
+    {
+      "id": "C1",
+      "status": "DESIGN_B1_B5_CONDITIONAL_SCHEMA_NOT_READY"
+    },
+    {
+      "id": "C2_C3",
+      "status": "DESIGN_B1_B5_CANDIDATE_PATHS_NOT_READY"
+    }
+  ],
+  "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
+  "new_functional_code": false,
+  "tests_run_this_turn": "NOT_RUN_DOC_ONLY",
+  "writer": "RELEASE_AFTER_DOC_COMMIT",
+  "next": "VERIFY_GUARD_DOC_SHA_THEN_EXACT_C0A_READY",
+  "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md"
+}
