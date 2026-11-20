@@ -1,27 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W03_G_GLOBAL_B7_ANDROID_DEV",
-  "reviewed_head": "a75034e7e59df00d73980467488226104fcb5d51",
+  "status": "READY",
+  "unit_id": "S4_W04_A_HOUSEHOLD_NEEDS_MODEL_DEV",
+  "reviewed_head": "2bade20f9710667dbd359b624b7a704366912a99",
   "paths": [
-    "v5/app/build.gradle.kts",
-    "v5/app/src/w03AndroidTest/kotlin/ar/com/faro/v5/app/S4W03MattersAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w03-g-global-android.yml",
-    "v5/app/src/w03MattersDev/kotlin/ar/com/faro/v5/app/FaroV5W03MattersDevActivity.kt",
-    "v5/app/src/w03MattersDev/kotlin/ar/com/faro/v5/app/FaroV5W03MattersPanel.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactory.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AvisosSurface.kt",
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt"
+    "v5/settings.gradle.kts",
+    "v5/owner/household/build.gradle.kts",
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedModel.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedModelTest.kt",
+    ".github/workflows/faro-v5-s4-w04-a-household-needs.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_G_GLOBAL_ANDROID_B1_B5_20261119.md",
-          "blob_sha": "4c2e03bb711551a16d84aed8d8e0df86ea6cb2aa",
+          "path": "docs/v5/FARO_S4_W04_A_HOUSEHOLD_NEEDS_B1_B5_20261119.md",
+          "blob_sha": "4f1a42d0137d319d08982ee069dcca04d73d3dff",
           "marker": "## B1"
         }
       ]
@@ -30,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_G_GLOBAL_ANDROID_B1_B5_20261119.md",
-          "blob_sha": "4c2e03bb711551a16d84aed8d8e0df86ea6cb2aa",
+          "path": "docs/v5/FARO_S4_W04_A_HOUSEHOLD_NEEDS_B1_B5_20261119.md",
+          "blob_sha": "4f1a42d0137d319d08982ee069dcca04d73d3dff",
           "marker": "## B2"
         }
       ]
@@ -40,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_G_GLOBAL_ANDROID_B1_B5_20261119.md",
-          "blob_sha": "4c2e03bb711551a16d84aed8d8e0df86ea6cb2aa",
+          "path": "docs/v5/FARO_S4_W04_A_HOUSEHOLD_NEEDS_B1_B5_20261119.md",
+          "blob_sha": "4f1a42d0137d319d08982ee069dcca04d73d3dff",
           "marker": "## B3"
         }
       ]
@@ -50,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_G_GLOBAL_ANDROID_B1_B5_20261119.md",
-          "blob_sha": "4c2e03bb711551a16d84aed8d8e0df86ea6cb2aa",
+          "path": "docs/v5/FARO_S4_W04_A_HOUSEHOLD_NEEDS_B1_B5_20261119.md",
+          "blob_sha": "4f1a42d0137d319d08982ee069dcca04d73d3dff",
           "marker": "## B4"
         }
       ]
@@ -60,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W03_G_GLOBAL_ANDROID_B1_B5_20261119.md",
-          "blob_sha": "4c2e03bb711551a16d84aed8d8e0df86ea6cb2aa",
+          "path": "docs/v5/FARO_S4_W04_A_HOUSEHOLD_NEEDS_B1_B5_20261119.md",
+          "blob_sha": "4f1a42d0137d319d08982ee069dcca04d73d3dff",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_W03_LOCAL_DEV_ANDROID_API35"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "0706f4ba89ce48921adfe885157b135f8dd4296c",
@@ -81,8 +76,8 @@
       }
     ]
   },
-  "why": "W03 G final Android real owner API35 1/1 PASS and W03-E regressed SUCCESS, all W03 LOCAL_ONLY DEV A/B/C/D/E/G B7 certified.",
-  "how": "W03-G READY consumed/BLOCKED. W03-F OS notifications DEFERRED; do not ship V2 or test G15 without separate authorization.",
+  "why": "W04-A only: isolated immutable Household need typed JVM model; B1–B5 documented, previous guard 44659246357 SUCCESS. User authorized W04 implementation after preaudits.",
+  "how": "B6 scope exact5; no SQL/Reality mutation, no app UI, finance, stock, paid API or G15. Independent B7 XML/guard and consume READY before W04-B.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -92,7 +87,12 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44656219736,
-  "pre_audit_guard": 44646678896
+  "preaudit_guard": 44659246357,
+  "last_ci_run_id": 44659246357,
+  "pre_audit_guard": 44659246357,
+  "user_authorization": {
+    "date_local": "2026-11-19",
+    "scope": "W04 Household implementation authorized; B1-B5 first and W04-A only permitted now",
+    "w05_w06_w07": false
+  }
 }
