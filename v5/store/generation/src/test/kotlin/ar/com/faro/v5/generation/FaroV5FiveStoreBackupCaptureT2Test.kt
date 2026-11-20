@@ -1,6 +1,21 @@
 package ar.com.faro.v5.generation
 
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.evidence.CommercialEvidenceId
+import ar.com.faro.v5.evidence.CommercialEvidenceSourceKind
+import ar.com.faro.v5.evidence.CommercialPriceObservation
+import ar.com.faro.v5.evidence.CommercialProductKey
+import ar.com.faro.v5.evidence.CommercialMerchant
+import ar.com.faro.v5.evidence.CommercialCurrencyCode
+import ar.com.faro.v5.evidence.CommercialEvidenceTypedTerms
+import ar.com.faro.v5.evidence.CommercialLocalityKind
+import ar.com.faro.v5.evidence.CommercialPaymentMethod
+import ar.com.faro.v5.evidence.CommercialPresentationUnit
+import ar.com.faro.v5.evidence.CommercialEligibility
+import ar.com.faro.v5.evidence.CommercialPromotionKind
+import ar.com.faro.v5.kernel.contracts.IdempotencyKey
+import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
+import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.kernel.contracts.AtomicApplyTransactionDecision
 import ar.com.faro.v5.kernel.contracts.TransactionId
 import ar.com.faro.v5.owner.objectives.api.*
@@ -10,6 +25,9 @@ import java.nio.ByteBuffer
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.maintenance.BackupSetId
 import ar.com.faro.v5.maintenance.FileStorageGenerationLayout
+import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
+import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.maintenance.SemanticBackupSetIntegrity
 import ar.com.faro.v5.maintenance.GenerationStoreFiles
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
@@ -70,6 +88,221 @@ class FaroV5FiveStoreBackupCaptureT2Test {
         AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
         ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
         return FaroV5GenerationStoreGraph.openValidatedV2(staged)
+    }
+
+    /**
+     * Test-only stage. This never activates a real app generation.
+     * Create legacy Commercial first, then explicitly migrate it to Evidence2
+     * and seal WAL before the five-store read-only preflight.
+     */
+    private fun stageFiveCommercialEvidence2(
+        name: String,
+        typed: Boolean = true,
+    ): StagedStorageGeneration {
+        val root = temp.resolve(name)
+        val staged = FileStorageGenerationLayout(root).stageWorkspaceV2(
+            StorageGenerationDescriptor(
+                generationId = StorageGenerationId("generation-$name"),
+                schemaSetFingerprint = "five-store-evidence2-staged-only",
+                createdAtEpochMillis = 1234L,
+            )
+        )
+        val dir = staged.directory
+        RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
+        val commercialPath = dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()
+        CommercialEvidenceStore(
+            commercialPath,
+            clock = { 150L },
+            evidenceIdFactory = { CommercialEvidenceId("evidence-legacy") },
+        ).use { legacy ->
+            legacy.record(
+                CommercialPriceObservation(
+                    productKey = CommercialProductKey("rice-1kg"),
+                    merchant = CommercialMerchant("local-market"),
+                    currencyCode = CommercialCurrencyCode("ARS"),
+                    amountMinor = 12300L,
+                    sourceKind = CommercialEvidenceSourceKind.MANUAL,
+                    sourceRef = "manual:legacy-ticket",
+                    observedAtEpochMillis = 100L,
+                ),
+                IdempotencyKey("legacy-key"),
+                PayloadFingerprint("a".repeat(64)),
+            )
+        }
+        if (typed) {
+            CommercialEvidenceStore(
+                commercialPath,
+                clock = { 250L },
+                evidenceIdFactory = { CommercialEvidenceId("evidence-typed") },
+                stagedTypedTermsV2 = true,
+                stagedSemanticBackupV2 = true,
+            ).use { evidence2 ->
+                evidence2.recordWithTypedTerms(
+                    CommercialPriceObservation(
+                        productKey = CommercialProductKey("rice-1kg"),
+                        merchant = CommercialMerchant("local-market"),
+                        currencyCode = CommercialCurrencyCode("ARS"),
+                        amountMinor = 11900L,
+                        sourceKind = CommercialEvidenceSourceKind.TOOL,
+                        sourceRef = "literal:store-flyer",
+                        observedAtEpochMillis = 200L,
+                    ),
+                    CommercialEvidenceTypedTerms(
+                        localityKind = CommercialLocalityKind.KNOWN,
+                        localityCode = "AR-SF",
+                        issuedAtEpochMillis = 190L,
+                        validFromEpochMillis = 195L,
+                        validUntilEpochMillis = 280L,
+                        presentationQuantityThousandths = 1000L,
+                        presentationUnit = CommercialPresentationUnit.GRAM,
+                        packCount = 1,
+                        paymentMethod = CommercialPaymentMethod.DEBIT,
+                        eligibility = CommercialEligibility.GENERAL,
+                        conditions = "only with membership",
+                        promotionKind = CommercialPromotionKind.DISCOUNT_PERCENT,
+                        promotionValue = 1200L,
+                        promotionSourceRef = "literal:flyer",
+                    ),
+                    IdempotencyKey("typed-key"),
+                    PayloadFingerprint("b".repeat(64)),
+                )
+                assertTrue(evidence2.maintenance.inspect().integrityHealthy)
+            }
+        }
+        WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
+        AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
+        ConversationWorkspaceStore(dir.resolve(GenerationStoreFiles.WORKSPACE).toString()).use { }
+        return staged
+    }
+
+    private class SharedGateLease(
+        private val gate: SingleProcessMaterialWriteGate,
+        private val reject: Boolean = false,
+    ) : MaterialWriteQuiescencePort {
+        var calls = 0
+        var released = 0
+        override fun <T> withMaterialWritesQuiesced(
+            operationId: MaintenanceOperationId,
+            block: () -> T,
+        ): T = gate.withQuiescedMaterialWrites {
+            calls += 1
+            if (reject) error("staged global write quiescence denied")
+            try { block() } finally { released += 1 }
+        }
+    }
+
+    @Test fun evidence2StagedFiveStoreCaptureFbs2RoundtripRetainsTypedAndLegacy() {
+        val staged = stageFiveCommercialEvidence2("e2-capture")
+        val gate = SingleProcessMaterialWriteGate()
+        FaroV5GenerationStoreGraph.openValidatedV2Evidence2StagedDev(staged, gate).use { graph ->
+            val lease = SharedGateLease(gate)
+            val set = FaroV5FiveStoreBackupCapture(graph, lease).capture(
+                operationId = MaintenanceOperationId("e2-capture"),
+                backupSetId = BackupSetId("e2-backup"),
+                productVersion = "5-evidence2-staged",
+                createdAtEpochMillis = 1234L,
+            )
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+            assertTrue(graph.verifyHealthy())
+            assertEquals(2, graph.commercialEvidence.maintenance.inspect().schemaVersion)
+            assertEquals(2, set.fourStore.commercialEvidence.schemaVersion)
+            assertEquals(graph.commercialEvidence.backup.snapshot(),
+                set.fourStore.commercialEvidence)
+            val typed = checkNotNull(set.fourStore.commercialEvidence.stagedTyped)
+            assertEquals(listOf("evidence-legacy", "evidence-typed"),
+                typed.rows.map { it.record.evidenceId.value })
+            assertNull(typed.rows[0].terms)
+            assertEquals(CommercialEvidenceTypedTerms.UNKNOWN, typed.rows[0].effectiveTerms)
+            assertEquals("AR-SF", typed.rows[1].terms?.localityCode)
+            assertEquals("literal:store-flyer", typed.rows[1].record.observation.sourceRef)
+            assertEquals("ARS", typed.rows[1].record.observation.currencyCode.value)
+            val bytes = FaroV5FiveStoreSemanticCodec.encode(set)
+            assertEquals(set, FaroV5FiveStoreSemanticCodec.decode(bytes))
+            assertTrue(SemanticBackupSetIntegrity.matches(set.fourStore))
+            val tampered = set.copy(fourStore = set.fourStore.copy(
+                commercialEvidence = set.fourStore.commercialEvidence.copy(
+                    stagedTyped = typed.copy(rows = typed.rows.mapIndexed { index, row ->
+                        if (index == 1) row.copy(
+                            terms = checkNotNull(row.terms).copy(validUntilEpochMillis = 290L)
+                        ) else row
+                    }),
+                ),
+            ))
+            assertFalse(SemanticBackupSetIntegrity.matches(tampered.fourStore))
+            assertThrows(IllegalStateException::class.java) {
+                FaroV5FiveStoreSemanticCodec.encode(tampered)
+            }
+        }
+    }
+
+    @Test fun legacyV2GraphRejectsSealedSchema2BeforeOpeningOwners() {
+        val staged = stageFiveCommercialEvidence2("e2-legacy-reject")
+        assertThrows(IllegalStateException::class.java) {
+            FaroV5GenerationStoreGraph.openValidatedV2(staged).use { }
+        }
+        assertFalse(Files.exists(staged.directory.resolve(
+            GenerationStoreFiles.COMMERCIAL_EVIDENCE + "-wal")))
+        assertFalse(Files.exists(staged.directory.resolve(
+            GenerationStoreFiles.COMMERCIAL_EVIDENCE + "-shm")))
+    }
+
+    @Test fun explicitEvidence2StageFactoryRejectsLegacySchema1WithoutMigration() {
+        val staged = stageFiveCommercialEvidence2("e2-reject-v1", typed = false)
+        val gate = SingleProcessMaterialWriteGate()
+        assertThrows(IllegalStateException::class.java) {
+            FaroV5GenerationStoreGraph.openValidatedV2Evidence2StagedDev(staged, gate).use { }
+        }
+        FaroV5GenerationStoreGraph.openValidatedV2(staged).use { legacy ->
+            assertEquals(1, legacy.commercialEvidence.maintenance.inspect().schemaVersion)
+            assertTrue(legacy.verifyHealthy())
+        }
+    }
+
+    @Test fun explicitEvidence2StageFactoryRejectsSimulatedActivePointer() {
+        val name = "e2-active-deny"
+        val staged = stageFiveCommercialEvidence2(name)
+        val pointer = FileActiveGenerationPointer(temp.resolve(name))
+        val active = pointer.compareAndSet(null, staged.descriptor.generationId)
+        assertEquals(staged.descriptor.generationId, active?.generationId)
+        assertThrows(IllegalStateException::class.java) {
+            FaroV5GenerationStoreGraph.openValidatedV2Evidence2StagedDev(
+                staged, SingleProcessMaterialWriteGate(),
+            ).use { }
+        }
+    }
+
+    @Test fun stagedEvidence2QuiescenceDenyAndHotWalFailClosed() {
+        val staged = stageFiveCommercialEvidence2("e2-quiescence")
+        val gate = SingleProcessMaterialWriteGate()
+        FaroV5GenerationStoreGraph.openValidatedV2Evidence2StagedDev(staged, gate).use { graph ->
+            val before = graph.commercialEvidence.stagedTypedBackup.snapshot()
+            val lease = SharedGateLease(gate, reject = true)
+            assertThrows(IllegalStateException::class.java) {
+                capture(graph, Lease(reject = true))
+            }
+            assertThrows(IllegalStateException::class.java) {
+                FaroV5FiveStoreBackupCapture(graph, lease).capture(
+                    operationId = MaintenanceOperationId("e2-rejected"),
+                    backupSetId = BackupSetId("e2-rejected-backup"),
+                    productVersion = "5-e2-rejected",
+                    createdAtEpochMillis = 1234L,
+                )
+            }
+            assertEquals(1, lease.calls)
+            assertEquals(0, lease.released)
+            assertEquals(before, graph.commercialEvidence.stagedTypedBackup.snapshot())
+            assertTrue(graph.verifyHealthy())
+        }
+        Files.writeString(
+            staged.directory.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE + "-wal"),
+            "uncheckpointed",
+        )
+        assertThrows(IllegalStateException::class.java) {
+            FaroV5GenerationStoreGraph.openValidatedV2Evidence2StagedDev(
+                staged, SingleProcessMaterialWriteGate(),
+            ).use { }
+        }
     }
 
     private fun capture(

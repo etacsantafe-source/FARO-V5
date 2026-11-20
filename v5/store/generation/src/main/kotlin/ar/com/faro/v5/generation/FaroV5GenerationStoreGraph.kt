@@ -274,6 +274,45 @@ class FaroV5GenerationStoreGraph private constructor(
             openValidatedV2Internal(staged, planVerifier, materialWriteGate)
 
         /**
+         * C1b2G: one isolated STAGED Evidence2 five-owner graph, not an ACTIVE
+         * opener or promotion/cutover API. Requires a sealed schema2 Commercial
+         * DB BEFORE graph opening and the SAME material gate for all owners.
+         * The immutable descriptor and durable pointer are pinned across open.
+         */
+        internal fun openValidatedV2Evidence2StagedDev(
+            staged: StagedStorageGeneration,
+            materialWriteGate: MaterialWriteGate,
+        ): FaroV5GenerationStoreGraph {
+            val normalized = staged.directory.toAbsolutePath().normalize()
+            check(normalized.parent?.fileName?.toString() == "generations") {
+                "isolated Evidence2 requires canonical STAGED generation path"
+            }
+            val root = normalized.parent.parent
+            val canonical = FileStorageGenerationLayout(root)
+                .requireStaged(staged.descriptor.generationId)
+            check(canonical.descriptor == staged.descriptor &&
+                canonical.directory.toAbsolutePath().normalize() == normalized) {
+                "Evidence2 stage descriptor/path changed"
+            }
+            val pointer = FileActiveGenerationPointer(root)
+            val pinned = pointer.read()
+            check(pinned?.generationId != staged.descriptor.generationId) {
+                "Evidence2 staged graph cannot open ACTIVE generation"
+            }
+            val graph = openValidatedV2Internal(
+                canonical,
+                planVerifier = null,
+                materialWriteGate = materialWriteGate,
+                commercialEvidence2StagedDev = true,
+            )
+            if (pointer.read() != pinned) {
+                graph.close()
+                error("Evidence2 staged pointer changed during graph opening")
+            }
+            return graph
+        }
+
+        /**
          * Active V2 reopen after durable pointer switch or process restart.
          * Read-only preflight must observe committed WAL rather than treating
          * it as an incomplete STAGED backup. Callers guard pointer+quiescence.
@@ -667,7 +706,14 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStage10: Boolean = false,
             householdActive10Dev: Boolean = false,
             householdNeedsWritableDev: Boolean = false,
+            commercialEvidence2StagedDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!commercialEvidence2StagedDev || (
+                !activeGeneration && !planningStage8 && !financeStage9 &&
+                    !checkedPlanning8Active && auxiliaryReceiptFence == null &&
+                    !householdStage10 && !householdActive10Dev &&
+                    !householdNeedsWritableDev && materialWriteGate != null
+            )) { "Evidence2 staged graph cannot be active or share privileged owner stage" }
             check(!householdNeedsWritableDev || (householdActive10Dev && planVerifier != null))
             check(!householdActive10Dev || (activeGeneration && !householdStage10 &&
                 financeStage9 && auxiliaryReceiptFence != null && materialWriteGate != null))
@@ -711,6 +757,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 normalized, activeGeneration, planningStage8, financeStage9,
                 auxiliary4 = auxiliaryReceiptFence != null,
                 householdStage10 = householdStage10 || householdActive10Dev,
+                commercialEvidence2StagedDev = commercialEvidence2StagedDev,
             )
             if (householdActive10Dev) {
                 val fence = checkNotNull(auxiliaryReceiptFence)
@@ -748,6 +795,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     householdStage10 = householdStage10,
                     householdActive10Dev = householdActive10Dev,
                     householdNeedsWritableDev = householdNeedsWritableDev,
+                    commercialEvidence2StagedDev = commercialEvidence2StagedDev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -773,7 +821,11 @@ class FaroV5GenerationStoreGraph private constructor(
             auxiliary4: Boolean = false,
             allowAuxiliary3: Boolean = false,
             householdStage10: Boolean = false,
+            commercialEvidence2StagedDev: Boolean = false,
         ) {
+            check(!commercialEvidence2StagedDev || !activeGeneration) {
+                "Commercial Evidence2 must not enter ACTIVE strict preflight"
+            }
             // Reality schema7 adds nullable, durable receipt commit time.
             // The only admitted older layouts are exact schema6 (full domains)
             // and schema5 (historical base); RealityStore owns migration after
@@ -849,7 +901,12 @@ class FaroV5GenerationStoreGraph private constructor(
             }
             val schemas = listOf(
                 realityProfile,
-                StagedSqlitePreflight.Schema(GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1, listOf("commercial_evidence")),
+                if (commercialEvidence2StagedDev) StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.COMMERCIAL_EVIDENCE, 2,
+                    listOf("commercial_evidence", "commercial_evidence_quote_terms"),
+                ) else StagedSqlitePreflight.Schema(
+                    GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1, listOf("commercial_evidence"),
+                ),
                 StagedSqlitePreflight.Schema(GenerationStoreFiles.WEB_EVIDENCE, 2, listOf(
                     "web_evidence", "web_search_evidence",
                 )),
@@ -890,6 +947,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStage10: Boolean = false,
             householdActive10Dev: Boolean = false,
             householdNeedsWritableDev: Boolean = false,
+            commercialEvidence2StagedDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -913,6 +971,8 @@ class FaroV5GenerationStoreGraph private constructor(
                     CommercialEvidenceStore(
                         normalized.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString(),
                         materialWriteGate = materialWriteGate,
+                        stagedTypedTermsV2 = commercialEvidence2StagedDev,
+                        stagedSemanticBackupV2 = commercialEvidence2StagedDev,
                     )
                 web =
                     WebEvidenceStore(
