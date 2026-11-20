@@ -1,19 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B0D1_HOUSEHOLD10_PREFLIGHT_ACTIVE_GRAPH_DEV",
-  "reviewed_head": "0cb64c6b6e85711d49ea96ab5a4e02a6d3fe5310",
+  "status": "READY",
+  "unit_id": "S4_W04_B0D2_HOUSEHOLD10_ACTIVATE_RECOVERY_DEV",
+  "reviewed_head": "8f7a903f8845a3b4da04a327d8f3516a3f4ad7c1",
   "paths": [
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflightTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b0d1-household10-preflight.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverOwner.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntime.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntimeTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0d2-household10-cutover.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_ADMISSION_DELTA_B1_B5_20261120.md",
-          "blob_sha": "517e9f61b6df82efc1911d49bb4bbc6cba4df426",
+          "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_ACTIVATION_DELTA_B1_B5_20261120.md",
+          "blob_sha": "4fe891dce73a52e34e001834456111132e5ad46a",
           "marker": "## B1"
         }
       ]
@@ -22,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_ADMISSION_DELTA_B1_B5_20261120.md",
-          "blob_sha": "517e9f61b6df82efc1911d49bb4bbc6cba4df426",
+          "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_ACTIVATION_DELTA_B1_B5_20261120.md",
+          "blob_sha": "4fe891dce73a52e34e001834456111132e5ad46a",
           "marker": "## B2"
         }
       ]
@@ -32,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_ADMISSION_DELTA_B1_B5_20261120.md",
-          "blob_sha": "517e9f61b6df82efc1911d49bb4bbc6cba4df426",
+          "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_ACTIVATION_DELTA_B1_B5_20261120.md",
+          "blob_sha": "4fe891dce73a52e34e001834456111132e5ad46a",
           "marker": "## B3"
         }
       ]
@@ -42,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_ADMISSION_DELTA_B1_B5_20261120.md",
-          "blob_sha": "517e9f61b6df82efc1911d49bb4bbc6cba4df426",
+          "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_ACTIVATION_DELTA_B1_B5_20261120.md",
+          "blob_sha": "4fe891dce73a52e34e001834456111132e5ad46a",
           "marker": "## B4"
         }
       ]
@@ -52,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_ADMISSION_DELTA_B1_B5_20261120.md",
-          "blob_sha": "517e9f61b6df82efc1911d49bb4bbc6cba4df426",
+          "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_ACTIVATION_DELTA_B1_B5_20261120.md",
+          "blob_sha": "4fe891dce73a52e34e001834456111132e5ad46a",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_HOUSEHOLD10_PREFLIGHT_6_6"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a4d8f4ebd4ff300605bbdec3e9bc321b5bf7edf4",
@@ -73,8 +75,8 @@
       }
     ]
   },
-  "why": "B0D1 B7 PASS scoped JVM XML 6/6; permiso consumido.",
-  "how": "Two exact paths scoped to the existing B0D1 unit.",
+  "why": "B0D1 B7 PASS, guard SUCCESS and B0D2 scope verified.",
+  "how": "Four exact routes for journaled Household10 activation/recovery and integrated DEV evidence.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -84,7 +86,7 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44725650665,
+  "preaudit_guard": 44727872915,
   "last_ci_run_id": 44666984553,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
@@ -96,5 +98,5 @@
   "completed_ci": 44727157959,
   "completed_xml": "6/6_PASS",
   "completed_artifact_id": 14623704350,
-  "next": "D2 activation/recovery delta, guard and READY"
+  "next": "B0D2 B6, exact JVM XML and final audit."
 }
