@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B0C3A_HOUSEHOLD10_SEALED_SQL_RESTORE_DEV",
   "reviewed_head": "5d7bc1de4d880d73238143eb8c61ab1e81a3deb5",
   "paths": [
@@ -60,22 +60,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_HOUSEHOLD10_SQL_8_8"
   },
   "last_code_review": {
-    "sha": "768c56824d04b051d323988aa2129461d8d16dd6",
-    "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV",
+    "sha": "e46917aa8ef8c70588226af9e4ac1576dca72d5a",
+    "unit_id": "S4_W04_B0C3A_HOUSEHOLD10_SEALED_SQL_RESTORE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B7_PASS_20261120.md",
-        "blob_sha": "0d0ab535a42c860ea506aef16519a124d0b7e53d",
+        "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B7_PASS_20261120.md",
+        "blob_sha": "6e2885064a0634a0cd337428d400ccf0273ec341",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-B0C3A B1–B5 documented, B0C2 scoped JVM B7 PASS + guard 44720117721 SUCCESS. Only typed sealed Household10 SQL rows reader/restorer and directed JVM tests.",
+  "why": "W04-B0C3A B7 PASS scoped JVM XML 8/8. Permiso consumido.",
   "how": "Four exact paths. No database capture or restore, cutover, Apply, Android, or production.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -94,9 +94,9 @@
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44668249799,
-  "completed_ci": 44668249894,
-  "completed_xml": "5/5_PASS",
-  "completed_artifact_id": 14598807349,
-  "next": "Work B0C3A B6 exact4 with SQL stage10 only; CI XML/guard then B7. No graph/cutover/UI/Finance/payment."
+  "completed_guard": 44721593129,
+  "completed_ci": 44721593248,
+  "completed_xml": "8/8_PASS",
+  "completed_artifact_id": 14621847809,
+  "next": "C3B1 capture delta, guard, new exact READY"
 }

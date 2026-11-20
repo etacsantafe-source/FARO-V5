@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_READY",
-    "epoch": 1388
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_B7",
+    "epoch": 1390
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-B0C3A B6 four routes only, actual JVM XML+guard, B7 consumes READY; next B0C3B B1-B5 revalidate and READY, then D1/D2.",
+  "next": "W04-B0C3B1 capture, verify C3A B7 guard then emit own READY exact six. C3B2 replay and D1/D2 still pending.",
   "checkpoint_status": "W04_B0C2_B7_CLOSED_B0C3A_READY_EXACT4_C3B_D1_D2_PREAUDITED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "52961b19f6db6c1a37dfb3d0576776ff28c9a22c",
-  "last_ci_run_id": 44666984553,
+  "last_code_sha": "e46917aa8ef8c70588226af9e4ac1576dca72d5a",
+  "last_ci_run_id": 44721593248,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W04_B0C1_JVM_XML_8_8",
+  "last_ci_conclusion": "SUCCESS",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -4704,7 +4704,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W01_B3B1B1B1B1B1C_POST_COMMIT_NOTICE_B7_PASS_SCOPED_20261117.md",
+  "last_b7_document": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B7_PASS_20261120.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -5732,13 +5732,32 @@
     "permit": "B0C3A_READY_C3B_D1_D2_NO_READY"
   },
   "w04_b0c3a": {
-    "status": "B1_B5_VERIFIED_READY_EXACT4_NO_CODE",
+    "status": "B7_PASS_SCOPED_STAGED_SQL",
     "unit_id": "S4_W04_B0C3A_HOUSEHOLD10_SEALED_SQL_RESTORE_DEV",
     "audit": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
-    "permit": "READY_EXACT4",
+    "permit": "BLOCKED_CONSUMED",
     "ready_guard": 44720117721,
     "code": "NOT_RUN",
-    "ci": "NOT_RUN",
-    "next": "B6_EXACT4"
+    "ci": 44721593248,
+    "next": "B0C3B1",
+    "code_sha": "e46917aa8ef8c70588226af9e4ac1576dca72d5a",
+    "guard": 44721593129,
+    "artifact_id": 14621847809,
+    "xml": "8/8_PASS",
+    "b7": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B7_PASS_20261120.md"
+  },
+  "w04_b0c3b1": {
+    "status": "B1_B5_DELTA_DOC_ONLY",
+    "audit": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
+    "paths": [
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinator.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinatorTest.kt",
+      ".github/workflows/faro-v5-s4-w04-b0c3b1-household10-capture.yml"
+    ],
+    "permit": "NO_READY",
+    "next": "Guard of this commit then own exact READY"
   }
 }
