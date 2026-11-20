@@ -61,11 +61,13 @@ class FaroV5Household10DevCutoverPreflightTest {
 
     private fun journal(origin: ActiveGenerationPointer, target: StagedStorageGeneration, id: MaintenanceOperationId = operation) {
         val record = BootstrapJournalEntry(
-            id, MaintenanceOperationKind.RESTORE, origin.generationId, target.descriptor.generationId, BootstrapPhase.PREPARED,
+            id, MaintenanceOperationKind.RESTORE, origin.generationId, target.descriptor.generationId, BootstrapPhase.PREPARING,
         )
         val journal = FileBootstrapJournal(root)
         journal.create(record)
-        assertTrue(journal.compareAndSet(record, BootstrapTransitionPolicy.transition(record, BootstrapPhase.VALIDATED)))
+        val staged = BootstrapTransitionPolicy.transition(record, BootstrapPhase.STAGED)
+        assertTrue(journal.compareAndSet(record, staged))
+        assertTrue(journal.compareAndSet(staged, BootstrapTransitionPolicy.transition(staged, BootstrapPhase.VALIDATED)))
     }
 
     @Test fun admitsSealedStageWithoutChangingFilesOrPointer() {
