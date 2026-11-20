@@ -70,19 +70,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "5a2ae5417b0f25cf04b2291f72276d1f89e53f83",
-    "unit_id": "S4_W03_E_MATTERS_ANDROID_DEV",
-    "result": "PASS",
+    "sha": "2a68b42af4fc6aa8ab14f758e4a3c2b992fc5ce8",
+    "unit_id": "S4_W03_G_GLOBAL_B7_ANDROID_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_E_MATTERS_ANDROID_B7_PASS_SCOPED_20261119.md",
-        "blob_sha": "b115ce4e8b5086e8f8c3becc0cc93137618fc1a8",
+        "path": "docs/v5/FARO_S4_W03_G_B7_RED_FIX_NOTICE_E2E_20261119.md",
+        "blob_sha": "37611b12d95c69fc0d14a91510f661a8e35f0ade",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-E B7 PASS scoped; G B1–B5 verified in exact SHA doc; guard 44646678896 SUCCESS. G emulator only.",
-  "how": "G preflight exact 10 paths, instrumented API35 200% and real owner receipts; no G PASS without actual JUnit XML.",
+  "why": "W03-G first API35 1/1 PASS, but Notice Android E2E absent; B7 RED_FIX same G scope.",
+  "how": "Keep same exact 10 routes; add explicit local reconciliation/Attention CAS user workflow + real API35 XML. Guard 44647621469 green.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -93,6 +93,6 @@
     "code_ready": true
   },
   "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44645128424,
+  "last_ci_run_id": 44647621706,
   "pre_audit_guard": 44646678896
 }
