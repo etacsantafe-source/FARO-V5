@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W03_G_GLOBAL_B7_ANDROID_DEV",
   "reviewed_head": "a75034e7e59df00d73980467488226104fcb5d51",
   "paths": [
@@ -66,23 +66,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W03_LOCAL_DEV_ANDROID_API35"
   },
   "last_code_review": {
-    "sha": "ce3a4b647b7b91c730d43599da12631e9b4a206e",
+    "sha": "0706f4ba89ce48921adfe885157b135f8dd4296c",
     "unit_id": "S4_W03_G_GLOBAL_B7_ANDROID_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_G_B7_RED_FIX4_LINKED_REMINDER_ANDROID_20261119.md",
-        "blob_sha": "9a9ca163875c85953cd99b8b78d62fe74d61daf2",
+        "path": "docs/v5/FARO_S4_W03_G_GLOBAL_B7_PASS_LOCAL_DEV_20261119.md",
+        "blob_sha": "c2a47e84a04bf176b2c2d748c4ff1a0226de533e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-G Android expanded test 1/1 PASS SHA ce3a4b647b7b91c730d43599da12631e9b4a206e but B4 linked Matter selection not available to user; B7 RED_FIX same G.",
-  "how": "Add explicit authorized Matter picker to existing W03 Reminder form and API35 linked Reminder test; no new owner/OS.",
+  "why": "W03 G final Android real owner API35 1/1 PASS and W03-E regressed SUCCESS, all W03 LOCAL_ONLY DEV A/B/C/D/E/G B7 certified.",
+  "how": "W03-G READY consumed/BLOCKED. W03-F OS notifications DEFERRED; do not ship V2 or test G15 without separate authorization.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -93,6 +93,6 @@
     "code_ready": true
   },
   "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44654472138,
+  "last_ci_run_id": 44656219736,
   "pre_audit_guard": 44646678896
 }
