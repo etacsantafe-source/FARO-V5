@@ -1,22 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV",
-  "reviewed_head": "8be008b06d5826746c6eb07d1cc32871fb064a5f",
+  "status": "READY",
+  "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
+  "reviewed_head": "1e9662e86a7b0f3e92c2c9e2b9f1e0a93180bf84",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ManualPriceObservationHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ManualPriceObservationHostTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c1a-manual-observation.yml"
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceTypedTerms.kt",
+    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceTypedTermsTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c1b1-terms-staged.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
-          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
+          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
+          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
           "marker": "## B1"
         }
       ]
@@ -25,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
-          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
+          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
+          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
           "marker": "## B2"
         }
       ]
@@ -35,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
-          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
+          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
+          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
           "marker": "## B3"
         }
       ]
@@ -45,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
-          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
+          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
+          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
           "marker": "## B4"
         }
       ]
@@ -55,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B1_B5_20261120.md",
-          "blob_sha": "91a0acaeb2a6ca9c5b474c4e6a4939241fe4b317",
+          "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B1_B5_20261120.md",
+          "blob_sha": "912e7fe6916de994532a4d57ba16d6473a5d654f",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "42c7a6366b7aeced94250ffe84ed9fd7f6694ef1",
@@ -76,18 +75,18 @@
       }
     ]
   },
-  "why": "C1a B7 PASS scoped DEV: confirmed/idempotent v1 manual Evidence; 9/9 JVM XML, guard success. C1a permit consumed; C1b metadata not ready.",
-  "how": "C1b own B1-B5 route freeze, guard, independent READY before B6; schema2 staged/migration/backup required. No C1a repeat.",
+  "why": "C1b1 staged-only exact B1-B5/4 routes and guard 44811730659 SUCCESS; leave five-store backup/portability and active graph blocked for C1b2.",
+  "how": "B6 only four audited routes. Preflight exact 4 before code; CI JVM XML then B7 and consumed permit. No V2 production.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "Continue W04-C1; C1a observation v1 B6 DEV, C1b migration separate; no physical tests"
+    "scope": "User requested W04-C1b typed terms; first scoped staged-only C1b1 B6 after own guard and READY; no physical tests"
   },
-  "preaudit_guard": 44803118083,
+  "preaudit_guard": 44811730659,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B_TYPED_COMMERCIAL_TERMS_MIGRATION_DEV_PREAUDIT_DELTA_NO_READY",
+  "next": "W04_C1B1_B6_TYPED_TERMS_STAGED_ONLY",
   "completed_guard": 44803997203,
   "completed_ci": 44803997142,
   "completed_xml": "9/9_PASS",
