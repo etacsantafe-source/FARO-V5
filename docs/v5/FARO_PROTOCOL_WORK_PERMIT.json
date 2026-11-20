@@ -1,10 +1,68 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "52961b19f6db6c1a37dfb3d0576776ff28c9a22c",
-  "paths": [],
-  "stages": {},
+  "status": "READY",
+  "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV",
+  "reviewed_head": "e84b5bcb8b93485c4e81fe670f6a93616fa7941c",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2Codec.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2CodecTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0c2-household10-fbs2.yml"
+  ],
+  "stages": {
+    "B1": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "marker": "## B1"
+        }
+      ]
+    },
+    "B2": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "marker": "## B2"
+        }
+      ]
+    },
+    "B3": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "marker": "## B3"
+        }
+      ]
+    },
+    "B4": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "marker": "## B4"
+        }
+      ]
+    },
+    "B5": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
+          "blob_sha": "78f1b35541aaeca450fa87217786a5f7723f0db9",
+          "marker": "## B5"
+        }
+      ]
+    },
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
+  },
   "last_code_review": {
     "sha": "52961b19f6db6c1a37dfb3d0576776ff28c9a22c",
     "unit_id": "S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_DEV",
@@ -17,8 +75,8 @@
       }
     ]
   },
-  "why": "W04-B0C1 B7 PASS scoped; READY consumed.",
-  "how": "W04-B0C2 requires its own documentary guard and exact-route READY.",
+  "why": "W04-B0C2 introduces authenticated FBS2v6 by composing the exact legacy base and Household10 section.",
+  "how": "Four exact paths. No database capture or restore, cutover, Apply, Android, or production.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -28,9 +86,9 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44666437569,
+  "preaudit_guard": 44667712329,
   "last_ci_run_id": 44666984553,
-  "pre_audit_guard": 44666437569,
+  "pre_audit_guard": 44667712329,
   "user_authorization": {
     "date_local": "2026-11-19",
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
