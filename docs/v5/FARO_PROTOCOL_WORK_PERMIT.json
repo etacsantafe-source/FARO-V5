@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B2E_STAGED_TYPED_BACKUP_DEV",
   "reviewed_head": "c48369b7e81ec829634df7b2d63a3b315323c9d6",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
-    "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
+    "sha": "d17dbe344a8714ca30a6f0f4cfbd46e184bb3b92",
+    "unit_id": "S4_W04_C1B2E_STAGED_TYPED_BACKUP_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B7_PASS_20261120.md",
-        "blob_sha": "4f141778176fffc57b941a88345cde1f69ae9d45",
+        "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B7_PASS_20261120.md",
+        "blob_sha": "36405eaaf3b98fb79837766670926d3a05d91077",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-C1b2E B1-B5 blob 421478fe93ed70541d7a5d84f5c5e60c77227bcc preaudit exact4; guard 44820637021 SUCCESS on c48369b7e81ec829634df7b2d63a3b315323c9d6; C1b1 PASS preserved. Stage-only new typed backup port, legacy FBS1/FBS2 fail closed.",
-  "how": "B6 only the four exact approved routes after preflight parent; :evidence:test JVM XML, B7 independent. No active opener, FBS1/FBS2 or portable export.",
+  "why": "C1b2E B7 PASS scoped staged DEV: 9/9 JUnit XML, guard 44821224076, CI 44821224309, artifact 14671679327. Permit consumed; next C1b2F PREAUDIT only.",
+  "how": "No C1b2E code repeat. C1b2F exact6 B1-B5 preaudit doc and independent guard/READY before B6. FBS2 and portability later.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,9 +86,9 @@
   "preaudit_guard": 44820637021,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2E_EXACT4_B6_DEV_READY",
-  "completed_guard": null,
-  "completed_ci": null,
-  "completed_xml": "NOT_RUN_C1B2E",
-  "completed_artifact_id": null
+  "next": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV_PREAUDIT_NO_READY",
+  "completed_guard": 44821224076,
+  "completed_ci": 44821224309,
+  "completed_xml": "9/9_PASS",
+  "completed_artifact_id": 14671679327
 }
