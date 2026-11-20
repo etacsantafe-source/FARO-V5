@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W03_LOCAL_DEV_B7_PASS",
+  "phase": "S4_W04_A_B1_B5_DOCUMENTED_GUARD_PENDING",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_B7",
-    "epoch": 1367
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_DOC",
+    "epoch": 1368
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "S4 next workstream only after its own B1–B5 and READY; W03-F optional OS deferred, G15 physical NOT_RUN, V2 productive OFF.",
-  "checkpoint_status": "W03_A_B_C_D_E_G_CLOSED_LOCAL_DEV_W03_F_DEFERRED",
+  "next": "Verify W04-A documentary guard at SHA; issue independent W04-A READY only after verified B1-B5, then Work or Chat B6; no W04-B/E code until separate grants.",
+  "checkpoint_status": "W04_A_B1_B5_DOC_ONLY_PREAUDIT_AWAIT_GUARD",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "0706f4ba89ce48921adfe885157b135f8dd4296c",
@@ -5637,5 +5637,19 @@
     "apk_sha256": "1c3e30fb0623ada02dc70bda13f55969beb7d646e753c69175193de1e515b87d",
     "emulator": "API35_PASS",
     "g15": "NOT_RUN"
+  },
+  "w04": {
+    "status": "W04_A_B1_B5_DOCUMENTED_DOC_ONLY",
+    "unit_id": "S4_W04_A_HOUSEHOLD_NEEDS_MODEL_DEV",
+    "audit": "docs/v5/FARO_S4_W04_A_HOUSEHOLD_NEEDS_B1_B5_20261119.md",
+    "handoff": "docs/v5/FARO_S4_W04_WORK_AND_CHAT_HANDOFF_20261119.md",
+    "base_head": "20646219d53753cbd4129e5e732d4cf1a782387f",
+    "owner_implementation_authorized_by_user": true,
+    "code_started": false,
+    "ci": "NOT_RUN_W04",
+    "android": "NOT_RUN",
+    "g15": "NOT_RUN",
+    "permit": "BLOCKED_W03_G_CONSUMED_W04_A_READY_NOT_YET_ISSUED",
+    "next": "DOCUMENT_GUARD_THEN_INDEPENDENT_W04_A_READY"
   }
 }
