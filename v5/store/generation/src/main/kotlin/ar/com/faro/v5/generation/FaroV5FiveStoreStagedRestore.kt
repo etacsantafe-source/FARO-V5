@@ -123,6 +123,19 @@ class FaroV5FiveStoreStagedRestore(
             allowFinance9BaseStageOnly = true, auxiliary4Origin = expectedActive,
         )
 
+    /** Accept only the typed result of opening an authenticated FBS2v6 envelope. */
+    internal fun restoreVerifiedHousehold10BaseStageOnly(
+        operationId: MaintenanceOperationId,
+        archive: AuthenticatedHousehold10RestoreArchive,
+        expectedActive: ActiveGenerationPointer,
+    ): FiveStoreStagedRestoreResult =
+        restoreAuthenticatedImpl(
+            operationId, archive.copyEncryptedBytes(), CharArray(0),
+            allowG4StageOnly = true, allowPlanningStageOnly = true,
+            allowFinance9BaseStageOnly = true, auxiliary4Origin = expectedActive,
+            householdArchive = archive,
+        )
+
     private fun restoreAuthenticatedImpl(
         operationId: MaintenanceOperationId,
         encryptedArchive: ByteArray,
@@ -131,6 +144,7 @@ class FaroV5FiveStoreStagedRestore(
         allowPlanningStageOnly: Boolean = false,
         allowFinance9BaseStageOnly: Boolean = false,
         auxiliary4Origin: ActiveGenerationPointer? = null,
+        householdArchive: AuthenticatedHousehold10RestoreArchive? = null,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
@@ -143,7 +157,13 @@ class FaroV5FiveStoreStagedRestore(
                 }
                 val (backup, receiptBackup) = try {
                     val crypto = FaroV5FiveStorePortableBackupCrypto()
-                    if (auxiliary4Origin == null) {
+                    if (householdArchive != null) {
+                        checkNotNull(auxiliary4Origin)
+                        val snapshot = householdArchive.snapshot.base
+                        snapshot.base to AuxiliaryReceiptBackupSnapshot(
+                            snapshot.base.fourStore.auxiliary, snapshot.receipts,
+                        )
+                    } else if (auxiliary4Origin == null) {
                         when (val opened = crypto.open(encryptedArchive, passphrase)) {
                             is FiveStorePortableBackupOpenResult.Opened -> opened.backupSet to null
                             is FiveStorePortableBackupOpenResult.Rejected ->
