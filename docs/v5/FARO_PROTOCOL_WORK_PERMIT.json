@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV",
-  "reviewed_head": "be584e825a3ed9b1c45fcbb5f6df7c6ae7b21099",
+  "status": "READY",
+  "unit_id": "S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV",
+  "reviewed_head": "ca511e05a387bf130ec6a5fa4a86ff39d888105d",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCaptureT2Test.kt",
-    ".github/workflows/faro-v5-s4-w04-c1b2g-staged-five-store.yml"
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/EvidencePortabilityPort.kt",
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
+    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceStagedTypedPortabilityTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c1b2h1-typed-portability.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
-          "blob_sha": "b1aeb31a562aaf84c2d694ea71a5df2ce59313ea",
+          "path": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md",
+          "blob_sha": "fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
-          "blob_sha": "b1aeb31a562aaf84c2d694ea71a5df2ce59313ea",
+          "path": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md",
+          "blob_sha": "fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
-          "blob_sha": "b1aeb31a562aaf84c2d694ea71a5df2ce59313ea",
+          "path": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md",
+          "blob_sha": "fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
-          "blob_sha": "b1aeb31a562aaf84c2d694ea71a5df2ce59313ea",
+          "path": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md",
+          "blob_sha": "fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc",
           "marker": "## B4"
         }
       ]
@@ -53,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
-          "blob_sha": "b1aeb31a562aaf84c2d694ea71a5df2ce59313ea",
+          "path": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md",
+          "blob_sha": "fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
@@ -74,20 +75,20 @@
       }
     ]
   },
-  "why": "C1b2G B7 PASS scoped STAGED DEV after test-class RED_FIX: guard 44826771844, generation CI 44826771657 new5/5+legacy5/5, FBS2-G4 regression 44826771655 SUCCESS.",
-  "how": "C1b2G consumed; H1 typed portability stage B1-B5 PREAUDIT only. No C1b2H1 code until own guard/READY; H2 JSON export separate.",
+  "why": "C1b2G B7 PASS scoped, H1 typed portability stage-only B1–B5 blob fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc guard 44827940406 SUCCESS. This READY does NOT authorize JSON/egress/PortabilityCore changes.",
+  "how": "B6 only four exact routes, staging typed in-memory snapshot/watermark without external export, legacy v1 remains fail-closed on schema2. CI evidence XML then B7 independently; H2 JSON/profile requires own gate.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "Continue FARO W04-C1b2 staged five-store only, no active generator or physical device. Prior B7 complete."
+    "scope": "Continue FARO V5 W04 C1b2. H1 stage-only in-memory Commercial portability research and code, no export/egress/finance/physical test, separate H2."
   },
-  "preaudit_guard": 44825058552,
+  "preaudit_guard": 44827940406,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV_B1_B5_PREAUDIT_NO_READY",
-  "completed_guard": 44826771844,
-  "completed_ci": 44826771657,
-  "completed_xml": "NEW_5/5_LEGACY_5/5",
-  "completed_artifact_id": 14674122348
+  "next": "W04_C1B2H1_STAGED_TYPED_PORTABILITY_B6_READY_EXACT4",
+  "completed_guard": null,
+  "completed_ci": null,
+  "completed_xml": "NOT_RUN_H1",
+  "completed_artifact_id": null
 }
