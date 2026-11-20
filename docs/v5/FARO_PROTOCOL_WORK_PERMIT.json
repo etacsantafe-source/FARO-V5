@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV",
   "reviewed_head": "be584e825a3ed9b1c45fcbb5f6df7c6ae7b21099",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "be584e825a3ed9b1c45fcbb5f6df7c6ae7b21099",
+    "sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
     "unit_id": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2G_B7_RED_FIX_TEST_CLASS_SCOPE_20261120.md",
-        "blob_sha": "ab6e4f1f2431b9a02a63f5c52bf6d28b16553868",
+        "path": "docs/v5/FARO_S4_W04_C1B2G_STAGED_FIVE_STORE_B7_PASS_20261120.md",
+        "blob_sha": "65f333c37aab9b21b40ebbc1f3dffc4dde7bee65",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1b2G targeted CI 44825663179 10/10 SUCCESS but existing G4 run 44825662838 FAILED exact test count 5 vs 10. RED_FIX same unit test class split; no code regression.",
-  "how": "Same-unit exact3 correction in CaptureT2Test.kt and new workflow only: old class 5 + new class 5. Preflight and rerun.",
+  "why": "C1b2G B7 PASS scoped STAGED DEV after test-class RED_FIX: guard 44826771844, generation CI 44826771657 new5/5+legacy5/5, FBS2-G4 regression 44826771655 SUCCESS.",
+  "how": "C1b2G consumed; H1 typed portability stage B1-B5 PREAUDIT only. No C1b2H1 code until own guard/READY; H2 JSON export separate.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,9 +85,9 @@
   "preaudit_guard": 44825058552,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2G_EXACT3_STAGE_B6_DEV_READY",
-  "completed_guard": 44825663147,
-  "completed_ci": 44825663179,
-  "completed_xml": "TARGET_10_10_PASS_G4_HISTORICAL_COUNT_FAIL",
-  "completed_artifact_id": null
+  "next": "S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV_B1_B5_PREAUDIT_NO_READY",
+  "completed_guard": 44826771844,
+  "completed_ci": 44826771657,
+  "completed_xml": "NEW_5/5_LEGACY_5/5",
+  "completed_artifact_id": 14674122348
 }

@@ -4,7 +4,7 @@
   "unit": "S4_W04_C_PREAUDIT",
   "baseline_head": "a60c184d116bd0c8a9ddc6941a6eb3478b5455a6",
   "branch": "work/s3-night-20261102",
-  "scope": "C1B2F_B7_PASS_AND_C1B2G_B1_B5_PREAUDIT",
+  "scope": "C1B2G_B7_PASS_AND_C1B2H1_PREAUDIT_DOC",
   "first_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
   "first_unit_paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
@@ -26,7 +26,7 @@
     },
     {
       "id": "C1",
-      "status": "OPEN_C1A_B7_PASS_C1B1_B7_PASS_C1B2E_F_PASS_C1B2G_PREAUDIT",
+      "status": "OPEN_C1A_B7_PASS_C1B1_B7_PASS_C1B2E_F_G_B7_PASS_C1B2H1_PREAUDIT",
       "children": [
         {
           "id": "C1A",
@@ -75,12 +75,21 @@
         },
         {
           "id": "C1B2G",
-          "status": "B7_RED_FIX_SHARED_G4_FIXED_TEST_COUNT",
+          "status": "B7_PASS_STAGED_DEV_NEW5_LEGACY5",
           "preaudit": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
-          "guard_run_id": 44825663147,
-          "code_sha": "be584e825a3ed9b1c45fcbb5f6df7c6ae7b21099",
-          "ci_run_id": 44825663179,
-          "shared_regression_run_id": 44825662838
+          "guard_run_id": 44826771844,
+          "code_sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
+          "ci_run_id": 44826771657,
+          "shared_regression_run_id": 44825662838,
+          "g4_regression_run": 44826771655,
+          "artifact_id": 14674122348,
+          "xml": "NEW_5/5_LEGACY_5/5",
+          "b7_document": "docs/v5/FARO_S4_W04_C1B2G_STAGED_FIVE_STORE_B7_PASS_20261120.md"
+        },
+        {
+          "id": "C1B2H1",
+          "status": "B1_B5_PREAUDIT_EXACT4_NO_READY_NO_CODE",
+          "preaudit": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md"
         }
       ]
     },
@@ -91,9 +100,9 @@
   ],
   "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
   "new_functional_code": true,
-  "tests_run_this_turn": "C1B2F_JVM_8_OF_8_XML_PASS_GUARDADOS_REGRESSION_PASS",
-  "writer": "RELEASE_AFTER_C1B2G_REDFIX_DOC_EPOCH_1462",
-  "next": "C1b2G same-unit test class separation RED_FIX, run CI; H not READY",
+  "tests_run_this_turn": "C1B2G_5_5_NEW_PLUS_5_5_LEGACY_G4_REGRESSION_SUCCESS",
+  "writer": "RELEASE_AFTER_C1B2G_B7_DOC_EPOCH_1464",
+  "next": "C1b2H1 exact4 staged portability B1-B5 guard READY, then B6/CI/B7; H2 JSON/profiles after",
   "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
   "guard_documental": {
     "run_id": 44770729719,
@@ -106,7 +115,7 @@
   "first_unit_ci_run": 44782895246,
   "first_unit_artifact_id": 14652917867,
   "b7_document": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-  "last_code_sha": "65f075284a7006df24ad1a0e8f612ca8f4212c56",
+  "last_code_sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
   "c0b_b7_document": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "c0b_ci_run": 44789820660,
   "c0b_guard_run": 44789820679,
@@ -133,5 +142,12 @@
   "c1b2f_ci_run": 44824047295,
   "c1b2f_artifact_id": 14673775214,
   "c1b2f_b7_document": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_PASS_20261120.md",
-  "c1b2g_preaudit": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md"
+  "c1b2g_preaudit": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md",
+  "c1b2g_code_sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
+  "c1b2g_guard_run": 44826771844,
+  "c1b2g_ci_run": 44826771657,
+  "c1b2g_g4_regression": 44826771655,
+  "c1b2g_artifact_id": 14674122348,
+  "c1b2g_b7_document": "docs/v5/FARO_S4_W04_C1B2G_STAGED_FIVE_STORE_B7_PASS_20261120.md",
+  "c1b2h1_preaudit": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md"
 }
