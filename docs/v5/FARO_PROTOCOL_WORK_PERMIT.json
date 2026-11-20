@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B1C1_CANONICAL_NEEDS_REVIEW_DEV",
-  "reviewed_head": "e6e0a138bb47212993aed1494a654f8a20784617",
+  "status": "READY",
+  "unit_id": "S4_W04_B1C2_NEEDS_REVIEW_APPLY_RECEIPT_DEV",
+  "reviewed_head": "48836c60f7a4e556d14c20d543979e818bca5def",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedReview.kt",
-    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedReviewTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b1c1-needs-review.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHostTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b1c2-needs-review-apply.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
-          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
+          "path": "docs/v5/FARO_S4_W04_B1C2_NEEDS_APPLY_DELTA_B1_B5_20261120.md",
+          "blob_sha": "ab720759dd30725bc833324d7412bed97a60b883",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
-          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
+          "path": "docs/v5/FARO_S4_W04_B1C2_NEEDS_APPLY_DELTA_B1_B5_20261120.md",
+          "blob_sha": "ab720759dd30725bc833324d7412bed97a60b883",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
-          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
+          "path": "docs/v5/FARO_S4_W04_B1C2_NEEDS_APPLY_DELTA_B1_B5_20261120.md",
+          "blob_sha": "ab720759dd30725bc833324d7412bed97a60b883",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
-          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
+          "path": "docs/v5/FARO_S4_W04_B1C2_NEEDS_APPLY_DELTA_B1_B5_20261120.md",
+          "blob_sha": "ab720759dd30725bc833324d7412bed97a60b883",
           "marker": "## B4"
         }
       ]
@@ -53,29 +55,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
-          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
+          "path": "docs/v5/FARO_S4_W04_B1C2_NEEDS_APPLY_DELTA_B1_B5_20261120.md",
+          "blob_sha": "ab720759dd30725bc833324d7412bed97a60b883",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "51124c0e31915419075e8307d62962b61be90c23",
-    "unit_id": "S4_W04_B1B_NEEDS_SQL_CAS_DEV",
+    "sha": "7ee850874f377fa004f627f87c226ca21c69b516",
+    "unit_id": "S4_W04_B1C1_CANONICAL_NEEDS_REVIEW_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_B7_PASS_20261120.md",
-        "blob_sha": "4abffc77f5c1f8acdcea3d53193cf0c16f7ac5a6",
+        "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_B7_PASS_20261120.md",
+        "blob_sha": "70cef6e008e68f91b89dfa55830c469df14957ab",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1C1 B6 code already published. New code blocked until its B7.",
-  "how": "Verify run 44750589732 and XML on exact functional SHA; original code parent retains READY.",
+  "why": "C1 B7 scoped PASS. C2 B1–B5 delta verified by guard 44751103531.",
+  "how": "Preflight exact-five; actual authorized Household DEV apply and receipt; JVM/SQLite CI XML and B7.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -85,19 +87,17 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44749463298,
-  "last_ci_run_id": 44749463298,
+  "preaudit_guard": 44751103531,
+  "last_ci_run_id": 44751103531,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
     "date_local": "2026-11-19",
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44748637785,
-  "completed_ci": 44748638104,
+  "completed_guard": 44750590219,
+  "completed_ci": 44750589732,
   "completed_xml": "6/6_PASS",
-  "completed_artifact_id": 14634203701,
-  "next": "B1C1 B7 once exact CI artifacts pass",
-  "pending_code_sha": "7ee850874f377fa004f627f87c226ca21c69b516",
-  "pending_ci_run_id": 44750589732
+  "completed_artifact_id": 14635945803,
+  "next": "W04-B1C2 B6"
 }
