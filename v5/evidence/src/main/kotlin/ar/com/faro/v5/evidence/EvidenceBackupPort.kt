@@ -19,6 +19,53 @@ interface CommercialEvidenceBackupPort {
     fun restoreOrVerify(snapshot: CommercialEvidenceBackupSnapshot): CommercialEvidenceBackupSnapshot
 }
 
+/**
+ * C1b2E: isolate schema2 STAGED snapshot/restore from the historical
+ * CommercialEvidenceBackupPort. FBS1/FBS2 and active graphs still use v1
+ * until an independently audited lossless codec is available.
+ *
+ * terms == null means the original v1 row had no physical quote-terms row.
+ * terms == UNKNOWN is an explicitly stored v2 row; do not conflate them.
+ */
+data class CommercialEvidenceStagedTypedBackupRow(
+    val record: CommercialEvidenceRecord,
+    val terms: CommercialEvidenceTypedTerms?,
+) {
+    val effectiveTerms: CommercialEvidenceTypedTerms
+        get() = terms ?: CommercialEvidenceTypedTerms.UNKNOWN
+}
+
+data class CommercialEvidenceStagedTypedBackupSnapshot(
+    val schemaVersion: Int,
+    val rows: List<CommercialEvidenceStagedTypedBackupRow>,
+) {
+    init {
+        require(schemaVersion == SCHEMA_VERSION) { "typed Evidence backup requires exact schema2" }
+        require(rows.size <= MAX_RECORDS) { "typed Evidence backup exceeds record bound" }
+        require(rows == rows.sortedBy { it.record.evidenceId.value }) {
+            "typed Evidence backup rows must be canonical"
+        }
+        require(rows.map { it.record.evidenceId.value }.distinct().size == rows.size) {
+            "typed Evidence backup has duplicate IDs"
+        }
+        require(rows.map { it.record.idempotencyKey.value }.distinct().size == rows.size) {
+            "typed Evidence backup has duplicate idempotency keys"
+        }
+    }
+
+    companion object {
+        const val SCHEMA_VERSION: Int = 2
+        const val MAX_RECORDS: Int = 100_000
+    }
+}
+
+interface CommercialEvidenceStagedTypedBackupPort {
+    fun snapshot(): CommercialEvidenceStagedTypedBackupSnapshot
+    fun restoreOrVerify(
+        snapshot: CommercialEvidenceStagedTypedBackupSnapshot,
+    ): CommercialEvidenceStagedTypedBackupSnapshot
+}
+
 data class WebEvidenceBackupSnapshot(
     val schemaVersion: Int,
     val fetchRecords: List<WebEvidenceRecord>,

@@ -224,6 +224,21 @@ class CommercialEvidenceStore(
             ): CommercialEvidenceBackupSnapshot = restoreOrVerifyBackup(snapshot)
         }
 
+    /**
+     * Isolated lossless schema2 backup. Deliberately NOT wired into FBS1/FBS2,
+     * semantic migration, portability, or any ACTIVE generation owner.
+     */
+    val stagedTypedBackup: CommercialEvidenceStagedTypedBackupPort =
+        object : CommercialEvidenceStagedTypedBackupPort {
+            override fun snapshot(): CommercialEvidenceStagedTypedBackupSnapshot =
+                readStagedTypedBackupSnapshot()
+
+            override fun restoreOrVerify(
+                snapshot: CommercialEvidenceStagedTypedBackupSnapshot,
+            ): CommercialEvidenceStagedTypedBackupSnapshot =
+                restoreOrVerifyStagedTypedBackup(snapshot)
+        }
+
     val portability: CommercialEvidencePortabilityPort =
         CommercialEvidencePortabilityPort(::readPortabilitySnapshot)
 
@@ -572,6 +587,64 @@ class CommercialEvidenceStore(
             readSemanticMigrationSnapshot()
         } }
 
+
+    /**
+     * Preserve the physical ABSENCE of a terms row for legacy evidence,
+     * rather than materializing invented UNKNOWN metadata on backup.
+     * All reads run under the original owner lock.
+     */
+    private fun readStagedTypedBackupSnapshot(): CommercialEvidenceStagedTypedBackupSnapshot =
+        synchronized(lock) {
+            checkOpen()
+            check(stagedTypedTermsV2 && readSchemaVersion() == 2) {
+                "staged typed backup requires explicit Evidence2 owner"
+            }
+            check(readIntegrityCheck().equals("ok", ignoreCase = true) &&
+                readForeignKeysHealthy()) { "typed backup source integrity failed" }
+            check(readRecordCount() <= CommercialEvidenceStagedTypedBackupSnapshot.MAX_RECORDS) {
+                "typed backup source exceeds bound"
+            }
+            CommercialEvidenceStagedTypedBackupSnapshot(
+                schemaVersion = 2,
+                rows = readAllRecords().map { record ->
+                    CommercialEvidenceStagedTypedBackupRow(
+                        record = record,
+                        terms = readTypedTerms(record.evidenceId),
+                    )
+                },
+            )
+        }
+
+    private fun restoreOrVerifyStagedTypedBackup(
+        snapshot: CommercialEvidenceStagedTypedBackupSnapshot,
+    ): CommercialEvidenceStagedTypedBackupSnapshot =
+        withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            check(stagedTypedTermsV2 && readSchemaVersion() == 2) {
+                "typed backup restore requires explicit staged Evidence2"
+            }
+            val current = readStagedTypedBackupSnapshot()
+            if (current == snapshot) return@synchronized current
+            check(current.rows.isEmpty()) {
+                "typed backup restore target must be fresh or exactly match source"
+            }
+            connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+            try {
+                snapshot.rows.forEach { row ->
+                    insert(row.record)
+                    row.terms?.let { insertTypedTerms(row.record.evidenceId, it) }
+                }
+                connection.execSQL("COMMIT TRANSACTION")
+            } catch (failure: Throwable) {
+                runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                throw failure
+            }
+            val restored = readStagedTypedBackupSnapshot()
+            check(restored == snapshot) {
+                "typed backup restore verification failed"
+            }
+            restored
+        } }
 
     private fun readBackupSnapshot(): CommercialEvidenceBackupSnapshot =
         synchronized(lock) {
