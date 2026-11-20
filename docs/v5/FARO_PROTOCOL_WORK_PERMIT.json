@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
-  "reviewed_head": "f8bc42ada7d3c11e58e159abbf4879ac7c0cd9ee",
+  "status": "READY",
+  "unit_id": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
+  "reviewed_head": "db7140665028d3fa5846e5c155a271115d5cfcb1",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelectionTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c0a-match.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialPriceReadHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialPriceReadHostTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c0b-price-read.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
-          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
+          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
+          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
-          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
+          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
+          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
-          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
+          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
+          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
-          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
+          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
+          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
           "marker": "## B4"
         }
       ]
@@ -53,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
-          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
+          "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B1_B5_20261120.md",
+          "blob_sha": "2662923820667b4f3c2a15a4b4316d6f29eb6b35",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "ebaaf5afbabda5a848fd266a5296a85ff597ef1f",
@@ -74,18 +76,18 @@
       }
     ]
   },
-  "why": "W04-C0A B7 PASS scoped DEV, 12/12 JVM/XML, guard SUCCESS 44782895205, permit consumed.",
-  "how": "C0B needs own exact-path B1-B5/guard/READY; C0A has no Evidence read or persistent product match.",
+  "why": "W04-C0B B1-B5 scoped exact5 documented; doc guard 44786710268 SUCCESS; C0A B7 PASS scoped reused.",
+  "how": "B6 only five paths, preflight against parent; real JVM XML + guard per SHA; independent B7; no scheme/second root/Finance/stock.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "W04-C prepare B1–B5 and individual C0A READY; B6 only subsequent Work under exact preflight"
+    "scope": "Continuation to next W04-C0B after C0A B7: B1-B5, permission and B6 scoped DEV"
   },
-  "preaudit_guard": 44770729719,
-  "previous_unit": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_B1_HOUSEHOLD10_GLOBAL_B7_PASS_20261120.md",
-  "next": "W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV_DELTAS_B1_B5_NO_READY",
+  "preaudit_guard": 44786710268,
+  "previous_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
+  "next": "W04_C0B_B6_EXACT5_THEN_JVM_XML_B7",
   "completed_guard": 44782895205,
   "completed_ci": 44782895246,
   "completed_xml": "12/12_PASS",
