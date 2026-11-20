@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_B7",
-    "epoch": 1390
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_READY",
+    "epoch": 1391
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-B0C3B1 capture, verify C3A B7 guard then emit own READY exact six. C3B2 replay and D1/D2 still pending.",
+  "next": "W04-B0C3B1 B6 exact six, verify CI XML and B7; C3B2 documents and own READY next.",
   "checkpoint_status": "W04_B0C2_B7_CLOSED_B0C3A_READY_EXACT4_C3B_D1_D2_PREAUDITED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -5747,7 +5747,7 @@
     "b7": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B7_PASS_20261120.md"
   },
   "w04_b0c3b1": {
-    "status": "B1_B5_DELTA_DOC_ONLY",
+    "status": "B1_B5_VERIFIED_READY_EXACT6",
     "audit": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
     "paths": [
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
@@ -5757,7 +5757,9 @@
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinatorTest.kt",
       ".github/workflows/faro-v5-s4-w04-b0c3b1-household10-capture.yml"
     ],
-    "permit": "NO_READY",
-    "next": "Guard of this commit then own exact READY"
+    "permit": "READY_EXACT6",
+    "next": "B6_EXACT6",
+    "unit_id": "S4_W04_B0C3B1_HOUSEHOLD10_ARCHIVE_CAPTURE_DEV",
+    "ready_guard": 44722290936
   }
 }

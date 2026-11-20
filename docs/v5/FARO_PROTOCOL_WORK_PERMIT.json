@@ -1,21 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B0C3A_HOUSEHOLD10_SEALED_SQL_RESTORE_DEV",
-  "reviewed_head": "5d7bc1de4d880d73238143eb8c61ab1e81a3deb5",
+  "status": "READY",
+  "unit_id": "S4_W04_B0C3B1_HOUSEHOLD10_ARCHIVE_CAPTURE_DEV",
+  "reviewed_head": "a30264ad550203297cc49addadd5102e879146f5",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10SealedRowsPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10StagedRowsRestorePort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10SealedRowsRestoreTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b0c3a-household10-sql-rows.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinator.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinatorTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0c3b1-household10-capture.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
-          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
+          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
           "marker": "## B1"
         }
       ]
@@ -24,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
-          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
+          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
           "marker": "## B2"
         }
       ]
@@ -34,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
-          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
+          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
           "marker": "## B3"
         }
       ]
@@ -44,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
-          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
+          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
           "marker": "## B4"
         }
       ]
@@ -54,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
-          "blob_sha": "9194611824129cdacdd203f8f8aa45e23db21e38",
+          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_HOUSEHOLD10_SQL_8_8"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e46917aa8ef8c70588226af9e4ac1576dca72d5a",
@@ -75,8 +77,8 @@
       }
     ]
   },
-  "why": "W04-B0C3A B7 PASS scoped JVM XML 8/8. Permiso consumido.",
-  "how": "Four exact paths. No database capture or restore, cutover, Apply, Android, or production.",
+  "why": "B0C3A B7 PASS, guard SUCCESS and C3B1 delta reviewed.",
+  "how": "Exact six routes for sealed STAGED10 capture only.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -86,7 +88,7 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44720117721,
+  "preaudit_guard": 44722290936,
   "last_ci_run_id": 44666984553,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
@@ -98,5 +100,5 @@
   "completed_ci": 44721593248,
   "completed_xml": "8/8_PASS",
   "completed_artifact_id": 14621847809,
-  "next": "C3B1 capture delta, guard, new exact READY"
+  "next": "C3B1 B6, exact JVM XML and B7. C3B2 independent permit."
 }
