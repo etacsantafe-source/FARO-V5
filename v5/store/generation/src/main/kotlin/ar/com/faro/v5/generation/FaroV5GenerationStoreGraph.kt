@@ -4,6 +4,11 @@ import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.evidence.CommercialEvidenceRecord
 import ar.com.faro.v5.evidence.CommercialProductKey
 import ar.com.faro.v5.evidence.CommercialPriceHistoryReadExecutor
+import ar.com.faro.v5.evidence.CommercialEvidenceRecordExecutor
+import ar.com.faro.v5.evidence.CommercialEvidenceExecution
+import ar.com.faro.v5.evidence.CommercialEvidenceSourceKind
+import ar.com.faro.v5.evidence.CommercialEvidencePayload
+import ar.com.faro.v5.kernel.contracts.PreparedOperation
 import ar.com.faro.v5.kernel.contracts.OperationContractDescriptor
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.maintenance.ExistingGenerationFormatReader
@@ -98,6 +103,31 @@ class FaroV5GenerationStoreGraph private constructor(
             records.takeIf { lease.isValid && householdAdmission() && commercialAdmission() }
         }
 
+        /**
+         * C1a: only a MANUAL schema1 Evidence observation in this already leased
+         * generation. Never exports a mutable store, root opener or Reality Apply.
+         * The trusted caller supplies independent Household+commercial permissions
+         * and a separate human confirmation. No post-commit rollback is promised.
+         */
+        fun authorizedManualEvidenceRecord(
+            canonicalContract: OperationContractDescriptor,
+            preparedOperation: PreparedOperation,
+            householdAdmission: () -> Boolean,
+            commercialWriteAdmission: () -> Boolean,
+            trustedConfirmation: () -> Boolean,
+        ): CommercialEvidenceExecution? = gate.withMaterialWrite {
+            if (!lease.isValid || !householdAdmission() ||
+                !commercialWriteAdmission() || !trustedConfirmation()
+            ) return@withMaterialWrite null
+            if (preparedOperation.contract != canonicalContract ||
+                CommercialEvidencePayload.decode(preparedOperation.payload)?.sourceKind !=
+                    CommercialEvidenceSourceKind.MANUAL
+            ) return@withMaterialWrite null
+            CommercialEvidenceRecordExecutor(
+                graph.commercialEvidence, canonicalContract,
+            ).execute(preparedOperation)
+        }
+
         override fun close() = gate.withQuiescedMaterialWrites {
             if (lease.isValid) {
                 try {
@@ -125,6 +155,18 @@ class FaroV5GenerationStoreGraph private constructor(
         ): List<CommercialEvidenceRecord>? =
             session.authorizedCommercialPriceHistory(
                 canonicalContract, productKey, limit, householdAdmission, commercialAdmission,
+            )
+
+        fun authorizedManualEvidenceRecord(
+            canonicalContract: OperationContractDescriptor,
+            preparedOperation: PreparedOperation,
+            householdAdmission: () -> Boolean,
+            commercialWriteAdmission: () -> Boolean,
+            trustedConfirmation: () -> Boolean,
+        ): CommercialEvidenceExecution? =
+            session.authorizedManualEvidenceRecord(
+                canonicalContract, preparedOperation, householdAdmission,
+                commercialWriteAdmission, trustedConfirmation,
             )
 
         override fun close() = session.close()

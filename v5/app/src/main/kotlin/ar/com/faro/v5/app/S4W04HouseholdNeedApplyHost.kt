@@ -111,6 +111,51 @@ internal class S4W04HouseholdNeedApplyHost(
         }
     }
 
+    /**
+     * C1a: prepare a MANUAL schema1 observation but do not write anything.
+     * Terms that require C1b schema evolution are explicitly rejected.
+     */
+    fun prepareManualPriceObservation(
+        candidate: CommercialNeedProductCandidate,
+        input: ManualPriceObservationInput,
+        localRequestId: String,
+        commercialWriteAdmission: (String, OperationId, CommercialProductKey) -> Boolean,
+    ): ManualPriceObservationPreparation = synchronized(grantLock) {
+        gate.withMaterialWrite {
+            manualPriceHost(commercialWriteAdmission).prepare(candidate, input, localRequestId)
+        }
+    }
+
+    /** C1a write requires independent N-034 permission and trusted human confirmation. */
+    fun confirmManualPriceObservation(
+        draft: PreparedManualPriceObservation,
+        commercialWriteAdmission: (String, OperationId, CommercialProductKey) -> Boolean,
+        trustedHumanConfirmed: () -> Boolean,
+    ): ManualPriceObservationResult = synchronized(grantLock) {
+        gate.withMaterialWrite {
+            manualPriceHost(commercialWriteAdmission).confirmAndRecord(
+                draft, trustedHumanConfirmed,
+            )
+        }
+    }
+
+    private fun manualPriceHost(
+        admission: (String, OperationId, CommercialProductKey) -> Boolean,
+    ) = S4W04ManualPriceObservationHost(
+        session = session,
+        catalog = catalog,
+        principal = principal,
+        currentSnapshot = { if (foregroundCurrent()) persistence.read() else null },
+        currentFence = ::commercialReadFence,
+        householdAdmission = ::householdReadAdmitted,
+        commercialWriteAdmission = { key ->
+            runCatching {
+                foregroundCurrent() &&
+                    admission(principal, CommercialEvidenceOperations.RECORD, key)
+            }.getOrDefault(false)
+        },
+    )
+
     private fun commercialReadFence(): CommercialNeedReadFence? =
         if (foregroundCurrent()) {
             CommercialNeedReadFence(

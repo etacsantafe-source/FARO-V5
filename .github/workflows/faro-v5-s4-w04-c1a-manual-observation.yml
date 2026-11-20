@@ -1,0 +1,75 @@
+name: FARO V5 W04-C1a manual schema1 commercial observation DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ManualPriceObservationHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ManualPriceObservationHostTest.kt
+      - .github/workflows/faro-v5-s4-w04-c1a-manual-observation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  w04-c1a-manual-observation:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: C1a exact-route protocol preflight against parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -ge 1
+          test "$count" -le 5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle configuration
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Verify C1a manual confirmation persistence idempotency and revocation JVM
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04ManualPriceObservationHostTest
+      - name: Verify C1a JUnit XML exactly 9 of 9
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/app/build/test-results').rglob('TEST-*S4W04ManualPriceObservationHostTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+          assert counts == (9, 0, 0, 0), counts
+          print('W04_C1A_MANUAL_OBSERVATION_JVM_XML_PASS 9/9')
+          PY
+      - name: Preserve C1a JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-c1a-manual-schema1-xml
+          if-no-files-found: error
+          path: v5/app/build/test-results/**/TEST-*S4W04ManualPriceObservationHostTest.xml
