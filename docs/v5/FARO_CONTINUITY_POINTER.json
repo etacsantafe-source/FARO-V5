@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_A_B7_PASS_W04_B0A_PREAUDITED",
+  "phase": "S4_W04_B0A_B7_PASS_W04_B0B_PREAUDITED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_AFTER_CHECKPOINT",
-    "epoch": 1374
+    "epoch": 1377
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify documentary guard for B0A B1–B5, emit its own three-path READY, run preflight and B6–B7 for isolated staged Reality10 SQL. No active cutover.",
-  "checkpoint_status": "W04_A_B7_PASS_SCOPED_JVM_W04_B0A_PREAUDITED",
+  "next": "Verify documentary guard, emit a W04-B0B four-path READY, then preflight, implementation and JVM B7 for the sealed five-store generation stage.",
+  "checkpoint_status": "W04_B0A_B7_PASS_W04_B0B_PREAUDITED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "2f345d5e46a5c7d15cfa6e7b4a530f741dca0fbf",
-  "last_ci_run_id": 44662692803,
+  "last_code_sha": "8dfd37aad5a3bab8306fe901e7989fec962cc091",
+  "last_ci_run_id": 44664205036,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W04_A_JVM_XML_10_10",
+  "last_ci_conclusion": "SUCCESS_W04_B0A_JVM_SQLITE_XML_6_6",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -2445,7 +2445,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "2f345d5e46a5c7d15cfa6e7b4a530f741dca0fbf",
+  "checkpoint_code_sha": "8dfd37aad5a3bab8306fe901e7989fec962cc091",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_S3_FINAL_PROGRAMMING_GLOBAL_B7_20261114_MD_FINAL_SHA_IN_WRITER_LAST_CHECKPOINT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
@@ -5668,8 +5668,19 @@
     "next": "After W04-A B7 revalidate B0 schema+backup and C0 evidence read adapter against actual model; own B1-B5/READY."
   },
   "w04_b0a": {
-    "status": "B1_B5_DOCUMENTED_GUARD_PENDING",
+    "status": "B7_PASS_SCOPED_STAGED_SQL",
     "audit": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B1_B5_20261119.md",
-    "unit_id": "S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_DEV"
+    "unit_id": "S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_DEV",
+    "sha": "8dfd37aad5a3bab8306fe901e7989fec962cc091",
+    "run": 44664205036,
+    "guard": 44664204914,
+    "artifact_id": 14597696043,
+    "b7": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B7_PASS_20261119.md",
+    "permit": "BLOCKED_CONSUMED"
+  },
+  "w04_b0b": {
+    "status": "B1_B5_DOCUMENTED_GUARD_PENDING",
+    "audit": "docs/v5/FARO_S4_W04_B0B_HOUSEHOLD10_STAGED_GENERATION_B1_B5_20261119.md",
+    "unit_id": "S4_W04_B0B_HOUSEHOLD10_STAGED_GENERATION_DEV"
   }
 }
