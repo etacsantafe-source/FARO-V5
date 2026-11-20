@@ -4,8 +4,6 @@
   "unit_id": "S4_W04_B0D1_HOUSEHOLD10_PREFLIGHT_ACTIVE_GRAPH_DEV",
   "reviewed_head": "0cb64c6b6e85711d49ea96ab5a4e02a6d3fe5310",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflightTest.kt",
     ".github/workflows/faro-v5-s4-w04-b0d1-household10-preflight.yml"
   ],
@@ -64,19 +62,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "b3f4fd0a0c082ef7dd5a6ac864094e8c087a1f17",
-    "unit_id": "S4_W04_B0C3B2_HOUSEHOLD10_ARCHIVE_REPLAY_DEV",
-    "result": "PASS",
+    "sha": "106532c3222e5d268b9e6b014c7eb762dd5ee685",
+    "unit_id": "S4_W04_B0D1_HOUSEHOLD10_PREFLIGHT_ACTIVE_GRAPH_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_B7_PASS_20261120.md",
-        "blob_sha": "ac055685df6a45475afe6ad570f94419d7dae55b",
+        "path": "docs/v5/FARO_S4_W04_B0D1_HOUSEHOLD10_B7_RED_FIX_20261120.md",
+        "blob_sha": "702da7b33ae17dc0d1dfcecc63fd7f5525b24196",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B0C3B2 B7 PASS, guard SUCCESS and B0D1 scope verified.",
-  "how": "Four exact paths for sealed stage admission and already-active DEV projection. No pointer switch.",
+  "why": "B0D1 RED_FIX solo fixture y workflow según la evidencia.",
+  "how": "Two exact paths scoped to the existing B0D1 unit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
