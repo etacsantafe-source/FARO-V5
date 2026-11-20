@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_B0C1_B7_PASS_W04_B0C2_PREAUDITED",
+  "phase": "S4_W04_B0C2_B6_CI_PASS_B7_PENDING_B0C3_B0D_PREAUDITED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_CHECKPOINT",
-    "epoch": 1383
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_B0_PREAUDIT_DOC",
+    "epoch": 1386
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Verify B0C2 documentary guard and issue exact-four-path READY for FBS2v6 authentication, then implement and verify JVM B7.",
-  "checkpoint_status": "W04_B0C1_B7_PASS_W04_B0C2_PREAUDITED",
+  "next": "First finish B0C2 independent B7 and consume its existing READY; then B0C3A->B0C3B->B0D1->B0D2 with each guard+exact READY+B6+B7, no repeat.",
+  "checkpoint_status": "W04_B0C2_B6_CI5_PASS_PENDING_B7_C3A_C3B_D1_D2_B1_B5_DOCUMENTED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "52961b19f6db6c1a37dfb3d0576776ff28c9a22c",
@@ -5701,8 +5701,32 @@
     "permit": "BLOCKED_CONSUMED"
   },
   "w04_b0c2": {
-    "status": "B1_B5_DOCUMENTED_GUARD_PENDING",
+    "status": "B6_CI_JVM_5_5_PASS_B7_PENDING",
     "audit": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B1_B5_20261119.md",
-    "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV"
+    "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV",
+    "code_sha": "768c56824d04b051d323988aa2129461d8d16dd6",
+    "ci_run_id": 44668249894,
+    "guard_run_id": 44668249799,
+    "permit": "READY_C2_PENDING_B7"
+  },
+  "w04_b0_preaudit": {
+    "status": "B1_B5_DOCUMENTED_FUTURE_UNITS_NOT_READY",
+    "base_head": "768c56824d04b051d323988aa2129461d8d16dd6",
+    "docs": [
+      "docs/v5/FARO_S4_W04_B0C3A_HOUSEHOLD10_SQL_SNAPSHOT_B1_B5_20261120.md",
+      "docs/v5/FARO_S4_W04_B0C3B_HOUSEHOLD10_COMPLETE_ARCHIVE_B1_B5_20261120.md",
+      "docs/v5/FARO_S4_W04_B0D_HOUSEHOLD10_CUTOVER_RECOVERY_B1_B5_20261120.md",
+      "docs/v5/FARO_S4_W04_B0_WORK_TURBO_HANDOFF_20261120.md"
+    ],
+    "units": [
+      "S4_W04_B0C3A_HOUSEHOLD10_SEALED_SQL_RESTORE_DEV",
+      "S4_W04_B0C3B_HOUSEHOLD10_COMPLETE_ARCHIVE_DEV",
+      "S4_W04_B0D1_HOUSEHOLD10_PREFLIGHT_ACTIVE_GRAPH_DEV",
+      "S4_W04_B0D2_HOUSEHOLD10_ACTIVATE_RECOVERY_DEV"
+    ],
+    "prerequisite": "B0C2_B7",
+    "code": "NOT_RUN",
+    "tests": "NOT_RUN",
+    "permit": "B0C2_READY_UNCHANGED"
   }
 }
