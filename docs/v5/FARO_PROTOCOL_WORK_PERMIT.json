@@ -70,19 +70,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "2a68b42af4fc6aa8ab14f758e4a3c2b992fc5ce8",
+    "sha": "3e6a5e7d66268472877058dc9e7d75f15ea8348c",
     "unit_id": "S4_W03_G_GLOBAL_B7_ANDROID_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_G_B7_RED_FIX_NOTICE_E2E_20261119.md",
-        "blob_sha": "37611b12d95c69fc0d14a91510f661a8e35f0ade",
+        "path": "docs/v5/FARO_S4_W03_G_B7_RED_FIX2_SEEN_DISMISS_RACE_20261119.md",
+        "blob_sha": "b23cda046ba5d36684bb6aa796c2ced61b1835cc",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03-G first API35 1/1 PASS, but Notice Android E2E absent; B7 RED_FIX same G scope.",
-  "how": "Keep same exact 10 routes; add explicit local reconciliation/Attention CAS user workflow + real API35 XML. Guard 44647621469 green.",
+  "why": "W03 G Android 44649957655 FAIL at test line91: second Notice attention click raced first async CAS; same G RED_FIX.",
+  "how": "Show canonical Seen on read surface; await revocably fresh owner read before Dismiss in API35 instrumentation; no stale write override.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -93,6 +93,6 @@
     "code_ready": true
   },
   "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44647621706,
+  "last_ci_run_id": 44649957655,
   "pre_audit_guard": 44646678896
 }
