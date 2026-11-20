@@ -17,6 +17,7 @@ import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.store.reality.StagedSqlitePreflight
 import ar.com.faro.v5.store.reality.RealityFinance9SealedReadPort
+import ar.com.faro.v5.store.reality.RealityHousehold10SealedRowsPort
 import ar.com.faro.v5.store.reality.ActiveSqlitePreflight
 import java.nio.file.Files
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
@@ -356,6 +357,31 @@ class FaroV5GenerationStoreGraph private constructor(
         ): FaroV5GenerationStoreGraph =
             openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true)
 
+        internal fun openValidatedHousehold10ArchiveStage(
+            staged: StagedStorageGeneration,
+            expectedActive: ActiveGenerationPointer,
+        ): FaroV5GenerationStoreGraph =
+            openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true, householdStage10 = true)
+
+        internal fun requireSealedHousehold10ArchiveStage(staged: StagedStorageGeneration) {
+            check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
+            val directory = staged.directory.toAbsolutePath().normalize()
+            check(directory.toRealPath() == directory)
+            for (name in GenerationStoreFiles.WORKSPACE_V2) {
+                val file = directory.resolve(name)
+                check(Files.isRegularFile(file, NOFOLLOW_LINKS) &&
+                    (Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                for (suffix in listOf("-wal", "-shm", "-journal")) {
+                    check(Files.notExists(directory.resolve(name + suffix), NOFOLLOW_LINKS))
+                }
+            }
+            requireStrictV2StoreSchemas(
+                directory, activeGeneration = false, planningStage8 = true,
+                financeStage9 = true, auxiliary4 = true, householdStage10 = true,
+            )
+            RealityHousehold10SealedRowsPort.readTrustedSealedStageTen(directory.resolve(GenerationStoreFiles.REALITY))
+        }
+
         internal fun requireFinance9ReceiptArchiveStage(
             staged: StagedStorageGeneration,
             allowAuxiliary3: Boolean,
@@ -371,6 +397,7 @@ class FaroV5GenerationStoreGraph private constructor(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
             auxiliary4: Boolean,
+            householdStage10: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             val generationsDir = staged.directory.toAbsolutePath().normalize().parent
             check(generationsDir.fileName.toString() == "generations") {
@@ -388,11 +415,13 @@ class FaroV5GenerationStoreGraph private constructor(
                 expectedActive.generationId != staged.descriptor.generationId) {
                 "Finance9 staged graph requires nonactive target and pinned pointer"
             }
+            if (householdStage10) requireSealedHousehold10ArchiveStage(staged)
             val receiptFence: (() -> Boolean)? =
                 if (auxiliary4) ({ pointer.read() == expectedActive }) else null
             val graph = openValidatedV2Internal(
                 staged, planVerifier = null,
                 planningStage8 = true, financeStage9 = true, auxiliaryReceiptFence = receiptFence,
+                householdStage10 = householdStage10,
             )
             try {
                 check(pointer.read() == expectedActive) {
@@ -414,7 +443,9 @@ class FaroV5GenerationStoreGraph private constructor(
             financeStage9: Boolean = false,
             checkedPlanning8Active: Boolean = false,
             auxiliaryReceiptFence: (() -> Boolean)? = null,
+            householdStage10: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!householdStage10 || (financeStage9 && !activeGeneration && auxiliaryReceiptFence != null))
             check(auxiliaryReceiptFence == null || (financeStage9 && auxiliaryReceiptFence()))
             check(!planningStage8 || !activeGeneration || checkedPlanning8Active) {
                 "Planning8 active open requires exact internal pointer/reopen admission"
@@ -452,12 +483,12 @@ class FaroV5GenerationStoreGraph private constructor(
             // initializer can run schema migrations or create WAL sidecars.
             requireStrictV2StoreSchemas(
                 normalized, activeGeneration, planningStage8, financeStage9,
-                auxiliary4 = auxiliaryReceiptFence != null,
+                auxiliary4 = auxiliaryReceiptFence != null, householdStage10 = householdStage10,
             )
             if (financeStage9 && !activeGeneration) {
-                RealityFinance9SealedReadPort.readTrustedSealedStage9(
-                    normalized.resolve(GenerationStoreFiles.REALITY),
-                )
+                val reality = normalized.resolve(GenerationStoreFiles.REALITY)
+                if (householdStage10) RealityFinance9SealedReadPort.readTrustedSealedStage10(reality)
+                else RealityFinance9SealedReadPort.readTrustedSealedStage9(reality)
             }
             val workspacePath = normalized.resolve(GenerationStoreFiles.WORKSPACE).toString()
             val workspace = if (planVerifier == null) {
@@ -474,9 +505,10 @@ class FaroV5GenerationStoreGraph private constructor(
                 return openStores(
                     normalized, staged.descriptor.generationId.value, workspace,
                     materialWriteGate, planningStage8,
-                    financeStage9 = financeStage9 && !activeGeneration,
+                    financeStage9 = financeStage9 && !activeGeneration && !householdStage10,
                     financeActive9 = financeStage9 && activeGeneration,
                     auxiliaryReceiptFence = auxiliaryReceiptFence,
+                    householdStage10 = householdStage10,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -501,6 +533,7 @@ class FaroV5GenerationStoreGraph private constructor(
             exactAuxiliary: Boolean = activeGeneration,
             auxiliary4: Boolean = false,
             allowAuxiliary3: Boolean = false,
+            householdStage10: Boolean = false,
         ) {
             // Reality schema7 adds nullable, durable receipt commit time.
             // The only admitted older layouts are exact schema6 (full domains)
@@ -521,7 +554,7 @@ class FaroV5GenerationStoreGraph private constructor(
             val realityProfile = if (financeStage9) {
                 check(planningStage8) { "Finance9 requires Planning owner schema" }
                 StagedSqlitePreflight.Schema(
-                    GenerationStoreFiles.REALITY, 9,
+                    GenerationStoreFiles.REALITY, if (householdStage10) 10 else 9,
                     realityCurrentTables + listOf(
                         "reminder_state", "reminder_rule", "reminder_occurrence",
                         "monthly_plan_state", "monthly_plan_item",
@@ -530,7 +563,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         "finance_debt", "finance_schedule", "finance_plan_item",
                         "finance_plan_item_payment", "finance_budget_limit",
                         "finance_schema_migration_audit",
-                    ),
+                    ) + if (householdStage10) listOf("household_need_state", "household_need") else emptyList(),
                 )
             } else if (planningStage8) {
                 val required = realityCurrentTables + listOf(
@@ -615,6 +648,7 @@ class FaroV5GenerationStoreGraph private constructor(
             financeStage9: Boolean = false,
             financeActive9: Boolean = false,
             auxiliaryReceiptFence: (() -> Boolean)? = null,
+            householdStage10: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -629,6 +663,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         planningStage8 = planningStage8,
                         financeStage9 = financeStage9,
                         financeActive9 = financeActive9,
+                        householdStage10ReadOnly = householdStage10,
                     )
                 reality = openedReality
                 commercial =

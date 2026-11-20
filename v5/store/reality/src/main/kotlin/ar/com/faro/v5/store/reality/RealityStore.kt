@@ -4,6 +4,10 @@ import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.SQLiteDriver
 import androidx.sqlite.execSQL
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_READONLY
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_URI
+import java.nio.file.Path
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import ar.com.faro.v5.kernel.contracts.OperationBindingPort
 import ar.com.faro.v5.kernel.contracts.OperationRevalidationPort
@@ -116,6 +120,8 @@ class RealityStore(
     private val financeStage9: Boolean = false,
     /** Exact schema9 already admitted by the isolated active generation owner. */
     private val financeActive9: Boolean = false,
+    /** Explicit sealed Reality10 archive projection; the generation owner holds the lease. */
+    private val householdStage10ReadOnly: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -130,7 +136,16 @@ class RealityStore(
         check(!financeActive9 || (planningStage8 && !financeStage9 && materialWriteGate != null)) {
             "Active Finance9 requires the shared gate and a distinct active mode"
         }
-        driver.open(fileName)
+        if (householdStage10ReadOnly) {
+            check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate == null)
+            val file = Household10RowsSql.checkFile(Path.of(fileName))
+            BundledSQLiteDriver().open(
+                file.toUri().toString() + "?mode=ro&immutable=1",
+                SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
+            )
+        } else {
+            driver.open(fileName)
+        }
     }
     private var closed = false
     private var activeTransactionId: TransactionId? = null
@@ -634,9 +649,14 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    configure(fileName)
+                    if (householdStage10ReadOnly) connection.execSQL("PRAGMA foreign_keys = ON")
+                    else configure(fileName)
                     when {
-                        financeStage9 || financeActive9 -> validateExistingFinance9()
+                        householdStage10ReadOnly -> {
+                            Household10RowsSql.checkSchema(connection)
+                            validateExistingFinanceLayout(10)
+                        }
+                        financeStage9 || financeActive9 -> validateExistingFinanceLayout(9)
                         planningStage8 -> initializePlanningStage8()
                         else -> initializeSchema()
                     }
@@ -2106,10 +2126,10 @@ class RealityStore(
      * Exact schema9 validation shared by separately admitted STAGED and ACTIVE graphs.
      * This path never creates tables or upgrades an older Reality schema.
      */
-    private fun validateExistingFinance9() {
-        check(planningStage8 && (financeStage9 || financeActive9))
-        check(readSchemaVersion() == 9) {
-            "Finance9 graph opens only an already-installed exact schema9"
+    private fun validateExistingFinanceLayout(expectedSchema: Int) {
+        check(planningStage8)
+        check(readSchemaVersion() == expectedSchema) {
+            "Reality projection requires its exact already-installed schema"
         }
         check(receiptTimeColumnExists()) {
             "Finance9 graph missing historical receipt commit timestamp"
@@ -2137,7 +2157,8 @@ class RealityStore(
     private fun isPlanningBackupSchemaMounted(): Boolean =
         planningStage8 && (
             readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
-                ((financeStage9 || financeActive9) && readSchemaVersion() == 9)
+                ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
+                (householdStage10ReadOnly && readSchemaVersion() == 10)
         )
 
     private fun createPlanningStage8Tables() {

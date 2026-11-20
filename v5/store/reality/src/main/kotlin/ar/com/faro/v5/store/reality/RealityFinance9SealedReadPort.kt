@@ -72,7 +72,13 @@ object RealityFinance9SealedReadPort {
             setOf(1,2,4), listOf("migration_id")),
     )
 
-    fun readTrustedSealedStage9(file: Path): RealityFinance9SealedSnapshot {
+    fun readTrustedSealedStage9(file: Path): RealityFinance9SealedSnapshot = read(file, 9)
+
+    /** The physical schema is 10; the Finance9 DATA section format is still 9. */
+    fun readTrustedSealedStage10(file: Path): RealityFinance9SealedSnapshot =
+        read(Household10RowsSql.checkFile(file), 10)
+
+    private fun read(file: Path, expectedSchema: Long): RealityFinance9SealedSnapshot {
         val normalized = file.toAbsolutePath().normalize()
         check(!Files.isSymbolicLink(normalized) &&
             Files.isRegularFile(normalized, LinkOption.NOFOLLOW_LINKS)) {
@@ -89,8 +95,8 @@ object RealityFinance9SealedReadPort {
             physical.toUri().toString() + "?mode=ro&immutable=1",
             SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
         ).use { db ->
-            check(db.scalarLong("PRAGMA user_version") == 9L) {
-                "Finance9 sealed reader requires exact schema9"
+            check(db.scalarLong("PRAGMA user_version") == expectedSchema) {
+                "Finance9 sealed reader requires the exact admitted schema"
             }
             check(db.prepare("PRAGMA quick_check").use { stmt ->
                 stmt.step() && stmt.getText(0) == "ok" && !stmt.step()
