@@ -4,7 +4,7 @@
   "unit": "S4_W04_C_PREAUDIT",
   "baseline_head": "a60c184d116bd0c8a9ddc6941a6eb3478b5455a6",
   "branch": "work/s3-night-20261102",
-  "scope": "W04_C1B2E_B7_PASS_C1B2F_B1_B5_PREAUDIT_DOC",
+  "scope": "C1B2F_B7_PASS_AND_C1B2G_B1_B5_PREAUDIT",
   "first_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
   "first_unit_paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
@@ -26,7 +26,7 @@
     },
     {
       "id": "C1",
-      "status": "OPEN_C1A_B7_PASS_C1B1_B7_PASS_C1B2E_B7_PASS_C1B2F_PREAUDIT",
+      "status": "OPEN_C1A_B7_PASS_C1B1_B7_PASS_C1B2E_F_PASS_C1B2G_PREAUDIT",
       "children": [
         {
           "id": "C1A",
@@ -63,11 +63,20 @@
         },
         {
           "id": "C1B2F",
-          "status": "B7_RED_FIX_FIRST_CODE_2_EVIDENCE_TESTS",
+          "status": "B7_PASS_FBS1V4_DEV_8_8",
           "preaudit": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
-          "guard_run_id": 44822996579,
-          "code_sha": "0ba07be503a960ac38eb533296f1e446c5b775b8",
-          "ci_run_id": 44822996440
+          "guard_run_id": 44824047221,
+          "code_sha": "65f075284a7006df24ad1a0e8f612ca8f4212c56",
+          "ci_run_id": 44824047295,
+          "regression_guardados_run_id": 44824047291,
+          "artifact_id": 14673775214,
+          "b7_document": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_PASS_20261120.md",
+          "xml": "8/8"
+        },
+        {
+          "id": "C1B2G",
+          "status": "B1_B5_EXACT3_PREAUDIT_NO_READY_NO_CODE",
+          "preaudit": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md"
         }
       ]
     },
@@ -78,9 +87,9 @@
   ],
   "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
   "new_functional_code": true,
-  "tests_run_this_turn": "C1B2E_JVM_9_9_XML_PASS_44821224309",
-  "writer": "RELEASE_AFTER_REDFIX_DOC_EPOCH_1457",
-  "next": "C1b2F RED_FIX explicit opt-in, same-unit code CI B7",
+  "tests_run_this_turn": "C1B2F_JVM_8_OF_8_XML_PASS_GUARDADOS_REGRESSION_PASS",
+  "writer": "RELEASE_AFTER_B7_DOC_COMMIT_EPOCH_1459",
+  "next": "C1b2G exact3 staged five-store graph B6 after own guard/READY; C1b2H portability later",
   "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
   "guard_documental": {
     "run_id": 44770729719,
@@ -93,7 +102,7 @@
   "first_unit_ci_run": 44782895246,
   "first_unit_artifact_id": 14652917867,
   "b7_document": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-  "last_code_sha": "d17dbe344a8714ca30a6f0f4cfbd46e184bb3b92",
+  "last_code_sha": "65f075284a7006df24ad1a0e8f612ca8f4212c56",
   "c0b_b7_document": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "c0b_ci_run": 44789820660,
   "c0b_guard_run": 44789820679,
@@ -114,5 +123,11 @@
   "c1b2e_guard_run": 44821224076,
   "c1b2e_artifact_id": 14671679327,
   "c1b2e_b7_document": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B7_PASS_20261120.md",
-  "c1b2f_preaudit": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md"
+  "c1b2f_preaudit": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
+  "c1b2f_code_sha": "65f075284a7006df24ad1a0e8f612ca8f4212c56",
+  "c1b2f_guard_run": 44824047221,
+  "c1b2f_ci_run": 44824047295,
+  "c1b2f_artifact_id": 14673775214,
+  "c1b2f_b7_document": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_PASS_20261120.md",
+  "c1b2g_preaudit": "docs/v5/FARO_S4_W04_C1B2G_FIVE_STORE_STAGED_B1_B5_20261120.md"
 }

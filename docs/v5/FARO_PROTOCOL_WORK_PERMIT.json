@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV",
   "reviewed_head": "0ba07be503a960ac38eb533296f1e446c5b775b8",
   "paths": [
@@ -62,23 +62,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "0ba07be503a960ac38eb533296f1e446c5b775b8",
+    "sha": "65f075284a7006df24ad1a0e8f612ca8f4212c56",
     "unit_id": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_RED_FIX_20261120.md",
-        "blob_sha": "e4d4617e659495c2dafd7b06959a42f9472239c1",
+        "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_PASS_20261120.md",
+        "blob_sha": "fd4b7ff69ae9bc745d46cf302634414e90f9198a",
         "marker": "## B7"
       }
     ]
   },
-  "why": "First C1b2F CI 44822996440 2/65 legacy DENY regression; same-unit B7 RED_FIX, Guardados regression SUCCESS.",
-  "how": "Second explicit opt-in flag in CommercialEvidence.kt, fixture only SemanticBackupRestoreT2Test.kt, existing exact6 paths. Rerun CI.",
+  "why": "W04-C1b2F B7 PASS scoped Evidence/maintenance, guard 44824047221 SUCCESS, CI 44824047295 SUCCESS 8/8 XML, Guardados 44824047291 SUCCESS. Permit consumed; C1b2G requires independent READY.",
+  "how": "Do not re-run C1b2F; C1b2G three exact candidate routes staged five-store preaudit; guard and READY distinct before B6. No productive V2.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -88,9 +88,9 @@
   "preaudit_guard": 44822145095,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2F_FBS1V4_SEMANTIC_CODEC_B6_DEV_READY",
-  "completed_guard": 44822996579,
-  "completed_ci": 44822996440,
-  "completed_xml": "2_FAILURES_OF_65_EVIDENCE_MAINTENANCE_NOT_RUN",
-  "completed_artifact_id": null
+  "next": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV_PREAUDIT_NOT_READY",
+  "completed_guard": 44824047221,
+  "completed_ci": 44824047295,
+  "completed_xml": "8/8_PASS",
+  "completed_artifact_id": 14673775214
 }
