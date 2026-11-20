@@ -1,24 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
-  "reviewed_head": "e76a88bd9c40a1af62d62ea02111ee0191f79195",
+  "status": "READY",
+  "unit_id": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
+  "reviewed_head": "f8bc42ada7d3c11e58e159abbf4879ac7c0cd9ee",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedUndo.kt",
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/HouseholdNeedPersistencePort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHouseholdNeedPersistence.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedUndoHostTest.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10CommittedPlansArchiveTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b1d1-household10-undo-history.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelectionTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c0a-match.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1D1_NEEDS_UNDO_HISTORY_DELTA_B1_B5_20261120.md",
-          "blob_sha": "130b8dcc7eaff92243c66a7d915cbd482b9c3570",
+          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
+          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
           "marker": "## B1"
         }
       ]
@@ -27,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1D1_NEEDS_UNDO_HISTORY_DELTA_B1_B5_20261120.md",
-          "blob_sha": "130b8dcc7eaff92243c66a7d915cbd482b9c3570",
+          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
+          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
           "marker": "## B2"
         }
       ]
@@ -37,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1D1_NEEDS_UNDO_HISTORY_DELTA_B1_B5_20261120.md",
-          "blob_sha": "130b8dcc7eaff92243c66a7d915cbd482b9c3570",
+          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
+          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
           "marker": "## B3"
         }
       ]
@@ -47,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1D1_NEEDS_UNDO_HISTORY_DELTA_B1_B5_20261120.md",
-          "blob_sha": "130b8dcc7eaff92243c66a7d915cbd482b9c3570",
+          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
+          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
           "marker": "## B4"
         }
       ]
@@ -57,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1D1_NEEDS_UNDO_HISTORY_DELTA_B1_B5_20261120.md",
-          "blob_sha": "130b8dcc7eaff92243c66a7d915cbd482b9c3570",
+          "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B1_B5_20261120.md",
+          "blob_sha": "c5f0b533fb66d0a55dca4ad25117ab85eb394849",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "52db8e5d7c5c4d4c8f013af5d2d81fd3f29724d8",
@@ -78,28 +74,16 @@
       }
     ]
   },
-  "why": "B1D1 y B1 integral B7 PASS. Permiso D1 consumido.",
-  "how": "C0 tiene relevo documental y requiere permiso propio antes de B6.",
+  "why": "B1–B5 C0A exact3 verified; documentary CI #44770729719 SUCCESS on f8bc42ada7d3c11e58e159abbf4879ac7c0cd9ee",
+  "how": "Scope pure typed ephemeral explicit need↔product selection. NO Evidence read/write, Reality/SQLite/host changes, finance, stock or UI.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "adb_ci_human_authorization": {
-    "authorized": true,
-    "date": "2026-11-18",
-    "emulator_only": true,
-    "physical_allowed": false,
-    "code_ready": true
-  },
-  "preaudit_guard": 44755253827,
-  "last_ci_run_id": 44755253827,
-  "pre_audit_guard": 44667712329,
   "user_authorization": {
-    "date_local": "2026-11-19",
-    "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
-    "w05_w06_w07": false
+    "date_local": "2026-11-20",
+    "scope": "W04-C prepare B1–B5 and individual C0A READY; B6 only subsequent Work under exact preflight"
   },
-  "completed_guard": 44766456766,
-  "completed_ci": 44766456887,
-  "completed_xml": "17/17_PASS",
-  "completed_artifact_id": 14646151944,
-  "next": "W04-C0 exact mapping and scoped READY delta"
+  "preaudit_guard": 44770729719,
+  "previous_unit": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_B1_HOUSEHOLD10_GLOBAL_B7_PASS_20261120.md",
+  "next": "C0A B6 + exact scoped JVM XML + B7 then C0B own delta"
 }

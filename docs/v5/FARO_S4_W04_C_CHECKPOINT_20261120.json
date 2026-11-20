@@ -14,7 +14,7 @@
   "units": [
     {
       "id": "C0A",
-      "status": "B1_B5_PREAUDITED_WAIT_GUARD_READY"
+      "status": "B1_B5_VERIFIED_EXACT3_READY"
     },
     {
       "id": "C0B",
@@ -33,6 +33,12 @@
   "new_functional_code": false,
   "tests_run_this_turn": "NOT_RUN_DOC_ONLY",
   "writer": "RELEASE_AFTER_DOC_COMMIT",
-  "next": "VERIFY_GUARD_DOC_SHA_THEN_EXACT_C0A_READY",
-  "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md"
+  "next": "C0A preflight exact3 then B6/JVM/CI/B7; C0B permit separate",
+  "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
+  "guard_documental": {
+    "run_id": 44770729719,
+    "sha": "f8bc42ada7d3c11e58e159abbf4879ac7c0cd9ee",
+    "conclusion": "SUCCESS"
+  },
+  "first_unit_permit": "READY_EXACT3_DOC_COMMIT"
 }
