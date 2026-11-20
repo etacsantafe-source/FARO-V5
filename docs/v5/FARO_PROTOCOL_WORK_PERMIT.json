@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "reviewed_head": "db7140665028d3fa5846e5c155a271115d5cfcb1",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "b7cd33869fdb8309bf694357a7539a05fff7f620",
+    "sha": "4f9808cc26956e6e49b3836487dee68f5b0b9d99",
     "unit_id": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C0B_B7_RED_FIX_20261120.md",
-        "blob_sha": "5d68e2df1221057d170ec4de7fee74df5719cc55",
+        "path": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
+        "blob_sha": "0fd580549112a21c66c57267f9f67a689d965574",
         "marker": "## B7"
       }
     ]
   },
-  "why": "RED_FIX of C0B initial B6: app test unresolved AndroidX SQLite driver import, run 44787942512 FAILURE; only test fixture delta.",
-  "how": "Only scoped RED_FIX: test fixture uses certified Household Review/Apply for Need seed; workflow preflight tests each changed exact route and allows 1..5, no new path.",
+  "why": "W04-C0B B7 PASS scoped DEV, real Household/Commercial Evidence one-root integration, 9/9 JUnit XML; permit consumed.",
+  "how": "C1 requires own B1–B5 delta/guard/READY, not inherited C0B permit; old B1A trigger failure separately documented.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -87,9 +87,9 @@
   "preaudit_guard": 44786710268,
   "previous_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-  "next": "W04_C0B_B6_EXACT5_THEN_JVM_XML_B7",
-  "completed_guard": 44782895205,
-  "completed_ci": 44782895246,
-  "completed_xml": "12/12_PASS",
-  "completed_artifact_id": 14652917867
+  "next": "W04_C1_MANUAL_QUOTE_EVIDENCE_DEV_B1_B5_DELTA_NO_READY",
+  "completed_guard": 44789820679,
+  "completed_ci": 44789820660,
+  "completed_xml": "9/9_PASS",
+  "completed_artifact_id": 14656895187
 }
