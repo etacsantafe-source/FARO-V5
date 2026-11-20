@@ -1,23 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B1B_NEEDS_SQL_CAS_DEV",
-  "reviewed_head": "75334df7ba60318e91e6306ac8b0099b80403a08",
+  "status": "READY",
+  "unit_id": "S4_W04_B1C1_CANONICAL_NEEDS_REVIEW_DEV",
+  "reviewed_head": "e6e0a138bb47212993aed1494a654f8a20784617",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/HouseholdNeedPersistencePort.kt",
-    "v5/store/reality/build.gradle.kts",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHouseholdNeedPersistence.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHouseholdNeedPersistenceTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b1b-needs-sql-cas.yml"
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedReview.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedReviewTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b1c1-needs-review.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
-          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
+          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
+          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
           "marker": "## B1"
         }
       ]
@@ -26,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
-          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
+          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
+          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
           "marker": "## B2"
         }
       ]
@@ -36,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
-          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
+          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
+          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
           "marker": "## B3"
         }
       ]
@@ -46,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
-          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
+          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
+          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
           "marker": "## B4"
         }
       ]
@@ -56,29 +53,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
-          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
+          "path": "docs/v5/FARO_S4_W04_B1C1_NEEDS_REVIEW_DELTA_B1_B5_20261120.md",
+          "blob_sha": "57a3de7f65931d4d6f3c8d1ddeffd008840816e4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e937ca0a657b722fd158584e03207adbfde9747a",
-    "unit_id": "S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_DEV",
+    "sha": "51124c0e31915419075e8307d62962b61be90c23",
+    "unit_id": "S4_W04_B1B_NEEDS_SQL_CAS_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B7_PASS_20261120.md",
-        "blob_sha": "f787868b4cfa5e7e2829f24e197cbcd15f76c1b3",
+        "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_B7_PASS_20261120.md",
+        "blob_sha": "4abffc77f5c1f8acdcea3d53193cf0c16f7ac5a6",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1B B6 code already published. Further code blocked pending B7.",
-  "how": "Verify directed CI and XML on the functional SHA. The original parent retains the exact-six READY for B6 evidence.",
+  "why": "B1B B7 PASS scoped. C1 B1-B5 delta verified by guard 44749463298.",
+  "how": "Preflight three paths, implement immutable Household Review only, verify CI/XML and B7.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,19 +85,17 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44747655286,
-  "last_ci_run_id": 44747655286,
+  "preaudit_guard": 44749463298,
+  "last_ci_run_id": 44749463298,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
     "date_local": "2026-11-19",
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44746106811,
-  "completed_ci": 44746107035,
-  "completed_xml": "9/9_PASS",
-  "completed_artifact_id": 14632839178,
-  "next": "B1B B7 after exact CI artifact verification",
-  "pending_code_sha": "51124c0e31915419075e8307d62962b61be90c23",
-  "pending_ci_run_id": 44748638104
+  "completed_guard": 44748637785,
+  "completed_ci": 44748638104,
+  "completed_xml": "6/6_PASS",
+  "completed_artifact_id": 14634203701,
+  "next": "W04-B1C1 B6"
 }
