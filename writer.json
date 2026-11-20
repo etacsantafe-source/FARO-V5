@@ -1,11 +1,1 @@
-{
-  "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.W03.E.ANDROID.READY",
-  "token_hash": "63fd769ac3e5f419efed0bd407226575919f0acd135f7ad8b8101d062edde4d0",
-  "target_head": "ad2f86d768f49c0ddf3131ae5b888a40a3930553",
-  "target_branch": "work/s3-night-20261102",
-  "epoch": 1354,
-  "timestamp": 1795122545,
-  "scope": "W03_E_ANDROID_READY"
-}
+{"schema":1,"status":"HELD","owner":"FARO.CHAT.W03.E.B6","token_hash":"e6abb36278494331b5e564dc3fdc8d41947604fb854dcff8396aa29de7cda0ce","target_head":"ad2f86d768f49c0ddf3131ae5b888a40a3930553","target_branch":"work/s3-night-20261102","epoch":1355,"timestamp":1795133278,"scope":"W03_E_B6_ANDROID"}
