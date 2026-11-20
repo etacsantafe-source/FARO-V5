@@ -190,6 +190,8 @@ class CommercialEvidenceStore(
         CommercialEvidenceId("evidence-" + UUID.randomUUID())
     },
     private val materialWriteGate: MaterialWriteGate? = null,
+    /** Explicit opt-in only for isolated STAGED Evidence2 testing. Not wired to active graphs. */
+    private val stagedTypedTermsV2: Boolean = false,
 ) : AutoCloseable {
     private val lock = Any()
     /** Opt-in staged V2: the host must inject its single shared gate. */
@@ -240,6 +242,7 @@ class CommercialEvidenceStore(
         payloadFingerprint: PayloadFingerprint,
     ): CommercialEvidenceRecordOutcome = withMaterialAdmission { synchronized(lock) {
         checkOpen()
+        check(!stagedTypedTermsV2) { "schema2 writes require typed terms and a separate contract" }
 
         findByIdempotencyKey(idempotencyKey)?.let { existing ->
             return@synchronized if (existing.payloadFingerprint == payloadFingerprint) {
@@ -281,6 +284,140 @@ class CommercialEvidenceStore(
             replayed = false,
         )
     } }
+
+
+    /**
+     * Isolated STAGED Evidence2 only. The legacy row and its typed terms are
+     * committed atomically. No active-generation opener exposes this method.
+     */
+    fun recordWithTypedTerms(
+        observation: CommercialPriceObservation,
+        terms: CommercialEvidenceTypedTerms,
+        idempotencyKey: IdempotencyKey,
+        payloadFingerprint: PayloadFingerprint,
+    ): CommercialEvidenceRecordOutcome = withMaterialAdmission { synchronized(lock) {
+        checkOpen()
+        check(stagedTypedTermsV2 && readSchemaVersion() == 2) {
+            "typed commercial terms require explicit staged Evidence2"
+        }
+        findByIdempotencyKey(idempotencyKey)?.let { existing ->
+            val savedTerms = readTypedTerms(existing.evidenceId) ?: CommercialEvidenceTypedTerms.UNKNOWN
+            return@synchronized if (existing.payloadFingerprint == payloadFingerprint &&
+                savedTerms == terms) {
+                CommercialEvidenceRecordOutcome.Committed(existing, replayed = true)
+            } else {
+                CommercialEvidenceRecordOutcome.RejectedIdentityConflict(existing, idempotencyKey)
+            }
+        }
+        val acquiredAt = clock()
+        require(acquiredAt >= 0L)
+        val record = CommercialEvidenceRecord(
+            evidenceId = evidenceIdFactory(),
+            idempotencyKey = idempotencyKey,
+            payloadFingerprint = payloadFingerprint,
+            observation = observation,
+            acquiredAtEpochMillis = acquiredAt,
+        )
+        connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+        try {
+            insert(record)
+            insertTypedTerms(record.evidenceId, terms)
+            connection.execSQL("COMMIT TRANSACTION")
+        } catch (failure: Throwable) {
+            runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+            throw failure
+        }
+        CommercialEvidenceRecordOutcome.Committed(record, replayed = false)
+    } }
+
+    /** A missing Evidence row returns null; a legacy v1 row returns UNKNOWN. */
+    fun typedTermsFor(evidenceId: CommercialEvidenceId): CommercialEvidenceTypedTerms? =
+        synchronized(lock) {
+            checkOpen()
+            check(stagedTypedTermsV2 && readSchemaVersion() == 2)
+            val exists = connection.prepare(
+                "SELECT 1 FROM commercial_evidence WHERE evidence_id = ?"
+            ).use { st ->
+                st.bindText(1, evidenceId.value)
+                st.step()
+            }
+            if (!exists) null
+            else readTypedTerms(evidenceId) ?: CommercialEvidenceTypedTerms.UNKNOWN
+        }
+
+    private fun insertTypedTerms(id: CommercialEvidenceId, terms: CommercialEvidenceTypedTerms) {
+        connection.prepare(
+            """
+            INSERT INTO commercial_evidence_quote_terms(
+                evidence_id, terms_fingerprint, locality_kind, locality_code,
+                issued_at_epoch_millis, valid_from_epoch_millis, valid_until_epoch_millis,
+                presentation_quantity_thousandths, presentation_unit, pack_count,
+                payment_method, eligibility, conditions, promotion_kind, promotion_value,
+                promotion_source_ref
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """.trimIndent()
+        ).use { st ->
+            fun nullableText(index: Int, value: String?) {
+                if (value == null) st.bindNull(index) else st.bindText(index, value)
+            }
+            fun nullableLong(index: Int, value: Long?) {
+                if (value == null) st.bindNull(index) else st.bindLong(index, value)
+            }
+            st.bindText(1, id.value)
+            st.bindText(2, terms.fingerprint())
+            st.bindText(3, terms.localityKind.name)
+            nullableText(4, terms.localityCode)
+            nullableLong(5, terms.issuedAtEpochMillis)
+            nullableLong(6, terms.validFromEpochMillis)
+            nullableLong(7, terms.validUntilEpochMillis)
+            nullableLong(8, terms.presentationQuantityThousandths)
+            nullableText(9, terms.presentationUnit?.name)
+            nullableLong(10, terms.packCount?.toLong())
+            st.bindText(11, terms.paymentMethod.name)
+            st.bindText(12, terms.eligibility.name)
+            nullableText(13, terms.conditions)
+            st.bindText(14, terms.promotionKind.name)
+            nullableLong(15, terms.promotionValue)
+            nullableText(16, terms.promotionSourceRef)
+            st.step()
+        }
+    }
+
+    private fun readTypedTerms(id: CommercialEvidenceId): CommercialEvidenceTypedTerms? =
+        connection.prepare(
+            """
+            SELECT terms_fingerprint, locality_kind, locality_code,
+                   issued_at_epoch_millis, valid_from_epoch_millis, valid_until_epoch_millis,
+                   presentation_quantity_thousandths, presentation_unit, pack_count,
+                   payment_method, eligibility, conditions, promotion_kind,
+                   promotion_value, promotion_source_ref
+            FROM commercial_evidence_quote_terms WHERE evidence_id = ?
+            """.trimIndent()
+        ).use { st ->
+            st.bindText(1, id.value)
+            if (!st.step()) return@use null
+            val terms = CommercialEvidenceTypedTerms(
+                localityKind = CommercialLocalityKind.valueOf(st.getText(1)),
+                localityCode = if (st.isNull(2)) null else st.getText(2),
+                issuedAtEpochMillis = if (st.isNull(3)) null else st.getLong(3),
+                validFromEpochMillis = if (st.isNull(4)) null else st.getLong(4),
+                validUntilEpochMillis = if (st.isNull(5)) null else st.getLong(5),
+                presentationQuantityThousandths = if (st.isNull(6)) null else st.getLong(6),
+                presentationUnit = if (st.isNull(7)) null else
+                    CommercialPresentationUnit.valueOf(st.getText(7)),
+                packCount = if (st.isNull(8)) null else st.getLong(8).toInt(),
+                paymentMethod = CommercialPaymentMethod.valueOf(st.getText(9)),
+                eligibility = CommercialEligibility.valueOf(st.getText(10)),
+                conditions = if (st.isNull(11)) null else st.getText(11),
+                promotionKind = CommercialPromotionKind.valueOf(st.getText(12)),
+                promotionValue = if (st.isNull(13)) null else st.getLong(13),
+                promotionSourceRef = if (st.isNull(14)) null else st.getText(14),
+            )
+            check(st.getText(0) == terms.fingerprint()) {
+                "commercial typed terms fingerprint mismatch"
+            }
+            terms
+        }
 
     fun priceHistory(
         productKey: CommercialProductKey,
@@ -394,6 +531,7 @@ class CommercialEvidenceStore(
     private fun readSemanticMigrationSnapshot(): List<CommercialEvidenceMigrationRecord> =
         synchronized(lock) {
             checkOpen()
+            check(readSchemaVersion() == 1) { "Evidence2 semantic migration requires codec v2" }
             readAllRecords().map(CommercialEvidenceMigrationIdentity::fromStored)
         }
 
@@ -402,6 +540,7 @@ class CommercialEvidenceStore(
     ): List<CommercialEvidenceMigrationRecord> =
         withMaterialAdmission { synchronized(lock) {
             checkOpen()
+            check(readSchemaVersion() == 1) { "Evidence2 semantic migration requires codec v2" }
             require(
                 records.map { it.sourceIdentityFingerprint }.distinct().size == records.size
             ) {
@@ -437,6 +576,7 @@ class CommercialEvidenceStore(
     private fun readBackupSnapshot(): CommercialEvidenceBackupSnapshot =
         synchronized(lock) {
             checkOpen()
+            check(readSchemaVersion() == 1) { "Evidence2 backup requires lossless codec v2" }
             CommercialEvidenceBackupSnapshot(
                 schemaVersion = readSchemaVersion(),
                 records = readAllRecords(),
@@ -446,6 +586,7 @@ class CommercialEvidenceStore(
     private fun readPortabilitySnapshot(): CommercialEvidencePortabilitySnapshot =
         synchronized(lock) {
             checkOpen()
+            check(readSchemaVersion() == 1) { "Evidence2 portability requires versioned codec" }
             EvidencePortabilityProjection.commercial(
                 schemaVersion = readSchemaVersion(),
                 records = readAllRecords(),
@@ -457,6 +598,7 @@ class CommercialEvidenceStore(
     ): CommercialEvidenceBackupSnapshot =
         withMaterialAdmission { synchronized(lock) {
             checkOpen()
+            check(readSchemaVersion() == 1) { "Evidence2 restore requires lossless codec v2" }
             check(snapshot.schemaVersion == SCHEMA_VERSION) {
                 "Commercial Evidence backup schema requires explicit migration"
             }
@@ -588,7 +730,7 @@ class CommercialEvidenceStore(
 
     private fun initializeSchema() {
         val version = readSchemaVersion()
-        check(version in 0..SCHEMA_VERSION) {
+        check(version in 0..(if (stagedTypedTermsV2) 2 else SCHEMA_VERSION)) {
             "unsupported CommercialEvidenceStore schema version: $version"
         }
         if (version == 0) {
@@ -654,6 +796,53 @@ class CommercialEvidenceStore(
             "CommercialEvidenceStore required table missing"
         }
     }
+
+
+        if (stagedTypedTermsV2) {
+            if (readSchemaVersion() == 1) {
+                connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
+                try {
+                    connection.execSQL(
+                        """
+                        CREATE TABLE commercial_evidence_quote_terms(
+                            evidence_id TEXT NOT NULL PRIMARY KEY
+                                REFERENCES commercial_evidence(evidence_id) ON DELETE RESTRICT,
+                            terms_fingerprint TEXT NOT NULL,
+                            locality_kind TEXT NOT NULL CHECK(locality_kind IN ('UNKNOWN', 'KNOWN')),
+                            locality_code TEXT,
+                            issued_at_epoch_millis INTEGER,
+                            valid_from_epoch_millis INTEGER,
+                            valid_until_epoch_millis INTEGER,
+                            presentation_quantity_thousandths INTEGER,
+                            presentation_unit TEXT,
+                            pack_count INTEGER,
+                            payment_method TEXT NOT NULL,
+                            eligibility TEXT NOT NULL,
+                            conditions TEXT,
+                            promotion_kind TEXT NOT NULL,
+                            promotion_value INTEGER,
+                            promotion_source_ref TEXT,
+                            CHECK(length(terms_fingerprint) = 64),
+                            CHECK(locality_kind = 'KNOWN' OR locality_code IS NULL),
+                            CHECK(presentation_quantity_thousandths IS NULL OR
+                                  presentation_quantity_thousandths > 0),
+                            CHECK(pack_count IS NULL OR pack_count > 0)
+                        )
+                        """.trimIndent()
+                    )
+                    connection.execSQL("PRAGMA user_version = 2")
+                    connection.execSQL("COMMIT TRANSACTION")
+                } catch (failure: Throwable) {
+                    runCatching { connection.execSQL("ROLLBACK TRANSACTION") }
+                    throw failure
+                }
+            }
+            check(readSchemaVersion() == 2 && connection.prepare(
+                "SELECT 1 FROM sqlite_master WHERE type='table' AND name='commercial_evidence_quote_terms'"
+            ).use { it.step() }) { "staged Evidence2 required typed terms table missing" }
+            check(readIntegrityCheck().equals("ok", ignoreCase = true) &&
+                  readForeignKeysHealthy()) { "staged Evidence2 migration integrity failure" }
+        }
 
     private fun checkOpen() {
         check(!closed) { "CommercialEvidenceStore is closed" }
