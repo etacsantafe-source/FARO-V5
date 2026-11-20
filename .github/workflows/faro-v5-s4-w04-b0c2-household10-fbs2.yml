@@ -1,0 +1,73 @@
+name: FARO V5 W04-B0C2 Household10 Authenticated Archive
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2Codec.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2CodecTest.kt
+      - .github/workflows/faro-v5-s4-w04-b0c2-household10-fbs2.yml
+
+permissions:
+  contents: read
+
+jobs:
+  household10-fbs2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: W04-B0C2 exact-route protocol preflight against parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for multi-project Gradle config
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test the authenticated Household10 archive on JVM
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household10Fbs2CodecTest
+      - name: Verify exactly 5 W04-B0C2 JUnit XML tests
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/store/generation/build/test-results/test').glob(
+              'TEST-*FaroV5Household10Fbs2CodecTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          totals = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert totals == (5,0,0,0), totals
+          print('W04_B0C2_HOUSEHOLD10_FBS2_XML_PASS 5/5')
+          PY
+      - name: Preserve W04-B0C2 JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-b0c2-household10-fbs2-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/test/TEST-*FaroV5Household10Fbs2CodecTest.xml
