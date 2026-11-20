@@ -1,22 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_DEV",
-  "reviewed_head": "ffcec53beba55948e24c11c79fe5311aacf8ac8d",
+  "status": "READY",
+  "unit_id": "S4_W04_B1B_NEEDS_SQL_CAS_DEV",
+  "reviewed_head": "75334df7ba60318e91e6306ac8b0099b80403a08",
   "paths": [
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/HouseholdNeedPersistencePort.kt",
+    "v5/store/reality/build.gradle.kts",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHouseholdNeedPersistence.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10ActiveDevReadTest.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ActiveGraphTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b1a-household10-active-read.yml"
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHouseholdNeedPersistenceTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b1b-needs-sql-cas.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
-          "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
+          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
+          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
           "marker": "## B1"
         }
       ]
@@ -25,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
-          "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
+          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
+          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
           "marker": "## B2"
         }
       ]
@@ -35,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
-          "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
+          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
+          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
           "marker": "## B3"
         }
       ]
@@ -45,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
-          "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
+          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
+          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
           "marker": "## B4"
         }
       ]
@@ -55,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
-          "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
+          "path": "docs/v5/FARO_S4_W04_B1B_NEEDS_SQL_CAS_DELTA_B1_B5_20261120.md",
+          "blob_sha": "f2dabd9919082284a5243aac5d28d73fb6050cae",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_XML_PASS",
-    "B7": "PASS_SCOPED_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e937ca0a657b722fd158584e03207adbfde9747a",
@@ -76,8 +77,8 @@
       }
     ]
   },
-  "why": "W04-B1A B7 scoped PASS. READY consumido.",
-  "how": "B1B requiere guard documental y READY propio.",
+  "why": "B1B CAS: B1A B7 scoped PASS y guard documental 44747655286 SUCCESS.",
+  "how": "Preflight exact-six; persistence Household schema10 in Reality transaction; JVM XML and B7.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -87,8 +88,8 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44741614690,
-  "last_ci_run_id": 44741614690,
+  "preaudit_guard": 44747655286,
+  "last_ci_run_id": 44747655286,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
     "date_local": "2026-11-19",
@@ -99,10 +100,5 @@
   "completed_ci": 44746107035,
   "completed_xml": "9/9_PASS",
   "completed_artifact_id": 14632839178,
-  "next": "W04-B1B exact six after delta guard",
-  "b1a_ready_proof": {
-    "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
-    "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
-    "guard": 44741614690
-  }
+  "next": "W04-B1B B6"
 }
