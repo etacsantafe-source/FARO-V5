@@ -160,6 +160,27 @@ class S4W03MattersAndroidTest {
         waitForText("Edición persistente validada en Android")
         waitForText("Vence: 2031-06-15")
         accessibleHeading("Historial")
+
+        // An authorized Matter must be selectable by label, without knowing its UUID.
+        click("Recordatorios")
+        waitForText("Recordatorios")
+        click("Nuevo recordatorio")
+        fill("Título", "Recordatorio vinculado W03")
+        click("Elegir asunto permitido")
+        click("Vincular: Asunto W03 Android")
+        waitForText("Seleccionado: Asunto W03 Android")
+        click("Revisar recordatorio")
+        commit()
+        click("Recordatorio vinculado W03")
+        waitForText("Asunto vinculado:", prefix = true)
+
+        rule.activityRule.scenario.recreate()
+        click("Abrir Chat local de desarrollo")
+        awaitMenu()
+        openMatters()
+        click("Abrir Recordatorios")
+        click("Recordatorio vinculado W03")
+        waitForText("Asunto vinculado:", prefix = true)
     }
 
     private fun bootstrap(button: String) {

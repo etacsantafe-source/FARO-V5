@@ -248,6 +248,26 @@ internal class FaroV5W03MattersPanel(
         val repetition = choice("Frecuencia", ReminderRecurrence.entries.map { it.name },
             ReminderRecurrence.entries.indexOf(old?.recurrence ?: ReminderRecurrence.ONCE))
         val linked = field("ID de asunto (opcional)", old?.linkedMatterId.orEmpty())
+        // Matter labels are loaded only after a separately authorized, explicit read.
+        // No owner snapshot or opaque Matter ID is fabricated from Reminder data.
+        button("Elegir asunto permitido") {
+            work({
+                if (!actions.grantMatterReadAfterExplicitRequest()) null
+                else actions.matterSnapshot()
+            }) { available ->
+                if (available.matters.isEmpty()) {
+                    text("No hay asuntos autorizados para vincular.")
+                } else {
+                    heading("Asuntos disponibles para vincular")
+                    available.matters.sortedBy { it.title.value }.forEach { item ->
+                        button("Vincular: " + item.title.value) {
+                            linked.setText(item.id.value)
+                            text("Seleccionado: " + item.title.value)
+                        }
+                    }
+                }
+            }
+        }
         button("Revisar recordatorio") { valid {
             val link = linked.value().takeIf(String::isNotEmpty)?.let(MatterId::of)
             val rule = ReminderRule(
