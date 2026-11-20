@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV",
-  "reviewed_head": "a449dfe3ff0bd34a1641030cb5276b04322899b5",
+  "reviewed_head": "be584e825a3ed9b1c45fcbb5f6df7c6ae7b21099",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreBackupCaptureT2Test.kt",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "65f075284a7006df24ad1a0e8f612ca8f4212c56",
-    "unit_id": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV",
-    "result": "PASS",
+    "sha": "be584e825a3ed9b1c45fcbb5f6df7c6ae7b21099",
+    "unit_id": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_PASS_20261120.md",
-        "blob_sha": "fd4b7ff69ae9bc745d46cf302634414e90f9198a",
+        "path": "docs/v5/FARO_S4_W04_C1B2G_B7_RED_FIX_TEST_CLASS_SCOPE_20261120.md",
+        "blob_sha": "ab6e4f1f2431b9a02a63f5c52bf6d28b16553868",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1b2G stage-only five-store Evidence2 B1–B5 exact3 blob b1aeb31a562aaf84c2d694ea71a5df2ce59313ea; guard 44825058552 SUCCESS on a449dfe3ff0bd34a1641030cb5276b04322899b5, prior C1b2F B7 PASS. No active schema2.",
-  "how": "B6 only graph, CaptureT2 test and directed workflow; strict stage schema2 preflight with two tables, shared gate, FBS2 wrapper roundtrip. CI exact XML then B7; no active/productive.",
+  "why": "C1b2G targeted CI 44825663179 10/10 SUCCESS but existing G4 run 44825662838 FAILED exact test count 5 vs 10. RED_FIX same unit test class split; no code regression.",
+  "how": "Same-unit exact3 correction in CaptureT2Test.kt and new workflow only: old class 5 + new class 5. Preflight and rerun.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,8 +86,8 @@
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "next": "W04_C1B2G_EXACT3_STAGE_B6_DEV_READY",
-  "completed_guard": null,
-  "completed_ci": null,
-  "completed_xml": "NOT_RUN_C1B2G",
+  "completed_guard": 44825663147,
+  "completed_ci": 44825663179,
+  "completed_xml": "TARGET_10_10_PASS_G4_HISTORICAL_COUNT_FAIL",
   "completed_artifact_id": null
 }
