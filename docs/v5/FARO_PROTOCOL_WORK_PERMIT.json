@@ -1,23 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_B0C3B1_HOUSEHOLD10_ARCHIVE_CAPTURE_DEV",
-  "reviewed_head": "a30264ad550203297cc49addadd5102e879146f5",
+  "status": "READY",
+  "unit_id": "S4_W04_B0C3B2_HOUSEHOLD10_ARCHIVE_REPLAY_DEV",
+  "reviewed_head": "97cfa4a910ea80a882949f7633fbce39db25d2be",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinator.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinatorTest.kt",
-    ".github/workflows/faro-v5-s4-w04-b0c3b1-household10-capture.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveRestoreTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0c3b2-household10-restore.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
-          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
+          "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "817380b9f62b1312fba0c1dff9272ba1828f70bd",
           "marker": "## B1"
         }
       ]
@@ -26,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
-          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
+          "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "817380b9f62b1312fba0c1dff9272ba1828f70bd",
           "marker": "## B2"
         }
       ]
@@ -36,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
-          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
+          "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "817380b9f62b1312fba0c1dff9272ba1828f70bd",
           "marker": "## B3"
         }
       ]
@@ -46,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
-          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
+          "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "817380b9f62b1312fba0c1dff9272ba1828f70bd",
           "marker": "## B4"
         }
       ]
@@ -56,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_B0C3B1_HOUSEHOLD10_CAPTURE_DELTA_B1_B5_20261120.md",
-          "blob_sha": "8d104a942f4083b8ff86d4003ecbe6cf80e4e6ec",
+          "path": "docs/v5/FARO_S4_W04_B0C3B2_HOUSEHOLD10_RESTORE_DELTA_B1_B5_20261120.md",
+          "blob_sha": "817380b9f62b1312fba0c1dff9272ba1828f70bd",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_HOUSEHOLD10_CAPTURE_5_5"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "6fe4e70c011256536575ba189493e4654538dddb",
@@ -77,8 +75,8 @@
       }
     ]
   },
-  "why": "W04-B0C3B1 B7 PASS scoped JVM XML 5/5. Permiso consumido.",
-  "how": "Exact six routes for sealed STAGED10 capture only.",
+  "why": "B0C3B1 B7 PASS, guard SUCCESS and C3B2 delta reviewed.",
+  "how": "Exact four routes for authenticated five-store staged replay and Household restore.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -88,7 +86,7 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44722290936,
+  "preaudit_guard": 44724334409,
   "last_ci_run_id": 44666984553,
   "pre_audit_guard": 44667712329,
   "user_authorization": {
@@ -100,5 +98,5 @@
   "completed_ci": 44722980567,
   "completed_xml": "5/5_PASS",
   "completed_artifact_id": 14623645542,
-  "next": "C3B2 restore delta, guard and new READY"
+  "next": "C3B2 B6, exact JVM XML and B7. D1 independent permit."
 }
