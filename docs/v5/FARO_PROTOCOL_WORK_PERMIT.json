@@ -70,19 +70,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "b65c69cc47ae7ee9103cf7cc7f72c420ff424703",
+    "sha": "ce3a4b647b7b91c730d43599da12631e9b4a206e",
     "unit_id": "S4_W03_G_GLOBAL_B7_ANDROID_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W03_G_B7_RED_FIX3_ADVERSARIAL_ANDROID_COVERAGE_20261119.md",
-        "blob_sha": "73047ce0fc06df444a045bfa81b885ad566e25e6",
+        "path": "docs/v5/FARO_S4_W03_G_B7_RED_FIX4_LINKED_REMINDER_ANDROID_20261119.md",
+        "blob_sha": "9a9ca163875c85953cd99b8b78d62fe74d61daf2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W03 G code b65c69cc47ae7ee9103cf7cc7f72c420ff424703 passed real emulator 1/1, but B5 Android edit/Undo/due coverage incomplete, B7 RED_FIX same unit. Repair red unreviewed commit through CAS.",
-  "how": "G test-only approved route, historical gate validates new parent B7; verify API35 XML and complete G B7 after actual CI.",
+  "why": "W03-G Android expanded test 1/1 PASS SHA ce3a4b647b7b91c730d43599da12631e9b4a206e but B4 linked Matter selection not available to user; B7 RED_FIX same G.",
+  "how": "Add explicit authorized Matter picker to existing W03 Reminder form and API35 linked Reminder test; no new owner/OS.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -93,6 +93,6 @@
     "code_ready": true
   },
   "preaudit_guard": 44612839417,
-  "last_ci_run_id": 44651954338,
+  "last_ci_run_id": 44654472138,
   "pre_audit_guard": 44646678896
 }

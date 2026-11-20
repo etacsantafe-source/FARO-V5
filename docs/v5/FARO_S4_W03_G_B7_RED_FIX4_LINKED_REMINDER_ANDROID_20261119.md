@@ -1,0 +1,13 @@
+# FARO V5 — W03-G · B7 RED_FIX4: vínculo Asunto↔Recordatorio Android
+
+Unidad `S4_W03_G_GLOBAL_B7_ANDROID_DEV`, código `ce3a4b647b7b91c730d43599da12631e9b4a206e`. Esta auditoría es **RED_FIX mismo G**, NO PASS global.
+
+## B7 — RED_FIX (vínculo UI aún no accesible)
+
+**Evidencia positiva:** gate `44654472183` SUCCESS SHA exacto; Android API35 Google APIs con fuente 200%, workflow `44654472138` job `136017197662` SUCCESS. JUnit XML 1/1 PASS, 0 fallos/errores/omisiones: Undo compensatorio de estado Matter, rechazo de fecha malformada sin Review, vencimiento correcto, edición Matter, Reminder crear/editar/desactivar, descartes Review, alta y Apply real con receipts, conciliación local de Avisos/SEEN/DISMISSED revision CAS, pausa y recreación con datos persistentes. APK `app-w03MattersDev.apk` SHA256 `e3a0d5e031a0582228fd7e82a00c5bbf4734cb1cf84436f8c05ded12f58954fd`, artifact `14593286568` digest ZIP `sha256:f7a5db50c4ab8f93289cce2f9350d8701ff0cc2dc11e4cf2adae680c3b1e13d1`. No repetir ese alcance en otras suites JVM.
+
+**Hallazgo B4/B5 restante:** el formulario nativo `FaroV5W03MattersPanel.editReminder` solo pide el identificador opaco del Asunto como texto; la interfaz no muestra ni permite seleccionar el ID creado automáticamente por FARO. W03-G B4 requiere *authorized Matter link* en experiencia Android; su flujo real aún no está verificado. Falta ofrecer un selector de Asuntos autorizados tras gesto explícito y grant de lectura de Matter independiente. No se debe aceptar un vínculo fabricado ni exponer asuntos sin permiso. En la confirmación Review, `S4W03OwnerSessionActions.authorizeMatterReference` verifica ID existente y autoridad activa; se conserva sin duplicar owner.
+
+**RED_FIX autorizado solo sobre las rutas exactas de G READY:** `v5/app/src/w03MattersDev/kotlin/ar/com/faro/v5/app/FaroV5W03MattersPanel.kt` y `v5/app/src/w03AndroidTest/kotlin/ar/com/faro/v5/app/S4W03MattersAndroidTest.kt`. Mostrar títulos únicamente tras `grantMatterReadAfterExplicitRequest()` y `matterSnapshot()` con la misma sesión. Test Android API35 crea Reminder vinculado eligiendo un Matter por nombre, Review→Approve→Apply real, comprobar ID vinculado en el detalle y persistencia tras Activity recreation. Negativa si denegado: no mostrar datos ni aplicar vínculo; el host ya prueba stale/ACL y los otros controles negativos JVM W03-D están certificados.
+
+**No habilitar** V2 productiva, entrega de notificaciones OS, API paga, permisos Internet ni G15 físico. W03-F opcional sigue DEFERRED. Tras CI con JUnit XML y guard verdes, realizar B7 final; si hay fallo, declarar RED_FIX y no inventar cierre.
