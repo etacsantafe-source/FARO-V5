@@ -25,3 +25,6 @@ Las referencias a HEAD/epoch en documentos son antecedentes; **consultar siempre
 - No repetir auditorías B1–B5 ya demostradas: hacer **delta de código/HEAD** y comprobar guard vigente; si cambia el diseño, documentar solo el cambio.
 - Work prioriza código/CI/Android; Chat puede investigar y publicar evidencias DOC_ONLY cuando writer libre. Nunca paralelizar sesiones que escriben.
 - Informar al terminar SHA, unidad, permisos, XML, RUN, checkpoint y writer RELEASED; dejar continuidad para sesión sin créditos.
+
+## Addendum — B1A READY verificado documentalmente
+Tras guard 44741614690 SUCCESS, se emitió permiso READY individual W04-B1A para las cinco rutas literales en docs/v5/FARO_PROTOCOL_WORK_PERMIT.json. **No rehacer B1–B5 ni reemitir READY si sigue vigente**. Work ejecuta B6/JVM XML y B7, consume permiso. Los B1B, B1C1, B1C2 y B1D tienen preauditoría pero NO READY y deben congelarse luego de cada B7.

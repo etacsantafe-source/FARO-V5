@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-19",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_B1A_B1_B5_DOCUMENTED_GUARD_PENDING",
+  "phase": "S4_W04_B1A_READY_FOR_B6",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_B1_PREAUDIT",
-    "epoch": 1405
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_B1A_READY",
+    "epoch": 1406
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Guard B1-A preaudit doc then issue READY exact5 only B1A; B6 JVM B7; next B1B CAS, B1C1 reviews, B1C2 Apply, B1D Undo, all own gates.",
-  "checkpoint_status": "W04_A_B0_B7_PASS_B1A_TO_B1D_B1_B5_DOC_ONLY_C0_REVIEWED",
+  "next": "W04-B1A B6 only 5 permitted routes; JVM/XML/guard/B7; then B1B CAS, C1 Review, C2 receipts, D Undo with each own READY.",
+  "checkpoint_status": "W04_B0_GLOBAL_B7_PASS_B1A_B1_B5_READY_EXACT5_B1B_C_D_PREAUDITED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "7381c8767a062a740b4729d1fa353499eb654611",
@@ -5843,15 +5843,17 @@
     "next": "W04-B1"
   },
   "w04_b1": {
-    "status": "B1A_AND_FUTURE_UNITS_B1_B5_PREAUDITED_DOC_ONLY",
+    "status": "B1A_READY_EXACT5_B1B_TO_D_PREAUDITED",
     "base_head": "5cc67fc5a3bc0bcfe1f3246c746b812dfc55a294",
     "unit_id": "S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_DEV",
     "audit": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
     "scope_master": "docs/v5/FARO_S4_W04_B1B_B1D_NEEDS_OPERATIONS_B1_B5_20261120.md",
     "handoff": "docs/v5/FARO_S4_W04_B1_WORK_CHAT_HANDOFF_20261120.md",
-    "tests": "NOT_RUN_B1",
-    "permit": "BLOCKED_B0_CONSUMED_B1A_NOT_READY_YET",
-    "next": "B1A_GUARD_THEN_READY"
+    "tests": "NOT_RUN",
+    "permit": "READY_EXACT5_B1A",
+    "next": "B1A_B6",
+    "ready_guard": 44741614690,
+    "code": "NOT_RUN"
   },
   "w04_c0": {
     "status": "PREAUDIT_DOC_ONLY_NOT_READY",
