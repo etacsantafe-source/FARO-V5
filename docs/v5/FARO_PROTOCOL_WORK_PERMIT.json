@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B1C1_CANONICAL_NEEDS_REVIEW_DEV",
   "reviewed_head": "e6e0a138bb47212993aed1494a654f8a20784617",
   "paths": [
@@ -59,7 +59,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "PUBLISHED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -74,8 +74,8 @@
       }
     ]
   },
-  "why": "B1B B7 PASS scoped. C1 B1-B5 delta verified by guard 44749463298.",
-  "how": "Preflight three paths, implement immutable Household Review only, verify CI/XML and B7.",
+  "why": "B1C1 B6 code already published. New code blocked until its B7.",
+  "how": "Verify run 44750589732 and XML on exact functional SHA; original code parent retains READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -97,5 +97,7 @@
   "completed_ci": 44748638104,
   "completed_xml": "6/6_PASS",
   "completed_artifact_id": 14634203701,
-  "next": "W04-B1C1 B6"
+  "next": "B1C1 B7 once exact CI artifacts pass",
+  "pending_code_sha": "7ee850874f377fa004f627f87c226ca21c69b516",
+  "pending_ci_run_id": 44750589732
 }
