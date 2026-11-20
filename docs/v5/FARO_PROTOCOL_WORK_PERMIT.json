@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV",
   "reviewed_head": "e84b5bcb8b93485c4e81fe670f6a93616fa7941c",
   "paths": [
@@ -60,22 +60,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_FBS2V6_JVM_5_5"
   },
   "last_code_review": {
-    "sha": "52961b19f6db6c1a37dfb3d0576776ff28c9a22c",
-    "unit_id": "S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_DEV",
+    "sha": "768c56824d04b051d323988aa2129461d8d16dd6",
+    "unit_id": "S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_B7_PASS_20261119.md",
-        "blob_sha": "cb7821227925c633cb13494154ae65dbbb0f8e6c",
+        "path": "docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B7_PASS_20261120.md",
+        "blob_sha": "0d0ab535a42c860ea506aef16519a124d0b7e53d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-B0C2 introduces authenticated FBS2v6 by composing the exact legacy base and Household10 section.",
+  "why": "W04-B0C2 B7 PASS scoped JVM FBS2v6 (5/5 XML verified in CI logs), guard SUCCESS 44668249799; permission consumed. Next B0C3A requires its own READY after guard.",
   "how": "Four exact paths. No database capture or restore, cutover, Apply, Android, or production.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -93,5 +93,9 @@
     "date_local": "2026-11-19",
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
-  }
+  },
+  "completed_guard": 44668249799,
+  "completed_ci": 44668249894,
+  "completed_xml": "5/5_PASS",
+  "completed_artifact_id": 14598807349
 }

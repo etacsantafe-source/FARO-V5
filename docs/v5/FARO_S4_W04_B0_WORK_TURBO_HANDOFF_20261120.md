@@ -27,3 +27,6 @@ Revalidar HEAD, writer CAS remoto, guardias/CI, permisos y rutas. No confiar en 
 
 ## Reporte mínimo
 HEAD, unidad B0 exacta, B1–B7 estado, run IDs+XML, cambios/rutas, B0 cerrado o pendiente, writer RELEASED epoch, siguiente acción concreta. No inventar B7 PASS ni resultados físicos.
+
+## ADDENDUM de B0C2 B7
+B0C2 ya tuvo revisión independiente de código+CI y documento docs/v5/FARO_S4_W04_B0C2_HOUSEHOLD10_AUTHENTICATED_ARCHIVE_B7_PASS_20261120.md. Su permiso se consumió en el cierre. NO REPETIR el paso 0 si la guardia del checkpoint B7 es SUCCESS. Siguiente único READY futuro: W04-B0C3A, con permiso exact4 tras verificar guardia y B1–B5. Si hay rojo de guardia, parar hasta resolver. No reemitir B0C2 READY.
