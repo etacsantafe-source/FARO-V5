@@ -122,6 +122,8 @@ class RealityStore(
     private val financeActive9: Boolean = false,
     /** Explicit sealed Reality10 archive projection; the generation owner holds the lease. */
     private val householdStage10ReadOnly: Boolean = false,
+    /** Trusted generation fence for the isolated, read-only Household10 session. */
+    private val householdActive10Dev: (() -> Boolean)? = null,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -143,6 +145,12 @@ class RealityStore(
                 file.toUri().toString() + "?mode=ro&immutable=1",
                 SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
             )
+        } else if (householdActive10Dev != null) {
+            check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate != null)
+            materialWriteGate.withMaterialWrite {
+                check(householdActive10Dev.invoke()) { "Household10 active generation is stale" }
+                openHousehold10ActiveRead(Path.of(fileName))
+            }
         } else {
             driver.open(fileName)
         }
@@ -649,10 +657,15 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly) connection.execSQL("PRAGMA foreign_keys = ON")
+                    if (householdStage10ReadOnly || householdActive10Dev != null) connection.execSQL("PRAGMA foreign_keys = ON")
                     else configure(fileName)
                     when {
                         householdStage10ReadOnly -> {
+                            Household10RowsSql.checkSchema(connection)
+                            validateExistingFinanceLayout(10)
+                        }
+                        householdActive10Dev != null -> {
+                            check(householdActive10Dev.invoke())
                             Household10RowsSql.checkSchema(connection)
                             validateExistingFinanceLayout(10)
                         }
@@ -667,6 +680,22 @@ class RealityStore(
             throw failure
         }
     }
+
+    /** The caller is the isolated generation host and provides its live Household admission. */
+    fun household10ActiveDevReadForTrustedHost(ownerAdmission: () -> Boolean): RealityHousehold10Rows =
+        withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            val generationIsCurrent = checkNotNull(householdActive10Dev) { "Household10 ACTIVE DEV required" }
+            check(ownerAdmission() && generationIsCurrent()) { "Household10 read admission denied" }
+            connection.execSQL("BEGIN DEFERRED TRANSACTION")
+            try {
+                val snapshot = readValidatedHousehold10Rows(connection)
+                check(ownerAdmission() && generationIsCurrent()) { "Household10 read admission changed" }
+                snapshot
+            } finally {
+                connection.execSQL("ROLLBACK TRANSACTION")
+            }
+        } }
 
     /**
      * M1C1B1B: explicitly quarantined STAGED9-only cross-module bridge.
@@ -1453,6 +1482,7 @@ class RealityStore(
             "nested Reality transactions are forbidden"
         }
 
+        check(householdActive10Dev == null) { "Household10 DEV has read-only admission" }
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         activeTransactionId = transactionId
         val scope = SqliteRealityTransactionScope(
@@ -2158,7 +2188,7 @@ class RealityStore(
         planningStage8 && (
             readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
                 ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
-                (householdStage10ReadOnly && readSchemaVersion() == 10)
+                ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10)
         )
 
     private fun createPlanningStage8Tables() {
@@ -4128,6 +4158,42 @@ class RealityStore(
     ) : RealityTransactionScope
 
     companion object {
+        private fun openHousehold10ActiveRead(file: Path): SQLiteConnection =
+            BundledSQLiteDriver().open(
+                file.toAbsolutePath().normalize().toString(),
+                SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
+            )
+
+        /** WAL-aware domain preflight before companion stores are opened. */
+        fun requireHealthyHousehold10ActiveDev(file: Path) {
+            openHousehold10ActiveRead(file).use { db ->
+                db.execSQL("PRAGMA foreign_keys = ON")
+                Household10RowsSql.checkSchema(db)
+                Household10RowsSql.checkIntegrity(db)
+                readValidatedHousehold10Rows(db)
+            }
+        }
+
+        private fun readValidatedHousehold10Rows(db: SQLiteConnection): RealityHousehold10Rows {
+            // Reject invalid UTF-8 before SQLite's text conversion can replace it.
+            db.prepare("""
+                SELECT length(CAST(need_id AS BLOB)),length(CAST(name AS BLOB)),
+                    CAST(need_id AS BLOB),CAST(name AS BLOB)
+                FROM household_need LIMIT 8193
+            """.trimIndent()).use { stmt ->
+                val decoder = Charsets.UTF_8.newDecoder()
+                var count = 0
+                while (stmt.step()) {
+                    check(++count <= 8192 && stmt.getLong(0) in 1L..384L && stmt.getLong(1) in 1L..480L) {
+                        "Household10 SQL rows exceed their bounds"
+                    }
+                    decoder.decode(java.nio.ByteBuffer.wrap(stmt.getBlob(2)))
+                    decoder.decode(java.nio.ByteBuffer.wrap(stmt.getBlob(3)))
+                }
+            }
+            return Household10RowsSql.readRows(db)
+        }
+
         const val SCHEMA_VERSION: Int = 7
         const val PLANNING_SCHEMA_VERSION: Int = 8
         const val LEGACY_BACKUP_SCHEMA_VERSION: Int = 5

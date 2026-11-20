@@ -19,9 +19,15 @@ import ar.com.faro.v5.store.reality.StagedSqlitePreflight
 import ar.com.faro.v5.store.reality.RealityFinance9SealedReadPort
 import ar.com.faro.v5.store.reality.RealityHousehold10SealedRowsPort
 import ar.com.faro.v5.store.reality.ActiveSqlitePreflight
+import ar.com.faro.v5.store.reality.RealityHousehold10Rows
+import java.nio.channels.FileChannel
+import java.nio.channels.FileLock
+import java.nio.channels.OverlappingFileLockException
 import java.nio.file.Files
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.Path
+import java.nio.file.StandardOpenOption.CREATE
+import java.nio.file.StandardOpenOption.WRITE
 
 class FaroV5GenerationStoreGraph private constructor(
     val generationDirectory: Path,
@@ -57,6 +63,25 @@ class FaroV5GenerationStoreGraph private constructor(
         runCatching { webEvidence.close() }
         runCatching { commercialEvidence.close() }
         runCatching { reality.close() }
+    }
+
+    internal class Household10DevReadSession(
+        private val graph: FaroV5GenerationStoreGraph,
+        private val gate: MaterialWriteGate,
+        private val lease: FileLock,
+    ) : AutoCloseable {
+        fun readNeeds(ownerAdmission: () -> Boolean): RealityHousehold10Rows =
+            graph.reality.household10ActiveDevReadForTrustedHost(ownerAdmission)
+
+        override fun close() = gate.withQuiescedMaterialWrites {
+            if (lease.isValid) {
+                try {
+                    graph.close()
+                } finally {
+                    lease.channel().close()
+                }
+            }
+        }
     }
 
     companion object {
@@ -363,6 +388,52 @@ class FaroV5GenerationStoreGraph private constructor(
         ): FaroV5GenerationStoreGraph =
             openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true, householdStage10 = true)
 
+        /** The runtime host keeps the same DEV root lease as the cutover owner. */
+        internal fun openActiveHousehold10DevForTrustedHost(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expected: ActiveGenerationPointer,
+            materialWriteGate: MaterialWriteGate,
+            ownerAdmission: () -> Boolean,
+        ): Household10DevReadSession = materialWriteGate.withMaterialWrite {
+            check(expected.sequence > 0L && ownerAdmission()) { "Household10 DEV admission denied" }
+            check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
+            val root = storageRoot.toRealPath()
+            val channel = FileChannel.open(root.resolve("finance9-dev-root.lock"), CREATE, WRITE, NOFOLLOW_LINKS)
+            try {
+                val lease = try {
+                    checkNotNull(channel.tryLock()) { "DEV root lease is occupied" }
+                } catch (occupied: OverlappingFileLockException) {
+                    throw IllegalStateException("DEV root lease is occupied", occupied)
+                }
+                val pointer = FileActiveGenerationPointer(root)
+                val fence = { lease.isValid && ownerAdmission() && pointer.read() == expected }
+                check(fence()) { "Household10 DEV pointer changed" }
+                val canonical = FileStorageGenerationLayout(root).requireStaged(expected.generationId)
+                check(canonical.descriptor == staged.descriptor &&
+                    canonical.directory == staged.directory.toAbsolutePath().normalize() &&
+                    canonical.directory.toRealPath() == canonical.directory) {
+                    "Household10 DEV requires the canonical generation"
+                }
+                val graph = openValidatedV2Internal(
+                    canonical, planVerifier = null, materialWriteGate = materialWriteGate,
+                    activeGeneration = true, planningStage8 = true, financeStage9 = true,
+                    checkedPlanning8Active = true, auxiliaryReceiptFence = fence,
+                    householdActive10Dev = true,
+                )
+                try {
+                    check(graph.verifyHealthy() && fence()) { "Household10 DEV graph health or admission changed" }
+                    Household10DevReadSession(graph, materialWriteGate, lease)
+                } catch (failure: Throwable) {
+                    graph.close()
+                    throw failure
+                }
+            } catch (failure: Throwable) {
+                runCatching { channel.close() }
+                throw failure
+            }
+        }
+
         /** Health projection of an already-selected DEV root while its owner holds the closed-host lease. */
         internal fun verifyReopenedHousehold10Dev(
             root: Path,
@@ -479,7 +550,10 @@ class FaroV5GenerationStoreGraph private constructor(
             checkedPlanning8Active: Boolean = false,
             auxiliaryReceiptFence: (() -> Boolean)? = null,
             householdStage10: Boolean = false,
+            householdActive10Dev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!householdActive10Dev || (activeGeneration && !householdStage10 &&
+                financeStage9 && auxiliaryReceiptFence != null && materialWriteGate != null))
             check(!householdStage10 || (financeStage9 && !activeGeneration && auxiliaryReceiptFence != null))
             check(auxiliaryReceiptFence == null || (financeStage9 && auxiliaryReceiptFence()))
             check(!planningStage8 || !activeGeneration || checkedPlanning8Active) {
@@ -518,8 +592,19 @@ class FaroV5GenerationStoreGraph private constructor(
             // initializer can run schema migrations or create WAL sidecars.
             requireStrictV2StoreSchemas(
                 normalized, activeGeneration, planningStage8, financeStage9,
-                auxiliary4 = auxiliaryReceiptFence != null, householdStage10 = householdStage10,
+                auxiliary4 = auxiliaryReceiptFence != null,
+                householdStage10 = householdStage10 || householdActive10Dev,
             )
+            if (householdActive10Dev) {
+                val fence = checkNotNull(auxiliaryReceiptFence)
+                check(fence())
+                for (name in GenerationStoreFiles.WORKSPACE_V2) {
+                    val file = normalized.resolve(name)
+                    check((Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                }
+                RealityStore.requireHealthyHousehold10ActiveDev(normalized.resolve(GenerationStoreFiles.REALITY))
+                check(fence())
+            }
             if (financeStage9 && !activeGeneration) {
                 val reality = normalized.resolve(GenerationStoreFiles.REALITY)
                 if (householdStage10) RealityFinance9SealedReadPort.readTrustedSealedStage10(reality)
@@ -541,9 +626,10 @@ class FaroV5GenerationStoreGraph private constructor(
                     normalized, staged.descriptor.generationId.value, workspace,
                     materialWriteGate, planningStage8,
                     financeStage9 = financeStage9 && !activeGeneration && !householdStage10,
-                    financeActive9 = financeStage9 && activeGeneration,
+                    financeActive9 = financeStage9 && activeGeneration && !householdActive10Dev,
                     auxiliaryReceiptFence = auxiliaryReceiptFence,
                     householdStage10 = householdStage10,
+                    householdActive10Dev = householdActive10Dev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -684,6 +770,7 @@ class FaroV5GenerationStoreGraph private constructor(
             financeActive9: Boolean = false,
             auxiliaryReceiptFence: (() -> Boolean)? = null,
             householdStage10: Boolean = false,
+            householdActive10Dev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -699,6 +786,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         financeStage9 = financeStage9,
                         financeActive9 = financeActive9,
                         householdStage10ReadOnly = householdStage10,
+                        householdActive10Dev = if (householdActive10Dev) checkNotNull(auxiliaryReceiptFence) else null,
                     )
                 reality = openedReality
                 commercial =
@@ -715,7 +803,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 auxiliary = when {
                     auxiliaryReceiptFence == null ->
                         AuxiliaryDeliveryStore(auxiliaryPath, materialWriteGate = materialWriteGate)
-                    financeActive9 -> AuxiliaryDeliveryStore.openActiveReceiptV4ForTrustedGeneration(
+                    financeActive9 || householdActive10Dev -> AuxiliaryDeliveryStore.openActiveReceiptV4ForTrustedGeneration(
                         auxiliaryPath, checkNotNull(materialWriteGate), auxiliaryReceiptFence,
                     )
                     else -> {
