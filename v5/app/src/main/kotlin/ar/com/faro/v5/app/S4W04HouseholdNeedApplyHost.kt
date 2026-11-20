@@ -39,6 +39,9 @@ internal class S4W04HouseholdNeedApplyHost(
     private val pointer = FileActiveGenerationPointer(root)
     private val generation = HouseholdReviewGeneration(pinned.generationId.value, pinned.sequence)
     private val grantLock = Any()
+    private val principalTag = CanonicalHashBuilder.domain("w04.household.principal")
+        .string("principal", principal).sha256Hex().take(32)
+    private val scopedPrefix = "w04:household:$principalTag:"
     @Volatile private var closed = false
     private val session = FaroV5GenerationStoreGraph.openActiveHousehold10DevForApplyHost(
         root, staged, pinned, gate, CanonicalPreparedPlanEnvelopeVerifier, ::ownerCurrent,
@@ -49,7 +52,8 @@ internal class S4W04HouseholdNeedApplyHost(
     private val reality = session.reality
     private val persistence = reality.householdNeedsPersistenceForTrustedDev()
     private val reviewPort = wrapReviewPort(workspace)
-    private val bindings = HouseholdNeedReviewAction.entries.map(::NeedBinding)
+    private val bindings: List<HouseholdBinding> =
+        HouseholdNeedReviewAction.entries.map(::NeedBinding) + UndoBinding()
 
     fun snapshot(): HouseholdNeedsSnapshot? = gate.withMaterialWrite {
         if (foregroundCurrent()) persistence.read().takeIf { foregroundCurrent() } else null
@@ -62,35 +66,95 @@ internal class S4W04HouseholdNeedApplyHost(
 
     fun submit(chat: ConversationId, request: HouseholdNeedReviewRequest, localRequestId: String): Submission =
         gate.withMaterialWrite {
-            val unavailable = Submission.Rejected("El Review de necesidades no está disponible.")
-            if (!selected(chat) || localRequestId.isBlank() || localRequestId.length > 256) {
-                return@withMaterialWrite unavailable
-            }
-            val key = CanonicalHashBuilder.domain("w04.household.review")
-                .string("principal", principal).string("chat", chat.value).string("request", localRequestId).sha256Hex()
-            val reviewId = "w04:household:$key"
-            val before = workspace.snapshot()
-            val timeline = runBlocking { workspace.readTimeline(chat) } ?: return@withMaterialWrite unavailable
-            if (timeline.revision != before.revision || timeline.authorityToken.isBlank()) return@withMaterialWrite unavailable
+            if (!selected(chat)) return@withMaterialWrite unavailable()
+            val key = requestKey(chat, localRequestId) ?: return@withMaterialWrite unavailable()
             val draft = when (val result = HouseholdNeedReview.propose(generation, persistence.read(), request, key)) {
                 is HouseholdNeedReviewResult.Ready -> result.review
                 is HouseholdNeedReviewResult.Rejected -> return@withMaterialWrite Submission.Rejected(result.message)
             }
-            val contract = householdContract(draft.action) ?: return@withMaterialWrite unavailable
-            val operation = PreparedOperation(contract, draft.payload, DependencyStampSet.empty(), IdempotencyKey(reviewId))
-            val plan = PreparedPlan.of(ApplyPlanNode(PlanNodeId("household-need"), operation, emptySet()))
-            val existing = runBlocking { workspace.reviews(chat) }.firstOrNull { it.reviewId == reviewId }
-            if (!selected(chat) || workspace.snapshot().revision != before.revision) return@withMaterialWrite unavailable
-            if (existing != null) {
-                return@withMaterialWrite if (existing.planFingerprint == plan.planFingerprint &&
-                    existing.state == ConversationPlanReviewState.PENDING) Submission.Saved(existing) else unavailable
-            }
-            val saved = workspace.createPlanReview(WorkspacePlanReviewCreateRequest(
-                chat, reviewId, timeline.authorityToken, before.revision, plan.planFingerprint, draft.summary,
-                PreparedPlanEnvelopeCodec.encode(plan), IdempotencyKey("review:$key"),
-            ))
-            if (saved is WorkspacePlanReviewWriteResult.Saved) Submission.Saved(saved.review) else unavailable
+            val contract = householdContract(draft.action) ?: return@withMaterialWrite unavailable()
+            saveReview(chat, key, contract, draft.payload, draft.summary)
         }
+
+    fun submitUndo(
+        source: ConversationPlanReviewContext,
+        localRequestId: String,
+    ): Submission = gate.withMaterialWrite {
+        val chat = source.conversationId
+        if (!selected(chat) || !source.reviewId.startsWith(scopedPrefix)) return@withMaterialWrite unavailable()
+        val key = requestKey(chat, localRequestId) ?: return@withMaterialWrite unavailable()
+        val committed = committedOperation(source) ?: return@withMaterialWrite unavailable()
+        val original = HouseholdNeedReview.decode(committed.node.preparedOperation.payload)
+            ?: return@withMaterialWrite unavailable()
+        if (!policy(principal, HouseholdNeedUndo.OPERATION, original.targetId)) return@withMaterialWrite unavailable()
+        val undo = HouseholdNeedUndo.propose(generation, persistence.read(), source.reviewId, committed.receipt, original)
+            ?: return@withMaterialWrite Submission.Rejected("La necesidad cambió desde la operación original.")
+        val contract = undoContract() ?: return@withMaterialWrite unavailable()
+        saveReview(chat, key, contract, undo.payload, undo.summary)
+    }
+
+    data class HistoryEntry(
+        val review: ConversationPlanReviewContext,
+        val summary: String,
+        val receipt: ExecutionReceipt,
+        val undoneReceipt: ExecutionReceipt?,
+        val canUndo: Boolean,
+    )
+
+    fun history(chat: ConversationId): List<HistoryEntry> = gate.withMaterialWrite {
+        if (!selected(chat)) return@withMaterialWrite emptyList()
+        val current = persistence.read()
+        val entries = runBlocking { workspace.reviews(chat) }.mapNotNull { review ->
+            val committed = committedOperation(review.context()) ?: return@mapNotNull null
+            val draft = HouseholdNeedReview.decode(committed.node.preparedOperation.payload)
+            val undo = HouseholdNeedUndo.decode(committed.node.preparedOperation.payload)
+            val target = (draft?.targetId ?: undo?.targetId) ?: return@mapNotNull null
+            val operation = committed.node.preparedOperation.contract.operationId
+            if (!policy(principal, operation, target)) return@mapNotNull null
+            val canUndo = draft != null && review.reviewId.startsWith(scopedPrefix) &&
+                policy(principal, HouseholdNeedUndo.OPERATION, target) &&
+                HouseholdNeedUndo.propose(generation, current, review.reviewId, committed.receipt, draft) != null
+            val entry = HistoryEntry(review.context(), draft?.summary ?: checkNotNull(undo).summary,
+                committed.receipt, undo?.sourceReceipt, canUndo)
+            val revision = (draft?.expectedRevision ?: checkNotNull(undo).expectedRevision) + 1
+            revision to entry
+        }
+        if (selected(chat)) entries.sortedBy { it.first }.map { it.second } else emptyList()
+    }
+
+    private fun requestKey(chat: ConversationId, localRequestId: String): String? {
+        if (localRequestId.isBlank() || localRequestId.length > 256) return null
+        return CanonicalHashBuilder.domain("w04.household.review").string("principal", principal)
+            .string("chat", chat.value).string("request", localRequestId).sha256Hex()
+    }
+
+    private fun saveReview(
+        chat: ConversationId,
+        key: String,
+        contract: OperationContractDescriptor,
+        payload: CanonicalPayload,
+        summary: String,
+    ): Submission {
+        val reviewId = scopedPrefix + key
+        val before = workspace.snapshot()
+        val timeline = runBlocking { workspace.readTimeline(chat) } ?: return unavailable()
+        if (timeline.revision != before.revision || timeline.authorityToken.isBlank()) return unavailable()
+        val operation = PreparedOperation(contract, payload, DependencyStampSet.empty(), IdempotencyKey(reviewId))
+        val plan = PreparedPlan.of(ApplyPlanNode(PlanNodeId("household-need"), operation, emptySet()))
+        val existing = runBlocking { workspace.reviews(chat) }.firstOrNull { it.reviewId == reviewId }
+        if (!selected(chat) || workspace.snapshot().revision != before.revision) return unavailable()
+        if (existing != null) {
+            return if (existing.planFingerprint == plan.planFingerprint &&
+                existing.state == ConversationPlanReviewState.PENDING) Submission.Saved(existing) else unavailable()
+        }
+        val saved = workspace.createPlanReview(WorkspacePlanReviewCreateRequest(
+            chat, reviewId, timeline.authorityToken, before.revision, plan.planFingerprint, summary,
+            PreparedPlanEnvelopeCodec.encode(plan), IdempotencyKey("review:$key"),
+        ))
+        return if (saved is WorkspacePlanReviewWriteResult.Saved) Submission.Saved(saved.review) else unavailable()
+    }
+
+    private fun unavailable() = Submission.Rejected("El Review de necesidades no está disponible.")
 
     fun executeAfterExplicitConfirmation(context: ConversationPlanReviewContext): ReviewedConversationApplyResult =
         synchronized(grantLock) {
@@ -101,10 +165,14 @@ internal class S4W04HouseholdNeedApplyHost(
                 if (approved.review.state != ConversationPlanReviewState.APPROVED) return@withMaterialWrite denied
                 val envelope = approved.envelope()
                 val node = validatedNode(context, envelope) ?: return@withMaterialWrite denied
-                val draft = HouseholdNeedReview.decode(node.preparedOperation.payload) ?: return@withMaterialWrite denied
-                if (!policy(principal, draft.action.operationId, draft.targetId)) return@withMaterialWrite denied
+                val undo = HouseholdNeedUndo.decode(node.preparedOperation.payload)
+                val target = undo?.targetId ?: HouseholdNeedReview.decode(node.preparedOperation.payload)?.targetId
+                    ?: return@withMaterialWrite denied
+                val operation = node.preparedOperation.contract.operationId
+                if (!policy(principal, operation, target)) return@withMaterialWrite denied
+                if (undo != null && !verifiedUndoSource(context.conversationId, undo)) return@withMaterialWrite denied
 
-                val grant = HouseholdApplyGrant(context, draft.action.operationId, draft.targetId)
+                val grant = HouseholdApplyGrant(context, operation, target)
                 val authorize = ApplyTransactionAuthorizationPort { plan, identity, actual, tx ->
                     !grant.consumed && grant.identity == identity && tx.transactionId == identity.transactionId &&
                         grant.context.planFingerprint == plan.planFingerprint && actual == node &&
@@ -122,7 +190,8 @@ internal class S4W04HouseholdNeedApplyHost(
                         applying.state == ConversationPlanReviewState.APPLYING &&
                         applying.transactionId == identity.transactionId && applying.conversationId == context.conversationId &&
                         applying.reviewId == context.reviewId && applying.planFingerprint == context.planFingerprint &&
-                        selected(context.conversationId) && policy(principal, grant.operation, grant.target)
+                        selected(context.conversationId) && policy(principal, grant.operation, grant.target) &&
+                        (undo == null || verifiedUndoSource(context.conversationId, undo))
                     if (admitted) grant.identity = identity
                     admitted
                 }.apply(context)
@@ -153,15 +222,64 @@ internal class S4W04HouseholdNeedApplyHost(
                 it.exposure == ContractExposure.BINDABLE
         }
 
-    private fun validatedNode(context: ConversationPlanReviewContext, envelope: ByteArray): ApplyPlanNode? {
-        if (!context.reviewId.startsWith("w04:household:")) return null
+    private fun undoContract(): OperationContractDescriptor? =
+        catalog.current(HouseholdNeedUndo.OPERATION)?.takeIf {
+            it.operationId == HouseholdNeedUndo.OPERATION && it.capabilityId == CapabilityId("N-016") &&
+                it.canonicalExecutor == ExecutorId("undo-coordinator") &&
+                it.executionProfile == ExecutionProfile.REALITY_MUTATION && it.exposure == ContractExposure.BINDABLE
+        }
+
+    private fun validatedNode(context: ConversationPlanReviewContext, envelope: ByteArray): ApplyPlanNode? =
+        householdNode(context, envelope, currentGenerationRequired = true)
+
+    private fun householdNode(
+        context: ConversationPlanReviewContext,
+        envelope: ByteArray,
+        currentGenerationRequired: Boolean,
+    ): ApplyPlanNode? {
+        val own = context.reviewId.startsWith(scopedPrefix)
+        if (!own && !LEGACY_REVIEW.matches(context.reviewId)) return null
         val plan = runCatching { PreparedPlanEnvelopeCodec.decode(envelope) }.getOrNull() ?: return null
         if (plan.planFingerprint != context.planFingerprint) return null
-        return plan.applyPlan.nodesInTopologicalOrder().singleOrNull()?.takeIf { node ->
-            val intent = HouseholdNeedReview.decode(node.preparedOperation.payload)
-            intent != null && node.dependsOn.isEmpty() && intent.generation == generation &&
-                node.preparedOperation.contract == householdContract(intent.action)
+        val node = plan.applyPlan.nodesInTopologicalOrder().singleOrNull() ?: return null
+        if (node.dependsOn.isNotEmpty() || node.preparedOperation.dependencyStamps != DependencyStampSet.empty()) return null
+        val prepared = node.preparedOperation
+        val original = HouseholdNeedReview.decode(prepared.payload)
+        if (original != null) {
+            return node.takeIf {
+                prepared.contract == householdContract(original.action) &&
+                    (!currentGenerationRequired || original.generation == generation)
+            }
         }
+        val undo = HouseholdNeedUndo.decode(prepared.payload) ?: return null
+        return node.takeIf {
+            own && prepared.contract == undoContract() && (!currentGenerationRequired || undo.generation == generation)
+        }
+    }
+
+    private data class CommittedOperation(val node: ApplyPlanNode, val receipt: ExecutionReceipt)
+
+    private fun committedOperation(context: ConversationPlanReviewContext): CommittedOperation? {
+        val saved = workspace.loadCommitted(context) ?: return null
+        val node = householdNode(context, saved.envelope(), currentGenerationRequired = false) ?: return null
+        val receipt = saved.review.receipt ?: return null
+        if (receipt.planFingerprint != context.planFingerprint || !observesReceipt(receipt)) return null
+        return CommittedOperation(node, receipt)
+    }
+
+    private fun verifiedUndoSource(chat: ConversationId, undo: HouseholdNeedUndo): Boolean {
+        if (!undo.sourceReviewId.startsWith(scopedPrefix)) return false
+        val review = runBlocking { workspace.reviews(chat) }.singleOrNull { it.reviewId == undo.sourceReviewId }
+            ?: return false
+        val committed = committedOperation(review.context()) ?: return false
+        return committed.receipt == undo.sourceReceipt &&
+            committed.node.preparedOperation.payload == undo.original.payload
+    }
+
+    private fun observesReceipt(receipt: ExecutionReceipt): Boolean {
+        val attempt = reality.applyAttemptLookup.find(receipt.transactionId) ?: return false
+        return attempt.state == ApplyAttemptJournalState.COMMITTED &&
+            attempt.planFingerprint == receipt.planFingerprint && reality.executionReceiptLookup.find(receipt.transactionId) == receipt
     }
 
     private fun coordinator(
@@ -177,7 +295,9 @@ internal class S4W04HouseholdNeedApplyHost(
         attempts = reality.applyAttemptLookup, receipts = reality.executionReceiptLookup, afterBeginApply = afterBegin,
     )
 
-    private inner class NeedBinding(private val action: HouseholdNeedReviewAction) : OperationBindingPort, OperationRevalidationPort {
+    private interface HouseholdBinding : OperationBindingPort, OperationRevalidationPort
+
+    private inner class NeedBinding(private val action: HouseholdNeedReviewAction) : HouseholdBinding {
         override val operationId = action.operationId
         override val descriptor = OperationBindingDescriptor(operationId, ExecutorId("household"), ExecutionProfile.REALITY_MUTATION)
 
@@ -206,6 +326,34 @@ internal class S4W04HouseholdNeedApplyHost(
         }
     }
 
+    private inner class UndoBinding : HouseholdBinding {
+        override val operationId = HouseholdNeedUndo.OPERATION
+        override val descriptor = OperationBindingDescriptor(operationId, ExecutorId("undo-coordinator"), ExecutionProfile.REALITY_MUTATION)
+
+        override fun revalidate(preparedOperation: PreparedOperation): OperationRevalidationResult =
+            if (revalidated(preparedOperation) != null) OperationRevalidationResult.Valid
+            else OperationRevalidationResult.Rejected(OperationRevalidationFailure.PRECONDITION_FAILED, STALE)
+
+        override fun execute(
+            preparedOperation: PreparedOperation,
+            transactionScope: RealityTransactionScope,
+        ): OperationBindingExecutionResult {
+            val undo = revalidated(preparedOperation) ?: return OperationBindingExecutionResult.Rejected(STALE)
+            return try {
+                persistence.mutate(undo.expectedRevision, undo.toPersistenceChange(), transactionScope)
+                OperationBindingExecutionResult.Completed
+            } catch (_: HouseholdNeedConflict) {
+                OperationBindingExecutionResult.Rejected(STALE)
+            }
+        }
+
+        private fun revalidated(prepared: PreparedOperation): HouseholdNeedUndo? {
+            if (prepared.contract != undoContract() || prepared.dependencyStamps != DependencyStampSet.empty()) return null
+            val undo = HouseholdNeedUndo.decode(prepared.payload) ?: return null
+            return undo.takeIf { observesReceipt(it.sourceReceipt) && it.matchesCurrentSnapshot(generation, persistence.read()) }
+        }
+    }
+
     private class HouseholdApplyGrant(
         val context: ConversationPlanReviewContext,
         val operation: OperationId,
@@ -222,5 +370,6 @@ internal class S4W04HouseholdNeedApplyHost(
 
     private companion object {
         const val STALE = "household_review_stale_or_invalid"
+        val LEGACY_REVIEW = Regex("w04:household:[0-9a-f]{64}")
     }
 }

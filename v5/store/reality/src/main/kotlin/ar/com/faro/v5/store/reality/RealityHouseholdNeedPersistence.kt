@@ -28,6 +28,9 @@ internal class RealityHouseholdNeedPersistence(private val connection: SQLiteCon
         val old = rows.needs.firstOrNull { it.id == change.id.value }
         when (change) {
             is HouseholdNeedChange.Add -> if (old != null) throw HouseholdNeedConflict("Household need exists")
+            is HouseholdNeedChange.RestorePreimage -> if (old?.toNeed() != change.expected) {
+                throw HouseholdNeedConflict("Household Undo target changed")
+            }
             is HouseholdNeedChange.Existing -> {
                 require(change.expectedNeedRevision >= 0)
                 if (old?.revision != change.expectedNeedRevision) throw HouseholdNeedConflict("Household need changed")
@@ -43,6 +46,9 @@ internal class RealityHouseholdNeedPersistence(private val connection: SQLiteCon
                 existing.copy(status = HouseholdNeedStatus.COMPLETED.name, revision = nextRevision)
             }
             is HouseholdNeedChange.Remove -> null
+            is HouseholdNeedChange.RestorePreimage -> change.previous?.let {
+                row(it.id, HouseholdNeedFields(it.name, it.quantity, it.priority, it.dueDate), it.status.name, nextRevision)
+            }
         }
         val needs = rows.needs.filterNot { it.id == change.id.value }
         val updated = RealityHousehold10Rows(nextRevision, (needs + listOfNotNull(new)).sortedBy { it.id })
@@ -117,14 +123,14 @@ internal class RealityHouseholdNeedPersistence(private val connection: SQLiteCon
     companion object {
         fun typedSnapshot(rows: RealityHousehold10Rows) = HouseholdNeedsSnapshot(
             rows.revision,
-            rows.needs.map { row ->
-                HouseholdNeed(
-                    HouseholdNeedId(row.id), HouseholdNeedName(row.name),
-                    HouseholdNeedQuantity(row.quantityThousandths.toLong(), HouseholdNeedUnit.valueOf(row.unit)),
-                    HouseholdNeedPriority.valueOf(row.priority), HouseholdNeedStatus.valueOf(row.status),
-                    row.revision, row.dueEpochDay?.let(LocalDate::ofEpochDay),
-                )
-            },
+            rows.needs.map { it.toNeed() },
+        )
+
+        private fun RealityHousehold10Row.toNeed() = HouseholdNeed(
+            HouseholdNeedId(id), HouseholdNeedName(name),
+            HouseholdNeedQuantity(quantityThousandths.toLong(), HouseholdNeedUnit.valueOf(unit)),
+            HouseholdNeedPriority.valueOf(priority), HouseholdNeedStatus.valueOf(status),
+            revision, dueEpochDay?.let(LocalDate::ofEpochDay),
         )
     }
 }

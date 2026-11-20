@@ -41,6 +41,18 @@ sealed interface HouseholdNeedChange {
         override val id: HouseholdNeedId,
         override val expectedNeedRevision: Long,
     ) : Existing
+
+    /** Used only after receipt-linked Undo has its own approved transaction. */
+    data class RestorePreimage(
+        override val id: HouseholdNeedId,
+        val expected: HouseholdNeed?,
+        val previous: HouseholdNeed?,
+    ) : HouseholdNeedChange {
+        init {
+            require(expected != null || previous != null)
+            require(listOfNotNull(expected, previous).all { it.id == id })
+        }
+    }
 }
 
 class HouseholdNeedConflict(message: String) : IllegalStateException(message)

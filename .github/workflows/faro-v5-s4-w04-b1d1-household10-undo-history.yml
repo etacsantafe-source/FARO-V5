@@ -1,0 +1,86 @@
+name: FARO V5 W04-B1D1 Household10 Undo and history
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdNeedUndo.kt
+      - v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/HouseholdNeedPersistencePort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHouseholdNeedPersistence.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedApplyHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HouseholdNeedUndoHostTest.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10CommittedPlansArchiveTest.kt
+      - .github/workflows/faro-v5-s4-w04-b1d1-household10-undo-history.yml
+
+permissions:
+  contents: read
+
+jobs:
+  household10-undo-history:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: W04-B1D1 exact-route protocol preflight against parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 7
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for multi-project Gradle config
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Verify Household Undo, Apply regression and archived history
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04HouseholdNeedUndoHostTest \
+            --tests ar.com.faro.v5.app.S4W04HouseholdNeedApplyHostTest \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household10CommittedPlansArchiveTest
+      - name: Verify W04-B1D1 JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          for directory, name, count in (
+              ("v5/app/build/test-results", "S4W04HouseholdNeedUndoHostTest", 6),
+              ("v5/app/build/test-results", "S4W04HouseholdNeedApplyHostTest", 6),
+              ("v5/store/generation/build/test-results/test", "FaroV5Household10CommittedPlansArchiveTest", 5),
+          ):
+              reports = list(Path(directory).rglob(f"TEST-*{name}.xml"))
+              assert len(reports) == 1, reports
+              suite = ElementTree.parse(reports[0]).getroot()
+              totals = tuple(int(suite.attrib[k]) for k in ("tests", "failures", "errors", "skipped"))
+              assert totals == (count, 0, 0, 0), totals
+              print(f"{name} PASS {count}/{count}")
+          PY
+      - name: Preserve W04-B1D1 JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-b1d1-household10-undo-history-xml
+          if-no-files-found: error
+          path: |
+            v5/app/build/test-results/**/TEST-*S4W04HouseholdNeedUndoHostTest.xml
+            v5/app/build/test-results/**/TEST-*S4W04HouseholdNeedApplyHostTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household10CommittedPlansArchiveTest.xml

@@ -129,7 +129,36 @@ class FaroV5Household10CommittedPlansArchiveTest {
         assertSourceUnchanged(fixture, before)
     }
 
-    private fun fixture(): Fixture {
+    @Test
+    fun preservesUndoAndItsOriginalReceiptTogetherAfterRestore() {
+        val fixture = fixture(withUndo = true)
+        val undo = checkNotNull(fixture.undo)
+        val target = stageNine("restored-undo", fixture.pinned)
+        withClosedLease { owned ->
+            val coordinator = coordinator(owned)
+            val archive = capture(coordinator, fixture)
+            assertEquals(FiveStoreStagedRestoreResult.StagedVerified(target.descriptor.generationId.value),
+                coordinator.restoreAuthenticated(MaintenanceOperationId("restore-undo"), target, fixture.pinned, archive, passphrase))
+            val rows = RealityHousehold10SealedRowsPort.readTrustedSealedStageTen(target.realityFile())
+            assertEquals(3L, rows.revision)
+            assertEquals(500, rows.needs.single().quantityThousandths)
+            FaroV5GenerationStoreGraph.openValidatedHousehold10ArchiveStage(target, fixture.pinned, verifier).use { graph ->
+                val workspace = checkNotNull(graph.workspace)
+                val restored = sync { workspace.reviews(chat) }.associateBy { it.reviewId }
+                assertEquals(fixture.receipt, restored.getValue(fixture.review.reviewId).receipt)
+                val restoredUndo = restored.getValue(undo.reviewId)
+                assertEquals(undo.receipt, restoredUndo.receipt)
+                val plan = PreparedPlanEnvelopeCodec.decode(checkNotNull(workspace.loadCommitted(restoredUndo.context())).envelope())
+                val payload = plan.applyPlan.nodesInTopologicalOrder().single().preparedOperation.payload
+                assertEquals(fixture.receipt, HouseholdNeedUndo.decode(payload)?.sourceReceipt)
+                for (receipt in listOf(fixture.receipt, checkNotNull(undo.receipt))) {
+                    assertEquals(receipt, graph.reality.executionReceiptLookup.find(receipt.transactionId))
+                }
+            }
+        }
+    }
+
+    private fun fixture(withUndo: Boolean = false): Fixture {
         val origin = checkNotNull(pointer.compareAndSet(null, StorageGenerationId("origin")))
         val source = stageNine("active-household", origin)
         FaroV5GenerationStoreGraph.openQuarantinedAuxiliaryReceiptV4Stage(source, pointer).close()
@@ -146,37 +175,55 @@ class FaroV5Household10CommittedPlansArchiveTest {
                 }
                 val chosen = sync { workspace.createAndSelect(chat, 1L, IdempotencyKey("archive-chat")) }
                 assertInstanceOf(ConversationSelectionResult.Saved::class.java, chosen)
-                val timeline = checkNotNull(sync { workspace.readTimeline(chat) })
                 val draft = (HouseholdNeedReview.propose(
                     HouseholdReviewGeneration(pinned.generationId.value, pinned.sequence),
                     needs.read(), HouseholdNeedReviewRequest.Edit(name,
                         fields.copy(quantity = HouseholdNeedQuantity(750, HouseholdNeedUnit.GRAM))),
                     "archive-edit",
                 ) as HouseholdNeedReviewResult.Ready).review
-                val descriptor = checkNotNull(BuiltInContractCatalog.create().current(draft.action.operationId))
-                val prepared = PreparedOperation(descriptor, draft.payload, DependencyStampSet.empty(), IdempotencyKey("needs-edit"))
-                val plan = PreparedPlan.of(ApplyPlanNode(PlanNodeId("need"), prepared, emptySet()))
-                val pending = (workspace.createPlanReview(WorkspacePlanReviewCreateRequest(
-                    chat, "w04:household:archive", timeline.authorityToken, timeline.revision, plan.planFingerprint,
-                    draft.summary, PreparedPlanEnvelopeCodec.encode(plan), IdempotencyKey("review-archive"),
-                )) as WorkspacePlanReviewWriteResult.Saved).review
-                val approved = (sync {
-                    workspace.decide(ConversationPlanReviewIntent.Approve(pending.context()), IdempotencyKey("approve-archive"))
-                } as ConversationReviewDecision.Saved).review
-                val identity = store.applyAttemptIdentities.resolve(plan)
-                val applying = (workspace.advance(
-                    ConversationPlanReviewIntent.BeginApply(approved.context(), identity), IdempotencyKey("begin-archive"),
-                    store.applyAttemptLookup, store.executionReceiptLookup,
-                ) as ConversationReviewDecision.Saved).review
-                val receipt = store.run(identity.transactionId) { scope ->
-                    needs.mutate(draft.expectedRevision, draft.toPersistenceChange(), scope)
-                    AtomicApplyTransactionDecision.Commit(store.commit(scope, identity, emptyList()))
+                val catalog = BuiltInContractCatalog.create()
+                fun commit(
+                    key: String,
+                    operation: OperationId,
+                    payload: CanonicalPayload,
+                    summary: String,
+                    revision: Long,
+                    change: HouseholdNeedChange,
+                ): ConversationPlanReviewSnapshot {
+                    val timeline = checkNotNull(sync { workspace.readTimeline(chat) })
+                    val descriptor = checkNotNull(catalog.current(operation))
+                    val prepared = PreparedOperation(descriptor, payload, DependencyStampSet.empty(), IdempotencyKey("needs-$key"))
+                    val plan = PreparedPlan.of(ApplyPlanNode(PlanNodeId("need"), prepared, emptySet()))
+                    val pending = (workspace.createPlanReview(WorkspacePlanReviewCreateRequest(
+                        chat, "w04:household:$key", timeline.authorityToken, timeline.revision, plan.planFingerprint,
+                        summary, PreparedPlanEnvelopeCodec.encode(plan), IdempotencyKey("review-$key"),
+                    )) as WorkspacePlanReviewWriteResult.Saved).review
+                    val approved = (sync {
+                        workspace.decide(ConversationPlanReviewIntent.Approve(pending.context()), IdempotencyKey("approve-$key"))
+                    } as ConversationReviewDecision.Saved).review
+                    val identity = store.applyAttemptIdentities.resolve(plan)
+                    val applying = (workspace.advance(
+                        ConversationPlanReviewIntent.BeginApply(approved.context(), identity), IdempotencyKey("begin-$key"),
+                        store.applyAttemptLookup, store.executionReceiptLookup,
+                    ) as ConversationReviewDecision.Saved).review
+                    val receipt = store.run(identity.transactionId) { scope ->
+                        needs.mutate(revision, change, scope)
+                        AtomicApplyTransactionDecision.Commit(store.commit(scope, identity, emptyList()))
+                    }
+                    return (workspace.advance(
+                        ConversationPlanReviewIntent.ObserveCommitted(applying.context(), receipt), IdempotencyKey("commit-$key"),
+                        store.applyAttemptLookup, store.executionReceiptLookup,
+                    ) as ConversationReviewDecision.Saved).review
                 }
-                val committed = (workspace.advance(
-                    ConversationPlanReviewIntent.ObserveCommitted(applying.context(), receipt), IdempotencyKey("commit-archive"),
-                    store.applyAttemptLookup, store.executionReceiptLookup,
-                ) as ConversationReviewDecision.Saved).review
-                Fixture(source, pinned, committed, receipt)
+                val committed = commit("archive-edit", draft.action.operationId, draft.payload, draft.summary,
+                    draft.expectedRevision, draft.toPersistenceChange())
+                val receipt = checkNotNull(committed.receipt)
+                val undo = if (withUndo) {
+                    val inverse = checkNotNull(HouseholdNeedUndo.propose(draft.generation, needs.read(), committed.reviewId, receipt, draft))
+                    commit("archive-undo", HouseholdNeedUndo.OPERATION, inverse.payload, inverse.summary,
+                        inverse.expectedRevision, inverse.toPersistenceChange())
+                } else null
+                Fixture(source, pinned, committed, receipt, undo)
             }
     }
 
@@ -231,5 +278,6 @@ class FaroV5Household10CommittedPlansArchiveTest {
         val pinned: ActiveGenerationPointer,
         val review: ConversationPlanReviewSnapshot,
         val receipt: ExecutionReceipt,
+        val undo: ConversationPlanReviewSnapshot?,
     )
 }
