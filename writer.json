@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.W04.C1B1.REDFIX.CODE",
-  "token_hash": "8f412bb8cc53b059f5abbc11ba7547c22cf0de5834fe326c671b3a49f25f59fd",
+  "status": "HELD",
+  "owner": "FARO.CHAT.W04.C1B1.CI_GATE_FIX_DOC",
+  "token_hash": "3a79e3d3bf371de32b931a7314bb8d81bdf64d2e85c218d9a5c1c34756ba4e4e",
   "target_head": "2a9bfb6038d545bfde736f86be1819d040cc1386",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1447,
+  "epoch": 1448,
   "timestamp": 1795207000,
-  "scope": "W04_C1B1_SAME_UNIT_SYNTAX_FIX"
+  "scope": "W04_C1B1_REDFIX_WORKFLOW_PREFLIGHT_DOC_ONLY"
 }
