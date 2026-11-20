@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
   "reviewed_head": "f8bc42ada7d3c11e58e159abbf4879ac7c0cd9ee",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PUBLISHED_VERIFIED",
+    "B7": "PASS_CONSUMED"
   },
   "last_code_review": {
-    "sha": "52db8e5d7c5c4d4c8f013af5d2d81fd3f29724d8",
-    "unit_id": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
+    "sha": "ebaaf5afbabda5a848fd266a5296a85ff597ef1f",
+    "unit_id": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B1_HOUSEHOLD10_GLOBAL_B7_PASS_20261120.md",
-        "blob_sha": "311727649e5ca9288b85c223cb6df5d9517bad14",
+        "path": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
+        "blob_sha": "e2b1b48d924c03868daa8492cb563e77dacaa7ea",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1–B5 C0A exact3 verified; documentary CI #44770729719 SUCCESS on f8bc42ada7d3c11e58e159abbf4879ac7c0cd9ee",
-  "how": "Scope pure typed ephemeral explicit need↔product selection. NO Evidence read/write, Reality/SQLite/host changes, finance, stock or UI.",
+  "why": "W04-C0A B7 PASS scoped DEV, 12/12 JVM/XML, guard SUCCESS 44782895205, permit consumed.",
+  "how": "C0B needs own exact-path B1-B5/guard/READY; C0A has no Evidence read or persistent product match.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,5 +85,9 @@
   "preaudit_guard": 44770729719,
   "previous_unit": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_B1_HOUSEHOLD10_GLOBAL_B7_PASS_20261120.md",
-  "next": "C0A B6 + exact scoped JVM XML + B7 then C0B own delta"
+  "next": "W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV_DELTAS_B1_B5_NO_READY",
+  "completed_guard": 44782895205,
+  "completed_ci": 44782895246,
+  "completed_xml": "12/12_PASS",
+  "completed_artifact_id": 14652917867
 }
