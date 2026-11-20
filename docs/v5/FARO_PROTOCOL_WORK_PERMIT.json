@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV",
-  "reviewed_head": "600e59341d03b7e4d52fe74e424bbd283c396b78",
+  "reviewed_head": "0ba07be503a960ac38eb533296f1e446c5b775b8",
   "paths": [
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/EvidenceBackupPort.kt",
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
@@ -66,19 +66,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "d17dbe344a8714ca30a6f0f4cfbd46e184bb3b92",
-    "unit_id": "S4_W04_C1B2E_STAGED_TYPED_BACKUP_DEV",
-    "result": "PASS",
+    "sha": "0ba07be503a960ac38eb533296f1e446c5b775b8",
+    "unit_id": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B7_PASS_20261120.md",
-        "blob_sha": "36405eaaf3b98fb79837766670926d3a05d91077",
+        "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B7_RED_FIX_20261120.md",
+        "blob_sha": "e4d4617e659495c2dafd7b06959a42f9472239c1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1b2E B7 PASS documented; C1b2F lossless FBS1v4 exact6 B1-B5 preaudit reviewed, guard 44822145095 SUCCESS on 600e59341d03b7e4d52fe74e424bbd283c396b78. READY only isolated DEV codec.",
-  "how": "Run parent preflight for every changed functional route. FBS1 schema1 wire v1-v3 byte-identical; schema2 requires typed section and manifest hash. CI maintenance/evidence exact XML then B7; no active generation.",
+  "why": "First C1b2F CI 44822996440 2/65 legacy DENY regression; same-unit B7 RED_FIX, Guardados regression SUCCESS.",
+  "how": "Second explicit opt-in flag in CommercialEvidence.kt, fixture only SemanticBackupRestoreT2Test.kt, existing exact6 paths. Rerun CI.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -89,8 +89,8 @@
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "next": "W04_C1B2F_FBS1V4_SEMANTIC_CODEC_B6_DEV_READY",
-  "completed_guard": null,
-  "completed_ci": null,
-  "completed_xml": "NOT_RUN_C1B2F",
+  "completed_guard": 44822996579,
+  "completed_ci": 44822996440,
+  "completed_xml": "2_FAILURES_OF_65_EVIDENCE_MAINTENANCE_NOT_RUN",
   "completed_artifact_id": null
 }

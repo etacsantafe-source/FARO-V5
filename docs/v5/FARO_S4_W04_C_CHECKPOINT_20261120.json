@@ -63,9 +63,11 @@
         },
         {
           "id": "C1B2F",
-          "status": "B1_B5_GUARD_SUCCESS_READY_EXACT6_NO_CODE",
+          "status": "B7_RED_FIX_FIRST_CODE_2_EVIDENCE_TESTS",
           "preaudit": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
-          "guard_run_id": 44822145095
+          "guard_run_id": 44822996579,
+          "code_sha": "0ba07be503a960ac38eb533296f1e446c5b775b8",
+          "ci_run_id": 44822996440
         }
       ]
     },
@@ -77,8 +79,8 @@
   "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
   "new_functional_code": true,
   "tests_run_this_turn": "C1B2E_JVM_9_9_XML_PASS_44821224309",
-  "writer": "RELEASE_AFTER_READY_DOC_COMMIT_EPOCH_1455",
-  "next": "C1b2F FBS1v4 B6 DEV exact6 then CI B7; C1b2E B7 PASS frozen",
+  "writer": "RELEASE_AFTER_REDFIX_DOC_EPOCH_1457",
+  "next": "C1b2F RED_FIX explicit opt-in, same-unit code CI B7",
   "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
   "guard_documental": {
     "run_id": 44770729719,
