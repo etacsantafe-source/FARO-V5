@@ -6,6 +6,7 @@ import androidx.sqlite.execSQL
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
 import androidx.sqlite.driver.bundled.SQLITE_OPEN_READONLY
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_READWRITE
 import androidx.sqlite.driver.bundled.SQLITE_OPEN_URI
 import java.nio.file.Path
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
@@ -35,6 +36,9 @@ import ar.com.faro.v5.kernel.contracts.PreparedPlanView
 import ar.com.faro.v5.kernel.contracts.RealityTransactionScope
 import ar.com.faro.v5.kernel.contracts.ReceiptId
 import ar.com.faro.v5.kernel.contracts.TransactionId
+import ar.com.faro.v5.owner.household.spi.HouseholdNeedChange
+import ar.com.faro.v5.owner.household.spi.HouseholdNeedPersistencePort
+import ar.com.faro.v5.owner.household.spi.HouseholdNeedsSnapshot
 import ar.com.faro.v5.owner.profile.api.DeclaredDisplayName
 import ar.com.faro.v5.owner.profile.api.ProfileFieldProvenance
 import ar.com.faro.v5.owner.profile.api.ProfileSnapshot
@@ -124,6 +128,7 @@ class RealityStore(
     private val householdStage10ReadOnly: Boolean = false,
     /** Trusted generation fence for the isolated, read-only Household10 session. */
     private val householdActive10Dev: (() -> Boolean)? = null,
+    private val householdNeedsWritableDev: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -135,6 +140,7 @@ class RealityStore(
     private fun <T> withMaterialAdmission(block: () -> T): T =
         materialWriteGate?.withMaterialWrite(block) ?: block()
     private val connection: SQLiteConnection = run {
+        check(!householdNeedsWritableDev || (householdActive10Dev != null && !householdStage10ReadOnly))
         check(!financeActive9 || (planningStage8 && !financeStage9 && materialWriteGate != null)) {
             "Active Finance9 requires the shared gate and a distinct active mode"
         }
@@ -149,7 +155,11 @@ class RealityStore(
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate != null)
             materialWriteGate.withMaterialWrite {
                 check(householdActive10Dev.invoke()) { "Household10 active generation is stale" }
-                openHousehold10ActiveRead(Path.of(fileName))
+                if (householdNeedsWritableDev) {
+                    BundledSQLiteDriver().open(fileName, SQLITE_OPEN_READWRITE or SQLITE_OPEN_NOFOLLOW)
+                } else {
+                    openHousehold10ActiveRead(Path.of(fileName))
+                }
             }
         } else {
             driver.open(fileName)
@@ -657,8 +667,11 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly || householdActive10Dev != null) connection.execSQL("PRAGMA foreign_keys = ON")
-                    else configure(fileName)
+                    if (householdStage10ReadOnly || (householdActive10Dev != null && !householdNeedsWritableDev)) {
+                        connection.execSQL("PRAGMA foreign_keys = ON")
+                    } else {
+                        configure(fileName)
+                    }
                     when {
                         householdStage10ReadOnly -> {
                             Household10RowsSql.checkSchema(connection)
@@ -696,6 +709,28 @@ class RealityStore(
                 connection.execSQL("ROLLBACK TRANSACTION")
             }
         } }
+
+    internal fun householdNeedsPersistenceForTrustedDev(): HouseholdNeedPersistencePort {
+        check(householdNeedsWritableDev) { "Household persistence requires its writable DEV mode" }
+        val fence = checkNotNull(householdActive10Dev)
+        val persistence = RealityHouseholdNeedPersistence(connection)
+        return object : HouseholdNeedPersistencePort {
+            override fun read(): HouseholdNeedsSnapshot =
+                RealityHouseholdNeedPersistence.typedSnapshot(household10ActiveDevReadForTrustedHost(fence))
+
+            override fun mutate(
+                expectedRevision: Long,
+                change: HouseholdNeedChange,
+                scope: RealityTransactionScope,
+            ): HouseholdNeedsSnapshot = synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                check(activeApplyScope === scope) { "Household mutation requires the exact active SQL scope" }
+                check(fence()) { "Household generation changed" }
+                persistence.mutate(readValidatedHousehold10Rows(connection), expectedRevision, change)
+            }
+        }
+    }
 
     /**
      * M1C1B1B: explicitly quarantined STAGED9-only cross-module bridge.
@@ -1482,7 +1517,9 @@ class RealityStore(
             "nested Reality transactions are forbidden"
         }
 
-        check(householdActive10Dev == null) { "Household10 DEV has read-only admission" }
+        if (householdActive10Dev != null) {
+            check(householdNeedsWritableDev && householdActive10Dev.invoke()) { "Household10 DEV write admission denied" }
+        }
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         activeTransactionId = transactionId
         val scope = SqliteRealityTransactionScope(
@@ -1494,6 +1531,7 @@ class RealityStore(
         try {
             when (val decision = block(scope)) {
                 is AtomicApplyTransactionDecision.Commit -> {
+                    check(householdActive10Dev?.invoke() != false) { "Household generation changed before commit" }
                     connection.execSQL("COMMIT TRANSACTION")
                     decision.value
                 }
