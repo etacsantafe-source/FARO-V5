@@ -795,8 +795,6 @@ class CommercialEvidenceStore(
         ) {
             "CommercialEvidenceStore required table missing"
         }
-    }
-
 
         if (stagedTypedTermsV2) {
             if (readSchemaVersion() == 1) {
@@ -843,6 +841,7 @@ class CommercialEvidenceStore(
             check(readIntegrityCheck().equals("ok", ignoreCase = true) &&
                   readForeignKeysHealthy()) { "staged Evidence2 migration integrity failure" }
         }
+    }
 
     private fun checkOpen() {
         check(!closed) { "CommercialEvidenceStore is closed" }
