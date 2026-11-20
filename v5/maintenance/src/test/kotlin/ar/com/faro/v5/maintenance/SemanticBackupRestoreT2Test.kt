@@ -262,7 +262,7 @@ class SemanticBackupRestoreT2Test {
                 CommercialEvidenceStagedTypedBackupRow(second, terms),
             ),
         )
-        CommercialEvidenceStore(":memory:", stagedTypedTermsV2 = true).use { commercial ->
+        CommercialEvidenceStore(":memory:", stagedTypedTermsV2 = true, stagedSemanticBackupV2 = true).use { commercial ->
             commercial.stagedTypedBackup.restoreOrVerify(stagedRows)
             val realityPort = object : RealityBackupPort {
                 override fun snapshot(): RealityBackupSnapshot = legacy.reality

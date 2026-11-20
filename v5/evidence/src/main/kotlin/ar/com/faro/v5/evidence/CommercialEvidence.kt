@@ -192,6 +192,8 @@ class CommercialEvidenceStore(
     private val materialWriteGate: MaterialWriteGate? = null,
     /** Explicit opt-in only for isolated STAGED Evidence2 testing. Not wired to active graphs. */
     private val stagedTypedTermsV2: Boolean = false,
+    /** Separate DEV-only opt-in: legacy .backup must remain fail-closed on Evidence2. */
+    private val stagedSemanticBackupV2: Boolean = false,
 ) : AutoCloseable {
     private val lock = Any()
     /** Opt-in staged V2: the host must inject its single shared gate. */
@@ -243,6 +245,9 @@ class CommercialEvidenceStore(
         CommercialEvidencePortabilityPort(::readPortabilitySnapshot)
 
     init {
+        require(!stagedSemanticBackupV2 || stagedTypedTermsV2) {
+            "schema2 semantic backup opt-in requires explicit staged Evidence2"
+        }
         withMaterialAdmission {
             synchronized(lock) {
                 configure(fileName)
@@ -651,7 +656,9 @@ class CommercialEvidenceStore(
             checkOpen()
             val version = readSchemaVersion()
             if (version == 2) {
-                check(stagedTypedTermsV2) { "schema2 backup requires staged Evidence2 owner" }
+                check(stagedTypedTermsV2 && stagedSemanticBackupV2) {
+                    "schema2 semantic backup needs independent staged opt-in"
+                }
                 val typed = readStagedTypedBackupSnapshot()
                 CommercialEvidenceBackupSnapshot(
                     schemaVersion = 2,
@@ -683,8 +690,9 @@ class CommercialEvidenceStore(
         withMaterialAdmission { synchronized(lock) {
             checkOpen()
             if (snapshot.schemaVersion == 2) {
-                check(stagedTypedTermsV2 && readSchemaVersion() == 2) {
-                    "schema2 backup restore requires explicit staged Evidence2"
+                check(stagedTypedTermsV2 && stagedSemanticBackupV2 &&
+                    readSchemaVersion() == 2) {
+                    "schema2 backup restore requires independently opted-in staged Evidence2"
                 }
                 val typed = checkNotNull(snapshot.stagedTyped)
                 val current = readBackupSnapshot()
