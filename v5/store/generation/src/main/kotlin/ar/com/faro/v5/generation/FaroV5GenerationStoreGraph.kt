@@ -1,6 +1,10 @@
 package ar.com.faro.v5.generation
 
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.evidence.CommercialEvidenceRecord
+import ar.com.faro.v5.evidence.CommercialProductKey
+import ar.com.faro.v5.evidence.CommercialPriceHistoryReadExecutor
+import ar.com.faro.v5.kernel.contracts.OperationContractDescriptor
 import ar.com.faro.v5.evidence.WebEvidenceStore
 import ar.com.faro.v5.maintenance.ExistingGenerationFormatReader
 import ar.com.faro.v5.maintenance.GenerationStoreFiles
@@ -73,6 +77,27 @@ class FaroV5GenerationStoreGraph private constructor(
         fun readNeeds(ownerAdmission: () -> Boolean): RealityHousehold10Rows =
             graph.reality.household10ActiveDevReadForTrustedHost(ownerAdmission)
 
+        /**
+         * C0B only: uses the SAME leased five-store graph. No second SQLite
+         * opener and no mutable Evidence store exposed to the application.
+         * The host has to prove independent Household and Commercial grants.
+         */
+        fun authorizedCommercialPriceHistory(
+            canonicalContract: OperationContractDescriptor,
+            productKey: CommercialProductKey,
+            limit: Int,
+            householdAdmission: () -> Boolean,
+            commercialAdmission: () -> Boolean,
+        ): List<CommercialEvidenceRecord>? = gate.withMaterialWrite {
+            if (!lease.isValid || !householdAdmission() || !commercialAdmission()) {
+                return@withMaterialWrite null
+            }
+            val records = CommercialPriceHistoryReadExecutor(
+                graph.commercialEvidence, canonicalContract,
+            ).execute(productKey, limit)
+            records.takeIf { lease.isValid && householdAdmission() && commercialAdmission() }
+        }
+
         override fun close() = gate.withQuiescedMaterialWrites {
             if (lease.isValid) {
                 try {
@@ -90,6 +115,18 @@ class FaroV5GenerationStoreGraph private constructor(
     ) : AutoCloseable {
         val workspace: ConversationWorkspaceStore get() = checkNotNull(session.graph.workspace)
         val reality: RealityStore get() = session.graph.reality
+
+        fun authorizedCommercialPriceHistory(
+            canonicalContract: OperationContractDescriptor,
+            productKey: CommercialProductKey,
+            limit: Int,
+            householdAdmission: () -> Boolean,
+            commercialAdmission: () -> Boolean,
+        ): List<CommercialEvidenceRecord>? =
+            session.authorizedCommercialPriceHistory(
+                canonicalContract, productKey, limit, householdAdmission, commercialAdmission,
+            )
+
         override fun close() = session.close()
     }
 

@@ -1,6 +1,8 @@
 package ar.com.faro.v5.app
 
 import ar.com.faro.v5.generation.FaroV5GenerationStoreGraph
+import ar.com.faro.v5.evidence.CommercialEvidenceOperations
+import ar.com.faro.v5.evidence.CommercialProductKey
 import ar.com.faro.v5.kernel.apply.*
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
@@ -57,6 +59,75 @@ internal class S4W04HouseholdNeedApplyHost(
 
     fun snapshot(): HouseholdNeedsSnapshot? = gate.withMaterialWrite {
         if (foregroundCurrent()) persistence.read().takeIf { foregroundCurrent() } else null
+    }
+
+    /**
+     * C0B: explicitly chosen product while the current Household owner read
+     * operation is independently admitted. This returns only a candidate.
+     */
+    fun selectCommercialProduct(
+        needId: HouseholdNeedId?,
+        productKey: CommercialProductKey?,
+        presentedProducts: List<CommercialProductKey>,
+        explicitlyChosen: Boolean,
+    ): CommercialNeedProductDecision = synchronized(grantLock) {
+        gate.withMaterialWrite {
+            S4W04CommercialNeedProductSelection.select(
+                snapshot = if (foregroundCurrent()) persistence.read() else null,
+                needId = needId,
+                productKey = productKey,
+                presentedProducts = presentedProducts,
+                readFence = commercialReadFence(),
+                explicitlyChosen = explicitlyChosen,
+                isOwnerAdmitted = { needId != null && householdReadAdmitted(needId) },
+            )
+        }
+    }
+
+    /**
+     * C0B: read-only Commercial Evidence read through the existing leased
+     * generation graph. Both policy callbacks must approve independently.
+     */
+    fun commercialPriceHistoryForSelection(
+        candidate: CommercialNeedProductCandidate,
+        limit: Int,
+        commercialAdmission: (String, OperationId, CommercialProductKey) -> Boolean,
+    ): CommercialPriceReadDecision = synchronized(grantLock) {
+        gate.withMaterialWrite {
+            S4W04CommercialPriceReadHost(
+                session = session,
+                catalog = catalog,
+                currentSnapshot = { if (foregroundCurrent()) persistence.read() else null },
+                currentFence = ::commercialReadFence,
+                householdAdmission = ::householdReadAdmitted,
+                commercialAdmission = { productKey ->
+                    runCatching {
+                        foregroundCurrent() && commercialAdmission(
+                            principal, CommercialEvidenceOperations.PRICE_HISTORY_READ, productKey,
+                        )
+                    }.getOrDefault(false)
+                },
+            ).read(candidate, limit)
+        }
+    }
+
+    private fun commercialReadFence(): CommercialNeedReadFence? =
+        if (foregroundCurrent()) {
+            CommercialNeedReadFence(
+                pinned.generationId.value, pinned.sequence, hostEpoch, principal,
+            )
+        } else null
+
+    private fun householdReadAdmitted(needId: HouseholdNeedId): Boolean {
+        if (!foregroundCurrent()) return false
+        val operation = OperationId("shopping.snapshot.read")
+        val contract = catalog.current(operation) ?: return false
+        if (contract.operationId != operation || contract.capabilityId != CapabilityId("N-033") ||
+            contract.canonicalExecutor != ExecutorId("household") ||
+            contract.executionProfile != ExecutionProfile.READ_ONLY ||
+            contract.exposure != ContractExposure.BINDABLE
+        ) return false
+        return runCatching { policy(principal, operation, needId) }.getOrDefault(false)
     }
 
     sealed interface Submission {
