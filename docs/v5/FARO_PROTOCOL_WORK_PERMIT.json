@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B1C2_NEEDS_REVIEW_APPLY_RECEIPT_DEV",
   "reviewed_head": "48836c60f7a4e556d14c20d543979e818bca5def",
   "paths": [
@@ -61,7 +61,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "PUBLISHED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -76,8 +76,8 @@
       }
     ]
   },
-  "why": "C1 B7 scoped PASS. C2 B1–B5 delta verified by guard 44751103531.",
-  "how": "Preflight exact-five; actual authorized Household DEV apply and receipt; JVM/SQLite CI XML and B7.",
+  "why": "B1C2 B6 publicada. Nuevas escrituras funcionales bloqueadas hasta B7.",
+  "how": "Verificar CI y XML dirigidos sobre el SHA funcional exacto. El padre conserva autorización exacta.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -99,5 +99,7 @@
   "completed_ci": 44750589732,
   "completed_xml": "6/6_PASS",
   "completed_artifact_id": 14635945803,
-  "next": "W04-B1C2 B6"
+  "next": "B1C2 B7 tras verificar CI/XML exactos",
+  "pending_code_sha": "08eb8b92021233d4cbe5fb126597b21543e70b1a",
+  "pending_ci_run_id": 44752592041
 }
