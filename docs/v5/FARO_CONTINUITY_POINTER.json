@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "VERIFY_REMOTE_RELEASE_B1B_WAIT_CI",
-    "epoch": 1412
+    "epoch": 1413
   },
   "automation": {
     "activation_authorized": false,
@@ -5850,7 +5850,7 @@
     "scope_master": "docs/v5/FARO_S4_W04_B1B_B1D_NEEDS_OPERATIONS_B1_B5_20261120.md",
     "handoff": "docs/v5/FARO_S4_W04_B1_WORK_CHAT_HANDOFF_20261120.md",
     "tests": "9/9_JVM_SQLITE_PASS",
-    "permit": "B1A_CONSUMED_B1B_PENDING_B7_NO_C1_READY",
+    "permit": "B1A_CONSUMED_B1B_BLOCKED_PENDING_B7_NO_C1_READY",
     "next": "VERIFY_B1B_EXACT_CI_AND_XML",
     "ready_guard": 44741614690,
     "code": "e937ca0a657b722fd158584e03207adbfde9747a",
