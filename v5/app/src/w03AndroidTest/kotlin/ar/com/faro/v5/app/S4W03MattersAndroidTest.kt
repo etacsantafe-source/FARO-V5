@@ -70,6 +70,40 @@ class S4W03MattersAndroidTest {
         commit()
         waitForText("Estado: En curso", prefix = true)
         accessibleHeading("Historial")
+        // Undo must add a compensating event, not delete the original status event.
+        click("Revertir último cambio de estado")
+        commit()
+        waitForText("Estado: Abierto", prefix = true)
+        accessibleHeading("Historial")
+        click("Cambiar estado")
+        fill("Motivo", "Continuar tras Undo certificado")
+        click("Revisar estado")
+        commit()
+        waitForText("Estado: En curso", prefix = true)
+
+        // Validation errors must not silently change Reality or bypass Review.
+        click("Cambiar vencimiento")
+        fill("Fecha AAAA-MM-DD (vacío para quitar)", "fecha inválida")
+        fill("Motivo", "No debe aplicarse")
+        click("Revisar fecha")
+        waitForText("Revisá campos, permisos, fechas y motivos obligatorios.")
+        click("Cancelar")
+        waitForText("Estado: En curso", prefix = true)
+
+        click("Cambiar vencimiento")
+        fill("Fecha AAAA-MM-DD (vacío para quitar)", "2031-06-15")
+        fill("Motivo", "Vencimiento revisado y confirmado")
+        click("Revisar fecha")
+        commit()
+        waitForText("Vence: 2031-06-15")
+
+        click("Editar asunto")
+        fill("Detalle", "Edición persistente validada en Android")
+        fill("Motivo de edición", "Actualización de información")
+        click("Revisar propuesta")
+        commit()
+        waitForText("Edición persistente validada en Android")
+        accessibleHeading("Historial")
 
         click("Recordatorios")
         waitForText("Recordatorios")
@@ -98,10 +132,15 @@ class S4W03MattersAndroidTest {
         openMatters()
         click("Abrir Recordatorios")
         click("Recordatorio W03 Android")
+        click("Editar recordatorio")
+        fill("Título", "Recordatorio W03 actualizado")
+        click("Revisar recordatorio")
+        commit()
+        waitForText("Recordatorio W03 actualizado")
         click("Desactivar regla")
         commit()
         click("Volver a Recordatorios")
-        waitForText("Recordatorio W03 Android · Desactivado")
+        waitForText("Recordatorio W03 actualizado · Desactivado")
 
         // On background, stale per-view grants must be revoked and never auto-resurrect.
         rule.activityRule.scenario.moveToState(Lifecycle.State.STARTED)
@@ -117,6 +156,10 @@ class S4W03MattersAndroidTest {
         openMatters()
         click("Abrir Asuntos")
         waitForText("Asunto W03 Android · En curso")
+        click("Asunto W03 Android · En curso")
+        waitForText("Edición persistente validada en Android")
+        waitForText("Vence: 2031-06-15")
+        accessibleHeading("Historial")
     }
 
     private fun bootstrap(button: String) {
