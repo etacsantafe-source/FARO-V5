@@ -1,21 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C1B2E_STAGED_TYPED_BACKUP_DEV",
-  "reviewed_head": "c48369b7e81ec829634df7b2d63a3b315323c9d6",
+  "status": "READY",
+  "unit_id": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV",
+  "reviewed_head": "600e59341d03b7e4d52fe74e424bbd283c396b78",
   "paths": [
-    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/EvidenceBackupPort.kt",
-    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceStagedTypedBackupTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c1b2e-staged-backup.yml"
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupSetCodec.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestore.kt",
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/SemanticBackupRestoreT2Test.kt",
+    ".github/workflows/faro-v5-s4-w04-c1b2f-semantic-codec.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
-          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
+          "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
+          "blob_sha": "03b4c2989c105a5f1b285423bd84da300b52d4c2",
           "marker": "## B1"
         }
       ]
@@ -24,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
-          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
+          "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
+          "blob_sha": "03b4c2989c105a5f1b285423bd84da300b52d4c2",
           "marker": "## B2"
         }
       ]
@@ -34,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
-          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
+          "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
+          "blob_sha": "03b4c2989c105a5f1b285423bd84da300b52d4c2",
           "marker": "## B3"
         }
       ]
@@ -44,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
-          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
+          "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
+          "blob_sha": "03b4c2989c105a5f1b285423bd84da300b52d4c2",
           "marker": "## B4"
         }
       ]
@@ -54,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2E_STAGED_TYPED_BACKUP_B1_B5_20261120.md",
-          "blob_sha": "421478fe93ed70541d7a5d84f5c5e60c77227bcc",
+          "path": "docs/v5/FARO_S4_W04_C1B2F_SEMANTIC_CODEC_B1_B5_20261120.md",
+          "blob_sha": "03b4c2989c105a5f1b285423bd84da300b52d4c2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PUBLISHED_VERIFIED",
-    "B7": "PASS_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d17dbe344a8714ca30a6f0f4cfbd46e184bb3b92",
@@ -75,20 +77,20 @@
       }
     ]
   },
-  "why": "C1b2E B7 PASS scoped staged DEV: 9/9 JUnit XML, guard 44821224076, CI 44821224309, artifact 14671679327. Permit consumed; next C1b2F PREAUDIT only.",
-  "how": "No C1b2E code repeat. C1b2F exact6 B1-B5 preaudit doc and independent guard/READY before B6. FBS2 and portability later.",
+  "why": "C1b2E B7 PASS documented; C1b2F lossless FBS1v4 exact6 B1-B5 preaudit reviewed, guard 44822145095 SUCCESS on 600e59341d03b7e4d52fe74e424bbd283c396b78. READY only isolated DEV codec.",
+  "how": "Run parent preflight for every changed functional route. FBS1 schema1 wire v1-v3 byte-identical; schema2 requires typed section and manifest hash. CI maintenance/evidence exact XML then B7; no active generation.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "Continue W04-C1b2 after B1-B5 staged Evidence2 typed backup own guard/READY; no physical, finance, or productive V2 writes."
+    "scope": "Continue W04-C1b2; C1b2F B6 only after B1-B5/guard, no active graph or physical G15."
   },
-  "preaudit_guard": 44820637021,
+  "preaudit_guard": 44822145095,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "S4_W04_C1B2F_SEMANTIC_BACKUP_CODEC_DEV_PREAUDIT_NO_READY",
-  "completed_guard": 44821224076,
-  "completed_ci": 44821224309,
-  "completed_xml": "9/9_PASS",
-  "completed_artifact_id": 14671679327
+  "next": "W04_C1B2F_FBS1V4_SEMANTIC_CODEC_B6_DEV_READY",
+  "completed_guard": null,
+  "completed_ci": null,
+  "completed_xml": "NOT_RUN_C1B2F",
+  "completed_artifact_id": null
 }
