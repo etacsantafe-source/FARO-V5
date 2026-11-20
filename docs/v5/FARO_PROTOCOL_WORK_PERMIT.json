@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
-  "reviewed_head": "1e9662e86a7b0f3e92c2c9e2b9f1e0a93180bf84",
+  "reviewed_head": "825ca56f3cf15e792e9cda3ce72df092d824ca80",
   "paths": [
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt",
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceTypedTerms.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "42c7a6366b7aeced94250ffe84ed9fd7f6694ef1",
-    "unit_id": "S4_W04_C1A_MANUAL_PRICE_OBSERVATION_DEV",
-    "result": "PASS",
+    "sha": "825ca56f3cf15e792e9cda3ce72df092d824ca80",
+    "unit_id": "S4_W04_C1B1_STAGED_TYPED_TERMS_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1A_MANUAL_PRICE_B7_PASS_20261120.md",
-        "blob_sha": "d0a5b1aa8c9d8c71f0f3a6239662c053d44ce25d",
+        "path": "docs/v5/FARO_S4_W04_C1B1_TYPED_TERMS_B7_RED_FIX_20261120.md",
+        "blob_sha": "39d211e1e6427bad8f4e63d27220cd0c3e4d5b80",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1b1 staged-only exact B1-B5/4 routes and guard 44811730659 SUCCESS; leave five-store backup/portability and active graph blocked for C1b2.",
-  "how": "B6 only four audited routes. Preflight exact 4 before code; CI JVM XML then B7 and consumed permit. No V2 production.",
+  "why": "C1b1 first code FAILED Kotlin syntax at CommercialEvidence.kt:801 on CI 44812383640; same-unit B7 RED_FIX documented.",
+  "how": "Same-unit scoped syntax fix only in CommercialEvidence.kt. No B7 PASS until exact rerun and XML.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -88,7 +88,7 @@
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "next": "W04_C1B1_B6_TYPED_TERMS_STAGED_ONLY",
   "completed_guard": 44803997203,
-  "completed_ci": 44803997142,
-  "completed_xml": "9/9_PASS",
+  "completed_ci": 44812383640,
+  "completed_xml": "NOT_GENERATED_COMPILATION_FAIL",
   "completed_artifact_id": 14663835058
 }
