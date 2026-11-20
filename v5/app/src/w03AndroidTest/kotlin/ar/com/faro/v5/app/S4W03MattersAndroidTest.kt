@@ -12,6 +12,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToString
@@ -39,7 +40,8 @@ class S4W03MattersAndroidTest {
         bootstrap("Abrir Chat local de desarrollo")
         bootstrap("Crear Reality8 vacía (DEV)")
         bootstrap("Activar Finance9 (DEV, después de Reality8)")
-        click("Activar Auxiliary4 (DEV, después de Finance9)")
+        bootstrap("Activar Auxiliary4 (DEV, después de Finance9)")
+        click("Abrir Chat y Avisos locales")
         awaitMenu()
         openMatters()
         click("Abrir Asuntos")
@@ -76,6 +78,22 @@ class S4W03MattersAndroidTest {
         click("Revisar recordatorio")
         commit()
         waitForText("Recordatorio W03 Android")
+        click("Conciliar avisos locales")
+        click("Confirmar conciliación local")
+        waitForText("Avisos creados: 1", prefix = true)
+        click("Volver a Recordatorios")
+        openAvisos()
+        awaitComposeText("Recordatorio W03 Android")
+        clickComposeText("Revisar visto")
+        clickComposeText("Confirmar visto")
+        clickComposeText("Revisar descarte")
+        clickComposeText("Confirmar descarte")
+        awaitComposeText("No hay avisos abiertos.")
+        rule.activityRule.scenario.recreate()
+        click("Abrir Chat local de desarrollo")
+        awaitMenu()
+        openMatters()
+        click("Abrir Recordatorios")
         click("Recordatorio W03 Android")
         click("Desactivar regla")
         commit()
@@ -123,6 +141,25 @@ class S4W03MattersAndroidTest {
         }
         rule.onNode(target).performClick()
         waitForText("Asuntos y Recordatorios")
+    }
+
+    private fun openAvisos() {
+        rule.onNodeWithContentDescription("Abrir menú").assertIsDisplayed().performClick()
+        val target = hasText("Avisos") and hasClickAction()
+        rule.waitUntil(25_000) { rule.onAllNodes(target).fetchSemanticsNodes().size == 1 }
+        rule.onNode(target).performClick()
+        awaitComposeText("Avisos abiertos de la fuente autorizada.")
+    }
+
+    private fun clickComposeText(label: String) {
+        awaitComposeText(label)
+        rule.onNodeWithText(label).performClick()
+    }
+
+    private fun awaitComposeText(label: String) {
+        rule.waitUntil(25_000) {
+            rule.onAllNodesWithText(label).fetchSemanticsNodes().isNotEmpty()
+        }
     }
 
     private fun commit() {

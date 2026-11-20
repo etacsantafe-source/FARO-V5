@@ -174,6 +174,33 @@ internal class FaroV5W03MattersPanel(
         begin(selected?.title ?: "Recordatorios")
         message?.let(::text)
         button("Asuntos") { openMatters() }
+        button("Conciliar avisos locales") {
+            begin("Conciliación local de Avisos")
+            text("Solo se consultan fechas de Recordatorios; no se envían notificaciones al sistema.")
+            button("Confirmar conciliación local") {
+                val at = System.currentTimeMillis()
+                work({
+                    actions.reconcileLocalNoticesAfterExplicitRequest(
+                        (at - 86_400_000L).coerceAtLeast(0L),
+                        at + 172_800_000L,
+                    )
+                }) { outcome ->
+                    begin("Resultado de Avisos locales")
+                    when (outcome) {
+                        is S4W03NoticeReconcileResult.Saved ->
+                            text("Avisos creados: " + outcome.created +
+                                " · resueltos: " + outcome.resolved +
+                                (if (outcome.complete) " · cobertura completa" else " · cobertura parcial"))
+                        is S4W03NoticeReconcileResult.Partial ->
+                            text("Conciliación parcial: " + outcome.reason)
+                        S4W03NoticeReconcileResult.Denied ->
+                            text("Conciliación denegada: sesión o permiso no vigente.")
+                    }
+                    button("Volver a Recordatorios") { loadReminders() }
+                }
+            }
+            button("Cancelar") { loadReminders() }
+        }
         if (selected == null) {
             button("Nuevo recordatorio") { editReminder(s, null) }
             if (s.rules.isEmpty()) text("No hay recordatorios.")
