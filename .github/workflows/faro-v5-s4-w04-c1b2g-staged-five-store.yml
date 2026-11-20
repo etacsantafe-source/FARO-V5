@@ -52,17 +52,19 @@ jobs:
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
             :store:generation:test
-      - name: Verify C1b2G JUnit XML exactly 10 of 10
+      - name: Verify C1b2G 5 of 5 and unchanged legacy capture 5 of 5
         run: |
           python3 - <<'PY'
           from pathlib import Path
           from xml.etree import ElementTree
-          reports = list(Path('v5/store/generation/build/test-results').rglob('TEST-*FaroV5FiveStoreBackupCaptureT2Test.xml'))
-          assert len(reports) == 1, reports
-          root = ElementTree.parse(reports[0]).getroot()
-          counts = tuple(int(root.attrib[k]) for k in ('tests','failures','errors','skipped'))
-          assert counts == (10,0,0,0), counts
-          print('W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_JVM_XML_PASS 10/10')
+          root = Path('v5/store/generation/build/test-results')
+          for classname in ('FaroV5FiveStoreBackupCaptureT2Test', 'FaroV5CommercialEvidence2StageTest'):
+              reports = list(root.rglob('TEST-*'+classname+'.xml'))
+              assert len(reports) == 1, (classname, reports)
+              suite = ElementTree.parse(reports[0]).getroot()
+              counts = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+              assert counts == (5,0,0,0), (classname, counts)
+          print('W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_JVM_XML_PASS NEW_5/5_LEGACY_5/5')
           PY
       - name: Preserve generation JUnit XML
         if: always()

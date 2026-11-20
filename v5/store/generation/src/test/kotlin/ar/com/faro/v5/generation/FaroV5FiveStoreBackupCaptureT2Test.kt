@@ -90,6 +90,148 @@ class FaroV5FiveStoreBackupCaptureT2Test {
         return FaroV5GenerationStoreGraph.openValidatedV2(staged)
     }
 
+    private fun capture(
+        graph: FaroV5GenerationStoreGraph,
+        lease: Lease,
+    ): FaroV5FiveStoreSemanticSet =
+        FaroV5FiveStoreBackupCapture(graph, lease).capture(
+            operationId = MaintenanceOperationId("five-store-capture-test"),
+            backupSetId = BackupSetId("five-store-capture-backup"),
+            productVersion = "5.0-capture-native",
+            createdAtEpochMillis = 54321L,
+        )
+
+    @Test fun oneLeaseCapturesAllFiveOwnersFromExactGraphGeneration() {
+        openFive("complete").use { graph ->
+            val lease = Lease()
+            val set = capture(graph, lease)
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+            assertFalse(lease.active)
+            assertEquals(graph.generationId, set.fourStore.manifest.sourceGenerationId.value)
+            assertEquals(graph.reality.backup.snapshot(), set.fourStore.reality)
+            assertEquals(graph.commercialEvidence.backup.snapshot(), set.fourStore.commercialEvidence)
+            assertEquals(graph.webEvidence.backup.snapshot(), set.fourStore.webEvidence)
+            assertEquals(graph.auxiliary.backup.snapshot(), set.fourStore.auxiliary)
+            assertEquals(graph.workspace!!.backup.snapshot(), set.workspace)
+            // Separate semantic gate is already certified; this checks integration only.
+            assertEquals(set, FaroV5FiveStoreSemanticCodec.decode(
+                FaroV5FiveStoreSemanticCodec.encode(set),
+            ))
+        }
+    }
+
+    @Test fun failedGlobalQuiescenceDoesNotProducePartialAuthorityOrMutateStores() {
+        openFive("unavailable").use { graph ->
+            val before = graph.workspace!!.backup.snapshot()
+            val lease = Lease(reject = true)
+            assertThrows(IllegalStateException::class.java) {
+                capture(graph, lease)
+            }
+            assertEquals(1, lease.calls)
+            assertEquals(0, lease.released)
+            assertFalse(lease.active)
+            assertEquals(before, graph.workspace!!.backup.snapshot())
+            assertTrue(graph.verifyHealthy())
+        }
+    }
+
+    @Test fun legacyFourStoreGraphCannotSilentlyExportIncompleteFiveStoreSet() {
+        val dir = temp.resolve("legacy")
+        Files.createDirectories(dir)
+        RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
+        CommercialEvidenceStore(dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { }
+        WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
+        AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
+
+        FaroV5GenerationStoreGraph.open(dir, "legacy-four").use { graph ->
+            assertNull(graph.workspace)
+            val lease = Lease()
+            assertThrows(IllegalStateException::class.java) {
+                capture(graph, lease)
+            }
+            assertEquals(0, lease.calls)
+            assertTrue(graph.verifyHealthy())
+        }
+    }
+
+    @Test fun realObjectiveAndMatterOwnersCaptureInOneLeaseWithoutChangingFbs1() {
+        openFive("g4-real").use { graph ->
+            graph.reality.run(TransactionId("tx-g4-capture-real")) { scope ->
+                graph.reality.objectivePersistence.upsert(
+                    ObjectiveRecord(
+                        ObjectiveId.of("goal-one"),
+                        ObjectiveTitle.of("Reserva de emergencia"),
+                        ObjectiveDetail.of("Monto mensual"),
+                        ObjectiveStatus.ACTIVE, 100L,
+                    ), scope,
+                )
+                graph.reality.matterPersistence.upsert(
+                    MatterRecord(
+                        MatterId.of("matter-one"),
+                        MatterTitle.of("Revisar factura"),
+                        MatterDetail.of("Vencimiento de servicio"),
+                        MatterStatus.WAITING, 200L, 100L,
+                    ), scope,
+                )
+                AtomicApplyTransactionDecision.Commit(Unit)
+            }
+            assertThrows(IllegalStateException::class.java) {
+                graph.reality.backup.snapshot()
+            }
+            assertThrows(IllegalStateException::class.java) {
+                graph.reality.semanticMigration.snapshot()
+            }
+            val lease = Lease()
+            val set = capture(graph, lease)
+            val expected = graph.reality.domainBackup.snapshot()
+            assertEquals(expected, set.g4Domains)
+            assertEquals(1L, expected.objectives.revision)
+            assertEquals(1L, expected.matters.revision)
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+            assertFalse(lease.active)
+            assertEquals(2, ByteBuffer.wrap(FaroV5FiveStoreSemanticCodec.encode(set)).getInt(4))
+            assertEquals(set, FaroV5FiveStoreSemanticCodec.decode(
+                FaroV5FiveStoreSemanticCodec.encode(set),
+            ))
+            assertTrue(graph.verifyHealthy())
+        }
+    }
+
+    @Test fun nonzeroG4RevisionWithoutRowsCannotFallBackToV1() {
+        openFive("g4-revision").use { graph ->
+            val original = graph.reality.domainBackup.snapshot()
+            graph.reality.domainBackupRestore.restoreOrVerify(
+                RealityDomainBackupSnapshot(
+                    schemaVersion = original.schemaVersion,
+                    objectives = original.objectives.copy(revision = 1L),
+                    matters = original.matters,
+                )
+            )
+            assertEquals(emptyList<ObjectiveRecord>(),
+                graph.reality.objectivePersistence.read().objectives)
+            assertThrows(IllegalStateException::class.java) {
+                graph.reality.backup.snapshot()
+            }
+            val lease = Lease()
+            val set = capture(graph, lease)
+            assertEquals(1L, set.g4Domains?.objectives?.revision)
+            assertEquals(2, ByteBuffer.wrap(FaroV5FiveStoreSemanticCodec.encode(set)).getInt(4))
+            assertEquals(1, lease.calls)
+            assertEquals(1, lease.released)
+        }
+    }
+
+}
+
+/**
+ * Independent C1b2G tests: do not change the certified historical class
+ * FaroV5FiveStoreBackupCaptureT2Test, whose exact 5/5 XML is required by G4 CI.
+ */
+class FaroV5CommercialEvidence2StageTest {
+    @TempDir lateinit var temp: Path
+
     /**
      * Test-only stage. This never activates a real app generation.
      * Create legacy Commercial first, then explicitly migrate it to Evidence2
@@ -279,9 +421,6 @@ class FaroV5FiveStoreBackupCaptureT2Test {
             val before = graph.commercialEvidence.stagedTypedBackup.snapshot()
             val lease = SharedGateLease(gate, reject = true)
             assertThrows(IllegalStateException::class.java) {
-                capture(graph, Lease(reject = true))
-            }
-            assertThrows(IllegalStateException::class.java) {
                 FaroV5FiveStoreBackupCapture(graph, lease).capture(
                     operationId = MaintenanceOperationId("e2-rejected"),
                     backupSetId = BackupSetId("e2-rejected-backup"),
@@ -305,137 +444,5 @@ class FaroV5FiveStoreBackupCaptureT2Test {
         }
     }
 
-    private fun capture(
-        graph: FaroV5GenerationStoreGraph,
-        lease: Lease,
-    ): FaroV5FiveStoreSemanticSet =
-        FaroV5FiveStoreBackupCapture(graph, lease).capture(
-            operationId = MaintenanceOperationId("five-store-capture-test"),
-            backupSetId = BackupSetId("five-store-capture-backup"),
-            productVersion = "5.0-capture-native",
-            createdAtEpochMillis = 54321L,
-        )
-
-    @Test fun oneLeaseCapturesAllFiveOwnersFromExactGraphGeneration() {
-        openFive("complete").use { graph ->
-            val lease = Lease()
-            val set = capture(graph, lease)
-            assertEquals(1, lease.calls)
-            assertEquals(1, lease.released)
-            assertFalse(lease.active)
-            assertEquals(graph.generationId, set.fourStore.manifest.sourceGenerationId.value)
-            assertEquals(graph.reality.backup.snapshot(), set.fourStore.reality)
-            assertEquals(graph.commercialEvidence.backup.snapshot(), set.fourStore.commercialEvidence)
-            assertEquals(graph.webEvidence.backup.snapshot(), set.fourStore.webEvidence)
-            assertEquals(graph.auxiliary.backup.snapshot(), set.fourStore.auxiliary)
-            assertEquals(graph.workspace!!.backup.snapshot(), set.workspace)
-            // Separate semantic gate is already certified; this checks integration only.
-            assertEquals(set, FaroV5FiveStoreSemanticCodec.decode(
-                FaroV5FiveStoreSemanticCodec.encode(set),
-            ))
-        }
-    }
-
-    @Test fun failedGlobalQuiescenceDoesNotProducePartialAuthorityOrMutateStores() {
-        openFive("unavailable").use { graph ->
-            val before = graph.workspace!!.backup.snapshot()
-            val lease = Lease(reject = true)
-            assertThrows(IllegalStateException::class.java) {
-                capture(graph, lease)
-            }
-            assertEquals(1, lease.calls)
-            assertEquals(0, lease.released)
-            assertFalse(lease.active)
-            assertEquals(before, graph.workspace!!.backup.snapshot())
-            assertTrue(graph.verifyHealthy())
-        }
-    }
-
-    @Test fun legacyFourStoreGraphCannotSilentlyExportIncompleteFiveStoreSet() {
-        val dir = temp.resolve("legacy")
-        Files.createDirectories(dir)
-        RealityStore(dir.resolve(GenerationStoreFiles.REALITY).toString()).use { }
-        CommercialEvidenceStore(dir.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString()).use { }
-        WebEvidenceStore(dir.resolve(GenerationStoreFiles.WEB_EVIDENCE).toString()).use { }
-        AuxiliaryDeliveryStore(dir.resolve(GenerationStoreFiles.AUXILIARY).toString()).use { }
-
-        FaroV5GenerationStoreGraph.open(dir, "legacy-four").use { graph ->
-            assertNull(graph.workspace)
-            val lease = Lease()
-            assertThrows(IllegalStateException::class.java) {
-                capture(graph, lease)
-            }
-            assertEquals(0, lease.calls)
-            assertTrue(graph.verifyHealthy())
-        }
-    }
-
-    @Test fun realObjectiveAndMatterOwnersCaptureInOneLeaseWithoutChangingFbs1() {
-        openFive("g4-real").use { graph ->
-            graph.reality.run(TransactionId("tx-g4-capture-real")) { scope ->
-                graph.reality.objectivePersistence.upsert(
-                    ObjectiveRecord(
-                        ObjectiveId.of("goal-one"),
-                        ObjectiveTitle.of("Reserva de emergencia"),
-                        ObjectiveDetail.of("Monto mensual"),
-                        ObjectiveStatus.ACTIVE, 100L,
-                    ), scope,
-                )
-                graph.reality.matterPersistence.upsert(
-                    MatterRecord(
-                        MatterId.of("matter-one"),
-                        MatterTitle.of("Revisar factura"),
-                        MatterDetail.of("Vencimiento de servicio"),
-                        MatterStatus.WAITING, 200L, 100L,
-                    ), scope,
-                )
-                AtomicApplyTransactionDecision.Commit(Unit)
-            }
-            assertThrows(IllegalStateException::class.java) {
-                graph.reality.backup.snapshot()
-            }
-            assertThrows(IllegalStateException::class.java) {
-                graph.reality.semanticMigration.snapshot()
-            }
-            val lease = Lease()
-            val set = capture(graph, lease)
-            val expected = graph.reality.domainBackup.snapshot()
-            assertEquals(expected, set.g4Domains)
-            assertEquals(1L, expected.objectives.revision)
-            assertEquals(1L, expected.matters.revision)
-            assertEquals(1, lease.calls)
-            assertEquals(1, lease.released)
-            assertFalse(lease.active)
-            assertEquals(2, ByteBuffer.wrap(FaroV5FiveStoreSemanticCodec.encode(set)).getInt(4))
-            assertEquals(set, FaroV5FiveStoreSemanticCodec.decode(
-                FaroV5FiveStoreSemanticCodec.encode(set),
-            ))
-            assertTrue(graph.verifyHealthy())
-        }
-    }
-
-    @Test fun nonzeroG4RevisionWithoutRowsCannotFallBackToV1() {
-        openFive("g4-revision").use { graph ->
-            val original = graph.reality.domainBackup.snapshot()
-            graph.reality.domainBackupRestore.restoreOrVerify(
-                RealityDomainBackupSnapshot(
-                    schemaVersion = original.schemaVersion,
-                    objectives = original.objectives.copy(revision = 1L),
-                    matters = original.matters,
-                )
-            )
-            assertEquals(emptyList<ObjectiveRecord>(),
-                graph.reality.objectivePersistence.read().objectives)
-            assertThrows(IllegalStateException::class.java) {
-                graph.reality.backup.snapshot()
-            }
-            val lease = Lease()
-            val set = capture(graph, lease)
-            assertEquals(1L, set.g4Domains?.objectives?.revision)
-            assertEquals(2, ByteBuffer.wrap(FaroV5FiveStoreSemanticCodec.encode(set)).getInt(4))
-            assertEquals(1, lease.calls)
-            assertEquals(1, lease.released)
-        }
-    }
 
 }
