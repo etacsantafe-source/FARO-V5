@@ -1,10 +1,67 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "2f345d5e46a5c7d15cfa6e7b4a530f741dca0fbf",
-  "paths": [],
-  "stages": {},
+  "status": "READY",
+  "unit_id": "S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_DEV",
+  "reviewed_head": "ecbc1d1643cf398c849116a1b409964e1a4e296c",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10Schema.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold10MigrationTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0a-household10-schema.yml"
+  ],
+  "stages": {
+    "B1": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B1_B5_20261119.md",
+          "blob_sha": "0a82eb82b9c5a49daeead8ba3be6f866d4383d38",
+          "marker": "## B1"
+        }
+      ]
+    },
+    "B2": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B1_B5_20261119.md",
+          "blob_sha": "0a82eb82b9c5a49daeead8ba3be6f866d4383d38",
+          "marker": "## B2"
+        }
+      ]
+    },
+    "B3": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B1_B5_20261119.md",
+          "blob_sha": "0a82eb82b9c5a49daeead8ba3be6f866d4383d38",
+          "marker": "## B3"
+        }
+      ]
+    },
+    "B4": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B1_B5_20261119.md",
+          "blob_sha": "0a82eb82b9c5a49daeead8ba3be6f866d4383d38",
+          "marker": "## B4"
+        }
+      ]
+    },
+    "B5": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0A_HOUSEHOLD10_STAGED_SCHEMA_B1_B5_20261119.md",
+          "blob_sha": "0a82eb82b9c5a49daeead8ba3be6f866d4383d38",
+          "marker": "## B5"
+        }
+      ]
+    },
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
+  },
   "last_code_review": {
     "sha": "2f345d5e46a5c7d15cfa6e7b4a530f741dca0fbf",
     "unit_id": "S4_W04_A_HOUSEHOLD_NEEDS_MODEL_DEV",
@@ -17,8 +74,8 @@
       }
     ]
   },
-  "why": "W04-A B7 PASS scoped; READY consumed.",
-  "how": "W04-B0A requires its own verified B1–B5, documentary guard and exact-route READY.",
+  "why": "W04-B0A installs a versioned schema on an isolated, caller-certified staged connection. B1–B5 and the W04-A scoped B7 are verified.",
+  "how": "Three exact paths. No file port, active generation, graph, backup, CRUD, grant or Android host.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -28,12 +85,12 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44659246357,
+  "preaudit_guard": 44663659406,
   "last_ci_run_id": 44662692803,
-  "pre_audit_guard": 44659246357,
+  "pre_audit_guard": 44663659406,
   "user_authorization": {
     "date_local": "2026-11-19",
-    "scope": "W04 Household implementation authorized; B1-B5 first and W04-A only permitted now",
+    "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   }
 }
