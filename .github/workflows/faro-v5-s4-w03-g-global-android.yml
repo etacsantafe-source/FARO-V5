@@ -1,0 +1,97 @@
+name: FARO V5 W03-G final Android API35 owner acceptance
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/w03AndroidTest/**"
+      - "v5/app/src/w03MattersDev/**"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactory.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AvisosSurface.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt"
+      - ".github/workflows/faro-v5-s4-w03-g-global-android.yml"
+permissions:
+  contents: read
+jobs:
+  android-w03-real:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Mandatory FARO code protocol
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile SDK 37
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Enable emulator hardware acceleration when available
+        run: |
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Real isolated W03 owner Review Apply and recovery at font 200 percent
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            adb shell settings put system font_scale 2.0 &&
+            cd v5 && ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8"
+            -PfaroW03AndroidTest=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W03MattersAndroidTest
+            :app:connectedW03MattersDevAndroidTest
+      - name: Verify exact JUnit XML no skipped or failed tests, plus isolated APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          reports = list(Path("v5/app/build/outputs/androidTest-results").rglob("TEST-*.xml"))
+          cases = [case for report in reports for case in ET.parse(report).getroot().iter("testcase")]
+          assert len(cases) == 1, [str(p) for p in reports]
+          case = cases[0]
+          assert case.attrib.get("classname") == "ar.com.faro.v5.app.S4W03MattersAndroidTest", case.attrib
+          assert case.attrib.get("name") == "mattersReminderOwnerReviewApplyAndForegroundRecoveryFont200", case.attrib
+          assert all(case.find(x) is None for x in ("failure", "error", "skipped")), case.attrib
+          print("W03_G_ANDROID_API35_REAL_OWNER_1_1_PASS")
+          PY
+          apk="$(find v5/app/build/outputs/apk/w03MattersDev -maxdepth 1 -name '*.apk' -type f -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" > /tmp/w03-g-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          text=Path('/tmp/w03-g-badging.txt').read_text()
+          assert "package: name='ar.com.faro.alpha.w03mattersdev'" in text
+          assert text.count("launchable-activity:") == 1
+          for bad in ("INTERNET","POST_NOTIFICATIONS","SCHEDULE_EXACT_ALARM","RECEIVE_BOOT_COMPLETED"):
+              assert "android.permission."+bad not in text, bad
+          print("W03_G_ANDROID_OFFLINE_MANIFEST_PASS")
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w03-g-android35-xml-apk
+          if-no-files-found: warn
+          path: |
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/w03MattersDev/*.apk

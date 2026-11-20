@@ -77,6 +77,17 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/w02AndroidTest")
     }
 
+    // W03-G emulator-only instrumentation. Never compiles the legacy androidTest suite.
+    if (providers.gradleProperty("faroW03AndroidTest").orNull == "true") {
+        val otherTests = listOf("faroG5AndroidTestV2CoreDev", "faroX03AndroidTest",
+            "faroS3IntegratedAndroidTest", "faroW01AndroidTest", "faroW02AndroidTest")
+        check(otherTests.none { providers.gradleProperty(it).orNull == "true" })
+        check(listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId, s0PhysicalApplicationId,
+            s1A5PhysicalApplicationId, s1A6PhysicalApplicationId).isEmpty())
+        testBuildType = "w03MattersDev"
+        sourceSets.getByName("androidTest").setRoot("src/w03AndroidTest")
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(
