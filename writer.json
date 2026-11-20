@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.W04.C1B1.CI_GATE_FIX_CODE",
-  "token_hash": "3132f8e0919adf3ab7bd63f2c85e0d9031a3cf6bcf8b7f8dbb6e45540a24958c",
+  "status": "HELD",
+  "owner": "FARO.CHAT.W04.C1B1.B7_DOC_C1B2_PREAUDIT",
+  "token_hash": "d3db3285f587ab197344452607df43a41adba395b6eb00bbff7a4691f11567fd8",
   "target_head": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1449,
+  "epoch": 1450,
   "timestamp": 1795207000,
-  "scope": "W04_C1B1_WORKFLOW_COUNT_B6"
+  "scope": "W04_C1B1_B7_PASS_DOC_AND_C1B2_PREAUDIT"
 }
