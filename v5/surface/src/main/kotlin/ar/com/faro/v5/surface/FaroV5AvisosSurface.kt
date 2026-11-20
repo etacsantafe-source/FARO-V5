@@ -36,6 +36,8 @@ data class FaroV5AvisoItem(
     val summary: String,
     val importance: FaroV5AvisoImportance,
     val ownerRevision: Long? = null,
+    /** Current canonical owner attention; exposed only in authorized W03 DEV. */
+    val ownerSeen: Boolean? = null,
 ) {
     init {
         require(opaqueId.isNotBlank())
@@ -162,6 +164,7 @@ fun FaroV5AvisosScreen(readPort: FaroV5AvisosReadPort?) {
                             style = MaterialTheme.typography.labelMedium,
                         )
                         Text(item.summary, style = MaterialTheme.typography.bodyLarge)
+                        item.ownerSeen?.let { seen -> Text(if (seen) "Visto" else "Sin leer") }
                         val port = readPort
                         val revision = item.ownerRevision
                         if (port?.supportsReviewedAttention == true && revision != null) {

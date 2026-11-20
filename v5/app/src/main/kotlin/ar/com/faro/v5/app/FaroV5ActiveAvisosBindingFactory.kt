@@ -90,6 +90,7 @@ object FaroV5ActiveAvisosBindingFactory {
                         FaroV5AvisoItem(
                             opaqueId = notice.noticeId.value,
                             ownerRevision = if (attentionClick != null) notice.revision else null,
+                            ownerSeen = if (attentionClick != null) notice.attention == NoticeAttention.SEEN else null,
                             summary = if (notice.sensitivity == NoticeSensitivity.SENSITIVE)
                                 "Aviso privado" else notice.summary.value,
                             importance = if (notice.materiality == NoticeMateriality.NEEDS_ATTENTION)

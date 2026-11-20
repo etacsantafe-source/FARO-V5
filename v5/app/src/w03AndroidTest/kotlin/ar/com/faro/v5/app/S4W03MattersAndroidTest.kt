@@ -86,6 +86,9 @@ class S4W03MattersAndroidTest {
         awaitComposeText("Recordatorio W03 Android")
         clickComposeText("Revisar visto")
         clickComposeText("Confirmar visto")
+        // The first click is asynchronous. A NEW canonical owner read must show
+        // SEEN before Dismiss can use its updated revision (CAS otherwise rejects).
+        awaitComposeText("Visto")
         clickComposeText("Revisar descarte")
         clickComposeText("Confirmar descarte")
         awaitComposeText("No hay avisos abiertos.")
@@ -157,8 +160,13 @@ class S4W03MattersAndroidTest {
     }
 
     private fun awaitComposeText(label: String) {
-        rule.waitUntil(25_000) {
-            rule.onAllNodesWithText(label).fetchSemanticsNodes().isNotEmpty()
+        try {
+            rule.waitUntil(25_000) {
+                rule.onAllNodesWithText(label).fetchSemanticsNodes().isNotEmpty()
+            }
+        } catch (failure: Exception) {
+            val tree = rule.onRoot(useUnmergedTree = true).printToString().take(7_000)
+            throw AssertionError("W03-G no aparece '$label' en Compose. Estado real:\n" + tree, failure)
         }
     }
 
