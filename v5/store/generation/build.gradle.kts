@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":evidence"))
 
     // Native SQLite fixture access is test-only; production generation stays SQL-driver-free.
+    testImplementation(project(":kernel:runtime"))
     testImplementation(libs.androidx.sqlite)
     testImplementation(libs.androidx.sqlite.bundled)
     testImplementation(platform(libs.junit.bom))

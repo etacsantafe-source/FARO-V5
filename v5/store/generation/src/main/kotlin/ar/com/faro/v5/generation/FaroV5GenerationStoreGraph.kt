@@ -388,14 +388,17 @@ class FaroV5GenerationStoreGraph private constructor(
         internal fun openValidatedV2Finance9Auxiliary4Stage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
         ): FaroV5GenerationStoreGraph =
-            openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true)
+            openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true, planVerifier = planVerifier)
 
         internal fun openValidatedHousehold10ArchiveStage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
-        ): FaroV5GenerationStoreGraph =
-            openFinance9ArchiveStage(staged, expectedActive, auxiliary4 = true, householdStage10 = true)
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+        ): FaroV5GenerationStoreGraph = openFinance9ArchiveStage(
+            staged, expectedActive, auxiliary4 = true, householdStage10 = true, planVerifier = planVerifier,
+        )
 
         /** The runtime host keeps the same DEV root lease as the cutover owner. */
         internal fun openActiveHousehold10DevForTrustedHost(
@@ -536,6 +539,7 @@ class FaroV5GenerationStoreGraph private constructor(
             expectedActive: ActiveGenerationPointer,
             auxiliary4: Boolean,
             householdStage10: Boolean = false,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
         ): FaroV5GenerationStoreGraph {
             val generationsDir = staged.directory.toAbsolutePath().normalize().parent
             check(generationsDir.fileName.toString() == "generations") {
@@ -557,7 +561,7 @@ class FaroV5GenerationStoreGraph private constructor(
             val receiptFence: (() -> Boolean)? =
                 if (auxiliary4) ({ pointer.read() == expectedActive }) else null
             val graph = openValidatedV2Internal(
-                staged, planVerifier = null,
+                staged, planVerifier = planVerifier,
                 planningStage8 = true, financeStage9 = true, auxiliaryReceiptFence = receiptFence,
                 householdStage10 = householdStage10,
             )

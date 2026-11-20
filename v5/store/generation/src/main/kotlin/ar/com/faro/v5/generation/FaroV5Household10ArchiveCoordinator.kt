@@ -1,5 +1,6 @@
 package ar.com.faro.v5.generation
 
+import ar.com.faro.v5.kernel.contracts.PreparedPlanEnvelopeVerificationPort
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.BackupSetId
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
@@ -9,6 +10,7 @@ import ar.com.faro.v5.maintenance.GenerationStoreFiles
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.maintenance.StorageGenerationDescriptor
 import ar.com.faro.v5.owner.household.api.HouseholdNeed
 import ar.com.faro.v5.owner.household.api.HouseholdNeedId
 import ar.com.faro.v5.owner.household.api.HouseholdNeedName
@@ -67,6 +69,7 @@ internal class FaroV5Household10ArchiveCoordinator(
     private val assertExclusiveClosedDevHost: () -> Unit,
     private val afterStore: (FiveStoreStagedRestoreSection) -> Unit = {},
     private val afterPhase: (Household10RestorePhase) -> Unit = {},
+    private val planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
 ) {
     private val layout = FileStorageGenerationLayout(storageRoot)
     private val pointer = FileActiveGenerationPointer(storageRoot)
@@ -89,6 +92,47 @@ internal class FaroV5Household10ArchiveCoordinator(
         val snapshot = capture(operationId, backupSetId, source, expectedActive, productVersion, createdAtEpochMillis)
         val archive = crypto.sealWithHousehold(snapshot, passphrase)
         requirePinnedStage(source, expectedActive)
+        archive
+    }
+
+    /**
+     * An exclusive, closed DEV host may archive a sealed copy of its selected generation.
+     * An active database with sidecars is rejected before any copy is allocated.
+     */
+    fun captureClosedActiveAuthenticated(
+        operationId: MaintenanceOperationId,
+        backupSetId: BackupSetId,
+        expectedActive: ActiveGenerationPointer,
+        copyDescriptor: StorageGenerationDescriptor,
+        productVersion: String,
+        createdAtEpochMillis: Long,
+        passphrase: CharArray,
+    ): ByteArray = quiescence.withMaterialWritesQuiesced(operationId) {
+        assertExclusiveClosedDevHost()
+        check(pointer.read() == expectedActive && copyDescriptor.generationId != expectedActive.generationId)
+        val source = layout.requireStaged(expectedActive.generationId)
+        FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(source)
+        val before = fingerprints(source)
+        assertExclusiveClosedDevHost()
+        check(pointer.read() == expectedActive)
+
+        val copy = layout.stageWorkspaceV2(copyDescriptor)
+        for (name in GenerationStoreFiles.WORKSPACE_V2) {
+            assertExclusiveClosedDevHost()
+            check(pointer.read() == expectedActive)
+            val destination = copy.directory.resolve(name)
+            Files.copy(source.directory.resolve(name), destination, NOFOLLOW_LINKS)
+            FileChannel.open(destination, WRITE, NOFOLLOW_LINKS).use { it.force(true) }
+        }
+        FileChannel.open(copy.directory, READ, NOFOLLOW_LINKS).use { it.force(true) }
+        check(fingerprints(copy) == before) { "Household10 archive copy changed during capture" }
+
+        val snapshot = capture(operationId, backupSetId, copy, expectedActive, productVersion, createdAtEpochMillis)
+        val archive = crypto.sealWithHousehold(snapshot, passphrase)
+        assertExclusiveClosedDevHost()
+        check(pointer.read() == expectedActive)
+        FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(source)
+        check(fingerprints(source) == before) { "Household10 active source changed during capture" }
         archive
     }
 
@@ -191,7 +235,7 @@ internal class FaroV5Household10ArchiveCoordinator(
         requirePinnedStage(target, origin)
         FaroV5GenerationStoreGraph.openQuarantinedAuxiliaryReceiptV4Stage(target, pointer).close()
         requirePinnedStage(target, origin)
-        val replay = FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Stage(target, origin).use { graph ->
+        val replay = FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Stage(target, origin, planVerifier).use { graph ->
             FaroV5FiveStoreStagedRestore(
                 target.directory.parent.parent, target, graph, alreadyQuiesced,
                 afterSection = { section ->
@@ -274,7 +318,7 @@ internal class FaroV5Household10ArchiveCoordinator(
         requireSealedStoreFiles(stage)
         FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
         val before = fingerprints(stage)
-        val (base, auxiliary) = FaroV5GenerationStoreGraph.openValidatedHousehold10ArchiveStage(stage, expectedActive)
+        val (base, auxiliary) = FaroV5GenerationStoreGraph.openValidatedHousehold10ArchiveStage(stage, expectedActive, planVerifier)
             .use { graph ->
                 FaroV5FiveStoreBackupCapture(graph, alreadyQuiesced).captureReceiptProjection(
                     operationId, backupSetId, productVersion, createdAtEpochMillis,
