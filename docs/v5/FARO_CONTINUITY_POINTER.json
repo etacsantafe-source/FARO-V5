@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-20",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_B1D1_READY_FOR_B6",
+  "phase": "S4_W04_B1D1_B6_WAIT_CI",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_B1D0_B7_D1_READY",
-    "epoch": 1423
+    "status": "VERIFY_REMOTE_RELEASE_B1D1_WAIT_CI",
+    "epoch": 1425
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-B1D1 exact-seven Undo/history and global B1 after CI, then durable C0 handoff.",
-  "checkpoint_status": "W04_B1A_B1B_B1C1_B1C2_D0_B7_PASS_D1_READY",
+  "next": "Verify D1 CI 44766456887 and XML, then record global B7 and prepare C0 with CommercialEvidenceStore.",
+  "checkpoint_status": "W04_B1D1_CODE_WAIT_CI",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "5b087ef3cc34c2d8da0d3440dff8d9fc10c3be85",
-  "last_ci_run_id": 44754902344,
+  "last_code_sha": "52db8e5d7c5c4d4c8f013af5d2d81fd3f29724d8",
+  "last_ci_run_id": 44766456887,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W04_B1D0_SCOPED",
+  "last_ci_conclusion": "WAIT_CI",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5843,15 +5843,15 @@
     "next": "W04-B1"
   },
   "w04_b1": {
-    "status": "B1A_B1B_B1C1_B1C2_D0_B7_PASS_D1_READY",
+    "status": "B1A_B1B_B1C1_B1C2_D0_B7_PASS_D1_B6_WAIT_CI",
     "base_head": "5cc67fc5a3bc0bcfe1f3246c746b812dfc55a294",
     "unit_id": "S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_DEV",
     "audit": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
     "scope_master": "docs/v5/FARO_S4_W04_B1B_B1D_NEEDS_OPERATIONS_B1_B5_20261120.md",
     "handoff": "docs/v5/FARO_S4_W04_B1_WORK_CHAT_HANDOFF_20261120.md",
     "tests": "9/9_JVM_SQLITE_PASS",
-    "permit": "A_B_C1_C2_D0_CONSUMED_D1_READY",
-    "next": "B1D1_B6",
+    "permit": "A_B_C1_C2_D0_CONSUMED_D1_BLOCKED_PENDING_B7",
+    "next": "VERIFY_D1_EXACT_CI_AND_XML",
     "ready_guard": 44741614690,
     "code": "e937ca0a657b722fd158584e03207adbfde9747a",
     "b7": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B7_PASS_20261120.md",
@@ -5900,7 +5900,11 @@
     "b1d0_tests": "4/4_JVM_SQLITE_CI_XML_PASS",
     "b1d0_artifact_id": 14636459983,
     "b1d1_unit": "S4_W04_B1D1_NEEDS_UNDO_HISTORY_DEV",
-    "b1d1_ready_guard": 44755253827
+    "b1d1_ready_guard": 44755253827,
+    "b1d1_code": "52db8e5d7c5c4d4c8f013af5d2d81fd3f29724d8",
+    "b1d1_ci_run": 44766456887,
+    "b1d1_guard_run": 44766456766,
+    "b1d1_local_tests": "17/17_JVM_SQLITE"
   },
   "w04_c0": {
     "status": "PREAUDIT_DOC_ONLY_NOT_READY",
