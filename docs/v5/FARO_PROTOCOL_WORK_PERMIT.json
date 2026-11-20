@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_DEV",
   "reviewed_head": "ffcec53beba55948e24c11c79fe5311aacf8ac8d",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_CONSUMED"
   },
   "last_code_review": {
-    "sha": "7381c8767a062a740b4729d1fa353499eb654611",
-    "unit_id": "S4_W04_B0D2_HOUSEHOLD10_ACTIVATE_RECOVERY_DEV",
+    "sha": "e937ca0a657b722fd158584e03207adbfde9747a",
+    "unit_id": "S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_B0D2_HOUSEHOLD10_CUTOVER_B7_PASS_20261120.md",
-        "blob_sha": "870ae4df2a71db11cf570c2f60b46e3ad3512813",
+        "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B7_PASS_20261120.md",
+        "blob_sha": "f787868b4cfa5e7e2829f24e197cbcd15f76c1b3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-B1A active Household10 DEV trusted read-only session after B0 global B7; doc B1-B5 guard 44741614690 SUCCESS. Exact5 paths; B1B/C/D only preaudited.",
-  "how": "Verify preflight exact five; B6 no Household mutation, no Finance pay/write, no second SQLite writer, no web/Android; JVM XML+guard B7 then consume READY.",
+  "why": "W04-B1A B7 scoped PASS. READY consumido.",
+  "how": "B1B requiere guard documental y READY propio.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -95,11 +95,11 @@
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
     "w05_w06_w07": false
   },
-  "completed_guard": 44728570497,
-  "completed_ci": 44728570347,
+  "completed_guard": 44746106811,
+  "completed_ci": 44746107035,
   "completed_xml": "9/9_PASS",
-  "completed_artifact_id": 14625736200,
-  "next": "W04-B1 Household persistence via own B1–B5 and exact READY.",
+  "completed_artifact_id": 14632839178,
+  "next": "W04-B1B exact six after delta guard",
   "b1a_ready_proof": {
     "path": "docs/v5/FARO_S4_W04_B1A_HOUSEHOLD10_ACTIVE_READ_B1_B5_20261120.md",
     "blob_sha": "757ef2b5dc658f736bcfa3910cb9b9d6496c3a5f",
