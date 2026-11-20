@@ -1,10 +1,68 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": null,
-  "reviewed_head": "7ed40534e20bcca21e2888282a333848591f71e0",
-  "paths": [],
-  "stages": {},
+  "status": "READY",
+  "unit_id": "S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_DEV",
+  "reviewed_head": "daa1f406ae2853316a3a8e19c91d8ea0abe4ae7c",
+  "paths": [
+    "v5/store/generation/build.gradle.kts",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10BackupSectionCodec.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10BackupSectionCodecTest.kt",
+    ".github/workflows/faro-v5-s4-w04-b0c1-household10-backup-section.yml"
+  ],
+  "stages": {
+    "B1": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_B1_B5_20261119.md",
+          "blob_sha": "d5be2f96962e1d1da7005962a32015a3c89de38c",
+          "marker": "## B1"
+        }
+      ]
+    },
+    "B2": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_B1_B5_20261119.md",
+          "blob_sha": "d5be2f96962e1d1da7005962a32015a3c89de38c",
+          "marker": "## B2"
+        }
+      ]
+    },
+    "B3": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_B1_B5_20261119.md",
+          "blob_sha": "d5be2f96962e1d1da7005962a32015a3c89de38c",
+          "marker": "## B3"
+        }
+      ]
+    },
+    "B4": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_B1_B5_20261119.md",
+          "blob_sha": "d5be2f96962e1d1da7005962a32015a3c89de38c",
+          "marker": "## B4"
+        }
+      ]
+    },
+    "B5": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W04_B0C1_HOUSEHOLD10_BACKUP_SECTION_B1_B5_20261119.md",
+          "blob_sha": "d5be2f96962e1d1da7005962a32015a3c89de38c",
+          "marker": "## B5"
+        }
+      ]
+    },
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
+  },
   "last_code_review": {
     "sha": "7ed40534e20bcca21e2888282a333848591f71e0",
     "unit_id": "S4_W04_B0B_HOUSEHOLD10_STAGED_GENERATION_DEV",
@@ -17,8 +75,8 @@
       }
     ]
   },
-  "why": "W04-B0B B7 PASS scoped; READY consumed.",
-  "how": "W04-B0C1 requires its own documentary guard and exact-route READY.",
+  "why": "W04-B0C1 implements the canonical Household10 portable section only.",
+  "how": "Four exact paths. No archive integration, database writes, cutover, Apply, Android, or production.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "adb_ci_human_authorization": {
@@ -28,9 +86,9 @@
     "physical_allowed": false,
     "code_ready": true
   },
-  "preaudit_guard": 44665001533,
+  "preaudit_guard": 44666437569,
   "last_ci_run_id": 44665566368,
-  "pre_audit_guard": 44665001533,
+  "pre_audit_guard": 44666437569,
   "user_authorization": {
     "date_local": "2026-11-19",
     "scope": "W04 Household authorized, B1–B5 and exclusive unit permit before each B6",
