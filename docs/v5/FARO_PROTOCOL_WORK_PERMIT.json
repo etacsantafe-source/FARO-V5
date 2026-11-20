@@ -71,13 +71,13 @@
     "evidence": [
       {
         "path": "docs/v5/FARO_S4_W04_C0B_B7_RED_FIX_20261120.md",
-        "blob_sha": "916fda5d366865fe1b34e3fda29117d08e7446f1",
+        "blob_sha": "5d68e2df1221057d170ec4de7fee74df5719cc55",
         "marker": "## B7"
       }
     ]
   },
   "why": "RED_FIX of C0B initial B6: app test unresolved AndroidX SQLite driver import, run 44787942512 FAILURE; only test fixture delta.",
-  "how": "Fix only one already-permitted test file; no dependencies/schemas/host code. Rerun exact5 B6 preflight on changed-file subset and JVM 9/9.",
+  "how": "Only scoped RED_FIX: test fixture uses certified Household Review/Apply for Need seed; workflow preflight tests each changed exact route and allows 1..5, no new path.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {

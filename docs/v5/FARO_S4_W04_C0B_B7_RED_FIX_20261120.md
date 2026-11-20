@@ -18,7 +18,8 @@ Inspección estática del mismo archivo de prueba: el caso de historial vacío u
 4. Fijar expectativa `revision=1` del Need creado por Apply y comprobar que la lectura no cambia la revisión ni agrega registros comerciales. Receipt del setup no es receipt de lectura.
 5. Habilitar grants reales para `priced` y `unpriced` del test: historial vacío debe devolver Observed(0) y NO un rechazo por ACL.
 6. Verificar por CI `:app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04CommercialPriceReadHostTest` 9/9, XML 0 errores y artefacto. Guard del SHA funcional. Mantener las pruebas de revocación tardía, foreground, epoch/ABA, sourceRef opaca y única lease.
-7. No tocar `FaroV5GenerationStoreGraph.kt`, `S4W04HouseholdNeedApplyHost.kt`, `S4W04CommercialPriceReadHost.kt`, workflow ni la app productiva para este RED_FIX. El permiso mantiene las cinco rutas exactas; commit siguiente usa sólo la ruta de test autorizada.
+7. No tocar `FaroV5GenerationStoreGraph.kt`, `S4W04HouseholdNeedApplyHost.kt`, `S4W04CommercialPriceReadHost.kt` ni app productiva. El permiso conserva las cinco rutas; RED_FIX usa únicamente test y workflow (ambos ya autorizados).
+9. Delta detectado ANTES de nuevo B6: el workflow tiene `test "$count" -eq 5`, válido para el B6 inicial pero incompatible con reparaciones por subconjunto exacto. Corregir a `1 <= count <= 5` manteniendo el preflight OBLIGATORIO por cada ruta real del diff, el unit marker y control de permiso; no habilitar rutas ajenas. El objetivo es validar 2 rutas test+workflow sin tocar las otras 3. La corrida initial B6 ya probó 5/5 preflight.
 8. El workflow **antiguo** W04-B1A `44787942245` falló por dispararse cuando cambia el grafo compartido y exige preflight de otra unidad: es una incompatibilidad de trigger histórica independiente, no evidencia de fallo de C0B. NO modificar B1A sin permiso específico.
 
 Esta redacción es evidencia de B7 RED_FIX, no certificación funcional. C0B todavía OPEN.
