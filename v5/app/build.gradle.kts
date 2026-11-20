@@ -155,6 +155,16 @@ android {
     }
     sourceSets.getByName("w02ObjectivesDev").kotlin.srcDir("src/v2CoreDev/kotlin")
 
+    // Isolated offline W03 DEV package; never enables shipping V2.
+    buildTypes.create("w03MattersDev") {
+        initWith(buildTypes.getByName("v2CoreDev"))
+        applicationIdSuffix = ".w03mattersdev"
+        versionNameSuffix = "-w03mattersdev"
+        matchingFallbacks += listOf("v2CoreDev", "debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO Asuntos DEV"
+    }
+    sourceSets.getByName("w03MattersDev").kotlin.srcDir("src/v2CoreDev/kotlin")
+
     // A distinct UID/Keystore for X03; never replaces the S2 debug package.
     buildTypes.create("x03AiDev") {
         initWith(buildTypes.getByName("debug"))

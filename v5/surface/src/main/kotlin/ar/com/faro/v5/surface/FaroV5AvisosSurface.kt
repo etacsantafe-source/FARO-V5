@@ -16,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -33,6 +35,7 @@ data class FaroV5AvisoItem(
     val opaqueId: String,
     val summary: String,
     val importance: FaroV5AvisoImportance,
+    val ownerRevision: Long? = null,
 ) {
     init {
         require(opaqueId.isNotBlank())
@@ -55,6 +58,9 @@ interface FaroV5AvisosReadPort {
     val invalidations: Flow<Unit>
     /** null is UNAVAILABLE, not empty. No read can mutate attention or OS delivery. */
     suspend fun readNotices(): FaroV5AvisosPage?
+    /** No mutation in standard Avisos. W03 explicitly installs a reviewed click port. */
+    val supportsReviewedAttention: Boolean get() = false
+    suspend fun actAfterReviewedClick(id: String, revision: Long, seen: Boolean): String? = null
 }
 
 object FaroV5AvisosSurfacePolicy {
@@ -114,6 +120,13 @@ fun FaroV5AvisosScreen(readPort: FaroV5AvisosReadPort?) {
         }
     }
     val current = readState.page
+    val scope = rememberCoroutineScope()
+    var reviewed by remember(readPort, current, readState.authorizationEpoch) {
+        mutableStateOf<Pair<String, Boolean>?>(null)
+    }
+    var receipt by remember(readPort, current, readState.authorizationEpoch) {
+        mutableStateOf<String?>(null)
+    }
     // Consent never survives an invalidation, even if the new page is equal by value.
     var summaryRequested by remember(readPort, current, readState.authorizationEpoch) {
         mutableStateOf(false)
@@ -137,6 +150,7 @@ fun FaroV5AvisosScreen(readPort: FaroV5AvisosReadPort?) {
             if (summaryRequested) {
                 Text(FaroV5AvisosSurfacePolicy.summary(current))
             }
+            receipt?.let { Text(it) }
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(FaroV5Spacing.small),
             ) {
@@ -148,6 +162,34 @@ fun FaroV5AvisosScreen(readPort: FaroV5AvisosReadPort?) {
                             style = MaterialTheme.typography.labelMedium,
                         )
                         Text(item.summary, style = MaterialTheme.typography.bodyLarge)
+                        val port = readPort
+                        val revision = item.ownerRevision
+                        if (port?.supportsReviewedAttention == true && revision != null) {
+                            for (seen in listOf(true, false)) {
+                                val request = item.opaqueId to seen
+                                if (reviewed == request) {
+                                    Text(if (seen) "Revisar: marcar visto" else "Revisar: descartar aviso")
+                                    Button(onClick = {
+                                        reviewed = null
+                                        scope.launch {
+                                            val result = try {
+                                                withContext(Dispatchers.IO) {
+                                                    port.actAfterReviewedClick(item.opaqueId, revision, seen)
+                                                }
+                                            } catch (cancel: CancellationException) {
+                                                throw cancel
+                                            } catch (_: Exception) { null }
+                                            receipt = result ?: "Acción no confirmada. Volvé a consultar."
+                                        }
+                                    }) { Text(if (seen) "Confirmar visto" else "Confirmar descarte") }
+                                    Button(onClick = { reviewed = null }) { Text("Cancelar") }
+                                } else if (reviewed == null) {
+                                    Button(onClick = { reviewed = request }) {
+                                        Text(if (seen) "Revisar visto" else "Revisar descarte")
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

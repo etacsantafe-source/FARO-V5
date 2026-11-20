@@ -1,0 +1,77 @@
+name: FARO V5 W03-E Asuntos Recordatorios Avisos isolated Android DEV
+on:
+  push:
+    branches:
+      - work/s3-night-20261102
+    paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/w03MattersDev/**"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt"
+      - "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevAuthority.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/FaroV5ActiveAvisosBindingFactory.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt"
+      - "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5AvisosSurface.kt"
+      - ".github/workflows/faro-v5-s4-w03-e-matters-android.yml"
+permissions:
+  contents: read
+jobs:
+  build-w03-isolated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: FARO B1-B7 protocol gate on full history
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android platform 37 for compilation
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Assemble only W03 DEV offline package
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            :app:assembleW03MattersDev
+      - name: Verify APK, package, launcher, no OS delivery permissions
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk="$(find v5/app/build/outputs/apk/w03MattersDev -maxdepth 1 -type f -name '*.apk' -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" > /tmp/faro-w03-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('/tmp/faro-w03-badging.txt').read_text()
+          assert "package: name='ar.com.faro.alpha.w03mattersdev'" in s
+          assert s.count('launchable-activity:') == 1
+          assert 'FaroV5W03MattersDevActivity' in s
+          for forbidden in ('INTERNET','POST_NOTIFICATIONS','SCHEDULE_EXACT_ALARM',
+                            'RECEIVE_BOOT_COMPLETED','FOREGROUND_SERVICE'):
+              assert 'android.permission.' + forbidden not in s, forbidden
+          print('W03 E DEV APK offline manifest PASS')
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w03-e-dev-apk-manifest
+          if-no-files-found: warn
+          path: |
+            v5/app/build/outputs/apk/w03MattersDev/*.apk
+            v5/app/build/outputs/logs/manifest-merger-*.txt

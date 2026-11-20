@@ -37,6 +37,7 @@ object FaroV5ActiveAvisosBindingFactory {
      * Recheck the graph's pinned pointer before and after reading the owner.
      */
     @JvmStatic
+    @JvmOverloads
     fun createPinned(
         readCanonical: Supplier<List<NoticeSnapshot>>,
         expectedGeneration: String,
@@ -44,6 +45,7 @@ object FaroV5ActiveAvisosBindingFactory {
         startupReady: BooleanSupplier,
         pinnedPointerCurrent: BooleanSupplier,
         invalidations: Flow<Unit>,
+        attentionClick: ((String, Long, Boolean) -> String?)? = null,
     ): FaroV5AvisosReadPort {
         require(expectedGeneration.isNotBlank())
 
@@ -55,6 +57,16 @@ object FaroV5ActiveAvisosBindingFactory {
 
         return object : FaroV5AvisosReadPort {
             override val invalidations: Flow<Unit> = invalidations
+            override val supportsReviewedAttention: Boolean = attentionClick != null
+
+            override suspend fun actAfterReviewedClick(id: String, revision: Long, seen: Boolean): String? {
+                if (attentionClick == null || revision <= 0L || !admitted()) return null
+                val before = runCatching { readCanonical.get() }.getOrNull() ?: return null
+                val exact = before.singleOrNull { it.noticeId.value == id } ?: return null
+                if (exact.revision != revision || exact.relevance != NoticeRelevance.OPEN ||
+                    exact.attention == NoticeAttention.DISMISSED || !admitted()) return null
+                return attentionClick(id, revision, seen).takeIf { admitted() }
+            }
 
             override suspend fun readNotices(): FaroV5AvisosPage? {
                 if (!admitted()) return null
@@ -77,6 +89,7 @@ object FaroV5ActiveAvisosBindingFactory {
                     active.take(100).map { notice ->
                         FaroV5AvisoItem(
                             opaqueId = notice.noticeId.value,
+                            ownerRevision = if (attentionClick != null) notice.revision else null,
                             summary = if (notice.sensitivity == NoticeSensitivity.SENSITIVE)
                                 "Aviso privado" else notice.summary.value,
                             importance = if (notice.materiality == NoticeMateriality.NEEDS_ATTENTION)

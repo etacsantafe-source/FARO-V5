@@ -526,6 +526,22 @@ internal class FaroV5V2CoreDevAuthority(
                     },
                     invalidations = merge(access.invalidations,
                         avisosChanges.map { Unit }),
+                    attentionClick = if (application.packageName == W03_MATTERS_DEV_ID) {
+                        { id: String, revision: Long, seen: Boolean ->
+                            val result = runCatching {
+                                applyAvisosAttentionAfterExplicitClick(
+                                    UUID.randomUUID().toString(), NoticeId.of(id), revision,
+                                    if (seen) NoticeAttention.SEEN else NoticeAttention.DISMISSED,
+                                    foreground,
+                                )
+                            }.getOrNull()
+                            when (result) {
+                                is S4W03NoticeAttentionReceiptV4Result.Committed ->
+                                    "Recibo de atención · revisión " + result.resultRevision
+                                else -> null
+                            }
+                        }
+                    } else null,
                 )
                 graph.auxiliary.addNoticeCommitListener(ownerListener)
                 avisosOwnerListener = ownerListener

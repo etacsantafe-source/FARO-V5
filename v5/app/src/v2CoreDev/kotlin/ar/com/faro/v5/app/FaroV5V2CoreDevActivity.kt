@@ -32,7 +32,7 @@ internal object FaroV5V2CoreDevPackagePolicy {
     fun accepts(packageName: String): Boolean =
         packageName == ORIGINAL_DEV || packageName == G15_ISOLATED_DEV ||
             packageName == "ar.com.faro.alpha.s3integrateddev" ||
-            packageName == W01_FINANCE_DEV || packageName == W02_OBJECTIVES_DEV_ID
+            packageName == W01_FINANCE_DEV || packageName == W02_OBJECTIVES_DEV_ID || packageName == W03_MATTERS_DEV_ID
 }
 
 /**
@@ -51,6 +51,10 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     // Inert in every variant except the explicitly isolated W01 DEV launcher.
     internal open fun skipChatSelectionForDedicatedRoute(): Boolean = false
     internal open fun onDedicatedOwnerSessionOpened(active: FaroV5V2CoreDevAuthority.Session): Boolean = false
+    internal open fun onDedicatedOwnerSessionOpenedWithAvisos(
+        active: FaroV5V2CoreDevAuthority.Session,
+        avisosRead: ar.com.faro.v5.surface.FaroV5AvisosReadPort?,
+    ): Boolean = onDedicatedOwnerSessionOpened(active)
     internal open fun onDedicatedOwnerOpenFailed() = Unit
 
     private val executor = Executors.newSingleThreadExecutor()
@@ -157,6 +161,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
         requestPlanning8Upgrade: Boolean = false,
         requestBookmarkRead: Boolean = false,
         requestFinance9Upgrade: Boolean = false,
+        requestAuxiliary4Upgrade: Boolean = false,
         onAccepted: () -> Unit = {},
     ) {
         if ((requestBookmarkRead || requestAvisosRead) && !lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
@@ -193,13 +198,15 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 val root = rootPath()
                 val authority = FaroV5V2CoreDevAuthority(root, admission,
                     w01Finance9 = enablesW01Finance9() &&
-                        packageName == S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID,
+                        (packageName == S4W01D1B1AActiveFinanceSnapshotRead.DEV_APPLICATION_ID ||
+                            packageName == W03_MATTERS_DEV_ID),
                 )
                 val foreground = {
                     !disposed.get() && !isFinishing && !isDestroyed &&
                         lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
                 }
                 val current = when {
+                    requestAuxiliary4Upgrade -> authority.upgradeAuxiliary4AfterExplicitForegroundRequest(foreground)
                     requestFinance9Upgrade -> authority.upgradeFinance9AfterExplicitForegroundRequest(foreground)
                     requestPlanning8Upgrade -> authority.upgradePlanning8AfterExplicitForegroundRequest(foreground)
                     else -> authority.open()
@@ -272,7 +279,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                         } else null
                         val userRequestedPending = pendingDueReadRequest.getAndSet(false)
                         val userRequestedBookmarks = pendingBookmarkReadRequest.getAndSet(false)
-                        if (onDedicatedOwnerSessionOpened(active)) {
+                        if (onDedicatedOwnerSessionOpenedWithAvisos(active, avisosRead)) {
                             // W01-only route consumed the just-opened Session. Chat remains untouched.
                             listOf(openButton, activityButton, avisosButton, dueButton,
                                 bookmarksButton, upgradeButton).forEach { it.isEnabled = true }

@@ -41,6 +41,7 @@ object FaroV5SurfaceHost {
         assistantRequestMode: FaroV5AssistantRequestMode = FaroV5AssistantRequestMode.AUTOMATIC_ON_SEND,
         reviewDisclosureMode: FaroV5ReviewDisclosureMode = FaroV5ReviewDisclosureMode.LEGACY_EXPANDED,
         objectivesViewFactory: ((openChat: () -> Unit) -> View)? = null,
+        mattersViewFactory: ((openChat: () -> Unit) -> View)? = null,
     ) {
         activity.setContent {
             androidx.compose.runtime.CompositionLocalProvider(LocalFaroV5BookmarkChatActions provides bookmarkChatActions) {
@@ -58,6 +59,17 @@ object FaroV5SurfaceHost {
                             AndroidView(
                                 factory = {
                                     objectivesViewFactory {
+                                        backStack.clear()
+                                        backStack.add(FaroV5ShellDestination.CHAT)
+                                        objectivesReviewRefresh.intValue++
+                                    }
+                                },
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        } else if (destination == FaroV5ShellDestination.ASUNTOS && mattersViewFactory != null) {
+                            AndroidView(
+                                factory = {
+                                    mattersViewFactory {
                                         backStack.clear()
                                         backStack.add(FaroV5ShellDestination.CHAT)
                                         objectivesReviewRefresh.intValue++

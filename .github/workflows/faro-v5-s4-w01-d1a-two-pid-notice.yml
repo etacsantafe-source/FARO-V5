@@ -16,6 +16,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   android-w01-two-pid:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W01_D1A_ANDROID_TWO_PID_PRIVATE_NOTICE_TRANSPORT_DEV')
     runs-on: ubuntu-latest
     timeout-minutes: 75
     steps:

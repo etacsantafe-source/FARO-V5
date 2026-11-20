@@ -19,6 +19,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   private-invalidation:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'FARO-UNIT:S4_W01_B3B1B1B1B1B1B_ANDROID_PRIVATE_INVALIDATION_DEV')
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
