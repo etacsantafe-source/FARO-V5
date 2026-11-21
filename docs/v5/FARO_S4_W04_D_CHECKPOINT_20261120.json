@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "branch": "work/s3-night-20261102",
+  "scope": "W04_D0_D1_B7_PASS_SCOPED_DEV_D2A_B1_B5_NO_READY",
+  "last_functional_code_sha": "7c7aaa18acb9c3b9d084fbd0c02f0e1f6ee13d18",
+  "writer_expected_released_epoch": 1497,
+  "d0": {
+    "status": "PASS_SCOPED_DEV",
+    "code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
+    "ci": 44853703822,
+    "xml": "12/12",
+    "b7_doc": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B7_PASS_20261120.md"
+  },
+  "d1": {
+    "status": "PASS_SCOPED_STAGED_DEV",
+    "code_sha": "7c7aaa18acb9c3b9d084fbd0c02f0e1f6ee13d18",
+    "ci": 44856347260,
+    "guard": 44856347218,
+    "xml": "12/12",
+    "b7_doc": "docs/v5/FARO_S4_W04_D1_CART_COVERAGE_B7_PASS_20261120.md",
+    "failed_ci_runs": [
+      44855192529,
+      44855793778
+    ],
+    "fix_scopes": [
+      "TEST_PLUS_WORKFLOW",
+      "TEST_ONLY"
+    ],
+    "product_code_unchanged": true
+  },
+  "d2a": {
+    "status": "B1_B5_DOC_ONLY_NO_READY",
+    "preaudit": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md"
+  },
+  "d2b": "DESIGN_ONLY",
+  "d3": "DESIGN_ONLY",
+  "d4": "DESIGN_ONLY",
+  "android_g15": "NOT_RUN",
+  "active_quote_host": "NOT_RUN",
+  "finance_mutation": "NOT_AUTHORIZED",
+  "v2_productive": "OFF",
+  "next": "D2A doc guard then exact3 READY and B6 with no repeat D0/D1; D2B/D3/D4 pending"
+}

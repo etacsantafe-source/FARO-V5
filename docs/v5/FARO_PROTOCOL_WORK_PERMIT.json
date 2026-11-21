@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
   "reviewed_head": "3db22a9362ab0eb7b2b6f516411ad0a19adc7770",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_STAGED_DEV"
   },
   "last_code_review": {
-    "sha": "3db22a9362ab0eb7b2b6f516411ad0a19adc7770",
+    "sha": "7c7aaa18acb9c3b9d084fbd0c02f0e1f6ee13d18",
     "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D1_B7_RED_FIX2_20261120.md",
-        "blob_sha": "b506133ee68a3b4e2773823eb0ba7fd93a27a154",
+        "path": "docs/v5/FARO_S4_W04_D1_CART_COVERAGE_B7_PASS_20261120.md",
+        "blob_sha": "42ac77454caf82d41940cc20f14c64dc1aa3a836",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1 second CI 44855793778 12 tests discovered, one stale assertion commercialChecks >4 after threshold 3; RED_FIX ONE TEST only, product unchanged.",
-  "how": "D1_SAME_UNIT_RED_FIX2_TEST_ONLY_EXACT1",
+  "why": "D1 code f3dbc intact; 2 test-only RED_FIX; final CI 44856347260 SUCCESS 12/12 XML, guard 44856347218 SUCCESS, READY consumed. D2A own B1-B5, no inherited permission.",
+  "how": "BLOCKED_D1_CONSUMED_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 44854926784,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_D1_RED_FIX2_TEST_ONLY_B6",
-  "completed_guard": 44853703753,
-  "completed_ci": 44853703822,
+  "next": "W04_D2A_OWN_B1_B5_GUARD_BEFORE_READY",
+  "completed_guard": 44856347218,
+  "completed_ci": 44856347260,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14686911469,
+  "completed_artifact_id": 14687702076,
   "ready_guard": 44853071766
 }
