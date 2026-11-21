@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
-  "reviewed_head": "891b67b1645ee4de467b05a6a3d14c931baffa22",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
+  "reviewed_head": "6fa5518d6d20d473eed4599d16828c66b4bcc5af",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialPreReviewEnvelope.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialPreReviewEnvelopeTest.kt",
+    ".github/workflows/faro-v5-s4-w04-d3a-pre-review-envelope.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
-          "blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
+          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
+          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
-          "blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
+          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
+          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
-          "blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
+          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
+          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
-          "blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
+          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
+          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
-          "blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
+          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
+          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "891b67b1645ee4de467b05a6a3d14c931baffa22",
@@ -70,22 +74,17 @@
       }
     ]
   },
-  "why": "D2C1 guarded CI 44920363191 XML 8/8 independently inspected, no finance or cashback amount",
-  "how": "D2C1_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
+  "why": "Pure preview digest of D2C0+D2C1 read models; not LIVE host revalidation or apply, no payments",
+  "how": "D3A_EXACT3_READY_WORK_MAX9PCT_WEEKLY_JVM8",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-21",
-    "scope": "Continue FARO V5 after D2C0 Work finished; prepare next scoped DEV Work unit with only 9% weekly credits, no activation/egress/payment/stock"
+    "scope": "Continue FARO V5 using remaining 9% Work weekly limit, prepare D3A scoped read-only JVM DEV B1-B5/READY, no D3B Apply/activation"
   },
-  "preaudit_guard": 44919975105,
+  "preaudit_guard": 44921127903,
   "previous_unit": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B7_PASS_20261121.md",
-  "next": "W04_D3A_B1_B5_DOC_ONLY_SEPARATE_PERMISSION_REQUIRED",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
-  "completed_guard": 44920363123,
-  "completed_ci": 44920363191,
-  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14713731446,
-  "ready_guard": 44920117431
+  "next": "W04_D3A_WORK_B6_B7_JVM8_ONLY",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
 }

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-21",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D3A_PRE_REVIEW_B1_B5_DOC_ONLY",
+  "phase": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_B1_B5_VERIFIED_READY_EXACT3",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D3A_DOC",
-    "epoch": 1536
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D3A_WORK_HANDOFF",
+    "epoch": 1538
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-D3A preaudit documentary guard then independent READY exact3; Work can finish eight tests/B7; D3B/D4/E/F not authorized",
-  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_B7_PASS_D3A_DOC_ONLY_GUARD_PENDING",
+  "next": "Work W04-D3A B6/B7 only eight directed JVM tests and real XML; D3B Apply, D4/E/F not permitted",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_B7_PASS_D3A_READY_EXACT3_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "891b67b1645ee4de467b05a6a3d14c931baffa22",
@@ -6225,8 +6225,16 @@
     "unit_id": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
     "preaudit": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
     "preaudit_blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
-    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "status": "READY_EXACT3_GUARD_PENDING",
     "tests": "8_JUNIT_PLANNED_NOT_RUN",
-    "work_budget": "9_PERCENT_WEEKLY_USER_REPORTED"
+    "work_budget": "USER_REPORTED_9_PERCENT_WEEKLY",
+    "ready_parent": "6fa5518d6d20d473eed4599d16828c66b4bcc5af",
+    "preaudit_guard": 44921127903,
+    "paths": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialPreReviewEnvelope.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialPreReviewEnvelopeTest.kt",
+      ".github/workflows/faro-v5-s4-w04-d3a-pre-review-envelope.yml"
+    ],
+    "planned_tests": 8
   }
 }
