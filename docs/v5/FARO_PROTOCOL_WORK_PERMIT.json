@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B2H2A_LOCAL_TYPED_JSON_CODEC_DEV",
   "reviewed_head": "88202f4fa8975f7cc94e33a72895b3f93a3eb1f2",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_LOCAL_CODEC_DEV"
   },
   "last_code_review": {
-    "sha": "db4fdd3485deff9ab36aee9b5335b6328f90c4ba",
-    "unit_id": "S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV",
+    "sha": "d4199af06dda06b947e4bbed254859e07c23386e",
+    "unit_id": "S4_W04_C1B2H2A_LOCAL_TYPED_JSON_CODEC_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_B7_PASS_20261120.md",
-        "blob_sha": "8fe8df00d3a10cf92790890dc727d579479a2412",
+        "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B7_PASS_20261120.md",
+        "blob_sha": "62c9fe1a5f70730685413bec6a44de4f0a02e538",
         "marker": "## B7"
       }
     ]
   },
-  "why": "H2A only pure local codec, no file write/export/egress. B1–B5 doc exact3 verified; guard 44848082686 SUCCESS. RED_FIX: B6/B7 protocol exact readiness values, previous guard 44848181371 RED preflight.",
-  "how": "B6 exact3 preflight on HEAD^; JVM CI XML; B7 scoped; consume READY; H2B separate.",
+  "why": "H2A 8/8 exact JUnit XML SUCCESS CI 44848421308, guard 44848421273 SUCCESS, B7 PASS. READY consumed. H2B own B1–B5 before new READY.",
+  "how": "BLOCKED_H2A_CONSUMED_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,9 +85,9 @@
   "preaudit_guard": 44848082686,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2H2A_B6_LOCAL_CODEC_ONLY",
-  "completed_guard": 44846516826,
-  "completed_ci": 44846516892,
+  "next": "W04_C1B2H2B_PREAUDITED_NOT_READY",
+  "completed_guard": 44848421273,
+  "completed_ci": 44848421308,
   "completed_xml": "8/8_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14683143016
+  "completed_artifact_id": 14684940389
 }

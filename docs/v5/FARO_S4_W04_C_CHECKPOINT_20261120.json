@@ -4,7 +4,7 @@
   "unit": "S4_W04_C_PREAUDIT",
   "baseline_head": "a60c184d116bd0c8a9ddc6941a6eb3478b5455a6",
   "branch": "work/s3-night-20261102",
-  "scope": "C1B2G_B7_PASS_AND_C1B2H1_PREAUDIT_DOC",
+  "scope": "C1B2H2A_B7_PASS_AND_H2B_PREAUDITED",
   "first_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
   "first_unit_paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialNeedProductSelection.kt",
@@ -102,8 +102,8 @@
   "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
   "new_functional_code": true,
   "tests_run_this_turn": "C1B2G_5_5_NEW_PLUS_5_5_LEGACY_G4_REGRESSION_SUCCESS",
-  "writer": "RELEASE_AFTER_C1B2H1_B7_DOC_EPOCH_1467",
-  "next": "C1b2H2 JSON/profile/approval/egress separate design-only; own B1-B5 and gate before code",
+  "writer": "RELEASE_AFTER_H2A_B7_DOC_EPOCH_1473",
+  "next": "H2B B1-B5 check and new READY exact5 before code",
   "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
   "guard_documental": {
     "run_id": 44770729719,
@@ -156,5 +156,11 @@
   "c1b2h1_guard_run": 44846516826,
   "c1b2h1_artifact_id": 14683143016,
   "c1b2h1_b7_document": "docs/v5/FARO_S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_B7_PASS_20261120.md",
-  "c1b2h2_preaudit": "docs/v5/FARO_S4_W04_C1B2H2_VERSIONED_JSON_EXPORT_PREAUDIT_20261120.md"
+  "c1b2h2_preaudit": "docs/v5/FARO_S4_W04_C1B2H2_VERSIONED_JSON_EXPORT_PREAUDIT_20261120.md",
+  "c1b2h2a_code_sha": "d4199af06dda06b947e4bbed254859e07c23386e",
+  "c1b2h2a_b7_document": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B7_PASS_20261120.md",
+  "c1b2h2a_ci_run": 44848421308,
+  "c1b2h2a_guard_run": 44848421273,
+  "c1b2h2a_xml": "8/8",
+  "c1b2h2b_preaudit": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md"
 }
