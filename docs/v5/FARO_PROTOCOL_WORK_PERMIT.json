@@ -59,8 +59,8 @@
         }
       ]
     },
-    "B6": "NOT_STARTED",
-    "B7": "NOT_RUN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "db4fdd3485deff9ab36aee9b5335b6328f90c4ba",
@@ -74,7 +74,7 @@
       }
     ]
   },
-  "why": "H2A only pure local codec, no file write/export/egress. B1–B5 doc exact3 verified; guard 44848082686 SUCCESS.",
+  "why": "H2A only pure local codec, no file write/export/egress. B1–B5 doc exact3 verified; guard 44848082686 SUCCESS. RED_FIX: B6/B7 protocol exact readiness values, previous guard 44848181371 RED preflight.",
   "how": "B6 exact3 preflight on HEAD^; JVM CI XML; B7 scoped; consume READY; H2B separate.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
