@@ -1,0 +1,72 @@
+name: FARO V5 W04-D0 commercial cart draft
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialCartDraft.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialCartDraftTest.kt
+      - .github/workflows/faro-v5-s4-w04-d0-cart-draft.yml
+
+permissions:
+  contents: read
+
+jobs:
+  w04-d0-cart-draft:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_D0_CART_DRAFT_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: D0 exact three-route protocol preflight against parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_D0_CART_DRAFT_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK required for Gradle configuration
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run D0 isolated JVM cart draft tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04CommercialCartDraftTest
+      - name: Require exact D0 JUnit XML 12 of 12
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/app/build/test-results').rglob('TEST-*S4W04CommercialCartDraftTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+          assert counts == (12, 0, 0, 0), counts
+          print('W04_D0_CART_DRAFT_XML_PASS 12/12')
+          PY
+      - name: Preserve D0 XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-d0-cart-draft-xml
+          if-no-files-found: error
+          path: v5/app/build/test-results/**/TEST-*S4W04CommercialCartDraftTest.xml
