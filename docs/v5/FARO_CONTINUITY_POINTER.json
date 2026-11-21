@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-21",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_DOC_ONLY",
+  "phase": "S4_W04_D2C1_DEFERRED_BENEFITS_READY_EXACT3_FOR_WORK",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2C1_B1_B5_DOC",
-    "epoch": 1528
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2C1_READY_DOC",
+    "epoch": 1530
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D2C1 preaudit guard then READY exact3 and B6/B7; no D3/D4/E/F",
-  "checkpoint_status": "W04_D2C0_B7_PASS_D2C1_PREAUDIT_DOC_ONLY_GUARD_PENDING",
+  "next": "Work only D2C1 B6/B7 8 JUnit real XML; defer D3/D4/E/F, leave writer RELEASED on stop",
+  "checkpoint_status": "W04_D2C0_B7_PASS_D2C1_B1_B5_READY_EXACT3_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "c0a575f2312714b4abcc62c83eb30bb4c6311951",
@@ -6201,8 +6201,16 @@
     "unit_id": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
     "preaudit": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
     "preaudit_blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
-    "status": "DOC_ONLY_GUARD_PENDING",
+    "status": "READY_EXACT3_GUARD_PENDING",
     "tests": "8_JUNIT_PLANNED_NOT_RUN",
-    "work_weekly_remaining": "USER_REPORTED_9_PERCENT"
+    "work_weekly_remaining": "USER_REPORTED_9_PERCENT",
+    "ready_from": "e2c300b0d907afaef75d6c73aab32f1144b44ad0",
+    "preaudit_guard": 44919975105,
+    "paths": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04DeferredCommercialBenefitNotes.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04DeferredCommercialBenefitNotesTest.kt",
+      ".github/workflows/faro-v5-s4-w04-d2c1-deferred-notes.yml"
+    ],
+    "work_budget": "9_PERCENT_WEEKLY_USER_REPORTED"
   }
 }
