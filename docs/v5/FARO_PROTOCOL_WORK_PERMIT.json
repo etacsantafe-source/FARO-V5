@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV",
   "reviewed_head": "49990f5fb5ef831a24415cd2212f525cb90f63be",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_STAGED_DEV"
   },
   "last_code_review": {
-    "sha": "d4199af06dda06b947e4bbed254859e07c23386e",
-    "unit_id": "S4_W04_C1B2H2A_LOCAL_TYPED_JSON_CODEC_DEV",
+    "sha": "b6dff51670b74c1ddea51d48fb49ef17e567ed7c",
+    "unit_id": "S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B7_PASS_20261120.md",
-        "blob_sha": "62c9fe1a5f70730685413bec6a44de4f0a02e538",
+        "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_B7_PASS_20261120.md",
+        "blob_sha": "e227d5c071457404cd21fcd6e70765a0c4b3fc19",
         "marker": "## B7"
       }
     ]
   },
-  "why": "H2A B7 PASS documented at checkpoint 49990f5; guard 44848971758 SUCCESS, H2B B1–B5 exact5 frozen. No automatic egress, only explicit user-selected document later.",
-  "how": "B6 exact5 parent READY, directed JVM :maintenance:test XML and legacy regressions; B7 scoped; consume READY",
+  "why": "H2B 10/10 JVM XML PASS CI 44849294556, guard 44849294438 SUCCESS, Guardados regression 44849294456 SUCCESS; scoped C1B2 global B7 PASS. H2B READY consumed. C2/C3 own B1–B5/permit.",
+  "how": "BLOCKED_C1B2_H2B_CONSUMED_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -87,9 +87,10 @@
   "preaudit_guard": 44848971758,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2H2B_B6_EXACT5",
-  "completed_guard": 44848421273,
-  "completed_ci": 44848421308,
-  "completed_xml": "8/8_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14684940389
+  "next": "W04_C2_C3_B1_B5_NO_READY",
+  "completed_guard": 44849294438,
+  "completed_ci": 44849294556,
+  "completed_xml": "10/10_JVM_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14685000800,
+  "completed_regression_run_id": 44849294456
 }

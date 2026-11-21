@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-20",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_C1B2H2A_B7_PASS_H2B_PREAUDITED_NO_READY",
+  "phase": "S4_W04_C1B2_GLOBAL_B7_PASS_SCOPED_DEV_C2_C3_PREAUDIT_NO_READY",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_H2A_B7_DOC",
-    "epoch": 1473
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_C1B2_B7_DOC",
+    "epoch": 1476
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "H2B typed V2 preview/fingerprint/consent and user-selected-document durable attempt; B1-B5 preaudited, no READY, no egress until independent guard/permission. C1B2 still OPEN.",
-  "checkpoint_status": "C1B2H2A_B7_PASS_SCOPED_DEV_8_OF_8_JVM",
+  "next": "W04-C2/C3 history/compare/refresh: revalidate B1–B5 and freeze exact routes, independent READY/guard before B6. C1B2 B7 PASS STAGED DEV; W04-C overall still OPEN; no actual export/Android G15.",
+  "checkpoint_status": "C1B2_B7_GLOBAL_PASS_SCOPED_STAGED_DEV_H2B_10_OF_10_XML_GUARD_GUARDADOS_SUCCESS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "d4199af06dda06b947e4bbed254859e07c23386e",
-  "last_ci_run_id": 44848421308,
+  "last_code_sha": "b6dff51670b74c1ddea51d48fb49ef17e567ed7c",
+  "last_ci_run_id": 44849294556,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_H2A_8_OF_8_XML",
+  "last_ci_conclusion": "SUCCESS_H2B_10_OF_10_XML",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -5920,7 +5920,7 @@
     "handoff": "docs/v5/FARO_S4_W04_C0_PRICE_READ_HANDOFF_AFTER_B1_20261120.md"
   },
   "w04_c": {
-    "status": "C0A_C0B_C1A_B7_PASS_C1B_OPEN",
+    "status": "C0A_C0B_C1A_C1B1_C1B2_B7_PASS_SCOPED_DEV_C2_C3_OPEN",
     "base_head": "a60c184d116bd0c8a9ddc6941a6eb3478b5455a6",
     "first_unit": "S4_W04_C0A_EXPLICIT_NEED_PRODUCT_MATCH_DEV",
     "first_unit_ready": false,
@@ -5939,8 +5939,8 @@
     "c0a_b7_doc": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
     "c0a_artifact_id": 14652917867,
     "c0a_artifact_zip_sha256": "a2b47b2d6733c4064f622dcde78bcdbce29c64320e30864752324fd39fd6a368",
-    "next_unit": "S4_W04_C1B_TYPED_COMMERCIAL_TERMS_MIGRATION_DEV",
-    "next_permit": "BLOCKED_UNTIL_C1B_B1_B5_DELTA_AND_GUARD",
+    "next_unit": "S4_W04_C2_C3_HISTORY_COMPARE_REFRESH_DEV",
+    "next_permit": "BLOCKED_C2_C3_UNTIL_OWN_B1_B5_AND_GUARD",
     "c0b_code_sha": "4f9808cc26956e6e49b3836487dee68f5b0b9d99",
     "c0b_ci_run_id": 44789820660,
     "c0b_ci_xml": "9/9",
@@ -5957,7 +5957,8 @@
     "c1a_artifact_id": 14663835058,
     "c1a_zip_sha256": "6ebdd3f54172e13e89729fc2e7efc85e06b796bd4f47ef4b4e22b49688b56e4e",
     "c1b_preaudit": "docs/v5/FARO_S4_W04_C1B_TYPED_TERMS_PREAUDIT_20261120.md",
-    "c1b_status": "DESIGN_ONLY_NOT_READY"
+    "c1b_status": "C1B1_AND_C1B2_B7_PASS_SCOPED_DEV",
+    "c1b2_global_b7": "docs/v5/FARO_S4_W04_C1B2_GLOBAL_B7_PASS_20261120.md"
   },
   "c1b1_b7": {
     "code_sha": "0e3664bb47f0e0bc81781668a4590e29ef0dd5dd",
@@ -6044,5 +6045,30 @@
   "c1b2h2b_preaudit": {
     "status": "DESIGN_ONLY_NO_READY",
     "document": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md"
+  },
+  "c1b2h2b_b7": {
+    "status": "PASS_SCOPED_STAGED_DEV",
+    "code_sha": "b6dff51670b74c1ddea51d48fb49ef17e567ed7c",
+    "ci_run_id": 44849294556,
+    "guard_run_id": 44849294438,
+    "xml": "10/10_JVM_ZERO_FAIL_ERROR_SKIP",
+    "artifact_id": 14685000800,
+    "regression_guardados_run_id": 44849294456,
+    "document": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_B7_PASS_20261120.md"
+  },
+  "c1b2_global_b7": {
+    "status": "PASS_SCOPED_STAGED_DEV",
+    "document": "docs/v5/FARO_S4_W04_C1B2_GLOBAL_B7_PASS_20261120.md",
+    "blob_sha": "3343abcb5db3ec9b37d5350391853d83c49b1c1b",
+    "subunits": [
+      "C1B2E",
+      "C1B2F",
+      "C1B2G",
+      "C1B2H1",
+      "C1B2H2A",
+      "C1B2H2B"
+    ],
+    "android": "NOT_RUN",
+    "external_export": "NOT_RUN"
   }
 }
