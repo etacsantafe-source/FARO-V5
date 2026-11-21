@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C1B2H2A_LOCAL_TYPED_JSON_CODEC_DEV",
-  "reviewed_head": "88202f4fa8975f7cc94e33a72895b3f93a3eb1f2",
+  "status": "READY",
+  "unit_id": "S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV",
+  "reviewed_head": "49990f5fb5ef831a24415cd2212f525cb90f63be",
   "paths": [
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityJsonCodec.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityJsonCodecTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c1b2h2a-local-typed-json.yml"
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityV2.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityExternalWrite.kt",
+    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityCore.kt",
+    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityV2Test.kt",
+    ".github/workflows/faro-v5-s4-w04-c1b2h2b-typed-export.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B1_B5_20261120.md",
-          "blob_sha": "22c75793eb7822a9f19d7de96458c6dbfed2ddf3",
+          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
+          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B1_B5_20261120.md",
-          "blob_sha": "22c75793eb7822a9f19d7de96458c6dbfed2ddf3",
+          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
+          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B1_B5_20261120.md",
-          "blob_sha": "22c75793eb7822a9f19d7de96458c6dbfed2ddf3",
+          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
+          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B1_B5_20261120.md",
-          "blob_sha": "22c75793eb7822a9f19d7de96458c6dbfed2ddf3",
+          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
+          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
           "marker": "## B4"
         }
       ]
@@ -53,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2A_LOCAL_TYPED_JSON_B1_B5_20261120.md",
-          "blob_sha": "22c75793eb7822a9f19d7de96458c6dbfed2ddf3",
+          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
+          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_XML_PASS",
-    "B7": "PASS_SCOPED_LOCAL_CODEC_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d4199af06dda06b947e4bbed254859e07c23386e",
@@ -74,18 +76,18 @@
       }
     ]
   },
-  "why": "H2A 8/8 exact JUnit XML SUCCESS CI 44848421308, guard 44848421273 SUCCESS, B7 PASS. READY consumed. H2B own B1–B5 before new READY.",
-  "how": "BLOCKED_H2A_CONSUMED_B7",
+  "why": "H2A B7 PASS documented at checkpoint 49990f5; guard 44848971758 SUCCESS, H2B B1–B5 exact5 frozen. No automatic egress, only explicit user-selected document later.",
+  "how": "B6 exact5 parent READY, directed JVM :maintenance:test XML and legacy regressions; B7 scoped; consume READY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "User requested finish W04 C1B2; authorizes bounded local codec programming; no third-party sharing or external egress."
+    "scope": "Finish C1B2 coding. No actual sharing or file export in this chat. API must require separate human-selected document and explicit approval."
   },
-  "preaudit_guard": 44848082686,
+  "preaudit_guard": 44848971758,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2H2B_PREAUDITED_NOT_READY",
+  "next": "W04_C1B2H2B_B6_EXACT5",
   "completed_guard": 44848421273,
   "completed_ci": 44848421308,
   "completed_xml": "8/8_JVM_ZERO_FAIL_ERROR_SKIP",
