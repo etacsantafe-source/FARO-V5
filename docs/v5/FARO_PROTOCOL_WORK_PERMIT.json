@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
-  "reviewed_head": "5286d912fc008095b52baf8fea5fcb2da0c11662",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummary.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummaryTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d2c0-merchant-summary.yml"
-  ],
+  "reviewed_head": "c0a575f2312714b4abcc62c83eb30bb4c6311951",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_WHAT_IF"
   },
   "last_code_review": {
-    "sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
-    "unit_id": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
+    "sha": "c0a575f2312714b4abcc62c83eb30bb4c6311951",
+    "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md",
-        "blob_sha": "15525341aef564a40883787a240f25f7296aacba",
+        "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B7_PASS_20261121.md",
+        "blob_sha": "feef13ddfc97dfa3bb42827d8a06aef01165ade1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Single small DEV-only read-model grouping D2A/D2B by exact commercial context, cashback unverified; eight JVM cases and no authority/payment",
-  "how": "D2C0_EXACT3_WORK_LIMIT_10_PERCENT_REMAINING_B6_B7",
+  "why": "D2C0 scoped JVM DEV B7 passes with eight distinct JUnit testcases and zero failure, error or skip on the exact functional SHA.",
+  "how": "D2C0_B7_XML8_GUARD_VERIFIED_PERMIT_CONSUMED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +81,11 @@
   "preaudit_guard": 44916476485,
   "previous_unit": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md",
-  "next": "WORK_B6_B7_D2C0_ONLY_WITH_APPROVED_8_JUNIT",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
+  "next": "D2C0_B7_CLOSED_AWAIT_SEPARATE_AUTHORIZATION",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
+  "ready_guard": 44916612951,
+  "completed_guard": 44917138983,
+  "completed_ci": 44917139054,
+  "completed_xml": "8/8_JVM_ZERO_FAIL_ERROR_SKIP_DISTINCT",
+  "completed_artifact_id": 14712660055
 }
