@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W04.D1.RED_FIX2_DOC",
   "token_hash": "f1495d04336da016f4ad09419e4dd047557897a035775a32f4bb224cde2a4adc",
-  "target_head": "3db22a9362ab0eb7b2b6f516411ad0a19adc7770",
+  "target_head": "0e170dc389909e72a3e1953ccc0b1ff344518272",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1495,
-  "timestamp": 1795228189,
-  "scope": "D1_B7_RED_FIX2_ONE_TEST_ASSERTION_DOC_ONLY"
+  "timestamp": 1795228212,
+  "scope": "D1_RED_FIX2_DOC_RELEASE"
 }
