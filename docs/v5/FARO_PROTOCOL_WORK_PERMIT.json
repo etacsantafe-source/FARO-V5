@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
-  "reviewed_head": "8c2d3f9e9a3dc076336b0263588824b4307291ac",
+  "reviewed_head": "f3dbc768b9194608b51baf373260d2ecfa136d37",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialCartCoverage.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialCartCoverageTest.kt",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
-    "unit_id": "S4_W04_D0_CART_DRAFT_DEV",
-    "result": "PASS",
+    "sha": "f3dbc768b9194608b51baf373260d2ecfa136d37",
+    "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B7_PASS_20261120.md",
-        "blob_sha": "764853e4b38b3e3db1d05f27a3d64e2f17983098",
+        "path": "docs/v5/FARO_S4_W04_D1_B7_RED_FIX_20261120.md",
+        "blob_sha": "de7704fd608c0a98e11f52702f909776b1f050af",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1 H1 STAGED-only cart price observation coverage; B1-B5 doc blob and guard 44854926784 SUCCESS; exact3 code paths; D0 B7 PASS; no active quotes, Finance or egress.",
-  "how": "D1_B6_EXACT3_PREFLIGHT_APP_JVM_XML_12_AND_B7",
+  "why": "D1 initial CI 44855192529 FAILED 1/11 discovered tests; test late revocation threshold 4, undiscovered return non-Unit test. RED_FIX only TEST+workflow, not product.",
+  "how": "SAME_UNIT_D1_RED_FIX_ONLY_TEST_WORKFLOW_EXACT2_WITH_PREFLIGHT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,7 +85,7 @@
   "preaudit_guard": 44854926784,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_D1_B6_STAGED_COVERAGE_DEV",
+  "next": "W04_D1_RED_FIX_SAME_UNIT",
   "completed_guard": 44853703753,
   "completed_ci": 44853703822,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
