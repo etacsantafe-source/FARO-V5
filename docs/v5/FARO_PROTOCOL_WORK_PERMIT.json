@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
-  "reviewed_head": "f3dbc768b9194608b51baf373260d2ecfa136d37",
+  "reviewed_head": "3db22a9362ab0eb7b2b6f516411ad0a19adc7770",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialCartCoverage.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialCartCoverageTest.kt",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "f3dbc768b9194608b51baf373260d2ecfa136d37",
+    "sha": "3db22a9362ab0eb7b2b6f516411ad0a19adc7770",
     "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D1_B7_RED_FIX_20261120.md",
-        "blob_sha": "de7704fd608c0a98e11f52702f909776b1f050af",
+        "path": "docs/v5/FARO_S4_W04_D1_B7_RED_FIX2_20261120.md",
+        "blob_sha": "b506133ee68a3b4e2773823eb0ba7fd93a27a154",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D1 initial CI 44855192529 FAILED 1/11 discovered tests; test late revocation threshold 4, undiscovered return non-Unit test. RED_FIX only TEST+workflow, not product.",
-  "how": "SAME_UNIT_D1_RED_FIX_ONLY_TEST_WORKFLOW_EXACT2_WITH_PREFLIGHT",
+  "why": "D1 second CI 44855793778 12 tests discovered, one stale assertion commercialChecks >4 after threshold 3; RED_FIX ONE TEST only, product unchanged.",
+  "how": "D1_SAME_UNIT_RED_FIX2_TEST_ONLY_EXACT1",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,7 +85,7 @@
   "preaudit_guard": 44854926784,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_D1_RED_FIX_SAME_UNIT",
+  "next": "W04_D1_RED_FIX2_TEST_ONLY_B6",
   "completed_guard": 44853703753,
   "completed_ci": 44853703822,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
