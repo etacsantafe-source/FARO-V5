@@ -63,18 +63,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "7c7aaa18acb9c3b9d084fbd0c02f0e1f6ee13d18",
-    "unit_id": "S4_W04_D1_CART_OBSERVATION_COVERAGE_DEV",
-    "result": "PASS",
+    "sha": "7410f26599fb55254a8524e7f1d1c6c39a36be25",
+    "unit_id": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D1_CART_COVERAGE_B7_PASS_20261120.md",
-        "blob_sha": "42ac77454caf82d41940cc20f14c64dc1aa3a836",
+        "path": "docs/v5/FARO_S4_W04_D2A_B7_RED_FIX_20261121.md",
+        "blob_sha": "8e4dfacf80b63f3fdc44d5860b0174608bea645b",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-D2A pure estimate of explicitly chosen observed cart quotes; B1-B5 doc 57f8a... and guard 44856950863 SUCCESS on D1 B7. Exact3 new paths only. No automatic discount, current price, finance, stock.",
+  "why": "D2A B7 RED_FIX: CI 44899047048 failed SMARTCAST_IMPOSSIBLE line 126; only motor Kotlin route may be corrected under same READY exact3",
   "how": "D2A_EXACT3_PREFLIGHT_JVM_12_XML_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,10 +85,19 @@
   "preaudit_guard": 44856950863,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_D2A_B6_ONLY",
+  "next": "D2A_ONE_PATH_KOTLIN_SMARTCAST_RED_FIX_B6_CI_B7",
   "completed_guard": 44856347218,
   "completed_ci": 44856347260,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
   "completed_artifact_id": 14687702076,
-  "ready_guard": 44853071766
+  "ready_guard": 44853071766,
+  "red_fix": {
+    "code_sha": "7410f26599fb55254a8524e7f1d1c6c39a36be25",
+    "ci_run": 44899047048,
+    "status": "RED_FIX",
+    "actual_issue": "SMARTCAST_IMPOSSIBLE cross-module nullable property line 126",
+    "allowed_delta": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ObservedCartBudget.kt"
+    ]
+  }
 }

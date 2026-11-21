@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "branch": "work/s3-night-20261102",
-  "scope": "W04_D0_D1_B7_PASS_SCOPED_DEV_D2A_READY_EXACT3",
+  "scope": "W04_D0_D1_B7_PASS_SCOPED_DEV_D2A_RED_FIX",
   "last_functional_code_sha": "7c7aaa18acb9c3b9d084fbd0c02f0e1f6ee13d18",
-  "writer_expected_released_epoch": 1498,
+  "writer_expected_released_epoch": 1502,
   "d0": {
     "status": "PASS_SCOPED_DEV",
     "code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
@@ -29,16 +29,14 @@
     "product_code_unchanged": true
   },
   "d2a": {
-    "status": "READY_EXACT3_B6_PENDING",
+    "status": "RED_FIX_KOTLIN_SMARTCAST",
     "unit_id": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
-    "preaudit": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md",
-    "guard": 44856950863,
-    "handoff": "docs/v5/FARO_S4_W04_D2A_WORK_TURBO_HANDOFF_20261120.md",
-    "paths": [
-      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ObservedCartBudget.kt",
-      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ObservedCartBudgetTest.kt",
-      ".github/workflows/faro-v5-s4-w04-d2a-observed-budget.yml"
-    ]
+    "initial_code_sha": "7410f26599fb55254a8524e7f1d1c6c39a36be25",
+    "guard": 44899047034,
+    "failed_ci": 44899047048,
+    "xml": "NOT_RUN_COMPILATION_FAILED",
+    "red_fix_doc": "docs/v5/FARO_S4_W04_D2A_B7_RED_FIX_20261121.md",
+    "next": "ONE_FILE_MOTOR_FIX_B6_THEN_B7"
   },
   "d2b": "DESIGN_ONLY",
   "d3": "DESIGN_ONLY",
@@ -47,5 +45,5 @@
   "active_quote_host": "NOT_RUN",
   "finance_mutation": "NOT_AUTHORIZED",
   "v2_productive": "OFF",
-  "next": "D2A B6/CI/B7 exact3, D2B/D3/D4 not authorized"
+  "next": "D2A_ONE_FILE_RED_FIX_CI_B7"
 }
