@@ -102,8 +102,8 @@
   "prior_done": "W04_A_B0_B1_B7_PASS_REUSE",
   "new_functional_code": true,
   "tests_run_this_turn": "C1B2G_5_5_NEW_PLUS_5_5_LEGACY_G4_REGRESSION_SUCCESS",
-  "writer": "RELEASE_AFTER_H1_READY_DOC_EPOCH_1465",
-  "next": "C1b2H1 exact4 staged typed portability B6/CI/B7, H2 JSON export separately",
+  "writer": "RELEASE_AFTER_C1B2H1_B7_DOC_EPOCH_1467",
+  "next": "C1b2H2 JSON/profile/approval/egress separate design-only; own B1-B5 and gate before code",
   "handoff": "docs/v5/FARO_S4_W04_C_WORK_HANDOFF_20261120.md",
   "guard_documental": {
     "run_id": 44770729719,
@@ -116,7 +116,7 @@
   "first_unit_ci_run": 44782895246,
   "first_unit_artifact_id": 14652917867,
   "b7_document": "docs/v5/FARO_S4_W04_C0A_EXPLICIT_PRODUCT_BINDING_B7_PASS_20261120.md",
-  "last_code_sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
+  "last_code_sha": "db4fdd3485deff9ab36aee9b5335b6328f90c4ba",
   "c0b_b7_document": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
   "c0b_ci_run": 44789820660,
   "c0b_guard_run": 44789820679,
@@ -150,5 +150,11 @@
   "c1b2g_g4_regression": 44826771655,
   "c1b2g_artifact_id": 14674122348,
   "c1b2g_b7_document": "docs/v5/FARO_S4_W04_C1B2G_STAGED_FIVE_STORE_B7_PASS_20261120.md",
-  "c1b2h1_preaudit": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md"
+  "c1b2h1_preaudit": "docs/v5/FARO_S4_W04_C1B2H1_TYPED_PORTABILITY_B1_B5_20261120.md",
+  "c1b2h1_code_sha": "db4fdd3485deff9ab36aee9b5335b6328f90c4ba",
+  "c1b2h1_ci_run": 44846516892,
+  "c1b2h1_guard_run": 44846516826,
+  "c1b2h1_artifact_id": 14683143016,
+  "c1b2h1_b7_document": "docs/v5/FARO_S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_B7_PASS_20261120.md",
+  "c1b2h2_preaudit": "docs/v5/FARO_S4_W04_C1B2H2_VERSIONED_JSON_EXPORT_PREAUDIT_20261120.md"
 }

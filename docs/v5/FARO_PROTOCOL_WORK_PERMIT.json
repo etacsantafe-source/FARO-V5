@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV",
   "reviewed_head": "ca511e05a387bf130ec6a5fa4a86ff39d888105d",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_STAGED_DEV"
   },
   "last_code_review": {
-    "sha": "ada348d07baf5dd26bd136a59f9e1afc8b27e1ac",
-    "unit_id": "S4_W04_C1B2G_STAGED_FIVE_STORE_EVIDENCE2_DEV",
+    "sha": "db4fdd3485deff9ab36aee9b5335b6328f90c4ba",
+    "unit_id": "S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2G_STAGED_FIVE_STORE_B7_PASS_20261120.md",
-        "blob_sha": "65f333c37aab9b21b40ebbc1f3dffc4dde7bee65",
+        "path": "docs/v5/FARO_S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_B7_PASS_20261120.md",
+        "blob_sha": "8fe8df00d3a10cf92790890dc727d579479a2412",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1b2G B7 PASS scoped, H1 typed portability stage-only B1–B5 blob fcfea3ffd48b6c0ab8cd999f2c5f174fade3a0bc guard 44827940406 SUCCESS. This READY does NOT authorize JSON/egress/PortabilityCore changes.",
-  "how": "B6 only four exact routes, staging typed in-memory snapshot/watermark without external export, legacy v1 remains fail-closed on schema2. CI evidence XML then B7 independently; H2 JSON/profile requires own gate.",
+  "why": "H1 8/8 JUnit XML SUCCESS CI 44846516892 guard 44846516826 SUCCESS. B7 PASS; previous H1 READY consumed. H2 requires independent B1–B5/permit. No export/egress.",
+  "how": "BLOCKED_H1_CONSUMED_B7; new H2 unit and exact route permit only after independent audit.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,9 +86,9 @@
   "preaudit_guard": 44827940406,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C1B2H1_STAGED_TYPED_PORTABILITY_B6_READY_EXACT4",
-  "completed_guard": null,
-  "completed_ci": null,
-  "completed_xml": "NOT_RUN_H1",
-  "completed_artifact_id": null
+  "next": "W04_C1B2H2_DESIGN_ONLY_NO_READY",
+  "completed_guard": 44846516826,
+  "completed_ci": 44846516892,
+  "completed_xml": "8/8_JVM_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14683143016
 }
