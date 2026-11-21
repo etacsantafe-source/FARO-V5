@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_C2_STAGED_TYPED_PRICE_COMPARISON_DEV",
   "reviewed_head": "6cb2ea42fdbabb2dc63d0e16b6f23be3a11080e4",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_STAGED_READ_ONLY_DEV"
   },
   "last_code_review": {
-    "sha": "b6dff51670b74c1ddea51d48fb49ef17e567ed7c",
-    "unit_id": "S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV",
+    "sha": "d208213f01c4e5b290cee0e23afe1472dfa3cdf1",
+    "unit_id": "S4_W04_C2_STAGED_TYPED_PRICE_COMPARISON_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_B7_PASS_20261120.md",
-        "blob_sha": "e227d5c071457404cd21fcd6e70765a0c4b3fc19",
+        "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B7_PASS_20261120.md",
+        "blob_sha": "daa4151d71ea21eed9f6c2b257f77516adb15749",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C2 read-only projection of H1 schema2: exact 3 new files; B1–B5 blob SHA and guard 44850398451 SUCCESS. C1B2 B7 global PASS. No C3 grant or write.",
-  "how": "B6 exact3 preflight HEAD^; :evidence:test JVM + 14 new XML tests; B7 independent then consume READY.",
+  "why": "C2 pure STAGED read-only comparison 14/14 JVM XML PASS CI 44850685841, code guard 44850685830 SUCCESS, B7 PASS. C3 separate unit B1–B5 and READY before any write.",
+  "how": "BLOCKED_C2_CONSUMED_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 44850398451,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C2_B6_DEV_READ_ONLY",
-  "completed_guard": 44849294438,
-  "completed_ci": 44849294556,
-  "completed_xml": "10/10_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14685000800,
+  "next": "W04_C3_B1_B5_GUARD_THEN_NEW_READY",
+  "completed_guard": 44850685830,
+  "completed_ci": 44850685841,
+  "completed_xml": "14/14_JVM_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14684613913,
   "completed_regression_run_id": 44849294456
 }
