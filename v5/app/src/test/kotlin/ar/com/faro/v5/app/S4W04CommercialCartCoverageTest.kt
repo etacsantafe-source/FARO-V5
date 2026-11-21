@@ -259,7 +259,7 @@ class S4W04CommercialCartCoverageTest {
 
     @Test fun lateRevocationOfCommercialGrantSuppressesAllResults() = Fixture("revoke").use { f ->
         f.seed()
-        f.rejectAfterCommercialCheck = 4
+        f.rejectAfterCommercialCheck = 3
         f.rejected(reason = CommercialCartCoverageRejection.NOT_AUTHORIZED)
         assertTrue(f.commercialChecks > 4)
     }
@@ -292,5 +292,7 @@ class S4W04CommercialCartCoverageTest {
         assertThrows(UnsupportedOperationException::class.java) {
             (v.lines as MutableList<CommercialCartCoverageLine>).clear()
         }
+        // JUnit5 @Test expression body must return Unit (not assertThrows' exception).
+        Unit
     }
 }
