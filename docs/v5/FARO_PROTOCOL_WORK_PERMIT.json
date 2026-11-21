@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
-  "reviewed_head": "9763be397c3b403697096c4fe6b2d8bfca440cbe",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ObservedCartBudget.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ObservedCartBudgetTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d2a-observed-budget.yml"
-  ],
+  "reviewed_head": "98a764eae0879b1849d643a8955e33edcc0058f1",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM"
   },
   "last_code_review": {
-    "sha": "863c002f997a135b35e9e837fc20e0fc6160d5e1",
+    "sha": "98a764eae0879b1849d643a8955e33edcc0058f1",
     "unit_id": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D2A_B7_RED_FIX2_20261121.md",
-        "blob_sha": "d2a5eb464f0525e7d05ec36a055e8e860c7d250a",
+        "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B7_PASS_20261121.md",
+        "blob_sha": "03cc2c65c6869fecfab0f81fab81bdda7e5306be",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D2A B7 RED_FIX2: run 44899537390 failed after PASS preflight because workflow required exactly3 changed paths for authorized single-route RED_FIX",
+  "why": "W04-D2A B7 PASS scoped DEV: guard 44899739792 SUCCESS, CI 44899739776 SUCCESS, XML 12/12 zero failures/errors/skips independently inspected; READY consumed",
   "how": "D2A_EXACT3_PREFLIGHT_JVM_12_XML_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -83,21 +79,16 @@
     "scope": "Continue FARO V5 after W4-D0 Work finished; prepare next small DEV units while conserving weekly Work. D2A only estimated historical budget; no activation/egress/payment."
   },
   "preaudit_guard": 44856950863,
-  "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "D2A_ONE_PATH_WORKFLOW_BOUNDED_SUBSET_RED_FIX_B6_CI_B7",
-  "completed_guard": 44856347218,
-  "completed_ci": 44856347260,
+  "previous_unit": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B7_PASS_20261121.md",
+  "next": "W04_D2B_B1_B5_DOC_ONLY_NOT_READY",
+  "completed_guard": 44899739792,
+  "completed_ci": 44899739776,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14687702076,
+  "completed_artifact_id": 14705727077,
   "ready_guard": 44853071766,
-  "red_fix": {
-    "code_sha": "863c002f997a135b35e9e837fc20e0fc6160d5e1",
-    "ci_run": 44899537390,
-    "status": "RED_FIX",
-    "actual_issue": "workflow test count eq3 disallows authorized single-file RED_FIX",
-    "allowed_delta": [
-      ".github/workflows/faro-v5-s4-w04-d2a-observed-budget.yml"
-    ]
-  }
+  "red_fix_resolved": [
+    "7410f26599fb55254a8524e7f1d1c6c39a36be25 SMARTCAST_IMPOSSIBLE",
+    "863c002f997a135b35e9e837fc20e0fc6160d5e1 WORKFLOW_SUBSET_BUG"
+  ]
 }
