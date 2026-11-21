@@ -244,6 +244,10 @@ class CommercialEvidenceStore(
     val portability: CommercialEvidencePortabilityPort =
         CommercialEvidencePortabilityPort(::readPortabilitySnapshot)
 
+    /** Explicit STAGED-only H1 read; not attached to JSON export or active graph. */
+    val stagedTypedPortability: CommercialEvidenceStagedTypedPortabilityPort =
+        CommercialEvidenceStagedTypedPortabilityPort(::readStagedTypedPortabilitySnapshot)
+
     init {
         require(!stagedSemanticBackupV2 || stagedTypedTermsV2) {
             "schema2 semantic backup opt-in requires explicit staged Evidence2"
@@ -672,6 +676,16 @@ class CommercialEvidenceStore(
                     records = readAllRecords(),
                 )
             }
+        }
+
+    private fun readStagedTypedPortabilitySnapshot(): CommercialEvidenceStagedTypedPortabilitySnapshot =
+        synchronized(lock) {
+            checkOpen()
+            check(stagedTypedTermsV2 && readSchemaVersion() == 2) {
+                "typed portability requires isolated STAGED Evidence2"
+            }
+            // The backup reader verifies schema, integrity, FK and typed fingerprints.
+            EvidencePortabilityProjection.commercialStagedTyped(readStagedTypedBackupSnapshot())
         }
 
     private fun readPortabilitySnapshot(): CommercialEvidencePortabilitySnapshot =

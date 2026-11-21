@@ -1,0 +1,72 @@
+name: FARO V5 W04-C1b2H1 STAGED typed portability in-memory DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/EvidencePortabilityPort.kt
+      - v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence.kt
+      - v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidenceStagedTypedPortabilityTest.kt
+      - .github/workflows/faro-v5-s4-w04-c1b2h1-typed-portability.yml
+
+permissions:
+  contents: read
+
+jobs:
+  c1b2h1-staged-typed-portability:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: H1 exact4 protocol preflight against parent permit
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_C1B2H1_STAGED_TYPED_PORTABILITY_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for Gradle configuration
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Evidence typed H1 and legacy portability JVM tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :evidence:test
+      - name: Verify H1 JUnit XML exactly eight tests, zero failures
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/evidence/build/test-results').rglob('TEST-*CommercialEvidenceStagedTypedPortabilityTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+          assert counts == (8,0,0,0), counts
+          print('W04_C1B2H1_STAGED_TYPED_PORTABILITY_JVM_XML_PASS 8/8')
+          PY
+      - name: Preserve Evidence JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-c1b2h1-staged-typed-portability-xml
+          if-no-files-found: error
+          path: v5/evidence/build/test-results/**/TEST-*.xml

@@ -33,6 +33,32 @@ fun interface CommercialEvidencePortabilityPort {
     fun snapshot(): CommercialEvidencePortabilitySnapshot
 }
 
+/**
+ * H1 is a STAGED-only, in-memory projection, NOT a portable bundle/backup.
+ * Deliberately omits Evidence IDs, execution idempotency and fingerprints.
+ * null terms = no physical v2 terms row; UNKNOWN = an explicit v2 terms row.
+ */
+data class PortableCommercialTypedObservation(
+    val observation: PortableCommercialObservation,
+    val terms: CommercialEvidenceTypedTerms?,
+)
+
+data class CommercialEvidenceStagedTypedPortabilitySnapshot(
+    val schemaVersion: Int,
+    val sourceWatermark: String,
+    val records: List<PortableCommercialTypedObservation>,
+) {
+    init {
+        require(schemaVersion == 2) { "staged commercial portability requires schema2" }
+        require(sourceWatermark.matches(Regex("[0-9a-f]{64}")))
+        require(records.size <= CommercialEvidencePortabilitySnapshot.MAX_RECORDS)
+    }
+}
+
+fun interface CommercialEvidenceStagedTypedPortabilityPort {
+    fun snapshot(): CommercialEvidenceStagedTypedPortabilitySnapshot
+}
+
 data class PortableWebFetchRecord(
     val requestedUrl: String,
     val finalUrl: String,
@@ -131,6 +157,70 @@ internal object EvidencePortabilityProjection {
         }
         return CommercialEvidencePortabilitySnapshot(
             schemaVersion = schemaVersion,
+            sourceWatermark = hash.sha256Hex(),
+            records = portable,
+        )
+    }
+
+    /**
+     * Pure and deterministic projection. Never joins the legacy PORTABLE_BUNDLE_V1
+     * export path: schema2 requires H2 codec, user preview and egress approval.
+     */
+    fun commercialStagedTyped(
+        snapshot: CommercialEvidenceStagedTypedBackupSnapshot,
+    ): CommercialEvidenceStagedTypedPortabilitySnapshot {
+        require(snapshot.schemaVersion == 2)
+        val portable = snapshot.rows.map { row ->
+            val record = row.record
+            PortableCommercialTypedObservation(
+                observation = PortableCommercialObservation(
+                    productKey = record.observation.productKey.value,
+                    merchant = record.observation.merchant.value,
+                    currencyCode = record.observation.currencyCode.value,
+                    amountMinor = record.observation.amountMinor,
+                    sourceKind = record.observation.sourceKind.name,
+                    sourceRef = record.observation.sourceRef,
+                    observedAtEpochMillis = record.observation.observedAtEpochMillis,
+                    acquiredAtEpochMillis = record.acquiredAtEpochMillis,
+                ),
+                terms = row.terms,
+            )
+        }.sortedWith(
+            compareBy<PortableCommercialTypedObservation>(
+                { it.observation.productKey },
+                { it.observation.merchant },
+                { it.observation.currencyCode },
+                { it.observation.observedAtEpochMillis ?: Long.MAX_VALUE },
+                { it.observation.acquiredAtEpochMillis },
+                { it.observation.amountMinor },
+                { it.observation.sourceKind },
+                { it.observation.sourceRef },
+                { it.terms != null },
+                { it.terms?.fingerprint() ?: "" },
+            )
+        )
+        require(portable.size <= CommercialEvidencePortabilitySnapshot.MAX_RECORDS)
+        val hash = CanonicalHashBuilder.domain("faro-portability-commercial-v2")
+            .string("schemaVersion", "2")
+            .string("count", portable.size.toString())
+        portable.forEachIndexed { index, record ->
+            val prefix = "record[$index]."
+            val observation = record.observation
+            hash.string(prefix + "productKey", observation.productKey)
+                .string(prefix + "merchant", observation.merchant)
+                .string(prefix + "currencyCode", observation.currencyCode)
+                .string(prefix + "amountMinor", observation.amountMinor.toString())
+                .string(prefix + "sourceKind", observation.sourceKind)
+                .string(prefix + "sourceRef", observation.sourceRef)
+                .string(prefix + "observed.present",
+                    (observation.observedAtEpochMillis != null).toString())
+                .string(prefix + "observed", observation.observedAtEpochMillis?.toString() ?: "")
+                .string(prefix + "acquired", observation.acquiredAtEpochMillis.toString())
+                .string(prefix + "terms.present", (record.terms != null).toString())
+                .string(prefix + "terms.fingerprint", record.terms?.fingerprint() ?: "")
+        }
+        return CommercialEvidenceStagedTypedPortabilitySnapshot(
+            schemaVersion = 2,
             sourceWatermark = hash.sha256Hex(),
             records = portable,
         )
