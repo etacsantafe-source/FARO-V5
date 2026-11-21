@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W04.D1.RED_FIX_DOC",
   "token_hash": "f1493de9a95f0959015532c9c7bf54550b0a8ce5b83b5f76a3243e860ebc9721",
-  "target_head": "f3dbc768b9194608b51baf373260d2ecfa136d37",
+  "target_head": "73758081e7d494922565a4e654f09fc01149bee9",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1493,
-  "timestamp": 1795227830,
-  "scope": "D1_B7_RED_FIX_TEST_DISCOVERY_AND_ACL_FIXTURE_ONLY"
+  "timestamp": 1795227852,
+  "scope": "D1_RED_FIX_DOC_RELEASE"
 }
