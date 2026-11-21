@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.W04.D2A.SMARTCAST_FIX.20261121",
-  "token_hash": "331f8723d785632669c61c0355bc23659377f239178c120020b75650baf5cde0",
+  "status": "HELD",
+  "owner": "FARO.CHAT.W04.D2A.RED_FIX2.20261121",
+  "token_hash": "a3941f4e6c3914d377b78a3964ff2517319a0d86d961000c61462b56b71a6b55",
   "target_head": "863c002f997a135b35e9e837fc20e0fc6160d5e1",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1504,
-  "timestamp": 1795260710,
-  "scope": "D2A_RED_FIX_ONE_FILE_COMMITTED_WAIT_CI_B7"
+  "epoch": 1505,
+  "timestamp": 1795260749,
+  "scope": "D2A_B7_SECOND_RED_FIX_DOC_ONLY_WORKFLOW_SUBSET"
 }
