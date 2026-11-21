@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-21",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_B1_B5_VERIFIED_READY_EXACT3",
+  "phase": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_B7_PASS_SCOPED_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D3A_WORK_HANDOFF",
-    "epoch": 1538
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D3A_B7_DOC",
+    "epoch": 1542
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Work W04-D3A B6/B7 only eight directed JVM tests and real XML; D3B Apply, D4/E/F not permitted",
-  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_B7_PASS_D3A_READY_EXACT3_GUARD_PENDING",
+  "next": "D3A DEV B7 cerrado. D3B, D4, E y F requieren autorización separada.",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_B7_PASS_SCOPED_DEV",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "891b67b1645ee4de467b05a6a3d14c931baffa22",
-  "last_ci_run_id": 44920363191,
+  "last_code_sha": "46b96cc326d529744aadbd60e13efb71d53684ea",
+  "last_ci_run_id": 44923205445,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_D2C0_8_OF_8_XML_ZERO_FAIL_ERROR_SKIP",
+  "last_ci_conclusion": "SUCCESS_D3A_8_OF_8_XML_ZERO_FAIL_ERROR_SKIP",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6225,8 +6225,8 @@
     "unit_id": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
     "preaudit": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
     "preaudit_blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
-    "status": "READY_EXACT3_GUARD_PENDING",
-    "tests": "8_JUNIT_PLANNED_NOT_RUN",
+    "status": "B7_PASS_SCOPED_DEV_JVM_READ_ONLY",
+    "tests": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
     "work_budget": "USER_REPORTED_9_PERCENT_WEEKLY",
     "ready_parent": "6fa5518d6d20d473eed4599d16828c66b4bcc5af",
     "preaudit_guard": 44921127903,
@@ -6235,6 +6235,17 @@
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialPreReviewEnvelopeTest.kt",
       ".github/workflows/faro-v5-s4-w04-d3a-pre-review-envelope.yml"
     ],
-    "planned_tests": 8
+    "planned_tests": 8,
+    "permit": "BLOCKED_CONSUMED",
+    "ready_sha": "d1367148c385fbfd529b8a259d0ce6ad3b568ce1",
+    "ready_guard": 44921265948,
+    "code_sha": "46b96cc326d529744aadbd60e13efb71d53684ea",
+    "guard": 44923205285,
+    "ci": 44923205445,
+    "artifact_id": 14715075769,
+    "xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
+    "b7_document": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B7_PASS_20261121.md",
+    "b7_blob_sha": "74ffedb6599930e5ba694c91afb05a1c5b47f48d",
+    "android_g15": "NOT_RUN"
   }
 }
