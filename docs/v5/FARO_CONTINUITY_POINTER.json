@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-20",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D0_CART_DRAFT_B1_B5_VERIFIED_READY_EXACT3_WAIT_WORK_B6",
+  "phase": "S4_W04_D0_CART_DRAFT_B7_PASS_SCOPED_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D0_READY_DOC",
-    "epoch": 1487
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D0_B7_DOC",
+    "epoch": 1489
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-D0 B6 3 paths pure app cart draft, directed app JVM 12 XML, B7 then consume READY; C2/C3 already PASS. Work only one unit; W04-D1/D2/D3 NO_READY.",
-  "checkpoint_status": "W04_D0_B1_B5_VERIFIED_DOC_GUARD_44852961471_SUCCESS_READY_EXACT3",
+  "next": "W04-D0 closed. W04-D1/D2/D3/D4 design only without READY. Stop Work after D0.",
+  "checkpoint_status": "W04_D0_B7_PASS_12_OF_12_XML_GUARD_SUCCESS_READY_CONSUMED",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "fef0c845c93c4caa1d066344cf020ea1dde97e8d",
-  "last_ci_run_id": 44852084693,
+  "last_code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
+  "last_ci_run_id": 44853703822,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_C3_12_OF_12_XML",
+  "last_ci_conclusion": "SUCCESS_D0_12_OF_12_XML",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6112,7 +6112,7 @@
     "product_end_to_end": "OPEN_ACTIVE_SCHEMA2_UI_NOT_RUN"
   },
   "w04_d": {
-    "status": "D0_READY_EXACT3_B6_PENDING_CI",
+    "status": "D0_B7_PASS_SCOPED_DEV_OTHER_UNITS_DESIGN_ONLY",
     "d0_unit": "S4_W04_D0_CART_DRAFT_DEV",
     "d0_preaudit": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
     "d0_work_handoff": "docs/v5/FARO_S4_W04_D0_WORK_TURBO_HANDOFF_20261120.md",
@@ -6123,6 +6123,15 @@
       ".github/workflows/faro-v5-s4-w04-d0-cart-draft.yml"
     ],
     "other_units": "D1_D2_D3_D4_DESIGN_ONLY_NO_READY",
-    "android": "NOT_RUN"
+    "android": "NOT_RUN",
+    "d0_b7": {
+      "status": "PASS_SCOPED_DEV",
+      "code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
+      "ci_run_id": 44853703822,
+      "guard_run_id": 44853703753,
+      "xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
+      "artifact_id": 14686911469,
+      "document": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B7_PASS_20261120.md"
+    }
   }
 }

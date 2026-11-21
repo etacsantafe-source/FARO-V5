@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D0_CART_DRAFT_DEV",
   "reviewed_head": "cf366dd0bf2a9c005079b211157de62a26e865fd",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_XML_PASS",
+    "B7": "PASS_SCOPED_DEV"
   },
   "last_code_review": {
-    "sha": "fef0c845c93c4caa1d066344cf020ea1dde97e8d",
-    "unit_id": "S4_W04_C3_STAGED_TYPED_APPEND_REFRESH_DEV",
+    "sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
+    "unit_id": "S4_W04_D0_CART_DRAFT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C3_TYPED_APPEND_B7_PASS_20261120.md",
-        "blob_sha": "7c64bf8419354fcae9811819a7fceef41401c664",
+        "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B7_PASS_20261120.md",
+        "blob_sha": "764853e4b38b3e3db1d05f27a3d64e2f17983098",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-D0 pure cart draft only; B1-B5 preaudit blob and doc guard 44852961471 SUCCESS, exact3 paths, C3 B7 PASS. No quote/budget/ACTIVE UI/Finance or G15.",
-  "how": "D0_B6_EXACT3_PREFLIGHT_THEN_APP_JVM_XML_12_AND_B7",
+  "why": "D0 B7 PASS scoped DEV, 12/12 verified XML and guard success. READY consumed.",
+  "how": "BLOCKED_D0_CONSUMED_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 44852961471,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_D0_B6_WORK_TURBO_IF_CREDITS_ALLOW",
-  "completed_guard": 44852084952,
-  "completed_ci": 44852084693,
+  "next": "W04_D1_D2_D3_D4_DESIGN_ONLY_NO_READY",
+  "completed_guard": 44853703753,
+  "completed_ci": 44853703822,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14685817016,
-  "completed_regression_run_id": 44849294456
+  "completed_artifact_id": 14686911469,
+  "ready_guard": 44853071766
 }
