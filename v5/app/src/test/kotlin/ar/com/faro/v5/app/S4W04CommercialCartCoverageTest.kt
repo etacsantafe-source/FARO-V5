@@ -261,7 +261,7 @@ class S4W04CommercialCartCoverageTest {
         f.seed()
         f.rejectAfterCommercialCheck = 3
         f.rejected(reason = CommercialCartCoverageRejection.NOT_AUTHORIZED)
-        assertTrue(f.commercialChecks > 4)
+        assertEquals(4, f.commercialChecks)
     }
 
     @Test fun twoLinesReportIndependentCoverageWithoutNameMatching() = Fixture("two-lines").use { f ->
