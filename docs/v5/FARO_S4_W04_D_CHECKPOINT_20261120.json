@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "branch": "work/s3-night-20261102",
-  "scope": "W04_D0_D1_D2A_D2B_B7_PASS_D2C0_PREAUDIT_DOC_ONLY",
-  "last_functional_code_sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
-  "writer_expected_released_epoch": 1522,
+  "scope": "W04_D0_D1_D2A_D2B_D2C0_B7_PASS_D2C1_DOC_ONLY",
+  "last_functional_code_sha": "c0a575f2312714b4abcc62c83eb30bb4c6311951",
+  "writer_expected_released_epoch": 1528,
   "d0": {
     "status": "PASS_SCOPED_DEV",
     "code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
@@ -66,10 +66,10 @@
   "active_quote_host": "NOT_RUN",
   "finance_mutation": "NOT_AUTHORIZED",
   "v2_productive": "OFF",
-  "next": "WORK_D2C0_B6_B7_SINGLE_UNIT_COST_CAPPED",
+  "next": "W04_D2C1_PREFLIGHT_AFTER_DOCUMENTARY_GUARD",
   "d2c": "DESIGN_ONLY_NO_READY",
   "d2c0": {
-    "status": "READY_EXACT3_GUARD_PENDING",
+    "status": "PASS_SCOPED_DEV_JVM_WHAT_IF",
     "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
     "preaudit": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
     "preaudit_blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
@@ -82,6 +82,23 @@
       "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummary.kt",
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummaryTest.kt",
       ".github/workflows/faro-v5-s4-w04-d2c0-merchant-summary.yml"
-    ]
+    ],
+    "code_sha": "c0a575f2312714b4abcc62c83eb30bb4c6311951",
+    "guard": 44917138983,
+    "ci": 44917139054,
+    "final_guard": 44917669918,
+    "artifact_id": 14712660055,
+    "xml": "8/8_ZERO_FAIL_ERROR_SKIP",
+    "b7_doc": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B7_PASS_20261121.md",
+    "b7_blob_sha": "feef13ddfc97dfa3bb42827d8a06aef01165ade1"
+  },
+  "d2c1": {
+    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "unit_id": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
+    "preaudit": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B1_B5_20261121.md",
+    "preaudit_blob_sha": "b925f6d31f8bfe06b1ce55357d307c800c826bc1",
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
+    "tests": "8_JUNIT_PLANNED_NOT_RUN"
   }
 }
