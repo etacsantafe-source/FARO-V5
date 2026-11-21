@@ -1,0 +1,71 @@
+name: FARO V5 W04-C2 STAGED commercial typed price comparison DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceComparison.kt
+      - v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceComparisonTest.kt
+      - .github/workflows/faro-v5-s4-w04-c2-typed-price-comparison.yml
+
+permissions:
+  contents: read
+
+jobs:
+  c2-staged-price-comparison:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_C2_STAGED_TYPED_PRICE_COMPARISON_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: C2 EXACT3 protocol preflight against READY parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_C2_STAGED_TYPED_PRICE_COMPARISON_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for Gradle configuration
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: C2 comparison and existing Evidence regression JVM
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :evidence:test
+      - name: Verify exactly fourteen C2 JUnit XML cases and no skips
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          files = list(Path('v5/evidence/build/test-results').rglob('TEST-*CommercialTypedPriceComparisonTest.xml'))
+          assert len(files) == 1, files
+          root = ElementTree.parse(files[0]).getroot()
+          counts = tuple(int(root.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert counts == (14,0,0,0), counts
+          print('W04_C2_STAGED_TYPED_PRICE_COMPARISON_JVM_XML_PASS 14/14')
+          PY
+      - name: Preserve Evidence JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-c2-staged-typed-price-comparison-xml
+          if-no-files-found: error
+          path: v5/evidence/build/test-results/**/TEST-*.xml
