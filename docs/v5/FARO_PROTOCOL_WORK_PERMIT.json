@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C3_STAGED_TYPED_APPEND_REFRESH_DEV",
-  "reviewed_head": "698a093c29240806e7e27fc5a9f08cc98190b568",
+  "status": "READY",
+  "unit_id": "S4_W04_D0_CART_DRAFT_DEV",
+  "reviewed_head": "cf366dd0bf2a9c005079b211157de62a26e865fd",
   "paths": [
-    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceRefresh.kt",
-    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceRefreshTest.kt",
-    ".github/workflows/faro-v5-s4-w04-c3-append-refresh.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialCartDraft.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialCartDraftTest.kt",
+    ".github/workflows/faro-v5-s4-w04-d0-cart-draft.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C3_APPEND_REFRESH_PREAUDIT_20261120.md",
-          "blob_sha": "0af24f8d6f1afa88922ca0f5b1f3330a97ecbdf3",
+          "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
+          "blob_sha": "76634869e31ab7214244371051fa1654606a1ffd",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C3_APPEND_REFRESH_PREAUDIT_20261120.md",
-          "blob_sha": "0af24f8d6f1afa88922ca0f5b1f3330a97ecbdf3",
+          "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
+          "blob_sha": "76634869e31ab7214244371051fa1654606a1ffd",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C3_APPEND_REFRESH_PREAUDIT_20261120.md",
-          "blob_sha": "0af24f8d6f1afa88922ca0f5b1f3330a97ecbdf3",
+          "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
+          "blob_sha": "76634869e31ab7214244371051fa1654606a1ffd",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C3_APPEND_REFRESH_PREAUDIT_20261120.md",
-          "blob_sha": "0af24f8d6f1afa88922ca0f5b1f3330a97ecbdf3",
+          "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
+          "blob_sha": "76634869e31ab7214244371051fa1654606a1ffd",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C3_APPEND_REFRESH_PREAUDIT_20261120.md",
-          "blob_sha": "0af24f8d6f1afa88922ca0f5b1f3330a97ecbdf3",
+          "path": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
+          "blob_sha": "76634869e31ab7214244371051fa1654606a1ffd",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_XML_PASS",
-    "B7": "PASS_SCOPED_STAGED_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "fef0c845c93c4caa1d066344cf020ea1dde97e8d",
@@ -74,18 +74,18 @@
       }
     ]
   },
-  "why": "C3 initial CI 44851508657 FAILED ACL fixture -> audited RED_FIX. Final CI 44852084693 SUCCESS 12/12 XML, guard 44852084952 SUCCESS, legacy Evidence regression SUCCESS. C3 B7 PASS scoped DEV, READY consumed. C product ACTIVE integration still OPEN.",
-  "how": "BLOCKED_C3_CONSUMED_B7",
+  "why": "W04-D0 pure cart draft only; B1-B5 preaudit blob and doc guard 44852961471 SUCCESS, exact3 paths, C3 B7 PASS. No quote/budget/ACTIVE UI/Finance or G15.",
+  "how": "D0_B6_EXACT3_PREFLIGHT_THEN_APP_JVM_XML_12_AND_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "Continue W04-C after C2 B7; C3 STAGED-only confirmed manual append with existing Evidence2 API, independent grants and no production activation."
+    "scope": "User asked to advance with remaining ~11% weekly Work. D0 scoped DEV unit preparation; no automatic activation or spending."
   },
-  "preaudit_guard": 44851196056,
+  "preaudit_guard": 44852961471,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_D_DESIGN_ONLY_NO_READY",
+  "next": "W04_D0_B6_WORK_TURBO_IF_CREDITS_ALLOW",
   "completed_guard": 44852084952,
   "completed_ci": 44852084693,
   "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",

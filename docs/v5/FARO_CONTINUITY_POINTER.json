@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-20",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_C_CORE_SCOPED_DEV_B7_PASS_ACTIVE_INTEGRATION_OPEN_D_PREAUDIT",
+  "phase": "S4_W04_D0_CART_DRAFT_B1_B5_VERIFIED_READY_EXACT3_WAIT_WORK_B6",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_C3_B7_DOC",
-    "epoch": 1485
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D0_READY_DOC",
+    "epoch": 1487
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-D0 own B1-B5 route freeze and READY before B6. W04-C scoped code PASS, active schema2/UI end-to-end OPEN; no G15/egress/Finance.",
-  "checkpoint_status": "W04_C_CORE_SCOPED_DEV_B7_PASS_C3_12_OF_12_XML_GUARD_SUCCESS_ACTIVE_NOT_RUN",
+  "next": "W04-D0 B6 3 paths pure app cart draft, directed app JVM 12 XML, B7 then consume READY; C2/C3 already PASS. Work only one unit; W04-D1/D2/D3 NO_READY.",
+  "checkpoint_status": "W04_D0_B1_B5_VERIFIED_DOC_GUARD_44852961471_SUCCESS_READY_EXACT3",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "fef0c845c93c4caa1d066344cf020ea1dde97e8d",
@@ -6112,9 +6112,17 @@
     "product_end_to_end": "OPEN_ACTIVE_SCHEMA2_UI_NOT_RUN"
   },
   "w04_d": {
-    "status": "DESIGN_ONLY_NO_READY_NO_B6",
-    "document": "docs/v5/FARO_S4_W04_D_CART_BUDGET_PREAUDIT_20261120.md",
-    "next": "D0 own B1-B5 and READY",
+    "status": "D0_READY_EXACT3_B6_PENDING_CI",
+    "d0_unit": "S4_W04_D0_CART_DRAFT_DEV",
+    "d0_preaudit": "docs/v5/FARO_S4_W04_D0_CART_DRAFT_B1_B5_20261120.md",
+    "d0_work_handoff": "docs/v5/FARO_S4_W04_D0_WORK_TURBO_HANDOFF_20261120.md",
+    "preaudit_guard": 44852961471,
+    "d0_routes": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialCartDraft.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialCartDraftTest.kt",
+      ".github/workflows/faro-v5-s4-w04-d0-cart-draft.yml"
+    ],
+    "other_units": "D1_D2_D3_D4_DESIGN_ONLY_NO_READY",
     "android": "NOT_RUN"
   }
 }
