@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-21",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_SCOPED_DEV",
+  "phase": "S4_W04_D2C0_MERCHANT_WHATIF_B1_B5_DOC_ONLY_GUARD_PENDING",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2B_B7_DOC",
-    "epoch": 1518
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2C0_PREAUDIT_DOC",
+    "epoch": 1520
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-D2C B1-B5 separate preaudit (promotion mechanics/conditions/cashback cannot be assumed); D3/D4/E/F without READY, G15 NOT_RUN",
-  "checkpoint_status": "W04_D0_D1_D2A_D2B_B7_PASS_SCOPED_DEV_D2C_NOT_READY",
+  "next": "W04-D2C0 preaudit doc guard then READY exact3 and Work 8 JUnit B6/B7; no D2C1, D3/D4/E/F",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_B7_PASS_D2C0_DOC_ONLY_NO_READY",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
@@ -6171,5 +6171,12 @@
     "ci": 44902037919,
     "xml": "12/12",
     "b7_document": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md"
+  },
+  "d2c0": {
+    "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
+    "preaudit": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
+    "preaudit_blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
+    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "budget": "WORK_MAX_10_PERCENT_SEMANAL_SINGLE_SMALL_UNIT"
   }
 }
