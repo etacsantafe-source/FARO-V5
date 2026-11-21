@@ -113,6 +113,7 @@ internal object S4W04ObservedCartBudget {
                 ?: return rejected(Rejection.INELIGIBLE_OBSERVATION)
             val locality = terms.localityCode
                 ?: return rejected(Rejection.INELIGIBLE_OBSERVATION)
+            val presentationQuantity = terms.presentationQuantityThousandths
 
             if (entry.comparisonStatus !=
                     CommercialObservationComparisonStatus.COMPARABLE_BASE_OBSERVED ||
@@ -122,8 +123,7 @@ internal object S4W04ObservedCartBudget {
                 terms.eligibility != CommercialEligibility.GENERAL ||
                 terms.promotionKind != CommercialPromotionKind.NONE ||
                 terms.paymentMethod == CommercialPaymentMethod.UNKNOWN ||
-                terms.presentationQuantityThousandths == null ||
-                terms.presentationQuantityThousandths <= 0L ||
+                presentationQuantity == null || presentationQuantity <= 0L ||
                 terms.presentationUnit == null || terms.packCount != 1 ||
                 observedAt < 0L || observedAt > coverageView.asOfEpochMillis ||
                 coverageView.asOfEpochMillis - observedAt > coverageView.maxObservationAgeMillis ||
