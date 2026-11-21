@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
-  "reviewed_head": "e2c300b0d907afaef75d6c73aab32f1144b44ad0",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04DeferredCommercialBenefitNotes.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04DeferredCommercialBenefitNotesTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d2c1-deferred-notes.yml"
-  ],
+  "reviewed_head": "891b67b1645ee4de467b05a6a3d14c931baffa22",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "c0a575f2312714b4abcc62c83eb30bb4c6311951",
-    "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
+    "sha": "891b67b1645ee4de467b05a6a3d14c931baffa22",
+    "unit_id": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B7_PASS_20261121.md",
-        "blob_sha": "feef13ddfc97dfa3bb42827d8a06aef01165ade1",
+        "path": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B7_PASS_20261121.md",
+        "blob_sha": "72a4a4aabb8c367676a4c35206cc8b048dfbe590",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D2C1 narrow dev-only typed user declared benefit warnings by group, no cashback amounts or payments; eight planned directed tests",
-  "how": "D2C1_EXACT3_WORK_9PCT_WEEKLY_JVM8_XML_B7",
+  "why": "D2C1 guarded CI 44920363191 XML 8/8 independently inspected, no finance or cashback amount",
+  "how": "D2C1_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,8 +79,13 @@
     "scope": "Continue FARO V5 after D2C0 Work finished; prepare next scoped DEV Work unit with only 9% weekly credits, no activation/egress/payment/stock"
   },
   "preaudit_guard": 44919975105,
-  "previous_unit": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B7_PASS_20261121.md",
-  "next": "WORK_D2C1_B6_B7_ONLY_JVM8",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
+  "previous_unit": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B7_PASS_20261121.md",
+  "next": "W04_D3A_B1_B5_DOC_ONLY_SEPARATE_PERMISSION_REQUIRED",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
+  "completed_guard": 44920363123,
+  "completed_ci": 44920363191,
+  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14713731446,
+  "ready_guard": 44920117431
 }
