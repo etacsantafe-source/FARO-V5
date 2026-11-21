@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_C3_STAGED_TYPED_APPEND_REFRESH_DEV",
-  "reviewed_head": "34ccb5d781e01157d0fe42cb99fb2019ab22f299",
+  "reviewed_head": "698a093c29240806e7e27fc5a9f08cc98190b568",
   "paths": [
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceRefresh.kt",
     "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceRefreshTest.kt",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "d208213f01c4e5b290cee0e23afe1472dfa3cdf1",
-    "unit_id": "S4_W04_C2_STAGED_TYPED_PRICE_COMPARISON_DEV",
-    "result": "PASS",
+    "sha": "698a093c29240806e7e27fc5a9f08cc98190b568",
+    "unit_id": "S4_W04_C3_STAGED_TYPED_APPEND_REFRESH_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B7_PASS_20261120.md",
-        "blob_sha": "daa4151d71ea21eed9f6c2b257f77516adb15749",
+        "path": "docs/v5/FARO_S4_W04_C3_B7_RED_FIX_20261120.md",
+        "blob_sha": "09469a768d4420611f2ae0e9c4c8d9ded0a69c90",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C3 typed manual refresh STAGED only; B1–B5 exact3 doc with actual C2 B7. Guard 44851196056 SUCCESS. No Active/Finance/Android/egress.",
-  "how": "B6 exact3 preflight parent READY, :evidence:test JUnit XML; B7 scoped, consume READY and release writer.",
+  "why": "C3 B6 initial CI 44851508657 FAILED 1/99 tests (unauthorized other-product fixture expected no-history). RED_FIX same unit for test+workflow; keep security ACL.",
+  "how": "RED_FIX_SAME_UNIT_TEST_WORKFLOW_ONLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,7 +85,7 @@
   "preaudit_guard": 44851196056,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C3_B6_TYPED_APPEND_STAGED_DEV",
+  "next": "W04_C3_RED_FIX_2_OF_3_PATHS",
   "completed_guard": 44850685830,
   "completed_ci": 44850685841,
   "completed_xml": "14/14_JVM_ZERO_FAIL_ERROR_SKIP",
