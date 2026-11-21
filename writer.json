@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.W04.C1B2H2A.PERMITFIX",
-  "token_hash": "8070cd9e6edb3618d98c32afb694295839ad19f3563ca01954d22f6fb54dc33a",
+  "status": "HELD",
+  "owner": "FARO.CHAT.W04.C1B2H2A.B6",
+  "token_hash": "48c8c2037a3c26e66d4ab52ca07cab402213ed3687d7a4e4c22ea0a9f340f31d",
   "target_head": "07ed6f59610768f608678b3e87418de975715593",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1470,
-  "timestamp": 1795223276,
-  "scope": "W04_H2A_PERMIT_RED_FIX_RELEASE"
+  "epoch": 1471,
+  "timestamp": 1795223347,
+  "scope": "W04_C1B2H2A_B6_EXACT3_LOCAL_ONLY"
 }
