@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
-  "reviewed_head": "98a764eae0879b1849d643a8955e33edcc0058f1",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
+  "reviewed_head": "10b655942690b84c7389ce15a7ff8df610f414e7",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ObservedPromotionScenario.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ObservedPromotionScenarioTest.kt",
+    ".github/workflows/faro-v5-s4-w04-d2b-promotion-scenario.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md",
-          "blob_sha": "57f8a0bc4878c578706b48fbef9dae74b238f852",
+          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
+          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md",
-          "blob_sha": "57f8a0bc4878c578706b48fbef9dae74b238f852",
+          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
+          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md",
-          "blob_sha": "57f8a0bc4878c578706b48fbef9dae74b238f852",
+          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
+          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md",
-          "blob_sha": "57f8a0bc4878c578706b48fbef9dae74b238f852",
+          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
+          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B1_B5_20261120.md",
-          "blob_sha": "57f8a0bc4878c578706b48fbef9dae74b238f852",
+          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
+          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_JVM"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "98a764eae0879b1849d643a8955e33edcc0058f1",
@@ -70,25 +74,17 @@
       }
     ]
   },
-  "why": "W04-D2A B7 PASS scoped DEV: guard 44899739792 SUCCESS, CI 44899739776 SUCCESS, XML 12/12 zero failures/errors/skips independently inspected; READY consumed",
-  "how": "D2A_EXACT3_PREFLIGHT_JVM_12_XML_B7",
+  "why": "W04-D2B hypothetical line-level promotion scenarios on D1/D2A STAGED history; 5 blocks evidenced in docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md; no proven discount redemption, Finance, FX, stock or Android",
+  "how": "D2B_EXACT3_INITIAL_B6_JVM12_XML_GUARD_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
-    "date_local": "2026-11-20",
-    "scope": "Continue FARO V5 after W4-D0 Work finished; prepare next small DEV units while conserving weekly Work. D2A only estimated historical budget; no activation/egress/payment."
+    "date_local": "2026-11-21",
+    "scope": "Continuar FARO V5: prepare and program scoped D2B JVM DEV hypothetical promotions; no productive V2, auto/night, payment, stock, bank action or FX"
   },
-  "preaudit_guard": 44856950863,
+  "preaudit_guard": 44901600570,
   "previous_unit": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B7_PASS_20261121.md",
-  "next": "W04_D2B_B1_B5_DOC_ONLY_NOT_READY",
-  "completed_guard": 44899739792,
-  "completed_ci": 44899739776,
-  "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14705727077,
-  "ready_guard": 44853071766,
-  "red_fix_resolved": [
-    "7410f26599fb55254a8524e7f1d1c6c39a36be25 SMARTCAST_IMPOSSIBLE",
-    "863c002f997a135b35e9e837fc20e0fc6160d5e1 WORKFLOW_SUBSET_BUG"
-  ]
+  "next": "D2B_B6_ONLY_AFTER_READY_GUARD_AND_EXACT_PREFLIGHT",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
 }
