@@ -1,22 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV",
-  "reviewed_head": "49990f5fb5ef831a24415cd2212f525cb90f63be",
+  "status": "READY",
+  "unit_id": "S4_W04_C2_STAGED_TYPED_PRICE_COMPARISON_DEV",
+  "reviewed_head": "6cb2ea42fdbabb2dc63d0e16b6f23be3a11080e4",
   "paths": [
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityV2.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityExternalWrite.kt",
-    "v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityCore.kt",
-    "v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityV2Test.kt",
-    ".github/workflows/faro-v5-s4-w04-c1b2h2b-typed-export.yml"
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceComparison.kt",
+    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialTypedPriceComparisonTest.kt",
+    ".github/workflows/faro-v5-s4-w04-c2-typed-price-comparison.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
-          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
+          "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B1_B5_20261120.md",
+          "blob_sha": "7f942889f144677b8cd7adb8fe1bafd90e0a500c",
           "marker": "## B1"
         }
       ]
@@ -25,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
-          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
+          "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B1_B5_20261120.md",
+          "blob_sha": "7f942889f144677b8cd7adb8fe1bafd90e0a500c",
           "marker": "## B2"
         }
       ]
@@ -35,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
-          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
+          "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B1_B5_20261120.md",
+          "blob_sha": "7f942889f144677b8cd7adb8fe1bafd90e0a500c",
           "marker": "## B3"
         }
       ]
@@ -45,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
-          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
+          "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B1_B5_20261120.md",
+          "blob_sha": "7f942889f144677b8cd7adb8fe1bafd90e0a500c",
           "marker": "## B4"
         }
       ]
@@ -55,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_B1_B5_20261120.md",
-          "blob_sha": "00e7b2cfb7d25a64227877534195061909ea9c47",
+          "path": "docs/v5/FARO_S4_W04_C2_TYPED_PRICE_COMPARISON_B1_B5_20261120.md",
+          "blob_sha": "7f942889f144677b8cd7adb8fe1bafd90e0a500c",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_XML_PASS",
-    "B7": "PASS_SCOPED_STAGED_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "b6dff51670b74c1ddea51d48fb49ef17e567ed7c",
@@ -76,18 +74,18 @@
       }
     ]
   },
-  "why": "H2B 10/10 JVM XML PASS CI 44849294556, guard 44849294438 SUCCESS, Guardados regression 44849294456 SUCCESS; scoped C1B2 global B7 PASS. H2B READY consumed. C2/C3 own B1–B5/permit.",
-  "how": "BLOCKED_C1B2_H2B_CONSUMED_B7",
+  "why": "C2 read-only projection of H1 schema2: exact 3 new files; B1–B5 blob SHA and guard 44850398451 SUCCESS. C1B2 B7 global PASS. No C3 grant or write.",
+  "how": "B6 exact3 preflight HEAD^; :evidence:test JVM + 14 new XML tests; B7 independent then consume READY.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-20",
-    "scope": "Finish C1B2 coding. No actual sharing or file export in this chat. API must require separate human-selected document and explicit approval."
+    "scope": "Continue W04-C2/C3 after C1B2 B7. C2 pure local DEV read-only compare only; C3 separately gated; no finance, egress or G15."
   },
-  "preaudit_guard": 44848971758,
+  "preaudit_guard": 44850398451,
   "previous_unit": "S4_W04_C0B_AUTHORIZED_PRICE_HISTORY_READ_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_C0B_AUTHORIZED_PRICE_READ_B7_PASS_20261120.md",
-  "next": "W04_C2_C3_B1_B5_NO_READY",
+  "next": "W04_C2_B6_DEV_READ_ONLY",
   "completed_guard": 44849294438,
   "completed_ci": 44849294556,
   "completed_xml": "10/10_JVM_ZERO_FAIL_ERROR_SKIP",
