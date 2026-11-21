@@ -3,7 +3,7 @@
   "branch": "work/s3-night-20261102",
   "scope": "W04_D0_D1_D2A_D2B_B7_PASS_D2C0_PREAUDIT_DOC_ONLY",
   "last_functional_code_sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
-  "writer_expected_released_epoch": 1520,
+  "writer_expected_released_epoch": 1522,
   "d0": {
     "status": "PASS_SCOPED_DEV",
     "code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
@@ -66,15 +66,22 @@
   "active_quote_host": "NOT_RUN",
   "finance_mutation": "NOT_AUTHORIZED",
   "v2_productive": "OFF",
-  "next": "W04_D2C0_VERIFY_DOCUMENT_GUARD_THEN_READY_EXACT3",
+  "next": "WORK_D2C0_B6_B7_SINGLE_UNIT_COST_CAPPED",
   "d2c": "DESIGN_ONLY_NO_READY",
   "d2c0": {
-    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "status": "READY_EXACT3_GUARD_PENDING",
     "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
     "preaudit": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
     "preaudit_blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
     "b6": "NOT_RUN",
     "b7": "NOT_RUN",
-    "tests": "8_PLANNED_NOT_RUN"
+    "tests": "8_PLANNED_NOT_RUN",
+    "ready_on_parent": "5286d912fc008095b52baf8fea5fcb2da0c11662",
+    "preaudit_guard": 44916476485,
+    "exact_paths": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummary.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummaryTest.kt",
+      ".github/workflows/faro-v5-s4-w04-d2c0-merchant-summary.yml"
+    ]
   }
 }

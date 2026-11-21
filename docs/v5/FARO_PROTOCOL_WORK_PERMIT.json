@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
-  "reviewed_head": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_D2C0_MERCHANT_WHATIF_SUMMARY_DEV",
+  "reviewed_head": "5286d912fc008095b52baf8fea5fcb2da0c11662",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummary.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04MerchantWhatIfSummaryTest.kt",
+    ".github/workflows/faro-v5-s4-w04-d2c0-merchant-summary.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
-          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
+          "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
+          "blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
-          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
+          "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
+          "blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
-          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
+          "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
+          "blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
-          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
+          "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
+          "blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
-          "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
+          "path": "docs/v5/FARO_S4_W04_D2C0_MERCHANT_SUMMARY_B1_B5_20261121.md",
+          "blob_sha": "0370e9f5edd5bf06504d6e279e21710bb0b4b632",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_JVM_WHAT_IF"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
@@ -70,22 +74,17 @@
       }
     ]
   },
-  "why": "W04-D2B WHAT_IF JVM scoped PASS; guard 44902037906 SUCCESS, CI 44902037919 SUCCESS, XML 12/12 distinct 0 failures/errors/skips independently inspected; no current promo/checkout",
-  "how": "D2B_B7_PASS_XML12_AND_GUARD_CONSUMED",
+  "why": "Single small DEV-only read-model grouping D2A/D2B by exact commercial context, cashback unverified; eight JVM cases and no authority/payment",
+  "how": "D2C0_EXACT3_WORK_LIMIT_10_PERCENT_REMAINING_B6_B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-21",
-    "scope": "Continuar FARO V5: prepare and program scoped D2B JVM DEV hypothetical promotions; no productive V2, auto/night, payment, stock, bank action or FX"
+    "scope": "Organize one small Work assignment with 10% weekly balance; D2C0 eight-test JVM DEV only, no productive activation/Finance/stock/checkout/egress"
   },
-  "preaudit_guard": 44901600570,
+  "preaudit_guard": 44916476485,
   "previous_unit": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md",
-  "next": "W04_D2C_B1_B5_DOC_ONLY_NOT_READY",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
-  "ready_guard": 44901692841,
-  "completed_guard": 44902037906,
-  "completed_ci": 44902037919,
-  "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP_DISTINCT",
-  "completed_artifact_id": 14706477108
+  "next": "WORK_B6_B7_D2C0_ONLY_WITH_APPROVED_8_JUNIT",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
 }
