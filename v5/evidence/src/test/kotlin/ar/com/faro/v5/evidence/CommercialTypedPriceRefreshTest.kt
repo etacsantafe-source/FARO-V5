@@ -27,6 +27,8 @@ class CommercialTypedPriceRefreshTest {
         )
         var householdAllowed = true
         var commercialAllowed = true
+        // Explicit test-only admission: a permitted product may still lack history.
+        var otherProductGranted = false
         var lateRevocation = false
         var fence = CommercialTypedRefreshFence("gen-1", 1L, "epoch-1", "principal-1")
         val service = CommercialTypedPriceRefreshService(
@@ -34,9 +36,13 @@ class CommercialTypedPriceRefreshTest {
             BuiltInContractCatalog.create(),
             "principal-1",
             { fence },
-            { key -> key == product && householdAllowed },
             { key ->
-                key == product && commercialAllowed &&
+                (key == product || (otherProductGranted && key.value == "other-product")) &&
+                    householdAllowed
+            },
+            { key ->
+                (key == product || (otherProductGranted && key.value == "other-product")) &&
+                    commercialAllowed &&
                     (!lateRevocation || store.recordCount() == 1L)
             },
         )
@@ -170,9 +176,12 @@ class CommercialTypedPriceRefreshTest {
         assertEquals(CommercialTypedRefreshPreparation.Rejected(
             CommercialTypedRefreshRejection.INVALID_INPUT),
             f.prepare(f.input(sourceKind = CommercialEvidenceSourceKind.TOOL)))
+        val unknown = f.input(productKey = CommercialProductKey("other-product"))
         assertEquals(CommercialTypedRefreshPreparation.Rejected(
-            CommercialTypedRefreshRejection.NO_EXISTING_HISTORY),
-            f.prepare(f.input(productKey = CommercialProductKey("other-product"))))
+            CommercialTypedRefreshRejection.NOT_AUTHORIZED), f.prepare(unknown))
+        f.otherProductGranted = true
+        assertEquals(CommercialTypedRefreshPreparation.Rejected(
+            CommercialTypedRefreshRejection.NO_EXISTING_HISTORY), f.prepare(unknown))
         assertEquals(1L, f.store.recordCount())
     }
 
