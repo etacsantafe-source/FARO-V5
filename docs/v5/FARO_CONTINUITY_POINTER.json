@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-20",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D2A_B7_RED_FIX_ONE_LINE_KOTLIN_COMPILATION",
+  "phase": "S4_W04_D2A_B7_RED_FIX2_WORKFLOW_SUBSET",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2A_RED_FIX_DOC",
-    "epoch": 1502
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2A_RED_FIX2_DOC",
+    "epoch": 1506
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-D2A corrective B6 single file allowed and 12 JUnit CI B7; D2B/D3/D4 not READY; G15 NOT_RUN",
-  "checkpoint_status": "W04_D0_D1_B7_PASS_D2A_B7_RED_FIX",
+  "next": "W04-D2A workflow bounded subset 1..3 red fix, JUnit 12/12 CI B7; no D2B/D3/D4 READY",
+  "checkpoint_status": "W04_D0_D1_B7_PASS_D2A_B7_RED_FIX2",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "7410f26599fb55254a8524e7f1d1c6c39a36be25",
-  "last_ci_run_id": 44899047048,
+  "last_code_sha": "863c002f997a135b35e9e837fc20e0fc6160d5e1",
+  "last_ci_run_id": 44899537390,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "FAILURE_SMARTCAST_IMPOSSIBLE_APP_LINE_126_XML_NOT_RUN",
+  "last_ci_conclusion": "FAILURE_WORKFLOW_EXACT3_SINGLE_RED_FIX_PREFLIGHT_PASS_XML_NOT_RUN",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
