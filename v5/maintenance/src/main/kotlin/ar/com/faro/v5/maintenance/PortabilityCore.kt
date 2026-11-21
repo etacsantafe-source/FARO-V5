@@ -472,7 +472,7 @@ data class PortabilityExternalEffectReceipt(
     val reason: String?,
 ) {
     init {
-        require(formatProfile == PortabilityPreview.FORMAT_PROFILE)
+        require(CommercialTypedPortabilityV2Format.isSupported(formatProfile))
         require(generatedAtEpochMillis >= 0L)
         require(byteCount >= 0L)
         require(sha256Hex.matches(Regex("[0-9a-f]{64}")))

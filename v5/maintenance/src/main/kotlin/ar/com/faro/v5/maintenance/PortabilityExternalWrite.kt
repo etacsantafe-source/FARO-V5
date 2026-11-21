@@ -73,7 +73,7 @@ data class PortabilityExternalAttemptRecord(
         require(exportPlanFingerprintHex.matches(SHA_256)) {
             "portability plan fingerprint must be lowercase SHA-256"
         }
-        require(formatProfile == PortabilityPreview.FORMAT_PROFILE)
+        require(CommercialTypedPortabilityV2Format.isSupported(formatProfile))
         require(artifactHandleHex.matches(SHA_256)) {
             "portability artifact handle must be lowercase SHA-256"
         }
@@ -482,7 +482,7 @@ class PortabilityExternalEffectCoordinator(
     private fun validateSource(source: PortabilityExternalWriteSource) {
         require(source.effectIdentity.isNotBlank() && source.effectIdentity.length <= 256)
         require(source.exportPlanFingerprintHex.matches(SHA_256))
-        require(source.formatProfile == PortabilityPreview.FORMAT_PROFILE)
+        require(CommercialTypedPortabilityV2Format.isSupported(source.formatProfile))
         require(source.artifactHandleHex.matches(SHA_256))
         require(source.suggestedFileName.matches(Regex("[A-Za-z0-9._-]{1,160}")))
         require(source.mimeType == "application/json")

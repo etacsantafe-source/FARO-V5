@@ -1,0 +1,73 @@
+name: FARO V5 W04-C1b2H2B approved commercial typed document DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityV2.kt
+      - v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityExternalWrite.kt
+      - v5/maintenance/src/main/kotlin/ar/com/faro/v5/maintenance/PortabilityCore.kt
+      - v5/maintenance/src/test/kotlin/ar/com/faro/v5/maintenance/CommercialTypedPortabilityV2Test.kt
+      - .github/workflows/faro-v5-s4-w04-c1b2h2b-typed-export.yml
+
+permissions:
+  contents: read
+
+jobs:
+  c1b2h2b-v2-approval-durable-write:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: H2B EXACT5 preflight from parent
+        run: |
+          set -euo pipefail
+          UNIT=S4_W04_C1B2H2B_TYPED_EXPORT_APPROVAL_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Android SDK for Gradle configuration
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: V2 commercial approved document and V1 regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :maintenance:test
+      - name: Check exactly ten tests without failure/error/skip
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/maintenance/build/test-results').rglob('TEST-*CommercialTypedPortabilityV2Test.xml'))
+          assert len(reports) == 1, reports
+          root = ElementTree.parse(reports[0]).getroot()
+          counts = tuple(int(root.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert counts == (10,0,0,0), counts
+          print('W04_C1B2H2B_TYPED_EXPORT_JVM_XML_PASS 10/10')
+          PY
+      - name: Preserve maintenance JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w04-c1b2h2b-typed-export-xml
+          if-no-files-found: error
+          path: v5/maintenance/build/test-results/**/TEST-*.xml
