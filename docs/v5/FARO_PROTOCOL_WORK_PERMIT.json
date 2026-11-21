@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
-  "reviewed_head": "10b655942690b84c7389ce15a7ff8df610f414e7",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ObservedPromotionScenario.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ObservedPromotionScenarioTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d2b-promotion-scenario.yml"
-  ],
+  "reviewed_head": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_WHAT_IF"
   },
   "last_code_review": {
-    "sha": "98a764eae0879b1849d643a8955e33edcc0058f1",
-    "unit_id": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
+    "sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
+    "unit_id": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B7_PASS_20261121.md",
-        "blob_sha": "03cc2c65c6869fecfab0f81fab81bdda7e5306be",
+        "path": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md",
+        "blob_sha": "15525341aef564a40883787a240f25f7296aacba",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-D2B hypothetical line-level promotion scenarios on D1/D2A STAGED history; 5 blocks evidenced in docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md; no proven discount redemption, Finance, FX, stock or Android",
-  "how": "D2B_EXACT3_INITIAL_B6_JVM12_XML_GUARD_B7",
+  "why": "W04-D2B WHAT_IF JVM scoped PASS; guard 44902037906 SUCCESS, CI 44902037919 SUCCESS, XML 12/12 distinct 0 failures/errors/skips independently inspected; no current promo/checkout",
+  "how": "D2B_B7_PASS_XML12_AND_GUARD_CONSUMED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,8 +79,13 @@
     "scope": "Continuar FARO V5: prepare and program scoped D2B JVM DEV hypothetical promotions; no productive V2, auto/night, payment, stock, bank action or FX"
   },
   "preaudit_guard": 44901600570,
-  "previous_unit": "S4_W04_D2A_OBSERVED_BUDGET_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_D2A_OBSERVED_BUDGET_B7_PASS_20261121.md",
-  "next": "D2B_B6_ONLY_AFTER_READY_GUARD_AND_EXACT_PREFLIGHT",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
+  "previous_unit": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md",
+  "next": "W04_D2C_B1_B5_DOC_ONLY_NOT_READY",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
+  "ready_guard": 44901692841,
+  "completed_guard": 44902037906,
+  "completed_ci": 44902037919,
+  "completed_xml": "12/12_JVM_ZERO_FAIL_ERROR_SKIP_DISTINCT",
+  "completed_artifact_id": 14706477108
 }

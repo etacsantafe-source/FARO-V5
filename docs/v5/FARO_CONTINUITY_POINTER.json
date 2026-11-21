@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-21",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_VERIFIED_READY_EXACT3",
+  "phase": "S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_SCOPED_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2B_READY_DOC",
-    "epoch": 1514
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D2B_B7_DOC",
+    "epoch": 1518
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-D2B preflight exact3 after READY guard; B6 Kotlin+12 tests+workflow, CI/real XML, B7; D2C/D3/D4/E/F unapproved",
-  "checkpoint_status": "W04_D0_D1_D2A_B7_PASS_D2B_READY_EXACT3_GUARD_PENDING",
+  "next": "W04-D2C B1-B5 separate preaudit (promotion mechanics/conditions/cashback cannot be assumed); D3/D4/E/F without READY, G15 NOT_RUN",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_B7_PASS_SCOPED_DEV_D2C_NOT_READY",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "98a764eae0879b1849d643a8955e33edcc0058f1",
-  "last_ci_run_id": 44899739776,
+  "last_code_sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
+  "last_ci_run_id": 44902037919,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_D2A_12_OF_12_XML_ZERO_FAIL_ERROR_SKIP",
+  "last_ci_conclusion": "SUCCESS_D2B_12_OF_12_XML_ZERO_FAIL_ERROR_SKIP",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -493,7 +493,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 1508,
+  "last_writer_epoch_observed": 1516,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -6157,7 +6157,7 @@
     "unit_id": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
     "document": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B1_B5_20261121.md",
     "blob_sha": "ab153ed4e2fc4ec6e8874b924cd9d39a1fca659e",
-    "status": "B1_B5_VERIFIED_READY_EXACT3_GUARD_PENDING",
+    "status": "B7_PASS_SCOPED_DEV",
     "implementation": "NOT_RUN",
     "preaudit_guard": 44901600570,
     "permit_unit": "S4_W04_D2B_PROMOTION_SCENARIO_DEV",
@@ -6165,6 +6165,11 @@
       "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ObservedPromotionScenario.kt",
       "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ObservedPromotionScenarioTest.kt",
       ".github/workflows/faro-v5-s4-w04-d2b-promotion-scenario.yml"
-    ]
+    ],
+    "code_sha": "783760d8a36419f4f6e41eddcbb2a613df9f4814",
+    "guard": 44902037906,
+    "ci": 44902037919,
+    "xml": "12/12",
+    "b7_document": "docs/v5/FARO_S4_W04_D2B_PROMOTION_SCENARIO_B7_PASS_20261121.md"
   }
 }
