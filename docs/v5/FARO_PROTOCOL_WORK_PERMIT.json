@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
-  "reviewed_head": "0d990c198c18b5095eb08b3064c40060eb0e8fd8",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ExplicitObservationTrace.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ExplicitObservationTraceTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d3c-observation-trace.yml"
-  ],
+  "reviewed_head": "b94912508fd6df0829bb047bc09f6ef865370c3d",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "c5fe25a5787100e1d1f434df62ae611da58e21ab",
-    "unit_id": "S4_W04_D3B_LIVE_READ_RECHECK_DEV",
+    "sha": "b94912508fd6df0829bb047bc09f6ef865370c3d",
+    "unit_id": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B7_PASS_20261122.md",
-        "blob_sha": "35323226b0370f92d30237448c7853188591b3f7",
+        "path": "docs/v5/FARO_S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B7_PASS_20261122.md",
+        "blob_sha": "0dee3ec09b62822d65de0c2360ea3af686280bff",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Missing exact historic user-selected observation identity in D3B group-only review; D3C reconstructs D2A identity into display-only trace, no Apply or live quote.",
-  "how": "D3C_EXACT3_JVM8_TRACE_NO_APPLY_NO_FINANCE",
+  "why": "D3C guard and independently inspected Actions XML confirmed eight distinct passing JVM cases. READY consumed.",
+  "how": "D3C_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +81,11 @@
   "preaudit_guard": 45027120964,
   "previous_unit": "S4_W04_D3B_LIVE_READ_RECHECK_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B7_PASS_20261122.md",
-  "next": "WORK_D3C_B6_B7_EXACT3_DEV_READ_ONLY_TRACE",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
+  "next": "STOP_D3C_COMPLETE_D4_E_F_APPLY_OUT_OF_SCOPE",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
+  "completed_guard": 45027864245,
+  "completed_ci": 45027864372,
+  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14756159124,
+  "ready_guard": 45027286802
 }
