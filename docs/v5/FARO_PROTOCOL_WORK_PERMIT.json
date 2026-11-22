@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D3B_LIVE_READ_RECHECK_DEV",
-  "reviewed_head": "74780c8394101c35ad4a915826680a28ea821d2d",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialLiveReadRecheck.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialLiveReadRecheckTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d3b-live-read-recheck.yml"
-  ],
+  "reviewed_head": "c5fe25a5787100e1d1f434df62ae611da58e21ab",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "46b96cc326d529744aadbd60e13efb71d53684ea",
-    "unit_id": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
+    "sha": "c5fe25a5787100e1d1f434df62ae611da58e21ab",
+    "unit_id": "S4_W04_D3B_LIVE_READ_RECHECK_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B7_PASS_20261121.md",
-        "blob_sha": "74ffedb6599930e5ba694c91afb05a1c5b47f48d",
+        "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B7_PASS_20261122.md",
+        "blob_sha": "35323226b0370f92d30237448c7853188591b3f7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D3B DEV-only detected stale pre-review via host-admitted D1 rereads. Never issue Apply capability, current quote or financial confirmation.",
-  "how": "D3B_EXACT3_JVM8_HOST_SUPPLIED_D1_NO_APPLY",
+  "why": "D3B guard and independently inspected Actions XML, eight distinct passing JVM cases. READY consumed.",
+  "how": "D3B_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +81,11 @@
   "preaudit_guard": 45023898670,
   "previous_unit": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B7_PASS_20261121.md",
-  "next": "WORK_D3B_B6_B7_DEV_READ_ONLY_RECHECK_EXACT3",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
+  "next": "STOP_D3B_COMPLETE_D3C_D4_E_F_NOT_AUTHORIZED",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
+  "completed_guard": 45024661867,
+  "completed_ci": 45024661742,
+  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14755477381,
+  "ready_guard": 45024048969
 }
