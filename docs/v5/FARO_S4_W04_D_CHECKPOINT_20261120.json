@@ -3,7 +3,7 @@
   "branch": "work/s3-night-20261102",
   "scope": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_B7_PASS_D3C_PREAUDIT_ONLY",
   "last_functional_code_sha": "46b96cc326d529744aadbd60e13efb71d53684ea",
-  "writer_expected_released_epoch": 1552,
+  "writer_expected_released_epoch": 1554,
   "d0": {
     "status": "PASS_SCOPED_DEV",
     "code_sha": "7ba9c5c97dda3b8e228680954b997d9bc5d46c05",
@@ -66,7 +66,7 @@
   "active_quote_host": "NOT_RUN",
   "finance_mutation": "NOT_AUTHORIZED",
   "v2_productive": "OFF",
-  "next": "W04_D3C_WAIT_DOCUMENTARY_GUARD_BEFORE_READY",
+  "next": "WORK_D3C_B6_B7_EXACT3_READ_ONLY_TRACE",
   "d2c": "DESIGN_ONLY_NO_READY",
   "d2c0": {
     "status": "PASS_SCOPED_DEV_JVM_WHAT_IF",
@@ -167,12 +167,19 @@
     "permit": "BLOCKED_CONSUMED"
   },
   "d3c": {
-    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "status": "READY_EXACT3_GUARD_PENDING",
     "unit_id": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
     "preaudit": "docs/v5/FARO_S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B1_B5_20261122.md",
     "preaudit_blob_sha": "dce044319075cbc2f8321f5124d940357fa91262",
     "b6": "NOT_RUN",
     "b7": "NOT_RUN",
-    "tests": "8_JUNIT5_PLANNED_NOT_RUN"
+    "tests": "8_JUNIT5_PLANNED_NOT_RUN",
+    "preaudit_guard": 45027120964,
+    "ready_parent": "0d990c198c18b5095eb08b3064c40060eb0e8fd8",
+    "paths": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04ExplicitObservationTrace.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04ExplicitObservationTraceTest.kt",
+      ".github/workflows/faro-v5-s4-w04-d3c-observation-trace.yml"
+    ]
   }
 }
