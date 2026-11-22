@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-  "reviewed_head": "410bec2d1fe3183d5f4708ff40360a05e4dc7f23",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinator.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinatorTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f1-historical-read-coordinator.yml"
-  ],
+  "reviewed_head": "a748c4c13e23f1ad826cda01a7fa4990500cbcce",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "1effa68fc8e9378a954d26576f7202a5e0394ec3",
+    "sha": "a748c4c13e23f1ad826cda01a7fa4990500cbcce",
     "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F1_B7_RED_FIX_T07_SELECTION_20261122.md",
-        "blob_sha": "b9c15b550b4f3c9c536318e8697db6a96e9a9f3e",
+        "path": "docs/v5/FARO_S4_W04_F1_HISTORICAL_READ_COORDINATOR_B7_PASS_20261122.md",
+        "blob_sha": "88f1ad68e9ba2e6035f2ea5b7b4c9a74189c0e85",
         "marker": "## B7"
       }
     ]
   },
-  "why": "SAME UNIT RED_FIX T07 after guard 45054153341 SUCCESS; only change TEST fixture selecting need by ID not first canonical line.",
+  "why": "F1 exact SHA 45054446084 guard SUCCESS, 45054446092 JVM 8/8 XML independently inspected. READY consumed; no LIVE Android or typed ACTIVE evidence certified.",
   "how": "F1_EXACT3_NO_APPLY_READONLY_JVM",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,7 +81,11 @@
   "preaudit_guard": 45054153341,
   "previous_unit": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
   "previous_b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
-  "next": "Change only F1 test file, re-run exact 8 JVM JUnit5 and XML, require guard and B7.",
+  "next": "W04-F2 architectural B1–B5 for Household10 ACTIVE/Commercial Evidence2 typed source and host; F3 Android global after F2; no code without independent READY.",
   "redfix_guard": 45053159678,
-  "last_ready_guard_failure": 45053254021
+  "last_ready_guard_failure": 45053254021,
+  "completed_guard": 45054446084,
+  "completed_ci": 45054446092,
+  "completed_xml": "8/8_JUNIT5_DISTINCT_ZERO_FAILURE_ERROR_SKIP",
+  "completed_artifact_id": 14766509616
 }
