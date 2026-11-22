@@ -132,7 +132,7 @@ class S4W04HistoricalAuthorizedReadCoordinatorTest {
 
         fun choose(merchant: String = "Mercado A"): ExplicitChoice {
             val view = (d1().project(draft, 1000L, 200L) as CommercialCartCoverageDecision.Observed).view
-            val line = view.lines.first()
+            val line = view.lines.single { it.needId == need.id }
             val selected = line.history.single { it.item.observation.merchant == merchant }
             return ExplicitChoice(
                 line.needId, line.productKey.value, selected,
