@@ -88,6 +88,19 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/w03AndroidTest")
     }
 
+    // W04-E native review renderer only; never changes existing Android test source sets.
+    if (providers.gradleProperty("faroW04AndroidTest").orNull == "true") {
+        val otherTests = listOf("faroG5AndroidTestV2CoreDev", "faroX03AndroidTest",
+            "faroS3IntegratedAndroidTest", "faroW01AndroidTest", "faroW02AndroidTest",
+            "faroW03AndroidTest")
+        check(otherTests.none { providers.gradleProperty(it).orNull == "true" })
+        check(listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId,
+            s0PhysicalApplicationId, s1A5PhysicalApplicationId,
+            s1A6PhysicalApplicationId).isEmpty())
+        testBuildType = "w04CommercialDev"
+        sourceSets.getByName("androidTest").setRoot("src/w04AndroidTest")
+    }
+
     defaultConfig {
         applicationId = "ar.com.faro.alpha"
         if (listOfNotNull(
@@ -175,6 +188,15 @@ android {
         manifestPlaceholders["faroAppLabel"] = "FARO Asuntos DEV"
     }
     sourceSets.getByName("w03MattersDev").kotlin.srcDir("src/v2CoreDev/kotlin")
+
+    // Unique isolated UID; deliberately no V2 core or real commercial host mounted.
+    buildTypes.create("w04CommercialDev") {
+        initWith(buildTypes.getByName("debug"))
+        applicationIdSuffix = ".w04commercialdev"
+        versionNameSuffix = "-w04commercialdev"
+        matchingFallbacks += listOf("debug")
+        manifestPlaceholders["faroAppLabel"] = "FARO SmartCompra DEV"
+    }
 
     // A distinct UID/Keystore for X03; never replaces the S2 debug package.
     buildTypes.create("x03AiDev") {

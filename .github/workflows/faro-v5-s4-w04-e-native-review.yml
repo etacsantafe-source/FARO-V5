@@ -1,0 +1,97 @@
+name: FARO V5 W04-E native historical commercial review Android API35
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/app/build.gradle.kts"
+      - "v5/app/src/w04CommercialDev/**"
+      - "v5/app/src/w04AndroidTest/**"
+      - ".github/workflows/faro-v5-s4-w04-e-native-review.yml"
+permissions:
+  contents: read
+jobs:
+  android-w04-e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Enforce FARO protocol
+        run: python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install SDK 37
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Emulator acceleration
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Real isolated Android rendering at font 200 percent
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            adb shell settings put system font_scale 2.0 &&
+            cd v5 && ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8"
+            -PfaroW04AndroidTest=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W04CommercialAndroidTest
+            :app:connectedW04CommercialDevAndroidTest
+      - name: Validate XML and isolated APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          reports = list(Path("v5/app/build/outputs/androidTest-results").rglob("TEST-*.xml"))
+          cases = [c for p in reports for c in ET.parse(p).getroot().iter("testcase")]
+          names = {c.attrib.get("name") for c in cases}
+          assert len(cases) == len(names) == 4, (names, reports)
+          assert all(c.attrib.get("classname") == "ar.com.faro.v5.app.S4W04CommercialAndroidTest" for c in cases)
+          assert all(c.find(k) is None for c in cases for k in ("failure","error","skipped"))
+          assert names == {
+              "t01IsolatedOfflineLaunchStartsWithoutCommercialReview",
+              "t02ReadOnlyHistoricalWhatIfAndUnverifiedBenefitsKeepCurrenciesSeparate",
+              "t03PauseAndRejectedDecisionErasePreviouslyPresentedData",
+              "t04Font200HeadingsAndLiteralUnclickableSource",
+          }
+          print("W04_E_ANDROID_API35_FONT200_4_4_PASS")
+          PY
+          apk="$(find v5/app/build/outputs/apk/w04CommercialDev -maxdepth 1 -name '*.apk' -type f -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" >/tmp/w04-e-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          t=Path("/tmp/w04-e-badging.txt").read_text()
+          assert "package: name='ar.com.faro.alpha.w04commercialdev'" in t
+          assert t.count("launchable-activity:") == 1
+          for p in ("INTERNET","POST_NOTIFICATIONS","SCHEDULE_EXACT_ALARM",
+                    "RECEIVE_BOOT_COMPLETED","ACCESS_NETWORK_STATE","WAKE_LOCK"):
+              assert "android.permission."+p not in t,p
+          print("W04_E_ISOLATED_OFFLINE_MANIFEST_PASS")
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w04-e-android35-xml-apk
+          if-no-files-found: warn
+          path: |
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/w04CommercialDev/*.apk
