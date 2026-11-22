@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2_ACTIVE_TYPED_SOURCE_PREAUDIT_DOC_ONLY_NO_READY",
+  "phase": "S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_READY_EXACT3",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1578
+    "epoch": 1580
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F1 8/8 B7 PASS certified; F2 preaudit audited but STOP: schema2 Commercial Evidence only STAGED, ACTIVE Household10 legacy. Need distinct F2A scope authorization & exact paths/migration/recovery; no READY/code. F3 Android pending.",
+  "next": "F2A preaudit guard 45055860322 SUCCESS, READY EXACT3 for staged-copy schema1→2 Evidence only; no pointer cutover or ACTIVE host. B6 test; F2B/F2C independently permitted after B7.",
   "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_E_F1_B7_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F1_PASS_F2_PREAUDIT_BLOCKED_F3_PENDING",
+    "status": "F1_PASS_F2A_READY",
     "global": "OPEN",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
@@ -6386,7 +6386,7 @@
     },
     "f2": {
       "unit_id": "S4_W04_F2_ACTIVE_TYPED_EVIDENCE_HOST_DEV",
-      "status": "PREAUDIT_DOC_ONLY_BLOCKED_NO_READY",
+      "status": "F2A_READY_EXACT3",
       "preaudit": "docs/v5/FARO_S4_W04_F2_ACTIVE_TYPED_SOURCE_FEASIBILITY_B1_B5_20261122.md",
       "preaudit_blob_sha": "1b8939d9b737dc26b3d65adac20f0a7bcea57768",
       "reason": "NO_CERTIFIED_SCHEMA2_ACTIVE_SAME_GENERATION_HOST",
@@ -6399,7 +6399,19 @@
         "B6": "NOT_AUTHORIZED",
         "B7": "NOT_RUN"
       },
-      "f2a": "NEEDS_MIGRATION_REVIEW_AND_EXACT_PATHS",
+      "f2a": {
+        "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
+        "preaudit": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
+        "preaudit_blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
+        "preaudit_guard": 45055860322,
+        "paths": [
+          "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgrade.kt",
+          "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgradeTest.kt",
+          ".github/workflows/faro-v5-s4-w04-f2a-staged-upgrade.yml"
+        ],
+        "status": "READY_B6",
+        "tests": "NOT_RUN"
+      },
       "f2b": "BLOCKED_ON_F2A_PASS",
       "f2c": "BLOCKED_ON_F2B_PASS"
     },

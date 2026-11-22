@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-  "reviewed_head": "a748c4c13e23f1ad826cda01a7fa4990500cbcce",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
+  "reviewed_head": "b8b788e1a177a26f3ae93b1848580f0ee199f65e",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgrade.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgradeTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2a-staged-upgrade.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
-          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
+          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
+          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
-          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
+          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
+          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
-          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
+          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
+          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
-          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
+          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
+          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
-          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
+          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
+          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "a748c4c13e23f1ad826cda01a7fa4990500cbcce",
@@ -70,22 +74,16 @@
       }
     ]
   },
-  "why": "F1 exact SHA 45054446084 guard SUCCESS, 45054446092 JVM 8/8 XML independently inspected. READY consumed; no LIVE Android or typed ACTIVE evidence certified.",
-  "how": "F1_EXACT3_NO_APPLY_READONLY_JVM",
+  "why": "F2A DEV-only staged copy verified migration of existing Household10+Evidence1 five-store generation to Evidence2 schema2, without ACTIVE switch or additional store opener.",
+  "how": "W04_F2A_STAGED_COPY_EVIDENCE2_MIGRATION_EXACT3_NO_CUTOVER",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
-    "scope": "Continuamos con f: F1 lectura histórica segura; sin pagos, Apply, V2 productiva, G15 ni fuente ACTIVE fingida."
+    "scope": "Continuamos. Trata de terminar F2 completo; first isolated DEV staged migration F2A only. No productive V2/Apply/Finance/payments/G15."
   },
-  "preaudit_guard": 45054153341,
-  "previous_unit": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
-  "previous_b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
-  "next": "W04-F2 architectural B1–B5 for Household10 ACTIVE/Commercial Evidence2 typed source and host; F3 Android global after F2; no code without independent READY.",
-  "redfix_guard": 45053159678,
-  "last_ready_guard_failure": 45053254021,
-  "completed_guard": 45054446084,
-  "completed_ci": 45054446092,
-  "completed_xml": "8/8_JUNIT5_DISTINCT_ZERO_FAILURE_ERROR_SKIP",
-  "completed_artifact_id": 14766509616
+  "preaudit_guard": 45055860322,
+  "previous_unit": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
+  "previous_b7": "PASS_SCOPED_DEV_JVM_READ_ONLY",
+  "next": "F2A B6 source/test/workflow, JUnit 8/8 and guard. F2B ACTIVE host separate after acceptance; no cutover yet."
 }
