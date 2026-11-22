@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_READY_EXACT3",
+  "phase": "S4_W04_F2A_STAGED_EVIDENCE2_MIGRATION_B7_PASS",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1580
+    "epoch": 1582
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2A preaudit guard 45055860322 SUCCESS, READY EXACT3 for staged-copy schema1→2 Evidence only; no pointer cutover or ACTIVE host. B6 test; F2B/F2C independently permitted after B7.",
+  "next": "F2A B7 PASS staged-only 8/8; ACTIVE schema2 cutover/archive/host NOT READY. F2B must design/certify typed archive and ACTIVE lease, F2C Android; W04-F2 OPEN.",
   "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_E_F1_B7_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "a748c4c13e23f1ad826cda01a7fa4990500cbcce",
-  "last_ci_run_id": 45054446092,
+  "last_code_sha": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
+  "last_ci_run_id": 45056165906,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_F1_EXACT_SHA_XML_8_OF_8",
+  "last_ci_conclusion": "SUCCESS_F2A_STAGED_ONLY",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F1_PASS_F2A_READY",
+    "status": "F1_PASS_F2A_PASS_F2B_PENDING",
     "global": "OPEN",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
@@ -6386,7 +6386,7 @@
     },
     "f2": {
       "unit_id": "S4_W04_F2_ACTIVE_TYPED_EVIDENCE_HOST_DEV",
-      "status": "F2A_READY_EXACT3",
+      "status": "F2A_B7_PASS_F2B_PENDING",
       "preaudit": "docs/v5/FARO_S4_W04_F2_ACTIVE_TYPED_SOURCE_FEASIBILITY_B1_B5_20261122.md",
       "preaudit_blob_sha": "1b8939d9b737dc26b3d65adac20f0a7bcea57768",
       "reason": "NO_CERTIFIED_SCHEMA2_ACTIVE_SAME_GENERATION_HOST",
@@ -6401,18 +6401,17 @@
       },
       "f2a": {
         "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
+        "status": "B7_PASS_SCOPED_STAGED_DEV",
         "preaudit": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
-        "preaudit_blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
-        "preaudit_guard": 45055860322,
-        "paths": [
-          "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgrade.kt",
-          "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgradeTest.kt",
-          ".github/workflows/faro-v5-s4-w04-f2a-staged-upgrade.yml"
-        ],
-        "status": "READY_B6",
-        "tests": "NOT_RUN"
+        "code_sha": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
+        "b7_document": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B7_PASS_20261122.md",
+        "b7_blob_sha": "b27443f4a51b84982729e5cf79c209774345358f",
+        "guard_run": 45056165869,
+        "ci_run": 45056165906,
+        "artifact_id": 14767409067,
+        "tests": "8/8_PASS_ZERO_FAILURE_ERROR_SKIP"
       },
-      "f2b": "BLOCKED_ON_F2A_PASS",
+      "f2b": "NEEDS_DISTINCT_AUTHORIZED_TYPED_ACTIVE_CUTOVER_AND_READ_HOST",
       "f2c": "BLOCKED_ON_F2B_PASS"
     },
     "f3": "BLOCKED_ON_F2_PASS",

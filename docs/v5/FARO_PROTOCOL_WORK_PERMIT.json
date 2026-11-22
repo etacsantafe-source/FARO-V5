@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
-  "reviewed_head": "b8b788e1a177a26f3ae93b1848580f0ee199f65e",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgrade.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5CommercialEvidence2StagedUpgradeTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2a-staged-upgrade.yml"
-  ],
+  "reviewed_head": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_STAGED_MIGRATION_REAL_SQLITE"
   },
   "last_code_review": {
-    "sha": "a748c4c13e23f1ad826cda01a7fa4990500cbcce",
-    "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
+    "sha": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
+    "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F1_HISTORICAL_READ_COORDINATOR_B7_PASS_20261122.md",
-        "blob_sha": "88f1ad68e9ba2e6035f2ea5b7b4c9a74189c0e85",
+        "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B7_PASS_20261122.md",
+        "blob_sha": "b27443f4a51b84982729e5cf79c209774345358f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2A DEV-only staged copy verified migration of existing Household10+Evidence1 five-store generation to Evidence2 schema2, without ACTIVE switch or additional store opener.",
+  "why": "F2A isolated five-SQLite staged Evidence1->Evidence2 schema2 migration, guard 45056165869 CI 45056165906 XML 8/8 zero fails. READY consumed. No ACTIVE cutover.",
   "how": "W04_F2A_STAGED_COPY_EVIDENCE2_MIGRATION_EXACT3_NO_CUTOVER",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,5 +81,9 @@
   "preaudit_guard": 45055860322,
   "previous_unit": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
   "previous_b7": "PASS_SCOPED_DEV_JVM_READ_ONLY",
-  "next": "F2A B6 source/test/workflow, JUnit 8/8 and guard. F2B ACTIVE host separate after acceptance; no cutover yet."
+  "next": "F2B separate: audit and certify typed Evidence2 ACTIVE cutover+recovery+single-lease host; F2C Android afterward.",
+  "completed_guard": 45056165869,
+  "completed_ci": 45056165906,
+  "completed_xml": "8/8_JUNIT5_STAGED_REAL_SQLITE_PASS",
+  "completed_artifact_id": 14767409067
 }
