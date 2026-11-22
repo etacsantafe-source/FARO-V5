@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
-  "reviewed_head": "ccd78051e6ad4d84a618e3799b13f3248a263fc6",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
+  "reviewed_head": "f36f705af5db694ecee942efeb0be40b929f0c43",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinator.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinatorTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f1-historical-read-coordinator.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
-          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
+          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
+          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
-          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
+          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
+          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
-          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
+          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
+          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
-          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
+          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
+          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
-          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
+          "path": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
+          "blob_sha": "ac70446ee71cd2d5a46dd556c006e72fc4677e1b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "bbcdb021ced4688ede8a41533d22deb90bf2e1ea",
@@ -70,20 +74,16 @@
       }
     ]
   },
-  "why": "W04-E native presentation passed guard, 4 distinct Android tests XML independently inspected, offline manifest and APK hashes. READY consumed.",
-  "how": "W04_E_NATIVE_RENDERER_API35_XML4_PASS_NO_COMMERCIAL_HOST",
+  "why": "W04-F1 read-only JVM composition of certified D1,D2A,D2C1,D3A,D3B,D4 with explicit human selection, independent grants and final recheck. Not a live Android source host.",
+  "how": "F1_EXACT3_NO_APPLY_READONLY_JVM",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
-    "scope": "Terminar W04-E mediante unidad Android aislada de presentación histórica, sin Work; no pagos, Apply, V2 productiva, G15 ni activación host comercial."
+    "scope": "Continuamos con f: F1 lectura histórica segura; sin pagos, Apply, V2 productiva, G15 ni fuente ACTIVE fingida."
   },
-  "preaudit_guard": 45036952299,
-  "previous_unit": "S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_B7_PASS_20261122.md",
-  "next": "W04-E B7 SCOPED DEV ONLY; W04-F active host integration separately audited",
-  "completed_guard": 45037284359,
-  "completed_ci": 45037284360,
-  "completed_xml": "4/4_ANDROID_API35_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14760840249
+  "preaudit_guard": 45052343449,
+  "previous_unit": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
+  "previous_b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
+  "next": "F1 B6/B7 exact3 JVM; F2 debe montar fuente real autorizada y F3 Android integral por separado."
 }
