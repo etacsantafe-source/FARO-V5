@@ -1,6 +1,7 @@
 package ar.com.faro.v5.generation
 
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedPortabilitySnapshot
 import ar.com.faro.v5.evidence.CommercialEvidenceRecord
 import ar.com.faro.v5.evidence.CommercialProductKey
 import ar.com.faro.v5.evidence.CommercialPriceHistoryReadExecutor
@@ -78,6 +79,7 @@ class FaroV5GenerationStoreGraph private constructor(
         internal val graph: FaroV5GenerationStoreGraph,
         private val gate: MaterialWriteGate,
         private val lease: FileLock,
+        private val pointerFence: () -> Boolean,
     ) : AutoCloseable {
         fun readNeeds(ownerAdmission: () -> Boolean): RealityHousehold10Rows =
             graph.reality.household10ActiveDevReadForTrustedHost(ownerAdmission)
@@ -101,6 +103,28 @@ class FaroV5GenerationStoreGraph private constructor(
                 graph.commercialEvidence, canonicalContract,
             ).execute(productKey, limit)
             records.takeIf { lease.isValid && householdAdmission() && commercialAdmission() }
+        }
+
+        /**
+         * F2B1 DEV: read typed Evidence2 from this SAME already-selected
+         * Household10 graph/lease. The trusted host must supply both independent
+         * grants for the selected need/product. Never a live quote or Apply.
+         * Returns null if ACL, pointer, lease or snapshot integrity changes.
+         */
+        internal fun authorizedCommercialTypedSnapshot(
+            householdAdmission: () -> Boolean,
+            commercialAdmission: () -> Boolean,
+        ): CommercialEvidenceStagedTypedPortabilitySnapshot? = gate.withMaterialWrite {
+            fun admits(): Boolean = runCatching {
+                lease.isValid && pointerFence() &&
+                    householdAdmission() && commercialAdmission()
+            }.getOrDefault(false)
+            if (!admits()) return@withMaterialWrite null
+            val snapshot = runCatching {
+                check(graph.commercialEvidence.maintenance.inspect().schemaVersion == 2)
+                graph.commercialEvidence.stagedTypedPortability.snapshot()
+            }.getOrNull() ?: return@withMaterialWrite null
+            snapshot.takeIf { admits() }
         }
 
         /**
@@ -529,6 +553,22 @@ class FaroV5GenerationStoreGraph private constructor(
             storageRoot, staged, expected, materialWriteGate, ownerAdmission,
         )
 
+        /**
+         * F2B1: opens ONLY a generation whose pointer has already been selected,
+         * with Commercial Evidence schema2 exact. This function cannot switch
+         * generations, restore archives, or open a second SQLite connection.
+         */
+        internal fun openActiveHousehold10Evidence2DevForTrustedHost(
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            expected: ActiveGenerationPointer,
+            materialWriteGate: MaterialWriteGate,
+            ownerAdmission: () -> Boolean,
+        ): Household10DevReadSession = openActiveHousehold10Dev(
+            storageRoot, staged, expected, materialWriteGate, ownerAdmission,
+            commercialEvidence2ActiveDev = true,
+        )
+
         fun openActiveHousehold10DevForApplyHost(
             storageRoot: Path,
             staged: StagedStorageGeneration,
@@ -548,6 +588,7 @@ class FaroV5GenerationStoreGraph private constructor(
             ownerAdmission: () -> Boolean,
             planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
             writable: Boolean = false,
+            commercialEvidence2ActiveDev: Boolean = false,
         ): Household10DevReadSession = materialWriteGate.withMaterialWrite {
             check(expected.sequence > 0L && ownerAdmission()) { "Household10 DEV admission denied" }
             check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
@@ -573,10 +614,11 @@ class FaroV5GenerationStoreGraph private constructor(
                     activeGeneration = true, planningStage8 = true, financeStage9 = true,
                     checkedPlanning8Active = true, auxiliaryReceiptFence = fence,
                     householdActive10Dev = true, householdNeedsWritableDev = writable,
+                    commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
                 )
                 try {
                     check(graph.verifyHealthy() && fence()) { "Household10 DEV graph health or admission changed" }
-                    Household10DevReadSession(graph, materialWriteGate, lease)
+                    Household10DevReadSession(graph, materialWriteGate, lease, fence)
                 } catch (failure: Throwable) {
                     graph.close()
                     throw failure
@@ -707,6 +749,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdActive10Dev: Boolean = false,
             householdNeedsWritableDev: Boolean = false,
             commercialEvidence2StagedDev: Boolean = false,
+            commercialEvidence2ActiveDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             check(!commercialEvidence2StagedDev || (
                 !activeGeneration && !planningStage8 && !financeStage9 &&
@@ -714,6 +757,12 @@ class FaroV5GenerationStoreGraph private constructor(
                     !householdStage10 && !householdActive10Dev &&
                     !householdNeedsWritableDev && materialWriteGate != null
             )) { "Evidence2 staged graph cannot be active or share privileged owner stage" }
+            check(!commercialEvidence2ActiveDev || (
+                activeGeneration && householdActive10Dev && financeStage9 &&
+                    checkedPlanning8Active && auxiliaryReceiptFence != null &&
+                    materialWriteGate != null && !commercialEvidence2StagedDev &&
+                    !householdNeedsWritableDev
+            )) { "Evidence2 ACTIVE requires isolated Household10 DEV trusted read-only session" }
             check(!householdNeedsWritableDev || (householdActive10Dev && planVerifier != null))
             check(!householdActive10Dev || (activeGeneration && !householdStage10 &&
                 financeStage9 && auxiliaryReceiptFence != null && materialWriteGate != null))
@@ -758,6 +807,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 auxiliary4 = auxiliaryReceiptFence != null,
                 householdStage10 = householdStage10 || householdActive10Dev,
                 commercialEvidence2StagedDev = commercialEvidence2StagedDev,
+                commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
             )
             if (householdActive10Dev) {
                 val fence = checkNotNull(auxiliaryReceiptFence)
@@ -796,6 +846,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     householdActive10Dev = householdActive10Dev,
                     householdNeedsWritableDev = householdNeedsWritableDev,
                     commercialEvidence2StagedDev = commercialEvidence2StagedDev,
+                    commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -822,7 +873,11 @@ class FaroV5GenerationStoreGraph private constructor(
             allowAuxiliary3: Boolean = false,
             householdStage10: Boolean = false,
             commercialEvidence2StagedDev: Boolean = false,
+            commercialEvidence2ActiveDev: Boolean = false,
         ) {
+            check(!commercialEvidence2ActiveDev || (activeGeneration && householdStage10)) {
+                "Typed Evidence2 ACTIVE schema requires Household10 active DEV admission"
+            }
             check(!commercialEvidence2StagedDev || !activeGeneration) {
                 "Commercial Evidence2 must not enter ACTIVE strict preflight"
             }
@@ -901,7 +956,7 @@ class FaroV5GenerationStoreGraph private constructor(
             }
             val schemas = listOf(
                 realityProfile,
-                if (commercialEvidence2StagedDev) StagedSqlitePreflight.Schema(
+                if (commercialEvidence2StagedDev || commercialEvidence2ActiveDev) StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.COMMERCIAL_EVIDENCE, 2,
                     listOf("commercial_evidence", "commercial_evidence_quote_terms"),
                 ) else StagedSqlitePreflight.Schema(
@@ -948,6 +1003,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdActive10Dev: Boolean = false,
             householdNeedsWritableDev: Boolean = false,
             commercialEvidence2StagedDev: Boolean = false,
+            commercialEvidence2ActiveDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -971,8 +1027,8 @@ class FaroV5GenerationStoreGraph private constructor(
                     CommercialEvidenceStore(
                         normalized.resolve(GenerationStoreFiles.COMMERCIAL_EVIDENCE).toString(),
                         materialWriteGate = materialWriteGate,
-                        stagedTypedTermsV2 = commercialEvidence2StagedDev,
-                        stagedSemanticBackupV2 = commercialEvidence2StagedDev,
+                        stagedTypedTermsV2 = commercialEvidence2StagedDev || commercialEvidence2ActiveDev,
+                        stagedSemanticBackupV2 = commercialEvidence2StagedDev || commercialEvidence2ActiveDev,
                     )
                 web =
                     WebEvidenceStore(
@@ -1003,8 +1059,9 @@ class FaroV5GenerationStoreGraph private constructor(
                         auxiliary = auxiliary,
                         workspace = workspace,
                     )
-                check(graph.verifyHealthy()) {
-                    "active StorageGeneration failed store health verification"
+                check(graph.verifyHealthy() && (!commercialEvidence2ActiveDev ||
+                    runCatching { graph.commercialEvidence.stagedTypedPortability.snapshot() }.isSuccess)) {
+                    "active StorageGeneration failed store health or typed Evidence2 semantic verification"
                 }
                 return graph
             } catch (failure: Throwable) {
