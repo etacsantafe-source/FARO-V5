@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
-  "reviewed_head": "40930f1ac9282ff70a3563b4cb9c6e3e29e7b244",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ActiveReadSessionTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b1-active-typed-read.yml"
-  ],
+  "reviewed_head": "1f40d2956e9b70a8f0b86c27fd7826a770ae990e",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_ALREADY_SELECTED_DEV_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "23a9ed349918309f319c46da82d2f1fae498fff4",
+    "sha": "1f40d2956e9b70a8f0b86c27fd7826a770ae990e",
     "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B1_B7_RED_FIX_T06_FINGERPRINT_20261122.md",
-        "blob_sha": "0bc50fcf142636aa9baf5d5a5e693c535591dde8",
+        "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B7_PASS_20261122.md",
+        "blob_sha": "63d2714904bf14c1028db918e93521307721a033",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B1 same unit B7 RED_FIX disposed under guard 45057751779; only T06 test fixture bad length3 fingerprint to wrong but valid 64-char fingerprint.",
+  "why": "F2B1 already-selected typed schema2 Household10 DEV reader, guard 45057977036 CI 45057977049 six JUnit XML PASS, no cutover; READY consumed.",
   "how": "F2B1_EXACT3_ACTIVE_TYPED_READONLY_SESSION_NO_POINTER_MUTATION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,6 +81,10 @@
   "preaudit_guard": 45056864872,
   "previous_unit": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
   "previous_b7": "PASS_SCOPED_DEV_STAGED_MIGRATION_REAL_SQLITE",
-  "next": "Change only exact test file, CI six JUnit + XML, B7; no Graph/Kotlin production changes.",
-  "redfix_guard": 45057751779
+  "next": "F2B2 typed schema2 FBS2 archive/cutover/recovery B1–B5, actual journal and rollback before Android F2C.",
+  "redfix_guard": 45057751779,
+  "completed_guard": 45057977036,
+  "completed_ci": 45057977049,
+  "completed_xml": "6/6_JUNIT5_DISTINCT_ZERO_FAILURE_ERROR_SKIP",
+  "completed_artifact_id": 14768058536
 }
