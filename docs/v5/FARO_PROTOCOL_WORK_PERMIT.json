@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
-  "reviewed_head": "9f513ab71fc6830e41962e632419f6bac6a7ae97",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ActiveReadSessionTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b1-active-typed-read.yml"
-  ],
+  "reviewed_head": "23a9ed349918309f319c46da82d2f1fae498fff4",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_NEEDS_RED_FIX",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
-    "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
-    "result": "PASS",
+    "sha": "23a9ed349918309f319c46da82d2f1fae498fff4",
+    "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B7_PASS_20261122.md",
-        "blob_sha": "b27443f4a51b84982729e5cf79c209774345358f",
+        "path": "docs/v5/FARO_S4_W04_F2B1_B7_RED_FIX_T06_FINGERPRINT_20261122.md",
+        "blob_sha": "0bc50fcf142636aa9baf5d5a5e693c535591dde8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B1 isolated DEV single-lease typed ACTIVE read from an ALREADY-selected schema2 Household10 generation; no cutover/restore or UI.",
+  "why": "F2B1 JUnit 45057216495 FAILURE: T06 fixture invalid short hash rejected by SQLite before host semantic read; 5/6 passed, RED_FIX.",
   "how": "F2B1_EXACT3_ACTIVE_TYPED_READONLY_SESSION_NO_POINTER_MUTATION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,5 +81,5 @@
   "preaudit_guard": 45056864872,
   "previous_unit": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
   "previous_b7": "PASS_SCOPED_DEV_STAGED_MIGRATION_REAL_SQLITE",
-  "next": "F2B1 B6/CI 6 JUnit5 tests/B7. F2B2 versioned typed cutover+recovery separate. F2C Android only after F2B2."
+  "next": "After guard, SAME UNIT READY exact3, change only T06 test to 64-char wrong fingerprint, rerun 6 JUnit."
 }

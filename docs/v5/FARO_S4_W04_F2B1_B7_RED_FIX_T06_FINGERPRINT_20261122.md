@@ -1,0 +1,12 @@
+# FARO V5 — W04-F2B1 · B7 RED_FIX T06 fingerprint de 64 caracteres
+Fecha 2026-11-22. Unidad SAME `S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV`. Código `23a9ed349918309f319c46da82d2f1fae498fff4`, permiso READY `209472f2bde70569967a9d9f4c029ccd8974113e`, preaudit B1–B5 `docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md` blob `d2e1f0531d053e13b7cc15186b87f5aaa209ea03`, guardia código `45057216482` COMPLETED SUCCESS.
+
+## B7 — RED_FIX (NO PASS)
+CI F2B1 `45057216495` COMPLETED FAILURE; job `137314995708`. Kotlin compiló y JUnit5 ejecutó realmente **6 tests, 5 PASS, 1 FAIL, 0 errors, 0 skips**. Falla `t06CorruptTypedFingerprintAndRevokedOwnerCannotOpen()`: `SQLiteException Error code 275 CHECK constraint failed: length(terms_fingerprint) = 64` en test linea 187, ANTES de invocar nuevo opener ACTIVE. El propio SQLite rechazó el intento de insertar fingerprint `'bad'` de 3 caracteres, como debe hacer, por lo que el caso no comprobó la validación semántica del H1. Las otras cinco pruebas de grants/lease/puntero/legacy/schema2 sí PASARON.
+Artefacto `14768460754`, ZIP SHA256 `b2ebf47e3ca76f8c8e4fd5ead00337f89eb06066fb4e8eb183d42c4512d0c842` y XML `8005827d229640121205941f66440ef95252cf533019cdc6a7298bf036cc8663`, descargado e inspeccionado. El primer intento no tiene B7 PASS.
+
+## B5 — Corrección mínima
+Modificar **solo** `v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ActiveReadSessionTest.kt`: reemplazar SQL `SET terms_fingerprint='bad'` por un fingerprint falso de 64 caracteres ASCII, por ejemplo `SET terms_fingerprint='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'`. Mantiene el CHECK de longitud y debe activar la comprobación semántica `readTypedTerms`/H1 cuando el nuevo opener intenta verificarlo. No modificar código productivo `FaroV5GenerationStoreGraph.kt`, no alterar permisos ACL ni RELAX constraint, no tocar Kotlin ajeno, no abrir source schema2.
+
+Consumir el permiso READY anterior con `last_code_review.result=RED_FIX`, `status=BLOCKED`, B7 evidencia blob exacta y guardia verde. Luego emitir SAME UNIT READY EXACT3 con B6 `READY_TO_IMPLEMENT` y B7 `PENDING_FINAL_AUDIT`; cambiar solo el test, marker FARO-UNIT igual. CI repetida en SHA exacto, XML seis distintos 6/6 y guardia PASS; si falla registrar RED_FIX nueva, jamás falsificar cierre.
+F2B2 cutover/restore de Evidence2 y F2C Android pendientes; esta unidad es de apertura DEV de una generación ya seleccionada, no un cutover real. No pagos, Apply, V2 productiva, G15, main o V4.4.
