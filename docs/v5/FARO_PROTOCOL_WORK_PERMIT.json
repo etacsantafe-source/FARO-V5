@@ -1,16 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_DEV",
-  "reviewed_head": "5fe51ae3286e92bf8b7575c93e9e77dd0d6afe7f",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
+  "reviewed_head": "ccd78051e6ad4d84a618e3799b13f3248a263fc6",
+  "paths": [
+    "v5/app/build.gradle.kts",
+    "v5/app/src/w04CommercialDev/AndroidManifest.xml",
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevActivity.kt",
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialReviewPanel.kt",
+    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w04-e-native-review.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D4_REVIEW_PRESENTATION_B1_B5_20261122.md",
-          "blob_sha": "7a8dfec051296d48d1726343c4e8a807f66da3f6",
+          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
+          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
           "marker": "## B1"
         }
       ]
@@ -19,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D4_REVIEW_PRESENTATION_B1_B5_20261122.md",
-          "blob_sha": "7a8dfec051296d48d1726343c4e8a807f66da3f6",
+          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
+          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
           "marker": "## B2"
         }
       ]
@@ -29,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D4_REVIEW_PRESENTATION_B1_B5_20261122.md",
-          "blob_sha": "7a8dfec051296d48d1726343c4e8a807f66da3f6",
+          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
+          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
           "marker": "## B3"
         }
       ]
@@ -39,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D4_REVIEW_PRESENTATION_B1_B5_20261122.md",
-          "blob_sha": "7a8dfec051296d48d1726343c4e8a807f66da3f6",
+          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
+          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
           "marker": "## B4"
         }
       ]
@@ -49,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D4_REVIEW_PRESENTATION_B1_B5_20261122.md",
-          "blob_sha": "7a8dfec051296d48d1726343c4e8a807f66da3f6",
+          "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
+          "blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "5fe51ae3286e92bf8b7575c93e9e77dd0d6afe7f",
@@ -70,22 +77,16 @@
       }
     ]
   },
-  "why": "D4 passed the exact-SHA protocol guard and eight distinct JVM cases in the independently inspected Actions XML. READY consumed.",
-  "how": "D4_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
+  "why": "W04-D4 supplies a verified immutable historical display; W04-E adds native isolated Android presentation only, not a live data/transaction host.",
+  "how": "W04_E_ANDROID_NATIVE_RENDERER_EXACT6_DEV_READONLY_NO_APPLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
-    "scope": "Preparar W04-D4 B1-B5 y dejar READY a Work si guarda; sólo un adaptador JVM DEV de presentación histórica, sin UI Android/Apply/pagos/Finance/stock/V2 productiva/pruebas físicas."
+    "scope": "Terminar W04-E mediante unidad Android aislada de presentación histórica, sin Work; no pagos, Apply, V2 productiva, G15 ni activación host comercial."
   },
-  "preaudit_guard": 45032414215,
-  "previous_unit": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B7_PASS_20261122.md",
-  "next": "STOP_D4_COMPLETE_E_F_OUT_OF_SCOPE",
-  "prepared_from": "b58b2353f9f6addb0a8f5c792afab57908200f46",
-  "completed_guard": 45034045852,
-  "completed_ci": 45034045914,
-  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14759051713,
-  "ready_guard": 45032561310
+  "preaudit_guard": 45036952299,
+  "previous_unit": "S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_B7_PASS_20261122.md",
+  "next": "W04-E B6/B7 exact6 Android DEV; W04-F debe integrar host activo tras autorización independiente"
 }
