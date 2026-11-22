@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_D3B_LIVE_READ_RECHECK_B7_PASS_SCOPED_DEV",
+  "phase": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B1_B5_DOC_ONLY",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_D3B_B7_DOC",
-    "epoch": 1550
+    "status": "VERIFY_REMOTE_RELEASE_AFTER_D3C_B1_B5_DOC",
+    "epoch": 1552
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "D3B DEV B7 cerrado. D3C, D4, E y F requieren autorización separada.",
-  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_B7_PASS_SCOPED_DEV",
+  "next": "D3C documentary guard, then issue separate READY exact3 DEV-only read-model trace; Work B6/B7; NO Apply/D4/E/F",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_B7_PASS_D3C_B1_B5_DOCUMENTED_PENDING_GUARD",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "c5fe25a5787100e1d1f434df62ae611da58e21ab",
@@ -6278,5 +6278,15 @@
     "artifact_sha256": "7d9ca2eee35a7dc913c9adc0b1b12dffc19eeb6b12ba2231bdc14d67170b5e21",
     "xml_sha256": "e20a7ba911af50655fef47b9df5c6701021f7b96f011173c83d862cde3ea5766",
     "android_g15": "NOT_RUN"
+  },
+  "d3c": {
+    "unit_id": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
+    "status": "B1_B5_DOC_ONLY_GUARD_PENDING",
+    "preaudit": "docs/v5/FARO_S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B1_B5_20261122.md",
+    "preaudit_blob_sha": "dce044319075cbc2f8321f5124d940357fa91262",
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
+    "tests": "8_JUNIT5_PLANNED_NOT_RUN",
+    "note": "Explicit D2A historical selection trace; D3B display proof is NOT Apply authority"
   }
 }
