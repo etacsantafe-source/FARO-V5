@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-  "reviewed_head": "f36f705af5db694ecee942efeb0be40b929f0c43",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinator.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinatorTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f1-historical-read-coordinator.yml"
-  ],
+  "reviewed_head": "03be898c99605b2c51abdc0dc8c540d165cebe75",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_NEEDS_RED_FIX",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "bbcdb021ced4688ede8a41533d22deb90bf2e1ea",
-    "unit_id": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
-    "result": "PASS",
+    "sha": "03be898c99605b2c51abdc0dc8c540d165cebe75",
+    "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md",
-        "blob_sha": "9cdd2673b0098fac3890cbffe71d78e9aa5a1474",
+        "path": "docs/v5/FARO_S4_W04_F1_B7_RED_FIX_SHELL_20261122.md",
+        "blob_sha": "62871ad8d55e395f949265a6278be19940f146f2",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-F1 read-only JVM composition of certified D1,D2A,D2C1,D3A,D3B,D4 with explicit human selection, independent grants and final recheck. Not a live Android source host.",
+  "why": "F1 first B6 CI 45052667038 FAILURE: shell split Gradle task, no tests run. Formal B7 RED_FIX disposition; no functional writing authorized until a fresh READY and guard.",
   "how": "F1_EXACT3_NO_APPLY_READONLY_JVM",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,5 +81,5 @@
   "preaudit_guard": 45052343449,
   "previous_unit": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
   "previous_b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
-  "next": "F1 B6/B7 exact3 JVM; F2 debe montar fuente real autorizada y F3 Android integral por separado."
+  "next": "Revalidate RED_FIX BLOCKED guard; issue SAME UNIT READY exact3 with this B7 evidence, then fix workflow command only."
 }
