@@ -660,7 +660,20 @@ class FaroV5GenerationStoreGraph private constructor(
             return healthy && pointer.read() == expected
         }
 
-        internal fun requireSealedHousehold10ArchiveStage(staged: StagedStorageGeneration) {
+        internal fun requireSealedHousehold10ArchiveStage(staged: StagedStorageGeneration) =
+            requireSealedHousehold10ArchiveStageInternal(staged, typedEvidence2 = false)
+
+        /**
+         * F2B2A: independently sealed Household10/Evidence2 STAGED format check.
+         * Never changes a pointer, admits an ACTIVE session or reuses FBS2v6.
+         */
+        internal fun requireSealedHousehold10Evidence2ArchiveStage(staged: StagedStorageGeneration) =
+            requireSealedHousehold10ArchiveStageInternal(staged, typedEvidence2 = true)
+
+        private fun requireSealedHousehold10ArchiveStageInternal(
+            staged: StagedStorageGeneration,
+            typedEvidence2: Boolean,
+        ) {
             check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
             val directory = staged.directory.toAbsolutePath().normalize()
             check(directory.toRealPath() == directory)
@@ -679,6 +692,7 @@ class FaroV5GenerationStoreGraph private constructor(
             requireStrictV2StoreSchemas(
                 directory, activeGeneration = false, planningStage8 = true,
                 financeStage9 = true, auxiliary4 = true, householdStage10 = true,
+                commercialEvidence2StagedDev = typedEvidence2,
             )
             RealityHousehold10SealedRowsPort.readTrustedSealedStageTen(directory.resolve(GenerationStoreFiles.REALITY))
         }
