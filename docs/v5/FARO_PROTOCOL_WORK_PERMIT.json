@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
-  "reviewed_head": "a4cf78f4e77d203659fce530dd369a14961ac567",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml"
-  ],
+  "reviewed_head": "d230434af2f80aaaff53a3cf6ee2d063a33529e2",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_NEEDS_RED_FIX",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "1f40d2956e9b70a8f0b86c27fd7826a770ae990e",
-    "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
-    "result": "PASS",
+    "sha": "d230434af2f80aaaff53a3cf6ee2d063a33529e2",
+    "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B7_PASS_20261122.md",
-        "blob_sha": "63d2714904bf14c1028db918e93521307721a033",
+        "path": "docs/v5/FARO_S4_W04_F2B2A_B7_RED_FIX_TRIGGER_20261122.md",
+        "blob_sha": "85949a2c48a91e8ab8d255cfb90caf8fdacaab98",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04-F2B2A new separate DEV-only sealed five-store Household10/Evidence2 schema2 preflight; no pointer switch, archives or Apply.",
+  "why": "F2B2A CI 45059180422 FAILURE 5/6 T04; unexpected Commercial Evidence2 SQL trigger was accepted by new sealed preflight. Real security gap, RED_FIX before continuation.",
   "how": "F2B2A_EXACT3_STAGE_SEALED_TYPED_PREFLIGHT_NO_ACTIVATION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,5 +81,5 @@
   "preaudit_guard": 45058883420,
   "previous_unit": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
   "previous_b7": "PASS_SCOPED_ALREADY_SELECTED_DEV_READ_ONLY",
-  "next": "F2B2A B6/CI/JUnit 6/6+B7; F2B2B archive/recovery separate and F2C Android independent."
+  "next": "Guard RED_FIX BLOCKED, reissue SAME UNIT READY exact3, change only Graph typed sealed preflight to reject triggers via READONLY SQLite; rerun 6/6 directed."
 }
