@@ -46,8 +46,7 @@ jobs:
       - name: F1 JVM tests exact eight
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache
-            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04HistoricalAuthorizedReadCoordinatorTest
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04HistoricalAuthorizedReadCoordinatorTest
       - name: Verify XML eight distinct cases
         run: |
           python3 - <<'PY'
