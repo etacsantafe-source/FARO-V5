@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
-  "reviewed_head": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
+  "reviewed_head": "9f513ab71fc6830e41962e632419f6bac6a7ae97",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ActiveReadSessionTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2b1-active-typed-read.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
-          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
+          "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md",
+          "blob_sha": "d2e1f0531d053e13b7cc15186b87f5aaa209ea03",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
-          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
+          "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md",
+          "blob_sha": "d2e1f0531d053e13b7cc15186b87f5aaa209ea03",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
-          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
+          "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md",
+          "blob_sha": "d2e1f0531d053e13b7cc15186b87f5aaa209ea03",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
-          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
+          "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md",
+          "blob_sha": "d2e1f0531d053e13b7cc15186b87f5aaa209ea03",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2A_STAGED_EVIDENCE2_UPGRADE_B1_B5_20261122.md",
-          "blob_sha": "50b5a5a1a135f4fa9b4d08bf4b25b6475cd6a1ae",
+          "path": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md",
+          "blob_sha": "d2e1f0531d053e13b7cc15186b87f5aaa209ea03",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_STAGED_MIGRATION_REAL_SQLITE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "e459ce49f48a2f0a7f36cd8ee9069f26aba28ad4",
@@ -70,20 +74,16 @@
       }
     ]
   },
-  "why": "F2A isolated five-SQLite staged Evidence1->Evidence2 schema2 migration, guard 45056165869 CI 45056165906 XML 8/8 zero fails. READY consumed. No ACTIVE cutover.",
-  "how": "W04_F2A_STAGED_COPY_EVIDENCE2_MIGRATION_EXACT3_NO_CUTOVER",
+  "why": "F2B1 isolated DEV single-lease typed ACTIVE read from an ALREADY-selected schema2 Household10 generation; no cutover/restore or UI.",
+  "how": "F2B1_EXACT3_ACTIVE_TYPED_READONLY_SESSION_NO_POINTER_MUTATION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
-    "scope": "Continuamos. Trata de terminar F2 completo; first isolated DEV staged migration F2A only. No productive V2/Apply/Finance/payments/G15."
+    "scope": "Usuario autorizó continuar e intentar completar F2. Esta unidad solo opt-in DEV para lectura de schema2 ALREADY ACTIVE, no ejecución de cutover/Apply/pagos/G15."
   },
-  "preaudit_guard": 45055860322,
-  "previous_unit": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-  "previous_b7": "PASS_SCOPED_DEV_JVM_READ_ONLY",
-  "next": "F2B separate: audit and certify typed Evidence2 ACTIVE cutover+recovery+single-lease host; F2C Android afterward.",
-  "completed_guard": 45056165869,
-  "completed_ci": 45056165906,
-  "completed_xml": "8/8_JUNIT5_STAGED_REAL_SQLITE_PASS",
-  "completed_artifact_id": 14767409067
+  "preaudit_guard": 45056864872,
+  "previous_unit": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
+  "previous_b7": "PASS_SCOPED_DEV_STAGED_MIGRATION_REAL_SQLITE",
+  "next": "F2B1 B6/CI 6 JUnit5 tests/B7. F2B2 versioned typed cutover+recovery separate. F2C Android only after F2B2."
 }
