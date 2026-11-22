@@ -1,9 +1,13 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-  "reviewed_head": "03be898c99605b2c51abdc0dc8c540d165cebe75",
-  "paths": [],
+  "reviewed_head": "27b29554632fa5c5b037e4e15e2e08e60242226d",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinator.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinatorTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f1-historical-read-coordinator.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -55,8 +59,8 @@
         }
       ]
     },
-    "B6": "DONE_NEEDS_RED_FIX",
-    "B7": "RED_FIX"
+    "B6": "READY_TO_RETRY_CI_SHELL_FIX",
+    "B7": "RED_FIX_RETEST_PENDING"
   },
   "last_code_review": {
     "sha": "03be898c99605b2c51abdc0dc8c540d165cebe75",
@@ -70,7 +74,7 @@
       }
     ]
   },
-  "why": "F1 first B6 CI 45052667038 FAILURE: shell split Gradle task, no tests run. Formal B7 RED_FIX disposition; no functional writing authorized until a fresh READY and guard.",
+  "why": "F1 B7 RED_FIX disposed under guard 45053159678. Reauthorize same exact3 with code change limited to existing F1 workflow Gradle physical line; no Kotlin changes.",
   "how": "F1_EXACT3_NO_APPLY_READONLY_JVM",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -81,5 +85,6 @@
   "preaudit_guard": 45052343449,
   "previous_unit": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
   "previous_b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
-  "next": "Revalidate RED_FIX BLOCKED guard; issue SAME UNIT READY exact3 with this B7 evidence, then fix workflow command only."
+  "next": "Change only .github/workflows/faro-v5-s4-w04-f1-historical-read-coordinator.yml, run 8 JUnit tests exact XML, code guard, B7. No fake pass.",
+  "redfix_guard": 45053159678
 }
