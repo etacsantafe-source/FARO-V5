@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_DEV",
-  "reviewed_head": "b58b2353f9f6addb0a8f5c792afab57908200f46",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialReviewPresentation.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialReviewPresentationTest.kt",
-    ".github/workflows/faro-v5-s4-w04-d4-review-presentation.yml"
-  ],
+  "reviewed_head": "5fe51ae3286e92bf8b7575c93e9e77dd0d6afe7f",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
   },
   "last_code_review": {
-    "sha": "b94912508fd6df0829bb047bc09f6ef865370c3d",
-    "unit_id": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
+    "sha": "5fe51ae3286e92bf8b7575c93e9e77dd0d6afe7f",
+    "unit_id": "S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B7_PASS_20261122.md",
-        "blob_sha": "0dee3ec09b62822d65de0c2360ea3af686280bff",
+        "path": "docs/v5/FARO_S4_W04_D4_HISTORICAL_REVIEW_PRESENTATION_B7_PASS_20261122.md",
+        "blob_sha": "6383c50b885e9247a503f367ea14b9825eccc8fe",
         "marker": "## B7"
       }
     ]
   },
-  "why": "D3C trace and D3A scenario are certified separately; D4 presents them as strictly separated read-only grouped data for W04-E without creating a new price, action or authority.",
-  "how": "D4_EXACT3_JVM8_READ_ONLY_PRESENTATION_NO_APPLY",
+  "why": "D4 passed the exact-SHA protocol guard and eight distinct JVM cases in the independently inspected Actions XML. READY consumed.",
+  "how": "D4_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +81,11 @@
   "preaudit_guard": 45032414215,
   "previous_unit": "S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_DEV",
   "previous_b7": "docs/v5/FARO_S4_W04_D3C_EXPLICIT_OBSERVATION_TRACE_B7_PASS_20261122.md",
-  "next": "WORK_W04_D4_B6_B7_EXACT3_DEV_READ_ONLY_PRESENTATION",
-  "prepared_from": "b58b2353f9f6addb0a8f5c792afab57908200f46"
+  "next": "STOP_D4_COMPLETE_E_F_OUT_OF_SCOPE",
+  "prepared_from": "b58b2353f9f6addb0a8f5c792afab57908200f46",
+  "completed_guard": 45034045852,
+  "completed_ci": 45034045914,
+  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
+  "completed_artifact_id": 14759051713,
+  "ready_guard": 45032561310
 }
