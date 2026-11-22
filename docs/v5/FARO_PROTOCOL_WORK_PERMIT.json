@@ -1,9 +1,13 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
-  "reviewed_head": "23a9ed349918309f319c46da82d2f1fae498fff4",
-  "paths": [],
+  "reviewed_head": "40930f1ac9282ff70a3563b4cb9c6e3e29e7b244",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ActiveReadSessionTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2b1-active-typed-read.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -55,8 +59,8 @@
         }
       ]
     },
-    "B6": "DONE_NEEDS_RED_FIX",
-    "B7": "RED_FIX"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "23a9ed349918309f319c46da82d2f1fae498fff4",
@@ -70,7 +74,7 @@
       }
     ]
   },
-  "why": "F2B1 JUnit 45057216495 FAILURE: T06 fixture invalid short hash rejected by SQLite before host semantic read; 5/6 passed, RED_FIX.",
+  "why": "F2B1 same unit B7 RED_FIX disposed under guard 45057751779; only T06 test fixture bad length3 fingerprint to wrong but valid 64-char fingerprint.",
   "how": "F2B1_EXACT3_ACTIVE_TYPED_READONLY_SESSION_NO_POINTER_MUTATION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -81,5 +85,6 @@
   "preaudit_guard": 45056864872,
   "previous_unit": "S4_W04_F2A_HOUSEHOLD10_EVIDENCE2_STAGED_UPGRADE_DEV",
   "previous_b7": "PASS_SCOPED_DEV_STAGED_MIGRATION_REAL_SQLITE",
-  "next": "After guard, SAME UNIT READY exact3, change only T06 test to 64-char wrong fingerprint, rerun 6 JUnit."
+  "next": "Change only exact test file, CI six JUnit + XML, B7; no Graph/Kotlin production changes.",
+  "redfix_guard": 45057751779
 }

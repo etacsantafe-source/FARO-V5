@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2B1_B7_RED_FIX_T06_FINGERPRINT",
+  "phase": "S4_W04_F2B1_T06_RED_FIX_READY_EXACT3",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1586
+    "epoch": 1587
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2A B7 PASS, F2B1 first JUnit 5/6 due fixture T06 fingerprint len3 SQL CHECK, formal RED_FIX and BLOCKED. Correct test only after READY. F2B2/F2C OPEN.",
+  "next": "F2B1 formal RED_FIX T06 guard 45057751779 SUCCESS, READY exact3; change test-only fingerprint to 64 fake chars and rerun 6/6. F2B2/F2C OPEN.",
   "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_E_F1_B7_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F2A_PASS_F2B1_RED_FIX",
+    "status": "F2A_PASS_F2B1_T06_READY",
     "global": "OPEN",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
@@ -6386,7 +6386,7 @@
     },
     "f2": {
       "unit_id": "S4_W04_F2_ACTIVE_TYPED_EVIDENCE_HOST_DEV",
-      "status": "F2B1_RED_FIX_T06",
+      "status": "F2B1_T06_RED_FIX_READY",
       "preaudit": "docs/v5/FARO_S4_W04_F2_ACTIVE_TYPED_SOURCE_FEASIBILITY_B1_B5_20261122.md",
       "preaudit_blob_sha": "1b8939d9b737dc26b3d65adac20f0a7bcea57768",
       "reason": "NO_CERTIFIED_SCHEMA2_ACTIVE_SAME_GENERATION_HOST",
@@ -6415,10 +6415,10 @@
       "f2c": "BLOCKED_PENDING",
       "f2b1": {
         "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
-        "status": "RED_FIX_5_OF_6",
+        "status": "READY_RETEST_T06",
         "preaudit": "docs/v5/FARO_S4_W04_F2B1_ACTIVE_TYPED_READ_SESSION_B1_B5_20261122.md",
         "blob_sha": "d2e1f0531d053e13b7cc15186b87f5aaa209ea03",
-        "guard": 45056864872,
+        "guard": 45057751779,
         "paths": [
           "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
           "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ActiveReadSessionTest.kt",
@@ -6429,7 +6429,9 @@
         "ci_run_id": 45057216495,
         "failed_case": "t06CorruptTypedFingerprintAndRevokedOwnerCannotOpen",
         "redfix_doc": "docs/v5/FARO_S4_W04_F2B1_B7_RED_FIX_T06_FINGERPRINT_20261122.md",
-        "redfix_blob_sha": "0bc50fcf142636aa9baf5d5a5e693c535591dde8"
+        "redfix_blob_sha": "0bc50fcf142636aa9baf5d5a5e693c535591dde8",
+        "ready_parent": "40930f1ac9282ff70a3563b4cb9c6e3e29e7b244",
+        "permit": "READY"
       },
       "f2b2": "BLOCKED_PENDING"
     },
