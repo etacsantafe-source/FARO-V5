@@ -1,9 +1,13 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
-  "reviewed_head": "1effa68fc8e9378a954d26576f7202a5e0394ec3",
-  "paths": [],
+  "reviewed_head": "410bec2d1fe3183d5f4708ff40360a05e4dc7f23",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinator.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04HistoricalAuthorizedReadCoordinatorTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f1-historical-read-coordinator.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -55,8 +59,8 @@
         }
       ]
     },
-    "B6": "DONE_NEEDS_RED_FIX",
-    "B7": "RED_FIX"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "1effa68fc8e9378a954d26576f7202a5e0394ec3",
@@ -70,7 +74,7 @@
       }
     ]
   },
-  "why": "F1 JUnit 45053465765 7 PASS 1 FAIL (T07 fixture erroneously selected first cart line, not intended need ID); RED_FIX2 disposition. No new Kotlin allowed until new READY.",
+  "why": "SAME UNIT RED_FIX T07 after guard 45054153341 SUCCESS; only change TEST fixture selecting need by ID not first canonical line.",
   "how": "F1_EXACT3_NO_APPLY_READONLY_JVM",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -78,10 +82,10 @@
     "date_local": "2026-11-22",
     "scope": "Continuamos con f: F1 lectura histórica segura; sin pagos, Apply, V2 productiva, G15 ni fuente ACTIVE fingida."
   },
-  "preaudit_guard": 45052343449,
+  "preaudit_guard": 45054153341,
   "previous_unit": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
   "previous_b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
-  "next": "After B7 RED_FIX BLOCKED guard success, reissue F1 same exact3, fix only test selection by need.id, CI XML 8/8.",
+  "next": "Change only F1 test file, re-run exact 8 JVM JUnit5 and XML, require guard and B7.",
   "redfix_guard": 45053159678,
   "last_ready_guard_failure": 45053254021
 }
