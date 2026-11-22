@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
-  "reviewed_head": "46b96cc326d529744aadbd60e13efb71d53684ea",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_D3B_LIVE_READ_RECHECK_DEV",
+  "reviewed_head": "74780c8394101c35ad4a915826680a28ea821d2d",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialLiveReadRecheck.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04CommercialLiveReadRecheckTest.kt",
+    ".github/workflows/faro-v5-s4-w04-d3b-live-read-recheck.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
-          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
+          "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B1_B5_20261122.md",
+          "blob_sha": "19930365ef27f915d604c22d8605a4b95fb25200",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
-          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
+          "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B1_B5_20261122.md",
+          "blob_sha": "19930365ef27f915d604c22d8605a4b95fb25200",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
-          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
+          "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B1_B5_20261122.md",
+          "blob_sha": "19930365ef27f915d604c22d8605a4b95fb25200",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
-          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
+          "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B1_B5_20261122.md",
+          "blob_sha": "19930365ef27f915d604c22d8605a4b95fb25200",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B1_B5_20261121.md",
-          "blob_sha": "93626f7556f699d2b95a6d3924ce225edd1ca023",
+          "path": "docs/v5/FARO_S4_W04_D3B_LIVE_READ_RECHECK_B1_B5_20261122.md",
+          "blob_sha": "19930365ef27f915d604c22d8605a4b95fb25200",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_JVM_READ_ONLY"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "46b96cc326d529744aadbd60e13efb71d53684ea",
@@ -70,22 +74,17 @@
       }
     ]
   },
-  "why": "D3A guard and independently inspected Actions XML, eight distinct passing JVM cases. READY consumed.",
-  "how": "D3A_EXACT3_B7_PASS_XML8_GUARD_READY_CONSUMED",
+  "why": "D3B DEV-only detected stale pre-review via host-admitted D1 rereads. Never issue Apply capability, current quote or financial confirmation.",
+  "how": "D3B_EXACT3_JVM8_HOST_SUPPLIED_D1_NO_APPLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
-    "date_local": "2026-11-21",
-    "scope": "Continue FARO V5 using remaining 9% Work weekly limit, prepare D3A scoped read-only JVM DEV B1-B5/READY, no D3B Apply/activation"
+    "date_local": "2026-11-22",
+    "scope": "Usuario confirmó preparar D3B para Work; B1-B5 y permiso de DEV read-only recheck, programación/pruebas B6-B7 para Work; D3C Apply, D4/E/F, producción y G15 no autorizados"
   },
-  "preaudit_guard": 44921127903,
-  "previous_unit": "S4_W04_D2C1_CONDITIONAL_BENEFIT_NOTES_DEV",
-  "previous_b7": "docs/v5/FARO_S4_W04_D2C1_DEFERRED_BENEFITS_B7_PASS_20261121.md",
-  "next": "STOP_D3A_COMPLETE_D3B_D4_E_F_NOT_AUTHORIZED",
-  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7",
-  "completed_guard": 44923205285,
-  "completed_ci": 44923205445,
-  "completed_xml": "8/8_JUNIT_DISTINCT_ZERO_FAIL_ERROR_SKIP",
-  "completed_artifact_id": 14715075769,
-  "ready_guard": 44921265948
+  "preaudit_guard": 45023898670,
+  "previous_unit": "S4_W04_D3A_PRE_REVIEW_ENVELOPE_DEV",
+  "previous_b7": "docs/v5/FARO_S4_W04_D3A_PRE_REVIEW_B7_PASS_20261121.md",
+  "next": "WORK_D3B_B6_B7_DEV_READ_ONLY_RECHECK_EXACT3",
+  "prepared_from": "10b655942690b84c7389ce15a7ff8df610f414e7"
 }
