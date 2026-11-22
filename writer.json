@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W04.F2B2A.RED_FIX.20261122",
   "token_hash": "f3fdca7be17b5de91f6ae60347f0424954f6efb1a6518cfd284478584c569ab4",
   "target_head": "d230434af2f80aaaff53a3cf6ee2d063a33529e2",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1593,
-  "timestamp": 1795374972
+  "timestamp": 1795374994,
+  "last_checkpoint": "6e775218ff7e08178258b1232e7cc9f84d96a3dc"
 }
