@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2B1_ACTIVE_TYPED_READER_B7_PASS_SCOPED",
+  "phase": "S4_W04_F2B2A_TYPED_SEALED_STAGE_READY_EXACT3",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1589
+    "epoch": 1591
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2A STAGED upgrade 8/8 and F2B1 already-ACTIVE typed session 6/6 certified. F2B2 cutover/recovery schema2 STILL MISSING, F2C Android blocked, W04-F2 GLOBAL OPEN.",
+  "next": "F2A 8/8, F2B1 6/6 B7 PASS; F2B2A preaudit B1-B5 guard 45058883420 SUCCESS, READY exact3 for STAGED sealed typed schema2 admission only. F2B2B/C restore/cutover and F2C Android PENDING.",
   "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_E_F1_B7_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F2A_F2B1_PASS_F2B2_PENDING",
+    "status": "F2A_F2B1_PASS_F2B2A_READY",
     "global": "OPEN",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
@@ -6386,7 +6386,7 @@
     },
     "f2": {
       "unit_id": "S4_W04_F2_ACTIVE_TYPED_EVIDENCE_HOST_DEV",
-      "status": "F2A_F2B1_B7_PASS_F2B2_PENDING",
+      "status": "F2B2A_READY",
       "preaudit": "docs/v5/FARO_S4_W04_F2_ACTIVE_TYPED_SOURCE_FEASIBILITY_B1_B5_20261122.md",
       "preaudit_blob_sha": "1b8939d9b737dc26b3d65adac20f0a7bcea57768",
       "reason": "NO_CERTIFIED_SCHEMA2_ACTIVE_SAME_GENERATION_HOST",
@@ -6412,7 +6412,7 @@
         "tests": "8/8_PASS_ZERO_FAILURE_ERROR_SKIP"
       },
       "f2b": "NEEDS_DISTINCT_AUTHORIZED_TYPED_ACTIVE_CUTOVER_AND_READ_HOST",
-      "f2c": "BLOCKED_ON_F2B2",
+      "f2c": "PENDING",
       "f2b1": {
         "unit_id": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
         "status": "B7_PASS_SCOPED_ALREADY_SELECTED_DEV",
@@ -6425,7 +6425,21 @@
         "artifact_id": 14768058536,
         "tests": "6/6_XML_PASS_ZERO_FAILURE_ERROR_SKIP"
       },
-      "f2b2": "NEEDS_TYPED_ARCHIVE_CUTOVER_RECOVERY"
+      "f2b2": "NEEDS_TYPED_ARCHIVE_CUTOVER_RECOVERY",
+      "f2b2a": {
+        "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
+        "status": "READY_EXACT3",
+        "preaudit": "docs/v5/FARO_S4_W04_F2B2A_TYPED_SEALED_ADMISSION_B1_B5_20261122.md",
+        "preaudit_blob": "5573038f92cc42d5732295a62247d5e21f3507a1",
+        "guard": 45058883420,
+        "paths": [
+          "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+          "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt",
+          ".github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml"
+        ]
+      },
+      "f2b2b": "NOT_AUTHORIZED",
+      "f2b2c": "NOT_AUTHORIZED"
     },
     "f3": "BLOCKED_ON_F2_PASS",
     "android_g15": "NOT_RUN"
