@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_READY_EXACT3",
+  "phase": "S4_W04_F1_B7_RED_FIX_CI_SHELL_COMMAND",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1567
+    "epoch": 1569
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-F1 B1–B5 verificados guard 45052343449; READY exact3 para coordinador JVM histórico (no host Android). Hacer B6/CI/XML/B7. F2/F3 necesitan permisos independientes; no Apply/pagos/G15.",
+  "next": "W04-F1 primer B6 publicado y guardia 45052666972 SUCCESS; CI 45052667038 FAILURE por comando Gradle cortado en workflow, tests NOT_RUN. RED_FIX exclusivo workflow, sin tocar Kotlin. F2/F3 OPEN.",
   "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_B7_PASS_E_NATIVE_RENDERER_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F1_READY_EXACT3",
+    "status": "F1_RED_FIX_SHELL",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
       "preaudit": "docs/v5/FARO_S4_W04_F1_AUTHORIZED_HISTORICAL_COORDINATOR_B1_B5_20261122.md",
@@ -6381,7 +6381,12 @@
         "B1_B5": "VERIFIED",
         "B6": "READY",
         "B7": "PENDING"
-      }
+      },
+      "b6": "03be898c99605b2c51abdc0dc8c540d165cebe75",
+      "b7": "RED_FIX",
+      "ci_run_id": 45052667038,
+      "ci_conclusion": "FAILURE_NO_TESTS_SHELL_SPLIT",
+      "redfix_document": "docs/v5/FARO_S4_W04_F1_B7_RED_FIX_SHELL_20261122.md"
     },
     "f2": "NOT_AUTHORIZED",
     "f3": "NOT_AUTHORIZED",
