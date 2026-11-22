@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_E_NATIVE_REVIEW_READY_EXACT6_DEV",
+  "phase": "S4_W04_E_NATIVE_RENDERER_B7_PASS_SCOPED_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -24,8 +24,8 @@
   "s3_open": false,
   "s4_open": true,
   "writer": {
-    "status": "VERIFY_REMOTE_RELEASE_AFTER_E_READY",
-    "epoch": 1563
+    "status": "RELEASED",
+    "epoch": 1565
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-E UI nativa DEV: B1–B5 preauditada guard 45036952299 SUCCESS, permiso READY exact6. Ejecutar solo B6/B7 con CAS, guard+CI Android API35; no host vivo ni Apply. W04-F por separado.",
-  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_B7_PASS",
+  "next": "W04-E renderer Android DEV B7 PASS 4/4, NO HOST comercial vivo. W04-F debe cablear real Household/Evidence con permisos, revisar y cerrar SmartCompra por su propia unidad B1–B7. Sin Apply/pagos/V2 productiva/G15.",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_B7_PASS_E_NATIVE_RENDERER_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "5fe51ae3286e92bf8b7575c93e9e77dd0d6afe7f",
-  "last_ci_run_id": 45034045914,
+  "last_code_sha": "bbcdb021ced4688ede8a41533d22deb90bf2e1ea",
+  "last_ci_run_id": 45037284360,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_D4_EXACT_SHA_XML_8_OF_8",
+  "last_ci_conclusion": "SUCCESS_W04_E_ANDROID_API35_4_OF_4_XML",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6339,7 +6339,7 @@
   "last_work_handoff": "docs/v5/FARO_S4_W04_D4_WORK_HANDOFF_20261122.md",
   "w04_e": {
     "unit_id": "S4_W04_E_NATIVE_HISTORICAL_REVIEW_DEV",
-    "status": "READY_EXACT6_GUARD_PENDING",
+    "status": "B7_PASS_SCOPED_DEV_NATIVE_RENDERER_NO_LIVE_HOST",
     "preaudit": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B1_B5_20261122.md",
     "preaudit_blob_sha": "4c88de0112d9d84f88dde2235da713a12b34cb54",
     "preaudit_guard": 45036952299,
@@ -6351,9 +6351,18 @@
       "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialAndroidTest.kt",
       ".github/workflows/faro-v5-s4-w04-e-native-review.yml"
     ],
-    "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
+    "b6": "DONE_VERIFIED",
+    "b7": "PASS_SCOPED_DEV_ANDROID_NATIVE_READ_ONLY",
     "android_g15": "NOT_RUN",
-    "w04_f": "NOT_AUTHORIZED"
+    "w04_f": "PENDING_FRESH_B1_B7_NO_PERMISSION",
+    "code_sha": "bbcdb021ced4688ede8a41533d22deb90bf2e1ea",
+    "guard_run_id": 45037284359,
+    "ci_run_id": 45037284360,
+    "tests": "4/4_ANDROID_INSTRUMENTED_XML_ZERO_FAIL_ERROR_SKIP",
+    "artifact_id": 14760840249,
+    "zip_sha256": "2a3954c5ed8fcc91d379ae3bad8961be5fa5d3368a0b49efad66e75ac01239ab",
+    "xml_sha256": "c9bedc648db3afee8068954e9c8354d75cc2fb7d8b154bf7662f0f2828eb29fe",
+    "apk_sha256": "687b4def2b7823ea979d9136f99cc849a5c6025e6ac400ea5c0ae6d16bf5e37b",
+    "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   }
 }
