@@ -184,7 +184,7 @@ class FaroV5Household10Evidence2ActiveReadSessionTest {
         val f=prepare()
         assertThrows(IllegalStateException::class.java) { open(f.source,f.sourcePointer,{false}).close() }
         BundledSQLiteDriver().open(commercial(f.target).toString()).use {
-            it.execSQL("UPDATE commercial_evidence_quote_terms SET terms_fingerprint='bad'")
+            it.execSQL("UPDATE commercial_evidence_quote_terms SET terms_fingerprint='ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'")
         }
         val selected=selectTarget(f)
         assertThrows(IllegalStateException::class.java) { open(f.target,selected).close() }
