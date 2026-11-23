@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
-  "reviewed_head": "14b5f716f0e52a7ecd7acbb8fc5b60757b17a426",
-  "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml"
-  ],
+  "reviewed_head": "81d9e436674a15a295591786ce2be3d0632301ff",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_SEALED_TYPED_STAGE"
   },
   "last_code_review": {
-    "sha": "d230434af2f80aaaff53a3cf6ee2d063a33529e2",
+    "sha": "81d9e436674a15a295591786ce2be3d0632301ff",
     "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2A_B7_RED_FIX_TRIGGER_20261122.md",
-        "blob_sha": "85949a2c48a91e8ab8d255cfb90caf8fdacaab98",
+        "path": "docs/v5/FARO_S4_W04_F2B2A_T04_RED_FIX_B7_PASS_20261122.md",
+        "blob_sha": "c54a4a1ab9efbbea4926afe39be3b2e8d7e58c4c",
         "marker": "## B7"
       }
     ]
   },
-  "why": "SAME UNIT RED_FIX after verified T04 trigger admitted (CI 45059180422 5/6): immutable, read-only sqlite_master trigger rejection only in sealed typed Evidence2 stage",
+  "why": "F2B2A T04 RED_FIX closed B7 scoped: CI 45096617186 6/6 JUnit5 SQLite XML independent artifact 14783202790, protocol guard 45096617145 SUCCESS; READY consumed.",
   "how": "F2B2A_SAME_UNIT_RED_FIX_EXACT4_STORAGE_LAYER_OPT_IN_TRIGGER_CHECK",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -86,5 +81,5 @@
   "preaudit_guard": 45059822266,
   "previous_unit": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
   "previous_b7": "PASS_SCOPED_ALREADY_SELECTED_DEV_READ_ONLY",
-  "next": "Fix T04 with opt-in rejectTriggers in existing READONLY storage preflight, Graph typed-only wiring, workflow routing; 6/6 real XML"
+  "next": "F2B2B authenticated typed Evidence2 FBS2 archive new unit requires audited B1–B5 and separate READY; then F2B2C durable cutover/recovery; F2C Android."
 }
