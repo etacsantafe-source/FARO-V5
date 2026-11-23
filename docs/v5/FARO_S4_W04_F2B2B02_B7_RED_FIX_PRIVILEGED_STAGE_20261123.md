@@ -1,0 +1,17 @@
+# FARO V5 — W04-F2B2B02 · RED_FIX #1 isolated privileged STAGED gate
+2026-11-23. SAME UNIT `S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV`. B1–B5 `docs/v5/FARO_S4_W04_F2B2B02_TYPED_STAGE_ARCHIVE_B1_B5_20261123.md`, original guard `45100645525` SUCCESS. READY `74b1bff111397e43f956f25cacfa57b385c3133e`, guard `45100742979` SUCCESS. Functional `7827415032e468b6143712231a395ca442aec691`, mandatory guard `45100968745` SUCCESS.
+
+## B7 — RED_FIX, no PASS
+Directed CI `45100968565`, job `137451481309`: COMPLETED FAILURE, **6 JUnit5 tests executed, 6 failed, 0 errors, 0 skipped**. XML artifact id `14785014412`; ZIP SHA256 `c13ecb556edba93ef196c296106a559bac7e3c6037769d7883a585d868c4e56e`; XML SHA256 `04a7e17b943b2918d946f9570eb5e01991fb72a23c898373d2ecfbe9c9be2ff3`. Independently parsed XML: all six share EXACTLY the same root exception `IllegalStateException: Evidence2 staged graph cannot be active or share privileged owner stage` at `FaroV5GenerationStoreGraph.kt:805`, upon first `openValidatedHousehold10Evidence2ArchiveStage` in source capture. No separate failure in journal/receipt restore has been exercised yet.
+
+## B4 — Cause and narrow code delta
+`openValidatedV2Internal` currently refuses `commercialEvidence2StagedDev=true` combined with `planningStage8`, `financeStage9`, `auxiliaryReceiptFence != null`, `householdStage10`, and null `materialWriteGate`. This is **correct** for the old isolated staged Evidence2 entrypoint; F2B2B02's separately pinned/SEALED archive-specific path is new and trusted only under the external `FaroV5Household10ArchiveCoordinator` quiescence + exclusive closed-host + pointer CAS.
+Only in `v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt`: add private opt-in `commercialEvidence2AuthenticatedArchiveDev` to `openValidatedV2Internal` and require all: `commercialEvidence2StagedDev=true`, `activeGeneration=false`, `planningStage8=true`, `financeStage9=true`, `checkedPlanning8Active=false`, `auxiliaryReceiptFence != null`, `householdActive10Dev=false`, `householdNeedsWritableDev=false`, `materialWriteGate == null`; require the archive flag is supplied only by `openFinance9ArchiveStage` after exact typed Evidence2 and canonical pinned descriptor preflight. Preserve original isolated staged restriction unchanged for callers without archive opt-in. Reject ACTIVE in every profile.
+Run same six tests; all 6/6 XML must PASS before B7. Do NOT change FBS1/FBS2 codecs, legacy capture/restore, tests or workflow in this RED_FIX.
+
+## B5 — Safety falsification
+* A direct `openValidatedV2Evidence2StagedDev` (no archive flag) must retain its prior restrictions. `openActiveV2...` cannot opt into archive. The archive entry already verifies full pointer ID+sequence, exact canonical generation, sidecar-free sealed files, typed schema2 and optional committed plans before graph opening; no bypass of strict `StagedSqlitePreflight` (trigger/FK checks).
+* No fallback to schema1, no no-owner grant, no re-entrant reader, no material gate bypass in arbitrary callers. Existing `requireSealedHousehold10Evidence2ArchiveStage` remains mandatory.
+* The initial failed CI is RED, not a flakiness re-run; if this fix reaches deeper failed tests, audit with another SAME UNIT RED_FIX, no green declaration.
+
+F2B2C cutover, F2C Android, product V2, Apply/pagos are OFF and not authorized. Consume previous READY and reissue SAME UNIT after independent guard.
