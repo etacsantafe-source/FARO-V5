@@ -1,16 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "78478849d5854cb7264084e4a4d5205b25be4916",
-  "paths": [],
+  "reviewed_head": "0873dfe1d841b5fcb24ef9f921b464743f169d8f",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
-          "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_RED_FIX3_EXACT_POST_CLOSE_SIDECAR_B1_B5_20261123.md",
+          "blob_sha": "1bb86a4c94f812f3e67c2982d5292e2ae6130dea",
           "marker": "## B1"
         }
       ]
@@ -19,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
-          "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_RED_FIX3_EXACT_POST_CLOSE_SIDECAR_B1_B5_20261123.md",
+          "blob_sha": "1bb86a4c94f812f3e67c2982d5292e2ae6130dea",
           "marker": "## B2"
         }
       ]
@@ -29,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
-          "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_RED_FIX3_EXACT_POST_CLOSE_SIDECAR_B1_B5_20261123.md",
+          "blob_sha": "1bb86a4c94f812f3e67c2982d5292e2ae6130dea",
           "marker": "## B3"
         }
       ]
@@ -39,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
-          "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_RED_FIX3_EXACT_POST_CLOSE_SIDECAR_B1_B5_20261123.md",
+          "blob_sha": "1bb86a4c94f812f3e67c2982d5292e2ae6130dea",
           "marker": "## B4"
         }
       ]
@@ -49,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
-          "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_RED_FIX3_EXACT_POST_CLOSE_SIDECAR_B1_B5_20261123.md",
+          "blob_sha": "1bb86a4c94f812f3e67c2982d5292e2ae6130dea",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_UNVERIFIED_3_OF_6",
-    "B7": "RED_FIX_BLOCKED_POSTCAS_SQLITE_SIDEcar"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "78478849d5854cb7264084e4a4d5205b25be4916",
@@ -70,16 +72,16 @@
       }
     ]
   },
-  "why": "F2B2C CI 45104913005 3/6 PASS, 3/6 FAIL after pointer; Graph.kt:747 strict NOFOLLOW sidecar check fails, no safe root cause confirmed",
-  "how": "EXACT6_SAME_UNIT_SIDECAR_BEFORE_AFTER_CAS_TEST_ONLY",
+  "why": "F2B2C SAME UNIT RED_FIX3 exact post-close strict NOFOLLOW sidecar basename diagnostics, guard 45106694091 SUCCESS; fail closed",
+  "how": "EXACT1_INTERNAL_GRAPH_ERROR_MESSAGE_ONLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
     "scope": "User explicitly authorized writer manual recovery and continue FARO V5. F2B2B01 codec only, no productive activation"
   },
-  "preaudit_guard": 45104703638,
+  "preaudit_guard": 45106694091,
   "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
-  "next": "SAME UNIT gated RED_FIX on exact SQLite sidecar NOFOLLOW diagnostics. Preserve F2B2B02 B7 PASS, no F2C Android or V2 productive cutover until F2B2C 6/6 XML"
+  "next": "Instrument exact failing path in Graph.kt without weakening condition; verify CI XML and then isolate actual SQLite lifecycle root"
 }
