@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
-  "reviewed_head": "0674b0fc6decb4a70df212a1caecfc019aaec3c6",
+  "reviewed_head": "169a9ddaf5191aae6c434dd4ba80cd982ff5ea7f",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjection.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjectionTest.kt",
@@ -63,18 +63,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "4e40dd64fd794ee23b79fc10ca5ebd4da206101b",
-    "unit_id": "S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_GATE_DEV",
-    "result": "PASS",
+    "sha": "169a9ddaf5191aae6c434dd4ba80cd982ff5ea7f",
+    "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B7_PASS_20261123.md",
-        "blob_sha": "9d5bbe52b3e1325d4d4cf4caea5937bb530859a7",
+        "path": "docs/v5/FARO_S4_W04_F2C1B0_B7_RED_FIX_ASSERT_NOT_NULL_20261123.md",
+        "blob_sha": "e21992b29b4d357b34aeaf7156ffd317a4340572",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B0 single selected ACTIVE Household10/Evidence2 -> typed F1 contracts, B1-B5 at exact SHA; preaudit guard 45118332602 SUCCESS",
+  "why": "F2C1B0 test compiler UNRESOLVED_REFERENCE in S3 Home CI 45118646536 on 169a9d; same-unit RED_FIX only",
   "how": "PURE_BRIDGE_EXACT3_NO_HOST_GRANTS_OR_PRODUCT_MOUNT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 exact3 Android-app JVM adapter and 6 JUnit5 XML; B7 scoped; F2C1B1 real issuer and D4/E wiring separate; V2 productiva OFF",
+  "next": "Replace two JUnit assertNotNull assigned Unit with Kotlin requireNotNull; run directed JVM6 and mandatory guard new SHA, then B7",
   "pre_audit_guard_run_id": 45116289335
 }
