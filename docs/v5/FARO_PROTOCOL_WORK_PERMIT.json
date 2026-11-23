@@ -1,16 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "2e425a538aae86c716412d868227cede2b826516",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverOwner.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntime.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2CutoverRuntimeTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2c-typed-journaled-cutover.yml"
-  ],
+  "reviewed_head": "78478849d5854cb7264084e4a4d5205b25be4916",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -62,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_UNVERIFIED_3_OF_6",
+    "B7": "RED_FIX_BLOCKED_POSTCAS_SQLITE_SIDEcar"
   },
   "last_code_review": {
-    "sha": "42b217b32a9c52d369e3e204bc56e5c02e8d97b5",
+    "sha": "78478849d5854cb7264084e4a4d5205b25be4916",
     "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
-        "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
+        "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_B7_RED_20261123.md",
+        "blob_sha": "78b0694dd32ae873f0a7ba1445d9dda4b494dd41",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2C same-unit RED_FIX2 after two failed health hypotheses, exact WAL sidecar path/time test, guard45104703638 SUCCESS",
+  "why": "F2B2C CI 45104913005 3/6 PASS, 3/6 FAIL after pointer; Graph.kt:747 strict NOFOLLOW sidecar check fails, no safe root cause confirmed",
   "how": "EXACT6_SAME_UNIT_SIDECAR_BEFORE_AFTER_CAS_TEST_ONLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -88,5 +81,5 @@
   "preaudit_guard": 45104703638,
   "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
-  "next": "Test-only sidecar path+size and db hash before ticket/cas vs after CAS, no code weakening, then root fix"
+  "next": "SAME UNIT gated RED_FIX on exact SQLite sidecar NOFOLLOW diagnostics. Preserve F2B2B02 B7 PASS, no F2C Android or V2 productive cutover until F2B2C 6/6 XML"
 }
