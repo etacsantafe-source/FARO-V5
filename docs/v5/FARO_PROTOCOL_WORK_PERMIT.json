@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "0873dfe1d841b5fcb24ef9f921b464743f169d8f",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
-  ],
+  "reviewed_head": "745c32647fad860054c31205d912c4f475a85dae",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_UNVERIFIED_3_6",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "78478849d5854cb7264084e4a4d5205b25be4916",
+    "sha": "745c32647fad860054c31205d912c4f475a85dae",
     "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_B7_RED_20261123.md",
-        "blob_sha": "78b0694dd32ae873f0a7ba1445d9dda4b494dd41",
+        "path": "docs/v5/FARO_S4_W04_F2B2C_REDFIX4_SEALED_TYPED_HEALTH_B1_B5_20261123.md",
+        "blob_sha": "47c133fcbf3f5e428eaf47fd15703905c7d6428f",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2C SAME UNIT RED_FIX3 exact post-close strict NOFOLLOW sidecar basename diagnostics, guard 45106694091 SUCCESS; fail closed",
+  "why": "F2B2C diagnostic CI45106889384 3/6 red, exact reality.db-wal ordinary zero bytes after ACTIVE graph health; need certified sealed immutable health projection under closed host",
   "how": "EXACT1_INTERNAL_GRAPH_ERROR_MESSAGE_ONLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -83,5 +81,5 @@
   "preaudit_guard": 45106694091,
   "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
-  "next": "Instrument exact failing path in Graph.kt without weakening condition; verify CI XML and then isolate actual SQLite lifecycle root"
+  "next": "Guard RED_FIX4 B1B5; reissue same-unit READY exactly graph.kt and cutover test; code strict immutable maintenance health and 6/6 XML"
 }
