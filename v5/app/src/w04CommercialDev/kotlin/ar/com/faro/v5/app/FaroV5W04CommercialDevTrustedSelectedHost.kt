@@ -6,6 +6,7 @@ import ar.com.faro.v5.evidence.CommercialProductKey
 import ar.com.faro.v5.evidence.CommercialObservationComparisonStatus
 import ar.com.faro.v5.generation.FaroV5Household10Evidence2DevSelectionReadPort
 import ar.com.faro.v5.kernel.contracts.CapabilityId
+import ar.com.faro.v5.kernel.contracts.CanonicalHashBuilder
 import ar.com.faro.v5.kernel.contracts.ContractExposure
 import ar.com.faro.v5.kernel.contracts.ExecutionProfile
 import ar.com.faro.v5.kernel.contracts.ExecutorId
@@ -99,9 +100,30 @@ internal class FaroV5W04CommercialDevTrustedSelectedHost private constructor(
 
         // The two native READ consents already exist in the attached issuer.
         // The fresh source port checks both independent REAL owner grants.
-        fun fresh() = readProjectedOnce {
+        fun rawFresh() = readProjectedOnce {
             issuer.householdConsented(needId.value) &&
                 issuer.commercialConsented(productKey.value)
+        }
+        val firstReal = rawFresh() ?: return@synchronized false
+        // The real owner-backed port verifies the FULL Evidence2 graph but
+        // only projects the admitted product. Keep its full-source watermark
+        // as an independent immutable witness across EVERY future source read.
+        val fullSourceWitness = firstReal.evidence.sourceWatermark
+        fun fresh(): S4W04SelectedActiveTypedReadProjection.Projected? {
+            val raw = rawFresh() ?: return null
+            if (raw.evidence.sourceWatermark != fullSourceWitness) {
+                closeLocked()
+                return null
+            }
+            // D1 verifies a canonical v2 checksum of the SUPPLIED records.
+            // The source is intentionally scoped to one product, so derive
+            // a separate selected-only checksum without weakening D1 or
+            // exposing unrelated owner records. The full witness remains live.
+            val scoped = scopedEvidenceForHistorical(raw.evidence) ?: run {
+                closeLocked()
+                return null
+            }
+            return raw.copy(evidence = scoped)
         }
         val initial = fresh() ?: return@synchronized false
         val selected = S4W04CommercialNeedProductSelection.select(
@@ -179,6 +201,41 @@ internal class FaroV5W04CommercialDevTrustedSelectedHost private constructor(
             },
         )
     }
+
+    /** DEV F1 adapter: full source witness is checked by caller separately. */
+    private fun scopedEvidenceForHistorical(
+        source: ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedPortabilitySnapshot,
+    ): ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedPortabilitySnapshot? =
+        runCatching {
+            if (source.schemaVersion != 2 || source.records.isEmpty() ||
+                source.records.size > 200 ||
+                source.records.any { it.observation.productKey != productKey.value }
+            ) return@runCatching null
+            val records = source.records.toList()
+            // Exact canonical v2 data fields from the already certified
+            // EvidencePortabilityProjection. Do NOT replace W_full with this
+            // checksum in Reality/F2C0 or use it to admit a new owner grant.
+            val hash = CanonicalHashBuilder.domain("faro-portability-commercial-v2")
+                .string("schemaVersion", "2")
+                .string("count", records.size.toString())
+            records.forEachIndexed { index, record ->
+                val o = record.observation
+                val prefix = "record[$index]."
+                hash.string(prefix + "productKey", o.productKey)
+                    .string(prefix + "merchant", o.merchant)
+                    .string(prefix + "currencyCode", o.currencyCode)
+                    .string(prefix + "amountMinor", o.amountMinor.toString())
+                    .string(prefix + "sourceKind", o.sourceKind)
+                    .string(prefix + "sourceRef", o.sourceRef)
+                    .string(prefix + "observed.present",
+                        (o.observedAtEpochMillis != null).toString())
+                    .string(prefix + "observed", o.observedAtEpochMillis?.toString() ?: "")
+                    .string(prefix + "acquired", o.acquiredAtEpochMillis.toString())
+                    .string(prefix + "terms.present", (record.terms != null).toString())
+                    .string(prefix + "terms.fingerprint", record.terms?.fingerprint() ?: "")
+            }
+            source.copy(sourceWatermark = hash.sha256Hex(), records = records)
+        }.getOrNull()
 
     fun isClosed(): Boolean = synchronized(monitor) { closed || gate.isRevoked() }
 
