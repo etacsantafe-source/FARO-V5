@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
-  "reviewed_head": "4d85703e15628735c365e222195fc7410aff7405",
+  "reviewed_head": "3fc08fc87fb1747d1eca07dc52d630133000c7ac",
   "paths": [
     "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
     "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "4d85703e15628735c365e222195fc7410aff7405",
+    "sha": "3fc08fc87fb1747d1eca07dc52d630133000c7ac",
     "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_B7_RED_FIX1_20261123.md",
-        "blob_sha": "29dbe14c17932085067108e6ddf28c42a4c329f3",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_B7_RED_FIX2_CANONICAL_ROOT_20261123.md",
+        "blob_sha": "ff0f1b9dd91b96e30ec903b50ca9634655a5a923",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1B1A Android CI RED_FIX1: illegal Kotlin internal generation migration reference, no tests run",
-  "how": "one AndroidTest route, public CommercialEvidenceStore schema2 fixture migrate, no production code",
+  "why": "F2C1B1B1B1A RED_FIX2 Android API35 1 PASS 2 FAIL: SQLITE_CANTOPEN error14 before owner mount in Finance9 staged file NOFOLLOW; canonical private fixture root hypothesis",
+  "how": "one authorized AndroidTest path only; canonical app-private filesDir + fixture paths; preserve SQL NOFOLLOW and no production code changes",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 new Android positive host source, B7 then D4/E F1 explicit observation",
+  "next": "B6 RED_FIX2 one AndroidTest file; CI Android API35 3/3 XML and offline APK, then B7",
   "pre_audit_guard_run_id": 45211139019
 }
