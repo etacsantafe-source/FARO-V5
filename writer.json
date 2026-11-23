@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W04.F2B2C.SIDECAR_READY.20261123",
   "token_hash": "9dfeaa7dc91131d79fbf0b1b905d2ee510ad3c6fc5b4ab065f21cb90df06eda9",
-  "target_head": "2e425a538aae86c716412d868227cede2b826516",
+  "target_head": "0c2645d4a61042fd7210a6ec969080f7a122ba03",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1645,
-  "timestamp": 1795403676
+  "epoch": 1646,
+  "timestamp": 1795403681
 }
