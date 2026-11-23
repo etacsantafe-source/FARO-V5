@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_GATE_DEV",
-  "reviewed_head": "ba22d7dbd1aea646ff7bc573fec3acfebfe20b55",
-  "paths": [
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevForegroundSessionGate.kt",
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevActivity.kt",
-    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialForegroundSessionAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1a-foreground-session.yml"
-  ],
+  "reviewed_head": "4e40dd64fd794ee23b79fc10ca5ebd4da206101b",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_ANDROID_FOREGROUND_4_4"
   },
   "last_code_review": {
-    "sha": "ff881ffc41e5a2ca719589a49536cb24792ec694",
-    "unit_id": "S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT",
+    "sha": "4e40dd64fd794ee23b79fc10ca5ebd4da206101b",
+    "unit_id": "S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_GATE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B7_PASS_20261123.md",
-        "blob_sha": "2b1c158d8fddfc34a714faaa2873181b944ce190",
+        "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B7_PASS_20261123.md",
+        "blob_sha": "9d5bbe52b3e1325d4d4cf4caea5937bb530859a7",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C0 6/6 real SQLite B7 PASS; F2C1A one narrow DEV Android foreground session gate only, B1-B5 documented and protocol guard 45116289335 SUCCESS; F2C1B real grants/UI separate",
-  "how": "EXACT4_F2C1A_ANDROID_DEV_LIFECYCLE_GATE_NO_REAL_DATA_MOUNT",
+  "why": "F2C1A exact4 code guard 45116709264 SUCCESS, Android API35 CI 45116709185 SUCCESS, original XML 4/4 and APK artifact independently verified; W04-E 45116709151 and S3 notice 45116709170 regressions SUCCESS",
+  "how": "F2C1A_DEV_GATE_AND_LIFECYCLE_ONLY_NO_ACTUAL_GRANT_ISSUER_OR_LIVE_DATA_UI",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1A B6 four exact routes, new Android API35 tests 4/4 and XML before B7. F2C1B real grant issuer+F1/E mounting and F3 integral OPEN",
+  "next": "F2C1B actual Android DEV trusted issuer + F2C0 selected source to D4/E mount B1-B5 own READY; F3 global Android and physical G15 separate; V2 productiva OFF",
   "pre_audit_guard_run_id": 45116289335
 }
