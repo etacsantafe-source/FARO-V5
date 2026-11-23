@@ -21,6 +21,7 @@ import java.util.UUID
 internal class FaroV5W04CommercialDevReadConsentIssuer private constructor(
     private val activity: FaroV5W04CommercialDevActivity,
     private val pointer: FileActiveGenerationPointer,
+    private val canonicalRoot: Path,
     private val pinned: ActiveGenerationPointer,
     private val needId: String,
     private val productKey: String,
@@ -78,6 +79,42 @@ internal class FaroV5W04CommercialDevReadConsentIssuer private constructor(
         if (!currentLocked()) return@synchronized false
         val approved = candidateProductKey == productKey && commercialConsent != null
         currentLocked() && approved
+    }
+
+    /**
+     * Internal technical session label, never a human identity or grant.
+     * Its value is pinned to the real Android sandbox at issuer creation.
+     */
+    internal fun technicalPrincipalOrNull(): String? = synchronized(monitor) {
+        if (!currentLocked()) return@synchronized null
+        firstSandboxEvidence?.let { "local-install:" + it.sessionNonce }
+    }
+
+    /**
+     * F2C1B1B0: prove EXACT private root, selected pointer,
+     * Household need and Evidence product consented in this Android session.
+     * These two consent bits are NOT N-033 or N-034 owner authorization.
+     */
+    internal fun selectedSourceBindingAdmitted(
+        sourceRoot: Path,
+        expected: ActiveGenerationPointer,
+        selectedNeedId: String,
+        selectedProductKey: String,
+    ): Boolean = synchronized(monitor) {
+        if (!currentLocked()) return@synchronized false
+        val sameRoot = runCatching {
+            val path = sourceRoot.toAbsolutePath().normalize()
+            Files.isDirectory(path, NOFOLLOW_LINKS) &&
+                !Files.isSymbolicLink(path) && path.toRealPath() == canonicalRoot
+        }.getOrDefault(false)
+        if (!sameRoot || expected != pinned ||
+            selectedNeedId != needId || selectedProductKey != productKey
+        ) {
+            revokeLocked()
+            return@synchronized false
+        }
+        val both = householdConsent != null && commercialConsent != null
+        currentLocked() && both
     }
 
     fun revokeHouseholdConsent() = synchronized(monitor) { householdConsent = null }
@@ -175,7 +212,7 @@ internal class FaroV5W04CommercialDevReadConsentIssuer private constructor(
                 AndroidPlatformSandboxFactsReader(activity.application),
             )
             val issuer = FaroV5W04CommercialDevReadConsentIssuer(
-                activity, pointer, pinned, selectedNeedId, selectedProductKey,
+                activity, pointer, canonical, pinned, selectedNeedId, selectedProductKey,
                 hostEpoch, currentHostEpoch, ownerReady, sandbox,
             )
             if (issuer.isRevoked() || !issuer.currentLocked()) {
