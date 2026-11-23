@@ -744,7 +744,17 @@ class FaroV5GenerationStoreGraph private constructor(
                     "Household10 DEV requires sealed WAL-mode stores"
                 }
                 for (suffix in listOf("-wal", "-shm", "-journal")) {
-                    check(Files.notExists(directory.resolve(name + suffix), NOFOLLOW_LINKS))
+                    val companion = directory.resolve(name + suffix)
+                    // F2B2C RED_FIX3: observation ONLY. The original fail-closed
+                    // condition remains byte-for-byte identical in semantics.
+                    check(Files.notExists(companion, NOFOLLOW_LINKS)) {
+                        "Household10 sealed sidecar rejected: " + name + suffix +
+                            " existsNoFollow=" + Files.exists(companion, NOFOLLOW_LINKS) +
+                            " symbolicLink=" + Files.isSymbolicLink(companion) +
+                            " regularNoFollow=" + Files.isRegularFile(companion, NOFOLLOW_LINKS) +
+                            " size=" + (if (Files.isRegularFile(companion, NOFOLLOW_LINKS))
+                                runCatching { Files.size(companion) }.getOrDefault(-1L) else -1L)
+                    }
                 }
             }
             requireStrictV2StoreSchemas(
