@@ -40,6 +40,7 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
     private val afterAuthorization: () -> Unit,
     private val afterReplayFence: () -> Unit,
     private val targetRuntimeHealthy: () -> Boolean,
+    private val typedEvidence2: Boolean,
 ) : AutoCloseable {
     enum class Status { ACTIVE_TEN, ROLLED_BACK, ORIGIN_RETAINED, BLOCKED }
     data class Selection(val status: Status, val pointer: ActiveGenerationPointer?)
@@ -65,6 +66,23 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
         val targetId = target.descriptor.generationId
         val staged = layout.requireStaged(targetId)
         check(target.descriptor == staged.descriptor && target.directory.toAbsolutePath().normalize() == staged.directory)
+        if (typedEvidence2) {
+            // Fail BEFORE journal creation or restore: no v6/v5 fallback or bad passphrase.
+            when (val opened = FaroV5FiveStorePortableBackupCrypto()
+                .openWithHouseholdEvidence2(archive, passphrase)) {
+                is FiveStoreAuthenticatedPayload.Opened -> {
+                    check(opened.payload.base.base.fourStore.manifest.sourceGenerationId != targetId) {
+                        "Typed cutover archive source and target identities conflict"
+                    }
+                }
+                is FiveStoreAuthenticatedPayload.Rejected -> error(
+                    "Typed cutover requires authenticated FBS2v7: " + opened.reason
+                )
+            }
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptEvidence2ArchiveStage(
+                staged, allowAuxiliary3 = false,
+            )
+        }
 
         val previous = readTicket()
         if (previous != null) {
@@ -86,8 +104,10 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
         check((pending == null || pending == preparing) && journal.pending().all { it == preparing })
         if (pending == null) journal.create(preparing)
 
-        val restored = FaroV5Household10ArchiveCoordinator(root, quiescence, ::requireLive)
-            .restoreAuthenticated(operationId, staged, origin, archive, passphrase)
+        val restoreOwner = FaroV5Household10ArchiveCoordinator(root, quiescence, ::requireLive)
+        val restored = if (typedEvidence2) restoreOwner.restoreAuthenticatedEvidence2(
+            operationId, staged, origin, archive, passphrase,
+        ) else restoreOwner.restoreAuthenticated(operationId, staged, origin, archive, passphrase)
         check(restored == FiveStoreStagedRestoreResult.StagedVerified(targetId.value))
         check(pointer.read() == origin && FaroV5Household10DevCutoverOwner.fingerprint(originStage) == originDigest)
         val targetDigest = FaroV5Household10DevCutoverOwner.fingerprint(staged)
@@ -105,6 +125,7 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
     private fun resume(intent: Household10CutoverIntent, recovery: Boolean): Selection {
         val result = FaroV5Household10DevCutoverOwner(
             root, quiescence, ::requireLive, fault, afterReplayFence, targetRuntimeHealthy,
+            typedEvidence2, if (typedEvidence2) gate else null,
         ).activate(intent, recovery)
         val status = when (result) {
             is GenerationActivationResult.Activated -> Status.ACTIVE_TEN
@@ -140,7 +161,8 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
         val payload = bytes.copyOfRange(0, bytes.size - 32)
         check(MessageDigest.isEqual(sha256(payload), bytes.copyOfRange(payload.size, bytes.size)))
         return DataInputStream(ByteArrayInputStream(payload)).use { input ->
-            check(input.readUTF() == TICKET_VERSION)
+            check(input.readUTF() ==
+                (if (typedEvidence2) TYPED_TICKET_VERSION else TICKET_VERSION))
             val operationId = MaintenanceOperationId(input.readUTF())
             val origin = ActiveGenerationPointer(input.readLong(), StorageGenerationId(input.readUTF()))
             val result = Household10CutoverIntent(
@@ -156,7 +178,7 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
         check(ticket.parent.toRealPath() == ticket.parent && Files.notExists(ticket, NOFOLLOW_LINKS))
         val payload = ByteArrayOutputStream().also { bytes ->
             DataOutputStream(bytes).use { output ->
-                output.writeUTF(TICKET_VERSION)
+                output.writeUTF(if (typedEvidence2) TYPED_TICKET_VERSION else TICKET_VERSION)
                 output.writeUTF(intent.operationId.value)
                 output.writeLong(intent.origin.sequence)
                 output.writeUTF(intent.origin.generationId.value)
@@ -191,6 +213,7 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
 
     companion object {
         private const val TICKET_VERSION = "FARO_HOUSEHOLD10_DEV_CUTOVER_V1"
+        private const val TYPED_TICKET_VERSION = "FARO_HOUSEHOLD10_EVIDENCE2_DEV_CUTOVER_V2"
 
         fun acquire(
             storageRoot: Path,
@@ -200,15 +223,44 @@ internal class FaroV5Household10DevCutoverRuntime private constructor(
             afterAuthorization: () -> Unit = {},
             afterReplayFence: () -> Unit = {},
             targetRuntimeHealthy: () -> Boolean = { true },
+        ): FaroV5Household10DevCutoverRuntime = acquireProfile(
+            storageRoot, gate, hostClosed, fault, afterAuthorization, afterReplayFence,
+            targetRuntimeHealthy, typedEvidence2 = false,
+        )
+
+        /** F2B2C DEV-only typed cutover with a distinct ticket version and FBS2v7. */
+        internal fun acquireEvidence2(
+            storageRoot: Path,
+            gate: SingleProcessMaterialWriteGate,
+            hostClosed: () -> Boolean,
+            fault: (GenerationSwitchFaultPoint) -> Unit = {},
+            afterAuthorization: () -> Unit = {},
+            afterReplayFence: () -> Unit = {},
+            targetRuntimeHealthy: () -> Boolean = { true },
+        ): FaroV5Household10DevCutoverRuntime = acquireProfile(
+            storageRoot, gate, hostClosed, fault, afterAuthorization, afterReplayFence,
+            targetRuntimeHealthy, typedEvidence2 = true,
+        )
+
+        private fun acquireProfile(
+            storageRoot: Path,
+            gate: SingleProcessMaterialWriteGate,
+            hostClosed: () -> Boolean,
+            fault: (GenerationSwitchFaultPoint) -> Unit,
+            afterAuthorization: () -> Unit,
+            afterReplayFence: () -> Unit,
+            targetRuntimeHealthy: () -> Boolean,
+            typedEvidence2: Boolean,
         ): FaroV5Household10DevCutoverRuntime {
             check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS) && hostClosed())
             val root = storageRoot.toRealPath()
-            // Share the existing Finance DEV root lease across both runtime owners.
+            // Both profiles share this exclusive DEV root lock and same ticket path.
             val channel = FileChannel.open(root.resolve("finance9-dev-root.lock"), CREATE, WRITE, NOFOLLOW_LINKS)
             return try {
                 val lock = checkNotNull(channel.tryLock()) { "DEV root lease is occupied" }
                 FaroV5Household10DevCutoverRuntime(
-                    root, gate, channel, lock, hostClosed, fault, afterAuthorization, afterReplayFence, targetRuntimeHealthy,
+                    root, gate, channel, lock, hostClosed, fault, afterAuthorization,
+                    afterReplayFence, targetRuntimeHealthy, typedEvidence2,
                 )
             } catch (failure: Exception) {
                 channel.close()

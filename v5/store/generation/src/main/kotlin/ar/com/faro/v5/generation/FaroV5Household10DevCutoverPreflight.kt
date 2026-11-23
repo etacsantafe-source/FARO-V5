@@ -1,5 +1,6 @@
 package ar.com.faro.v5.generation
 
+import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.BootstrapJournalEntry
 import ar.com.faro.v5.maintenance.BootstrapPhase
@@ -22,8 +23,13 @@ internal class FaroV5Household10DevCutoverPreflight(
     root: Path,
     private val quiescence: MaterialWriteQuiescencePort,
     private val assertExclusiveClosedDevHost: () -> Unit,
+    private val typedEvidence2: Boolean = false,
+    private val materialWriteGate: MaterialWriteGate? = null,
 ) {
     private val root = root.toAbsolutePath().normalize()
+    init { check(!typedEvidence2 || materialWriteGate != null) {
+        "Typed cutover preflight requires shared maintenance material gate"
+    } }
 
     fun inspect(
         operationId: MaintenanceOperationId,
@@ -60,7 +66,8 @@ internal class FaroV5Household10DevCutoverPreflight(
         }
 
         requirePinnedAdmission()
-        FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(staged)
+        if (typedEvidence2) FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(staged)
+        else FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(staged)
         RealityFinance9SealedReadPort.readTrustedSealedStage10(staged.directory.resolve(GenerationStoreFiles.REALITY))
         requirePinnedAdmission()
         true
@@ -72,7 +79,9 @@ internal class FaroV5Household10DevCutoverPreflight(
         expectedActive: ActiveGenerationPointer,
     ): Boolean = guarded(operationId) {
         check(expectedActive.generationId == stage.descriptor.generationId)
-        FaroV5GenerationStoreGraph.verifyReopenedHousehold10Dev(
+        if (typedEvidence2) FaroV5GenerationStoreGraph.verifyReopenedHousehold10Evidence2Dev(
+            root, stage, expectedActive, checkNotNull(materialWriteGate), assertExclusiveClosedDevHost,
+        ) else FaroV5GenerationStoreGraph.verifyReopenedHousehold10Dev(
             root, stage, expectedActive, assertExclusiveClosedDevHost,
         )
     }

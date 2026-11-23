@@ -1,5 +1,6 @@
 package ar.com.faro.v5.generation
 
+import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.BootstrapPhase
 import ar.com.faro.v5.maintenance.BootstrapTransitionPolicy
@@ -52,14 +53,21 @@ internal class FaroV5Household10DevCutoverOwner(
     private val fault: (GenerationSwitchFaultPoint) -> Unit,
     private val afterReplayFence: () -> Unit,
     private val targetRuntimeHealthy: () -> Boolean,
+    private val typedEvidence2: Boolean = false,
+    private val materialWriteGate: MaterialWriteGate? = null,
 ) {
+    init { check(!typedEvidence2 || materialWriteGate != null) {
+        "Typed cutover owner requires the caller's material write gate"
+    } }
     fun activate(intent: Household10CutoverIntent, recovery: Boolean): GenerationActivationResult {
         assertExclusiveClosedDevHost()
         val pointer = FileActiveGenerationPointer(root)
         val journal = FileBootstrapJournal(root)
         val layout = FileStorageGenerationLayout(root)
         val stage = layout.requireStaged(intent.targetId)
-        val preflight = FaroV5Household10DevCutoverPreflight(root, quiescence, assertExclusiveClosedDevHost)
+        val preflight = FaroV5Household10DevCutoverPreflight(
+            root, quiescence, assertExclusiveClosedDevHost, typedEvidence2, materialWriteGate,
+        )
         val origin = intent.origin
         val selected = ActiveGenerationPointer(Math.addExact(origin.sequence, 1L), intent.targetId)
         val rolledBack = ActiveGenerationPointer(Math.addExact(origin.sequence, 2L), origin.generationId)
@@ -75,7 +83,8 @@ internal class FaroV5Household10DevCutoverOwner(
         fun requireTarget() {
             assertExclusiveClosedDevHost()
             check(layout.requireStaged(intent.targetId) == stage)
-            FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+            if (typedEvidence2) FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(stage)
+            else FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
             check(fingerprint(stage) == intent.targetDigest) { "Household10 target changed after archive verification" }
         }
 

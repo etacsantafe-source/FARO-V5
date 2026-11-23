@@ -680,6 +680,44 @@ class FaroV5GenerationStoreGraph private constructor(
             return healthy && pointer.read() == expected
         }
 
+        /**
+         * F2B2C: verifies an ALREADY selected Household10/Evidence2 DEV generation,
+         * under the CALLER's existing root lease; no second file-lock or pointer CAS.
+         * Isolated from the legacy Evidence1 archive health opener.
+         */
+        internal fun verifyReopenedHousehold10Evidence2Dev(
+            root: Path,
+            staged: StagedStorageGeneration,
+            expected: ActiveGenerationPointer,
+            materialWriteGate: MaterialWriteGate,
+            assertExclusiveClosedDevHost: () -> Unit,
+        ): Boolean {
+            assertExclusiveClosedDevHost()
+            val pointer = FileActiveGenerationPointer(root)
+            val canonical = FileStorageGenerationLayout(root).requireStaged(expected.generationId)
+            check(canonical.descriptor == staged.descriptor &&
+                canonical.directory == staged.directory.toAbsolutePath().normalize() &&
+                pointer.read() == expected) { "Typed Household10 DEV reopen pointer or descriptor changed" }
+            requireSealedHousehold10Evidence2ArchiveStage(canonical)
+            val fence = {
+                assertExclusiveClosedDevHost()
+                pointer.read() == expected
+            }
+            val healthy = openValidatedV2Internal(
+                canonical, planVerifier = null, materialWriteGate = materialWriteGate,
+                activeGeneration = true, planningStage8 = true, financeStage9 = true,
+                checkedPlanning8Active = true, auxiliaryReceiptFence = fence,
+                householdActive10Dev = true, commercialEvidence2ActiveDev = true,
+            ).use { graph ->
+                graph.workspace != null && graph.verifyHealthy() && fence() &&
+                    graph.reality.maintenance.inspect().schemaVersion == 10 &&
+                    graph.commercialEvidence.maintenance.inspect().schemaVersion == 2
+            }
+            assertExclusiveClosedDevHost()
+            requireSealedHousehold10Evidence2ArchiveStage(canonical)
+            return healthy && pointer.read() == expected
+        }
+
         internal fun requireSealedHousehold10ArchiveStage(staged: StagedStorageGeneration) =
             requireSealedHousehold10ArchiveStageInternal(staged, typedEvidence2 = false)
 
