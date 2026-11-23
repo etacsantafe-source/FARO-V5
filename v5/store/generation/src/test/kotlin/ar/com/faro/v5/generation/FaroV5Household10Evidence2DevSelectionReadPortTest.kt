@@ -8,6 +8,7 @@ import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.reality.RealityHousehold10StagedFilePort
+import ar.com.faro.v5.owner.household.api.HouseholdNeedId
 import java.nio.file.Files
 import java.nio.file.Path
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -227,5 +228,89 @@ class FaroV5Household10Evidence2DevSelectionReadPortTest {
             open(f.target, selected).close()
         }
         assertEquals(selected, pointer.read())
+    }
+
+    private fun openOwnerBacked(
+        stage: StagedStorageGeneration,
+        selected: ActiveGenerationPointer,
+        selectedNeed: String = "need-yerba",
+        selectedProduct: String = "sku-typed",
+        humanDecision: () -> Boolean = { true },
+    ) = FaroV5Household10Evidence2DevSelectionReadPort.openOwnerBackedDev(
+        storageRoot = root, staged = stage, selected = selected,
+        materialWriteGate = gate,
+        principal = "local-install:f2c1b1b1b0-jvm",
+        selectedNeed = HouseholdNeedId(selectedNeed),
+        selectedProduct = CommercialProductKey(selectedProduct),
+        hostEpoch = "epoch-f2c0", currentHostEpoch = { epoch },
+        isForeground = { foreground }, ownerAdmission = { ready },
+        trustedHumanDecision = humanDecision,
+    )
+
+    @Test fun t07RealOwnerSourcesShareOneActiveLeaseAndExactTypedSelection() {
+        val f = prepare()
+        val active = select(f)
+        openOwnerBacked(f.target, active).use { port ->
+            val row = checkNotNull(port.read())
+            assertEquals("need-yerba", row.need.id)
+            assertEquals(3L, row.householdRevision)
+            assertEquals("sku-typed", row.typedHistory.records.single().observation.productKey)
+            assertEquals("AR-SF", row.typedHistory.records.single().terms?.localityCode)
+            assertThrows(IllegalStateException::class.java) {
+                openOwnerBacked(f.target, active).close()
+            }
+            assertNull(port.readSelected("need-other", "sku-typed") { true })
+            assertNull(port.read()) // wrong object permanently revoked Household owner
+        }
+    }
+
+    @Test fun t08DeniedHumanDecisionNeverLeavesAnActiveRootLease() {
+        val f = prepare()
+        val active = select(f)
+        assertThrows(IllegalStateException::class.java) {
+            openOwnerBacked(f.target, active, humanDecision = { false }).close()
+        }
+        openOwnerBacked(f.target, active).use { port ->
+            assertEquals("need-yerba", checkNotNull(port.read()).need.id)
+        }
+    }
+
+    @Test fun t09LegacyTermsOrMissingSelectedProductAreNeverGranted() {
+        val f = prepare()
+        val active = select(f)
+        assertThrows(IllegalStateException::class.java) {
+            openOwnerBacked(f.target, active, selectedProduct = "sku-legacy").close()
+        }
+        assertThrows(IllegalStateException::class.java) {
+            openOwnerBacked(f.target, active, selectedProduct = "not-recorded").close()
+        }
+        openOwnerBacked(f.target, active).use {
+            assertEquals(1, checkNotNull(it.read()).typedHistory.records.size)
+        }
+    }
+
+    @Test fun t10HostEpochConsentAndPointerAbaCannotResurrectOwnerGrants() {
+        val f = prepare()
+        val active = select(f)
+        var chosen = true
+        openOwnerBacked(f.target, active, humanDecision = { chosen }).use { port ->
+            assertTrue(port.read() != null)
+            chosen = false
+            assertNull(port.read())
+            chosen = true
+            assertNull(port.read())
+        }
+        openOwnerBacked(f.target, active).use { port ->
+            epoch = "changed"
+            assertNull(port.read())
+            epoch = "epoch-f2c0"
+            assertNull(port.read())
+        }
+        openOwnerBacked(f.target, active).use { port ->
+            val intermediate = StorageGenerationId("f2c1b1b1b0-intermediate")
+            checkNotNull(pointer.compareAndSet(active.generationId, intermediate))
+            checkNotNull(pointer.compareAndSet(intermediate, active.generationId))
+            assertNull(port.read())
+        }
     }
 }

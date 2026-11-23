@@ -127,6 +127,27 @@ class FaroV5GenerationStoreGraph private constructor(
             snapshot.takeIf { admits() }
         }
 
+
+        /**
+         * F2C1B1B1B0: policy-issuance SOURCE ONLY, on the ALREADY OPEN DEV
+         * Household10/Evidence2 graph and exact root lease. This is not an
+         * independent commercial grant or an Android human authentication.
+         * The trusted host's decision is checked before and after the read.
+         */
+        internal fun typedOwnerSourceForTrustedDevDecision(
+            trustedHostDecision: () -> Boolean,
+        ): CommercialEvidenceStagedTypedPortabilitySnapshot? = gate.withMaterialWrite {
+            fun current(): Boolean = runCatching {
+                lease.isValid && pointerFence() && trustedHostDecision()
+            }.getOrDefault(false)
+            if (!current()) return@withMaterialWrite null
+            val data = runCatching {
+                check(graph.commercialEvidence.maintenance.inspect().schemaVersion == 2)
+                graph.commercialEvidence.stagedTypedPortability.snapshot()
+            }.getOrNull() ?: return@withMaterialWrite null
+            data.takeIf { current() }
+        }
+
         /**
          * C1a: only a MANUAL schema1 Evidence observation in this already leased
          * generation. Never exports a mutable store, root opener or Reality Apply.
