@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
-  "reviewed_head": "6f187bb7ba6accbd491b39f59b34ec69ce52eef0",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2b01-typed-fbs2v7.yml"
-  ],
+  "reviewed_head": "ead893930b114a709ae7eac7a32f9798aad54be3",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_NEEDS_RED_FIX",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "81d9e436674a15a295591786ce2be3d0632301ff",
-    "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
-    "result": "PASS",
+    "sha": "ead893930b114a709ae7eac7a32f9798aad54be3",
+    "unit_id": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2A_T04_RED_FIX_B7_PASS_20261122.md",
-        "blob_sha": "c54a4a1ab9efbbea4926afe39be3b2e8d7e58c4c",
+        "path": "docs/v5/FARO_S4_W04_F2B2B01_B7_RED_FIX_SMARTCAST_20261122.md",
+        "blob_sha": "bf2470b268bca8ad97861af4165c72cc38ef0a84",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2B01 isolate authenticated FBS2v7 typed Evidence2 profile, preserve FBS2v6 and FBS1v4, no restore/cutover; B1-B5 evidence guard 45098286984 SUCCESS",
+  "why": "F2B2B01 first CI 45098567829 compileKotlin SMARTCAST_IMPOSSIBLE at codec.kt:108; no XML, same-unit RED_FIX only",
   "how": "EXACT4_FBS2V7_TYPED_CODEC_AND_AEAD_SEPARATE_ENTRYPOINTS",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -86,5 +81,5 @@
   "preaudit_guard": 45098286984,
   "previous_unit": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_GUARD_45097164975",
-  "next": "F2B2B01 B6 scoped 4 paths, CI six new tests XML B7; F2B2B02 capture/restore and F2B2C cutover independent"
+  "next": "After RED_FIX guard success, SAME UNIT READY exact4, change only codec.kt safe ?.rows map and rerun six tests+real XML"
 }
