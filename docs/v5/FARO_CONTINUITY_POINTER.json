@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B1B1B1A_B7_PASS_F2C1B1B1B1B_D4E_ANDROID_OPEN",
+  "phase": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_PREAUDIT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1741
+    "epoch": 1742
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2C1B1B1B1B real historical observation explicitly selected Android F1 D4 E with original data/read recheck under new B1-B5+READY; F3 integral after; V2 productive OFF",
-  "checkpoint_status": "F2C1B1B1B1A_B7_PASS_ANDROID35_XML_3_3_F2C1B1B1B1B_F3_OPEN",
+  "next": "F2C1B1B1B1B exact4 native choice+F1 D4E historical display Android API35 directed t04-t06; then F3 integral; V2 productive OFF",
+  "checkpoint_status": "F2C1B1B1B1B_B1_B5_DOC_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "861242ddb63398d208846280a7fb0a6b5bd8278c",
@@ -6676,7 +6676,17 @@
     "limits": "Instrumented taps, test-only real SQLite, no D4/E UI or productive ACL"
   },
   "s4_w04_f2c1b1b1b1b": {
-    "status": "OPEN_B1_B5_NEXT",
-    "next": "Native Android D4 E selected historical observation, no price quote"
+    "status": "B1_B5_DOCUMENTED_GUARD_PENDING",
+    "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
+    "document": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
+    "baseline_head": "803cf9500453d353c8a8bc24c1e336acf3b23ee2",
+    "paths": [
+      "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
+      "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialReviewPanel.kt",
+      "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
+      ".github/workflows/faro-v5-s4-w04-f2c1b1b1b1b-android-explicit-history.yml"
+    ],
+    "b6": "NOT_STARTED",
+    "b7": "NOT_STARTED"
   }
 }
