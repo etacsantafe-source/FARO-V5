@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
-  "reviewed_head": "9dad3185931124fbce13707bfff72ebb87dd8bb2",
-  "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjection.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjectionTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1b0-selected-projection.yml"
-  ],
+  "reviewed_head": "752f7be8d862c152c61440968670c96222b6332c",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_SELECTED_ACTIVE_PROJECTION_6_6"
   },
   "last_code_review": {
-    "sha": "9dad3185931124fbce13707bfff72ebb87dd8bb2",
+    "sha": "752f7be8d862c152c61440968670c96222b6332c",
     "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B0_B7_RED_FIX_JUNIT_XML_METHOD_SUFFIX_20261123.md",
-        "blob_sha": "a262fbcd732669867850a4df36b432656c3f4ffa",
+        "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B7_PASS_20261123.md",
+        "blob_sha": "e31281d670d2daae5b54a2808b2644a04cd940a4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B0 six real XML tests PASS but directed workflow 45119730970 FAILED because JUnit names include () suffix; fix only verifier",
-  "how": "PURE_BRIDGE_EXACT3_NO_HOST_GRANTS_OR_PRODUCT_MOUNT",
+  "why": "F2C1B0 final code/guard 45120468792 SUCCESS and exact JVM6 CI 45120468801 SUCCESS original artifact 14793472947 verified 6/6 XML",
+  "how": "SELECTED_ACTIVE_ONE_NEED_ONE_PRODUCT_TYPED_F1_CONTRACTS_NO_ANDROID_ISSUER",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "Same-unit workflow XML normalization removesuffix('()') only; new exact CI/guard and independent XML B7 required",
+  "next": "F2C1B1 real Android DEV per-source/selected-object grants and source-mount B1-B5 separate READY; F3 global acceptance later. V2 productiva OFF",
   "pre_audit_guard_run_id": 45116289335
 }

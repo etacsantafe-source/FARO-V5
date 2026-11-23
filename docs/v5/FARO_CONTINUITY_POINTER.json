@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B0_XML_SUFFIX_ORACLE_RED_FIX",
+  "phase": "S4_W04_F2C1B0_B7_PASS_F2C1B1_ANDROID_TRUSTED_ISSUER_OPEN",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1696
+    "epoch": 1700
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Same-unit F2C1B0 workflow normalize XML method suffix only, new CI exact six+guard and B7; F2C1B1 trusted Android grant issuer and F3 global open",
-  "checkpoint_status": "F2C1B0_CODE_JVM6_PASS_DIRECTED_WORKFLOW_RED_FIX_PENDING",
+  "next": "F2C1B0 PASS scoped 6/6 JVM. Next F2C1B1 true Android DEV trusted issuer & F2C0 source→F1/D4/E UI mount with separate B1-B5/READY; F3 Android E2E and S4 integral pending. V2 productiva OFF",
+  "checkpoint_status": "F2C1B0_B7_PASS_SCOPED_JVM6_F2C1B1_F3_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "4e40dd64fd794ee23b79fc10ca5ebd4da206101b",
-  "last_ci_run_id": 45116709185,
+  "last_code_sha": "752f7be8d862c152c61440968670c96222b6332c",
+  "last_ci_run_id": 45120468801,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_F2C1A_ANDROID35_FOREGROUND_4_4_REAL_XML; W04E_REGRESSION_SUCCESS_4_4",
+  "last_ci_conclusion": "SUCCESS_F2C1B0_DEV_SELECTED_TYPED_PROJECTION_REAL_XML_6_6",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6535,5 +6535,19 @@
     "next": "F2C1B_ISSUER_MOUNT_OPEN",
     "productive_v2": false,
     "physical": "NOT_RUN_F2C1A"
+  },
+  "s4_w04_f2c1b0": {
+    "status": "B7_PASS_SCOPED_DEV_SELECTED_ACTIVE_PROJECTION",
+    "code_sha": "752f7be8d862c152c61440968670c96222b6332c",
+    "guard_run_id": 45120468792,
+    "ci_run_id": 45120468801,
+    "junit": "6/6_0_FAILURE_0_ERROR_0_SKIPPED",
+    "artifact_id": 14793472947,
+    "artifact_sha256": "5d58ca66552a84889f75d488c0bdcc0fb6d5a16220669b989dda8bb8d18dfa59",
+    "b7_document": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B7_PASS_20261123.md",
+    "physical": "NOT_RUN",
+    "android_live_mount": "NOT_DONE",
+    "productive_v2": false,
+    "next": "F2C1B1_TRUSTED_ANDROID_GRANTS"
   }
 }
