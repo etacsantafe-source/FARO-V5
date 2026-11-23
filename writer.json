@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.W04.F2C1A.PREAUDIT.20261123",
-  "token_hash": "00b00f42b6894fc2a916d96c590fa09bffd9e882792fa30645b0a901cb6c0e1a",
+  "status": "HELD",
+  "owner": "FARO.CHAT.W04.F2C1A.READY.20261123",
+  "token_hash": "e81d8f90d5a352e24c3e10d1c4e87b78652b964873a3d8cb5c751867ba213828",
   "target_head": "ba22d7dbd1aea646ff7bc573fec3acfebfe20b55",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1674,
-  "timestamp": 1795410737
+  "epoch": 1675,
+  "timestamp": 1795410819
 }
