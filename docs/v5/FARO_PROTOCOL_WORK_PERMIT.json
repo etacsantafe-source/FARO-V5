@@ -1,9 +1,13 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
-  "reviewed_head": "d230434af2f80aaaff53a3cf6ee2d063a33529e2",
-  "paths": [],
+  "reviewed_head": "6e775218ff7e08178258b1232e7cc9f84d96a3dc",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -55,8 +59,8 @@
         }
       ]
     },
-    "B6": "DONE_NEEDS_RED_FIX",
-    "B7": "RED_FIX"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d230434af2f80aaaff53a3cf6ee2d063a33529e2",
@@ -70,16 +74,16 @@
       }
     ]
   },
-  "why": "F2B2A CI 45059180422 FAILURE 5/6 T04; unexpected Commercial Evidence2 SQL trigger was accepted by new sealed preflight. Real security gap, RED_FIX before continuation.",
-  "how": "F2B2A_EXACT3_STAGE_SEALED_TYPED_PREFLIGHT_NO_ACTIVATION",
+  "why": "SAME UNIT RED_FIX after verified T04 trigger admitted (CI 45059180422 5/6): immutable, read-only sqlite_master trigger rejection only in sealed typed Evidence2 stage",
+  "how": "F2B2A_EXACT3_SAME_UNIT_RED_FIX_GRAPH_ONLY_READONLY_TRIGGER_FENCE_NO_ACTIVATION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
     "scope": "Continuamos e intentamos terminar F2. Solo nueva admisión sellada schema2 STAGED DEV, sin cutover, pagos ni V2 productiva."
   },
-  "preaudit_guard": 45058883420,
+  "preaudit_guard": 45059822266,
   "previous_unit": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
   "previous_b7": "PASS_SCOPED_ALREADY_SELECTED_DEV_READ_ONLY",
-  "next": "Guard RED_FIX BLOCKED, reissue SAME UNIT READY exact3, change only Graph typed sealed preflight to reject triggers via READONLY SQLite; rerun 6/6 directed."
+  "next": "Implement Graph.kt only: READONLY sqlite_master trigger fence, six directed JUnit5 SQLite tests and real XML; if all PASS B7 exact SHA, else RED_FIX same unit. No cutover yet."
 }
