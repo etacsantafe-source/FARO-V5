@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
-  "reviewed_head": "cdf2911e1ea1698cf4246d90c464adc35360574a",
+  "reviewed_head": "4d85703e15628735c365e222195fc7410aff7405",
   "paths": [
     "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
     "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
@@ -63,19 +63,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "9d000c710c7528288337f6f0c7caaa28fa0c0398",
-    "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-    "result": "PASS",
+    "sha": "4d85703e15628735c365e222195fc7410aff7405",
+    "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_B7_PASS_20261123.md",
-        "blob_sha": "4258709a263864b20df59b08c8415ecaa3534047",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_B7_RED_FIX1_20261123.md",
+        "blob_sha": "29dbe14c17932085067108e6ddf28c42a4c329f3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Android API35 REAL H10/E2 owner-backed source + two verified touch scopes, not D4 UI, exact3 paths",
-  "how": "3 new androidTest XML, original artifact, offline APK, no repeat old",
+  "why": "F2C1B1B1B1A Android CI RED_FIX1: illegal Kotlin internal generation migration reference, no tests run",
+  "how": "one AndroidTest route, public CommercialEvidenceStore schema2 fixture migrate, no production code",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
