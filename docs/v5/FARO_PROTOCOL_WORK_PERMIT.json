@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-  "reviewed_head": "9d000c710c7528288337f6f0c7caaa28fa0c0398",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
+  "reviewed_head": "cdf2911e1ea1698cf4246d90c464adc35360574a",
+  "paths": [
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
+    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1b1b1b1a-android-real-owner-positive.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_REAL_ACTIVE_OWNER_SOURCE_JVM_4_OF_4"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9d000c710c7528288337f6f0c7caaa28fa0c0398",
@@ -70,8 +74,8 @@
       }
     ]
   },
-  "why": "F2C1B1B1B0 B7 PASS real ACTIVE owner sources same lease JVM 4/4, Android still OPEN",
-  "how": "CI 45197011644 SUCCESS, exact 4 XML independently verified, artifact 14829471083",
+  "why": "Android API35 REAL H10/E2 owner-backed source + two verified touch scopes, not D4 UI, exact3 paths",
+  "how": "3 new androidTest XML, original artifact, offline APK, no repeat old",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1B1B1B1 scoped Android real positive host/F1 D4 E, new B1-B5 READY then B6/B7",
-  "pre_audit_guard_run_id": 45191915994
+  "next": "B6 new Android positive host source, B7 then D4/E F1 explicit observation",
+  "pre_audit_guard_run_id": 45211139019
 }
