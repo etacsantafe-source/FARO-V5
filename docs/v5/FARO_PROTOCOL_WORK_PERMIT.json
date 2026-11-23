@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
-  "reviewed_head": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
+  "reviewed_head": "ddbe0b3d1234566c7c0a0ea394175ef2ee1a3d0b",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPort.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPortTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1b1b1b0-owner-backed-source.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
-          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
-          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
-          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
-          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
           "marker": "## B4"
         }
       ]
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
-          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
+          "blob_sha": "b95c3a20a64625f368c6eb83e7b30ef1f25a96f3",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DUAL_OWNER_DEV_JVM_6_OF_6"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "F2C1B1B1A B7 scoped two in-memory DEV read scope owners with 6/6 real JUnit XML, no live Android owner ACL",
-  "how": "CI 45188613035 SUCCESS, protocol 45188613176 SUCCESS, artifact 14824603707 SHA256 independently checked",
+  "why": "DEV same ACTIVE graph owner sources, four routed files, not Android/real human-auth",
+  "how": "F2C1B1B1B0 new 4 JUnit tests t07..t10 only, one lease, no V2 productive",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1B1B1B actual store owner read source + Android real positive under separate B1-B5/READY",
-  "pre_audit_guard_run_id": 45186230152
+  "next": "B6 scoped + JUnit XML 4/4, B7 then Android F2C1B1B1B1 positive",
+  "pre_audit_guard_run_id": 45191915994
 }
