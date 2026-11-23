@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_GATE_DEV",
-  "reviewed_head": "4e40dd64fd794ee23b79fc10ca5ebd4da206101b",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
+  "reviewed_head": "0674b0fc6decb4a70df212a1caecfc019aaec3c6",
+  "paths": [
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjection.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjectionTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1b0-selected-projection.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
-          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
+          "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B1_B5_20261123.md",
+          "blob_sha": "2383d3f3ae2c6c1f75f82dd65719d67329781449",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
-          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
+          "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B1_B5_20261123.md",
+          "blob_sha": "2383d3f3ae2c6c1f75f82dd65719d67329781449",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
-          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
+          "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B1_B5_20261123.md",
+          "blob_sha": "2383d3f3ae2c6c1f75f82dd65719d67329781449",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
-          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
+          "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B1_B5_20261123.md",
+          "blob_sha": "2383d3f3ae2c6c1f75f82dd65719d67329781449",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
-          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
+          "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B1_B5_20261123.md",
+          "blob_sha": "2383d3f3ae2c6c1f75f82dd65719d67329781449",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_ANDROID_FOREGROUND_4_4"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "4e40dd64fd794ee23b79fc10ca5ebd4da206101b",
@@ -70,8 +74,8 @@
       }
     ]
   },
-  "why": "F2C1A exact4 code guard 45116709264 SUCCESS, Android API35 CI 45116709185 SUCCESS, original XML 4/4 and APK artifact independently verified; W04-E 45116709151 and S3 notice 45116709170 regressions SUCCESS",
-  "how": "F2C1A_DEV_GATE_AND_LIFECYCLE_ONLY_NO_ACTUAL_GRANT_ISSUER_OR_LIVE_DATA_UI",
+  "why": "F2C1B0 single selected ACTIVE Household10/Evidence2 -> typed F1 contracts, B1-B5 at exact SHA; preaudit guard 45118332602 SUCCESS",
+  "how": "PURE_BRIDGE_EXACT3_NO_HOST_GRANTS_OR_PRODUCT_MOUNT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1B actual Android DEV trusted issuer + F2C0 selected source to D4/E mount B1-B5 own READY; F3 global Android and physical G15 separate; V2 productiva OFF",
+  "next": "B6 exact3 Android-app JVM adapter and 6 JUnit5 XML; B7 scoped; F2C1B1 real issuer and D4/E wiring separate; V2 productiva OFF",
   "pre_audit_guard_run_id": 45116289335
 }
