@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_DEV",
-  "reviewed_head": "dbe4076f7a3cf3ee93d2b3ff4461e246de1930dc",
-  "paths": [
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevReadConsentIssuer.kt",
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
-    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialTrustedSelectedHostAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1b1b0-trusted-selected-host.yml"
-  ],
+  "reviewed_head": "eae8d60008f0a9de4599a20706e18adbe9e60ac1",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_ANDROID35_NEGATIVE_5_5"
   },
   "last_code_review": {
-    "sha": "d0009049f35adf0fae0407ca5d035639f4740b87",
-    "unit_id": "S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_DEV",
+    "sha": "eae8d60008f0a9de4599a20706e18adbe9e60ac1",
+    "unit_id": "S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_READ_CONSENT_B7_PASS_20261123.md",
-        "blob_sha": "a5cc57e65ce8ed774ddadf1aebf2036a803334ac",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B7_PASS_20261123.md",
+        "blob_sha": "dde53725a21b1e1b3e20b920c9d2254c54541d8e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B0 source mount exact4 B1-B5 at dbe4076 guard 45179631371 SUCCESS",
+  "why": "F2C1B1B0 Android35 5/5 real XML negative boundaries CI 45181057697 SUCCESS, protocol 45181057574 SUCCESS, regression E 45181057667 SUCCESS",
   "how": "SAME_GENERATION_F2C0_WITH_DUAL_OWNER_POLICY_AND_TRUSTED_ANDROID_SCOPED_CONSENT_NO_D4_YET",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -86,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 exact4 files + 5 Android API35 negative security tests and offline APK, B7; F2C1B1B1 positive live store and D4/E next, F3 OPEN",
+  "next": "F2C1B1B1 real positive Household10 Evidence2 owner policies D4/E, separate preaudit; F3 integral OPEN",
   "pre_audit_guard_run_id": 45116289335
 }
