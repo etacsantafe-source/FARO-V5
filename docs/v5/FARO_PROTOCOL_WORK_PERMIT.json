@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
-  "reviewed_head": "861242ddb63398d208846280a7fb0a6b5bd8278c",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
+  "reviewed_head": "7d9c07825142c181264e3c8c170e0eacedc7ca9d",
+  "paths": [
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialReviewPanel.kt",
+    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1b1b1b1b-android-explicit-history.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
+          "blob_sha": "18fb3cec3ba46960bd8bf7bb0dc1a038cee38cdc",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
+          "blob_sha": "18fb3cec3ba46960bd8bf7bb0dc1a038cee38cdc",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
+          "blob_sha": "18fb3cec3ba46960bd8bf7bb0dc1a038cee38cdc",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
+          "blob_sha": "18fb3cec3ba46960bd8bf7bb0dc1a038cee38cdc",
           "marker": "## B4"
         }
       ]
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_SOURCE_B1_B5_20261123.md",
-          "blob_sha": "6d9ff7613ce0f0f6e53924998f29ad3ae91d7de5",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
+          "blob_sha": "18fb3cec3ba46960bd8bf7bb0dc1a038cee38cdc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_ANDROID_REAL_OWNER_SOURCE_3_OF_3"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "861242ddb63398d208846280a7fb0a6b5bd8278c",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "F2C1B1B1B1A 3/3 real Android API35 owner-backed selected source and both native button taps; D4/E/F3 still OPEN",
-  "how": "Android CI 45217710978 SUCCESS, original XML 3/3 verified, offline APK, artifact 14841050093 digest independently checked",
+  "why": "F2C1B1B1B1B native selected observation + real owner F1 recheck D4/E display; exact4, not F3",
+  "how": "Android API35 3 ONLY NEW tests t04/t05/t06 XML, offline isolated APK, no t01–t03 rerun",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1B1B1B1B explicit selected historical observation F1→D4/E Native Android; new B1–B5 and scoped READY",
-  "pre_audit_guard_run_id": 45211139019
+  "next": "B6 code exact4 -> directed Android API35 CI 3/3 original XML -> B7; F3 global next",
+  "pre_audit_guard_run_id": 45223794242
 }
