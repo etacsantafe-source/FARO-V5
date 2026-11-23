@@ -18,6 +18,7 @@ import ar.com.faro.v5.owner.household.api.HouseholdNeedId
 import ar.com.faro.v5.store.reality.RealityHousehold10StagedFilePort
 import java.io.File
 import java.nio.file.Files
+import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.nio.channels.FileChannel
@@ -55,11 +56,33 @@ class S4W04CommercialOwnerBackedPositiveAndroidTest {
         val gate: SingleProcessMaterialWriteGate,
     )
 
+    /**
+     * Bundled SQLite stages use SQLITE_OPEN_NOFOLLOW. Android filesDir can
+     * contain a symlink in its ancestry (/data/user/0 -> /data/data), so the
+     * physical stage path must start from the CANONICAL private root. Never
+     * disable NOFOLLOW in Reality, and never use external storage.
+     */
+    private fun canonicalPrivateFixtureRoot(
+        activity: FaroV5W04CommercialDevActivity,
+        prefix: String,
+    ): File {
+        val privateRoot = activity.application.filesDir.toPath().toRealPath()
+        check(Files.isDirectory(privateRoot, NOFOLLOW_LINKS) &&
+            !Files.isSymbolicLink(privateRoot))
+        val created = File(privateRoot.toFile(), prefix + UUID.randomUUID())
+        check(created.mkdirs())
+        val resolved = created.toPath().toRealPath()
+        check(resolved != privateRoot && resolved.startsWith(privateRoot) &&
+            Files.isDirectory(resolved, NOFOLLOW_LINKS) &&
+            !Files.isSymbolicLink(resolved))
+        val root = resolved.toFile()
+        fixtureRoots += root
+        return root
+    }
+
     /** Real five-store source prepared just like the certified F2C0 JVM test. */
     private fun realFixture(activity: FaroV5W04CommercialDevActivity): Fixture {
-        val root = File(activity.application.filesDir, "w04-real-owner-" + UUID.randomUUID())
-        check(root.mkdirs())
-        fixtureRoots += root
+        val root = canonicalPrivateFixtureRoot(activity, "w04-real-owner-")
         val path = root.toPath()
         val gate = SingleProcessMaterialWriteGate()
         val quiescence = MaterialWriteGateQuiescence(gate)
@@ -155,9 +178,7 @@ class S4W04CommercialOwnerBackedPositiveAndroidTest {
 
     /** No SQLite is mounted or fabricated by the deny-before-open case. */
     private fun unmountedFixture(activity: FaroV5W04CommercialDevActivity): Fixture {
-        val root = File(activity.application.filesDir, "w04-owner-negative-" + UUID.randomUUID())
-        check(root.mkdirs())
-        fixtureRoots += root
+        val root = canonicalPrivateFixtureRoot(activity, "w04-owner-negative-")
         val pinned = checkNotNull(FileActiveGenerationPointer(root.toPath()).compareAndSet(
             null, StorageGenerationId("missing-stage"),
         ))
