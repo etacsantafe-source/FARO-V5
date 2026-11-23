@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT",
-  "reviewed_head": "ff881ffc41e5a2ca719589a49536cb24792ec694",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_GATE_DEV",
+  "reviewed_head": "ba22d7dbd1aea646ff7bc573fec3acfebfe20b55",
+  "paths": [
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevForegroundSessionGate.kt",
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevActivity.kt",
+    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialForegroundSessionAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1a-foreground-session.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B1_B5_20261123.md",
-          "blob_sha": "f3b58cf363958b5451593fb2a3a20dd48347718d",
+          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
+          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B1_B5_20261123.md",
-          "blob_sha": "f3b58cf363958b5451593fb2a3a20dd48347718d",
+          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
+          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B1_B5_20261123.md",
-          "blob_sha": "f3b58cf363958b5451593fb2a3a20dd48347718d",
+          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
+          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B1_B5_20261123.md",
-          "blob_sha": "f3b58cf363958b5451593fb2a3a20dd48347718d",
+          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
+          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
           "marker": "## B4"
         }
       ]
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B1_B5_20261123.md",
-          "blob_sha": "f3b58cf363958b5451593fb2a3a20dd48347718d",
+          "path": "docs/v5/FARO_S4_W04_F2C1A_ANDROID_FOREGROUND_SESSION_B1_B5_20261123.md",
+          "blob_sha": "c682b4fc2b1b60c8a3fd0bdf731b7f58412bb124",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_SELECTED_READ_6_6"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "ff881ffc41e5a2ca719589a49536cb24792ec694",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "F2C0 DEV one-lease selected Household10 and Evidence2 read B7 scoped 6/6 real SQLite XML CI 45110499993 and guard 45110499796 SUCCESS",
-  "how": "EXACT3_SELECTED_ACTIVE_TYPED_READ_PORT_VIA_CERTIFIED_F2B1_WITH_NO_PRODUCT_MOUNT",
+  "why": "F2C0 6/6 real SQLite B7 PASS; F2C1A one narrow DEV Android foreground session gate only, B1-B5 documented and protocol guard 45116289335 SUCCESS; F2C1B real grants/UI separate",
+  "how": "EXACT4_F2C1A_ANDROID_DEV_LIFECYCLE_GATE_NO_REAL_DATA_MOUNT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,5 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1 Android DEV foreground/UI human choice same-generation integration B1–B5, separate READY. F2C0 source tested; F3 global acceptance not run"
+  "next": "F2C1A B6 four exact routes, new Android API35 tests 4/4 and XML before B7. F2C1B real grant issuer+F1/E mounting and F3 integral OPEN",
+  "pre_audit_guard_run_id": 45116289335
 }
