@@ -26,7 +26,7 @@ class Household10DevReadScopeOwnerTest {
 
     @Test fun t01OwnerAdmitsOnlyOpenSelectedRealSnapshotWithFreshNonce() {
         val owner = owner()
-        val nonce = assertNotNull(owner.issueAfterTrustedOwnerDecision(id) { trusted })
+        val nonce = checkNotNull(owner.issueAfterTrustedOwnerDecision(id) { trusted })
         assertTrue(owner.admitted(id, nonce))
         assertNull(owner.issueAfterTrustedOwnerDecision(id) { true })
         assertTrue(owner.isRevoked())
@@ -49,19 +49,19 @@ class Household10DevReadScopeOwnerTest {
 
     @Test fun t03EpochPointerAbaRowChangeAndOwnerRevocationFailClosed() {
         val owner = owner()
-        val nonce = assertNotNull(owner.issueAfterTrustedOwnerDecision(id) { true })
+        val nonce = checkNotNull(owner.issueAfterTrustedOwnerDecision(id) { true })
         identity = bound.copy(pointerSequence = 10L)
         assertFalse(owner.admitted(id, nonce))
         identity = bound
         assertFalse(owner.admitted(id, nonce))
         val changed = owner()
-        val token = assertNotNull(changed.issueAfterTrustedOwnerDecision(id) { trusted })
+        val token = checkNotNull(changed.issueAfterTrustedOwnerDecision(id) { trusted })
         snapshot = HouseholdNeedsSnapshot(4L, listOf(row().copy(revision = 3L)))
         assertFalse(changed.admitted(id, token))
         snapshot = HouseholdNeedsSnapshot(3L, listOf(row()))
         assertFalse(changed.admitted(id, token))
         val revoked = owner()
-        val third = assertNotNull(revoked.issueAfterTrustedOwnerDecision(id) { trusted })
+        val third = checkNotNull(revoked.issueAfterTrustedOwnerDecision(id) { trusted })
         ready = false
         assertFalse(revoked.admitted(id, third))
     }

@@ -37,7 +37,7 @@ class CommercialEvidence2DevReadScopeOwnerTest {
 
     @Test fun t01TypedProductIssuedAndRecheckedWithIndependentNonce() {
         val lease = owner()
-        val nonce = assertNotNull(lease.issueAfterTrustedOwnerDecision(product) { trusted })
+        val nonce = checkNotNull(lease.issueAfterTrustedOwnerDecision(product) { trusted })
         assertTrue(lease.admitted(product, nonce))
         assertFalse(lease.admitted(CommercialProductKey("other"), nonce))
         assertTrue(lease.isRevoked())
@@ -60,20 +60,20 @@ class CommercialEvidence2DevReadScopeOwnerTest {
 
     @Test fun t03SourceWatermarkEpochAbaAndOwnerReadyRevokePermanently() {
         val first = owner()
-        val nonce = assertNotNull(first.issueAfterTrustedOwnerDecision(product) { true })
+        val nonce = checkNotNull(first.issueAfterTrustedOwnerDecision(product) { true })
         snapshot = snapshot.copy(sourceWatermark = "b".repeat(64))
         assertFalse(first.admitted(product, nonce))
         snapshot = snapshot.copy(sourceWatermark = "a".repeat(64))
         assertFalse(first.admitted(product, nonce))
         val second = owner()
-        val nonce2 = assertNotNull(second.issueAfterTrustedOwnerDecision(product) { true })
+        val nonce2 = checkNotNull(second.issueAfterTrustedOwnerDecision(product) { true })
         assertNotEquals(nonce, nonce2)
         identity = bound.copy(hostEpoch = "epoch-b")
         assertFalse(second.admitted(product, nonce2))
         identity = bound
         assertFalse(second.admitted(product, nonce2))
         val third = owner()
-        val nonce3 = assertNotNull(third.issueAfterTrustedOwnerDecision(product) { true })
+        val nonce3 = checkNotNull(third.issueAfterTrustedOwnerDecision(product) { true })
         ready = false
         assertFalse(third.admitted(product, nonce3))
     }

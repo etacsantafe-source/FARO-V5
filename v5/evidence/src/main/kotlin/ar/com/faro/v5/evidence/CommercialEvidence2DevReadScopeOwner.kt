@@ -34,8 +34,6 @@ class CommercialEvidence2DevReadScopeOwner(
     private data class Grant(
         val product: CommercialProductKey,
         val watermark: String,
-        val allRecords: List<PortableCommercialTypedObservation>,
-        val selectedRecords: List<PortableCommercialTypedObservation>,
         val nonce: String,
         val trustedAdmission: () -> Boolean,
     )
@@ -81,7 +79,6 @@ class CommercialEvidence2DevReadScopeOwner(
         }
         val grant = Grant(
             selectedProduct, snapshot.sourceWatermark,
-            snapshot.records.toList(), selected.toList(),
             UUID.randomUUID().toString(), trustedAdmission,
         )
         issued = grant
@@ -110,8 +107,7 @@ class CommercialEvidence2DevReadScopeOwner(
             it.observation.productKey == grant.product.value
         }
         return snapshot.sourceWatermark == grant.watermark &&
-            snapshot.records == grant.allRecords &&
-            selected.isNotEmpty() && selected == grant.selectedRecords &&
+            selected.isNotEmpty() &&
             selected.all { it.terms != null } &&
             current() && safeTrusted(grant.trustedAdmission)
     }

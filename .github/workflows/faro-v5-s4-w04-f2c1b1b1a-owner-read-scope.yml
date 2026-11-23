@@ -43,6 +43,7 @@ jobs:
         run: |
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
             -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
             ":owner:household:test" \
             --tests "ar.com.faro.v5.owner.household.spi.Household10DevReadScopeOwnerTest"
       - name: Evidence2 selected DEV owner scope JUnit5
@@ -50,6 +51,7 @@ jobs:
         run: |
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
             -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
             ":evidence:test" \
             --tests "ar.com.faro.v5.evidence.CommercialEvidence2DevReadScopeOwnerTest"
       - name: Exact six real JUnit XML tests and no skipped/error
