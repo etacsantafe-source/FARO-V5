@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
-  "reviewed_head": "3fc08fc87fb1747d1eca07dc52d630133000c7ac",
-  "paths": [
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
-    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1b1b1b1a-android-real-owner-positive.yml"
-  ],
+  "reviewed_head": "861242ddb63398d208846280a7fb0a6b5bd8278c",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_ANDROID_REAL_OWNER_SOURCE_3_OF_3"
   },
   "last_code_review": {
-    "sha": "3fc08fc87fb1747d1eca07dc52d630133000c7ac",
+    "sha": "861242ddb63398d208846280a7fb0a6b5bd8278c",
     "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_B7_RED_FIX2_CANONICAL_ROOT_20261123.md",
-        "blob_sha": "ff0f1b9dd91b96e30ec903b50ca9634655a5a923",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_B7_PASS_20261123.md",
+        "blob_sha": "447765669790bd5d119482fa107b5ef227f95f43",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1B1A RED_FIX2 Android API35 1 PASS 2 FAIL: SQLITE_CANTOPEN error14 before owner mount in Finance9 staged file NOFOLLOW; canonical private fixture root hypothesis",
-  "how": "one authorized AndroidTest path only; canonical app-private filesDir + fixture paths; preserve SQL NOFOLLOW and no production code changes",
+  "why": "F2C1B1B1B1A 3/3 real Android API35 owner-backed selected source and both native button taps; D4/E/F3 still OPEN",
+  "how": "Android CI 45217710978 SUCCESS, original XML 3/3 verified, offline APK, artifact 14841050093 digest independently checked",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 RED_FIX2 one AndroidTest file; CI Android API35 3/3 XML and offline APK, then B7",
+  "next": "F2C1B1B1B1B explicit selected historical observation F1→D4/E Native Android; new B1–B5 and scoped READY",
   "pre_audit_guard_run_id": 45211139019
 }
