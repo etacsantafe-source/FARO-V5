@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_DEV",
-  "reviewed_head": "eae8d60008f0a9de4599a20706e18adbe9e60ac1",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
+  "reviewed_head": "69edb8a568171820bfbd2c98638c49ecdd9ea91b",
+  "paths": [
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwner.kt",
+    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwner.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwnerTest.kt",
+    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwnerTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1b1b1a-owner-read-scope.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
-          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
+          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
           "marker": "## B1"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
-          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
+          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
           "marker": "## B2"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
-          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
+          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
           "marker": "## B3"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
-          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
+          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
           "marker": "## B4"
         }
       ]
@@ -49,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
-          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
+          "blob_sha": "a0c1faf84008d4923092b3a730c435845f359d94",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_ANDROID35_NEGATIVE_5_5"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "eae8d60008f0a9de4599a20706e18adbe9e60ac1",
@@ -70,17 +76,17 @@
       }
     ]
   },
-  "why": "F2C1B1B0 Android35 5/5 real XML negative boundaries CI 45181057697 SUCCESS, protocol 45181057574 SUCCESS, regression E 45181057667 SUCCESS",
-  "how": "SAME_GENERATION_F2C0_WITH_DUAL_OWNER_POLICY_AND_TRUSTED_ANDROID_SCOPED_CONSENT_NO_D4_YET",
+  "why": "B1B1B1A only: independent scope-bound owner session grants, not Android/real live source integration; B0 certified and not repeated",
+  "how": "5 paths exact, DEV-only, 6 JUnit5 XML, no F2C0/Android source/UI writes",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
-    "date_local": "2026-11-22",
-    "scope": "User explicitly authorized writer manual recovery and continue FARO V5. F2B2B01 codec only, no productive activation"
+    "date_local": "2026-11-23",
+    "scope": "Continuamos; authorized manual writer, this bounded DEV owner policy subunit, no productive V2"
   },
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1B1B1 real positive Household10 Evidence2 owner policies D4/E, separate preaudit; F3 integral OPEN",
-  "pre_audit_guard_run_id": 45116289335
+  "next": "B6 exact5 then targeted CI XML and B7 scoped; global B1B1B1B still STOP",
+  "pre_audit_guard_run_id": 45186230152
 }
