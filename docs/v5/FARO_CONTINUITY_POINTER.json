@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_D4E_READY",
+  "phase": "S4_W04_F2C1B1B1B1B_B7_RED_FIX1_SCOPED_WATERMARK",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1743
+    "epoch": 1745
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2C1B1B1B1B B6 exact4; native observation click → F1 authorized D4E historical, t04-t06 API35; B7 then F3",
-  "checkpoint_status": "F2C1B1B1B1B_B1_B5_READY_GUARD_45223794242",
+  "next": "RED_FIX1 canonical selected product watermark in host with separate full-source witness; exact1 host route; CI Android3/3 B7 then F3",
+  "checkpoint_status": "F2C1B1B1B1B_CI_45224912502_FAIL_0_3_BEFORE_CHOOSER",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "861242ddb63398d208846280a7fb0a6b5bd8278c",
@@ -6676,7 +6676,7 @@
     "limits": "Instrumented taps, test-only real SQLite, no D4/E UI or productive ACL"
   },
   "s4_w04_f2c1b1b1b1b": {
-    "status": "READY_B6_SCOPE4",
+    "status": "B7_RED_FIX1_READY",
     "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
     "document": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B1_B5_20261123.md",
     "baseline_head": "803cf9500453d353c8a8bc24c1e336acf3b23ee2",
@@ -6687,8 +6687,13 @@
       ".github/workflows/faro-v5-s4-w04-f2c1b1b1b1b-android-explicit-history.yml"
     ],
     "b6": "NOT_STARTED",
-    "b7": "NOT_STARTED",
+    "b7": "RED_FIX",
     "preaudit_guard_run_id": 45223794242,
-    "writer_release_expected_epoch": 1743
+    "writer_release_expected_epoch": 1745,
+    "code_sha": "cd020ffbaad6d7dd7ae90dd17caec0f159e253af",
+    "ci_run_id": 45224912502,
+    "ci_conclusion": "FAILURE_0_3_BEFORE_CHOOSER",
+    "artifact_id": 14843406783,
+    "red_fix_doc": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_B7_RED_FIX1_SCOPED_EVIDENCE_WATERMARK_20261123.md"
   }
 }

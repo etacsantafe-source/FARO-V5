@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
-  "reviewed_head": "7d9c07825142c181264e3c8c170e0eacedc7ca9d",
+  "reviewed_head": "cd020ffbaad6d7dd7ae90dd17caec0f159e253af",
   "paths": [
     "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
     "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialReviewPanel.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "861242ddb63398d208846280a7fb0a6b5bd8278c",
-    "unit_id": "S4_W04_F2C1B1B1B1A_ANDROID_REAL_ACTIVE_OWNER_SELECTED_DEV",
-    "result": "PASS",
+    "sha": "cd020ffbaad6d7dd7ae90dd17caec0f159e253af",
+    "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1A_ANDROID_REAL_OWNER_B7_PASS_20261123.md",
-        "blob_sha": "447765669790bd5d119482fa107b5ef227f95f43",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_B7_RED_FIX1_SCOPED_EVIDENCE_WATERMARK_20261123.md",
+        "blob_sha": "ed39f631e671fc792fbf17874661c5a92efbe4d5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1B1B native selected observation + real owner F1 recheck D4/E display; exact4, not F3",
-  "how": "Android API35 3 ONLY NEW tests t04/t05/t06 XML, offline isolated APK, no t01–t03 rerun",
+  "why": "F2C1B1B1B1B B7 RED_FIX1 CI 0/3: full Evidence2 watermark with filtered selected records rejected by canonical v2 verification",
+  "how": "same unit one host path: retain W_full fence and derive canonical W_selected for F1 only, no extra product read",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 code exact4 -> directed Android API35 CI 3/3 original XML -> B7; F3 global next",
+  "next": "B6 RED_FIX1 one authorized host path, rerun directed Android API35 t04-t06 and original XML",
   "pre_audit_guard_run_id": 45223794242
 }
