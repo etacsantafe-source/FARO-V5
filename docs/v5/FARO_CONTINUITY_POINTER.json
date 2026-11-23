@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B1A_READY_EXACT4",
+  "phase": "S4_W04_F2C1B1A_B7_PASS_F2C1B1B_REAL_SOURCE_MOUNT_OPEN",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1704
+    "epoch": 1708
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2C1B1A B6 four routes Android5 and B7. F2C1B1B mount owner ACL + D4/E and F3 acceptance remain OPEN.",
-  "checkpoint_status": "F2C1B1A_PREAUDIT_GUARD_SUCCESS_READY_EXACT4",
+  "next": "F2C1B1A dual local Android consent PASS scoped 5/5; next F2C1B1B genuine N-033/N-034 owner ACL, selected F2C0 source→F1/D4/E Android review, B1-B5 separate READY; F3/S4 integral pending. V2 productiva OFF",
+  "checkpoint_status": "F2C1B1A_B7_PASS_SCOPED_ANDROID35_5_5_F2C1B1B_F3_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "752f7be8d862c152c61440968670c96222b6332c",
-  "last_ci_run_id": 45120468801,
+  "last_code_sha": "d0009049f35adf0fae0407ca5d035639f4740b87",
+  "last_ci_run_id": 45175563251,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_F2C1B0_DEV_SELECTED_TYPED_PROJECTION_REAL_XML_6_6",
+  "last_ci_conclusion": "SUCCESS_F2C1B1A_ANDROID35_SCOPED_LOCAL_CONSENT_REAL_XML_5_5",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6549,5 +6549,20 @@
     "android_live_mount": "NOT_DONE",
     "productive_v2": false,
     "next": "F2C1B1_TRUSTED_ANDROID_GRANTS"
+  },
+  "s4_w04_f2c1b1a": {
+    "status": "B7_PASS_SCOPED_ANDROID_DEV_READ_CONSENT",
+    "code_sha": "d0009049f35adf0fae0407ca5d035639f4740b87",
+    "guard_run_id": 45175563106,
+    "ci_run_id": 45175563251,
+    "junit": "5/5_0_FAILURE_0_ERROR_0_SKIPPED",
+    "artifact_id": 14820221677,
+    "artifact_sha256": "a118ba34059247b064da20a9b17582308bb11491dad89c2e9620c54c5f1f25d4",
+    "apk_sha256": "e20e025efac6bd8a6d062650ff60e71c59f0c2bda04f1c89f7d124733dd52480",
+    "b7_document": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_READ_CONSENT_B7_PASS_20261123.md",
+    "physical_g15": "NOT_RUN",
+    "real_store_read": "NOT_MOUNTED",
+    "productive_v2": false,
+    "next": "F2C1B1B_REAL_TRUSTED_OWNER_SOURCE_MOUNT"
   }
 }

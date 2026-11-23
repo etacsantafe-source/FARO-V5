@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_DEV",
-  "reviewed_head": "999d55a28da04d228101931e72876e1979b1bbe4",
-  "paths": [
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevReadConsentIssuer.kt",
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevActivity.kt",
-    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialReadConsentIssuerAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1b1a-read-consent.yml"
-  ],
+  "reviewed_head": "d0009049f35adf0fae0407ca5d035639f4740b87",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_ANDROID35_DUAL_LOCAL_READ_CONSENT_5_5"
   },
   "last_code_review": {
-    "sha": "752f7be8d862c152c61440968670c96222b6332c",
-    "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
+    "sha": "d0009049f35adf0fae0407ca5d035639f4740b87",
+    "unit_id": "S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_B7_PASS_20261123.md",
-        "blob_sha": "e31281d670d2daae5b54a2808b2644a04cd940a4",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_READ_CONSENT_B7_PASS_20261123.md",
+        "blob_sha": "a5cc57e65ce8ed774ddadf1aebf2036a803334ac",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1A Android DEV scoped local read consent B1-B5 at exact SHA, mandatory doc guard 45174657978 SUCCESS",
-  "how": "ANDROID_REAL_SANDBOX_PRIVATE_POINTER_DUAL_IN_MEMORY_CONSENT_NO_SOURCE_MOUNT",
+  "why": "F2C1B1A Android35 API verified 5/5 real XML, CI 45175563251 SUCCESS, guard 45175563106 SUCCESS, artifact 14820221677/manifest verified",
+  "how": "ANDROID_REAL_SANDBOX_PRIVATE_POINTER_LOCAL_HUMAN_DUAL_CONSENT_NO_N033_N034_GRANT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 exact4 paths and Android API35 5 XML, B7; F2C1B1B owner ACL/source→F1/D4/E and F3 remain OPEN; productive V2 OFF",
+  "next": "F2C1B1B true trusted Android DEV source/F2C0 + N033/N034 owner admission + F1/D4/E selected UI, separate B1-B5/READY; F3 E2E open, V2 productive OFF",
   "pre_audit_guard_run_id": 45116289335
 }
