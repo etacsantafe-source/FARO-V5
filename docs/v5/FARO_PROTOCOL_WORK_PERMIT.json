@@ -1,15 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
-  "reviewed_head": "2b6fc0d347d6c2fba22de5c4788430af1a96b16b",
-  "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwner.kt",
-    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwner.kt",
-    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwnerTest.kt",
-    "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwnerTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1b1b1a-owner-read-scope.yml"
-  ],
+  "reviewed_head": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -61,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DUAL_OWNER_DEV_JVM_6_OF_6"
   },
   "last_code_review": {
-    "sha": "2b6fc0d347d6c2fba22de5c4788430af1a96b16b",
+    "sha": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
     "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_B7_RED_FIX_CI_HEAP_20261123.md",
-        "blob_sha": "3ce222bb45edadff20bec0b1acab3aae1b9c07a1",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B7_PASS_20261123.md",
+        "blob_sha": "288c5080b309e4a568ad863389f0c57f91406311",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1A RED_FIX1 exact four paths: first CI failed build-logic OOM before tests; source audit JUnit void assert and Evidence copy cache",
-  "how": "same DEV owner scope, no Android; B7 RED_FIX then directed six XML",
+  "why": "F2C1B1B1A B7 scoped two in-memory DEV read scope owners with 6/6 real JUnit XML, no live Android owner ACL",
+  "how": "CI 45188613035 SUCCESS, protocol 45188613176 SUCCESS, artifact 14824603707 SHA256 independently checked",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -87,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 exact5 then targeted CI XML and B7 scoped; global B1B1B1B still STOP",
+  "next": "F2C1B1B1B actual store owner read source + Android real positive under separate B1-B5/READY",
   "pre_audit_guard_run_id": 45186230152
 }

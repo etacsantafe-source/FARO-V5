@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B1B1A_OWNER_SCOPE_B7_RED_FIX1_CI_HEAP",
+  "phase": "S4_W04_F2C1B1B1A_B7_PASS_F2C1B1B1B_REAL_ANDROID_OPEN",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1721
+    "epoch": 1723
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Fix F2C1B1B1A exact4: Gradle heap, JUnit5 Kotlin checkNotNull, Evidence no-cache, run six XML; then owner real Android F2C1B1B1B",
-  "checkpoint_status": "F2C1B1B1A_B7_RED_FIX1_NO_XML_CI_45187168132_FAILURE",
+  "next": "F2C1B1B1B real Household10/Evidence2 owner-backed source with Android positive F1 D4 E, new preaudit/READY; F3 integral after; V2 productiva OFF",
+  "checkpoint_status": "F2C1B1B1A_B7_PASS_JVM_XML_6_6_F2C1B1B1B_F3_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "d0009049f35adf0fae0407ca5d035639f4740b87",
-  "last_ci_run_id": 45175563251,
+  "last_code_sha": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
+  "last_ci_run_id": 45188613035,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_F2C1B1A_ANDROID35_SCOPED_LOCAL_CONSENT_REAL_XML_5_5",
+  "last_ci_conclusion": "SUCCESS_F2C1B1B1A_OWNER_SCOPE_JVM_XML_6_6",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6576,11 +6576,11 @@
     "next": "F2C1B1B1"
   },
   "s4_w04_f2c1b1b1": {
-    "status": "PREAUDIT_B1_B4_DOCUMENTED_B5_STOP_NO_READY",
+    "status": "PARTIAL_A_PASS_B_REAL_ACTIVE_ANDROID_OPEN",
     "unit_id": "S4_W04_F2C1B1B1_REAL_OWNER_POSITIVE_ANDROID_DEV",
     "baseline_head": "766ac7c4d3867928f3b23134b7e5ce56f9b08d50",
     "document": "docs/v5/FARO_S4_W04_F2C1B1B1_REAL_OWNER_POSITIVE_ANDROID_B1_B5_20261123.md",
-    "blocked_on": "TWO_REAL_INDEPENDENT_OWNER_READ_ADMISSIONS_HOUSEHOLD_N033_EVIDENCE_N034",
+    "blocked_on": "REAL_TWO_OWNER_POLICY_SOURCES_UNDER_SINGLE_ACTIVE_LEASE_AND_EXPLICIT_OBSERVATION_UI",
     "code_changed": false,
     "b6": "NOT_STARTED",
     "b7": "NOT_STARTED",
@@ -6589,7 +6589,7 @@
     "writer_release_expected_epoch": 1717
   },
   "s4_w04_f2c1b1b1a": {
-    "status": "RED_FIX1_READY_SAME_UNIT",
+    "status": "B7_PASS_SCOPED_JVM_DEV_6_6",
     "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
     "baseline_head": "69edb8a568171820bfbd2c98638c49ecdd9ea91b",
     "document": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B1_B5_20261123.md",
@@ -6601,14 +6601,19 @@
       "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwnerTest.kt",
       ".github/workflows/faro-v5-s4-w04-f2c1b1b1a-owner-read-scope.yml"
     ],
-    "b6": "PENDING",
-    "b7": "RED_FIX",
-    "writer_release_expected_epoch": 1721,
+    "b6": "DONE_VERIFIED",
+    "b7": "PASS_SCOPED_DUAL_OWNER_DEV_JVM_6_OF_6",
+    "writer_release_expected_epoch": 1723,
     "scope": "owner dev read lease contract only; not real Android owner granted read",
-    "code_sha": "2b6fc0d347d6c2fba22de5c4788430af1a96b16b",
-    "ci_run_id": 45187168132,
-    "ci_conclusion": "FAILURE_BUILD_LOGIC_OOM_512MiB",
-    "xml": "NOT_RUN",
-    "red_fix_doc": "docs/v5/FARO_S4_W04_F2C1B1B1A_B7_RED_FIX_CI_HEAP_20261123.md"
+    "code_sha": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
+    "ci_run_id": 45188613035,
+    "ci_conclusion": "SUCCESS",
+    "xml": "6_6_VERIFIED_INDEPENDENTLY",
+    "red_fix_doc": "docs/v5/FARO_S4_W04_F2C1B1B1A_B7_RED_FIX_CI_HEAP_20261123.md",
+    "ci_job_id": 137740696300,
+    "ci_artifact_id": 14824603707,
+    "zip_sha256": "fdb233f924e7f15f5d570aa06b84578571064dd6e328f298c2dedfcdec2a7036",
+    "b7_doc": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B7_PASS_20261123.md",
+    "source": "SYNTHETIC_TEST_PORTS_NO_ANDROID_REAL_ACL"
   }
 }
