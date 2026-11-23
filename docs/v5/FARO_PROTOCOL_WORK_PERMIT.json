@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
-  "reviewed_head": "169a9ddaf5191aae6c434dd4ba80cd982ff5ea7f",
+  "reviewed_head": "a41acb9685a0b881d50ee0e9c46f653a42cdc2ba",
   "paths": [
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjection.kt",
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjectionTest.kt",
@@ -63,18 +63,18 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "169a9ddaf5191aae6c434dd4ba80cd982ff5ea7f",
+    "sha": "a41acb9685a0b881d50ee0e9c46f653a42cdc2ba",
     "unit_id": "S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B0_B7_RED_FIX_ASSERT_NOT_NULL_20261123.md",
-        "blob_sha": "e21992b29b4d357b34aeaf7156ffd317a4340572",
+        "path": "docs/v5/FARO_S4_W04_F2C1B0_B7_RED_FIX_WORKFLOW_DELTA_COUNT_20261123.md",
+        "blob_sha": "2f7803aae156524b156ee3762180daca78ae0c0e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B0 test compiler UNRESOLVED_REFERENCE in S3 Home CI 45118646536 on 169a9d; same-unit RED_FIX only",
+  "why": "F2C1B0 workflow directed run 45119417722 FAIL because exact count==3 while test-only RED_FIX touches one allowed path; protocol preflight PASS",
   "how": "PURE_BRIDGE_EXACT3_NO_HOST_GRANTS_OR_PRODUCT_MOUNT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "Replace two JUnit assertNotNull assigned Unit with Kotlin requireNotNull; run directed JVM6 and mandatory guard new SHA, then B7",
+  "next": "Replace workflow count==3 with count in 1..3 with existing per-path FARO preflight; run directed JVM6 and XML; B7",
   "pre_audit_guard_run_id": 45116289335
 }
