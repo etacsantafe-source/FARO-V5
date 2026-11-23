@@ -1,9 +1,11 @@
 package ar.com.faro.v5.app
 
 import android.database.sqlite.SQLiteDatabase
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -309,6 +311,98 @@ class S4W04CommercialOwnerBackedPositiveAndroidTest {
             assertFalse(a.hasTrustedConsentIssuer())
             assertNull(a.readSelectedForTrustedHost(need.value, product.value) { true })
             assertNull(host.readProjectedOnce { true })
+        }
+    }
+
+    private fun containsPanelText(view: View, needle: String): Boolean {
+        if (view is TextView && view.text.toString().contains(needle)) return true
+        return view is ViewGroup && (0 until view.childCount).any {
+            containsPanelText(view.getChildAt(it), needle)
+        }
+    }
+
+    @Test fun t04NativeExplicitChoiceRendersRealHistoricalD4EOnlyAfterTap() {
+        rule.scenario.onActivity { a ->
+            val f = realFixture(a)
+            val issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            val host = checkNotNull(mount(a, f, issuer))
+            assertTrue(host.presentNativeHistoricalChoicesForTrustedDevHost(
+                asOfEpochMillis = 1000L,
+                maxObservationAgeMillis = 200L,
+                requestedPackCount = 2,
+                readNow = { 1020L },
+            ))
+            assertTrue(containsPanelText(a.reviewPanel, "Elegí una observación histórica"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            val choice = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.choice.0",
+            ))
+            assertTrue(choice.text.toString().contains("Seleccionar histórico:"))
+            assertTrue(choice.performClick())
+            assertTrue(containsPanelText(a.reviewPanel, "Revisión comercial histórica"))
+            assertTrue(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado: ARS 240.00"))
+            assertTrue(containsPanelText(a.reviewPanel, "No es una cotización vigente"))
+            assertFalse(containsPanelText(a.reviewPanel, "Elegí una observación histórica"))
+            host.close()
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+        }
+    }
+
+    @Test fun t05NoObservationTapOrRevokedHostNeverRendersHistoricalPrice() {
+        rule.scenario.onActivity { a ->
+            val f = realFixture(a)
+            val issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            val host = checkNotNull(mount(a, f, issuer))
+            assertTrue(host.presentNativeHistoricalChoicesForTrustedDevHost(
+                1000L, 200L, 1, readNow = { 1020L },
+            ))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            val staleChoice = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.choice.0",
+            ))
+            host.close()
+            assertTrue(host.isClosed())
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            // A detached button that still has a saved listener cannot revive the ACL.
+            assertTrue(staleChoice.performClick())
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+        }
+    }
+
+    @Test fun t06PauseClearsHistoricalD4EAndResumeCannotResurrectSelection() {
+        lateinit var host: FaroV5W04CommercialDevTrustedSelectedHost
+        lateinit var issuer: FaroV5W04CommercialDevReadConsentIssuer
+        lateinit var staleChoice: Button
+        rule.scenario.onActivity { a ->
+            val f = realFixture(a)
+            issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            host = checkNotNull(mount(a, f, issuer))
+            assertTrue(host.presentNativeHistoricalChoicesForTrustedDevHost(
+                1000L, 200L, 1, readNow = { 1020L },
+            ))
+            staleChoice = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.choice.0",
+            ))
+            assertTrue(staleChoice.performClick())
+            assertTrue(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+        }
+        rule.scenario.moveToState(Lifecycle.State.STARTED)
+        assertTrue(host.isClosed())
+        assertTrue(issuer.isRevoked())
+        rule.scenario.moveToState(Lifecycle.State.RESUMED)
+        rule.scenario.onActivity { a ->
+            assertFalse(a.hasTrustedGate())
+            assertFalse(a.hasTrustedConsentIssuer())
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            assertNull(a.reviewPanel.findViewWithTag<View>("faro.w04.historical.choice.0"))
+            assertTrue(staleChoice.performClick())
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
         }
     }
 }

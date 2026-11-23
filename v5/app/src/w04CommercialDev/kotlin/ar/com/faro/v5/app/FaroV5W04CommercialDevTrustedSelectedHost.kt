@@ -3,6 +3,7 @@ package ar.com.faro.v5.app
 import android.content.pm.ApplicationInfo
 import ar.com.faro.v5.evidence.CommercialEvidenceOperations
 import ar.com.faro.v5.evidence.CommercialProductKey
+import ar.com.faro.v5.evidence.CommercialObservationComparisonStatus
 import ar.com.faro.v5.generation.FaroV5Household10Evidence2DevSelectionReadPort
 import ar.com.faro.v5.kernel.contracts.CapabilityId
 import ar.com.faro.v5.kernel.contracts.ContractExposure
@@ -79,6 +80,106 @@ internal class FaroV5W04CommercialDevTrustedSelectedHost private constructor(
         projected
     }
 
+    /**
+     * F2C1B1B1B1B: mount a native chooser from the real ACTIVE single-lease
+     * F1 read; only a native historical observation Button click can trigger
+     * the already-certified D1..D4/E historical coordinator.
+     * Never choose lowest observed / current price implicitly.
+     */
+    fun presentNativeHistoricalChoicesForTrustedDevHost(
+        asOfEpochMillis: Long,
+        maxObservationAgeMillis: Long,
+        requestedPackCount: Int,
+        readNow: () -> Long? = { System.currentTimeMillis() },
+    ): Boolean = synchronized(monitor) {
+        if (closed || requestedPackCount !in 1..10_000 ||
+            asOfEpochMillis < 0L ||
+            maxObservationAgeMillis !in 1L..365L * 24L * 60L * 60L * 1000L
+        ) return@synchronized false
+
+        // The two native READ consents already exist in the attached issuer.
+        // The fresh source port checks both independent REAL owner grants.
+        fun fresh() = readProjectedOnce {
+            issuer.householdConsented(needId.value) &&
+                issuer.commercialConsented(productKey.value)
+        }
+        val initial = fresh() ?: return@synchronized false
+        val selected = S4W04CommercialNeedProductSelection.select(
+            initial.household, needId, productKey, listOf(productKey),
+            initial.fence, explicitlyChosen = true,
+            isOwnerAdmitted = { fresh() != null },
+        ) as? CommercialNeedProductDecision.Candidate ?: return@synchronized false
+        val draft = (S4W04CommercialCartDraft.build(
+            initial.household, initial.fence,
+            listOf(S4W04CommercialCartDraft.PackChoice(
+                selected.binding, requestedPackCount,
+            )),
+            isOwnerAdmitted = { fresh() != null },
+        ) as? S4W04CommercialCartDraft.Decision.Draft)?.cartDraft
+            ?: return@synchronized false
+
+        fun admittedNeed(id: HouseholdNeedId) = id == needId && fresh() != null
+        fun admittedProduct(key: CommercialProductKey) =
+            key == productKey && fresh() != null
+        fun coverage() = S4W04CommercialCartCoverage(
+            currentHouseholdSnapshot = { fresh()?.household },
+            currentFence = { fresh()?.fence },
+            currentCommercialSnapshot = { fresh()?.evidence },
+            householdAdmission = ::admittedNeed,
+            commercialReadAdmission = ::admittedProduct,
+        )
+        val view = (coverage().project(draft, asOfEpochMillis,
+            maxObservationAgeMillis) as? CommercialCartCoverageDecision.Observed)?.view
+            ?: return@synchronized false
+        val line = view.lines.singleOrNull {
+            it.needId == needId && it.productKey == productKey
+        } ?: return@synchronized false
+        val entries = line.history.filter {
+            it.comparisonStatus ==
+                CommercialObservationComparisonStatus.COMPARABLE_BASE_OBSERVED &&
+                it.item.terms != null
+        }
+        if (entries.isEmpty() || entries.size > 200) return@synchronized false
+
+        activity.reviewPanel.renderExplicitHistoricalChoices(
+            entries = entries,
+            authorizedNow = { fresh() != null },
+            onSelected = { tapped ->
+                synchronized(monitor) {
+                    if (closed || tapped !in entries || fresh() == null) {
+                        activity.reviewPanel.clearForRevocation()
+                        return@synchronized
+                    }
+                    // The exact record was selected by the native Button, not
+                    // by a strategy, model, price sort or Activity Intent.
+                    val choice = S4W04ObservedCartBudget.ExplicitChoice(
+                        needId = needId,
+                        productKey = productKey.value,
+                        selectedObservation = tapped,
+                        cartFingerprint = view.cartFingerprint,
+                        sourceWatermark = view.sourceWatermark,
+                        asOfEpochMillis = view.asOfEpochMillis,
+                    )
+                    val decision = S4W04HistoricalAuthorizedReadCoordinator(
+                        currentHousehold = { fresh()?.household },
+                        currentFence = { fresh()?.fence },
+                        currentEvidence = { fresh()?.evidence },
+                        householdAdmission = ::admittedNeed,
+                        evidenceAdmission = ::admittedProduct,
+                        readNow = readNow,
+                    ).project(draft, listOf(choice), asOfEpochMillis,
+                        maxObservationAgeMillis)
+                    val historical =
+                        (decision as? S4W04HistoricalAuthorizedReadCoordinator.Decision.Historical)
+                            ?.display
+                    activity.reviewPanel.renderAuthorized(historical) {
+                        fresh() != null && !closed
+                    }
+                }
+            },
+        )
+    }
+
     fun isClosed(): Boolean = synchronized(monitor) { closed || gate.isRevoked() }
 
     override fun close() = synchronized(monitor) { closeLocked() }
@@ -87,6 +188,7 @@ internal class FaroV5W04CommercialDevTrustedSelectedHost private constructor(
         if (!closed) {
             closed = true
             gate.revoke() // F2C1A closes the same F2C0 root OS lease.
+            activity.reviewPanel.clearForRevocation() // No stale D4/E on host close.
         }
     }
 

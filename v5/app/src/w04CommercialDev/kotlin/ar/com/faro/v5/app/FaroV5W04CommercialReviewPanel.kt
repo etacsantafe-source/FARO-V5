@@ -3,12 +3,14 @@ package ar.com.faro.v5.app
 import android.content.Context
 import android.graphics.Typeface
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import ar.com.faro.v5.app.S4W04CommercialLiveReadRecheck.Coverage
 import ar.com.faro.v5.app.S4W04CommercialReviewPresentation.Decision
 import ar.com.faro.v5.app.S4W04DeferredCommercialBenefitNotes.BenefitKind
+import ar.com.faro.v5.evidence.CommercialObservedHistoryEntry
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.ZoneId
@@ -42,6 +44,66 @@ internal class FaroV5W04CommercialReviewPanel(context: Context) : ScrollView(con
         // Fail closed if source authorization changed during native view creation.
         if (!runCatching(authorizedNow).getOrDefault(false)) clearForRevocation()
     }
+
+    /**
+     * F2C1B1B1B1B — native, EXPLICIT historical observation chooser.
+     * This is a view over an already owner-authorized F1 candidate list;
+     * only a real onClick triggers the historical D4/E review. No auto price.
+     */
+    internal fun renderExplicitHistoricalChoices(
+        entries: List<CommercialObservedHistoryEntry>,
+        authorizedNow: () -> Boolean,
+        onSelected: (CommercialObservedHistoryEntry) -> Unit,
+    ): Boolean {
+        clearForRevocation()
+        if (entries.isEmpty() || entries.size > 200 ||
+            !runCatching(authorizedNow).getOrDefault(false)
+        ) return false
+        val unsafe = entries.any {
+            val o = it.item.observation
+            !safeLiteralChoice(o.merchant) || !safeLiteralChoice(o.sourceRef) ||
+                o.currencyCode.length != 3 ||
+                o.currencyCode.any { letter -> letter !in 'A'..'Z' } ||
+                o.amountMinor <= 0L
+        }
+        if (unsafe) return false
+        root.removeAllViews()
+        heading("Elegí una observación histórica")
+        text("Importes registrados en el pasado; NO son precios vigentes.")
+        text("Seleccioná explícitamente un registro. Ningún precio se elige automáticamente.")
+        entries.forEachIndexed { index, item ->
+            val observation = item.item.observation
+            root.addView(Button(context).apply {
+                tag = "faro.w04.historical.choice.$index"
+                isAllCaps = false
+                text = "Seleccionar histórico: " + observation.merchant +
+                    " · " + money(observation.currencyCode, observation.amountMinor) +
+                    " · " + observation.sourceRef
+                contentDescription = text
+                setOnClickListener {
+                    if (!runCatching(authorizedNow).getOrDefault(false)) {
+                        clearForRevocation()
+                    } else {
+                        runCatching { onSelected(item) }
+                            .onFailure { clearForRevocation() }
+                    }
+                }
+            })
+        }
+        if (!runCatching(authorizedNow).getOrDefault(false)) {
+            clearForRevocation()
+            return false
+        }
+        return true
+    }
+
+    private fun safeLiteralChoice(value: String): Boolean =
+        value.isNotBlank() && value.length <= 1024 &&
+            Charsets.UTF_8.newEncoder().canEncode(value) &&
+            value.none {
+                it.isISOControl() || it in '\u202A'..'\u202E' ||
+                    it in '\u2066'..'\u2069'
+            }
 
     fun clearForRevocation() {
         root.removeAllViews()
