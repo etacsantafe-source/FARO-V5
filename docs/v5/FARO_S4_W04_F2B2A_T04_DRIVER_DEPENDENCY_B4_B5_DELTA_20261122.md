@@ -1,0 +1,14 @@
+# FARO V5 — F2B2A T04 · corrección mínima de dependencia del driver SQLite
+Fecha 2026-11-22. SAME UNIT `S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV`.
+Referencias inmutables B1–B5 originales: `docs/v5/FARO_S4_W04_F2B2A_TYPED_SEALED_ADMISSION_B1_B5_20261122.md`, blob `5573038f92cc42d5732295a62247d5e21f3507a1`; RED_FIX `docs/v5/FARO_S4_W04_F2B2A_B7_RED_FIX_TRIGGER_20261122.md`, blob `85949a2c48a91e8ab8d255cfb90caf8fdacaab98`. No repetir pruebas certificadas.
+
+## B4 — Ajuste de contrato y rutas exactas
+El RED_FIX pide abrir Commercial Evidence2 con `BundledSQLiteDriver` y `SQLITE_OPEN_READONLY` exclusivamente en la variante STAGED typed. La inspección del Gradle real `v5/store/generation/build.gradle.kts` demuestra que `:store:generation` sólo declara `testImplementation(libs.androidx.sqlite)` y `testImplementation(libs.androidx.sqlite.bundled)`, mientras los módulos `:store:reality` y `:evidence` usan `implementation` que **no exporta** dependencia de compilación. Introducir imports del driver en Graph sin dependencia `implementation` falla al compilar production Kotlin. Se amplía scope exactamente de tres a **cuatro rutas**:
+1. `v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt` (único cambio lógico: trigger fence de typed Evidence2);
+2. `v5/store/generation/build.gradle.kts` (único ajuste de dependencia main `implementation(libs.androidx.sqlite)` y `implementation(libs.androidx.sqlite.bundled)` en módulo generación; conservar test deps);
+3. `v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt` (sin modificaciones, conserva adversariales);
+4. `.github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml` (cambiar sólo filtro de paths para incluir Gradle y máximo de rutas 4; no bajar 6/6).
+
+## B5 — Auditoría adversarial del delta
+Evitar reflexión Java, JDBC genérico, SQL por shell, desactivar el trigger test o tocar `StagedSqlitePreflight` compartido; esos caminos eluden la solución exigida o amplían efectos sobre legacy. Usar mismo patrón probado en `StagedSqlitePreflight` (`BundledSQLiteDriver`, flags `SQLITE_OPEN_READONLY | SQLITE_OPEN_NOFOLLOW | SQLITE_OPEN_URI`, URI `mode=ro&immutable=1` únicamente porque es STAGED sellado). Consultar `sqlite_master WHERE type='trigger' LIMIT 1`, exigir cero resultados y cerrar driver. Verificar otra vez sidecars tras cerrar. Mantener `StagedSqlitePreflight.requireAll` como control de FKs: orphan posterior debe fallar. Legacy `typedEvidence2=false` intacto; no tocar ACTIVE, pointer, archives, Apply, pagos, Internet, main, G15 o V2 productiva.
+El cambio de Gradle agrega únicamente bibliotecas AndroidX SQLite ya versionadas en `libs.versions.toml`; no API nueva de negocio, no otra implementación. El workflow debe verificar READY parent, guard, 6/6 XML real. Si no pasan compilación, T04 o CI => RED_FIX de la misma unidad.
