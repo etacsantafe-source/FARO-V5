@@ -2,10 +2,10 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
-  "reviewed_head": "0454391419bb12606e0b3055e9469b357a64c579",
+  "reviewed_head": "14b5f716f0e52a7ecd7acbb8fc5b60757b17a426",
   "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/build.gradle.kts",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt",
     ".github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml"
   ],
@@ -45,7 +45,7 @@
       "evidence": [
         {
           "path": "docs/v5/FARO_S4_W04_F2B2A_T04_DRIVER_DEPENDENCY_B4_B5_DELTA_20261122.md",
-          "blob_sha": "35793a0a47ad97b74a27a10b2a9b596735230c5a",
+          "blob_sha": "5fd67cf41b0dfad4b69258a521547bbb2b08f54a",
           "marker": "## B4"
         }
       ]
@@ -55,7 +55,7 @@
       "evidence": [
         {
           "path": "docs/v5/FARO_S4_W04_F2B2A_T04_DRIVER_DEPENDENCY_B4_B5_DELTA_20261122.md",
-          "blob_sha": "35793a0a47ad97b74a27a10b2a9b596735230c5a",
+          "blob_sha": "5fd67cf41b0dfad4b69258a521547bbb2b08f54a",
           "marker": "## B5"
         }
       ]
@@ -76,7 +76,7 @@
     ]
   },
   "why": "SAME UNIT RED_FIX after verified T04 trigger admitted (CI 45059180422 5/6): immutable, read-only sqlite_master trigger rejection only in sealed typed Evidence2 stage",
-  "how": "F2B2A_SAME_UNIT_RED_FIX_EXACT4_GRAPH_DRIVER_BUILD_WORKFLOW_6TEST",
+  "how": "F2B2A_SAME_UNIT_RED_FIX_EXACT4_STORAGE_LAYER_OPT_IN_TRIGGER_CHECK",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,5 +86,5 @@
   "preaudit_guard": 45059822266,
   "previous_unit": "S4_W04_F2B1_HOUSEHOLD10_TYPED_ACTIVE_READ_SESSION_DEV",
   "previous_b7": "PASS_SCOPED_ALREADY_SELECTED_DEV_READ_ONLY",
-  "next": "Fix T04; compile Graph with added main SQLite dependencies; workflow exact READY/CI 6/6 XML; B7."
+  "next": "Fix T04 with opt-in rejectTriggers in existing READONLY storage preflight, Graph typed-only wiring, workflow routing; 6/6 real XML"
 }
