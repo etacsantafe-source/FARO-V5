@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-  "reviewed_head": "ce97438755eabcd0fb868d31673b5df68cfefb5b",
+  "reviewed_head": "f0220502b761d79e4d3de8dbe64a01f441542ace",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPort.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "ce97438755eabcd0fb868d31673b5df68cfefb5b",
+    "sha": "f0220502b761d79e4d3de8dbe64a01f441542ace",
     "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_B7_RED_FIX_NESTED_OWNER_SQLITE_20261123.md",
-        "blob_sha": "5deaa55fc75219f2dfdb97b2f223041703941639",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_B7_RED_FIX2_CI_COUNTER_20261123.md",
+        "blob_sha": "d081e26794d4a3ff09f6ae37154e92962dd16382",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1B0 RED_FIX1 CI 4/4 failure; Kotlin Household owner source recursive transaction on same connection",
-  "how": "same-unit one routed file, owner grants before/after SQL; no new source bypass, JVM 4/4 targeted",
+  "why": "F2C1B1B1B0 RED_FIX2 CI workflow exact count rejects single authorized code fix; gate/preflight pass",
+  "how": "same unit one scoped workflow file; accept 1..4 preflight-approved paths; rerun four JUnit XML",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
