@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
-  "reviewed_head": "4381a4426d5e1820a105ae49c994b98bd1b577aa",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10ArchiveCoordinator.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2ArchiveRestoreTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2b02-typed-stage-archive.yml"
-  ],
+  "reviewed_head": "7827415032e468b6143712231a395ca442aec691",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_NEEDS_RED_FIX",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "0578ef2a3b8a7ef6dd549ce48b352444bffacb5c",
-    "unit_id": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
-    "result": "PASS",
+    "sha": "7827415032e468b6143712231a395ca442aec691",
+    "unit_id": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2B01_TYPED_FBS2V7_B7_PASS_20261122.md",
-        "blob_sha": "55d6c0098ea1748453441858c2fb5168d36e58db",
+        "path": "docs/v5/FARO_S4_W04_F2B2B02_B7_RED_FIX_PRIVILEGED_STAGE_20261123.md",
+        "blob_sha": "c50708c113fd2fa6b2b1c89d2eafa4f900a6d7fa",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2B02 B1-B5 verified, guard 45100645525 SUCCESS, typed Household10/Evidence2 STAGED authenticated capture/restore independent of FBS2v6 and active cutover",
+  "why": "F2B2B02 45100968565 six tests RED same privileged Evidence2 STAGED graph guard, no restore test body reached",
   "how": "EXACT4_TYPED_STAGE_CAPTURE_RESTORE_FBS2V7_ONLY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -86,5 +81,5 @@
   "preaudit_guard": 45100645525,
   "previous_unit": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
   "previous_b7": "PASS_SCOPED_6_6_XML_45099297275_GUARD_45099786454",
-  "next": "F2B2B02 B6 exact4 -> six JUnit5 SQLite XML, B7; then F2B2C cutover, F2C Android, integral acceptance"
+  "next": "RED_FIX graph.kt archive-specific strict staged admission only; protocol guard then reissue same-unit READY exact4; rerun six XML"
 }
