@@ -1,16 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
-  "reviewed_head": "328c84760f00459883a275bb2d2740b2f68043ce",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
+  "reviewed_head": "23fc705a4fd4a7663ce5c7203aa61d6a742fbc6c",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverOwner.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntime.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2CutoverRuntimeTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2b2c-typed-journaled-cutover.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2B02_TYPED_STAGE_ARCHIVE_B1_B5_20261123.md",
-          "blob_sha": "d2c22ea4780e484fa9c71271c44910a6375ca12d",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
+          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
           "marker": "## B1"
         }
       ]
@@ -19,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2B02_TYPED_STAGE_ARCHIVE_B1_B5_20261123.md",
-          "blob_sha": "d2c22ea4780e484fa9c71271c44910a6375ca12d",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
+          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
           "marker": "## B2"
         }
       ]
@@ -29,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2B02_TYPED_STAGE_ARCHIVE_B1_B5_20261123.md",
-          "blob_sha": "d2c22ea4780e484fa9c71271c44910a6375ca12d",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
+          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
           "marker": "## B3"
         }
       ]
@@ -39,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2B02_B7_RED_FIX_PRIVILEGED_STAGE_20261123.md",
-          "blob_sha": "c50708c113fd2fa6b2b1c89d2eafa4f900a6d7fa",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
+          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
           "marker": "## B4"
         }
       ]
@@ -49,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2B02_B7_RED_FIX_PRIVILEGED_STAGE_20261123.md",
-          "blob_sha": "c50708c113fd2fa6b2b1c89d2eafa4f900a6d7fa",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
+          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_FBS2V7_TYPED_STAGED_ARCHIVE_SQLITE"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "328c84760f00459883a275bb2d2740b2f68043ce",
@@ -70,16 +77,16 @@
       }
     ]
   },
-  "why": "F2B2B02 B7 PASS scoped real SQLite JUnit 6/6 XML artifact 14785457901 CI 45101750218 guard 45101750119 SUCCESS; original six red fixed safely, READY consumed",
-  "how": "EXACT4_SAME_UNIT_RED_FIX_GRAPH_TYPED_ARCHIVE_ONLY_STAGE_ADMISSION",
+  "why": "F2B2C journaled DEV typed Evidence2 cutover/recovery B1-B5 sealed and guarded 45102888902 SUCCESS; six exact paths",
+  "how": "EXACT6_TYPED_HOUSEHOLD10_EVIDENCE2_REUSE_EXISTING_JOURNAL_SWITCH",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
     "scope": "User explicitly authorized writer manual recovery and continue FARO V5. F2B2B01 codec only, no productive activation"
   },
-  "preaudit_guard": 45101518810,
-  "previous_unit": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
-  "previous_b7": "PASS_SCOPED_6_6_XML_45099297275_GUARD_45099786454",
-  "next": "F2B2C journaled cutover/recovery separate READY; F2C Android and integral acceptance pending"
+  "preaudit_guard": 45102888902,
+  "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
+  "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
+  "next": "F2B2C B6 six scoped code paths, six real SQLite tests, XML B7. F2C Android and integral acceptance separate"
 }
