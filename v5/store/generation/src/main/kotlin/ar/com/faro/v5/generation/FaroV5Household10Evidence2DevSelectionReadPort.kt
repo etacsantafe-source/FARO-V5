@@ -63,7 +63,8 @@ class FaroV5Household10Evidence2DevSelectionReadPort private constructor(
         productKey: String,
         explicitlyChosen: () -> Boolean,
     ): SelectedRead? = synchronized(monitor) {
-        materialWriteGate.withMaterialWrite {
+        val result = try {
+            materialWriteGate.withMaterialWrite {
             if (!admitted(needId, productKey, explicitlyChosen)) return@withMaterialWrite null
             val household = runCatching {
                 session.readNeeds {
@@ -95,7 +96,20 @@ class FaroV5Household10Evidence2DevSelectionReadPort private constructor(
             if (!admitted(needId, productKey, explicitlyChosen)) return@withMaterialWrite null
             SelectedRead(selected, household.revision, exactNeed,
                 evidence.copy(records = selectedRecords))
+            }
+        } catch (failure: Exception) {
+            // The DEV owner-backed scope is terminal after any observed fault.
+            // Preserve the previous F2C0 exception behavior for unscoped callers.
+            if (ownerScopeSqlAdmission == null) throw failure
+            runCatching { ownerScopes?.close() }
+            return@synchronized null
         }
+        if (result == null && ownerScopeSqlAdmission != null) {
+            // A denied read must poison BOTH owners. Otherwise epoch A->B->A
+            // could return the previously granted nonce after a rejected read.
+            runCatching { ownerScopes?.close() }
+        }
+        result
     }
 
     private fun admitted(needId: String, productKey: String, explicitlyChosen: () -> Boolean): Boolean =
