@@ -1,0 +1,80 @@
+name: FARO V5 W04-F2C1B0 selected typed ACTIVE pure projection
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjection.kt"
+      - "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W04SelectedActiveTypedReadProjectionTest.kt"
+      - ".github/workflows/faro-v5-s4-w04-f2c1b0-selected-projection.yml"
+permissions:
+  contents: read
+jobs:
+  f2c1b0-selected-projection:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Exact three path preflight and mandatory protocol
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+          unit=S4_W04_F2C1B0_SELECTED_ACTIVE_TYPED_PROJECTION_DEV
+          count=0
+          while IFS= read -r route; do
+            test -n "$route"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" --path "$route"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK 37 for app JVM compilation
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Six distinct pure selected ACTIVE projection tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W04SelectedActiveTypedReadProjectionTest
+      - name: Independently verify six JUnit XML testcases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          files=list(Path("v5/app/build/test-results").rglob(
+              "TEST-*S4W04SelectedActiveTypedReadProjectionTest.xml"))
+          assert len(files)==1, files
+          suite=ET.parse(files[0]).getroot()
+          counts=tuple(int(suite.attrib[k]) for k in ("tests","failures","errors","skipped"))
+          assert counts==(6,0,0,0),counts
+          cases=suite.findall(".//testcase")
+          names={c.attrib["name"] for c in cases}
+          assert len(cases)==len(names)==6
+          assert names == {
+              "t01SameGenerationSelectedOpenNeedAndProductBindExactF1Contracts",
+              "t02NeedProductOrGenerationMismatchAndForeignRecordsNeverProject",
+              "t03CompletedInvalidQuantityAndRevisionFailClosed",
+              "t04BeforeAndAfterRevocationOrThrownCallbackDenied",
+              "t05WatermarkUnknownTermsAndRecordCopyNeverChange",
+              "t06BadPrincipalEpochOrRowIdentityRefused",
+          },names
+          assert all(c.find(k) is None for c in cases for k in ("failure","error","skipped"))
+          print("FARO_W04_F2C1B0_SELECTED_TYPED_PROJECTION_XML_PASS_6_6")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w04-f2c1b0-selected-typed-projection-xml
+          if-no-files-found: warn
+          path: v5/app/build/test-results/**/TEST-*S4W04SelectedActiveTypedReadProjectionTest.xml
