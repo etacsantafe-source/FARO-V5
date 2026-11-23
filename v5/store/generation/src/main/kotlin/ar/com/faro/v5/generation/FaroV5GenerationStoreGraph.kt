@@ -703,15 +703,26 @@ class FaroV5GenerationStoreGraph private constructor(
                 assertExclusiveClosedDevHost()
                 pointer.read() == expected
             }
-            val healthy = openValidatedV2Internal(
-                canonical, planVerifier = null, materialWriteGate = materialWriteGate,
-                activeGeneration = true, planningStage8 = true, financeStage9 = true,
-                checkedPlanning8Active = true, auxiliaryReceiptFence = fence,
-                householdActive10Dev = true, commercialEvidence2ActiveDev = true,
-            ).use { graph ->
-                graph.workspace != null && graph.verifyHealthy() && fence() &&
-                    graph.reality.maintenance.inspect().schemaVersion == 10 &&
-                    graph.commercialEvidence.maintenance.inspect().schemaVersion == 2
+            // F2B2C: maintenance must inspect a sealed, quiesced snapshot.
+            // Reopening a live ACTIVE read-only Reality10 SQLite connection here
+            // left a 0-byte reality.db-wal on close. Do NOT weaken the strict
+            // NOFOLLOW sidecar guard, or reuse this opener for normal host reads.
+            // The same immutable Household10 + typed FBS2v7 projection already
+            // certified for STAGED archive capture is safe while the selected
+            // generation is pinned by the exclusive closed-host lease.
+            val healthy = materialWriteGate.withQuiescedMaterialWrites {
+                check(fence())
+                openValidatedV2Internal(
+                    canonical, planVerifier = null,
+                    planningStage8 = true, financeStage9 = true,
+                    auxiliaryReceiptFence = fence, householdStage10 = true,
+                    commercialEvidence2StagedDev = true,
+                    commercialEvidence2AuthenticatedArchiveDev = true,
+                ).use { graph ->
+                    graph.workspace != null && graph.verifyHealthy() && fence() &&
+                        graph.reality.maintenance.inspect().schemaVersion == 10 &&
+                        graph.commercialEvidence.maintenance.inspect().schemaVersion == 2
+                }
             }
             assertExclusiveClosedDevHost()
             requireSealedHousehold10Evidence2ArchiveStage(canonical)

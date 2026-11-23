@@ -24,7 +24,6 @@ import ar.com.faro.v5.maintenance.GenerationSwitchFaultPoint
 import ar.com.faro.v5.maintenance.MaintenanceOperationKind
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.GenerationStoreFiles
-import ar.com.faro.v5.maintenance.MaterialWriteGateQuiescence
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
@@ -33,7 +32,6 @@ import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.store.reality.RealityHousehold10StagedFilePort
 import java.nio.file.Files
 import java.nio.file.Path
-import java.security.MessageDigest
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -193,9 +191,8 @@ class FaroV5Household10Evidence2CutoverRuntimeTest {
         afterAuthorization: () -> Unit = {},
         afterFence: () -> Unit = {},
         healthy: () -> Boolean = { true },
-        gate: SingleProcessMaterialWriteGate = SingleProcessMaterialWriteGate(),
     ) = FaroV5Household10DevCutoverRuntime.acquireEvidence2(
-        root, gate, closed, fault, afterAuthorization, afterFence, healthy,
+        root, SingleProcessMaterialWriteGate(), closed, fault, afterAuthorization, afterFence, healthy,
     )
     private fun FaroV5Household10DevCutoverRuntime.startScenario(
         case: Scenario,
@@ -219,50 +216,7 @@ class FaroV5Household10Evidence2CutoverRuntimeTest {
 
     @Test fun t01ActivatesTypedAndReopensExistingReadOnlyHostAfterRestart() {
         val case=scenario()
-        // RED_FIX diagnostic only: reveal the true exception suppressed by
-        // typed preflight's fail-closed Boolean before journaled rollback.
-        val diagnosticGate=SingleProcessMaterialWriteGate()
-        fun digests(): Map<String,String> = GenerationStoreFiles.WORKSPACE_V2.associateWith { db ->
-            val bytes=Files.readAllBytes(case.target.directory.resolve(db))
-            MessageDigest.getInstance("SHA-256").digest(bytes).joinToString("") { "%02x".format(it) }
-        }
-        fun sidecars(): List<String> = GenerationStoreFiles.WORKSPACE_V2.flatMap { db ->
-            listOf("-wal","-shm","-journal").mapNotNull { suffix ->
-                val p=case.target.directory.resolve(db+suffix)
-                if (Files.exists(p)) db+suffix+"(size="+Files.size(p)+")" else null
-            }
-        }
-        lateinit var beforeSwitch: Map<String,String>
-        runtime(gate=diagnosticGate, afterAuthorization={
-            beforeSwitch=digests()
-            val observed=sidecars()
-            check(observed.isEmpty()) { "F2B2C_PRECAS_SIDECARS: "+observed.joinToString() }
-        }, fault={ point ->
-            if (point==GenerationSwitchFaultPoint.AFTER_POINTER_PUBLISH_BEFORE_JOURNAL_ADVANCE) {
-                val observed=sidecars()
-                if (observed.isNotEmpty()) {
-                    val changed=digests().filter { (name,hash) -> beforeSwitch[name]!=hash }.keys
-                    throw AssertionError("F2B2C_POSTCAS_SIDECARS "+observed.joinToString()+
-                        " MAIN_DB_SHA_CHANGED="+changed.joinToString())
-                }
-                val selected=checkNotNull(pointer.read())
-                val direct=try {
-                    FaroV5GenerationStoreGraph.verifyReopenedHousehold10Evidence2Dev(
-                        root,case.target,selected,diagnosticGate,{true},
-                    )
-                } catch (failure: Throwable) {
-                    throw AssertionError("F2B2C_DIRECT_TYPED_ACTIVE_HEALTH_EXCEPTION",failure)
-                }
-                check(direct) { "F2B2C_DIRECT_TYPED_ACTIVE_HEALTH_RETURNED_FALSE" }
-                val preflight=FaroV5Household10DevCutoverPreflight(
-                    root,MaterialWriteGateQuiescence(diagnosticGate),{},
-                    typedEvidence2=true,materialWriteGate=diagnosticGate,
-                )
-                check(preflight.verifyAlreadyActive(activation,case.target,selected)) {
-                    "F2B2C_TYPED_PREFLIGHT_FALSE_AFTER_DIRECT_HEALTH_TRUE"
-                }
-            }
-        }).use { assertEquals(FaroV5Household10DevCutoverRuntime.Status.ACTIVE_TEN,
+        runtime().use { assertEquals(FaroV5Household10DevCutoverRuntime.Status.ACTIVE_TEN,
             it.startScenario(case).status) }
         assertSelected(case)
         runtime().use { assertEquals(FaroV5Household10DevCutoverRuntime.Status.ACTIVE_TEN,
