@@ -13,6 +13,35 @@ class FaroV5W04CommercialDevActivity : ComponentActivity() {
     internal lateinit var reviewPanel: FaroV5W04CommercialReviewPanel
         private set
 
+    @Volatile private var trustedForeground = false
+    private var currentTrustedGate: FaroV5W04CommercialDevForegroundSessionGate? = null
+
+    /** Only an internal, verified future F2C1B issuer may supply a session. */
+    internal fun attachTrustedGate(gate: FaroV5W04CommercialDevForegroundSessionGate): Boolean {
+        if (!trustedForeground || isFinishing || isDestroyed || currentTrustedGate != null) {
+            gate.revoke()
+            return false
+        }
+        currentTrustedGate = gate
+        return true
+    }
+
+    internal fun isForegroundForTrustedRead(): Boolean = trustedForeground
+    internal fun hasTrustedGate(): Boolean = currentTrustedGate != null
+
+    internal fun readSelectedForTrustedHost(
+        needId: String,
+        productKey: String,
+        explicitlyChosen: () -> Boolean,
+    ) = currentTrustedGate?.readSelected(needId, productKey, explicitlyChosen)
+
+    private fun revokeTrustedRead() {
+        currentTrustedGate?.revoke()
+        currentTrustedGate = null
+        reviewPanel.clearForRevocation()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         check(packageName == "ar.com.faro.alpha.w04commercialdev")
@@ -23,13 +52,27 @@ class FaroV5W04CommercialDevActivity : ComponentActivity() {
         setContentView(reviewPanel)
     }
 
+    override fun onResume() {
+        super.onResume()
+        trustedForeground = true
+        // Resuming NEVER restores the revoked session or an old review.
+    }
+
     override fun onPause() {
-        reviewPanel.clearForRevocation()
+        trustedForeground = false
+        revokeTrustedRead()
         super.onPause()
     }
 
+    override fun onStop() {
+        trustedForeground = false
+        revokeTrustedRead()
+        super.onStop()
+    }
+
     override fun onDestroy() {
-        reviewPanel.clearForRevocation()
+        trustedForeground = false
+        revokeTrustedRead()
         super.onDestroy()
     }
 }
