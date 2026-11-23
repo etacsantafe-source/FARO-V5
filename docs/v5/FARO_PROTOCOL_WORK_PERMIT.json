@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
-  "reviewed_head": "cc3192d51762beaf215acab0c4587aec6d4a03ae",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2b01-typed-fbs2v7.yml"
-  ],
+  "reviewed_head": "0578ef2a3b8a7ef6dd549ce48b352444bffacb5c",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_FBS2V7_TYPED_AEAD"
   },
   "last_code_review": {
-    "sha": "ead893930b114a709ae7eac7a32f9798aad54be3",
+    "sha": "0578ef2a3b8a7ef6dd549ce48b352444bffacb5c",
     "unit_id": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2B01_B7_RED_FIX_SMARTCAST_20261122.md",
-        "blob_sha": "bf2470b268bca8ad97861af4165c72cc38ef0a84",
+        "path": "docs/v5/FARO_S4_W04_F2B2B01_TYPED_FBS2V7_B7_PASS_20261122.md",
+        "blob_sha": "55d6c0098ea1748453441858c2fb5168d36e58db",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2B01 SAME UNIT compiler SMARTCAST_IMPOSSIBLE at codec.kt:108; single-line safe-call RED_FIX after guard 45099083319 SUCCESS; no tests run yet",
+  "why": "F2B2B01 B7 PASS scoped SHA 0578ef2a; CI 45099297275 6/6 real XML artifact14784558581; guard 45099297285 SUCCESS, READY consumed",
   "how": "EXACT4_SAME_UNIT_REDFIX_CODECONLY_SAFE_CALL_KOTLIN_COMPILE",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -86,5 +81,5 @@
   "preaudit_guard": 45099083319,
   "previous_unit": "S4_W04_F2B2A_HOUSEHOLD10_TYPED_SEALED_STAGE_ADMISSION_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_GUARD_45097164975",
-  "next": "Change only codec.kt safe-call ?.rows?.map; run original six new F2B2B01 tests XML; no unscoped changes"
+  "next": "F2B2B02 typed stage capture/restore requires its own preaudit, READY and CI; F2B2C cutover then F2C Android pending"
 }

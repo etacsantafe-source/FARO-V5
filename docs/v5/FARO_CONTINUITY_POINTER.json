@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2B2A_B7_PASS_F2B2B_OPEN",
+  "phase": "S4_W04_F2B2B01_B7_PASS_F2B2B02_OPEN",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1600
+    "epoch": 1616
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2B2A B7 scoped PASS 6/6 real XML artifact 14783202790, T04 trigger and orphan rejected. Next F2B2B typed archive, F2B2C journal/recovery, F2C Android + integral acceptance; no product activation.",
-  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_E_F1_B7_SCOPED_PASS_F2B2A_B7_SCOPED_PASS",
+  "next": "F2B2B01 typed FBS2v7 codec+AEAD B7 PASS 6/6 XML artifact 14784558581; next F2B2B02 capture/restore STAGED, F2B2C cutover/recovery, F2C Android and integral acceptance; V2 productive OFF.",
+  "checkpoint_status": "W04_D0_D1_D2A_D2B_D2C0_D2C1_D3A_D3B_D3C_D4_E_F1_F2B2A_F2B2B01_B7_SCOPED_PASS",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "81d9e436674a15a295591786ce2be3d0632301ff",
-  "last_ci_run_id": 45096617186,
+  "last_code_sha": "0578ef2a3b8a7ef6dd549ce48b352444bffacb5c",
+  "last_ci_run_id": 45099297275,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_F2B2A_JUNIT_XML_PASS_6_6",
+  "last_ci_conclusion": "SUCCESS_F2B2B01_SCOPED_TYPED_FBS2V7",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F2B2A_B7_PASS_F2B2B_OPEN",
+    "status": "F2B2B01_B7_PASS_F2B2B02_OPEN",
     "global": "OPEN",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
@@ -6386,7 +6386,7 @@
     },
     "f2": {
       "unit_id": "S4_W04_F2_ACTIVE_TYPED_EVIDENCE_HOST_DEV",
-      "status": "F2B2A_B7_PASS_F2B2B_OPEN",
+      "status": "F2B2B01_B7_PASS_F2B2B02_OPEN",
       "preaudit": "docs/v5/FARO_S4_W04_F2_ACTIVE_TYPED_SOURCE_FEASIBILITY_B1_B5_20261122.md",
       "preaudit_blob_sha": "1b8939d9b737dc26b3d65adac20f0a7bcea57768",
       "reason": "NO_CERTIFIED_SCHEMA2_ACTIVE_SAME_GENERATION_HOST",
@@ -6450,9 +6450,26 @@
         "xml_sha256": "28c7682dd343f607252a8a6467b578300798fac5f13d01f0cd31c59747d0ebf1",
         "xml_counts": "6/6 0 failures,0 errors,0 skipped"
       },
-      "f2b2b": "NOT_AUTHORIZED",
+      "f2b2b": "F2B2B01_CODEC_PASS_F2B2B02_CAPTURE_RESTORE_PENDING",
       "f2b2c": "NOT_AUTHORIZED",
-      "global": "OPEN"
+      "global": "OPEN",
+      "f2b2b01": {
+        "unit_id": "S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_DEV",
+        "status": "B7_PASS_SCOPED",
+        "preaudit": "docs/v5/FARO_S4_W04_F2B2B01_TYPED_FBS2V7_CODEC_B1_B5_20261122.md",
+        "preaudit_blob": "a1e3632e1465bad040ba028b3ee721d89b1071c3",
+        "code_sha": "0578ef2a3b8a7ef6dd549ce48b352444bffacb5c",
+        "initial_redfix_sha": "ead893930b114a709ae7eac7a32f9798aad54be3",
+        "guard_run": 45099297285,
+        "ci_run": 45099297275,
+        "artifact_id": 14784558581,
+        "zip_sha256": "f633150b17156935e0b77317420fcd09c3d2cbe1f5ae1176aaea02d197897794",
+        "xml_sha256": "622654ac1f92df08fc60b48681b8fc1090bf27efb4d3b8d6358cb08223b31460",
+        "xml_counts": "6/6 0 failure, 0 errors, 0 skipped",
+        "b7_document": "docs/v5/FARO_S4_W04_F2B2B01_TYPED_FBS2V7_B7_PASS_20261122.md",
+        "b7_blob": "55d6c0098ea1748453441858c2fb5168d36e58db"
+      },
+      "f2b2b02": "NOT_AUTHORIZED"
     },
     "f3": "BLOCKED_ON_F2_PASS",
     "android_g15": "NOT_RUN"
