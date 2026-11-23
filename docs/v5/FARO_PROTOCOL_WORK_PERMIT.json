@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT",
-  "reviewed_head": "9cac97487aedeb216f299a702d7c7792202c4b0f",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPort.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPortTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c0-dev-selected-read-port.yml"
-  ],
+  "reviewed_head": "ff881ffc41e5a2ca719589a49536cb24792ec694",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_SELECTED_READ_6_6"
   },
   "last_code_review": {
-    "sha": "eff8b142e4cf31d3100e220b2ce793e3ab69a822",
-    "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
+    "sha": "ff881ffc41e5a2ca719589a49536cb24792ec694",
+    "unit_id": "S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_B7_PASS_20261123.md",
-        "blob_sha": "80def4f44f104407f0bf052d6b67de5b3ca76696",
+        "path": "docs/v5/FARO_S4_W04_F2C0_DEV_TYPED_SELECTED_READ_PORT_B7_PASS_20261123.md",
+        "blob_sha": "2b1c158d8fddfc34a714faaa2873181b944ce190",
         "marker": "## B7"
       }
     ]
   },
-  "why": "S4 W04 F2C0 exact selected Household10+typed Evidence2 single DEV lease read boundary; B1-B5 guarded 45110132217 SUCCESS; prior F2B2C B7 PASS 6/6 preserved",
+  "why": "F2C0 DEV one-lease selected Household10 and Evidence2 read B7 scoped 6/6 real SQLite XML CI 45110499993 and guard 45110499796 SUCCESS",
   "how": "EXACT3_SELECTED_ACTIVE_TYPED_READ_PORT_VIA_CERTIFIED_F2B1_WITH_NO_PRODUCT_MOUNT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -85,5 +81,5 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C0 B6 6 directed real SQLite tests, independent XML B7. F2C1 Android foreground UI remains separate"
+  "next": "F2C1 Android DEV foreground/UI human choice same-generation integration B1–B5, separate READY. F2C0 source tested; F3 global acceptance not run"
 }
