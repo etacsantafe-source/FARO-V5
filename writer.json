@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W04.F2B2C.REDFIX4.PREAUDIT.20261123",
   "token_hash": "920114af6f1287a79b310818d3aeeae718315ad67ce3081c5daf55770a104d3e",
-  "target_head": "745c32647fad860054c31205d912c4f475a85dae",
+  "target_head": "be5f2ede48e5382e2c44e549156f75485517d87c",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1657,
-  "timestamp": 1795405266
+  "epoch": 1658,
+  "timestamp": 1795405320
 }
