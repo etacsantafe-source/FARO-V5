@@ -13,7 +13,6 @@ import ar.com.faro.v5.owner.household.api.HouseholdNeedStatus
 import ar.com.faro.v5.owner.household.api.HouseholdNeedUnit
 import ar.com.faro.v5.store.reality.RealityHousehold10Row
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -64,7 +63,7 @@ class S4W04SelectedActiveTypedReadProjectionTest {
     )
 
     @Test fun t01SameGenerationSelectedOpenNeedAndProductBindExactF1Contracts() {
-        val data = assertNotNull(project())
+        val data = requireNotNull(project())
         assertEquals(9L, data.household.revision)
         assertEquals(1, data.household.needs.size)
         val need = data.household.needs.single()
@@ -116,7 +115,7 @@ class S4W04SelectedActiveTypedReadProjectionTest {
     @Test fun t05WatermarkUnknownTermsAndRecordCopyNeverChange() {
         val mutable = mutableListOf(record(terms = null),
             record(terms = CommercialEvidenceTypedTerms.UNKNOWN))
-        val data = assertNotNull(project(read = selected(records = mutable)))
+        val data = requireNotNull(project(read = selected(records = mutable)))
         assertEquals(watermark, data.evidence.sourceWatermark)
         assertEquals(2, data.evidence.records.size)
         assertNull(data.evidence.records[0].terms)
