@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-22",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B1B1A_B7_PASS_F2C1B1B1B_REAL_ANDROID_OPEN",
+  "phase": "S4_W04_F2C1B1B1B0_OWNER_BACKED_SOURCE_PREAUDIT_B1_B5",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1723
+    "epoch": 1724
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "F2C1B1B1B real Household10/Evidence2 owner-backed source with Android positive F1 D4 E, new preaudit/READY; F3 integral after; V2 productiva OFF",
-  "checkpoint_status": "F2C1B1B1A_B7_PASS_JVM_XML_6_6_F2C1B1B1B_F3_OPEN",
+  "next": "F2C1B1B1B0 exact4 DEV owner sources under single real ACTIVE Household10/Evidence2 graph, then B1B1B1B1 Android positive, then F3; V2 productiva OFF",
+  "checkpoint_status": "F2C1B1B1B0_B1_B5_DOCUMENTED_GUARD_PENDING_B6_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
   "last_code_sha": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
@@ -6615,5 +6615,15 @@
     "zip_sha256": "fdb233f924e7f15f5d570aa06b84578571064dd6e328f298c2dedfcdec2a7036",
     "b7_doc": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B7_PASS_20261123.md",
     "source": "SYNTHETIC_TEST_PORTS_NO_ANDROID_REAL_ACL"
+  },
+  "s4_w04_f2c1b1b1b0": {
+    "status": "B1_B5_DOCUMENTED_NOT_READY",
+    "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
+    "baseline_head": "9330d47bda675da5bb4a9e40a92129d33377924c",
+    "document": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_SOURCE_B1_B5_20261123.md",
+    "code_changed": false,
+    "b6": "NOT_STARTED",
+    "b7": "NOT_STARTED",
+    "writer_release_expected_epoch": 1724
   }
 }
