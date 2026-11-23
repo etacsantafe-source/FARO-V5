@@ -105,7 +105,7 @@ internal object FaroV5Household10Fbs2Codec {
             (version == VERSION && evidence.schemaVersion == 1 && evidence.stagedTyped == null) ||
                 (version == TYPED_VERSION && evidence.schemaVersion == 2 &&
                     evidence.stagedTyped?.schemaVersion == 2 &&
-                    evidence.stagedTyped.rows.map { it.record } == evidence.records)
+                    evidence.stagedTyped?.rows?.map { it.record } == evidence.records)
         ) { "FBS2v6 requires legacy Evidence1; FBS2v7 requires complete typed Evidence2" }
     }
 
