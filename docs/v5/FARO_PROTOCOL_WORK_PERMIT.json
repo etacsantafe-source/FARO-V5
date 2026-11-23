@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-  "reviewed_head": "df9885a43bab8f6897211e068a7f66b229bbdbdc",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPort.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPortTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2c1b1b1b0-owner-backed-source.yml"
-  ],
+  "reviewed_head": "9d000c710c7528288337f6f0c7caaa28fa0c0398",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_REAL_ACTIVE_OWNER_SOURCE_JVM_4_OF_4"
   },
   "last_code_review": {
-    "sha": "df9885a43bab8f6897211e068a7f66b229bbdbdc",
+    "sha": "9d000c710c7528288337f6f0c7caaa28fa0c0398",
     "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_B7_RED_FIX3_SESSION_ABA_20261123.md",
-        "blob_sha": "c616358afa2cd1481f7452c610eebe0a3afb5159",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_B7_PASS_20261123.md",
+        "blob_sha": "4258709a263864b20df59b08c8415ecaa3534047",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1B0 RED_FIX3 3/4 PASS t10 session ABA when observed invalid epoch not terminal",
-  "how": "same unit one selected port route, irreversible scope revoke for any denied owner-backed read, old F2C0 unchanged",
+  "why": "F2C1B1B1B0 B7 PASS real ACTIVE owner sources same lease JVM 4/4, Android still OPEN",
+  "how": "CI 45197011644 SUCCESS, exact 4 XML independently verified, artifact 14829471083",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,6 +81,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 scoped + JUnit XML 4/4, B7 then Android F2C1B1B1B1 positive",
+  "next": "F2C1B1B1B1 scoped Android real positive host/F1 D4 E, new B1-B5 READY then B6/B7",
   "pre_audit_guard_run_id": 45191915994
 }
