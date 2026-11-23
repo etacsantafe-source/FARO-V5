@@ -1,16 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "7decdc4cebfe56588118390fb4b02c304e768364",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverOwner.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntime.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2CutoverRuntimeTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2c-typed-journaled-cutover.yml"
-  ],
+  "reviewed_head": "42b217b32a9c52d369e3e204bc56e5c02e8d97b5",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -62,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_NEEDS_RED_FIX_2",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "b48c83c52028a72d5347a38590633b8f916e2723",
+    "sha": "42b217b32a9c52d369e3e204bc56e5c02e8d97b5",
     "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
-        "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
+        "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_WAL_SIDEcars_20261123.md",
+        "blob_sha": "7bf3148fe6d589efe906b293a3583b804adc0319",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2C same-unit 3 PASS 3 RED post-pointer health, diagnostic test-only, guard45103711674 SUCCESS",
+  "why": "F2B2C typed graph health fails after pointer on unexpected SQLite -wal/-shm/-journal (Graph.kt:747), two real CI red; now bounded sidecar boundary diagnosis",
   "how": "EXACT6_SAME_UNIT_RED_FIX_TEST_DIAGNOSTIC_HEALTH_EXCEPTION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -88,5 +81,5 @@
   "preaudit_guard": 45103711674,
   "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
-  "next": "T01 selected exact typed graph health diagnostic; fix root cause only after evidence, then 6/6 XML"
+  "next": "RED_FIX2 guard then SAME UNIT READY exact6; test-only before/after CAS sidecar and DB SHA diagnostics"
 }
