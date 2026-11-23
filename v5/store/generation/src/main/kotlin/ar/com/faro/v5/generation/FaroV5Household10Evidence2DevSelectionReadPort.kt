@@ -42,6 +42,9 @@ class FaroV5Household10Evidence2DevSelectionReadPort private constructor(
     private val ownerAdmission: () -> Boolean,
     private val householdGrant: (String) -> Boolean,
     private val commercialGrant: (String) -> Boolean,
+    // Only the new real-owner DEV path uses this non-recursive SQLite fence.
+    // Both owner scopes are checked immediately before AND after the SQL read.
+    private val ownerScopeSqlAdmission: (() -> Boolean)? = null,
     private val ownerScopes: AutoCloseable? = null,
 ) : AutoCloseable {
     /** No other Household need or Commercial product is included in this return. */
@@ -63,8 +66,17 @@ class FaroV5Household10Evidence2DevSelectionReadPort private constructor(
         materialWriteGate.withMaterialWrite {
             if (!admitted(needId, productKey, explicitlyChosen)) return@withMaterialWrite null
             val household = runCatching {
-                session.readNeeds { admitted(needId, productKey, explicitlyChosen) }
+                session.readNeeds {
+                    // The new owner-backed policy reads its source from this SAME
+                    // Reality connection. While SQL BEGIN DEFERRED is open, do
+                    // not recursively call the owner, which would nest BEGIN.
+                    ownerScopeSqlAdmission?.invoke()
+                        ?: admitted(needId, productKey, explicitlyChosen)
+                }
             }.getOrNull() ?: return@withMaterialWrite null
+            // The guarded SQL transaction has ended. Recheck BOTH independent
+            // owner grants against fresh source data before reading Evidence.
+            if (!admitted(needId, productKey, explicitlyChosen)) return@withMaterialWrite null
             val exactNeed = household.needs.singleOrNull {
                 it.id == needId && it.status == "OPEN"
             } ?: return@withMaterialWrite null
@@ -204,6 +216,7 @@ class FaroV5Household10Evidence2DevSelectionReadPort private constructor(
                     commercialGrant = { key -> runCatching {
                         evidence.admitted(CommercialProductKey(key), commercialNonce)
                     }.getOrDefault(false) },
+                    ownerScopeSqlAdmission = ::selectedByHost,
                     ownerScopes = object : AutoCloseable {
                         override fun close() {
                             runCatching { evidence.close() }
