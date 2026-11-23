@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_DEV",
-  "reviewed_head": "d0009049f35adf0fae0407ca5d035639f4740b87",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_DEV",
+  "reviewed_head": "dbe4076f7a3cf3ee93d2b3ff4461e246de1930dc",
+  "paths": [
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevReadConsentIssuer.kt",
+    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
+    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialTrustedSelectedHostAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2c1b1b0-trusted-selected-host.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_B1_B5_20261123.md",
-          "blob_sha": "f37c930d2d2eaebf8374ef2df3d38c87caaf8929",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
+          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_B1_B5_20261123.md",
-          "blob_sha": "f37c930d2d2eaebf8374ef2df3d38c87caaf8929",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
+          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_B1_B5_20261123.md",
-          "blob_sha": "f37c930d2d2eaebf8374ef2df3d38c87caaf8929",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
+          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_B1_B5_20261123.md",
-          "blob_sha": "f37c930d2d2eaebf8374ef2df3d38c87caaf8929",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
+          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
           "marker": "## B4"
         }
       ]
@@ -49,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_B1_B5_20261123.md",
-          "blob_sha": "f37c930d2d2eaebf8374ef2df3d38c87caaf8929",
+          "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B1_B5_20261123.md",
+          "blob_sha": "94ae4bbc344667576956d580597df2e6bf1db13b",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_ANDROID35_DUAL_LOCAL_READ_CONSENT_5_5"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "d0009049f35adf0fae0407ca5d035639f4740b87",
@@ -70,8 +75,8 @@
       }
     ]
   },
-  "why": "F2C1B1A Android35 API verified 5/5 real XML, CI 45175563251 SUCCESS, guard 45175563106 SUCCESS, artifact 14820221677/manifest verified",
-  "how": "ANDROID_REAL_SANDBOX_PRIVATE_POINTER_LOCAL_HUMAN_DUAL_CONSENT_NO_N033_N034_GRANT",
+  "why": "F2C1B1B0 source mount exact4 B1-B5 at dbe4076 guard 45179631371 SUCCESS",
+  "how": "SAME_GENERATION_F2C0_WITH_DUAL_OWNER_POLICY_AND_TRUSTED_ANDROID_SCOPED_CONSENT_NO_D4_YET",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F2C1B1B true trusted Android DEV source/F2C0 + N033/N034 owner admission + F1/D4/E selected UI, separate B1-B5/READY; F3 E2E open, V2 productive OFF",
+  "next": "B6 exact4 files + 5 Android API35 negative security tests and offline APK, B7; F2C1B1B1 positive live store and D4/E next, F3 OPEN",
   "pre_audit_guard_run_id": 45116289335
 }
