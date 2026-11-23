@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-  "reviewed_head": "ddbe0b3d1234566c7c0a0ea394175ef2ee1a3d0b",
+  "reviewed_head": "ce97438755eabcd0fb868d31673b5df68cfefb5b",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPort.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "8a58d9f044a0c8b5d1e10abeba170d9ab5c99b22",
-    "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
-    "result": "PASS",
+    "sha": "ce97438755eabcd0fb868d31673b5df68cfefb5b",
+    "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_B7_PASS_20261123.md",
-        "blob_sha": "288c5080b309e4a568ad863389f0c57f91406311",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_B7_RED_FIX_NESTED_OWNER_SQLITE_20261123.md",
+        "blob_sha": "5deaa55fc75219f2dfdb97b2f223041703941639",
         "marker": "## B7"
       }
     ]
   },
-  "why": "DEV same ACTIVE graph owner sources, four routed files, not Android/real human-auth",
-  "how": "F2C1B1B1B0 new 4 JUnit tests t07..t10 only, one lease, no V2 productive",
+  "why": "F2C1B1B1B0 RED_FIX1 CI 4/4 failure; Kotlin Household owner source recursive transaction on same connection",
+  "how": "same-unit one routed file, owner grants before/after SQL; no new source bypass, JVM 4/4 targeted",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
