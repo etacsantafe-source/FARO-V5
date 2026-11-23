@@ -11,6 +11,32 @@ import ar.com.faro.v5.delivery.api.NoticeSensitivity
 import ar.com.faro.v5.delivery.api.NoticeSummary
 import ar.com.faro.v5.delivery.api.OccurrenceRef
 import ar.com.faro.v5.delivery.api.SourceRef
+import ar.com.faro.v5.evidence.CommercialCurrencyCode
+import ar.com.faro.v5.evidence.CommercialEligibility
+import ar.com.faro.v5.evidence.CommercialEvidenceBackupPort
+import ar.com.faro.v5.evidence.CommercialEvidenceBackupSnapshot
+import ar.com.faro.v5.evidence.CommercialEvidenceId
+import ar.com.faro.v5.evidence.CommercialEvidenceRecord
+import ar.com.faro.v5.evidence.CommercialEvidenceSourceKind
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupRow
+import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupSnapshot
+import ar.com.faro.v5.evidence.CommercialEvidenceTypedTerms
+import ar.com.faro.v5.evidence.CommercialLocalityKind
+import ar.com.faro.v5.evidence.CommercialMerchant
+import ar.com.faro.v5.evidence.CommercialPaymentMethod
+import ar.com.faro.v5.evidence.CommercialPresentationUnit
+import ar.com.faro.v5.evidence.CommercialPriceObservation
+import ar.com.faro.v5.evidence.CommercialProductKey
+import ar.com.faro.v5.evidence.CommercialPromotionKind
+import ar.com.faro.v5.evidence.WebEvidenceBackupPort
+import ar.com.faro.v5.evidence.WebEvidenceBackupSnapshot
+import ar.com.faro.v5.kernel.contracts.IdempotencyKey
+import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
+import ar.com.faro.v5.maintenance.SemanticBackupCaptureCoordinator
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupPort
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupSnapshot
+import ar.com.faro.v5.store.reality.RealityBackupPort
+import ar.com.faro.v5.store.reality.RealityBackupSnapshot
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.maintenance.BackupSetId
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
@@ -111,6 +137,152 @@ class FaroV5Household10Fbs2CodecTest {
         assertEquals(failure, crypto.openWithHousehold(archive, "Otra frase local de prueba".toCharArray()))
         archive[archive.lastIndex] = (archive.last().toInt() xor 1).toByte()
         assertEquals(failure, crypto.openWithHousehold(archive, passphrase))
+    }
+
+
+    /** F2B2B01 directed tests only. Existing Household10 v6 tests remain unchanged. */
+    @Test fun f2b2b01Evidence2RoundTripPreservesOriginalIdentityAndThreeTermStates() {
+        val typed = withEvidence2(fixture().second)
+        val bytes = codec.encodeEvidence2(typed)
+        assertEquals(7, ByteBuffer.wrap(bytes).getInt(4))
+        val restored = codec.decodeEvidence2(bytes)
+        assertEquals(typed, restored)
+        val rows = checkNotNull(restored.base.base.fourStore.commercialEvidence.stagedTyped).rows
+        assertEquals(3, rows.size)
+        assertEquals(null, rows[0].terms)
+        assertEquals(CommercialEvidenceTypedTerms.UNKNOWN, rows[1].terms)
+        assertEquals(CommercialPromotionKind.DISCOUNT_PERCENT, rows[2].terms?.promotionKind)
+        assertEquals("USD", rows[1].record.observation.currencyCode.value)
+        assertArrayEquals(bytes, codec.encodeEvidence2(restored))
+    }
+
+    @Test fun f2b2b02NeverCrossAcceptsV6AndV7OrWrongSchema() {
+        val old = fixture().second
+        val typed = withEvidence2(old)
+        val six = codec.encode(old)
+        val seven = codec.encodeEvidence2(typed)
+        assertEquals(6, ByteBuffer.wrap(six).getInt(4))
+        assertEquals(7, ByteBuffer.wrap(seven).getInt(4))
+        assertThrows(IllegalArgumentException::class.java) { codec.encode(typed) }
+        assertThrows(IllegalArgumentException::class.java) { codec.encodeEvidence2(old) }
+        assertThrows(IllegalArgumentException::class.java) { codec.decode(seven) }
+        assertThrows(IllegalArgumentException::class.java) { codec.decodeEvidence2(six) }
+        assertArrayEquals(six, codec.encode(codec.decode(six)))
+    }
+
+    @Test fun f2b2b03RejectsCorruptDigestLengthsAndTrailingBytes() {
+        val bytes = codec.encodeEvidence2(withEvidence2(fixture().second))
+        val corrupt = bytes.copyOf().also { it[it.lastIndex] = (it.last().toInt() xor 1).toByte() }
+        val huge = bytes.copyOf().also { ByteBuffer.wrap(it).putInt(8, Int.MAX_VALUE) }
+        val missing = bytes.copyOf(bytes.size - 1)
+        val trailing = bytes + 0.toByte()
+        val wrongVersion = bytes.copyOf().also { ByteBuffer.wrap(it).putInt(4, 8) }
+        for (invalid in listOf(corrupt, huge, missing, trailing, wrongVersion)) {
+            assertThrows(IllegalArgumentException::class.java) { codec.decodeEvidence2(invalid) }
+        }
+    }
+
+    @Test fun f2b2b04AuthenticatedTypedArchiveRoundTripAndLegacyIsolation() {
+        val old = fixture().second
+        val typed = withEvidence2(old)
+        val archive = crypto.sealWithHouseholdEvidence2(typed, passphrase)
+        assertEquals(FiveStoreAuthenticatedPayload.Opened(typed),
+            crypto.openWithHouseholdEvidence2(archive, passphrase))
+        val invalid = FiveStoreAuthenticatedPayload.Rejected(
+            FiveStorePortableBackupOpenFailure.INVALID_FIVE_STORE_PAYLOAD)
+        assertEquals(invalid, crypto.openWithHousehold(archive, passphrase))
+        val legacy = crypto.sealWithHousehold(old, passphrase)
+        assertEquals(invalid, crypto.openWithHouseholdEvidence2(legacy, passphrase))
+    }
+
+    @Test fun f2b2b05AuthenticatedTypedArchiveRejectsTamperAndWrongPassword() {
+        val typed = withEvidence2(fixture().second)
+        val archive = crypto.sealWithHouseholdEvidence2(typed, passphrase)
+        val invalid = FiveStoreAuthenticatedPayload.Rejected(
+            FiveStorePortableBackupOpenFailure.AUTHENTICATION_FAILED)
+        assertEquals(invalid,
+            crypto.openWithHouseholdEvidence2(archive, "different-local-passphrase".toCharArray()))
+        archive[archive.lastIndex] = (archive.last().toInt() xor 1).toByte()
+        assertEquals(invalid, crypto.openWithHouseholdEvidence2(archive, passphrase))
+    }
+
+    @Test fun f2b2b06EmptyTypedSectionIsExplicitAndDoesNotMutateV6() {
+        val old = fixture().second
+        val oldBytes = codec.encode(old)
+        val typed = withEvidence2(old, includeRows = false)
+        val seven = codec.encodeEvidence2(typed)
+        assertEquals(emptyList<CommercialEvidenceStagedTypedBackupRow>(),
+            checkNotNull(codec.decodeEvidence2(seven).base.base.fourStore.commercialEvidence.stagedTyped).rows)
+        assertArrayEquals(seven, codec.encodeEvidence2(codec.decodeEvidence2(seven)))
+        assertArrayEquals(oldBytes, codec.encode(old))
+    }
+
+    private fun withEvidence2(
+        existing: FaroV5Household10Fbs2Snapshot,
+        includeRows: Boolean = true,
+    ): FaroV5Household10Fbs2Snapshot {
+        val base = existing.base.base.fourStore
+        fun record(id: String, currency: String): CommercialEvidenceRecord =
+            CommercialEvidenceRecord(
+                CommercialEvidenceId(id), IdempotencyKey("key-" + id),
+                PayloadFingerprint("a".repeat(64)),
+                CommercialPriceObservation(
+                    CommercialProductKey("rice-1000"), CommercialMerchant("market"),
+                    CommercialCurrencyCode(currency), 12_000L,
+                    CommercialEvidenceSourceKind.MANUAL, "manual:" + id, 100L,
+                ),
+                acquiredAtEpochMillis = 220L,
+            )
+        val fullTerms = CommercialEvidenceTypedTerms(
+            localityKind = CommercialLocalityKind.KNOWN,
+            localityCode = "AR-SF", issuedAtEpochMillis = 100L,
+            validFromEpochMillis = 110L, validUntilEpochMillis = 200L,
+            presentationQuantityThousandths = 1_000L,
+            presentationUnit = CommercialPresentationUnit.GRAM,
+            packCount = 1, paymentMethod = CommercialPaymentMethod.DEBIT,
+            eligibility = CommercialEligibility.GENERAL, conditions = "Solo socios",
+            promotionKind = CommercialPromotionKind.DISCOUNT_PERCENT,
+            promotionValue = 1_200L, promotionSourceRef = "manual:flyer",
+        )
+        val rows = if (includeRows) listOf(
+            CommercialEvidenceStagedTypedBackupRow(record("evidence-1", "ARS"), null),
+            CommercialEvidenceStagedTypedBackupRow(record("evidence-2", "USD"), CommercialEvidenceTypedTerms.UNKNOWN),
+            CommercialEvidenceStagedTypedBackupRow(record("evidence-3", "ARS"), fullTerms),
+        ) else emptyList()
+        val evidence2 = CommercialEvidenceBackupSnapshot(
+            schemaVersion = 2, records = rows.map { it.record },
+            stagedTyped = CommercialEvidenceStagedTypedBackupSnapshot(2, rows),
+        )
+        val snapshot = SemanticBackupCaptureCoordinator(
+            quiescence = MaterialWriteGateQuiescence(SingleProcessMaterialWriteGate()),
+            reality = object : RealityBackupPort {
+                override fun snapshot(): RealityBackupSnapshot = base.reality
+                override fun restoreOrVerify(snapshot: RealityBackupSnapshot): RealityBackupSnapshot =
+                    error("test snapshot only")
+            },
+            commercialEvidence = object : CommercialEvidenceBackupPort {
+                override fun snapshot(): CommercialEvidenceBackupSnapshot = evidence2
+                override fun restoreOrVerify(snapshot: CommercialEvidenceBackupSnapshot): CommercialEvidenceBackupSnapshot =
+                    error("test snapshot only")
+            },
+            webEvidence = object : WebEvidenceBackupPort {
+                override fun snapshot(): WebEvidenceBackupSnapshot = base.webEvidence
+                override fun restoreOrVerify(snapshot: WebEvidenceBackupSnapshot): WebEvidenceBackupSnapshot =
+                    error("test snapshot only")
+            },
+            auxiliary = object : AuxiliaryBackupPort {
+                override fun snapshot(): AuxiliaryBackupSnapshot = base.auxiliary
+                override fun restoreOrVerify(snapshot: AuxiliaryBackupSnapshot): AuxiliaryBackupSnapshot =
+                    error("test snapshot only")
+            },
+        ).capture(
+            MaintenanceOperationId("f2b2b-typed-snapshot"),
+            base.manifest.backupSetId, base.manifest.sourceGenerationId,
+            base.manifest.productVersion, base.manifest.createdAtEpochMillis,
+        )
+        return existing.copy(base = existing.base.copy(
+            base = existing.base.base.copy(fourStore = snapshot),
+        ))
     }
 
     private fun fixture(): Pair<ByteArray, FaroV5Household10Fbs2Snapshot> {

@@ -11,16 +11,24 @@ internal data class FaroV5Household10Fbs2Snapshot(
     val household: Household10BackupSection,
 )
 
-/** FBS2v6 contains a complete FBS2v5 base and a mandatory Household10 section. */
+/** FBS2v6 stays byte-identical; typed Evidence2 uses a distinct opt-in FBS2v7. */
 internal object FaroV5Household10Fbs2Codec {
     private const val MAGIC = 0x46425332 // FBS2
     private const val VERSION = 6
+    private const val TYPED_VERSION = 7
     private const val DIGEST_BYTES = 32
     private const val HEADER_BYTES = 4 * Int.SIZE_BYTES + 2 * DIGEST_BYTES
     private const val MAX_BYTES = FaroV5FiveStoreSemanticCodec.MAX_PLAINTEXT_BYTES
     private const val MAX_HOUSEHOLD_BYTES = 4 * 1024 * 1024
 
-    fun encode(snapshot: FaroV5Household10Fbs2Snapshot): ByteArray {
+    fun encode(snapshot: FaroV5Household10Fbs2Snapshot): ByteArray = encodeVersion(snapshot, VERSION)
+
+    /** F2B2B01: lossless schema2 terms via the already certified FBS1v4 inner codec. */
+    internal fun encodeEvidence2(snapshot: FaroV5Household10Fbs2Snapshot): ByteArray =
+        encodeVersion(snapshot, TYPED_VERSION)
+
+    private fun encodeVersion(snapshot: FaroV5Household10Fbs2Snapshot, version: Int): ByteArray {
+        requireEvidenceProfile(snapshot, version)
         val base = FaroV5Auxiliary4Fbs2Codec.encode(snapshot.base)
         try {
             val household = FaroV5Household10BackupSectionCodec.encode(snapshot.household)
@@ -31,7 +39,7 @@ internal object FaroV5Household10Fbs2Codec {
                 val bytes = ByteArrayOutputStream(length.toInt())
                 DataOutputStream(bytes).use { output ->
                     output.writeInt(MAGIC)
-                    output.writeInt(VERSION)
+                    output.writeInt(version)
                     output.writeInt(base.size)
                     output.writeInt(household.size)
                     output.write(sha256(base))
@@ -48,10 +56,15 @@ internal object FaroV5Household10Fbs2Codec {
         }
     }
 
-    fun decode(bytes: ByteArray): FaroV5Household10Fbs2Snapshot {
+    fun decode(bytes: ByteArray): FaroV5Household10Fbs2Snapshot = decodeVersion(bytes, VERSION)
+
+    internal fun decodeEvidence2(bytes: ByteArray): FaroV5Household10Fbs2Snapshot =
+        decodeVersion(bytes, TYPED_VERSION)
+
+    private fun decodeVersion(bytes: ByteArray, version: Int): FaroV5Household10Fbs2Snapshot {
         require(bytes.size in (HEADER_BYTES + 2)..MAX_BYTES) { "FBS2v6 size is invalid" }
         return DataInputStream(ByteArrayInputStream(bytes)).use { input ->
-            require(input.readInt() == MAGIC && input.readInt() == VERSION) {
+            require(input.readInt() == MAGIC && input.readInt() == version) {
                 "FBS2v6 magic or version mismatch"
             }
             val baseSize = input.readInt()
@@ -76,7 +89,7 @@ internal object FaroV5Household10Fbs2Codec {
                     FaroV5Household10Fbs2Snapshot(
                         base = FaroV5Auxiliary4Fbs2Codec.decode(base),
                         household = FaroV5Household10BackupSectionCodec.decode(household),
-                    )
+                    ).also { requireEvidenceProfile(it, version) }
                 } finally {
                     household.fill(0)
                 }
@@ -84,6 +97,16 @@ internal object FaroV5Household10Fbs2Codec {
                 base.fill(0)
             }
         }
+    }
+
+    private fun requireEvidenceProfile(snapshot: FaroV5Household10Fbs2Snapshot, version: Int) {
+        val evidence = snapshot.base.base.fourStore.commercialEvidence
+        require(
+            (version == VERSION && evidence.schemaVersion == 1 && evidence.stagedTyped == null) ||
+                (version == TYPED_VERSION && evidence.schemaVersion == 2 &&
+                    evidence.stagedTyped?.schemaVersion == 2 &&
+                    evidence.stagedTyped.rows.map { it.record } == evidence.records)
+        ) { "FBS2v6 requires legacy Evidence1; FBS2v7 requires complete typed Evidence2" }
     }
 
     private fun sha256(bytes: ByteArray): ByteArray =
