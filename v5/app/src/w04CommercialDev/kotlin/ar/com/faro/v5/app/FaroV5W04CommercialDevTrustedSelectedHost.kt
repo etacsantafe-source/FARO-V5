@@ -1,5 +1,6 @@
 package ar.com.faro.v5.app
 
+import android.content.pm.ApplicationInfo
 import ar.com.faro.v5.evidence.CommercialEvidenceOperations
 import ar.com.faro.v5.evidence.CommercialProductKey
 import ar.com.faro.v5.generation.FaroV5Household10Evidence2DevSelectionReadPort
@@ -126,6 +127,118 @@ internal class FaroV5W04CommercialDevTrustedSelectedHost private constructor(
                 commercial.executionProfile == ExecutionProfile.READ_ONLY &&
                 commercial.exposure == ContractExposure.BINDABLE
         }.getOrDefault(false)
+
+
+        /**
+         * F2C1B1B1B1A: POSITIVE owner-backed Android DEV bridge. It never
+         * accepts owner policy predicates from callers: both owner nonces are
+         * issued and rechecked by the REAL Household10/Evidence2 ACTIVE port
+         * opened under one root lease. Routing predicates below merely check
+         * identity and catalog and are NOT substitutes for owner authority.
+         *
+         * No automatic mount on Activity launch; native buttons must already
+         * be attached, visible, separately clicked, and admitted by the
+         * existing Android-sandbox consent issuer.
+         */
+        fun openOwnerBackedForTrustedDevHost(
+            activity: FaroV5W04CommercialDevActivity,
+            issuer: FaroV5W04CommercialDevReadConsentIssuer,
+            storageRoot: Path,
+            staged: StagedStorageGeneration,
+            pinned: ActiveGenerationPointer,
+            needId: HouseholdNeedId,
+            productKey: CommercialProductKey,
+            materialWriteGate: MaterialWriteGate,
+            catalog: OperationContractLookupPort,
+            hostEpoch: String,
+            currentHostEpoch: () -> String?,
+            ownerReady: () -> Boolean,
+        ): FaroV5W04CommercialDevTrustedSelectedHost? {
+            var port: FaroV5Household10Evidence2DevSelectionReadPort? = null
+            var foregroundGate: FaroV5W04CommercialDevForegroundSessionGate? = null
+            return try {
+                check(activity.packageName == "ar.com.faro.alpha.w04commercialdev")
+                check(activity.application is FaroV5W04CommercialDevApplication)
+                check((activity.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0)
+                check(activity.isForegroundForTrustedRead() && !activity.isFinishing &&
+                    !activity.isDestroyed && !FaroV5HostCertification.V2_ACTIVE_ENABLED)
+                check(hostEpoch.length in 1..160 && hostEpoch == hostEpoch.trim() &&
+                    hostEpoch.none(Char::isISOControl))
+                val principal = checkNotNull(issuer.technicalPrincipalOrNull())
+                fun hostCurrent(): Boolean = runCatching {
+                    activity.isForegroundForTrustedRead() && !activity.isFinishing &&
+                        !activity.isDestroyed && !FaroV5HostCertification.V2_ACTIVE_ENABLED &&
+                        ownerReady() && currentHostEpoch() == hostEpoch &&
+                        issuer.technicalPrincipalOrNull() == principal &&
+                        issuer.selectedSourceBindingAdmitted(
+                            storageRoot, pinned, needId.value, productKey.value,
+                        ) &&
+                        currentHostEpoch() == hostEpoch && ownerReady() &&
+                        activity.isForegroundForTrustedRead()
+                }.getOrDefault(false)
+                fun catalogCurrent(): Boolean = readCatalogExact(catalog)
+                // Two separate native taps are checked again inside each
+                // generation owner policy before and after every source read.
+                fun selectedNow(): Boolean = runCatching {
+                    hostCurrent() && catalogCurrent() &&
+                        issuer.householdConsented(needId.value) &&
+                        issuer.commercialConsented(productKey.value) &&
+                        hostCurrent() && catalogCurrent()
+                }.getOrDefault(false)
+                check(selectedNow()) { "Two native DEV read consents required" }
+                // Routing is deliberately not an owner grant: the real scopes
+                // are verified by openOwnerBackedDev/readSelected on the source.
+                val needRouting = fun(id: String): Boolean =
+                    id == needId.value && hostCurrent() && catalogCurrent()
+                val commerceRouting = fun(key: String): Boolean =
+                    key == productKey.value && hostCurrent() && catalogCurrent()
+                val selectedPort = FaroV5Household10Evidence2DevSelectionReadPort
+                    .openOwnerBackedDev(
+                        storageRoot = storageRoot,
+                        staged = staged,
+                        selected = pinned,
+                        materialWriteGate = materialWriteGate,
+                        principal = principal,
+                        selectedNeed = needId,
+                        selectedProduct = productKey,
+                        hostEpoch = hostEpoch,
+                        currentHostEpoch = currentHostEpoch,
+                        isForeground = { activity.isForegroundForTrustedRead() },
+                        ownerAdmission = { hostCurrent() && catalogCurrent() },
+                        trustedHumanDecision = ::selectedNow,
+                    )
+                port = selectedPort
+                val gate = FaroV5W04CommercialDevForegroundSessionGate.fromCertifiedDevPort(
+                    selectedPort, hostEpoch, currentHostEpoch,
+                    { activity.isForegroundForTrustedRead() },
+                    { hostCurrent() && catalogCurrent() },
+                    needRouting, commerceRouting,
+                )
+                foregroundGate = gate
+                check(activity.attachTrustedGate(gate)) { "DEV foreground source already mounted" }
+                val selectedHost = FaroV5W04CommercialDevTrustedSelectedHost(
+                    activity, issuer, storageRoot, pinned, needId, productKey,
+                    principal, hostEpoch, currentHostEpoch, ownerReady, catalog,
+                    { candidate, op, id ->
+                        candidate == principal && op == HOUSEHOLD_READ &&
+                            id == needId && needRouting(id.value)
+                    },
+                    { candidate, op, key ->
+                        candidate == principal && op == COMMERCIAL_READ &&
+                            key == productKey && commerceRouting(key.value)
+                    },
+                    gate,
+                )
+                check(selectedHost.admitted()) { "DEV source lost its host admission" }
+                selectedHost
+            } catch (_: Exception) {
+                runCatching { foregroundGate?.revoke() }
+                if (foregroundGate == null) runCatching { port?.close() }
+                // A failed positive mount must not leave a reusable tap token.
+                runCatching { issuer.close() }
+                null
+            }
+        }
 
         /**
          * No boot/auto mount: only trusted DEV composition AFTER two real local
