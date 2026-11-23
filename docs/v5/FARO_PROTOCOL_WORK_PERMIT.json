@@ -1,16 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "23fc705a4fd4a7663ce5c7203aa61d6a742fbc6c",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverOwner.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntime.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2CutoverRuntimeTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f2b2c-typed-journaled-cutover.yml"
-  ],
+  "reviewed_head": "b48c83c52028a72d5347a38590633b8f916e2723",
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -62,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_REDFIX_HEALTH",
+    "B7": "RED_FIX"
   },
   "last_code_review": {
-    "sha": "328c84760f00459883a275bb2d2740b2f68043ce",
-    "unit_id": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
-    "result": "PASS",
+    "sha": "b48c83c52028a72d5347a38590633b8f916e2723",
+    "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_B7_PASS_20261123.md",
-        "blob_sha": "461e83ec29007cf94d22aef7fa34413efa92490f",
+        "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
+        "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2B2C journaled DEV typed Evidence2 cutover/recovery B1-B5 sealed and guarded 45102888902 SUCCESS; six exact paths",
+  "why": "F2B2C directed CI 45103190625 real SQLite 3/6 PASS, 3/6 RED after target pointer on typed runtime health; root exception currently swallowed",
   "how": "EXACT6_TYPED_HOUSEHOLD10_EVIDENCE2_REUSE_EXISTING_JOURNAL_SWITCH",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -88,5 +81,5 @@
   "preaudit_guard": 45102888902,
   "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
-  "next": "F2B2C B6 six scoped code paths, six real SQLite tests, XML B7. F2C Android and integral acceptance separate"
+  "next": "SAME UNIT guarded diagnostic test-only delta on selected ACTIVE target; then exact root RED_FIX, rerun six XML"
 }
