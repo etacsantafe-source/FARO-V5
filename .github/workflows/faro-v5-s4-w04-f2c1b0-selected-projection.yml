@@ -60,7 +60,7 @@ jobs:
           counts=tuple(int(suite.attrib[k]) for k in ("tests","failures","errors","skipped"))
           assert counts==(6,0,0,0),counts
           cases=suite.findall(".//testcase")
-          names={c.attrib["name"] for c in cases}
+          names={c.attrib["name"].removesuffix("()") for c in cases}
           assert len(cases)==len(names)==6
           assert names == {
               "t01SameGenerationSelectedOpenNeedAndProductBindExactF1Contracts",
