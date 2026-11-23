@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
-  "reviewed_head": "f0220502b761d79e4d3de8dbe64a01f441542ace",
+  "reviewed_head": "df9885a43bab8f6897211e068a7f66b229bbdbdc",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2DevSelectionReadPort.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "f0220502b761d79e4d3de8dbe64a01f441542ace",
+    "sha": "df9885a43bab8f6897211e068a7f66b229bbdbdc",
     "unit_id": "S4_W04_F2C1B1B1B0_LEASED_OWNER_REAL_SOURCE_DEV",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_B7_RED_FIX2_CI_COUNTER_20261123.md",
-        "blob_sha": "d081e26794d4a3ff09f6ae37154e92962dd16382",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B0_B7_RED_FIX3_SESSION_ABA_20261123.md",
+        "blob_sha": "c616358afa2cd1481f7452c610eebe0a3afb5159",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F2C1B1B1B0 RED_FIX2 CI workflow exact count rejects single authorized code fix; gate/preflight pass",
-  "how": "same unit one scoped workflow file; accept 1..4 preflight-approved paths; rerun four JUnit XML",
+  "why": "F2C1B1B1B0 RED_FIX3 3/4 PASS t10 session ABA when observed invalid epoch not terminal",
+  "how": "same unit one selected port route, irreversible scope revoke for any denied owner-backed read, old F2C0 unchanged",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
