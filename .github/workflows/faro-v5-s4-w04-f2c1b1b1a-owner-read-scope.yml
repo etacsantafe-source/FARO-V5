@@ -1,0 +1,88 @@
+name: FARO V5 W04-F2C1B1B1A owner DEV read scopes
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwner.kt"
+      - "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwner.kt"
+      - "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwnerTest.kt"
+      - "v5/evidence/src/test/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwnerTest.kt"
+      - ".github/workflows/faro-v5-s4-w04-f2c1b1b1a-owner-read-scope.yml"
+permissions:
+  contents: read
+jobs:
+  owner-read-scope:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Mandatory scoped READY preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+          count=0
+          UNIT=S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV
+          while IFS= read -r route; do
+            test -n "$route"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$route"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -ge 1
+          test "$count" -le 5
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Household10 selected DEV owner scope JUnit5
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            ":owner:household:test" \
+            --tests "ar.com.faro.v5.owner.household.spi.Household10DevReadScopeOwnerTest"
+      - name: Evidence2 selected DEV owner scope JUnit5
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            ":evidence:test" \
+            --tests "ar.com.faro.v5.evidence.CommercialEvidence2DevReadScopeOwnerTest"
+      - name: Exact six real JUnit XML tests and no skipped/error
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          paths = [
+            Path("v5/owner/household/build/test-results/test/TEST-ar.com.faro.v5.owner.household.spi.Household10DevReadScopeOwnerTest.xml"),
+            Path("v5/evidence/build/test-results/test/TEST-ar.com.faro.v5.evidence.CommercialEvidence2DevReadScopeOwnerTest.xml"),
+          ]
+          assert all(p.is_file() for p in paths), paths
+          cases = [c for p in paths for c in ET.parse(p).getroot().iter("testcase")]
+          names = {c.attrib.get("name", "").removesuffix("()") for c in cases}
+          expected = {
+            "t01OwnerAdmitsOnlyOpenSelectedRealSnapshotWithFreshNonce",
+            "t02MissingCompletedAndUntrustedNeedNeverIssue",
+            "t03EpochPointerAbaRowChangeAndOwnerRevocationFailClosed",
+            "t01TypedProductIssuedAndRecheckedWithIndependentNonce",
+            "t02LegacyNullTermsMissingProductAndUntrustedAdmissionDenied",
+            "t03SourceWatermarkEpochAbaAndOwnerReadyRevokePermanently",
+          }
+          assert len(cases) == len(names) == 6, (names, paths)
+          assert names == expected, (names, expected)
+          assert all(c.find(tag) is None for c in cases for tag in ("failure", "error", "skipped"))
+          print("FARO_W04_F2C1B1B1A_OWNER_SCOPE_JUNIT_XML_PASS_6_6")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w04-f2c1b1b1a-owner-scope-junit-xml
+          if-no-files-found: warn
+          path: |
+            v5/owner/household/build/test-results/test/TEST-*Household10DevReadScopeOwnerTest.xml
+            v5/evidence/build/test-results/test/TEST-*CommercialEvidence2DevReadScopeOwnerTest.xml
