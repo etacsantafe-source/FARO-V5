@@ -24,6 +24,7 @@ import ar.com.faro.v5.maintenance.GenerationSwitchFaultPoint
 import ar.com.faro.v5.maintenance.MaintenanceOperationKind
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.GenerationStoreFiles
+import ar.com.faro.v5.maintenance.MaterialWriteGateQuiescence
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
@@ -191,8 +192,9 @@ class FaroV5Household10Evidence2CutoverRuntimeTest {
         afterAuthorization: () -> Unit = {},
         afterFence: () -> Unit = {},
         healthy: () -> Boolean = { true },
+        gate: SingleProcessMaterialWriteGate = SingleProcessMaterialWriteGate(),
     ) = FaroV5Household10DevCutoverRuntime.acquireEvidence2(
-        root, SingleProcessMaterialWriteGate(), closed, fault, afterAuthorization, afterFence, healthy,
+        root, gate, closed, fault, afterAuthorization, afterFence, healthy,
     )
     private fun FaroV5Household10DevCutoverRuntime.startScenario(
         case: Scenario,
@@ -216,7 +218,29 @@ class FaroV5Household10Evidence2CutoverRuntimeTest {
 
     @Test fun t01ActivatesTypedAndReopensExistingReadOnlyHostAfterRestart() {
         val case=scenario()
-        runtime().use { assertEquals(FaroV5Household10DevCutoverRuntime.Status.ACTIVE_TEN,
+        // RED_FIX diagnostic only: reveal the true exception suppressed by
+        // typed preflight's fail-closed Boolean before journaled rollback.
+        val diagnosticGate=SingleProcessMaterialWriteGate()
+        runtime(gate=diagnosticGate, fault={ point ->
+            if (point==GenerationSwitchFaultPoint.AFTER_POINTER_PUBLISH_BEFORE_JOURNAL_ADVANCE) {
+                val selected=checkNotNull(pointer.read())
+                val direct=try {
+                    FaroV5GenerationStoreGraph.verifyReopenedHousehold10Evidence2Dev(
+                        root,case.target,selected,diagnosticGate,{true},
+                    )
+                } catch (failure: Throwable) {
+                    throw AssertionError("F2B2C_DIRECT_TYPED_ACTIVE_HEALTH_EXCEPTION",failure)
+                }
+                check(direct) { "F2B2C_DIRECT_TYPED_ACTIVE_HEALTH_RETURNED_FALSE" }
+                val preflight=FaroV5Household10DevCutoverPreflight(
+                    root,MaterialWriteGateQuiescence(diagnosticGate),{},
+                    typedEvidence2=true,materialWriteGate=diagnosticGate,
+                )
+                check(preflight.verifyAlreadyActive(activation,case.target,selected)) {
+                    "F2B2C_TYPED_PREFLIGHT_FALSE_AFTER_DIRECT_HEALTH_TRUE"
+                }
+            }
+        }).use { assertEquals(FaroV5Household10DevCutoverRuntime.Status.ACTIVE_TEN,
             it.startScenario(case).status) }
         assertSelected(case)
         runtime().use { assertEquals(FaroV5Household10DevCutoverRuntime.Status.ACTIVE_TEN,
