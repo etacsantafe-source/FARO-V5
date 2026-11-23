@@ -112,9 +112,17 @@ class S4W04CommercialOwnerBackedPositiveAndroidTest {
         GenerationStoreFiles.WORKSPACE_V2.forEach { name ->
             Files.copy(source.directory.resolve(name), target.directory.resolve(name))
         }
-        FaroV5CommercialEvidence2StagedUpgrade(path, quiescence, {}).upgrade(
-            MaintenanceOperationId("w04-positive-evidence2"), target, pinnedSource,
-        )
+        // AndroidTest is outside the generation module. The F2A helper is
+        // deliberately internal, so perform the same schema1->schema2 migration
+        // with the existing PUBLIC EvidenceStore in this isolated TEST fixture.
+        // The owner-backed graph itself still validates all ACTIVE store seals.
+        CommercialEvidenceStore(
+            evidence(target).toString(), stagedTypedTermsV2 = true,
+        ).use { store ->
+            val state = store.maintenance.inspect()
+            assertEquals(2, state.schemaVersion)
+            assertTrue(state.integrityHealthy && state.foreignKeysHealthy)
+        }
         CommercialEvidenceStore(
             evidence(target).toString(), clock = { 970L }, stagedTypedTermsV2 = true,
         ).use { store ->
