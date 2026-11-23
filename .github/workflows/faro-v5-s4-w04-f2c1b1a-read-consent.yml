@@ -1,0 +1,111 @@
+name: FARO V5 W04-F2C1B1A DEV Android scoped local read consent
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevReadConsentIssuer.kt"
+      - "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevActivity.kt"
+      - "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialReadConsentIssuerAndroidTest.kt"
+      - ".github/workflows/faro-v5-s4-w04-f2c1b1a-read-consent.yml"
+permissions:
+  contents: read
+jobs:
+  android-f2c1b1a-consent:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_DEV')
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Mandatory READY and scoped four-path preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/quality/faro-protocol-gate.py --mode ci --head HEAD
+          UNIT=S4_W04_F2C1B1A_ANDROID_LOCAL_SCOPED_READ_CONSENT_DEV
+          count=0
+          while IFS= read -r route; do
+            test -n "$route"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$route"
+            count=$((count+1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -ge 1
+          test "$count" -le 4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK 37
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Emulator acceleration
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Real Android sandbox scoped consent, API35 five tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            cd v5 && ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8"
+            -PfaroW04AndroidTest=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W04CommercialReadConsentIssuerAndroidTest
+            :app:connectedW04CommercialDevAndroidTest
+      - name: Verify exact real Android XML five cases and offline APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          reports=list(Path("v5/app/build/outputs/androidTest-results").rglob("TEST-*.xml"))
+          cases=[c for p in reports for c in ET.parse(p).getroot().iter("testcase")]
+          names={c.attrib.get("name","").removesuffix("()") for c in cases}
+          expected={
+              "t01FreshLauncherHasNoIssuerConsentOrLiveSource",
+              "t02RealAndroidSandboxPrivateRootAndTwoIndependentVisibleTaps",
+              "t03PauseRevokesBothScopesAndResumeNeverRestores",
+              "t04PointerSwitchAndEpochAbaPermanentlyPoisonOldConsent",
+              "t05ForeignRootInvalidScopeThrowingOwnerAndDuplicateAttachFailClosed",
+          }
+          assert len(cases)==len(names)==5,(names,reports)
+          assert names==expected,(names,expected)
+          assert all(c.attrib.get("classname")==
+              "ar.com.faro.v5.app.S4W04CommercialReadConsentIssuerAndroidTest" for c in cases)
+          assert all(c.find(k) is None for c in cases for k in ("failure","error","skipped"))
+          print("FARO_W04_F2C1B1A_ANDROID35_SCOPED_READ_CONSENT_XML_PASS_5_5")
+          PY
+          apk="$(find v5/app/build/outputs/apk/w04CommercialDev -maxdepth 1 -name '*.apk' -type f -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" >/tmp/w04-f2c1b1a-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path("/tmp/w04-f2c1b1a-badging.txt").read_text()
+          assert "package: name='ar.com.faro.alpha.w04commercialdev'" in s
+          assert s.count("launchable-activity:")==1
+          for p in ("INTERNET","ACCESS_NETWORK_STATE","POST_NOTIFICATIONS",
+                    "SCHEDULE_EXACT_ALARM","RECEIVE_BOOT_COMPLETED","WAKE_LOCK"):
+              assert "android.permission."+p not in s,p
+          print("FARO_W04_F2C1B1A_OFFLINE_MANIFEST_PASS")
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w04-f2c1b1a-android35-xml-apk
+          if-no-files-found: warn
+          path: |
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/w04CommercialDev/*.apk

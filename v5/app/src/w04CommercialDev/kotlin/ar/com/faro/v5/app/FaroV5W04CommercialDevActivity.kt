@@ -15,6 +15,7 @@ class FaroV5W04CommercialDevActivity : ComponentActivity() {
 
     @Volatile private var trustedForeground = false
     private var currentTrustedGate: FaroV5W04CommercialDevForegroundSessionGate? = null
+    private var currentConsentIssuer: FaroV5W04CommercialDevReadConsentIssuer? = null
 
     /** Only an internal, verified future F2C1B issuer may supply a session. */
     internal fun attachTrustedGate(gate: FaroV5W04CommercialDevForegroundSessionGate): Boolean {
@@ -29,6 +30,24 @@ class FaroV5W04CommercialDevActivity : ComponentActivity() {
     internal fun isForegroundForTrustedRead(): Boolean = trustedForeground
     internal fun hasTrustedGate(): Boolean = currentTrustedGate != null
 
+    /**
+     * DEV host-only attachment; no issuer is created by startup, Intent,
+     * Activity resume or the untrusted renderer. One session per foreground.
+     * Consent is not a real Household/Evidence operation grant.
+     */
+    internal fun attachTrustedConsentIssuer(issuer: FaroV5W04CommercialDevReadConsentIssuer): Boolean {
+        if (!trustedForeground || isFinishing || isDestroyed ||
+            currentConsentIssuer != null || issuer.isRevoked()
+        ) {
+            issuer.close()
+            return false
+        }
+        currentConsentIssuer = issuer
+        return true
+    }
+
+    internal fun hasTrustedConsentIssuer(): Boolean = currentConsentIssuer != null
+
     internal fun readSelectedForTrustedHost(
         needId: String,
         productKey: String,
@@ -36,6 +55,8 @@ class FaroV5W04CommercialDevActivity : ComponentActivity() {
     ) = currentTrustedGate?.readSelected(needId, productKey, explicitlyChosen)
 
     private fun revokeTrustedRead() {
+        currentConsentIssuer?.close()
+        currentConsentIssuer = null
         currentTrustedGate?.revoke()
         currentTrustedGate = null
         reviewPanel.clearForRevocation()
