@@ -542,6 +542,26 @@ class FaroV5GenerationStoreGraph private constructor(
             staged, expectedActive, auxiliary4 = true, householdStage10 = true, planVerifier = planVerifier,
         )
 
+        /** F2B2B02: strictly STAGED typed Evidence2 owner; no ACTIVE pointer switch. */
+        internal fun openValidatedHousehold10Evidence2ArchiveStage(
+            staged: StagedStorageGeneration,
+            expectedActive: ActiveGenerationPointer,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+        ): FaroV5GenerationStoreGraph = openFinance9ArchiveStage(
+            staged, expectedActive, auxiliary4 = true, householdStage10 = true,
+            planVerifier = planVerifier, commercialEvidence2StagedDev = true,
+        )
+
+        /** Finance9/Auxiliary4/Evidence2 is the sealed pre-Household restore target. */
+        internal fun openValidatedV2Finance9Auxiliary4Evidence2Stage(
+            staged: StagedStorageGeneration,
+            expectedActive: ActiveGenerationPointer,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+        ): FaroV5GenerationStoreGraph = openFinance9ArchiveStage(
+            staged, expectedActive, auxiliary4 = true, planVerifier = planVerifier,
+            commercialEvidence2StagedDev = true,
+        )
+
         /** The runtime host keeps the same DEV root lease as the cutover owner. */
         internal fun openActiveHousehold10DevForTrustedHost(
             storageRoot: Path,
@@ -708,12 +728,25 @@ class FaroV5GenerationStoreGraph private constructor(
             )
         }
 
+        internal fun requireFinance9ReceiptEvidence2ArchiveStage(
+            staged: StagedStorageGeneration,
+            allowAuxiliary3: Boolean,
+        ) {
+            check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
+            requireStrictV2StoreSchemas(
+                staged.directory, activeGeneration = false, planningStage8 = true,
+                financeStage9 = true, auxiliary4 = true, allowAuxiliary3 = allowAuxiliary3,
+                commercialEvidence2StagedDev = true,
+            )
+        }
+
         private fun openFinance9ArchiveStage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
             auxiliary4: Boolean,
             householdStage10: Boolean = false,
             planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+            commercialEvidence2StagedDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             val generationsDir = staged.directory.toAbsolutePath().normalize().parent
             check(generationsDir.fileName.toString() == "generations") {
@@ -731,13 +764,17 @@ class FaroV5GenerationStoreGraph private constructor(
                 expectedActive.generationId != staged.descriptor.generationId) {
                 "Finance9 staged graph requires nonactive target and pinned pointer"
             }
-            if (householdStage10) requireSealedHousehold10ArchiveStage(staged)
+            if (householdStage10) {
+                if (commercialEvidence2StagedDev) requireSealedHousehold10Evidence2ArchiveStage(staged)
+                else requireSealedHousehold10ArchiveStage(staged)
+            }
             val receiptFence: (() -> Boolean)? =
                 if (auxiliary4) ({ pointer.read() == expectedActive }) else null
             val graph = openValidatedV2Internal(
                 staged, planVerifier = planVerifier,
                 planningStage8 = true, financeStage9 = true, auxiliaryReceiptFence = receiptFence,
                 householdStage10 = householdStage10,
+                commercialEvidence2StagedDev = commercialEvidence2StagedDev,
             )
             try {
                 check(pointer.read() == expectedActive) {

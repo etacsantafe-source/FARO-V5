@@ -50,11 +50,29 @@ internal class AuthenticatedHousehold10RestoreArchive private constructor(
         ): FiveStoreAuthenticatedPayload<AuthenticatedHousehold10RestoreArchive> {
             val crypto = FaroV5FiveStorePortableBackupCrypto()
             require(crypto.admitsArchiveSize(archive.size))
+            return openProfile(archive, passphrase, typedEvidence2 = false)
+        }
+
+        fun openEvidence2(
+            archive: ByteArray,
+            passphrase: CharArray,
+        ): FiveStoreAuthenticatedPayload<AuthenticatedHousehold10RestoreArchive> =
+            openProfile(archive, passphrase, typedEvidence2 = true)
+
+        private fun openProfile(
+            archive: ByteArray,
+            passphrase: CharArray,
+            typedEvidence2: Boolean,
+        ): FiveStoreAuthenticatedPayload<AuthenticatedHousehold10RestoreArchive> {
+            val crypto = FaroV5FiveStorePortableBackupCrypto()
+            require(crypto.admitsArchiveSize(archive.size))
             val sealed = archive.copyOf()
-            return when (val result = crypto.openWithHousehold(sealed, passphrase)) {
-                is FiveStoreAuthenticatedPayload.Rejected -> result
+            val opened = if (typedEvidence2) crypto.openWithHouseholdEvidence2(sealed, passphrase)
+                else crypto.openWithHousehold(sealed, passphrase)
+            return when (opened) {
+                is FiveStoreAuthenticatedPayload.Rejected -> opened
                 is FiveStoreAuthenticatedPayload.Opened ->
-                    FiveStoreAuthenticatedPayload.Opened(AuthenticatedHousehold10RestoreArchive(sealed, result.payload))
+                    FiveStoreAuthenticatedPayload.Opened(AuthenticatedHousehold10RestoreArchive(sealed, opened.payload))
             }
         }
     }
@@ -91,6 +109,23 @@ internal class FaroV5Household10ArchiveCoordinator(
     ): ByteArray = quiescence.withMaterialWritesQuiesced(operationId) {
         val snapshot = capture(operationId, backupSetId, source, expectedActive, productVersion, createdAtEpochMillis)
         val archive = crypto.sealWithHousehold(snapshot, passphrase)
+        requirePinnedStage(source, expectedActive)
+        archive
+    }
+
+    /** F2B2B02: Household10/Evidence2 STAGED only; FBS2v7 authenticated payload. */
+    fun captureAuthenticatedEvidence2(
+        operationId: MaintenanceOperationId,
+        backupSetId: BackupSetId,
+        source: StagedStorageGeneration,
+        expectedActive: ActiveGenerationPointer,
+        productVersion: String,
+        createdAtEpochMillis: Long,
+        passphrase: CharArray,
+    ): ByteArray = quiescence.withMaterialWritesQuiesced(operationId) {
+        val snapshot = capture(operationId, backupSetId, source, expectedActive,
+            productVersion, createdAtEpochMillis, typedEvidence2 = true)
+        val archive = crypto.sealWithHouseholdEvidence2(snapshot, passphrase)
         requirePinnedStage(source, expectedActive)
         archive
     }
@@ -153,22 +188,45 @@ internal class FaroV5Household10ArchiveCoordinator(
         blocked(FiveStoreStagedRestoreBlock.WRITE_PAUSE_UNAVAILABLE)
     }
 
+    /** F2B2B02 restore is quarantined only; caller must prepare Finance9/Aux4/Evidence2 STAGED. */
+    fun restoreAuthenticatedEvidence2(
+        operationId: MaintenanceOperationId,
+        target: StagedStorageGeneration,
+        expectedActive: ActiveGenerationPointer,
+        encryptedArchive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreStagedRestoreResult = try {
+        quiescence.withMaterialWritesQuiesced(operationId) {
+            restoreWithinLease(operationId, target, expectedActive, encryptedArchive,
+                passphrase, typedEvidence2 = true)
+        }
+    } catch (_: InterruptedException) {
+        Thread.currentThread().interrupt()
+        blocked(FiveStoreStagedRestoreBlock.WRITE_PAUSE_UNAVAILABLE)
+    } catch (_: Exception) {
+        blocked(FiveStoreStagedRestoreBlock.WRITE_PAUSE_UNAVAILABLE)
+    }
+
     private fun restoreWithinLease(
         operationId: MaintenanceOperationId,
         target: StagedStorageGeneration,
         origin: ActiveGenerationPointer,
         encryptedArchive: ByteArray,
         passphrase: CharArray,
+        typedEvidence2: Boolean = false,
     ): FiveStoreStagedRestoreResult {
         val isNine = try {
             requirePinnedStage(target, origin)
             requireSealedStoreFiles(target)
-            isStagedNine(target)
+            isStagedNine(target, typedEvidence2)
         } catch (_: Exception) {
             return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
         }
         val archive = try {
-            when (val open = AuthenticatedHousehold10RestoreArchive.open(encryptedArchive, passphrase)) {
+            val result = if (typedEvidence2)
+                AuthenticatedHousehold10RestoreArchive.openEvidence2(encryptedArchive, passphrase)
+            else AuthenticatedHousehold10RestoreArchive.open(encryptedArchive, passphrase)
+            when (val open = result) {
                 is FiveStoreAuthenticatedPayload.Opened -> open.payload
                 is FiveStoreAuthenticatedPayload.Rejected -> return FiveStoreStagedRestoreResult.Blocked(
                     FiveStoreStagedRestoreBlock.INVALID_ARCHIVE, open.reason,
@@ -196,7 +254,7 @@ internal class FaroV5Household10ArchiveCoordinator(
         return try {
             val reality = target.directory.resolve(GenerationStoreFiles.REALITY)
             if (isNine) {
-                val base = restoreNine(operationId, target, origin, archive)
+                val base = restoreNine(operationId, target, origin, archive, typedEvidence2)
                 if (base !is FiveStoreStagedRestoreResult.StagedVerified) return base
                 requirePinnedStage(target, origin)
                 requireSealedStoreFiles(target)
@@ -207,7 +265,7 @@ internal class FaroV5Household10ArchiveCoordinator(
 
             fun observe() = capture(
                 operationId, manifest.backupSetId, target, origin, manifest.productVersion,
-                manifest.createdAtEpochMillis,
+                manifest.createdAtEpochMillis, typedEvidence2 = typedEvidence2,
             )
             val baseAtTen = observe().base
             requireMatchingBase(baseAtTen, expected.base)
@@ -231,11 +289,17 @@ internal class FaroV5Household10ArchiveCoordinator(
         target: StagedStorageGeneration,
         origin: ActiveGenerationPointer,
         archive: AuthenticatedHousehold10RestoreArchive,
+        typedEvidence2: Boolean = false,
     ): FiveStoreStagedRestoreResult {
         requirePinnedStage(target, origin)
-        FaroV5GenerationStoreGraph.openQuarantinedAuxiliaryReceiptV4Stage(target, pointer).close()
+        if (typedEvidence2)
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptEvidence2ArchiveStage(target, allowAuxiliary3 = false)
+        else FaroV5GenerationStoreGraph.openQuarantinedAuxiliaryReceiptV4Stage(target, pointer).close()
         requirePinnedStage(target, origin)
-        val replay = FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Stage(target, origin, planVerifier).use { graph ->
+        val opener = if (typedEvidence2)
+            FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Evidence2Stage(target, origin, planVerifier)
+        else FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Stage(target, origin, planVerifier)
+        val replay = opener.use { graph ->
             FaroV5FiveStoreStagedRestore(
                 target.directory.parent.parent, target, graph, alreadyQuiesced,
                 afterSection = { section ->
@@ -247,7 +311,9 @@ internal class FaroV5Household10ArchiveCoordinator(
         }
         if (replay is FiveStoreStagedRestoreResult.StagedVerified) {
             requirePinnedStage(target, origin)
-            FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(target, allowAuxiliary3 = false)
+            if (typedEvidence2) FaroV5GenerationStoreGraph.requireFinance9ReceiptEvidence2ArchiveStage(
+                target, allowAuxiliary3 = false)
+            else FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(target, allowAuxiliary3 = false)
             val finance = checkNotNull(archive.snapshot.base.base.finance9)
             RealityFinance9StagedRowsRestorePort.restoreOrVerifyTrustedStagedNine(
                 target.directory.resolve(GenerationStoreFiles.REALITY),
@@ -259,12 +325,15 @@ internal class FaroV5Household10ArchiveCoordinator(
         return replay
     }
 
-    private fun isStagedNine(stage: StagedStorageGeneration): Boolean {
+    private fun isStagedNine(stage: StagedStorageGeneration, typedEvidence2: Boolean = false): Boolean {
         try {
-            FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(stage, allowAuxiliary3 = true)
+            if (typedEvidence2)
+                FaroV5GenerationStoreGraph.requireFinance9ReceiptEvidence2ArchiveStage(stage, allowAuxiliary3 = false)
+            else FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(stage, allowAuxiliary3 = true)
             return true
         } catch (_: IllegalStateException) {
-            FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+            if (typedEvidence2) FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(stage)
+            else FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
             return false
         }
     }
@@ -313,13 +382,17 @@ internal class FaroV5Household10ArchiveCoordinator(
         expectedActive: ActiveGenerationPointer,
         productVersion: String,
         createdAtEpochMillis: Long,
+        typedEvidence2: Boolean = false,
     ): FaroV5Household10Fbs2Snapshot {
         requirePinnedStage(stage, expectedActive)
         requireSealedStoreFiles(stage)
-        FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+        if (typedEvidence2) FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(stage)
+        else FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
         val before = fingerprints(stage)
-        val (base, auxiliary) = FaroV5GenerationStoreGraph.openValidatedHousehold10ArchiveStage(stage, expectedActive, planVerifier)
-            .use { graph ->
+        val opener = if (typedEvidence2)
+            FaroV5GenerationStoreGraph.openValidatedHousehold10Evidence2ArchiveStage(stage, expectedActive, planVerifier)
+        else FaroV5GenerationStoreGraph.openValidatedHousehold10ArchiveStage(stage, expectedActive, planVerifier)
+        val (base, auxiliary) = opener.use { graph ->
                 FaroV5FiveStoreBackupCapture(graph, alreadyQuiesced).captureReceiptProjection(
                     operationId, backupSetId, productVersion, createdAtEpochMillis,
                 )
@@ -336,7 +409,8 @@ internal class FaroV5Household10ArchiveCoordinator(
                 row.revision, row.dueEpochDay?.let(LocalDate::ofEpochDay),
             )
         })
-        FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+        if (typedEvidence2) FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(stage)
+        else FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
         check(fingerprints(stage) == before) { "Household10 capture changed a sealed source store" }
         requirePinnedStage(stage, expectedActive)
         return FaroV5Household10Fbs2Snapshot(
