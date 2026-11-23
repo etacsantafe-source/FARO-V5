@@ -775,6 +775,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 planningStage8 = true, financeStage9 = true, auxiliaryReceiptFence = receiptFence,
                 householdStage10 = householdStage10,
                 commercialEvidence2StagedDev = commercialEvidence2StagedDev,
+                commercialEvidence2AuthenticatedArchiveDev = commercialEvidence2StagedDev,
             )
             try {
                 check(pointer.read() == expectedActive) {
@@ -801,13 +802,26 @@ class FaroV5GenerationStoreGraph private constructor(
             householdNeedsWritableDev: Boolean = false,
             commercialEvidence2StagedDev: Boolean = false,
             commercialEvidence2ActiveDev: Boolean = false,
+            commercialEvidence2AuthenticatedArchiveDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
-            check(!commercialEvidence2StagedDev || (
-                !activeGeneration && !planningStage8 && !financeStage9 &&
-                    !checkedPlanning8Active && auxiliaryReceiptFence == null &&
-                    !householdStage10 && !householdActive10Dev &&
-                    !householdNeedsWritableDev && materialWriteGate != null
-            )) { "Evidence2 staged graph cannot be active or share privileged owner stage" }
+            // Historical C1b2G isolated STAGED owner remains unchanged.
+            val isolatedTypedStage = !activeGeneration && !planningStage8 && !financeStage9 &&
+                !checkedPlanning8Active && auxiliaryReceiptFence == null &&
+                !householdStage10 && !householdActive10Dev &&
+                !householdNeedsWritableDev && materialWriteGate != null
+            // F2B2B02 is an independently sealed, exact-pointer, closed-host
+            // STAGED archive replay. This is not an ACTIVE or general owner grant.
+            val authenticatedArchiveStage = commercialEvidence2AuthenticatedArchiveDev &&
+                commercialEvidence2StagedDev && !activeGeneration && planningStage8 &&
+                financeStage9 && !checkedPlanning8Active && auxiliaryReceiptFence != null &&
+                !householdActive10Dev && !householdNeedsWritableDev && materialWriteGate == null
+            check(!commercialEvidence2StagedDev ||
+                (if (commercialEvidence2AuthenticatedArchiveDev) authenticatedArchiveStage
+                 else isolatedTypedStage)
+            ) { "Evidence2 staged graph cannot be active or share privileged owner stage" }
+            check(!commercialEvidence2AuthenticatedArchiveDev || authenticatedArchiveStage) {
+                "Typed Evidence2 archive admission requires a sealed nonactive Finance9 DEV stage"
+            }
             check(!commercialEvidence2ActiveDev || (
                 activeGeneration && householdActive10Dev && financeStage9 &&
                     checkedPlanning8Active && auxiliaryReceiptFence != null &&
