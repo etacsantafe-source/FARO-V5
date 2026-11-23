@@ -1,16 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "b48c83c52028a72d5347a38590633b8f916e2723",
-  "paths": [],
+  "reviewed_head": "7decdc4cebfe56588118390fb4b02c304e768364",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverPreflight.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverOwner.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household10DevCutoverRuntime.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2CutoverRuntimeTest.kt",
+    ".github/workflows/faro-v5-s4-w04-f2b2c-typed-journaled-cutover.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
-          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
+          "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
           "marker": "## B1"
         }
       ]
@@ -19,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
-          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
+          "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
           "marker": "## B2"
         }
       ]
@@ -29,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
-          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
+          "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
           "marker": "## B3"
         }
       ]
@@ -39,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
-          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
+          "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
           "marker": "## B4"
         }
       ]
@@ -49,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F2B2C_TYPED_CUTOVER_RECOVERY_B1_B5_20261123.md",
-          "blob_sha": "ab4eab6669cc64dd0d67c1e6e618d7ba1d7a1407",
+          "path": "docs/v5/FARO_S4_W04_F2B2C_B7_RED_FIX_TYPED_ACTIVE_HEALTH_20261123.md",
+          "blob_sha": "36f957d79efcaf7900222baabf29c6f2e0b5a364",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_REDFIX_HEALTH",
-    "B7": "RED_FIX"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "b48c83c52028a72d5347a38590633b8f916e2723",
@@ -70,16 +77,16 @@
       }
     ]
   },
-  "why": "F2B2C directed CI 45103190625 real SQLite 3/6 PASS, 3/6 RED after target pointer on typed runtime health; root exception currently swallowed",
-  "how": "EXACT6_TYPED_HOUSEHOLD10_EVIDENCE2_REUSE_EXISTING_JOURNAL_SWITCH",
+  "why": "F2B2C same-unit 3 PASS 3 RED post-pointer health, diagnostic test-only, guard45103711674 SUCCESS",
+  "how": "EXACT6_SAME_UNIT_RED_FIX_TEST_DIAGNOSTIC_HEALTH_EXCEPTION",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-22",
     "scope": "User explicitly authorized writer manual recovery and continue FARO V5. F2B2B01 codec only, no productive activation"
   },
-  "preaudit_guard": 45102888902,
+  "preaudit_guard": 45103711674,
   "previous_unit": "S4_W04_F2B2B02_TYPED_STAGED_ARCHIVE_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6_45101750218_GUARD_45102211887",
-  "next": "SAME UNIT guarded diagnostic test-only delta on selected ACTIVE target; then exact root RED_FIX, rerun six XML"
+  "next": "T01 selected exact typed graph health diagnostic; fix root cause only after evidence, then 6/6 XML"
 }
