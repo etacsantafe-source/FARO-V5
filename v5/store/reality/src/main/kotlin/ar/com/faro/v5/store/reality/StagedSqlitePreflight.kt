@@ -30,6 +30,8 @@ object StagedSqlitePreflight {
         /** Third historical profile, needed for 8 <- 7 <- 6 <- 5 without losing 5. */
         val oldestLegacyVersion: Int? = null,
         val oldestLegacyTables: List<String> = emptyList(),
+        /** Opt-in only for sealed typed Evidence2 staging; legacy schemas remain unchanged. */
+        val rejectTriggers: Boolean = false,
     ) {
         init {
             require(version > 0 && tables.isNotEmpty())
@@ -110,6 +112,13 @@ object StagedSqlitePreflight {
                         statement.step()
                     }
                     check(found) { "staged ${schema.name} required table missing: $table" }
+                }
+                if (schema.rejectTriggers) {
+                    check(db.prepare(
+                        "SELECT 1 FROM sqlite_master WHERE type='trigger' LIMIT 1"
+                    ).use { !it.step() }) {
+                        "staged ${schema.name} has unexpected SQLite triggers"
+                    }
                 }
                 check(db.prepare("PRAGMA quick_check").use {
                     it.step() && it.getText(0) == "ok" && !it.step()

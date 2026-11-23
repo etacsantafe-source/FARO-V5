@@ -973,6 +973,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 if (commercialEvidence2StagedDev || commercialEvidence2ActiveDev) StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.COMMERCIAL_EVIDENCE, 2,
                     listOf("commercial_evidence", "commercial_evidence_quote_terms"),
+                    rejectTriggers = commercialEvidence2StagedDev,
                 ) else StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1, listOf("commercial_evidence"),
                 ),

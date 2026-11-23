@@ -4,6 +4,7 @@ on:
     branches: [work/s3-night-20261102]
     paths:
       - "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt"
+      - "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/StagedSqlitePreflight.kt"
       - "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household10Evidence2SealedStageAdmissionTest.kt"
       - ".github/workflows/faro-v5-s4-w04-f2b2a-sealed-typed-stage.yml"
 permissions:
