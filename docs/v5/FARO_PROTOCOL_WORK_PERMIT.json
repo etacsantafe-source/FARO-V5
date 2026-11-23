@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
-  "reviewed_head": "69edb8a568171820bfbd2c98638c49ecdd9ea91b",
+  "reviewed_head": "2b6fc0d347d6c2fba22de5c4788430af1a96b16b",
   "paths": [
     "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/spi/Household10DevReadScopeOwner.kt",
     "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/CommercialEvidence2DevReadScopeOwner.kt",
@@ -65,19 +65,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "eae8d60008f0a9de4599a20706e18adbe9e60ac1",
-    "unit_id": "S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_DEV",
-    "result": "PASS",
+    "sha": "2b6fc0d347d6c2fba22de5c4788430af1a96b16b",
+    "unit_id": "S4_W04_F2C1B1B1A_OWNER_READ_SCOPE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B0_TRUSTED_SELECTED_READ_HOST_B7_PASS_20261123.md",
-        "blob_sha": "dde53725a21b1e1b3e20b920c9d2254c54541d8e",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1A_B7_RED_FIX_CI_HEAP_20261123.md",
+        "blob_sha": "3ce222bb45edadff20bec0b1acab3aae1b9c07a1",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1B1B1A only: independent scope-bound owner session grants, not Android/real live source integration; B0 certified and not repeated",
-  "how": "5 paths exact, DEV-only, 6 JUnit5 XML, no F2C0/Android source/UI writes",
+  "why": "F2C1B1B1A RED_FIX1 exact four paths: first CI failed build-logic OOM before tests; source audit JUnit void assert and Evidence copy cache",
+  "how": "same DEV owner scope, no Android; B7 RED_FIX then directed six XML",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
