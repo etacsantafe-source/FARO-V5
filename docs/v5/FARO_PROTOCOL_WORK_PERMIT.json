@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C1A_FBS2V8_SQL11_DURABLE_AUTHORIZATION_DEV",
   "reviewed_head": "30510d3d3eb2b7040aa17659270f4988708f896e",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B3C1A_FBS2V8_EVIDENCE1_SQL11_DURABLE_PRE_CUTOVER_JOURNAL_XML_8_8"
   },
   "last_code_review": {
-    "sha": "178c9edd908feae51b2ac7af430de4213f7307e7",
-    "unit_id": "S4_W05_A1B3C0_FBS2V8_SQL11_CUTOVER_PREFLIGHT_DEV",
+    "sha": "df55b3c4f93281b34ae4dab854fdf43b9d4b0774",
+    "unit_id": "S4_W05_A1B3C1A_FBS2V8_SQL11_DURABLE_AUTHORIZATION_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B7_PASS_20261124.md",
-        "blob_sha": "eddcda6505cf642b93fa8eff8ffc6ce561e2cb13",
+        "path": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B7_PASS_20261124.md",
+        "blob_sha": "ad898f2c3e03b2f19243808c3adf484da38563a8",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1B3C1A durable FBS2v8 SQL11 pre-cutover authorization B1-B5 guard45489475775 SUCCESS; no active pointer switch",
-  "how": "Only exact 3 routes; same root lock and gate; ticket+PREPARING->STAGED->VALIDATED; 8 JVM JUnit and XML; B7 scoped",
+  "why": "B7 PASS scoped SQL11 FBS2v8 Evidence1 durable pre-cutover ticket+PREPARING/STAGED/VALIDATED only, guard45490081297 SUCCESS CI45490081521 XML8/8",
+  "how": "READY consumed; C1B separate validated SQL11 journaled pointer switch/reopen/recovery with own protocol",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "C1B journaled SQL11 activation/reopen/rollback; C1C Android recovery, Evidence2 separate; stock Apply OFF",
+  "next": "W05-A1B3C1B validated SQL11 cutover + reopen/rollback fault tests, Evidence2 and Android separate; no stock Apply",
   "pre_audit_guard_run_id": 45489475775,
   "checkpoint_guard_run_id": 45427786640,
-  "final_guard_run_id": 45487014427,
-  "final_ci_run_id": 45487014676,
+  "final_guard_run_id": 45490081297,
+  "final_ci_run_id": 45490081521,
   "final_ci_xml": "tests=8,failures=0,errors=0,skipped=0"
 }
