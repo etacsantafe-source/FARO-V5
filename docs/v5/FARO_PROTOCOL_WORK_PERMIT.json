@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1A_S3_FBS1_XML8_REDFIX",
   "reviewed_head": "c5d9b50fa20d4c29b2fac97529320e00d7781d40",
   "paths": [
@@ -57,23 +57,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_CI_SUCCESS",
+    "B7": "PASS_SCOPED_S3_FBS1_XML8_REDFIX_21_21"
   },
   "last_code_review": {
-    "sha": "2e9c9bdf9cebc4cafcf0a0b66798c520022bb9a9",
-    "unit_id": "S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_DEV",
+    "sha": "bf9cec694ce9367b063f6236f508b8c9fce7fd3b",
+    "unit_id": "S4_W05_A1A_S3_FBS1_XML8_REDFIX",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B7_PASS_20261124.md",
-        "blob_sha": "3e195fd0f76815692ce076b78ac6f23b9535f1af",
+        "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B7_PASS_20261124.md",
+        "blob_sha": "1c2ead216fc602e5638e0b44df836129341c3948",
         "marker": "## B7"
       }
     ]
   },
-  "why": "real FBS1 XML 8/8 but workflow hardcodes 4; B1-B5 and guard 45390973742 SUCCESS",
-  "how": "change only FBS1 expected count 4 to 8; run exact S3 CI and inspect XML/guard",
+  "why": "S3 receipt history restored full XML 21/21 in CI 45391329067; READY consumed",
+  "how": "W05 A1B own B1-B5/READY. Current permission is BLOCKED",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,6 +83,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B7 scoped CI metadata RED_FIX, then W05 A1B",
+  "next": "W05 A1B staged generation + backup Reality11, separate authorization",
   "pre_audit_guard_run_id": 45390973742
 }
