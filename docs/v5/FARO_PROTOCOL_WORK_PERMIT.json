@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE",
   "reviewed_head": "52e2003a2a9ac3932d35b012d72a9825489de44b",
   "paths": [
@@ -58,23 +58,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_FAIL_BEFORE_GRADLE_SHELL_SCOPE",
+    "B7": "RED_FIX_EMULATOR_SHELL_SCOPE"
   },
   "last_code_review": {
-    "sha": "247adf187436964f038d01d5adc447d162febffc",
-    "unit_id": "S4_W04_F3B_ACTIVE_SOURCE_INTEGRAL_ACCEPTANCE_DEV",
-    "result": "PASS",
+    "sha": "2ec27043ad55ccc584dc8ecb59248044c4b07162",
+    "unit_id": "S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F3B_REAL_SOURCE_INTEGRAL_ANDROID_B7_PASS_20261124.md",
-        "blob_sha": "331f1221a652d43cac9d7033206456a34bbc84d0",
+        "path": "docs/v5/FARO_S4_W04_F3G_B7_RED_FIX_EMULATOR_SCRIPT_SCOPE_20261124.md",
+        "blob_sha": "02a2da634692faf49899cc5f9ae16e3ae9c73b9e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W04 global local DEV Android 200 percent accessibility and real owner-backed history test t14 only; no functional app changes",
-  "how": "Exact two routes 1 Android delta test and one workflow, XML 1/1 and offline APK on API35, fontScale 2.0",
+  "why": "F3G CI 45370318211 FAILED before Gradle: runner executes each script line in distinct sh -c; lost local variable and cwd",
+  "how": "Consume READY and require exact1 workflow-only reaudited READY after guard",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,6 +84,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F3G B6 code two routes then original XML t14 CI and independent B7; W04 DEV closed only if PASS",
+  "next": "After guard publish READY exact1 from shell-scope B1-B5; workflow fix only, then rerun t14 real CI",
   "pre_audit_guard_run_id": 45369827990
 }
