@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-24",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1B3C1A_B7_PASS_FBS2V8_SQL11_DURABLE_PRE_CUTOVER_AUTH_A1B3C1B_NEXT",
+  "phase": "S4_W05_A1B3C1B_B7_PASS_SQL11_EVIDENCE1_DEV_CUTOVER_RECOVERY_A1B3C1C_NEXT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1878
+    "epoch": 1890
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B7_PASS_20261124.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B7_PASS_20261124.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W05 A1B3C1B: journaled SQL11 cutover from validated ticket with real pointer CAS, strict Reality11 reopen/host health, rollback before any admitted material writes, crash recovery. Own B1–B5 guard READY, real CI XML. After C1B, Android/startup binding C1C and Evidence2 separate; stock A1C only after permissions/certification; V2 productive OFF, Auto/Noche OFF, payments OFF",
-  "checkpoint_status": "W05_A1B3C1A_B7_PASS_GUARD_45490081297_CI_45490081521_XML8_8",
+  "next": "W05 A1B3C1C Android/startup SQL11 closed-host integration + strict active reopen; Evidence2 FBS2v8 restore/cutover separately, then W05 A1C stock Review/Apply/Undo. FULL A1 NOT CLOSED. V2 productive, Auto/Noche, payments and real stock OFF.",
+  "checkpoint_status": "W05_A1B3C1B_B7_PASS_GUARD_45495586735_CI_45495586732_XML8_8",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B7_PASS_20261124.md",
-  "last_code_sha": "df55b3c4f93281b34ae4dab854fdf43b9d4b0774",
-  "last_ci_run_id": 45490081521,
+  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B7_PASS_20261124.md",
+  "last_code_sha": "432e6ece49eb50d0e7a607e581eab6c975c5cac4",
+  "last_ci_run_id": 45495586732,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W05_A1B3C1A_SQL11_DURABLE_AUTH_PRE_CUTOVER_XML_8_8",
+  "last_ci_conclusion": "SUCCESS_C1B_SQL11_EVIDENCE1_DEV_CUTOVER_ROLLBACK_XML_8_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -7028,6 +7028,41 @@
     "evidence2": "NOT_CERTIFIED",
     "v2_core_regression": {
       "id": 45490081365,
+      "status": "IN_PROGRESS_NOT_CLAIMED_PASS"
+    },
+    "productive_v2": false,
+    "auto_night": false,
+    "payments": false,
+    "real_stock": false
+  },
+  "w05_a1b3c1b": {
+    "unit_id": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
+    "status": "B7_PASS_SCOPED_EVIDENCE1_SQL11_JOURNALED_DEV_CUTOVER_RECOVERY_ROLLBACK_XML_8_8",
+    "preaudit_path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
+    "preaudit_blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
+    "first_code_sha": "e836dd6e511e58eb99b6e98bcfb2a043bdcefb44",
+    "first_ci_run": 45494473649,
+    "first_ci": "FAIL_6_8_ROLLBACK_CALLBACK",
+    "redfix_path": "docs/v5/FARO_S4_W05_A1B3C1B_RED_FIX_ROLLBACK_PROJECTION_45494473649_20261124.md",
+    "redfix_blob_sha": "0fa9ff09c9270bc41cff7f989cbb576c918a502e",
+    "code_sha": "432e6ece49eb50d0e7a607e581eab6c975c5cac4",
+    "preaudit_guard": 45493942595,
+    "ready_guard": 45494090819,
+    "redfix_guard": 45495360277,
+    "code_guard": 45495586735,
+    "ci_run": 45495586732,
+    "ci_job": 138805068645,
+    "xml": "tests=8,failures=0,errors=0,skipped=0",
+    "artifact_id": 14966929882,
+    "artifact_sha256": "05749fc041478996b922b5432ea070ffb053352b1b31b619ec0dc821c593c9fe",
+    "b7_document": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B7_PASS_20261124.md",
+    "permit": "BLOCKED_CONSUMED",
+    "writer_release_epoch": 1890,
+    "scope": "FBS2V8_AUTH_EVIDENCE1_SQL11_DEV_JOURNALED_POINTER_SWITCH_RECOVERY_ROLLBACK_NO_ANDROID_APP_ACTIVATION",
+    "evidence2": "NOT_CERTIFIED",
+    "android_c1c": "PENDING",
+    "v2_core_regression": {
+      "id": 45495586820,
       "status": "IN_PROGRESS_NOT_CLAIMED_PASS"
     },
     "productive_v2": false,
