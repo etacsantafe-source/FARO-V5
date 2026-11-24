@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1B3B1_FBS2V8_H10_H11R_STAGED_REPLAY_DEV",
-  "reviewed_head": "d7fae63575485b56970728d27831ea1e5cc3a6c6",
+  "reviewed_head": "af16705d6b8f2a02f6cf3bce11f3716602195de4",
   "paths": [
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11NeedsRowsPort.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "e99015370474b97b560ed4b2852825cfc39c6dd6",
-    "unit_id": "S4_W05_A1B3B0_FBS2V8_FIVE_STORE_BASE_REPLAY_DEV",
-    "result": "PASS",
+    "sha": "0c4e5e93ebb2f130eee2c43e62afde19e3927f44",
+    "unit_id": "S4_W05_A1B3B1_FBS2V8_H10_H11R_STAGED_REPLAY_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B7_PASS_20261124.md",
-        "blob_sha": "f18bedd4f256699763661c135477739750cda88b",
+        "path": "docs/v5/FARO_S4_W05_A1B3B1_RED_FIX_GENERATION_SQLITE_45444505515_20261124.md",
+        "blob_sha": "8070b4d413d85a0b5b5ffd5ccc9910f02283a163",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1B3B1 Evidence1 stage9->10->11 H10/H11R immutable v8 replay B1–B5 verified guard 45443788587 SUCCESS; prior B0 B7 PASS 8/8",
-  "how": "Only 4 exact routes, parent READY preflight, JVM JUnit 10/10 XML real B7 scoped; no cutover or Evidence2",
+  "why": "A1B3B1 compilation unresolved androidx production generation, CI 45444505515 FAILURE; exact 3-route RED_FIX same unit; baseline digest code review",
+  "how": "RED_FIX 3 routes Reality SQL version reader, generation delegation + corrected digest snapshot, exact3 workflow preflight; CI JUnit 10/10 real XML then B7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,7 +86,7 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B3B1 code then B7; A1B3C cutover/reopen/recovery; Evidence2 separate",
+  "next": "A1B3B1 repair exact3 then directed CI JUnit10 XML; A1B3C later",
   "pre_audit_guard_run_id": 45443788587,
   "checkpoint_guard_run_id": 45427786640,
   "final_guard_run_id": 45441529015,
