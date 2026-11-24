@@ -1,6 +1,8 @@
 package ar.com.faro.v5.generation
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_READONLY
 import androidx.sqlite.execSQL
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
@@ -199,6 +201,45 @@ class FaroV5Household11ActiveDevReadHostTest {
                 assertEquals(FaroV5Household11ActiveDevReadHost.Status.BLOCKED, reopen().status)
             }
         }
+    }
+
+    @Test fun completedSecondReopenAfterReadOnlyWalInspectionPreservesFullPointer() {
+        val s = scenario()
+        activate(s)
+        val before = checkNotNull(pointer.read())
+        val first = reopen()
+        assertEquals(FaroV5Household11ActiveDevReadHost.Status.ACTIVE_ELEVEN, first.status)
+        checkNotNull(first.session).use { session ->
+            assertEquals(FaroV5Household11ActiveDevReadHost.AuthorizedRows(3L, 1, 2L, 2),
+                session.expectedRows())
+            session.readPinnedReality { file ->
+                BundledSQLiteDriver().open(
+                    file.toString(), SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
+                ).use { db ->
+                    val count = db.prepare("SELECT count(*) FROM household_stock_receipt").use {
+                        assertTrue(it.step())
+                        it.getLong(0)
+                    }
+                    assertEquals(2L, count)
+                }
+            }
+        }
+        // SQLite WAL readonly may leave -wal/-shm; C1C must NOT call C1B's
+        // sealed STAGED verifier again when journal already is COMPLETED.
+        val second = reopen()
+        assertEquals(FaroV5Household11ActiveDevReadHost.Status.ACTIVE_ELEVEN, second.status)
+        checkNotNull(second.session).use { session ->
+            assertEquals(2L, session.readPinnedReality { file ->
+                BundledSQLiteDriver().open(
+                    file.toString(), SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
+                ).use { db ->
+                    db.prepare("SELECT count(*) FROM household_stock_receipt").use {
+                        assertTrue(it.step()); it.getLong(0)
+                    }
+                }
+            })
+        }
+        assertEquals(before, pointer.read())
     }
 
     @Test fun uncommittedWalIsNeverReadAsACommittedRevision() {

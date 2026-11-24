@@ -31,6 +31,14 @@ internal class FaroV5W05Household11DevStartup(
         ) = debuggable && !productiveV2 && packageName in setOf(
             "ar.com.faro.alpha.v2coredev", "ar.com.faro.g15isolated.v2coredev"
         )
+
+        fun matchesAuthorizedRows(
+            expected: FaroV5Household11ActiveDevReadHost.AuthorizedRows,
+            needs: Long, receipts: Long, needRevision: Long, receiptRevision: Long,
+        ): Boolean = needs == expected.needCount.toLong() &&
+            receipts == expected.receiptCount.toLong() &&
+            needRevision == expected.needRevision &&
+            receiptRevision == expected.receiptRevision
     }
     @Volatile private var closed = false
     private var lease: FaroV5Household11ActiveDevReadHost.Session? = null
@@ -68,7 +76,11 @@ internal class FaroV5W05Household11DevStartup(
                     val receiptRevision = one(
                         "SELECT revision FROM household_stock_receipt_state WHERE singleton_id=1")
                     check(needs in 0..8192 && receipts in 0..8192 &&
-                        needRevision >= 0 && receiptRevision >= 0)
+                        needRevision >= 0 && receiptRevision >= 0 &&
+                        matchesAuthorizedRows(session.expectedRows(),
+                            needs, receipts, needRevision, receiptRevision)) {
+                        "SQL11 ACTIVE data differ from the durable pre-cutover authorization"
+                    }
                     Snapshot(result.status, needs, receipts, needRevision, receiptRevision)
                 }
             }.also { check(!closed && foreground()) }
