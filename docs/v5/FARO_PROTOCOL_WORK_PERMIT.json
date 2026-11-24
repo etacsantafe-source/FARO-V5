@@ -2,10 +2,9 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
-  "reviewed_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
+  "reviewed_head": "ff7db63b86f58b0413b69a8948b9f3994fcc8583",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8Evidence2FullStageReplayTest.kt",
     ".github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml"
   ],
   "stages": {
@@ -13,8 +12,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
-          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+          "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
           "marker": "## B1"
         }
       ]
@@ -23,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
-          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+          "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
           "marker": "## B2"
         }
       ]
@@ -33,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
-          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+          "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
           "marker": "## B3"
         }
       ]
@@ -43,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
-          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+          "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
           "marker": "## B4"
         }
       ]
@@ -53,8 +52,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
-          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+          "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
           "marker": "## B5"
         }
       ]
@@ -63,19 +62,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "8ffc0fa5af6df44aa295d2dc96d862aedbc6462a",
-    "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
-    "result": "PASS",
+    "sha": "ff7db63b86f58b0413b69a8948b9f3994fcc8583",
+    "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_ACTIVE_WAL_REOPEN_B7_PASS_20261124.md",
-        "blob_sha": "3c7b6d8454a3be0513c360d4906e58f557f16564",
+        "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+        "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C2A bounded Evidence2 FBS2v8 SQL11 STAGED replay. Previous C1C B7 PASS and guard 45510331131 success; preaudit guard 45510975074 success",
-  "how": "Only three exact paths, no runtime switch or Android Apply; parent READY preflight, single writer CAS, JVM CI/XML and B7 final",
+  "why": "C2A original code CI failed Kotlin NO_VALUE_FOR_PARAMETER at FullStageReplay:189; B7 RED_FIX, exact-two routes",
+  "how": "Propagate evidenceSchema to final requireEleven and workflow 1/2/3 preflight only, no change in tests, run CI real and XML",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,15 +83,16 @@
   },
   "previous_unit": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
   "previous_b7": "PASS_SCOPED_ANDROID_DEV_SQL11_ACTIVE_WAL_READONLY_SECOND_REOPEN_XML_18_18",
-  "next": "B6 exact3 Evidence2 FBS2v8 SQL11 staged replay, CI original XML and B7; C2B/C2C separate journaled cutover/active reopen; A1C stock later. V2 productive/Auto/Noche/payments/real stock OFF",
+  "next": "Finish C2A exact2 RED_FIX B6/CI/B7; then C2B/C2C Evidence2 cutover; A1C stock Review/Apply/Undo later. Productive flags OFF",
   "pre_audit_guard_run_id": 45510975074,
   "pre_audit_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
   "previous_ci_run_id": 45495586732,
   "red_fix": {
-    "reason": "WORKFLOW_4_ROUTE_COUNT_PREFLIGHT_FAILURE",
-    "ci": 45508825833,
-    "doc": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-    "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5"
+    "ci_run_id": 45511558748,
+    "job_id": 138860277489,
+    "reason": "COMPILER_MISSING_EVIDENCE_ARGUMENT_NO_XML",
+    "document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+    "blob_sha": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73"
   },
   "final_ci_run_id": null,
   "final_guard_run_id": null,

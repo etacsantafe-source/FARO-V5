@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-24",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1B3C2A_B1_B5_PASS_READY_B6_NEXT",
+  "phase": "S4_W05_A1B3C2A_B7_RED_FIX_COMPILER_READY_EXACT2",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1905
+    "epoch": 1907
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W05 A1B3C2A B6 Evidence2 FBS2v8 SQL11 STAGED exact3, then C2B/C2C cutover and startup independent, then A1C stock Review/Apply/Undo. A1 global OPEN; all production flags OFF.",
-  "checkpoint_status": "W05_A1B3C2A_B1_B5_GUARD_45510975074_SUCCESS_PERMIT_READY_B6_NOT_RUN",
+  "next": "C2A compile RED_FIX exact2, CI JUnit XML16/16, B7 scoped only after success. C2B/C2C independent; A1C later. All productive OFF.",
+  "checkpoint_status": "W05_A1B3C2A_B7_RED_FIX_KOTLIN_45511558748_READY_EXACT2",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
-  "last_code_sha": "8ffc0fa5af6df44aa295d2dc96d862aedbc6462a",
-  "last_ci_run_id": 45509361871,
+  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+  "last_code_sha": "ff7db63b86f58b0413b69a8948b9f3994fcc8583",
+  "last_ci_run_id": 45511558748,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W05_A1B3C1C_SQL11_DEV_ACTIVE_WAL_REOPEN_XML18_18",
+  "last_ci_conclusion": "FAILURE_C2A_KOTLIN_EVIDENCE_PARAMETER_NO_XML",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -7087,7 +7087,7 @@
   },
   "w05_a1b3c2a": {
     "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
-    "block_status": "B1_B5_VERIFIED_GUARD_SUCCESS_READY_B6_NEXT",
+    "block_status": "RED_FIX_COMPILER_CI_45511558748_READY_EXACT2",
     "reviewed_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
     "preaudit_doc": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
     "preaudit_blob": "e8677f70442144ec3db5a4810db637c68e579e62",
@@ -7098,7 +7098,15 @@
       ".github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml"
     ],
     "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
-    "real_stock_enabled": false
+    "b7": "NOT_PASS",
+    "real_stock_enabled": false,
+    "current_code_sha": "ff7db63b86f58b0413b69a8948b9f3994fcc8583",
+    "red_fix_document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_EVIDENCE_PARAM_CI_45511558748_20261124.md",
+    "red_fix_blob": "5da78ba32460f7f89d9bd8f8c4b6a3d8b40fcb73",
+    "red_fix_paths": [
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt",
+      ".github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml"
+    ],
+    "ci_status": "FAILURE_NO_XML"
   }
 }
