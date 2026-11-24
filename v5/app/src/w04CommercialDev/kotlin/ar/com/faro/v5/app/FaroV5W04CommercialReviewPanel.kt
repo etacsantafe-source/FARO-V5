@@ -97,6 +97,40 @@ internal class FaroV5W04CommercialReviewPanel(context: Context) : ScrollView(con
         return true
     }
 
+    /**
+     * F3A: trusted DEV host provides the action only after admission.
+     * This entry point exposes no observations until an explicit native tap.
+     * onOpen is the existing real-source F2C1B1B1B1B chooser, not a mock.
+     */
+    internal fun renderTrustedHistoricalEntry(
+        authorizedNow: () -> Boolean,
+        onOpen: () -> Boolean,
+    ): Boolean {
+        clearForRevocation()
+        if (!runCatching(authorizedNow).getOrDefault(false)) return false
+        root.removeAllViews()
+        heading("SmartCompra · historial autorizado")
+        text("Primero abrí el historial y después elegí un registro histórico.")
+        text("No se muestra ni se elige automáticamente ningún precio.")
+        root.addView(Button(context).apply {
+            tag = "faro.w04.historical.open"
+            isAllCaps = false
+            text = "Abrir revisión histórica"
+            contentDescription =
+                "Abrir observaciones históricas; todavía no se selecciona ningún precio"
+            setOnClickListener {
+                if (!runCatching(authorizedNow).getOrDefault(false) ||
+                    !runCatching(onOpen).getOrDefault(false)
+                ) clearForRevocation()
+            }
+        })
+        if (!runCatching(authorizedNow).getOrDefault(false)) {
+            clearForRevocation()
+            return false
+        }
+        return true
+    }
+
     private fun safeLiteralChoice(value: String): Boolean =
         value.isNotBlank() && value.length <= 1024 &&
             Charsets.UTF_8.newEncoder().canEncode(value) &&

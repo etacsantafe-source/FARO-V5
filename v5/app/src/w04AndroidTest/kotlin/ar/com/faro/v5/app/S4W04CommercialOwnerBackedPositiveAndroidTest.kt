@@ -405,4 +405,80 @@ class S4W04CommercialOwnerBackedPositiveAndroidTest {
             assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
         }
     }
+
+    @Test fun t07NativeEntryButtonRequiresTapBeforeHistoricalChooser() {
+        rule.scenario.onActivity { a ->
+            val f = realFixture(a)
+            val issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            val host = checkNotNull(mount(a, f, issuer))
+            assertTrue(host.offerNativeHistoricalEntryForTrustedDevHost(
+                1000L, 200L, 2, readNow = { 1020L },
+            ))
+            assertFalse(containsPanelText(a.reviewPanel, "Elegí una observación histórica"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            val entry = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.open",
+            ))
+            assertTrue(entry.contentDescription.toString().contains("todavía no se selecciona"))
+            assertTrue(entry.performClick())
+            assertTrue(containsPanelText(a.reviewPanel, "Elegí una observación histórica"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            val choice = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.choice.0",
+            ))
+            assertTrue(choice.performClick())
+            assertTrue(containsPanelText(a.reviewPanel, "Revisión comercial histórica"))
+            assertTrue(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado: ARS 240.00"))
+            assertTrue(containsPanelText(a.reviewPanel, "No es una cotización vigente"))
+            host.close()
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+        }
+    }
+
+    @Test fun t08ClosedOwnerHostCannotUseDetachedHistoricalEntryButton() {
+        rule.scenario.onActivity { a ->
+            val f = realFixture(a)
+            val issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            val host = checkNotNull(mount(a, f, issuer))
+            assertTrue(host.offerNativeHistoricalEntryForTrustedDevHost(
+                1000L, 200L, 1, readNow = { 1020L },
+            ))
+            val oldEntry = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.open",
+            ))
+            host.close()
+            assertTrue(host.isClosed())
+            assertTrue(oldEntry.performClick())
+            assertFalse(containsPanelText(a.reviewPanel, "Elegí una observación histórica"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+        }
+    }
+
+    @Test fun t09InvalidLiveClockAfterNativeEntryTapCannotDisplayHistoricalEstimate() {
+        rule.scenario.onActivity { a ->
+            val f = realFixture(a)
+            val issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            val host = checkNotNull(mount(a, f, issuer))
+            assertTrue(host.offerNativeHistoricalEntryForTrustedDevHost(
+                1000L, 200L, 2, readNow = { 999L },
+            ))
+            val entry = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.open",
+            ))
+            assertTrue(entry.performClick())
+            val choice = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.choice.0",
+            ))
+            assertTrue(choice.performClick())
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            assertFalse(containsPanelText(a.reviewPanel, "Revisión comercial histórica"))
+            host.close()
+        }
+    }
 }

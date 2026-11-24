@@ -202,6 +202,40 @@ internal class FaroV5W04CommercialDevTrustedSelectedHost private constructor(
         )
     }
 
+    /**
+     * F3A: this is a SECOND native foreground tap after both local READ
+     * consents and the positive owner-backed mount. It cannot substitute for
+     * the THIRD explicit tap selecting an individual historic observation.
+     * No price/summary is ever shown by offering the button itself.
+     */
+    fun offerNativeHistoricalEntryForTrustedDevHost(
+        asOfEpochMillis: Long,
+        maxObservationAgeMillis: Long,
+        requestedPackCount: Int,
+        readNow: () -> Long? = { System.currentTimeMillis() },
+    ): Boolean = synchronized(monitor) {
+        if (closed || requestedPackCount !in 1..10_000 ||
+            asOfEpochMillis < 0L ||
+            maxObservationAgeMillis !in 1L..365L * 24L * 60L * 60L * 1000L ||
+            !admitted()
+        ) return@synchronized false
+        fun freshAdmitted() = readProjectedOnce {
+            issuer.householdConsented(needId.value) &&
+                issuer.commercialConsented(productKey.value)
+        } != null
+        if (!freshAdmitted()) return@synchronized false
+        activity.reviewPanel.renderTrustedHistoricalEntry(
+            authorizedNow = { !closed && freshAdmitted() },
+            onOpen = {
+                !closed && freshAdmitted() &&
+                    presentNativeHistoricalChoicesForTrustedDevHost(
+                        asOfEpochMillis, maxObservationAgeMillis,
+                        requestedPackCount, readNow,
+                    )
+            },
+        )
+    }
+
     /** DEV F1 adapter: full source witness is checked by caller separately. */
     private fun scopedEvidenceForHistorical(
         source: ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedPortabilitySnapshot,
