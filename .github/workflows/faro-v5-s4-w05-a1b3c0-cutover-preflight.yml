@@ -1,0 +1,74 @@
+name: FARO V5 W05-A1B3C0 SQL11 DEV Pre-Cutover Admission
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverPreflight.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverPreflightTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1b3c0-cutover-preflight.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sql11-cutover-read-only-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact three-route READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          UNIT=S4_W05_A1B3C0_FBS2V8_SQL11_CUTOVER_PREFLIGHT_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run eight SQL11 read-only pre-cutover JUnit5 tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household11DevCutoverPreflightTest
+      - name: Verify original JUnit5 eight-test XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          xmls=list(Path('v5/store/generation/build/test-results/test').glob(
+            'TEST-*FaroV5Household11DevCutoverPreflightTest.xml'))
+          assert len(xmls)==1, xmls
+          suite=ElementTree.parse(xmls[0]).getroot()
+          assert tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))==(8,0,0,0)
+          assert len(suite.findall('testcase'))==8
+          print('FARO_W05_A1B3C0_SQL11_CUTOVER_READ_ONLY_XML_PASS_8_8')
+          PY
+      - name: Preserve original JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1b3c0-sql11-cutover-preflight-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/test/TEST-*FaroV5Household11DevCutoverPreflightTest.xml
