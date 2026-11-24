@@ -1,0 +1,22 @@
+# FARO V5 — W04 F3G · Aceptación global local DEV de SmartCompra · B1–B5
+
+Fecha 2026-11-24. Unidad S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE. Baseline HEAD 535c7bfc2530c90cd267446b54f80cb8c25e31cc. Aceptación de SmartCompra **limitada a aplicación aislada Android DEV** y fuente nativa al 200%. NO autoriza V2 productiva, G15, pagos ni W05/W06.
+
+## B1 — Evidencia propia y hueco real
+Certificados previos de W04: modelo/Household10 de necesidades, SQLite CAS/recibo/Undo/backup (A/B), Evidence2 manual tipado y provenance (C), carrito/presupuesto/promos hipotéticas/revisión histórica (D), panel Android DEV (E) y host owner-backed real (F1/F2). F2C1B1B1B1B: CI Android 45306039037 XML 3/3; F3A 45308808271 XML 3/3; F3B código 247adf187436964f038d01d5adc447d162febffc, CI 45311629190 XML 4/4, artefacto 14883949616 y APK SHA256 899441ac809b69ca1d2606f00b1c07414743d937d662d8c9b04df53a4ec60216. F3B B7 documento docs/v5/FARO_S4_W04_F3B_REAL_SOURCE_INTEGRAL_ANDROID_B7_PASS_20261124.md, blob 331f1221a652d43cac9d7033206456a34bbc84d0. Checkpoint 535c7bfc2530c90cd267446b54f80cb8c25e31cc, guard 45369235423 SUCCESS, writer RELEASED 1772. **No repetir t01–t13**.
+Hueco nuevo: falta aceptación integrada de W04 a **font scale 200%** con datos privados REAL Household10/Evidence2, botones y headings nativos accesibles y revocación por onPause. La Activity W04 DEV arranca inert y no es navegación de la Activity S3 ordinaria. No inferir integración productiva.
+
+## B2 — Comparación V4.4 y reuso V5
+Recuperar valor UX Chat-first y controles simples del legado V4.4, no copiar runtime. Reutilizar el panel de W04 con ScrollView y headings accessibility, issuer de dos consentimientos, host owner-backed, entrada histórica de dos taps, lease/fence y lifecycle ya certificados. W03-G ya demostró metodología de font 200% en DEV; no volver a ejecutarlo.
+
+## B3 — Investigación y alternativas
+Referencias oficiales: https://developer.android.com/guide/topics/ui/accessibility/apps ; https://developer.android.com/guide/topics/ui/accessibility/views/testing-views ; https://developer.android.com/training/testing/instrumented-tests ; https://developer.android.com/guide/components/activities/activity-lifecycle .
+A: repetir 13 pruebas previas a font 200%, DESCARTADO (duplicación). B: captura mock sin fuente, DESCARTADO. C: un único t14 real Android API35 a font 200% que ejercite inicio inert→dos permisos→entrada→elección→revisión histórica→relectura sin mutación→onPause/Resume sin resucitar, ELEGIDO. D: montar W04 sin permiso en app S3/productiva, DESCARTADO.
+
+## B4 — Dos rutas exactas autorizables
+1. v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt: **añadir solo método nuevo** t14GlobalLocalDevFont200AccessibleReviewAndReadOnly. A 200% validar Activity inicial sin permisos, panel vacío, botones nativos con contentDescription y headings accesibles, dos consentimientos reales, sesión única con Fixture ACTIVE Household10/Evidence2 schema2, abrir historial y seleccionar registro por dos clicks, importe explicitamente histórico/no cotización, fuente/puntero/needs/records inmutables, onPause revoca; onResume no muestra datos. Nada de mocks.
+2. .github/workflows/faro-v5-s4-w04-f3g-global-local-dev-android.yml: Android API35 con Java21, SDK37 y fuente 2.0 fijada por adb antes de Gradle; runner EXCLUSIVAMENTE t14; parser XML original 1/1 0 failures/errors/skipped, classname y nombre exactos; manifesto APK offline y único launcher; hashes y artefactos. Gating obligatorio 2 rutas + HEAD parent + FARO-UNIT.
+
+## B5 — Auditoría adversarial y gate
+Ningún precio antes de autorizaciones y dos taps distintos; no se confunde Evidence con Reality, histórico con precio vigente, cashback hipotético con saldo ni moneda ARS/USD. El único lease OS y pointer/fence deben seguir válidos; no duplicar fuentes. Verificar fontScale >= 1.9, controles visibles/semánticas nativas, cierre al pausar. Un Button.performClick de instrumentación no es autenticación humana real ni prueba TalkBack en Moto G15.
+B6 solo tras B1–B5 guard SUCCESS y READY exact2. B7 solo con CI original XML+APK/logs/guard de SHA exacto. Al pasar t14, W04 SmartCompra puede cerrar **alcance funcional local DEV** agrupando B7 anteriores, pero siguen pendientes integración en Chat de S3/V2, pruebas físicas, W05 recepción/stock, W06 pago compuesto y V2 productiva. Main intacta, Auto/Noche OFF, no APIs pagas.
