@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B1_RECEIPT11_BACKUP_SECTION_DEV",
   "reviewed_head": "602fe0261ed6c3626da7aaa9ab1f5135dd998b06",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B1_RECEIPT11_SECTION_JVM_XML_12_12"
   },
   "last_code_review": {
-    "sha": "f5a34e1d1aebd070cf1ccba14d281bad77c3f392",
-    "unit_id": "S4_W05_A1B0_REALITY11_SEALED_STAGE_DEV",
+    "sha": "23621ac756057fe865439c97dd9cac06a37ccdb7",
+    "unit_id": "S4_W05_A1B1_RECEIPT11_BACKUP_SECTION_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B7_PASS_20261124.md",
-        "blob_sha": "86116b76672d88e85eb6ae599b475375bf72cad4",
+        "path": "docs/v5/FARO_S4_W05_A1B1_RECEIPT11_BACKUP_SECTION_B7_PASS_20261124.md",
+        "blob_sha": "bccd6b36893cc20ba54d1dfe2d6069716922198c",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1B1 typed canonical Reality11 receipt backup section B1-B5; doc guard 45416878729 SUCCESS",
-  "how": "Only 3 new paths codec+12 tests+workflow; no FBS2v8 or restore/cutover",
+  "why": "W05 A1B1 bounded canonical Reality11 receipt section 12/12 XML CI 45417574919; READY consumed",
+  "how": "W05 A1B2A own B1-B5/guard/READY; no new code with blocked permit",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B2 authenticated FBS2 receipt section and capture/restore with independent gate",
+  "next": "W05 A1B2A authenticated FBS2 receipt section v11; B2B capture/restore and B3 cutover afterwards",
   "pre_audit_guard_run_id": 45416878729
 }
