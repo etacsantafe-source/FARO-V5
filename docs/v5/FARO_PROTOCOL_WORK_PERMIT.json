@@ -2,13 +2,8 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
-  "reviewed_head": "fa77377599fcbe1512f02fb3ad27e802c825f670",
+  "reviewed_head": "8d348c8166d08bb162d505836cae5b5bc1a7d832",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11ActiveDevReadHost.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11DevStartup.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11ActiveDevReadHostTest.kt",
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11DevStartupTest.kt",
     ".github/workflows/faro-v5-s4-w05-a1b3c1c-android-sql11-reopen.yml"
   ],
   "stages": {
@@ -16,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
-          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+          "blob_sha": "969a768c61482acbcebb2c1f080ea32509095984",
           "marker": "## B1"
         }
       ]
@@ -26,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
-          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+          "blob_sha": "969a768c61482acbcebb2c1f080ea32509095984",
           "marker": "## B2"
         }
       ]
@@ -36,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
-          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+          "blob_sha": "969a768c61482acbcebb2c1f080ea32509095984",
           "marker": "## B3"
         }
       ]
@@ -46,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
-          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+          "blob_sha": "969a768c61482acbcebb2c1f080ea32509095984",
           "marker": "## B4"
         }
       ]
@@ -56,8 +51,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
-          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+          "blob_sha": "969a768c61482acbcebb2c1f080ea32509095984",
           "marker": "## B5"
         }
       ]
@@ -66,29 +61,38 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "432e6ece49eb50d0e7a607e581eab6c975c5cac4",
-    "unit_id": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
-    "result": "PASS",
+    "sha": "39d458c84fcfddf12034d0265966a707c6c9b66e",
+    "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B7_PASS_20261124.md",
-        "blob_sha": "75dfc5be981c915e068d99fc3459d153f4e133a5",
+        "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+        "blob_sha": "969a768c61482acbcebb2c1f080ea32509095984",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A1B3C1C Android DEV host SQL11 strict full-pointer startup/reopen; B1-B5 audit fa77377599fcbe1512f02fb3ad27e802c825f670 guard45503157662 SUCCESS; prior C1B B7 XML8/8; no stock Apply or production",
-  "how": "Exactly six functional routes, require parent preflight, writer CAS and CI real with XML; fail closed if new dependencies or stale pointer",
+  "why": "RED_FIX verified Gradle task selection failure CI45506514281, no tests executed; B7 disposition for initial code sha, one workflow route only",
+  "how": "Add -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false and exact1 RED_FIX preflight as proven V2-core workflow; rerun actual CI XML, no production flags",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-24",
     "scope": "Continuar FARO V5 W05 Android DEV; V2 productiva, pagos, Auto/Noche y stock real OFF"
   },
-  "previous_unit": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
-  "previous_b7": "PASS_SCOPED_EVIDENCE1_SQL11_JOURNALED_DEV_CUTOVER_RECOVERY_ROLLBACK_XML_8_8",
-  "next": "B6 exact six paths + CI Android/Gradle XML + B7 only if actual tests PASS; Evidence2 independently, A1C stock later",
-  "pre_audit_guard_run_id": 45503157662,
+  "previous_unit": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
+  "previous_b7": "RED_FIX_TASK_SELECTION_GRADLE_NO_XML",
+  "next": "Exact-one workflow RED_FIX; test DEV unit task and XML; A1B3C1C B7 only after actual PASS, Evidence2 and A1C later; all productive OFF",
+  "pre_audit_guard_run_id": 45507100222,
   "pre_audit_head": "fa77377599fcbe1512f02fb3ad27e802c825f670",
-  "previous_ci_run_id": 45495586732
+  "previous_ci_run_id": 45495586732,
+  "red_fix": {
+    "failed_ci_run_id": 45506514281,
+    "guard_code": 45506514385,
+    "preaudit_doc": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_GRADLE_UNIT_TASK_45506514281_20261124.md",
+    "preaudit_blob": "969a768c61482acbcebb2c1f080ea32509095984",
+    "previous_document_guard": 45507100222,
+    "previous_guard_failure": "INTERIM_PERMIT_MISSING_B7_DISPOSITION",
+    "authorized_paths": 1
+  }
 }
