@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_DEV",
   "reviewed_head": "2c4ec26d6e571d305039024fb7de799fd6a5c361",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_STAGED_REALITY11_SQL_XML_10_10"
   },
   "last_code_review": {
-    "sha": "b2ce0bd786871fc9d23f21034e64f2bdc98a60d6",
-    "unit_id": "S4_W05_A0_RECEIPT_STOCK_CONTRACT_DEV",
+    "sha": "2e9c9bdf9cebc4cafcf0a0b66798c520022bb9a9",
+    "unit_id": "S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B7_PASS_20261124.md",
-        "blob_sha": "5224b42c8e5b74f493f3783be0c0cc71d008defa",
+        "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B7_PASS_20261124.md",
+        "blob_sha": "3e195fd0f76815692ce076b78ac6f23b9535f1af",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1A B1-B5 own staged schema 10-to-11; guard 45389384484 SUCCESS; exact three new paths",
-  "how": "B6 isolated stage schema + tests and XML CI, then B7 audit; NEVER migrate ACTIVE",
+  "why": "B7 PASS W05 A1A isolated Reality11 staged schema JVM XML 10/10 CI 45389909485; permit consumed",
+  "how": "No new code authorization. W05 A1B separate B1-B5/READY required",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B generation staging/backups/receipts with independent audit; W05 A1A only DDL",
+  "next": "W05 A1B sealed staged generation and backup schema11 compatibility",
   "pre_audit_guard_run_id": 45389384484
 }
