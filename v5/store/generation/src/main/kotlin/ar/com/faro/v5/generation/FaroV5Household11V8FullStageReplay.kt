@@ -30,7 +30,7 @@ internal enum class Household11FullStagePhase {
 }
 
 /**
- * W05-A1B3B1 isolated Evidence1 FBS2v8 replay. Reenters at SQL9/10/11
+ * W05-A1B3B1 Evidence1 and W05-A1B3C2A authenticated Evidence2 FBS2v8 replay. Reenters at SQL9/10/11
  * with the SAME original authenticated ciphertext pinned to operation+target.
  * All three store schemas remain inactive STAGED; never writes a pointer,
  * adopts a recovery journal or creates stock/Apply authorization.
@@ -98,8 +98,10 @@ internal class FaroV5Household11V8FullStageReplay(
                     )
             }
             val payload = authenticated.snapshot
-            if (payload.base.base.base.fourStore.commercialEvidence.schemaVersion != 1) {
-                return blocked(FiveStoreStagedRestoreBlock.INVALID_ARCHIVE) // Evidence2 unverified here.
+            val evidenceSchema = payload.base.base.base.fourStore.commercialEvidence.schemaVersion
+            if (evidenceSchema !in 1..2 || (evidenceSchema == 2 &&
+                payload.base.base.base.fourStore.commercialEvidence.stagedTyped == null)) {
+                return blocked(FiveStoreStagedRestoreBlock.INVALID_ARCHIVE)
             }
             val id = stage.descriptor.generationId
             if (payload.base.base.base.fourStore.manifest.sourceGenerationId == id) {
@@ -113,9 +115,7 @@ internal class FaroV5Household11V8FullStageReplay(
             }
             if (startVersion == 9L) {
                 try {
-                    FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(
-                        stage, allowAuxiliary3 = false,
-                    )
+                    requireFinance9EvidenceStage(stage, evidenceSchema)
                     requirePinnedStage(stage, origin)
                 } catch (_: Exception) {
                     return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
@@ -147,13 +147,13 @@ internal class FaroV5Household11V8FullStageReplay(
                     RealityHousehold10StagedFilePort.migrateTrustedStagedNine(reality)
                     forceReality(reality)
                     requirePinnedStage(stage, origin)
-                    FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+                    requireHousehold10EvidenceStage(stage, evidenceSchema)
                     afterPhase(Household11FullStagePhase.MIGRATED_TO_TEN)
                 }
                 if (startVersion <= 10L) {
                     requirePin(operationId, stage, bytes)
                     requirePinnedStage(stage, origin)
-                    FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+                    requireHousehold10EvidenceStage(stage, evidenceSchema)
                     RealityHousehold10StagedRowsRestorePort.restoreOrVerifyTrustedStagedTen(
                         reality, expectedNeeds,
                     )
@@ -165,17 +165,17 @@ internal class FaroV5Household11V8FullStageReplay(
 
                     requirePin(operationId, stage, bytes)
                     requirePinnedStage(stage, origin)
-                    FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+                    requireHousehold10EvidenceStage(stage, evidenceSchema)
                     RealityHousehold11StagedFilePort.migrateTrustedStagedTen(reality)
                     forceReality(reality)
                     requirePinnedStage(stage, origin)
-                    requireEleven(stage)
+                    requireEleven(stage, evidenceSchema)
                     afterPhase(Household11FullStagePhase.MIGRATED_TO_ELEVEN)
                 }
                 // When restarting in SQL11, verify Household10 BEFORE writing H11R.
                 requirePin(operationId, stage, bytes)
                 requirePinnedStage(stage, origin)
-                requireEleven(stage)
+                requireEleven(stage, evidenceSchema)
                 check(RealityHousehold11NeedsRowsPort.readTrustedSealedStageEleven(reality) ==
                     expectedNeeds) { "Household10 rows differ inside SQL11" }
                 val sql11 = FaroV5Household11ReceiptSql11Port(
@@ -217,14 +217,48 @@ internal class FaroV5Household11V8FullStageReplay(
         },
     )
 
-    private fun requireEleven(stage: StagedStorageGeneration) {
-        StagedSqlitePreflight.requireAll(stage.directory, listOf(
+    private fun requireFinance9EvidenceStage(stage: StagedStorageGeneration, evidence: Int) {
+        if (evidence == 2)
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptEvidence2ArchiveStage(
+                stage, allowAuxiliary3 = false,
+            )
+        else
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(
+                stage, allowAuxiliary3 = false,
+            )
+    }
+
+    private fun requireHousehold10EvidenceStage(stage: StagedStorageGeneration, evidence: Int) {
+        if (evidence == 2)
+            FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(stage)
+        else
+            FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(stage)
+    }
+
+    private fun requireEleven(stage: StagedStorageGeneration, evidence: Int) {
+        check(evidence in 1..2)
+        val schemas = mutableListOf(
             StagedSqlitePreflight.Schema(
                 GenerationStoreFiles.REALITY, 11,
                 listOf("household_need_state", "household_need",
                     "household_stock_receipt_state", "household_stock_receipt"),
             ),
-        ))
+        )
+        if (evidence == 2) {
+            // The original authenticated v8 snapshot selected Evidence2.
+            // Never silently reinterpret it as schema1 after SQL10 -> SQL11.
+            schemas += StagedSqlitePreflight.Schema(
+                GenerationStoreFiles.COMMERCIAL_EVIDENCE, 2,
+                listOf("commercial_evidence", "commercial_evidence_quote_terms"),
+                rejectTriggers = true,
+            )
+        } else {
+            schemas += StagedSqlitePreflight.Schema(
+                GenerationStoreFiles.COMMERCIAL_EVIDENCE, 1,
+                listOf("commercial_evidence"),
+            )
+        }
+        StagedSqlitePreflight.requireAll(stage.directory, schemas)
         RealityHousehold11NeedsRowsPort.readTrustedSealedStageEleven(
             stage.directory.resolve(GenerationStoreFiles.REALITY),
         )
