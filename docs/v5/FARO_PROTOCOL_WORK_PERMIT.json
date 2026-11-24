@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_DEV",
-  "reviewed_head": "e43a27596c14f1dd70a66e377838e71ed4487a8f",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3B0_FBS2V8_FIVE_STORE_BASE_REPLAY_DEV",
+  "reviewed_head": "4e18ed06bff5d91d117d2271b7d893c92c472c4a",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8RestoreAdmission.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8RestoreAdmissionTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3a-restore-admission.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8BaseReplay.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8BaseReplayTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3b0-fivestore-base-replay.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_B1_B5_20261124.md",
-          "blob_sha": "cd9b70ee5cc1849931a5d7ed625c7d37c030fc86",
+          "path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B1_B5_20261124.md",
+          "blob_sha": "67813806574748653c6512454db4b224314875f2",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_B1_B5_20261124.md",
-          "blob_sha": "cd9b70ee5cc1849931a5d7ed625c7d37c030fc86",
+          "path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B1_B5_20261124.md",
+          "blob_sha": "67813806574748653c6512454db4b224314875f2",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_B1_B5_20261124.md",
-          "blob_sha": "cd9b70ee5cc1849931a5d7ed625c7d37c030fc86",
+          "path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B1_B5_20261124.md",
+          "blob_sha": "67813806574748653c6512454db4b224314875f2",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_B1_B5_20261124.md",
-          "blob_sha": "cd9b70ee5cc1849931a5d7ed625c7d37c030fc86",
+          "path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B1_B5_20261124.md",
+          "blob_sha": "67813806574748653c6512454db4b224314875f2",
           "marker": "## B4"
         }
       ]
@@ -53,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_B1_B5_20261124.md",
-          "blob_sha": "cd9b70ee5cc1849931a5d7ed625c7d37c030fc86",
+          "path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B1_B5_20261124.md",
+          "blob_sha": "67813806574748653c6512454db4b224314875f2",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
-    "B7": "PASS_SCOPED_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_XML_8_8"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "55150d70c66e3bb2df61d0ba356d6db69cca23b6",
@@ -74,8 +75,8 @@
       }
     ]
   },
-  "why": "A1B3A read-only FBS2v8 restore admission B7 scoped CI 45437871429 XML8/8 and guard 45437871066 SUCCESS",
-  "how": "READY consumed. A1B3B full staged replay requires separate preaudit/guard/READY",
+  "why": "A1B3B0 exact v8 ciphertext durable pin + 5-store and Finance9 staged replay, after A1B3A B7 8/8; preaudit guard 45439620967 SUCCESS",
+  "how": "Implement exactly 4 code routes, parent preflight, directed XML8/8 and B7 independently; A1B3B1 SQL10/11 later",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,8 +86,8 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "A1B3B immutable archive identity + full 5-store staged replay and SQL11 receipts; A1B3C journaled cutover/reopen/recovery, A1C real stock separately",
-  "pre_audit_guard_run_id": 45437310828,
+  "next": "A1B3B0 base replay exact4; A1B3B1 H10/H11 staged migration and replay; A1B3C cutover/recovery; A1C no stock until certified",
+  "pre_audit_guard_run_id": 45439620967,
   "checkpoint_guard_run_id": 45427786640,
   "final_guard_run_id": 45437871066,
   "final_ci_run_id": 45437871429,
