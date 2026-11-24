@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_DEV",
   "reviewed_head": "e43a27596c14f1dd70a66e377838e71ed4487a8f",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_XML_8_8"
   },
   "last_code_review": {
-    "sha": "d25c369a17ce58b46e65dc4defb78755b8fc6467",
-    "unit_id": "S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_DEV",
+    "sha": "55150d70c66e3bb2df61d0ba356d6db69cca23b6",
+    "unit_id": "S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_B7_PASS_20261124.md",
-        "blob_sha": "390157c0cbdfe768132684bbe9e2ffefede4d50e",
+        "path": "docs/v5/FARO_S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_B7_PASS_20261124.md",
+        "blob_sha": "9f9084c93bd2d58a8f6ab4d56df298bdfea9e277",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A1B3A FBS2v8 restoration admission read-only under exact root lease; preaudit guard 45437310828 SUCCESS; A1B2B B7 PASS",
-  "how": "Exact3 only: admission, tests and workflow; no restore, activation or stock writes; CI JUnit8 XML, B7 scoped",
+  "why": "A1B3A read-only FBS2v8 restore admission B7 scoped CI 45437871429 XML8/8 and guard 45437871066 SUCCESS",
+  "how": "READY consumed. A1B3B full staged replay requires separate preaudit/guard/READY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "After scoped B7 A1B3B authenticated full staged replay and archive identity; A1B3C cutover/reopen/recovery; A1C apply",
+  "next": "A1B3B immutable archive identity + full 5-store staged replay and SQL11 receipts; A1B3C journaled cutover/reopen/recovery, A1C real stock separately",
   "pre_audit_guard_run_id": 45437310828,
   "checkpoint_guard_run_id": 45427786640,
-  "final_guard_run_id": 45433033648,
-  "final_ci_run_id": 45433033990,
-  "final_ci_xml": "tests=10,failures=0,errors=0,skipped=0"
+  "final_guard_run_id": 45437871066,
+  "final_ci_run_id": 45437871429,
+  "final_ci_xml": "tests=8,failures=0,errors=0,skipped=0"
 }
