@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
   "reviewed_head": "ba313fb927cd1ad96ddfba46f90d046f609f41af",
   "paths": [
@@ -57,23 +57,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_WAL_RED_FIX_GUARD_SUCCESS_CI_45509361871_XML18_18",
+    "B7": "PASS_SCOPED_ANDROID_DEV_SQL11_ACTIVE_WAL_READONLY_SECOND_REOPEN_XML_18_18"
   },
   "last_code_review": {
-    "sha": "41dab6671ae2e998bd80f17b2f16034cbadf6db5",
+    "sha": "8ffc0fa5af6df44aa295d2dc96d862aedbc6462a",
     "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-        "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5",
+        "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_ACTIVE_WAL_REOPEN_B7_PASS_20261124.md",
+        "blob_sha": "3c7b6d8454a3be0513c360d4906e58f557f16564",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Previous exact-four code CI45508825833 FAILED before Gradle because workflow count 1 or 6, doc B7 RED_FIX exact1",
-  "how": "Workflow may require count 1,4,6 AND require individual path preflight; rerun CI and XML without expanding code scope",
+  "why": "C1C Android DEV strict active SQL11 WAL-safe reopen B7 PASS scoped 18/18; original XML independent verified SHA256; no physical Android or shipping stock",
+  "how": "READY consumed to BLOCKED; Evidence2 FBS2v8 independent next. Productive V2, Auto/Noche, payments and real stock OFF.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -82,7 +82,7 @@
   },
   "previous_unit": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
   "previous_b7": "RED_FIX_CI_ROUTE_COUNT_NO_XML",
-  "next": "Workflow exact1 then Kotlin test on current WAL code; B7 scoped after XML, V2 productive and real stock OFF",
+  "next": "W05 A1B3C2 Evidence2 FBS2v8 authenticated restore/cutover separate B1-B7; then W05 A1C stock Review/Apply/Undo; A1 global OPEN",
   "pre_audit_guard_run_id": 45507100222,
   "pre_audit_head": "fa77377599fcbe1512f02fb3ad27e802c825f670",
   "previous_ci_run_id": 45495586732,
@@ -91,5 +91,10 @@
     "ci": 45508825833,
     "doc": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
     "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5"
-  }
+  },
+  "final_ci_run_id": 45509361871,
+  "final_guard_run_id": 45509361802,
+  "final_ci_xml": "18 tests,0 failures,0 errors,0 skipped",
+  "final_xml_artifact_id": 14974808496,
+  "final_xml_sha256": "2d1c33cb71b1232f9c5c3964a6c262d4af6f92314533cd3d521d40004ac0cc61"
 }
