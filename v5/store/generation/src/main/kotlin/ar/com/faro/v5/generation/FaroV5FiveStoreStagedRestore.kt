@@ -136,6 +136,21 @@ class FaroV5FiveStoreStagedRestore(
             householdArchive = archive,
         )
 
+    /** W05-A1B3B0: only the already-authenticated FBS2v8 five-store base.
+     * Original v8 ciphertext is pinned; the H10 and H11R sections are NOT replayed here.
+     * Existing public legacy/v6/v7 entrypoints remain unchanged.
+     */
+    internal fun restoreVerifiedHousehold11BaseStageOnly(
+        operationId: MaintenanceOperationId,
+        archive: AuthenticatedHousehold11RestoreArchive,
+        expectedActive: ActiveGenerationPointer,
+    ): FiveStoreStagedRestoreResult = restoreAuthenticatedImpl(
+        operationId, archive.copyEncryptedBytes(), CharArray(0),
+        allowG4StageOnly = true, allowPlanningStageOnly = true,
+        allowFinance9BaseStageOnly = true, auxiliary4Origin = expectedActive,
+        household11Archive = archive,
+    )
+
     private fun restoreAuthenticatedImpl(
         operationId: MaintenanceOperationId,
         encryptedArchive: ByteArray,
@@ -145,6 +160,7 @@ class FaroV5FiveStoreStagedRestore(
         allowFinance9BaseStageOnly: Boolean = false,
         auxiliary4Origin: ActiveGenerationPointer? = null,
         householdArchive: AuthenticatedHousehold10RestoreArchive? = null,
+        household11Archive: AuthenticatedHousehold11RestoreArchive? = null,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
@@ -157,7 +173,13 @@ class FaroV5FiveStoreStagedRestore(
                 }
                 val (backup, receiptBackup) = try {
                     val crypto = FaroV5FiveStorePortableBackupCrypto()
-                    if (householdArchive != null) {
+                    if (household11Archive != null) {
+                        checkNotNull(auxiliary4Origin)
+                        val snapshot = household11Archive.snapshot.base.base
+                        snapshot.base to AuxiliaryReceiptBackupSnapshot(
+                            snapshot.base.fourStore.auxiliary, snapshot.receipts,
+                        )
+                    } else if (householdArchive != null) {
                         checkNotNull(auxiliary4Origin)
                         val snapshot = householdArchive.snapshot.base
                         snapshot.base to AuxiliaryReceiptBackupSnapshot(
