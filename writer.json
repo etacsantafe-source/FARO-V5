@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CHAT.W04.F3G.REDFIX.READY.20261124",
-  "token_hash": "673523ccbc57d890af69e9bc3283a006517d068f83750bcaf07627d82a14862c",
+  "status": "HELD",
+  "owner": "FARO.CHAT.W04.F3G.REDFIX.READY_GATE_REPAIR.20261124",
+  "token_hash": "0c241d165e7b78cf64b63095c98dc1b2ff5df9692dd4398c7b3bf6b955baaa5d",
   "target_head": "644e424280baae68691356ef49078b5327e217d1",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1782,
-  "timestamp": 1795514655
+  "epoch": 1783,
+  "timestamp": 1795514706
 }
