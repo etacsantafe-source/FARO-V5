@@ -28,7 +28,7 @@ jobs:
           set -euo pipefail
           UNIT=S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV
           mapfile -t paths < <(git diff --name-only HEAD^ HEAD)
-          [[ "${#paths[@]}" -eq 6 || "${#paths[@]}" -eq 1 ]]
+          [[ "${#paths[@]}" -eq 6 || "${#paths[@]}" -eq 4 || "${#paths[@]}" -eq 1 ]]
           for path in "${paths[@]}"; do
             python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$path"
           done
