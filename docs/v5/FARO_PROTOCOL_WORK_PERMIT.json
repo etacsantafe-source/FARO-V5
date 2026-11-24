@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A0_RECEIPT_STOCK_CONTRACT_DEV",
   "reviewed_head": "823bf8c7ae1459f16185a2bf8cc8350d910b3f2f",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_INERT_PREVIEW_JVM_XML_10_10"
   },
   "last_code_review": {
-    "sha": "acacabd90418ba2af319b8fd2c32fb45bc1c7851",
-    "unit_id": "S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE",
+    "sha": "b2ce0bd786871fc9d23f21034e64f2bdc98a60d6",
+    "unit_id": "S4_W05_A0_RECEIPT_STOCK_CONTRACT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_B7_PASS_20261124.md",
-        "blob_sha": "3a631ca49bd563cd235dee720fd4764432955099",
+        "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B7_PASS_20261124.md",
+        "blob_sha": "5224b42c8e5b74f493f3783be0c0cc71d008defa",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B1-B5 W05 A0 inerte, guard 45386693352 SUCCESS, tres rutas nuevas exactas; NO receipt persistente ni stock activo",
-  "how": "Implementar contrato puro, tests JVM exactos y workflow; B7 con XML real antes de declarar PASS",
+  "why": "W05 A0 B7 PASS exact JVM 10/10, protocol guard 45387219544, CI 45387220139; permission consumed",
+  "how": "No further code authorized; W05 A1 separate B1-B5 and scoped READY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A0 B6 exact3, W05 A1 persistencia y autorizaciones por separado",
+  "next": "W05 A1 staged stock schema/physical receipts independent; no money or Auto; V2 productive OFF",
   "pre_audit_guard_run_id": 45386693352
 }
