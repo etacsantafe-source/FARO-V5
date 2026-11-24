@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
   "reviewed_head": "01f6009d41f95617d0425042dc6f02270c3f1a1b",
   "paths": [
@@ -61,23 +61,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_ANDROID_DEV_3_3"
   },
   "last_code_review": {
-    "sha": "01f6009d41f95617d0425042dc6f02270c3f1a1b",
+    "sha": "22c846519d7b701595719d8844428f6945ad5e43",
     "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_B7_RED_FIX2_SINGLE_MERCHANT_RECHECK_20261123.md",
-        "blob_sha": "7aac168e951f8e258d809b7c5913580681045b78",
+        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B7_PASS_20261123.md",
+        "blob_sha": "aa544d0e26ef4b3a460baf4ed72b4a6a1f6a140e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "RED_FIX2: Android 45228286538 two failures after tap; one merchant historical observation denied by multi-merchant COMPARABLE_OBSERVED_ONLY gate in F1",
-  "how": "Preserve exact comparable selected history membership and live snapshot; allow single-merchant HISTORICAL_PARTIAL in F1, add F1 to directed CI workflow trigger (2 changed routes)",
+  "why": "B7 PASS F2C1B1B1B1B API35 t04 t05 t06 XML 3/3; READY consumed",
+  "how": "No code permission inherited; F3 separate preaudit/READY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -87,6 +87,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "B6 RED_FIX2 exact2 F1+workflow; Android API35 t04,t05,t06 with original XML; B7 independently",
+  "next": "W04-F3 integral acceptance B1-B5 and new exact permit; code and CI F3 only after guard",
   "pre_audit_guard_run_id": 45223794242
 }
