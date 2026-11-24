@@ -57,8 +57,8 @@
         }
       ]
     },
-    "B6": "READY_REDFIX_SHELL_ONLY",
-    "B7": "RED_FIX_EVIDENCE_CURRENT_WAITING_RERUN"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2ec27043ad55ccc584dc8ecb59248044c4b07162",
@@ -73,7 +73,7 @@
     ]
   },
   "why": "F3G CI 45370318211 failed before Gradle: each reactivecircus script line executed separate sh -c, losing variable and cwd; previous B7 RED_FIX documented",
-  "how": "One workflow file only; replace separated shell assignment/test/cd with standalone adb shell put/get and single cd v5 && gradle command",
+  "how": "FARO protocol accepted B6 READY_TO_IMPLEMENT and B7 PENDING_FINAL_AUDIT; single-route workflow shell fix only, previous RED_FIX code2ec audit remains",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,6 +83,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "Code exact1 FARO-UNIT F3G; run Android t14 1/1, offline APK and final B7 based only on XML original",
+  "next": "Publish exact1 workflow fix after green guard and verify original Android t14 XML 1/1",
   "pre_audit_guard_run_id": 45370993723
 }
