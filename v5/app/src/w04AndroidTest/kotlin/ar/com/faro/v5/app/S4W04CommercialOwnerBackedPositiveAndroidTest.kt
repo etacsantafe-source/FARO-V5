@@ -642,4 +642,93 @@ class S4W04CommercialOwnerBackedPositiveAndroidTest {
             assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
         }
     }
+
+    /**
+     * F3G global LOCAL DEV acceptance at Android fontScale 200 percent.
+     * Uses the real private Household10/Evidence2 ACTIVE source, never mocks
+     * a price or authenticates a human through instrumented button clicks.
+     */
+    @Test fun t14GlobalLocalDevFont200AccessibleReviewAndReadOnly() {
+        lateinit var host: FaroV5W04CommercialDevTrustedSelectedHost
+        lateinit var issuer: FaroV5W04CommercialDevReadConsentIssuer
+        rule.scenario.onActivity { a ->
+            assertTrue("Android fontScale must be 200 percent",
+                a.resources.configuration.fontScale >= 1.9f)
+            assertFalse(a.hasTrustedGate())
+            assertFalse(a.hasTrustedConsentIssuer())
+            assertTrue(containsPanelText(a.reviewPanel, "Sin revisión comercial autorizada"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+
+            val f = realFixture(a)
+            issuer = consent(a, f)
+            assertTrue(a.attachTrustedConsentIssuer(issuer))
+            taps(a, issuer, household = true, commercial = true)
+            host = checkNotNull(mount(a, f, issuer))
+            val before = checkNotNull(host.readProjectedOnce {
+                issuer.householdConsented(need.value) &&
+                    issuer.commercialConsented(product.value)
+            })
+            val pointer = FileActiveGenerationPointer(f.root.toPath())
+            val initialPointer = checkNotNull(pointer.read())
+            assertEquals(f.pinned, initialPointer)
+
+            assertTrue(host.offerNativeHistoricalEntryForTrustedDevHost(
+                1000L, 200L, 2, readNow = { 1020L },
+            ))
+            val open = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.open",
+            ))
+            assertTrue(open.isShown)
+            assertTrue(open.contentDescription.toString().contains("no se selecciona"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            assertTrue(open.performClick())
+            val choice = checkNotNull(a.reviewPanel.findViewWithTag<Button>(
+                "faro.w04.historical.choice.0",
+            ))
+            assertTrue(choice.isShown)
+            assertTrue(choice.contentDescription.toString().contains("Seleccionar histórico:"))
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            assertTrue(choice.performClick())
+            assertTrue(containsPanelText(a.reviewPanel, "Revisión comercial histórica"))
+            assertTrue(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado: ARS 240.00"))
+            assertTrue(containsPanelText(a.reviewPanel, "No es una cotización vigente"))
+            assertTrue(containsPanelText(a.reviewPanel, "Importes por comercio y moneda"))
+            assertTrue(containsPanelText(a.reviewPanel, "Este resumen no modifica Finanzas"))
+            fun hasHistoricAccessibleHeading(view: View): Boolean {
+                if (view is TextView && view.isAccessibilityHeading &&
+                    view.text.toString().contains("Revisión comercial histórica")) return true
+                return view is ViewGroup && (0 until view.childCount).any {
+                    hasHistoricAccessibleHeading(view.getChildAt(it))
+                }
+            }
+            assertTrue(hasHistoricAccessibleHeading(a.reviewPanel))
+
+            val after = checkNotNull(host.readProjectedOnce {
+                issuer.householdConsented(need.value) &&
+                    issuer.commercialConsented(product.value)
+            })
+            assertEquals(before.household.revision, after.household.revision)
+            assertEquals(before.household.needs, after.household.needs)
+            assertEquals(before.evidence.records, after.evidence.records)
+            assertEquals(before.evidence.sourceWatermark, after.evidence.sourceWatermark)
+            assertEquals(before.fence, after.fence)
+            assertEquals(initialPointer, pointer.read())
+            assertFalse(after.evidence.records.any {
+                it.observation.productKey == "sku-legacy" ||
+                    it.observation.productKey == "sku-other"
+            })
+        }
+        rule.scenario.moveToState(Lifecycle.State.STARTED)
+        assertTrue(host.isClosed())
+        assertTrue(issuer.isRevoked())
+        rule.scenario.moveToState(Lifecycle.State.RESUMED)
+        rule.scenario.onActivity { a ->
+            assertTrue(a.resources.configuration.fontScale >= 1.9f)
+            assertFalse(a.hasTrustedGate())
+            assertFalse(a.hasTrustedConsentIssuer())
+            assertFalse(containsPanelText(a.reviewPanel, "Importe HISTÓRICO observado:"))
+            assertNull(a.reviewPanel.findViewWithTag<View>("faro.w04.historical.choice.0"))
+            assertNull(host.readProjectedOnce { true })
+        }
+    }
 }
