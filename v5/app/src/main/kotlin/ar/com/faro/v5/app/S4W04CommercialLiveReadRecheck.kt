@@ -99,7 +99,12 @@ internal class S4W04CommercialLiveReadRecheck(
 
         for ((live, prior) in current.lines.zip(historical.lines)) {
             val key = groupByNeed[live.needId] ?: continue
-            if (live.truncated || live.status != CommercialCartLineCoverageStatus.COMPARABLE_OBSERVED_ONLY) {
+            // D1 reserves COMPARABLE_OBSERVED_ONLY for TWO merchants. F1 may
+            // review an explicitly chosen history item from ONE merchant.
+            // The exact prior candidate MUST remain COMPARABLE_BASE_OBSERVED
+            // in live.history below (equality includes the comparison status).
+            // No lowest-price comparison or current quote is inferred.
+            if (live.truncated || live.status == CommercialCartLineCoverageStatus.NO_DATA) {
                 return Decision.Rejected(Rejection.STALE_OBSERVATION_FOR_PREVIEW)
             }
             // D3A carries the group, but omits the exact selected record. Every historical

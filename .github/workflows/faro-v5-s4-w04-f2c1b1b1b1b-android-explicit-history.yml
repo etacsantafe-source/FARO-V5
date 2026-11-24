@@ -4,6 +4,7 @@ on:
     branches: [work/s3-night-20261102]
     paths:
       - "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt"
+      - "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W04CommercialLiveReadRecheck.kt"
       - "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialReviewPanel.kt"
       - "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt"
       - ".github/workflows/faro-v5-s4-w04-f2c1b1b1b1b-android-real-owner-positive.yml"
