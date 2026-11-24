@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3B1_FBS2V8_H10_H11R_STAGED_REPLAY_DEV",
-  "reviewed_head": "af16705d6b8f2a02f6cf3bce11f3716602195de4",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3C0_FBS2V8_SQL11_CUTOVER_PREFLIGHT_DEV",
+  "reviewed_head": "8ade67e7305fb1a256bb1202aa70a1dfe218d1e9",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11NeedsRowsPort.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplayTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3b1-h10-h11r-stage.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverPreflight.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverPreflightTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3c0-cutover-preflight.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B1_B5_20261124.md",
-          "blob_sha": "1b2f8fd5d299b81665b5c8744ab76ec112728493",
+          "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "8e61f2d140fd2ee2af8197d6b3bfae409d7943fe",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B1_B5_20261124.md",
-          "blob_sha": "1b2f8fd5d299b81665b5c8744ab76ec112728493",
+          "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "8e61f2d140fd2ee2af8197d6b3bfae409d7943fe",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B1_B5_20261124.md",
-          "blob_sha": "1b2f8fd5d299b81665b5c8744ab76ec112728493",
+          "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "8e61f2d140fd2ee2af8197d6b3bfae409d7943fe",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B1_B5_20261124.md",
-          "blob_sha": "1b2f8fd5d299b81665b5c8744ab76ec112728493",
+          "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "8e61f2d140fd2ee2af8197d6b3bfae409d7943fe",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B1_B5_20261124.md",
-          "blob_sha": "1b2f8fd5d299b81665b5c8744ab76ec112728493",
+          "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "8e61f2d140fd2ee2af8197d6b3bfae409d7943fe",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_RED_FIX_GUARD_AND_JVM_CI_SUCCESS",
-    "B7": "PASS_SCOPED_W05_A1B3B1_FBS2V8_EVIDENCE1_SQL9_TO_SQL11_STAGE_XML_10_10"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "c706dc8d27c34760fa68d054a98e4a71304b4605",
@@ -75,8 +74,8 @@
       }
     ]
   },
-  "why": "W05-A1B3B1 FBS2v8 original ciphertext Evidence1 9->10 H10 10->11 H11R stages B7 scoped; guard 45445804261, JUnit 45445804222 XML10/10",
-  "how": "Consume READY; do not cutover, use Evidence2 or activate stock without separately certified gates",
+  "why": "A1B3C0 READ_ONLY SQL11 pre-cutover admission after A1B3B1 B7 XML10/10; guard 45486561982 SUCCESS",
+  "how": "Exact3 routes, no journal/pointer writes, CI8 original XML then B7 scoped",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,8 +85,8 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B3C journaled cutover/reopen/recovery under dedicated B1–B5 guard READY; Evidence2 separately; A1C stock Apply later",
-  "pre_audit_guard_run_id": 45443788587,
+  "next": "W05-A1B3C1 separate journaled SQL11 cutover/reopen/recovery under own B1–B5/READY; no Evidence2 or stock",
+  "pre_audit_guard_run_id": 45486561982,
   "checkpoint_guard_run_id": 45427786640,
   "final_guard_run_id": 45445804261,
   "final_ci_run_id": 45445804222,
