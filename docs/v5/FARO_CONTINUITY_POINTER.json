@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-24",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1B3A_B7_PASS_FBS2V8_READ_ONLY_ADMISSION_A1B3B_NEXT",
+  "phase": "S4_W05_A1B3B0_B7_PASS_FBS2V8_EVIDENCE1_STAGED9_A1B3B1_NEXT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1838
+    "epoch": 1850
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_B7_PASS_20261124.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B7_PASS_20261124.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W05 A1B3B bounded FBS2v8 full authenticated five-store STAGED replay with archive identity pin and SQL11 receipts, own B1-B5/guard/READY; A1B3C journaled cutover/reopen/recovery; W05 A1C stock Apply only after restore and crash certification",
-  "checkpoint_status": "W05_A1B3A_B7_PASS_GUARD_45437871066_CI_45437871429_XML8_8",
+  "next": "W05 A1B3B1: existing v8 original-ciphertext pin, STAGED9->10->11 migration, restore Household10 plus SQL11 H11R with crash idempotency, verify entire snapshot; correct/test Evidence2 profile separately; A1B3C journaled cutover/reopen/recovery; A1C stock Apply only after full certification; V2 productive OFF",
+  "checkpoint_status": "W05_A1B3B0_B7_PASS_GUARD_45441529015_CI_45441529195_XML8_8",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_B7_PASS_20261124.md",
-  "last_code_sha": "55150d70c66e3bb2df61d0ba356d6db69cca23b6",
-  "last_ci_run_id": 45437871429,
+  "last_handoff": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B7_PASS_20261124.md",
+  "last_code_sha": "e99015370474b97b560ed4b2852825cfc39c6dd6",
+  "last_ci_run_id": 45441529195,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_W05_A1B3A_FBS2V8_RESTORE_ADMISSION_XML_8_8",
+  "last_ci_conclusion": "SUCCESS_W05_A1B3B0_FIVE_STORE_BASE_REPLAY_EVIDENCE1_XML_8_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6915,6 +6915,35 @@
     "permit": "BLOCKED_CONSUMED",
     "writer_release_epoch": 1838,
     "scope": "FBS2V8_AUTHENTICATED_READ_ONLY_INITIAL_STAGE9_ADMISSION_ONLY_NO_REPLAY_NO_CUTOVER",
+    "productive_v2": false,
+    "auto_night": false,
+    "payments": false,
+    "real_stock": false
+  },
+  "w05_a1b3b0": {
+    "unit_id": "S4_W05_A1B3B0_FBS2V8_FIVE_STORE_BASE_REPLAY_DEV",
+    "status": "B7_PASS_SCOPED_EVIDENCE1_STAGED9_BASE_REPLAY_XML_8_8",
+    "preaudit_path": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B1_B5_20261124.md",
+    "preaudit_blob_sha": "67813806574748653c6512454db4b224314875f2",
+    "first_code_sha": "5f9df8977bc0b61d91f1a67996c177b3fd3fc7d6",
+    "initial_ci_run": 45440247314,
+    "initial_ci_status": "COMPILE_FAILURE_NO_XML_RED_FIX_DOCUMENTED",
+    "redfix_path": "docs/v5/FARO_S4_W05_A1B3B0_RED_FIX_COMPILER_45440247314_20261124.md",
+    "final_code_sha": "e99015370474b97b560ed4b2852825cfc39c6dd6",
+    "final_guard_run": 45441529015,
+    "final_ci_run": 45441529195,
+    "final_ci_job": 138613666455,
+    "xml": "tests=8,failures=0,errors=0,skipped=0",
+    "artifact_id": 14945340315,
+    "b7_document": "docs/v5/FARO_S4_W05_A1B3B0_FBS2V8_FIVESTORE_BASE_REPLAY_B7_PASS_20261124.md",
+    "permit": "BLOCKED_CONSUMED",
+    "writer_release_epoch": 1850,
+    "scope": "FBS2V8_AUTH_EVIDENCE1_FIVE_STORE_PLUS_FINANCE9_REPLAY_STAGED9_ONLY_NO_H10_H11_SQL_NO_SWITCH",
+    "evidence2_profile": "NOT_CERTIFIED_STAGE9_GENERIC_PREFLIGHT_DENIES_TYPED_NEEDS_OWN_FIX",
+    "v2_core_regression": {
+      "id": 45441529106,
+      "status": "IN_PROGRESS_NOT_CLAIMED_PASS"
+    },
     "productive_v2": false,
     "auto_night": false,
     "payments": false,
