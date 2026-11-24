@@ -1,0 +1,79 @@
+name: FARO V5 W05-A1B3C1C Android SQL11 Closed Host DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11ActiveDevReadHost.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11DevStartup.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11ActiveDevReadHostTest.kt
+      - v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11DevStartupTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1b3c1c-android-sql11-reopen.yml
+
+permissions:
+  contents: read
+
+jobs:
+  android-sql11-dev-closed-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Exact-six-route parent READY preflight
+        run: |
+          set -euo pipefail
+          UNIT=S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV
+          mapfile -t paths < <(git diff --name-only HEAD^ HEAD)
+          test "${#paths[@]}" -eq 6
+          for path in "${paths[@]}"; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$path"
+          done
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run SQL11 JVM and Android DEV tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household11ActiveDevReadHostTest \
+            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.FaroV5W05Household11DevStartupTest
+      - name: Verify JUnit XML real, zero failures
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as E
+          base=Path("v5")
+          found=list(base.glob("store/generation/build/test-results/test/TEST-*FaroV5Household11ActiveDevReadHostTest.xml"))
+          found+=list(base.glob("app/build/test-results/testV2CoreDevUnitTest/TEST-*FaroV5W05Household11DevStartupTest.xml"))
+          assert len(found)==2, found
+          totals=[0,0,0,0]
+          for p in found:
+              r=E.parse(p).getroot()
+              for i,k in enumerate(("tests","failures","errors","skipped")): totals[i]+=int(r.attrib[k])
+          assert totals[0]>=8 and totals[1:]==[0,0,0], totals
+          print("FARO_W05_A1B3C1C_ANDROID_SQL11_DEV_REOPEN_XML_PASS",totals)
+          PY
+      - name: Original XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1b3c1c-android-sql11-original-xml
+          if-no-files-found: warn
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11ActiveDevReadHostTest.xml
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*FaroV5W05Household11DevStartupTest.xml

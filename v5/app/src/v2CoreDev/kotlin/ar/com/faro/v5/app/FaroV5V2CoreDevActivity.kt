@@ -65,6 +65,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val pendingDueReadRequest = AtomicBoolean(false)
     private val pendingBookmarkReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
+    private var sql11Probe: FaroV5W05Household11DevStartup? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
     private lateinit var activityButton: Button
@@ -145,6 +146,18 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
             }
         }
         column.addView(upgradeButton)
+        // Only the two strictly isolated V2 CORE DEV package IDs offer this
+        // inspection. No SQL11 capability is added to W01/W03/S3 or shipping.
+        if (FaroV5W05Household11DevStartup.permitsIsolatedDev(
+                packageName,
+                (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0,
+                FaroV5HostCertification.V2_ACTIVE_ENABLED,
+            )) {
+            column.addView(Button(this).apply {
+                text = "Comprobar recuperación SQL11 (DEV, solo lectura)"
+                setOnClickListener { inspectCommittedSql11() }
+            })
+        }
         setContentView(ScrollView(this).apply {
             FaroV5NativeScreenInsets.protect(this)
             addView(column, ViewGroup.LayoutParams(
@@ -152,6 +165,56 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
             ))
         })
+    }
+
+    /**
+     * W05-C1C: separate from Chat and all production UI. A native foreground
+     * click closes the previous graph before trying an already-authorized
+     * SQL11 cutover's strict read-only startup/reopen. Never starts cutover.
+     */
+    private fun inspectCommittedSql11() {
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) ||
+            !opening.compareAndSet(false, true)) return
+        session?.close()
+        session = null
+        sql11Probe?.close()
+        sql11Probe = null
+        status.text = "Verificando SQL11 local, ticket, journal y cinco bases (DEV)…"
+        executor.execute {
+            val foreground = {
+                !disposed.get() && !isFinishing && !isDestroyed &&
+                    lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+            }
+            val candidate = FaroV5W05Household11DevStartup(
+                rootPath(), packageName, foreground, { session == null },
+                (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0,
+            )
+            val snapshot = runCatching { candidate.reopenReadOnly() }
+                .getOrElse {
+                    FaroV5W05Household11DevStartup.Snapshot(
+                        ar.com.faro.v5.generation.FaroV5Household11ActiveDevReadHost.Status.BLOCKED)
+                }
+            runOnUiThread {
+                try {
+                    if (!foreground()) {
+                        candidate.close()
+                    } else if (snapshot.status ==
+                        ar.com.faro.v5.generation.FaroV5Household11ActiveDevReadHost.Status.ACTIVE_ELEVEN) {
+                        sql11Probe = candidate
+                        status.text = "SQL11 DEV comprobada · necesidades " + snapshot.needs +
+                            " (rev. " + snapshot.needRevision + "), recepciones " +
+                            snapshot.receipts + " (rev. " + snapshot.receiptRevision +
+                            "). Solo lectura. Stock real permanece apagado."
+                    } else {
+                        candidate.close()
+                        status.text = "SQL11 DEV: " + snapshot.status.name +
+                            ". No se activó inventario ni se alteraron los datos."
+                    }
+                } finally {
+                    opening.set(false)
+                }
+            }
+        }
     }
 
     internal fun openLocalChat(
@@ -484,6 +547,8 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onPause() {
+        sql11Probe?.close()
+        sql11Probe = null
         sourceNavigationSequence.incrementAndGet()
         // Revoke regardless of whether Compose currently shows the Activity page.
         pendingAvisosReadRequest.set(false)
@@ -506,6 +571,8 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        sql11Probe?.close()
+        sql11Probe = null
         disposed.set(true)
         pendingAvisosReadRequest.set(false)
         pendingActivityReadRequest.set(false)
