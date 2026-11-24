@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1B3B0_FBS2V8_FIVE_STORE_BASE_REPLAY_DEV",
-  "reviewed_head": "4e18ed06bff5d91d117d2271b7d893c92c472c4a",
+  "reviewed_head": "58657308ba0be6b0ca582e7b8bf122726f68d2ba",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStoreStagedRestore.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8BaseReplay.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "55150d70c66e3bb2df61d0ba356d6db69cca23b6",
-    "unit_id": "S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_DEV",
-    "result": "PASS",
+    "sha": "5f9df8977bc0b61d91f1a67996c177b3fd3fc7d6",
+    "unit_id": "S4_W05_A1B3B0_FBS2V8_FIVE_STORE_BASE_REPLAY_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3A_AUTHENTICATED_RESTORE_ADMISSION_B7_PASS_20261124.md",
-        "blob_sha": "9f9084c93bd2d58a8f6ab4d56df298bdfea9e277",
+        "path": "docs/v5/FARO_S4_W05_A1B3B0_RED_FIX_COMPILER_45440247314_20261124.md",
+        "blob_sha": "b5d912a1d829f7c3d677780323e5bccc0e9a640d",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A1B3B0 exact v8 ciphertext durable pin + 5-store and Finance9 staged replay, after A1B3A B7 8/8; preaudit guard 45439620967 SUCCESS",
-  "how": "Implement exactly 4 code routes, parent preflight, directed XML8/8 and B7 independently; A1B3B1 SQL10/11 later",
+  "why": "A1B3B0 code compiles red at restoreUnderLease missing return line 209, run 45440247314; RED_FIX exact2 same unit",
+  "how": "Change one return token in code and workflow preflight exact2, CI JVM 8 tests XML, B7 independent",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,7 +86,7 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "A1B3B0 base replay exact4; A1B3B1 H10/H11 staged migration and replay; A1B3C cutover/recovery; A1C no stock until certified",
+  "next": "A1B3B0 RED_FIX repair exact2 then CI XML 8/8, A1B3B1 staged H10/H11 receipts later",
   "pre_audit_guard_run_id": 45439620967,
   "checkpoint_guard_run_id": 45427786640,
   "final_guard_run_id": 45437871066,
