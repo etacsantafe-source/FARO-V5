@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-24",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1B3C1C_B7_PASS_SQL11_DEV_ANDROID_ACTIVE_WAL_READONLY_REOPEN_EVIDENCE2_NEXT",
+  "phase": "S4_W05_A1B3C2A_B1_B5_PASS_READY_B6_NEXT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1903
+    "epoch": 1905
   },
   "automation": {
     "activation_authorized": false,
@@ -44,13 +44,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_ACTIVE_WAL_REOPEN_B7_PASS_20261124.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W05 A1B3C2 Evidence2 FBS2v8 restore/cutover independent B1-B7, then W05 A1C stock Review/Apply/Undo. A1 global NOT CLOSED. V2 productive, payments, Auto/Noche and real stock OFF.",
-  "checkpoint_status": "W05_A1B3C1C_B7_PASS_SCOPED_GUARD_CODE_45509361802_SUCCESS_CI_45509361871_XML18_18",
+  "next": "W05 A1B3C2A B6 Evidence2 FBS2v8 SQL11 STAGED exact3, then C2B/C2C cutover and startup independent, then A1C stock Review/Apply/Undo. A1 global OPEN; all production flags OFF.",
+  "checkpoint_status": "W05_A1B3C2A_B1_B5_GUARD_45510975074_SUCCESS_PERMIT_READY_B6_NOT_RUN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_ACTIVE_WAL_REOPEN_B7_PASS_20261124.md",
+  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
   "last_code_sha": "8ffc0fa5af6df44aa295d2dc96d862aedbc6462a",
   "last_ci_run_id": 45509361871,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -7084,5 +7084,21 @@
     "physical": "NOT_RUN",
     "stock_real_enabled": false,
     "a1_global_closed": false
+  },
+  "w05_a1b3c2a": {
+    "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
+    "block_status": "B1_B5_VERIFIED_GUARD_SUCCESS_READY_B6_NEXT",
+    "reviewed_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
+    "preaudit_doc": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+    "preaudit_blob": "e8677f70442144ec3db5a4810db637c68e579e62",
+    "guard_run_id": 45510975074,
+    "authorized_paths": [
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8Evidence2FullStageReplayTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml"
+    ],
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
+    "real_stock_enabled": false
   }
 }

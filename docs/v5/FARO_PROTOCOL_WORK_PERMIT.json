@@ -1,18 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
-  "reviewed_head": "ba313fb927cd1ad96ddfba46f90d046f609f41af",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
+  "reviewed_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
   "paths": [
-    ".github/workflows/faro-v5-s4-w05-a1b3c1c-android-sql11-reopen.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8Evidence2FullStageReplayTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-          "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
           "marker": "## B1"
         }
       ]
@@ -21,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-          "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
           "marker": "## B2"
         }
       ]
@@ -31,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-          "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
           "marker": "## B3"
         }
       ]
@@ -41,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-          "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
           "marker": "## B4"
         }
       ]
@@ -51,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
-          "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2A_EVIDENCE2_FBS2V8_SQL11_STAGE_B1_B5_20261124.md",
+          "blob_sha": "e8677f70442144ec3db5a4810db637c68e579e62",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_WAL_RED_FIX_GUARD_SUCCESS_CI_45509361871_XML18_18",
-    "B7": "PASS_SCOPED_ANDROID_DEV_SQL11_ACTIVE_WAL_READONLY_SECOND_REOPEN_XML_18_18"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "8ffc0fa5af6df44aa295d2dc96d862aedbc6462a",
@@ -72,8 +74,8 @@
       }
     ]
   },
-  "why": "C1C Android DEV strict active SQL11 WAL-safe reopen B7 PASS scoped 18/18; original XML independent verified SHA256; no physical Android or shipping stock",
-  "how": "READY consumed to BLOCKED; Evidence2 FBS2v8 independent next. Productive V2, Auto/Noche, payments and real stock OFF.",
+  "why": "C2A bounded Evidence2 FBS2v8 SQL11 STAGED replay. Previous C1C B7 PASS and guard 45510331131 success; preaudit guard 45510975074 success",
+  "how": "Only three exact paths, no runtime switch or Android Apply; parent READY preflight, single writer CAS, JVM CI/XML and B7 final",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -81,10 +83,10 @@
     "scope": "Continuar FARO V5 W05 Android DEV; V2 productiva, pagos, Auto/Noche y stock real OFF"
   },
   "previous_unit": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
-  "previous_b7": "RED_FIX_CI_ROUTE_COUNT_NO_XML",
-  "next": "W05 A1B3C2 Evidence2 FBS2v8 authenticated restore/cutover separate B1-B7; then W05 A1C stock Review/Apply/Undo; A1 global OPEN",
-  "pre_audit_guard_run_id": 45507100222,
-  "pre_audit_head": "fa77377599fcbe1512f02fb3ad27e802c825f670",
+  "previous_b7": "PASS_SCOPED_ANDROID_DEV_SQL11_ACTIVE_WAL_READONLY_SECOND_REOPEN_XML_18_18",
+  "next": "B6 exact3 Evidence2 FBS2v8 SQL11 staged replay, CI original XML and B7; C2B/C2C separate journaled cutover/active reopen; A1C stock later. V2 productive/Auto/Noche/payments/real stock OFF",
+  "pre_audit_guard_run_id": 45510975074,
+  "pre_audit_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
   "previous_ci_run_id": 45495586732,
   "red_fix": {
     "reason": "WORKFLOW_4_ROUTE_COUNT_PREFLIGHT_FAILURE",
@@ -92,9 +94,9 @@
     "doc": "docs/v5/FARO_S4_W05_A1B3C1C_RED_FIX_WAL_CI_ROUTE_COUNT_45508825833_20261124.md",
     "blob_sha": "7390b4471bc91b3721d755203ac7901e18719ac5"
   },
-  "final_ci_run_id": 45509361871,
-  "final_guard_run_id": 45509361802,
-  "final_ci_xml": "18 tests,0 failures,0 errors,0 skipped",
+  "final_ci_run_id": null,
+  "final_guard_run_id": null,
+  "final_ci_xml": null,
   "final_xml_artifact_id": 14974808496,
   "final_xml_sha256": "2d1c33cb71b1232f9c5c3964a6c262d4af6f92314533cd3d521d40004ac0cc61"
 }
