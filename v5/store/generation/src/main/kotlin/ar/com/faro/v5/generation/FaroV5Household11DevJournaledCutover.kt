@@ -334,9 +334,29 @@ internal class FaroV5Household11DevJournaledCutover private constructor(
             },
             replayFence = fence,
             projections = GenerationProjectionReconciliationPort { kind, id ->
-                // DEV only. No OS/Android projection should execute here.
-                check(kind == MaintenanceOperationKind.RESTORE && id == ticket.targetId)
+                // DEV only. No OS/Android projection is emitted.
+                // The shared coordinator MUST reconcile both the successfully
+                // selected target AND the restored origin after a failed reopen.
+                // An origin projection is valid only after rollback CAS advances
+                // the full pointer to its exact sequence+2 identity.
+                check(kind == MaintenanceOperationKind.RESTORE)
                 requireSealed(ticket)
+                val observedJournal = requireJournal(ticket)
+                val authorized = when (id) {
+                    ticket.targetId ->
+                        pointer.read() == ticket.selected &&
+                            observedJournal.phase == BootstrapPhase.HEALTH_VERIFIED
+                    ticket.origin.generationId ->
+                        pointer.read() == ticket.rolledBack &&
+                            observedJournal.phase in setOf(
+                                BootstrapPhase.ROLLED_BACK_POST_SWITCH,
+                                BootstrapPhase.ROLLBACK_VERIFIED,
+                            )
+                    else -> false
+                }
+                check(authorized) {
+                    "SQL11 DEV reconciler refuses foreign or out-of-phase generation"
+                }
             },
             preSwitchAdmission = GenerationPreSwitchAdmissionPort { kind, id ->
                 if (kind != MaintenanceOperationKind.RESTORE || id != ticket.targetId) false
