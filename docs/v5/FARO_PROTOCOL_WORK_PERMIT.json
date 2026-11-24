@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3B1_FBS2V8_H10_H11R_STAGED_REPLAY_DEV",
   "reviewed_head": "af16705d6b8f2a02f6cf3bce11f3716602195de4",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_RED_FIX_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B3B1_FBS2V8_EVIDENCE1_SQL9_TO_SQL11_STAGE_XML_10_10"
   },
   "last_code_review": {
-    "sha": "0c4e5e93ebb2f130eee2c43e62afde19e3927f44",
+    "sha": "c706dc8d27c34760fa68d054a98e4a71304b4605",
     "unit_id": "S4_W05_A1B3B1_FBS2V8_H10_H11R_STAGED_REPLAY_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3B1_RED_FIX_GENERATION_SQLITE_45444505515_20261124.md",
-        "blob_sha": "8070b4d413d85a0b5b5ffd5ccc9910f02283a163",
+        "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B7_PASS_20261124.md",
+        "blob_sha": "0b4e06563193761a13365cbd6312761e5f93c388",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A1B3B1 compilation unresolved androidx production generation, CI 45444505515 FAILURE; exact 3-route RED_FIX same unit; baseline digest code review",
-  "how": "RED_FIX 3 routes Reality SQL version reader, generation delegation + corrected digest snapshot, exact3 workflow preflight; CI JUnit 10/10 real XML then B7",
+  "why": "W05-A1B3B1 FBS2v8 original ciphertext Evidence1 9->10 H10 10->11 H11R stages B7 scoped; guard 45445804261, JUnit 45445804222 XML10/10",
+  "how": "Consume READY; do not cutover, use Evidence2 or activate stock without separately certified gates",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,10 +86,10 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "A1B3B1 repair exact3 then directed CI JUnit10 XML; A1B3C later",
+  "next": "W05 A1B3C journaled cutover/reopen/recovery under dedicated B1–B5 guard READY; Evidence2 separately; A1C stock Apply later",
   "pre_audit_guard_run_id": 45443788587,
   "checkpoint_guard_run_id": 45427786640,
-  "final_guard_run_id": 45441529015,
-  "final_ci_run_id": 45441529195,
-  "final_ci_xml": "tests=8,failures=0,errors=0,skipped=0"
+  "final_guard_run_id": 45445804261,
+  "final_ci_run_id": 45445804222,
+  "final_ci_xml": "tests=10,failures=0,errors=0,skipped=0"
 }
