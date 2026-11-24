@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_DEV",
   "reviewed_head": "befd81c86cf1eef16ab1b69c50f1885d5efe0fae",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B2A_AUTH_FBS2V8_RECEIPT11_JVM_XML_10_10"
   },
   "last_code_review": {
-    "sha": "35f1b75b46766b8bfd93164131146c71b3ab08b4",
+    "sha": "c3019e043af9c12b16c21f02c02d931828f1e20e",
     "unit_id": "S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B2A_RED_FIX_CI_45428886998_20261124.md",
-        "blob_sha": "63880c6b8dea4b3fecd8e75b0862da73db6a1fd4",
+        "path": "docs/v5/FARO_S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_B7_PASS_20261124.md",
+        "blob_sha": "3136df81629522a6abfb46d6b18b4275ce9034dc",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1B2A compile OK but 10/10 XML fail in fixture on Auxiliary3 vs required Auxiliary4, RED_FIX same unit; code 35f1b75 guard SUCCESS, CI 45428886998 failure",
-  "how": "B6 RED_FIX ONLY test fixture and workflow exact2, then CI XML10/10, B7. No unrelated functionality.",
+  "why": "W05 A1B2A authenticated FBS2v8 receipt11 B7 scoped CI45430216765 XML10/10, guard45430216723 SUCCESS; previous RED_FIX resolved",
+  "how": "READY consumed after B7 PASS; next A1B2B SQL11 own B1-B5/guard/READY before any code",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,7 +86,10 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B2A RED_FIX exact2 test + workflow, run guard and XML; scope no SQL11 restore or stock.",
+  "next": "W05 A1B2B sealed SQL11 capture/restore then A1B3 cutover/reopen; no active stock before recovery certification",
   "pre_audit_guard_run_id": 45427544745,
-  "checkpoint_guard_run_id": 45427786640
+  "checkpoint_guard_run_id": 45427786640,
+  "final_guard_run_id": 45430216723,
+  "final_ci_run_id": 45430216765,
+  "final_ci_xml": "10/10"
 }
