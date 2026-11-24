@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3C1A_FBS2V8_SQL11_DURABLE_AUTHORIZATION_DEV",
-  "reviewed_head": "30510d3d3eb2b7040aa17659270f4988708f896e",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
+  "reviewed_head": "71050c378d58b0c289fc10e3fc42382708ed6cd2",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverAuthorization.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverAuthorizationTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3c1a-authorization.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevJournaledCutover.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevJournaledCutoverTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3c1b-journaled-cutover.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B1_B5_20261124.md",
-          "blob_sha": "0bfcdbc68c660ede893859ffdd8113bca59ccf58",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
+          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B1_B5_20261124.md",
-          "blob_sha": "0bfcdbc68c660ede893859ffdd8113bca59ccf58",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
+          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B1_B5_20261124.md",
-          "blob_sha": "0bfcdbc68c660ede893859ffdd8113bca59ccf58",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
+          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B1_B5_20261124.md",
-          "blob_sha": "0bfcdbc68c660ede893859ffdd8113bca59ccf58",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
+          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1A_SQL11_DURABLE_AUTHORIZATION_B1_B5_20261124.md",
-          "blob_sha": "0bfcdbc68c660ede893859ffdd8113bca59ccf58",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
+          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
-    "B7": "PASS_SCOPED_W05_A1B3C1A_FBS2V8_EVIDENCE1_SQL11_DURABLE_PRE_CUTOVER_JOURNAL_XML_8_8"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "df55b3c4f93281b34ae4dab854fdf43b9d4b0774",
@@ -74,8 +74,8 @@
       }
     ]
   },
-  "why": "B7 PASS scoped SQL11 FBS2v8 Evidence1 durable pre-cutover ticket+PREPARING/STAGED/VALIDATED only, guard45490081297 SUCCESS CI45490081521 XML8/8",
-  "how": "READY consumed; C1B separate validated SQL11 journaled pointer switch/reopen/recovery with own protocol",
+  "why": "W05 A1B3C1B SQL11 journaled cutover DEV Evidence1 after C1A B7 8/8, preaudit 45493942595 SUCCESS",
+  "how": "Exact3 code paths; no production Android; journal/pointer CAS/restore fence + crash/rollback tests JUnit8 real XML",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,8 +85,8 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05-A1B3C1B validated SQL11 cutover + reopen/rollback fault tests, Evidence2 and Android separate; no stock Apply",
-  "pre_audit_guard_run_id": 45489475775,
+  "next": "C1C Android/startup integration and Evidence2 separate; A1C stock authorization later",
+  "pre_audit_guard_run_id": 45493942595,
   "checkpoint_guard_run_id": 45427786640,
   "final_guard_run_id": 45490081297,
   "final_ci_run_id": 45490081521,
