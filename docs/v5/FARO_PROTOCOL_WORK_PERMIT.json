@@ -1,20 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "08bb88530bfb3f3abaa1cddcbaa79707952d1916",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
+  "reviewed_head": "fa77377599fcbe1512f02fb3ad27e802c825f670",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevJournaledCutover.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3c1b-journaled-cutover.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11ActiveDevReadHost.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11DevStartup.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11ActiveDevReadHostTest.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11DevStartupTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3c1c-android-sql11-reopen.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
-          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
+          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
           "marker": "## B1"
         }
       ]
@@ -23,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
-          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
+          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
           "marker": "## B2"
         }
       ]
@@ -33,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
-          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
+          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
           "marker": "## B3"
         }
       ]
@@ -43,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
-          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
+          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
           "marker": "## B4"
         }
       ]
@@ -53,14 +56,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B1_B5_20261124.md",
-          "blob_sha": "2e39f4293f1466e65226387d5a60df0ebc360678",
+          "path": "docs/v5/FARO_S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_B1_B5_20261124.md",
+          "blob_sha": "25f8a09be80b3c23641ad78dec9b37f8eac6b6a7",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_RED_FIX_GUARD_AND_CI_SUCCESS",
-    "B7": "PASS_SCOPED_EVIDENCE1_SQL11_JOURNALED_DEV_CUTOVER_RECOVERY_ROLLBACK_XML_8_8"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "432e6ece49eb50d0e7a607e581eab6c975c5cac4",
@@ -74,21 +77,18 @@
       }
     ]
   },
-  "why": "B7 PASS C1B SQL11 DEV FBS2v8 Evidence1 journaled pointer switch crash recovery rollback; redfix callback; guard45495586735 CI45495586732 XML8/8",
-  "how": "READY consumed; future Android host SQL11 integration C1C/Evidence2 own gate; no V2 productive",
+  "why": "A1B3C1C Android DEV host SQL11 strict full-pointer startup/reopen; B1-B5 audit fa77377599fcbe1512f02fb3ad27e802c825f670 guard45503157662 SUCCESS; prior C1B B7 XML8/8; no stock Apply or production",
+  "how": "Exactly six functional routes, require parent preflight, writer CAS and CI real with XML; fail closed if new dependencies or stale pointer",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-24",
-    "scope": "Continuamos FARO V5 DEV global local acceptance; V2 productiva OFF"
+    "scope": "Continuar FARO V5 W05 Android DEV; V2 productiva, pagos, Auto/Noche y stock real OFF"
   },
-  "preaudit_guard": 45110132217,
-  "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
-  "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B3C1C Android closed-host startup/reopen integration; Evidence2 independent, A1C stock Apply later",
-  "pre_audit_guard_run_id": 45493942595,
-  "checkpoint_guard_run_id": 45427786640,
-  "final_guard_run_id": 45495586735,
-  "final_ci_run_id": 45495586732,
-  "final_ci_xml": "tests=8,failures=0,errors=0,skipped=0"
+  "previous_unit": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
+  "previous_b7": "PASS_SCOPED_EVIDENCE1_SQL11_JOURNALED_DEV_CUTOVER_RECOVERY_ROLLBACK_XML_8_8",
+  "next": "B6 exact six paths + CI Android/Gradle XML + B7 only if actual tests PASS; Evidence2 independently, A1C stock later",
+  "pre_audit_guard_run_id": 45503157662,
+  "pre_audit_head": "fa77377599fcbe1512f02fb3ad27e802c825f670",
+  "previous_ci_run_id": 45495586732
 }
