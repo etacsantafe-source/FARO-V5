@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_DEV",
-  "reviewed_head": "68458c8c290c9ea6806ea7c198323d83ccc3c135",
+  "reviewed_head": "befd81c86cf1eef16ab1b69c50f1885d5efe0fae",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Fbs2Codec.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
@@ -64,19 +64,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "23621ac756057fe865439c97dd9cac06a37ccdb7",
-    "unit_id": "S4_W05_A1B1_RECEIPT11_BACKUP_SECTION_DEV",
-    "result": "PASS",
+    "sha": "35f1b75b46766b8bfd93164131146c71b3ab08b4",
+    "unit_id": "S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B1_RECEIPT11_BACKUP_SECTION_B7_PASS_20261124.md",
-        "blob_sha": "bccd6b36893cc20ba54d1dfe2d6069716922198c",
+        "path": "docs/v5/FARO_S4_W05_A1B2A_RED_FIX_CI_45428886998_20261124.md",
+        "blob_sha": "63880c6b8dea4b3fecd8e75b0862da73db6a1fd4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1B2A preaudit B1-B5 new FBS2v8 receipt11 guard #45427544745 SUCCESS, pointer guard #45427786640 SUCCESS, exact4 scoped READY",
-  "how": "Implement ONLY 4 paths, preflight parent, run JUnit10 XML, verify real CI and independent B7, then consume permission",
+  "why": "W05 A1B2A compile OK but 10/10 XML fail in fixture on Auxiliary3 vs required Auxiliary4, RED_FIX same unit; code 35f1b75 guard SUCCESS, CI 45428886998 failure",
+  "how": "B6 RED_FIX ONLY test fixture and workflow exact2, then CI XML10/10, B7. No unrelated functionality.",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,7 +86,7 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B2A B6 exact4 then CI XML 10/10, B7; thereafter A1B2B capture/restore SQL11",
+  "next": "W05 A1B2A RED_FIX exact2 test + workflow, run guard and XML; scope no SQL11 restore or stock.",
   "pre_audit_guard_run_id": 45427544745,
   "checkpoint_guard_run_id": 45427786640
 }
