@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CHAT.W04.F3A.NATIVEENTRY.PREAUDIT.20261123",
   "token_hash": "a2a0ae5c3230f898e7f20eb67650159761f386a87c1a4a5111edda90066bb4e2",
-  "target_head": "14db0a00c3a453f1d34fbf855107e306bef7b66e",
+  "target_head": "6f7c7e00b9e0b5bc25f84f195537de341574fbe4",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1753,
-  "timestamp": 1795485201
+  "epoch": 1754,
+  "timestamp": 1795485252
 }
