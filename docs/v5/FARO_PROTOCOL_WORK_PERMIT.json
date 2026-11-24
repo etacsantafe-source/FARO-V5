@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
   "reviewed_head": "08bb88530bfb3f3abaa1cddcbaa79707952d1916",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_RED_FIX_GUARD_AND_CI_SUCCESS",
+    "B7": "PASS_SCOPED_EVIDENCE1_SQL11_JOURNALED_DEV_CUTOVER_RECOVERY_ROLLBACK_XML_8_8"
   },
   "last_code_review": {
-    "sha": "e836dd6e511e58eb99b6e98bcfb2a043bdcefb44",
+    "sha": "432e6ece49eb50d0e7a607e581eab6c975c5cac4",
     "unit_id": "S4_W05_A1B3C1B_FBS2V8_SQL11_JOURNALED_CUTOVER_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C1B_RED_FIX_ROLLBACK_PROJECTION_45494473649_20261124.md",
-        "blob_sha": "0fa9ff09c9270bc41cff7f989cbb576c918a502e",
+        "path": "docs/v5/FARO_S4_W05_A1B3C1B_SQL11_JOURNALED_CUTOVER_B7_PASS_20261124.md",
+        "blob_sha": "75dfc5be981c915e068d99fc3459d153f4e133a5",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C1B CI45494473649 JUnit8 two fail rollback projection origin rejected; exact2 RED_FIX",
-  "how": "Fix callback DEV to recognize only target selected OR origin rolledBack, 2-file code/workflow preflight; rerun JUnit8 original XML",
+  "why": "B7 PASS C1B SQL11 DEV FBS2v8 Evidence1 journaled pointer switch crash recovery rollback; redfix callback; guard45495586735 CI45495586732 XML8/8",
+  "how": "READY consumed; future Android host SQL11 integration C1C/Evidence2 own gate; no V2 productive",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "C1B RED_FIX CI8/8 -> B7, C1C Android/startup and Evidence2 separate",
+  "next": "W05 A1B3C1C Android closed-host startup/reopen integration; Evidence2 independent, A1C stock Apply later",
   "pre_audit_guard_run_id": 45493942595,
   "checkpoint_guard_run_id": 45427786640,
-  "final_guard_run_id": 45490081297,
-  "final_ci_run_id": 45490081521,
+  "final_guard_run_id": 45495586735,
+  "final_ci_run_id": 45495586732,
   "final_ci_xml": "tests=8,failures=0,errors=0,skipped=0"
 }
