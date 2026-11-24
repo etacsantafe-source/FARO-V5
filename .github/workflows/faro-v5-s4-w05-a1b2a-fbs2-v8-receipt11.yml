@@ -1,0 +1,75 @@
+name: FARO V5 W05-A1B2A FBS2v8 Receipt11 Authenticated
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Fbs2Codec.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Fbs2CodecTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1b2a-fbs2-v8-receipt11.yml
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-receipt11-v8:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Preflight exact four routes and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          UNIT=S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_DEV
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run exactly ten W05-A1B2A JUnit tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household11Fbs2CodecTest
+      - name: Inspect original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          files=list(Path('v5/store/generation/build/test-results/test').glob(
+            'TEST-*FaroV5Household11Fbs2CodecTest.xml'))
+          assert len(files)==1, files
+          suite=ElementTree.parse(files[0]).getroot()
+          actual=tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert actual==(10,0,0,0), actual
+          print('FARO_W05_A1B2A_AUTH_FBS2V8_RECEIPT11_XML_PASS_10_10')
+          PY
+      - name: Preserve original W05-A1B2A XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1b2a-fbs2v8-receipt11-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/test/TEST-*FaroV5Household11Fbs2CodecTest.xml

@@ -72,6 +72,20 @@ class FaroV5FiveStorePortableBackupCrypto(
         passphrase: CharArray,
     ): ByteArray = sealPayload(passphrase) { FaroV5Household10Fbs2Codec.encodeEvidence2(set) }
 
+
+    /** W05-A1B2A: FBS2v8 + H11R in the existing authenticated FAROBAK2 envelope. */
+    internal fun sealWithHouseholdReceipts11(
+        set: FaroV5Household11Fbs2Snapshot,
+        passphrase: CharArray,
+    ): ByteArray = sealPayload(passphrase) { FaroV5Household11Fbs2Codec.encode(set) }
+
+    /** Opening decodes a typed value only. SQL restore/cutover is NOT granted here. */
+    internal fun openWithHouseholdReceipts11(
+        archive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreAuthenticatedPayload<FaroV5Household11Fbs2Snapshot> =
+        openPayload(archive, passphrase, FaroV5Household11Fbs2Codec::decode)
+
     private fun sealPayload(passphrase: CharArray, encode: () -> ByteArray): ByteArray {
         requirePassphrase(passphrase)
         val plaintext = encode()
