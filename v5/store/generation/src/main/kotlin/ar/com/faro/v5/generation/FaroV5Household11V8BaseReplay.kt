@@ -111,7 +111,7 @@ internal class FaroV5Household11V8BaseReplay(
             return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
         }
         val originalBytes = encryptedArchive.copyOf()
-        try {
+        return try {
             val authenticated = when (
                 val opened = try {
                     AuthenticatedHousehold11RestoreArchive.open(originalBytes, passphrase)
