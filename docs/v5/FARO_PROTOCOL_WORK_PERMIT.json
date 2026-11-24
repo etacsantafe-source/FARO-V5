@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C0_FBS2V8_SQL11_CUTOVER_PREFLIGHT_DEV",
   "reviewed_head": "8ade67e7305fb1a256bb1202aa70a1dfe218d1e9",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B3C0_SQL11_READ_ONLY_CUTOVER_PREFLIGHT_XML_8_8"
   },
   "last_code_review": {
-    "sha": "c706dc8d27c34760fa68d054a98e4a71304b4605",
-    "unit_id": "S4_W05_A1B3B1_FBS2V8_H10_H11R_STAGED_REPLAY_DEV",
+    "sha": "178c9edd908feae51b2ac7af430de4213f7307e7",
+    "unit_id": "S4_W05_A1B3C0_FBS2V8_SQL11_CUTOVER_PREFLIGHT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3B1_FBS2V8_H10_H11R_FULL_STAGE_B7_PASS_20261124.md",
-        "blob_sha": "0b4e06563193761a13365cbd6312761e5f93c388",
+        "path": "docs/v5/FARO_S4_W05_A1B3C0_SQL11_CUTOVER_PREFLIGHT_B7_PASS_20261124.md",
+        "blob_sha": "eddcda6505cf642b93fa8eff8ffc6ce561e2cb13",
         "marker": "## B7"
       }
     ]
   },
-  "why": "A1B3C0 READ_ONLY SQL11 pre-cutover admission after A1B3B1 B7 XML10/10; guard 45486561982 SUCCESS",
-  "how": "Exact3 routes, no journal/pointer writes, CI8 original XML then B7 scoped",
+  "why": "B7 PASS scoped FBS2v8 SQL11 stage cutover preflight read-only Evidence1, guard45487014427 SUCCESS CI45487014676 XML8/8",
+  "how": "READY consumed; next C1 must separately implement journal/pointer/reopen/crash recovery",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,10 +85,10 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05-A1B3C1 separate journaled SQL11 cutover/reopen/recovery under own B1–B5/READY; no Evidence2 or stock",
+  "next": "W05-A1B3C1 journaled DEV SQL11 cutover/reopen/recovery, Evidence2 separately; W05-A1C stock Apply after certification",
   "pre_audit_guard_run_id": 45486561982,
   "checkpoint_guard_run_id": 45427786640,
-  "final_guard_run_id": 45445804261,
-  "final_ci_run_id": 45445804222,
-  "final_ci_xml": "tests=10,failures=0,errors=0,skipped=0"
+  "final_guard_run_id": 45487014427,
+  "final_ci_run_id": 45487014676,
+  "final_ci_xml": "tests=8,failures=0,errors=0,skipped=0"
 }
