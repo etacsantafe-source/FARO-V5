@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_DEV",
-  "reviewed_head": "befd81c86cf1eef16ab1b69c50f1885d5efe0fae",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_DEV",
+  "reviewed_head": "eb56e51e9226c02e6364f5dfc2223ed2d50a96db",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b2a-fbs2-v8-receipt11.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11ReceiptRowsPort.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11ReceiptSql11Port.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11ReceiptSql11PortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b2b-sql11-capture-restore.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_B1_B5_20261124.md",
-          "blob_sha": "6e2c49c2df37fcbabe8fc85d6f15e717cdb4f4a4",
+          "path": "docs/v5/FARO_S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_B1_B5_20261124.md",
+          "blob_sha": "f18b20bf686bfbd45e8c10f8bea5558ee215c6c9",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_B1_B5_20261124.md",
-          "blob_sha": "6e2c49c2df37fcbabe8fc85d6f15e717cdb4f4a4",
+          "path": "docs/v5/FARO_S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_B1_B5_20261124.md",
+          "blob_sha": "f18b20bf686bfbd45e8c10f8bea5558ee215c6c9",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_B1_B5_20261124.md",
-          "blob_sha": "6e2c49c2df37fcbabe8fc85d6f15e717cdb4f4a4",
+          "path": "docs/v5/FARO_S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_B1_B5_20261124.md",
+          "blob_sha": "f18b20bf686bfbd45e8c10f8bea5558ee215c6c9",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_B1_B5_20261124.md",
-          "blob_sha": "6e2c49c2df37fcbabe8fc85d6f15e717cdb4f4a4",
+          "path": "docs/v5/FARO_S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_B1_B5_20261124.md",
+          "blob_sha": "f18b20bf686bfbd45e8c10f8bea5558ee215c6c9",
           "marker": "## B4"
         }
       ]
@@ -54,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B2A_AUTH_FBS2_V8_RECEIPT11_B1_B5_20261124.md",
-          "blob_sha": "6e2c49c2df37fcbabe8fc85d6f15e717cdb4f4a4",
+          "path": "docs/v5/FARO_S4_W05_A1B2B_SQL11_SEALED_CAPTURE_RESTORE_B1_B5_20261124.md",
+          "blob_sha": "f18b20bf686bfbd45e8c10f8bea5558ee215c6c9",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
-    "B7": "PASS_SCOPED_W05_A1B2A_AUTH_FBS2V8_RECEIPT11_JVM_XML_10_10"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "c3019e043af9c12b16c21f02c02d931828f1e20e",
@@ -75,8 +75,8 @@
       }
     ]
   },
-  "why": "W05 A1B2A authenticated FBS2v8 receipt11 B7 scoped CI45430216765 XML10/10, guard45430216723 SUCCESS; previous RED_FIX resolved",
-  "how": "READY consumed after B7 PASS; next A1B2B SQL11 own B1-B5/guard/READY before any code",
+  "why": "W05 A1B2B staged SQL11 receipt rows capture/restore preaudit HEAD verified guard 45432271330 SUCCESS; previous W05 A1B2A B7 PASS 10/10",
+  "how": "Implement only four exact routes with parent preflight; run JVM XML directed and B7 independent; never activate stock",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,8 +86,8 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B2B sealed SQL11 capture/restore then A1B3 cutover/reopen; no active stock before recovery certification",
-  "pre_audit_guard_run_id": 45427544745,
+  "next": "W05 A1B2B code then B7; A1B3 authenticated full-stage restore/cutover later",
+  "pre_audit_guard_run_id": 45432271330,
   "checkpoint_guard_run_id": 45427786640,
   "final_guard_run_id": 45430216723,
   "final_ci_run_id": 45430216765,
