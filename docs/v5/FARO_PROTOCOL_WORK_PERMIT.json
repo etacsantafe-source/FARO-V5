@@ -1,21 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_DEV",
-  "reviewed_head": "6f7c7e00b9e0b5bc25f84f195537de341574fbe4",
+  "status": "READY",
+  "unit_id": "S4_W04_F3B_ACTIVE_SOURCE_INTEGRAL_ACCEPTANCE_DEV",
+  "reviewed_head": "cfc5f3d043305b17f95f3adb654b24e4384660b1",
   "paths": [
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialDevTrustedSelectedHost.kt",
-    "v5/app/src/w04CommercialDev/kotlin/ar/com/faro/v5/app/FaroV5W04CommercialReviewPanel.kt",
     "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w04-f3a-native-entry-android.yml"
+    ".github/workflows/faro-v5-s4-w04-f3b-integral-active-android.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B1_B5_20261123.md",
-          "blob_sha": "da80123e1cbdc26d366f0711ee12350fd377bf9f",
+          "path": "docs/v5/FARO_S4_W04_F3B_INTEGRAL_ACTIVE_SOURCE_ACCEPTANCE_B1_B5_20261123.md",
+          "blob_sha": "6c8b1686b1376255cb48ab024c1b21c2aaf02f75",
           "marker": "## B1"
         }
       ]
@@ -24,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B1_B5_20261123.md",
-          "blob_sha": "da80123e1cbdc26d366f0711ee12350fd377bf9f",
+          "path": "docs/v5/FARO_S4_W04_F3B_INTEGRAL_ACTIVE_SOURCE_ACCEPTANCE_B1_B5_20261123.md",
+          "blob_sha": "6c8b1686b1376255cb48ab024c1b21c2aaf02f75",
           "marker": "## B2"
         }
       ]
@@ -34,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B1_B5_20261123.md",
-          "blob_sha": "da80123e1cbdc26d366f0711ee12350fd377bf9f",
+          "path": "docs/v5/FARO_S4_W04_F3B_INTEGRAL_ACTIVE_SOURCE_ACCEPTANCE_B1_B5_20261123.md",
+          "blob_sha": "6c8b1686b1376255cb48ab024c1b21c2aaf02f75",
           "marker": "## B3"
         }
       ]
@@ -44,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B1_B5_20261123.md",
-          "blob_sha": "da80123e1cbdc26d366f0711ee12350fd377bf9f",
+          "path": "docs/v5/FARO_S4_W04_F3B_INTEGRAL_ACTIVE_SOURCE_ACCEPTANCE_B1_B5_20261123.md",
+          "blob_sha": "6c8b1686b1376255cb48ab024c1b21c2aaf02f75",
           "marker": "## B4"
         }
       ]
@@ -54,14 +52,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B1_B5_20261123.md",
-          "blob_sha": "da80123e1cbdc26d366f0711ee12350fd377bf9f",
+          "path": "docs/v5/FARO_S4_W04_F3B_INTEGRAL_ACTIVE_SOURCE_ACCEPTANCE_B1_B5_20261123.md",
+          "blob_sha": "6c8b1686b1376255cb48ab024c1b21c2aaf02f75",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_SUCCESS",
-    "B7": "PASS_SCOPED_ANDROID_DEV_3_3"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "9d2f63e046696f0df731c3c5f29acc25fe6d20df",
@@ -75,17 +73,17 @@
       }
     ]
   },
-  "why": "F3A native historical entry Android API35 3/3 PASS, READY consumed",
-  "how": "New F3B/global authorization required; no inheritance",
+  "why": "F3B novel integral safety deltas 4/4 with real same-generation SQLite/Evidence2 and native D4/E, preserving prior F3A pass",
+  "how": "Exact2 test+CI only, no changes to functional implementation; Android API35 original XML exact t10..t13, offline APK",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-23",
-    "scope": "Continuamos con producción manual en FARO V5 DEV; no V2 productiva"
+    "scope": "Continuamos FARO V5 DEV F3 integral bajo guardia, sin V2 productiva"
   },
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F3B/global integral acceptance B1-B5, scope and READY distinct; no V2 productive",
-  "pre_audit_guard_run_id": 45308425391
+  "next": "B6 F3B exact2 Android tests 4/4 and CI with original XML, then B7 independent; global F3 open",
+  "pre_audit_guard_run_id": 45311019729
 }
