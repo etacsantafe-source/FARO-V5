@@ -23,12 +23,12 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Exact-six-route parent READY preflight
+      - name: Exact-six-or-RED_FIX-one-route parent READY preflight
         run: |
           set -euo pipefail
           UNIT=S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV
           mapfile -t paths < <(git diff --name-only HEAD^ HEAD)
-          test "${#paths[@]}" -eq 6
+          [[ "${#paths[@]}" -eq 6 || "${#paths[@]}" -eq 1 ]]
           for path in "${paths[@]}"; do
             python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$path"
           done
@@ -50,6 +50,7 @@ jobs:
         working-directory: v5
         run: |
           ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
             :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household11ActiveDevReadHostTest \
             :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.FaroV5W05Household11DevStartupTest
       - name: Verify JUnit XML real, zero failures
