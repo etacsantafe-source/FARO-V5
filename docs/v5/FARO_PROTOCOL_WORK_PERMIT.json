@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE",
   "reviewed_head": "f0d069752a6dd672ecf1909f6d9b05e8757c92f4",
   "paths": [
@@ -57,23 +57,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_ANDROID_CI_SUCCESS",
+    "B7": "PASS_SCOPED_GLOBAL_LOCAL_DEV_ANDROID_1_1"
   },
   "last_code_review": {
-    "sha": "2ec27043ad55ccc584dc8ecb59248044c4b07162",
+    "sha": "acacabd90418ba2af319b8fd2c32fb45bc1c7851",
     "unit_id": "S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F3G_B7_RED_FIX_EMULATOR_SCRIPT_SCOPE_20261124.md",
-        "blob_sha": "02a2da634692faf49899cc5f9ae16e3ae9c73b9e",
+        "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_B7_PASS_20261124.md",
+        "blob_sha": "3a631ca49bd563cd235dee720fd4764432955099",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F3G CI 45370318211 failed before Gradle: each reactivecircus script line executed separate sh -c, losing variable and cwd; previous B7 RED_FIX documented",
-  "how": "FARO protocol accepted B6 READY_TO_IMPLEMENT and B7 PENDING_FINAL_AUDIT; single-route workflow shell fix only, previous RED_FIX code2ec audit remains",
+  "why": "B7 PASS F3G Android API35 t14 font200 exact original XML 1/1; code workflow RED_FIX and offline isolated APK verified",
+  "how": "READY consumed. No further code authorization; W05 its own B1-B5/READY and Chat/S3 cutover independent",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,6 +83,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "Publish exact1 workflow fix after green guard and verify original Android t14 XML 1/1",
+  "next": "W05 household stock/receipt/Cocina with separate B1-B5; W04 local DEV closed, Chat main and V2 productive remain OFF",
   "pre_audit_guard_run_id": 45370993723
 }
