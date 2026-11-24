@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A0_RECEIPT_STOCK_CONTRACT_DEV",
-  "reviewed_head": "823bf8c7ae1459f16185a2bf8cc8350d910b3f2f",
+  "status": "READY",
+  "unit_id": "S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_DEV",
+  "reviewed_head": "2c4ec26d6e571d305039024fb7de799fd6a5c361",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiptPreview.kt",
-    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiptPreviewTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a0-receipt-preview.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11ReceiptSchema.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11ReceiptSchemaTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1a-receipt-schema.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B1_B5_20261124.md",
-          "blob_sha": "417077072f769feb635ff1b151f743ffe14387ff",
+          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
+          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B1_B5_20261124.md",
-          "blob_sha": "417077072f769feb635ff1b151f743ffe14387ff",
+          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
+          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B1_B5_20261124.md",
-          "blob_sha": "417077072f769feb635ff1b151f743ffe14387ff",
+          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
+          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B1_B5_20261124.md",
-          "blob_sha": "417077072f769feb635ff1b151f743ffe14387ff",
+          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
+          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A0_RECEIPT_STOCK_CONTRACT_B1_B5_20261124.md",
-          "blob_sha": "417077072f769feb635ff1b151f743ffe14387ff",
+          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
+          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
-    "B7": "PASS_SCOPED_INERT_PREVIEW_JVM_XML_10_10"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "b2ce0bd786871fc9d23f21034e64f2bdc98a60d6",
@@ -74,8 +74,8 @@
       }
     ]
   },
-  "why": "W05 A0 B7 PASS exact JVM 10/10, protocol guard 45387219544, CI 45387220139; permission consumed",
-  "how": "No further code authorized; W05 A1 separate B1-B5 and scoped READY",
+  "why": "W05 A1A B1-B5 own staged schema 10-to-11; guard 45389384484 SUCCESS; exact three new paths",
+  "how": "B6 isolated stage schema + tests and XML CI, then B7 audit; NEVER migrate ACTIVE",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +85,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1 staged stock schema/physical receipts independent; no money or Auto; V2 productive OFF",
-  "pre_audit_guard_run_id": 45386693352
+  "next": "W05 A1B generation staging/backups/receipts with independent audit; W05 A1A only DDL",
+  "pre_audit_guard_run_id": 45389384484
 }
