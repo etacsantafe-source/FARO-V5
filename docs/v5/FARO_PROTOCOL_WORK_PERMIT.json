@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B0_REALITY11_SEALED_STAGE_DEV",
   "reviewed_head": "4cde14a0037f4f845b98cbf39de1c5659780cc7d",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
+    "B7": "PASS_SCOPED_W05_A1B0_SEALED_GENERATION_JVM_XML_8_8"
   },
   "last_code_review": {
-    "sha": "bf9cec694ce9367b063f6236f508b8c9fce7fd3b",
-    "unit_id": "S4_W05_A1A_S3_FBS1_XML8_REDFIX",
+    "sha": "f5a34e1d1aebd070cf1ccba14d281bad77c3f392",
+    "unit_id": "S4_W05_A1B0_REALITY11_SEALED_STAGE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B7_PASS_20261124.md",
-        "blob_sha": "1c2ead216fc602e5638e0b44df836129341c3948",
+        "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B7_PASS_20261124.md",
+        "blob_sha": "86116b76672d88e85eb6ae599b475375bf72cad4",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 A1B0 own B1–B5 staged five-store Reality11 sealed copy migration; doc guard 45414925915 SUCCESS",
-  "how": "Implement only exact4 staged generation migration+JVM and original JUnit XML; never cutover/activate v11",
+  "why": "W05 A1B0 sealed stage 8/8 CI 45415512280, guard 45415512256 success; READY consumed",
+  "how": "W05 A1B1 independent B1-B5/guard/READY before any further code",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B1 backup Reality11 section; W05 A1B2 archive+restore, staged cutover later",
+  "next": "W05 A1B1 typed backup section Reality11; A1B2 container+restore and A1B3 cutover later",
   "pre_audit_guard_run_id": 45414925915
 }
