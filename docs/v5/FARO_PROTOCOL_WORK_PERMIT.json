@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_DEV",
   "reviewed_head": "6f7c7e00b9e0b5bc25f84f195537de341574fbe4",
   "paths": [
@@ -60,23 +60,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "IMPLEMENTED_CI_SUCCESS",
+    "B7": "PASS_SCOPED_ANDROID_DEV_3_3"
   },
   "last_code_review": {
-    "sha": "22c846519d7b701595719d8844428f6945ad5e43",
-    "unit_id": "S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_D4E_DEV",
+    "sha": "9d2f63e046696f0df731c3c5f29acc25fe6d20df",
+    "unit_id": "S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B7_PASS_20261123.md",
-        "blob_sha": "aa544d0e26ef4b3a460baf4ed72b4a6a1f6a140e",
+        "path": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B7_PASS_20261123.md",
+        "blob_sha": "3656367f712985815e8db9e047856cd4c93a2031",
         "marker": "## B7"
       }
     ]
   },
-  "why": "F3A: native entry action missing after certified F2C1B1B1B1B t04-t06; no new owner/price authority",
-  "how": "4 exact paths; add explicit entry button and t07-t09 directed Android35; no rereun t01-t06",
+  "why": "F3A native historical entry Android API35 3/3 PASS, READY consumed",
+  "how": "New F3B/global authorization required; no inheritance",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -86,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "F3A B6 code exact4, CI Android 3/3 XML + APK; B7 independent",
+  "next": "F3B/global integral acceptance B1-B5, scope and READY distinct; no V2 productive",
   "pre_audit_guard_run_id": 45308425391
 }

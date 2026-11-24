@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-23",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W04_F2C1B1B1B1B_B7_PASS_SCOPED_ANDROID_DEV_F3_OPEN",
+  "phase": "S4_W04_F3A_NATIVE_ENTRY_B7_PASS_SCOPED_F3_GLOBAL_OPEN",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1752
+    "epoch": 1760
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/s3-night/S3_FINAL_PROGRAMMING_ENV_UNAVAILABLE_CHECKPOINT_20261113.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W04-F3 integral DEV acceptance B1-B5, exact paths+guard READY, then code CI XML B7; no repeat F2C1B1B1B1B",
-  "checkpoint_status": "F2C1B1B1B1B_45306039037_SUCCESS_XML_3_3_F3_OPEN",
+  "next": "W04-F3 integral DEV acceptance distinct B1-B5 and exact READY; no repeat F2C or F3A",
+  "checkpoint_status": "W04_F3A_CI_45308808271_SUCCESS_XML_3_3_F3_GLOBAL_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/s3-night/S3_A5_7_X04_X05_ANDROID_EXECUTION_PRECISION_V1_20261111.md",
-  "last_code_sha": "22c846519d7b701595719d8844428f6945ad5e43",
-  "last_ci_run_id": 45306039037,
+  "last_code_sha": "9d2f63e046696f0df731c3c5f29acc25fe6d20df",
+  "last_ci_run_id": 45308808271,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_F2C1B1B1B1B_ANDROID35_XML_3_3",
+  "last_ci_conclusion": "SUCCESS_W04_F3A_NATIVE_ANDROID35_XML_3_3",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -6366,7 +6366,7 @@
     "b7_document": "docs/v5/FARO_S4_W04_E_NATIVE_REVIEW_B7_PASS_20261122.md"
   },
   "w04_f": {
-    "status": "F2C1B1B1B1B_B7_PASS_F3_INTEGRAL_OPEN",
+    "status": "F3A_B7_PASS_SCOPED_F3_INTEGRAL_OPEN",
     "global": "OPEN",
     "f1": {
       "unit_id": "S4_W04_F1_AUTHORIZED_HISTORICAL_READ_COORDINATOR_DEV",
@@ -6701,5 +6701,25 @@
     "b7_document": "docs/v5/FARO_S4_W04_F2C1B1B1B1B_NATIVE_EXPLICIT_HISTORY_B7_PASS_20261123.md",
     "b7_blob_sha": "aa544d0e26ef4b3a460baf4ed72b4a6a1f6a140e",
     "next": "W04-F3 integral new authorization"
+  },
+  "s4_w04_f3a": {
+    "status": "B7_PASS_SCOPED_ANDROID_DEV",
+    "unit_id": "S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_DEV",
+    "preaudit": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B1_B5_20261123.md",
+    "preaudit_blob": "da80123e1cbdc26d366f0711ee12350fd377bf9f",
+    "preaudit_guard": 45308425391,
+    "ready_head": "107ca3b4c51ea30626e4cfeed2b3dab42e305cb5",
+    "ready_guard": 45308578571,
+    "code_sha": "9d2f63e046696f0df731c3c5f29acc25fe6d20df",
+    "guard_run": 45308808174,
+    "ci_run": 45308808271,
+    "ci_result": "SUCCESS_XML_3_3",
+    "artifact_id": 14883345925,
+    "artifact_sha256": "e8bc6979e3c6ce4b6260ba36a365623d03b5a38759e4b6445fe758dc5afa7797",
+    "apk_sha256": "558f8670cc471e18a0d22626de4f37ad52f7be6b587ce8f56ce26ac9494f73d5",
+    "b7_document": "docs/v5/FARO_S4_W04_F3A_TRUSTED_NATIVE_HISTORY_ENTRY_B7_PASS_20261123.md",
+    "b7_blob_sha": "3656367f712985815e8db9e047856cd4c93a2031",
+    "writer_release_expected_epoch": 1760,
+    "global_f3": "OPEN"
   }
 }
