@@ -1,20 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_DEV",
-  "reviewed_head": "2c4ec26d6e571d305039024fb7de799fd6a5c361",
+  "status": "READY",
+  "unit_id": "S4_W05_A1A_S3_FBS1_XML8_REDFIX",
+  "reviewed_head": "c5d9b50fa20d4c29b2fac97529320e00d7781d40",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11ReceiptSchema.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11ReceiptSchemaTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1a-receipt-schema.yml"
+    ".github/workflows/faro-v5-s3-receipt-history-directed.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
-          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
+          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
+          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
           "marker": "## B1"
         }
       ]
@@ -23,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
-          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
+          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
+          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
           "marker": "## B2"
         }
       ]
@@ -33,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
-          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
+          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
+          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
           "marker": "## B3"
         }
       ]
@@ -43,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
-          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
+          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
+          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
           "marker": "## B4"
         }
       ]
@@ -53,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_PHYSICAL_RECEIPT_STAGED_SCHEMA_B1_B5_20261124.md",
-          "blob_sha": "fffdff68bb067990ea5acd2343f4993584bbd4e4",
+          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
+          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_AND_JVM_CI_SUCCESS",
-    "B7": "PASS_SCOPED_STAGED_REALITY11_SQL_XML_10_10"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2e9c9bdf9cebc4cafcf0a0b66798c520022bb9a9",
@@ -74,8 +72,8 @@
       }
     ]
   },
-  "why": "B7 PASS W05 A1A isolated Reality11 staged schema JVM XML 10/10 CI 45389909485; permit consumed",
-  "how": "No new code authorization. W05 A1B separate B1-B5/READY required",
+  "why": "real FBS1 XML 8/8 but workflow hardcodes 4; B1-B5 and guard 45390973742 SUCCESS",
+  "how": "change only FBS1 expected count 4 to 8; run exact S3 CI and inspect XML/guard",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,6 +83,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B sealed staged generation and backup schema11 compatibility",
-  "pre_audit_guard_run_id": 45389384484
+  "next": "B7 scoped CI metadata RED_FIX, then W05 A1B",
+  "pre_audit_guard_run_id": 45390973742
 }
