@@ -1,10 +1,9 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_ACCEPTANCE",
-  "reviewed_head": "52e2003a2a9ac3932d35b012d72a9825489de44b",
+  "reviewed_head": "f0d069752a6dd672ecf1909f6d9b05e8757c92f4",
   "paths": [
-    "v5/app/src/w04AndroidTest/kotlin/ar/com/faro/v5/app/S4W04CommercialOwnerBackedPositiveAndroidTest.kt",
     ".github/workflows/faro-v5-s4-w04-f3g-global-local-dev-android.yml"
   ],
   "stages": {
@@ -12,8 +11,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_B1_B5_20261124.md",
-          "blob_sha": "4a8453640d0642afd352547bd1f755c97599075f",
+          "path": "docs/v5/FARO_S4_W04_F3G_SHELL_SCOPE_REAUDIT_B1_B5_20261124.md",
+          "blob_sha": "1fa42cd106606040f98cd02d6d3c539013e64ce4",
           "marker": "## B1"
         }
       ]
@@ -22,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_B1_B5_20261124.md",
-          "blob_sha": "4a8453640d0642afd352547bd1f755c97599075f",
+          "path": "docs/v5/FARO_S4_W04_F3G_SHELL_SCOPE_REAUDIT_B1_B5_20261124.md",
+          "blob_sha": "1fa42cd106606040f98cd02d6d3c539013e64ce4",
           "marker": "## B2"
         }
       ]
@@ -32,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_B1_B5_20261124.md",
-          "blob_sha": "4a8453640d0642afd352547bd1f755c97599075f",
+          "path": "docs/v5/FARO_S4_W04_F3G_SHELL_SCOPE_REAUDIT_B1_B5_20261124.md",
+          "blob_sha": "1fa42cd106606040f98cd02d6d3c539013e64ce4",
           "marker": "## B3"
         }
       ]
@@ -42,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_B1_B5_20261124.md",
-          "blob_sha": "4a8453640d0642afd352547bd1f755c97599075f",
+          "path": "docs/v5/FARO_S4_W04_F3G_SHELL_SCOPE_REAUDIT_B1_B5_20261124.md",
+          "blob_sha": "1fa42cd106606040f98cd02d6d3c539013e64ce4",
           "marker": "## B4"
         }
       ]
@@ -52,14 +51,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W04_F3G_GLOBAL_LOCAL_DEV_ACCESSIBILITY_B1_B5_20261124.md",
-          "blob_sha": "4a8453640d0642afd352547bd1f755c97599075f",
+          "path": "docs/v5/FARO_S4_W04_F3G_SHELL_SCOPE_REAUDIT_B1_B5_20261124.md",
+          "blob_sha": "1fa42cd106606040f98cd02d6d3c539013e64ce4",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_CI_FAIL_BEFORE_GRADLE_SHELL_SCOPE",
-    "B7": "RED_FIX_EMULATOR_SHELL_SCOPE"
+    "B6": "READY_REDFIX_SHELL_ONLY",
+    "B7": "RED_FIX_EVIDENCE_CURRENT_WAITING_RERUN"
   },
   "last_code_review": {
     "sha": "2ec27043ad55ccc584dc8ecb59248044c4b07162",
@@ -73,8 +72,8 @@
       }
     ]
   },
-  "why": "F3G CI 45370318211 FAILED before Gradle: runner executes each script line in distinct sh -c; lost local variable and cwd",
-  "how": "Consume READY and require exact1 workflow-only reaudited READY after guard",
+  "why": "F3G CI 45370318211 failed before Gradle: each reactivecircus script line executed separate sh -c, losing variable and cwd; previous B7 RED_FIX documented",
+  "how": "One workflow file only; replace separated shell assignment/test/cd with standalone adb shell put/get and single cd v5 && gradle command",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,6 +83,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "After guard publish READY exact1 from shell-scope B1-B5; workflow fix only, then rerun t14 real CI",
-  "pre_audit_guard_run_id": 45369827990
+  "next": "Code exact1 FARO-UNIT F3G; run Android t14 1/1, offline APK and final B7 based only on XML original",
+  "pre_audit_guard_run_id": 45370993723
 }
