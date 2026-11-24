@@ -186,7 +186,7 @@ internal class FaroV5Household11V8FullStageReplay(
                 )
                 afterPhase(Household11FullStagePhase.RECEIPTS11_RESTORED)
                 requirePinnedStage(stage, origin)
-                requireEleven(stage)
+                requireEleven(stage, evidenceSchema)
                 requirePin(operationId, stage, bytes)
                 check(RealityHousehold11NeedsRowsPort.readTrustedSealedStageEleven(reality) ==
                     expectedNeeds) { "Household10 SQL11 final rows mismatch" }
