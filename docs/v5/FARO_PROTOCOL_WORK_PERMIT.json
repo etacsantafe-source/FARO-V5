@@ -1,18 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1A_S3_FBS1_XML8_REDFIX",
-  "reviewed_head": "c5d9b50fa20d4c29b2fac97529320e00d7781d40",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B0_REALITY11_SEALED_STAGE_DEV",
+  "reviewed_head": "4cde14a0037f4f845b98cbf39de1c5659780cc7d",
   "paths": [
-    ".github/workflows/faro-v5-s3-receipt-history-directed.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11StagedFilePort.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11StagedMigration.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11StagedMigrationTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b0-reality11-sealed-stage.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
-          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
+          "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B1_B5_20261124.md",
+          "blob_sha": "cdc4c91865d8446a2841b9dd78c12cbd298e56fc",
           "marker": "## B1"
         }
       ]
@@ -21,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
-          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
+          "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B1_B5_20261124.md",
+          "blob_sha": "cdc4c91865d8446a2841b9dd78c12cbd298e56fc",
           "marker": "## B2"
         }
       ]
@@ -31,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
-          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
+          "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B1_B5_20261124.md",
+          "blob_sha": "cdc4c91865d8446a2841b9dd78c12cbd298e56fc",
           "marker": "## B3"
         }
       ]
@@ -41,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
-          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
+          "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B1_B5_20261124.md",
+          "blob_sha": "cdc4c91865d8446a2841b9dd78c12cbd298e56fc",
           "marker": "## B4"
         }
       ]
@@ -51,14 +54,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1A_S3_FBS1_XML8_REDFIX_B1_B5_20261124.md",
-          "blob_sha": "aa495fc1946849e8c2421b9b5228ad3ba5bb3f25",
+          "path": "docs/v5/FARO_S4_W05_A1B0_REALITY11_SEALED_GENERATION_B1_B5_20261124.md",
+          "blob_sha": "cdc4c91865d8446a2841b9dd78c12cbd298e56fc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_AND_CI_SUCCESS",
-    "B7": "PASS_SCOPED_S3_FBS1_XML8_REDFIX_21_21"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "bf9cec694ce9367b063f6236f508b8c9fce7fd3b",
@@ -72,8 +75,8 @@
       }
     ]
   },
-  "why": "S3 receipt history restored full XML 21/21 in CI 45391329067; READY consumed",
-  "how": "W05 A1B own B1-B5/READY. Current permission is BLOCKED",
+  "why": "W05 A1B0 own B1–B5 staged five-store Reality11 sealed copy migration; doc guard 45414925915 SUCCESS",
+  "how": "Implement only exact4 staged generation migration+JVM and original JUnit XML; never cutover/activate v11",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,6 +86,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "W05 A1B staged generation + backup Reality11, separate authorization",
-  "pre_audit_guard_run_id": 45390973742
+  "next": "W05 A1B1 backup Reality11 section; W05 A1B2 archive+restore, staged cutover later",
+  "pre_audit_guard_run_id": 45414925915
 }
