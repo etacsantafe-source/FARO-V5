@@ -58,23 +58,23 @@
         }
       ]
     },
-    "B6": "IMPLEMENTED_GUARD_PASS_CI_RUNNING",
-    "B7": "RED_FIX_EVIDENCE_PENDING_NOT_ANDROID_RESULT"
+    "B6": "IMPLEMENTED_GUARD_AND_ANDROID_CI_SUCCESS",
+    "B7": "PASS_SCOPED_ANDROID_DEV_4_4"
   },
   "last_code_review": {
     "sha": "247adf187436964f038d01d5adc447d162febffc",
     "unit_id": "S4_W04_F3B_ACTIVE_SOURCE_INTEGRAL_ACCEPTANCE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W04_F3B_B7_RED_FIX_EVIDENCE_PENDING_20261123.md",
-        "blob_sha": "9a9b984fcde02c8392316503ba48955035f2a82a",
+        "path": "docs/v5/FARO_S4_W04_F3B_REAL_SOURCE_INTEGRAL_ANDROID_B7_PASS_20261124.md",
+        "blob_sha": "331f1221a652d43cac9d7033206456a34bbc84d0",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B7 cannot certify until directed Android run 45311629190 ends; intermediate pointer guard 45313699043 failed due missing previous code B7 disposition",
-  "how": "Preserve two-route code and required CI; no new code until actual XML; reissue exact READY only if code RED_FIX needed",
+  "why": "F3B B7 PASS verified 4/4 on real Android35, original XML checked by CI; previous RED_FIX was missing evidence",
+  "how": "No READY granted. F3 global new B1-B5 and strict exact scoped permission required",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,6 +84,6 @@
   "preaudit_guard": 45110132217,
   "previous_unit": "S4_W04_F2B2C_TYPED_JOURNALED_CUTOVER_DEV",
   "previous_b7": "PASS_SCOPED_TYPED_EVIDENCE2_JOURNALED_DEV_6_6",
-  "next": "Check Android run 45311629190 + XML, then doc-only PASS B7 if green or B1-B5 exact RED_FIX code if tests fail",
+  "next": "F3 global integration acceptance/next unit independent; no repeats t01-t13",
   "pre_audit_guard_run_id": 45311019729
 }
