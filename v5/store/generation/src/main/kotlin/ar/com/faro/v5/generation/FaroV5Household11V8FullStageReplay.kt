@@ -1,9 +1,5 @@
 package ar.com.faro.v5.generation
 
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
-import androidx.sqlite.driver.bundled.SQLITE_OPEN_READONLY
-import androidx.sqlite.driver.bundled.SQLITE_OPEN_URI
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.maintenance.FileRestoreArchiveIdentity
@@ -111,7 +107,6 @@ internal class FaroV5Household11V8FullStageReplay(
             }
             val reality = stage.directory.resolve(GenerationStoreFiles.REALITY)
             val expectedNeeds = payload.base.household.asRows()
-            val beforeOthers = digestOtherStores(stage)
             val startVersion = schemaVersion(reality)
             if (startVersion !in 9..11) {
                 return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
@@ -143,6 +138,9 @@ internal class FaroV5Household11V8FullStageReplay(
                     return blocked(FiveStoreStagedRestoreBlock.ARCHIVE_IDENTITY_CONFLICT)
                 }
             }
+            // The baseline must be captured AFTER the certified B0 base replay;
+            // before that, four other stores still legitimately contain fresh data.
+            val beforeOthers = digestOtherStores(stage)
             try {
                 if (startVersion == 9L) {
                     requirePinnedStage(stage, origin)
@@ -237,15 +235,7 @@ internal class FaroV5Household11V8FullStageReplay(
     }
 
     private fun schemaVersion(file: Path): Long =
-        BundledSQLiteDriver().open(
-            file.toUri().toString() + "?mode=ro&immutable=1",
-            SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
-        ).use { db ->
-            db.prepare("PRAGMA user_version").use { stmt ->
-                check(stmt.step())
-                stmt.getLong(0)
-            }
-        }
+        RealityHousehold11NeedsRowsPort.readTrustedSealedSchemaVersion(file)
 
     private fun requirePinnedStage(stage: StagedStorageGeneration, origin: ActiveGenerationPointer) {
         assertExclusiveClosedDevHost()

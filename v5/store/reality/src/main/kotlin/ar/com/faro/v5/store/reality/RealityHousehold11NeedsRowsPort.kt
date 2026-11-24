@@ -12,6 +12,25 @@ import java.nio.file.Path
  * The generation owner must pin host, pointer, identity, and exclude ACTIVE.
  */
 object RealityHousehold11NeedsRowsPort {
+    /** Validated SQL user_version from a canonical, sealed SQLite file.
+     * This read-only Reality port is also used BEFORE a staged SQL10/11 upgrade.
+     * The owning generation coordinator checks its five-file lease/identity.
+     */
+    fun readTrustedSealedSchemaVersion(file: Path): Long {
+        val physical = Household11ReceiptRowsSql.checkFile(file)
+        return BundledSQLiteDriver().open(
+            physical.toUri().toString() + "?mode=ro&immutable=1",
+            SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
+        ).use { db ->
+            db.prepare("PRAGMA user_version").use { stmt ->
+                check(stmt.step() && !stmt.isNull(0))
+                val version = stmt.getLong(0)
+                check(!stmt.step()) { "Reality staged schema version ambiguous" }
+                version
+            }
+        }
+    }
+
     fun readTrustedSealedStageEleven(file: Path): RealityHousehold10Rows {
         val physical = Household11ReceiptRowsSql.checkFile(file)
         return BundledSQLiteDriver().open(
