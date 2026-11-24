@@ -69,7 +69,7 @@ jobs:
               raise SystemExit(f'S3_FINANCE_ACTIVITY_XML_FAIL {counts}')
           print('S3_FINANCE_ACTIVITY_XML_PASS 3/3')
           checks = [
-              ('v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.SemanticBackupRestoreT2Test.xml', 4, 'FBS1_RESTORE'),
+              ('v5/maintenance/build/test-results/test/TEST-ar.com.faro.v5.maintenance.SemanticBackupRestoreT2Test.xml', 8, 'FBS1_RESTORE'),
               ('v5/store/generation/build/test-results/test/TEST-ar.com.faro.v5.generation.FaroV5FiveStoreSemanticCodecT2Test.xml', 7, 'FBS2_SEMANTIC'),
           ]
           for path, expected, label in checks:
