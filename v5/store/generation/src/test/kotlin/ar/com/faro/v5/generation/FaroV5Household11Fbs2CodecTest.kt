@@ -2,6 +2,15 @@ package ar.com.faro.v5.generation
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
+import ar.com.faro.v5.delivery.api.DestinationRef
+import ar.com.faro.v5.delivery.api.NoticeAttention
+import ar.com.faro.v5.delivery.api.NoticeCandidate
+import ar.com.faro.v5.delivery.api.NoticeKey
+import ar.com.faro.v5.delivery.api.NoticeMateriality
+import ar.com.faro.v5.delivery.api.NoticeSensitivity
+import ar.com.faro.v5.delivery.api.NoticeSummary
+import ar.com.faro.v5.delivery.api.OccurrenceRef
+import ar.com.faro.v5.delivery.api.SourceRef
 import ar.com.faro.v5.evidence.CommercialEvidenceBackupPort
 import ar.com.faro.v5.evidence.CommercialEvidenceBackupSnapshot
 import ar.com.faro.v5.evidence.CommercialEvidenceStagedTypedBackupSnapshot
@@ -191,6 +200,22 @@ class FaroV5Household11Fbs2CodecTest {
         )
         BundledSQLiteDriver().open(stage.directory.resolve(GenerationStoreFiles.REALITY).toString()).use {
             it.execSQL("INSERT INTO finance_budget_limit VALUES('2026-11','Comida','ARS',300000,1,1000,'HUMAN')")
+        }
+        // The FBS2v5 capture requires a real AUXILIARY4 staged schema.
+        // Reuse the original bounded local Notice receipt test transition.
+        FaroV5GenerationStoreGraph.openQuarantinedAuxiliaryReceiptV4Stage(stage, pointer).use { owner ->
+            val notice = owner.routeReminderLocalOnly(NoticeCandidate(
+                NoticeKey.of("reminder:w05-a1b2a-occ"),
+                SourceRef.of("reminder:w05-a1b2a-rule"),
+                OccurrenceRef.of("w05-a1b2a-occ"),
+                NoticeMateriality.NOTICE,
+                NoticeSensitivity.NORMAL,
+                NoticeSummary.of("Aviso local de prueba"),
+                DestinationRef.of("faro:avisos.local"),
+            )) { true }.notice
+            owner.mutateReminderNoticeAttentionWithReceipt(
+                "w05-a1b2a-notice-seen", notice.noticeId, 1L, NoticeAttention.SEEN,
+            ) { true }
         }
         val previousArchive = FaroV5Auxiliary4ArchiveCoordinator(root, lease).captureAuthenticated(
             MaintenanceOperationId("capture-archive-source"), BackupSetId("household-archive"),
