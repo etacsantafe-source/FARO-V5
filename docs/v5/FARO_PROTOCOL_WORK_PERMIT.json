@@ -1,9 +1,13 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
+  "status": "READY",
   "unit_id": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
-  "reviewed_head": "8c8d5f004723eed664bcd58fd891e5c6e66b27c7",
-  "paths": [],
+  "reviewed_head": "e76a76625fffbe959b3e816283ea2cc170294b18",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchema.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchemaTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c0b0-purchase-schema.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -55,17 +59,17 @@
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
+    "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "20d6f39b8cd9e8e00e494ed963f06bb520244d0c",
-    "unit_id": "S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT",
-    "result": "PASS",
+    "sha": "e76a76625fffbe959b3e816283ea2cc170294b18",
+    "unit_id": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0A_B7_PASS_STOCK_RECEIVE_DEV_ADMISSION_20261125.md",
-        "blob_sha": "a212b3680d17bedcfcdf7702e6b0c17cfcf7360e",
+        "path": "docs/v5/FARO_S4_W05_A1C0B0_RED_FIX_SQL_REFERENCE_20261125.md",
+        "blob_sha": "cb7fcfd318f4e272c4593c7b8bb3b0b08e00a981",
         "marker": "## B7"
       }
     ]
@@ -73,8 +77,8 @@
   "pre_audit_guard_run_id": 45537960843,
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "B6 publicado en tres rutas. Pendiente XML original y B7.",
+  "why": "Correct internal SQL validator references, unchanged migration and acceptance",
   "next": "B6 exact3 and JUnit6 XML, then B7",
   "last_ci_run_id": 45538291237,
-  "last_ci_conclusion": "IN_PROGRESS"
+  "last_ci_conclusion": "FAILURE_KOTLIN_UNRESOLVED_REFERENCE"
 }
