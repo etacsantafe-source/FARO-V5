@@ -2,10 +2,8 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT",
-  "reviewed_head": "53ebd46fbb667019b39df016386efc0965cfe126",
+  "reviewed_head": "d16458174bb92c403dfa59239c90745a513a09c7",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveDevAdmission.kt",
-    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveDevAdmissionTest.kt",
     ".github/workflows/faro-v5-s4-w05-a1c0a-stock-receive-admission.yml"
   ],
   "stages": {
@@ -63,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "2d0e383878f4a1bbfe59ffe95d06c42d01a3e26e",
-    "unit_id": "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV",
-    "result": "PASS",
+    "sha": "d16458174bb92c403dfa59239c90745a513a09c7",
+    "unit_id": "S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2C1_B7_PASS_ANDROID_EVIDENCE2_ACTIVE_20261125.md",
-        "blob_sha": "a39b59c6a463d564efd3ffa72745c0fe2a89e819",
+        "path": "docs/v5/FARO_S4_W05_A1C0A_RED_FIX_WORKFLOW_20261125.md",
+        "blob_sha": "14ca10d0f7915ce6a670c4564fe93a66ecd9d5ce",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C2C1 PASS scoped XML9/9 CI45531217759 guard45531217764; A1C0A inert admission-only B1-B5 blob exact; guard documentation 45533664853 SUCCESS; no purchase source certified",
-  "how": "B6 only exact3 typed inert contract / JUnit8 / targeted CI; B7 and consume READY; A1C0B purchase durable provenance must be independently audited before stock mutation",
+  "why": "Run 45534679102 rejected invalid permission key; workflow-only RED_FIX",
+  "how": "Fix contents key and exact parent READY scope for the workflow-only correction",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -93,8 +91,8 @@
   "final_ci_xml": "XML9_9_ZERO_FAILURES_ERRORS_SKIPS_JVM6_ANDROID3",
   "final_xml_artifact_id": 14985746883,
   "final_xml_sha256": "a82a5278e1938d5b389fcb35496f606eeb1d8c653a100128cbff3677e7f43b2e",
-  "last_ci_run_id": 45531217759,
-  "last_ci_conclusion": "SUCCESS_XML9_9",
+  "last_ci_run_id": 45534679102,
+  "last_ci_conclusion": "FAILURE_INVALID_WORKFLOW_YAML",
   "metadata_reconciliation": {
     "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
     "verified_success_run_id": 45522706065,
