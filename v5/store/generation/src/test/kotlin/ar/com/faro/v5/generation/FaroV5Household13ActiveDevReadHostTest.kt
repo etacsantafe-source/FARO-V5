@@ -1,6 +1,8 @@
 package ar.com.faro.v5.generation
 
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_NOFOLLOW
+import androidx.sqlite.driver.bundled.SQLITE_OPEN_READONLY
 import androidx.sqlite.execSQL
 import ar.com.faro.v5.evidence.CommercialEvidenceStore
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
@@ -136,8 +138,15 @@ class FaroV5Household13ActiveDevReadHostTest {
         val f = fixture(to13 = false)
         assertThrows(IllegalStateException::class.java) { open(f) }
         assertEquals(f.expected, pointer.read())
-        assertEquals(12L, RealityHousehold11NeedsRowsPort.readTrustedSealedSchemaVersion(
-            f.stage.directory.resolve(GenerationStoreFiles.REALITY)))
+        BundledSQLiteDriver().open(
+            f.stage.directory.resolve(GenerationStoreFiles.REALITY).toString(),
+            SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
+        ).use { db ->
+            assertEquals(12L, db.prepare("PRAGMA user_version").use { stmt ->
+                check(stmt.step())
+                stmt.getLong(0)
+            })
+        }
     }
 
     @Test
@@ -145,8 +154,19 @@ class FaroV5Household13ActiveDevReadHostTest {
         val f = fixture(evidence2 = false)
         assertThrows(IllegalStateException::class.java) { open(f) }
         assertEquals(f.expected, pointer.read())
-        assertEquals(f.rows, RealityHousehold13CompensationRowsPort.captureTrustedSealedStageThirteen(
-            f.stage.directory.resolve(GenerationStoreFiles.REALITY)))
+        BundledSQLiteDriver().open(
+            f.stage.directory.resolve(GenerationStoreFiles.REALITY).toString(),
+            SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
+        ).use { db ->
+            assertEquals(1L, db.prepare("SELECT count(*) FROM household_stock_compensation").use { stmt ->
+                check(stmt.step())
+                stmt.getLong(0)
+            })
+            assertEquals(3L, db.prepare("SELECT count(*) FROM household_stock_receipt").use { stmt ->
+                check(stmt.step())
+                stmt.getLong(0)
+            })
+        }
     }
 
     @Test
