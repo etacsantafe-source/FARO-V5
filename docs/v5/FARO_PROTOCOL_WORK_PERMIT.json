@@ -1,19 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
-  "reviewed_head": "5a99cdfcb32c296b872938280d221740f6fb0e4b",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_DEV",
+  "reviewed_head": "b759bbef7e8695dfceb0279a94bb8424e75e7688",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8BaseReplay.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverPreflight.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2CutoverPreflightTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3c2b0-evidence2-preflight.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
-          "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "56c72f9c80159ba620f61e3c38c1d4b0f30e2cf0",
           "marker": "## B1"
         }
       ]
@@ -22,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
-          "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "56c72f9c80159ba620f61e3c38c1d4b0f30e2cf0",
           "marker": "## B2"
         }
       ]
@@ -32,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
-          "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "56c72f9c80159ba620f61e3c38c1d4b0f30e2cf0",
           "marker": "## B3"
         }
       ]
@@ -42,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
-          "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "56c72f9c80159ba620f61e3c38c1d4b0f30e2cf0",
           "marker": "## B4"
         }
       ]
@@ -52,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
-          "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_B1_B5_20261124.md",
+          "blob_sha": "56c72f9c80159ba620f61e3c38c1d4b0f30e2cf0",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_IMPLEMENTED",
-    "B7": "PASS_SCOPED_16_16_XML"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "25fb05a31dde9f692f3212f21aa21243b5c7cf21",
@@ -73,19 +74,19 @@
       }
     ]
   },
-  "why": "C2A Evidence2 SQL11 STAGED passed 16/16 XML on CI45514567419 attempt2; separate B0 historical trigger failed preflight only",
-  "how": "B7 PASS scoped, permit consumed. Require independent B1–B5 READY for C2B and C2C",
+  "why": "W05 C2A 16/16 B7 PASS, Evidence2 cutover preflight needs independently typed-only READ_ONLY schema inspection; avoid cutover until sealed typed semantics and durable auth",
+  "how": "Exact3 C2B0: existing C0 preflight with opt-in schema=2, new isolated JVM tests and directed workflow; preserve C0 default Evidence1",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-24",
     "scope": "Continuar FARO V5 W05 Android DEV; V2 productiva, pagos, Auto/Noche y stock real OFF"
   },
-  "previous_unit": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
-  "previous_b7": "PASS_SCOPED_ANDROID_DEV_SQL11_ACTIVE_WAL_READONLY_SECOND_REOPEN_XML_18_18",
-  "next": "C2B Evidence2 cutover preflight B1–B5 and new READY; C2C recovery/reopen later; A1 global OPEN, no stock real",
-  "pre_audit_guard_run_id": 45510975074,
-  "pre_audit_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
+  "previous_unit": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
+  "previous_b7": "PASS_SCOPED_EVIDENCE2_SQL11_STAGED_16_16",
+  "next": "B6 exact3 C2B0 READ_ONLY preflight; CI XML+B7; then C2B1 typed semantic read-back and durable authorization. No cutover or stock activation",
+  "pre_audit_guard_run_id": 45517528045,
+  "pre_audit_head": "b759bbef7e8695dfceb0279a94bb8424e75e7688",
   "previous_ci_run_id": 45495586732,
   "red_fix": {
     "reason": "B0_PRE_AUTH_EVIDENCE2_STAGE_REJECTED",
@@ -94,9 +95,9 @@
     "document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
     "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9"
   },
-  "final_ci_run_id": 45514567419,
-  "final_guard_run_id": 45514567307,
-  "final_ci_xml": "EVIDENCE2_6_6_EVIDENCE1_10_10_TOTAL_16_16_ZERO_FAILURES_ERRORS_SKIPS",
-  "final_xml_artifact_id": 14976404131,
+  "final_ci_run_id": null,
+  "final_guard_run_id": null,
+  "final_ci_xml": null,
+  "final_xml_artifact_id": null,
   "final_xml_sha256": null
 }
