@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT",
-  "reviewed_head": "d16458174bb92c403dfa59239c90745a513a09c7",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
+  "reviewed_head": "8c8d5f004723eed664bcd58fd891e5c6e66b27c7",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchema.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchemaTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c0b0-purchase-schema.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
-          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_B1_B5_20261125.md",
+          "blob_sha": "e72cc458c6b4c71337c72311fd2d9d6bdca33542",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
-          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_B1_B5_20261125.md",
+          "blob_sha": "e72cc458c6b4c71337c72311fd2d9d6bdca33542",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
-          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_B1_B5_20261125.md",
+          "blob_sha": "e72cc458c6b4c71337c72311fd2d9d6bdca33542",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
-          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_B1_B5_20261125.md",
+          "blob_sha": "e72cc458c6b4c71337c72311fd2d9d6bdca33542",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
-          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_B1_B5_20261125.md",
+          "blob_sha": "e72cc458c6b4c71337c72311fd2d9d6bdca33542",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_CI_XML_8_8",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "20d6f39b8cd9e8e00e494ed963f06bb520244d0c",
@@ -70,33 +74,9 @@
       }
     ]
   },
-  "why": "A1C0A B7 PASS scoped; permit consumed; A1C0B requires separate READY",
-  "how": "Fix contents key and exact parent READY scope for the workflow-only correction",
+  "pre_audit_guard_run_id": 45537960843,
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "user_authorization": {
-    "date_local": "2026-11-24",
-    "scope": "Preparar camino A1C DEV para Work, sin iniciar stock Apply ni V2 productiva; contrato A1C0A solo sin efectos"
-  },
-  "previous_unit": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
-  "previous_b7": "PASS_SCOPED_22_22_XML",
-  "next": "A1C0B audit exact routes and separate READY",
-  "pre_audit_guard_run_id": 45533664853,
-  "pre_audit_head": "53ebd46fbb667019b39df016386efc0965cfe126",
-  "previous_ci_run_id": 45495586732,
-  "final_ci_run_id": 45534939547,
-  "final_guard_run_id": 45534939359,
-  "final_ci_xml": "XML8_8_ZERO_FAILURES_ERRORS_SKIPS",
-  "final_xml_artifact_id": 14986342057,
-  "final_xml_sha256": "fa7a9b4eff7b55e73b277a462352d8b17a01a5b364424bc2bd60b5fe90d56246",
-  "last_ci_run_id": 45534939547,
-  "last_ci_conclusion": "SUCCESS_XML8_8",
-  "metadata_reconciliation": {
-    "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
-    "verified_success_run_id": 45522706065,
-    "verified_success_guard_id": 45522706044,
-    "last_ready_guard_id": 45526779604,
-    "source_code_sha": "e17aa76a41f2292ef32dbc1265d6a7882e7c42a1",
-    "scope": "DOCUMENTAL_NO_NEW_CODE_NO_NEW_FUNCTIONAL_PASS"
-  }
+  "why": "Reality12 STAGED purchase schema only; archived restore and manual DEV authority are still gated",
+  "next": "B6 exact3 and JUnit6 XML, then B7"
 }
