@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2B_FBS2V10_READY_EXACT5",
+  "phase": "S4_W05_A1C2B_FBS2V10_B7_PASS_SQL13_ROWS_NEXT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1990
+    "epoch": 1992
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A1C2B FBS2v10 B6/B7 then SQL13 replay",
-  "checkpoint_status": "A1C2B_READY_EXACT5_B6_PENDING_A1_OPEN",
+  "next": "A1C2C SQL13 staged compensation rows",
+  "checkpoint_status": "A1C2B_B7_PASS_A1_GLOBAL_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
-  "last_code_sha": "2b5eb70498013a238b91b8d620a9de66ec287ba5",
-  "last_ci_run_id": 45609176004,
+  "last_code_sha": "79dd1a83baff16a92b92ff69e16f1da64a767124",
+  "last_ci_run_id": 45610919772,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML6_6",
+  "last_ci_conclusion": "SUCCESS_XML18_18",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -493,14 +493,14 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 1990,
+  "last_writer_epoch_observed": 1992,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_commit_sha": "c50779801d16aef7dd4c4b6951a688226a9f959e",
-    "permit_status": "READY",
+    "permit_status": "BLOCKED",
     "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
     "allowed_paths": [
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2Codec.kt",
@@ -525,13 +525,13 @@
       "evidence_sha": "943ac018f706ccd527021dc2c45629d571b5a02b"
     },
     "last_code_review": {
-      "sha": "2b5eb70498013a238b91b8d620a9de66ec287ba5",
-      "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
+      "sha": "79dd1a83baff16a92b92ff69e16f1da64a767124",
+      "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
       "result": "PASS",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2A_B7_PASS_SQL13_COMPENSATION_STAGED_20261125.md",
-          "blob_sha": "709c8353348972eff4322ec8a3c78010be7ea68b",
+          "path": "docs/v5/FARO_S4_W05_A1C2B_B7_PASS_COMPENSATION_FBS2V10_20261125.md",
+          "blob_sha": "1152b2b7f2fe4a089c60795e85bac885f651f245",
           "marker": "## B7"
         }
       ]
@@ -2197,7 +2197,7 @@
   "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
   "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
-  "writer_release_epoch": 1990,
+  "writer_release_epoch": 1992,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -4717,7 +4717,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W05_A1C2A_B7_PASS_SQL13_COMPENSATION_STAGED_20261125.md",
+  "last_b7_document": "docs/v5/FARO_S4_W05_A1C2B_B7_PASS_COMPENSATION_FBS2V10_20261125.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -7290,7 +7290,7 @@
     "b7_document": "docs/v5/FARO_S4_W05_A1C1_B7_PASS_STOCK_RECEIVE_DEV_20261125.md"
   },
   "w05_a1c2": {
-    "status": "A1C2B_READY_B6_PENDING",
+    "status": "A1C2B_B7_PASS_A1C2C_DELTA_DOCUMENTED",
     "evidence": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
     "scope": [
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2Codec.kt",
@@ -7309,6 +7309,17 @@
       "test_count": 6,
       "b7_document": "docs/v5/FARO_S4_W05_A1C2A_B7_PASS_SQL13_COMPENSATION_STAGED_20261125.md"
     },
-    "next_delta": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md"
+    "next_delta": "docs/v5/FARO_S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DELTA_20261125.md",
+    "a1c2b": {
+      "code_sha": "79dd1a83baff16a92b92ff69e16f1da64a767124",
+      "ci_run_id": 45610919772,
+      "guard_run_id": 45610919673,
+      "xml_artifact_id": 15019219558,
+      "tests": {
+        "v10": 8,
+        "v9": 10
+      },
+      "b7_document": "docs/v5/FARO_S4_W05_A1C2B_B7_PASS_COMPENSATION_FBS2V10_20261125.md"
+    }
   }
 }

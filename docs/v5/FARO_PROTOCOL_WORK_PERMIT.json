@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
   "reviewed_head": "770a8e3950d77f0c826d15c8b69c79e38100e4a1",
   "paths": [
@@ -61,27 +61,29 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_18_18",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45609963312,
   "pre_audit_head": "770a8e3950d77f0c826d15c8b69c79e38100e4a1",
   "last_code_review": {
-    "sha": "2b5eb70498013a238b91b8d620a9de66ec287ba5",
-    "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
+    "sha": "79dd1a83baff16a92b92ff69e16f1da64a767124",
+    "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2A_B7_PASS_SQL13_COMPENSATION_STAGED_20261125.md",
-        "blob_sha": "709c8353348972eff4322ec8a3c78010be7ea68b",
+        "path": "docs/v5/FARO_S4_W05_A1C2B_B7_PASS_COMPENSATION_FBS2V10_20261125.md",
+        "blob_sha": "1152b2b7f2fe4a089c60795e85bac885f651f245",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45609176004,
-  "last_ci_conclusion": "SUCCESS_XML6_6",
+  "last_ci_run_id": 45610919772,
+  "last_ci_conclusion": "SUCCESS_XML18_18",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2A B7 scoped PASS and confirmed documentary guard. Five exact authenticated FBS2v10 paths.",
-  "next": "A1C2B authenticated FBS2v10 B6/B7 then SQL13 replay"
+  "why": "A1C2B B7 PASS. Scope consumed.",
+  "next": "A1C2C own READY after documentary guard",
+  "final_guard_run_id": 45610919673,
+  "final_xml_artifact_id": 15019219558
 }
