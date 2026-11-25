@@ -212,11 +212,21 @@ internal class S4W05StockUndoDevApplyHost(
                 // both the sealed Workspace source and durable Reality journal here.
                 val fresh = reviews.load(applying.context())
                 val rechecked = ready(intent, node.preparedOperation.idempotencyKey.value)
-                val allowed = fresh?.review == applying && fresh.envelope().contentEquals(envelope) &&
-                    applying.state == ConversationPlanReviewState.APPLYING &&
-                    applying.transactionId == identity.transactionId &&
-                    applying.context() == context && rechecked == initial &&
-                    selected(context.conversationId) && policy(principal, operation, intent.targetObjectId)
+                val sameReview = fresh?.review == applying
+                val sameEnvelope = fresh?.envelope()?.contentEquals(envelope) == true
+                val applyingState = applying.state == ConversationPlanReviewState.APPLYING
+                val sameTransaction = applying.transactionId == identity.transactionId
+                val sameContext = applying.context() == context
+                val sameAdmission = rechecked == initial
+                val liveSelected = selected(context.conversationId)
+                val livePolicy = policy(principal, operation, intent.targetObjectId)
+                // Safe red/green mask only; no context, receipt, token or payload logged.
+                traceStage("AFTER_MASK_" + listOf(
+                    sameReview, sameEnvelope, applyingState, sameTransaction,
+                    sameContext, sameAdmission, liveSelected, livePolicy,
+                ).joinToString("") { if (it) "1" else "0" })
+                val allowed = sameReview && sameEnvelope && applyingState && sameTransaction &&
+                    sameContext && sameAdmission && liveSelected && livePolicy
                 traceStage(if (allowed) "AFTER_BEGIN_ALLOWED" else "AFTER_BEGIN_DENIED")
                 if (allowed) {
                     admittedIdentity = identity
