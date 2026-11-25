@@ -1,0 +1,86 @@
+name: FARO V5 W05-A1C2B authenticated FBS2v10 stock compensation DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2Codec.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Fbs2Codec.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2CodecTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c2b-compensation-fbs2v10.yml
+
+permissions:
+  contents: read
+
+jobs:
+  fbs2v10-stock-compensation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact scope and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 5
+          test "${#changed[@]}" -gt 0
+          args=()
+          for route in "${changed[@]}"; do
+            grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+          done
+          for route in "${permitted[@]}"; do
+            args+=(--path "$route")
+          done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test FBS2v10 and FBS2v9 regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test --tests ar.com.faro.v5.generation.FaroV5Household13Fbs2CodecTest \
+              --tests ar.com.faro.v5.generation.FaroV5Household12Fbs2CodecTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          directory = Path('v5/store/generation/build/test-results/test')
+          for version, expected in ((13, 8), (12, 10)):
+              reports = list(directory.glob(f'TEST-*FaroV5Household{version}Fbs2CodecTest.xml'))
+              assert len(reports) == 1, reports
+              suite = ElementTree.parse(reports[0]).getroot()
+              actual = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+              assert actual == (expected, 0, 0, 0), actual
+              assert len({case.attrib['name'] for case in suite.findall('testcase')}) == expected
+          PY
+      - name: Preserve original FBS2v10 and v9 XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1c2b-fbs2v10-v9-xml
+          if-no-files-found: error
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household13Fbs2CodecTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household12Fbs2CodecTest.xml

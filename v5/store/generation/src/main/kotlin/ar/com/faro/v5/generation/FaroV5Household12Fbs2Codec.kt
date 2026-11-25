@@ -30,7 +30,7 @@ internal object FaroV5Household12Fbs2Codec {
     private const val DIGEST_BYTES = 32
     private const val HEADER_BYTES = 4 * Int.SIZE_BYTES + 2 * DIGEST_BYTES
     private const val MAX_BYTES = FaroV5FiveStoreSemanticCodec.MAX_PLAINTEXT_BYTES
-    private const val MAX_PURCHASE_BYTES = 4 * 1024 * 1024
+    const val MAX_PURCHASE_BYTES = 4 * 1024 * 1024
     private const val MAX_ROWS = 8_192
     private const val REF_MAX_CHARS = 128
     private const val REF_MAX_BYTES = 4 * REF_MAX_CHARS
@@ -114,7 +114,7 @@ internal object FaroV5Household12Fbs2Codec {
         }
     }
 
-    private fun encodePurchases(purchases: List<Household12PurchaseBackupRow>): ByteArray {
+    fun encodePurchases(purchases: List<Household12PurchaseBackupRow>): ByteArray {
         val buffer = ByteArrayOutputStream()
         DataOutputStream(buffer).use { output ->
             output.writeInt(purchases.size)
@@ -133,7 +133,7 @@ internal object FaroV5Household12Fbs2Codec {
         return buffer.toByteArray()
     }
 
-    private fun decodePurchases(bytes: ByteArray): List<Household12PurchaseBackupRow> =
+    fun decodePurchases(bytes: ByteArray): List<Household12PurchaseBackupRow> =
         DataInputStream(ByteArrayInputStream(bytes)).use { input ->
             val count = input.readInt()
             require(count in 0..MAX_ROWS) { "FBS2v9 purchase count outside budget" }
@@ -157,6 +157,24 @@ internal object FaroV5Household12Fbs2Codec {
         purchases: List<Household12PurchaseBackupRow>,
         receipts: Household11ReceiptBackupSection,
     ) {
+        validatePurchases(purchases)
+        val byReference = purchases.associateBy { it.purchaseRef }
+        val receivedByPurchase = mutableMapOf<String, Long>()
+        for (receipt in receipts.receipts) {
+            val purchase = byReference[receipt.purchaseRef] ?: continue
+            require(receipt.stockItemRef == purchase.stockItemRef && receipt.unit == purchase.unit) {
+                "FBS2v9 receipt differs from confirmed purchase item or unit"
+            }
+            val received = receivedByPurchase.getOrDefault(purchase.purchaseRef, 0L) +
+                receipt.quantityThousandths
+            require(received <= purchase.quantityThousandths.toLong()) {
+                "FBS2v9 receipts exceed confirmed purchase quantity"
+            }
+            receivedByPurchase[purchase.purchaseRef] = received
+        }
+    }
+
+    fun validatePurchases(purchases: List<Household12PurchaseBackupRow>) {
         require(purchases.size <= MAX_ROWS) { "FBS2v9 purchase count outside budget" }
         var previous: String? = null
         for (purchase in purchases) {
@@ -171,20 +189,6 @@ internal object FaroV5Household12Fbs2Codec {
                 "FBS2v9 purchase fields invalid"
             }
             previous = purchase.purchaseRef
-        }
-        val byReference = purchases.associateBy { it.purchaseRef }
-        val receivedByPurchase = mutableMapOf<String, Long>()
-        for (receipt in receipts.receipts) {
-            val purchase = byReference[receipt.purchaseRef] ?: continue
-            require(receipt.stockItemRef == purchase.stockItemRef && receipt.unit == purchase.unit) {
-                "FBS2v9 receipt differs from confirmed purchase item or unit"
-            }
-            val received = receivedByPurchase.getOrDefault(purchase.purchaseRef, 0L) +
-                receipt.quantityThousandths
-            require(received <= purchase.quantityThousandths.toLong()) {
-                "FBS2v9 receipts exceed confirmed purchase quantity"
-            }
-            receivedByPurchase[purchase.purchaseRef] = received
         }
     }
 
