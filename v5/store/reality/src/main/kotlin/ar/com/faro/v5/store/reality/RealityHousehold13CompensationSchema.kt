@@ -106,8 +106,10 @@ internal object RealityHousehold13CompensationSchema {
         }
     }
 
-    fun validate(db: SQLiteConnection): RealityHousehold12PurchaseReceiptRows {
-        val historical = RealityHousehold12PurchaseRowsPort.readCurrentHouseholdRows(db, expectedVersion = VERSION)
+    fun validate(db: SQLiteConnection): RealityHousehold12PurchaseReceiptRows =
+        RealityHousehold13CompensationRowsPort.captureConnection(db).historical
+
+    fun requireDefinitions(db: SQLiteConnection) {
         val actual = db.prepare(
             "SELECT name,sql FROM sqlite_schema WHERE tbl_name = 'household_stock_compensation' AND sql IS NOT NULL",
         ).use { rows ->
@@ -119,6 +121,5 @@ internal object RealityHousehold13CompensationSchema {
         ).use {
             check(!it.step()) { "SQL13 stock compensation source differs" }
         }
-        return historical
     }
 }

@@ -106,7 +106,7 @@ object RealityHousehold12PurchaseRowsPort {
         require(expectedVersion == 12 || expectedVersion == RealityHousehold13CompensationSchema.VERSION)
         checkStageSchema(db, expectedVersion)
         Household11ReceiptRowsSql.checkIntegrity(db)
-        return readRows(db)
+        return readRows(db, enforceGross = expectedVersion == 12)
     }
 
     private fun checkStageSchema(db: SQLiteConnection, expectedVersion: Int = 12) {
@@ -129,7 +129,7 @@ object RealityHousehold12PurchaseRowsPort {
         ) == 0L) { "Reality12 purchases reject unexpected inbound foreign keys" }
     }
 
-    private fun readRows(db: SQLiteConnection): RealityHousehold12PurchaseReceiptRows {
+    private fun readRows(db: SQLiteConnection, enforceGross: Boolean = true): RealityHousehold12PurchaseReceiptRows {
         val purchases = db.prepare(
             "SELECT $COLUMNS, CAST(purchase_ref AS BLOB), CAST(stock_item_ref AS BLOB), " +
                 "CAST(confirmed_by AS BLOB) FROM household_confirmed_purchase LIMIT ${MAX_ROWS + 1}",
@@ -154,10 +154,10 @@ object RealityHousehold12PurchaseRowsPort {
             }.sortedBy { it.purchaseRef }
         }
         return RealityHousehold12PurchaseReceiptRows(purchases, Household11ReceiptRowsSql.readRows(db))
-            .also(::validate)
+            .also { validate(it, enforceGross) }
     }
 
-    private fun validate(rows: RealityHousehold12PurchaseReceiptRows) {
+    internal fun validate(rows: RealityHousehold12PurchaseReceiptRows, enforceGross: Boolean = true) {
         require(rows.purchases.size <= MAX_ROWS) { "Reality12 purchase count outside budget" }
         Household11ReceiptRowsSql.validate(rows.receipts)
         var previous: String? = null
@@ -187,13 +187,14 @@ object RealityHousehold12PurchaseRowsPort {
             require(purchase.stockItemRef == receipt.stockItemRef && purchase.unit == receipt.unit) {
                 "Reality12 receipts must match confirmed purchase item and unit"
             }
+            if (!enforceGross) continue
             val total = totals.getOrDefault(purchase.purchaseRef, 0L) + receipt.quantityThousandths
             require(total <= purchase.quantityThousandths) { "Reality12 receipts exceed confirmed purchase" }
             totals[purchase.purchaseRef] = total
         }
     }
 
-    private fun writePurchases(db: SQLiteConnection, rows: List<RealityHousehold12PurchaseRow>) {
+    internal fun writePurchases(db: SQLiteConnection, rows: List<RealityHousehold12PurchaseRow>) {
         db.prepare("INSERT INTO household_confirmed_purchase($COLUMNS) VALUES(?,?,?,?,?,?,?,?)").use { stmt ->
             for (row in rows) {
                 stmt.bindText(1, row.purchaseRef)
