@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY",
   "reviewed_head": "8e95efc6480181088d05b5646dc3d853e81da280",
   "paths": [
@@ -59,30 +59,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "COMPLETE_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45643859498,
   "pre_audit_head": "8e95efc6480181088d05b5646dc3d853e81da280",
   "last_code_review": {
-    "sha": "8f2a1700eed6b97f914be30a60c171f2a92e85d5",
-    "result": "RED_FIX",
+    "sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
+    "result": "PASS",
     "unit_id": "S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2G1B_B7_RED_FIX4_WORKSPACE_REVISION_CAS_20261125.md",
-        "blob_sha": "f07c5bb9ac6a2dfbea18a9047344bbcae8b943db",
+        "path": "docs/v5/FARO_S4_W05_A1C2G1B_B7_PASS_TRUSTED_STOCK_UNDO_DEV_20261125.md",
+        "blob_sha": "ea0f09032cf26d09e19bbe034b10e010f5c99ade",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45665927863,
-  "last_ci_conclusion": "failure_12_pass_5_failed_cas_revision",
+  "last_ci_run_id": 45667290966,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "G1B host source COMMITTED Workspace+Reality+G0 SQL13 compensation; exact3 routes, preaudit guard SUCCESS; no stock production/Android.",
-  "next": "G1B patch stable Review identity + revision CAS, delete temporary diagnostics, CI JUnit 17/17 and final B7",
+  "next": "W05-A1C3 Android isolated DEV B1-B5 guard READY then B6/B7. W05-A1C4 acceptance after. No production.",
   "last_guard_run_id": 45643859498,
-  "current_code_sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
-  "reason": "G1B RED_FIX4 causal confirmed afterBegin context revision comparison violates Workspace CAS increment"
+  "current_code_sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
+  "reason": "W05-A1C2G1B B7 PASS scoped 17/17 original JUnit XML; permit consumed; A1C3 needs own READY."
 }
