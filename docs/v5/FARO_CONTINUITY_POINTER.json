@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_B1_B5_PREPARED_NOT_READY",
+  "phase": "S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_READY_EXACT3",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2022
+    "epoch": 2023
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Run mandatory protocol guard for A1C2G1A B1-B5 doc, issue READY exact3 if verified; B6 owner typed stock undo origin, CI/XML and scoped B7; G1B trusted host Review/Apply later",
-  "checkpoint_status": "A1C2F_B7_PASS_SCOPED_A1C2G0_B7_PASS_18_18_G1_PENDING_A1_DEV_OPEN",
+  "next": "G1A B6 exact3 and JUnit XML/guard then B7; G1B host and A1C3/A1C4 still pending",
+  "checkpoint_status": "A1C2G0_B7_PASS_18_18_A1C2G1A_B1_B5_GUARD_PASS_READY_EXACT3",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_ADMISSION_B1_B5_20261125.md",
   "last_code_sha": "e581dcba2191b988c90ca6271b1bf9c209d13eac",
@@ -7403,9 +7403,15 @@
   },
   "s4_w05_a1c2g1a": {
     "baseline": "ba8df772cff9c8e9602bd900b73b341b0f0512dd",
-    "status": "B1_B5_PREAUDIT_PENDING_GUARD",
+    "status": "READY_EXACT3_B6_PENDING",
     "audit_path": "docs/v5/FARO_S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_ADMISSION_B1_B5_20261125.md",
-    "writer_epoch_release": 2022,
-    "next": "B6 only after own READY exact3, G1B NOT_AUTHORIZED"
+    "writer_epoch_release": 2023,
+    "next": "B6 only after own READY exact3, G1B NOT_AUTHORIZED",
+    "guard": 45642037000,
+    "paths": [
+      "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockUndoDevAdmission.kt",
+      "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockUndoDevAdmissionTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c2g1a-stock-undo-origin-admission.yml"
+    ]
   }
 }
