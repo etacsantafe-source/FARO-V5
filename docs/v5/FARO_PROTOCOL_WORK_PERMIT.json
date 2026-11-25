@@ -83,8 +83,8 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A1C2G0 SQL13 ACTIVE DEV internal write admission, exact5, B1-B5 audited; documentary guard SUCCESS; NO G0 functional implementation or CI yet; N-016 G1 not authorized.",
-  "next": "Inspect 45637952977 and 45637952691 exact code SHA, XML/artefact or RED_FIX; G1 requires separate permit.",
+  "next": "Guard RED_FIX document and issue new READY with evidence, same unit and exact3 paths.",
   "last_guard_run_id": 45636259619,
   "current_code_sha": "8056a65959647a4ae58b0616d5c1f198ec1c84bc",
-  "reason": "A1C2G0 B6 committed. Permit consumed while CI/guard pending; next functional change requires RED_FIX review or new approved unit. B7 NOT VERIFIED."
+  "reason": "B7 RED_FIX after real CI FAILURE 45637952977 on 8056a659: duplicate class; scope exact3 proposed. Guard and new READY required before fix code."
 }
