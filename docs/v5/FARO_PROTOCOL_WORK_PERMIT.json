@@ -66,21 +66,21 @@
   "pre_audit_guard_run_id": 45596786232,
   "pre_audit_head": "6916bc533c9d0e3c6ad2d82c1b734dc18ef17eff",
   "last_code_review": {
-    "sha": "15271b3b22e78f799418d68adcd2d8259491cca3",
-    "unit_id": "S4_W05_A1C0B3A_SQL12_ACTIVE_DEV_READ_GRAPH",
-    "result": "PASS",
+    "sha": "706a0a0f0844468040b42a3f0224215bcd739ce2",
+    "unit_id": "S4_W05_A1C0B3B_SQL12_EVIDENCE2_JOURNALED_CUTOVER_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B3A_B7_PASS_SQL12_ACTIVE_DEV_GRAPH_20261125.md",
-        "blob_sha": "90186196cd7142ac287ac1a67333f6233ea1c6b9",
+        "path": "docs/v5/FARO_S4_W05_A1C0B3B_RED_FIX_ROLLBACK_WAL_20261125.md",
+        "blob_sha": "0de019b809045acbe65da817b5b600b5ce499a2e",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45595910320,
-  "last_ci_conclusion": "SUCCESS_XML19_19",
+  "last_ci_run_id": 45597914806,
+  "last_ci_conclusion": "FAILURE_XML15_16",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B3A B7 scoped PASS and confirmed documentary guard. Four exact SQL12 DEV cutover paths.",
-  "next": "A1C0B3B B6/B7, then A1C0B4 purchase confirmation"
+  "why": "A1C0B3B rollback test RED_FIX in ticket backing files",
+  "next": "Fix WAL verification exclusively for previously selected target after rollback"
 }
