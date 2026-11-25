@@ -53,9 +53,7 @@ object RealityHousehold12PurchaseRowsPort {
 
     internal fun readTrustedTwelveConnection(db: SQLiteConnection): RealityHousehold12PurchaseReceiptRows =
         db.transaction("BEGIN DEFERRED TRANSACTION") {
-            checkStageSchema(db)
-            Household11ReceiptRowsSql.checkIntegrity(db)
-            readRows(db)
+            readCurrentHouseholdRows(db, expectedVersion = 12)
         }
 
     fun restoreOrVerifyTrustedStagedTwelve(
@@ -101,9 +99,19 @@ object RealityHousehold12PurchaseRowsPort {
         return result
     }
 
-    private fun checkStageSchema(db: SQLiteConnection) {
-        check(db.scalar("PRAGMA user_version") == 12L && db.scalar("PRAGMA foreign_keys") == 1L) {
-            "Reality12 requires exact SQL12 with foreign keys enabled"
+    internal fun readCurrentHouseholdRows(
+        db: SQLiteConnection,
+        expectedVersion: Int,
+    ): RealityHousehold12PurchaseReceiptRows {
+        require(expectedVersion == 12 || expectedVersion == RealityHousehold13CompensationSchema.VERSION)
+        checkStageSchema(db, expectedVersion)
+        Household11ReceiptRowsSql.checkIntegrity(db)
+        return readRows(db)
+    }
+
+    private fun checkStageSchema(db: SQLiteConnection, expectedVersion: Int = 12) {
+        check(db.scalar("PRAGMA user_version") == expectedVersion.toLong() && db.scalar("PRAGMA foreign_keys") == 1L) {
+            "Household purchase rows require exact SQL$expectedVersion with foreign keys enabled"
         }
         Household11ReceiptRowsSql.checkTables(db)
         db.prepare("SELECT sql FROM sqlite_schema WHERE type='table' AND name='household_confirmed_purchase'").use {
