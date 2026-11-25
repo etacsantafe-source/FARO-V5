@@ -105,8 +105,7 @@ internal class FaroV5Household11V8BaseReplay(
             FiveStoreStagedRestoreResult.Blocked(reason)
 
         try {
-            requirePinned(target, expectedActive)
-            requireTargetProfile(target, expectedActive, null)
+            requireOneSealedFinance9Profile(target, expectedActive)
         } catch (_: Exception) {
             return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
         }
@@ -244,6 +243,34 @@ internal class FaroV5Household11V8BaseReplay(
         )
         check(actual == expected) {
             "FBS2v8 staged five-store / Finance9 semantic readback differs from archive"
+        }
+    }
+
+    /**
+     * Before archive authentication, only inspect the sealed inactive target.
+     * Neither profile is inferred from unauthenticated ciphertext. Exactly one
+     * strict, read-only schema profile must match; post-auth verification still
+     * binds the target to the authenticated archive evidence version.
+     */
+    private fun requireOneSealedFinance9Profile(
+        target: StagedStorageGeneration,
+        expectedActive: ActiveGenerationPointer,
+    ) {
+        requirePinned(target, expectedActive)
+        val evidence1 = runCatching {
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(
+                target, allowAuxiliary3 = false,
+            )
+        }.isSuccess
+        requirePinned(target, expectedActive)
+        val evidence2 = runCatching {
+            FaroV5GenerationStoreGraph.requireFinance9ReceiptEvidence2ArchiveStage(
+                target, allowAuxiliary3 = false,
+            )
+        }.isSuccess
+        requirePinned(target, expectedActive)
+        check(evidence1 != evidence2) {
+            "FBS2v8 base replay requires exactly one sealed Evidence1/Evidence2 target profile"
         }
     }
 

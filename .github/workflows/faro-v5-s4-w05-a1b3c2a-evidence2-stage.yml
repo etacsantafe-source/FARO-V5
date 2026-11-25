@@ -4,6 +4,7 @@ on:
   push:
     branches: [work/s3-night-20261102]
     paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8BaseReplay.kt
       - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8FullStageReplay.kt
       - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11V8Evidence2FullStageReplayTest.kt
       - .github/workflows/faro-v5-s4-w05-a1b3c2a-evidence2-stage.yml
