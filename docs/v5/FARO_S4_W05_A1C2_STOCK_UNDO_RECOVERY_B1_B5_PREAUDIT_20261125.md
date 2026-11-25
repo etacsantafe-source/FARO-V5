@@ -49,3 +49,6 @@ A1C1 B7 obligatorio. Auditar primero catálogo de Undo de stock y capacidad SQL1
 
 ## Exclusiones globales
 Un solo writer CAS; no main ni V4.4, no autorización de stock productivo, Apply productivo, V2 productiva, pagos o Auto/Noche; no inferir compra desde carrito/presupuesto/backup. Usuario no autorizó ensayo físico Moto G15. **Status: PREAUDITED_CONDITIONAL — NOT_READY / B6_NOT_AUTHORIZED / B7_NOT_RUN.**
+
+## Adenda verificada · Undo N-016
+El catálogo oficial ya contiene `undo.execute` / `undo.inspect` N-016, executor `undo-coordinator` (`v5/spec/generated/contract-baseline.tsv`, blob `5653a9758f682f683a852dcf286211bae71c41d0`). `HouseholdNeedUndo.OPERATION` usa `undo.execute` pero su binding `S4W04HouseholdNeedApplyHost` solo ejecuta Undo de necesidades. **No inventar `stock.undo` ni heredar grant de Needs**; auditar reutilización de N-016 con binding stock independiente, receipt padre+compensación append-only y autorización foreground. `stock.release` N-035 tampoco equivale a deshacer una recepción. Si falta schema para compensación, migración versionada y backup antes de B6.

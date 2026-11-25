@@ -50,3 +50,6 @@ C2B2 B7 obligatorio. Revalidar contrato de grafo de almacenamiento y manifest/st
 
 ## Exclusiones globales
 Un solo writer CAS; no main ni V4.4, no autorización de stock productivo, Apply productivo, V2 productiva, pagos o Auto/Noche; no inferir compra desde carrito/presupuesto/backup. Usuario no autorizó ensayo físico Moto G15. **Status: PREAUDITED_CONDITIONAL — NOT_READY / B6_NOT_AUTHORIZED / B7_NOT_RUN.**
+
+## Adenda verificada · Grafo SQL12
+`FaroV5GenerationStoreGraph.kt` blob `86c33a82901583091e41c759eb79908fae860fd0` actualmente abre ACTIVE Household10, no Reality12. El B4 de A1C0B3 debe auditar y considerar como ruta candidata **`v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt`** junto al contrato `RealityStore`, antes de emitir READY. No abrir SQL12 bajo `householdActive10Dev=true`; comprobar lease, pointer, WAL, owner, Evidence2, reabrir ACTIVE y rollback. Si el alcance crece, dividir B3 con permisos propios antes de B4.
