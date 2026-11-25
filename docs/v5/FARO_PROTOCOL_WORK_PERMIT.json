@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C2C0_EVIDENCE2_SQL11_JOURNALED_CUTOVER_DEV",
   "reviewed_head": "87f7a34f6ba63bee16dcc10c8b4c27610e403042",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3c2c0-evidence2-journaled-cutover.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,23 +55,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "COMPLETED_CI_SUCCESS",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "e17aa76a41f2292ef32dbc1265d6a7882e7c42a1",
-    "unit_id": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
+    "sha": "f96bbb154ca09450d4123f3eac69b24fe12185c4",
+    "unit_id": "S4_W05_A1B3C2C0_EVIDENCE2_SQL11_JOURNALED_CUTOVER_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_B7_PASS_EVIDENCE2_V2_DURABLE_AUTH_XML22_22_20261125.md",
-        "blob_sha": "83b06b2d85c1a63971a2d952dc3954f9846286eb",
+        "path": "docs/v5/FARO_S4_W05_A1B3C2C0_B7_PASS_EVIDENCE2_JOURNALED_CUTOVER_20261125.md",
+        "blob_sha": "f6b67cf40aa77c0071009d343b84fc5c74b242ba",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C2B1B Evidence2 v2 durable PRE-CUTOVER B7 PASS and C2C0 standalone B1–B5 audited; documentary guard 45526603833 SUCCESS; READY DEV exact3 only",
-  "how": "Work B6 exact-three code/test/workflow; preflight parent; 10 new + 8 C1B + 8 C2B1B XML; B7 guarded; consume READY",
+  "why": "C2C0 B7 PASS scoped JVM DEV; permission consumed",
+  "how": "C2C1 independent READY after documentary guard",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,17 +80,17 @@
   },
   "previous_unit": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
   "previous_b7": "PASS_SCOPED_22_22_XML",
-  "next": "C2C0 B6/B7 then independent C2C1 Android reopen and A1C receipts/Undo; never productiva",
+  "next": "C2C1 B1-B5 delta, own READY and Android API35; A1C and A1 global OPEN",
   "pre_audit_guard_run_id": 45526603833,
   "pre_audit_head": "87f7a34f6ba63bee16dcc10c8b4c27610e403042",
   "previous_ci_run_id": 45495586732,
-  "final_ci_run_id": 45522706065,
-  "final_guard_run_id": 45522706044,
-  "final_ci_xml": "EVIDENCE2_DURABLE_8_8_EVIDENCE1_DURABLE_8_8_EVIDENCE2_SEMANTIC_6_6_TOTAL22_22_ZERO_FAILURES_ERRORS_SKIPS",
-  "final_xml_artifact_id": 14981701295,
-  "final_xml_sha256": "329ae5cad92d1a66a228dea2cf1f1dad63eddf7b069d5608be489d5606519e1a",
-  "last_ci_run_id": 45522706065,
-  "last_ci_conclusion": "SUCCESS_EVIDENCE2_DURABLE_8_8_EVIDENCE1_DURABLE_8_8_EVIDENCE2_SEMANTIC_6_6_XML22_22",
+  "final_ci_run_id": 45528363926,
+  "final_guard_run_id": 45528363998,
+  "final_ci_xml": "XML26_26_ZERO_FAILURES_ERRORS_SKIPS",
+  "final_xml_artifact_id": 14983154037,
+  "final_xml_sha256": "4bdb63523b1fd7a5d8c44b2f590bfb0e6e6ad6563b0713578073b0439216d4d0",
+  "last_ci_run_id": 45528363926,
+  "last_ci_conclusion": "SUCCESS_XML26_26",
   "metadata_reconciliation": {
     "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
     "verified_success_run_id": 45522706065,
