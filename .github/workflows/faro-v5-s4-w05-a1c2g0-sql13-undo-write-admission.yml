@@ -1,0 +1,91 @@
+name: FARO V5 W05-A1C2G0 SQL13 DEV compensation write admission
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationApplyPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationApplyPortTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c2g0-sql13-undo-write-admission.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sql13-compensation-admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify five routes and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 5
+          test "${#changed[@]}" -gt 0
+          for route in "${changed[@]}"; do
+            grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+          done
+          args=()
+          for route in "${permitted[@]}"; do args+=(--path "$route"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run SQL13 compensation and staged row regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold13CompensationApplyPortTest \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold13CompensationRowsPortTest
+      - name: Run ACTIVE SQL13 read-only graph regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household13ActiveDevReadHostTest
+      - name: Verify three original JUnit XML files
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          for module, cls, count in (
+              ('reality', 'RealityHousehold13CompensationApplyPortTest', 6),
+              ('reality', 'RealityHousehold13CompensationRowsPortTest', 6),
+              ('generation', 'FaroV5Household13ActiveDevReadHostTest', 6),
+          ):
+              xml = Path('v5/store') / module / 'build/test-results/test' / ('TEST-ar.com.faro.v5.' + module + '.' + cls + '.xml')
+              suite = ElementTree.parse(xml).getroot()
+              seen = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+              assert seen == (count, 0, 0, 0), (cls, seen)
+              assert len(suite.findall('testcase')) == count, cls
+          PY
+      - name: Upload original JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1c2g0-sql13-compensation-xml
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*.xml
+            v5/store/generation/build/test-results/test/TEST-*.xml
+          if-no-files-found: warn
