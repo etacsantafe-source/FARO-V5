@@ -1,0 +1,85 @@
+name: FARO V5 W05-A1B3C2B1B Evidence2 SQL11 durable PRE-CUTOVER authorization
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevCutoverAuthorization.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevCutoverAuthorizationTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1b3c2b1b-durable-authorization.yml
+
+permissions:
+  contents: read
+
+jobs:
+  evidence2-durable-authorization:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact three C2B1B paths against parent READY
+        shell: bash
+        run: |
+          set -euo pipefail
+          UNIT=S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV
+          mapfile -t paths < <(git diff --name-only --no-renames HEAD^ HEAD)
+          [[ "${#paths[@]}" -eq 3 ]]
+          for path in "${paths[@]}"; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$path"
+          done
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Execute 8 Evidence2 durable plus 8 Evidence1 durable and 6 semantic regression tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household11Evidence2DevCutoverAuthorizationTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household11DevCutoverAuthorizationTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household11Evidence2SemanticPreflightTest
+      - name: Verify original JUnit XML exact 22 of 22
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as E
+          folder=Path("v5/store/generation/build/test-results/test")
+          total=0
+          for suffix,expected in (
+              ("FaroV5Household11Evidence2DevCutoverAuthorizationTest",8),
+              ("FaroV5Household11DevCutoverAuthorizationTest",8),
+              ("FaroV5Household11Evidence2SemanticPreflightTest",6),
+          ):
+              hits=list(folder.glob("TEST-*"+suffix+".xml"))
+              assert len(hits)==1,hits
+              root=E.parse(hits[0]).getroot()
+              nums=[int(root.attrib[n]) for n in ("tests","failures","errors","skipped")]
+              assert nums==[expected,0,0,0],(suffix,nums)
+              assert len(root.findall("testcase"))==expected
+              total+=nums[0]
+          assert total==22,total
+          print("FARO_W05_C2B1B_EVIDENCE2_DURABLE_AUTH_XML_PASS_22_22")
+          PY
+      - name: Upload original JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1b3c2b1b-evidence2-durable-authorization-xml
+          if-no-files-found: warn
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11Evidence2DevCutoverAuthorizationTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11DevCutoverAuthorizationTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11Evidence2SemanticPreflightTest.xml
