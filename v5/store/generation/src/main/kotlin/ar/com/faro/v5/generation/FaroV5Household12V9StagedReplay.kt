@@ -9,6 +9,7 @@ import ar.com.faro.v5.maintenance.GenerationStoreFiles
 import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaterialWriteQuiescencePort
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.owner.household.api.HouseholdNeed
 import ar.com.faro.v5.owner.household.api.HouseholdNeedId
 import ar.com.faro.v5.owner.household.api.HouseholdNeedName
@@ -70,6 +71,30 @@ internal class FaroV5Household12V9StagedReplay(
     private val crypto = FaroV5FiveStorePortableBackupCrypto()
     private val underLease = object : MaterialWriteQuiescencePort {
         override fun <T> withMaterialWritesQuiesced(operationId: MaintenanceOperationId, block: () -> T): T = block()
+    }
+
+    fun verifyForEvidence2Cutover(
+        operation: MaintenanceOperationId,
+        stage: StagedStorageGeneration,
+        origin: ActiveGenerationPointer,
+        archive: ByteArray,
+        passphrase: CharArray,
+    ): StorageGenerationId = quiescence.withMaterialWritesQuiesced(operation) {
+        val opened = AuthenticatedHousehold12RestoreArchive.open(archive, passphrase)
+        check(opened is FiveStoreAuthenticatedPayload.Opened) { "Cutover requires an authentic FBS2v9" }
+        val snapshot = opened.payload.full
+        val evidence = snapshot.base.base.base.base.fourStore.commercialEvidence
+        check(evidence.schemaVersion == 2 && evidence.stagedTyped != null) { "Cutover requires Evidence2" }
+        val source = manifest(snapshot).sourceGenerationId
+        check(source != stage.descriptor.generationId)
+        val frozen = opened.payload.copyEncryptedBytes()
+        requirePin(operation, stage, frozen)
+        check(observeForVerification(operation, stage, origin, snapshot) == snapshot) {
+            "Cutover stage differs from its authenticated FBS2v9"
+        }
+        requirePin(operation, stage, frozen)
+        rows.requireSealedStage(stage, origin)
+        source
     }
 
     fun captureAuthenticated(
