@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_DEV",
   "reviewed_head": "b759bbef7e8695dfceb0279a94bb8424e75e7688",
   "paths": [
@@ -59,23 +59,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_IMPLEMENTED",
+    "B7": "PASS_SCOPED_14_14_XML"
   },
   "last_code_review": {
-    "sha": "25fb05a31dde9f692f3212f21aa21243b5c7cf21",
-    "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
+    "sha": "957a67f9462c2d7a6126d0ca6f0bb8d4b00278ad",
+    "unit_id": "S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2A_B7_PASS_EVIDENCE2_SQL11_16_16_20261124.md",
-        "blob_sha": "7b4441bf56e987290d1e17f121a6b314567f961c",
+        "path": "docs/v5/FARO_S4_W05_A1B3C2B0_B7_PASS_EVIDENCE2_SQL11_READONLY_14_14_20261124.md",
+        "blob_sha": "c636200cab7169d544a96de4dab34998eab769d3",
         "marker": "## B7"
       }
     ]
   },
-  "why": "W05 C2A 16/16 B7 PASS, Evidence2 cutover preflight needs independently typed-only READ_ONLY schema inspection; avoid cutover until sealed typed semantics and durable auth",
-  "how": "Exact3 C2B0: existing C0 preflight with opt-in schema=2, new isolated JVM tests and directed workflow; preserve C0 default Evidence1",
+  "why": "C2B0 sealed Evidence2 SQL11 read-only preflight CI45517890891 XML14/14 and guard45517890838 SUCCESS. No cutover or typed semantic equality certification",
+  "how": "B7 PASS scoped, permit consumed; C2B1 require independent B1–B5 READY with immutable typed semantic readback and durable ticket",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,7 +84,7 @@
   },
   "previous_unit": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
   "previous_b7": "PASS_SCOPED_EVIDENCE2_SQL11_STAGED_16_16",
-  "next": "B6 exact3 C2B0 READ_ONLY preflight; CI XML+B7; then C2B1 typed semantic read-back and durable authorization. No cutover or stock activation",
+  "next": "C2B1 full sealed typed terms semantic equality and foreground durable authorization; then C2C cutover/recovery. A1 OPEN and stock real OFF",
   "pre_audit_guard_run_id": 45517528045,
   "pre_audit_head": "b759bbef7e8695dfceb0279a94bb8424e75e7688",
   "previous_ci_run_id": 45495586732,
@@ -95,9 +95,9 @@
     "document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
     "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9"
   },
-  "final_ci_run_id": null,
-  "final_guard_run_id": null,
-  "final_ci_xml": null,
-  "final_xml_artifact_id": null,
-  "final_xml_sha256": null
+  "final_ci_run_id": 45517890891,
+  "final_guard_run_id": 45517890838,
+  "final_ci_xml": "EVIDENCE2_6_6_EVIDENCE1_8_8_TOTAL_14_14_ZERO_FAILURES_ERRORS_SKIPS",
+  "final_xml_artifact_id": 14978132543,
+  "final_xml_sha256": "9a86c6b7c556224cb1b947c33da0fc0132ee55339cde32dca593f7b94d871082"
 }
