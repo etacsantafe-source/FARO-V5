@@ -37,7 +37,7 @@ interface RealityHousehold13CompensationApplyPort {
 }
 
 /** Does not begin/commit a SQLite transaction. RealityStore checks scope and the live owner fence. */
-internal class RealityHousehold13CompensationRows(
+internal class RealityHousehold13CompensationSqlWriter(
     private val db: SQLiteConnection,
     private val principal: String,
     private val generation: HouseholdReviewGeneration,

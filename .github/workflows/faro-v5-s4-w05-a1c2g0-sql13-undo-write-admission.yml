@@ -30,7 +30,7 @@ jobs:
           permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
           mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
           mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
-          test "${#permitted[@]}" -eq 5
+          test "${#permitted[@]}" -eq 3
           test "${#changed[@]}" -gt 0
           for route in "${changed[@]}"; do
             grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
@@ -74,7 +74,8 @@ jobs:
               ('reality', 'RealityHousehold13CompensationRowsPortTest', 6),
               ('generation', 'FaroV5Household13ActiveDevReadHostTest', 6),
           ):
-              xml = Path('v5/store') / module / 'build/test-results/test' / ('TEST-ar.com.faro.v5.' + module + '.' + cls + '.xml')
+              package = 'ar.com.faro.v5.store.reality' if module == 'reality' else 'ar.com.faro.v5.generation'
+              xml = Path('v5/store') / module / 'build/test-results/test' / ('TEST-' + package + '.' + cls + '.xml')
               suite = ElementTree.parse(xml).getroot()
               seen = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
               assert seen == (count, 0, 0, 0), (cls, seen)

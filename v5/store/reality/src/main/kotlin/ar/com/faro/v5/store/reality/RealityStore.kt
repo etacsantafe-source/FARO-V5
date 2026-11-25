@@ -838,7 +838,7 @@ class RealityStore(
     ): RealityHousehold13CompensationApplyPort {
         check(householdStockCompensationWritableDev)
         val fence = checkNotNull(householdActive13DevReadOnly)
-        val rows = RealityHousehold13CompensationRows(connection, principal, generation)
+        val rows = RealityHousehold13CompensationSqlWriter(connection, principal, generation)
         return object : RealityHousehold13CompensationApplyPort {
             override fun position(receiptId: String): RealityHousehold13CompensationCandidate? =
                 withMaterialAdmission { synchronized(lock) {
