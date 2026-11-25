@@ -65,22 +65,22 @@
   "pre_audit_guard_run_id": 45625622463,
   "pre_audit_head": "c7c797bdbb2c2af7d53ee49fa8f6e4218c35a9db",
   "last_code_review": {
-    "sha": "6e800b3a96feeb52a16a35b238953bc12dd7171a",
-    "unit_id": "S4_W05_A1C2E_SQL13_ACTIVE_DEV_READ_ONLY",
-    "result": "PASS",
+    "sha": "e2e1a5ddedeacc06ed5ce3ef5664aa354ccfa1b2",
+    "unit_id": "S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2E_B7_PASS_SQL13_ACTIVE_DEV_READ_20261125.md",
-        "blob_sha": "eee48ba2784cde9411561082cd248ee032230316",
+        "path": "docs/v5/FARO_S4_W05_A1C2F_B7_RED_FIX_INVALID_V9_FIXTURE_20261125.md",
+        "blob_sha": "61c312ce00c2ae15e0741c04695b25eeee7cbc80",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45624005370,
-  "last_ci_conclusion": "SUCCESS_ATTEMPT2_XML22_22",
+  "last_ci_run_id": 45628413752,
+  "last_ci_conclusion": "FAILURE_XML_30_31_V9_FIXTURE",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2E B7 PASS and A1C2F B1-B5 audited; three exact SQL13 Evidence2 journaled cutover DEV paths only.",
-  "next": "A1C2F B6/B7: SQL12 ACTIVE already COMPLETED -> SQL13 ACTIVE, ticket/journal/recovery, tests; NO stock Apply",
-  "last_guard_run_id": 45624005344
+  "why": "A1C2F B7 RED_FIX: test fixture attempts invalid v9 gross17 vs purchase10 without compensation. Test-only same-unit correction.",
+  "next": "Fix A1C2F test fixture historical v9 to receipts7+3 revision2; CI 31/31 XML.",
+  "last_guard_run_id": 45628413589
 }
