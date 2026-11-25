@@ -267,8 +267,8 @@ class FaroV5Household12V9StagedReplayTest {
             is FiveStoreStagedRestoreResult.Blocked)
         val interrupted = replay { phase ->
             if (phase == Household12StagePhase.MIGRATED_TO_TWELVE) {
-                val other = checkNotNull(pointer.compareAndSet(f.origin, StorageGenerationId("another-generation")))
-                checkNotNull(pointer.compareAndSet(other, f.origin.generationId))
+                val other = checkNotNull(pointer.compareAndSet(f.origin.generationId, StorageGenerationId("another-generation")))
+                checkNotNull(pointer.compareAndSet(other.generationId, f.origin.generationId))
             }
         }
         assertTrue(interrupted.restoreAuthenticatedV9(op, f.target, f.origin, f.ciphertext, key)
