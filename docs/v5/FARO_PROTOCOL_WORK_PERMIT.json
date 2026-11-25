@@ -1,22 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
-  "reviewed_head": "770a8e3950d77f0c826d15c8b69c79e38100e4a1",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DEV",
+  "reviewed_head": "3754a1eef1aa17cfa6c8eaafdc5c1dab16e022ae",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c2b-compensation-fbs2v10.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchema.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationRowsPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c2c-sql13-compensation-rows.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
-          "blob_sha": "07adee034a13e16c2b7e0ef9ef0f5a1a15030e6c",
+          "path": "docs/v5/FARO_S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DELTA_20261125.md",
+          "blob_sha": "4c0c38d81c18b0366aa858b16ee3c051e630eca1",
           "marker": "## B1"
         }
       ]
@@ -25,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
-          "blob_sha": "07adee034a13e16c2b7e0ef9ef0f5a1a15030e6c",
+          "path": "docs/v5/FARO_S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DELTA_20261125.md",
+          "blob_sha": "4c0c38d81c18b0366aa858b16ee3c051e630eca1",
           "marker": "## B2"
         }
       ]
@@ -35,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
-          "blob_sha": "07adee034a13e16c2b7e0ef9ef0f5a1a15030e6c",
+          "path": "docs/v5/FARO_S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DELTA_20261125.md",
+          "blob_sha": "4c0c38d81c18b0366aa858b16ee3c051e630eca1",
           "marker": "## B3"
         }
       ]
@@ -45,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
-          "blob_sha": "07adee034a13e16c2b7e0ef9ef0f5a1a15030e6c",
+          "path": "docs/v5/FARO_S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DELTA_20261125.md",
+          "blob_sha": "4c0c38d81c18b0366aa858b16ee3c051e630eca1",
           "marker": "## B4"
         }
       ]
@@ -55,17 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
-          "blob_sha": "07adee034a13e16c2b7e0ef9ef0f5a1a15030e6c",
+          "path": "docs/v5/FARO_S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DELTA_20261125.md",
+          "blob_sha": "4c0c38d81c18b0366aa858b16ee3c051e630eca1",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_CI_XML_18_18",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45609963312,
-  "pre_audit_head": "770a8e3950d77f0c826d15c8b69c79e38100e4a1",
+  "pre_audit_guard_run_id": 45611648019,
+  "pre_audit_head": "3754a1eef1aa17cfa6c8eaafdc5c1dab16e022ae",
   "last_code_review": {
     "sha": "79dd1a83baff16a92b92ff69e16f1da64a767124",
     "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
@@ -82,8 +82,6 @@
   "last_ci_conclusion": "SUCCESS_XML18_18",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2B B7 PASS. Scope consumed.",
-  "next": "A1C2C own READY after documentary guard",
-  "final_guard_run_id": 45610919673,
-  "final_xml_artifact_id": 15019219558
+  "why": "A1C2B B7 scoped PASS and confirmed documentary guard. Five exact SQL13 rows paths.",
+  "next": "A1C2C SQL13 rows B6/B7 then FBS2v10 coordinated replay"
 }
