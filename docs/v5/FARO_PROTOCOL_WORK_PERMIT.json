@@ -2,9 +2,8 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
-  "reviewed_head": "440ebf0c4b48fd94d025cd6266ecf7fa78626981",
+  "reviewed_head": "07a6719b1e8c7290bd33b1e0c3d049b8e47f283d",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevCutoverAuthorization.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevCutoverAuthorizationTest.kt",
     ".github/workflows/faro-v5-s4-w05-a1b3c2b1b-durable-authorization.yml"
   ],
@@ -13,9 +12,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
-          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
-          "marker": "## B1"
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
+          "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
+          "marker": "## B1–B5"
         }
       ]
     },
@@ -23,9 +22,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
-          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
-          "marker": "## B2"
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
+          "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
+          "marker": "## B1–B5"
         }
       ]
     },
@@ -33,9 +32,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
-          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
-          "marker": "## B3"
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
+          "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
+          "marker": "## B1–B5"
         }
       ]
     },
@@ -43,9 +42,9 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
-          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
-          "marker": "## B4"
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
+          "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
+          "marker": "## B1–B5"
         }
       ]
     },
@@ -53,29 +52,29 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
-          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
-          "marker": "## B5"
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
+          "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
+          "marker": "## B1–B5"
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "READY_RED_FIX_EXACT2",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "5c080ef54d0dda5dedb005c8ef1397daaa293dfa",
-    "unit_id": "S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_DEV",
-    "result": "PASS",
+    "sha": "07a6719b1e8c7290bd33b1e0c3d049b8e47f283d",
+    "unit_id": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2B1A_B7_PASS_EVIDENCE2_SEALED_SEMANTICS_XML20_20_20261124.md",
-        "blob_sha": "6238b19251d142c8fd8ce60d169c4941d68db74e",
-        "marker": "## B7"
+        "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
+        "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
+        "marker": "## Evidencia"
       }
     ]
   },
-  "why": "C2B1A typed semantic READ_ONLY B7 PASS XML20/20, Evidence2 needs isolated durable foreground PRE-CUTOVER ticket+journal; C1A Evidence1 v1 cannot be reused",
-  "how": "Exact3 new Evidence2 v2 cutover authorization class, dedicated tests and targeted workflow; no cutover/ACTIVE stock",
+  "why": "CI45521825103 compileTestKotlin UNINITIALIZED_PARAMETER at new test:185, no tests/XML, fixture stage not restored and wrong legacy codec",
+  "how": "B0 RED_FIX exact2 test + workflow; 3 test-only corrections, CI stage directed 22/22 and XML",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -84,7 +83,7 @@
   },
   "previous_unit": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
   "previous_b7": "PASS_SCOPED_EVIDENCE2_SQL11_STAGED_16_16",
-  "next": "B6 exact3 and CI XML22/22; B7 after guard and original XML. C2C independent later",
+  "next": "Implement redfix exact2, CI XML22/22, B7 only if tests pass",
   "pre_audit_guard_run_id": 45521383417,
   "pre_audit_head": "440ebf0c4b48fd94d025cd6266ecf7fa78626981",
   "previous_ci_run_id": 45495586732,
@@ -99,5 +98,7 @@
   "final_guard_run_id": null,
   "final_ci_xml": null,
   "final_xml_artifact_id": null,
-  "final_xml_sha256": null
+  "final_xml_sha256": null,
+  "last_ci_run_id": 45521825103,
+  "last_ci_conclusion": "FAILURE_COMPILE_TEST_KOTLIN_UNINITIALIZED_PARAMETER_NO_XML"
 }
