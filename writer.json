@@ -1,10 +1,20 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.WORK.A1C2D.B6.20261125",
   "token_hash": "4433b872325063abe8724abc6a874607f297a643f18c96b58bbb2dd8feb8b83e",
   "target_head": "35bf16ef0e530015458008dd470f585e7650e1ba",
   "target_branch": "work/s3-night-20261102",
   "epoch": 1997,
-  "timestamp": 1795609517
+  "timestamp": 1795609850,
+  "recovery": {
+    "kind": "MANUAL_HUMAN_AUTHORIZED_LOST_SESSION_TOKEN",
+    "authorization": "USER_EXPLICIT_20261125_IN_CHAT",
+    "reason": "WORK_CREDITS_EXHAUSTED_PRIOR_OWNER_TOKEN_UNAVAILABLE",
+    "recovered_from_ref": "f34e97d6d12851d5409d5d30072765b33c2f181f",
+    "original_owner": "FARO.WORK.A1C2D.B6.20261125",
+    "original_epoch": 1997,
+    "original_target_head": "35bf16ef0e530015458008dd470f585e7650e1ba",
+    "noncooperating_owner_takeover": false
+  }
 }
