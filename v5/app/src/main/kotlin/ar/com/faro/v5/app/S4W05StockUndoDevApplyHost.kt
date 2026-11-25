@@ -183,30 +183,37 @@ internal class S4W05StockUndoDevApplyHost(
             if (confirmedAt < intent.cancelledAtEpochMillis) return@withMaterialWrite denied()
             var admittedIdentity: ApplyAttemptIdentity? = null
             var consumed = false
+            val binding = UndoBinding()
             val authorization = ApplyTransactionAuthorizationPort { plan, identity, actual, scope ->
                 !consumed && admittedIdentity == identity && scope.transactionId == identity.transactionId &&
                     plan.planFingerprint == context.planFingerprint && node == actual &&
-                    selected(context.conversationId) && policy(principal, operation, intent.targetObjectId)
+                    foregroundCurrent() && policy(principal, operation, intent.targetObjectId)
             }
             val finalGate = ApplyTransactionFinalCommitGate { plan, identity, receipt, nodes, scope ->
-                // After compensation, candidate.position is intentionally no longer present.
-                // Recheck live grant, NOT the now-consumed G1A preview.
+                // No Workspace or independent Reality receipt reads while SQL13 is writing.
+                // The source COMMITTED proof was pinned and rechecked by afterBeginApply.
+                // SQL13's CAS ensures receipt/balance cannot change between preview and COMMIT.
                 val allowed = nodes.singleOrNull() == node && receipt.transactionId == identity.transactionId &&
                     receipt.planFingerprint == context.planFingerprint &&
-                    originalCommitted(intent) == initial.origin &&
+                    binding.hasPromoted(node.preparedOperation, identity.transactionId) &&
                     authorization.isAuthorized(plan, identity, node, scope)
                 if (allowed) consumed = true
                 allowed
             }
-            coordinator(authorization, finalGate) { applying, identity ->
+            coordinator(authorization, finalGate, binding = binding) { applying, identity ->
+                // Called AFTER Workspace BeginApply, BEFORE Reality.run; safe to recheck
+                // both the sealed Workspace source and durable Reality journal here.
                 val fresh = reviews.load(applying.context())
+                val rechecked = ready(intent, node.preparedOperation.idempotencyKey.value)
                 val allowed = fresh?.review == applying && fresh.envelope().contentEquals(envelope) &&
                     applying.state == ConversationPlanReviewState.APPLYING &&
                     applying.transactionId == identity.transactionId &&
-                    applying.context() == context &&
-                    ready(intent, node.preparedOperation.idempotencyKey.value) != null &&
+                    applying.context() == context && rechecked == initial &&
                     selected(context.conversationId) && policy(principal, operation, intent.targetObjectId)
-                if (allowed) admittedIdentity = identity
+                if (allowed) {
+                    admittedIdentity = identity
+                    binding.promote(node.preparedOperation, initial, identity.transactionId)
+                }
                 allowed
             }.apply(context)
         } }
@@ -248,9 +255,10 @@ internal class S4W05StockUndoDevApplyHost(
     private fun coordinator(
         authorization: ApplyTransactionAuthorizationPort? = null,
         finalGate: ApplyTransactionFinalCommitGate? = null,
+        binding: UndoBinding = UndoBinding(),
         afterBegin: ((ConversationPlanReviewSnapshot, ApplyAttemptIdentity) -> Boolean)? = null,
     ): ReviewedConversationApplyCoordinator {
-        val bindings = listOf(UndoBinding())
+        val bindings = listOf(binding)
         return ReviewedConversationApplyCoordinator(
             workspace = reviews, decode = PreparedPlanEnvelopeCodec::decode,
             retry = ApplyRetryReceiptGate(session.identities, session.receipts),
@@ -262,6 +270,24 @@ internal class S4W05StockUndoDevApplyHost(
     }
 
     private inner class UndoBinding : OperationBindingPort, OperationRevalidationPort {
+        private var admittedPrepared: PreparedOperation? = null
+        private var admitted: HouseholdStockUndoDevDecision.ReviewOnly? = null
+        private var admittedTx: TransactionId? = null
+
+        fun promote(
+            prepared: PreparedOperation,
+            decision: HouseholdStockUndoDevDecision.ReviewOnly,
+            transactionId: TransactionId,
+        ) {
+            check(admitted == null && admittedPrepared == null && admittedTx == null)
+            admittedPrepared = prepared
+            admitted = decision
+            admittedTx = transactionId
+        }
+
+        fun hasPromoted(prepared: PreparedOperation, transactionId: TransactionId): Boolean =
+            admitted != null && admittedPrepared == prepared && admittedTx == transactionId
+
         override val operationId = operation
         override val descriptor = OperationBindingDescriptor(
             operation, ExecutorId("undo-coordinator"), ExecutionProfile.REALITY_MUTATION,
@@ -277,9 +303,14 @@ internal class S4W05StockUndoDevApplyHost(
             preparedOperation: PreparedOperation,
             transactionScope: RealityTransactionScope,
         ): OperationBindingExecutionResult {
-            val accepted = ready(preparedOperation)
-                ?: return OperationBindingExecutionResult.Rejected("stock_undo_origin_or_balance_stale")
+            // Reality.run may only use the frozen host-approved evidence, live grant
+            // and SQL13 CAS. Never reenter Workspace/loadCommitted/attempts here.
+            val accepted = admitted?.takeIf {
+                hasPromoted(preparedOperation, transactionScope.transactionId)
+            } ?: return OperationBindingExecutionResult.Rejected("stock_undo_origin_or_balance_stale")
             val intent = accepted.request.intent
+            if (!foregroundCurrent() || !policy(principal, operation, intent.targetObjectId))
+                return OperationBindingExecutionResult.Rejected("stock_undo_consent_revoked")
             val position = accepted.position
             val compensationId = "w05c:" + CanonicalHashBuilder.domain("w05.stock.undo.compensation")
                 .string("intent", accepted.request.undoIntentKey).sha256Hex()
