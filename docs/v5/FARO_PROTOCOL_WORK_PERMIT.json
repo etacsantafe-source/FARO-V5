@@ -55,17 +55,17 @@
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_6_6",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "e76a76625fffbe959b3e816283ea2cc170294b18",
+    "sha": "d2f0a7a60be0ddf1cce9c02c80879ef0f79d5b27",
     "unit_id": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B0_RED_FIX_SQL_REFERENCE_20261125.md",
-        "blob_sha": "cb7fcfd318f4e272c4593c7b8bb3b0b08e00a981",
+        "path": "docs/v5/FARO_S4_W05_A1C0B0_B7_PASS_PURCHASE_STAGED_SCHEMA_20261125.md",
+        "blob_sha": "b391703f53076baa5d91e7e68571ed405c4076f2",
         "marker": "## B7"
       }
     ]
@@ -73,8 +73,13 @@
   "pre_audit_guard_run_id": 45537960843,
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "RED_FIX publicado; guardia SUCCESS; pendiente XML original y B7.",
-  "next": "B6 exact3 and JUnit6 XML, then B7",
+  "why": "B7 PASS scoped to staged schema; permit consumed",
+  "next": "A1C0B1 FBS2v9 audit guard and independent READY",
   "last_ci_run_id": 45538967777,
-  "last_ci_conclusion": "IN_PROGRESS"
+  "last_ci_conclusion": "SUCCESS_XML6_6",
+  "final_ci_run_id": 45538967777,
+  "final_guard_run_id": 45538967902,
+  "final_xml_artifact_id": 14988217949,
+  "final_xml_sha256": "517f3569891afbd5ec73474c9d6aae9581c53968e5459980cd29656f60447f28",
+  "final_ci_xml": "XML6_6_ZERO_FAILURES_ERRORS_SKIPS"
 }
