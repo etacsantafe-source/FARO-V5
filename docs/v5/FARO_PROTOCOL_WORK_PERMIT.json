@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",
   "reviewed_head": "69e20906fcc636bf40a047801381eef8fe99efa7",
   "paths": [
@@ -61,17 +61,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_23_23",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "afa612718bfd5910047f5bc2ee9de240e8daf688",
-    "unit_id": "S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV",
+    "sha": "80f5d08db0dcda9882d3f5e15432ab8650a55e90",
+    "unit_id": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B1_B7_PASS_FBS2V9_CODEC_20261125.md",
-        "blob_sha": "0b4e59c16bb88bfb422e4f1f55f3622840238d55",
+        "path": "docs/v5/FARO_S4_W05_A1C0B2A_B7_PASS_SQL12_STAGED_ROWS_20261125.md",
+        "blob_sha": "feae95141d7648cf89c1e8375449b44062135bc6",
         "marker": "## B7"
       }
     ]
@@ -80,10 +80,14 @@
   "pre_audit_head": "69e20906fcc636bf40a047801381eef8fe99efa7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B1 B7 PASS XML v9 10/10 and v8 10/10. Exact SQL12 Reality port delta and document guard SUCCESS",
-  "next": "A1C0B2A B6/B7 on five exact paths, then A1C0B2B original authenticated v9 five-store coordinator",
-  "last_ci_run_id": 45544057188,
-  "last_ci_conclusion": "SUCCESS_XML20_20",
+  "why": "A1C0B2A B7 PASS scoped, permit consumed",
+  "next": "A1C0B2B authenticated FBS2v9 five-store stage replay and capture, independent READY after document guard",
+  "last_ci_run_id": 45545699935,
+  "last_ci_conclusion": "SUCCESS_XML23_23",
   "previous_unit": "S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV",
-  "previous_b7": "PASS_SCOPED_XML20_20"
+  "previous_b7": "PASS_SCOPED_XML20_20",
+  "final_ci_run_id": 45545699935,
+  "final_guard_run_id": 45545699795,
+  "final_xml_artifact_id": 14991447734,
+  "final_ci_xml": "XML_SQL12_7_7_MIGRATION_6_6_SQL11_10_10_ZERO_FAILURES_ERRORS_SKIPS"
 }
