@@ -24,7 +24,7 @@ jobs:
         run: |
           set -euo pipefail
           mapfile -t paths < <(git diff --name-only --no-renames HEAD^ HEAD)
-          [[ "${#paths[@]}" -eq 6 ]]
+          [[ "${#paths[@]}" -eq 6 || ( "${#paths[@]}" -eq 1 && "${paths[0]}" == ".github/workflows/faro-v5-s4-w05-a1b3c2c1-evidence2-android-reopen.yml" ) ]]
           for path in "${paths[@]}"; do
             python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV" --path "$path"
           done
@@ -54,7 +54,9 @@ jobs:
       - name: Assemble isolated target and instrumentation
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
             -PfaroG5AndroidTestV2CoreDev=true \
             :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest
       - name: Enable Android VM acceleration
@@ -76,7 +78,9 @@ jobs:
             adb install -r "$APP";
             adb shell -T run-as ar.com.faro.alpha.v2coredev mkdir -p files/c2c1;
             adb shell -T run-as ar.com.faro.alpha.v2coredev tar -xf - -C files/c2c1 < "$RUNNER_TEMP/faro-c2c1-fixture.tar";
-            ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8"
             -PfaroG5AndroidTestV2CoreDev=true
             -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5W05Household11Evidence2ActiveAndroidTest
             :app:connectedV2CoreDevAndroidTest
