@@ -65,24 +65,24 @@
   "pre_audit_guard_run_id": 45643859498,
   "pre_audit_head": "8e95efc6480181088d05b5646dc3d853e81da280",
   "last_code_review": {
-    "sha": "84ceeda8d997ff4801a90ebb052e69fdd31ca197",
+    "sha": "bf9f2d079e67b5f6f399324bd4bae5564a40e77a",
     "result": "RED_FIX",
     "unit_id": "S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2G1B_B7_RED_FIX_NESTED_STORE_READ_20261125.md",
-        "blob_sha": "7f92475152cd8a7cee1c1885fb402c75d58f084f",
+        "path": "docs/v5/FARO_S4_W05_A1C2G1B_B7_RED_FIX2_APPLY_STAGE_DIAGNOSTIC_20261125.md",
+        "blob_sha": "c2d8119a702621c215fcc838af75466bbd430085",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45647661813,
+  "last_ci_run_id": 45663321658,
   "last_ci_conclusion": "failure_12_pass_5_failed",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "G1B host source COMMITTED Workspace+Reality+G0 SQL13 compensation; exact3 routes, preaudit guard SUCCESS; no stock production/Android.",
-  "next": "G1B same 3 paths RED_FIX B6. Execute code SHA CI XML 17/17 then B7 PASS; no other functional work.",
+  "next": "G1B same exact3 evidence stage diagnostics, directed CI, then causal fix and B7 PASS",
   "last_guard_run_id": 45643859498,
   "current_code_sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
-  "reason": "G1B B7 RED_FIX; failure confirmed original XML, nested source reads during Reality transaction. Same unit exact3 ONLY."
+  "reason": "G1B RED_FIX2 diagnostic required; 5 tests RecoveryRequired, cause not verified"
 }

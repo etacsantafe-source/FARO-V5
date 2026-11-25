@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2G1B_B7_RED_FIX_NESTED_STORE_READ_PENDING",
+  "phase": "S4_W05_A1C2G1B_B7_RED_FIX2_DIAGNOSTIC",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2029
+    "epoch": 2030
   },
   "automation": {
     "activation_authorized": false,
@@ -47,10 +47,10 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "G1B code RED_FIX exact3 after this documented B7 red, 17/17 JUnit + guard/CI then B7; no production",
-  "checkpoint_status": "G1A_B7_PASS_18_18_G1B_B6_RED_12_17_RED_FIX_SCOPED_PENDING",
+  "next": "G1B same exact3 evidence stage diagnostics, directed CI, then causal fix and B7 PASS",
+  "checkpoint_status": "G1B_B7_RED_TWICE_12_17_DIAGNOSTICS_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C2G1B_B7_RED_FIX_NESTED_STORE_READ_20261125.md",
+  "last_handoff": "docs/v5/FARO_S4_W05_A1C2G1B_B7_RED_FIX2_APPLY_STAGE_DIAGNOSTIC_20261125.md",
   "last_code_sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
   "last_ci_run_id": 45642672627,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
