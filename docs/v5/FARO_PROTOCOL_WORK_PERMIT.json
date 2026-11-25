@@ -67,21 +67,21 @@
   "pre_audit_guard_run_id": 45607146184,
   "pre_audit_head": "c2f78ea5a6713ed9dd7a292bc999413dcadc55c0",
   "last_code_review": {
-    "sha": "0335c7657bc81f3d89a0709508c562f5e1099aac",
-    "unit_id": "S4_W05_A1C1_SQL12_STOCK_RECEIVE_DEV",
-    "result": "PASS",
+    "sha": "95e57e0172428a6f661095f0ad47ffac635ad987",
+    "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C1_B7_PASS_STOCK_RECEIVE_DEV_20261125.md",
-        "blob_sha": "af36be559f4677109c9980b8e2b43b6adceeec00",
+        "path": "docs/v5/FARO_S4_W05_A1C2A_RED_FIX_SQLITE_TRIGGER_DDL_20261125.md",
+        "blob_sha": "ba0d1e5eb075f6a61a4d117b22551fce606169f9",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45605547164,
-  "last_ci_conclusion": "SUCCESS_XML8_8",
+  "last_ci_run_id": 45608063047,
+  "last_ci_conclusion": "FAILURE_SQLITE_DDL_TEXT",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C1 B7 scoped PASS and confirmed documentary guard. Five exact SQL13 staged schema paths.",
+  "why": "A1C2A same-unit RED_FIX for leading whitespace in the exact stored INSERT trigger. Five original routes.",
   "next": "A1C2A staged SQL13 B6/B7, then authenticated FBS2v10"
 }

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2A_SQL13_STAGED_COMPENSATION_READY_EXACT5",
+  "phase": "S4_W05_A1C2A_SQL13_STAGED_SCHEMA_RED_FIX",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1984
+    "epoch": 1987
   },
   "automation": {
     "activation_authorized": false,
@@ -48,11 +48,11 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "A1C2A SQL13 STAGED B6/B7 then authenticated FBS2v10",
-  "checkpoint_status": "A1C2A_READY_EXACT5_B6_PENDING_A1_OPEN",
+  "checkpoint_status": "A1C2A_RED_FIX_A1_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
-  "last_code_sha": "0335c7657bc81f3d89a0709508c562f5e1099aac",
-  "last_ci_run_id": 45605547164,
+  "last_code_sha": "95e57e0172428a6f661095f0ad47ffac635ad987",
+  "last_ci_run_id": 45608063047,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML8_8",
+  "last_ci_conclusion": "FAILURE_SQLITE_DDL_TEXT",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -493,7 +493,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 1984,
+  "last_writer_epoch_observed": 1987,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -525,13 +525,13 @@
       "evidence_sha": "943ac018f706ccd527021dc2c45629d571b5a02b"
     },
     "last_code_review": {
-      "sha": "0335c7657bc81f3d89a0709508c562f5e1099aac",
-      "unit_id": "S4_W05_A1C1_SQL12_STOCK_RECEIVE_DEV",
-      "result": "PASS",
+      "sha": "95e57e0172428a6f661095f0ad47ffac635ad987",
+      "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
+      "result": "RED_FIX",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C1_B7_PASS_STOCK_RECEIVE_DEV_20261125.md",
-          "blob_sha": "af36be559f4677109c9980b8e2b43b6adceeec00",
+          "path": "docs/v5/FARO_S4_W05_A1C2A_RED_FIX_SQLITE_TRIGGER_DDL_20261125.md",
+          "blob_sha": "ba0d1e5eb075f6a61a4d117b22551fce606169f9",
           "marker": "## B7"
         }
       ]
@@ -2197,7 +2197,7 @@
   "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
   "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
-  "writer_release_epoch": 1984,
+  "writer_release_epoch": 1987,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -7290,7 +7290,7 @@
     "b7_document": "docs/v5/FARO_S4_W05_A1C1_B7_PASS_STOCK_RECEIVE_DEV_20261125.md"
   },
   "w05_a1c2": {
-    "status": "A1C2A_READY_B6_PENDING",
+    "status": "A1C2A_B7_RED_FIX_SQLITE_DDL_TEXT",
     "evidence": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
     "scope": [
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchema.kt",
@@ -7299,6 +7299,7 @@
       "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchemaTest.kt",
       ".github/workflows/faro-v5-s4-w05-a1c2a-sql13-compensation-schema.yml"
     ],
-    "preaudit_guard": 45607146184
+    "preaudit_guard": 45607146184,
+    "red_fix": "docs/v5/FARO_S4_W05_A1C2A_RED_FIX_SQLITE_TRIGGER_DDL_20261125.md"
   }
 }
