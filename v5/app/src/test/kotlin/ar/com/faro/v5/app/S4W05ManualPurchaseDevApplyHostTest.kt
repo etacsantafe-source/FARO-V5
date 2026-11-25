@@ -95,7 +95,7 @@ class S4W05ManualPurchaseDevApplyHostTest {
     }
 
     @Test
-    fun staleEpochAndFullPointerAbaRejectAlreadyApprovedPlan() = Rig().use { rig ->
+    fun staleEpochAndFullPointerAbaRejectAlreadyApprovedPlan(): Unit = Rig().use { rig ->
         val approved = rig.approve(rig.submit())
         rig.epoch = "changed"
         assertInstanceOf(ReviewedConversationApplyResult.Denied::class.java, rig.apply(approved))
