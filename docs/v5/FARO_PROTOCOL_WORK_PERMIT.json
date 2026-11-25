@@ -71,13 +71,13 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "80f5d08db0dcda9882d3f5e15432ab8650a55e90",
-    "unit_id": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",
-    "result": "PASS",
+    "sha": "e8fecbfd31d3a6563d02a0280cf708a3b9e4879a",
+    "unit_id": "S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_STAGED_REPLAY_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B2A_B7_PASS_SQL12_STAGED_ROWS_20261125.md",
-        "blob_sha": "feae95141d7648cf89c1e8375449b44062135bc6",
+        "path": "docs/v5/FARO_S4_W05_A1C0B2B_RED_FIX_ABA_TEST_20261125.md",
+        "blob_sha": "ec4a357e1f5408a153ecc7d04e3f6d4429be6eff",
         "marker": "## B7"
       }
     ]
@@ -86,8 +86,8 @@
   "pre_audit_head": "cf989556959dda039416ed4b3bf10aa55ed8ed8b",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B2A B7 PASS XML23/23. Exact FBS2v9 five-store SQL12 STAGED coordinator delta and document guard SUCCESS",
-  "next": "A1C0B2B B6/B7 on 11 exact paths, then A1C0B3 journaled cutover and exact ACTIVE DEV graph",
+  "why": "Kotlin test ABA CAS argument mismatch on exact initial SHA. Same-unit RED_FIX only.",
+  "next": "Fix only ABA test argument mismatch; rerun directed CI/XML and guard",
   "last_ci_run_id": 45545699935,
   "last_ci_conclusion": "SUCCESS_XML23_23",
   "previous_unit": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",

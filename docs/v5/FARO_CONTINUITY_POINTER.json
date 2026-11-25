@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_REPLAY_READY_EXACT11",
+  "phase": "S4_W05_A1C0B2B_SQL12_REPLAY_TEST_ABA_RED_FIX",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1962
+    "epoch": 1964
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A1C0B2B authenticate v9 capture/restore of five stores on SQL12 STAGED, then A1C0B3",
-  "checkpoint_status": "A1C0B2B_B1_B5_READY_EXACT11_B6_PENDING_A1_GLOBAL_OPEN",
+  "next": "A1C0B2B test ABA uses generation ID parameters, then fresh CI and guard",
+  "checkpoint_status": "A1C0B2B_TEST_COMPILE_RED_FIX_A1_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
-  "last_code_sha": "80f5d08db0dcda9882d3f5e15432ab8650a55e90",
-  "last_ci_run_id": 45545699935,
+  "last_code_sha": "e8fecbfd31d3a6563d02a0280cf708a3b9e4879a",
+  "last_ci_run_id": 45547259447,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML23_23",
+  "last_ci_conclusion": "FAILURE_TEST_COMPILE",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -493,7 +493,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 1962,
+  "last_writer_epoch_observed": 1964,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -531,13 +531,13 @@
       "evidence_sha": "943ac018f706ccd527021dc2c45629d571b5a02b"
     },
     "last_code_review": {
-      "sha": "80f5d08db0dcda9882d3f5e15432ab8650a55e90",
-      "unit_id": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",
-      "result": "PASS",
+      "sha": "e8fecbfd31d3a6563d02a0280cf708a3b9e4879a",
+      "unit_id": "S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_STAGED_REPLAY_DEV",
+      "result": "RED_FIX",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B2A_B7_PASS_SQL12_STAGED_ROWS_20261125.md",
-          "blob_sha": "feae95141d7648cf89c1e8375449b44062135bc6",
+          "path": "docs/v5/FARO_S4_W05_A1C0B2B_RED_FIX_ABA_TEST_20261125.md",
+          "blob_sha": "ec4a357e1f5408a153ecc7d04e3f6d4429be6eff",
           "marker": "## B7"
         }
       ]
@@ -2203,7 +2203,7 @@
   "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
   "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
-  "writer_release_epoch": 1962,
+  "writer_release_epoch": 1964,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -7178,7 +7178,7 @@
     "evidence": "docs/v5/FARO_S4_W05_A1C0B1_B7_PASS_FBS2V9_CODEC_20261125.md"
   },
   "w05_a1c0b2": {
-    "status": "A1C0B2B_READY_B6_PENDING",
+    "status": "A1C0B2B_RED_FIX_SCOPED_TEST",
     "next_delta": "docs/v5/FARO_S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_REPLAY_DELTA_20261125.md",
     "coordinator": "AUDITED_PENDING_READY",
     "active": false,
@@ -7208,6 +7208,8 @@
         "sql11": 10
       },
       "evidence": "docs/v5/FARO_S4_W05_A1C0B2A_B7_PASS_SQL12_STAGED_ROWS_20261125.md"
-    }
+    },
+    "code_sha": "e8fecbfd31d3a6563d02a0280cf708a3b9e4879a",
+    "red_fix": "docs/v5/FARO_S4_W05_A1C0B2B_RED_FIX_ABA_TEST_20261125.md"
   }
 }
