@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C1_SQL12_STOCK_RECEIVE_DEV",
   "reviewed_head": "d5437199724809d2d7c91383ff8c6a8acd946d95",
   "paths": [
@@ -63,27 +63,29 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_8_8",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45604377100,
   "pre_audit_head": "d5437199724809d2d7c91383ff8c6a8acd946d95",
   "last_code_review": {
-    "sha": "3b1d1dee7e6ac8215efe26acb2d77a0c01b6342b",
-    "unit_id": "S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV",
+    "sha": "0335c7657bc81f3d89a0709508c562f5e1099aac",
+    "unit_id": "S4_W05_A1C1_SQL12_STOCK_RECEIVE_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B4_B7_PASS_MANUAL_PURCHASE_DEV_20261125.md",
-        "blob_sha": "93a78b17fcdbf20f8de8f86a5b6ad5c2763f4e64",
+        "path": "docs/v5/FARO_S4_W05_A1C1_B7_PASS_STOCK_RECEIVE_DEV_20261125.md",
+        "blob_sha": "af36be559f4677109c9980b8e2b43b6adceeec00",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45603410162,
+  "last_ci_run_id": 45605547164,
   "last_ci_conclusion": "SUCCESS_XML8_8",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B4 B7 scoped PASS and confirmed documentary guard. Seven exact N-035 receipt DEV paths.",
-  "next": "A1C1 B6/B7, then A1C2 recovery"
+  "why": "A1C1 B7 PASS. Scope consumed.",
+  "next": "A1C2A own READY after documentary guard",
+  "final_guard_run_id": 45605547137,
+  "final_xml_artifact_id": 15018530682
 }
