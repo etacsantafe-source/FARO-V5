@@ -13,9 +13,9 @@ internal object RealityHousehold12PurchaseSchema {
     ) {
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         try {
-            RealityHousehold11ReceiptRowsPort.checkSchema(connection)
-            RealityHousehold11ReceiptRowsPort.checkIntegrity(connection)
-            RealityHousehold11ReceiptRowsPort.readRows(connection)
+            Household11ReceiptRowsSql.checkSchema(connection)
+            Household11ReceiptRowsSql.checkIntegrity(connection)
+            Household11ReceiptRowsSql.readRows(connection)
 
             connection.execSQL(
                 """
@@ -40,7 +40,7 @@ internal object RealityHousehold12PurchaseSchema {
                 """.trimIndent(),
             )
             connection.execSQL("PRAGMA user_version = $VERSION")
-            RealityHousehold11ReceiptRowsPort.checkIntegrity(connection)
+            Household11ReceiptRowsSql.checkIntegrity(connection)
             beforeCommit()
             connection.execSQL("COMMIT TRANSACTION")
         } catch (failure: Throwable) {

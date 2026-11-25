@@ -64,6 +64,7 @@ jobs:
           suite = ElementTree.parse(reports[0]).getroot()
           totals = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
           assert totals == (6,0,0,0), totals
+          assert len(suite.findall('testcase')) == 6
           print('FARO_W05_A1C0B0_REALITY12_STAGED_XML_PASS_6_6')
           PY
       - name: Preserve original W05-A1C0B0 XML

@@ -21,10 +21,10 @@ class RealityHousehold12PurchaseSchemaTest {
         val bytes = Files.readAllBytes(source)
         val staged = Files.copy(source, root.resolve("staged.db"))
         open(staged).use { db ->
-            val receipts = RealityHousehold11ReceiptRowsPort.readRows(db)
+            val receipts = Household11ReceiptRowsSql.readRows(db)
             RealityHousehold12PurchaseSchema.installOnStagedElevenConnection(db)
             assertEquals(12L, db.scalar("PRAGMA user_version"))
-            assertEquals(receipts, RealityHousehold11ReceiptRowsPort.readRows(db))
+            assertEquals(receipts, Household11ReceiptRowsSql.readRows(db))
             assertEquals(1L, db.scalar("SELECT count(*) FROM household_need"))
             assertEquals(500L, db.scalar("SELECT amount_minor FROM finance_account_opening"))
             assertEquals(0L, db.scalar("SELECT count(*) FROM household_confirmed_purchase"))
