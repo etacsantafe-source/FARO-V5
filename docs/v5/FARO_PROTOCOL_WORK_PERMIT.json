@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_ADMISSION",
   "reviewed_head": "362037efcf01f2c0efc2b4bd0e9cf8efd45762b1",
   "paths": [
@@ -59,30 +59,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "COMPLETE_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45642037000,
   "pre_audit_head": "362037efcf01f2c0efc2b4bd0e9cf8efd45762b1",
   "last_code_review": {
-    "sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
+    "sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
     "result": "PASS",
-    "unit_id": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION",
+    "unit_id": "S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_ADMISSION",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2G0_B7_PASS_SQL13_COMPENSATION_DEV_20261125.md",
-        "blob_sha": "4c8e96dea52958727d36cdfe03da96c2b3f6f6ca",
+        "path": "docs/v5/FARO_S4_W05_A1C2G1A_B7_PASS_STOCK_UNDO_ORIGIN_ADMISSION_20261125.md",
+        "blob_sha": "16c5cc6df6d6b0ed1aadcfdffc56ab91b28ae741",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45639876681,
+  "last_ci_run_id": 45642672627,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "G1A READ_ONLY typed stock Undo admission, source COMMITTED supplied only by trusted future G1B; exact3 routes, guard 45642037000 SUCCESS; not G1B Apply.",
-  "next": "G1A B6 + strict CI/XML and B7, then separate G1B Review/Confirm/Apply with trusted source origin.",
+  "next": "W05-A1C2G1B own B1-B5 and guard/READY, then host+CI+XML; A1C3/A1C4 after.",
   "last_guard_run_id": 45642037000,
-  "current_code_sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
-  "reason": "Bounded G1A READY exact3; G0 B7 already PASS 18/18, no rework."
+  "current_code_sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
+  "reason": "G1A B7 PASS scoped 18/18; consumed. G1B requires own permit and functional code."
 }
