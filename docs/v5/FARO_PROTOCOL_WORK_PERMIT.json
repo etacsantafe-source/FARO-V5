@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_DEV",
   "reviewed_head": "c7c797bdbb2c2af7d53ee49fa8f6e4218c35a9db",
   "paths": [
@@ -59,28 +59,28 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_31_31",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45625622463,
   "pre_audit_head": "c7c797bdbb2c2af7d53ee49fa8f6e4218c35a9db",
   "last_code_review": {
-    "sha": "e2e1a5ddedeacc06ed5ce3ef5664aa354ccfa1b2",
+    "sha": "e581dcba2191b988c90ca6271b1bf9c209d13eac",
     "unit_id": "S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2F_B7_RED_FIX_INVALID_V9_FIXTURE_20261125.md",
-        "blob_sha": "61c312ce00c2ae15e0741c04695b25eeee7cbc80",
+        "path": "docs/v5/FARO_S4_W05_A1C2F_B7_PASS_SQL13_EVIDENCE2_CUTOVER_20261125.md",
+        "blob_sha": "92f03281754ff84703353fc79749f9f582112d0b",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45628413752,
-  "last_ci_conclusion": "FAILURE_XML_30_31_V9_FIXTURE",
+  "last_ci_run_id": 45629774472,
+  "last_ci_conclusion": "SUCCESS_XML31_31",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2F B7 RED_FIX: test fixture attempts invalid v9 gross17 vs purchase10 without compensation. Test-only same-unit correction.",
-  "next": "Fix A1C2F test fixture historical v9 to receipts7+3 revision2; CI 31/31 XML.",
-  "last_guard_run_id": 45628413589
+  "why": "A1C2F journaled SQL13 Evidence2 DEV cutover B7 PASS scoped. Three exact paths consumed. No stock Apply/Android.",
+  "next": "N-016 compensation Undo stock DEV B1-B5 exact READY; A1C3 Android, A1C4 global later.",
+  "last_guard_run_id": 45629774384
 }
