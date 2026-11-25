@@ -20,13 +20,13 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Verify exact three C2B1B paths against parent READY
+      - name: Verify exact two C2B1B RED_FIX paths against parent READY
         shell: bash
         run: |
           set -euo pipefail
           UNIT=S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV
           mapfile -t paths < <(git diff --name-only --no-renames HEAD^ HEAD)
-          [[ "${#paths[@]}" -eq 3 ]]
+          [[ "${#paths[@]}" -eq 2 ]]
           for path in "${paths[@]}"; do
             python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$path"
           done

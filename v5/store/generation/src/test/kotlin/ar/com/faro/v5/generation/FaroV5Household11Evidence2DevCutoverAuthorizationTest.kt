@@ -157,7 +157,9 @@ class FaroV5Household11Evidence2DevCutoverAuthorizationTest {
         ))
         val payload = FaroV5Household11Fbs2Snapshot(snapshotV7, receipt)
         val bytes = crypto.sealWithHouseholdReceipts11(payload, key)
-        return Fixture(origin, src, dest, payload, bytes)
+        val stagedFixture = Fixture(origin, src, dest, payload, bytes)
+        assertEquals(verified(stagedFixture), restore(stagedFixture))
+        return stagedFixture
     }
 
     private fun restore(f: Fixture, bytes: ByteArray = f.ciphertext,
@@ -182,7 +184,7 @@ class FaroV5Household11Evidence2DevCutoverAuthorizationTest {
     private fun FaroV5Household11Evidence2DevCutoverAuthorization.authorize(
         s: Fixture,
         bytes: ByteArray = s.ciphertext,
-        key: CharArray = key,
+        key: CharArray = this@FaroV5Household11Evidence2DevCutoverAuthorizationTest.key,
         foreground: () -> Boolean = { true },
     ) = authorize(op, s.target, s.origin, bytes, key, foreground)
 
@@ -295,7 +297,7 @@ class FaroV5Household11Evidence2DevCutoverAuthorizationTest {
         }
         val oldTicket = Files.readAllBytes(ticket)
         val alteredNonce = crypto.sealWithHouseholdReceipts11(s.snapshot, key)
-        val older = crypto.sealWithHousehold(s.snapshot.base, key)
+        val older = crypto.sealWithHouseholdEvidence2(s.snapshot.base, key)
         runtime().use { fresh ->
             for ((bytes,key) in listOf(
                 alteredNonce to key,
