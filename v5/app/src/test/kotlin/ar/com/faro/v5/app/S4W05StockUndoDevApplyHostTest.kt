@@ -349,8 +349,20 @@ class S4W05StockUndoDevApplyHostTest {
         fun approve(pending: ConversationPlanReviewSnapshot) =
             this@S4W05StockUndoDevApplyHostTest.approve(host.reviewDecisions, pending)
 
-        fun apply(approved: ConversationPlanReviewSnapshot) =
-            host.executeAfterExplicitConfirmation(approved.context())
+        fun apply(approved: ConversationPlanReviewSnapshot): ReviewedConversationApplyResult {
+            val outcome = host.executeAfterExplicitConfirmation(approved.context())
+            if (outcome == ReviewedConversationApplyResult.RecoveryRequired) {
+                val review = runBlocking { host.reviewDecisions.reviews(chat) }
+                    .firstOrNull { it.reviewId == approved.reviewId }
+                val position = host.position(receiptSeven)
+                throw AssertionError(
+                    "G1B_DIAG ${host.diagnosticStages}; " +
+                        "reviewState=${review?.state}; hasTx=${review?.transactionId != null}; " +
+                        "physicalStillAvailable=${position != null}"
+                )
+            }
+            return outcome
+        }
 
         fun reopen(principal: String = "manual-human") {
             host.close()

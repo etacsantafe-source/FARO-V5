@@ -44,6 +44,10 @@ internal class S4W05StockUndoDevApplyHost(
         .string("principal", principal).sha256Hex().take(24) + ":"
     private val grantLock = Any()
     @Volatile private var closed = false
+    // DEV-only diagnostic of control-flow stages, no IDs or personal contents; removed after RED_FIX.
+    @Volatile internal var diagnosticStages: String = ""
+        private set
+    private fun traceStage(stage: String) { diagnosticStages += ">" + stage }
     private val session = FaroV5GenerationStoreGraph.openActiveHousehold13DevForUndoHost(
         root, pinned, gate, CanonicalPreparedPlanEnvelopeVerifier, ::ownerCurrent,
     )
@@ -177,8 +181,10 @@ internal class S4W05StockUndoDevApplyHost(
                 !policy(principal, operation, intent.targetObjectId) ||
                 approved.review.state != ConversationPlanReviewState.APPROVED
             ) return@withMaterialWrite denied()
+            traceStage("BEFORE_INITIAL_READY")
             val initial = ready(intent, node.preparedOperation.idempotencyKey.value)
                 ?: return@withMaterialWrite denied()
+            traceStage("INITIAL_READY")
             val confirmedAt = confirmationClock()
             if (confirmedAt < intent.cancelledAtEpochMillis) return@withMaterialWrite denied()
             var admittedIdentity: ApplyAttemptIdentity? = null
@@ -197,6 +203,7 @@ internal class S4W05StockUndoDevApplyHost(
                     receipt.planFingerprint == context.planFingerprint &&
                     binding.hasPromoted(node.preparedOperation, identity.transactionId) &&
                     authorization.isAuthorized(plan, identity, node, scope)
+                traceStage(if (allowed) "FINAL_ALLOWED" else "FINAL_DENIED")
                 if (allowed) consumed = true
                 allowed
             }
@@ -210,12 +217,13 @@ internal class S4W05StockUndoDevApplyHost(
                     applying.transactionId == identity.transactionId &&
                     applying.context() == context && rechecked == initial &&
                     selected(context.conversationId) && policy(principal, operation, intent.targetObjectId)
+                traceStage(if (allowed) "AFTER_BEGIN_ALLOWED" else "AFTER_BEGIN_DENIED")
                 if (allowed) {
                     admittedIdentity = identity
                     binding.promote(node.preparedOperation, initial, identity.transactionId)
                 }
                 allowed
-            }.apply(context)
+            }.apply(context).also { traceStage("RESULT_" + it.javaClass.simpleName) }
         } }
 
     /** Never replay UNKNOWN or COMMITTED as a second compensation. */
@@ -293,11 +301,15 @@ internal class S4W05StockUndoDevApplyHost(
             operation, ExecutorId("undo-coordinator"), ExecutionProfile.REALITY_MUTATION,
         )
 
-        override fun revalidate(preparedOperation: PreparedOperation): OperationRevalidationResult =
-            if (ready(preparedOperation) != null) OperationRevalidationResult.Valid
+        override fun revalidate(preparedOperation: PreparedOperation): OperationRevalidationResult {
+            traceStage("PREFLIGHT_ENTER")
+            val checked = ready(preparedOperation)
+            traceStage(if (checked != null) "PREFLIGHT_ACCEPTED" else "PREFLIGHT_DENIED")
+            return if (checked != null) OperationRevalidationResult.Valid
             else OperationRevalidationResult.Rejected(
                 OperationRevalidationFailure.PRECONDITION_FAILED, "stock_undo_origin_or_balance_stale",
             )
+        }
 
         override fun execute(
             preparedOperation: PreparedOperation,
@@ -305,9 +317,11 @@ internal class S4W05StockUndoDevApplyHost(
         ): OperationBindingExecutionResult {
             // Reality.run may only use the frozen host-approved evidence, live grant
             // and SQL13 CAS. Never reenter Workspace/loadCommitted/attempts here.
+            traceStage("EXEC_ENTER")
             val accepted = admitted?.takeIf {
                 hasPromoted(preparedOperation, transactionScope.transactionId)
             } ?: return OperationBindingExecutionResult.Rejected("stock_undo_origin_or_balance_stale")
+            traceStage("EXEC_PROMOTED")
             val intent = accepted.request.intent
             if (!foregroundCurrent() || !policy(principal, operation, intent.targetObjectId))
                 return OperationBindingExecutionResult.Rejected("stock_undo_consent_revoked")
@@ -320,8 +334,14 @@ internal class S4W05StockUndoDevApplyHost(
                 position.quantity.unit.name, accepted.request.expectedLedgerRevision,
                 intent.cancelledAtEpochMillis,
             )
-            return if (compensation.compensate(request, transactionScope))
-                OperationBindingExecutionResult.Completed
+            val applied = try {
+                compensation.compensate(request, transactionScope)
+            } catch (failure: Exception) {
+                traceStage("COMP_EXCEPTION_" + failure.javaClass.simpleName)
+                throw failure
+            }
+            traceStage(if (applied) "COMP_OK" else "COMP_DENIED")
+            return if (applied) OperationBindingExecutionResult.Completed
             else OperationBindingExecutionResult.Rejected("stock_undo_compensation_conflict")
         }
     }
