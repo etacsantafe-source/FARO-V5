@@ -1,11 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV",
   "reviewed_head": "ea3fac054ce3bc45bedc844bf31d5a5385f23888",
-  "paths": [
-    ".github/workflows/faro-v5-s4-w05-a1b3c2c1-evidence2-android-reopen.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -57,22 +55,22 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "COMPLETED_CI_SUCCESS",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "3a171952d498b5831f3adc0266dd18e59c479eef",
+    "sha": "2d0e383878f4a1bbfe59ffe95d06c42d01a3e26e",
     "unit_id": "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2C1_RED_FIX_D8_HEAP_20261125.md",
-        "blob_sha": "ff4d6cc36fa436db49f18d447c74c5a4201ed582",
+        "path": "docs/v5/FARO_S4_W05_A1B3C2C1_B7_PASS_ANDROID_EVIDENCE2_ACTIVE_20261125.md",
+        "blob_sha": "a39b59c6a463d564efd3ffa72745c0fe2a89e819",
         "marker": "## B7"
       }
     ]
   },
-  "why": "Run 45529803487 D8 OutOfMemoryError; exact workflow-only RED_FIX",
+  "why": "C2C1 B7 PASS scoped; READY consumed; A1C runtime grant admission pending",
   "how": "Reuse G5 Android JVM sizing",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -82,17 +80,17 @@
   },
   "previous_unit": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
   "previous_b7": "PASS_SCOPED_22_22_XML",
-  "next": "C2C1 B6 and B7, then A1C0 admission audit",
+  "next": "A1C0 stock.receive DEV grant admission, A1C1–A1C4 then A1 DEV acceptance",
   "pre_audit_guard_run_id": 45529242032,
   "pre_audit_head": "ea3fac054ce3bc45bedc844bf31d5a5385f23888",
   "previous_ci_run_id": 45495586732,
-  "final_ci_run_id": 45528363926,
-  "final_guard_run_id": 45528363998,
-  "final_ci_xml": "XML26_26_ZERO_FAILURES_ERRORS_SKIPS",
-  "final_xml_artifact_id": 14983154037,
-  "final_xml_sha256": "4bdb63523b1fd7a5d8c44b2f590bfb0e6e6ad6563b0713578073b0439216d4d0",
-  "last_ci_run_id": 45529803487,
-  "last_ci_conclusion": "FAILURE_D8_HEAP_OOM",
+  "final_ci_run_id": 45531217759,
+  "final_guard_run_id": 45531217764,
+  "final_ci_xml": "XML9_9_ZERO_FAILURES_ERRORS_SKIPS_JVM6_ANDROID3",
+  "final_xml_artifact_id": 14985746883,
+  "final_xml_sha256": "a82a5278e1938d5b389fcb35496f606eeb1d8c653a100128cbff3677e7f43b2e",
+  "last_ci_run_id": 45531217759,
+  "last_ci_conclusion": "SUCCESS_XML9_9",
   "metadata_reconciliation": {
     "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
     "verified_success_run_id": 45522706065,
