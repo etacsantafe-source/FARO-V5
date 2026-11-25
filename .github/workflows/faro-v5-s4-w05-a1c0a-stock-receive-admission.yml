@@ -1,0 +1,75 @@
+name: FARO V5 W05-A1C0A stock receive admission JVM
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveDevAdmission.kt
+      - v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveDevAdmissionTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c0a-stock-receive-admission.yml
+
+permissions:
+  contentts: read
+
+jobs:
+  household-w05-a1c0a:
+    if: contains(github.event.head_commit.message, 'FARO-UNIT:S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Exact W05-A1C0A protocol preflight on parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          UNIT=S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT
+          count=0
+          while IFS= read -r ROUTE; do
+            test -n "$ROUTE"
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
+            count=$((count + 1))
+          done < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "$count" -eq 3
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK required by Gradle multi-project configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Exact W05-A1C0A eight JVM tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :owner:household:test --tests ar.com.faro.v5.owner.household.api.HouseholdStockReceiveDevAdmissionTest
+      - name: Verify W05-A1C0A real JUnit XML exact eight
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          root = Path("v5/owner/household/build/test-results/test")
+          reports = list(root.glob("TEST-*HouseholdStockReceiveDevAdmissionTest.xml"))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          totals = tuple(int(suite.attrib[k]) for k in ("tests", "failures", "errors", "skipped"))
+          assert totals == (8, 0, 0, 0), totals
+          print("FARO_W05_A1C0A_STOCK_RECEIVE_ADMISSION_XML_PASS_8_8")
+          PY
+      - name: Preserve original W05-A1C0A JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1c0a-stock-receive-admission-xml
+          if-no-files-found: error
+          path: v5/owner/household/build/test-results/test/TEST-*HouseholdStockReceiveDevAdmissionTest.xml
