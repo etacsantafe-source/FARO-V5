@@ -105,7 +105,7 @@ object RealityHousehold11ReceiptRowsPort {
         return disposition
     }
 
-    private fun SQLiteConnection.writeReceiptRows(snapshot: RealityHousehold11ReceiptRows) {
+    internal fun SQLiteConnection.writeReceiptRows(snapshot: RealityHousehold11ReceiptRows) {
         prepare("UPDATE household_stock_receipt_state SET revision = ? WHERE singleton_id = 1").use {
             it.bindLong(1, snapshot.revision)
             it.step()
@@ -162,6 +162,10 @@ internal object Household11ReceiptRowsSql {
             db.scalar("PRAGMA foreign_keys") == 1L) {
             "Reality11 requires exact SQL11 with foreign keys enabled"
         }
+        checkTables(db)
+    }
+
+    internal fun checkTables(db: SQLiteConnection) {
         for ((table, columns) in listOf(
             "household_stock_receipt_state" to listOf("singleton_id", "revision"),
             "household_stock_receipt" to COLUMNS.split(','),
