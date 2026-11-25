@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
   "reviewed_head": "5a99cdfcb32c296b872938280d221740f6fb0e4b",
   "paths": [
@@ -58,23 +58,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_IMPLEMENTED",
+    "B7": "PASS_SCOPED_16_16_XML"
   },
   "last_code_review": {
-    "sha": "5a99cdfcb32c296b872938280d221740f6fb0e4b",
+    "sha": "25fb05a31dde9f692f3212f21aa21243b5c7cf21",
     "unit_id": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
-        "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9",
+        "path": "docs/v5/FARO_S4_W05_A1B3C2A_B7_PASS_EVIDENCE2_SQL11_16_16_20261124.md",
+        "blob_sha": "7b4441bf56e987290d1e17f121a6b314567f961c",
         "marker": "## B7"
       }
     ]
   },
-  "why": "CI45512506948: Evidence2 tests 1/6, Evidence1 10/10; B0 preauth null incorrectly assumes Evidence1",
-  "how": "Scope exact2: authenticated FBS2v8 B0 sealed Evidence1 XOR Evidence2 admission, plus CI route trigger; XML and B7 required",
+  "why": "C2A Evidence2 SQL11 STAGED passed 16/16 XML on CI45514567419 attempt2; separate B0 historical trigger failed preflight only",
+  "how": "B7 PASS scoped, permit consumed. Require independent B1–B5 READY for C2B and C2C",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,7 +83,7 @@
   },
   "previous_unit": "S4_W05_A1B3C1C_ANDROID_SQL11_CLOSED_HOST_DEV",
   "previous_b7": "PASS_SCOPED_ANDROID_DEV_SQL11_ACTIVE_WAL_READONLY_SECOND_REOPEN_XML_18_18",
-  "next": "C2A RED_FIX exact2 B6+real CI/XML+B7; then C2B/C2C Evidence2 cutover, then A1C stock Review/Apply/Undo, no product flags",
+  "next": "C2B Evidence2 cutover preflight B1–B5 and new READY; C2C recovery/reopen later; A1 global OPEN, no stock real",
   "pre_audit_guard_run_id": 45510975074,
   "pre_audit_head": "1084c7a3866b7758333793a7b129ad79ff3846bf",
   "previous_ci_run_id": 45495586732,
@@ -94,9 +94,9 @@
     "document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
     "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9"
   },
-  "final_ci_run_id": null,
-  "final_guard_run_id": null,
-  "final_ci_xml": null,
-  "final_xml_artifact_id": 14974808496,
-  "final_xml_sha256": "2d1c33cb71b1232f9c5c3964a6c262d4af6f92314533cd3d521d40004ac0cc61"
+  "final_ci_run_id": 45514567419,
+  "final_guard_run_id": 45514567307,
+  "final_ci_xml": "EVIDENCE2_6_6_EVIDENCE1_10_10_TOTAL_16_16_ZERO_FAILURES_ERRORS_SKIPS",
+  "final_xml_artifact_id": 14976404131,
+  "final_xml_sha256": null
 }
