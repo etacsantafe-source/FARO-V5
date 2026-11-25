@@ -1,0 +1,15 @@
+# FARO V5 · WORK TURBO CONTINUO · FIN W05-A1 DEV
+Fecha 2026-11-25. Repositorio `etacsantafe-source/FARO-V5`, branch `work/s3-night-20261102`. Un checkpoint escrito aquí es referencia informativa, no sustituye revalidación del HEAD/puntero/writer.
+
+## Inicio B6 directo
+1. Leer `AGENTS.md`, `docs/v5/FARO_CONTINUITY_POINTER.json`, `docs/v5/FARO_PROTOCOL_WORK_PERMIT.json`, `docs/v5/FARO_S4_W05_A1C0B1_FBS2V9_CODEC_B1_B5_20261125.md`, `docs/v5/FARO_S4_W05_A1_REMAINING_UNITS_NO_STOPS_HANDOFF_20261125.md`, y previo B7 `docs/v5/FARO_S4_W05_A1C0B0_B7_PASS_PURCHASE_STAGED_SCHEMA_20261125.md`. Read writer CAS en rama `faro-v5-writer-lock`. Verificar último checkpoint+guard+READY exact4.
+2. Empezar **SOLO A1C0B1 B6**, no repetir B1–B5. Implementar FBS2v9 codec compra sobre FBS2v8 byte-exacto, dos métodos crypto GCM y suite tests, **4 rutas exactas del permiso**. Antes de cada commit funcional, preflight del padre y `FARO-UNIT:S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV`. Ejecutar CI, XML original y guard por SHA; B7 scoped y writer RELEASED.
+3. **Sin pausa voluntaria después de B7**: avanzar A1C0B2 SQL12 snapshot capture/restore, A1C0B3 cutover/ACTIVE safe DEV, A1C0B4 compra confirmada manual con grant distinto, A1C1 stock.receive Review/Apply/receipt, A1C2 recovery/Undo, A1C3 Android DEV, A1C4 A1 global DEV. Completar B1–B5 y permisos propios entre unidades. El permiso pasa BLOCKED al terminar una unidad POR DISEÑO; NO confundir eso con prohibición de preparar nuevo READY documental autorizado. Si hay bloqueo técnico real, investigar y corregir únicamente con permiso nuevo y pruebas; evitar rondas artificiales.
+4. Usar matriz y delta de `docs/v5/FARO_S4_W05_A1_REMAINING_UNITS_NO_STOPS_HANDOFF_20261125.md`; mantener rutas futuras candidatas hasta inspección de código actual. No inventar PASS ni stock por carrito/budget. Confirmar `purchase.confirm` en catálogo antes de emitir grant. No activar producción.
+5. Si se agota capacidad, cerrar B7 de la unidad alcanzada, publicar checkpoint+guard y liberar writer, dejando siguiente unidad PREAUDITED hasta donde haya evidencia; reportar el freno exacto, NO reclamar A1 terminado.
+
+## Límites y pruebas mínimas
+- C0A B7 8/8, C0B0 B7 6/6, C2C0 B7 26/26, C2C1 B7 9/9 están certificados y **no se rehacen** salvo regresión dirigida necesaria.
+- Compra manual 10, ingreso físico 7 deja 3, luego 3; 1 intento→1 efecto; recibir sin compra confirmada, sobrecantidad, unidad mismatch, ABA, foreground revocado y rollback -> STOP. Receipts, recovery y Undo compensatorio; backup v9 restore SQLite coherente entre compras+recibos y cinco stores.
+- No tocar `main`, V4.4 ni activar V2 productiva, stock real, Apply productivo, pagos, Auto/Noche, Internet/API paga. Si falta permiso de operación/aprobación nueva de producto, detener solo ese alcance y explicarlo; no hacer bypass.
+- Al cierre entregar SHA exacto HEAD, B7 por unidad, CI/XML originales/artefactos, guard, permiso consumido, writer RELEASED epoch, A1 global cerrado DEV o abiertamente OPEN y físicas G15 NOT_RUN.
