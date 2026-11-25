@@ -1,0 +1,79 @@
+name: FARO V5 W05-A1B3C2B0 Evidence2 SQL11 READ_ONLY preflight
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11DevCutoverPreflight.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2CutoverPreflightTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1b3c2b0-evidence2-preflight.yml
+
+permissions:
+  contents: read
+
+jobs:
+  typed-sql11-readonly-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact three C2B0 paths against parent READY
+        shell: bash
+        run: |
+          set -euo pipefail
+          UNIT=S4_W05_A1B3C2B0_EVIDENCE2_SQL11_READONLY_PREFLIGHT_DEV
+          mapfile -t paths < <(git diff --name-only --no-renames HEAD^ HEAD)
+          [[ "${#paths[@]}" -eq 3 ]]
+          for path in "${paths[@]}"; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$path"
+          done
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle project configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Execute six C2B0 Evidence2 and eight certified Evidence1 preflight tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household11Evidence2CutoverPreflightTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household11DevCutoverPreflightTest
+      - name: Verify original JUnit XML exact 14 of 14
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as E
+          folder=Path("v5/store/generation/build/test-results/test")
+          for suffix,expected in (
+              ("FaroV5Household11Evidence2CutoverPreflightTest",6),
+              ("FaroV5Household11DevCutoverPreflightTest",8),
+          ):
+              hits=list(folder.glob("TEST-*"+suffix+".xml"))
+              assert len(hits)==1,hits
+              root=E.parse(hits[0]).getroot()
+              nums=[int(root.attrib[n]) for n in ("tests","failures","errors","skipped")]
+              assert nums==[expected,0,0,0],(suffix,nums)
+              assert len(root.findall("testcase"))==expected
+          print("FARO_W05_C2B0_EVIDENCE2_READONLY_SQL11_XML_PASS_14_14")
+          PY
+      - name: Upload original JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1b3c2b0-evidence2-sql11-readonly-xml
+          if-no-files-found: warn
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11Evidence2CutoverPreflightTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11DevCutoverPreflightTest.xml

@@ -18,6 +18,7 @@ import ar.com.faro.v5.store.reality.RealityHousehold11NeedsRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold11ReceiptRow
 import ar.com.faro.v5.store.reality.RealityHousehold11ReceiptRows
 import ar.com.faro.v5.store.reality.RealityHousehold11ReceiptRowsPort
+import ar.com.faro.v5.store.reality.StagedSqlitePreflight
 import java.nio.file.Files
 import java.nio.file.LinkOption.NOFOLLOW_LINKS
 import java.nio.file.Path
@@ -50,6 +51,7 @@ internal class FaroV5Household11DevCutoverPreflight(
     private val quiescence: MaterialWriteQuiescencePort,
     private val assertExclusiveClosedDevHost: () -> Unit,
     private val afterObservation: () -> Unit = {},
+    private val expectedEvidenceSchema: Int = 1,
 ) {
     private val root = storageRoot.toAbsolutePath().normalize()
     private val pointer = FileActiveGenerationPointer(root)
@@ -67,6 +69,7 @@ internal class FaroV5Household11DevCutoverPreflight(
         passphrase: CharArray,
     ): FaroV5Household11CutoverInspection =
         quiescence.withMaterialWritesQuiesced(operationId) {
+            check(expectedEvidenceSchema in 1..2) { "SQL11 unsupported Evidence cutover profile" }
             requireClosedAndPinned(operationId, target, expectedActive)
             check(crypto.admitsArchiveSize(encryptedArchive.size)) {
                 "SQL11 cutover preflight rejects archive size"
@@ -86,9 +89,10 @@ internal class FaroV5Household11DevCutoverPreflight(
                 check(source != target.descriptor.generationId) {
                     "SQL11 cutover source and destination identity must differ"
                 }
-                check(base.fourStore.commercialEvidence.schemaVersion == 1 &&
-                    base.fourStore.commercialEvidence.stagedTyped == null) {
-                    "SQL11 cutover Evidence2 not certified"
+                val commercial = base.fourStore.commercialEvidence
+                check(commercial.schemaVersion == expectedEvidenceSchema &&
+                    (commercial.stagedTyped != null) == (expectedEvidenceSchema == 2)) {
+                    "SQL11 preflight archive does not match explicitly selected Evidence profile"
                 }
                 check(base.finance9 != null) { "SQL11 archive missing Finance9" }
                 // Existing B1 stage replay created this immutable pin before writes.
@@ -101,6 +105,7 @@ internal class FaroV5Household11DevCutoverPreflight(
                 FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(
                     original, allowAuxiliary3 = false,
                 )
+                if (expectedEvidenceSchema == 2) requireSealedTypedEleven(target)
                 val originFingerprint = FaroV5Household10DevCutoverOwner.fingerprint(original)
                 val targetFingerprint = FaroV5Household10DevCutoverOwner.fingerprint(target)
                 val reality = target.directory.resolve(GenerationStoreFiles.REALITY)
@@ -116,6 +121,7 @@ internal class FaroV5Household11DevCutoverPreflight(
                 }
                 afterObservation() // Adversarial pointer ABA/host/journal/content change seam.
                 requireClosedAndPinned(operationId, target, expectedActive)
+                if (expectedEvidenceSchema == 2) requireSealedTypedEleven(target)
                 requireClosedFive(original)
                 FaroV5GenerationStoreGraph.requireFinance9ReceiptArchiveStage(
                     original, allowAuxiliary3 = false,
@@ -149,6 +155,27 @@ internal class FaroV5Household11DevCutoverPreflight(
                 immutableCiphertext.fill(0)
             }
         }
+
+    /**
+     * C2B0: SQL11 / typed Evidence2 sealed metadata ONLY. Immutable read-only
+     * SQLite preflight never opens an ACTIVE or writable Evidence owner.
+     * Full typed semantic equality requires a separate C2B1 verifier before
+     * any durable ticket, journal, or cutover may be authorized.
+     */
+    private fun requireSealedTypedEleven(target: StagedStorageGeneration) {
+        StagedSqlitePreflight.requireAll(target.directory, listOf(
+            StagedSqlitePreflight.Schema(
+                GenerationStoreFiles.REALITY, 11,
+                listOf("household_need_state", "household_need",
+                    "household_stock_receipt_state", "household_stock_receipt"),
+            ),
+            StagedSqlitePreflight.Schema(
+                GenerationStoreFiles.COMMERCIAL_EVIDENCE, 2,
+                listOf("commercial_evidence", "commercial_evidence_quote_terms"),
+                rejectTriggers = true,
+            ),
+        ))
+    }
 
     private fun requireClosedAndPinned(
         op: MaintenanceOperationId,
