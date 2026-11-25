@@ -67,22 +67,22 @@
   "pre_audit_guard_run_id": 45620076090,
   "pre_audit_head": "22b26e996430e2d7e75d052f8897bc2660b0df94",
   "last_code_review": {
-    "sha": "31bc42b5ed882d721ad9cf569965a113858fdac1",
-    "unit_id": "S4_W05_A1C2D_SQL13_FBS2V10_FIVE_STORE_REPLAY_DEV",
-    "result": "PASS",
+    "sha": "93ab2c38b2430ae6a88ed2e8f533bfdd7d20bfbf",
+    "unit_id": "S4_W05_A1C2E_SQL13_ACTIVE_DEV_READ_ONLY",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2D_B7_PASS_FBS2V10_FIVE_STORE_REPLAY_20261125.md",
-        "blob_sha": "f5f079a6565f17b426dbc328b3564b4cae3c41b4",
+        "path": "docs/v5/FARO_S4_W05_A1C2E_B7_RED_FIX_MISSING_MIGRATION_CALLBACK_20261125.md",
+        "blob_sha": "fa243bdca1d361e1a207d4e41bf884d17fa09af6",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45617021774,
-  "last_ci_conclusion": "SUCCESS_XML24_24",
+  "last_ci_run_id": 45620922804,
+  "last_ci_conclusion": "FAILURE_COMPILE_TEST_NO_VALUE_FOR_PARAMETER",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2D B7 PASS, SQL13 read-only ACTIVE seam preaudited five exact paths. No cutover or writes.",
-  "next": "A1C2E SQL13 ACTIVE DEV read-only B6/B7; following cutover needs own permit",
-  "last_guard_run_id": 45617021480
+  "why": "A1C2E B6 RED_FIX: Kotlin test omitted mandatory beforeCommit callback; scoped correction only.",
+  "next": "Fix missing beforeCommit callback in A1C2E test, then CI/XML and B7 audit",
+  "last_guard_run_id": 45620921416
 }
