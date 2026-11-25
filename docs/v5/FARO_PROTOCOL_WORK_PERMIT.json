@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
   "reviewed_head": "c2f78ea5a6713ed9dd7a292bc999413dcadc55c0",
   "paths": [
@@ -61,27 +61,29 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_6_6",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45607146184,
   "pre_audit_head": "c2f78ea5a6713ed9dd7a292bc999413dcadc55c0",
   "last_code_review": {
-    "sha": "95e57e0172428a6f661095f0ad47ffac635ad987",
+    "sha": "2b5eb70498013a238b91b8d620a9de66ec287ba5",
     "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2A_RED_FIX_SQLITE_TRIGGER_DDL_20261125.md",
-        "blob_sha": "ba0d1e5eb075f6a61a4d117b22551fce606169f9",
+        "path": "docs/v5/FARO_S4_W05_A1C2A_B7_PASS_SQL13_COMPENSATION_STAGED_20261125.md",
+        "blob_sha": "709c8353348972eff4322ec8a3c78010be7ea68b",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45608063047,
-  "last_ci_conclusion": "FAILURE_SQLITE_DDL_TEXT",
+  "last_ci_run_id": 45609176004,
+  "last_ci_conclusion": "SUCCESS_XML6_6",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2A same-unit RED_FIX for leading whitespace in the exact stored INSERT trigger. Five original routes.",
-  "next": "A1C2A staged SQL13 B6/B7, then authenticated FBS2v10"
+  "why": "A1C2A B7 PASS. Scope consumed.",
+  "next": "A1C2B own READY after documentary guard",
+  "final_guard_run_id": 45609176127,
+  "final_xml_artifact_id": 15019357923
 }
