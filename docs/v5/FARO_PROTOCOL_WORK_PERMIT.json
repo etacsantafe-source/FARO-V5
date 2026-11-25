@@ -1,16 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV",
-  "reviewed_head": "ea3fac054ce3bc45bedc844bf31d5a5385f23888",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT",
+  "reviewed_head": "53ebd46fbb667019b39df016386efc0965cfe126",
+  "paths": [
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveDevAdmission.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveDevAdmissionTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c0a-stock-receive-admission.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2C1_EVIDENCE2_ANDROID_ACTIVE_REOPEN_B1_B5_20261125.md",
-          "blob_sha": "c03913028187a69f99623bd4daba765f655b3d2b",
+          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
           "marker": "## B1"
         }
       ]
@@ -19,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2C1_EVIDENCE2_ANDROID_ACTIVE_REOPEN_B1_B5_20261125.md",
-          "blob_sha": "c03913028187a69f99623bd4daba765f655b3d2b",
+          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
           "marker": "## B2"
         }
       ]
@@ -29,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2C1_EVIDENCE2_ANDROID_ACTIVE_REOPEN_B1_B5_20261125.md",
-          "blob_sha": "c03913028187a69f99623bd4daba765f655b3d2b",
+          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
           "marker": "## B3"
         }
       ]
@@ -39,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2C1_EVIDENCE2_ANDROID_ACTIVE_REOPEN_B1_B5_20261125.md",
-          "blob_sha": "c03913028187a69f99623bd4daba765f655b3d2b",
+          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
           "marker": "## B4"
         }
       ]
@@ -49,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2C1_EVIDENCE2_ANDROID_ACTIVE_REOPEN_B1_B5_20261125.md",
-          "blob_sha": "c03913028187a69f99623bd4daba765f655b3d2b",
+          "path": "docs/v5/FARO_S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "9f6a67320aeda599612b8451785f48bf403a968d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "COMPLETED_CI_SUCCESS",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "2d0e383878f4a1bbfe59ffe95d06c42d01a3e26e",
@@ -70,19 +74,19 @@
       }
     ]
   },
-  "why": "C2C1 B7 PASS scoped; READY consumed; A1C runtime grant admission pending",
-  "how": "Reuse G5 Android JVM sizing",
+  "why": "C2C1 PASS scoped XML9/9 CI45531217759 guard45531217764; A1C0A inert admission-only B1-B5 blob exact; guard documentation 45533664853 SUCCESS; no purchase source certified",
+  "how": "B6 only exact3 typed inert contract / JUnit8 / targeted CI; B7 and consume READY; A1C0B purchase durable provenance must be independently audited before stock mutation",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
     "date_local": "2026-11-24",
-    "scope": "Preparar A1 para Work DEV; no stock real, V2 productiva, pagos ni Auto/Noche"
+    "scope": "Preparar camino A1C DEV para Work, sin iniciar stock Apply ni V2 productiva; contrato A1C0A solo sin efectos"
   },
   "previous_unit": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
   "previous_b7": "PASS_SCOPED_22_22_XML",
-  "next": "A1C0 stock.receive DEV grant admission, A1C1–A1C4 then A1 DEV acceptance",
-  "pre_audit_guard_run_id": 45529242032,
-  "pre_audit_head": "ea3fac054ce3bc45bedc844bf31d5a5385f23888",
+  "next": "A1C0A B6/B7, then A1C0B trusted confirmed purchase source, A1C1 Review/Apply receipt, A1C2 Undo/recovery, A1C3 Android, A1C4 A1 DEV; real stock OFF",
+  "pre_audit_guard_run_id": 45533664853,
+  "pre_audit_head": "53ebd46fbb667019b39df016386efc0965cfe126",
   "previous_ci_run_id": 45495586732,
   "final_ci_run_id": 45531217759,
   "final_guard_run_id": 45531217764,
