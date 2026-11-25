@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1923
+    "epoch": 1924
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "B0 RED_FIX exact2 test + workflow, then CI22/22 XML and B7. C2C OFF",
-  "checkpoint_status": "C2B1B_CI45521825103_FAILED_COMPILETEST_NO_XML_REDFIX_B0_READY_EXACT2",
+  "next": "Guard corrected READY exact2 permit; then test fixture Kotlin RED_FIX, CI22/22 and B7",
+  "checkpoint_status": "C2B1B_B0_RED_FIX_EXACT2_B6_READY_TO_IMPLEMENT_GUARD_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
   "last_code_sha": "07a6719b1e8c7290bd33b1e0c3d049b8e47f283d",
