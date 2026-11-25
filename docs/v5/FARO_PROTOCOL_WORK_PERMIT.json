@@ -1,21 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV",
-  "reviewed_head": "175994c763e0360b8ef390786b4eea4cd428458e",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",
+  "reviewed_head": "69e20906fcc636bf40a047801381eef8fe99efa7",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household12Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c0b1-purchase-fbs2v9.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchema.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11ReceiptRowsPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c0b2a-sql12-purchase-rows.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B1_FBS2V9_CODEC_B1_B5_20261125.md",
-          "blob_sha": "f4910e07ac9d87fda9fce931e7b8029e06268b34",
+          "path": "docs/v5/FARO_S4_W05_A1C0B2A_SQL12_PURCHASE_ROWS_DELTA_20261125.md",
+          "blob_sha": "fab2a83e2efda94c2360907666e44d7a981a45ad",
           "marker": "## B1"
         }
       ]
@@ -24,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B1_FBS2V9_CODEC_B1_B5_20261125.md",
-          "blob_sha": "f4910e07ac9d87fda9fce931e7b8029e06268b34",
+          "path": "docs/v5/FARO_S4_W05_A1C0B2A_SQL12_PURCHASE_ROWS_DELTA_20261125.md",
+          "blob_sha": "fab2a83e2efda94c2360907666e44d7a981a45ad",
           "marker": "## B2"
         }
       ]
@@ -34,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B1_FBS2V9_CODEC_B1_B5_20261125.md",
-          "blob_sha": "f4910e07ac9d87fda9fce931e7b8029e06268b34",
+          "path": "docs/v5/FARO_S4_W05_A1C0B2A_SQL12_PURCHASE_ROWS_DELTA_20261125.md",
+          "blob_sha": "fab2a83e2efda94c2360907666e44d7a981a45ad",
           "marker": "## B3"
         }
       ]
@@ -44,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B1_FBS2V9_CODEC_B1_B5_20261125.md",
-          "blob_sha": "f4910e07ac9d87fda9fce931e7b8029e06268b34",
+          "path": "docs/v5/FARO_S4_W05_A1C0B2A_SQL12_PURCHASE_ROWS_DELTA_20261125.md",
+          "blob_sha": "fab2a83e2efda94c2360907666e44d7a981a45ad",
           "marker": "## B4"
         }
       ]
@@ -54,14 +55,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B1_FBS2V9_CODEC_B1_B5_20261125.md",
-          "blob_sha": "f4910e07ac9d87fda9fce931e7b8029e06268b34",
+          "path": "docs/v5/FARO_S4_W05_A1C0B2A_SQL12_PURCHASE_ROWS_DELTA_20261125.md",
+          "blob_sha": "fab2a83e2efda94c2360907666e44d7a981a45ad",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_CI_XML_20_20",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "afa612718bfd5910047f5bc2ee9de240e8daf688",
@@ -75,25 +76,14 @@
       }
     ]
   },
-  "pre_audit_guard_run_id": 45541345419,
+  "pre_audit_guard_run_id": 45545012695,
+  "pre_audit_head": "69e20906fcc636bf40a047801381eef8fe99efa7",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B1 B7 PASS scoped, permit consumed",
-  "next": "A1C0B2A SQL12 purchase and receipt row port, delta audited, READY independent after document guard",
+  "why": "A1C0B1 B7 PASS XML v9 10/10 and v8 10/10. Exact SQL12 Reality port delta and document guard SUCCESS",
+  "next": "A1C0B2A B6/B7 on five exact paths, then A1C0B2B original authenticated v9 five-store coordinator",
   "last_ci_run_id": 45544057188,
   "last_ci_conclusion": "SUCCESS_XML20_20",
-  "final_ci_run_id": 45544057188,
-  "final_guard_run_id": 45544056913,
-  "final_xml_artifact_id": 14991525372,
-  "final_xml_sha256": "b96ff46ad8b4ee4783372eb52102cd84b265937a14b64705db17e4f90a6cac56",
-  "final_ci_xml": "XML_V9_10_10_V8_10_10_ZERO_FAILURES_ERRORS_SKIPS",
-  "how": "Work begins B6 exact4 codec+crypto adapter/test/workflow; JUnit10 new + directed v8 regression XML original; guard/sha; B7 scoped consumes permit; then next unit A1C0B2 independently B1-B5 READY; do not stop just because permit consumed",
-  "user_authorization": {
-    "date_local": "2026-11-25",
-    "scope": "Preparar todo A1 para Work en DEV sin habilitar acciones productivas; permiso concreto solo FBS2v9 codec; workflows solo aislados"
-  },
-  "previous_unit": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
-  "previous_b7": "PASS_SCOPED_XML6_6",
-  "pre_audit_head": "175994c763e0360b8ef390786b4eea4cd428458e",
-  "xml_v8_sha256": "c21c73a51ce79e82eff239e24254672f5f2d7b122f5a25569c766a22f28b5d14"
+  "previous_unit": "S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV",
+  "previous_b7": "PASS_SCOPED_XML20_20"
 }
