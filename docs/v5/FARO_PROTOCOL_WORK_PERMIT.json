@@ -67,22 +67,22 @@
   "pre_audit_guard_run_id": 45620076090,
   "pre_audit_head": "22b26e996430e2d7e75d052f8897bc2660b0df94",
   "last_code_review": {
-    "sha": "93ab2c38b2430ae6a88ed2e8f533bfdd7d20bfbf",
+    "sha": "71323880a3fc791523853f4ea1747bf3fda4a085",
     "unit_id": "S4_W05_A1C2E_SQL13_ACTIVE_DEV_READ_ONLY",
     "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2E_B7_RED_FIX_MISSING_MIGRATION_CALLBACK_20261125.md",
-        "blob_sha": "fa243bdca1d361e1a207d4e41bf884d17fa09af6",
+        "path": "docs/v5/FARO_S4_W05_A1C2E_B7_RED_FIX_ACTIVE_WAL_NEGATIVE_TEST_20261125.md",
+        "blob_sha": "0f0d7e02334869256193bcb97cba307c004cd6d8",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45620922804,
-  "last_ci_conclusion": "FAILURE_COMPILE_TEST_NO_VALUE_FOR_PARAMETER",
+  "last_ci_run_id": 45622637907,
+  "last_ci_conclusion": "FAILURE_TEST_20_22",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2E B6 RED_FIX: Kotlin test omitted mandatory beforeCommit callback; scoped correction only.",
-  "next": "Fix missing beforeCommit callback in A1C2E test, then CI/XML and B7 audit",
-  "last_guard_run_id": 45620921416
+  "why": "A1C2E SQL13 ACTIVE 20/22: two negative tests improperly reopen ACTIVE via sealed STAGED snapshot; test-only RED_FIX",
+  "next": "Change two negative assertions to WAL-aware SQLite read-only without touching STAGED reader; then CI XML22/22",
+  "last_guard_run_id": 45622637851
 }
