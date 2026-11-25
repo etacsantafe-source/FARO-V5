@@ -70,21 +70,21 @@
   "pre_audit_guard_run_id": 45600176853,
   "pre_audit_head": "01ffbefe41cd7cfa3e277bafec433a265df5d773",
   "last_code_review": {
-    "sha": "c0fcabc006d021f498c30480e31ee9041f919f8e",
-    "unit_id": "S4_W05_A1C0B3B_SQL12_EVIDENCE2_JOURNALED_CUTOVER_DEV",
-    "result": "PASS",
+    "sha": "5323a040dc2f6a48c37107d0171ed5ff2b97b315",
+    "unit_id": "S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B3B_B7_PASS_SQL12_JOURNALED_CUTOVER_20261125.md",
-        "blob_sha": "130a65be96fba0c127f5cf5bca4a19ed38faaa90",
+        "path": "docs/v5/FARO_S4_W05_A1C0B4_RED_FIX_JUNIT_DISCOVERY_20261125.md",
+        "blob_sha": "091d5eb5f64592eba884beade823025ebe89440c",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45599209365,
-  "last_ci_conclusion": "SUCCESS_XML16_16",
+  "last_ci_run_id": 45601527663,
+  "last_ci_conclusion": "FAILURE_XML_DISCOVERY_7_OF_8",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B3 B7 scoped PASS and confirmed documentary guard. Eight exact N-036 purchase DEV paths.",
+  "why": "A1C0B4 same-unit RED_FIX for JUnit discovery. Eight original exact permitted routes.",
   "next": "A1C0B4 B6/B7, then A1C1 receipt"
 }
