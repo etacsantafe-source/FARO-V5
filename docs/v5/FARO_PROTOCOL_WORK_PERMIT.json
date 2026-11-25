@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_STAGED_REPLAY_DEV",
   "reviewed_head": "cf989556959dda039416ed4b3bf10aa55ed8ed8b",
   "paths": [
@@ -67,17 +67,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_32_32",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "e8fecbfd31d3a6563d02a0280cf708a3b9e4879a",
+    "sha": "7af8bda34e9aa05b3dad0964e41e58d9e62f8d97",
     "unit_id": "S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_STAGED_REPLAY_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B2B_RED_FIX_ABA_TEST_20261125.md",
-        "blob_sha": "ec4a357e1f5408a153ecc7d04e3f6d4429be6eff",
+        "path": "docs/v5/FARO_S4_W05_A1C0B2B_B7_PASS_FBS2V9_FIVE_STORE_REPLAY_20261125.md",
+        "blob_sha": "ce5107b64c21082a993c33eebc73e7b2a3cbe228",
         "marker": "## B7"
       }
     ]
@@ -86,10 +86,14 @@
   "pre_audit_head": "cf989556959dda039416ed4b3bf10aa55ed8ed8b",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Kotlin test ABA CAS argument mismatch on exact initial SHA. Same-unit RED_FIX only.",
-  "next": "Fix only ABA test argument mismatch; rerun directed CI/XML and guard",
-  "last_ci_run_id": 45545699935,
-  "last_ci_conclusion": "SUCCESS_XML23_23",
+  "why": "A1C0B2A and A1C0B2B B7 PASS for SQL12 STAGED; A1C0B2B permit consumed",
+  "next": "A1C0B3A ACTIVE DEV SQL12 graph limited to read-only, independent READY after document guard",
+  "last_ci_run_id": 45548015333,
+  "last_ci_conclusion": "SUCCESS_XML32_32",
   "previous_unit": "S4_W05_A1C0B2A_SQL12_STAGED_PURCHASE_RECEIPT_ROWS_DEV",
-  "previous_b7": "PASS_SCOPED_XML23_23"
+  "previous_b7": "PASS_SCOPED_XML23_23",
+  "final_ci_run_id": 45548015333,
+  "final_guard_run_id": 45548015251,
+  "final_xml_artifact_id": 14992591395,
+  "final_ci_xml": "XML32_32_ZERO_FAILURES_ERRORS_SKIPS"
 }
