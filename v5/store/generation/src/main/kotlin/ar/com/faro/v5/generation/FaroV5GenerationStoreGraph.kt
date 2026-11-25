@@ -23,6 +23,10 @@ import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.workspace.ConversationWorkspaceStore
 import ar.com.faro.v5.kernel.contracts.PreparedPlanEnvelopeVerificationPort
 import ar.com.faro.v5.kernel.contracts.MaterialWriteGate
+import ar.com.faro.v5.kernel.contracts.ApplyCommitPort
+import ar.com.faro.v5.kernel.contracts.AtomicApplyTransactionPort
+import ar.com.faro.v5.kernel.contracts.DependencyStampLookupPort
+import ar.com.faro.v5.owner.household.api.HouseholdReviewGeneration
 import ar.com.faro.v5.store.auxiliary.AuxiliaryDeliveryStore
 import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.store.reality.StagedSqlitePreflight
@@ -74,6 +78,35 @@ class FaroV5GenerationStoreGraph private constructor(
         runCatching { webEvidence.close() }
         runCatching { commercialEvidence.close() }
         runCatching { reality.close() }
+    }
+
+    class Household12PurchaseDevSession internal constructor(
+        private val graph: FaroV5GenerationStoreGraph,
+        private val gate: MaterialWriteGate,
+        private val channel: FileChannel,
+    ) : AutoCloseable {
+        val workspace: ConversationWorkspaceStore get() = checkNotNull(graph.workspace)
+        val identities = graph.reality.applyAttemptIdentities
+        val attempts = graph.reality.applyAttemptLookup
+        val receipts = graph.reality.executionReceiptLookup
+        val transactions: AtomicApplyTransactionPort = object : AtomicApplyTransactionPort by graph.reality {}
+        val commits: ApplyCommitPort = object : ApplyCommitPort by graph.reality {}
+        val dependencies: DependencyStampLookupPort = object : DependencyStampLookupPort by graph.reality {}
+
+        fun purchases(principal: String, generation: HouseholdReviewGeneration) =
+            graph.reality.household12PurchasePersistenceForTrustedDev(principal, generation)
+
+        fun snapshotPurchaseReceipts() = graph.reality.snapshotActiveHousehold12RowsForTrustedHost()
+
+        override fun close() = gate.withQuiescedMaterialWrites {
+            if (channel.isOpen) {
+                try {
+                    graph.close()
+                } finally {
+                    channel.close()
+                }
+            }
+        }
     }
 
     internal class Household10DevReadSession(
@@ -751,11 +784,42 @@ class FaroV5GenerationStoreGraph private constructor(
             return healthy && pointer.read() == expected
         }
 
+        fun openActiveHousehold12DevForPurchaseHost(
+            storageRoot: Path,
+            selected: ActiveGenerationPointer,
+            gate: MaterialWriteGate,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            ownerAdmission: () -> Boolean,
+        ): Household12PurchaseDevSession = gate.withMaterialWrite {
+            check(ownerAdmission() && Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
+            val root = storageRoot.toRealPath()
+            val lockPath = root.resolve("finance9-dev-root.lock")
+            val channel = FileChannel.open(lockPath, CREATE, WRITE, NOFOLLOW_LINKS)
+            try {
+                check((Files.getAttribute(lockPath, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                val lease = checkNotNull(channel.tryLock()) { "Purchase DEV root is already leased" }
+                val fence = {
+                    lease.isValid && ownerAdmission() &&
+                        FaroV5Household12Evidence2DevJournaledCutover.hasCompletedSelection(root, selected)
+                }
+                check(fence()) { "Purchase DEV needs completed SQL12 cutover" }
+                val graph = openActiveHousehold12ForHeldDevHost(
+                    FileStorageGenerationLayout(root).requireStaged(selected.generationId), gate, fence, planVerifier,
+                    purchaseWritable = true,
+                )
+                Household12PurchaseDevSession(graph, gate, channel)
+            } catch (failure: Throwable) {
+                channel.close()
+                throw failure
+            }
+        }
+
         internal fun openActiveHousehold12ForHeldDevHost(
             selected: StagedStorageGeneration,
             materialWriteGate: MaterialWriteGate,
             liveFence: () -> Boolean,
             planVerifier: PreparedPlanEnvelopeVerificationPort?,
+            purchaseWritable: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             check(liveFence()) { "Reality12 ACTIVE DEV fence is unavailable" }
             val graph = openValidatedV2Internal(
@@ -763,6 +827,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 activeGeneration = true, planningStage8 = true, financeStage9 = true,
                 checkedPlanning8Active = true, auxiliaryReceiptFence = liveFence,
                 commercialEvidence2ActiveDev = true, householdActive12Dev = true,
+                householdPurchaseWritableDev = purchaseWritable,
             )
             try {
                 check(graph.verifyHealthy() && liveFence()) { "Reality12 ACTIVE DEV graph lost its admission" }
@@ -927,7 +992,9 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2AuthenticatedArchiveDev: Boolean = false,
             householdStage12: Boolean = false,
             householdActive12Dev: Boolean = false,
+            householdPurchaseWritableDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!householdPurchaseWritableDev || (householdActive12Dev && planVerifier != null))
             check(!householdActive12Dev || (activeGeneration && !householdStage12 && !householdStage10 &&
                 !householdActive10Dev && !householdNeedsWritableDev && financeStage9 && checkedPlanning8Active &&
                 auxiliaryReceiptFence != null && materialWriteGate != null && commercialEvidence2ActiveDev))
@@ -1049,6 +1116,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
                     householdStage12 = householdStage12,
                     householdActive12Dev = householdActive12Dev,
+                    householdPurchaseWritableDev = householdPurchaseWritableDev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -1219,6 +1287,7 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2ActiveDev: Boolean = false,
             householdStage12: Boolean = false,
             householdActive12Dev: Boolean = false,
+            householdPurchaseWritableDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -1238,6 +1307,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         householdNeedsWritableDev = householdNeedsWritableDev,
                         householdStage12ReadOnly = householdStage12,
                         householdActive12DevReadOnly = if (householdActive12Dev) checkNotNull(auxiliaryReceiptFence) else null,
+                        householdPurchaseWritableDev = householdPurchaseWritableDev,
                     )
                 reality = openedReality
                 commercial =

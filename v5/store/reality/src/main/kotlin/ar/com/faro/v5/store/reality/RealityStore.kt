@@ -36,6 +36,8 @@ import ar.com.faro.v5.kernel.contracts.PreparedPlanView
 import ar.com.faro.v5.kernel.contracts.RealityTransactionScope
 import ar.com.faro.v5.kernel.contracts.ReceiptId
 import ar.com.faro.v5.kernel.contracts.TransactionId
+import ar.com.faro.v5.owner.household.api.HouseholdManualPurchaseReview
+import ar.com.faro.v5.owner.household.api.HouseholdReviewGeneration
 import ar.com.faro.v5.owner.household.spi.HouseholdNeedChange
 import ar.com.faro.v5.owner.household.spi.HouseholdNeedPersistencePort
 import ar.com.faro.v5.owner.household.spi.HouseholdNeedsSnapshot
@@ -131,6 +133,7 @@ class RealityStore(
     private val householdNeedsWritableDev: Boolean = false,
     private val householdStage12ReadOnly: Boolean = false,
     private val householdActive12DevReadOnly: (() -> Boolean)? = null,
+    private val householdPurchaseWritableDev: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -147,6 +150,7 @@ class RealityStore(
             "Active Finance9 requires the shared gate and a distinct active mode"
         }
         check(!householdStage12ReadOnly || (!householdStage10ReadOnly && householdActive10Dev == null))
+        check(!householdPurchaseWritableDev || householdActive12DevReadOnly != null)
         check(householdActive12DevReadOnly == null || (
             !householdStage12ReadOnly && !householdStage10ReadOnly && householdActive10Dev == null &&
                 !householdNeedsWritableDev && planningStage8 && !financeStage9 && !financeActive9 &&
@@ -162,7 +166,9 @@ class RealityStore(
         } else if (householdActive12DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
                 check(householdActive12DevReadOnly.invoke()) { "Reality12 ACTIVE DEV generation changed" }
-                openHouseholdActiveRead(Path.of(fileName))
+                if (householdPurchaseWritableDev) {
+                    BundledSQLiteDriver().open(fileName, SQLITE_OPEN_READWRITE or SQLITE_OPEN_NOFOLLOW)
+                } else openHouseholdActiveRead(Path.of(fileName))
             }
         } else if (householdActive10Dev != null) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate != null)
@@ -680,7 +686,8 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly || householdStage12ReadOnly || householdActive12DevReadOnly != null ||
+                    if (householdStage10ReadOnly || householdStage12ReadOnly ||
+                        (householdActive12DevReadOnly != null && !householdPurchaseWritableDev) ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
                         connection.execSQL("PRAGMA foreign_keys = ON")
                     } else {
@@ -715,6 +722,35 @@ class RealityStore(
         } catch (failure: Throwable) {
             runCatching { connection.close() }
             throw failure
+        }
+    }
+
+    fun household12PurchasePersistenceForTrustedDev(
+        principal: String,
+        generation: HouseholdReviewGeneration,
+    ): RealityHousehold12PurchaseApplyPort {
+        check(householdPurchaseWritableDev)
+        val fence = checkNotNull(householdActive12DevReadOnly)
+        val writer = RealityHousehold12PurchaseRowsWriter(connection)
+        return object : RealityHousehold12PurchaseApplyPort {
+            override fun find(purchaseRef: String): RealityHousehold12PurchaseRow? =
+                withMaterialAdmission { synchronized(lock) {
+                    checkOpen()
+                    check(fence())
+                    val result = writer.find(purchaseRef)
+                    check(fence())
+                    result
+                } }
+
+            override fun insert(
+                purchase: HouseholdManualPurchaseReview, confirmedAtMs: Long, scope: RealityTransactionScope,
+            ): Boolean = synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                check(activeApplyScope === scope && fence())
+                check(purchase.principal == principal && purchase.generation == generation)
+                writer.insert(purchase, confirmedAtMs)
+            }
         }
     }
 
@@ -1566,6 +1602,11 @@ class RealityStore(
         if (householdActive10Dev != null) {
             check(householdNeedsWritableDev && householdActive10Dev.invoke()) { "Household10 DEV write admission denied" }
         }
+        if (householdActive12DevReadOnly != null) {
+            check(householdPurchaseWritableDev && householdActive12DevReadOnly.invoke()) {
+                "Reality12 purchase DEV write admission denied"
+            }
+        }
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         activeTransactionId = transactionId
         val scope = SqliteRealityTransactionScope(
@@ -1577,7 +1618,9 @@ class RealityStore(
         try {
             when (val decision = block(scope)) {
                 is AtomicApplyTransactionDecision.Commit -> {
-                    check(householdActive10Dev?.invoke() != false) { "Household generation changed before commit" }
+                    check(householdActive10Dev?.invoke() != false && householdActive12DevReadOnly?.invoke() != false) {
+                        "Household generation changed before commit"
+                    }
                     connection.execSQL("COMMIT TRANSACTION")
                     decision.value
                 }

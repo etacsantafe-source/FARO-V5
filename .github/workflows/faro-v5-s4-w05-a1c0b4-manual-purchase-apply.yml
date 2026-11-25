@@ -1,0 +1,80 @@
+name: FARO V5 W05-A1C0B4 SQL12 Manual Purchase N-036 DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHostTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c0b4-manual-purchase-apply.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sql12-manual-purchase-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact scope and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 8
+          test "${#changed[@]}" -gt 0
+          args=()
+          for route in "${changed[@]}"; do
+            grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+          done
+          for route in "${permitted[@]}"; do
+            args+=(--path "$route")
+          done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test eight N-036 DEV purchase cases
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
+            :app:testDebugUnitTest --tests ar.com.faro.v5.app.S4W05ManualPurchaseDevApplyHostTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/app/build/test-results').glob('**/TEST-ar.com.faro.v5.app.S4W05ManualPurchaseDevApplyHostTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          actual = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+          assert actual == (8, 0, 0, 0), actual
+          assert len(suite.findall('testcase')) == 8
+          PY
+      - name: Preserve original purchase XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1c0b4-manual-purchase-xml
+          if-no-files-found: error
+          path: v5/app/build/test-results/**/TEST-ar.com.faro.v5.app.S4W05ManualPurchaseDevApplyHostTest.xml

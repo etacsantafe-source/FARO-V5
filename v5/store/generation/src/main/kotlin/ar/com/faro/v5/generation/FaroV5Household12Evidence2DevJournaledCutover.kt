@@ -322,6 +322,14 @@ internal class FaroV5Household12Evidence2DevJournaledCutover private constructor
             })
         }
 
+        internal fun hasCompletedSelection(root: Path, selected: ActiveGenerationPointer): Boolean =
+            runCatching {
+                val ticket = checkNotNull(readTicket(root))
+                check(ticket.selected == selected)
+                checkCompleted(root, ticket)
+                true
+            }.getOrDefault(false)
+
         private fun checkCompleted(root: Path, ticket: Ticket) {
             val entry = checkNotNull(FileBootstrapJournal(root).read(ticket.operation))
             val fence = FileGenerationReplayFence(root)
