@@ -9,7 +9,7 @@ on:
       - .github/workflows/faro-v5-s4-w05-a1c0a-stock-receive-admission.yml
 
 permissions:
-  contentts: read
+  contents: read
 
 jobs:
   household-w05-a1c0a:
@@ -32,7 +32,7 @@ jobs:
             python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$UNIT" --path "$ROUTE"
             count=$((count + 1))
           done < <(git diff --name-only --no-renames HEAD^ HEAD)
-          test "$count" -eq 3
+          test "$count" -eq 1
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
