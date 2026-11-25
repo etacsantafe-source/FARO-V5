@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_DEV",
-  "reviewed_head": "2d2b927bf479106654b80d433174cc43a6de26b6",
+  "status": "READY",
+  "unit_id": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
+  "reviewed_head": "440ebf0c4b48fd94d025cd6266ecf7fa78626981",
   "paths": [
-    "v5/evidence/src/main/kotlin/ar/com/faro/v5/evidence/SealedCommercialEvidence2SnapshotReader.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2SemanticPreflight.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2SemanticPreflightTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1b3c2b1a-semantic-readback.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevCutoverAuthorization.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2DevCutoverAuthorizationTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1b3c2b1b-durable-authorization.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
-          "blob_sha": "ebf7a0775cf75414116db5ecf488cc3bff58ecf6",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
+          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
-          "blob_sha": "ebf7a0775cf75414116db5ecf488cc3bff58ecf6",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
+          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
-          "blob_sha": "ebf7a0775cf75414116db5ecf488cc3bff58ecf6",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
+          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
-          "blob_sha": "ebf7a0775cf75414116db5ecf488cc3bff58ecf6",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
+          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
           "marker": "## B4"
         }
       ]
@@ -54,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
-          "blob_sha": "ebf7a0775cf75414116db5ecf488cc3bff58ecf6",
+          "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_EVIDENCE2_DURABLE_AUTH_B1_B5_20261125.md",
+          "blob_sha": "eba84215d23e557518160e5d5c0b7c1ebed5d17d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "VERIFIED_IMPLEMENTED",
-    "B7": "PASS_SCOPED_20_20_XML"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
     "sha": "5c080ef54d0dda5dedb005c8ef1397daaa293dfa",
@@ -75,8 +74,8 @@
       }
     ]
   },
-  "why": "C2B1A sealed Evidence2 typed semantic read-back CI45519526104 XML20/20 and guard45519525935 SUCCESS; no durable cutover authorization",
-  "how": "B7 PASS scoped; READY consumed; C2B1B requires independent B1–B5 and permit",
+  "why": "C2B1A typed semantic READ_ONLY B7 PASS XML20/20, Evidence2 needs isolated durable foreground PRE-CUTOVER ticket+journal; C1A Evidence1 v1 cannot be reused",
+  "how": "Exact3 new Evidence2 v2 cutover authorization class, dedicated tests and targeted workflow; no cutover/ACTIVE stock",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -85,9 +84,9 @@
   },
   "previous_unit": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
   "previous_b7": "PASS_SCOPED_EVIDENCE2_SQL11_STAGED_16_16",
-  "next": "C2B1B Evidence2 durable pre-cutover authorization ticket+journal versioned; then C2C cutover/recovery. A1 OPEN.",
-  "pre_audit_guard_run_id": 45519116263,
-  "pre_audit_head": "2d2b927bf479106654b80d433174cc43a6de26b6",
+  "next": "B6 exact3 and CI XML22/22; B7 after guard and original XML. C2C independent later",
+  "pre_audit_guard_run_id": 45521383417,
+  "pre_audit_head": "440ebf0c4b48fd94d025cd6266ecf7fa78626981",
   "previous_ci_run_id": 45495586732,
   "red_fix": {
     "reason": "B0_PRE_AUTH_EVIDENCE2_STAGE_REJECTED",
@@ -96,9 +95,9 @@
     "document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
     "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9"
   },
-  "final_ci_run_id": 45519526104,
-  "final_guard_run_id": 45519525935,
-  "final_ci_xml": "SEMANTIC_6_6_C2B0_6_6_EVIDENCE1_8_8_TOTAL_20_20_ZERO_FAILURES_ERRORS_SKIPS",
-  "final_xml_artifact_id": 14978859436,
-  "final_xml_sha256": "532b3b77881d685d4c3b4678e856d434343281301e11088ecc2e8adfd0ffdc96"
+  "final_ci_run_id": null,
+  "final_guard_run_id": null,
+  "final_ci_xml": null,
+  "final_xml_artifact_id": null,
+  "final_xml_sha256": null
 }
