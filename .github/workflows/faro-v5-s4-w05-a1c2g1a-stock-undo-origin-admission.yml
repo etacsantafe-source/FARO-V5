@@ -1,0 +1,81 @@
+name: FARO V5 W05-A1C2G1A stock undo trusted-origin admission DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockUndoDevAdmission.kt
+      - v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockUndoDevAdmissionTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c2g1a-stock-undo-origin-admission.yml
+
+permissions:
+  contents: read
+
+jobs:
+  g1a-stock-undo-origin-admission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify three paths and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_ADMISSION
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 3
+          test "${#changed[@]}" -gt 0
+          for route in "${changed[@]}"; do
+            grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+          done
+          args=()
+          for route in "${permitted[@]}"; do args+=(--path "$route"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Test G1A typed origin and G0 stock.receive admission regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :owner:household:test \
+            --tests ar.com.faro.v5.owner.household.api.HouseholdStockUndoDevAdmissionTest \
+            --tests ar.com.faro.v5.owner.household.api.HouseholdStockReceiveDevAdmissionTest
+      - name: Validate original strict JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          base = Path('v5/owner/household/build/test-results/test')
+          for cls, expected in (
+              ('HouseholdStockUndoDevAdmissionTest', 10),
+              ('HouseholdStockReceiveDevAdmissionTest', 8),
+          ):
+              xml = base / ('TEST-ar.com.faro.v5.owner.household.api.' + cls + '.xml')
+              suite = ElementTree.parse(xml).getroot()
+              seen = tuple(int(suite.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+              assert seen == (expected, 0, 0, 0), (cls, seen)
+              assert len(suite.findall('testcase')) == expected, cls
+          PY
+      - name: Publish original XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1c2g1a-stock-undo-origin-xml
+          path: v5/owner/household/build/test-results/test/TEST-*.xml
+          if-no-files-found: warn
