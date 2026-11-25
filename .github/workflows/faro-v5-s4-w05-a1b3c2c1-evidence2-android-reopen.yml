@@ -1,0 +1,112 @@
+name: FARO V5 W05-A1B3C2C1 Android Evidence2 ACTIVE DEV
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2ActiveDevReadHost.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11Evidence2DevStartup.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2ActiveDevReadHostTest.kt
+      - v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05Household11Evidence2ActiveAndroidTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1b3c2c1-evidence2-android-reopen.yml
+permissions:
+  contents: read
+jobs:
+  evidence2-android-active:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact C2C1 scopes against parent
+        run: |
+          set -euo pipefail
+          mapfile -t paths < <(git diff --name-only --no-renames HEAD^ HEAD)
+          [[ "${#paths[@]}" -eq 6 ]]
+          for path in "${paths[@]}"; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV" --path "$path"
+          done
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: JVM ACTIVE tests and authenticated fixture for Android
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          export FARO_C2C1_ANDROID_FIXTURE="$RUNNER_TEMP/faro-c2c1-fixture"
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household11Evidence2ActiveDevReadHostTest
+          test -d "$FARO_C2C1_ANDROID_FIXTURE/wal"
+          tar -C "$FARO_C2C1_ANDROID_FIXTURE" -cf "$RUNNER_TEMP/faro-c2c1-fixture.tar" sealed wal
+      - name: Assemble isolated target and instrumentation
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -PfaroG5AndroidTestV2CoreDev=true \
+            :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest
+      - name: Enable Android VM acceleration
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Android API35 framework read-only reopen and WAL
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            cd v5;
+            APP="$(find app/build/outputs/apk/v2CoreDev -type f -name "*.apk" -print -quit)";
+            test -s "$APP";
+            adb install -r "$APP";
+            adb shell -T run-as ar.com.faro.alpha.v2coredev mkdir -p files/c2c1;
+            adb shell -T run-as ar.com.faro.alpha.v2coredev tar -xf - -C files/c2c1 < "$RUNNER_TEMP/faro-c2c1-fixture.tar";
+            ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache
+            -PfaroG5AndroidTestV2CoreDev=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5W05Household11Evidence2ActiveAndroidTest
+            :app:connectedV2CoreDevAndroidTest
+            '
+      - name: Verify original XML for all nine cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as E
+          cases = (
+              ("v5/store/generation/build/test-results/test", "FaroV5Household11Evidence2ActiveDevReadHostTest", 6),
+              ("v5/app/build/outputs/androidTest-results", "FaroV5W05Household11Evidence2ActiveAndroidTest", 3),
+          )
+          for folder, class_name, expected in cases:
+              found = [
+                  case for path in Path(folder).rglob("TEST-*.xml")
+                  for case in E.parse(path).getroot().iter("testcase")
+                  if case.attrib["classname"].endswith("." + class_name)
+              ]
+              assert len(found) == expected, (class_name, len(found))
+              assert len({case.attrib["name"] for case in found}) == expected
+              assert all(case.find(tag) is None for case in found for tag in ("failure", "error", "skipped"))
+          print("FARO_W05_C2C1_ORIGINAL_XML_9_9")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w05-a1b3c2c1-android-active-xml-apk
+          if-no-files-found: warn
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household11Evidence2ActiveDevReadHostTest.xml
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/v2CoreDev/*.apk

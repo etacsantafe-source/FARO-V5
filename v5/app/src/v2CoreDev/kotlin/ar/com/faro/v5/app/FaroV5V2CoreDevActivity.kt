@@ -157,6 +157,10 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 text = "Comprobar recuperación SQL11 (DEV, solo lectura)"
                 setOnClickListener { inspectCommittedSql11() }
             })
+            column.addView(Button(this).apply {
+                text = "Comprobar SQL11 Evidence2 (DEV, solo lectura)"
+                setOnClickListener { inspectEvidence2Sql11() }
+            })
         }
         setContentView(ScrollView(this).apply {
             FaroV5NativeScreenInsets.protect(this)
@@ -209,6 +213,43 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                         candidate.close()
                         status.text = "SQL11 DEV: " + snapshot.status.name +
                             ". No se activó inventario ni se alteraron los datos."
+                    }
+                } finally {
+                    opening.set(false)
+                }
+            }
+        }
+    }
+
+    private fun inspectEvidence2Sql11() {
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) ||
+            !opening.compareAndSet(false, true)) return
+        session?.close()
+        session = null
+        sql11Probe?.close()
+        sql11Probe = null
+        status.text = "Verificando SQL11 Evidence2 (DEV)…"
+        val foreground = {
+            !disposed.get() && !isFinishing && !isDestroyed &&
+                lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        }
+        executor.execute {
+            val snapshot = runCatching {
+                FaroV5W05Household11Evidence2DevStartup(
+                    rootPath(), packageName, foreground, { session == null },
+                    (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0,
+                ).use { it.reopenReadOnly() }
+            }.getOrNull()
+            runOnUiThread {
+                try {
+                    if (foreground()) {
+                        val active = ar.com.faro.v5.generation.FaroV5Household11Evidence2ActiveDevReadHost
+                            .Status.ACTIVE_ELEVEN
+                        status.text = if (snapshot != null && snapshot.status == active) {
+                            "SQL11 Evidence2 DEV · necesidades ${snapshot.needs}, recepciones ${snapshot.receipts}"
+                        } else {
+                            "SQL11 Evidence2 DEV · ${snapshot?.status?.name ?: "BLOCKED"}"
+                        }
                     }
                 } finally {
                     opening.set(false)
