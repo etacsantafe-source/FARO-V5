@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C0B3_CUTOVER_B7_PASS_PURCHASE_NEXT",
+  "phase": "S4_W05_A1C0B4_N036_MANUAL_PURCHASE_READY_EXACT8",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1975
+    "epoch": 1976
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A1C0B4 N-036 manual purchase DEV, own READY",
-  "checkpoint_status": "A1C0B3_B7_PASS_DEV_A1_OPEN",
+  "next": "A1C0B4 manual purchase N-036 B6/B7 then A1C1 stock receive",
+  "checkpoint_status": "A1C0B4_READY_EXACT8_B6_PENDING_A1_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "last_code_sha": "c0fcabc006d021f498c30480e31ee9041f919f8e",
@@ -493,20 +493,24 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 1975,
+  "last_writer_epoch_observed": 1976,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_commit_sha": "c50779801d16aef7dd4c4b6951a688226a9f959e",
-    "permit_status": "BLOCKED",
-    "unit_id": "S4_W05_A1C0B3B_SQL12_EVIDENCE2_JOURNALED_CUTOVER_DEV",
+    "permit_status": "READY",
+    "unit_id": "S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV",
     "allowed_paths": [
+      "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdManualPurchaseReview.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseApplyPort.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Evidence2DevJournaledCutover.kt",
-      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12V9StagedReplay.kt",
-      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household12Evidence2DevJournaledCutoverTest.kt",
-      ".github/workflows/faro-v5-s4-w05-a1c0b3b-sql12-dev-cutover.yml"
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHost.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHostTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c0b4-manual-purchase-apply.yml"
     ],
     "needs_exact_preflight_pass": true,
     "preflight_proof_run": {
@@ -535,7 +539,7 @@
         }
       ]
     },
-    "pre_audit_guard_run_id": 45596786232
+    "pre_audit_guard_run_id": 45600176853
   },
   "guard_latest_runs": [
     {
@@ -2196,7 +2200,7 @@
   "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
   "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
-  "writer_release_epoch": 1975,
+  "writer_release_epoch": 1976,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -7249,7 +7253,18 @@
     }
   },
   "w05_a1c0b4": {
-    "status": "DELTA_AUDITED_WAIT_GUARD_READY",
-    "evidence": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md"
+    "status": "A1C0B4_READY_B6_PENDING",
+    "evidence": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md",
+    "scope": [
+      "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdManualPurchaseReview.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseApplyPort.kt",
+      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Evidence2DevJournaledCutover.kt",
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHost.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHostTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c0b4-manual-purchase-apply.yml"
+    ],
+    "preaudit_guard": 45600176853
   }
 }

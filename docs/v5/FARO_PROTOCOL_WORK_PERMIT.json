@@ -1,21 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C0B3B_SQL12_EVIDENCE2_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "6916bc533c9d0e3c6ad2d82c1b734dc18ef17eff",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV",
+  "reviewed_head": "01ffbefe41cd7cfa3e277bafec433a265df5d773",
   "paths": [
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdManualPurchaseReview.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseApplyPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12V9StagedReplay.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household12Evidence2DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c0b3b-sql12-dev-cutover.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05ManualPurchaseDevApplyHostTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c0b4-manual-purchase-apply.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B3B_SQL12_AUTHORIZED_JOURNALED_CUTOVER_DELTA_20261125.md",
-          "blob_sha": "042bd9a876ddc0051696863c9487a517b503fc6d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md",
+          "blob_sha": "22892eac5bf7040995c2831bc6a2757aba899370",
           "marker": "## B1"
         }
       ]
@@ -24,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B3B_SQL12_AUTHORIZED_JOURNALED_CUTOVER_DELTA_20261125.md",
-          "blob_sha": "042bd9a876ddc0051696863c9487a517b503fc6d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md",
+          "blob_sha": "22892eac5bf7040995c2831bc6a2757aba899370",
           "marker": "## B2"
         }
       ]
@@ -34,8 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B3B_SQL12_AUTHORIZED_JOURNALED_CUTOVER_DELTA_20261125.md",
-          "blob_sha": "042bd9a876ddc0051696863c9487a517b503fc6d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md",
+          "blob_sha": "22892eac5bf7040995c2831bc6a2757aba899370",
           "marker": "## B3"
         }
       ]
@@ -44,8 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B3B_SQL12_AUTHORIZED_JOURNALED_CUTOVER_DELTA_20261125.md",
-          "blob_sha": "042bd9a876ddc0051696863c9487a517b503fc6d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md",
+          "blob_sha": "22892eac5bf7040995c2831bc6a2757aba899370",
           "marker": "## B4"
         }
       ]
@@ -54,17 +58,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C0B3B_SQL12_AUTHORIZED_JOURNALED_CUTOVER_DELTA_20261125.md",
-          "blob_sha": "042bd9a876ddc0051696863c9487a517b503fc6d",
+          "path": "docs/v5/FARO_S4_W05_A1C0B4_MANUAL_PURCHASE_APPLY_DELTA_20261125.md",
+          "blob_sha": "22892eac5bf7040995c2831bc6a2757aba899370",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_CI_XML_16_16",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45596786232,
-  "pre_audit_head": "6916bc533c9d0e3c6ad2d82c1b734dc18ef17eff",
+  "pre_audit_guard_run_id": 45600176853,
+  "pre_audit_head": "01ffbefe41cd7cfa3e277bafec433a265df5d773",
   "last_code_review": {
     "sha": "c0fcabc006d021f498c30480e31ee9041f919f8e",
     "unit_id": "S4_W05_A1C0B3B_SQL12_EVIDENCE2_JOURNALED_CUTOVER_DEV",
@@ -81,9 +85,6 @@
   "last_ci_conclusion": "SUCCESS_XML16_16",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B3B B7 PASS, scope consumed",
-  "next": "A1C0B4 manual N-036 after independent READY and documentary guard",
-  "final_ci_run_id": 45599209365,
-  "final_guard_run_id": 45599209368,
-  "final_xml_artifact_id": 15014698398
+  "why": "A1C0B3 B7 scoped PASS and confirmed documentary guard. Eight exact N-036 purchase DEV paths.",
+  "next": "A1C0B4 B6/B7, then A1C1 receipt"
 }
