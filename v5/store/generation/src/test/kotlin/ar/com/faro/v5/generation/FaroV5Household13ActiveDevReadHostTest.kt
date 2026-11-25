@@ -65,7 +65,7 @@ class FaroV5Household13ActiveDevReadHostTest {
         val file = stage.directory.resolve(GenerationStoreFiles.REALITY)
         RealityHousehold10StagedFilePort.migrateTrustedStagedNine(file)
         RealityHousehold11StagedFilePort.migrateTrustedStagedTen(file)
-        RealityHousehold12StagedFilePort.migrateTrustedStagedEleven(file)
+        RealityHousehold12StagedFilePort.migrateTrustedStagedEleven(file) { }
         if (to13) RealityHousehold13StagedFilePort.migrateTrustedStagedTwelve(file)
         if (evidence2) {
             CommercialEvidenceStore(
