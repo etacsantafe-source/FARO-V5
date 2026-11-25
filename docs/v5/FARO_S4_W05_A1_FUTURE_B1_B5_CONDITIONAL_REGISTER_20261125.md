@@ -26,3 +26,5 @@ A1C0B1 FBS2v9 tiene B1–B5 **VERIFIED** (no condicionales), permiso READY exact
 
 ## Para Work
 Leer `docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md`, la misión de continuidad, este registro y **solo el documento de la unidad inmediata** al finalizar B7 de la anterior. Reconcilie con los códigos nuevos. No rehaga el análisis general; realice solo el delta estrictamente necesario. Conservar último B7/CI/XML por SHA. Si no hay autoría/composición/grant válida, no escribir stock, documentar bloqueo real.
+## Última auditoría antes de Work
+`docs/v5/FARO_S4_W05_A1_LAST_SWEEP_DEPENDENCIES_20261125.md` verifica `undo.execute` N-016 (no inventar stock.undo ni heredar grants) y la ausencia de grafo ACTIVE SQL12 (A1C0B3 debe prepararlo, no reutilizar opener Household10). Las adendas se incorporaron a preauditorías A1C0B3 y A1C2. El estado de las siete unidades sigue `PREAUDITED_CONDITIONAL / NOT_READY`; solo A1C0B1 tiene permiso READY.

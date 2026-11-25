@@ -16,3 +16,6 @@ Fecha 2026-11-25. Repositorio `etacsantafe-source/FARO-V5`, branch `work/s3-nigh
 
 ## Preparación anticipada posterior (2026-11-25)
 Existe `docs/v5/FARO_S4_W05_A1_FUTURE_B1_B5_CONDITIONAL_REGISTER_20261125.md` y siete B1–B5 **PREAUDITED_CONDITIONAL** para A1C0B2, A1C0B3, A1C0B4, A1C1, A1C2, A1C3 y A1C4. Al completar B7 del predecessor NO repetir investigación genérica: leer la preauditoría inmediata, revalidar únicamente delta frente a HEAD, congelar scope/paths exactos, obtener guard documental y emitir READY individual, luego B6. Estos borradores nunca conceden permiso. Se verificó el contrato catalogado `shopping.purchase.record` N-036 y la separación de SQLite port Reality vs generación. El permiso vigente A1C0B1 no cambia. No confundir READY consumido/BLOCKED con bloqueo que requiera pedir al usuario empezar una nueva sesión.
+
+## Last sweep técnico (2026-11-25)
+Consultar `docs/v5/FARO_S4_W05_A1_LAST_SWEEP_DEPENDENCIES_20261125.md`: N-016 `undo.execute` ya registrado, pero Undo stock precisa binding y compensación propios; `FaroV5GenerationStoreGraph` abre Household10, no SQL12, por lo que A1C0B3 debe certificar opener/grafo nuevo antes del Apply de compras/stock. Preauditorías A1C0B3 y A1C2 actualizadas. No duplicar investigación, hacer solo delta tras B7 predecesor. A1C0B1 sigue READY exact4, B6 siguiente.

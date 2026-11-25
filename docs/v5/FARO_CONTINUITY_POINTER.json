@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1953
+    "epoch": 1955
   },
   "automation": {
     "activation_authorized": false,
@@ -47,7 +47,7 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Work B6 A1C0B1 FBS2v9 exact4, B7 then A1C0B2 SQL12 capture/restore, A1C0B3 cutover, A1C0B4 shopping.purchase.record N-036, A1C1 stock.receive, A1C2 Undo/recovery, A1C3 Android, A1C4 global DEV; all after own READY; do not repeat certified",
+  "next": "Work A1C0B1 B6 exact4 FBS2v9; A1C0B2 SQL12 capture/restore; A1C0B3 SQL12 cutover+ACTIVE graph; A1C0B4 shopping.purchase.record N-036; A1C1 stock.receive N-035; A1C2 N-016 undo/recovery/compensation; A1C3 Android; A1C4 global DEV; all successors own B1-B5 delta and READY after B7",
   "checkpoint_status": "A1C0B1_B1_B5_READY_GUARD45541345419_EXACT4_B6_PENDING_A1_GLOBAL_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
