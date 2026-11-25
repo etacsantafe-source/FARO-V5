@@ -336,8 +336,16 @@ class FaroV5Household13Evidence2DevJournaledCutoverTest {
     fun rejectsArchiveSubstitutionAndCorruptedTicket() {
         val f = fixture()
         cutover().use { host ->
-            val v9 = crypto.sealWithHouseholdPurchases12(
-                FaroV5Household12Fbs2Snapshot(f.snapshot.base, f.snapshot.purchases), key)
+            // FBS2v9 has no compensations: reconstruct the valid historical
+            // 7+3 receipt ledger (gross10) before checking the version fence.
+            val legacyReceipts = f.snapshot.base.receipts.copy(
+                revision = 2L,
+                receipts = f.snapshot.base.receipts.receipts.take(2),
+            )
+            val legacy = FaroV5Household12Fbs2Snapshot(
+                f.snapshot.base.copy(receipts = legacyReceipts), f.snapshot.purchases,
+            )
+            val v9 = crypto.sealWithHouseholdPurchases12(legacy, key)
             assertEquals(statusBlocked, host.authorize(op, f.target, f.origin, v9, key) { true }.status)
             assertNull(journal.read(op))
             assertEquals(statusAwait, authorize(host, f).status)
