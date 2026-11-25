@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-24",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1B3C2B1A_READY_EXACT4_SEMANTIC_READBACK",
+  "phase": "S4_W05_A1B3C2B1A_B7_PASS_SCOPED_TYPED_SEMANTICS_XML20_20",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1917
+    "epoch": 1919
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1B3C2B1A_B7_PASS_EVIDENCE2_SEALED_SEMANTICS_XML20_20_20261124.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "C2B1A READY exact4: implement sealed typed Evidence2 semantic readback READ_ONLY, CI20/20 and B7; then C2B1B durable authorization separately",
-  "checkpoint_status": "C2B1A_B1_B5_GUARD_45519116263_SUCCESS_READY_EXACT4",
+  "next": "C2B1A B7 PASS scoped; next C2B1B durable Evidence2 PRE-CUTOVER authorization independent B1–B5/READY; then C2C recovery. A1 global OPEN, stock real, payments, V2 production and Auto/Night OFF",
+  "checkpoint_status": "W05_C2B1A_B7_PASS_SCOPED_XML20_20_CI45519526104_GUARD45519525935",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C2B1A_EVIDENCE2_SEALED_TYPED_SEMANTIC_READBACK_B1_B5_20261124.md",
-  "last_code_sha": "957a67f9462c2d7a6126d0ca6f0bb8d4b00278ad",
-  "last_ci_run_id": 45517890891,
+  "last_handoff": "docs/v5/FARO_S4_W05_A1B3C2B1A_B7_PASS_EVIDENCE2_SEALED_SEMANTICS_XML20_20_20261124.md",
+  "last_code_sha": "5c080ef54d0dda5dedb005c8ef1397daaa293dfa",
+  "last_ci_run_id": 45519526104,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_EVIDENCE2_6_6_EVIDENCE1_8_8_XML_14_14",
+  "last_ci_conclusion": "SUCCESS_C2B1A_6_6_C2B0_6_6_C0_8_8_XML20_20",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
