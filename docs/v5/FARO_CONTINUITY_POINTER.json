@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_READY_B6_NOT_RUN",
+  "phase": "S4_W05_A1C2G0_SQL13_COMPENSATION_B6_COMMITTED_WAIT_CI_B7_NOT_VERIFIED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2015
+    "epoch": 2017
   },
   "automation": {
     "activation_authorized": false,
@@ -47,10 +47,10 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A1C2G0 B6 with READY exact5 at documented guard 45636259619; then CI/XML B7; G1 N-016 separate authorization; A1C3 Android, A1C4 global",
-  "checkpoint_status": "A1C2F_B7_PASS_SCOPED_A1C2G0_B1_B5_GUARD_SUCCESS_READY_B6_NOT_RUN_A1_DEV_OPEN",
+  "next": "Verify G0 guard 45637952691 and CI 45637952977 by exact code SHA 8056a65959647a4ae58b0616d5c1f198ec1c84bc, original 18 XML tests only if present; scope B7/redfix, then G1 N-016, A1C3 Android, A1C4 global",
+  "checkpoint_status": "A1C2F_B7_PASS_SCOPED_A1C2G0_B6_COMMITTED_CI_WAIT_B7_NOT_VERIFIED_A1_DEV_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_B1_B5_20261125.md",
+  "last_handoff": "docs/v5/FARO_S4_W05_A1C2G0_B6_WAIT_CI_20261125.md",
   "last_code_sha": "e581dcba2191b988c90ca6271b1bf9c209d13eac",
   "last_ci_run_id": 45629774472,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -7376,5 +7376,17 @@
     "physical": "NOT_RUN",
     "a1_global": "OPEN",
     "handoff": "docs/v5/FARO_S4_W05_A1C2F_B7_PASS_SQL13_EVIDENCE2_CUTOVER_20261125.md"
+  },
+  "s4_w05_a1c2g0": {
+    "unit_id": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION",
+    "code_sha": "8056a65959647a4ae58b0616d5c1f198ec1c84bc",
+    "block_id": "B6",
+    "block_status": "COMMITTED_WAIT_CI",
+    "guard_run_id": 45637952691,
+    "ci_run_id": 45637952977,
+    "ci_status_at_capture": "QUEUED",
+    "writer_release_epoch": 2017,
+    "physical": "NOT_RUN",
+    "remaining": "B7 then G1/A1C3/A1C4"
   }
 }
