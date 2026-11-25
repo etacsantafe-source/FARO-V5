@@ -134,6 +134,7 @@ class RealityStore(
     private val householdNeedsWritableDev: Boolean = false,
     private val householdStage12ReadOnly: Boolean = false,
     private val householdStage13ReadOnly: Boolean = false,
+    private val householdActive13DevReadOnly: (() -> Boolean)? = null,
     private val householdActive12DevReadOnly: (() -> Boolean)? = null,
     private val householdPurchaseWritableDev: Boolean = false,
     private val householdStockReceiveWritableDev: Boolean = false,
@@ -155,7 +156,14 @@ class RealityStore(
         }
         check(!householdStage12ReadOnly || (!householdStage10ReadOnly && householdActive10Dev == null))
         check(!householdStage13ReadOnly || (!householdStage10ReadOnly && !householdStage12ReadOnly &&
-            householdActive10Dev == null && householdActive12DevReadOnly == null))
+            householdActive10Dev == null && householdActive12DevReadOnly == null &&
+            householdActive13DevReadOnly == null))
+        check(! (householdActive13DevReadOnly != null && (
+            householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly ||
+            householdActive10Dev != null || householdActive12DevReadOnly != null ||
+            householdNeedsWritableDev || household12WritableDev || !planningStage8 ||
+            financeStage9 || financeActive9 || materialWriteGate == null
+        ))) { "Reality13 ACTIVE DEV is strictly read-only" }
         check(!(householdPurchaseWritableDev && householdStockReceiveWritableDev))
         check(!household12WritableDev || householdActive12DevReadOnly != null)
         check(householdActive12DevReadOnly == null || (
@@ -170,6 +178,11 @@ class RealityStore(
                 file.toUri().toString() + "?mode=ro&immutable=1",
                 SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
             )
+        } else if (householdActive13DevReadOnly != null) {
+            checkNotNull(materialWriteGate).withMaterialWrite {
+                check(householdActive13DevReadOnly.invoke()) { "Reality13 ACTIVE DEV generation changed" }
+                openHouseholdActiveRead(Path.of(fileName))
+            }
         } else if (householdActive12DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
                 check(householdActive12DevReadOnly.invoke()) { "Reality12 ACTIVE DEV generation changed" }
@@ -694,6 +707,7 @@ class RealityStore(
             withMaterialAdmission {
                 synchronized(lock) {
                     if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly ||
+                        (householdActive13DevReadOnly != null) ||
                         (householdActive12DevReadOnly != null && !household12WritableDev) ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
                         connection.execSQL("PRAGMA foreign_keys = ON")
@@ -701,6 +715,12 @@ class RealityStore(
                         configure(fileName)
                     }
                     when {
+                        householdActive13DevReadOnly != null -> {
+                            check(householdActive13DevReadOnly.invoke())
+                            RealityHousehold13CompensationRowsPort.captureConnection(connection)
+                            validateExistingFinanceLayout(13)
+                            check(householdActive13DevReadOnly.invoke())
+                        }
                         householdActive12DevReadOnly != null -> {
                             check(householdActive12DevReadOnly.invoke())
                             RealityHousehold12PurchaseRowsPort.readTrustedTwelveConnection(connection)
@@ -802,6 +822,21 @@ class RealityStore(
                 check(current()) { "Reality12 ACTIVE DEV admission revoked" }
                 val snapshot = RealityHousehold12PurchaseRowsPort.readTrustedTwelveConnection(connection)
                 check(current()) { "Reality12 ACTIVE DEV generation changed during read" }
+                snapshot
+            }
+        }
+
+    /** Only an isolated SQL13 selected DEV read host may call this under its live gate. */
+    fun snapshotActiveHousehold13RowsForTrustedHost(): RealityHousehold13CompensationRows =
+        withMaterialAdmission {
+            synchronized(lock) {
+                checkOpen()
+                val fence = checkNotNull(householdActive13DevReadOnly) {
+                    "Reality13 ACTIVE DEV owner read required"
+                }
+                check(fence()) { "Reality13 ACTIVE DEV admission revoked" }
+                val snapshot = RealityHousehold13CompensationRowsPort.captureConnection(connection)
+                check(fence()) { "Reality13 ACTIVE DEV owner changed during read" }
                 snapshot
             }
         }
@@ -2357,7 +2392,7 @@ class RealityStore(
                 ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
                 ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10) ||
                 ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12) ||
-                (householdStage13ReadOnly && readSchemaVersion() == 13)
+                ((householdStage13ReadOnly || householdActive13DevReadOnly != null) && readSchemaVersion() == 13)
         )
 
     private fun createPlanningStage8Tables() {
@@ -4340,6 +4375,14 @@ class RealityStore(
                 Household10RowsSql.checkSchema(db)
                 Household10RowsSql.checkIntegrity(db)
                 readValidatedHousehold10Rows(db)
+            }
+        }
+
+        /** WAL-aware SQL13 active preflight; never use immutable=1 on the live generation. */
+        fun requireHealthyHousehold13ActiveDev(file: Path) {
+            openHouseholdActiveRead(file).use { db ->
+                db.execSQL("PRAGMA foreign_keys = ON")
+                RealityHousehold13CompensationRowsPort.captureConnection(db)
             }
         }
 
