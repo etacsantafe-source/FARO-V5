@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2G1B_STOCK_UNDO_APPLY_B1_B5_PREPARED_NOT_READY",
+  "phase": "S4_W05_A1C2G1B_TRUSTED_UNDO_APPLY_READY_EXACT3",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2026
+    "epoch": 2027
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "G1B B1-B5 prepared; verify doc guard then independent READY exact3 and preflight before G1B B6; G1A 18/18 B7 PASS, no repeat. A1C3 Android/A1C4 global after.",
-  "checkpoint_status": "A1C2G0_B7_PASS_18_18_A1C2G1A_B7_PASS_18_18_G1B_PENDING_A1_OPEN",
+  "next": "Execute G1B B6 only three paths with code commit and exact preflight, verify Android unit test XML + guard B7. Then A1C3 Android and A1C4 global. No V2 production.",
+  "checkpoint_status": "A1C2G1A_B7_PASS_18_18_A1C2G1B_B1_B5_GUARD_SUCCESS_READY_EXACT3_A1_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
   "last_code_sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
@@ -7422,10 +7422,16 @@
     "remaining": "G1B/A1C3/A1C4"
   },
   "s4_w05_a1c2g1b": {
-    "status": "B1_B5_PREAUDIT_PENDING_GUARD",
+    "status": "READY_EXACT3_B6_PENDING",
     "baseline": "a6e2d68db376488a803a70acc05e6ba095493839",
     "doc": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
-    "writer_epoch_release": 2026,
-    "next": "READY then B6/B7, no production"
+    "writer_epoch_release": 2027,
+    "next": "READY then B6/B7, no production",
+    "guard_run_id": 45643859498,
+    "permit_paths": [
+      "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockUndoDevApplyHost.kt",
+      "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockUndoDevApplyHostTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c2g1b-stock-undo-apply.yml"
+    ]
   }
 }
