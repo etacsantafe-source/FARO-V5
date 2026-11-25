@@ -81,6 +81,9 @@ object RealityFinance9SealedReadPort {
     fun readTrustedSealedStage12(file: Path): RealityFinance9SealedSnapshot =
         read(Household11ReceiptRowsSql.checkFile(file), 12)
 
+    fun readTrustedSealedStage13(file: Path): RealityFinance9SealedSnapshot =
+        read(Household11ReceiptRowsSql.checkFile(file), 13)
+
     private fun read(file: Path, expectedSchema: Long): RealityFinance9SealedSnapshot {
         val normalized = file.toAbsolutePath().normalize()
         check(!Files.isSymbolicLink(normalized) &&

@@ -133,6 +133,7 @@ class RealityStore(
     private val householdActive10Dev: (() -> Boolean)? = null,
     private val householdNeedsWritableDev: Boolean = false,
     private val householdStage12ReadOnly: Boolean = false,
+    private val householdStage13ReadOnly: Boolean = false,
     private val householdActive12DevReadOnly: (() -> Boolean)? = null,
     private val householdPurchaseWritableDev: Boolean = false,
     private val householdStockReceiveWritableDev: Boolean = false,
@@ -153,14 +154,16 @@ class RealityStore(
             "Active Finance9 requires the shared gate and a distinct active mode"
         }
         check(!householdStage12ReadOnly || (!householdStage10ReadOnly && householdActive10Dev == null))
+        check(!householdStage13ReadOnly || (!householdStage10ReadOnly && !householdStage12ReadOnly &&
+            householdActive10Dev == null && householdActive12DevReadOnly == null))
         check(!(householdPurchaseWritableDev && householdStockReceiveWritableDev))
         check(!household12WritableDev || householdActive12DevReadOnly != null)
         check(householdActive12DevReadOnly == null || (
-            !householdStage12ReadOnly && !householdStage10ReadOnly && householdActive10Dev == null &&
+            !householdStage12ReadOnly && !householdStage13ReadOnly && !householdStage10ReadOnly && householdActive10Dev == null &&
                 !householdNeedsWritableDev && planningStage8 && !financeStage9 && !financeActive9 &&
                 materialWriteGate != null
         )) { "Reality12 ACTIVE read requires its own admitted DEV mode" }
-        if (householdStage10ReadOnly || householdStage12ReadOnly) {
+        if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate == null)
             val file = Household10RowsSql.checkFile(Path.of(fileName))
             BundledSQLiteDriver().open(
@@ -690,7 +693,7 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly || householdStage12ReadOnly ||
+                    if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly ||
                         (householdActive12DevReadOnly != null && !household12WritableDev) ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
                         connection.execSQL("PRAGMA foreign_keys = ON")
@@ -707,6 +710,10 @@ class RealityStore(
                         householdStage12ReadOnly -> {
                             Household11ReceiptRowsSql.checkTables(connection)
                             validateExistingFinanceLayout(12)
+                        }
+                        householdStage13ReadOnly -> {
+                            RealityHousehold13CompensationRowsPort.captureConnection(connection)
+                            validateExistingFinanceLayout(13)
                         }
                         householdStage10ReadOnly -> {
                             Household10RowsSql.checkSchema(connection)
@@ -2349,7 +2356,8 @@ class RealityStore(
             readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
                 ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
                 ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10) ||
-                ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12)
+                ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12) ||
+                (householdStage13ReadOnly && readSchemaVersion() == 13)
         )
 
     private fun createPlanningStage8Tables() {

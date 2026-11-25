@@ -148,6 +148,21 @@ internal class FaroV5Household11V8BaseReplay(
         }
     }
 
+    /** Reuse the sealed v8 five-owner base while pinning the original v10 ciphertext. */
+    fun restoreVerifiedV10BaseToNine(
+        operationId: MaintenanceOperationId,
+        target: StagedStorageGeneration,
+        expectedActive: ActiveGenerationPointer,
+        archive: AuthenticatedHousehold13RestoreArchive,
+    ): FiveStoreStagedRestoreResult = quiescence.withMaterialWritesQuiesced(operationId) {
+        val bytes = archive.copyEncryptedBytes()
+        try {
+            restoreVerifiedUnderLease(operationId, target, expectedActive, archive, bytes, null)
+        } finally {
+            bytes.fill(0)
+        }
+    }
+
     private fun restoreVerifiedUnderLease(
         operationId: MaintenanceOperationId,
         target: StagedStorageGeneration,

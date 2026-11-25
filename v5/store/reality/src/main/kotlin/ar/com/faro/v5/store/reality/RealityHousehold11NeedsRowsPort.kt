@@ -37,6 +37,9 @@ object RealityHousehold11NeedsRowsPort {
     fun readTrustedSealedStageTwelve(file: Path): RealityHousehold10Rows =
         readTrustedSealedStage(file, 12)
 
+    fun readTrustedSealedStageThirteen(file: Path): RealityHousehold10Rows =
+        readTrustedSealedStage(file, 13)
+
     private fun readTrustedSealedStage(file: Path, version: Int): RealityHousehold10Rows {
         val physical = Household11ReceiptRowsSql.checkFile(file)
         return BundledSQLiteDriver().open(
@@ -48,7 +51,7 @@ object RealityHousehold11NeedsRowsPort {
                 Household11ReceiptRowsSql.checkSchema(db)
             } else {
                 db.prepare("PRAGMA user_version").use {
-                    check(it.step() && it.getLong(0) == 12L && !it.step()) { "Reality12 needs require SQL12" }
+                    check(it.step() && it.getLong(0) == version.toLong() && !it.step()) { "Sealed needs require exact SQL version" }
                 }
                 Household11ReceiptRowsSql.checkTables(db)
             }
