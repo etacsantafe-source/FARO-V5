@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2A_SQL13_STAGED_B7_PASS_FBS2V10_NEXT",
+  "phase": "S4_W05_A1C2B_FBS2V10_READY_EXACT5",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1989
+    "epoch": 1990
   },
   "automation": {
     "activation_authorized": false,
@@ -47,8 +47,8 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A1C2B authenticated FBS2v10 codec",
-  "checkpoint_status": "A1C2A_B7_PASS_A1_GLOBAL_OPEN",
+  "next": "A1C2B FBS2v10 B6/B7 then SQL13 replay",
+  "checkpoint_status": "A1C2B_READY_EXACT5_B6_PENDING_A1_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "last_code_sha": "2b5eb70498013a238b91b8d620a9de66ec287ba5",
@@ -493,21 +493,21 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 1989,
+  "last_writer_epoch_observed": 1990,
   "protocol_guard": {
     "status": "M1_B7_PASS_PERMIT_BLOCKED",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "permit_commit_sha": "c50779801d16aef7dd4c4b6951a688226a9f959e",
-    "permit_status": "BLOCKED",
-    "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
+    "permit_status": "READY",
+    "unit_id": "S4_W05_A1C2B_COMPENSATION_FBS2V10_CODEC_DEV",
     "allowed_paths": [
-      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchema.kt",
-      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13StagedFilePort.kt",
-      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
-      "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchemaTest.kt",
-      ".github/workflows/faro-v5-s4-w05-a1c2a-sql13-compensation-schema.yml"
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2Codec.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Fbs2Codec.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2CodecTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c2b-compensation-fbs2v10.yml"
     ],
     "needs_exact_preflight_pass": true,
     "preflight_proof_run": {
@@ -536,7 +536,7 @@
         }
       ]
     },
-    "pre_audit_guard_run_id": 45607146184
+    "pre_audit_guard_run_id": 45609963312
   },
   "guard_latest_runs": [
     {
@@ -2197,7 +2197,7 @@
   "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
   "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
   "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
-  "writer_release_epoch": 1989,
+  "writer_release_epoch": 1990,
   "last_observed_at": "2026-11-15",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -7290,16 +7290,16 @@
     "b7_document": "docs/v5/FARO_S4_W05_A1C1_B7_PASS_STOCK_RECEIVE_DEV_20261125.md"
   },
   "w05_a1c2": {
-    "status": "A1C2A_B7_PASS_A1C2B_DELTA_DOCUMENTED",
-    "evidence": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
+    "status": "A1C2B_READY_B6_PENDING",
+    "evidence": "docs/v5/FARO_S4_W05_A1C2B_COMPENSATION_FBS2V10_DELTA_20261125.md",
     "scope": [
-      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchema.kt",
-      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13StagedFilePort.kt",
-      "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
-      "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchemaTest.kt",
-      ".github/workflows/faro-v5-s4-w05-a1c2a-sql13-compensation-schema.yml"
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2Codec.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12Fbs2Codec.kt",
+      "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
+      "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Fbs2CodecTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c2b-compensation-fbs2v10.yml"
     ],
-    "preaudit_guard": 45607146184,
+    "preaudit_guard": 45609963312,
     "red_fix": "docs/v5/FARO_S4_W05_A1C2A_RED_FIX_SQLITE_TRIGGER_DDL_20261125.md",
     "a1c2a": {
       "code_sha": "2b5eb70498013a238b91b8d620a9de66ec287ba5",
