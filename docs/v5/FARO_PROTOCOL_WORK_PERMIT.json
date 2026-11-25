@@ -1,13 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
   "reviewed_head": "8c8d5f004723eed664bcd58fd891e5c6e66b27c7",
-  "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchema.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseSchemaTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c0b0-purchase-schema.yml"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -59,7 +55,7 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
+    "B6": "PUBLISHED_WAIT_CI",
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
@@ -77,6 +73,8 @@
   "pre_audit_guard_run_id": 45537960843,
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Reality12 STAGED purchase schema only; archived restore and manual DEV authority are still gated",
-  "next": "B6 exact3 and JUnit6 XML, then B7"
+  "why": "B6 publicado en tres rutas. Pendiente XML original y B7.",
+  "next": "B6 exact3 and JUnit6 XML, then B7",
+  "last_ci_run_id": 45538291237,
+  "last_ci_conclusion": "IN_PROGRESS"
 }
