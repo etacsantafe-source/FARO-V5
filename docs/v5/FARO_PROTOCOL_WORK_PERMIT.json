@@ -1,24 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C1_SQL12_STOCK_RECEIVE_DEV",
-  "reviewed_head": "d5437199724809d2d7c91383ff8c6a8acd946d95",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C2A_SQL13_COMPENSATION_STAGED_SCHEMA_DEV",
+  "reviewed_head": "c2f78ea5a6713ed9dd7a292bc999413dcadc55c0",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockReceiveReview.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12StockReceiveApplyPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReceiveDevApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReceiveDevApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c1-stock-receive-dev.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchema.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13StagedFilePort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationSchemaTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c2a-sql13-compensation-schema.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C1_STOCK_RECEIVE_APPLY_DELTA_20261125.md",
-          "blob_sha": "e494f63782f500ea93375b3c05888a8aef8bffd6",
+          "path": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
+          "blob_sha": "c8bf401567b76b136416ee0df50c30d42bdb3cdf",
           "marker": "## B1"
         }
       ]
@@ -27,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C1_STOCK_RECEIVE_APPLY_DELTA_20261125.md",
-          "blob_sha": "e494f63782f500ea93375b3c05888a8aef8bffd6",
+          "path": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
+          "blob_sha": "c8bf401567b76b136416ee0df50c30d42bdb3cdf",
           "marker": "## B2"
         }
       ]
@@ -37,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C1_STOCK_RECEIVE_APPLY_DELTA_20261125.md",
-          "blob_sha": "e494f63782f500ea93375b3c05888a8aef8bffd6",
+          "path": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
+          "blob_sha": "c8bf401567b76b136416ee0df50c30d42bdb3cdf",
           "marker": "## B3"
         }
       ]
@@ -47,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C1_STOCK_RECEIVE_APPLY_DELTA_20261125.md",
-          "blob_sha": "e494f63782f500ea93375b3c05888a8aef8bffd6",
+          "path": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
+          "blob_sha": "c8bf401567b76b136416ee0df50c30d42bdb3cdf",
           "marker": "## B4"
         }
       ]
@@ -57,17 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C1_STOCK_RECEIVE_APPLY_DELTA_20261125.md",
-          "blob_sha": "e494f63782f500ea93375b3c05888a8aef8bffd6",
+          "path": "docs/v5/FARO_S4_W05_A1C2A_SQL13_COMPENSATION_SCHEMA_DELTA_20261125.md",
+          "blob_sha": "c8bf401567b76b136416ee0df50c30d42bdb3cdf",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_CI_XML_8_8",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45604377100,
-  "pre_audit_head": "d5437199724809d2d7c91383ff8c6a8acd946d95",
+  "pre_audit_guard_run_id": 45607146184,
+  "pre_audit_head": "c2f78ea5a6713ed9dd7a292bc999413dcadc55c0",
   "last_code_review": {
     "sha": "0335c7657bc81f3d89a0709508c562f5e1099aac",
     "unit_id": "S4_W05_A1C1_SQL12_STOCK_RECEIVE_DEV",
@@ -84,8 +82,6 @@
   "last_ci_conclusion": "SUCCESS_XML8_8",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C1 B7 PASS. Scope consumed.",
-  "next": "A1C2A own READY after documentary guard",
-  "final_guard_run_id": 45605547137,
-  "final_xml_artifact_id": 15018530682
+  "why": "A1C1 B7 scoped PASS and confirmed documentary guard. Five exact SQL13 staged schema paths.",
+  "next": "A1C2A staged SQL13 B6/B7, then authenticated FBS2v10"
 }
