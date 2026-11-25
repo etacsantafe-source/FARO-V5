@@ -1,0 +1,11 @@
+# FARO V5 · W05-A1C2E · SQL13 ACTIVE DEV read-only
+
+## B7 — PASS acotado
+
+- Código final certificado `6e800b3a96feeb52a16a35b238953bc12dd7171a`, tras dos reparaciones **RED_FIX** auditadas de la misma unidad. Todas las modificaciones funcionales se mantuvieron en las cinco rutas exactas del permiso `S4_W05_A1C2E_SQL13_ACTIVE_DEV_READ_ONLY`; último commit de reparación modificó solamente el test de negativos ACTIVE. Los dos fallos anteriores quedan en docs y no se confunden con la certificación final.
+- [Guardia 45624005344](https://github.com/etacsantafe-source/FARO-V5/actions/runs/45624005344): **SUCCESS** sobre el SHA del código final. El preflight validó permiso READY del padre, cinco rutas, B1–B5 y disposición RED_FIX previa.
+- [CI 45624005370, intento 2](https://github.com/etacsantafe-source/FARO-V5/actions/runs/45624005370): **SUCCESS** sobre el SHA `6e800b3a96feeb52a16a35b238953bc12dd7171a`, Gradle **BUILD SUCCESSFUL**. Paso de CI verificó tres XML originales JUnit: host activo SQL13 `6/6`, replay FBS2v10 `8/8`, regresión v9 `8/8`: total **22/22**, cero fallos, errores y omitidas.
+- [Artefacto de XML originales 15027312782](https://github.com/etacsantafe-source/FARO-V5/actions/runs/45624005370/artifacts/15027312782), `w05-a1c2e-sql13-active-read-xml`, presente y no expirado. No atribuir hash ZIP/XML sin comprobación de bytes.
+- La lectura ACTIVE se abre bajo lock exclusivo, full pointer y admisión viva; SQLite consulta WAL real sin `immutable=1`, rechaza SQL12/Evidence1 y revocación o ABA, cierra y reabre sin proporcionar port de Apply ni permiso de escritura. Recibos y compensaciones conservan su historial SQL13.
+- **No incluye ni certifica** el cutover SQL13: journal/ticket COMPLETED, conmutación de puntero, rollback y recuperación PREPARED/COMMITTED son unidades posteriores. Tampoco N-016 Undo ejecutable, integración Android ni aceptación global A1. Moto G15 `NOT_RUN`; stock productivo, V2 productiva, Apply productivo, pagos y Auto/Noche `OFF`.
+- Permiso A1C2E consumido a `BLOCKED`. Siguiente unidad propuesta: A1C2F journaled Evidence2 SQL12 ACTIVE → SQL13 ACTIVE con replay v10 y recuperación; debe tener preauditoría propia, guardia y permiso READY antes de cualquier código.
