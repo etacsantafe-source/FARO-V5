@@ -171,7 +171,10 @@ internal class FaroV5Household12Evidence2DevJournaledCutover private constructor
         if (phase == BootstrapPhase.COMPLETED && entry?.materialWritesAccepted == true) return
         val target = layout.requireStaged(ticket.target)
         val old = layout.requireStaged(ticket.origin.generationId)
-        check(fingerprint(target, actual == ticket.selected) == ticket.targetHash)
+        // A readonly SQL12 reopen may have left an empty WAL after a verified rollback.
+        // The full pointer and journal above prove that this target was selected.
+        val targetWasSelected = actual == ticket.selected || actual == ticket.rolledBack
+        check(fingerprint(target, targetWasSelected) == ticket.targetHash)
         check(fingerprint(old, true) == ticket.originHash)
         check(pointer.read() == actual && (entry == null || journal.read(ticket.operation) == entry))
         requireLive()
