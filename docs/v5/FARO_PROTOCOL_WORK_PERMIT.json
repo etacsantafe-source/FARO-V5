@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV",
   "reviewed_head": "175994c763e0360b8ef390786b4eea4cd428458e",
   "paths": [
@@ -60,17 +60,17 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_20_20",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "d2f0a7a60be0ddf1cce9c02c80879ef0f79d5b27",
-    "unit_id": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
+    "sha": "afa612718bfd5910047f5bc2ee9de240e8daf688",
+    "unit_id": "S4_W05_A1C0B1_PURCHASE_FBS2V9_AUTHENTICATED_CODEC_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B0_B7_PASS_PURCHASE_STAGED_SCHEMA_20261125.md",
-        "blob_sha": "b391703f53076baa5d91e7e68571ed405c4076f2",
+        "path": "docs/v5/FARO_S4_W05_A1C0B1_B7_PASS_FBS2V9_CODEC_20261125.md",
+        "blob_sha": "0b4e59c16bb88bfb422e4f1f55f3622840238d55",
         "marker": "## B7"
       }
     ]
@@ -78,15 +78,15 @@
   "pre_audit_guard_run_id": 45541345419,
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B0 B7 PASS XML6/6 CI45538967777 guard45538967902; FBS2v9 codec exact4 independently audited with 2nd N-036 catalog sweep; audit guard45541345419 SUCCESS",
-  "next": "A1C0B1 B6/B7; A1C0B2 SQL12 capture/restoration; A1C0B3 safe DEV cutover/read host; A1C0B4 N-036 shopping.purchase.record human confirmed; A1C1 stock.receive; A1C2 recovery/Undo; A1C3 Android; A1C4 acceptance, global OPEN",
-  "last_ci_run_id": 45538967777,
-  "last_ci_conclusion": "SUCCESS_XML6_6",
-  "final_ci_run_id": 45538967777,
-  "final_guard_run_id": 45538967902,
-  "final_xml_artifact_id": 14988217949,
-  "final_xml_sha256": "517f3569891afbd5ec73474c9d6aae9581c53968e5459980cd29656f60447f28",
-  "final_ci_xml": "XML6_6_ZERO_FAILURES_ERRORS_SKIPS",
+  "why": "A1C0B1 B7 PASS scoped, permit consumed",
+  "next": "A1C0B2A SQL12 purchase and receipt row port, delta audited, READY independent after document guard",
+  "last_ci_run_id": 45544057188,
+  "last_ci_conclusion": "SUCCESS_XML20_20",
+  "final_ci_run_id": 45544057188,
+  "final_guard_run_id": 45544056913,
+  "final_xml_artifact_id": 14991525372,
+  "final_xml_sha256": "b96ff46ad8b4ee4783372eb52102cd84b265937a14b64705db17e4f90a6cac56",
+  "final_ci_xml": "XML_V9_10_10_V8_10_10_ZERO_FAILURES_ERRORS_SKIPS",
   "how": "Work begins B6 exact4 codec+crypto adapter/test/workflow; JUnit10 new + directed v8 regression XML original; guard/sha; B7 scoped consumes permit; then next unit A1C0B2 independently B1-B5 READY; do not stop just because permit consumed",
   "user_authorization": {
     "date_local": "2026-11-25",
@@ -94,5 +94,6 @@
   },
   "previous_unit": "S4_W05_A1C0B0_PURCHASE_STAGED_SCHEMA_DEV",
   "previous_b7": "PASS_SCOPED_XML6_6",
-  "pre_audit_head": "175994c763e0360b8ef390786b4eea4cd428458e"
+  "pre_audit_head": "175994c763e0360b8ef390786b4eea4cd428458e",
+  "xml_v8_sha256": "c21c73a51ce79e82eff239e24254672f5f2d7b122f5a25569c766a22f28b5d14"
 }
