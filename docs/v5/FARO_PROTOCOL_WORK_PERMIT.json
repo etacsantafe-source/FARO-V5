@@ -65,24 +65,24 @@
   "pre_audit_guard_run_id": 45643859498,
   "pre_audit_head": "8e95efc6480181088d05b5646dc3d853e81da280",
   "last_code_review": {
-    "sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
-    "result": "PASS",
-    "unit_id": "S4_W05_A1C2G1A_STOCK_UNDO_ORIGIN_ADMISSION",
+    "sha": "84ceeda8d997ff4801a90ebb052e69fdd31ca197",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2G1A_B7_PASS_STOCK_UNDO_ORIGIN_ADMISSION_20261125.md",
-        "blob_sha": "16c5cc6df6d6b0ed1aadcfdffc56ab91b28ae741",
+        "path": "docs/v5/FARO_S4_W05_A1C2G1B_B7_RED_FIX_NESTED_STORE_READ_20261125.md",
+        "blob_sha": "7f92475152cd8a7cee1c1885fb402c75d58f084f",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45642672627,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45647661813,
+  "last_ci_conclusion": "failure_12_pass_5_failed",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "G1B host source COMMITTED Workspace+Reality+G0 SQL13 compensation; exact3 routes, preaudit guard SUCCESS; no stock production/Android.",
-  "next": "B6 G1B host +8 focused tests CI XML, B7; A1C3 Android and A1C4 global after.",
+  "next": "G1B same 3 paths RED_FIX B6. Execute code SHA CI XML 17/17 then B7 PASS; no other functional work.",
   "last_guard_run_id": 45643859498,
   "current_code_sha": "b911e9bce5bd233073ae64dd271f1869a748a6d9",
-  "reason": "G1A B7 PASS scoped, G1B READY exact3 only."
+  "reason": "G1B B7 RED_FIX; failure confirmed original XML, nested source reads during Reality transaction. Same unit exact3 ONLY."
 }
