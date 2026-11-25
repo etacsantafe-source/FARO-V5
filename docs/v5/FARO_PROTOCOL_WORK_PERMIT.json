@@ -93,6 +93,14 @@
   "final_ci_xml": "EVIDENCE2_DURABLE_8_8_EVIDENCE1_DURABLE_8_8_EVIDENCE2_SEMANTIC_6_6_TOTAL22_22_ZERO_FAILURES_ERRORS_SKIPS",
   "final_xml_artifact_id": 14981701295,
   "final_xml_sha256": "329ae5cad92d1a66a228dea2cf1f1dad63eddf7b069d5608be489d5606519e1a",
-  "last_ci_run_id": 45521825103,
-  "last_ci_conclusion": "FAILURE_COMPILE_TEST_KOTLIN_UNINITIALIZED_PARAMETER_NO_XML"
+  "last_ci_run_id": 45522706065,
+  "last_ci_conclusion": "SUCCESS_EVIDENCE2_DURABLE_8_8_EVIDENCE1_DURABLE_8_8_EVIDENCE2_SEMANTIC_6_6_XML22_22",
+  "metadata_reconciliation": {
+    "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
+    "verified_success_run_id": 45522706065,
+    "verified_success_guard_id": 45522706044,
+    "last_ready_guard_id": 45526779604,
+    "source_code_sha": "e17aa76a41f2292ef32dbc1265d6a7882e7c42a1",
+    "scope": "DOCUMENTAL_NO_NEW_CODE_NO_NEW_FUNCTIONAL_PASS"
+  }
 }
