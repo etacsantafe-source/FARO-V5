@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION",
   "reviewed_head": "5f657c7bb268eca1f35ea8e3e8d2d9dd04c0ff72",
   "paths": [
@@ -59,30 +59,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "COMPLETE_SCOPED",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45639307207,
   "pre_audit_head": "5f657c7bb268eca1f35ea8e3e8d2d9dd04c0ff72",
   "last_code_review": {
-    "sha": "8056a65959647a4ae58b0616d5c1f198ec1c84bc",
-    "result": "RED_FIX",
+    "sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
+    "result": "PASS",
     "unit_id": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2G0_B7_RED_FIX_COMPILER_20261125.md",
-        "blob_sha": "b6260bb7b44ff8e4c2fb453ac6b7c99d337f5ac1",
+        "path": "docs/v5/FARO_S4_W05_A1C2G0_B7_PASS_SQL13_COMPENSATION_DEV_20261125.md",
+        "blob_sha": "4c8e96dea52958727d36cdfe03da96c2b3f6f6ca",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45637952977,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45639876681,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A1C2G0 SQL13 ACTIVE DEV internal write admission, exact5, B1-B5 audited; documentary guard SUCCESS; NO G0 functional implementation or CI yet; N-016 G1 not authorized.",
-  "next": "Apply only class rename + RealityStore constructor rename + XML package workflow correction, CI 18 tests, B7 scoped.",
+  "next": "W05-A1C2G1 own B1–B5 and READY, then A1C3 Android and A1C4 global",
   "last_guard_run_id": 45636259619,
-  "current_code_sha": "8056a65959647a4ae58b0616d5c1f198ec1c84bc",
-  "reason": "RED_FIX same unit after real Kotlin CLASSIFIER_REDECLARATION and static incorrect XML package; exact3 paths, guard 45639307207 SUCCESS."
+  "current_code_sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
+  "reason": "A1C2G0 B7 PASS scoped 18/18; permit consumed. G1 not admitted."
 }

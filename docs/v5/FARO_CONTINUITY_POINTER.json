@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C2G0_B7_RED_FIX_READY_EXACT3",
+  "phase": "S4_W05_A1C2G0_SQL13_COMPENSATION_B7_PASS_SCOPED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2019
+    "epoch": 2021
   },
   "automation": {
     "activation_authorized": false,
@@ -47,10 +47,10 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_CONTINUOUS_MISSION_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A1C2G0 bounded RED_FIX B6: rename SQL13 internal class, constructor use, XML package paths; guard 45639307207 SUCCESS; then verify CI/XML and B7",
-  "checkpoint_status": "A1C2F_B7_PASS_SCOPED_A1C2G0_CODE_8056_RED_FIX_REVIEWED_READY_EXACT3",
+  "next": "A1C2G1 N-016 Undo Review/Confirm/Apply, prepare B1-B5 exact scopes then new READY; A1C3 Android and A1C4 acceptance after. G0 18/18 CI 45639876681, guard 45639876447 PASS; no physical or real stock.",
+  "checkpoint_status": "A1C2F_B7_PASS_SCOPED_A1C2G0_B7_PASS_18_18_G1_PENDING_A1_DEV_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C2G0_B7_RED_FIX_COMPILER_20261125.md",
+  "last_handoff": "docs/v5/FARO_S4_W05_A1C2G0_B7_PASS_SQL13_COMPENSATION_DEV_20261125.md",
   "last_code_sha": "e581dcba2191b988c90ca6271b1bf9c209d13eac",
   "last_ci_run_id": 45629774472,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -488,8 +488,8 @@
     "b7_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
   },
   "guard_last_inspected": {
-    "run_id": 45636259619,
-    "source_sha": "2751cf8e130e4ec40f33e6acd64f3e01199be037",
+    "run_id": 45639876447,
+    "source_sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
     "status": "completed",
     "conclusion": "success"
   },
@@ -7379,15 +7379,15 @@
   },
   "s4_w05_a1c2g0": {
     "unit_id": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION",
-    "code_sha": "8056a65959647a4ae58b0616d5c1f198ec1c84bc",
+    "code_sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
     "block_id": "B6",
-    "block_status": "RED_FIX_READY_EXACT3",
-    "guard_run_id": 45637952691,
-    "ci_run_id": 45637952977,
-    "ci_status_at_capture": "QUEUED",
-    "writer_release_epoch": 2017,
+    "block_status": "B7_PASS_SCOPED",
+    "guard_run_id": 45639876447,
+    "ci_run_id": 45639876681,
+    "ci_status_at_capture": "COMPLETED_SUCCESS",
+    "writer_release_epoch": 2021,
     "physical": "NOT_RUN",
-    "remaining": "B7 then G1/A1C3/A1C4",
+    "remaining": "G1/A1C3/A1C4",
     "failed_ci_run_id": 45637952977,
     "failed_job_id": 139288389063,
     "failure": "Kotlin CLASSIFIER_REDECLARATION, XML package verifier wrong",
@@ -7397,6 +7397,8 @@
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationApplyPort.kt",
       "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
       ".github/workflows/faro-v5-s4-w05-a1c2g0-sql13-undo-write-admission.yml"
-    ]
+    ],
+    "artifact_id": 15033423364,
+    "tests": "18/18"
   }
 }
