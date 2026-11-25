@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-24",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1B3C2C1_READY",
+  "phase": "S4_W05_A1B3C2C1_RED_FIX_D8_HEAP",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 1932
+    "epoch": 1934
   },
   "automation": {
     "activation_authorized": false,
@@ -48,11 +48,11 @@
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "C2C1 B6 and B7, then A1C0 admission audit",
-  "checkpoint_status": "W05_C2C0_B7_PASS_C2C1_READY_EXACT6",
+  "checkpoint_status": "C2C0_B7_PASS_C2C1_RED_FIX_WORKFLOW_EXACT1",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment.",
   "last_handoff": "docs/v5/FARO_S4_W05_A1_WORK_TURBO_COMPLETION_HANDOFF_20261125.md",
-  "last_code_sha": "f96bbb154ca09450d4123f3eac69b24fe12185c4",
-  "last_ci_run_id": 45528363926,
+  "last_code_sha": "3a171952d498b5831f3adc0266dd18e59c479eef",
+  "last_ci_run_id": 45529803487,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML26_26",
+  "last_ci_conclusion": "FAILURE_D8_HEAP_OOM",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -7119,9 +7119,13 @@
     "b7": "docs/v5/FARO_S4_W05_A1B3C2C0_B7_PASS_EVIDENCE2_JOURNALED_CUTOVER_20261125.md"
   },
   "w05_a1b3c2c1": {
-    "status": "READY_EXACT_6",
+    "status": "RED_FIX_D8_HEAP",
     "preaudit": "docs/v5/FARO_S4_W05_A1B3C2C1_EVIDENCE2_ANDROID_ACTIVE_REOPEN_B1_B5_20261125.md",
     "blob_sha": "c03913028187a69f99623bd4daba765f655b3d2b",
-    "pre_audit_guard": 45529242032
+    "pre_audit_guard": 45529242032,
+    "code_sha": "3a171952d498b5831f3adc0266dd18e59c479eef",
+    "ci": 45529803487,
+    "guard": 45529803344,
+    "red_fix": "docs/v5/FARO_S4_W05_A1B3C2C1_RED_FIX_D8_HEAP_20261125.md"
   }
 }

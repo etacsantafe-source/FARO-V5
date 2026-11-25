@@ -4,11 +4,6 @@
   "unit_id": "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV",
   "reviewed_head": "ea3fac054ce3bc45bedc844bf31d5a5385f23888",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2ActiveDevReadHost.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05Household11Evidence2DevStartup.kt",
-    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household11Evidence2ActiveDevReadHostTest.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05Household11Evidence2ActiveAndroidTest.kt",
     ".github/workflows/faro-v5-s4-w05-a1b3c2c1-evidence2-android-reopen.yml"
   ],
   "stages": {
@@ -66,19 +61,19 @@
     "B7": "PENDING_FINAL_AUDIT"
   },
   "last_code_review": {
-    "sha": "f96bbb154ca09450d4123f3eac69b24fe12185c4",
-    "unit_id": "S4_W05_A1B3C2C0_EVIDENCE2_SQL11_JOURNALED_CUTOVER_DEV",
-    "result": "PASS",
+    "sha": "3a171952d498b5831f3adc0266dd18e59c479eef",
+    "unit_id": "S4_W05_A1B3C2C1_EVIDENCE2_SQL11_ANDROID_ACTIVE_DEV",
+    "result": "RED_FIX",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2C0_B7_PASS_EVIDENCE2_JOURNALED_CUTOVER_20261125.md",
-        "blob_sha": "f6b67cf40aa77c0071009d343b84fc5c74b242ba",
+        "path": "docs/v5/FARO_S4_W05_A1B3C2C1_RED_FIX_D8_HEAP_20261125.md",
+        "blob_sha": "ff4d6cc36fa436db49f18d447c74c5a4201ed582",
         "marker": "## B7"
       }
     ]
   },
-  "why": "C2C0 XML26/26 B7 PASS and C2C1 delta guarded",
-  "how": "B6 six exact DEV scope paths, JVM and Android API35 original XML",
+  "why": "Run 45529803487 D8 OutOfMemoryError; exact workflow-only RED_FIX",
+  "how": "Reuse G5 Android JVM sizing",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -96,8 +91,8 @@
   "final_ci_xml": "XML26_26_ZERO_FAILURES_ERRORS_SKIPS",
   "final_xml_artifact_id": 14983154037,
   "final_xml_sha256": "4bdb63523b1fd7a5d8c44b2f590bfb0e6e6ad6563b0713578073b0439216d4d0",
-  "last_ci_run_id": 45528363926,
-  "last_ci_conclusion": "SUCCESS_XML26_26",
+  "last_ci_run_id": 45529803487,
+  "last_ci_conclusion": "FAILURE_D8_HEAP_OOM",
   "metadata_reconciliation": {
     "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
     "verified_success_run_id": 45522706065,
