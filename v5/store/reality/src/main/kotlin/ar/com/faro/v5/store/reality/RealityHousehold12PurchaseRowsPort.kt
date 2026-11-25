@@ -47,13 +47,16 @@ object RealityHousehold12PurchaseRowsPort {
             SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
         ).use { db ->
             db.execSQL("PRAGMA foreign_keys = ON")
-            db.transaction("BEGIN DEFERRED TRANSACTION") {
-                checkStageSchema(db)
-                Household11ReceiptRowsSql.checkIntegrity(db)
-                readRows(db)
-            }
+            readTrustedTwelveConnection(db)
         }
     }
+
+    internal fun readTrustedTwelveConnection(db: SQLiteConnection): RealityHousehold12PurchaseReceiptRows =
+        db.transaction("BEGIN DEFERRED TRANSACTION") {
+            checkStageSchema(db)
+            Household11ReceiptRowsSql.checkIntegrity(db)
+            readRows(db)
+        }
 
     fun restoreOrVerifyTrustedStagedTwelve(
         file: Path,

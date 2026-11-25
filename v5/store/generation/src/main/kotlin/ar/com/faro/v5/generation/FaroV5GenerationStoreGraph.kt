@@ -751,6 +751,28 @@ class FaroV5GenerationStoreGraph private constructor(
             return healthy && pointer.read() == expected
         }
 
+        internal fun openActiveHousehold12ForHeldDevHost(
+            selected: StagedStorageGeneration,
+            materialWriteGate: MaterialWriteGate,
+            liveFence: () -> Boolean,
+            planVerifier: PreparedPlanEnvelopeVerificationPort?,
+        ): FaroV5GenerationStoreGraph {
+            check(liveFence()) { "Reality12 ACTIVE DEV fence is unavailable" }
+            val graph = openValidatedV2Internal(
+                selected, planVerifier = planVerifier, materialWriteGate = materialWriteGate,
+                activeGeneration = true, planningStage8 = true, financeStage9 = true,
+                checkedPlanning8Active = true, auxiliaryReceiptFence = liveFence,
+                commercialEvidence2ActiveDev = true, householdActive12Dev = true,
+            )
+            try {
+                check(graph.verifyHealthy() && liveFence()) { "Reality12 ACTIVE DEV graph lost its admission" }
+                return graph
+            } catch (failure: Throwable) {
+                graph.close()
+                throw failure
+            }
+        }
+
         internal fun openValidatedHousehold12ArchiveStage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
@@ -904,7 +926,11 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2ActiveDev: Boolean = false,
             commercialEvidence2AuthenticatedArchiveDev: Boolean = false,
             householdStage12: Boolean = false,
+            householdActive12Dev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!householdActive12Dev || (activeGeneration && !householdStage12 && !householdStage10 &&
+                !householdActive10Dev && !householdNeedsWritableDev && financeStage9 && checkedPlanning8Active &&
+                auxiliaryReceiptFence != null && materialWriteGate != null && commercialEvidence2ActiveDev))
             check(!householdStage12 || (!activeGeneration && !householdStage10 && !householdActive10Dev &&
                 financeStage9 && auxiliaryReceiptFence != null && materialWriteGate == null))
             // Historical C1b2G isolated STAGED owner remains unchanged.
@@ -926,7 +952,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 "Typed Evidence2 archive admission requires a sealed nonactive Finance9 DEV stage"
             }
             check(!commercialEvidence2ActiveDev || (
-                activeGeneration && householdActive10Dev && financeStage9 &&
+                activeGeneration && (householdActive10Dev || householdActive12Dev) && financeStage9 &&
                     checkedPlanning8Active && auxiliaryReceiptFence != null &&
                     materialWriteGate != null && !commercialEvidence2StagedDev &&
                     !householdNeedsWritableDev
@@ -976,16 +1002,18 @@ class FaroV5GenerationStoreGraph private constructor(
                 householdStage10 = householdStage10 || householdActive10Dev,
                 commercialEvidence2StagedDev = commercialEvidence2StagedDev,
                 commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
-                householdStage12 = householdStage12,
+                householdStage12 = householdStage12 || householdActive12Dev,
             )
-            if (householdActive10Dev) {
+            if (householdActive10Dev || householdActive12Dev) {
                 val fence = checkNotNull(auxiliaryReceiptFence)
                 check(fence())
                 for (name in GenerationStoreFiles.WORKSPACE_V2) {
                     val file = normalized.resolve(name)
                     check((Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
                 }
-                RealityStore.requireHealthyHousehold10ActiveDev(normalized.resolve(GenerationStoreFiles.REALITY))
+                val reality = normalized.resolve(GenerationStoreFiles.REALITY)
+                if (householdActive12Dev) RealityStore.requireHealthyHousehold12ActiveDev(reality)
+                else RealityStore.requireHealthyHousehold10ActiveDev(reality)
                 check(fence())
             }
             if (financeStage9 && !activeGeneration) {
@@ -1012,7 +1040,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     normalized, staged.descriptor.generationId.value, workspace,
                     materialWriteGate, planningStage8,
                     financeStage9 = financeStage9 && !activeGeneration && !householdStage10 && !householdStage12,
-                    financeActive9 = financeStage9 && activeGeneration && !householdActive10Dev,
+                    financeActive9 = financeStage9 && activeGeneration && !householdActive10Dev && !householdActive12Dev,
                     auxiliaryReceiptFence = auxiliaryReceiptFence,
                     householdStage10 = householdStage10,
                     householdActive10Dev = householdActive10Dev,
@@ -1020,6 +1048,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     commercialEvidence2StagedDev = commercialEvidence2StagedDev,
                     commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
                     householdStage12 = householdStage12,
+                    householdActive12Dev = householdActive12Dev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -1049,8 +1078,8 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2ActiveDev: Boolean = false,
             householdStage12: Boolean = false,
         ) {
-            check(!commercialEvidence2ActiveDev || (activeGeneration && householdStage10)) {
-                "Typed Evidence2 ACTIVE schema requires Household10 active DEV admission"
+            check(!commercialEvidence2ActiveDev || (activeGeneration && (householdStage10 || householdStage12))) {
+                "Typed Evidence2 ACTIVE schema requires explicit Household DEV admission"
             }
             check(!commercialEvidence2StagedDev || !activeGeneration) {
                 "Commercial Evidence2 must not enter ACTIVE strict preflight"
@@ -1189,6 +1218,7 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2StagedDev: Boolean = false,
             commercialEvidence2ActiveDev: Boolean = false,
             householdStage12: Boolean = false,
+            householdActive12Dev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -1207,6 +1237,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         householdActive10Dev = if (householdActive10Dev) checkNotNull(auxiliaryReceiptFence) else null,
                         householdNeedsWritableDev = householdNeedsWritableDev,
                         householdStage12ReadOnly = householdStage12,
+                        householdActive12DevReadOnly = if (householdActive12Dev) checkNotNull(auxiliaryReceiptFence) else null,
                     )
                 reality = openedReality
                 commercial =
@@ -1225,7 +1256,8 @@ class FaroV5GenerationStoreGraph private constructor(
                 auxiliary = when {
                     auxiliaryReceiptFence == null ->
                         AuxiliaryDeliveryStore(auxiliaryPath, materialWriteGate = materialWriteGate)
-                    financeActive9 || householdActive10Dev -> AuxiliaryDeliveryStore.openActiveReceiptV4ForTrustedGeneration(
+                    financeActive9 || householdActive10Dev || householdActive12Dev ->
+                        AuxiliaryDeliveryStore.openActiveReceiptV4ForTrustedGeneration(
                         auxiliaryPath, checkNotNull(materialWriteGate), auxiliaryReceiptFence,
                     )
                     else -> {

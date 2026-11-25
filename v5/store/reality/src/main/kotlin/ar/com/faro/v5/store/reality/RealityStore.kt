@@ -130,6 +130,7 @@ class RealityStore(
     private val householdActive10Dev: (() -> Boolean)? = null,
     private val householdNeedsWritableDev: Boolean = false,
     private val householdStage12ReadOnly: Boolean = false,
+    private val householdActive12DevReadOnly: (() -> Boolean)? = null,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -146,6 +147,11 @@ class RealityStore(
             "Active Finance9 requires the shared gate and a distinct active mode"
         }
         check(!householdStage12ReadOnly || (!householdStage10ReadOnly && householdActive10Dev == null))
+        check(householdActive12DevReadOnly == null || (
+            !householdStage12ReadOnly && !householdStage10ReadOnly && householdActive10Dev == null &&
+                !householdNeedsWritableDev && planningStage8 && !financeStage9 && !financeActive9 &&
+                materialWriteGate != null
+        )) { "Reality12 ACTIVE read requires its own admitted DEV mode" }
         if (householdStage10ReadOnly || householdStage12ReadOnly) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate == null)
             val file = Household10RowsSql.checkFile(Path.of(fileName))
@@ -153,6 +159,11 @@ class RealityStore(
                 file.toUri().toString() + "?mode=ro&immutable=1",
                 SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
             )
+        } else if (householdActive12DevReadOnly != null) {
+            checkNotNull(materialWriteGate).withMaterialWrite {
+                check(householdActive12DevReadOnly.invoke()) { "Reality12 ACTIVE DEV generation changed" }
+                openHouseholdActiveRead(Path.of(fileName))
+            }
         } else if (householdActive10Dev != null) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate != null)
             materialWriteGate.withMaterialWrite {
@@ -160,7 +171,7 @@ class RealityStore(
                 if (householdNeedsWritableDev) {
                     BundledSQLiteDriver().open(fileName, SQLITE_OPEN_READWRITE or SQLITE_OPEN_NOFOLLOW)
                 } else {
-                    openHousehold10ActiveRead(Path.of(fileName))
+                    openHouseholdActiveRead(Path.of(fileName))
                 }
             }
         } else {
@@ -669,13 +680,19 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly || householdStage12ReadOnly ||
+                    if (householdStage10ReadOnly || householdStage12ReadOnly || householdActive12DevReadOnly != null ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
                         connection.execSQL("PRAGMA foreign_keys = ON")
                     } else {
                         configure(fileName)
                     }
                     when {
+                        householdActive12DevReadOnly != null -> {
+                            check(householdActive12DevReadOnly.invoke())
+                            RealityHousehold12PurchaseRowsPort.readTrustedTwelveConnection(connection)
+                            validateExistingFinanceLayout(12)
+                            check(householdActive12DevReadOnly.invoke())
+                        }
                         householdStage12ReadOnly -> {
                             Household11ReceiptRowsSql.checkTables(connection)
                             validateExistingFinanceLayout(12)
@@ -700,6 +717,18 @@ class RealityStore(
             throw failure
         }
     }
+
+    fun snapshotActiveHousehold12RowsForTrustedHost(): RealityHousehold12PurchaseReceiptRows =
+        withMaterialAdmission {
+            synchronized(lock) {
+                checkOpen()
+                val current = checkNotNull(householdActive12DevReadOnly) { "Reality12 ACTIVE DEV read required" }
+                check(current()) { "Reality12 ACTIVE DEV admission revoked" }
+                val snapshot = RealityHousehold12PurchaseRowsPort.readTrustedTwelveConnection(connection)
+                check(current()) { "Reality12 ACTIVE DEV generation changed during read" }
+                snapshot
+            }
+        }
 
     /** The caller is the isolated generation host and provides its live Household admission. */
     fun household10ActiveDevReadForTrustedHost(ownerAdmission: () -> Boolean): RealityHousehold10Rows =
@@ -2244,7 +2273,7 @@ class RealityStore(
             readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
                 ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
                 ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10) ||
-                (householdStage12ReadOnly && readSchemaVersion() == 12)
+                ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12)
         )
 
     private fun createPlanningStage8Tables() {
@@ -4214,7 +4243,7 @@ class RealityStore(
     ) : RealityTransactionScope
 
     companion object {
-        private fun openHousehold10ActiveRead(file: Path): SQLiteConnection =
+        private fun openHouseholdActiveRead(file: Path): SQLiteConnection =
             BundledSQLiteDriver().open(
                 file.toAbsolutePath().normalize().toString(),
                 SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW,
@@ -4222,11 +4251,18 @@ class RealityStore(
 
         /** WAL-aware domain preflight before companion stores are opened. */
         fun requireHealthyHousehold10ActiveDev(file: Path) {
-            openHousehold10ActiveRead(file).use { db ->
+            openHouseholdActiveRead(file).use { db ->
                 db.execSQL("PRAGMA foreign_keys = ON")
                 Household10RowsSql.checkSchema(db)
                 Household10RowsSql.checkIntegrity(db)
                 readValidatedHousehold10Rows(db)
+            }
+        }
+
+        fun requireHealthyHousehold12ActiveDev(file: Path) {
+            openHouseholdActiveRead(file).use { db ->
+                db.execSQL("PRAGMA foreign_keys = ON")
+                RealityHousehold12PurchaseRowsPort.readTrustedTwelveConnection(db)
             }
         }
 
