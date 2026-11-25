@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C2D_SQL13_FBS2V10_FIVE_STORE_REPLAY_DEV",
   "reviewed_head": "e0969a19043ccecb842c6d64ea432299cf6faa7f",
   "paths": [
@@ -64,27 +64,28 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_24_24",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45613177739,
   "pre_audit_head": "e0969a19043ccecb842c6d64ea432299cf6faa7f",
   "last_code_review": {
-    "sha": "3dd0f1e26f0d4b929bb43a954dbaf4f58b03578a",
-    "unit_id": "S4_W05_A1C2C_SQL13_COMPENSATION_ROWS_DEV",
+    "sha": "31bc42b5ed882d721ad9cf569965a113858fdac1",
+    "unit_id": "S4_W05_A1C2D_SQL13_FBS2V10_FIVE_STORE_REPLAY_DEV",
     "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2C_B7_PASS_SQL13_COMPENSATION_ROWS_20261125.md",
-        "blob_sha": "064772283d354605a2dd0daad6f5606f1c261148",
+        "path": "docs/v5/FARO_S4_W05_A1C2D_B7_PASS_FBS2V10_FIVE_STORE_REPLAY_20261125.md",
+        "blob_sha": "f5f079a6565f17b426dbc328b3564b4cae3c41b4",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45612551164,
-  "last_ci_conclusion": "SUCCESS_XML6_6",
+  "last_ci_run_id": 45617021774,
+  "last_ci_conclusion": "SUCCESS_XML24_24",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2C B7 scoped PASS and confirmed documentary guard. Eight exact FBS2v10 replay paths.",
-  "next": "A1C2D FBS2v10 five-store replay B6/B7 then SQL13 cutover"
+  "why": "A1C2D B7 PASS scoped. Eight exact paths consumed. No SQL13 ACTIVE cutover or stock Undo authorized.",
+  "next": "Next SQL13 cutover and N-016 stock Undo: own B1-B5 audit and READY required",
+  "last_guard_run_id": 45617021480
 }
