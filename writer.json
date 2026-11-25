@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.WORK.A1C0B3B.ROLLBACK_RED_FIX.20261125",
-  "token_hash": "ffc47475a53c315c67bfd8a139c7da61df7ff3144aac19c140083c3068eba463",
-  "target_head": "706a0a0f0844468040b42a3f0224215bcd739ce2",
+  "status": "HELD",
+  "owner": "FARO.WORK.A1C0B3B.ROLLBACK_PATCH.20261125",
+  "token_hash": "b3e51516110dd689cbc5f111116dd82b51c4daabe2f49b79a11ee847357282e7",
+  "target_head": "92e0558a8e6dc47a54aae9c1540d2492921a6b7d",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 1973,
-  "timestamp": 1795603890
+  "epoch": 1974,
+  "timestamp": 1795603956
 }
