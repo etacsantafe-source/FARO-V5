@@ -55,22 +55,22 @@
         }
       ]
     },
-    "B6": "PUBLISHED_WAIT_CI",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_8_8",
+    "B7": "PASS_SCOPED"
   },
   "last_code_review": {
-    "sha": "d16458174bb92c403dfa59239c90745a513a09c7",
+    "sha": "20d6f39b8cd9e8e00e494ed963f06bb520244d0c",
     "unit_id": "S4_W05_A1C0A_STOCK_RECEIVE_DEV_ADMISSION_CONTRACT",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0A_RED_FIX_WORKFLOW_20261125.md",
-        "blob_sha": "14ca10d0f7915ce6a670c4564fe93a66ecd9d5ce",
+        "path": "docs/v5/FARO_S4_W05_A1C0A_B7_PASS_STOCK_RECEIVE_DEV_ADMISSION_20261125.md",
+        "blob_sha": "a212b3680d17bedcfcdf7702e6b0c17cfcf7360e",
         "marker": "## B7"
       }
     ]
   },
-  "why": "B6 RED_FIX published, pending exact JUnit XML and B7 evidence",
+  "why": "A1C0A B7 PASS scoped; permit consumed; A1C0B requires separate READY",
   "how": "Fix contents key and exact parent READY scope for the workflow-only correction",
   "productive_v2_enabled": false,
   "no_auto_night": true,
@@ -80,17 +80,17 @@
   },
   "previous_unit": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
   "previous_b7": "PASS_SCOPED_22_22_XML",
-  "next": "A1C0A B6/B7, then A1C0B trusted confirmed purchase source, A1C1 Review/Apply receipt, A1C2 Undo/recovery, A1C3 Android, A1C4 A1 DEV; real stock OFF",
+  "next": "A1C0B audit exact routes and separate READY",
   "pre_audit_guard_run_id": 45533664853,
   "pre_audit_head": "53ebd46fbb667019b39df016386efc0965cfe126",
   "previous_ci_run_id": 45495586732,
-  "final_ci_run_id": 45531217759,
-  "final_guard_run_id": 45531217764,
-  "final_ci_xml": "XML9_9_ZERO_FAILURES_ERRORS_SKIPS_JVM6_ANDROID3",
-  "final_xml_artifact_id": 14985746883,
-  "final_xml_sha256": "a82a5278e1938d5b389fcb35496f606eeb1d8c653a100128cbff3677e7f43b2e",
+  "final_ci_run_id": 45534939547,
+  "final_guard_run_id": 45534939359,
+  "final_ci_xml": "XML8_8_ZERO_FAILURES_ERRORS_SKIPS",
+  "final_xml_artifact_id": 14986342057,
+  "final_xml_sha256": "fa7a9b4eff7b55e73b277a462352d8b17a01a5b364424bc2bd60b5fe90d56246",
   "last_ci_run_id": 45534939547,
-  "last_ci_conclusion": "IN_PROGRESS",
+  "last_ci_conclusion": "SUCCESS_XML8_8",
   "metadata_reconciliation": {
     "reason": "Historical failed compile run 45521825103 was RED_FIXED; prevent misreading as live CI",
     "verified_success_run_id": 45522706065,
