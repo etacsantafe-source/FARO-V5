@@ -16,15 +16,20 @@ import ar.com.faro.v5.store.reality.RealityFinance9SealedTableRows
 import ar.com.faro.v5.store.reality.RealityFinance9StagedRowsRestorePort
 import java.nio.file.Path
 
+internal sealed interface AuthenticatedHouseholdReceiptBaseArchive {
+    val snapshot: FaroV5Household11Fbs2Snapshot
+    fun copyEncryptedBytes(): ByteArray
+}
+
 /**
  * The exact original authenticated FBS2v8 ciphertext and its fully decoded
  * immutable semantic snapshot. This is not a restore authority or a grant.
  */
 internal class AuthenticatedHousehold11RestoreArchive private constructor(
     private val bytes: ByteArray,
-    val snapshot: FaroV5Household11Fbs2Snapshot,
-) {
-    fun copyEncryptedBytes(): ByteArray = bytes.copyOf()
+    override val snapshot: FaroV5Household11Fbs2Snapshot,
+) : AuthenticatedHouseholdReceiptBaseArchive {
+    override fun copyEncryptedBytes(): ByteArray = bytes.copyOf()
 
     companion object {
         fun open(
@@ -100,7 +105,6 @@ internal class FaroV5Household11V8BaseReplay(
         encryptedArchive: ByteArray,
         passphrase: CharArray,
     ): FiveStoreStagedRestoreResult {
-        val targetId = target.descriptor.generationId
         fun blocked(reason: FiveStoreStagedRestoreBlock) =
             FiveStoreStagedRestoreResult.Blocked(reason)
 
@@ -124,16 +128,47 @@ internal class FaroV5Household11V8BaseReplay(
                         FiveStoreStagedRestoreBlock.INVALID_ARCHIVE, opened.reason,
                     )
             }
-            val snapshot = authenticated.snapshot
-            val expected = snapshot.base.base
-            if (expected.base.fourStore.manifest.sourceGenerationId == targetId) {
-                return blocked(FiveStoreStagedRestoreBlock.SOURCE_TARGET_IDENTITY_CONFLICT)
-            }
-            val evidence = expected.base.fourStore.commercialEvidence.schemaVersion
-            try {
-                requireTargetProfile(target, expectedActive, evidence)
+            restoreVerifiedUnderLease(operationId, target, expectedActive, authenticated, originalBytes, passphrase)
+        } finally {
+            originalBytes.fill(0)
+        }
+    }
+
+    fun restoreVerifiedV9BaseToNine(
+        operationId: MaintenanceOperationId,
+        target: StagedStorageGeneration,
+        expectedActive: ActiveGenerationPointer,
+        archive: AuthenticatedHousehold12RestoreArchive,
+    ): FiveStoreStagedRestoreResult = quiescence.withMaterialWritesQuiesced(operationId) {
+        val bytes = archive.copyEncryptedBytes()
+        try {
+            restoreVerifiedUnderLease(operationId, target, expectedActive, archive, bytes, null)
+        } finally {
+            bytes.fill(0)
+        }
+    }
+
+    private fun restoreVerifiedUnderLease(
+        operationId: MaintenanceOperationId,
+        target: StagedStorageGeneration,
+        expectedActive: ActiveGenerationPointer,
+        authenticated: AuthenticatedHouseholdReceiptBaseArchive,
+        originalBytes: ByteArray,
+        legacyPassphrase: CharArray?,
+    ): FiveStoreStagedRestoreResult {
+        val targetId = target.descriptor.generationId
+        fun blocked(reason: FiveStoreStagedRestoreBlock) = FiveStoreStagedRestoreResult.Blocked(reason)
+        val snapshot = authenticated.snapshot
+        val expected = snapshot.base.base
+        if (expected.base.fourStore.manifest.sourceGenerationId == targetId) {
+            return blocked(FiveStoreStagedRestoreBlock.SOURCE_TARGET_IDENTITY_CONFLICT)
+        }
+        val evidence = expected.base.fourStore.commercialEvidence.schemaVersion
+        try {
+            requireTargetProfile(target, expectedActive, evidence)
+            if (legacyPassphrase != null) {
                 val observed = admission.inspect(
-                    operationId, target, expectedActive, originalBytes, passphrase,
+                    operationId, target, expectedActive, originalBytes, legacyPassphrase,
                 )
                 check(observed.sourceGenerationId == expected.base.fourStore.manifest.sourceGenerationId &&
                     observed.targetGenerationId == targetId &&
@@ -142,68 +177,66 @@ internal class FaroV5Household11V8BaseReplay(
                     observed.receiptCount == snapshot.receipts.receipts.size) {
                     "FBS2v8 independently admitted archive metadata differs"
                 }
-                afterAdmission() // test seam: pointer ABA / host revocation
-                requirePinned(target, expectedActive)
-                requireTargetProfile(target, expectedActive, evidence)
-            } catch (_: Exception) {
-                return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
             }
+            afterAdmission() // test seam: pointer ABA / host revocation
+            requirePinned(target, expectedActive)
+            requireTargetProfile(target, expectedActive, evidence)
+        } catch (_: Exception) {
+            return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
+        }
 
-            // The first durable write binds the ORIGINAL v8 ciphertext, not a
-            // freshly encrypted v6/v7 payload. Retries cannot change nonce,
-            // passphrase, operation ID or target identity.
-            try {
-                archiveIdentity.pinOrVerify(operationId, targetId, originalBytes)
-            } catch (_: Exception) {
-                return blocked(FiveStoreStagedRestoreBlock.ARCHIVE_IDENTITY_CONFLICT)
-            }
+        // The first durable write binds the ORIGINAL v8 ciphertext, not a
+        // freshly encrypted v6/v7 payload. Retries cannot change nonce,
+        // passphrase, operation ID or target identity.
+        try {
+            archiveIdentity.pinOrVerify(operationId, targetId, originalBytes)
+        } catch (_: Exception) {
+            return blocked(FiveStoreStagedRestoreBlock.ARCHIVE_IDENTITY_CONFLICT)
+        }
 
-            try {
-                val graph = if (evidence == 2)
-                    FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Evidence2Stage(
-                        target, expectedActive, planVerifier,
-                    )
-                else
-                    FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Stage(
-                        target, expectedActive, planVerifier,
-                    )
-                val restored = graph.use { opened ->
-                    FaroV5FiveStoreStagedRestore(
-                        root, target, opened, alreadyQuiesced,
-                        afterSection = { section ->
-                            requirePinned(target, expectedActive)
-                            afterStore(section)
-                        },
-                        archiveIdentity = archiveIdentity,
-                    ).restoreVerifiedHousehold11BaseStageOnly(
-                        operationId, authenticated, expectedActive,
-                    )
-                }
-                if (restored !is FiveStoreStagedRestoreResult.StagedVerified) return restored
-                requirePinned(target, expectedActive)
-                requireTargetProfile(target, expectedActive, evidence)
-                val finance = checkNotNull(expected.base.finance9) {
-                    "FBS2v8 base missing Finance9"
-                }
-                RealityFinance9StagedRowsRestorePort.restoreOrVerifyTrustedStagedNine(
-                    target.directory.resolve(GenerationStoreFiles.REALITY),
-                    RealityFinance9SealedSnapshot(
-                        finance.schemaVersion,
-                        finance.tables.map { RealityFinance9SealedTableRows(it.table, it.rows) },
-                    ),
+        return try {
+            val graph = if (evidence == 2)
+                FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Evidence2Stage(
+                    target, expectedActive, planVerifier,
                 )
-                afterFinance()
-                requirePinned(target, expectedActive)
-                requireTargetProfile(target, expectedActive, evidence)
-                verifyBaseAfterClose(operationId, target, expectedActive, expected, evidence)
-                archiveIdentity.requireExistingPinnedArchive(operationId, targetId, originalBytes)
-                requirePinned(target, expectedActive)
-                FiveStoreStagedRestoreResult.StagedVerified(targetId.value)
-            } catch (_: Exception) {
-                blocked(FiveStoreStagedRestoreBlock.STAGED_RESTORE_FAILED)
+            else
+                FaroV5GenerationStoreGraph.openValidatedV2Finance9Auxiliary4Stage(
+                    target, expectedActive, planVerifier,
+                )
+            val restored = graph.use { opened ->
+                FaroV5FiveStoreStagedRestore(
+                    root, target, opened, alreadyQuiesced,
+                    afterSection = { section ->
+                        requirePinned(target, expectedActive)
+                        afterStore(section)
+                    },
+                    archiveIdentity = archiveIdentity,
+                ).restoreVerifiedHousehold11BaseStageOnly(
+                    operationId, authenticated, expectedActive,
+                )
             }
-        } finally {
-            originalBytes.fill(0)
+            if (restored !is FiveStoreStagedRestoreResult.StagedVerified) return restored
+            requirePinned(target, expectedActive)
+            requireTargetProfile(target, expectedActive, evidence)
+            val finance = checkNotNull(expected.base.finance9) {
+                "FBS2v8 base missing Finance9"
+            }
+            RealityFinance9StagedRowsRestorePort.restoreOrVerifyTrustedStagedNine(
+                target.directory.resolve(GenerationStoreFiles.REALITY),
+                RealityFinance9SealedSnapshot(
+                    finance.schemaVersion,
+                    finance.tables.map { RealityFinance9SealedTableRows(it.table, it.rows) },
+                ),
+            )
+            afterFinance()
+            requirePinned(target, expectedActive)
+            requireTargetProfile(target, expectedActive, evidence)
+            verifyBaseAfterClose(operationId, target, expectedActive, expected, evidence)
+            archiveIdentity.requireExistingPinnedArchive(operationId, targetId, originalBytes)
+            requirePinned(target, expectedActive)
+            FiveStoreStagedRestoreResult.StagedVerified(targetId.value)
+        } catch (_: Exception) {
+            blocked(FiveStoreStagedRestoreBlock.STAGED_RESTORE_FAILED)
         }
     }
 

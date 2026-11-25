@@ -129,6 +129,7 @@ class RealityStore(
     /** Trusted generation fence for the isolated, read-only Household10 session. */
     private val householdActive10Dev: (() -> Boolean)? = null,
     private val householdNeedsWritableDev: Boolean = false,
+    private val householdStage12ReadOnly: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -144,7 +145,8 @@ class RealityStore(
         check(!financeActive9 || (planningStage8 && !financeStage9 && materialWriteGate != null)) {
             "Active Finance9 requires the shared gate and a distinct active mode"
         }
-        if (householdStage10ReadOnly) {
+        check(!householdStage12ReadOnly || (!householdStage10ReadOnly && householdActive10Dev == null))
+        if (householdStage10ReadOnly || householdStage12ReadOnly) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate == null)
             val file = Household10RowsSql.checkFile(Path.of(fileName))
             BundledSQLiteDriver().open(
@@ -667,12 +669,17 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly || (householdActive10Dev != null && !householdNeedsWritableDev)) {
+                    if (householdStage10ReadOnly || householdStage12ReadOnly ||
+                        (householdActive10Dev != null && !householdNeedsWritableDev)) {
                         connection.execSQL("PRAGMA foreign_keys = ON")
                     } else {
                         configure(fileName)
                     }
                     when {
+                        householdStage12ReadOnly -> {
+                            Household11ReceiptRowsSql.checkTables(connection)
+                            validateExistingFinanceLayout(12)
+                        }
                         householdStage10ReadOnly -> {
                             Household10RowsSql.checkSchema(connection)
                             validateExistingFinanceLayout(10)
@@ -2236,7 +2243,8 @@ class RealityStore(
         planningStage8 && (
             readSchemaVersion() == PLANNING_SCHEMA_VERSION ||
                 ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
-                ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10)
+                ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10) ||
+                (householdStage12ReadOnly && readSchemaVersion() == 12)
         )
 
     private fun createPlanningStage8Tables() {

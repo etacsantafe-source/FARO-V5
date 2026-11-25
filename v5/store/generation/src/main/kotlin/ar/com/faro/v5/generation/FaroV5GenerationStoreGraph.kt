@@ -28,6 +28,7 @@ import ar.com.faro.v5.store.reality.RealityStore
 import ar.com.faro.v5.store.reality.StagedSqlitePreflight
 import ar.com.faro.v5.store.reality.RealityFinance9SealedReadPort
 import ar.com.faro.v5.store.reality.RealityHousehold10SealedRowsPort
+import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseRowsPort
 import ar.com.faro.v5.store.reality.ActiveSqlitePreflight
 import ar.com.faro.v5.store.reality.RealityHousehold10Rows
 import java.nio.channels.FileChannel
@@ -750,19 +751,33 @@ class FaroV5GenerationStoreGraph private constructor(
             return healthy && pointer.read() == expected
         }
 
+        internal fun openValidatedHousehold12ArchiveStage(
+            staged: StagedStorageGeneration,
+            expectedActive: ActiveGenerationPointer,
+            evidence2: Boolean,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+        ): FaroV5GenerationStoreGraph = openFinance9ArchiveStage(
+            staged, expectedActive, auxiliary4 = true, planVerifier = planVerifier,
+            commercialEvidence2StagedDev = evidence2, householdStage12 = true,
+        )
+
+        internal fun requireSealedHousehold12ArchiveStage(staged: StagedStorageGeneration, evidence2: Boolean) =
+            requireSealedHouseholdArchiveStage(staged, evidence2, householdStage12 = true)
+
         internal fun requireSealedHousehold10ArchiveStage(staged: StagedStorageGeneration) =
-            requireSealedHousehold10ArchiveStageInternal(staged, typedEvidence2 = false)
+            requireSealedHouseholdArchiveStage(staged, typedEvidence2 = false)
 
         /**
          * F2B2A: independently sealed Household10/Evidence2 STAGED format check.
          * Never changes a pointer, admits an ACTIVE session or reuses FBS2v6.
          */
         internal fun requireSealedHousehold10Evidence2ArchiveStage(staged: StagedStorageGeneration) =
-            requireSealedHousehold10ArchiveStageInternal(staged, typedEvidence2 = true)
+            requireSealedHouseholdArchiveStage(staged, typedEvidence2 = true)
 
-        private fun requireSealedHousehold10ArchiveStageInternal(
+        private fun requireSealedHouseholdArchiveStage(
             staged: StagedStorageGeneration,
             typedEvidence2: Boolean,
+            householdStage12: Boolean = false,
         ) {
             check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
             val directory = staged.directory.toAbsolutePath().normalize()
@@ -791,10 +806,12 @@ class FaroV5GenerationStoreGraph private constructor(
             }
             requireStrictV2StoreSchemas(
                 directory, activeGeneration = false, planningStage8 = true,
-                financeStage9 = true, auxiliary4 = true, householdStage10 = true,
-                commercialEvidence2StagedDev = typedEvidence2,
+                financeStage9 = true, auxiliary4 = true, householdStage10 = !householdStage12,
+                commercialEvidence2StagedDev = typedEvidence2, householdStage12 = householdStage12,
             )
-            RealityHousehold10SealedRowsPort.readTrustedSealedStageTen(directory.resolve(GenerationStoreFiles.REALITY))
+            val reality = directory.resolve(GenerationStoreFiles.REALITY)
+            if (householdStage12) RealityHousehold12PurchaseRowsPort.readTrustedSealedStageTwelve(reality)
+            else RealityHousehold10SealedRowsPort.readTrustedSealedStageTen(reality)
         }
 
         internal fun requireFinance9ReceiptArchiveStage(
@@ -827,6 +844,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStage10: Boolean = false,
             planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
             commercialEvidence2StagedDev: Boolean = false,
+            householdStage12: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             val generationsDir = staged.directory.toAbsolutePath().normalize().parent
             check(generationsDir.fileName.toString() == "generations") {
@@ -848,6 +866,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 if (commercialEvidence2StagedDev) requireSealedHousehold10Evidence2ArchiveStage(staged)
                 else requireSealedHousehold10ArchiveStage(staged)
             }
+            if (householdStage12) requireSealedHousehold12ArchiveStage(staged, commercialEvidence2StagedDev)
             val receiptFence: (() -> Boolean)? =
                 if (auxiliary4) ({ pointer.read() == expectedActive }) else null
             val graph = openValidatedV2Internal(
@@ -856,6 +875,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 householdStage10 = householdStage10,
                 commercialEvidence2StagedDev = commercialEvidence2StagedDev,
                 commercialEvidence2AuthenticatedArchiveDev = commercialEvidence2StagedDev,
+                householdStage12 = householdStage12,
             )
             try {
                 check(pointer.read() == expectedActive) {
@@ -883,7 +903,10 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2StagedDev: Boolean = false,
             commercialEvidence2ActiveDev: Boolean = false,
             commercialEvidence2AuthenticatedArchiveDev: Boolean = false,
+            householdStage12: Boolean = false,
         ): FaroV5GenerationStoreGraph {
+            check(!householdStage12 || (!activeGeneration && !householdStage10 && !householdActive10Dev &&
+                financeStage9 && auxiliaryReceiptFence != null && materialWriteGate == null))
             // Historical C1b2G isolated STAGED owner remains unchanged.
             val isolatedTypedStage = !activeGeneration && !planningStage8 && !financeStage9 &&
                 !checkedPlanning8Active && auxiliaryReceiptFence == null &&
@@ -953,6 +976,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 householdStage10 = householdStage10 || householdActive10Dev,
                 commercialEvidence2StagedDev = commercialEvidence2StagedDev,
                 commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
+                householdStage12 = householdStage12,
             )
             if (householdActive10Dev) {
                 val fence = checkNotNull(auxiliaryReceiptFence)
@@ -966,8 +990,11 @@ class FaroV5GenerationStoreGraph private constructor(
             }
             if (financeStage9 && !activeGeneration) {
                 val reality = normalized.resolve(GenerationStoreFiles.REALITY)
-                if (householdStage10) RealityFinance9SealedReadPort.readTrustedSealedStage10(reality)
-                else RealityFinance9SealedReadPort.readTrustedSealedStage9(reality)
+                when {
+                    householdStage12 -> RealityFinance9SealedReadPort.readTrustedSealedStage12(reality)
+                    householdStage10 -> RealityFinance9SealedReadPort.readTrustedSealedStage10(reality)
+                    else -> RealityFinance9SealedReadPort.readTrustedSealedStage9(reality)
+                }
             }
             val workspacePath = normalized.resolve(GenerationStoreFiles.WORKSPACE).toString()
             val workspace = if (planVerifier == null) {
@@ -984,7 +1011,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 return openStores(
                     normalized, staged.descriptor.generationId.value, workspace,
                     materialWriteGate, planningStage8,
-                    financeStage9 = financeStage9 && !activeGeneration && !householdStage10,
+                    financeStage9 = financeStage9 && !activeGeneration && !householdStage10 && !householdStage12,
                     financeActive9 = financeStage9 && activeGeneration && !householdActive10Dev,
                     auxiliaryReceiptFence = auxiliaryReceiptFence,
                     householdStage10 = householdStage10,
@@ -992,6 +1019,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     householdNeedsWritableDev = householdNeedsWritableDev,
                     commercialEvidence2StagedDev = commercialEvidence2StagedDev,
                     commercialEvidence2ActiveDev = commercialEvidence2ActiveDev,
+                    householdStage12 = householdStage12,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -1019,6 +1047,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStage10: Boolean = false,
             commercialEvidence2StagedDev: Boolean = false,
             commercialEvidence2ActiveDev: Boolean = false,
+            householdStage12: Boolean = false,
         ) {
             check(!commercialEvidence2ActiveDev || (activeGeneration && householdStage10)) {
                 "Typed Evidence2 ACTIVE schema requires Household10 active DEV admission"
@@ -1045,7 +1074,11 @@ class FaroV5GenerationStoreGraph private constructor(
             val realityProfile = if (financeStage9) {
                 check(planningStage8) { "Finance9 requires Planning owner schema" }
                 StagedSqlitePreflight.Schema(
-                    GenerationStoreFiles.REALITY, if (householdStage10) 10 else 9,
+                    GenerationStoreFiles.REALITY, when {
+                        householdStage12 -> 12
+                        householdStage10 -> 10
+                        else -> 9
+                    },
                     realityCurrentTables + listOf(
                         "reminder_state", "reminder_rule", "reminder_occurrence",
                         "monthly_plan_state", "monthly_plan_item",
@@ -1054,7 +1087,12 @@ class FaroV5GenerationStoreGraph private constructor(
                         "finance_debt", "finance_schedule", "finance_plan_item",
                         "finance_plan_item_payment", "finance_budget_limit",
                         "finance_schema_migration_audit",
-                    ) + if (householdStage10) listOf("household_need_state", "household_need") else emptyList(),
+                    ) + when {
+                        householdStage12 -> listOf("household_need_state", "household_need",
+                            "household_stock_receipt_state", "household_stock_receipt", "household_confirmed_purchase")
+                        householdStage10 -> listOf("household_need_state", "household_need")
+                        else -> emptyList()
+                    },
                 )
             } else if (planningStage8) {
                 val required = realityCurrentTables + listOf(
@@ -1150,6 +1188,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdNeedsWritableDev: Boolean = false,
             commercialEvidence2StagedDev: Boolean = false,
             commercialEvidence2ActiveDev: Boolean = false,
+            householdStage12: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -1167,6 +1206,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         householdStage10ReadOnly = householdStage10,
                         householdActive10Dev = if (householdActive10Dev) checkNotNull(auxiliaryReceiptFence) else null,
                         householdNeedsWritableDev = householdNeedsWritableDev,
+                        householdStage12ReadOnly = householdStage12,
                     )
                 reality = openedReality
                 commercial =

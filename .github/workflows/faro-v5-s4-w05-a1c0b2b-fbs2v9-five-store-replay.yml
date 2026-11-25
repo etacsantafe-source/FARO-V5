@@ -1,0 +1,88 @@
+name: FARO V5 W05-A1C0B2B Authenticated FBS2v9 Five Store Replay
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household12V9StagedReplay.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household12V9StagedReplayTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c0b2b-fbs2v9-five-store-replay.yml
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-v9-five-store:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact scope and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A1C0B2B_FBS2V9_FIVE_STORE_STAGED_REPLAY_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 11
+          test "${#changed[@]}" -gt 0
+          args=()
+          for route in "${changed[@]}"; do
+            grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+          done
+          for route in "${permitted[@]}"; do
+            args+=(--path "$route")
+          done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run v9 five-store replay and directed historical v8 suites
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household12V9StagedReplayTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household11V8BaseReplayTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household11V8FullStageReplayTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household11V8Evidence2FullStageReplayTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          root = Path('v5/store/generation/build/test-results/test')
+          for cls, count in (
+              ('FaroV5Household12V9StagedReplayTest', 8),
+              ('FaroV5Household11V8BaseReplayTest', 8),
+              ('FaroV5Household11V8FullStageReplayTest', 10),
+              ('FaroV5Household11V8Evidence2FullStageReplayTest', 6),
+          ):
+              suite = ElementTree.parse(root / f'TEST-ar.com.faro.v5.generation.{cls}.xml').getroot()
+              actual = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+              assert actual == (count, 0, 0, 0), (cls, actual)
+              assert len(suite.findall('testcase')) == count
+          PY
+      - name: Preserve original replay XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a1c0b2b-sql12-five-store-replay-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/test/TEST-*ReplayTest.xml

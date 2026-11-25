@@ -31,14 +31,27 @@ object RealityHousehold11NeedsRowsPort {
         }
     }
 
-    fun readTrustedSealedStageEleven(file: Path): RealityHousehold10Rows {
+    fun readTrustedSealedStageEleven(file: Path): RealityHousehold10Rows =
+        readTrustedSealedStage(file, 11)
+
+    fun readTrustedSealedStageTwelve(file: Path): RealityHousehold10Rows =
+        readTrustedSealedStage(file, 12)
+
+    private fun readTrustedSealedStage(file: Path, version: Int): RealityHousehold10Rows {
         val physical = Household11ReceiptRowsSql.checkFile(file)
         return BundledSQLiteDriver().open(
             physical.toUri().toString() + "?mode=ro&immutable=1",
             SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
         ).use { db ->
             db.execSQL("PRAGMA foreign_keys=ON")
-            Household11ReceiptRowsSql.checkSchema(db)
+            if (version == 11) {
+                Household11ReceiptRowsSql.checkSchema(db)
+            } else {
+                db.prepare("PRAGMA user_version").use {
+                    check(it.step() && it.getLong(0) == 12L && !it.step()) { "Reality12 needs require SQL12" }
+                }
+                Household11ReceiptRowsSql.checkTables(db)
+            }
             Household11ReceiptRowsSql.checkIntegrity(db)
             db.prepare("PRAGMA table_list(household_need)").use { stmt ->
                 check(stmt.step() && stmt.getText(2) == "table" &&

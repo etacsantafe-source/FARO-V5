@@ -136,13 +136,13 @@ class FaroV5FiveStoreStagedRestore(
             householdArchive = archive,
         )
 
-    /** W05-A1B3B0: only the already-authenticated FBS2v8 five-store base.
-     * Original v8 ciphertext is pinned; the H10 and H11R sections are NOT replayed here.
+    /** Replay only the already-authenticated five-store base from v8 or v9.
+     * Pin the original ciphertext. H10, H11R and purchases have their own replay.
      * Existing public legacy/v6/v7 entrypoints remain unchanged.
      */
     internal fun restoreVerifiedHousehold11BaseStageOnly(
         operationId: MaintenanceOperationId,
-        archive: AuthenticatedHousehold11RestoreArchive,
+        archive: AuthenticatedHouseholdReceiptBaseArchive,
         expectedActive: ActiveGenerationPointer,
     ): FiveStoreStagedRestoreResult = restoreAuthenticatedImpl(
         operationId, archive.copyEncryptedBytes(), CharArray(0),
@@ -160,7 +160,7 @@ class FaroV5FiveStoreStagedRestore(
         allowFinance9BaseStageOnly: Boolean = false,
         auxiliary4Origin: ActiveGenerationPointer? = null,
         householdArchive: AuthenticatedHousehold10RestoreArchive? = null,
-        household11Archive: AuthenticatedHousehold11RestoreArchive? = null,
+        household11Archive: AuthenticatedHouseholdReceiptBaseArchive? = null,
     ): FiveStoreStagedRestoreResult {
         return try {
             quiescence.withMaterialWritesQuiesced(operationId) {
