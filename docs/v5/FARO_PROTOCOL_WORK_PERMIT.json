@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "c7c797bdbb2c2af7d53ee49fa8f6e4218c35a9db",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION",
+  "reviewed_head": "2751cf8e130e4ec40f33e6acd64f3e01199be037",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c2f-sql13-evidence2-cutover.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationApplyPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationApplyPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c2g0-sql13-undo-write-admission.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_B1_B5_20261125.md",
-          "blob_sha": "0d2f8a2970575c84038443e0285b367a575d9b20",
+          "path": "docs/v5/FARO_S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "016571b527ba7196ddd49110309c337b9b97ce04",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_B1_B5_20261125.md",
-          "blob_sha": "0d2f8a2970575c84038443e0285b367a575d9b20",
+          "path": "docs/v5/FARO_S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "016571b527ba7196ddd49110309c337b9b97ce04",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_B1_B5_20261125.md",
-          "blob_sha": "0d2f8a2970575c84038443e0285b367a575d9b20",
+          "path": "docs/v5/FARO_S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "016571b527ba7196ddd49110309c337b9b97ce04",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_B1_B5_20261125.md",
-          "blob_sha": "0d2f8a2970575c84038443e0285b367a575d9b20",
+          "path": "docs/v5/FARO_S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "016571b527ba7196ddd49110309c337b9b97ce04",
           "marker": "## B4"
         }
       ]
@@ -53,17 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_B1_B5_20261125.md",
-          "blob_sha": "0d2f8a2970575c84038443e0285b367a575d9b20",
+          "path": "docs/v5/FARO_S4_W05_A1C2G0_SQL13_UNDO_DEV_WRITE_ADMISSION_B1_B5_20261125.md",
+          "blob_sha": "016571b527ba7196ddd49110309c337b9b97ce04",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_CI_XML_31_31",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45625622463,
-  "pre_audit_head": "c7c797bdbb2c2af7d53ee49fa8f6e4218c35a9db",
+  "pre_audit_guard_run_id": 45636259619,
+  "pre_audit_head": "2751cf8e130e4ec40f33e6acd64f3e01199be037",
   "last_code_review": {
     "sha": "e581dcba2191b988c90ca6271b1bf9c209d13eac",
     "unit_id": "S4_W05_A1C2F_SQL13_EVIDENCE2_JOURNALED_CUTOVER_DEV",
@@ -80,7 +82,7 @@
   "last_ci_conclusion": "SUCCESS_XML31_31",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C2F journaled SQL13 Evidence2 DEV cutover B7 PASS scoped. Three exact paths consumed. No stock Apply/Android.",
-  "next": "N-016 compensation Undo stock DEV B1-B5 exact READY; A1C3 Android, A1C4 global later.",
-  "last_guard_run_id": 45629774384
+  "why": "A1C2G0 SQL13 ACTIVE DEV internal write admission, exact5, B1-B5 audited; documentary guard SUCCESS; NO G0 functional implementation or CI yet; N-016 G1 not authorized.",
+  "next": "B6 only A1C2G0 exact5 paths, preflight each; G0 CI/XML and B7; then own G1 N-016 Review/Apply, A1C3 Android and A1C4 global.",
+  "last_guard_run_id": 45636259619
 }
