@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV",
   "reviewed_head": "01ffbefe41cd7cfa3e277bafec433a265df5d773",
   "paths": [
@@ -64,27 +64,29 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_CI_XML_8_8",
+    "B7": "PASS_SCOPED"
   },
   "pre_audit_guard_run_id": 45600176853,
   "pre_audit_head": "01ffbefe41cd7cfa3e277bafec433a265df5d773",
   "last_code_review": {
-    "sha": "5323a040dc2f6a48c37107d0171ed5ff2b97b315",
+    "sha": "3b1d1dee7e6ac8215efe26acb2d77a0c01b6342b",
     "unit_id": "S4_W05_A1C0B4_SQL12_MANUAL_PURCHASE_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C0B4_RED_FIX_JUNIT_DISCOVERY_20261125.md",
-        "blob_sha": "091d5eb5f64592eba884beade823025ebe89440c",
+        "path": "docs/v5/FARO_S4_W05_A1C0B4_B7_PASS_MANUAL_PURCHASE_DEV_20261125.md",
+        "blob_sha": "93a78b17fcdbf20f8de8f86a5b6ad5c2763f4e64",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45601527663,
-  "last_ci_conclusion": "FAILURE_XML_DISCOVERY_7_OF_8",
+  "last_ci_run_id": 45603410162,
+  "last_ci_conclusion": "SUCCESS_XML8_8",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C0B4 same-unit RED_FIX for JUnit discovery. Eight original exact permitted routes.",
-  "next": "A1C0B4 B6/B7, then A1C1 receipt"
+  "why": "A1C0B4 B7 PASS. Scope consumed.",
+  "next": "A1C1 own READY after documentary guard",
+  "final_guard_run_id": 45603409875,
+  "final_xml_artifact_id": 15015588975
 }
