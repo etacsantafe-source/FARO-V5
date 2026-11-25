@@ -62,7 +62,7 @@ internal object RealityHousehold13CompensationSchema {
         BEGIN
             SELECT RAISE(ABORT, 'invalid stock compensation source');
         END
-        """.trimIndent()
+        """.trimIndent().trimStart()
 
     private val updateGuard = """
         CREATE TRIGGER household_stock_compensation_update_guard
