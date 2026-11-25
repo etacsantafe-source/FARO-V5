@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
   "reviewed_head": "07a6719b1e8c7290bd33b1e0c3d049b8e47f283d",
   "paths": [
@@ -58,23 +58,23 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "VERIFIED_IMPLEMENTED",
+    "B7": "PASS_SCOPED_22_22_XML"
   },
   "last_code_review": {
-    "sha": "07a6719b1e8c7290bd33b1e0c3d049b8e47f283d",
+    "sha": "e17aa76a41f2292ef32dbc1265d6a7882e7c42a1",
     "unit_id": "S4_W05_A1B3C2B1B_EVIDENCE2_SQL11_DURABLE_PRECUTOVER_AUTH_DEV",
-    "result": "RED_FIX",
+    "result": "PASS",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_REDFIX_B0_TEST_FIXTURE_45521825103_20261125.md",
-        "blob_sha": "0608e9b93d730ead0f7b11c62ea4383a901144b0",
-        "marker": "## Evidencia"
+        "path": "docs/v5/FARO_S4_W05_A1B3C2B1B_B7_PASS_EVIDENCE2_V2_DURABLE_AUTH_XML22_22_20261125.md",
+        "blob_sha": "83b06b2d85c1a63971a2d952dc3954f9846286eb",
+        "marker": "## B7"
       }
     ]
   },
-  "why": "CI45521825103 compileTestKotlin UNINITIALIZED_PARAMETER at new test:185, no tests/XML, fixture stage not restored and wrong legacy codec",
-  "how": "B0 RED_FIX exact2 test + workflow; 3 test-only corrections, CI stage directed 22/22 and XML",
+  "why": "C2B1B Evidence2 v2 durable PRE-CUTOVER authorization test+workflow RED_FIX B7 PASS, CI45522706065 XML22/22 guard45522706044 SUCCESS",
+  "how": "B7 PASS scoped, READY consumed. Next independent C2C0 journaled switch/recovery B1–B5/READY",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "user_authorization": {
@@ -83,7 +83,7 @@
   },
   "previous_unit": "S4_W05_A1B3C2A_FBS2V8_EVIDENCE2_SQL11_STAGED_REPLAY_DEV",
   "previous_b7": "PASS_SCOPED_EVIDENCE2_SQL11_STAGED_16_16",
-  "next": "Implement redfix exact2, CI XML22/22, B7 only if tests pass",
+  "next": "C2C0 Evidence2 v2 ticket journaled cutover and recovery DEV with independent B1–B5 and permission; A1 global OPEN",
   "pre_audit_guard_run_id": 45521383417,
   "pre_audit_head": "440ebf0c4b48fd94d025cd6266ecf7fa78626981",
   "previous_ci_run_id": 45495586732,
@@ -94,11 +94,11 @@
     "document": "docs/v5/FARO_S4_W05_A1B3C2A_REDFIX_B0_EVIDENCE2_PREAUTH_45512506948_20261124.md",
     "blob_sha": "baba89ffc41eccaeed3abde99ec0d621e13903e9"
   },
-  "final_ci_run_id": null,
-  "final_guard_run_id": null,
-  "final_ci_xml": null,
-  "final_xml_artifact_id": null,
-  "final_xml_sha256": null,
+  "final_ci_run_id": 45522706065,
+  "final_guard_run_id": 45522706044,
+  "final_ci_xml": "EVIDENCE2_DURABLE_8_8_EVIDENCE1_DURABLE_8_8_EVIDENCE2_SEMANTIC_6_6_TOTAL22_22_ZERO_FAILURES_ERRORS_SKIPS",
+  "final_xml_artifact_id": 14981701295,
+  "final_xml_sha256": "329ae5cad92d1a66a228dea2cf1f1dad63eddf7b069d5608be489d5606519e1a",
   "last_ci_run_id": 45521825103,
   "last_ci_conclusion": "FAILURE_COMPILE_TEST_KOTLIN_UNINITIALIZED_PARAMETER_NO_XML"
 }
