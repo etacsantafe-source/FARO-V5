@@ -48,3 +48,38 @@ Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY i
 FaroV5Household13V10StagedReplay.restoreAuthenticatedV10 only admits stages 9..13: restore baseline through 13, then migrate an isolated copy to SQL14. Never call the v10 restorer on a stage14. Test retry on stage14 as identical or fail-closed.
 
 Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
+
+## Delta verificado contra B7 de A2B0B2
+
+El port certificado de SQL14 captura histórico13 más filas RESERVE/RELEASE
+en la misma lectura sellada. Restaura sobre el histórico exacto, con revalidación
+antes de COMMIT incluso en retry idéntico. El coordinador conserva una única
+quiescence y el fence de ruta/puntero durante replay, migración y readback.
+
+FaroV5Household11V8BaseReplay pinnea los bytes que devuelve
+AuthenticatedHousehold13RestoreArchive.copyEncryptedBytes. Para reutilizar su
+fase base, proyectar el snapshot v10 solo desde autenticación v11 completa y
+retener el ciphertext v11 original. Volver a sellar como v10 cambiaría los
+bytes y rompería el pin inmutable de FileRestoreArchiveIdentity, en particular
+después de un crash entre SQL13 y SQL14. El import v10 explícito mantiene su
+propio ciphertext y su ledger vacío. En un retry SQL14, verificar el pin
+existente antes de validar/restituir filas y no pasar SQL14 al replay 9..13.
+
+La verificación de los cinco stores SQL14 necesita tres rutas adicionales a B4:
+- v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+- v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt
+- v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11NeedsRowsPort.kt
+
+El grafo base usa RealityStore, que valida schema13 en su constructor y en la
+admisión de Planning8 para capture. Los lectores sellados Finance9 y necesidades
+también exigen versiones específicas. Agregar proyecciones de lectura explícitas
+para SQL14 STAGED, con las mismas verificaciones de estructura e integridad y
+sin modificar los puntos de entrada anteriores. Validar en pruebas el replay
+desde SQL9, el retry tras migración, la negativa de reseal y la igualdad de
+los cinco stores con el manifiesto autenticado. No degradar PRAGMA user_version,
+no copiar ACTIVE ni abrir el grafo general sobre SQL14.
+
+Fuente primaria del delta: https://sqlite.org/wal.html y
+https://sqlite.org/backup.html. Se adapta el replay de FARO de etapas selladas
+bajo quiescence y se descarta reconstruir un archivo con datos sólo del WAL
+o emitir un archivo cifrado sustituto para un intento ya fijado.
