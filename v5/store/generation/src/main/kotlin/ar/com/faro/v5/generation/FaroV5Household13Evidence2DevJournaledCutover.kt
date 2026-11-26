@@ -21,6 +21,7 @@ import ar.com.faro.v5.maintenance.MaintenanceOperationId
 import ar.com.faro.v5.maintenance.MaintenanceOperationKind
 import ar.com.faro.v5.maintenance.MaterialWriteGateQuiescence
 import ar.com.faro.v5.maintenance.StagedStorageGeneration
+import ar.com.faro.v5.maintenance.StorageGenerationDescriptor
 import ar.com.faro.v5.maintenance.StorageGenerationId
 import ar.com.faro.v5.maintenance.ValidatedGenerationActivationCoordinator
 import ar.com.faro.v5.store.reality.ActiveSqlitePreflight
@@ -147,6 +148,37 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
         }
         requireBackingFiles(ticket, entry)
         activate(ticket, recovery = true)
+    }
+
+    internal fun <T> withClosedLease(block: () -> T): T = gate.withQuiescedMaterialWrites {
+        requireLive()
+        block()
+    }
+
+    internal fun assertClosedLease() = requireLive()
+
+    internal fun copyClosedSql12(
+        origin: ActiveGenerationPointer,
+        copyDescriptor: StorageGenerationDescriptor,
+    ): StagedStorageGeneration = withClosedLease {
+        check(FaroV5Household12Evidence2DevJournaledCutover.hasCompletedSelection(root, origin))
+        val source = layout.requireStaged(origin.generationId)
+        requireOriginHealthy(source)
+        val sourceFingerprint = fingerprint(source, allowEmptyActiveWal = true)
+        val copy = layout.stageWorkspaceV2(copyDescriptor)
+        for (name in GenerationStoreFiles.WORKSPACE_V2) {
+            requireLive()
+            check(pointer.read() == origin)
+            val destination = copy.directory.resolve(name)
+            Files.copy(source.directory.resolve(name), destination, NOFOLLOW_LINKS)
+            FileChannel.open(destination, WRITE, NOFOLLOW_LINKS).use { it.force(true) }
+        }
+        FileChannel.open(copy.directory, READ, NOFOLLOW_LINKS).use { it.force(true) }
+        check(fingerprint(copy, allowEmptyActiveWal = false) == sourceFingerprint)
+        check(fingerprint(source, allowEmptyActiveWal = true) == sourceFingerprint)
+        check(pointer.read() == origin)
+        requireLive()
+        copy
     }
 
     private fun verifyStage(
