@@ -1,21 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_DEV",
-  "reviewed_head": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+  "reviewed_head": "ef16c14e60c5161088fbc77469388c84a1bd6964",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5ClosedHousehold12DevMaintenance.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ClosedHousehold12DevMaintenanceTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c4-closed-sql12-maintenance.yml"
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceTest.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c4-global-dev-acceptance.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
-          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
+          "marker": "## B1"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
           "marker": "## B1"
         }
       ]
@@ -24,8 +28,13 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
-          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
+          "marker": "## B2"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
           "marker": "## B2"
         }
       ]
@@ -34,8 +43,13 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
-          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
+          "marker": "## B3"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
           "marker": "## B3"
         }
       ]
@@ -44,8 +58,13 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
-          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
+          "marker": "## B4"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
           "marker": "## B4"
         }
       ]
@@ -54,8 +73,13 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
-          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
+          "marker": "## B5"
+        },
+        {
+          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
           "marker": "## B5"
         }
       ]
@@ -63,8 +87,8 @@
     "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45740766176,
-  "pre_audit_head": "f9a8f8dbcc0dee961ed0a9cd8c63eb0ee0f926f0",
+  "pre_audit_guard_run_id": 45741695464,
+  "pre_audit_head": "b5956161a8107cb60ad0f70f5bd194de03941761",
   "last_code_review": {
     "sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
     "result": "PASS",
@@ -82,8 +106,8 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS",
-  "next": "Guard global A1C4 revalidation and reissue exact3",
-  "last_guard_run_id": 45741277068,
+  "next": "Global B6 directed JVM/Android API35 then B7 original XML/APK",
+  "last_guard_run_id": 45741695464,
   "current_code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
-  "reason": "Closed SQL12 maintenance B7 PASS scoped"
+  "reason": "Both maintenance deltas are B7 PASS; global acceptance exact3 revalidated"
 }
