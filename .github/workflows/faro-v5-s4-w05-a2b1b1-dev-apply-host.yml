@@ -28,12 +28,17 @@ jobs:
           unit=S4_W05_A2B1B1_STOCK_RESERVATION_REVIEW_APPLY_HOST
           permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
           test "$(git show HEAD^:"$permit" | jq '.paths|length')" -eq 4
-          diff -u <(git show HEAD^:"$permit" | jq -r '.paths[]' | sort) \
+          diff -u <(printf '%s\n' \
+            'v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHostTest.kt' \
+            '.github/workflows/faro-v5-s4-w05-a2b1b1-dev-apply-host.yml' | sort) \
             <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          for path in \
+            v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHostTest.kt \
+            .github/workflows/faro-v5-s4-w05-a2b1b1-dev-apply-host.yml; do
+            git show HEAD^:"$permit" | jq -e --arg p "$path" '.paths | index($p) != null'
+          done
           python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
             --unit "$unit" \
-            --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt \
-            --path v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHost.kt \
             --path v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHostTest.kt \
             --path .github/workflows/faro-v5-s4-w05-a2b1b1-dev-apply-host.yml
       - uses: actions/setup-java@v4

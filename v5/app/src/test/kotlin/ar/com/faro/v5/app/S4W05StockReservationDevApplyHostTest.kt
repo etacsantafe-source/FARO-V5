@@ -8,8 +8,6 @@ import ar.com.faro.v5.kernel.runtime.PreparedPlanEnvelopeCodec
 import ar.com.faro.v5.owner.household.api.*
 import kotlinx.coroutines.runBlocking
 
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import androidx.sqlite.execSQL
 import ar.com.faro.v5.evidence.*
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.maintenance.*
@@ -112,16 +110,9 @@ class S4W05StockReservationDevApplyHostTest {
     private fun source(origin: ActiveGenerationPointer, evidence2: Boolean): StagedStorageGeneration {
         val src = stage("w05-a2b0c1-source", origin)
         val reality = src.directory.resolve(GenerationStoreFiles.REALITY)
-        BundledSQLiteDriver().open(reality.toString()).use { db ->
-            db.execSQL("INSERT INTO finance_budget_limit VALUES " +
-                "('2026-11','Alimentos','ARS',100000,1,1000,'HUMAN')")
-        }
+        // Historical physical purchases/receipts and SQL14 reservations are injected
+        // through the real authenticated FBS2v11 fixture below, not raw Android SQLite.
         RealityHousehold10StagedFilePort.migrateTrustedStagedNine(reality)
-        BundledSQLiteDriver().open(reality.toString()).use { db ->
-            db.execSQL("UPDATE household_need_state SET revision=3 WHERE singleton_id=1")
-            db.execSQL("INSERT INTO household_need VALUES " +
-                "('need-yerba','Yerba',1000,'GRAM','NORMAL','OPEN',2,NULL)")
-        }
         if (evidence2) toEvidence2(src, true)
         if (evidence2) FaroV5GenerationStoreGraph.requireSealedHousehold10Evidence2ArchiveStage(src)
         else FaroV5GenerationStoreGraph.requireSealedHousehold10ArchiveStage(src)
