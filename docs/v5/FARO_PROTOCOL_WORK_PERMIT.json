@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT",
-  "reviewed_head": "6885c5427e5be674870369496b0a7ed013f9a33f",
+  "status": "READY",
+  "unit_id": "S4_W05_A2B1B1_STOCK_RESERVATION_REVIEW_APPLY_HOST",
+  "reviewed_head": "c91e4c87f1e15bcc5fc816911db07a4e7a1d3c03",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPortTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHost.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHostTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b1b1-dev-apply-host.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
           "marker": "## B4"
         }
       ]
@@ -54,35 +54,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_PASS_SQL14_ATOMIC_RESERVATION_20261126.md",
-          "blob_sha": "746cd52824815690437c10c81658bcaa32c44878",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_PASS_SQL14_ATOMIC_RESERVATION_20261126.md",
-          "blob_sha": "746cd52824815690437c10c81658bcaa32c44878",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45825269539,
-  "pre_audit_head": "bb8a3300b9ebf1649731f6cbba40163e4049d9b0",
+  "pre_audit_guard_run_id": 45838550286,
+  "pre_audit_head": "c91e4c87f1e15bcc5fc816911db07a4e7a1d3c03",
   "last_code_review": {
     "sha": "6885c5427e5be674870369496b0a7ed013f9a33f",
     "result": "PASS",
@@ -99,9 +81,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "original JUnit5/5 and guard PASS; A2B1B1 not yet READY",
-  "next": "A2B1B1 delta B1-B5, own guard and READY exact4, B6/B7, then A2B1C.",
-  "last_guard_run_id": 45837426645,
+  "why": "Isolated ACTIVE14 Review→Confirm→Apply DEV without product activation.",
+  "next": "A2B1B1 B6/B7 exact4; then A2B1C delta and guarded READY.",
+  "last_guard_run_id": 45838550286,
   "current_code_sha": "6885c5427e5be674870369496b0a7ed013f9a33f",
-  "reason": "B7 A2B1B0 certified; prior permit consumed"
+  "reason": "B1B1 independent guarded exact4 permission after A2B1B0 B7 PASS"
 }
