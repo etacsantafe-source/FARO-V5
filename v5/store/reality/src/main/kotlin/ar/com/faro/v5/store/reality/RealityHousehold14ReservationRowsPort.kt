@@ -114,6 +114,17 @@ object RealityHousehold14ReservationRowsPort {
         return RealityHousehold14ReservationRows(history, readRows(db)).also(::validateBalances)
     }
 
+    /** Historical SQL14 rows on a verified SQL15 STAGED connection; never used by the SQL14 API. */
+    internal fun captureConnectionOnFifteen(db: SQLiteConnection): RealityHousehold14ReservationRows {
+        RealityHousehold14ReservationSchema.requireDefinitions(db, RealityHousehold15ConsumptionSchema.VERSION)
+        val history = RealityHousehold13CompensationRowsPort.captureHistoryOnFifteen(db)
+        db.prepare(
+            "SELECT 1 FROM sqlite_schema AS s, pragma_foreign_key_list(s.name) AS fk " +
+                "WHERE s.type='table' AND fk.\"table\" COLLATE NOCASE = '$TABLE' LIMIT 1",
+        ).use { check(!it.step()) { "SQL15 reservation table has unexpected inbound foreign keys" } }
+        return RealityHousehold14ReservationRows(history, readRows(db)).also(::validateBalances)
+    }
+
     private fun sealedPath(file: Path): Path {
         check(file.toAbsolutePath() == file.toAbsolutePath().normalize()) { "SQL14 rejects staged path aliases" }
         return Household11ReceiptRowsSql.checkFile(file)

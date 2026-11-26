@@ -1,0 +1,91 @@
+name: FARO V5 W05-A2C0B2 sealed SQL15 consumption rows DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationRowsPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationSchema.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationRowsPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionRowsPort.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionRowsPortTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2c0b2-sql15-consumption-rows.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sql15-consumption-rows:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact7 and parent protocol preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2C0B2_SQL15_SEALED_CONSUMPTION_ROWS_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#allowed[@]}" -eq 7
+          diff -u <(printf '%s\n' "${allowed[@]}") <(printf '%s\n' "${changed[@]}")
+          args=()
+          for path in "${allowed[@]}"; do args+=(--path "$path"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test SQL15 rows and SQL14/schema regressions
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionRowsPortTest \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold14ReservationRowsPortTest \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionSchemaTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          directory = Path('v5/store/reality/build/test-results/test')
+          expected = {
+              'RealityHousehold15ConsumptionRowsPortTest': 7,
+              'RealityHousehold14ReservationRowsPortTest': 6,
+              'RealityHousehold15ConsumptionSchemaTest': 7,
+          }
+          for name, count in expected.items():
+              reports = list(directory.glob(f'TEST-*{name}.xml'))
+              assert len(reports) == 1, (name, reports)
+              suite = ElementTree.parse(reports[0]).getroot()
+              vector = tuple(int(suite.attrib[key]) for key in ('tests','failures','errors','skipped'))
+              assert vector == (count,0,0,0), (name, vector)
+              assert len({case.attrib['name'] for case in suite.findall('testcase')}) == count
+          PY
+      - name: Preserve original SQL15 and SQL14 JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c0b2-sql15-rows-regressions-xml
+          if-no-files-found: error
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionRowsPortTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold14ReservationRowsPortTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionSchemaTest.xml

@@ -92,9 +92,14 @@ internal object RealityHousehold14ReservationSchema {
         }
     }
 
-    fun requireDefinitions(db: SQLiteConnection) {
+    fun requireDefinitions(db: SQLiteConnection, expectedVersion: Int = VERSION) {
+        require(expectedVersion == VERSION || expectedVersion == RealityHousehold15ConsumptionSchema.VERSION) {
+            "Reservation schema only accepts exact SQL14 or explicitly requested SQL15"
+        }
         db.prepare("PRAGMA user_version").use {
-            check(it.step() && it.getLong(0) == VERSION.toLong()) { "Reservation schema requires SQL14" }
+            check(it.step() && it.getLong(0) == expectedVersion.toLong()) {
+                "Reservation schema requires exact SQL$expectedVersion"
+            }
         }
         val actual = db.prepare(
             "SELECT name,sql FROM sqlite_schema WHERE tbl_name = '$TABLE' AND sql IS NOT NULL",

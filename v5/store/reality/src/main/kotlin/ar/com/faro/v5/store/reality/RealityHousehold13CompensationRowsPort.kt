@@ -101,6 +101,14 @@ object RealityHousehold13CompensationRowsPort {
         return captureHistory(db, RealityHousehold14ReservationSchema.VERSION)
     }
 
+    /** Explicit SQL15 historical projection; SQL13/14 readers keep their strict version fences. */
+    internal fun captureHistoryOnFifteen(db: SQLiteConnection): RealityHousehold13CompensationRows {
+        RealityHousehold14ReservationSchema.requireDefinitions(
+            db, RealityHousehold15ConsumptionSchema.VERSION,
+        )
+        return captureHistory(db, RealityHousehold15ConsumptionSchema.VERSION)
+    }
+
     private fun captureHistory(db: SQLiteConnection, expectedVersion: Int): RealityHousehold13CompensationRows {
         val historical = RealityHousehold12PurchaseRowsPort.readCurrentHouseholdRows(db, expectedVersion)
         RealityHousehold13CompensationSchema.requireDefinitions(db)

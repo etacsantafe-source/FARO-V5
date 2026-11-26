@@ -104,7 +104,8 @@ object RealityHousehold12PurchaseRowsPort {
         expectedVersion: Int,
     ): RealityHousehold12PurchaseReceiptRows {
         require(expectedVersion == 12 || expectedVersion == RealityHousehold13CompensationSchema.VERSION ||
-            expectedVersion == RealityHousehold14ReservationSchema.VERSION)
+            expectedVersion == RealityHousehold14ReservationSchema.VERSION ||
+            expectedVersion == RealityHousehold15ConsumptionSchema.VERSION)
         checkStageSchema(db, expectedVersion)
         Household11ReceiptRowsSql.checkIntegrity(db)
         return readRows(db, enforceGross = expectedVersion == 12)
