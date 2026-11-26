@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C4_SQL13_REVIEW_VERIFIER_DEV",
   "reviewed_head": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
   "paths": [
@@ -65,24 +65,24 @@
   "pre_audit_guard_run_id": 45739783591,
   "pre_audit_head": "eba5a7e78bebabbc50d73d4ad20ecc93dd30323f",
   "last_code_review": {
-    "sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+    "sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
     "result": "PASS",
-    "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
+    "unit_id": "S4_W05_A1C4_SQL13_REVIEW_VERIFIER_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
-        "blob_sha": "999abd9923070c4366177e7522b5f52ac6acc1fc",
+        "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B7_PASS_20261125.md",
+        "blob_sha": "ca215c8d676e9f7de74abb077b083a82c886ef57",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45731828704,
+  "last_ci_run_id": 45740195438,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "Independent SQL13 cutover plan verifier RED correction; documentary guard SUCCESS",
-  "next": "B6 exact3, directed JVM XML and guard, then audit B7",
-  "last_guard_run_id": 45739783591,
-  "current_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
-  "reason": "Independent SQL13 cutover plan verifier RED correction; documentary guard SUCCESS"
+  "next": "Guard B1-B5 for closed SQL12 maintenance before READY; resume global A1C4 only after its B7",
+  "last_guard_run_id": 45740195384,
+  "current_code_sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
+  "reason": "SQL13 verifier correction B7 PASS acotado"
 }
