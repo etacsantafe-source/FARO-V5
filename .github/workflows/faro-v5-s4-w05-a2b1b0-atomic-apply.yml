@@ -1,0 +1,76 @@
+name: FARO V5 W05-A2B1B0 SQL14 reservation atomic apply DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPortTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml
+
+permissions:
+  contents: read
+
+jobs:
+  atomic-reservation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact four paths and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          test "$(git show HEAD^:"$permit" | jq '.paths|length')" -eq 4
+          diff -u <(git show HEAD^:"$permit" | jq -r '.paths[]' | sort) <(git diff --name-only HEAD^ HEAD | sort)
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
+            --path v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPortTest.kt \
+            --path .github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install SDK platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run five real SQL14 transaction tests
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityHousehold14ReservationApplyPortTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          matches=list(Path('v5/store/reality/build/test-results/test').glob(
+              'TEST-*RealityHousehold14ReservationApplyPortTest.xml'))
+          assert len(matches)==1, matches
+          root=ElementTree.parse(matches[0]).getroot()
+          result=tuple(int(root.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert result==(5,0,0,0), result
+          assert len({case.attrib['name'] for case in root.findall('testcase')})==5
+          PY
+      - name: Preserve original XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2b1b0-reservation-atomic-apply-xml
+          if-no-files-found: error
+          path: v5/store/reality/build/test-results/test/TEST-*RealityHousehold14ReservationApplyPortTest.xml

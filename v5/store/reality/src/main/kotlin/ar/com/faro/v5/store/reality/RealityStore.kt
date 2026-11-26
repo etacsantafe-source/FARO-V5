@@ -141,6 +141,8 @@ class RealityStore(
     private val householdStockCompensationWritableDev: Boolean = false,
     private val householdStage14ReadOnly: Boolean = false,
     private val householdActive14DevReadOnly: (() -> Boolean)? = null,
+    /** Isolated DEV only; no shipping writer. */
+    private val householdStockReservationWritableDev: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -160,6 +162,10 @@ class RealityStore(
                 !householdStockCompensationWritableDev && planningStage8 && !financeStage9 &&
                 !financeActive9 && materialWriteGate != null
         )) { "Reality14 ACTIVE DEV read requires its own admission" }
+        check(!householdStockReservationWritableDev || (householdActive14DevReadOnly != null &&
+            materialWriteGate != null && !householdStockCompensationWritableDev && !household12WritableDev)) {
+            "SQL14 reservation writer requires isolated ACTIVE14 admission"
+        }
         check(!householdStage14ReadOnly || (
             !householdStage10ReadOnly && !householdStage12ReadOnly && !householdStage13ReadOnly &&
                 householdActive10Dev == null && householdActive12DevReadOnly == null &&
@@ -200,7 +206,9 @@ class RealityStore(
         } else if (householdActive14DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
                 check(householdActive14DevReadOnly.invoke()) { "Reality14 ACTIVE DEV generation changed" }
-                openHouseholdActiveRead(Path.of(fileName))
+                if (householdStockReservationWritableDev)
+                    BundledSQLiteDriver().open(fileName, SQLITE_OPEN_READWRITE or SQLITE_OPEN_NOFOLLOW)
+                else openHouseholdActiveRead(Path.of(fileName))
             }
         } else if (householdActive13DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
@@ -887,6 +895,35 @@ class RealityStore(
                 requireActiveScope(scope)
                 check(activeApplyScope === scope && fence())
                 rows.compensate(request)
+            }
+        }
+    }
+
+    /** Transaction-scoped SQL14 reservation writer; no separate commit. */
+    fun household14ReservationForTrustedDev(
+        principal: String, generation: HouseholdReviewGeneration,
+    ): RealityHousehold14ReservationApplyPort {
+        check(householdStockReservationWritableDev)
+        val fence = checkNotNull(householdActive14DevReadOnly)
+        val writer = RealityHousehold14ReservationSqlWriter(connection, principal, generation)
+        return object : RealityHousehold14ReservationApplyPort {
+            override fun position(stockItemRef: String, unit: String): RealityHousehold14ReservationPosition? =
+                withMaterialAdmission { synchronized(lock) {
+                    checkOpen()
+                    check(fence())
+                    val result = writer.position(stockItemRef, unit)
+                    check(fence())
+                    result
+                } }
+
+            override fun apply(
+                review: ar.com.faro.v5.owner.household.api.HouseholdStockReservationReview,
+                recordedAtMs: Long, scope: RealityTransactionScope,
+            ): Boolean = synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                check(activeApplyScope === scope && fence())
+                writer.apply(review, recordedAtMs)
             }
         }
     }
@@ -1770,6 +1807,11 @@ class RealityStore(
                 "Reality13 DEV compensation write admission denied"
             }
         }
+        if (householdActive14DevReadOnly != null) {
+            check(householdStockReservationWritableDev && householdActive14DevReadOnly.invoke()) {
+                "Reality14 DEV reservation write admission denied"
+            }
+        }
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         activeTransactionId = transactionId
         val scope = SqliteRealityTransactionScope(
@@ -1783,7 +1825,8 @@ class RealityStore(
                 is AtomicApplyTransactionDecision.Commit -> {
                     check(householdActive10Dev?.invoke() != false &&
                         householdActive12DevReadOnly?.invoke() != false &&
-                        householdActive13DevReadOnly?.invoke() != false) {
+                        householdActive13DevReadOnly?.invoke() != false &&
+                        householdActive14DevReadOnly?.invoke() != false) {
                         "Household generation changed before commit"
                     }
                     connection.execSQL("COMMIT TRANSACTION")
