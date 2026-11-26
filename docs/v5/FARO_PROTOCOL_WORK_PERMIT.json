@@ -71,24 +71,24 @@
   "pre_audit_guard_run_id": 45816896269,
   "pre_audit_head": "020639f9da101c43d7ae45f6007e98d59f60faad",
   "last_code_review": {
-    "sha": "8ae675ff9d94e0172bd5f618212cacbc5359f666",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2B0B2_SQL14_SEALED_RESERVATION_ROWS_DEV",
+    "sha": "b638f077be08221e9d67f4a5580ae799f298d3bb",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2B0B3_FBS2V11_FIVESTORE_SQL14_REPLAY_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B0B2_B7_PASS_SQL14_RESERVATION_ROWS_20261126.md",
-        "blob_sha": "a59b2c4f7cb7d086b8860854f2db62de774029e2",
+        "path": "docs/v5/FARO_S4_W05_A2B0B3_B7_RED_FIX_POINTER_TEST_20261126.md",
+        "blob_sha": "6c1e8d4255acc2c0471cd2c87c71a415aca6d9da",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45816179042,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45818068599,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Replay autenticado SQL14 STAGED de cinco stores con pin del ciphertext original.",
-  "next": "B6 y B7 exact9 de A2B0B3, luego A2B0C1.",
-  "last_guard_run_id": 45816896269,
-  "current_code_sha": "8ae675ff9d94e0172bd5f618212cacbc5359f666",
+  "why": "RED_FIX mismo A2B0B3: corregir prueba ABA y preflight del workflow dirigido.",
+  "next": "Tras guardia RED_FIX, ejecutar la corrección A2B0B3 y volver a verificar CI y XML.",
+  "last_guard_run_id": 45818068048,
+  "current_code_sha": "b638f077be08221e9d67f4a5580ae799f298d3bb",
   "reason": "Guardia documental del delta A2B0B3 SUCCESS tras B7 A2B0B2"
 }
