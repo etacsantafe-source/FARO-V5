@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
-  "reviewed_head": "f0978e0620bb94798809c5f9bed91a8d63b6d911",
+  "reviewed_head": "f276a72b61446d9c5b99c83a72fe9f5d12a11f83",
   "paths": [
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanel.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
@@ -67,24 +67,24 @@
   "pre_audit_guard_run_id": 45727581439,
   "pre_audit_head": "f0978e0620bb94798809c5f9bed91a8d63b6d911",
   "last_code_review": {
-    "sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
-    "result": "PASS",
-    "unit_id": "S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY",
+    "sha": "f276a72b61446d9c5b99c83a72fe9f5d12a11f83",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C2G1B_B7_PASS_TRUSTED_STOCK_UNDO_DEV_20261125.md",
-        "blob_sha": "ea0f09032cf26d09e19bbe034b10e010f5c99ade",
+        "path": "docs/v5/FARO_S4_W05_A1C3_B7_RED_FIX_ANDROID_TEST_ADMISSION_20261125.md",
+        "blob_sha": "ad2c364ec0d847917cac163daf857367e11f2698",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45667290966,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45729326100,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A1C3 Android isolated DEV B1-B5 verified against G1B B7; exact5 paths; SQL12 purchase/receipt vs SQL13 Undo fail-closed, no cross-generation writes.",
   "next": "Work B6 and B7 exclusively, Android API35 emulator + JVM with original JUnit XML. A1C4 global after. G15 physical NOT_RUN.",
-  "last_guard_run_id": 45727581439,
-  "current_code_sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
+  "last_guard_run_id": 45729326108,
+  "current_code_sha": "f276a72b61446d9c5b99c83a72fe9f5d12a11f83",
   "reason": "A1C3 own READY, B1-B5 evidence blob exact and documentary guard SUCCESS; B6/B7 NOT_RUN."
 }
