@@ -46,3 +46,28 @@ Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY i
 CROSS-OPERATION INVARIANT: if physicalNet=3 and reserved=2, N-016 Undo of a receipt reducing physicalNet to1 must be DENIED atomically and must not issue a successful Undo receipt. If SQL14 has no bound receipt/Undo route yet, leave it disabled until certified rather than violating reserved<=physicalNet.
 
 Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
+
+## Delta contra A2B1A
+
+El payload Review validado contiene acción, principal, selección completa,
+epoch, item/unidad, cantidad, intent, revisión y la referencia original
+para RELEASE. Reality recibe esa representación tipada y usa el port de
+posición del dominio para revalidar bajo el scope SQL vivo. Usar como
+revisión observada max(estado de receipts, último evento14) y negar el
+overflow Long. Recapturar físico menos compensaciones y reserva por item,
+unidad y principal dentro del BEGIN IMMEDIATE. Rechazar intent/evento
+repetido y no escribir ni emitir recibo cuando falte saldo o cambie la
+admisión. Revalidar el fence también en el COMMIT de RealityStore.
+
+Los modos existentes de recepción SQL12 y compensación SQL13 siguen cerrados
+a SQL14. La capa de admisión SQL14 habilita exclusivamente su port de
+reserve/release. Probar que la apertura SQL14 no puede vincular Undo de
+recepción y que no quedan eventos ni recibos parciales ante rechazo. El
+host B1B1 seguirá sin ofrecer N-016 hasta que se certifique el control
+transaccional cruzado. Preservar las comprobaciones en el port SQL13.
+
+En pruebas reutilizar el commit PREPARED→COMMITTED de Reality y consultar
+el recibo existente después de reinicio. No agregar una tabla de recibos
+ni un segundo COMMIT. Fuentes verificadas: https://sqlite.org/lang_transaction.html
+y https://sqlite.org/wal.html. Se adapta el scope único de FARO, sin un
+chequeo de stock fuera de la transacción como condición suficiente.
