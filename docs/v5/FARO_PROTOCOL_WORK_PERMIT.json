@@ -1,20 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY",
-  "reviewed_head": "8e95efc6480181088d05b5646dc3d853e81da280",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
+  "reviewed_head": "f0978e0620bb94798809c5f9bed91a8d63b6d911",
   "paths": [
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockUndoDevApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockUndoDevApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c2g1b-stock-undo-apply.yml"
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanel.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanelTest.kt",
+    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c3-stock-android-dev.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
-          "blob_sha": "dcba9addef65a05d920a1e6af3e4d893d4ff30a3",
+          "path": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
+          "blob_sha": "9024ed9d14dd9c3a3c72e295934df0138092f4e1",
           "marker": "## B1"
         }
       ]
@@ -23,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
-          "blob_sha": "dcba9addef65a05d920a1e6af3e4d893d4ff30a3",
+          "path": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
+          "blob_sha": "9024ed9d14dd9c3a3c72e295934df0138092f4e1",
           "marker": "## B2"
         }
       ]
@@ -33,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
-          "blob_sha": "dcba9addef65a05d920a1e6af3e4d893d4ff30a3",
+          "path": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
+          "blob_sha": "9024ed9d14dd9c3a3c72e295934df0138092f4e1",
           "marker": "## B3"
         }
       ]
@@ -43,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
-          "blob_sha": "dcba9addef65a05d920a1e6af3e4d893d4ff30a3",
+          "path": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
+          "blob_sha": "9024ed9d14dd9c3a3c72e295934df0138092f4e1",
           "marker": "## B4"
         }
       ]
@@ -53,17 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C2G1B_TRUSTED_STOCK_UNDO_APPLY_B1_B5_20261125.md",
-          "blob_sha": "dcba9addef65a05d920a1e6af3e4d893d4ff30a3",
+          "path": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
+          "blob_sha": "9024ed9d14dd9c3a3c72e295934df0138092f4e1",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "COMPLETE_SCOPED",
-    "B7": "PASS_SCOPED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45643859498,
-  "pre_audit_head": "8e95efc6480181088d05b5646dc3d853e81da280",
+  "pre_audit_guard_run_id": 45727581439,
+  "pre_audit_head": "f0978e0620bb94798809c5f9bed91a8d63b6d911",
   "last_code_review": {
     "sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
     "result": "PASS",
@@ -80,9 +82,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "G1B host source COMMITTED Workspace+Reality+G0 SQL13 compensation; exact3 routes, preaudit guard SUCCESS; no stock production/Android.",
-  "next": "W05-A1C3 Android isolated DEV B1-B5 guard READY then B6/B7. W05-A1C4 acceptance after. No production.",
-  "last_guard_run_id": 45643859498,
+  "why": "A1C3 Android isolated DEV B1-B5 verified against G1B B7; exact5 paths; SQL12 purchase/receipt vs SQL13 Undo fail-closed, no cross-generation writes.",
+  "next": "Work B6 and B7 exclusively, Android API35 emulator + JVM with original JUnit XML. A1C4 global after. G15 physical NOT_RUN.",
+  "last_guard_run_id": 45727581439,
   "current_code_sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
-  "reason": "W05-A1C2G1B B7 PASS scoped 17/17 original JUnit XML; permit consumed; A1C3 needs own READY."
+  "reason": "A1C3 own READY, B1-B5 evidence blob exact and documentary guard SUCCESS; B6/B7 NOT_RUN."
 }
