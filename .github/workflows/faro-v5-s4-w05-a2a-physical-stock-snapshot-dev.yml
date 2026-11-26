@@ -1,0 +1,86 @@
+name: FARO V5 W05-A2A SQL13 physical stock snapshot DEV
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13DevStockSnapshot.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13DevStockSnapshotTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2a-physical-stock-snapshot-dev.yml
+
+permissions:
+  contents: read
+
+jobs:
+  a2a-physical-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact three paths and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#allowed[@]}" -eq 3
+          test "${#changed[@]}" -gt 0
+          for path in "${changed[@]}"; do
+            grep -Fxq "$path" <(printf '%s\n' "${allowed[@]}")
+          done
+          args=()
+          for path in "${allowed[@]}"; do args+=(--path "$path"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for JVM Gradle dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run directed SQL13 physical snapshot tests
+        working-directory: v5
+        run: >-
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache
+          :store:generation:test
+          --tests ar.com.faro.v5.generation.FaroV5Household13DevStockSnapshotTest
+      - name: Verify original JUnit XML, five cases, no failure or skip
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          root = Path('v5/store/generation/build/test-results/test')
+          files = list(root.glob('TEST-*.xml'))
+          assert len(files) == 1, files
+          xml = ElementTree.parse(files[0]).getroot()
+          counts = tuple(int(xml.attrib[k]) for k in ('tests', 'failures', 'errors', 'skipped'))
+          assert counts == (5, 0, 0, 0), counts
+          cases = list(xml.iter('testcase'))
+          assert len(cases) == 5
+          names = {c.attrib['name'].removesuffix('()') for c in cases}
+          assert names == {
+              'realSql13ReceiptAndCompensationYieldPhysicalThreeWithAvailabilityUnknown',
+              'multiplePurchasesSameSkuAggregateButUnitsRemainSeparate',
+              'invalidLinkDuplicateReceiptAndOverReceiveFailClosed',
+              'revokedGrantFullPointerAbaAndExclusiveLeaseFailClosed',
+              'emptyAndFullyCompensatedReceiptsNeverInventAvailability',
+          }, names
+          assert all(c.find(k) is None for c in cases for k in ('failure','error','skipped'))
+          print('FARO_W05_A2A_ORIGINAL_XML_PASS 5/5')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w05-a2a-physical-sql13-original-xml
+          path: v5/store/generation/build/test-results/test/TEST-*.xml
+          if-no-files-found: error
