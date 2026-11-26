@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C0A_B1_B5_DOCUMENTED_GUARD_PENDING",
+  "phase": "S4_W05_A2C0A_B6_READY_EXACT4",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2103
+    "epoch": 2104
   },
   "automation": {
     "activation_authorized": false,
@@ -47,9 +47,9 @@
   "handoff": "docs/v5/FARO_S4_W05_A2C0A_SQL15_CONSUMPTION_STAGED_SCHEMA_B1_B5_20261126.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A2C0A: verify seven-block guard on documentation SHA, then independent READY exact4 if successful. B6/B7 NOT_RUN. A2B 9/9 closed.",
-  "checkpoint_status": "W05_A2B_9_OF_9_B7_PASS; A2C0A_PREAUDIT_DOCUMENTED_GUARD_PENDING",
-  "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF. | W05-A2A B7 PASS scoped SQL13 DEV physical net, 5/5 original XML, NOT availability; W05-A2 OPEN, A2B next. | 2026-11-26 W05-A2B0A B1-B5 preaudit blob 84335097177287d5239af73e4b2a1b20b2567679 on 7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b, guard 45748787541 SUCCESS, READY exact4; B6/B7 NOT_RUN, SQL13 ACTIVE untouched. | 2026-11-26: A2B nine units preaudit B1-B5 published on 7ad7f22eba85, guard 45811688638 SUCCESS; first A2B0B1 permit READY exact4. No functional A2B B6/B7 yet. A2B0A 7/7 prior. | 2026-11-26: A2C0A SQL15 STAGED B1-B5 preaudit documentary only. Guard/READY/B6/B7 PENDING; no functional change.",
+  "next": "A2C0A B6 begins with four exact preflight paths; CI/XML and B7 still NOT_RUN. A2B 9/9 already closed.",
+  "checkpoint_status": "A2B_B7_9_OF_9_CLOSED; A2C0A_B1_B5_GUARD_SUCCESS_READY_EXACT4_B6_NOT_RUN",
+  "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF. | W05-A2A B7 PASS scoped SQL13 DEV physical net, 5/5 original XML, NOT availability; W05-A2 OPEN, A2B next. | 2026-11-26 W05-A2B0A B1-B5 preaudit blob 84335097177287d5239af73e4b2a1b20b2567679 on 7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b, guard 45748787541 SUCCESS, READY exact4; B6/B7 NOT_RUN, SQL13 ACTIVE untouched. | 2026-11-26: A2B nine units preaudit B1-B5 published on 7ad7f22eba85, guard 45811688638 SUCCESS; first A2B0B1 permit READY exact4. No functional A2B B6/B7 yet. A2B0A 7/7 prior. | 2026-11-26: A2C0A SQL15 STAGED B1-B5 preaudit documentary only. Guard/READY/B6/B7 PENDING; no functional change. | 2026-11-26 A2C0A B1-B5 guard 45872148641 SUCCESS and separate READY exact4; B6/B7 NOT_RUN. A2B remains 9/9 closed.",
   "last_handoff": "docs/v5/FARO_S4_W05_A2C0A_SQL15_CONSUMPTION_STAGED_SCHEMA_B1_B5_20261126.md",
   "last_code_sha": "a805f847089fb3cb647f8b578dd73f6fc6656eea",
   "last_ci_run_id": 45865955416,
