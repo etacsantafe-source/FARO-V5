@@ -1,21 +1,19 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B1B1_STOCK_RESERVATION_REVIEW_APPLY_HOST",
-  "reviewed_head": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
+  "status": "READY",
+  "unit_id": "S4_W05_A2B1C_GLOBAL_RESERVATION_DEV_ACCEPTANCE",
+  "reviewed_head": "84dea2f4ea687cd0bbf4cbfecdf3ff49b04eca34",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2b1b1-dev-apply-host.yml"
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationGlobalDevAcceptanceTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b1c-global-dev-acceptance.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
+          "path": "docs/v5/FARO_S4_W05_A2B1C_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "f5cdc7884b92fbdc9a386c9b72f36633edbf40fd",
           "marker": "## B1"
         }
       ]
@@ -24,8 +22,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
+          "path": "docs/v5/FARO_S4_W05_A2B1C_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "f5cdc7884b92fbdc9a386c9b72f36633edbf40fd",
           "marker": "## B2"
         }
       ]
@@ -34,8 +32,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
+          "path": "docs/v5/FARO_S4_W05_A2B1C_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "f5cdc7884b92fbdc9a386c9b72f36633edbf40fd",
           "marker": "## B3"
         }
       ]
@@ -44,8 +42,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
+          "path": "docs/v5/FARO_S4_W05_A2B1C_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "f5cdc7884b92fbdc9a386c9b72f36633edbf40fd",
           "marker": "## B4"
         }
       ]
@@ -54,35 +52,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b3ce54a052186077352496475efd6d743ac10474",
+          "path": "docs/v5/FARO_S4_W05_A2B1C_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "f5cdc7884b92fbdc9a386c9b72f36633edbf40fd",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_PASS_REVIEW_APPLY_20261126.md",
-          "blob_sha": "845ef58e21ea70240b89080591f164332912a272",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_PASS_REVIEW_APPLY_20261126.md",
-          "blob_sha": "845ef58e21ea70240b89080591f164332912a272",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45838550286,
-  "pre_audit_head": "c91e4c87f1e15bcc5fc816911db07a4e7a1d3c03",
+  "pre_audit_guard_run_id": 45865325143,
+  "pre_audit_head": "84dea2f4ea687cd0bbf4cbfecdf3ff49b04eca34",
   "last_code_review": {
     "sha": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
     "result": "PASS",
@@ -99,9 +79,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B1B1 B7 original XML 5/5, permit consumed; A2B1C currently NO_READY",
-  "next": "A2B1C delta B1-B5 then guarded READY exact2, B6 CI XML and B7; no production activation",
-  "last_guard_run_id": 45864041608,
-  "current_code_sha": "6885c5427e5be674870369496b0a7ed013f9a33f",
+  "why": "A2B1B1 B7 PASS; A2B1C only JVM global acceptance and CI workflow, no shipping activation",
+  "next": "A2B1C B6 and B7 exact2, independent global acceptance FBS2v11, no productive stock",
+  "last_guard_run_id": 45865325143,
+  "current_code_sha": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
   "reason": "B1B1 independent guarded exact4 permission after A2B1B0 B7 PASS"
 }
