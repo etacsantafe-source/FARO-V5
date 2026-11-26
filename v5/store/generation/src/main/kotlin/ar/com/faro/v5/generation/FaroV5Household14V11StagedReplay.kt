@@ -37,6 +37,21 @@ internal class FaroV5Household14V11StagedReplay(
         root, heldLease, assertExclusiveClosedDevHost, planVerifier = planVerifier,
     )
 
+    /**
+     * W05-A2C0B3: reuse the verified five-store v11 projection from the authentic v12 archive.
+     * The supplied archive object retains the ORIGINAL v12 ciphertext, never a resealed v11.
+     * This is staged SQL14 base reconstruction, not SQL15 ACTIVE/cutover authorization.
+     */
+    internal fun restoreVerifiedV12BaseToFourteen(
+        operation: MaintenanceOperationId,
+        stage: StagedStorageGeneration,
+        origin: ActiveGenerationPointer,
+        authenticated: AuthenticatedHousehold13RestoreArchive,
+        expected: FaroV5Household14Fbs2Snapshot,
+    ): FiveStoreStagedRestoreResult = restoreUnderLease(operation) {
+        restoreVerified(operation, stage, origin, authenticated, expected)
+    }
+
     fun restoreAuthenticatedV11(
         operation: MaintenanceOperationId,
         stage: StagedStorageGeneration,

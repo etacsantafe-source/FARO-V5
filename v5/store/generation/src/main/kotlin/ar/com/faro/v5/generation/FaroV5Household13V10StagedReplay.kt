@@ -48,6 +48,29 @@ internal class AuthenticatedHousehold13RestoreArchive private constructor(
     override fun copyEncryptedBytes(): ByteArray = ciphertext.copyOf()
 
     companion object {
+        /**
+         * W05-A2C0B3: authenticated FBS2v12 contains its complete v11+v10 projection.
+         * Preserve the ORIGINAL ciphertext bytes for the durable five-store replay pin.
+         * No reseal, SQL15 cutover or Apply is authorized by this factory.
+         */
+        fun openV12Projection(
+            archive: ByteArray,
+            passphrase: CharArray,
+        ): FiveStoreAuthenticatedPayload<Pair<AuthenticatedHousehold13RestoreArchive, FaroV5Household15Fbs2Snapshot>> {
+            val crypto = FaroV5FiveStorePortableBackupCrypto()
+            require(crypto.admitsArchiveSize(archive.size)) { "FBS2v12 archive size invalid" }
+            val ciphertext = archive.copyOf()
+            return when (val result = crypto.openWithHouseholdConsumption15(ciphertext, passphrase)) {
+                is FiveStoreAuthenticatedPayload.Opened -> FiveStoreAuthenticatedPayload.Opened(
+                    AuthenticatedHousehold13RestoreArchive(ciphertext, result.payload.base.base) to result.payload,
+                )
+                is FiveStoreAuthenticatedPayload.Rejected -> {
+                    ciphertext.fill(0)
+                    result
+                }
+            }
+        }
+
         fun openV11Projection(
             archive: ByteArray,
             passphrase: CharArray,
