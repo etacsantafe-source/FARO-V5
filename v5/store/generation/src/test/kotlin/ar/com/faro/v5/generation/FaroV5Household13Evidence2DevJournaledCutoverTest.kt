@@ -3,14 +3,20 @@ package ar.com.faro.v5.generation
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
 import ar.com.faro.v5.evidence.*
-import ar.com.faro.v5.kernel.contracts.IdempotencyKey
-import ar.com.faro.v5.kernel.contracts.PayloadFingerprint
-import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
+import ar.com.faro.v5.kernel.contracts.*
+import ar.com.faro.v5.kernel.runtime.BuiltInContractCatalog
+import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
+import ar.com.faro.v5.kernel.runtime.PreparedPlan
+import ar.com.faro.v5.kernel.runtime.PreparedPlanEnvelopeCodec
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.reality.RealityHousehold10StagedFilePort
 import ar.com.faro.v5.store.reality.RealityHousehold11StagedFilePort
+import ar.com.faro.v5.workspace.ConversationWorkspaceStore
+import ar.com.faro.v5.workspace.WorkspaceBackupPlanReview
 import java.nio.file.Files
 import java.nio.file.Path
+import java.security.MessageDigest
+import java.util.Base64
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
@@ -136,7 +142,7 @@ class FaroV5Household13Evidence2DevJournaledCutoverTest {
             }
         }
 
-    private fun fixture(evidence2: Boolean = true): Fixture {
+    private fun fixture(evidence2: Boolean = true, committedReview: Boolean = false): Fixture {
         val initial = checkNotNull(pointer.compareAndSet(null, StorageGenerationId("w05-cutover-initial")))
         val old = stage("w05-cutover-origin", initial)
         val oldReality = old.directory.resolve(GenerationStoreFiles.REALITY)
@@ -192,18 +198,78 @@ class FaroV5Household13Evidence2DevJournaledCutoverTest {
         val receipt13 = receipt.copy(revision = 4L, receipts = receipt.receipts +
             Household11ReceiptBackupRow("receipt-4", "intent-4", "purchase",
                 "yerba", 7000, "UNIT", 0L, 3003L, 4L))
+        val base13 = if (committedReview) {
+            seedCommittedReview(src)
+            val archive = FaroV5Household10ArchiveCoordinator(
+                root, gate, {}, planVerifier = CanonicalPreparedPlanEnvelopeVerifier,
+            ).captureAuthenticatedEvidence2(
+                MaintenanceOperationId("w05-sql13-review-capture"), backup, src, selected12,
+                "5.0-dev", 3000L, key,
+            )
+            val opened = crypto.openWithHouseholdEvidence2(archive, key)
+            check(opened is FiveStoreAuthenticatedPayload.Opened)
+            opened.payload
+        } else snapshotV7
         val payload13 = FaroV5Household13Fbs2Snapshot(
-            payload12.base.copy(receipts = receipt13), payload12.purchases,
+            FaroV5Household11Fbs2Snapshot(base13, receipt13), payload12.purchases,
             listOf(Household13CompensationBackupRow(
                 "undo-1", "undo-intent-1", "receipt-1", "purchase",
                 7000, "UNIT", "local-human", 3002L, 3L,
             )),
         )
         val bytes13 = crypto.sealWithHouseholdCompensation13(payload13, key)
-        val replay = FaroV5Household13V10StagedReplay(root, gate, {})
+        val replay = FaroV5Household13V10StagedReplay(
+            root, gate, {}, planVerifier = CanonicalPreparedPlanEnvelopeVerifier,
+        )
         assertEquals(FiveStoreStagedRestoreResult.StagedVerified(target13.descriptor.generationId.value),
             replay.restoreAuthenticatedV10(op, target13, selected12, bytes13, key))
         return Fixture(selected12, src, target13, payload13, evidence2, bytes13)
+    }
+
+    private fun seedCommittedReview(stage: StagedStorageGeneration) {
+        val chat = ConversationId("w05-cutover-history")
+        val transaction = "w05-cutover-transaction"
+        val receipt = "w05-cutover-execution-receipt"
+        val contract = checkNotNull(BuiltInContractCatalog.create().current(OperationId("stock.receive")))
+        val plan = PreparedPlan.of(ApplyPlanNode(
+            nodeId = PlanNodeId("receive"),
+            preparedOperation = PreparedOperation(
+                contract = contract,
+                payload = CanonicalPayload.fromEncoded("fixture-v1", byteArrayOf(1)),
+                dependencyStamps = DependencyStampSet.empty(),
+                idempotencyKey = IdempotencyKey("w05-cutover-plan"),
+            ),
+            dependsOn = emptySet(),
+        ))
+        val envelope = PreparedPlanEnvelopeCodec.encode(plan)
+        val hash = MessageDigest.getInstance("SHA-256").digest(envelope).joinToString("") { "%02x".format(it) }
+        ConversationWorkspaceStore.openExistingWithPlanVerifier(
+            stage.directory.resolve(GenerationStoreFiles.WORKSPACE).toString(), CanonicalPreparedPlanEnvelopeVerifier,
+        ).use { workspace ->
+            workspace.backup.restoreOrVerify(workspace.backup.snapshot().copy(
+                revision = 1L,
+                activeConversationId = chat,
+                conversations = listOf(ConversationWorkspaceEntry(chat, "Historial", 1L)),
+                planReviews = listOf(WorkspaceBackupPlanReview(
+                    "w05-cutover-review", chat, plan.planFingerprint, "Recepción confirmada", 1L,
+                    ConversationPlanReviewState.COMMITTED, Base64.getEncoder().encodeToString(envelope),
+                    hash, transaction, receipt,
+                )),
+            ))
+        }
+        BundledSQLiteDriver().open(stage.directory.resolve(GenerationStoreFiles.REALITY).toString()).use { db ->
+            db.prepare("INSERT INTO apply_attempt(transaction_id, plan_fingerprint, state) VALUES (?, ?, 'COMMITTED')").use {
+                it.bindText(1, transaction)
+                it.bindText(2, plan.planFingerprint.value)
+                it.step()
+            }
+            db.prepare("INSERT INTO execution_receipt(receipt_id, transaction_id, plan_fingerprint) VALUES (?, ?, ?)").use {
+                it.bindText(1, receipt)
+                it.bindText(2, transaction)
+                it.bindText(3, plan.planFingerprint.value)
+                it.step()
+            }
+        }
     }
 
     private val journal get() = FileBootstrapJournal(root)
@@ -217,8 +283,9 @@ class FaroV5Household13Evidence2DevJournaledCutoverTest {
         fault: (GenerationSwitchFaultPoint) -> Unit = {},
         healthy: () -> Boolean = { true },
         prepared: () -> Unit = {},
+        verifier: PreparedPlanEnvelopeVerificationPort? = null,
     ) = FaroV5Household13Evidence2DevJournaledCutover.acquire(
-        root, writeGate, { true }, fault, healthy, prepared,
+        root, writeGate, { true }, fault, healthy, verifier, prepared,
     )
 
     private fun authorize(host: FaroV5Household13Evidence2DevJournaledCutover, f: Fixture) =
@@ -252,6 +319,40 @@ class FaroV5Household13Evidence2DevJournaledCutoverTest {
                 rows.historical.receipts.receipts.map { row -> row.quantityThousandths })
             assertEquals(7_000, rows.compensations.single().quantityThousandths)
         }
+    }
+
+    @Test
+    fun keepsVerifiedCommittedReviewThroughAuthorizationRecoveryAndReopen() {
+        val f = fixture(committedReview = true)
+        cutover().use { host -> assertEquals(statusBlocked, authorize(host, f).status) }
+        cutover(verifier = PreparedPlanEnvelopeVerificationPort { _, _ -> false }).use { host ->
+            assertEquals(statusBlocked, authorize(host, f).status)
+        }
+        assertNull(journal.read(op))
+        assertEquals(f.origin, pointer.read())
+
+        val verifier = CanonicalPreparedPlanEnvelopeVerifier
+        cutover(prepared = { throw SimulatedInterruption() }, verifier = verifier).use { host ->
+            assertEquals(statusAwait, authorize(host, f).status)
+            assertThrows(SimulatedInterruption::class.java) { switch(host, f) }
+        }
+        assertEquals(BootstrapPhase.SWITCH_PREPARED, journal.read(op)?.phase)
+        assertEquals(f.origin, pointer.read())
+        cutover(verifier = verifier).use { restarted ->
+            assertEquals(statusActive, restarted.recover().status)
+            assertEquals(statusActive, restarted.recover().status)
+        }
+        val selected = checkNotNull(pointer.read())
+        assertEquals(ActiveGenerationPointer(f.origin.sequence + 1, f.target.descriptor.generationId), selected)
+        assertEquals(BootstrapPhase.COMPLETED, journal.read(op)?.phase)
+
+        FaroV5Household13Evidence2DevJournaledCutover.reopenCompleted(root, selected, writeGate, verifier) { true }.use {
+            assertEquals(10_000, checkNotNull(it.readHistory()).historical.purchases.single().quantityThousandths)
+        }
+        val expected = f.snapshot.base.base.base.base.workspace.planReviews.single()
+        ConversationWorkspaceStore.openExistingWithPlanVerifier(
+            f.target.directory.resolve(GenerationStoreFiles.WORKSPACE).toString(), verifier,
+        ).use { workspace -> assertEquals(expected, workspace.backup.snapshot().planReviews.single()) }
     }
 
     @Test

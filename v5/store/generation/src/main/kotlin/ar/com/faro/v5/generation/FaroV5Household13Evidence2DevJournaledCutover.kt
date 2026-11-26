@@ -1,5 +1,6 @@
 package ar.com.faro.v5.generation
 
+import ar.com.faro.v5.kernel.contracts.PreparedPlanEnvelopeVerificationPort
 import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.BootstrapJournalEntry
@@ -51,6 +52,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
     private val fault: (GenerationSwitchFaultPoint) -> Unit,
     private val runtimeHealthy: () -> Boolean,
     private val afterSwitchPrepared: () -> Unit,
+    private val planVerifier: PreparedPlanEnvelopeVerificationPort?,
 ) : AutoCloseable {
     enum class Status { AWAITING_FOREGROUND, ACTIVE_THIRTEEN, ROLLED_BACK, NO_TICKET, BLOCKED }
     data class Outcome(val status: Status, val pointer: ActiveGenerationPointer?)
@@ -153,7 +155,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
         origin: ActiveGenerationPointer,
         archive: ByteArray,
         passphrase: CharArray,
-    ) = FaroV5Household13V10StagedReplay(root, quiescence, ::requireLive)
+    ) = FaroV5Household13V10StagedReplay(root, quiescence, ::requireLive, planVerifier = planVerifier)
         .verifyForEvidence2Cutover(op, target, origin, archive, passphrase)
 
     private fun requireEntry(ticket: Ticket): BootstrapJournalEntry =
@@ -220,7 +222,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
                         check(pointer.read() == ticket.selected)
                         FaroV5GenerationStoreGraph.openActiveHousehold13ForHeldDevHost(
                             layout.requireStaged(ticket.target), gate,
-                            { currentLease() && pointer.read() == ticket.selected }, null,
+                            { currentLease() && pointer.read() == ticket.selected }, planVerifier,
                         ).use { graph ->
                             graph.reality.snapshotActiveHousehold13RowsForTrustedHost()
                             graph.verifyHealthy() && runtimeHealthy()
@@ -297,6 +299,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
             closedDevHost: () -> Boolean,
             fault: (GenerationSwitchFaultPoint) -> Unit = {},
             runtimeHealthy: () -> Boolean = { true },
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
             afterSwitchPrepared: () -> Unit = {},
         ): FaroV5Household13Evidence2DevJournaledCutover {
             check(Files.isDirectory(storageRoot, NOFOLLOW_LINKS) && closedDevHost())
@@ -308,6 +311,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
                 val lease = checkNotNull(channel.tryLock())
                 return FaroV5Household13Evidence2DevJournaledCutover(
                     root, gate, channel, lease, closedDevHost, fault, runtimeHealthy, afterSwitchPrepared,
+                    planVerifier,
                 )
             } catch (failure: Throwable) {
                 channel.close()
@@ -317,7 +321,9 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
 
         fun reopenCompleted(
             storageRoot: Path, selected: ActiveGenerationPointer,
-            gate: SingleProcessMaterialWriteGate, ownerAdmission: () -> Boolean,
+            gate: SingleProcessMaterialWriteGate,
+            planVerifier: PreparedPlanEnvelopeVerificationPort? = null,
+            ownerAdmission: () -> Boolean,
         ): FaroV5Household13ActiveDevReadHost {
             val root = storageRoot.toRealPath()
             val ticket = checkNotNull(readTicket(root))
@@ -327,7 +333,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
                     checkCompleted(root, ticket)
                     true
                 }.getOrDefault(false)
-            })
+            }, planVerifier)
         }
 
         internal fun hasCompletedSelection(root: Path, selected: ActiveGenerationPointer): Boolean =
