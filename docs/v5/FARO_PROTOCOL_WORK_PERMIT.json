@@ -1,21 +1,24 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C0B1_AUTH_FBS2V12_CONSUMPTION_CODEC_DEV",
-  "reviewed_head": "94889b3b4d630ed8ac8a00e4bcb5c67d29dc95b3",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C0B2_SQL15_SEALED_CONSUMPTION_ROWS_DEV",
+  "reviewed_head": "f46f957df1f2213e0da0792978a99ba347a164da",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15Fbs2Codec.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15Fbs2CodecTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c0b1-fbs2v12-codec.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationSchema.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionRowsPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionRowsPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c0b2-sql15-consumption-rows.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_FBS2V12_CONSUMPTION_CODEC_B1_B5_20261126.md",
-          "blob_sha": "68c0b32a69304eaffd8bad9740fe8529d965dc3b",
+          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
+          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
           "marker": "## B1"
         }
       ]
@@ -24,8 +27,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_FBS2V12_CONSUMPTION_CODEC_B1_B5_20261126.md",
-          "blob_sha": "68c0b32a69304eaffd8bad9740fe8529d965dc3b",
+          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
+          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
           "marker": "## B2"
         }
       ]
@@ -34,8 +37,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_FBS2V12_CONSUMPTION_CODEC_B1_B5_20261126.md",
-          "blob_sha": "68c0b32a69304eaffd8bad9740fe8529d965dc3b",
+          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
+          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
           "marker": "## B3"
         }
       ]
@@ -44,8 +47,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_FBS2V12_CONSUMPTION_CODEC_B1_B5_20261126.md",
-          "blob_sha": "68c0b32a69304eaffd8bad9740fe8529d965dc3b",
+          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
+          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
           "marker": "## B4"
         }
       ]
@@ -54,35 +57,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_FBS2V12_CONSUMPTION_CODEC_B1_B5_20261126.md",
-          "blob_sha": "68c0b32a69304eaffd8bad9740fe8529d965dc3b",
+          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
+          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_B7_PASS_FBS2V12_AUTH_CONSUMPTION_CODEC_20261126.md",
-          "blob_sha": "0f7ab558ea1cf0c38cde741ae3933c1f2125eb4c",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0B1_B7_PASS_FBS2V12_AUTH_CONSUMPTION_CODEC_20261126.md",
-          "blob_sha": "0f7ab558ea1cf0c38cde741ae3933c1f2125eb4c",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45874390038,
-  "pre_audit_head": "94889b3b4d630ed8ac8a00e4bcb5c67d29dc95b3",
+  "pre_audit_guard_run_id": 45878843457,
+  "pre_audit_head": "f46f957df1f2213e0da0792978a99ba347a164da",
   "last_code_review": {
     "sha": "692014e3639b05086f073dac3a5321c1ee7ae626",
     "result": "PASS",
@@ -99,9 +84,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C0B1 FBS2v12 canonical typed codec + existing FAROBAK2; targeted CI original XML 32/32 PASS and protocol guard SUCCESS; no stock.consume",
-  "next": "A2C0B2 separate B1-B5, guard, independent READY for SQL15 rows STAGED; A2C global OPEN",
+  "why": "A2C0B2 SQL15 staged rows B1-B5 audited; 7 paths only, no SQL15 active or stock.consume",
+  "next": "Preflight exact7 then B6/CI/XML/B7; keep historical versions strict and product stock OFF",
   "last_guard_run_id": 45875086414,
   "current_code_sha": "692014e3639b05086f073dac3a5321c1ee7ae626",
-  "reason": "A2C0B1 exact4 functional permit consumed after B7 scoped PASS, no further functional files authorized"
+  "reason": "Independent A2C0B2 B1-B5 after A2C0B1 B7 PASS; no inheritance"
 }
