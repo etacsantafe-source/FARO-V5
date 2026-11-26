@@ -140,6 +140,13 @@ internal class FaroV5Household15V12StagedReplay(
         }
     }
 
+    /**
+     * A2C0C0 read-only pre-cutover bridge to the SAME SQL15 typed projection
+     * used by authenticated staged replay. No replay, write or activation.
+     */
+    internal fun expectedSqlFifteenRows(snapshot: FaroV5Household15Fbs2Snapshot):
+        RealityHousehold15ConsumptionRows = snapshot.asSqlFifteenRows()
+
     /** Compare the *whole* SQL14 historical projection plus the SQL15 ledger, not a ledger-only suffix. */
     private fun FaroV5Household15Fbs2Snapshot.asSqlFifteenRows(): RealityHousehold15ConsumptionRows {
         val historic = base.base

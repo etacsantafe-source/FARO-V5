@@ -334,5 +334,94 @@ class FaroV5Household15V12StagedReplayTest {
         assertEquals(f.origin, pointer.read())
     }
 
+    // W05-A2C0C0: admission is READ_ONLY evidence, never an activation ticket.
+    private fun preCutover() = FaroV5Household15PreCutoverReadback(root, gate, {})
+
+    private fun verifySealed(f: Fixture, archive: ByteArray = f.ciphertext, phrase: CharArray = key) =
+        preCutover().verifyOnly(op, f.target, f.origin, archive, phrase)
+
+    @Test
+    fun precutoverReadbackAuthenticatesOriginalSql15StageAndNeverWritesAnyStore() {
+        val f = fixture()
+        assertEquals(completed(f), restore(f))
+        val before = GenerationStoreFiles.WORKSPACE_V2.associateWith {
+            Files.readAllBytes(f.target.directory.resolve(it))
+        }
+        val evidence = verifySealed(f)
+        assertEquals(f.source.descriptor.generationId, evidence.sourceGenerationId)
+        assertEquals(f.target.descriptor.generationId, evidence.stageGenerationId)
+        assertTrue(evidence.authenticatedArchiveSha256.matches(Regex("[0-9a-f]{64}")))
+        assertEquals(evidence, verifySealed(f))
+        before.forEach { (name, bytes) ->
+            assertArrayEquals(bytes, Files.readAllBytes(f.target.directory.resolve(name)))
+        }
+        assertEquals(f.origin, pointer.read())
+    }
+
+    @Test
+    fun precutoverRejectsWrongPassphraseWrongVersionTamperingAndResealedBytes() {
+        val f = fixture()
+        assertEquals(completed(f), restore(f))
+        val corrupt = f.ciphertext.copyOf().also { it[it.lastIndex] = (it.last().toInt() xor 1).toByte() }
+        val legacy = crypto.sealWithHouseholdReservations14(f.snapshot.base, key)
+        val resealed = crypto.sealWithHouseholdConsumption15(f.snapshot, key)
+        for ((bytes, secret) in listOf(
+            f.ciphertext to "different secret".toCharArray(),
+            corrupt to key,
+            legacy to key,
+            resealed to key,
+        )) {
+            assertTrue(runCatching { verifySealed(f, bytes, secret) }.isFailure)
+        }
+        assertEquals(f.origin, pointer.read())
+        assertEquals(2, RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality(f.target)) {}
+            .consumptions.size)
+    }
+
+    @Test
+    fun precutoverRefusesSemanticallyDivergentSql15RowsWithoutRepairingThem() {
+        val f = fixture()
+        assertEquals(completed(f), restore(f))
+        BundledSQLiteDriver().open(reality(f.target).toString()).use { db ->
+            db.execSQL("""
+                INSERT INTO household_stock_consumption_event VALUES
+                ('extra','extra-intent','CONSUME','extra','yerba','UNIT',200,
+                 'local-human','manual-use',NULL,3010,3010,8)
+            """.trimIndent())
+            db.prepare("PRAGMA wal_checkpoint(TRUNCATE)").use { check(it.step() && it.getLong(0) == 0L) }
+        }
+        val before = RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality(f.target)) {}
+        assertTrue(runCatching { verifySealed(f) }.isFailure)
+        assertEquals(before, RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality(f.target)) {})
+        assertEquals(f.origin, pointer.read())
+    }
+
+    @Test
+    fun precutoverDeniesSidecarsAndPointerAbaAndDoesNotSwitchIt() {
+        val f = fixture()
+        assertEquals(completed(f), restore(f))
+        val file = reality(f.target)
+        val sidecar = Files.createFile(file.resolveSibling(file.fileName.toString() + "-wal"))
+        assertTrue(runCatching { verifySealed(f) }.isFailure)
+        Files.delete(sidecar)
+        val moved = checkNotNull(pointer.compareAndSet(f.origin.generationId, StorageGenerationId("precutover-aba")))
+        val aba = checkNotNull(pointer.compareAndSet(moved.generationId, f.origin.generationId))
+        assertTrue(runCatching { verifySealed(f) }.isFailure)
+        assertEquals(aba, pointer.read())
+    }
+
+    @Test
+    fun precutoverRequiresExactSql15AndFiveHealthyStoreSchemas() {
+        val f = fixture()
+        assertTrue(runCatching { verifySealed(f) }.isFailure) // SQL9 target not yet replayed.
+        assertEquals(completed(f), restore(f))
+        BundledSQLiteDriver().open(reality(f.target).toString()).use { db ->
+            db.execSQL("ALTER TABLE objective_record RENAME TO objective_record_invalid")
+            db.prepare("PRAGMA wal_checkpoint(TRUNCATE)").use { check(it.step() && it.getLong(0) == 0L) }
+        }
+        assertTrue(runCatching { verifySealed(f) }.isFailure)
+        assertEquals(f.origin, pointer.read())
+    }
+
     private class Interruption : Error()
 }
