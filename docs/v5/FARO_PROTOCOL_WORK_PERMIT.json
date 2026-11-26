@@ -67,23 +67,23 @@
   "pre_audit_guard_run_id": 45880723019,
   "pre_audit_head": "3770a2af3b84a0a8982c84a478e30dbb603cf1c0",
   "last_code_review": {
-    "sha": "fb9e559702e3ba50b83a19951794888252d740a8",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2C0B2_SQL15_SEALED_CONSUMPTION_ROWS_DEV",
+    "sha": "0c19acc82071e0dcffddf18fcb01eb196c0cebe3",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2C0B3_AUTH_FBS2V12_FIVESTORE_SQL15_STAGED_REPLAY_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0B2_B7_PASS_SQL15_SEALED_CONSUMPTION_ROWS_20261126.md",
-        "blob_sha": "50431fc9125d885990b36d8858c75d581ba5a603",
+        "path": "docs/v5/FARO_S4_W05_A2C0B3_B7_RED_FIX_KOTLIN_MISSING_RETURN_20261126.md",
+        "blob_sha": "cb277f9f1511b2e8c8b8c50f413dd40c16b26ee4",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45879400210,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45881273340,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "FBS2v12 authenticated v11 projection for five-store SQL14 staged base then SQL15 rows, no cutover/stock.consume",
-  "next": "B6 exact5 / Gradle CI original XML, B7 only after real successes, no ACTIVE",
+  "why": "W05 A2C0B3 first B6 Kotlin compilation failed missing return; RED_FIX scoped, not B7 PASS",
+  "next": "Fix Kotlin return and directed workflow exact subset; re-run real CI and 4 JUnit XML; no A2C0C grant",
   "last_guard_run_id": 45879399953,
   "current_code_sha": "fb9e559702e3ba50b83a19951794888252d740a8",
   "reason": "A2C0B3 independent B1-B5 audited; exact5, replay SQL15 sealed stage only"
