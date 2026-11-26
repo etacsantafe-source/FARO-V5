@@ -142,6 +142,8 @@ class RealityStore(
     private val householdStage14ReadOnly: Boolean = false,
     /** Exact SQL15 sealed archive capture only; no writes or ACTIVE owner. */
     private val householdStage15ReadOnly: Boolean = false,
+    /** Separate WAL-aware one-shot SQL15 DEV host read. Never supplies Apply. */
+    private val householdActive15DevReadOnly: (() -> Boolean)? = null,
     private val householdActive14DevReadOnly: (() -> Boolean)? = null,
     /** Isolated DEV only; no shipping writer. */
     private val householdStockReservationWritableDev: Boolean = false,
@@ -161,11 +163,21 @@ class RealityStore(
             planningStage8 && !financeStage9 && !financeActive9 &&
             materialWriteGate == null && householdActive10Dev == null &&
             householdActive12DevReadOnly == null && householdActive13DevReadOnly == null &&
-            householdActive14DevReadOnly == null && !householdStage10ReadOnly &&
+            householdActive14DevReadOnly == null && householdActive15DevReadOnly == null && !householdStage10ReadOnly &&
             !householdStage12ReadOnly && !householdStage13ReadOnly && !householdStage14ReadOnly &&
             !householdNeedsWritableDev && !household12WritableDev &&
             !householdStockCompensationWritableDev && !householdStockReservationWritableDev
         )) { "Reality15 STAGED semantic snapshot requires sealed read-only admission" }
+        check(householdActive15DevReadOnly == null || (
+            planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate != null &&
+                !householdStage15ReadOnly && !householdStage14ReadOnly &&
+                !householdStage13ReadOnly && !householdStage12ReadOnly &&
+                !householdStage10ReadOnly && householdActive14DevReadOnly == null &&
+                householdActive13DevReadOnly == null && householdActive12DevReadOnly == null &&
+                householdActive10Dev == null && !householdNeedsWritableDev &&
+                !household12WritableDev && !householdStockCompensationWritableDev &&
+                !householdStockReservationWritableDev
+        )) { "SQL15 ACTIVE DEV is strictly read-only" }
         check(householdActive14DevReadOnly == null || (
             !householdStage10ReadOnly && !householdStage12ReadOnly && !householdStage13ReadOnly &&
                 !householdStage14ReadOnly && householdActive10Dev == null && householdActive12DevReadOnly == null &&
@@ -215,6 +227,11 @@ class RealityStore(
                 file.toUri().toString() + "?mode=ro&immutable=1",
                 SQLITE_OPEN_READONLY or SQLITE_OPEN_NOFOLLOW or SQLITE_OPEN_URI,
             )
+        } else if (householdActive15DevReadOnly != null) {
+            checkNotNull(materialWriteGate).withMaterialWrite {
+                check(householdActive15DevReadOnly.invoke()) { "SQL15 ACTIVE DEV selection changed" }
+                openHouseholdActiveRead(Path.of(fileName))
+            }
         } else if (householdActive14DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
                 check(householdActive14DevReadOnly.invoke()) { "Reality14 ACTIVE DEV generation changed" }
@@ -753,7 +770,8 @@ class RealityStore(
             withMaterialAdmission {
                 synchronized(lock) {
                     if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly ||
-                        householdStage15ReadOnly || householdActive14DevReadOnly != null ||
+                        householdStage15ReadOnly || householdActive15DevReadOnly != null ||
+                        householdActive14DevReadOnly != null ||
                         (householdActive13DevReadOnly != null && !householdStockCompensationWritableDev) ||
                         (householdActive12DevReadOnly != null && !household12WritableDev) ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
@@ -762,6 +780,12 @@ class RealityStore(
                         configure(fileName)
                     }
                     when {
+                        householdActive15DevReadOnly != null -> {
+                            check(householdActive15DevReadOnly.invoke())
+                            RealityHousehold15ConsumptionRowsPort.captureConnection(connection)
+                            validateExistingFinanceLayout(15)
+                            check(householdActive15DevReadOnly.invoke())
+                        }
                         householdActive14DevReadOnly != null -> {
                             check(householdActive14DevReadOnly.invoke())
                             RealityHousehold14ReservationRowsPort.captureConnection(connection)
@@ -943,6 +967,24 @@ class RealityStore(
             }
         }
     }
+
+    /** One-shot SQL15 ACTIVE WAL snapshot, without a stock writer or Apply capability. */
+    fun snapshotActiveHousehold15RowsForTrustedHost(): RealityHousehold15ConsumptionRows =
+        withMaterialAdmission { synchronized(lock) {
+            checkOpen()
+            val fence = checkNotNull(householdActive15DevReadOnly) {
+                "SQL15 ACTIVE DEV selection missing"
+            }
+            check(fence()) { "SQL15 ACTIVE DEV owner revoked" }
+            connection.execSQL("BEGIN DEFERRED TRANSACTION")
+            try {
+                val snapshot = RealityHousehold15ConsumptionRowsPort.captureConnection(connection)
+                check(fence()) { "SQL15 ACTIVE DEV selection changed during snapshot" }
+                snapshot
+            } finally {
+                connection.execSQL("ROLLBACK TRANSACTION")
+            }
+        } }
 
     /** A consistent WAL snapshot bound to the selected SQL14 DEV generation. */
     fun snapshotActiveHousehold14RowsForTrustedHost(): RealityHousehold14ReservationRows =
@@ -1828,6 +1870,7 @@ class RealityStore(
                 "Reality14 DEV reservation write admission denied"
             }
         }
+        check(householdActive15DevReadOnly == null) { "SQL15 ACTIVE DEV has no Apply authority" }
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         activeTransactionId = transactionId
         val scope = SqliteRealityTransactionScope(
@@ -2543,7 +2586,7 @@ class RealityStore(
                 ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12) ||
                 ((householdStage13ReadOnly || householdActive13DevReadOnly != null) && readSchemaVersion() == 13) ||
                 ((householdStage14ReadOnly || householdActive14DevReadOnly != null) && readSchemaVersion() == 14) ||
-                (householdStage15ReadOnly && readSchemaVersion() == 15)
+                ((householdStage15ReadOnly || householdActive15DevReadOnly != null) && readSchemaVersion() == 15)
         )
 
     private fun createPlanningStage8Tables() {

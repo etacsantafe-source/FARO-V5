@@ -35,6 +35,7 @@ import ar.com.faro.v5.store.reality.RealityHousehold10SealedRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionRowsPort
+import ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionRows
 import ar.com.faro.v5.store.reality.ActiveSqlitePreflight
 import ar.com.faro.v5.store.reality.RealityHousehold10Rows
 import java.nio.channels.FileChannel
@@ -1059,6 +1060,76 @@ class FaroV5GenerationStoreGraph private constructor(
             commercialEvidence2StagedDev = evidence2, householdStage15 = true,
         )
 
+
+        /**
+         * C1B isolated DEV fixtures: WAL-aware, one-shot five-store preflight.
+         * A2C0C2 must independently certify real journaled completed selection.
+         * No graph, SQLite connection or Apply/stock port escapes this scope.
+         */
+        internal fun inspectActiveHousehold15DevReadOnly(
+            storageRoot: Path,
+            selected: ActiveGenerationPointer,
+            materialWriteGate: MaterialWriteGate,
+            ownerAdmission: () -> Boolean,
+            completedDevSelection: () -> Boolean,
+        ): RealityHousehold15ConsumptionRows = materialWriteGate.withMaterialWrite {
+            check(selected.sequence > 0L && Files.isDirectory(storageRoot, NOFOLLOW_LINKS)) {
+                "SQL15 ACTIVE DEV requires a canonical root and full pointer"
+            }
+            val root = storageRoot.toRealPath()
+            val lockPath = root.resolve("finance9-dev-root.lock")
+            val channel = FileChannel.open(lockPath, CREATE, WRITE, NOFOLLOW_LINKS)
+            try {
+                check((Files.getAttribute(lockPath, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                val lease = try {
+                    checkNotNull(channel.tryLock()) { "SQL15 ACTIVE DEV root is already leased" }
+                } catch (occupied: OverlappingFileLockException) {
+                    throw IllegalStateException("SQL15 ACTIVE DEV root is already leased", occupied)
+                }
+                val pointer = FileActiveGenerationPointer(root)
+                val fence: () -> Boolean = {
+                    lease.isValid && ownerAdmission() && completedDevSelection() &&
+                        pointer.read() == selected
+                }
+                check(fence()) { "SQL15 ACTIVE DEV selection/owner admission absent" }
+                val canonical = FileStorageGenerationLayout(root).requireStaged(selected.generationId)
+                val directory = canonical.directory.toAbsolutePath().normalize()
+                check(directory.parent == root.resolve("generations") &&
+                    directory.toRealPath() == directory &&
+                    ExistingGenerationFormatReader.requireAndRead(canonical) ==
+                        GenerationStoreFormat.WORKSPACE_V2) {
+                    "SQL15 ACTIVE DEV generation format/path is not canonical"
+                }
+                for (name in GenerationStoreFiles.WORKSPACE_V2) {
+                    val file = directory.resolve(name)
+                    check(Files.isRegularFile(file, NOFOLLOW_LINKS) &&
+                        (Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L) {
+                        "SQL15 ACTIVE DEV cannot follow store links"
+                    }
+                }
+                // NEVER immutable=1 on ACTIVE: committed frames may be in WAL.
+                requireStrictV2StoreSchemas(
+                    directory, activeGeneration = true, planningStage8 = true,
+                    financeStage9 = true, auxiliary4 = true,
+                    commercialEvidence2ActiveDev = true, householdActive15Dev = true,
+                )
+                check(fence()) { "SQL15 ACTIVE DEV selection changed during preflight" }
+                RealityStore(
+                    directory.resolve(GenerationStoreFiles.REALITY).toString(),
+                    planningStage8 = true, materialWriteGate = materialWriteGate,
+                    householdActive15DevReadOnly = fence,
+                ).use { reality ->
+                    val snapshot = reality.snapshotActiveHousehold15RowsForTrustedHost()
+                    check(fence() && reality.maintenance.inspect().schemaVersion == 15) {
+                        "SQL15 ACTIVE DEV read or selection changed"
+                    }
+                    snapshot
+                }
+            } finally {
+                channel.close()
+            }
+        }
+
         internal fun openValidatedHousehold14ArchiveStage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
@@ -1484,12 +1555,13 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStage13: Boolean = false,
             householdStage14: Boolean = false,
             householdStage15: Boolean = false,
+            householdActive15Dev: Boolean = false,
         ) {
             check(!householdStage15 || !activeGeneration) {
                 "SQL15 full semantic stage profile must never be ACTIVE"
             }
             check(!commercialEvidence2ActiveDev ||
-                (activeGeneration && (householdStage10 || householdStage12 || householdStage13 || householdStage14))) {
+                (activeGeneration && (householdStage10 || householdStage12 || householdStage13 || householdStage14 || householdActive15Dev))) {
                 "Typed Evidence2 ACTIVE schema requires explicit Household DEV admission"
             }
             check(!commercialEvidence2StagedDev || !activeGeneration) {
@@ -1515,7 +1587,7 @@ class FaroV5GenerationStoreGraph private constructor(
                 check(planningStage8) { "Finance9 requires Planning owner schema" }
                 StagedSqlitePreflight.Schema(
                     GenerationStoreFiles.REALITY, when {
-                        householdStage15 -> 15
+                        householdStage15 || householdActive15Dev -> 15
                         householdStage14 -> 14
                         householdStage13 -> 13
                         householdStage12 -> 12
@@ -1531,13 +1603,13 @@ class FaroV5GenerationStoreGraph private constructor(
                         "finance_plan_item_payment", "finance_budget_limit",
                         "finance_schema_migration_audit",
                     ) + when {
-                        householdStage15 || householdStage14 || householdStage13 ->
+                        householdStage15 || householdActive15Dev || householdStage14 || householdStage13 ->
                             listOf("household_need_state", "household_need",
                                 "household_stock_receipt_state", "household_stock_receipt",
                                 "household_confirmed_purchase", "household_stock_compensation") +
-                                (if (householdStage14 || householdStage15) listOf("household_stock_reservation_event")
+                                (if (householdStage14 || householdStage15 || householdActive15Dev) listOf("household_stock_reservation_event")
                                  else emptyList()) +
-                                (if (householdStage15) listOf("household_stock_consumption_event")
+                                (if (householdStage15 || householdActive15Dev) listOf("household_stock_consumption_event")
                                  else emptyList())
                         householdStage12 -> listOf("household_need_state", "household_need",
                             "household_stock_receipt_state", "household_stock_receipt", "household_confirmed_purchase")
