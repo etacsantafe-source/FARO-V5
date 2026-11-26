@@ -46,3 +46,27 @@ Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY i
 RealityHousehold13CompensationRowsPort.captureConnection requires version13: build a version-aware historical reader for SQL14 without weakening SQL13. Test version13/14 separately.
 
 Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
+
+## Delta verificado contra B7 de A2B0B1
+
+El contrato FBS2v11 admite eventos de reserva ordenados por revision, cantidades de fila en 1..Int.MAX_VALUE, saldos Long, referencias UTF-8 compatibles con SQL14 y validación cronológica de físico menos compensaciones. La fila SQL14 debe preservar esos campos y su orden sin extender las autorizaciones del host.
+
+Se agrega una quinta ruta exacta a las cuatro candidatas de B4:
+`v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt`.
+`RealityHousehold13CompensationRowsPort.captureConnection` delega en
+`RealityHousehold12PurchaseRowsPort.readCurrentHouseholdRows`, que valida el argumento 12/13
+y exige igualdad con el PRAGMA user_version. La lectura SQL14 necesita una entrada
+interna explícita que preserve esquema exacto, llaves foráneas activas, historial y
+los puntos de entrada anteriores. Simular user_version 13 rompería la verificación
+del origen y el readback. Mantener los métodos públicos SQL13 cerrados a SQL14,
+y exigir las definiciones exactas de SQL14 antes de usar la entrada interna.
+
+Se conserva la transacción BEGIN IMMEDIATE existente para restauración única, con
+lectura DEFERRED del archivo sellado y WAL FULL para escritura. En especial, el
+callback de revalidación debe correr antes de COMMIT, incluyendo la ruta idéntica.
+No se lee ACTIVE con immutable ni se escribe un archivo con sidecars. Comparar
+el DDL real y verificar una negativa de admisión cruzada 13/14. Fuente primaria
+consultada para el delta: https://sqlite.org/lang_transaction.html,
+https://sqlite.org/pragma.html y https://sqlite.org/wal.html. Se adapta el patrón
+SQLite existente en FARO y se descarta el cambio temporal de PRAGMA user_version
+o la copia de una base que pueda tener estado sin checkpoint en WAL.
