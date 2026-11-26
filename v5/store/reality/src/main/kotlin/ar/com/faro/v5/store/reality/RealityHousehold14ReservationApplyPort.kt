@@ -73,13 +73,14 @@ internal class RealityHousehold14ReservationSqlWriter(
     fun apply(review: HouseholdStockReservationReview, recordedAtMs: Long): Boolean {
         val request = review.request
         val context = request.context
+        val reservationRef = request.reservationRef
         if (!valid(principal) || !valid(request.stockItem) || !valid(request.intentKey) ||
             !context.isolatedDev || !context.foreground || context.hostEpoch <= 0 ||
             context.principal != principal || context.activePointer != generation ||
             request.quantity.unit.name !in UNITS ||
             request.quantity.thousandths !in 1L..Int.MAX_VALUE.toLong() ||
             recordedAtMs < 0 ||
-            (request.reservationRef != null && !valid(request.reservationRef))) return false
+            (reservationRef != null && !valid(reservationRef))) return false
 
         val before = RealityHousehold14ReservationRowsPort.captureConnection(db)
         if (before.reservations.size >= 8_192 ||

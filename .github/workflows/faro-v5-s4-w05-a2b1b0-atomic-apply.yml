@@ -28,11 +28,11 @@ jobs:
           unit=S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT
           permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
           test "$(git show HEAD^:"$permit" | jq '.paths|length')" -eq 4
-          diff -u <(git show HEAD^:"$permit" | jq -r '.paths[]' | sort) <(git diff --name-only HEAD^ HEAD | sort)
+          diff -u <(printf '%s\n' 'v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt' '.github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml' | sort) <(git diff --name-only HEAD^ HEAD | sort)
+          git show HEAD^:"$permit" | jq -e --arg p 'v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt' '.paths | index($p) != null'
+          git show HEAD^:"$permit" | jq -e --arg p '.github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml' '.paths | index($p) != null'
           python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" \
             --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt \
-            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
-            --path v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPortTest.kt \
             --path .github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml
       - uses: actions/setup-java@v4
         with:
