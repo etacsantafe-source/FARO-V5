@@ -14,11 +14,14 @@ import ar.com.faro.v5.kernel.apply.ReviewedConversationApplyResult
 import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.kernel.runtime.BuiltInContractCatalog
 import ar.com.faro.v5.kernel.runtime.CanonicalPreparedPlanEnvelopeVerifier
+import ar.com.faro.v5.kernel.runtime.PreparedPlanEnvelopeCodec
 import ar.com.faro.v5.maintenance.ActiveGenerationPointer
 import ar.com.faro.v5.maintenance.FileActiveGenerationPointer
 import ar.com.faro.v5.owner.household.api.HouseholdManualPurchaseReview
 import ar.com.faro.v5.owner.household.api.HouseholdNeedQuantity
 import ar.com.faro.v5.owner.household.api.HouseholdStockReceiveReview
+import ar.com.faro.v5.store.reality.RealityHousehold11ReceiptRows
+import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseRow
 import java.nio.file.Path
 import java.util.UUID
 import java.util.concurrent.Executor
@@ -124,9 +127,11 @@ internal class FaroV5W05StockReceiveDevPanel(
             results.removeAllViews()
             reviewArea.removeAllViews()
             work({ pin ->
+                val verified = verifiedPurchase(pin, ref)
                 receiveHost(pin, ref).use { host ->
                     select(host.chatSelection, create = true)
                     val position = checkNotNull(host.position(ref))
+                    check(position.purchase.revision == verified.row.revision)
                     checkNotNull(host.submit(chat, UUID.randomUUID().toString(), ref, position.purchase.stockItem,
                         HouseholdNeedQuantity(quantity, position.purchase.purchased.unit)))
                 }
@@ -218,23 +223,55 @@ internal class FaroV5W05StockReceiveDevPanel(
     }
 
     private fun readPurchase(pin: ActiveGenerationPointer, ref: String): String {
-        val purchase = S4W05ManualPurchaseDevApplyHost(root, pin, gate, catalog, principal, purchaseEpoch,
-            { purchaseEpoch.takeIf { live(pin) } }, { live(pin) }, ::isLive,
-            consent(pin, HouseholdManualPurchaseReview.OPERATION, ref), System::currentTimeMillis,
-        ).use { checkNotNull(it.find(ref)) }
+        val verified = verifiedPurchase(pin, ref)
+        val purchase = verified.row
         val position = receiveHost(pin, ref).use { checkNotNull(it.position(ref)) }
-        val history = FaroV5GenerationStoreGraph.openActiveHousehold12DevForPurchaseHost(
-            root, pin, gate, CanonicalPreparedPlanEnvelopeVerifier, { live(pin) },
-        ).use {
-            val snapshot = it.snapshotPurchaseReceipts()
-            check(snapshot.purchases.any { row -> row == purchase })
-            check(snapshot.receipts.revision == position.ledgerRevision && position.purchase.revision == purchase.revision)
-            snapshot.receipts.receipts.filter { row -> row.purchaseRef == ref }.sortedBy { row -> row.revision }
-        }
+        check(verified.ledger.revision == position.ledgerRevision && position.purchase.revision == purchase.revision)
+        val history = verified.ledger.receipts.filter { it.purchaseRef == ref }.sortedBy { it.revision }
         return "Compra manual confirmada · ${purchase.stockItemRef}\n" +
             "Comprado ${format(purchase.quantityThousandths.toLong())} · ${purchase.unit}\n" +
             "Recibido ${format(position.purchase.receivedThousandths)} · Pendiente ${format(position.pendingThousandths)}" +
             history.joinToString("") { row -> "\nRecepción ${format(row.quantityThousandths.toLong())} · ${row.receiptId}" }
+    }
+
+    private data class VerifiedPurchase(val row: RealityHousehold12PurchaseRow, val ledger: RealityHousehold11ReceiptRows)
+
+    private fun verifiedPurchase(pin: ActiveGenerationPointer, ref: String): VerifiedPurchase {
+        val purchase = S4W05ManualPurchaseDevApplyHost(root, pin, gate, catalog, principal, purchaseEpoch,
+            { purchaseEpoch.takeIf { live(pin) } }, { live(pin) }, ::isLive,
+            consent(pin, HouseholdManualPurchaseReview.OPERATION, ref), System::currentTimeMillis,
+        ).use { checkNotNull(it.find(ref)) }
+        return FaroV5GenerationStoreGraph.openActiveHousehold12DevForPurchaseHost(
+            root, pin, gate, CanonicalPreparedPlanEnvelopeVerifier, { live(pin) },
+        ).use { session ->
+            val workspace = session.workspace
+            val contract = checkNotNull(catalog.current(HouseholdManualPurchaseReview.OPERATION))
+            val committed = workspace.snapshot().workspace.conversations.any { entry ->
+                runBlocking { workspace.reviews(entry.id) }.any validProof@{ review ->
+                    val receipt = review.receipt
+                    if (receipt == null || !review.reviewId.startsWith(purchasePrefix)) return@validProof false
+                    val sealed = workspace.loadCommitted(review.context()) ?: return@validProof false
+                    val node = PreparedPlanEnvelopeCodec.decode(sealed.envelope()).applyPlan
+                        .nodesInTopologicalOrder().singleOrNull() ?: return@validProof false
+                    val prepared = node.preparedOperation
+                    val source = HouseholdManualPurchaseReview.decode(prepared.payload) ?: return@validProof false
+                    val attempt = session.attempts.find(receipt.transactionId) ?: return@validProof false
+                    node.dependsOn.isEmpty() && prepared.contract == contract &&
+                        prepared.idempotencyKey == IdempotencyKey(review.reviewId) &&
+                        source.principal == principal && source.purchaseRef == ref &&
+                        source.itemRef == purchase.stockItemRef &&
+                        source.quantity.thousandths == purchase.quantityThousandths.toLong() &&
+                        source.quantity.unit.name == purchase.unit &&
+                        attempt.state == ApplyAttemptJournalState.COMMITTED &&
+                        attempt.planFingerprint == receipt.planFingerprint &&
+                        session.receipts.find(receipt.transactionId) == receipt
+                }
+            }
+            check(committed && live(pin))
+            val snapshot = session.snapshotPurchaseReceipts()
+            check(snapshot.purchases.any { it == purchase })
+            VerifiedPurchase(purchase, snapshot.receipts)
+        }
     }
 
     private fun receiveHost(pin: ActiveGenerationPointer, ref: String) = S4W05StockReceiveDevApplyHost(
