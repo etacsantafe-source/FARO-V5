@@ -359,10 +359,10 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
         ): FaroV5Household13ActiveDevReadHost {
             val root = storageRoot.toRealPath()
             val ticket = checkNotNull(readTicket(root))
-            check(selected == ticket.selected)
+            check(selected.generationId == ticket.target)
             return FaroV5Household13ActiveDevReadHost.reopen(root, selected, gate, {
                 ownerAdmission() && runCatching {
-                    checkCompleted(root, ticket)
+                    checkCompleted(root, ticket, selected)
                     true
                 }.getOrDefault(false)
             }, planVerifier)
@@ -371,18 +371,23 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
         internal fun hasCompletedSelection(root: Path, selected: ActiveGenerationPointer): Boolean =
             runCatching {
                 val ticket = checkNotNull(readTicket(root))
-                check(ticket.selected == selected)
-                checkCompleted(root, ticket)
+                checkCompleted(root, ticket, selected)
                 true
             }.getOrDefault(false)
 
-        private fun checkCompleted(root: Path, ticket: Ticket) {
+        private fun checkCompleted(
+            root: Path,
+            ticket: Ticket,
+            selected: ActiveGenerationPointer = ticket.selected,
+        ) {
+            check(selected == ticket.selected ||
+                FaroV5Household14Evidence2DevJournaledCutover.hasVerifiedRollbackTo(root, ticket.selected, selected))
             val entry = checkNotNull(FileBootstrapJournal(root).read(ticket.operation))
             val fence = FileGenerationReplayFence(root)
             check(readTicket(root) == ticket && entry.kind == RESTORE &&
                 entry.previousGenerationId == ticket.origin.generationId && entry.targetGenerationId == ticket.target &&
                 entry.phase == BootstrapPhase.COMPLETED && entry.materialWritesAccepted &&
-                FileActiveGenerationPointer(root).read() == ticket.selected &&
+                FileActiveGenerationPointer(root).read() == selected &&
                 fence.isInstalled(RESTORE, ticket.target) &&
                 !fence.isInstalled(MaintenanceOperationKind.MIGRATION, ticket.target))
         }
@@ -399,7 +404,7 @@ internal class FaroV5Household13Evidence2DevJournaledCutover private constructor
             ))
         }
 
-        private fun fingerprint(stage: StagedStorageGeneration, allowEmptyActiveWal: Boolean): String {
+        internal fun fingerprint(stage: StagedStorageGeneration, allowEmptyActiveWal: Boolean): String {
             val dir = stage.directory
             check(dir.toRealPath() == dir)
             val digest = MessageDigest.getInstance("SHA-256")
