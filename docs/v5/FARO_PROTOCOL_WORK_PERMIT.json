@@ -1,16 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B1A_STOCK_RESERVE_RELEASE_DEV_ADMISSION",
-  "reviewed_head": "fa865f23a2544d7c8d082695da19c9b41bbf69e1",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT",
+  "reviewed_head": "bb8a3300b9ebf1649731f6cbba40163e4049d9b0",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b1b0-atomic-apply.yml"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1A_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "2a473619ac96c022fd445c7518449ace271e604e",
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
           "marker": "## B1"
         }
       ]
@@ -19,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1A_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "2a473619ac96c022fd445c7518449ace271e604e",
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
           "marker": "## B2"
         }
       ]
@@ -29,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1A_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "2a473619ac96c022fd445c7518449ace271e604e",
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
           "marker": "## B3"
         }
       ]
@@ -39,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1A_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "2a473619ac96c022fd445c7518449ace271e604e",
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
           "marker": "## B4"
         }
       ]
@@ -49,17 +54,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B1A_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "2a473619ac96c022fd445c7518449ace271e604e",
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "92b1f26b1eec394209cc0d85b5a2027389db9a27",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_DIRIGIDO",
-    "B7": "PASS_SCOPED_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45824037104,
-  "pre_audit_head": "fa865f23a2544d7c8d082695da19c9b41bbf69e1",
+  "pre_audit_guard_run_id": 45825269539,
+  "pre_audit_head": "bb8a3300b9ebf1649731f6cbba40163e4049d9b0",
   "last_code_review": {
     "sha": "10f29d3505ebf6bfcaed771190b378a2277dc26b",
     "result": "PASS",
@@ -76,9 +81,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B1A B7 PASS. Permiso consumido.",
-  "next": "A2B1B0 delta exact4, guardia y READY individual para Apply SQL14.",
-  "last_guard_run_id": 45824744215,
+  "why": "Writer transaccional SQL14 DEV para reserva y liberación sin Undo de recepción.",
+  "next": "Ejecutar B6/B7 A2B1B0 exact4. Luego delta A2B1B1.",
+  "last_guard_run_id": 45825269539,
   "current_code_sha": "10f29d3505ebf6bfcaed771190b378a2277dc26b",
   "reason": "Guardia documental del delta SUCCESS tras B7 predecesor"
 }
