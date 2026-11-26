@@ -1,11 +1,11 @@
 {
   "schema": 1,
-  "status": "RELEASED",
-  "owner": "FARO.CODEX.SQL13.VERIFIER.20261125",
-  "token_hash": "4b11887a25bdffcb087342fcd74efd1191d7c50b5d3e829a165bf47d4960478b",
-  "target_head": "49043e5bc5ff0b378935c3208de8a03ce7a4068e",
+  "status": "HELD",
+  "owner": "FARO.CHAT.A1C4.B7.CLOSE.20261125",
+  "token_hash": "548378d1f79311201fac907fe7b50c711dd619de6508ca5623e3da1428efcf11",
+  "target_head": "358895d33d716326bf3e3e8e3421294c3e6697ba",
   "target_branch": "work/s3-night-20261102",
-  "epoch": 2054,
-  "timestamp": 1795660801,
+  "epoch": 2055,
+  "timestamp": 1795661300,
   "last_checkpoint": "358895d33d716326bf3e3e8e3421294c3e6697ba"
 }
