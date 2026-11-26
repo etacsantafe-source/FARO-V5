@@ -1,0 +1,53 @@
+# FARO V5 · W05-A1C3 · Android DEV compra, recepción y Undo — B1–B5
+Fecha: 2026-11-25. Unidad: `S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV`. Rama exclusiva `work/s3-night-20261102`.
+Baseline auditada: `cc5e5c43548d5d223adfcea1418a354cbdde9552` (G1B B7 17/17, guardia 45668448275 SUCCESS).
+El presente documento sustituye la condición PREAUDITED_CONDITIONAL del borrador `FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_PREAUDIT_20261125.md` tras revalidación del delta. NO se ejecutó B6/B7 de A1C3. Sin permisos productivos.
+
+## B1 — Inventario verificable a HEAD y propósito acotado
+- Revalidado el código de `S4W05ManualPurchaseDevApplyHost.kt` (N-036, compra manual confirmada, Review+Apply), `S4W05StockReceiveDevApplyHost.kt` (N-035, recepción, posición y balance), `S4W05StockUndoDevApplyHost.kt` (N-016, Undo compensatorio, source Review COMMITTED y reconciliación) bajo `v5/app/src/main/kotlin/ar/com/faro/v5/app/`. Los tres son hosts internos DEV, sin montaje Android certificado.
+- G1B funcional `bb6daaf118f280ff8a01e964299a561e961d7dc0`, CI `45667290966` SUCCESS con XML 17/17, cierre `cc5e5c43548d5d223adfcea1418a354cbdde9552`; guardia documental `45668448275` SUCCESS. No repetir G0/G1A/G1B.
+- `FaroV5V2CoreDevActivity.kt` es Activity DEV en `src/v2CoreDev`, raíz noBackupFilesDir y foreground con onPause/onDestroy; ya contiene botones aislados de diagnóstico SQL11, no panel A1C3. `FaroV5V2CoreDevPackagePolicy` permite otras variantes: A1C3 DEBE exigir allowlist propia de **dos applicationId** (`ar.com.faro.alpha.v2coredev`, `ar.com.faro.g15isolated.v2coredev`), DEBUGGABLE y V2 productiva OFF; jamás heredar por el paquete general.
+- `v5/app/build.gradle.kts` ya configura `testV2CoreDev`, y opt-in `-PfaroG5AndroidTestV2CoreDev=true` reusa `src/g5AndroidTest` sin agregar dependencia. Test existente `FaroV5S3A57BookmarksUiTest.kt` limita el reset a emulador y verifica gesto native. Workflow existente C2C1 `faro-v5-s4-w05-a1b3c2c1-evidence2-android-reopen.yml` usa API35 y XML originales. Moto G15 PHYSICAL_NOT_RUN.
+- **Delta crucial de versión:** `FaroV5GenerationStoreGraph.openActiveHousehold12DevForPurchaseHost` y `...ForStockReceiveHost` exigen `FaroV5Household12Evidence2DevJournaledCutover.hasCompletedSelection`. `...openActiveHousehold13DevForUndoHost` exige `FaroV5Household13Evidence2DevJournaledCutover.hasCompletedSelection`. SQL12 no se puede suponer ACTIVE sobre una generación SQL13 y viceversa. La UI presenta estado/acción únicamente en generación cuya admisión está demostrada; cambio SQL12→SQL13 NO se dispara desde el panel; cierre de todos los leases antes de cambiar de modo. El recorrido completo de compra/recepción/Undo en **una sola** generación SQL13 no está acreditado: no prometerlo ni habilitar escritura SQL12 sobre SQL13.
+- Valores mostrados: compra confirmada manualmente (no pago externo verificado), recibido físicamente declarado, pendiente derivado del ledger/posición de autoridad, historial y motivo si no está disponible; no tomar presupuesto, carrito, precios o Evidence como Reality.
+
+## B2 — V4.4 y reutilización V5 con delta comprobado
+- P02 `docs/v5/FARO_S4_P02_V44_HISTORICAL_AUDIT_MATRIX_20261113.md` L11–L14: SmartCompra separaba compras/precios de stock físico, historial, paridad humanizada; P03 `docs/v5/FARO_S4_P03_V44_TO_V5_REUSE_DELTA_MATRIX_20261113.md` R11–R14 exige ADAPTAR, NO copiar stores V4.4. Conservar Chat-first, textos humanos, 1 acción→1 efecto, 1 receipt, idempotencia, read-model no inventado y opciones visibles de cancelar.
+- Reusar las clases N-036/N-035/N-016 y sus contratos sin crear otro owner, operación, SQL, backup o formato FBS2. Tomar `FaroV5V2CoreDevActivity` como único entrypoint y panel nativo DEV aislado. No editar `v5/app/src/main` ni `store/reality`, `store/generation`, W04, `build.gradle.kts`, `AndroidManifest.xml` o variantes productivas por esta unidad.
+- La aprobación de cada plan debe ser de Workspace Review exacta y confirmación foreground independiente; la UI jamás llama DAO ni concede grant por mostrar una tarjeta. Los hosts tienen API de `submit`, `executeAfterExplicitConfirmation`, `reconcileCommittedOnly`, `position`/`find` y `reviewDecisions`. El panel no puede simular una transición APPROVED: utilizar autoridad real y evidencia de contrato. Si el bridge para aprobar falta, STOP, documentar nuevo delta y permiso antes de una sexta ruta.
+- La ventana Chat/Workspace y un host material no se abren a la vez si comparten lease. `onPause` invalida autorización, cierra sesiones del panel y redacta estado material; post-factum se relee desde receipt real al reanudar, sin repetir Apply.
+
+## B3 — Alternativas, investigación y decisión
+- Opción adoptada: panel nativo Android acotado `v2CoreDev`, basado en gesto humano explícito, selección/referencia identificada de compra **confirmada**; indica compra, cantidad, unidad, recibido, pendiente, historial, Review, Confirmar y Undo cuando el modo/fuente permiten. Sin botones operativos para datos no certificados.
+- Descartada: montar panel en app productiva o W04 comercial; deducir compra de carrito o precio; escribir SQL11/12 en generación SQL13; auto-cutover o upgrade de almacén desde UI; usar receipt físico como receipt Apply; retry de UNKNOWN como ejecución nueva; saltear Review/Approve; hacer tabla nueva, Internet, librería paga o automatización.
+- Referencias oficiales: https://developer.android.com/guide/components/activities/activity-lifecycle (revocación en onPause/onDestroy), https://developer.android.com/training/testing/instrumented-tests (AndroidJUnit4 e instrumentación), https://developer.android.com/guide/topics/ui/accessibility/views/apps-views (objetivos accesibles y lectura TalkBack). Usar el Gradle y runner preexistentes; Android API35 es prueba de emulador, no prueba física.
+- Si un flujo carece de un holder seguro para SQL13 o de grant humano real, mostrar **NO DISPONIBLE** y declarar bloqueo funcional acotado, sin ampliar el alcance. Distinción esencial: B1–B5 analizados/completos no certifican una integración runtime ni su B7.
+
+## B4 — Alcance B6 congelado: CINCO rutas EXACTAS
+1. `v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanel.kt` (NUEVO): UI + presenter/política acotada, contratos/admisión foreground/versión, sin autoridad de persistencia nueva. Verificación en frontera final de consentimiento fresco, no retención de host.
+2. `v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt` (EXISTENTE): botón exclusivamente DEV y ciclo de vida; no tocar launcher de main, ningún namespace productivo.
+3. `v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanelTest.kt` (NUEVO): pruebas JVM de decisión, consentimientos, versión, parciales, error/denegación y reintento sin mutaciones ficticias.
+4. `v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveAndroidTest.kt` (NUEVO): AndroidJUnit4 API35, UI real aislada, lifecycle, accesibilidad, sin tocar G15 ni reset fuera del emulador. Distinguir fixture TEST aislado de datos reales.
+5. `.github/workflows/faro-v5-s4-w05-a1c3-stock-android-dev.yml` (NUEVO): gate preflight padre READY exact5, JVM dirigido, compilar v2CoreDev/AndroidTest en serial, emulador API35, XML JUnit originales y artefactos, guard por SHA.
+Unit trailer en commits B6: `FARO-UNIT:S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV`. Ninguna otra ruta funcional permitida sin preauditoría nueva y READY reemitido. En CI usar los tasks existentes `:app:testV2CoreDevUnitTest` y `:app:connectedV2CoreDevAndroidTest` verificando selección exacta de suite; solo ajustar D8 si OOM real y tras nuevo alcance.
+
+## B5 — Auditoría adversarial CERRADA COMO PLAN; tests por ejecutar en B6/B7
+- T01 allowlist 2 DEV IDs, DEBUGGABLE y V2 productiva OFF: otros IDs y producción DENIED; `main`, W04, S3 intactos.
+- T02 owner/permiso real, principal/epoch/puntero/foreground/review: sin grant o modo incorrecto todo botón material se desactiva y no muta.
+- T03 compra manual N-036 confirmada, cantidad 10 y unidad real visible solo si Review COMMITTED + receipt de autoridad; el presupuesto y carrito no suman stock.
+- T04 N-035 con compra10, recepción 7, restante3; recepción siguiente3, restante0, sin confundir físico vs comprado ni recibo de Apply.
+- T05 cancelar/denegar/cerrar/back/onPause durante preparación, APPROVED, APPLYING o callback tardío -> STOP y estado redactado; no Apply en background.
+- T06 selección antigua, revision CAS stale, pointer ABA/generación incorrecta, otro principal/hostEpoch, grant revocado o paquete inválido -> STOP sin efectos.
+- T07 doble toque/intentKey repetida/reintento tras reinicio -> 1 efecto/1 receipt; UNKNOWN debe reconciliar receipt antes de otro intento.
+- T08 versión SQL12: habilitar solo N-036/N-035 con cutover SQL12 COMPLETED, nada de N-016 si no hay SQL13 válido; SQL13: Undo solo si origen N-035 COMMITTED preservado y G1B/G0 activos, N-036/N-035 SQL12 no se escriben.
+- T09 Undo N-016 en SQL13 solo con receipt origen válido y Review→Approve→Confirm independiente; 7→3 con compensación append-only, history preservada, doble Undo DENIED; no reemplazar receipt físico por ExecutionReceipt.
+- T10 flujo reabrir: cerrar lease SQL12 antes de SQL13, no UI que dispare cutover, cancelación por versión sin almacén false-positive, no `file://` inventado ni fake rows.
+- T11 TalkBack/fuentes 200%, etiquetas habladas, botones alcanzables y foco coherente; sin confirmación oculta al escalar ni mensaje de stock productivo.
+- T12 Android API35 REAL emulator, assert `Build.HARDWARE=ranchu/goldfish` antes de reset de fixtures y aplicación aislada; G15 físico NOT_RUN.
+- T13 JUnit originales JVM + Android, count/unique testcases, 0 failures/errors/skips, build+guard SUCCESS sobre SHA exacto de B6; archivar artefacto y APK de DEV. Si falla: RED_FIX en mismo unit y rutas autorizadas; no falso PASS.
+
+**Salida autorizable de B5:** la arquitectura y cinco rutas quedaron determinadas contra el HEAD indicado, con riesgos y gates explícitos. Hay una LIMITACIÓN funcional conocida SQL12/SQL13: el permiso A1C3 no licencia parches silenciosos a los hosts/grafo ni un cutover automático. B6 debe fallar cerrado donde la continuidad no sea posible, sin proclamar A1 global completo.
+
+## Handoff a Work / fronteras
+Orden: HEAD+writer CAS+AGENTS+pointer+permit READY → preflight exact5 sobre padre → B6 implementación/CI XML por SHA → B7 auditoría/consumo permit/guard+release. No repetir B1–B5 ni G0/G1A/G1B. Si nueva ruta o necesidad incompatible aparece, solo delta documentado y permiso independiente antes de escribir.
+V2 productiva OFF; stock real OFF; pagos OFF; Auto/Noche OFF; G15 NOT_RUN; nunca tocar main, V4.4, aplicaciones productivas ni activar Apply productivo.
