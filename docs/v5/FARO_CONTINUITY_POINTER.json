@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_READY",
+  "phase": "S4_W05_A1_GLOBAL_DEV_B7_PASS_SCOPED",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2051
+    "epoch": 2055
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Global B6 directed JVM/Android API35 then B7 original XML/APK",
-  "checkpoint_status": "MAINTENANCE_B7_PASS_A1C4_EXACT3_READY",
-  "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
-  "last_code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
-  "last_ci_run_id": 45741277089,
+  "next": "W05-A1 DEV CLOSED B7 verified code 358895d33d716326bf3e3e8e3421294c3e6697ba CI 45743934153 XML2/2; physical G15 NOT_RUN. Next W05 module under new B1-B5 and READY independent.",
+  "checkpoint_status": "W05_A1_DEV_CLOSED_A1C4_B7_PASS_XML2_2_G15_NOT_RUN",
+  "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF.",
+  "last_handoff": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
+  "last_code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+  "last_ci_run_id": 45743934153,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML8_8_A1C3_PREDECESSOR",
+  "last_ci_conclusion": "SUCCESS_XML2_2_API35_APK",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -437,7 +437,7 @@
     "update_installation_gate": "BLOCKED_UNTIL_STABLE_SIGNING_IDENTITY_VERIFIED",
     "next": "RESUME_S3_CLOSURE"
   },
-  "last_code_ref": "work/s3-night-20261102@HEAD",
+  "last_code_ref": "358895d33d716326bf3e3e8e3421294c3e6697ba",
   "protocol_history": [
     "docs/v5/FARO_DEVELOPMENT_UNIFIED_PROTOCOL_V2_20261102.md"
   ],
@@ -456,7 +456,7 @@
     "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
   },
   "protocol_gate": {
-    "status": "A1C4_B1_B5_READY_B6_NOT_RUN",
+    "status": "W05_A1C4_B7_PASS_SCOPED_PERMIT_CONSUMED",
     "mode": "FAIL_CLOSED",
     "validator": "scripts/quality/faro-protocol-gate.py",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -464,15 +464,15 @@
     "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "guide": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
     "baseline": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
-    "permit_status": "READY",
+    "permit_status": "BLOCKED",
     "mandatory_manual_preflight": true,
     "mandatory_ci_check": true,
     "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 45736406556,
-    "last_ci_conclusion": "SUCCESS",
-    "verified_source_sha": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
+    "last_ci_run_id": 45743934153,
+    "last_ci_conclusion": "SUCCESS_XML2_2",
+    "verified_source_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
   },
@@ -493,7 +493,7 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 2043,
+  "last_writer_epoch_observed": 2055,
   "protocol_guard": {
     "status": "A1C3_CODE_GUARD_SUCCESS_B7_CHECKPOINT_GUARD_BY_SHA",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -2196,11 +2196,11 @@
   },
   "goal_id": "S4_PRECODE_W00_FEASIBILITY",
   "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
-  "block_id": 5,
-  "block_status": "B1_B5_VERIFIED_B6_READY_B7_NOT_RUN",
-  "expected_head": "CHECKPOINT_COMMIT_CONTAINING_A1C4_READY_PERMIT_AND_POINTER",
+  "block_id": 7,
+  "block_status": "B7_PASS_SCOPED_DEV",
+  "expected_head": "CHECKPOINT_COMMIT_CONTAINING_A1C4_GLOBAL_B7_PASS",
   "blocker": null,
-  "writer_release_epoch": 2043,
+  "writer_release_epoch": 2055,
   "last_observed_at": "2026-11-25",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2218,13 +2218,8 @@
     "physical": "NOT_RUN",
     "writer_epoch": 711
   },
-  "acceptance": "S3 5/5 DEV formally closed with explicit user-accepted H07 HOME physical exception (NOT PASS); other test scopes preserved.",
-  "evidence": {
-    "M02_B7": "docs/s3-night/S3_A3_M02_WORK_B7_PASS_20261111.md",
-    "ci_run_id": 43029315832,
-    "guard_run_id": 43029315790,
-    "artifact_id": 13860202834
-  },
+  "acceptance": "A1C4 B7 PASS JVM1 Android1 real JUnit XML with original artifact 15083246165; W05-A1 DEV global scoped closed, productive and G15 physical NOT_RUN",
+  "evidence": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
   "work": {
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
     "status": "WAIT_CI_COMPILED_BRIDGE",
@@ -2252,7 +2247,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S4_W05_A1C4_B1_B5_READY_DEV",
+  "checkpoint": "S4_W05_A1_GLOBAL_DEV_B7_PASS",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -4720,7 +4715,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
+  "last_b7_document": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -7150,11 +7145,15 @@
     "evidence": "docs/v5/FARO_S4_W05_A1C0_STOCK_RECEIVE_ADMISSION_20261125.md"
   },
   "w05_a1_global": {
-    "status": "OPEN",
-    "pending": [
-      "A1C4 B6/B7"
-    ],
-    "g15": "NOT_RUN"
+    "status": "B7_PASS_SCOPED_DEV_CLOSED",
+    "pending": [],
+    "g15": "NOT_RUN",
+    "b7_document": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
+    "code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+    "ci_run_id": 45743934153,
+    "guard_run_id": 45743934125,
+    "artifact_id": 15083246165,
+    "productive": "OFF"
   },
   "w05_a1c0b1": {
     "status": "B7_PASS_SCOPED_DEV",
@@ -7458,10 +7457,10 @@
     "permit": "CONSUMED",
     "writer_epoch_release": 2041
   },
-  "next_step": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE B6 then B7 with exact3 READY; no earlier units repeated.",
+  "next_step": "W05 next phase only with separate B1-B5/permit; physical G15 requires authorization",
   "w05_a1c4": {
     "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
-    "status": "B1_B5_REVALIDATED_READY",
+    "status": "B7_PASS_SCOPED_DEV",
     "evidence": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
     "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
     "baseline_head": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
@@ -7472,12 +7471,20 @@
       "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceAndroidTest.kt",
       ".github/workflows/faro-v5-s4-w05-a1c4-global-dev-acceptance.yml"
     ],
-    "permit": "READY",
-    "b6": "READY_NOT_RUN",
-    "b7": "NOT_RUN",
-    "pending_gap": "EXECUTE_GLOBAL_DEV_ACCEPTANCE",
+    "permit": "CONSUMED_BLOCKED",
+    "b6": "CI_PASS_XML2_2",
+    "b7": "PASS",
+    "pending_gap": null,
     "physical": "NOT_RUN",
-    "revalidation": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md"
+    "revalidation": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+    "code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+    "ci_run_id": 45743934153,
+    "guard_run_id": 45743934125,
+    "artifact_id": 15083246165,
+    "jvm_xml": "1/1",
+    "android_api35_xml": "1/1",
+    "b7_document": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
+    "writer_epoch_release": 2055
   },
   "w05_a1c4_sql13_review_verifier": {
     "status": "B7_PASS_SCOPED",

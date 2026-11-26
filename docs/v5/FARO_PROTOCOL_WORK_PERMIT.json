@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
-  "reviewed_head": "ef16c14e60c5161088fbc77469388c84a1bd6964",
+  "reviewed_head": "358895d33d716326bf3e3e8e3421294c3e6697ba",
   "paths": [
     "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceTest.kt",
     "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceAndroidTest.kt",
@@ -84,30 +84,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "CI_PASS_ORIGINAL_XML2_2_API35_APK",
+    "B7": "PASS_PERMIT_CONSUMED"
   },
   "pre_audit_guard_run_id": 45741695464,
   "pre_audit_head": "b5956161a8107cb60ad0f70f5bd194de03941761",
   "last_code_review": {
-    "sha": "64948c165b70e67f82337f227f9e9d3b31fcdebf",
-    "result": "RED_FIX",
+    "sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+    "result": "PASS",
     "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_RED_FIX_45742106711_20261125.md",
-        "blob_sha": "76c7d90d3297f9af0709d6116b1fc48d6e63e1a5",
+        "path": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
+        "blob_sha": "ed0bee90e8e13c588dbd70d74ccf494f381f60ed",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45742106711,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45743934153,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS",
-  "next": "Global B6 directed JVM/Android API35 then B7 original XML/APK",
-  "last_guard_run_id": 45742106583,
-  "current_code_sha": "64948c165b70e67f82337f227f9e9d3b31fcdebf",
-  "reason": "Global DEV acceptance directed test RED_FIX within exact3"
+  "why": "A1C4 code SHA 358895d33d716326bf3e3e8e3421294c3e6697ba scoped global DEV acceptance and CI/guard success. No further functional writes authorized.",
+  "next": "W05-A1 global DEV CLOSED scoped; next W05 phase requires separate B1-B5 and READY; no production or physical G15 enabled.",
+  "last_guard_run_id": 45743934125,
+  "current_code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+  "reason": "A1C4 final B7 PASS scoped DEV, original JVM 1/1 Android API35 1/1 XML verified from artifact 15083246165; permit consumed."
 }
