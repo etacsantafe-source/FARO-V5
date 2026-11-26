@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C3_B1_B5_VERIFIED_READY_B6_PENDING",
+  "phase": "S4_W05_A1C3_B7_PASS_SCOPED_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2035
+    "epoch": 2041
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Work: W05-A1C3 B6/B7 only with exact5 READY permit. G0/G1A/G1B B7 certified; do not repeat. After A1C3 PASS begin A1C4 B1-B5. No physical G15. V2/stock real/payments/Auto/Noche OFF.",
-  "checkpoint_status": "G0_B7_PASS_18_18_G1A_B7_PASS_18_18_G1B_B7_PASS_17_17_A1C3_B1_B5_VERIFIED_B6_B7_PENDING_A1_OPEN",
+  "next": "Review the A1C4 delta against its existing conditional preaudit and issue independent READY only after revalidation. A1C4 B6 is not authorized. Physical G15 NOT_RUN.",
+  "checkpoint_status": "A1C3_B7_PASS_SCOPED_A1C4_PREAUDITED_CONDITIONAL_A1_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
-  "last_code_sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
-  "last_ci_run_id": 45667290966,
+  "last_handoff": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
+  "last_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+  "last_ci_run_id": 45731828704,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML17_17",
+  "last_ci_conclusion": "SUCCESS_XML8_8",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -493,9 +493,9 @@
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 2035,
+  "last_writer_epoch_observed": 2041,
   "protocol_guard": {
-    "status": "A1C2G0_PREAUDIT_GUARD_PASS_READY",
+    "status": "A1C3_CODE_GUARD_SUCCESS_B7_CHECKPOINT_GUARD_BY_SHA",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
     "guard_update_sha": "b6ebe14df2675c1bd4f4a553244cb612a46cc676",
     "permit_path": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
@@ -537,7 +537,9 @@
       ]
     },
     "pre_audit_guard_run_id": 45636259619,
-    "pre_audit_head": "2751cf8e130e4ec40f33e6acd64f3e01199be037"
+    "pre_audit_head": "2751cf8e130e4ec40f33e6acd64f3e01199be037",
+    "code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+    "code_guard_run_id": 45731828629
   },
   "guard_latest_runs": [
     {
@@ -2195,11 +2197,11 @@
   "goal_id": "S4_PRECODE_W00_FEASIBILITY",
   "unit_id": "S4_W00_PRECODE_FEASIBILITY_REVIEW",
   "block_id": 7,
-  "block_status": "B1_B5_SOURCE_AUDITED_B6_DOC_PUBLISHED_B7_WAIT_REMOTE_FINAL_CI",
-  "expected_head": "REFRESH_REMOTE_HEAD_BEFORE_NEXT_MUTATION",
-  "blocker": "GUARD_FINAL_SHA_NOT_CONFIRMED_AND_S4_SCOPE_NOT_FORMALLY_OPEN",
-  "writer_release_epoch": 2035,
-  "last_observed_at": "2026-11-15",
+  "block_status": "B7_PASS_SCOPED_DEV_XML8_8",
+  "expected_head": "COMMIT_CONTAINING_A1C3_B7_PASS_DOCUMENT",
+  "blocker": null,
+  "writer_release_epoch": 2041,
+  "last_observed_at": "2026-11-25",
   "work_m03": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
@@ -2250,7 +2252,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "W05_A1C3_B1_B5_VERIFIED_READY_DEV_ANDROID",
+  "checkpoint": "S4_W05_A1C3_B7_PASS_SCOPED_DEV",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2459,8 +2461,8 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "bb6daaf118f280ff8a01e964299a561e961d7dc0",
-  "checkpoint_commit_resolution": "W05_A1C3_B1_B5_DOC_COMMIT_f0978e0620bb94798809c5f9bed91a8d63b6d911_READY_IN_FOLLOWUP_COMMIT",
+  "checkpoint_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+  "checkpoint_commit_resolution": "COMMIT_CONTAINING_A1C3_B7_PASS_DOCUMENT_AND_CONSUMED_PERMIT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
     "unit_id": "S3_A5_7_X03_U01_EXPLICIT_CONSULT_DEV",
@@ -4718,7 +4720,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W05_A1C2G1B_B7_PASS_TRUSTED_STOCK_UNDO_DEV_20261125.md",
+  "last_b7_document": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -7150,7 +7152,6 @@
   "w05_a1_global": {
     "status": "OPEN",
     "pending": [
-      "A1C3 B6/B7",
       "A1C4"
     ],
     "g15": "NOT_RUN"
@@ -7433,7 +7434,7 @@
   },
   "w05_a1c3": {
     "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
-    "status": "B1_B5_VERIFIED_READY_B6_B7_NOT_RUN",
+    "status": "B7_PASS_SCOPED_DEV",
     "evidence": "docs/v5/FARO_S4_W05_A1C3_ANDROID_STOCK_REVIEW_B1_B5_20261125.md",
     "blob_sha": "9024ed9d14dd9c3a3c72e295934df0138092f4e1",
     "pre_audit_guard_run_id": 45727581439,
@@ -7446,6 +7447,24 @@
     ],
     "physical": "NOT_RUN",
     "sql12_sql13_transition": "FAIL_CLOSED_NO_AUTO_CUTOVER",
-    "next": "WORK_B6_B7"
+    "next": "W05_A1C4_PREAUDITED_CONDITIONAL",
+    "b7_document": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
+    "code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+    "ci_run_id": 45731828704,
+    "guard_run_id": 45731828629,
+    "artifact_id": 15076604940,
+    "jvm_xml": "3/3",
+    "android_api35_xml": "5/5",
+    "permit": "CONSUMED",
+    "writer_epoch_release": 2041
+  },
+  "next_step": "Review the A1C4 delta against its existing conditional preaudit and issue independent READY only after revalidation. A1C4 B6 is not authorized. Physical G15 NOT_RUN.",
+  "w05_a1c4": {
+    "status": "PREAUDITED_CONDITIONAL",
+    "evidence": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_PREAUDIT_20261125.md",
+    "permit": "NOT_READY",
+    "b6": "NOT_AUTHORIZED",
+    "b7": "NOT_RUN",
+    "depends_on": "A1C3 B7 checkpoint guard"
   }
 }

@@ -1,0 +1,14 @@
+# FARO V5 · W05-A1C3 Android DEV
+
+## B7 — PASS en emulador API 35 y JVM
+
+- Unidad `S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV`. Código certificado `18f58b2274f6d358a2911fdc9ae657c243b0c06a`. La comparación con `a00d0cf81cb77325db28acb4632f50c54c2aa994` confirmó exactamente las cinco rutas funcionales del permiso, más los dos informes RED_FIX y el registro del permiso.
+- CI [45731828704](https://github.com/etacsantafe-source/FARO-V5/actions/runs/45731828704) y guardia [45731828629](https://github.com/etacsantafe-source/FARO-V5/actions/runs/45731828629) en SUCCESS sobre el código certificado. El job dirigido `139615452283` compiló el APK DEV y el de instrumentación, ejecutó ambos conjuntos de pruebas y validó los XML.
+- [Artefacto 15076604940](https://github.com/etacsantafe-source/FARO-V5/actions/runs/45731828704/artifacts/15076604940). SHA-256 del ZIP `6412602219d7058ed1178eb26b7400b37ea79398ea33bbdcc15b52d7aa9313cb`. Auditoría independiente del ZIP original con 8 casos únicos, cero failures, errors y skipped.
+- JVM 3/3. SHA-256 del XML `804b5cd32a3384462eaa4a6f9669e8e3af510c85f0bf0b1228a6586b35735e13`. Allowlist de los dos paquetes DEV con DEBUGGABLE y V2 productiva OFF, identidad por paquete y UID, y cantidades positivas exactas en milésimas.
+- Android 5/5. SHA-256 del XML `9adfbd90363ca14060e8d50d892459c02f77859cac1a0afe8a164f82fac4b041`. El panel nativo consultó una compra de 10 con Review COMMITTED y recibo de Reality, recibió 7 con 3 pendientes y recibió 3 con saldo pendiente 0. El flujo real separó Review, aprobación, confirmación y Apply. Se comprobó la compensación que dejó 3 unidades netas y conservó los dos recibos de recepción. Se probó la reconciliación sin un segundo movimiento, revocación de una revisión aprobada al perder foreground, puntero ABA y ambos modos bloqueados sin generación admitida. Las interacciones se ejecutaron por el árbol de accesibilidad con la fuente al 200 %.
+- SQL12 habilita la consulta de compras y la recepción con su admisión completa. SQL13 habilita Undo con el origen N-035 preservado y sus pruebas de procedencia. El emulador preparó sus dos estados con fixtures aislados de mantenimiento. El panel no hace cutover. La aceptación autenticada integral corresponde a A1C4. TalkBack manual y Moto G15 físico NOT_RUN.
+- B6 registró dos correcciones verificadas. La primera habilitó la tarea JVM de AGP y exigió el comprobante canónico de la compra. La segunda resolvió la ruta privada canónica del fixture de emulador. Dos workflows históricos de SQL11 se activaron en el commit inicial por la Activity compartida y se detuvieron en sus filtros de rutas antes de probar SQL11.
+- Permiso A1C3 consumido. A1C4 parte de su preauditoría condicional, con permiso independiente pendiente. V2 productiva, stock productivo, pagos y Auto/Noche OFF.
+
+La guardia del cierre se identifica por el SHA del commit que contiene este documento. El estado RELEASED se verifica en la rama CAS del writer.

@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
-  "reviewed_head": "cc13d34395a0f54e1bdb5220580b66272fa0187a",
+  "reviewed_head": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
   "paths": [
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanel.kt",
     "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
@@ -61,30 +61,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "CI_PASS_ORIGINAL_XML",
+    "B7": "PASS_PERMIT_CONSUMED"
   },
   "pre_audit_guard_run_id": 45727581439,
   "pre_audit_head": "f0978e0620bb94798809c5f9bed91a8d63b6d911",
   "last_code_review": {
-    "sha": "cc13d34395a0f54e1bdb5220580b66272fa0187a",
-    "result": "RED_FIX",
+    "sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+    "result": "PASS",
     "unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C3_B7_RED_FIX2_ANDROID_CANONICAL_FIXTURE_20261125.md",
-        "blob_sha": "07e2f58e91877fd61c5b0fe8c0156669828a59f0",
+        "path": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
+        "blob_sha": "999abd9923070c4366177e7522b5f52ac6acc1fc",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45730137551,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45731828704,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A1C3 Android isolated DEV B1-B5 verified against G1B B7; exact5 paths; SQL12 purchase/receipt vs SQL13 Undo fail-closed, no cross-generation writes.",
-  "next": "Work B6 and B7 exclusively, Android API35 emulator + JVM with original JUnit XML. A1C4 global after. G15 physical NOT_RUN.",
-  "last_guard_run_id": 45730137574,
-  "current_code_sha": "cc13d34395a0f54e1bdb5220580b66272fa0187a",
-  "reason": "A1C3 own READY, B1-B5 evidence blob exact and documentary guard SUCCESS; B6/B7 NOT_RUN."
+  "next": "A1C4 revalidate conditional preaudit; complete its own documentary gates before issuing independent READY.",
+  "last_guard_run_id": 45731828629,
+  "current_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+  "reason": "A1C3 B7 PASS scoped with original JVM 3/3 and Android API35 5/5; permit consumed."
 }
