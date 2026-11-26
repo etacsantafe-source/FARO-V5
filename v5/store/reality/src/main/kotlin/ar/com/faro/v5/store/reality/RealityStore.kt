@@ -140,6 +140,8 @@ class RealityStore(
     private val householdStockReceiveWritableDev: Boolean = false,
     private val householdStockCompensationWritableDev: Boolean = false,
     private val householdStage14ReadOnly: Boolean = false,
+    /** Exact SQL15 sealed archive capture only; no writes or ACTIVE owner. */
+    private val householdStage15ReadOnly: Boolean = false,
     private val householdActive14DevReadOnly: (() -> Boolean)? = null,
     /** Isolated DEV only; no shipping writer. */
     private val householdStockReservationWritableDev: Boolean = false,
@@ -155,6 +157,15 @@ class RealityStore(
     private fun <T> withMaterialAdmission(block: () -> T): T =
         materialWriteGate?.withMaterialWrite(block) ?: block()
     private val connection: SQLiteConnection = run {
+        check(!householdStage15ReadOnly || (
+            planningStage8 && !financeStage9 && !financeActive9 &&
+            materialWriteGate == null && householdActive10Dev == null &&
+            householdActive12DevReadOnly == null && householdActive13DevReadOnly == null &&
+            householdActive14DevReadOnly == null && !householdStage10ReadOnly &&
+            !householdStage12ReadOnly && !householdStage13ReadOnly && !householdStage14ReadOnly &&
+            !householdNeedsWritableDev && !household12WritableDev &&
+            !householdStockCompensationWritableDev && !householdStockReservationWritableDev
+        )) { "Reality15 STAGED semantic snapshot requires sealed read-only admission" }
         check(householdActive14DevReadOnly == null || (
             !householdStage10ReadOnly && !householdStage12ReadOnly && !householdStage13ReadOnly &&
                 !householdStage14ReadOnly && householdActive10Dev == null && householdActive12DevReadOnly == null &&
@@ -196,7 +207,8 @@ class RealityStore(
                 !householdNeedsWritableDev && planningStage8 && !financeStage9 && !financeActive9 &&
                 materialWriteGate != null
         )) { "Reality12 ACTIVE read requires its own admitted DEV mode" }
-        if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly) {
+        if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly ||
+            householdStage15ReadOnly) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate == null)
             val file = Household10RowsSql.checkFile(Path.of(fileName))
             BundledSQLiteDriver().open(
@@ -741,7 +753,7 @@ class RealityStore(
             withMaterialAdmission {
                 synchronized(lock) {
                     if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly ||
-                        householdActive14DevReadOnly != null ||
+                        householdStage15ReadOnly || householdActive14DevReadOnly != null ||
                         (householdActive13DevReadOnly != null && !householdStockCompensationWritableDev) ||
                         (householdActive12DevReadOnly != null && !household12WritableDev) ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
@@ -775,6 +787,10 @@ class RealityStore(
                         householdStage14ReadOnly -> {
                             RealityHousehold14ReservationRowsPort.captureConnection(connection)
                             validateExistingFinanceLayout(14)
+                        }
+                        householdStage15ReadOnly -> {
+                            RealityHousehold15ConsumptionRowsPort.captureConnection(connection)
+                            validateExistingFinanceLayout(15)
                         }
                         householdStage13ReadOnly -> {
                             RealityHousehold13CompensationRowsPort.captureConnection(connection)
@@ -2526,7 +2542,8 @@ class RealityStore(
                 ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10) ||
                 ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12) ||
                 ((householdStage13ReadOnly || householdActive13DevReadOnly != null) && readSchemaVersion() == 13) ||
-                ((householdStage14ReadOnly || householdActive14DevReadOnly != null) && readSchemaVersion() == 14)
+                ((householdStage14ReadOnly || householdActive14DevReadOnly != null) && readSchemaVersion() == 14) ||
+                (householdStage15ReadOnly && readSchemaVersion() == 15)
         )
 
     private fun createPlanningStage8Tables() {

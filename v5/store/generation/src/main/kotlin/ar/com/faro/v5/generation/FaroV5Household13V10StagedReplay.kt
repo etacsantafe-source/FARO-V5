@@ -30,6 +30,7 @@ import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRows
 import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRow
 import ar.com.faro.v5.store.reality.RealityHousehold14ReservationRowsPort
+import ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseReceiptRows
 import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseRow
 import ar.com.faro.v5.store.reality.RealityHousehold11ReceiptRows
@@ -372,11 +373,13 @@ internal class FaroV5Household13V10StagedReplay(
         origin: ActiveGenerationPointer,
         expected: FaroV5Household13Fbs2Snapshot,
         stageFourteen: Boolean = false,
+        stageFifteen: Boolean = false,
     ): FaroV5Household13Fbs2Snapshot {
+        check(!(stageFourteen && stageFifteen)) { "Historical SQL14/SQL15 capture modes are exclusive" }
         val manifest = manifest(expected)
         val evidenceSchema = expected.base.base.base.base.fourStore.commercialEvidence.schemaVersion
         return capture(operationId, stage, origin, evidenceSchema == 2, manifest.backupSetId, manifest.productVersion,
-            manifest.createdAtEpochMillis, manifest, stageFourteen)
+            manifest.createdAtEpochMillis, manifest, stageFourteen, stageFifteen)
     }
 
     internal fun capture(
@@ -389,29 +392,42 @@ internal class FaroV5Household13V10StagedReplay(
         createdAtMs: Long,
         sourceManifest: BackupSetManifest? = null,
         stageFourteen: Boolean = false,
+        stageFifteen: Boolean = false,
     ): FaroV5Household13Fbs2Snapshot {
+        check(!(stageFourteen && stageFifteen)) { "SQL14 and SQL15 sealed history owners are exclusive" }
         val reality = rows.requireSealedStage(stage, origin)
         val before = fingerprints(stage)
-        val archiveGraph = if (stageFourteen) {
-            FaroV5GenerationStoreGraph.openValidatedHousehold14ArchiveStage(stage, origin, evidence2, planVerifier)
-        } else {
-            FaroV5GenerationStoreGraph.openValidatedHousehold13ArchiveStage(stage, origin, evidence2, planVerifier)
+        val archiveGraph = when {
+            stageFifteen ->
+                FaroV5GenerationStoreGraph.openValidatedHousehold15ArchiveStage(stage, origin, evidence2, planVerifier)
+            stageFourteen ->
+                FaroV5GenerationStoreGraph.openValidatedHousehold14ArchiveStage(stage, origin, evidence2, planVerifier)
+            else ->
+                FaroV5GenerationStoreGraph.openValidatedHousehold13ArchiveStage(stage, origin, evidence2, planVerifier)
         }
         val (base, auxiliary) = archiveGraph.use { graph ->
             FaroV5FiveStoreBackupCapture(graph, underLease).captureReceiptProjection(
                 operationId, backupSetId, productVersion, createdAtMs,
             )
         }
-        val finance = if (stageFourteen) RealityFinance9SealedReadPort.readTrustedSealedStage14(reality)
-            else RealityFinance9SealedReadPort.readTrustedSealedStage13(reality)
-        val needs = if (stageFourteen) RealityHousehold11NeedsRowsPort.readTrustedSealedStageFourteen(reality)
-            else RealityHousehold11NeedsRowsPort.readTrustedSealedStageThirteen(reality)
-        val observed = if (stageFourteen) {
-            RealityHousehold14ReservationRowsPort.captureTrustedSealedStageFourteen(reality) {
+        val finance = when {
+            stageFifteen -> RealityFinance9SealedReadPort.readTrustedSealedStage15(reality)
+            stageFourteen -> RealityFinance9SealedReadPort.readTrustedSealedStage14(reality)
+            else -> RealityFinance9SealedReadPort.readTrustedSealedStage13(reality)
+        }
+        val needs = when {
+            stageFifteen -> RealityHousehold11NeedsRowsPort.readTrustedSealedStageFifteen(reality)
+            stageFourteen -> RealityHousehold11NeedsRowsPort.readTrustedSealedStageFourteen(reality)
+            else -> RealityHousehold11NeedsRowsPort.readTrustedSealedStageThirteen(reality)
+        }
+        val observed = when {
+            stageFifteen -> RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality) {
+                rows.requireLogicalStage(stage, origin)
+            }.historical.historical
+            stageFourteen -> RealityHousehold14ReservationRowsPort.captureTrustedSealedStageFourteen(reality) {
                 rows.requireLogicalStage(stage, origin)
             }.historical
-        } else {
-            RealityHousehold13CompensationRowsPort.captureTrustedSealedStageThirteen(reality)
+            else -> RealityHousehold13CompensationRowsPort.captureTrustedSealedStageThirteen(reality)
         }
         check(fingerprints(stage) == before) { "Reality12 capture changed sealed stores" }
         rows.requireSealedStage(stage, origin)

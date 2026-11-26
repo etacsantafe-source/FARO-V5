@@ -43,6 +43,10 @@ object RealityHousehold11NeedsRowsPort {
     fun readTrustedSealedStageFourteen(file: Path): RealityHousehold10Rows =
         readTrustedSealedStage(file, 14)
 
+    /** Explicit SQL15 STAGED projection, never the active SQLite file. */
+    fun readTrustedSealedStageFifteen(file: Path): RealityHousehold10Rows =
+        readTrustedSealedStage(file, 15)
+
     private fun readTrustedSealedStage(file: Path, version: Int): RealityHousehold10Rows {
         val physical = Household11ReceiptRowsSql.checkFile(file)
         return BundledSQLiteDriver().open(

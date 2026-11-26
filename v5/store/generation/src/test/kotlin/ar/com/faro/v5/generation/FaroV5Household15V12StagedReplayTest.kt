@@ -423,5 +423,46 @@ class FaroV5Household15V12StagedReplayTest {
         assertEquals(f.origin, pointer.read())
     }
 
+    @Test
+    fun sql15SemanticGateRejectsFinance9MutationEvenWithIdenticalStockAndHealthySqlite() {
+        val f = fixture()
+        assertEquals(completed(f), restore(f))
+        val before = RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality(f.target)) {}
+        val rootFile = reality(f.target)
+        BundledSQLiteDriver().open(rootFile.toString()).use { db ->
+            db.execSQL(
+                "INSERT INTO finance_budget_limit VALUES " +
+                    "('2026-12','Alimentos','ARS',12345,1,4500,'HUMAN')",
+            )
+            db.prepare("PRAGMA wal_checkpoint(TRUNCATE)").use {
+                check(it.step() && it.getLong(0) == 0L)
+            }
+        }
+        assertEquals(before, RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(rootFile) {})
+        assertTrue(runCatching { verifySealed(f) }.isFailure)
+        assertEquals(f.origin, pointer.read())
+    }
+
+    @Test
+    fun sql15SemanticGateRejectsNewEvidence2QuoteWithoutChangingStockLedger() {
+        val f = fixture()
+        assertEquals(completed(f), restore(f))
+        val before = RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality(f.target)) {}
+        CommercialEvidenceStore(
+            fileName = commercial(f.target), stagedTypedTermsV2 = true,
+            stagedSemanticBackupV2 = true, clock = { 400L },
+            evidenceIdFactory = { CommercialEvidenceId("w05-a2c0c1a-added-evidence") },
+        ).use { store ->
+            store.recordWithTypedTerms(
+                observation("after-backup"), knownTerms(),
+                IdempotencyKey("w05-a2c0c1a-added-intent"),
+                PayloadFingerprint("d".repeat(64)),
+            )
+        }
+        assertEquals(before, RealityHousehold15ConsumptionRowsPort.captureTrustedSealedStageFifteen(reality(f.target)) {})
+        assertTrue(runCatching { verifySealed(f) }.isFailure)
+        assertEquals(f.origin, pointer.read())
+    }
+
     private class Interruption : Error()
 }

@@ -38,6 +38,9 @@ internal class FaroV5Household15PreCutoverReadback(
     private val pin = FileRestoreArchiveIdentity(root)
     private val crypto = FaroV5FiveStorePortableBackupCrypto()
     private val mapper = FaroV5Household15V12StagedReplay(root, quiescence, assertExclusiveClosedDevHost)
+    private val semantic = FaroV5Household13V10StagedReplay(
+        root, quiescence, assertExclusiveClosedDevHost,
+    )
 
     fun verifyOnly(
         operation: MaintenanceOperationId,
@@ -83,6 +86,19 @@ internal class FaroV5Household15PreCutoverReadback(
             files.requireLogicalStage(stage, origin)
         }
         check(observed == expected) { "Precutover SQL15 history/ledger differs from authenticated FBS2v12" }
+
+        // A2C0C1A: compare ALL five canonical owners to the authenticated
+        // FBS2v12 historical projection. A quick_check/row-ledger match alone
+        // cannot certify Workspace, Auxiliary, Web, Evidence2, G4 or Finance9.
+        val expectedFive = snapshot.base.base
+        val capturedFive = semantic.observeForVerification(
+            operation, stage, origin, expectedFive, stageFifteen = true,
+        )
+        check(capturedFive == expectedFive) {
+            "SQL15 five-store semantic content differs from authenticated FBS2v12"
+        }
+        files.requireLogicalStage(stage, origin)
+        pin.requireExistingPinnedArchive(operation, stage.descriptor.generationId, archive)
         check(fingerprint(stage.directory) == original) { "Precutover stage files changed during inspection" }
         files.requireSealedStage(stage, origin)
         EvidenceOnly(source, stage.descriptor.generationId, sha256(archive))
