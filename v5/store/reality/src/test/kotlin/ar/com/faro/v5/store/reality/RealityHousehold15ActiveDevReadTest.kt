@@ -19,8 +19,8 @@ class RealityHousehold15ActiveDevReadTest {
     @TempDir lateinit var root: Path
     private val gate = SingleProcessMaterialWriteGate()
 
-    private fun file(to15: Boolean = true): Path {
-        val file = root.resolve("reality15.db")
+    private fun file(to15: Boolean = true, filename: String = "reality15.db"): Path {
+        val file = root.resolve(filename)
         RealityStore(file.toString(), planningStage8 = true).close()
         BundledSQLiteDriver().open(file.toString()).use { db ->
             db.execSQL("PRAGMA foreign_keys = ON")
@@ -106,11 +106,13 @@ class RealityHousehold15ActiveDevReadTest {
 
     @Test
     fun wrongSchemaAndStageActiveCombinationFailClosed() {
-        val sql14 = file(to15 = false)
-        assertThrows(IllegalStateException::class.java) { read(sql14).close() }
-        RealityHousehold15StagedFilePort.migrateTrustedStagedFourteen(sql14) {}
+        // Opening SQL14 ACTIVE can create legitimate WAL/SHM sidecars.
+        // A distinct SEALED SQL15 fixture is mandatory: never migrate ACTIVE in place.
+        val activeSql14 = file(to15 = false, filename = "legacy14.db")
+        assertThrows(IllegalStateException::class.java) { read(activeSql14).close() }
+        val sealedSql15 = file(to15 = true, filename = "sealed15.db")
         assertThrows(IllegalStateException::class.java) {
-            RealityStore(sql14.toString(), planningStage8 = true, materialWriteGate = gate,
+            RealityStore(sealedSql15.toString(), planningStage8 = true, materialWriteGate = gate,
                 householdStage15ReadOnly = true, householdActive15DevReadOnly = { true }).close()
         }
     }
