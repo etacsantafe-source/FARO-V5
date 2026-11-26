@@ -1,22 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
-  "reviewed_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV",
+  "reviewed_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15ActiveDevReadTest.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ActiveDevReadTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c0c1b-sql15-active-wal-readonly.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15Evidence2DevJournaledCutover.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15Evidence2DevJournaledCutoverTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c0c2-sql15-journaled-cutover.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
-          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
+          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
           "marker": "## B1"
         }
       ]
@@ -25,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
-          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
+          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
           "marker": "## B2"
         }
       ]
@@ -35,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
-          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
+          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
           "marker": "## B3"
         }
       ]
@@ -45,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
-          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
+          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
           "marker": "## B4"
         }
       ]
@@ -55,35 +53,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
-          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
+          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_PASS_SQL15_ACTIVE_WAL_AWARE_DEV_20261126.md",
-          "blob_sha": "d92fc2cbbb198da09cd4e34906870beb1bbce736",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_PASS_SQL15_ACTIVE_WAL_AWARE_DEV_20261126.md",
-          "blob_sha": "d92fc2cbbb198da09cd4e34906870beb1bbce736",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45904196687,
-  "pre_audit_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
+  "pre_audit_guard_run_id": 45908194804,
+  "pre_audit_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
   "last_code_review": {
     "sha": "534445246a1c4572961823e40ef72e7a7f5afa95",
     "result": "PASS",
@@ -100,9 +80,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "SQL15 ACTIVE read-only isolated DEV 44/44 original JUnit XML, no journaled cutover",
-  "next": "W05 A2C0C2 journaled SQL15 cutover B1-B5 independent, guard and READY; no stock real",
+  "why": "SQL15 journaled five-store cutover DEV independent B1-B5, exact3 new paths, no real stock or production",
+  "next": "C2 B6 implement journal/ticket/recovery rollback in exact3, directed CI real original XML, B7 or RED_FIX, no stock/Apply",
   "last_guard_run_id": 45907516169,
   "current_code_sha": "534445246a1c4572961823e40ef72e7a7f5afa95",
-  "reason": "A2C0C1B exact5 permit consumed B7 PASS scoped DEV; C2 separately gated"
+  "reason": "C1B B7 PASS original XML 44/44; C2 B1-B5 preaudit guard 45908194804 success; READY exact3 new paths only"
 }
