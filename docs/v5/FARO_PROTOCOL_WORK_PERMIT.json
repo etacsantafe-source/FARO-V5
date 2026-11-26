@@ -1,14 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2B0C1_SQL14_EVIDENCE2_JOURNALED_CUTOVER_DEV",
   "reviewed_head": "cd89a19af82bed673293f8ba4c91a4510017b62d",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household14Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14Evidence2DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2b0c1-journaled-cutover.yml",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutover.kt"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -60,30 +55,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_DIRIGIDO",
+    "B7": "PASS_SCOPED_DEV"
   },
   "pre_audit_guard_run_id": 45820407214,
   "pre_audit_head": "cd89a19af82bed673293f8ba4c91a4510017b62d",
   "last_code_review": {
-    "sha": "1d850a459f2f48163e68e640ca27aff7a0b61a91",
+    "sha": "852b40eef1ce6b732ca1366b107ff5c340c6aed3",
     "result": "PASS",
-    "unit_id": "S4_W05_A2B0B3_FBS2V11_FIVESTORE_SQL14_REPLAY_DEV",
+    "unit_id": "S4_W05_A2B0C1_SQL14_EVIDENCE2_JOURNALED_CUTOVER_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B0B3_B7_PASS_FBS2V11_FIVESTORE_REPLAY_20261126.md",
-        "blob_sha": "bd0398863ab13c863b38ccb0cbac05653e55c4a0",
+        "path": "docs/v5/FARO_S4_W05_A2B0C1_B7_PASS_SQL14_JOURNALED_CUTOVER_20261126.md",
+        "blob_sha": "da76d3122af80b81a4dd4cabb8e6effd8d7e15d7",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45819543956,
+  "last_ci_run_id": 45821441471,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Cutover SQL14 DEV autenticado, ticket propio y rollback a SQL13 certificado.",
-  "next": "Ejecutar C1 B6/B7 exact4. C0 después del ticket COMPLETED real.",
-  "last_guard_run_id": 45820407214,
-  "current_code_sha": "1d850a459f2f48163e68e640ca27aff7a0b61a91",
+  "why": "A2B0C1 B7 PASS. Permiso consumido.",
+  "next": "A2B0C0 delta exact6, guardia y READY propio. Reutilizar ticket C1 COMPLETED real.",
+  "last_guard_run_id": 45821441233,
+  "current_code_sha": "852b40eef1ce6b732ca1366b107ff5c340c6aed3",
   "reason": "Guardia documental del delta SUCCESS tras B7 predecesor"
 }

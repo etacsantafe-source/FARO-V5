@@ -47,3 +47,27 @@ Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY i
 CORRECTED ORDER: run after C1 B7 so the completed SQL14 ticket can be verified. C0 positive test MUST use a real completed C1 ticket, never an invented selected fixture. C0 is read-only and available remains UNKNOWN.
 
 Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
+
+## Delta contra el ticket real de C1
+
+C1 expone hasCompletedSelection con puntero completo, journal COMPLETED y
+fence RESTORE. C0 debe comprobar esa autorización bajo el mismo
+finance9-dev-root.lock antes y después de leer. Un STAGED14 o un puntero que
+vuelve al mismo generationId por ABA quedan fuera. Validar los cinco
+esquemas con preflight WAL-aware y abrir Reality SQL14 con READONLY/NOFOLLOW.
+Capturar físico y reservado en un snapshot DEFERRED, con revisión común
+derivada del máximo del historial físico y de las reservas. La API no
+publica cantidad available ni obtiene un puerto Apply.
+
+Agregar como sexta ruta exacta
+v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14Evidence2DevJournaledCutoverTest.kt.
+Exponer sólo un fixture de test reutilizable que arma y ejecuta el cutover C1,
+para que C0 verifique la selección real y la negativa VALIDATED sin volver a
+duplicar toda la cadena histórica SQL11–14. Probar un RELEASE válido visible
+en WAL con una conexión de fixture retenida, lectura frente a revoke/ABA/lease
+ocupada, readback y ausencia de efectos en los demás stores. Los puntos de
+entrada históricos se mantienen según su scope certificado.
+
+Fuentes del delta: https://sqlite.org/wal.html y https://sqlite.org/lang_transaction.html.
+Se adapta la apertura READONLY WAL existente y se descarta immutable=1 para
+ACTIVE, porque puede leer un estado previo a las tramas confirmadas.
