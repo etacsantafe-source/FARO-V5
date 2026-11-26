@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_DEV",
   "reviewed_head": "7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b",
   "paths": [
@@ -66,24 +66,24 @@
   "pre_audit_guard_run_id": 45748787541,
   "pre_audit_head": "7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b",
   "last_code_review": {
-    "sha": "ce30bb6f5498a52b70b74decb15a490171923fe1",
+    "sha": "5963052a962f49bbee9047305f2e15a4500ed592",
     "result": "PASS",
-    "unit_id": "S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV",
+    "unit_id": "S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2A_B7_PASS_PHYSICAL_SQL13_DEV_20261126.md",
-        "blob_sha": "2886c45111c082cc0ba6f83d21d654f7ac9ce4e6",
+        "path": "docs/v5/FARO_S4_W05_A2B0A_B7_PASS_SQL14_RESERVATION_STAGED_SCHEMA_20261126.md",
+        "blob_sha": "85511d92cd8a153390f7dfeda10a6dc078d48975",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45746937979,
+  "last_ci_run_id": 45807851895,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A2B0A SQL14 new STAGED reservation schema only, B1-B5 in exact proof blob; no reserve/release Apply nor availability until independently certified.",
-  "next": "Execute A2B0A B6 (exact4) and B7 with original JVM/SQLite XML; A2B0B FBS2v11 and A2B1 Apply separately.",
-  "last_guard_run_id": 45746937952,
-  "current_code_sha": "ce30bb6f5498a52b70b74decb15a490171923fe1",
-  "reason": "B1-B5 verified against A2A code/SQL13 and external SQLite/Grocy/Android references; guard 45748787541 SUCCESS; READY exact4 only for isolated SQL14 schema."
+  "next": "Prepare independent B1-B5 and READY for A2B0B FBS2v11.",
+  "last_guard_run_id": 45807851940,
+  "current_code_sha": "5963052a962f49bbee9047305f2e15a4500ed592",
+  "reason": "A2B0A SQL14 STAGED B7 PASS; permit consumed"
 }
