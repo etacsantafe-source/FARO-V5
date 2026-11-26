@@ -27,7 +27,6 @@ import ar.com.faro.v5.store.reality.RealityHousehold12StagedFilePort
 import ar.com.faro.v5.store.reality.RealityHousehold13StagedFilePort
 import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.security.MessageDigest
@@ -41,7 +40,8 @@ import org.junit.runner.RunWith
 class FaroV5W05StockReceiveAndroidTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val context get() = instrumentation.targetContext
-    private val root get() = File(context.noBackupFilesDir, "faro-v2-core-dev-root").toPath()
+    // Bundled SQLite's NOFOLLOW rejects Android's /data/user/0 alias in the parent path.
+    private val root get() = context.noBackupFilesDir.toPath().toRealPath().resolve("faro-v2-core-dev-root")
     private val catalog = BuiltInContractCatalog.create()
     private val gate = SingleProcessMaterialWriteGate()
     private val principal get() = FaroV5W05StockPanelPolicy.principal(context.packageName, context.applicationInfo.uid)
