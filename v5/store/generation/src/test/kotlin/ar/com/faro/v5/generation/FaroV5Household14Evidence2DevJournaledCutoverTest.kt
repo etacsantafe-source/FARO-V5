@@ -350,5 +350,15 @@ class FaroV5Household14Evidence2DevJournaledCutoverTest {
         assertEquals(f.origin, pointer.read())
     }
 
+    internal fun prepareSql14SelectionForReadHost(complete: Boolean): ActiveGenerationPointer {
+        val f = fixture()
+        val expected = ActiveGenerationPointer(f.origin.sequence + 1, f.target.descriptor.generationId)
+        owner().use {
+            check(authorize(it, f).status == awaitForeground)
+            if (complete) check(start(it, f).status == active)
+        }
+        return expected
+    }
+
     private class InterruptedFixture : Error()
 }

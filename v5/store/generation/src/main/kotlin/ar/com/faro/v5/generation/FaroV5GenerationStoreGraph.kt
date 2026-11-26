@@ -963,6 +963,21 @@ class FaroV5GenerationStoreGraph private constructor(
             }
         }
 
+        internal fun requireActiveHousehold14ReadProfile(staged: StagedStorageGeneration) {
+            check(ExistingGenerationFormatReader.requireAndRead(staged) == GenerationStoreFormat.WORKSPACE_V2)
+            val directory = staged.directory.toAbsolutePath().normalize()
+            check(directory.toRealPath() == directory)
+            for (name in GenerationStoreFiles.WORKSPACE_V2) {
+                val file = directory.resolve(name)
+                check(Files.isRegularFile(file, NOFOLLOW_LINKS) &&
+                    (Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+            }
+            requireStrictV2StoreSchemas(
+                directory, activeGeneration = true, planningStage8 = true, financeStage9 = true,
+                auxiliary4 = true, commercialEvidence2ActiveDev = true, householdStage14 = true,
+            )
+        }
+
         internal fun openValidatedHousehold14ArchiveStage(
             staged: StagedStorageGeneration,
             expectedActive: ActiveGenerationPointer,
@@ -1345,7 +1360,8 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStage13: Boolean = false,
             householdStage14: Boolean = false,
         ) {
-            check(!commercialEvidence2ActiveDev || (activeGeneration && (householdStage10 || householdStage12 || householdStage13))) {
+            check(!commercialEvidence2ActiveDev ||
+                (activeGeneration && (householdStage10 || householdStage12 || householdStage13 || householdStage14))) {
                 "Typed Evidence2 ACTIVE schema requires explicit Household DEV admission"
             }
             check(!commercialEvidence2StagedDev || !activeGeneration) {
