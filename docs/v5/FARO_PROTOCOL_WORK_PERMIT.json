@@ -1,19 +1,9 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2B0B3_FBS2V11_FIVESTORE_SQL14_REPLAY_DEV",
   "reviewed_head": "020639f9da101c43d7ae45f6007e98d59f60faad",
-  "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household14V11StagedReplay.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13V10StagedReplay.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14StagedFilePort.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14V11StagedReplayTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2b0b3-fivestore-replay.yml",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11NeedsRowsPort.kt"
-  ],
+  "paths": [],
   "stages": {
     "B1": {
       "status": "VERIFIED",
@@ -65,30 +55,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "PASS_DIRIGIDO",
+    "B7": "PASS_SCOPED_DEV"
   },
   "pre_audit_guard_run_id": 45816896269,
   "pre_audit_head": "020639f9da101c43d7ae45f6007e98d59f60faad",
   "last_code_review": {
-    "sha": "b638f077be08221e9d67f4a5580ae799f298d3bb",
-    "result": "RED_FIX",
+    "sha": "1d850a459f2f48163e68e640ca27aff7a0b61a91",
+    "result": "PASS",
     "unit_id": "S4_W05_A2B0B3_FBS2V11_FIVESTORE_SQL14_REPLAY_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B0B3_B7_RED_FIX_POINTER_TEST_20261126.md",
-        "blob_sha": "6c1e8d4255acc2c0471cd2c87c71a415aca6d9da",
+        "path": "docs/v5/FARO_S4_W05_A2B0B3_B7_PASS_FBS2V11_FIVESTORE_REPLAY_20261126.md",
+        "blob_sha": "bd0398863ab13c863b38ccb0cbac05653e55c4a0",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45818068599,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45819543956,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "RED_FIX mismo A2B0B3: corregir prueba ABA y preflight del workflow dirigido.",
-  "next": "Tras guardia RED_FIX, ejecutar la corrección A2B0B3 y volver a verificar CI y XML.",
-  "last_guard_run_id": 45818068048,
-  "current_code_sha": "b638f077be08221e9d67f4a5580ae799f298d3bb",
+  "why": "A2B0B3 B7 PASS. Permiso consumido.",
+  "next": "A2B0C1 delta exact4 pendiente guardia y READY individual.",
+  "last_guard_run_id": 45819543679,
+  "current_code_sha": "1d850a459f2f48163e68e640ca27aff7a0b61a91",
   "reason": "Guardia documental del delta A2B0B3 SUCCESS tras B7 A2B0B2"
 }

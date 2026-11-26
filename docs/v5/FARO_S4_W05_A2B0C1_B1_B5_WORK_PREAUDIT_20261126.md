@@ -45,3 +45,25 @@ Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY i
 CORRECTED ORDER: run immediately after A2B0B3 B7, before C0. C1 validates SQL14 STAGED independently through v11 replay and reservation rows, then does ticket/journal cutover. Do not require the future ACTIVE14 reader C0 for C1 health. If additional code paths become necessary, re-audit B4 and issue another exact permit.
 
 Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
+
+## Delta contra A2B0B3
+
+El verificador de replay v11 prueba la correspondencia de los cinco stores
+sellados con el ciphertext v11 original, el pin de restauración, Evidence2
+y el puntero SQL13 completo. Usarlo antes de cada avance hasta el switch.
+La fase posterior al CAS se verifica con el hash de los cinco archivos del
+ticket, el puntero completo, el journal y ActiveSqlitePreflight en modo WAL.
+La lectura emplea los esquemas SQL14/Evidence2/WEB2/Aux4/Workspace4 y no
+depende del futuro host C0. Mantener lease exclusiva y detectar tramas WAL
+en el target cerrado antes del fence de aceptación.
+
+El rollback usa una secuencia nueva. El host de SQL13 fija el ticket de origen
+a una secuencia exacta. Reabrir SQL13 en esa nueva secuencia requiere que el
+nuevo ticket C1 pruebe simultáneamente el origen SQL13 autenticado, su rollback
+ROLLBACK_VERIFIED, el fence de restore14 ausente y la selección recuperada
+exacta. Si se enlaza esta readmisión, incluir la ruta existente
+FaroV5Household13Evidence2DevJournaledCutover.kt en el permiso y comprobar la
+regresión de su selección normal. No confiar en coincidencia del generationId
+aislada, que aceptaría ABA. Mantener los tickets SQL13 y SQL14 separados.
+
+Se incorpora la cuarta ruta para recuperar el lector SQL13 con ticket de rollback real. Prueba nueva: reabrir el origen con la secuencia recuperada y rechazar ABA sin ese journal. Conservar regresión dirigida del cutover SQL13 modificado. Fuentes del delta: https://sqlite.org/wal.html y https://sqlite.org/backup.html.
