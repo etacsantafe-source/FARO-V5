@@ -90,24 +90,24 @@
   "pre_audit_guard_run_id": 45741695464,
   "pre_audit_head": "b5956161a8107cb60ad0f70f5bd194de03941761",
   "last_code_review": {
-    "sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
-    "result": "PASS",
-    "unit_id": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_DEV",
+    "sha": "64948c165b70e67f82337f227f9e9d3b31fcdebf",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B7_PASS_20261125.md",
-        "blob_sha": "af891254332af56e73f06117a0a333252ee3bb5a",
+        "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_RED_FIX_45742106711_20261125.md",
+        "blob_sha": "76c7d90d3297f9af0709d6116b1fc48d6e63e1a5",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45741277089,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45742106711,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS",
   "next": "Global B6 directed JVM/Android API35 then B7 original XML/APK",
-  "last_guard_run_id": 45741695464,
-  "current_code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
-  "reason": "Both maintenance deltas are B7 PASS; global acceptance exact3 revalidated"
+  "last_guard_run_id": 45742106583,
+  "current_code_sha": "64948c165b70e67f82337f227f9e9d3b31fcdebf",
+  "reason": "Global DEV acceptance directed test RED_FIX within exact3"
 }
