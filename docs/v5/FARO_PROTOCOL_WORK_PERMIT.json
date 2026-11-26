@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C0C0_SQL15_PRECUTOVER_SEALED_READBACK_DEV",
   "reviewed_head": "a0c9c9d1ea39717b44862a46e75a306e7e8ac991",
   "paths": [
@@ -60,30 +60,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0C0_B7_PASS_SQL15_PRECUTOVER_SEALED_READBACK_20261126.md",
+          "blob_sha": "6a4a1d55df37ae0201a92288d9c888cc8ef041d6",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0C0_B7_PASS_SQL15_PRECUTOVER_SEALED_READBACK_20261126.md",
+          "blob_sha": "6a4a1d55df37ae0201a92288d9c888cc8ef041d6",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45883254300,
   "pre_audit_head": "a0c9c9d1ea39717b44862a46e75a306e7e8ac991",
   "last_code_review": {
-    "sha": "e831e26f8dd927190963a40b8612611bc76f9a1f",
+    "sha": "097104fc28960bc1cbff9e3589e1829f3393e96b",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C0B3_AUTH_FBS2V12_FIVESTORE_SQL15_STAGED_REPLAY_DEV",
+    "unit_id": "S4_W05_A2C0C0_SQL15_PRECUTOVER_SEALED_READBACK_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0B3_B7_PASS_AUTH_FBS2V12_FIVESTORE_SQL15_STAGED_REPLAY_20261126.md",
-        "blob_sha": "d844d9267a7d3d24d07f57cb5e2024d63ce4c135",
+        "path": "docs/v5/FARO_S4_W05_A2C0C0_B7_PASS_SQL15_PRECUTOVER_SEALED_READBACK_20261126.md",
+        "blob_sha": "6a4a1d55df37ae0201a92288d9c888cc8ef041d6",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45881989687,
+  "last_ci_run_id": 45883689940,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Authenticated original FBS2v12 pinned, five-file strict sealed schema and SQL15 whole-history equality, no cutover authority",
-  "next": "B6 exact4 / XML original / B7; C1 semantics and C2 switch separately",
-  "last_guard_run_id": 45881989689,
-  "current_code_sha": "e831e26f8dd927190963a40b8612611bc76f9a1f",
-  "reason": "W05 A2C0C0 read-only SQL15 sealed pre-cutover B1-B5: exact4, no pointer CAS"
+  "why": "SQL15 sealed pre-cutover pinned original FBS2v12, whole SQL15 history, five SQLite structural readback 33/33",
+  "next": "A2C0C1 complete five-store SQL15 semantic read profile and DEV read host B1-B5; A2C0C2 switch only after C1 B7",
+  "last_guard_run_id": 45883689847,
+  "current_code_sha": "097104fc28960bc1cbff9e3589e1829f3393e96b",
+  "reason": "A2C0C0 exact4 permission consumed B7 PASS scoped SQL15 read-only, no selection"
 }

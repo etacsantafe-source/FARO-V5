@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C0B3_FBS2V12_SQL15_STAGED_REPLAY_B7_PASS_DEV",
+  "phase": "S4_W05_A2C0C0_SQL15_SEALED_PRECUTOVER_READBACK_B7_PASS_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2120
+    "epoch": 2124
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/v5/FARO_S4_W05_A2C0A_B7_PASS_SQL15_STAGED_CONSUMPTION_SCHEMA_20261126.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A2C0C SQL15 journaled cutover and ACTIVE DEV selection B1-B5, independent gate/permit; A2C global still OPEN and stock real OFF",
-  "checkpoint_status": "W05_A2B_CLOSED_9_9; A2C0A_B7_PASS_7_7; A2C0B1_B7_PASS_32_32; A2C0B2_B7_PASS_20_20; A2C0B3_B7_PASS_28_28; A2C_OPEN",
+  "next": "A2C0C1 SQL15 five-store semantic equality and DEV ACTIVE read-only admission B1-B5; then A2C0C2 journaled cutover; A2C globally OPEN, stock real OFF",
+  "checkpoint_status": "W05_A2B_CLOSED_9_9; A2C0A_B7_PASS_7_7; A2C0B1_B7_PASS_32_32; A2C0B2_B7_PASS_20_20; A2C0B3_B7_PASS_28_28; A2C0C0_B7_PASS_33_33; A2C_OPEN",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF. | W05-A2A B7 PASS scoped SQL13 DEV physical net, 5/5 original XML, NOT availability; W05-A2 OPEN, A2B next. | 2026-11-26 W05-A2B0A B1-B5 preaudit blob 84335097177287d5239af73e4b2a1b20b2567679 on 7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b, guard 45748787541 SUCCESS, READY exact4; B6/B7 NOT_RUN, SQL13 ACTIVE untouched. | 2026-11-26: A2B nine units preaudit B1-B5 published on 7ad7f22eba85, guard 45811688638 SUCCESS; first A2B0B1 permit READY exact4. No functional A2B B6/B7 yet. A2B0A 7/7 prior. | 2026-11-26: A2C0A SQL15 STAGED B1-B5 preaudit documentary only. Guard/READY/B6/B7 PENDING; no functional change. | 2026-11-26 A2C0A B1-B5 guard 45872148641 SUCCESS and separate READY exact4; B6/B7 NOT_RUN. A2B remains 9/9 closed. | 2026-11-26 A2C0A isolated SQL15 STAGED B7 PASS 7/7, original JUnit checked in CI 45872779600 SHA dbe04c32 and guard 45872779443 SUCCESS, permission consumed; A2C global OPEN, no stock.consume.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A2C0B3_B7_PASS_AUTH_FBS2V12_FIVESTORE_SQL15_STAGED_REPLAY_20261126.md",
-  "last_code_sha": "e831e26f8dd927190963a40b8612611bc76f9a1f",
-  "last_ci_run_id": 45881989687,
+  "last_handoff": "docs/v5/FARO_S4_W05_A2C0C0_B7_PASS_SQL15_PRECUTOVER_SEALED_READBACK_20261126.md",
+  "last_code_sha": "097104fc28960bc1cbff9e3589e1829f3393e96b",
+  "last_ci_run_id": 45883689940,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML28_28_FBS2V12_SQL15_STAGED",
+  "last_ci_conclusion": "SUCCESS_XML33_33_SQL15_PRECUTOVER",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -2247,7 +2247,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S4_W05_A2C0B3_B7_PASS_SCOPED_DEV",
+  "checkpoint": "S4_W05_A2C0C0_B7_PASS_SCOPED_DEV",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -2456,7 +2456,7 @@
       "tokens_if_observed": null
     }
   },
-  "checkpoint_code_sha": "e831e26f8dd927190963a40b8612611bc76f9a1f",
+  "checkpoint_code_sha": "097104fc28960bc1cbff9e3589e1829f3393e96b",
   "checkpoint_commit_resolution": "COMMIT_CONTAINING_A1C3_B7_PASS_DOCUMENT_AND_CONSUMED_PERMIT",
   "a5_7_x03_u01": {
     "status": "DONE_VERIFIED_SCOPED",
@@ -4715,7 +4715,7 @@
     "document": "docs/v5/FARO_S4_W01_B3B1B1B1B1_CROSS_PROCESS_REVOKE_LIFECYCLE_B1_B5_20261117.md",
     "next": "B3B1B1B1B1A_INDEPENDENT_B5"
   },
-  "last_b7_document": "docs/v5/FARO_S4_W05_A2C0B3_B7_PASS_AUTH_FBS2V12_FIVESTORE_SQL15_STAGED_REPLAY_20261126.md",
+  "last_b7_document": "docs/v5/FARO_S4_W05_A2C0C0_B7_PASS_SQL15_PRECUTOVER_SEALED_READBACK_20261126.md",
   "ci_global_code_sha_snapshot": {
     "total": 24,
     "completed": 20,
@@ -7638,5 +7638,22 @@
     "cutover": "NOT_RUN",
     "red_fix_first_ci_run_id": 45881273340,
     "next": "A2C0C_B1_B5"
+  },
+  "w05_a2c0c0": {
+    "status": "B7_PASS_SCOPED_DEV",
+    "unit_id": "S4_W05_A2C0C0_SQL15_PRECUTOVER_SEALED_READBACK_DEV",
+    "code_sha": "097104fc28960bc1cbff9e3589e1829f3393e96b",
+    "ci_run_id": 45883689940,
+    "guard_run_id": 45883689847,
+    "xml": "V12_REPLAY_AND_PRECUTOVER_13_13;V11_REPLAY_5_5;V12_CODEC_8_8;SQL15_ROWS_7_7;TOTAL_33_33",
+    "artifact_id": 15148222965,
+    "b7_document": "docs/v5/FARO_S4_W05_A2C0C0_B7_PASS_SQL15_PRECUTOVER_SEALED_READBACK_20261126.md",
+    "writer_release_epoch_expected": 2124,
+    "physical": "NOT_RUN",
+    "productive_v2": false,
+    "stock_real": false,
+    "active_cutover": "NOT_RUN",
+    "semantics_all_five": "OPEN_A2C0C1",
+    "next": "A2C0C1_B1_B5"
   }
 }
