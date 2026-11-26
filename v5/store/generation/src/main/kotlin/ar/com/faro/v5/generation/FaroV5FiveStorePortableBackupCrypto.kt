@@ -119,6 +119,19 @@ class FaroV5FiveStorePortableBackupCrypto(
     ): FiveStoreAuthenticatedPayload<FaroV5Household14Fbs2Snapshot> =
         openPayload(archive, passphrase, FaroV5Household14Fbs2Codec::decode)
 
+    /** W05-A2C0B1: FBS2v12 typed SQL15 ledger inside the existing authenticated FAROBAK2. */
+    internal fun sealWithHouseholdConsumption15(
+        set: FaroV5Household15Fbs2Snapshot,
+        passphrase: CharArray,
+    ): ByteArray = sealPayload(passphrase) { FaroV5Household15Fbs2Codec.encode(set) }
+
+    /** Decode only. This is not a grant to restore, activate SQL15 or consume stock. */
+    internal fun openWithHouseholdConsumption15(
+        archive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreAuthenticatedPayload<FaroV5Household15Fbs2Snapshot> =
+        openPayload(archive, passphrase, FaroV5Household15Fbs2Codec::decode)
+
     private fun sealPayload(passphrase: CharArray, encode: () -> ByteArray): ByteArray {
         requirePassphrase(passphrase)
         val plaintext = encode()
