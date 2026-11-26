@@ -1,0 +1,80 @@
+name: FARO V5 W05-A2C0A SQL15 STAGED consumption schema DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionSchema.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15StagedFilePort.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionSchemaTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2c0a-sql15-consumption-schema.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sql15-staged-consumption-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact scope and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2C0A_SQL15_CONSUMPTION_STAGED_SCHEMA_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 4
+          test "${#changed[@]}" -eq 4
+          for route in "${changed[@]}"; do
+            grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+          done
+          args=()
+          for route in "${permitted[@]}"; do
+            args+=(--path "$route")
+          done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test SQL15 staged consumption migration
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionSchemaTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/store/reality/build/test-results').glob('**/TEST-ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionSchemaTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          actual = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+          assert actual == (7, 0, 0, 0), actual
+          assert len(suite.findall('testcase')) == 7
+          PY
+      - name: Preserve original SQL15 schema XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c0a-sql15-consumption-schema-xml
+          if-no-files-found: error
+          path: v5/store/reality/build/test-results/**/TEST-ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionSchemaTest.xml
