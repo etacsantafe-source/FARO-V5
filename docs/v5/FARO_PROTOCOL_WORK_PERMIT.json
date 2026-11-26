@@ -1,16 +1,26 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B0B2_SQL14_SEALED_RESERVATION_ROWS_DEV",
-  "reviewed_head": "eea6a17957dfe522691130499d9440e43d26fa41",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W05_A2B0B3_FBS2V11_FIVESTORE_SQL14_REPLAY_DEV",
+  "reviewed_head": "020639f9da101c43d7ae45f6007e98d59f60faad",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household14V11StagedReplay.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13V10StagedReplay.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14StagedFilePort.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14V11StagedReplayTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b0b3-fivestore-replay.yml",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11NeedsRowsPort.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
+          "path": "docs/v5/FARO_S4_W05_A2B0B3_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "6c14451bbc1a5f2efdbd126fae54fcceb75d7401",
           "marker": "## B1"
         }
       ]
@@ -19,8 +29,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
+          "path": "docs/v5/FARO_S4_W05_A2B0B3_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "6c14451bbc1a5f2efdbd126fae54fcceb75d7401",
           "marker": "## B2"
         }
       ]
@@ -29,8 +39,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
+          "path": "docs/v5/FARO_S4_W05_A2B0B3_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "6c14451bbc1a5f2efdbd126fae54fcceb75d7401",
           "marker": "## B3"
         }
       ]
@@ -39,8 +49,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
+          "path": "docs/v5/FARO_S4_W05_A2B0B3_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "6c14451bbc1a5f2efdbd126fae54fcceb75d7401",
           "marker": "## B4"
         }
       ]
@@ -49,17 +59,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
+          "path": "docs/v5/FARO_S4_W05_A2B0B3_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "6c14451bbc1a5f2efdbd126fae54fcceb75d7401",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_DIRIGIDO",
-    "B7": "PASS_SCOPED_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45815175114,
-  "pre_audit_head": "eea6a17957dfe522691130499d9440e43d26fa41",
+  "pre_audit_guard_run_id": 45816896269,
+  "pre_audit_head": "020639f9da101c43d7ae45f6007e98d59f60faad",
   "last_code_review": {
     "sha": "8ae675ff9d94e0172bd5f618212cacbc5359f666",
     "result": "PASS",
@@ -76,9 +86,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B0B2 B7 PASS. Permiso consumido.",
-  "next": "A2B0B3 delta exact9 pendiente guardia y READY individual.",
-  "last_guard_run_id": 45816178736,
+  "why": "Replay autenticado SQL14 STAGED de cinco stores con pin del ciphertext original.",
+  "next": "B6 y B7 exact9 de A2B0B3, luego A2B0C1.",
+  "last_guard_run_id": 45816896269,
   "current_code_sha": "8ae675ff9d94e0172bd5f618212cacbc5359f666",
-  "reason": "Guardia del delta A2B0B2 SUCCESS después de B7 A2B0B1"
+  "reason": "Guardia documental del delta A2B0B3 SUCCESS tras B7 A2B0B2"
 }
