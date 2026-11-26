@@ -1,16 +1,23 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B0C1_SQL14_EVIDENCE2_JOURNALED_CUTOVER_DEV",
-  "reviewed_head": "cd89a19af82bed673293f8ba4c91a4510017b62d",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W05_A2B0C0_SQL14_ACTIVE_DEV_READ_HOST",
+  "reviewed_head": "c384103faaeae06bee93ba49d7542f2ceae23641",
+  "paths": [
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household14ActiveDevReadHost.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14ActiveDevReadHostTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b0c0-active-read.yml",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14Evidence2DevJournaledCutoverTest.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0C1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b2078b18cf2fc23d8653b6302cede8bd1fdb6c76",
+          "path": "docs/v5/FARO_S4_W05_A2B0C0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "a6947e810ba8436b4b82ce8cb02e7882e45b0ded",
           "marker": "## B1"
         }
       ]
@@ -19,8 +26,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0C1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b2078b18cf2fc23d8653b6302cede8bd1fdb6c76",
+          "path": "docs/v5/FARO_S4_W05_A2B0C0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "a6947e810ba8436b4b82ce8cb02e7882e45b0ded",
           "marker": "## B2"
         }
       ]
@@ -29,8 +36,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0C1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b2078b18cf2fc23d8653b6302cede8bd1fdb6c76",
+          "path": "docs/v5/FARO_S4_W05_A2B0C0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "a6947e810ba8436b4b82ce8cb02e7882e45b0ded",
           "marker": "## B3"
         }
       ]
@@ -39,8 +46,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0C1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b2078b18cf2fc23d8653b6302cede8bd1fdb6c76",
+          "path": "docs/v5/FARO_S4_W05_A2B0C0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "a6947e810ba8436b4b82ce8cb02e7882e45b0ded",
           "marker": "## B4"
         }
       ]
@@ -49,17 +56,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0C1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "b2078b18cf2fc23d8653b6302cede8bd1fdb6c76",
+          "path": "docs/v5/FARO_S4_W05_A2B0C0_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "a6947e810ba8436b4b82ce8cb02e7882e45b0ded",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_DIRIGIDO",
-    "B7": "PASS_SCOPED_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45820407214,
-  "pre_audit_head": "cd89a19af82bed673293f8ba4c91a4510017b62d",
+  "pre_audit_guard_run_id": 45822263661,
+  "pre_audit_head": "c384103faaeae06bee93ba49d7542f2ceae23641",
   "last_code_review": {
     "sha": "852b40eef1ce6b732ca1366b107ff5c340c6aed3",
     "result": "PASS",
@@ -76,9 +83,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B0C1 B7 PASS. Permiso consumido.",
-  "next": "A2B0C0 delta exact6, guardia y READY propio. Reutilizar ticket C1 COMPLETED real.",
-  "last_guard_run_id": 45821441233,
+  "why": "Lectura SQL14 ACTIVE aislada y WAL-aware, ticket C1 real y sin Apply.",
+  "next": "Ejecutar B6/B7 C0 exact6. Luego delta A2B1A.",
+  "last_guard_run_id": 45822263661,
   "current_code_sha": "852b40eef1ce6b732ca1366b107ff5c340c6aed3",
   "reason": "Guardia documental del delta SUCCESS tras B7 predecesor"
 }
