@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C0A_SQL15_CONSUMPTION_STAGED_SCHEMA_DEV",
-  "reviewed_head": "0d50f1f656b91d8459a74d1032cd0c78a32f8184",
+  "reviewed_head": "dbe04c32023b9f31ca2bcf94d10d16945b675568",
   "paths": [
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionSchema.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15StagedFilePort.kt",
@@ -60,30 +60,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0A_B7_PASS_SQL15_STAGED_CONSUMPTION_SCHEMA_20261126.md",
+          "blob_sha": "fb4aaf1b1d758001ea5ac923a724a6f17fe34e7f",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0A_B7_PASS_SQL15_STAGED_CONSUMPTION_SCHEMA_20261126.md",
+          "blob_sha": "fb4aaf1b1d758001ea5ac923a724a6f17fe34e7f",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45872148641,
   "pre_audit_head": "0d50f1f656b91d8459a74d1032cd0c78a32f8184",
   "last_code_review": {
-    "sha": "a805f847089fb3cb647f8b578dd73f6fc6656eea",
+    "sha": "dbe04c32023b9f31ca2bcf94d10d16945b675568",
     "result": "PASS",
-    "unit_id": "S4_W05_A2B1C_GLOBAL_RESERVATION_DEV_ACCEPTANCE",
+    "unit_id": "S4_W05_A2C0A_SQL15_CONSUMPTION_STAGED_SCHEMA_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B1C_GLOBAL_B7_PASS_A2B_CLOSED_20261126.md",
-        "blob_sha": "a8b7652d053bd1ac77d9568e2d3493accc8f4f0e",
+        "path": "docs/v5/FARO_S4_W05_A2C0A_B7_PASS_SQL15_STAGED_CONSUMPTION_SCHEMA_20261126.md",
+        "blob_sha": "fb4aaf1b1d758001ea5ac923a724a6f17fe34e7f",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45865955416,
+  "last_ci_run_id": 45872779600,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B DEV B7 closed 9/9; A2C0A B1-B5 SQL15 STAGED reviewed and guard SUCCESS; only four isolated paths, no activation",
-  "next": "A2C0A B6: preflight each of four paths, implement SQL15 STAGED only, directed CI + original JUnit XML, then B7 independent. A2C0B separate.",
-  "last_guard_run_id": 45872148641,
-  "current_code_sha": "a805f847089fb3cb647f8b578dd73f6fc6656eea",
-  "reason": "Independent A2C0A READY after seven-block documentary guard; A2B consumed and remains closed"
+  "why": "SQL15 STAGED-only schema 7/7 JUnit original CI XML, protocol guard and exact4 PASS; no runtime stock consumption",
+  "next": "A2C0A B7 PASS DEV. Next A2C0B1 requires independent B1-B5, guard and READY, FBS2v12 consumption codec. A2C global OPEN.",
+  "last_guard_run_id": 45872779443,
+  "current_code_sha": "dbe04c32023b9f31ca2bcf94d10d16945b675568",
+  "reason": "A2C0A code permission consumed after B7 scoped PASS; no further functional path authorized"
 }
