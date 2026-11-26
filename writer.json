@@ -1,10 +1,11 @@
 {
   "schema": 1,
-  "status": "HELD",
+  "status": "RELEASED",
   "owner": "FARO.CODEX.SQL13.VERIFIER.20261125",
   "token_hash": "9915e409f29be5edc7eab134516cb2b664d1384ec90a340453622c260fc24bdb",
   "target_head": "120893eae5913a15c1277b00bb773389f1bbd73a",
   "target_branch": "work/s3-night-20261102",
   "epoch": 2052,
-  "timestamp": 1795659806
+  "timestamp": 1795659815,
+  "last_checkpoint": "64948c165b70e67f82337f227f9e9d3b31fcdebf"
 }
