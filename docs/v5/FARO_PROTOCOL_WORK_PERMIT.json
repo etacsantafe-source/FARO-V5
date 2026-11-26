@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C0B1_AUTH_FBS2V12_CONSUMPTION_CODEC_DEV",
   "reviewed_head": "94889b3b4d630ed8ac8a00e4bcb5c67d29dc95b3",
   "paths": [
@@ -60,30 +60,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0B1_B7_PASS_FBS2V12_AUTH_CONSUMPTION_CODEC_20261126.md",
+          "blob_sha": "0f7ab558ea1cf0c38cde741ae3933c1f2125eb4c",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0B1_B7_PASS_FBS2V12_AUTH_CONSUMPTION_CODEC_20261126.md",
+          "blob_sha": "0f7ab558ea1cf0c38cde741ae3933c1f2125eb4c",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45874390038,
   "pre_audit_head": "94889b3b4d630ed8ac8a00e4bcb5c67d29dc95b3",
   "last_code_review": {
-    "sha": "dbe04c32023b9f31ca2bcf94d10d16945b675568",
+    "sha": "692014e3639b05086f073dac3a5321c1ee7ae626",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C0A_SQL15_CONSUMPTION_STAGED_SCHEMA_DEV",
+    "unit_id": "S4_W05_A2C0B1_AUTH_FBS2V12_CONSUMPTION_CODEC_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0A_B7_PASS_SQL15_STAGED_CONSUMPTION_SCHEMA_20261126.md",
-        "blob_sha": "fb4aaf1b1d758001ea5ac923a724a6f17fe34e7f",
+        "path": "docs/v5/FARO_S4_W05_A2C0B1_B7_PASS_FBS2V12_AUTH_CONSUMPTION_CODEC_20261126.md",
+        "blob_sha": "0f7ab558ea1cf0c38cde741ae3933c1f2125eb4c",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45872779600,
+  "last_ci_run_id": 45875086467,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C0B1 FBS2v12 typed authenticated codec preaudit B1-B5 evidenced and seven-block guard SUCCESS; code not yet run",
-  "next": "A2C0B1 exact4 preflight then B6/CI original XML/B7; no SQL15 active/consumption",
-  "last_guard_run_id": 45872779443,
-  "current_code_sha": "dbe04c32023b9f31ca2bcf94d10d16945b675568",
-  "reason": "A2C0B1 B1-B5 verified, permission READY exact4 only; A2C0A B7 unchanged"
+  "why": "A2C0B1 FBS2v12 canonical typed codec + existing FAROBAK2; targeted CI original XML 32/32 PASS and protocol guard SUCCESS; no stock.consume",
+  "next": "A2C0B2 separate B1-B5, guard, independent READY for SQL15 rows STAGED; A2C global OPEN",
+  "last_guard_run_id": 45875086414,
+  "current_code_sha": "692014e3639b05086f073dac3a5321c1ee7ae626",
+  "reason": "A2C0B1 exact4 functional permit consumed after B7 scoped PASS, no further functional files authorized"
 }
