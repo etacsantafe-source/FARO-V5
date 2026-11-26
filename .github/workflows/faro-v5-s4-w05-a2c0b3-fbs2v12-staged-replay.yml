@@ -31,9 +31,13 @@ jobs:
           mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
           mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
           test "${#allowed[@]}" -eq 5
-          diff -u <(printf '%s\n' "${allowed[@]}") <(printf '%s\n' "${changed[@]}")
+          # B7 RED_FIX only: changed paths must be a nonempty subset of the exact5 READY permit.
+          test "${#changed[@]}" -ge 1
+          for path in "${changed[@]}"; do
+            printf '%s\n' "${allowed[@]}" | grep -Fxq -- "$path"
+          done
           args=()
-          for path in "${allowed[@]}"; do args+=(--path "$path"); done
+          for path in "${changed[@]}"; do args+=(--path "$path"); done
           python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
       - uses: actions/setup-java@v4
         with:

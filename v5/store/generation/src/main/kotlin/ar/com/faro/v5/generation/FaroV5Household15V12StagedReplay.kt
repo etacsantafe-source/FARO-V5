@@ -134,7 +134,7 @@ internal class FaroV5Household15V12StagedReplay(
                 files.requireSealedStage(stage, origin), fence,
             ) == rows) { "FBS2v12 SQL15 staged readback is not the authenticated snapshot" }
             fence()
-            FiveStoreStagedRestoreResult.StagedVerified(stage.descriptor.generationId.value)
+            return FiveStoreStagedRestoreResult.StagedVerified(stage.descriptor.generationId.value)
         } finally {
             originalArchive.fill(0)
         }
