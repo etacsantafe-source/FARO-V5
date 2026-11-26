@@ -1,0 +1,16 @@
+# FARO V5 — A2C0C1B · B7 RED_FIX · CI failed, no PASS
+
+Date: 2026-11-26 Argentina. Repo `etacsantafe-source/FARO-V5`, branch `work/s3-night-20261102`.
+Unit: `S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV`.
+**B6 code SHA:** `066eaead39093ae154193d7fd42641bdbc5e4a23`; five preaudited paths, committed only after independent READY exact5.
+
+## B7 — RED_FIX and verified evidence
+
+- B1–B5 independently verified, audit blob `fbce8503e2d9474ed8ff546930f51841da2758b0` (SHA `2b7838a61d766791f9704a38b2c35b492b1cfce0`), guard `45904196687` SUCCESS. READY exact5 `1e1b52e9de8d7809d1204b56d9b87c0f70413121`, guard `45904328597` SUCCESS. Neither scope nor unit changes.
+- Functional **seven-block code guard** https://github.com/etacsantafe-source/FARO-V5/actions/runs/45905334650 **SUCCESS** for `066eaead39093ae154193d7fd42641bdbc5e4a23`; first-parent preflight and exact5 scope succeeded.
+- Directed **CI** https://github.com/etacsantafe-source/FARO-V5/actions/runs/45905334687 **COMPLETED FAILURE**. Job `140200600091`: exact5 preflight PASS, Kotlin and Generation directed test task SUCCESS, but Reality suite task FAILED. **11 tests executed in Reality, 4 failed**: `RealityHousehold15ActiveDevReadTest` all four fail at `RealityHousehold15ActiveDevReadTest.kt:28`; seven previously certified `RealityHousehold15ConsumptionRowsPortTest` were not reported as failures. Original XML artifact `15157494116` (digest `sha256:dd022a33690ba1131becc0e7cee9887e3863bfce57225c7aa89351d791784b50`) exists, but the exact44 XML validation step was SKIPPED. DO NOT claim 44/44 PASS.
+- Identified fixture root cause from source and CI line: line 28 invokes `RealityFinance9Schema.installOnStagedEightConnection` immediately after opening `BundledSQLiteDriver`. That installer requires `PRAGMA foreign_keys=1` (check at schema source line 38). The new test fixture never enabled it. Fix only fixture: `db.execSQL("PRAGMA foreign_keys = ON")` before Finance9 installation. The older tests already have equivalent configured fixtures. No production migration policy should be relaxed.
+- Checkpoint guard https://github.com/etacsantafe-source/FARO-V5/actions/runs/45905671449 **FAILURE** at `Verify exact READY permit preflight on GitHub checkout` because the B6 SHA had no B7 disposition. This B7 RED_FIX records that disposition and must be verified by new guard.
+- Corrective code/workflow only after this document and permit commit has its own successful guard: workflow preflight currently insists all five files change every time. For a RED_FIX of the **same unit**, enforce a **nonempty subset** of five authorized paths and run scoped preflight against `HEAD^` with the same READY permit; do not artificially touch other files or widen the permission. Proposed correction: 2 paths (Reality test + directed workflow), within existing exact5.
+- Until a corrective CI passes: `last_code_review.result=RED_FIX` for `066eaead39093ae154193d7fd42641bdbc5e4a23`, permit stays `READY` for same-unit followup (only exact5 paths), B6/B7 **not certified**. No new functional unit or A2C0C2 cutover allowed. If fix fails again, another evidence-driven RED_FIX.
+- C1B ACTIVE remains a **DEV synthetic-selection read-only fixture**, not journaled C2 completion, not a real host permission; V2 productive, stock real, payments and Auto/Noche OFF, G15 physical NOT_RUN, main/V4.4 untouched.

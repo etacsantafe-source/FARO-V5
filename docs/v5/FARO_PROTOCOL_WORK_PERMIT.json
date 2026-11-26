@@ -67,24 +67,24 @@
   "pre_audit_guard_run_id": 45904196687,
   "pre_audit_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
   "last_code_review": {
-    "sha": "b327656a14eea360b148122250f31929df7b7ffc",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_SEALED_DEV",
+    "sha": "066eaead39093ae154193d7fd42641bdbc5e4a23",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0C1A_B7_PASS_SQL15_FIVESTORE_SEMANTIC_SEALED_READ_20261126.md",
-        "blob_sha": "c9a84baf05c4ad49f543a7a35f910fdcb3c7c08c",
+        "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_RED_FIX_FINANCE9_FIXTURE_20261126.md",
+        "blob_sha": "6fb5760792d40660055dc3dddec3ebd9ea4d187a",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45887407597,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45905334687,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "B1-B5 independently checked for SQL15 ACTIVE WAL-aware read-only DEV; exact5 scope, no SQL15 cutover or writer",
-  "next": "C1B B6 confined to exact5 and directed original XML; C2 journaled cutover remains separate and OFF",
-  "last_guard_run_id": 45904196687,
-  "current_code_sha": "b327656a14eea360b148122250f31929df7b7ffc",
-  "reason": "Independent B1-B5 preaudit verified, original previous B7 PASS retained; B6 may begin only after exact5 preflight"
+  "next": "Correct fixture + directed CI workflow subset RED_FIX, then original XML exact44, B7 PASS only after real verification",
+  "last_guard_run_id": 45905334650,
+  "current_code_sha": "066eaead39093ae154193d7fd42641bdbc5e4a23",
+  "reason": "B7 RED_FIX: Reality fixture requires PRAGMA foreign_keys=ON before Finance9; 4/11 failed, directed CI failure, correction bounded same unit"
 }
