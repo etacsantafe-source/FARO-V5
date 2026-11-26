@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C4_SQL13_REVIEW_VERIFIER_DEV",
-  "reviewed_head": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_DEV",
+  "reviewed_head": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c4-sql13-review-verifier.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5ClosedHousehold12DevMaintenance.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ClosedHousehold12DevMaintenanceTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c4-closed-sql12-maintenance.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
-          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
+          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
+          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
-          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
+          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
+          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
-          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
+          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
+          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
-          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
+          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
+          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
           "marker": "## B4"
         }
       ]
@@ -53,8 +54,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
-          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
+          "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
+          "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
           "marker": "## B5"
         }
       ]
@@ -62,8 +63,8 @@
     "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45739783591,
-  "pre_audit_head": "eba5a7e78bebabbc50d73d4ad20ecc93dd30323f",
+  "pre_audit_guard_run_id": 45740766176,
+  "pre_audit_head": "f9a8f8dbcc0dee961ed0a9cd8c63eb0ee0f926f0",
   "last_code_review": {
     "sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
     "result": "PASS",
@@ -80,9 +81,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Independent SQL13 cutover plan verifier RED correction; documentary guard SUCCESS",
-  "next": "Guard B1-B5 for closed SQL12 maintenance before READY; resume global A1C4 only after its B7",
-  "last_guard_run_id": 45740195384,
+  "why": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS",
+  "next": "Implement four permitted paths and execute grade-directed JVM CI before A1C4",
+  "last_guard_run_id": 45740766176,
   "current_code_sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
-  "reason": "SQL13 verifier correction B7 PASS acotado"
+  "reason": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS"
 }
