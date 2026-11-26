@@ -1,0 +1,113 @@
+name: FARO V5 W05-A1C3 Android stock DEV
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanel.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt
+      - v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveDevPanelTest.kt
+      - v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05StockReceiveAndroidTest.kt
+      - .github/workflows/faro-v5-s4-w05-a1c3-stock-android-dev.yml
+permissions:
+  contents: read
+jobs:
+  stock-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify authorized routes on the parent commit
+        run: |
+          set -euo pipefail
+          mapfile -t paths < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "${#paths[@]}" -gt 0
+          for path in "${paths[@]}"; do
+            python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV --path "$path"
+          done
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: JVM panel tests and isolated Android builds
+        working-directory: v5
+        run: |
+          set -euo pipefail
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.FaroV5W05StockReceiveDevPanelTest
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            -PfaroG5AndroidTestV2CoreDev=true :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest
+      - name: Enable emulator VM acceleration
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Run native stock panel on API35 with 200% font scale
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            adb shell settings put system font_scale 2.0;
+            cd v5;
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8"
+            -PfaroG5AndroidTestV2CoreDev=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.FaroV5W05StockReceiveAndroidTest
+            :app:connectedV2CoreDevAndroidTest
+            '
+      - name: Verify eight unique original JUnit cases
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          suites = {
+              "v5/app/build/test-results/testV2CoreDevUnitTest": {
+                  "admitsOnlyTheTwoDebugPackagesWhenProductionIsOff",
+                  "usesExactPositiveThousandthsWithoutRounding",
+                  "isolatesPrincipalsAcrossPackagesAndUids",
+              },
+              "v5/app/build/outputs/androidTest-results": {
+                  "actualPanelReceivesSevenThenThreeAndUndoesInSeparatelyAdmittedSql13",
+                  "leavingForegroundRevokesAnApprovedButUnconfirmedReview",
+                  "blocksBothModesWhenThereIsNoCompletedGeneration",
+                  "pointerAbaAfterApprovalCannotWriteTheOriginalGeneration",
+                  "reconcilesAnInterruptedReceiptWithoutReapplyingIt",
+              },
+          }
+          for folder, names in suites.items():
+              cases = [
+                  case for path in Path(folder).rglob("TEST-*.xml")
+                  for case in ElementTree.parse(path).getroot().iter("testcase")
+              ]
+              observed = [case.attrib["name"].removesuffix("()") for case in cases]
+              assert len(observed) == len(names) and set(observed) == names, (folder, observed)
+              assert all(case.find(tag) is None for case in cases for tag in ("failure", "error", "skipped"))
+          print("FARO_W05_A1C3_ORIGINAL_XML 8/8")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w05-a1c3-stock-android-dev-xml-apk
+          if-no-files-found: warn
+          path: |
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*.xml
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/v2CoreDev/*.apk

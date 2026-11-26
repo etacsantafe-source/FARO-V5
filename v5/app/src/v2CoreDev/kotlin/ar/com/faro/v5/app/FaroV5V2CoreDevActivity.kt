@@ -65,6 +65,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val pendingDueReadRequest = AtomicBoolean(false)
     private val pendingBookmarkReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
+    private var stockPanel: FaroV5W05StockReceiveDevPanel? = null
     private var sql11Probe: FaroV5W05Household11DevStartup? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
@@ -162,6 +163,16 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 setOnClickListener { inspectEvidence2Sql11() }
             })
         }
+        if (FaroV5W05StockPanelPolicy.permits(
+                packageName,
+                (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0,
+                FaroV5HostCertification.V2_ACTIVE_ENABLED,
+            )) {
+            column.addView(Button(this).apply {
+                text = "Abrir recepción de stock (DEV)"
+                setOnClickListener { openStockPanel() }
+            })
+        }
         setContentView(ScrollView(this).apply {
             FaroV5NativeScreenInsets.protect(this)
             addView(column, ViewGroup.LayoutParams(
@@ -169,6 +180,31 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
             ))
         })
+    }
+
+    private fun openStockPanel() {
+        if (!lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) ||
+            !opening.compareAndSet(false, true)) return
+        try {
+            session?.close()
+            session = null
+            sql11Probe?.close()
+            sql11Probe = null
+            stockPanel = FaroV5W05StockReceiveDevPanel(
+                this, rootPath(), executor,
+                { !disposed.get() && !isFinishing && !isDestroyed &&
+                    lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED) },
+                {
+                    stockPanel = null
+                    opening.set(false)
+                },
+            )
+            stockPanel?.show()
+        } catch (failure: Exception) {
+            stockPanel?.close()
+            opening.set(false)
+            status.text = "No se pudo abrir el panel de stock DEV."
+        }
     }
 
     /**
@@ -588,6 +624,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onPause() {
+        stockPanel?.close()
         sql11Probe?.close()
         sql11Probe = null
         sourceNavigationSequence.incrementAndGet()
@@ -612,6 +649,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        stockPanel?.close()
         sql11Probe?.close()
         sql11Probe = null
         disposed.set(true)
