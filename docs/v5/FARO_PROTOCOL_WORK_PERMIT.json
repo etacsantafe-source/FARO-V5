@@ -1,16 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B0B1_AUTH_FBS2V11_RESERVATIONS_CODEC_DEV",
-  "reviewed_head": "7ad7f22eba85e451883cb5c13116a43306239afb",
-  "paths": [],
+  "status": "READY",
+  "unit_id": "S4_W05_A2B0B2_SQL14_SEALED_RESERVATION_ROWS_DEV",
+  "reviewed_head": "eea6a17957dfe522691130499d9440e43d26fa41",
+  "paths": [
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationRowsPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationRowsPort.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationRowsPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b0b2-reservation-rows.yml",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt"
+  ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
+          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
           "marker": "## B1"
         }
       ]
@@ -19,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
+          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
           "marker": "## B2"
         }
       ]
@@ -29,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
+          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
           "marker": "## B3"
         }
       ]
@@ -39,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
+          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
           "marker": "## B4"
         }
       ]
@@ -49,17 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
-          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
+          "path": "docs/v5/FARO_S4_W05_A2B0B2_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "dafedd652210034518b863d125a94fff4f947cdb",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "PASS_DIRIGIDO",
-    "B7": "PASS_SCOPED_DEV"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45811688638,
-  "pre_audit_head": "7ad7f22eba85e451883cb5c13116a43306239afb",
+  "pre_audit_guard_run_id": 45815175114,
+  "pre_audit_head": "eea6a17957dfe522691130499d9440e43d26fa41",
   "last_code_review": {
     "sha": "ccc49c7fbc68e35819f9d26d6660fbda98b867e9",
     "result": "PASS",
@@ -76,9 +82,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B0B1 B7 PASS. El permiso se consume. A2B0B2 espera guardia documental y permiso propio.",
-  "next": "A2B0B2 delta verificado. Tras guardia SUCCESS emitir READY exact5.",
-  "last_guard_run_id": 45814111095,
+  "why": "SQL14 DEV STAGED: versión exacta, ledger append-only, replay por etapa sellada.",
+  "next": "B6/B7 A2B0B2 exact5; luego delta A2B0B3.",
+  "last_guard_run_id": 45815175114,
   "current_code_sha": "ccc49c7fbc68e35819f9d26d6660fbda98b867e9",
-  "reason": "First A2B0B1 unit READY; later eight units are CONDITIONAL NOT_READY"
+  "reason": "Guardia del delta A2B0B2 SUCCESS después de B7 A2B0B1"
 }
