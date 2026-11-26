@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1_GLOBAL_DEV_B7_PASS_SCOPED",
+  "phase": "S4_W05_A2A_B1_B5_PREAUDIT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -47,10 +47,10 @@
   "handoff": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W05-A1 DEV CLOSED B7 verified code 358895d33d716326bf3e3e8e3421294c3e6697ba CI 45743934153 XML2/2; physical G15 NOT_RUN. Next W05 module under new B1-B5 and READY independent.",
-  "checkpoint_status": "W05_A1_DEV_CLOSED_A1C4_B7_PASS_XML2_2_G15_NOT_RUN",
+  "next": "Check A2A B1-B5 guard then independent exact3 READY. B6/B7 NOT_RUN; A1 remains CLOSED DEV.",
+  "checkpoint_status": "W05_A2A_B1_B5_DOCUMENTED_PENDING_GUARD",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
+  "last_handoff": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
   "last_code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
   "last_ci_run_id": 45743934153,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -766,7 +766,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+  "last_unit_id": "S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -7510,5 +7510,18 @@
     "guard_run_id": 45741277068,
     "artifact_id": 15081207918,
     "code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964"
+  },
+  "w05_a2": {
+    "status": "OPEN",
+    "phase": "A2A_B1_B5_DOCUMENTED_PENDING_GUARD",
+    "roadmap": "docs/v5/FARO_S4_W05_A2_STOCK_RESERVATIONS_CONSUMPTION_ROADMAP_20261126.md",
+    "a2a_document": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
+    "a2a_unit": "S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV",
+    "a2b": "NOT_RUN",
+    "a2c": "NOT_RUN",
+    "a2d": "NOT_RUN",
+    "a2e": "NOT_RUN",
+    "stock_production": "OFF",
+    "g15": "NOT_RUN"
   }
 }
