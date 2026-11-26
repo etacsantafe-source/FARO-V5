@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C3_B7_PASS_SCOPED_DEV",
+  "phase": "S4_W05_A1C4_B1_B5_READY_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2041
+    "epoch": 2043
   },
   "automation": {
     "activation_authorized": false,
@@ -44,13 +44,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
+  "handoff": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Review the A1C4 delta against its existing conditional preaudit and issue independent READY only after revalidation. A1C4 B6 is not authorized. Physical G15 NOT_RUN.",
-  "checkpoint_status": "A1C3_B7_PASS_SCOPED_A1C4_PREAUDITED_CONDITIONAL_A1_OPEN",
-  "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C3_B7_PASS_ANDROID_STOCK_REVIEW_DEV_20261125.md",
+  "next": "A1C4 B1-B5 verified; READY exact3 after guard 45736406556 SUCCESS. Work starts B6, then B7 + XML/guard/permit consumption. W05-A1 DEV still OPEN until A1C4 B7; G15 NOT_RUN.",
+  "checkpoint_status": "A1C3_B7_PASS_SCOPED_A1C4_B1_B5_VERIFIED_READY_B6_B7_PENDING_A1_OPEN",
+  "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet.",
+  "last_handoff": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
   "last_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
   "last_ci_run_id": 45731828704,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -139,7 +139,7 @@
     "activation_authorized": false,
     "requires_new_schedule_and_deadline": true
   },
-  "last_ci_conclusion": "SUCCESS_XML8_8",
+  "last_ci_conclusion": "SUCCESS_XML8_8_A1C3_PREDECESSOR",
   "progress_n015_n031": {
     "n015": {
       "initial_commit": "b37cbd62801e61acd2b8e9445792ed09a14e4044",
@@ -456,7 +456,7 @@
     "criteria": "For each M0,M1,M2A,M2B,M3 evidence compare V4.4 research alternatives unify pre-audit implement test final audit; reuse exact SHA PASS; fill only gaps"
   },
   "protocol_gate": {
-    "status": "CI_VERIFIED_N033C2B3_B7_PASS_SCOPED_BLOCKED_NEXT_CODE",
+    "status": "A1C4_B1_B5_READY_B6_NOT_RUN",
     "mode": "FAIL_CLOSED",
     "validator": "scripts/quality/faro-protocol-gate.py",
     "workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -464,15 +464,15 @@
     "permit": "docs/v5/FARO_PROTOCOL_WORK_PERMIT.json",
     "guide": "docs/v5/FARO_PROTOCOL_GUARD_IMPLEMENTATION_20261104.md",
     "baseline": "197e68bc1d9c52917a9066a27e6a0fa235a28217",
-    "permit_status": "BLOCKED",
+    "permit_status": "READY",
     "mandatory_manual_preflight": true,
     "mandatory_ci_check": true,
     "required_branch_protection": "NOT_CONFIRMED_REQUIRED_NO_RULESET_FOUND",
     "safety": "The CI detects protocol violations and returns FAIL; without a required status-check protection rule it does not physically prevent a push. Agent must STOP before code if preflight not PASS.",
     "retrospective_first": true,
-    "last_ci_run_id": 42391349264,
+    "last_ci_run_id": 45736406556,
     "last_ci_conclusion": "SUCCESS",
-    "verified_source_sha": "f4e86e925c4dac4919c33bda76b8c54940386130",
+    "verified_source_sha": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
     "agent_instructions": "AGENTS.md",
     "required_ci_step": "seven-block-evidence"
   },
@@ -488,12 +488,12 @@
     "b7_blob_sha": "3c8897213592ae42ca6100956cb06fbfdc6a3f89"
   },
   "guard_last_inspected": {
-    "run_id": 45639876447,
-    "source_sha": "1f21c1770618c8cb725f7c6d6a9956ddd832d689",
+    "run_id": 45736406556,
+    "source_sha": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
     "status": "completed",
     "conclusion": "success"
   },
-  "last_writer_epoch_observed": 2041,
+  "last_writer_epoch_observed": 2043,
   "protocol_guard": {
     "status": "A1C3_CODE_GUARD_SUCCESS_B7_CHECKPOINT_GUARD_BY_SHA",
     "guard_workflow": ".github/workflows/faro-v5-protocol-guard.yml",
@@ -766,7 +766,7 @@
     "b7_doc": "docs/s3-night/S3_A2_G1_ACTIVE_CHAT_POINTER_ABA_B7_PASS_20261104.md"
   },
   "last_preflight_run_id": 41948833339,
-  "last_unit_id": "S4_W05_A1C3_ANDROID_STOCK_REVIEW_DEV",
+  "last_unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
   "pending_code_publication": null,
   "s3_a2_gates": {
     "G1": "CLOSED_SINGLE_PROCESS_HOST",
@@ -2195,12 +2195,12 @@
     "writer_epoch": 704
   },
   "goal_id": "S4_PRECODE_W00_FEASIBILITY",
-  "unit_id": "S4_W00_PRECODE_FEASIBILITY_REVIEW",
-  "block_id": 7,
-  "block_status": "B7_PASS_SCOPED_DEV_XML8_8",
-  "expected_head": "COMMIT_CONTAINING_A1C3_B7_PASS_DOCUMENT",
+  "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+  "block_id": 5,
+  "block_status": "B1_B5_VERIFIED_B6_READY_B7_NOT_RUN",
+  "expected_head": "CHECKPOINT_COMMIT_CONTAINING_A1C4_READY_PERMIT_AND_POINTER",
   "blocker": null,
-  "writer_release_epoch": 2041,
+  "writer_release_epoch": 2043,
   "last_observed_at": "2026-11-25",
   "work_m03": {
     "status": "DONE_VERIFIED",
@@ -2252,7 +2252,7 @@
     "functional_commits": 2,
     "physical": "NOT_RUN"
   },
-  "checkpoint": "S4_W05_A1C3_B7_PASS_SCOPED_DEV",
+  "checkpoint": "S4_W05_A1C4_B1_B5_READY_DEV",
   "work_m05": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_AUTOMATED_ACCEPTANCE",
@@ -7152,7 +7152,7 @@
   "w05_a1_global": {
     "status": "OPEN",
     "pending": [
-      "A1C4"
+      "A1C4 B6/B7"
     ],
     "g15": "NOT_RUN"
   },
@@ -7458,13 +7458,24 @@
     "permit": "CONSUMED",
     "writer_epoch_release": 2041
   },
-  "next_step": "Review the A1C4 delta against its existing conditional preaudit and issue independent READY only after revalidation. A1C4 B6 is not authorized. Physical G15 NOT_RUN.",
+  "next_step": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE B6 then B7 with exact3 READY; no earlier units repeated.",
   "w05_a1c4": {
-    "status": "PREAUDITED_CONDITIONAL",
-    "evidence": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_PREAUDIT_20261125.md",
-    "permit": "NOT_READY",
-    "b6": "NOT_AUTHORIZED",
+    "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+    "status": "B1_B5_VERIFIED_READY",
+    "evidence": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
+    "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+    "baseline_head": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
+    "reviewed_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
+    "pre_audit_guard_run_id": 45736406556,
+    "paths": [
+      "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceTest.kt",
+      "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceAndroidTest.kt",
+      ".github/workflows/faro-v5-s4-w05-a1c4-global-dev-acceptance.yml"
+    ],
+    "permit": "READY",
+    "b6": "READY_NOT_RUN",
     "b7": "NOT_RUN",
-    "depends_on": "A1C3 B7 checkpoint guard"
+    "pending_gap": "CERTIFY_SQL12_TO_SQL13_AUTHENTICATED_MAINTENANCE_CONTINUITY",
+    "physical": "NOT_RUN"
   }
 }
