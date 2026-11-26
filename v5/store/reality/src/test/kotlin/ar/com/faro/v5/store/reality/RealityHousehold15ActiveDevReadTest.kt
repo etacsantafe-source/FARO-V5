@@ -23,6 +23,7 @@ class RealityHousehold15ActiveDevReadTest {
         val file = root.resolve("reality15.db")
         RealityStore(file.toString(), planningStage8 = true).close()
         BundledSQLiteDriver().open(file.toString()).use { db ->
+            db.execSQL("PRAGMA foreign_keys = ON")
             db.execSQL("INSERT INTO finance_account VALUES ('acct','Efectivo','ARS','CASH')")
             db.execSQL("INSERT INTO finance_account_opening VALUES ('acct','opening',500)")
             RealityFinance9Schema.installOnStagedEightConnection(db, "a2c1b", "a".repeat(64), 100L)

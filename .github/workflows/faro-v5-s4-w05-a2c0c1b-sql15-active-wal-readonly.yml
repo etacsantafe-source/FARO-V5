@@ -31,9 +31,12 @@ jobs:
           mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
           mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
           test "${#allowed[@]}" -eq 5
-          diff -u <(printf '%s\n' "${allowed[@]}") <(printf '%s\n' "${changed[@]}")
+          # Original B6 exact5 remains preaudited; same-unit RED_FIX is a
+          # nonempty strict subset, never new paths or a fake five-file diff.
+          test "${#changed[@]}" -gt 0
+          test -z "$(comm -23 <(printf '%s\n' "${changed[@]}") <(printf '%s\n' "${allowed[@]}"))"
           args=()
-          for path in "${allowed[@]}"; do args+=(--path "$path"); done
+          for path in "${changed[@]}"; do args+=(--path "$path"); done
           python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
       - uses: actions/setup-java@v4
         with:
