@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_DEV",
   "reviewed_head": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
   "paths": [
@@ -66,24 +66,24 @@
   "pre_audit_guard_run_id": 45740766176,
   "pre_audit_head": "f9a8f8dbcc0dee961ed0a9cd8c63eb0ee0f926f0",
   "last_code_review": {
-    "sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
+    "sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
     "result": "PASS",
-    "unit_id": "S4_W05_A1C4_SQL13_REVIEW_VERIFIER_DEV",
+    "unit_id": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B7_PASS_20261125.md",
-        "blob_sha": "ca215c8d676e9f7de74abb077b083a82c886ef57",
+        "path": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B7_PASS_20261125.md",
+        "blob_sha": "af891254332af56e73f06117a0a333252ee3bb5a",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45740195438,
+  "last_ci_run_id": 45741277089,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS",
-  "next": "Implement four permitted paths and execute grade-directed JVM CI before A1C4",
-  "last_guard_run_id": 45740766176,
-  "current_code_sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
-  "reason": "Verifier B7 PASS; closed SQL12 maintenance B1-B5 documentary guard SUCCESS"
+  "next": "Guard global A1C4 revalidation and reissue exact3",
+  "last_guard_run_id": 45741277068,
+  "current_code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
+  "reason": "Closed SQL12 maintenance B7 PASS scoped"
 }

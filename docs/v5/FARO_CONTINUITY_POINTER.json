@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-25",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_READY_DEV",
+  "phase": "S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B7_PASS_DEV",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2048
+    "epoch": 2050
   },
   "automation": {
     "activation_authorized": false,
@@ -47,12 +47,12 @@
   "handoff": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "Begin B6 of closed SQL12 maintenance exact4 after guard; then continue A1C4 global",
-  "checkpoint_status": "SQL13_VERIFIER_B7_PASS_SCOPED_A1C4_OPEN",
+  "next": "Revalidate exact3; execute A1C4 JVM and API35 global acceptance",
+  "checkpoint_status": "MAINTENANCE_B7_PASS_GLOBAL_A1C4_PENDING",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
-  "last_code_sha": "354ae1abd740f46c6be0e4d17d4404299ddeabb3",
-  "last_ci_run_id": 45740195438,
+  "last_handoff": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
+  "last_code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964",
+  "last_ci_run_id": 45741277089,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
@@ -7461,7 +7461,7 @@
   "next_step": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE B6 then B7 with exact3 READY; no earlier units repeated.",
   "w05_a1c4": {
     "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
-    "status": "BLOCKED_DELTA_REQUIRED",
+    "status": "REVALIDATION_PREPARED_GLOBAL_A1_OPEN",
     "evidence": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
     "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
     "baseline_head": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
@@ -7475,7 +7475,7 @@
     "permit": "BLOCKED",
     "b6": "READY_NOT_RUN",
     "b7": "NOT_RUN",
-    "pending_gap": "AUTHENTICATED_MAINTENANCE_FROM_CLOSED_ACTIVE_SQL12",
+    "pending_gap": "EXECUTE_GLOBAL_DEV_ACCEPTANCE",
     "physical": "NOT_RUN"
   },
   "w05_a1c4_sql13_review_verifier": {
@@ -7487,7 +7487,7 @@
     "evidence": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B7_PASS_20261125.md"
   },
   "w05_a1c4_closed_sql12_maintenance": {
-    "status": "B1_B5_VERIFIED_READY",
+    "status": "B7_PASS_SCOPED",
     "evidence": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B1_B5_20261125.md",
     "blob_sha": "9f44b0282acad2d6ebe58fb1364fcb1a7179ed18",
     "guard": 45740766176,
@@ -7496,6 +7496,11 @@
       "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5ClosedHousehold12DevMaintenance.kt",
       "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5ClosedHousehold12DevMaintenanceTest.kt",
       ".github/workflows/faro-v5-s4-w05-a1c4-closed-sql12-maintenance.yml"
-    ]
+    ],
+    "b7": "docs/v5/FARO_S4_W05_A1C4_CLOSED_SQL12_MAINTENANCE_B7_PASS_20261125.md",
+    "ci_run_id": 45741277089,
+    "guard_run_id": 45741277068,
+    "artifact_id": 15081207918,
+    "code_sha": "ef16c14e60c5161088fbc77469388c84a1bd6964"
   }
 }
