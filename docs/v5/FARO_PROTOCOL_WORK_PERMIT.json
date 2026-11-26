@@ -2,7 +2,7 @@
   "schema": 1,
   "status": "READY",
   "unit_id": "S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT",
-  "reviewed_head": "bb8a3300b9ebf1649731f6cbba40163e4049d9b0",
+  "reviewed_head": "b2705e1c7733d74e0339bcb50ef7b023f0bfb603",
   "paths": [
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
@@ -66,24 +66,24 @@
   "pre_audit_guard_run_id": 45825269539,
   "pre_audit_head": "bb8a3300b9ebf1649731f6cbba40163e4049d9b0",
   "last_code_review": {
-    "sha": "10f29d3505ebf6bfcaed771190b378a2277dc26b",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2B1A_STOCK_RESERVE_RELEASE_DEV_ADMISSION",
+    "sha": "b2705e1c7733d74e0339bcb50ef7b023f0bfb603",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B1A_B7_PASS_RESERVATION_REVIEW_20261126.md",
-        "blob_sha": "6181b05a3f542f529225117734c2cba44eccde9f",
+        "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_RED_FIX_KOTLIN_SMARTCAST_20261126.md",
+        "blob_sha": "397440af4fe0674b926090a23fc284f0ad486a0b",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45824744587,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45835861255,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Writer transaccional SQL14 DEV para reserva y liberación sin Undo de recepción.",
-  "next": "Ejecutar B6/B7 A2B1B0 exact4. Luego delta A2B1B1.",
-  "last_guard_run_id": 45825269539,
-  "current_code_sha": "10f29d3505ebf6bfcaed771190b378a2277dc26b",
+  "why": "Isolated SQL14 B6 RED_FIX of exact 2 paths; prior CI compile error, no tests, no productive activation",
+  "next": "RED_FIX compiler smartcast in A2B1B0; code+workflow subset, repeat exact CI 5/5 then B7.",
+  "last_guard_run_id": 45835861380,
+  "current_code_sha": "b2705e1c7733d74e0339bcb50ef7b023f0bfb603",
   "reason": "Guardia documental del delta SUCCESS tras B7 predecesor"
 }
