@@ -93,10 +93,16 @@ object RealityHousehold13CompensationRowsPort {
         return result
     }
 
-    internal fun captureConnection(db: SQLiteConnection): RealityHousehold13CompensationRows {
-        val historical = RealityHousehold12PurchaseRowsPort.readCurrentHouseholdRows(
-            db, RealityHousehold13CompensationSchema.VERSION,
-        )
+    internal fun captureConnection(db: SQLiteConnection): RealityHousehold13CompensationRows =
+        captureHistory(db, RealityHousehold13CompensationSchema.VERSION)
+
+    internal fun captureHistoryOnFourteen(db: SQLiteConnection): RealityHousehold13CompensationRows {
+        RealityHousehold14ReservationSchema.requireDefinitions(db)
+        return captureHistory(db, RealityHousehold14ReservationSchema.VERSION)
+    }
+
+    private fun captureHistory(db: SQLiteConnection, expectedVersion: Int): RealityHousehold13CompensationRows {
+        val historical = RealityHousehold12PurchaseRowsPort.readCurrentHouseholdRows(db, expectedVersion)
         RealityHousehold13CompensationSchema.requireDefinitions(db)
         return RealityHousehold13CompensationRows(historical, readCompensations(db)).also(::validate)
     }

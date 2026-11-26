@@ -103,7 +103,8 @@ object RealityHousehold12PurchaseRowsPort {
         db: SQLiteConnection,
         expectedVersion: Int,
     ): RealityHousehold12PurchaseReceiptRows {
-        require(expectedVersion == 12 || expectedVersion == RealityHousehold13CompensationSchema.VERSION)
+        require(expectedVersion == 12 || expectedVersion == RealityHousehold13CompensationSchema.VERSION ||
+            expectedVersion == RealityHousehold14ReservationSchema.VERSION)
         checkStageSchema(db, expectedVersion)
         Household11ReceiptRowsSql.checkIntegrity(db)
         return readRows(db, enforceGross = expectedVersion == 12)
