@@ -108,6 +108,17 @@ class FaroV5FiveStorePortableBackupCrypto(
     ): FiveStoreAuthenticatedPayload<FaroV5Household13Fbs2Snapshot> =
         openPayload(archive, passphrase, FaroV5Household13Fbs2Codec::decode)
 
+    internal fun sealWithHouseholdReservations14(
+        set: FaroV5Household14Fbs2Snapshot,
+        passphrase: CharArray,
+    ): ByteArray = sealPayload(passphrase) { FaroV5Household14Fbs2Codec.encode(set) }
+
+    internal fun openWithHouseholdReservations14(
+        archive: ByteArray,
+        passphrase: CharArray,
+    ): FiveStoreAuthenticatedPayload<FaroV5Household14Fbs2Snapshot> =
+        openPayload(archive, passphrase, FaroV5Household14Fbs2Codec::decode)
+
     private fun sealPayload(passphrase: CharArray, encode: () -> ByteArray): ByteArray {
         requirePassphrase(passphrase)
         val plaintext = encode()
