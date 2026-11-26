@@ -38,3 +38,9 @@ No main, V4.4, ni activación de stock productivo. Toda ruta adicional obliga a 
 - T05 JUnit XML original SHA exacto, cero errors/failures/skipped, B7 independiente.
 
 Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY individual y preflight de **cada ruta** antes de B6; código `FARO-UNIT:S4_W05_A2B1C_GLOBAL_RESERVATION_DEV_ACCEPTANCE` en línea propia, CI del SHA real, XML JUnit original tests>0 y failures=errors=skipped=0, B7 independiente, permiso consumido, writer CAS RELEASED. Para sucesores hay que reconfirmar HEAD y contrato real después del predecesor. Nunca declarar B7 desde este documento.
+
+## Última revisión B1-B5, delta previo a Work (26/11/2026)
+
+Global acceptance requires cutover C1 real, then ACTIVE14 reader C0 using its completed ticket, followed by reserve/release and v11 5-store restore. Include Undo-below-reserved negative test. No consumed/available claims before A2C.
+
+Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.

@@ -4,7 +4,7 @@ Unidad: `S4_W05_A2B0C1_SQL14_EVIDENCE2_JOURNALED_CUTOVER_DEV`. Base c4d190154900
 
 ## B1 — Evidencia
 
-Entrada: A2B0C0 B7 certificado y SQL13 origen con ticket COMPLETED. FaroV5Household13Evidence2DevJournaledCutover certificó ticket/rollback SQL12→13; falta transición SQL14 con archivo autenticado FBS2v11.
+Entrada: A2B0B3 B7 certificado y SQL13 origen con ticket COMPLETED; C0 viene despues. FaroV5Household13Evidence2DevJournaledCutover certificó ticket/rollback SQL12→13; falta transición SQL14 con archivo autenticado FBS2v11.
 
 ## B2 — V4.4 y V5
 
@@ -39,3 +39,9 @@ No main, V4.4, ni activación de stock productivo. Toda ruta adicional obliga a 
 - T05 ABA/ciphertext distinto/lease revocado => STOP.
 
 Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY individual y preflight de **cada ruta** antes de B6; código `FARO-UNIT:S4_W05_A2B0C1_SQL14_EVIDENCE2_JOURNALED_CUTOVER_DEV` en línea propia, CI del SHA real, XML JUnit original tests>0 y failures=errors=skipped=0, B7 independiente, permiso consumido, writer CAS RELEASED. Para sucesores hay que reconfirmar HEAD y contrato real después del predecesor. Nunca declarar B7 desde este documento.
+
+## Última revisión B1-B5, delta previo a Work (26/11/2026)
+
+CORRECTED ORDER: run immediately after A2B0B3 B7, before C0. C1 validates SQL14 STAGED independently through v11 replay and reservation rows, then does ticket/journal cutover. Do not require the future ACTIVE14 reader C0 for C1 health. If additional code paths become necessary, re-audit B4 and issue another exact permit.
+
+Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.

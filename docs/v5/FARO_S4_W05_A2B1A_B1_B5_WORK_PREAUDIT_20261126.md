@@ -4,7 +4,7 @@ Unidad: `S4_W05_A2B1A_STOCK_RESERVE_RELEASE_DEV_ADMISSION`. Base c4d1901549005e7
 
 ## B1 — Evidencia
 
-Entrada: A2B0C1 B7 certificado y contrato de catálogo real. HouseholdStockReceiveDevAdmission/Review controla contract, context y consentimiento de recepción; reserve/release solo declarados en catálogo, sin grant efectivo.
+Entrada: A2B0C1 y A2B0C0 B7 certificados; catalogo N-035 real. HouseholdStockReceiveDevAdmission/Review controla contract, context y consentimiento de recepción; reserve/release solo declarados en catálogo, sin grant efectivo.
 
 ## B2 — V4.4 y V5
 
@@ -40,3 +40,9 @@ No main, V4.4, ni activación de stock productivo. Toda ruta adicional obliga a 
 - T05 Codec Review bytes no canónicos y cantidades overflow => DENIED.
 
 Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY individual y preflight de **cada ruta** antes de B6; código `FARO-UNIT:S4_W05_A2B1A_STOCK_RESERVE_RELEASE_DEV_ADMISSION` en línea propia, CI del SHA real, XML JUnit original tests>0 y failures=errors=skipped=0, B7 independiente, permiso consumido, writer CAS RELEASED. Para sucesores hay que reconfirmar HEAD y contrato real después del predecesor. Nunca declarar B7 desde este documento.
+
+## Última revisión B1-B5, delta previo a Work (26/11/2026)
+
+Catalog CONFIRMED in v5/spec/generated/contract-baseline.tsv: stock.reserve and stock.release both N-035, executor household, REALITY_MUTATION, BINDABLE. Same capability as stock.receive does NOT share a consent/grant/intent. Do not automatically convert quantity units.
+
+Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.

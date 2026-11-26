@@ -4,7 +4,7 @@ Unidad: `S4_W05_A2B0C0_SQL14_ACTIVE_DEV_READ_HOST`. Base c4d1901549005e7fdb990eb
 
 ## B1 — Evidencia
 
-Entrada: A2B0B3 B7 certificado. Host y grafo SQL13 ACTIVE WAL-aware existen y son read-only; versión14 todavía no admitida. Falta apertura tipada sin inferir cutover.
+Entrada: A2B0C1 B7 certificado y ticket COMPLETED real, ademas de B0B3 B7. Host y grafo SQL13 ACTIVE WAL-aware existen y son read-only; versión14 todavía no admitida. Falta apertura tipada sin inferir cutover.
 
 ## B2 — V4.4 y V5
 
@@ -41,3 +41,9 @@ No main, V4.4, ni activación de stock productivo. Toda ruta adicional obliga a 
 - T05 Nunca mostrar available ni autorizar reserve por solo lectura.
 
 Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY individual y preflight de **cada ruta** antes de B6; código `FARO-UNIT:S4_W05_A2B0C0_SQL14_ACTIVE_DEV_READ_HOST` en línea propia, CI del SHA real, XML JUnit original tests>0 y failures=errors=skipped=0, B7 independiente, permiso consumido, writer CAS RELEASED. Para sucesores hay que reconfirmar HEAD y contrato real después del predecesor. Nunca declarar B7 desde este documento.
+
+## Última revisión B1-B5, delta previo a Work (26/11/2026)
+
+CORRECTED ORDER: run after C1 B7 so the completed SQL14 ticket can be verified. C0 positive test MUST use a real completed C1 ticket, never an invented selected fixture. C0 is read-only and available remains UNKNOWN.
+
+Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.

@@ -40,3 +40,9 @@ No main, V4.4, ni activación de stock productivo. Toda ruta adicional obliga a 
 - T05 Fuente SQL13 o ACTIVE no se reescribe; cero permisos nuevos.
 
 Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY individual y preflight de **cada ruta** antes de B6; código `FARO-UNIT:S4_W05_A2B0B2_SQL14_SEALED_RESERVATION_ROWS_DEV` en línea propia, CI del SHA real, XML JUnit original tests>0 y failures=errors=skipped=0, B7 independiente, permiso consumido, writer CAS RELEASED. Para sucesores hay que reconfirmar HEAD y contrato real después del predecesor. Nunca declarar B7 desde este documento.
+
+## Última revisión B1-B5, delta previo a Work (26/11/2026)
+
+RealityHousehold13CompensationRowsPort.captureConnection requires version13: build a version-aware historical reader for SQL14 without weakening SQL13. Test version13/14 separately.
+
+Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.

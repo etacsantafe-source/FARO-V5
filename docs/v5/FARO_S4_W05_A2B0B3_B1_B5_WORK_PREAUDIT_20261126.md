@@ -42,3 +42,9 @@ No main, V4.4, ni activación de stock productivo. Toda ruta adicional obliga a 
 - T05 Reapertura WAL/readback exacto y límites de tamaño.
 
 Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY individual y preflight de **cada ruta** antes de B6; código `FARO-UNIT:S4_W05_A2B0B3_FBS2V11_FIVESTORE_SQL14_REPLAY_DEV` en línea propia, CI del SHA real, XML JUnit original tests>0 y failures=errors=skipped=0, B7 independiente, permiso consumido, writer CAS RELEASED. Para sucesores hay que reconfirmar HEAD y contrato real después del predecesor. Nunca declarar B7 desde este documento.
+
+## Última revisión B1-B5, delta previo a Work (26/11/2026)
+
+FaroV5Household13V10StagedReplay.restoreAuthenticatedV10 only admits stages 9..13: restore baseline through 13, then migrate an isolated copy to SQL14. Never call the v10 restorer on a stage14. Test retry on stage14 as identical or fail-closed.
+
+Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
