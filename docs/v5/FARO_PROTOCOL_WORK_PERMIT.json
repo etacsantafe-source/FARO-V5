@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT",
-  "reviewed_head": "b2705e1c7733d74e0339bcb50ef7b023f0bfb603",
+  "reviewed_head": "6885c5427e5be674870369496b0a7ed013f9a33f",
   "paths": [
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationApplyPort.kt",
     "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
@@ -60,30 +60,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_PASS_SQL14_ATOMIC_RESERVATION_20261126.md",
+          "blob_sha": "746cd52824815690437c10c81658bcaa32c44878",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_PASS_SQL14_ATOMIC_RESERVATION_20261126.md",
+          "blob_sha": "746cd52824815690437c10c81658bcaa32c44878",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45825269539,
   "pre_audit_head": "bb8a3300b9ebf1649731f6cbba40163e4049d9b0",
   "last_code_review": {
-    "sha": "b2705e1c7733d74e0339bcb50ef7b023f0bfb603",
-    "result": "RED_FIX",
+    "sha": "6885c5427e5be674870369496b0a7ed013f9a33f",
+    "result": "PASS",
     "unit_id": "S4_W05_A2B1B0_SQL14_RESERVATION_ATOMIC_APPLY_PORT",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_RED_FIX_KOTLIN_SMARTCAST_20261126.md",
-        "blob_sha": "397440af4fe0674b926090a23fc284f0ad486a0b",
+        "path": "docs/v5/FARO_S4_W05_A2B1B0_B7_PASS_SQL14_ATOMIC_RESERVATION_20261126.md",
+        "blob_sha": "746cd52824815690437c10c81658bcaa32c44878",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45835861255,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45837426749,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Isolated SQL14 B6 RED_FIX of exact 2 paths; prior CI compile error, no tests, no productive activation",
-  "next": "RED_FIX compiler smartcast in A2B1B0; code+workflow subset, repeat exact CI 5/5 then B7.",
-  "last_guard_run_id": 45835861380,
-  "current_code_sha": "b2705e1c7733d74e0339bcb50ef7b023f0bfb603",
-  "reason": "Guardia documental del delta SUCCESS tras B7 predecesor"
+  "why": "original JUnit5/5 and guard PASS; A2B1B1 not yet READY",
+  "next": "A2B1B1 delta B1-B5, own guard and READY exact4, B6/B7, then A2B1C.",
+  "last_guard_run_id": 45837426645,
+  "current_code_sha": "6885c5427e5be674870369496b0a7ed013f9a33f",
+  "reason": "B7 A2B1B0 certified; prior permit consumed"
 }
