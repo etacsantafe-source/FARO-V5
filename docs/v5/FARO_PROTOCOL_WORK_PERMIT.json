@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_DEV",
-  "reviewed_head": "7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b",
+  "status": "READY",
+  "unit_id": "S4_W05_A2B0B1_AUTH_FBS2V11_RESERVATIONS_CODEC_DEV",
+  "reviewed_head": "7ad7f22eba85e451883cb5c13116a43306239afb",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationSchema.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14StagedFilePort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationSchemaTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2b0a-sql14-reservation-schema.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household14Fbs2Codec.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5FiveStorePortableBackupCrypto.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household14Fbs2CodecTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2b0b1-fbs2v11-codec.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_B1_B5_20261126.md",
-          "blob_sha": "84335097177287d5239af73e4b2a1b20b2567679",
+          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
           "marker": "## B1"
         }
       ]
@@ -24,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_B1_B5_20261126.md",
-          "blob_sha": "84335097177287d5239af73e4b2a1b20b2567679",
+          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
           "marker": "## B2"
         }
       ]
@@ -34,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_B1_B5_20261126.md",
-          "blob_sha": "84335097177287d5239af73e4b2a1b20b2567679",
+          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
           "marker": "## B3"
         }
       ]
@@ -44,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_B1_B5_20261126.md",
-          "blob_sha": "84335097177287d5239af73e4b2a1b20b2567679",
+          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
           "marker": "## B4"
         }
       ]
@@ -54,8 +54,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2B0A_SQL14_RESERVATION_STAGED_SCHEMA_B1_B5_20261126.md",
-          "blob_sha": "84335097177287d5239af73e4b2a1b20b2567679",
+          "path": "docs/v5/FARO_S4_W05_A2B0B1_B1_B5_WORK_PREAUDIT_20261126.md",
+          "blob_sha": "8ef57db05d35acc6e9a062235f4e13499328cb49",
           "marker": "## B5"
         }
       ]
@@ -63,8 +63,8 @@
     "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45748787541,
-  "pre_audit_head": "7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b",
+  "pre_audit_guard_run_id": 45811688638,
+  "pre_audit_head": "7ad7f22eba85e451883cb5c13116a43306239afb",
   "last_code_review": {
     "sha": "5963052a962f49bbee9047305f2e15a4500ed592",
     "result": "PASS",
@@ -81,9 +81,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B0A SQL14 new STAGED reservation schema only, B1-B5 in exact proof blob; no reserve/release Apply nor availability until independently certified.",
-  "next": "Prepare independent B1-B5 and READY for A2B0B FBS2v11.",
-  "last_guard_run_id": 45807851940,
+  "why": "Only FBS2v11 reservation codec/authenticated envelope in isolated DEV, no SQL14 ACTIVE, no reserve/release Apply, no available nor production.",
+  "next": "Execute B6/B7 A2B0B1 exact4 then follow docs/v5/FARO_S4_W05_A2B_COMPLETE_WORK_TURBO_CHAIN_20261126.md; issue new individual permit after each B7.",
+  "last_guard_run_id": 45811688638,
   "current_code_sha": "5963052a962f49bbee9047305f2e15a4500ed592",
-  "reason": "A2B0A SQL14 STAGED B7 PASS; permit consumed"
+  "reason": "First A2B0B1 unit READY; later eight units are CONDITIONAL NOT_READY"
 }
