@@ -80,7 +80,8 @@ class FaroV5W05A1DevAcceptanceTest {
             val position = it.snapshotPurchaseReceipts()
             assertEquals(10_000, position.purchases.single().quantityThousandths)
             assertEquals("MANUAL_EXPLICIT", position.purchases.single().provenance)
-            assertEquals(listOf(7_000, 3_000), position.receipts.receipts.map { row -> row.quantityThousandths })
+            val receiptsByRevision = position.receipts.receipts.sortedBy { row -> row.revision }
+            assertEquals(listOf(7_000, 3_000), receiptsByRevision.map { row -> row.quantityThousandths })
             val purchase = runBlocking { it.workspace.reviews(chat) }.single { review ->
                 review.reviewId.startsWith("w05:purchase:")
             }

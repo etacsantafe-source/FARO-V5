@@ -51,7 +51,7 @@ jobs:
             -Pkotlin.compiler.execution.strategy=in-process \
             "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
             -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
-            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.FaroV5W05StockReceiveDevPanelTest
+            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.FaroV5W05A1DevAcceptanceTest
           ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
             -Pkotlin.compiler.execution.strategy=in-process \
             "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
