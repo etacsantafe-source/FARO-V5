@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+  "status": "READY",
+  "unit_id": "S4_W05_A1C4_SQL13_REVIEW_VERIFIER_DEV",
   "reviewed_head": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
   "paths": [
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceTest.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c4-global-dev-acceptance.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutover.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13Evidence2DevJournaledCutoverTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a1c4-sql13-review-verifier.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
+          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
+          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
+          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
+          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
           "marker": "## B4"
         }
       ]
@@ -53,8 +53,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md",
+          "blob_sha": "eed3abc2cc2dc0d176f8c9134eb2a14956ef0711",
           "marker": "## B5"
         }
       ]
@@ -62,8 +62,8 @@
     "B6": "READY_TO_IMPLEMENT",
     "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45736406556,
-  "pre_audit_head": "70bc71a040baee1b5e9df7fb9e21cc8be9b496bd",
+  "pre_audit_guard_run_id": 45739783591,
+  "pre_audit_head": "eba5a7e78bebabbc50d73d4ad20ecc93dd30323f",
   "last_code_review": {
     "sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
     "result": "PASS",
@@ -80,9 +80,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C3 B7 scoped 8/8 and guard success; A1C4 independent global DEV acceptance B1-B5 revalidated and documentary guard 45736406556 SUCCESS. Exact3 test/workflow only; no runtime or product changes.",
-  "next": "Guard delta B1-B5, issue separate exact3 READY before functional writes",
-  "last_guard_run_id": 45736406556,
+  "why": "Independent SQL13 cutover plan verifier RED correction; documentary guard SUCCESS",
+  "next": "B6 exact3, directed JVM XML and guard, then audit B7",
+  "last_guard_run_id": 45739783591,
   "current_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
-  "reason": "A1C4 BLOCKED_DELTA_REQUIRED; see docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md"
+  "reason": "Independent SQL13 cutover plan verifier RED correction; documentary guard SUCCESS"
 }
