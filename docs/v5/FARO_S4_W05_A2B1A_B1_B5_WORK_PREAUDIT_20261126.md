@@ -46,3 +46,26 @@ Exigir guardia 7 bloques documental SUCCESS, evidencia blob SHA, permiso READY i
 Catalog CONFIRMED in v5/spec/generated/contract-baseline.tsv: stock.reserve and stock.release both N-035, executor household, REALITY_MUTATION, BINDABLE. Same capability as stock.receive does NOT share a consent/grant/intent. Do not automatically convert quantity units.
 
 Estado: PREAUDITADO_CONDICIONAL/NO_READY hasta B7 del antecesor, nueva guardia documental, permiso propio y preflight exacto. Este delta NO ejecuta B6/B7.
+
+## Delta contra B7 de A2B0C0
+
+C0 entrega selección completa, revisión de ledger y valores Long de físico y
+reservado filtrados por principal. El dominio Household no debe importar el
+grafo ni Reality, que dependen de él. Definir en las rutas candidatas un port
+de lectura para testigo del owner, y ligar su principal, selección, item, unidad,
+revisión y, para RELEASE, referencia y saldo del evento original. B1B1 montará
+ese adaptador con la fuente SQL14. El preview calcula el límite internamente y
+no publica un campo available ni escribe eventos.
+
+stock.reserve y stock.release aparecen en el catálogo real con N-035,
+household, REALITY_MUTATION y BINDABLE. El workflow valida dichas filas
+y el test comprueba que una variante de contrato, consentimiento, epoch,
+puntero, revisión o unidad falla. El consentimiento se verifica para el
+request exacto antes y después de leer y no se hereda de stock.receive.
+El payload re-encode byte por byte conserva el código de operación y el
+intent. Mantener la aprobación foreground de Review separada de la
+confirmación Apply que tendrá su propio recibo.
+
+Fuentes del delta: https://developer.android.com/topic/architecture/data-layer/offline-first
+y https://sqlite.org/lang_transaction.html. Se adapta el origen local
+canónico, con chequeo de revisión y recaptura, sin previsualización mutadora.
