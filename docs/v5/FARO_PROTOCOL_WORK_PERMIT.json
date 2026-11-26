@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV",
-  "reviewed_head": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+  "reviewed_head": "ce30bb6f5498a52b70b74decb15a490171923fe1",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13DevStockSnapshot.kt",
     "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13DevStockSnapshotTest.kt",
@@ -59,30 +59,30 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "CI_PASS_ORIGINAL_XML5_5_SQL13_DEV",
+    "B7": "PASS_PERMIT_CONSUMED"
   },
   "pre_audit_guard_run_id": 45746616149,
   "pre_audit_head": "45b6de97ee43b402f86cf72edee7c380e0b02b7b",
   "last_code_review": {
-    "sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
+    "sha": "ce30bb6f5498a52b70b74decb15a490171923fe1",
     "result": "PASS",
-    "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+    "unit_id": "S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
-        "blob_sha": "ed0bee90e8e13c588dbd70d74ccf494f381f60ed",
+        "path": "docs/v5/FARO_S4_W05_A2A_B7_PASS_PHYSICAL_SQL13_DEV_20261126.md",
+        "blob_sha": "2886c45111c082cc0ba6f83d21d654f7ac9ce4e6",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45743934153,
+  "last_ci_run_id": 45746937979,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C4 B7 PASS and HEAD A2A B1-B5 verified by guard 45746616149; read-only SQL13 physical net (not available) exact3.",
-  "next": "B6 A2A physical net projection SQL13, directed JVM/XML, B7; no reservation or consumption mutations.",
-  "last_guard_run_id": 45746616149,
-  "current_code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
-  "reason": "READY for W05-A2A B6 exact3 only. A2B/C/D/E require separate permits. Productive V2, stock, payments, Auto/Noche OFF."
+  "why": "A2A code SHA ce30bb6f5498a52b70b74decb15a490171923fe1 PASS; no available balance/stock mutation; leave subsequent A2 phases BLOCKED until their own B1-B5.",
+  "next": "A2B0 reserve ledger staged schema and backup B1-B5 next; no consumption/available yet.",
+  "last_guard_run_id": 45746937952,
+  "current_code_sha": "ce30bb6f5498a52b70b74decb15a490171923fe1",
+  "reason": "A2A SQL13 DEV physical net read-only original XML 5/5 CI PASS; permit consumed. A2B reserve/release and A2C consume separate authorization."
 }
