@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2B1B1_STOCK_RESERVATION_REVIEW_APPLY_HOST",
-  "reviewed_head": "e597449b561edc10b50e3756e6a371ef834dbc4a",
+  "reviewed_head": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
   "paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReservationDevApplyHost.kt",
@@ -60,30 +60,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_PASS_REVIEW_APPLY_20261126.md",
+          "blob_sha": "845ef58e21ea70240b89080591f164332912a272",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_PASS_REVIEW_APPLY_20261126.md",
+          "blob_sha": "845ef58e21ea70240b89080591f164332912a272",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45838550286,
   "pre_audit_head": "c91e4c87f1e15bcc5fc816911db07a4e7a1d3c03",
   "last_code_review": {
-    "sha": "e597449b561edc10b50e3756e6a371ef834dbc4a",
-    "result": "RED_FIX",
+    "sha": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
+    "result": "PASS",
     "unit_id": "S4_W05_A2B1B1_STOCK_RESERVATION_REVIEW_APPLY_HOST",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_RED_FIX_TEST_BUNDLED_IMPORT_20261126.md",
-        "blob_sha": "f9378907b9e81e00947d5da726ca514a50ac2ac8",
+        "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_PASS_REVIEW_APPLY_20261126.md",
+        "blob_sha": "845ef58e21ea70240b89080591f164332912a272",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45862745835,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45864041512,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Real CI compile failure in Android unit-test fixture; no XML, no PASS",
-  "next": "A2B1B1 RED_FIX only test fixture + workflow; CI JUnit5/5 and independent B7; then A2B1C.",
-  "last_guard_run_id": 45862745576,
+  "why": "A2B1B1 B7 original XML 5/5, permit consumed; A2B1C currently NO_READY",
+  "next": "A2B1C delta B1-B5 then guarded READY exact2, B6 CI XML and B7; no production activation",
+  "last_guard_run_id": 45864041608,
   "current_code_sha": "6885c5427e5be674870369496b0a7ed013f9a33f",
   "reason": "B1B1 independent guarded exact4 permission after A2B1B0 B7 PASS"
 }
