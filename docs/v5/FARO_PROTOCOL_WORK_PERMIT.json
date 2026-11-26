@@ -1,25 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_SEALED_DEV",
-  "reviewed_head": "5b7c5979434c961083e0d77c719e37e1516d39b5",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
+  "reviewed_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityFinance9SealedReadPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold11NeedsRowsPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13V10StagedReplay.kt",
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15PreCutoverReadback.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15V12StagedReplayTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c0c1a-sql15-fivestore-semantic-readback.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15ActiveDevReadTest.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ActiveDevReadTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c0c1b-sql15-active-wal-readonly.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_READBACK_B1_B5_20261126.md",
-          "blob_sha": "5197fe1474eeb5c24638e0131fba55bb0e2a4fd9",
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
+          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
           "marker": "## B1"
         }
       ]
@@ -28,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_READBACK_B1_B5_20261126.md",
-          "blob_sha": "5197fe1474eeb5c24638e0131fba55bb0e2a4fd9",
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
+          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
           "marker": "## B2"
         }
       ]
@@ -38,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_READBACK_B1_B5_20261126.md",
-          "blob_sha": "5197fe1474eeb5c24638e0131fba55bb0e2a4fd9",
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
+          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
           "marker": "## B3"
         }
       ]
@@ -48,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_READBACK_B1_B5_20261126.md",
-          "blob_sha": "5197fe1474eeb5c24638e0131fba55bb0e2a4fd9",
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
+          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
           "marker": "## B4"
         }
       ]
@@ -58,35 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_SQL15_FIVESTORE_SEMANTIC_READBACK_B1_B5_20261126.md",
-          "blob_sha": "5197fe1474eeb5c24638e0131fba55bb0e2a4fd9",
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_B1_B5_20261126.md",
+          "blob_sha": "fbce8503e2d9474ed8ff546930f51841da2758b0",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_B7_PASS_SQL15_FIVESTORE_SEMANTIC_SEALED_READ_20261126.md",
-          "blob_sha": "c9a84baf05c4ad49f543a7a35f910fdcb3c7c08c",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0C1A_B7_PASS_SQL15_FIVESTORE_SEMANTIC_SEALED_READ_20261126.md",
-          "blob_sha": "c9a84baf05c4ad49f543a7a35f910fdcb3c7c08c",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45886890081,
-  "pre_audit_head": "5b7c5979434c961083e0d77c719e37e1516d39b5",
+  "pre_audit_guard_run_id": 45904196687,
+  "pre_audit_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
   "last_code_review": {
     "sha": "b327656a14eea360b148122250f31929df7b7ffc",
     "result": "PASS",
@@ -103,9 +82,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Original FBS2v12 semantic equality SQL15 sealed 35/35, no ACTIVE/Apply",
-  "next": "A2C0C1B DEV SQL15 ACTIVE WAL-aware read-only host B1-B5, then C2 journaled cutover",
-  "last_guard_run_id": 45887407541,
+  "why": "B1-B5 independently checked for SQL15 ACTIVE WAL-aware read-only DEV; exact5 scope, no SQL15 cutover or writer",
+  "next": "C1B B6 confined to exact5 and directed original XML; C2 journaled cutover remains separate and OFF",
+  "last_guard_run_id": 45904196687,
   "current_code_sha": "b327656a14eea360b148122250f31929df7b7ffc",
-  "reason": "A2C0C1A exact8 permit consumed B7 PASS; five owner SQL15 semantic STAGED only"
+  "reason": "Independent B1-B5 preaudit verified, original previous B7 PASS retained; B6 may begin only after exact5 preflight"
 }
