@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2B1C_GLOBAL_RESERVATION_DEV_ACCEPTANCE",
-  "reviewed_head": "84dea2f4ea687cd0bbf4cbfecdf3ff49b04eca34",
+  "reviewed_head": "a805f847089fb3cb647f8b578dd73f6fc6656eea",
   "paths": [
     "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationGlobalDevAcceptanceTest.kt",
     ".github/workflows/faro-v5-s4-w05-a2b1c-global-dev-acceptance.yml"
@@ -58,30 +58,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2B1C_GLOBAL_B7_PASS_A2B_CLOSED_20261126.md",
+          "blob_sha": "a8b7652d053bd1ac77d9568e2d3493accc8f4f0e",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2B1C_GLOBAL_B7_PASS_A2B_CLOSED_20261126.md",
+          "blob_sha": "a8b7652d053bd1ac77d9568e2d3493accc8f4f0e",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45865325143,
   "pre_audit_head": "84dea2f4ea687cd0bbf4cbfecdf3ff49b04eca34",
   "last_code_review": {
-    "sha": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
+    "sha": "a805f847089fb3cb647f8b578dd73f6fc6656eea",
     "result": "PASS",
-    "unit_id": "S4_W05_A2B1B1_STOCK_RESERVATION_REVIEW_APPLY_HOST",
+    "unit_id": "S4_W05_A2B1C_GLOBAL_RESERVATION_DEV_ACCEPTANCE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2B1B1_B7_PASS_REVIEW_APPLY_20261126.md",
-        "blob_sha": "845ef58e21ea70240b89080591f164332912a272",
+        "path": "docs/v5/FARO_S4_W05_A2B1C_GLOBAL_B7_PASS_A2B_CLOSED_20261126.md",
+        "blob_sha": "a8b7652d053bd1ac77d9568e2d3493accc8f4f0e",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45864041512,
+  "last_ci_run_id": 45865955416,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2B1B1 B7 PASS; A2B1C only JVM global acceptance and CI workflow, no shipping activation",
-  "next": "A2B1C B6 and B7 exact2, independent global acceptance FBS2v11, no productive stock",
-  "last_guard_run_id": 45865325143,
-  "current_code_sha": "4f26fd97446bcdec113a8f724fbb8aed7b387384",
-  "reason": "B1B1 independent guarded exact4 permission after A2B1B0 B7 PASS"
+  "why": "A2B1C global original JUnit2/2 plus APK and guard SUCCESS; exact2 consumed; successor NOT_READY",
+  "next": "A2B CLOSED DEV 9/9; A2C requires separate B1-B5 and READY permit; stock/payments/product OFF",
+  "last_guard_run_id": 45865955289,
+  "current_code_sha": "a805f847089fb3cb647f8b578dd73f6fc6656eea",
+  "reason": "B7 PASS certified A2B global DEV; do not reopen consumed permission"
 }
