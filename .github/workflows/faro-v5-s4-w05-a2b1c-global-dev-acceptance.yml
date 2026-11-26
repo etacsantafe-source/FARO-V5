@@ -1,0 +1,83 @@
+name: FARO V5 W05-A2B1C global SQL14 DEV acceptance
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationGlobalDevAcceptanceTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2b1c-global-dev-acceptance.yml
+
+permissions:
+  contents: read
+
+jobs:
+  global-sql14-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact2 READY permission and original scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2B1C_GLOBAL_RESERVATION_DEV_ACCEPTANCE
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          test "$(git show HEAD^:"$permit" | jq '.paths|length')" -eq 2
+          diff -u <(git show HEAD^:"$permit" | jq -r '.paths[]' | sort) \
+            <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
+            --unit "$unit" \
+            --path v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReservationGlobalDevAcceptanceTest.kt \
+            --path .github/workflows/faro-v5-s4-w05-a2b1c-global-dev-acceptance.yml
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Global FBS2v11 SQL14 DEV acceptance and isolated APK
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
+            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.S4W05StockReservationGlobalDevAcceptanceTest \
+            :app:assembleV2CoreDev
+      - name: Verify original two JUnit XML cases and DEV APK
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          root=Path('v5/app/build/test-results/testV2CoreDevUnitTest')
+          paths=list(root.glob('TEST-*S4W05StockReservationGlobalDevAcceptanceTest.xml'))
+          assert len(paths)==1, paths
+          suite=ElementTree.parse(paths[0]).getroot()
+          actual=tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert actual==(2,0,0,0), actual
+          cases=[case.attrib['name'] for case in suite.findall('testcase')]
+          assert len(cases)==2 and len(set(cases))==2, cases
+          apks=list(Path('v5/app/build/outputs/apk/v2CoreDev').glob('*.apk'))
+          assert apks and all(a.stat().st_size>0 for a in apks), apks
+          PY
+      - name: Preserve original JUnit XML and isolated APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2b1c-global-dev-xml-apk
+          if-no-files-found: error
+          path: |
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*S4W05StockReservationGlobalDevAcceptanceTest.xml
+            v5/app/build/outputs/apk/v2CoreDev/*.apk
