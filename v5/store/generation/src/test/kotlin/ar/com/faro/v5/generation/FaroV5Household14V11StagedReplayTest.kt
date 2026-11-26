@@ -274,8 +274,8 @@ class FaroV5Household14V11StagedReplayTest {
             is FiveStoreStagedRestoreResult.Blocked)
         val rows = RealityHousehold14ReservationRowsPort.captureTrustedSealedStageFourteen(reality(f.target)) {}
         assertTrue(rows.reservations.isEmpty())
-        val moved = checkNotNull(pointer.compareAndSet(f.origin, StorageGenerationId("different-active")))
-        val aba = checkNotNull(pointer.compareAndSet(moved, f.origin.generationId))
+        val moved = checkNotNull(pointer.compareAndSet(f.origin.generationId, StorageGenerationId("different-active")))
+        val aba = checkNotNull(pointer.compareAndSet(moved.generationId, f.origin.generationId))
         assertTrue(restore(f) is FiveStoreStagedRestoreResult.Blocked)
         assertEquals(aba, pointer.read())
     }

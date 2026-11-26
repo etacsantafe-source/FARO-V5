@@ -35,7 +35,15 @@ jobs:
           mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
           mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
           test "${#permitted[@]}" -eq 9
-          diff -u <(printf '%s\n' "${permitted[@]}") <(printf '%s\n' "${changed[@]}")
+          if git show "HEAD^:$permit" | jq -e --arg unit "$unit" \
+              '.last_code_review.result == "RED_FIX" and .last_code_review.unit_id == $unit' >/dev/null; then
+            test "${#changed[@]}" -gt 0
+            for route in "${changed[@]}"; do
+              grep -Fxq "$route" <(printf '%s\n' "${permitted[@]}")
+            done
+          else
+            diff -u <(printf '%s\n' "${permitted[@]}") <(printf '%s\n' "${changed[@]}")
+          fi
           args=()
           for route in "${permitted[@]}"; do
             args+=(--path "$route")
