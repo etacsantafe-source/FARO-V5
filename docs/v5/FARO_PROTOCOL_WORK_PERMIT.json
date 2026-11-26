@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
   "reviewed_head": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
   "paths": [
@@ -81,8 +81,8 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A1C3 B7 scoped 8/8 and guard success; A1C4 independent global DEV acceptance B1-B5 revalidated and documentary guard 45736406556 SUCCESS. Exact3 test/workflow only; no runtime or product changes.",
-  "next": "Work execute A1C4 B6/B7 only, original JVM+Android API35 XML, guard, B7 consume READY and release CAS writer. No new A1 functional features without separate delta.",
+  "next": "Guard delta B1-B5, issue separate exact3 READY before functional writes",
   "last_guard_run_id": 45736406556,
   "current_code_sha": "18f58b2274f6d358a2911fdc9ae657c243b0c06a",
-  "reason": "Independent READY for A1C4 DEV acceptance. C3 permit consumed. Physical G15 NOT_RUN."
+  "reason": "A1C4 BLOCKED_DELTA_REQUIRED; see docs/v5/FARO_S4_W05_A1C4_SQL13_REVIEW_VERIFIER_B1_B5_20261125.md"
 }
