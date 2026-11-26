@@ -139,6 +139,7 @@ class RealityStore(
     private val householdPurchaseWritableDev: Boolean = false,
     private val householdStockReceiveWritableDev: Boolean = false,
     private val householdStockCompensationWritableDev: Boolean = false,
+    private val householdStage14ReadOnly: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -151,6 +152,12 @@ class RealityStore(
     private fun <T> withMaterialAdmission(block: () -> T): T =
         materialWriteGate?.withMaterialWrite(block) ?: block()
     private val connection: SQLiteConnection = run {
+        check(!householdStage14ReadOnly || (
+            !householdStage10ReadOnly && !householdStage12ReadOnly && !householdStage13ReadOnly &&
+                householdActive10Dev == null && householdActive12DevReadOnly == null &&
+                householdActive13DevReadOnly == null && !householdNeedsWritableDev &&
+                !household12WritableDev && !householdStockCompensationWritableDev
+        )) { "Reality14 STAGED requires a distinct read-only archive projection" }
         check(!householdNeedsWritableDev || (householdActive10Dev != null && !householdStage10ReadOnly))
         check(!financeActive9 || (planningStage8 && !financeStage9 && materialWriteGate != null)) {
             "Active Finance9 requires the shared gate and a distinct active mode"
@@ -160,7 +167,7 @@ class RealityStore(
             householdActive10Dev == null && householdActive12DevReadOnly == null &&
             householdActive13DevReadOnly == null))
         check(! (householdActive13DevReadOnly != null && (
-            householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly ||
+            householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly ||
             householdActive10Dev != null || householdActive12DevReadOnly != null ||
             householdNeedsWritableDev || household12WritableDev || !planningStage8 ||
             financeStage9 || financeActive9 || materialWriteGate == null
@@ -175,7 +182,7 @@ class RealityStore(
                 !householdNeedsWritableDev && planningStage8 && !financeStage9 && !financeActive9 &&
                 materialWriteGate != null
         )) { "Reality12 ACTIVE read requires its own admitted DEV mode" }
-        if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly) {
+        if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly) {
             check(planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate == null)
             val file = Household10RowsSql.checkFile(Path.of(fileName))
             BundledSQLiteDriver().open(
@@ -712,7 +719,7 @@ class RealityStore(
         try {
             withMaterialAdmission {
                 synchronized(lock) {
-                    if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly ||
+                    if (householdStage10ReadOnly || householdStage12ReadOnly || householdStage13ReadOnly || householdStage14ReadOnly ||
                         (householdActive13DevReadOnly != null && !householdStockCompensationWritableDev) ||
                         (householdActive12DevReadOnly != null && !household12WritableDev) ||
                         (householdActive10Dev != null && !householdNeedsWritableDev)) {
@@ -736,6 +743,10 @@ class RealityStore(
                         householdStage12ReadOnly -> {
                             Household11ReceiptRowsSql.checkTables(connection)
                             validateExistingFinanceLayout(12)
+                        }
+                        householdStage14ReadOnly -> {
+                            RealityHousehold14ReservationRowsPort.captureConnection(connection)
+                            validateExistingFinanceLayout(14)
                         }
                         householdStage13ReadOnly -> {
                             RealityHousehold13CompensationRowsPort.captureConnection(connection)
@@ -2433,7 +2444,8 @@ class RealityStore(
                 ((financeStage9 || financeActive9) && readSchemaVersion() == 9) ||
                 ((householdStage10ReadOnly || householdActive10Dev != null) && readSchemaVersion() == 10) ||
                 ((householdStage12ReadOnly || householdActive12DevReadOnly != null) && readSchemaVersion() == 12) ||
-                ((householdStage13ReadOnly || householdActive13DevReadOnly != null) && readSchemaVersion() == 13)
+                ((householdStage13ReadOnly || householdActive13DevReadOnly != null) && readSchemaVersion() == 13) ||
+                (householdStage14ReadOnly && readSchemaVersion() == 14)
         )
 
     private fun createPlanningStage8Tables() {

@@ -29,6 +29,7 @@ import ar.com.faro.v5.store.reality.RealityHousehold13StagedFilePort
 import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRows
 import ar.com.faro.v5.store.reality.RealityHousehold13CompensationRow
+import ar.com.faro.v5.store.reality.RealityHousehold14ReservationRowsPort
 import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseReceiptRows
 import ar.com.faro.v5.store.reality.RealityHousehold12PurchaseRow
 import ar.com.faro.v5.store.reality.RealityHousehold11ReceiptRows
@@ -47,6 +48,24 @@ internal class AuthenticatedHousehold13RestoreArchive private constructor(
     override fun copyEncryptedBytes(): ByteArray = ciphertext.copyOf()
 
     companion object {
+        fun openV11Projection(
+            archive: ByteArray,
+            passphrase: CharArray,
+        ): FiveStoreAuthenticatedPayload<Pair<AuthenticatedHousehold13RestoreArchive, FaroV5Household14Fbs2Snapshot>> {
+            val crypto = FaroV5FiveStorePortableBackupCrypto()
+            require(crypto.admitsArchiveSize(archive.size)) { "FBS2v11 archive size invalid" }
+            val ciphertext = archive.copyOf()
+            return when (val result = crypto.openWithHouseholdReservations14(ciphertext, passphrase)) {
+                is FiveStoreAuthenticatedPayload.Opened -> FiveStoreAuthenticatedPayload.Opened(
+                    AuthenticatedHousehold13RestoreArchive(ciphertext, result.payload.base) to result.payload,
+                )
+                is FiveStoreAuthenticatedPayload.Rejected -> {
+                    ciphertext.fill(0)
+                    result
+                }
+            }
+        }
+
         fun open(
             archive: ByteArray,
             passphrase: CharArray,
@@ -134,23 +153,41 @@ internal class FaroV5Household13V10StagedReplay(
                 FiveStoreStagedRestoreBlock.INVALID_ARCHIVE, opened.reason,
             )
         }
+        restoreVerifiedBaseToThirteen(operationId, stage, origin, authenticated)
+    }
+
+    internal fun restoreVerifiedArchiveBaseToThirteen(
+        operationId: MaintenanceOperationId,
+        stage: StagedStorageGeneration,
+        origin: ActiveGenerationPointer,
+        authenticated: AuthenticatedHousehold13RestoreArchive,
+    ): FiveStoreStagedRestoreResult = restoreUnderLease(operationId) {
+        restoreVerifiedBaseToThirteen(operationId, stage, origin, authenticated)
+    }
+
+    private fun restoreVerifiedBaseToThirteen(
+        operationId: MaintenanceOperationId,
+        stage: StagedStorageGeneration,
+        origin: ActiveGenerationPointer,
+        authenticated: AuthenticatedHousehold13RestoreArchive,
+    ): FiveStoreStagedRestoreResult {
         val snapshot = authenticated.full
         if (manifest(snapshot).sourceGenerationId == stage.descriptor.generationId) {
-            return@restoreUnderLease blocked(FiveStoreStagedRestoreBlock.SOURCE_TARGET_IDENTITY_CONFLICT)
+            return blocked(FiveStoreStagedRestoreBlock.SOURCE_TARGET_IDENTITY_CONFLICT)
         }
         val bytes = authenticated.copyEncryptedBytes()
         val reality = rows.requireSealedStage(stage, origin)
         val version = RealityHousehold11NeedsRowsPort.readTrustedSealedSchemaVersion(reality)
         val id = stage.descriptor.generationId
-        if (version !in 9L..13L) return@restoreUnderLease blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
+        if (version !in 9L..13L) return blocked(FiveStoreStagedRestoreBlock.TARGET_NOT_QUARANTINED)
         if (version == 9L) {
             val replay = FaroV5Household11V8BaseReplay(
                 root, underLease, assertExclusiveClosedDevHost, planVerifier = planVerifier,
             ).restoreVerifiedV10BaseToNine(operationId, stage, origin, authenticated)
-            if (replay !is FiveStoreStagedRestoreResult.StagedVerified) return@restoreUnderLease replay
+            if (replay !is FiveStoreStagedRestoreResult.StagedVerified) return replay
             afterPhase(Household13StagePhase.BASE_RESTORED)
         }
-        if (!hasPin(operationId, stage, bytes)) return@restoreUnderLease blocked(FiveStoreStagedRestoreBlock.ARCHIVE_IDENTITY_CONFLICT)
+        if (!hasPin(operationId, stage, bytes)) return blocked(FiveStoreStagedRestoreBlock.ARCHIVE_IDENTITY_CONFLICT)
 
         if (version == 9L) {
             RealityHousehold10StagedFilePort.migrateTrustedStagedNine(rows.requireSealedStage(stage, origin))
@@ -204,7 +241,7 @@ internal class FaroV5Household13V10StagedReplay(
         }
         requirePin(operationId, stage, bytes)
         rows.requireSealedStage(stage, origin)
-        FiveStoreStagedRestoreResult.StagedVerified(id.value)
+        return FiveStoreStagedRestoreResult.StagedVerified(id.value)
     }
 
     /** Explicit historical v9 import: preserves purchases and receipts, adds no Undo rows. */
@@ -306,19 +343,20 @@ internal class FaroV5Household13V10StagedReplay(
         requirePin(operationId, stage, bytes)
     }
 
-    private fun observeForVerification(
+    internal fun observeForVerification(
         operationId: MaintenanceOperationId,
         stage: StagedStorageGeneration,
         origin: ActiveGenerationPointer,
         expected: FaroV5Household13Fbs2Snapshot,
+        stageFourteen: Boolean = false,
     ): FaroV5Household13Fbs2Snapshot {
         val manifest = manifest(expected)
         val evidenceSchema = expected.base.base.base.base.fourStore.commercialEvidence.schemaVersion
         return capture(operationId, stage, origin, evidenceSchema == 2, manifest.backupSetId, manifest.productVersion,
-            manifest.createdAtEpochMillis, manifest)
+            manifest.createdAtEpochMillis, manifest, stageFourteen)
     }
 
-    private fun capture(
+    internal fun capture(
         operationId: MaintenanceOperationId,
         stage: StagedStorageGeneration,
         origin: ActiveGenerationPointer,
@@ -327,19 +365,31 @@ internal class FaroV5Household13V10StagedReplay(
         productVersion: String,
         createdAtMs: Long,
         sourceManifest: BackupSetManifest? = null,
+        stageFourteen: Boolean = false,
     ): FaroV5Household13Fbs2Snapshot {
         val reality = rows.requireSealedStage(stage, origin)
         val before = fingerprints(stage)
-        val (base, auxiliary) = FaroV5GenerationStoreGraph.openValidatedHousehold13ArchiveStage(
-            stage, origin, evidence2, planVerifier,
-        ).use { graph ->
+        val archiveGraph = if (stageFourteen) {
+            FaroV5GenerationStoreGraph.openValidatedHousehold14ArchiveStage(stage, origin, evidence2, planVerifier)
+        } else {
+            FaroV5GenerationStoreGraph.openValidatedHousehold13ArchiveStage(stage, origin, evidence2, planVerifier)
+        }
+        val (base, auxiliary) = archiveGraph.use { graph ->
             FaroV5FiveStoreBackupCapture(graph, underLease).captureReceiptProjection(
                 operationId, backupSetId, productVersion, createdAtMs,
             )
         }
-        val finance = RealityFinance9SealedReadPort.readTrustedSealedStage13(reality)
-        val needs = RealityHousehold11NeedsRowsPort.readTrustedSealedStageThirteen(reality)
-        val observed = RealityHousehold13CompensationRowsPort.captureTrustedSealedStageThirteen(reality)
+        val finance = if (stageFourteen) RealityFinance9SealedReadPort.readTrustedSealedStage14(reality)
+            else RealityFinance9SealedReadPort.readTrustedSealedStage13(reality)
+        val needs = if (stageFourteen) RealityHousehold11NeedsRowsPort.readTrustedSealedStageFourteen(reality)
+            else RealityHousehold11NeedsRowsPort.readTrustedSealedStageThirteen(reality)
+        val observed = if (stageFourteen) {
+            RealityHousehold14ReservationRowsPort.captureTrustedSealedStageFourteen(reality) {
+                rows.requireLogicalStage(stage, origin)
+            }.historical
+        } else {
+            RealityHousehold13CompensationRowsPort.captureTrustedSealedStageThirteen(reality)
+        }
         check(fingerprints(stage) == before) { "Reality12 capture changed sealed stores" }
         rows.requireSealedStage(stage, origin)
         val fourStore = sourceManifest?.let { base.fourStore.copy(manifest = it) } ?: base.fourStore

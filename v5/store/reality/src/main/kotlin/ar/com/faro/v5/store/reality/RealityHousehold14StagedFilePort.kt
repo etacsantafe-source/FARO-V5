@@ -8,6 +8,16 @@ import java.nio.file.Path
 
 /** The generation owner retains its exclusive lease on this inactive file throughout the call. */
 object RealityHousehold14StagedFilePort {
+    fun migrateOrVerifyTrustedStagedFourteen(file: Path, requireExclusiveStage: () -> Unit) {
+        requireExclusiveStage()
+        when (RealityHousehold11NeedsRowsPort.readTrustedSealedSchemaVersion(file)) {
+            13L -> migrateTrustedStagedThirteen(file, requireExclusiveStage)
+            14L -> Unit
+            else -> error("SQL14 migration requires a sealed SQL13 or SQL14 target")
+        }
+        RealityHousehold14ReservationRowsPort.captureTrustedSealedStageFourteen(file, requireExclusiveStage)
+    }
+
     fun migrateTrustedStagedThirteen(file: Path, requireExclusiveStage: () -> Unit) {
         check(file.toAbsolutePath() == file.toAbsolutePath().normalize()) { "SQL14 rejects staged path aliases" }
         requireExclusiveStage()
