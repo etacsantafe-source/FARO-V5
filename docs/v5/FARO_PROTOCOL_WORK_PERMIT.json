@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
   "reviewed_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
   "paths": [
@@ -61,30 +61,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_PASS_SQL15_ACTIVE_WAL_AWARE_DEV_20261126.md",
+          "blob_sha": "d92fc2cbbb198da09cd4e34906870beb1bbce736",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_PASS_SQL15_ACTIVE_WAL_AWARE_DEV_20261126.md",
+          "blob_sha": "d92fc2cbbb198da09cd4e34906870beb1bbce736",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45904196687,
   "pre_audit_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
   "last_code_review": {
-    "sha": "b5ec66ba8bdf5feaf4b3a07e035b9bf00b731ca7",
-    "result": "RED_FIX",
+    "sha": "534445246a1c4572961823e40ef72e7a7f5afa95",
+    "result": "PASS",
     "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_RED_FIX_2_INDEPENDENT_SQLITE_FIXTURES_20261126.md",
-        "blob_sha": "a87644ea831c316912f818404f29c983e8290fa4",
+        "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_PASS_SQL15_ACTIVE_WAL_AWARE_DEV_20261126.md",
+        "blob_sha": "d92fc2cbbb198da09cd4e34906870beb1bbce736",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45906736737,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45907516099,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "B1-B5 independently checked for SQL15 ACTIVE WAL-aware read-only DEV; exact5 scope, no SQL15 cutover or writer",
-  "next": "Correct independent fixture paths same unit only, run directed exact44 XML; C2 still blocked",
-  "last_guard_run_id": 45906736785,
-  "current_code_sha": "b5ec66ba8bdf5feaf4b3a07e035b9bf00b731ca7",
-  "reason": "B7 RED_FIX2: original JUnit XML 43/44 with one test-sidecar error from mixing ACTIVE read and STAGED migration in one fixture; independent fixtures required"
+  "why": "SQL15 ACTIVE read-only isolated DEV 44/44 original JUnit XML, no journaled cutover",
+  "next": "W05 A2C0C2 journaled SQL15 cutover B1-B5 independent, guard and READY; no stock real",
+  "last_guard_run_id": 45907516169,
+  "current_code_sha": "534445246a1c4572961823e40ef72e7a7f5afa95",
+  "reason": "A2C0C1B exact5 permit consumed B7 PASS scoped DEV; C2 separately gated"
 }
