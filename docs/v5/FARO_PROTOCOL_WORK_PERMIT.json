@@ -67,24 +67,24 @@
   "pre_audit_guard_run_id": 45904196687,
   "pre_audit_head": "2b7838a61d766791f9704a38b2c35b492b1cfce0",
   "last_code_review": {
-    "sha": "066eaead39093ae154193d7fd42641bdbc5e4a23",
+    "sha": "b5ec66ba8bdf5feaf4b3a07e035b9bf00b731ca7",
     "result": "RED_FIX",
     "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_RED_FIX_FINANCE9_FIXTURE_20261126.md",
-        "blob_sha": "6fb5760792d40660055dc3dddec3ebd9ea4d187a",
+        "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_RED_FIX_2_INDEPENDENT_SQLITE_FIXTURES_20261126.md",
+        "blob_sha": "a87644ea831c316912f818404f29c983e8290fa4",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45905334687,
+  "last_ci_run_id": 45906736737,
   "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "B1-B5 independently checked for SQL15 ACTIVE WAL-aware read-only DEV; exact5 scope, no SQL15 cutover or writer",
-  "next": "Correct fixture + directed CI workflow subset RED_FIX, then original XML exact44, B7 PASS only after real verification",
-  "last_guard_run_id": 45905334650,
-  "current_code_sha": "066eaead39093ae154193d7fd42641bdbc5e4a23",
-  "reason": "B7 RED_FIX: Reality fixture requires PRAGMA foreign_keys=ON before Finance9; 4/11 failed, directed CI failure, correction bounded same unit"
+  "next": "Correct independent fixture paths same unit only, run directed exact44 XML; C2 still blocked",
+  "last_guard_run_id": 45906736785,
+  "current_code_sha": "b5ec66ba8bdf5feaf4b3a07e035b9bf00b731ca7",
+  "reason": "B7 RED_FIX2: original JUnit XML 43/44 with one test-sidecar error from mixing ACTIVE read and STAGED migration in one fixture; independent fixtures required"
 }
