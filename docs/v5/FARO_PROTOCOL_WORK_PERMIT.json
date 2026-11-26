@@ -1,24 +1,22 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C0B2_SQL15_SEALED_CONSUMPTION_ROWS_DEV",
-  "reviewed_head": "f46f957df1f2213e0da0792978a99ba347a164da",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C0B3_AUTH_FBS2V12_FIVESTORE_SQL15_STAGED_REPLAY_DEV",
+  "reviewed_head": "3770a2af3b84a0a8982c84a478e30dbb603cf1c0",
   "paths": [
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold12PurchaseRowsPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold13CompensationRowsPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationSchema.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold14ReservationRowsPort.kt",
-    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionRowsPort.kt",
-    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionRowsPortTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c0b2-sql15-consumption-rows.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13V10StagedReplay.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household14V11StagedReplay.kt",
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15V12StagedReplay.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15V12StagedReplayTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c0b3-fbs2v12-staged-replay.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
-          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
+          "path": "docs/v5/FARO_S4_W05_A2C0B3_FBS2V12_FIVE_STORE_STAGED_REPLAY_B1_B5_20261126.md",
+          "blob_sha": "aa73fa0fd78b98f55803dd74e8ff22c8bbab9c79",
           "marker": "## B1"
         }
       ]
@@ -27,8 +25,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
-          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
+          "path": "docs/v5/FARO_S4_W05_A2C0B3_FBS2V12_FIVE_STORE_STAGED_REPLAY_B1_B5_20261126.md",
+          "blob_sha": "aa73fa0fd78b98f55803dd74e8ff22c8bbab9c79",
           "marker": "## B2"
         }
       ]
@@ -37,8 +35,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
-          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
+          "path": "docs/v5/FARO_S4_W05_A2C0B3_FBS2V12_FIVE_STORE_STAGED_REPLAY_B1_B5_20261126.md",
+          "blob_sha": "aa73fa0fd78b98f55803dd74e8ff22c8bbab9c79",
           "marker": "## B3"
         }
       ]
@@ -47,8 +45,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
-          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
+          "path": "docs/v5/FARO_S4_W05_A2C0B3_FBS2V12_FIVE_STORE_STAGED_REPLAY_B1_B5_20261126.md",
+          "blob_sha": "aa73fa0fd78b98f55803dd74e8ff22c8bbab9c79",
           "marker": "## B4"
         }
       ]
@@ -57,35 +55,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_SQL15_CONSUMPTION_ROWS_B1_B5_20261126.md",
-          "blob_sha": "5143602fe08a5b52d9c3f128134103aaa0312abc",
+          "path": "docs/v5/FARO_S4_W05_A2C0B3_FBS2V12_FIVE_STORE_STAGED_REPLAY_B1_B5_20261126.md",
+          "blob_sha": "aa73fa0fd78b98f55803dd74e8ff22c8bbab9c79",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_B7_PASS_SQL15_SEALED_CONSUMPTION_ROWS_20261126.md",
-          "blob_sha": "50431fc9125d885990b36d8858c75d581ba5a603",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0B2_B7_PASS_SQL15_SEALED_CONSUMPTION_ROWS_20261126.md",
-          "blob_sha": "50431fc9125d885990b36d8858c75d581ba5a603",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45878843457,
-  "pre_audit_head": "f46f957df1f2213e0da0792978a99ba347a164da",
+  "pre_audit_guard_run_id": 45880723019,
+  "pre_audit_head": "3770a2af3b84a0a8982c84a478e30dbb603cf1c0",
   "last_code_review": {
     "sha": "fb9e559702e3ba50b83a19951794888252d740a8",
     "result": "PASS",
@@ -102,9 +82,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C0B2 SQL15 STAGED sealed rows B7 PASS original directed JUnit XML 20/20 and protocol guard SUCCESS, no active stock",
-  "next": "A2C0B3 separate B1-B5 and READY for FBS2v12 5-store staged replay; A2C remains OPEN",
+  "why": "FBS2v12 authenticated v11 projection for five-store SQL14 staged base then SQL15 rows, no cutover/stock.consume",
+  "next": "B6 exact5 / Gradle CI original XML, B7 only after real successes, no ACTIVE",
   "last_guard_run_id": 45879399953,
   "current_code_sha": "fb9e559702e3ba50b83a19951794888252d740a8",
-  "reason": "A2C0B2 code exact7 permission consumed after scoped B7 PASS; no additional functional permission"
+  "reason": "A2C0B3 independent B1-B5 audited; exact5, replay SQL15 sealed stage only"
 }
