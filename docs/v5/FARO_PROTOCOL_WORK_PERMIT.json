@@ -1,25 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
+  "status": "READY",
+  "unit_id": "S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_DEV",
   "reviewed_head": "358895d33d716326bf3e3e8e3421294c3e6697ba",
   "paths": [
-    "v5/app/src/testV2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceTest.kt",
-    "v5/app/src/g5AndroidTest/kotlin/ar/com/faro/v5/app/FaroV5W05A1DevAcceptanceAndroidTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a1c4-global-dev-acceptance.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household13DevStockSnapshot.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household13DevStockSnapshotTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2a-physical-stock-snapshot-dev.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
-          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
-          "marker": "## B1"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
+          "blob_sha": "ad413d537af2361b1c1674515501f9e010398404",
           "marker": "## B1"
         }
       ]
@@ -28,13 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
-          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
-          "marker": "## B2"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
+          "blob_sha": "ad413d537af2361b1c1674515501f9e010398404",
           "marker": "## B2"
         }
       ]
@@ -43,13 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
-          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
-          "marker": "## B3"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
+          "blob_sha": "ad413d537af2361b1c1674515501f9e010398404",
           "marker": "## B3"
         }
       ]
@@ -58,13 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
-          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
-          "marker": "## B4"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
+          "blob_sha": "ad413d537af2361b1c1674515501f9e010398404",
           "marker": "## B4"
         }
       ]
@@ -73,22 +53,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_REVALIDATION_20261125.md",
-          "blob_sha": "b0339f7cf9bc0cbd76f792f64d31ba4d75fd3e58",
-          "marker": "## B5"
-        },
-        {
-          "path": "docs/v5/FARO_S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261125.md",
-          "blob_sha": "c56495b753e86691c18435272b8f6521d37cc2f1",
+          "path": "docs/v5/FARO_S4_W05_A2A_SQL13_PHYSICAL_STOCK_SNAPSHOT_B1_B5_20261126.md",
+          "blob_sha": "ad413d537af2361b1c1674515501f9e010398404",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "CI_PASS_ORIGINAL_XML2_2_API35_APK",
-    "B7": "PASS_PERMIT_CONSUMED"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45741695464,
-  "pre_audit_head": "b5956161a8107cb60ad0f70f5bd194de03941761",
+  "pre_audit_guard_run_id": 45746616149,
+  "pre_audit_head": "45b6de97ee43b402f86cf72edee7c380e0b02b7b",
   "last_code_review": {
     "sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
     "result": "PASS",
@@ -105,9 +80,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A1C4 code SHA 358895d33d716326bf3e3e8e3421294c3e6697ba scoped global DEV acceptance and CI/guard success. No further functional writes authorized.",
-  "next": "W05-A1 global DEV CLOSED scoped; next W05 phase requires separate B1-B5 and READY; no production or physical G15 enabled.",
-  "last_guard_run_id": 45743934125,
+  "why": "A1C4 B7 PASS and HEAD A2A B1-B5 verified by guard 45746616149; read-only SQL13 physical net (not available) exact3.",
+  "next": "B6 A2A physical net projection SQL13, directed JVM/XML, B7; no reservation or consumption mutations.",
+  "last_guard_run_id": 45746616149,
   "current_code_sha": "358895d33d716326bf3e3e8e3421294c3e6697ba",
-  "reason": "A1C4 final B7 PASS scoped DEV, original JVM 1/1 Android API35 1/1 XML verified from artifact 15083246165; permit consumed."
+  "reason": "READY for W05-A2A B6 exact3 only. A2B/C/D/E require separate permits. Productive V2, stock, payments, Auto/Noche OFF."
 }
