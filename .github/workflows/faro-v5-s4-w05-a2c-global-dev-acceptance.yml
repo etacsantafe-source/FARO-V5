@@ -1,0 +1,163 @@
+name: FARO V5 W05-A2C global SQL15 full DEV acceptance 91 XML and isolated APK
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - .github/workflows/faro-v5-s4-w05-a2c-global-dev-acceptance.yml
+
+permissions:
+  contents: read
+
+jobs:
+  global-a2c-dev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify prior READY exact1 and mandatory seven-block preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          route=.github/workflows/faro-v5-s4-w05-a2c-global-dev-acceptance.yml
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          unit=S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE
+          test "$(git show HEAD^:"$permit" | jq -r '.status')" = READY
+          test "$(git show HEAD^:"$permit" | jq -r '.unit_id')" = "$unit"
+          test "$(git show HEAD^:"$permit" | jq '.paths | length')" -eq 1
+          test "$(git show HEAD^:"$permit" | jq -r '.paths[0]')" = "$route"
+          test "$(git diff --name-only --no-renames HEAD^ HEAD)" = "$route"
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" --path "$route"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install isolated Android compile platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Verify typed catalog N-035 consume and N-016 undo remain distinct
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          rows = [row.split('\t') for row in Path('v5/spec/generated/contract-baseline.tsv').read_text().splitlines()]
+          for expected in (
+              ['operation', 'N-035', 'stock.consume', 'household', 'REALITY_MUTATION', 'BINDABLE'],
+              ['operation', 'N-016', 'undo.execute', 'undo-coordinator', 'REALITY_MUTATION', 'BINDABLE'],
+          ):
+              assert sum(row[:6] == expected for row in rows) == 1, expected
+          PY
+      - name: Fresh SQL15 journaled cutover and direct backup restore dependencies 35
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household15Evidence2DevJournaledCutoverTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household14Evidence2DevJournaledCutoverTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household15V12StagedReplayTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household15ActiveDevReadTest
+      - name: Fresh A and D consumptions plus N-016 Undo regression 27
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            :owner:household:test \
+            --tests ar.com.faro.v5.owner.household.api.HouseholdStockConsumptionDevAdmissionTest \
+            --tests ar.com.faro.v5.owner.household.api.HouseholdStockConsumptionUndoDevAdmissionTest \
+            --tests ar.com.faro.v5.owner.household.api.HouseholdStockUndoDevAdmissionTest
+      - name: Fresh SQL15 atomic consume and compensating Undo 16
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            :store:reality:test \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionApplyPortTest \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionUndoApplyPortTest
+      - name: Fresh authenticated Review Confirm Apply plus isolated DEV APK 13
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" \
+            -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false \
+            :app:testV2CoreDevUnitTest \
+            --tests ar.com.faro.v5.app.S4W05StockConsumptionDevApplyHostTest \
+            --tests ar.com.faro.v5.app.S4W05StockConsumptionUndoDevApplyHostTest \
+            :app:assembleV2CoreDev
+      - name: Independently verify eleven original JUnit XML and positive APK SHA256
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          import hashlib
+          matrix = [
+              ('v5/store/generation/build/test-results/test', 'FaroV5Household15Evidence2DevJournaledCutoverTest', 9),
+              ('v5/store/generation/build/test-results/test', 'FaroV5Household14Evidence2DevJournaledCutoverTest', 6),
+              ('v5/store/generation/build/test-results/test', 'FaroV5Household15V12StagedReplayTest', 15),
+              ('v5/store/generation/build/test-results/test', 'FaroV5Household15ActiveDevReadTest', 5),
+              ('v5/owner/household/build/test-results/test', 'HouseholdStockConsumptionDevAdmissionTest', 8),
+              ('v5/owner/household/build/test-results/test', 'HouseholdStockConsumptionUndoDevAdmissionTest', 9),
+              ('v5/owner/household/build/test-results/test', 'HouseholdStockUndoDevAdmissionTest', 10),
+              ('v5/store/reality/build/test-results/test', 'RealityHousehold15ConsumptionApplyPortTest', 8),
+              ('v5/store/reality/build/test-results/test', 'RealityHousehold15ConsumptionUndoApplyPortTest', 8),
+              ('v5/app/build/test-results/testV2CoreDevUnitTest', 'S4W05StockConsumptionDevApplyHostTest', 5),
+              ('v5/app/build/test-results/testV2CoreDevUnitTest', 'S4W05StockConsumptionUndoDevApplyHostTest', 8),
+          ]
+          total = 0
+          unique_cases = set()
+          for root, name, expected in matrix:
+              reports = list(Path(root).glob('TEST-*' + name + '.xml'))
+              assert len(reports) == 1, (name, reports)
+              suite = ET.parse(reports[0]).getroot()
+              actual = tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+              assert actual == (expected, 0, 0, 0), (name, actual)
+              cases = suite.findall('testcase')
+              assert len(cases) == expected, (name, len(cases))
+              names = [case.attrib['name'] for case in cases]
+              assert len(set(names)) == expected, (name, names)
+              for case in cases:
+                  key = (name, case.attrib['name'])
+                  assert key not in unique_cases, key
+                  unique_cases.add(key)
+              total += expected
+              print('A2C_SUITE_PASS', name, expected)
+          assert len(matrix) == 11 and total == 91 and len(unique_cases) == 91
+          apks = list(Path('v5/app/build/outputs/apk/v2CoreDev').glob('*.apk'))
+          assert apks and all(p.is_file() and p.stat().st_size > 0 for p in apks), apks
+          for apk in apks:
+              print('ISOLATED_DEV_APK', apk, apk.stat().st_size, hashlib.sha256(apk.read_bytes()).hexdigest())
+          print('W05_A2C_GLOBAL_DEV_JUNIT_PASS_91_OF_91')
+          PY
+      - name: Preserve eleven original A2C XML suites and isolated DEV APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c-global-dev-xml91-apk
+          if-no-files-found: error
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household15Evidence2DevJournaledCutoverTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household14Evidence2DevJournaledCutoverTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household15V12StagedReplayTest.xml
+            v5/store/generation/build/test-results/test/TEST-*FaroV5Household15ActiveDevReadTest.xml
+            v5/owner/household/build/test-results/test/TEST-*HouseholdStockConsumptionDevAdmissionTest.xml
+            v5/owner/household/build/test-results/test/TEST-*HouseholdStockConsumptionUndoDevAdmissionTest.xml
+            v5/owner/household/build/test-results/test/TEST-*HouseholdStockUndoDevAdmissionTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionApplyPortTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionUndoApplyPortTest.xml
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*S4W05StockConsumptionDevApplyHostTest.xml
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*S4W05StockConsumptionUndoDevApplyHostTest.xml
+            v5/app/build/outputs/apk/v2CoreDev/*.apk
