@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC",
   "reviewed_head": "e44f451f4678a7776768df120823f502d3b22a3f",
   "paths": [
@@ -60,34 +60,34 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_16_OF_16"
   },
   "pre_audit_guard_run_id": 45955690794,
   "pre_audit_head": "e44f451f4678a7776768df120823f502d3b22a3f",
   "last_code_review": {
-    "sha": "97e3155e9dd619fdbe31dd2e2c7a88d2828c9ba4",
+    "sha": "7a9898fc4cd8767278bbcb2ee5ab600c40067350",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION",
+    "unit_id": "S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1D_B7_PASS_CONSUMPTION_UNDO_ADMISSION_20261127.md",
-        "blob_sha": "3f663508bdcb1c400641a88aab80b62bf94d44a6",
+        "path": "docs/v5/FARO_S4_W05_A2C1E_B7_PASS_SQL15_CONSUMPTION_UNDO_ATOMIC_DEV_20261127.md",
+        "blob_sha": "e44fc7ea715efdde49ac2443e7f154ce449fac20",
         "marker": "## B7"
       }
     ]
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Exclusive SQL15 CONSUME_UNDO writer for FULL Undo ReviewOnly and one transaction; no D/C grants inherited.",
-  "next": "A2C1E B6 exact4 gated after permit guard; targeted CI XML and B7; F requires independent preaudit.",
-  "reason": "A2C1E B1-B5 guarded SUCCESS; SQL15 undo atomic DEV exact4 permitted, no host/UI/production, B6 pending.",
-  "current_code_sha": "97e3155e9dd619fdbe31dd2e2c7a88d2828c9ba4",
-  "last_ci_run_id": 45954154676,
-  "last_ci_conclusion": "NOT_RUN_A2C1E",
-  "last_guard_run_id": 45955690794,
+  "why": "SQL15 full consumption Undo writer separately fenced, rollback, duplicate-safe DEV only.",
+  "next": "A2C1F B1-B5 preaudit Review->Confirm->Apply host SQL15 and genuine Workspace COMMITTED origin; no direct shipping.",
+  "reason": "A2C1E B7 PASS scoped DEV 16/16; permit consumed. A2C1F requires its own B1-B5 and exact permit.",
+  "current_code_sha": "7a9898fc4cd8767278bbcb2ee5ab600c40067350",
+  "last_ci_run_id": 45956198815,
+  "last_ci_conclusion": "success",
+  "last_guard_run_id": 45956198842,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1E documentary B1-B5 guard success 45955690794; READY exact4; B6 NOT_RUN.",
+  "last_guard_diagnosis": "E code B7 XML 8 new + 8 regression SUCCESS; separate CI 45956198815, guard 45956198842 SUCCESS; no F host.",
   "b7_document_guard_run_id": 45954607567,
   "b7_document_guard_conclusion": "failure_transitional_prepermit_consumption"
 }
