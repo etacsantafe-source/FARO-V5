@@ -425,7 +425,8 @@ class S4W05StockConsumptionDevApplyHostTest {
         checkNotNull(pointer.compareAndSet(rig.selected.generationId, other))
         checkNotNull(pointer.compareAndSet(other, rig.selected.generationId))
         assertFalse(rig.apply(approved) is ReviewedConversationApplyResult.Committed)
-        assertEquals(2_500L, rig.position().physicalThousandths)
+        // ABA changed pointer sequence: the old selected host must fail closed on reads too.
+        assertThrows(IllegalStateException::class.java) { rig.position() }
     }
 
     @Test

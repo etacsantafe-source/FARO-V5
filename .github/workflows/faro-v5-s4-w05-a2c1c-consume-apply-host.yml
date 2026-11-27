@@ -29,20 +29,20 @@ jobs:
           permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
           test "$(git show HEAD^:"$permit" | jq -r '.status')" = READY
           test "$(git show HEAD^:"$permit" | jq '.paths | length')" -eq 4
-          # RED_FIX: only two files changed, still within the original READY exact4 permit.
+          # B7 RED_FIX exact2: a test assertion and this workflow, both within original exact4.
           diff -u <(printf '%s\n' \
             'v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionDevApplyHostTest.kt' \
             '.github/workflows/faro-v5-s4-w05-a2c1c-consume-apply-host.yml' | sort) \
             <(git diff --name-only --no-renames HEAD^ HEAD | sort)
-          for path in \
-            v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionDevApplyHostTest.kt \
-            .github/workflows/faro-v5-s4-w05-a2c1c-consume-apply-host.yml; do
-            git show HEAD^:"$permit" | jq -e --arg p "$path" '.paths | index($p) != null'
+          # Preserve every original READY grant check and run gate on each actual changed path.
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "${#changed[@]}" -eq 2
+          args=(python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit")
+          for path in "${changed[@]}"; do
+            git show HEAD^:"$permit" | jq -e --arg p "$path" '.paths | index($p) != null' >/dev/null
+            args+=(--path "$path")
           done
-          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
-            --unit "$unit" \
-            --path v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionDevApplyHostTest.kt \
-            --path .github/workflows/faro-v5-s4-w05-a2c1c-consume-apply-host.yml
+          "${args[@]}"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
