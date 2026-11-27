@@ -185,6 +185,29 @@ class FaroV5GenerationStoreGraph private constructor(
         }
     }
 
+    /** SQL15 Undo-only DEV session; does not expose N-035 consumption writer. */
+    class Household15ConsumptionUndoDevSession internal constructor(
+        private val graph: FaroV5GenerationStoreGraph,
+        private val gate: MaterialWriteGate,
+        private val channel: FileChannel,
+    ) : AutoCloseable {
+        val workspace: ConversationWorkspaceStore get() = checkNotNull(graph.workspace)
+        val identities get() = graph.reality.applyAttemptIdentities
+        val attempts get() = graph.reality.applyAttemptLookup
+        val receipts get() = graph.reality.executionReceiptLookup
+        val transactions: AtomicApplyTransactionPort = object : AtomicApplyTransactionPort by graph.reality {}
+        val commits: ApplyCommitPort = object : ApplyCommitPort by graph.reality {}
+        val dependencies: DependencyStampLookupPort = object : DependencyStampLookupPort by graph.reality {}
+        fun undos(principal: String, generation: HouseholdReviewGeneration) =
+            graph.reality.household15ConsumptionUndoForTrustedDev(principal, generation)
+        fun snapshotUndos() = graph.reality.snapshotActiveHousehold15RowsForTrustedHost()
+        override fun close() = gate.withQuiescedMaterialWrites {
+            if (channel.isOpen) {
+                try { graph.close() } finally { channel.close() }
+            }
+        }
+    }
+
     class Household12StockReceiveDevSession internal constructor(
         private val session: Household12PurchaseDevSession,
     ) : AutoCloseable {
@@ -1132,6 +1155,63 @@ class FaroV5GenerationStoreGraph private constructor(
             }
         }
 
+        /** A2C1F: independent SQL15 Undo writer lease; no inherited consumption grant. */
+        fun openActiveHousehold15DevForConsumptionUndoHost(
+            storageRoot: Path,
+            selected: ActiveGenerationPointer,
+            gate: MaterialWriteGate,
+            planVerifier: PreparedPlanEnvelopeVerificationPort,
+            ownerAdmission: () -> Boolean,
+        ): Household15ConsumptionUndoDevSession = gate.withMaterialWrite {
+            check(selected.sequence > 0L && ownerAdmission() &&
+                Files.isDirectory(storageRoot, NOFOLLOW_LINKS))
+            val root = storageRoot.toRealPath()
+            val lockFile = root.resolve("finance9-dev-root.lock")
+            val channel = FileChannel.open(lockFile, CREATE, WRITE, NOFOLLOW_LINKS)
+            try {
+                check((Files.getAttribute(lockFile, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                val lease = try {
+                    checkNotNull(channel.tryLock()) { "SQL15 DEV root already leased" }
+                } catch (occupied: OverlappingFileLockException) {
+                    throw IllegalStateException("SQL15 DEV root already leased", occupied)
+                }
+                val pointer = FileActiveGenerationPointer(root)
+                val fence: () -> Boolean = {
+                    lease.isValid && ownerAdmission() && pointer.read() == selected &&
+                        FaroV5Household15Evidence2DevJournaledCutover.hasCompletedSelection(root, selected)
+                }
+                check(fence()) { "SQL15 Undo DEV requires real COMPLETED ticket" }
+                val staged = FileStorageGenerationLayout(root).requireStaged(selected.generationId)
+                check(ExistingGenerationFormatReader.requireAndRead(staged) ==
+                    GenerationStoreFormat.WORKSPACE_V2)
+                val dir = staged.directory.toAbsolutePath().normalize()
+                check(dir.toRealPath() == dir && dir.parent == root.resolve("generations"))
+                for (name in GenerationStoreFiles.WORKSPACE_V2) {
+                    val file = dir.resolve(name)
+                    check(Files.isRegularFile(file, NOFOLLOW_LINKS) &&
+                        (Files.getAttribute(file, "unix:nlink", NOFOLLOW_LINKS) as Number).toLong() == 1L)
+                }
+                requireStrictV2StoreSchemas(dir, activeGeneration = true, planningStage8 = true,
+                    financeStage9 = true, auxiliary4 = true, commercialEvidence2ActiveDev = true,
+                    householdActive15Dev = true)
+                val graph = openValidatedV2Internal(staged, planVerifier = planVerifier,
+                    materialWriteGate = gate, activeGeneration = true, planningStage8 = true,
+                    financeStage9 = true, checkedPlanning8Active = true,
+                    auxiliaryReceiptFence = fence, commercialEvidence2ActiveDev = true,
+                    householdActive15Dev = true, householdStockConsumptionUndoWritableDev = true)
+                try {
+                    check(graph.verifyHealthy() && fence())
+                    Household15ConsumptionUndoDevSession(graph, gate, channel)
+                } catch (failure: Throwable) {
+                    graph.close()
+                    throw failure
+                }
+            } catch (failure: Throwable) {
+                channel.close()
+                throw failure
+            }
+        }
+
         /** SQL15 SEALED five-store semantic capture only: no ACTIVE/Apply admission. */
         internal fun openValidatedHousehold15ArchiveStage(
             staged: StagedStorageGeneration,
@@ -1429,8 +1509,14 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStockReservationWritableDev: Boolean = false,
             householdActive15Dev: Boolean = false,
             householdStockConsumptionWritableDev: Boolean = false,
+            householdStockConsumptionUndoWritableDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             check(!(householdPurchaseWritableDev && householdStockReceiveWritableDev))
+            check(!householdStockConsumptionUndoWritableDev ||
+                (householdActive15Dev && planVerifier != null && !householdActive14Dev &&
+                    !householdActive13Dev && !householdActive12Dev && !householdPurchaseWritableDev &&
+                    !householdStockReceiveWritableDev && !householdStockCompensationWritableDev &&
+                    !householdStockReservationWritableDev && !householdStockConsumptionWritableDev))
             check(!householdStockConsumptionWritableDev ||
                 (householdActive15Dev && planVerifier != null && !householdActive14Dev &&
                     !householdActive13Dev && !householdActive12Dev && !householdPurchaseWritableDev &&
@@ -1630,6 +1716,7 @@ class FaroV5GenerationStoreGraph private constructor(
                     householdStockReservationWritableDev = householdStockReservationWritableDev,
                     householdActive15Dev = householdActive15Dev,
                     householdStockConsumptionWritableDev = householdStockConsumptionWritableDev,
+                    householdStockConsumptionUndoWritableDev = householdStockConsumptionUndoWritableDev,
                 )
             } catch (failure: Throwable) {
                 runCatching { workspace.close() }
@@ -1830,6 +1917,7 @@ class FaroV5GenerationStoreGraph private constructor(
             householdStockReservationWritableDev: Boolean = false,
             householdActive15Dev: Boolean = false,
             householdStockConsumptionWritableDev: Boolean = false,
+            householdStockConsumptionUndoWritableDev: Boolean = false,
         ): FaroV5GenerationStoreGraph {
             var reality: RealityStore? = null
             var commercial: CommercialEvidenceStore? = null
@@ -1860,6 +1948,7 @@ class FaroV5GenerationStoreGraph private constructor(
                         householdStockReservationWritableDev = householdStockReservationWritableDev,
                         householdActive15DevReadOnly = if (householdActive15Dev) checkNotNull(auxiliaryReceiptFence) else null,
                         householdStockConsumptionWritableDev = householdStockConsumptionWritableDev,
+                        householdStockConsumptionUndoWritableDev = householdStockConsumptionUndoWritableDev,
                     )
                 reality = openedReality
                 commercial =

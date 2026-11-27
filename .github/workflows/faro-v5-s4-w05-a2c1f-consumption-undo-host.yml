@@ -1,0 +1,76 @@
+name: FARO V5 W05-A2C1F SQL15 consumption Undo authenticated DEV host
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHost.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml
+
+permissions:
+  contents: read
+
+jobs:
+  consumption-undo-authenticated-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact four routes with READY parent permit
+        shell: bash
+        run: |
+          set -euo pipefail
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          test "$(git show HEAD^:$permit | jq -r .status)" = READY
+          test "$(git show HEAD^:$permit | jq -r .unit_id)" = S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV
+          git show HEAD^:$permit | jq -r '.paths[]' | sort > /tmp/faro-allowed
+          git diff --name-only --no-renames HEAD^ HEAD | sort > /tmp/faro-changed
+          test "$(wc -l < /tmp/faro-allowed)" -eq 4
+          diff -u /tmp/faro-allowed /tmp/faro-changed
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt --path v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHost.kt --path v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt --path .github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android compile platform
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Run genuine SQL15 F Undo host and C consumption regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache -Pkotlin.compiler.execution.strategy=in-process "-Dorg.gradle.jvmargs=-Xmx3072m -XX:MaxMetaspaceSize=768m -Dfile.encoding=UTF-8" -Pandroid.onlyEnableUnitTestForTheTestedBuildType=false :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.S4W05StockConsumptionUndoDevApplyHostTest --tests ar.com.faro.v5.app.S4W05StockConsumptionDevApplyHostTest
+      - name: Verify original JUnit XML 8 new and 5 existing
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          directory=Path('v5/app/build/test-results/testV2CoreDevUnitTest')
+          for name, wanted in (('S4W05StockConsumptionUndoDevApplyHostTest',8),('S4W05StockConsumptionDevApplyHostTest',5)):
+              matches=list(directory.glob('TEST-*'+name+'.xml'))
+              assert len(matches)==1, (name,matches)
+              suite=ElementTree.parse(matches[0]).getroot()
+              counts=tuple(int(suite.attrib[k]) for k in ('tests','failures','errors','skipped'))
+              assert counts==(wanted,0,0,0), (name,counts)
+              names=[c.attrib['name'] for c in suite.findall('testcase')]
+              assert len(set(names))==wanted, (name,names)
+          PY
+      - name: Preserve original JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c1f-consumption-undo-host-xml
+          if-no-files-found: error
+          path: |
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*S4W05StockConsumptionUndoDevApplyHostTest.xml
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*S4W05StockConsumptionDevApplyHostTest.xml
