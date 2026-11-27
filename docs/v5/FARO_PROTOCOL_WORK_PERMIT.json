@@ -66,13 +66,13 @@
   "pre_audit_guard_run_id": 45937456360,
   "pre_audit_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
   "last_code_review": {
-    "sha": "b50a7f8aca168c48fbc15a6a290e5484cd277908",
+    "sha": "b742e87f01783e4e8f5f33192a1f3be096ebf294",
     "result": "RED_FIX",
     "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1C_B7_RED_FIX_TEST_BUNDLED_IMPORT_20261127.md",
-        "blob_sha": "da8a0f35d3fcd8013e117398f435d47d316931df",
+        "path": "docs/v5/FARO_S4_W05_A2C1C_B7_RED_FIX_ABA_READ_ASSERTION_20261127.md",
+        "blob_sha": "0d812f537840fc23790f525c1473e468e51e5ac1",
         "marker": "## B7"
       }
     ]
@@ -80,12 +80,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "Same-unit exact4 A2C1C host DEV only; B1-B5 source checkpoint, guard and A2C1A/B B7 recorded; no stock real.",
-  "next": "Correct A2C1C test fixture and new CI workflow only exact2; after documentary guard, re-acquire writer, run B6 RED_FIX and full CI.",
-  "reason": "RED_FIX same-unit continuation only; original B1-B5 and exact4 preserved. Guard correction for stage flags, not a new permission.",
-  "current_code_sha": "b50a7f8aca168c48fbc15a6a290e5484cd277908",
-  "last_ci_run_id": 45938195386,
+  "next": "After documented RED_FIX guard, correct only test and A2C1C workflow exact2, retain source code fence; rerun CI XML and B7",
+  "reason": "Same-unit RED_FIX test assertion ABA; 2 route subset, original four-path permit READY",
+  "current_code_sha": "b742e87f01783e4e8f5f33192a1f3be096ebf294",
+  "last_ci_run_id": 45939174991,
   "last_ci_conclusion": "failure",
-  "last_guard_run_id": 45938897059,
-  "last_guard_conclusion": "failure",
-  "last_guard_diagnosis": "RED_FIX compile test fixture; protocol stages restored READY_TO_IMPLEMENT and PENDING_FINAL_AUDIT required by preflight; review stays RED_FIX"
+  "last_guard_run_id": 45939174920,
+  "last_guard_conclusion": "success",
+  "last_guard_diagnosis": "5 tests executed, 4 PASS 1 failed at ABA invalidated session read; expected fail-closed IllegalStateException, fix test assertion only"
 }
