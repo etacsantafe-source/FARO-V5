@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION",
   "reviewed_head": "b476e3c232ae90f92e2ff946ba1639836543c778",
   "paths": [
@@ -60,30 +60,50 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
+          "blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
+          "blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45924008568,
   "pre_audit_head": "b476e3c232ae90f92e2ff946ba1639836543c778",
   "last_code_review": {
-    "sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
+    "sha": "3885084a6447febde9586da2c5a02414e3c4aa40",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV",
+    "unit_id": "S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
-        "blob_sha": "f086537588cd82c94c7a5de82a00800dc96cba43",
+        "path": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
+        "blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45917344600,
+  "last_ci_run_id": 45925067636,
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C1A preaudit B1-B5 published and guard verified; only exact4 DEV paths authorized; no stock real, production or reserved consumption",
-  "next": "A2C1A B6 (verify exact route preflight and writer per mutation), CI original XML, B7; A2C1B-F not READY",
-  "last_guard_run_id": 45924008568,
-  "current_code_sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
-  "reason": "A2C0C2 B7 PASS, scoped DEV; independent exact3 permission consumed, next unit requires new authorization"
+  "why": "B7 verified from original CI XML runner + artifact 15165624289; no physical/production Apply. Guard 45925399508 red due to permit stale; corrected by docs-only checkpoint; next guard must pass before B.",
+  "next": "Wait guard on corrected documentary checkpoint; then A2C1B preaudit B1-B5, own READY exact routes, B6/B7",
+  "last_guard_run_id": 45925399508,
+  "current_code_sha": "3885084a6447febde9586da2c5a02414e3c4aa40",
+  "reason": "A2C1A B7 PASS scoped DEV 8/8; exact4 permit consumed and last_code_review corrected. Next A2C1B requires independent B1-B5/READY, no stock real.",
+  "last_guard_conclusion": "failure",
+  "last_guard_diagnosis": "On docs-only B7 HEAD the READY exact4 permit remained unconsumed; preflight failed because last_code_review still pointed to A2C0C2 (previous code change lacks B7 disposition)."
 }

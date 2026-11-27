@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C1A_B7_PASS_SCOPED_DEV_A2C1B_B1_B5_NEXT",
+  "phase": "S4_W05_A2C1A_B7_DEV_PERMIT_CONSUMED_GUARD_REDFIX_WAIT_CI",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2147
+    "epoch": 2148
   },
   "automation": {
     "activation_authorized": false,
@@ -7674,19 +7674,25 @@
     "next": "A2C0C1B_B1_B5"
   },
   "a2c1_noche_lite": {
-    "status": "A2C1A_READY_AFTER_GUARD",
+    "status": "A2C1A_B7_PASS_DEV_PERMIT_CONSUMED_GUARD_WAIT",
     "base_sha": "6cbee2adc887c62e931765eba5c4f5d31747e89b",
     "preaudit": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
     "runbook": "docs/v5/FARO_NOCHE_LITE_A2C1_RUNBOOK_V1_20261126.md",
     "roadmap": "docs/v5/FARO_NOCHE_LITE_A2C1_CHAIN_V1_20261126.json",
-    "guard": "45924008568_SUCCESS",
-    "permit": "READY_EXACT4_FOR_A2C1A_ONLY",
-    "b6": "NOT_RUN",
-    "b7": "NOT_RUN",
-    "downstream_units": "B_TO_F_DEPENDENT_NOT_READY",
+    "guard": "PENDING_CORRECTED_DOC_CHECKPOINT",
+    "permit": "BLOCKED_CONSUMED_A2C1A",
+    "b6": "PASS_8_8_XML_VERIFIED_BY_CI",
+    "b7": "PASS_SCOPED_DEV",
+    "downstream_units": "A2C1B_TO_F_UNAUTHORIZED_FOR_CODE",
     "automation_scope": "SCHEDULER_ONLY_FAIL_CLOSED",
     "pre_audit_sha": "b476e3c232ae90f92e2ff946ba1639836543c778",
     "pre_audit_blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
-    "unit_id": "S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION"
+    "unit_id": "S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION",
+    "b7_code_sha": "3885084a6447febde9586da2c5a02414e3c4aa40",
+    "b7_doc": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
+    "b7_doc_blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
+    "ci_run_id": 45925067636,
+    "previous_guard_failure": 45925399508,
+    "next": "A2C1B_B1_B5_RECONCILE_AFTER_GUARD"
   }
 }
