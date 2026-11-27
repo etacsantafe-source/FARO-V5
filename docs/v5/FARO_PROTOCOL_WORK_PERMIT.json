@@ -1,21 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV",
-  "reviewed_head": "9464a0b660f442e47c01a8516838501bee444ac9",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE",
+  "reviewed_head": "e37378e07e1a67a47b1d4ff7542f2465e97b4252",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml"
+    ".github/workflows/faro-v5-s4-w05-a2c1-global-dev-acceptance.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_B1_B5_20261127.md",
-          "blob_sha": "4a4e37ad00682c7202646183f411140f237f4556",
+          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
           "marker": "## B1"
         }
       ]
@@ -24,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_B1_B5_20261127.md",
-          "blob_sha": "4a4e37ad00682c7202646183f411140f237f4556",
+          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
           "marker": "## B2"
         }
       ]
@@ -34,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_B1_B5_20261127.md",
-          "blob_sha": "4a4e37ad00682c7202646183f411140f237f4556",
+          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
           "marker": "## B3"
         }
       ]
@@ -44,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_B1_B5_20261127.md",
-          "blob_sha": "4a4e37ad00682c7202646183f411140f237f4556",
+          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
           "marker": "## B4"
         }
       ]
@@ -54,17 +51,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_B1_B5_20261127.md",
-          "blob_sha": "4a4e37ad00682c7202646183f411140f237f4556",
+          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_13_OF_13"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45958001567,
-  "pre_audit_head": "9464a0b660f442e47c01a8516838501bee444ac9",
+  "pre_audit_guard_run_id": 45982027334,
+  "pre_audit_head": "e37378e07e1a67a47b1d4ff7542f2465e97b4252",
   "last_code_review": {
     "sha": "15a47470655c06ebaab4422fdb2c5811da067105",
     "result": "PASS",
@@ -79,15 +76,15 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Genuine COMMITTED N-035 source, independent N-016 Undo host, fenced SQL15 FULL Undo, distinct receipts and recovery.",
-  "next": "A2C1 global acceptance B1-B5 distinct integration audit / gate; no extra functional edits without new exact permit.",
-  "reason": "A2C1F B7 PASS scoped DEV 13/13 original XML; permit consumed, no A2C1 global acceptance yet.",
+  "why": "Independent 56-case cross-module JUnit XML + isolated DEV APK on one current HEAD; no change to certified functional files.",
+  "next": "B6: only new A2C1 global DEV acceptance workflow after permit guard; then CI XML+APK, B7, consume permit, writer RELEASED.",
+  "reason": "A2C1 A-F individually B7 PASS DEV; global acceptance preaudit guard success; exact one workflow-only B6 permitted.",
   "current_code_sha": "15a47470655c06ebaab4422fdb2c5811da067105",
   "last_ci_run_id": 45959680590,
-  "last_ci_conclusion": "success",
-  "last_guard_run_id": 45959680644,
+  "last_ci_conclusion": "NOT_RUN_GLOBAL_ACCEPTANCE",
+  "last_guard_run_id": 45982027334,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1F first CI 45958684365 FAIL 12/13; RED_FIX audit df0ee7c7 and corrected code 15a47470, guard 45959680644 SUCCESS, CI 45959680590 XML13/13 SUCCESS. F B7 accepted, final guard pending.",
+  "last_guard_diagnosis": "B1-B5 documentary guard 45982027334 SUCCESS; B6 NOT_RUN exact1 new workflow",
   "b7_document_guard_run_id": 45954607567,
   "b7_document_guard_conclusion": "failure_transitional_prepermit_consumption"
 }
