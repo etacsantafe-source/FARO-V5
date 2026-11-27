@@ -60,19 +60,19 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_RED_FIX_REQUIRED",
+    "B7": "RED_FIX_TEST_CLASSPATH"
   },
   "pre_audit_guard_run_id": 45937456360,
   "pre_audit_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
   "last_code_review": {
-    "sha": "09a7f72445b3a8a9c691d1a79096e6d468afb929",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY",
+    "sha": "b50a7f8aca168c48fbc15a6a290e5484cd277908",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1B_B7_PASS_CONSUME_ATOMIC_SQL15_DEV_20261126.md",
-        "blob_sha": "fa1ba2664ad0142a1ad30bef2dc3366c33f77cb5",
+        "path": "docs/v5/FARO_S4_W05_A2C1C_B7_RED_FIX_TEST_BUNDLED_IMPORT_20261127.md",
+        "blob_sha": "da8a0f35d3fcd8013e117398f435d47d316931df",
         "marker": "## B7"
       }
     ]
@@ -80,6 +80,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "Same-unit exact4 A2C1C host DEV only; B1-B5 source checkpoint, guard and A2C1A/B B7 recorded; no stock real.",
-  "next": "B6 A2C1C only after guard success of permit commit and preflight for exact four routes, writer CAS, directed CI/XML, B7. D-F NOT_READY.",
-  "reason": "Fresh scoped A2C1C admission only, no transfer from A2C1B consumed permit."
+  "next": "Correct A2C1C test fixture and new CI workflow only exact2; after documentary guard, re-acquire writer, run B6 RED_FIX and full CI.",
+  "reason": "A2C1C same-unit RED_FIX retry only, original exact4 permission remains READY scoped; B7 not PASS.",
+  "current_code_sha": "b50a7f8aca168c48fbc15a6a290e5484cd277908",
+  "last_ci_run_id": 45938195386,
+  "last_ci_conclusion": "failure",
+  "last_guard_run_id": 45938195109,
+  "last_guard_conclusion": "success",
+  "last_guard_diagnosis": "A2C1C B6 code compiles, app test fixture missing bundled SQLite driver classpath; B7 RED_FIX exact2 test/workflow; NO XML"
 }
