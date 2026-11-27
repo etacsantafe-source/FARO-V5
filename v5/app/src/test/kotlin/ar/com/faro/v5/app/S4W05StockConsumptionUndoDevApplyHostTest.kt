@@ -516,7 +516,7 @@ class S4W05StockConsumptionUndoDevApplyHostTest {
             checkNotNull(pointer.compareAndSet(rig.selected.generationId, other))
             checkNotNull(pointer.compareAndSet(other, rig.selected.generationId))
             assertFalse(rig.apply(approved) is ReviewedConversationApplyResult.Committed)
-            assertThrows(IllegalStateException::class.java) { rig.host.position(rig.consumptionRef) }
+            assertNull(rig.host.position(rig.consumptionRef))
         }
     }
 

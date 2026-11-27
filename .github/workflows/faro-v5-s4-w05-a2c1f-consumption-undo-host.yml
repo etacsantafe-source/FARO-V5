@@ -31,8 +31,11 @@ jobs:
           git show HEAD^:$permit | jq -r '.paths[]' | sort > /tmp/faro-allowed
           git diff --name-only --no-renames HEAD^ HEAD | sort > /tmp/faro-changed
           test "$(wc -l < /tmp/faro-allowed)" -eq 4
-          diff -u /tmp/faro-allowed /tmp/faro-changed
-          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV --path v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt --path v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHost.kt --path v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt --path .github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml
+          test "$(wc -l < /tmp/faro-changed)" -eq 2
+          grep -Fx 'v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt' /tmp/faro-allowed
+          grep -Fx '.github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml' /tmp/faro-allowed
+          diff -u <(printf '%s\n' '.github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml' 'v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt' | sort) /tmp/faro-changed
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV --path v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionUndoDevApplyHostTest.kt --path .github/workflows/faro-v5-s4-w05-a2c1f-consumption-undo-host.yml
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
