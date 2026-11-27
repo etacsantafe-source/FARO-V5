@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY",
   "reviewed_head": "e16bc3f5104e41deed1a6a688a9e86bc79d597e9",
   "paths": [
@@ -60,32 +60,32 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_8_OF_8"
   },
   "pre_audit_guard_run_id": 45926633918,
   "pre_audit_head": "e16bc3f5104e41deed1a6a688a9e86bc79d597e9",
   "last_code_review": {
-    "sha": "a2b33b4f32838b383a398d8e2ad85a83761de9bf",
-    "result": "RED_FIX",
+    "sha": "09a7f72445b3a8a9c691d1a79096e6d468afb929",
+    "result": "PASS",
     "unit_id": "S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1B_B7_RED_FIX_SMARTCAST_20261126.md",
-        "blob_sha": "25bf841eddecf32e95f3e81ce7bd3e427acc378b",
+        "path": "docs/v5/FARO_S4_W05_A2C1B_B7_PASS_CONSUME_ATOMIC_SQL15_DEV_20261126.md",
+        "blob_sha": "fa1ba2664ad0142a1ad30bef2dc3366c33f77cb5",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45928195593,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45928809060,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A2C1B SQL15 writer DEV, preaudit reconciliation of ACTIVE15 read-only barrier, SQL14 pattern and A2C1A Review; B6 awaits exact preflight and independent CAS",
-  "next": "Same-unit A2C1B B6 RED_FIX source nullable local and exact-subset workflow, preflight then CI/XML and B7. C-F remain NOT_READY.",
-  "last_guard_run_id": 45928195293,
-  "current_code_sha": "a2b33b4f32838b383a398d8e2ad85a83761de9bf",
-  "reason": "Red-fix admission for the same A2C1B unit after inspected CI compiler failure; do not expand 4 routes or grant new units.",
+  "next": "A2C1C requires its own B1-B5, exact-path READY and guard before B6; A2C1D-F remain NOT_READY. No real stock, payments, Auto or productive V2.",
+  "last_guard_run_id": 45928809081,
+  "current_code_sha": "09a7f72445b3a8a9c691d1a79096e6d468afb929",
+  "reason": "A2C1B B7 PASS DEV scope only; unit permit consumed BLOCKED. No successor C-F route allowed until separately audited.",
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1B B6 scope and seven-block guard PASS, directed CI Kotlin SMARTCAST_IMPOSSIBLE at writer line 123; B7 RED_FIX same unit only; JUnit NOT_RUN."
+  "last_guard_diagnosis": "A2C1B same-unit Kotlin RED_FIX resolved: guard 45928809081 SUCCESS, directed CI 45928809060 SUCCESS, JUnit XML8/8 no failures/errors/skips, scope only DEV; permit consumed."
 }
