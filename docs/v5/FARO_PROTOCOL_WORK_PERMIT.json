@@ -60,8 +60,8 @@
         }
       ]
     },
-    "B6": "DONE_RED_FIX_REQUIRED",
-    "B7": "RED_FIX_TEST_CLASSPATH"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "pre_audit_guard_run_id": 45937456360,
   "pre_audit_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
@@ -81,11 +81,11 @@
   "no_auto_night": true,
   "why": "Same-unit exact4 A2C1C host DEV only; B1-B5 source checkpoint, guard and A2C1A/B B7 recorded; no stock real.",
   "next": "Correct A2C1C test fixture and new CI workflow only exact2; after documentary guard, re-acquire writer, run B6 RED_FIX and full CI.",
-  "reason": "A2C1C same-unit RED_FIX retry only, original exact4 permission remains READY scoped; B7 not PASS.",
+  "reason": "RED_FIX same-unit continuation only; original B1-B5 and exact4 preserved. Guard correction for stage flags, not a new permission.",
   "current_code_sha": "b50a7f8aca168c48fbc15a6a290e5484cd277908",
   "last_ci_run_id": 45938195386,
   "last_ci_conclusion": "failure",
-  "last_guard_run_id": 45938195109,
-  "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1C B6 code compiles, app test fixture missing bundled SQLite driver classpath; B7 RED_FIX exact2 test/workflow; NO XML"
+  "last_guard_run_id": 45938897059,
+  "last_guard_conclusion": "failure",
+  "last_guard_diagnosis": "RED_FIX compile test fixture; protocol stages restored READY_TO_IMPLEMENT and PENDING_FINAL_AUDIT required by preflight; review stays RED_FIX"
 }

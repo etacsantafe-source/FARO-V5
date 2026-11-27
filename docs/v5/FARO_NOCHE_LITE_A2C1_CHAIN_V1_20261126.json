@@ -21,7 +21,7 @@
     "A2C1F": "A2C1E_B7_PASS"
   },
   "a2c1a_document": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
-  "state": "A2C1A_B7_PASS_A2C1B_B7_PASS_A2C1C_B7_RED_FIX",
+  "state": "A2C1A_B7_PASS_A2C1B_B7_PASS_A2C1C_RED_FIX_GUARD_RETRY",
   "permissions": "A2C1C_SAME_UNIT_REDFIX_EXACT2_SUBSET_WITH_ORIGINAL_READY_EXACT4; D-F_NOT_READY",
   "candidate_paths_a2c1a": [
     "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionReview.kt",
@@ -63,7 +63,7 @@
     "scope": "ISOLATED_DEV_ONLY"
   },
   "a2c1c_document": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
-  "a2c1c_status": "B7_RED_FIX_TEST_BUNDLED_DRIVER_MISSING_XML_NOT_RUN",
+  "a2c1c_status": "RED_FIX_CI_TEST_FIXTURE_PLUS_CORRECTED_PROTOCOL_STAGES_AWAITING_GUARD",
   "a2c1c_candidate_paths": [
     "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
     "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionDevApplyHost.kt",
