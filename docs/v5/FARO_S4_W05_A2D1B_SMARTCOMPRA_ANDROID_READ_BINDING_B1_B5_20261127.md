@@ -12,9 +12,11 @@ Evidencia de archivos reales inspeccionados en `29216d6d403e9d5e590551a92f0b6807
 
 En `FaroV5BootstrapActivity.java` (blob d2f57834a195f819f53f99a7281c4ea6906e0892) `FaroV5SurfaceHost.install` recibe puertos activos de Chat/Inicio/Buscar/Avisos, no un puerto W05 Stock. `FaroV5ShellNavigation.kt` expone SMART_COMPRA como destino y hoy puede renderizar placeholder. `v5/app/build.gradle.kts` ya contiene flags de test exclusivos por fase (faroW04AndroidTest) y androidTest aislados por sourceSet, no existe flag W05 confirmado. El nuevo host no está conectado a Android y A2D0A/B/1A por sí solos NO significan superficie montada.
 
+**Hallazgo del segundo barrido:** `v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java` (blob `dc9a4e75ee4e30f8909296c53603e6e5f01e5a4e`) construye y autoriza los puertos activos expuestos por `FaroV5Application`; el binding de stock debe pasar por este root de confianza, no fabricar un owner en la Activity. La ruta se agrega antes de emitir READY A2D1B; las demás nueve candidatas no cambian.
+
 ## B2 — Comparación V4.4, V5 y reutilización
 
-Reusar patrón de wiring `FaroV5SurfaceHost` y navegación existente (SIN nueva raíz), `FaroV5BootstrapActivity` y `FaroV5Application` solo con puerto READ_ONLY de V2 DEV. Pruebas Android previas X12 / S3 TalkBack no certifican W05; ni copiar integración W04 ni modificar permisos/manifest sin revisión. Reutilizar clasificación `FaroV5FinanceReadSurface` de estados, sin mezclar Finance.
+Reusar también la autoridad de `FaroV5CompositionRoot.java` para crear el read port con ACL/epoch y garantizar que la UI no pueda inventarse una selección; reusar patrón de wiring `FaroV5SurfaceHost` y navegación existente (SIN nueva raíz), `FaroV5BootstrapActivity` y `FaroV5Application` solo con puerto READ_ONLY de V2 DEV. Pruebas Android previas X12 / S3 TalkBack no certifican W05; ni copiar integración W04 ni modificar permisos/manifest sin revisión. Reutilizar clasificación `FaroV5FinanceReadSurface` de estados, sin mezclar Finance.
 
 Conforme a P03 `FARO_S4_P03_V44_TO_V5_REUSE_DELTA_MATRIX_20261113.md`, P05 S04, P06 UX26, P07 decisión Household y a `FARO_S4_P08_W00_W11_B1_B5_20261115.md`. Se reutilizan patrones/conceptos, nunca runtime V4.4 ni FBS2/SQL15 reimplementados.
 
@@ -31,24 +33,25 @@ Alternativas discriminadas para esta unidad: (1) sumar checks viejos y dejar pan
 
 ## B4 — Diseño único, delta mínimo y rutas exactas CANDIDATAS
 
-Introducir binding que toma snapshot confiable del host A2D0B y mapea DTO A2D0A a UI A2D1A con estado typed. Enviar a `FaroV5SurfaceHost` un puerto opcional SOLO V2CoreDev aislado; fallback inequívoco “Stock no disponible” cuando no hay autenticación, restore incompleto o DEV no elegible. En SmartCompra, montar el panel bajo destino existente, sin crear raí­z ni auto consumir. La lectura necesita revisión de foreground/epoch/read token y ACL antes/después de recomposición; al revocar grant, limpiar snapshot previamente renderizado e invalidar callback; no persistir cantidades en `rememberSaveable` ni escribir a Workspace/Evidence/Reality. Agregar solo flag `faroW05AndroidTest` exclusivo con sourceSet nuevo, inspirado en el opt-in `faroW04AndroidTest` ya disponible, sin tocar suites antiguas. Android 35 emulator: fuente 200%, semánticas, TalkBack donde el runner realmente pueda verificarlo, rotación, split, recomposición, foreground/background, Android red OFF. CI compilar `:app:assembleV2CoreDev` + JVM + instrumentación dirigida Android35; no presentar “TalkBack físico PASS” si runner no lo prueba.
+Alinear `FaroV5CompositionRoot` (origen autorizado), `FaroV5Application` (lector público condicionado) y `FaroV5BootstrapActivity` (inyección opcional a `SurfaceHost`) antes de montar la pantalla; denegar en V2 productiva y sin aislamiento. Introducir binding que toma snapshot confiable del host A2D0B y mapea DTO A2D0A a UI A2D1A con estado typed. Enviar a `FaroV5SurfaceHost` un puerto opcional SOLO V2CoreDev aislado; fallback inequívoco “Stock no disponible” cuando no hay autenticación, restore incompleto o DEV no elegible. En SmartCompra, montar el panel bajo destino existente, sin crear raí­z ni auto consumir. La lectura necesita revisión de foreground/epoch/read token y ACL antes/después de recomposición; al revocar grant, limpiar snapshot previamente renderizado e invalidar callback; no persistir cantidades en `rememberSaveable` ni escribir a Workspace/Evidence/Reality. Agregar solo flag `faroW05AndroidTest` exclusivo con sourceSet nuevo, inspirado en el opt-in `faroW04AndroidTest` ya disponible, sin tocar suites antiguas. Android 35 emulator: fuente 200%, semánticas, TalkBack donde el runner realmente pueda verificarlo, rotación, split, recomposición, foreground/background, Android red OFF. CI compilar `:app:assembleV2CoreDev` + JVM + instrumentación dirigida Android35; no presentar “TalkBack físico PASS” si runner no lo prueba.
 
-**Rutas candidatas (9; fuente funcional nueva/ediciones solo DESPUÉS de READY por esta unidad):**
+**Rutas candidatas (10; fuente funcional nueva/ediciones solo DESPUÉS de READY por esta unidad):**
 1. `v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBinding.kt`
 2. `v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBindingTest.kt`
 3. `v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt`
 4. `v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt`
 5. `v5/app/src/main/java/ar/com/faro/v5/app/FaroV5BootstrapActivity.java`
 6. `v5/app/src/main/java/ar/com/faro/v5/app/FaroV5Application.java`
-7. `v5/app/build.gradle.kts`
-8. `v5/app/src/w05AndroidTest/kotlin/ar/com/faro/v5/app/S4W05StockReadAccessibilityAndroidTest.kt`
-9. `.github/workflows/faro-v5-s4-w05-a2d1b-stock-android-dev.yml`
+7. `v5/app/src/main/java/ar/com/faro/v5/app/FaroV5CompositionRoot.java`
+8. `v5/app/build.gradle.kts`
+9. `v5/app/src/w05AndroidTest/kotlin/ar/com/faro/v5/app/S4W05StockReadAccessibilityAndroidTest.kt`
+10. `.github/workflows/faro-v5-s4-w05-a2d1b-stock-android-dev.yml`
 
 Escrituras funcionales nunca se incluyen en commit de permiso; B6 comienza con `python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV` y **todos** los `--path` modificados (o `--head` HEAD actual según modo; respetar contrato local). En RED_FIX solo delta documentado, mismo unit y B7/guard previo. En cualquier mismatch => STOP, B1–B5 delta, nueva autorización exacta; no reemplazar rutas por comodines.
 
 ## B5 — Auditoría adversarial antes de código
 
-Matriz: panel SmartCompra aparece solo al montar DEV autorizado; denegación/ausencia owner => no cantidad visible, no cero; datos SQL15 respaldados y reabiertos muestran físico/reservado/disponible y movimiento; cambio pointer ID/sequence, ABA o restore entre UI y read => contenido purgado; proceso background/foreground no conserva dato revocado; compras/pagos/preview no mueven stock; con fontScale=2.0, rotación, ventana compacta y dark/light todo es legible, targets >=48dp y foco TalkBack ordenado; Android API35 suite XML original, artefactos y APK DEV. Si se requiere editar otro archivo de bootstrap/manifest, **STOP y actualizar B1–B5/READY exacto ANTES de ese cambio**; no introducir writing host UI.
+Agregar prueba de que `FaroV5CompositionRoot` jamás entrega snapshot de V2CoreDev a `shipping` ni funciona con grant synthetic por defecto; fuente de host y root reales, sin import de contexto de Activity. Matriz: panel SmartCompra aparece solo al montar DEV autorizado; denegación/ausencia owner => no cantidad visible, no cero; datos SQL15 respaldados y reabiertos muestran físico/reservado/disponible y movimiento; cambio pointer ID/sequence, ABA o restore entre UI y read => contenido purgado; proceso background/foreground no conserva dato revocado; compras/pagos/preview no mueven stock; con fontScale=2.0, rotación, ventana compacta y dark/light todo es legible, targets >=48dp y foco TalkBack ordenado; Android API35 suite XML original, artefactos y APK DEV. Si se requiere editar otro archivo de bootstrap/manifest, **STOP y actualizar B1–B5/READY exacto ANTES de ese cambio**; no introducir writing host UI.
 
 Puertas globales obligatorias: `main`, V4.4, S2 y A2A/B/C certificados intactos; inventario productivo, pagos, V2 productiva, FARO Auto/Noche OFF; sin Internet ni APIs pagas; no importación de legacy. `stock.consume` y `undo.execute` son mutaciones con grants distintos y no las concede ningún botón de lectura; snapshot = Evidence de lectura de Reality **solo** con procedencia y pointer completo, nunca se convierte en Apply. Todo B6 exige writer CAS nuevo, permiso READY individual con rutas exactas, guardia documental y de permiso SUCCESS y preflight local sobre el parent. Los tests/CI/XML deben verificarse por SHA, cada B7 debe consumir permiso y writer RELEASED antes de pasar a la siguiente unidad.
 

@@ -7,10 +7,12 @@ Baseline HEAD al preparar: `29216d6d403e9d5e590551a92f0b68073350118e`. Scope A2D
 1. **A2D0A:** Proyector tipado de existencias SQL15 (JVM puro). Unidad `S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_DEV`, previa A2C_GLOBAL_B7_PASS_XML91/APK. docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md. Candidatas 3 rutas. Estado inicial B1–B5 DOCUMENTED (no B6/CI/B7).
 2. **A2D0B:** Host lectura SQL15 ACTIVE con lease/grant y frescura. Unidad `S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_DEV`, previa A2D0A B7 PASS. docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B1_B5_20261127.md. Candidatas 3 rutas. Estado inicial B1–B5 DOCUMENTED (no B6/CI/B7).
 3. **A2D1A:** Panel Compose accesible y estado de stock, sin montar productividad. Unidad `S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_DEV`, previa A2D0B B7 PASS. docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B1_B5_20261127.md. Candidatas 3 rutas. Estado inicial B1–B5 DOCUMENTED (no B6/CI/B7).
-4. **A2D1B:** Enlace real DEV de SmartCompra y pruebas Android API35. Unidad `S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV`, previa A2D1A B7 PASS. docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md. Candidatas 9 rutas. Estado inicial B1–B5 DOCUMENTED (no B6/CI/B7).
+4. **A2D1B:** Enlace real DEV de SmartCompra y pruebas Android API35. Unidad `S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV`, previa A2D1A B7 PASS. docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md. Candidatas 10 rutas. Estado inicial B1–B5 DOCUMENTED (no B6/CI/B7).
 5. **A2D2:** Aceptación integral A2D DEV y enlace a A2E. Unidad `S4_W05_A2D2_GLOBAL_STOCK_READ_ACCEPTANCE_DEV`, previa A2D1B B7 PASS. docs/v5/FARO_S4_W05_A2D2_GLOBAL_STOCK_READ_ACCEPTANCE_B1_B5_20261127.md. Candidatas 2 rutas. Estado inicial B1–B5 DOCUMENTED (no B6/CI/B7).
 
 **IMPORTANTE:** solo D0A puede recibir permiso READY en esta preparación tras guardia del documento; D0B/D1A/D1B/D2 deben obtener **nuevos** permisos READY tras B7 precedente y guardia propia. No heredar permisos de otra unidad ni hacer batch de código y permiso. Mover HEAD entre unidades con recuperación CAS, actualizar referencias de origen y verificar B1–B5 vigentes de misma unidad.
+
+**Delta segunda pasada:** A2D1B incluye `FaroV5CompositionRoot.java` como décima ruta candidata; modificar este archivo requiere permiso A2D1B propio, no está cubierto por el READY exact3 de D0A. B1–B5 A2D1B se corrigieron ANTES de cualquier B6. Revalidar guard de este delta documental.
 
 ## Reglas de ejecución sin desperdiciar créditos
 

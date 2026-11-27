@@ -19,5 +19,7 @@
 7. **Android API35 vs físico:** emulador y XML sí pueden verificarse con Work; G15 queda NOT_RUN.
 8. **A2E:** preparar matriz de aceptación como prerequisito, no B6 anticipado. A2E debe comprobar inventario global 10/7/3 y A2D read-model luego de A2D B7, no saltar por suma de B7 anteriores.
 
+9. **CompositionRoot real descubierto en barrido posterior:** `FaroV5CompositionRoot.java` monta/autoriza los puertos activos de la app y faltaba en el scope A2D1B. Añadido como décima ruta candidata; evita falso contrato con callbacks inventados desde la Activity. B5 exige test DEV gate antes de mostrar stock.
+
 ## Estado y acción de salida
 Preauditorías A2D0A, A2D0B, A2D1A, A2D1B, A2D2 todas documentadas. B6/B7 permanecen NOT_RUN. Solo emitir READY independiente para A2D0A después del guard documental; unidades siguientes exigen B7+READY propio. No gastar crédito Work en rehacer pruebas certificadas ni arreglar scopes ajenos.
