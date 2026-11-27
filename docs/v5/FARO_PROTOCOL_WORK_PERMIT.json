@@ -1,18 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE",
-  "reviewed_head": "6fcc081d11a63001ce15e9a33687650e48431618",
+  "status": "READY",
+  "unit_id": "S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_DEV",
+  "reviewed_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
   "paths": [
-    ".github/workflows/faro-v5-s4-w05-a2c-global-dev-acceptance.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15StockPositionProjection.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15StockPositionProjectionTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2d0a-stock-projection.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
+          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
+          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
           "marker": "## B1"
         }
       ]
@@ -21,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
+          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
+          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
           "marker": "## B2"
         }
       ]
@@ -31,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
+          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
+          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
           "marker": "## B3"
         }
       ]
@@ -41,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
+          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
+          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
           "marker": "## B4"
         }
       ]
@@ -51,17 +53,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
+          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
+          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_XML91_OF_91_APK"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 46044991837,
-  "pre_audit_head": "6fcc081d11a63001ce15e9a33687650e48431618",
+  "pre_audit_guard_run_id": 46050775042,
+  "pre_audit_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
   "last_code_review": {
     "sha": "b064960b4443f56776781744bc30279648da01cb",
     "result": "PASS",
@@ -76,9 +78,9 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C0 SQL15 durable storage plus A2C1 consume/Undo are DEV-certified together; G15/productive stock not proved.",
-  "next": "A2C CLOSED DEV; W05-A2 next A2D B1-B5, then A2E global DEV, no A2C2, no production.",
-  "reason": "A2C global DEV integrated same SHA 11 original XML 91/91 and isolated APK; permit consumed after B7.",
+  "why": "Five-unit A2D B1-B5 preaudited, only A2D0A DETERMINISTIC SQL15 projected stock is exact3 READY, after 46050775042 SUCCESS.",
+  "next": "Start A2D0A B6 with writer CAS & exact3 path preflight; then CI/XML B7. D0B/D1A/D1B/D2 require separate READY permits after predecessor B7. No Android physical/production.",
+  "reason": "A2C global B7 91/91 closed DEV. New independent D0A projection only; no DB/SDK/productive changes.",
   "current_code_sha": "b064960b4443f56776781744bc30279648da01cb",
   "last_ci_run_id": 46045293622,
   "last_ci_conclusion": "success",
