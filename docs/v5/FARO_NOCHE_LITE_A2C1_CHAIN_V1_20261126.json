@@ -21,8 +21,8 @@
     "A2C1F": "A2C1E_B7_PASS"
   },
   "a2c1a_document": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
-  "state": "A2C1A_TO_A2C1F_6_OF_6_B7_PASS_SCOPED_DEV_GLOBAL_ACCEPTANCE_PENDING",
-  "permissions": "A2C1A-F_CONSUMED_BLOCKED;A2C1_GLOBAL_ACCEPTANCE_NOT_READY",
+  "state": "A2C1_A_TO_F_AND_GLOBAL_DEV_ACCEPTED_B7_PASS_XML56_OF56_APK",
+  "permissions": "A2C1_A_TO_F_AND_GLOBAL_ACCEPTANCE_CONSUMED_BLOCKED;A2C2_NOT_READY",
   "candidate_paths_a2c1a": [
     "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionReview.kt",
     "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmission.kt",
@@ -136,5 +136,18 @@
     "scope": "ISOLATED_DEV_AUTHENTICATED_SQL15_FULL_UNDO_HOST_ONLY"
   },
   "a2c1f_final_permit": "CONSUMED_BLOCKED",
-  "a2c1_global_acceptance": "NOT_RUN_NEEDS_INDEPENDENT_B1_B5_AND_GUARD"
+  "a2c1_global_acceptance": {
+    "status": "B7_PASS_SCOPED_DEV_XML56_OF_56_AND_APK",
+    "code_sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
+    "guard_run_id": 45982428504,
+    "ci_run_id": 45982428740,
+    "artifact_id": 15190402388,
+    "artifact_digest": "sha256:eb6b49b3ddb2fec1e87416c67ec337bba0b81de19716ac7e1320d1bf0abba994",
+    "tests": 56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "report": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B7_PASS_XML56_APK_20261127.md",
+    "scope": "ISOLATED_DEV_ONLY"
+  }
 }

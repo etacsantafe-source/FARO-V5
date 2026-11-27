@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE",
   "reviewed_head": "e37378e07e1a67a47b1d4ff7542f2465e97b4252",
   "paths": [
@@ -57,34 +57,34 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_XML56_OF_56_APK"
   },
   "pre_audit_guard_run_id": 45982027334,
   "pre_audit_head": "e37378e07e1a67a47b1d4ff7542f2465e97b4252",
   "last_code_review": {
-    "sha": "15a47470655c06ebaab4422fdb2c5811da067105",
+    "sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV",
+    "unit_id": "S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1F_B7_PASS_AUTHENTICATED_CONSUMPTION_UNDO_HOST_DEV_20261127.md",
-        "blob_sha": "2c826d1e56426773d21e2dd15fc8a29985e47c62",
+        "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B7_PASS_XML56_APK_20261127.md",
+        "blob_sha": "c2f6579ae513b032e370eb0a31b117c908bd571e",
         "marker": "## B7"
       }
     ]
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Independent 56-case cross-module JUnit XML + isolated DEV APK on one current HEAD; no change to certified functional files.",
-  "next": "B6: only new A2C1 global DEV acceptance workflow after permit guard; then CI XML+APK, B7, consume permit, writer RELEASED.",
-  "reason": "A2C1 A-F individually B7 PASS DEV; global acceptance preaudit guard success; exact one workflow-only B6 permitted.",
-  "current_code_sha": "15a47470655c06ebaab4422fdb2c5811da067105",
-  "last_ci_run_id": 45959680590,
-  "last_ci_conclusion": "NOT_RUN_GLOBAL_ACCEPTANCE",
-  "last_guard_run_id": 45982027334,
+  "why": "All A-F plus legacy Undo regression re-run in same SHA, distinct N-035/N-016, seven original XML checked and APK isolated compiled.",
+  "next": "W05-A2C next independent unit B1–B5 only, e.g. A2C2 if scope confirmed; no further B6 before own exact permit/guard; A2C1 frozen.",
+  "reason": "W05-A2C1 GLOBAL DEV B7 PASS, 56/56 original JUnit XML plus isolated V2CoreDev APK; permit consumed. Productive and G15 not authorized.",
+  "current_code_sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
+  "last_ci_run_id": 45982428740,
+  "last_ci_conclusion": "success",
+  "last_guard_run_id": 45982428504,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "B1-B5 documentary guard 45982027334 SUCCESS; B6 NOT_RUN exact1 new workflow",
+  "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 45954607567,
   "b7_document_guard_conclusion": "failure_transitional_prepermit_consumption"
 }
