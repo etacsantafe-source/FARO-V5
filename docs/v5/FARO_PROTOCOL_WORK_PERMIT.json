@@ -66,13 +66,13 @@
   "pre_audit_guard_run_id": 45958001567,
   "pre_audit_head": "9464a0b660f442e47c01a8516838501bee444ac9",
   "last_code_review": {
-    "sha": "7a9898fc4cd8767278bbcb2ee5ab600c40067350",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC",
+    "sha": "a8bae24e8e9c1d3de05a773b2635afa31f90b893",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1E_B7_PASS_SQL15_CONSUMPTION_UNDO_ATOMIC_DEV_20261127.md",
-        "blob_sha": "e44fc7ea715efdde49ac2443e7f154ce449fac20",
+        "path": "docs/v5/FARO_S4_W05_A2C1F_B7_RED_FIX_ABA_POSITION_ASSERTION_20261127.md",
+        "blob_sha": "aa7af3a8a1b40beecb1387cd992877a805d87223",
         "marker": "## B7"
       }
     ]
@@ -80,12 +80,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "SQL15 active root lease and separate Undo N-016 admission with real Workspace+Reality COMMITTED source and AtomicApply receipt.",
-  "next": "F B6 exact4 only after READY guard; XML integration and B7 independent. Production/V2/stock real OFF.",
-  "reason": "F B1-B5 guarded SUCCESS; genuine COMMITTED-source Undo host exact4 allowed, DEV-only.",
-  "current_code_sha": "7a9898fc4cd8767278bbcb2ee5ab600c40067350",
-  "last_ci_run_id": 45956198815,
-  "last_ci_conclusion": "NOT_RUN_A2C1F",
-  "last_guard_run_id": 45958001567,
+  "next": "A2C1F RED_FIX only: test ABA null expectation and workflow exact2 subset; re-run 8F+5C XML and guard.",
+  "reason": "A2C1F B6 initial CI RED_FIX 12/13, one fail-closed ABA assertion expects throw instead of null; same unit repair only.",
+  "current_code_sha": "a8bae24e8e9c1d3de05a773b2635afa31f90b893",
+  "last_ci_run_id": 45958684365,
+  "last_ci_conclusion": "FAILURE_12_PASS_1_FAILED",
+  "last_guard_run_id": 45958684537,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1F B1-B5 guard 45958001567 SUCCESS, permit READY exact4; B6 NOT_RUN.",
   "b7_document_guard_run_id": 45954607567,
