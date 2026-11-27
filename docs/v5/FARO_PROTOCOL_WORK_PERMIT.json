@@ -1,21 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
-  "reviewed_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION",
+  "reviewed_head": "5c9844a38850dcf6e70e3d592a705a22c7a72343",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5GenerationStoreGraph.kt",
-    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionDevApplyHost.kt",
-    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockConsumptionDevApplyHostTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c1c-consume-apply-host.yml"
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionUndoDevAdmission.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionUndoDevAdmissionTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c1d-consumption-undo-admission.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
-          "blob_sha": "dd3e114ddf0cff3461ca7665af77f79c0cd8dd0e",
+          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
+          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
           "marker": "## B1"
         }
       ]
@@ -24,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
-          "blob_sha": "dd3e114ddf0cff3461ca7665af77f79c0cd8dd0e",
+          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
+          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
           "marker": "## B2"
         }
       ]
@@ -34,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
-          "blob_sha": "dd3e114ddf0cff3461ca7665af77f79c0cd8dd0e",
+          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
+          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
           "marker": "## B3"
         }
       ]
@@ -44,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
-          "blob_sha": "dd3e114ddf0cff3461ca7665af77f79c0cd8dd0e",
+          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
+          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
           "marker": "## B4"
         }
       ]
@@ -54,17 +53,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
-          "blob_sha": "dd3e114ddf0cff3461ca7665af77f79c0cd8dd0e",
+          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
+          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_5_OF_5"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45937456360,
-  "pre_audit_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
+  "pre_audit_guard_run_id": 45953755818,
+  "pre_audit_head": "5c9844a38850dcf6e70e3d592a705a22c7a72343",
   "last_code_review": {
     "sha": "b322e5d166876c106f71eac9a734c62d31b55eda",
     "result": "PASS",
@@ -79,13 +78,13 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C1C host SQL15 exact4 DEV only, certified 5/5, consumed.",
-  "next": "A2C1D B1-B5 only; D-F NOT_READY until separate guard/permission. No real stock, payments, G15, Auto/Noche.",
-  "reason": "A2C1C B7 PASS scoped DEV, permit consumed. No D-F code permission.",
+  "why": "A2C1D B1-B5 guarded success; only policy-only consumption Undo Review admission DEV; exact3 paths, no Reality or host write.",
+  "next": "A2C1D B6 with exact3 routes after parent permit guard and preflight; B7 exact CI+XML; E/F require new preaudit and permit.",
+  "reason": "Independent A2C1D B1-B5 evidence and guard verified. B6 DEV-only pending; not E/F.",
   "current_code_sha": "b322e5d166876c106f71eac9a734c62d31b55eda",
   "last_ci_run_id": 45939930692,
-  "last_ci_conclusion": "success",
-  "last_guard_run_id": 45939930719,
+  "last_ci_conclusion": "NOT_RUN_A2C1D",
+  "last_guard_run_id": 45953755818,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1C SQL15 host Review Apply B7 scoped DEV: CI 5/5 JUnit XML original success; RED_FIX fixture classpath and ABA assertion resolved"
+  "last_guard_diagnosis": "A2C1D B1-B5 documentary guard success; permit READY exact3. B6 not run."
 }
