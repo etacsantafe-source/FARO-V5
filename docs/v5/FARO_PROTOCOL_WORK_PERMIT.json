@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION",
-  "reviewed_head": "5c9844a38850dcf6e70e3d592a705a22c7a72343",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC",
+  "reviewed_head": "e44f451f4678a7776768df120823f502d3b22a3f",
   "paths": [
-    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionUndoDevAdmission.kt",
-    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionUndoDevAdmissionTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c1d-consumption-undo-admission.yml"
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionUndoApplyPort.kt",
+    "v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt",
+    "v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionUndoApplyPortTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c1e-consumption-undo-atomic.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
-          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
+          "path": "docs/v5/FARO_S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC_B1_B5_20261127.md",
+          "blob_sha": "9ab0a67e6aaded6eb536a22176b9cdf50f5af441",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
-          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
+          "path": "docs/v5/FARO_S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC_B1_B5_20261127.md",
+          "blob_sha": "9ab0a67e6aaded6eb536a22176b9cdf50f5af441",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
-          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
+          "path": "docs/v5/FARO_S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC_B1_B5_20261127.md",
+          "blob_sha": "9ab0a67e6aaded6eb536a22176b9cdf50f5af441",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
-          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
+          "path": "docs/v5/FARO_S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC_B1_B5_20261127.md",
+          "blob_sha": "9ab0a67e6aaded6eb536a22176b9cdf50f5af441",
           "marker": "## B4"
         }
       ]
@@ -53,17 +54,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION_B1_B5_20261127.md",
-          "blob_sha": "6d8d2bda87af1abf085b693e61ffb47b193e7868",
+          "path": "docs/v5/FARO_S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC_B1_B5_20261127.md",
+          "blob_sha": "9ab0a67e6aaded6eb536a22176b9cdf50f5af441",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_19_OF_19"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45953755818,
-  "pre_audit_head": "5c9844a38850dcf6e70e3d592a705a22c7a72343",
+  "pre_audit_guard_run_id": 45955690794,
+  "pre_audit_head": "e44f451f4678a7776768df120823f502d3b22a3f",
   "last_code_review": {
     "sha": "97e3155e9dd619fdbe31dd2e2c7a88d2828c9ba4",
     "result": "PASS",
@@ -78,15 +79,15 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C1D admission exact3 DEV only certified 9 new +10 stock.receive Undo regression; no SQL15 Undo writer/host.",
-  "next": "A2C1E B1-B5 preaudit only; new exact-path permit/guard before writer; A2C1F later; no real stock/payment/Auto/Noche/G15.",
-  "reason": "A2C1D policy-only stock.consume Undo Review B7 PASS scoped DEV XML 19/19; permit consumed. A2C1E/F not READY.",
+  "why": "Exclusive SQL15 CONSUME_UNDO writer for FULL Undo ReviewOnly and one transaction; no D/C grants inherited.",
+  "next": "A2C1E B6 exact4 gated after permit guard; targeted CI XML and B7; F requires independent preaudit.",
+  "reason": "A2C1E B1-B5 guarded SUCCESS; SQL15 undo atomic DEV exact4 permitted, no host/UI/production, B6 pending.",
   "current_code_sha": "97e3155e9dd619fdbe31dd2e2c7a88d2828c9ba4",
   "last_ci_run_id": 45954154676,
-  "last_ci_conclusion": "success",
-  "last_guard_run_id": 45954154596,
+  "last_ci_conclusion": "NOT_RUN_A2C1E",
+  "last_guard_run_id": 45955690794,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1D B6 code guard 45954154596 SUCCESS; CI 45954154676 XML 19/19 SUCCESS. B7 document-only guard 45954607567 FAIL transient: READY permit still on branch before consuming; checkpoint closes B7 to BLOCKED.",
+  "last_guard_diagnosis": "A2C1E documentary B1-B5 guard success 45955690794; READY exact4; B6 NOT_RUN.",
   "b7_document_guard_run_id": 45954607567,
   "b7_document_guard_conclusion": "failure_transitional_prepermit_consumption"
 }
