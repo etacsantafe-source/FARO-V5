@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION",
   "reviewed_head": "5c9844a38850dcf6e70e3d592a705a22c7a72343",
   "paths": [
@@ -59,32 +59,34 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_19_OF_19"
   },
   "pre_audit_guard_run_id": 45953755818,
   "pre_audit_head": "5c9844a38850dcf6e70e3d592a705a22c7a72343",
   "last_code_review": {
-    "sha": "b322e5d166876c106f71eac9a734c62d31b55eda",
+    "sha": "97e3155e9dd619fdbe31dd2e2c7a88d2828c9ba4",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
+    "unit_id": "S4_W05_A2C1D_CONSUMPTION_UNDO_ADMISSION",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1C_B7_PASS_CONSUMPTION_REVIEW_APPLY_SQL15_DEV_20261127.md",
-        "blob_sha": "167dd97e8d2152e7dbe2a5e87ef62a1b297f4983",
+        "path": "docs/v5/FARO_S4_W05_A2C1D_B7_PASS_CONSUMPTION_UNDO_ADMISSION_20261127.md",
+        "blob_sha": "3f663508bdcb1c400641a88aab80b62bf94d44a6",
         "marker": "## B7"
       }
     ]
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2C1D B1-B5 guarded success; only policy-only consumption Undo Review admission DEV; exact3 paths, no Reality or host write.",
-  "next": "A2C1D B6 with exact3 routes after parent permit guard and preflight; B7 exact CI+XML; E/F require new preaudit and permit.",
-  "reason": "Independent A2C1D B1-B5 evidence and guard verified. B6 DEV-only pending; not E/F.",
-  "current_code_sha": "b322e5d166876c106f71eac9a734c62d31b55eda",
-  "last_ci_run_id": 45939930692,
-  "last_ci_conclusion": "NOT_RUN_A2C1D",
-  "last_guard_run_id": 45953755818,
+  "why": "A2C1D admission exact3 DEV only certified 9 new +10 stock.receive Undo regression; no SQL15 Undo writer/host.",
+  "next": "A2C1E B1-B5 preaudit only; new exact-path permit/guard before writer; A2C1F later; no real stock/payment/Auto/Noche/G15.",
+  "reason": "A2C1D policy-only stock.consume Undo Review B7 PASS scoped DEV XML 19/19; permit consumed. A2C1E/F not READY.",
+  "current_code_sha": "97e3155e9dd619fdbe31dd2e2c7a88d2828c9ba4",
+  "last_ci_run_id": 45954154676,
+  "last_ci_conclusion": "success",
+  "last_guard_run_id": 45954154596,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "A2C1D B1-B5 documentary guard success; permit READY exact3. B6 not run."
+  "last_guard_diagnosis": "A2C1D B6 code guard 45954154596 SUCCESS; CI 45954154676 XML 19/19 SUCCESS. B7 document-only guard 45954607567 FAIL transient: READY permit still on branch before consuming; checkpoint closes B7 to BLOCKED.",
+  "b7_document_guard_run_id": 45954607567,
+  "b7_document_guard_conclusion": "failure_transitional_prepermit_consumption"
 }
