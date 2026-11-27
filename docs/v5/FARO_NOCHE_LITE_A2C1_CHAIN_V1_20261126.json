@@ -1,0 +1,36 @@
+{
+  "schema_version": "faro.noche.lite.a2c1.v1",
+  "scope": "S4_W05_A2C1_DEV",
+  "branch": "work/s3-night-20261102",
+  "baseline_head": "6cbee2adc887c62e931765eba5c4f5d31747e89b",
+  "mode": "FAIL_CLOSED",
+  "ordered_units": [
+    "A2C1A",
+    "A2C1B",
+    "A2C1C",
+    "A2C1D",
+    "A2C1E",
+    "A2C1F"
+  ],
+  "dependencies": {
+    "A2C1A": "A2C0C2_B7_PASS",
+    "A2C1B": "A2C1A_B7_PASS",
+    "A2C1C": "A2C1B_B7_PASS",
+    "A2C1D": "A2C1C_B7_PASS",
+    "A2C1E": "A2C1D_B7_PASS",
+    "A2C1F": "A2C1E_B7_PASS"
+  },
+  "a2c1a_document": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+  "state": "DOCUMENTARY_COMMIT_WAIT_CI",
+  "permissions": "BLOCKED_UNTIL_GUARD_AND_SEPARATE_READY",
+  "candidate_paths_a2c1a": [
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionReview.kt",
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmission.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmissionTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c1a-consume-review.yml"
+  ],
+  "no_production": true,
+  "no_real_stock": true,
+  "no_payments": true,
+  "no_auto_historic": true
+}

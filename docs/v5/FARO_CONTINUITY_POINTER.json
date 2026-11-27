@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B7_PASS_DEV",
+  "phase": "S4_W05_A2C1A_B1_B5_DOC_PUBLICATION_WAIT_GUARD",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2143
+    "epoch": 2144
   },
   "automation": {
     "activation_authorized": false,
@@ -7672,5 +7672,18 @@
     "active_cutover": "NOT_RUN",
     "live_active_sql15": "OPEN_A2C0C1B",
     "next": "A2C0C1B_B1_B5"
+  },
+  "a2c1_noche_lite": {
+    "status": "A2C1A_B1_B5_PUBLISHED_WAIT_GUARD",
+    "base_sha": "6cbee2adc887c62e931765eba5c4f5d31747e89b",
+    "preaudit": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+    "runbook": "docs/v5/FARO_NOCHE_LITE_A2C1_RUNBOOK_V1_20261126.md",
+    "roadmap": "docs/v5/FARO_NOCHE_LITE_A2C1_CHAIN_V1_20261126.json",
+    "guard": "PENDING",
+    "permit": "BLOCKED",
+    "b6": "NOT_RUN",
+    "b7": "NOT_RUN",
+    "downstream_units": "B_TO_F_DEPENDENT_NOT_READY",
+    "automation_scope": "SCHEDULER_ONLY_FAIL_CLOSED"
   }
 }
