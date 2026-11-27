@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
   "reviewed_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
   "paths": [
@@ -60,32 +60,32 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_5_OF_5"
   },
   "pre_audit_guard_run_id": 45937456360,
   "pre_audit_head": "7f3dd9186c3e2982872a110e1a5fd0756ef71e22",
   "last_code_review": {
-    "sha": "b742e87f01783e4e8f5f33192a1f3be096ebf294",
-    "result": "RED_FIX",
+    "sha": "b322e5d166876c106f71eac9a734c62d31b55eda",
+    "result": "PASS",
     "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1C_B7_RED_FIX_ABA_READ_ASSERTION_20261127.md",
-        "blob_sha": "0d812f537840fc23790f525c1473e468e51e5ac1",
+        "path": "docs/v5/FARO_S4_W05_A2C1C_B7_PASS_CONSUMPTION_REVIEW_APPLY_SQL15_DEV_20261127.md",
+        "blob_sha": "167dd97e8d2152e7dbe2a5e87ef62a1b297f4983",
         "marker": "## B7"
       }
     ]
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Same-unit exact4 A2C1C host DEV only; B1-B5 source checkpoint, guard and A2C1A/B B7 recorded; no stock real.",
-  "next": "After documented RED_FIX guard, correct only test and A2C1C workflow exact2, retain source code fence; rerun CI XML and B7",
-  "reason": "Same-unit RED_FIX test assertion ABA; 2 route subset, original four-path permit READY",
-  "current_code_sha": "b742e87f01783e4e8f5f33192a1f3be096ebf294",
-  "last_ci_run_id": 45939174991,
-  "last_ci_conclusion": "failure",
-  "last_guard_run_id": 45939174920,
+  "why": "A2C1C host SQL15 exact4 DEV only, certified 5/5, consumed.",
+  "next": "A2C1D B1-B5 only; D-F NOT_READY until separate guard/permission. No real stock, payments, G15, Auto/Noche.",
+  "reason": "A2C1C B7 PASS scoped DEV, permit consumed. No D-F code permission.",
+  "current_code_sha": "b322e5d166876c106f71eac9a734c62d31b55eda",
+  "last_ci_run_id": 45939930692,
+  "last_ci_conclusion": "success",
+  "last_guard_run_id": 45939930719,
   "last_guard_conclusion": "success",
-  "last_guard_diagnosis": "5 tests executed, 4 PASS 1 failed at ABA invalidated session read; expected fail-closed IllegalStateException, fix test assertion only"
+  "last_guard_diagnosis": "A2C1C SQL15 host Review Apply B7 scoped DEV: CI 5/5 JUnit XML original success; RED_FIX fixture classpath and ABA assertion resolved"
 }
