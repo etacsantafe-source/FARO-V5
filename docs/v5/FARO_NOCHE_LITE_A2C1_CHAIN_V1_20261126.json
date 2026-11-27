@@ -21,8 +21,8 @@
     "A2C1F": "A2C1E_B7_PASS"
   },
   "a2c1a_document": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
-  "state": "A2C1A_TO_A2C1E_B7_PASS_SCOPED_DEV_A2C1F_NOT_READY",
-  "permissions": "A2C1A-E_CONSUMED_BLOCKED;A2C1F_NOT_READY",
+  "state": "A2C1A_TO_A2C1F_6_OF_6_B7_PASS_SCOPED_DEV_GLOBAL_ACCEPTANCE_PENDING",
+  "permissions": "A2C1A-F_CONSUMED_BLOCKED;A2C1_GLOBAL_ACCEPTANCE_NOT_READY",
   "candidate_paths_a2c1a": [
     "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionReview.kt",
     "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmission.kt",
@@ -117,5 +117,24 @@
     "doc_path": "docs/v5/FARO_S4_W05_A2C1E_B7_PASS_SQL15_CONSUMPTION_UNDO_ATOMIC_DEV_20261127.md",
     "scope": "ISOLATED_DEV_SQL15_FULL_UNDO_ATOMIC_ONLY"
   },
-  "a2c1e_final_permit": "CONSUMED_BLOCKED"
+  "a2c1e_final_permit": "CONSUMED_BLOCKED",
+  "a2c1f_document": "docs/v5/FARO_S4_W05_A2C1F_CONSUMPTION_UNDO_HOST_B1_B5_20261127.md",
+  "a2c1f_status": "B7_PASS_SCOPED_DEV_XML13_OF_13_RED_FIX_RESOLVED",
+  "a2c1f_b7": {
+    "code_sha": "15a47470655c06ebaab4422fdb2c5811da067105",
+    "initial_code_sha": "a8bae24e8e9c1d3de05a773b2635afa31f90b893",
+    "initial_ci_failure_run_id": 45958684365,
+    "red_fix_doc": "docs/v5/FARO_S4_W05_A2C1F_B7_RED_FIX_ABA_POSITION_ASSERTION_20261127.md",
+    "guard_run_id": 45959680644,
+    "ci_run_id": 45959680590,
+    "artifact_id": 15180427829,
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "doc_path": "docs/v5/FARO_S4_W05_A2C1F_B7_PASS_AUTHENTICATED_CONSUMPTION_UNDO_HOST_DEV_20261127.md",
+    "scope": "ISOLATED_DEV_AUTHENTICATED_SQL15_FULL_UNDO_HOST_ONLY"
+  },
+  "a2c1f_final_permit": "CONSUMED_BLOCKED",
+  "a2c1_global_acceptance": "NOT_RUN_NEEDS_INDEPENDENT_B1_B5_AND_GUARD"
 }
