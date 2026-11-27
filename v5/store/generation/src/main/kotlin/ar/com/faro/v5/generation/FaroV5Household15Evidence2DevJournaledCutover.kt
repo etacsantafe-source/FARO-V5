@@ -66,10 +66,14 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
         val archiveHash: String,
         val originHash: String,
         val targetHash: String,
+        val priorTicketHash: String,
+        val priorOperation: MaintenanceOperationId,
     ) {
         init {
             require(origin.generationId != target && source == origin.generationId)
-            require(listOf(archiveHash, originHash, targetHash).all { it.matches(Regex("[0-9a-f]{64}")) })
+            require(listOf(archiveHash, originHash, targetHash, priorTicketHash).all {
+                it.matches(Regex("[0-9a-f]{64}"))
+            })
         }
 
         val selected get() = ActiveGenerationPointer(Math.addExact(origin.sequence, 1), target)
@@ -98,9 +102,11 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
             "SQL15 origin needs a completed SQL14 Evidence2 selection"
         }
         requireHealthyGeneration(old, realityVersion = 14)
+        val prior = readPriorEvidence(origin)
         val ticket = Ticket(operation, origin, target.descriptor.generationId, source, hash(bytes),
             FaroV5Household13Evidence2DevJournaledCutover.fingerprint(old, true),
-            FaroV5Household13Evidence2DevJournaledCutover.fingerprint(target, false))
+            FaroV5Household13Evidence2DevJournaledCutover.fingerprint(target, false),
+            prior.second, prior.first)
         check(confirmForeground())
         check(verifyStage(operation, target, origin, bytes, passphrase) == source)
         requireBackingFiles(ticket, null)
@@ -125,9 +131,10 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
         val ticket = checkNotNull(readTicket(root))
         check(confirmForeground() && ticket.operation == operation && ticket.origin == origin &&
             target.descriptor.generationId == ticket.target && layout.requireStaged(ticket.target) == target)
-        check(FaroV5Household14Evidence2DevJournaledCutover.hasCompletedSelection(root, origin)) {
-            "SQL15 SQL14-origin selection changed"
-        }
+        // A C2 VALIDATED journal is pending, so C14's global "no pending journals"
+        // check intentionally no longer applies. Revalidate the exact prior
+        // completed-ticket digest, its journal and its replay fence instead.
+        requirePriorEvidence(ticket)
         val entry = requireEntry(ticket)
         check(entry.phase == BootstrapPhase.VALIDATED && !entry.materialWritesAccepted)
         val bytes = archive.copyOf()
@@ -174,6 +181,52 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
                 journal.pending().all { it.operationId == ticket.operation })
         }
 
+    /** Reattest the actual C14 COMPLETED ticket even while our C2 journal is pending. */
+    private fun readPriorEvidence(selected14: ActiveGenerationPointer):
+        Pair<MaintenanceOperationId, String> {
+        val path = root.resolve("bootstrap/sql14-evidence2-cutover.ticket")
+        check(singleLink(path) && path.parent.toRealPath() == path.parent) {
+            "Missing regular certified SQL14 selection ticket"
+        }
+        val bytes = Files.newInputStream(path, NOFOLLOW_LINKS).use { it.readNBytes(4097) }
+        check(bytes.size in 65..4096)
+        val payload = bytes.copyOfRange(0, bytes.size - 32)
+        check(MessageDigest.isEqual(sha(payload), bytes.copyOfRange(payload.size, bytes.size))) {
+            "Prior SQL14 ticket digest changed"
+        }
+        val prior = DataInputStream(ByteArrayInputStream(payload)).use { input ->
+            check(input.readUTF() == "FARO_SQL14_EVIDENCE2_CUTOVER_V1")
+            val operation = MaintenanceOperationId(input.readUTF())
+            val origin = ActiveGenerationPointer(input.readLong(), StorageGenerationId(input.readUTF()))
+            val target = StorageGenerationId(input.readUTF())
+            val source = StorageGenerationId(input.readUTF())
+            val hashes = List(3) { input.readUTF() }
+            check(source != target && hashes.all { it.matches(Regex("[0-9a-f]{64}")) } &&
+                input.available() == 0)
+            check(selected14 == ActiveGenerationPointer(Math.addExact(origin.sequence, 1), target)) {
+                "Prior SQL14 ticket not bound to exact original selected pointer"
+            }
+            Triple(operation, origin, target)
+        }
+        val entry = checkNotNull(journal.read(prior.first))
+        check(entry.kind == RESTORE &&
+            entry.previousGenerationId == prior.second.generationId &&
+            entry.targetGenerationId == prior.third &&
+            entry.phase == BootstrapPhase.COMPLETED && entry.materialWritesAccepted &&
+            fence.isInstalled(RESTORE, prior.third) &&
+            !fence.isInstalled(MaintenanceOperationKind.MIGRATION, prior.third)) {
+            "Prior SQL14 completed journal or replay fence no longer valid"
+        }
+        return prior.first to hash(bytes)
+    }
+
+    private fun requirePriorEvidence(ticket: Ticket) {
+        val actual = readPriorEvidence(ticket.origin)
+        check(actual.first == ticket.priorOperation && actual.second == ticket.priorTicketHash) {
+            "Prior completed SQL14 selection ticket was replaced"
+        }
+    }
+
     private fun requireBackingFiles(ticket: Ticket, entry: BootstrapJournalEntry?) {
         requireLive()
         val actual = pointer.read()
@@ -187,10 +240,11 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
             else -> false
         }
         check(allowed && (entry == null || requireEntry(ticket) == entry)) { "SQL15 ticket full pointer or journal mismatch" }
-        if (actual == ticket.origin) {
-            check(FaroV5Household14Evidence2DevJournaledCutover.hasCompletedSelection(root, ticket.origin)) {
-                "SQL15 origin must still be certified SQL14"
-            }
+        // C14's public completed-selection check rejects *any* pending entry,
+        // including this C2 operation. Preserve the genuine prior ticket hash.
+        requirePriorEvidence(ticket)
+        if (actual == ticket.origin && entry == null) {
+            check(FaroV5Household14Evidence2DevJournaledCutover.hasCompletedSelection(root, ticket.origin))
         }
         if (phase == BootstrapPhase.COMPLETED && entry?.materialWritesAccepted == true) return
         if (phase == BootstrapPhase.ROLLBACK_VERIFIED) {
@@ -405,6 +459,8 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
                 out.writeUTF(ticket.archiveHash)
                 out.writeUTF(ticket.originHash)
                 out.writeUTF(ticket.targetHash)
+                out.writeUTF(ticket.priorTicketHash)
+                out.writeUTF(ticket.priorOperation.value)
             }
             val payload = buffer.toByteArray()
             val tmp = Files.createTempFile(path.parent, ".sql15-ticket-", ".tmp")
@@ -432,7 +488,8 @@ internal class FaroV5Household15Evidence2DevJournaledCutover private constructor
                 val operation = MaintenanceOperationId(input.readUTF())
                 val origin = ActiveGenerationPointer(input.readLong(), StorageGenerationId(input.readUTF()))
                 Ticket(operation, origin, StorageGenerationId(input.readUTF()), StorageGenerationId(input.readUTF()),
-                    input.readUTF(), input.readUTF(), input.readUTF()).also { check(input.available() == 0) }
+                    input.readUTF(), input.readUTF(), input.readUTF(), input.readUTF(),
+                    MaintenanceOperationId(input.readUTF())).also { check(input.available() == 0) }
             }
         }
 

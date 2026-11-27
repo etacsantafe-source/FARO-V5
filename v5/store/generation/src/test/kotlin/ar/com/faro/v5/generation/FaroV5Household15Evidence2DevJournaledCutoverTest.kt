@@ -7,6 +7,10 @@ import ar.com.faro.v5.kernel.contracts.*
 import ar.com.faro.v5.maintenance.*
 import ar.com.faro.v5.store.reality.RealityHousehold10StagedFilePort
 import ar.com.faro.v5.store.reality.RealityHousehold11StagedFilePort
+import ar.com.faro.v5.store.reality.RealityBackupPort
+import ar.com.faro.v5.store.reality.RealityBackupSnapshot
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupPort
+import ar.com.faro.v5.store.auxiliary.AuxiliaryBackupSnapshot
 import java.nio.file.Files
 import java.nio.file.Path
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -228,13 +232,43 @@ class FaroV5Household15Evidence2DevJournaledCutoverTest {
         }
         val selected14 = checkNotNull(pointer.read())
         check(FaroV5Household14Evidence2DevJournaledCutover.hasCompletedSelection(root, selected14))
-        // Rebase only manifest *provenance* to the certified SQL14 generation.
-        // Five-store rows remain identical to the authenticated SQL14 selection.
+        // Fixture-only: rebuild the canonical FBS1 manifest WITH its fingerprint.
+        // Copying sourceGenerationId alone is invalid and must remain rejected by crypto.
         val oldFive = snapshotV7.base.base
+        val oldFour = oldFive.fourStore
+        val reauthorizedFour = SemanticBackupCaptureCoordinator(
+            gate,
+            object : RealityBackupPort {
+                override fun snapshot(): RealityBackupSnapshot = oldFour.reality
+                override fun restoreOrVerify(snapshot: RealityBackupSnapshot): RealityBackupSnapshot =
+                    error("C2 fixture cannot restore Reality")
+            },
+            object : CommercialEvidenceBackupPort {
+                override fun snapshot(): CommercialEvidenceBackupSnapshot = oldFour.commercialEvidence
+                override fun restoreOrVerify(
+                    snapshot: CommercialEvidenceBackupSnapshot,
+                ): CommercialEvidenceBackupSnapshot = error("C2 fixture cannot restore Evidence2")
+            },
+            object : WebEvidenceBackupPort {
+                override fun snapshot(): WebEvidenceBackupSnapshot = oldFour.webEvidence
+                override fun restoreOrVerify(snapshot: WebEvidenceBackupSnapshot): WebEvidenceBackupSnapshot =
+                    error("C2 fixture cannot restore WebEvidence")
+            },
+            object : AuxiliaryBackupPort {
+                override fun snapshot(): AuxiliaryBackupSnapshot = oldFour.auxiliary
+                override fun restoreOrVerify(snapshot: AuxiliaryBackupSnapshot): AuxiliaryBackupSnapshot =
+                    error("C2 fixture cannot restore Auxiliary")
+            },
+        ).capture(
+            MaintenanceOperationId("a2c0c2-valid-selected14-fbs1"),
+            oldFour.manifest.backupSetId,
+            selected14.generationId,
+            oldFour.manifest.productVersion,
+            oldFour.manifest.createdAtEpochMillis,
+        )
+        check(SemanticBackupSetIntegrity.matches(reauthorizedFour))
         val rebasedV7 = snapshotV7.copy(base = snapshotV7.base.copy(
-            base = oldFive.copy(fourStore = oldFive.fourStore.copy(
-                manifest = oldFive.fourStore.manifest.copy(sourceGenerationId = selected14.generationId),
-            )),
+            base = oldFive.copy(fourStore = reauthorizedFour),
         ))
         val rebasedHistorical = historical.copy(base = historical.base.copy(base = rebasedV7))
         val rebased14 = payload.copy(base = rebasedHistorical)
