@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE",
   "reviewed_head": "6fcc081d11a63001ce15e9a33687650e48431618",
   "paths": [
@@ -57,32 +57,32 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_XML91_OF_91_APK"
   },
   "pre_audit_guard_run_id": 46044991837,
   "pre_audit_head": "6fcc081d11a63001ce15e9a33687650e48431618",
   "last_code_review": {
-    "sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
+    "sha": "b064960b4443f56776781744bc30279648da01cb",
     "result": "PASS",
-    "unit_id": "S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE",
+    "unit_id": "S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B7_PASS_XML56_APK_20261127.md",
-        "blob_sha": "c2f6579ae513b032e370eb0a31b117c908bd571e",
+        "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B7_PASS_XML91_APK_20261127.md",
+        "blob_sha": "f8b8fb301909a986980ad8e273c9b1df09d63e92",
         "marker": "## B7"
       }
     ]
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "Independent same-SHA A2C0 journaling SQL15 35 + A2C1 consume/undo 56 original JUnit XML, 91 total and isolated DEV APK; no certified source changes.",
-  "next": "Only B6 new A2C global exact1 workflow after permit guard SUCCESS; CI 91 XML + APK, B7 scoped and permit BLOCKED; then A2D/A2E remain pending.",
-  "reason": "A2C0 and A2C1 separately B7 PASS; A2C global B1-B5 exact evidence guard 46044991837 SUCCESS; one workflow path only.",
-  "current_code_sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
-  "last_ci_run_id": 45982428740,
+  "why": "A2C0 SQL15 durable storage plus A2C1 consume/Undo are DEV-certified together; G15/productive stock not proved.",
+  "next": "A2C CLOSED DEV; W05-A2 next A2D B1-B5, then A2E global DEV, no A2C2, no production.",
+  "reason": "A2C global DEV integrated same SHA 11 original XML 91/91 and isolated APK; permit consumed after B7.",
+  "current_code_sha": "b064960b4443f56776781744bc30279648da01cb",
+  "last_ci_run_id": 46045293622,
   "last_ci_conclusion": "success",
-  "last_guard_run_id": 45982428504,
+  "last_guard_run_id": 46045293544,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 45954607567,
