@@ -1,0 +1,73 @@
+name: FARO V5 W05-A2C1B SQL15 atomic consumption DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionApplyPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionApplyPortTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2c1b-consume-atomic.yml
+
+permissions:
+  contents: read
+
+jobs:
+  stock-consumption-atomic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact four routes and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          diff -u <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort) <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "$(git diff --name-only --no-renames HEAD^ HEAD | wc -l)" -eq 4
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionApplyPort.kt \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
+            --path v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionApplyPortTest.kt \
+            --path .github/workflows/faro-v5-s4-w05-a2c1b-consume-atomic.yml
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test SQL15 consumption atomic DEV
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionApplyPortTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          report, = Path('v5/store/reality/build/test-results/test').glob('TEST-*RealityHousehold15ConsumptionApplyPortTest.xml')
+          root = ElementTree.parse(report).getroot()
+          counts = tuple(int(root.attrib[k]) for k in ('tests','failures','errors','skipped'))
+          assert counts == (8,0,0,0), counts
+          assert len({case.attrib['name'] for case in root.findall('testcase')}) == 8
+          PY
+      - name: Preserve original JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c1b-consumption-atomic-xml
+          if-no-files-found: error
+          path: v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionApplyPortTest.xml

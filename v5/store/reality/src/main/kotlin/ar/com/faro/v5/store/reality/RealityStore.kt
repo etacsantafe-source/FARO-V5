@@ -147,6 +147,8 @@ class RealityStore(
     private val householdActive14DevReadOnly: (() -> Boolean)? = null,
     /** Isolated DEV only; no shipping writer. */
     private val householdStockReservationWritableDev: Boolean = false,
+    /** Explicit SQL15 DEV-only flag; never opened by shipping roots. */
+    private val householdStockConsumptionWritableDev: Boolean = false,
 ) : AtomicApplyTransactionPort,
     ApplyCommitPort,
     DependencyStampLookupPort,
@@ -166,7 +168,8 @@ class RealityStore(
             householdActive14DevReadOnly == null && householdActive15DevReadOnly == null && !householdStage10ReadOnly &&
             !householdStage12ReadOnly && !householdStage13ReadOnly && !householdStage14ReadOnly &&
             !householdNeedsWritableDev && !household12WritableDev &&
-            !householdStockCompensationWritableDev && !householdStockReservationWritableDev
+            !householdStockCompensationWritableDev && !householdStockReservationWritableDev &&
+            !householdStockConsumptionWritableDev
         )) { "Reality15 STAGED semantic snapshot requires sealed read-only admission" }
         check(householdActive15DevReadOnly == null || (
             planningStage8 && !financeStage9 && !financeActive9 && materialWriteGate != null &&
@@ -177,7 +180,12 @@ class RealityStore(
                 householdActive10Dev == null && !householdNeedsWritableDev &&
                 !household12WritableDev && !householdStockCompensationWritableDev &&
                 !householdStockReservationWritableDev
-        )) { "SQL15 ACTIVE DEV is strictly read-only" }
+        )) { "SQL15 ACTIVE DEV requires explicit DEV admission" }
+        check(!householdStockConsumptionWritableDev || (householdActive15DevReadOnly != null &&
+            materialWriteGate != null && !householdStockReservationWritableDev &&
+            !householdStockCompensationWritableDev && !household12WritableDev)) {
+            "SQL15 consumption writer needs exclusive ACTIVE15 DEV admission"
+        }
         check(householdActive14DevReadOnly == null || (
             !householdStage10ReadOnly && !householdStage12ReadOnly && !householdStage13ReadOnly &&
                 !householdStage14ReadOnly && householdActive10Dev == null && householdActive12DevReadOnly == null &&
@@ -230,7 +238,9 @@ class RealityStore(
         } else if (householdActive15DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
                 check(householdActive15DevReadOnly.invoke()) { "SQL15 ACTIVE DEV selection changed" }
-                openHouseholdActiveRead(Path.of(fileName))
+                if (householdStockConsumptionWritableDev)
+                    BundledSQLiteDriver().open(fileName, SQLITE_OPEN_READWRITE or SQLITE_OPEN_NOFOLLOW)
+                else openHouseholdActiveRead(Path.of(fileName))
             }
         } else if (householdActive14DevReadOnly != null) {
             checkNotNull(materialWriteGate).withMaterialWrite {
@@ -968,7 +978,35 @@ class RealityStore(
         }
     }
 
-    /** One-shot SQL15 ACTIVE WAL snapshot, without a stock writer or Apply capability. */
+    /** Isolated SQL15 DEV writer, not mounted in Android or shipping composition. */
+    fun household15ConsumptionForTrustedDev(
+        principal: String, generation: HouseholdReviewGeneration,
+    ): RealityHousehold15ConsumptionApplyPort {
+        check(householdStockConsumptionWritableDev)
+        val fence = checkNotNull(householdActive15DevReadOnly)
+        val writer = RealityHousehold15ConsumptionSqlWriter(connection, principal, generation)
+        return object : RealityHousehold15ConsumptionApplyPort {
+            override fun position(request: ar.com.faro.v5.owner.household.api.HouseholdStockConsumptionDevRequest):
+                ar.com.faro.v5.owner.household.api.HouseholdStockConsumptionPosition? =
+                withMaterialAdmission { synchronized(lock) {
+                    checkOpen()
+                    check(fence())
+                    val result = writer.position(request)
+                    check(fence())
+                    result
+                } }
+
+            override fun apply(review: ar.com.faro.v5.owner.household.api.HouseholdStockConsumptionReview,
+                recordedAtMs: Long, scope: RealityTransactionScope): Boolean = synchronized(lock) {
+                checkOpen()
+                requireActiveScope(scope)
+                check(activeApplyScope === scope && fence())
+                writer.apply(review, recordedAtMs)
+            }
+        }
+    }
+
+    /** One-shot SQL15 ACTIVE snapshot; read alone never grants Apply. */
     fun snapshotActiveHousehold15RowsForTrustedHost(): RealityHousehold15ConsumptionRows =
         withMaterialAdmission { synchronized(lock) {
             checkOpen()
@@ -1870,7 +1908,11 @@ class RealityStore(
                 "Reality14 DEV reservation write admission denied"
             }
         }
-        check(householdActive15DevReadOnly == null) { "SQL15 ACTIVE DEV has no Apply authority" }
+        if (householdActive15DevReadOnly != null) {
+            check(householdStockConsumptionWritableDev && householdActive15DevReadOnly.invoke()) {
+                "SQL15 ACTIVE DEV has no default Apply authority"
+            }
+        }
         connection.execSQL("BEGIN IMMEDIATE TRANSACTION")
         activeTransactionId = transactionId
         val scope = SqliteRealityTransactionScope(
@@ -1885,7 +1927,8 @@ class RealityStore(
                     check(householdActive10Dev?.invoke() != false &&
                         householdActive12DevReadOnly?.invoke() != false &&
                         householdActive13DevReadOnly?.invoke() != false &&
-                        householdActive14DevReadOnly?.invoke() != false) {
+                        householdActive14DevReadOnly?.invoke() != false &&
+                        householdActive15DevReadOnly?.invoke() != false) {
                         "Household generation changed before commit"
                     }
                     connection.execSQL("COMMIT TRANSACTION")
