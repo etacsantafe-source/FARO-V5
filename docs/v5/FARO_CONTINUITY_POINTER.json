@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C1B_B7_PASS_DEV_8_8_A2C1C_NEXT_PREAUDIT",
+  "phase": "S4_W05_A2C1C_B1_B5_DOCUMENTED_AWAITING_GUARD",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2154
+    "epoch": 2155
   },
   "automation": {
     "activation_authorized": false,
@@ -44,13 +44,13 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A2C1B_B7_PASS_CONSUME_ATOMIC_SQL15_DEV_20261126.md",
+  "handoff": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "A2C1C B1-B5 preauditoría, no escribir B6 hasta permiso exacto y guardia. A2C1A/B ya certificados.",
-  "checkpoint_status": "W05_A2B_CLOSED_9_9; A2C0A_B7_PASS_7_7; A2C0B1_B7_PASS_32_32; A2C0B2_B7_PASS_20_20; A2C0B3_B7_PASS_28_28; A2C0C0_B7_PASS_33_33; A2C0C1A_B7_PASS_35_35; A2C_OPEN; A2C0C1B_B6_COMMITTED_066EAEAD_EXACT5_CI_PENDING_B7_OPEN; A2C0C1B_B7_RED_FIX_CODE_066EAEAD_REALITY4FAIL; C1B_SECOND_B7_REDFIX_43_OF_44_1_TEST_FIXTURE_SIDECAR; A2C0C1B_B7_PASS_XML44_OF_44; A2C0C2_B1_B5_DOC_ONLY_NOT_READY; A2C0C2_B1_B5_GUARD_45908194804_SUCCESS_READY_EXACT3_PENDING_GUARD; A2C0C2_B7_PASS_JOURNALED_SQL15_DEV_XML35_ORIGINAL; A2C1A_B7_PASS_DEV_XML8_OF_8_SHA_3885084a_GUARD_45925067509_CI_45925067636; A2C1B_B6_COMMITTED_a2b33b4f_GUARD_45928195293_SUCCESS_CI_45928195593_FAILURE_COMPILER_B7_RED_FIX; A2C1B_B7_PASS_SCOPE_DEV_XML8_8_CODE_09a7f724_CI_45928809060_GUARD_45928809081_WRITER_RELEASED_2154",
+  "next": "Verify preaudit guard same SHA; only then mint separate exact4 A2C1C READY permit; no functional B6 now.",
+  "checkpoint_status": "W05_A2B_CLOSED_9_9; A2C0A_B7_PASS_7_7; A2C0B1_B7_PASS_32_32; A2C0B2_B7_PASS_20_20; A2C0B3_B7_PASS_28_28; A2C0C0_B7_PASS_33_33; A2C0C1A_B7_PASS_35_35; A2C_OPEN; A2C0C1B_B6_COMMITTED_066EAEAD_EXACT5_CI_PENDING_B7_OPEN; A2C0C1B_B7_RED_FIX_CODE_066EAEAD_REALITY4FAIL; C1B_SECOND_B7_REDFIX_43_OF_44_1_TEST_FIXTURE_SIDECAR; A2C0C1B_B7_PASS_XML44_OF_44; A2C0C2_B1_B5_DOC_ONLY_NOT_READY; A2C0C2_B1_B5_GUARD_45908194804_SUCCESS_READY_EXACT3_PENDING_GUARD; A2C0C2_B7_PASS_JOURNALED_SQL15_DEV_XML35_ORIGINAL; A2C1A_B7_PASS_DEV_XML8_OF_8_SHA_3885084a_GUARD_45925067509_CI_45925067636; A2C1B_B6_COMMITTED_a2b33b4f_GUARD_45928195293_SUCCESS_CI_45928195593_FAILURE_COMPILER_B7_RED_FIX; A2C1B_B7_PASS_SCOPE_DEV_XML8_8_CODE_09a7f724_CI_45928809060_GUARD_45928809081_WRITER_RELEASED_2154; A2C1C_B1_B5_DOCUMENTED_SOURCE_0014b302_GUARD_PENDING_NO_READY",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF. | W05-A2A B7 PASS scoped SQL13 DEV physical net, 5/5 original XML, NOT availability; W05-A2 OPEN, A2B next. | 2026-11-26 W05-A2B0A B1-B5 preaudit blob 84335097177287d5239af73e4b2a1b20b2567679 on 7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b, guard 45748787541 SUCCESS, READY exact4; B6/B7 NOT_RUN, SQL13 ACTIVE untouched. | 2026-11-26: A2B nine units preaudit B1-B5 published on 7ad7f22eba85, guard 45811688638 SUCCESS; first A2B0B1 permit READY exact4. No functional A2B B6/B7 yet. A2B0A 7/7 prior. | 2026-11-26: A2C0A SQL15 STAGED B1-B5 preaudit documentary only. Guard/READY/B6/B7 PENDING; no functional change. | 2026-11-26 A2C0A B1-B5 guard 45872148641 SUCCESS and separate READY exact4; B6/B7 NOT_RUN. A2B remains 9/9 closed. | 2026-11-26 A2C0A isolated SQL15 STAGED B7 PASS 7/7, original JUnit checked in CI 45872779600 SHA dbe04c32 and guard 45872779443 SUCCESS, permission consumed; A2C global OPEN, no stock.consume.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A2C1B_B7_PASS_CONSUME_ATOMIC_SQL15_DEV_20261126.md",
+  "last_handoff": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
   "last_code_sha": "09a7f72445b3a8a9c691d1a79096e6d468afb929",
   "last_ci_run_id": 45928809060,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
@@ -2194,14 +2194,14 @@
     "red_fix_doc": "docs/s3-night/S3_A3_M02_WORK_RED_FIX_1_20261111.md",
     "writer_epoch": 704
   },
-  "goal_id": "S4_PRECODE_W00_FEASIBILITY",
-  "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
-  "block_id": 7,
-  "block_status": "B7_PASS_SCOPED_DEV",
-  "expected_head": "CHECKPOINT_COMMIT_CONTAINING_A1C4_GLOBAL_B7_PASS",
-  "blocker": null,
-  "writer_release_epoch": 2154,
-  "last_observed_at": "2026-11-25",
+  "goal_id": "S4_W05_A2C1",
+  "unit_id": "S4_W05_A2C1C_STOCK_CONSUMPTION_REVIEW_APPLY_HOST",
+  "block_id": "B5",
+  "block_status": "B1_B5_DOCUMENTED_ONLY_GUARD_PENDING_NOT_READY",
+  "expected_head": "0014b30205ee0ce577b136366723b894e898cd72",
+  "blocker": "B1_B5_GUARD_PENDING;A2C1C_PERMIT_NOT_READY",
+  "writer_release_epoch": 2155,
+  "last_observed_at": "2026-11-27",
   "work_m03": {
     "status": "DONE_VERIFIED",
     "unit_id": "S3_A3_BOOKMARKS_FOLDERS_LIFECYCLE_DEV",
@@ -2218,8 +2218,14 @@
     "physical": "NOT_RUN",
     "writer_epoch": 711
   },
-  "acceptance": "A1C4 B7 PASS JVM1 Android1 real JUnit XML with original artifact 15083246165; W05-A1 DEV global scoped closed, productive and G15 physical NOT_RUN",
-  "evidence": "docs/v5/FARO_S4_W05_A1_GLOBAL_DEV_B7_ACCEPTANCE_20261125.md",
+  "acceptance": "A2C1C host consumption DEV: Workspace Review+foreground approval + exact SQL15 ticket/root lease + AtomicApply receipt; B6 only after independent exact4 permit",
+  "evidence": [
+    {
+      "path": "docs/v5/FARO_S4_W05_A2C1C_CONSUME_REVIEW_APPLY_HOST_B1_B5_20261127.md",
+      "blob_sha": "dd3e114ddf0cff3461ca7665af77f79c0cd8dd0e",
+      "marker": "## B5"
+    }
+  ],
   "work": {
     "unit_id": "S3_A5_7_X08_REAL_OWNER_INTERRUPTION_ABA_ANDROID",
     "status": "WAIT_CI_COMPILED_BRIDGE",
@@ -7457,7 +7463,7 @@
     "permit": "CONSUMED",
     "writer_epoch_release": 2041
   },
-  "next_step": "A2C1C_B1_B5_PREADUIT_ONLY",
+  "next_step": "S4_W05_A2C1C_PREAUDIT_GUARD_THEN_SEPARATE_PERMIT",
   "w05_a1c4": {
     "unit_id": "S4_W05_A1C4_GLOBAL_DEV_ACCEPTANCE",
     "status": "B7_PASS_SCOPED_DEV",
@@ -7693,16 +7699,16 @@
     "b7_doc_blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
     "ci_run_id": 45925067636,
     "previous_guard_failure": 45925399508,
-    "next": "A2C1B_B6_WITH_PREFLIGHT_THEN_CI_B7",
+    "next": "A2C1C B1-B5 guard then separate exact4 permit",
     "a2c1a_guard": "45926448108_SUCCESS",
     "a2c1a_permit": "CONSUMED_BLOCKED",
     "a2c1b_preaudit": "docs/v5/FARO_S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY_B1_B5_20261126.md",
     "a2c1b_guard": "45926633918_SUCCESS",
-    "a2c1b_permit": "READY_EXACT4_B6_PENDING",
+    "a2c1b_permit": "CONSUMED_BLOCKED",
     "a2c1b_preaudit_blob_sha": "87c96cdc3cef0c5eb15b428d60bbdc36b1ad36ac",
-    "a2c1b_b6": "NOT_RUN",
-    "a2c1b_b7": "NOT_RUN",
-    "last_observed_state": "A2C1B_B7_PASS_DEV_8_8_A2C1C_F_NOT_READY",
+    "a2c1b_b6": "DONE_VERIFIED",
+    "a2c1b_b7": "PASS_DEV_8_8",
+    "last_observed_state": "A2C1A_B7_PASS_A2C1B_B7_PASS_A2C1C_B1_B5_DOC_GUARD_PENDING",
     "scheduler_active": false,
     "summary": "Historic pilot docs only; scheduling is not authorized in this turn."
   }
