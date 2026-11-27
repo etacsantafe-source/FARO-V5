@@ -1,0 +1,91 @@
+name: FARO V5 W05-A2C1E SQL15 consumption Undo atomic DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionUndoApplyPort.kt
+      - v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt
+      - v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionUndoApplyPortTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2c1e-consumption-undo-atomic.yml
+
+permissions:
+  contents: read
+
+jobs:
+  consumption-undo-atomic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact four paths and READY parent permission
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -r '.paths[]' < <(git show HEAD^:docs/v5/FARO_PROTOCOL_WORK_PERMIT.json) | sort > /tmp/faro-allowed
+          git diff --name-only --no-renames HEAD^ HEAD | sort > /tmp/faro-changed
+          test "$(wc -l < /tmp/faro-allowed)" -eq 4
+          diff -u /tmp/faro-allowed /tmp/faro-changed
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ \
+            --unit S4_W05_A2C1E_SQL15_CONSUMPTION_UNDO_ATOMIC \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionUndoApplyPort.kt \
+            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
+            --path v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionUndoApplyPortTest.kt \
+            --path .github/workflows/faro-v5-s4-w05-a2c1e-consumption-undo-atomic.yml
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"; fi
+      - name: Verify canonical N-016 Undo descriptor
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          lines = (x.split('\t') for x in Path('v5/spec/generated/contract-baseline.tsv').read_text().splitlines())
+          expected = ['operation','N-016','undo.execute','undo-coordinator','REALITY_MUTATION','BINDABLE']
+          assert sum(row[:6] == expected for row in lines) == 1
+          PY
+      - name: Test isolated SQL15 Undo atomic plus consumption regression
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:reality:test \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionUndoApplyPortTest \
+            --tests ar.com.faro.v5.store.reality.RealityHousehold15ConsumptionApplyPortTest
+      - name: Verify original JUnit XML for Undo and consumption regression
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          base = Path('v5/store/reality/build/test-results/test')
+          for name, expected in (
+              ('RealityHousehold15ConsumptionUndoApplyPortTest', 8),
+              ('RealityHousehold15ConsumptionApplyPortTest', 8),
+          ):
+              report, = base.glob('TEST-*' + name + '.xml')
+              root = ElementTree.parse(report).getroot()
+              actual = tuple(int(root.attrib[k]) for k in ('tests','failures','errors','skipped'))
+              assert actual == (expected,0,0,0), (name, actual)
+              cases = root.findall('testcase')
+              assert len({case.attrib['name'] for case in cases}) == expected, name
+          PY
+      - name: Preserve original SQL15 Undo and consumption JUnit XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c1e-consumption-undo-atomic-xml
+          if-no-files-found: error
+          path: |
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionUndoApplyPortTest.xml
+            v5/store/reality/build/test-results/test/TEST-*RealityHousehold15ConsumptionApplyPortTest.xml
