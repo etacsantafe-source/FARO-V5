@@ -119,8 +119,9 @@ internal class RealityHousehold15ConsumptionSqlWriter(
         if (recordedAtMs < (before.consumptions.lastOrNull()?.recordedAtMs ?: 0L)) return false
         val current = position(request, before) ?: return false
         val quantity = request.quantity.thousandths
+        val source = current.source ?: return false
         if (current.revision != request.ledgerRevision || current.revision == Long.MAX_VALUE ||
-            current.source == null || quantity > current.source.remainingThousandths ||
+            quantity > source.remainingThousandths ||
             quantity > current.physicalThousandths - current.reservedThousandths) return false
         val row = RealityHousehold15ConsumptionRow(intent, intent,
             RealityHousehold15ConsumptionType.CONSUME, intent, request.stockItem,

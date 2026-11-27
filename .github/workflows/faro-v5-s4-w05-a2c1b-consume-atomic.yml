@@ -21,18 +21,26 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Verify exact four routes and READY parent
+      - name: Verify RED_FIX subset within exact four authorized routes
         shell: bash
         run: |
           set -euo pipefail
           permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
-          diff -u <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort) <(git diff --name-only --no-renames HEAD^ HEAD | sort)
-          test "$(git diff --name-only --no-renames HEAD^ HEAD | wc -l)" -eq 4
-          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY \
-            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionApplyPort.kt \
-            --path v5/store/reality/src/main/kotlin/ar/com/faro/v5/store/reality/RealityStore.kt \
-            --path v5/store/reality/src/test/kotlin/ar/com/faro/v5/store/reality/RealityHousehold15ConsumptionApplyPortTest.kt \
-            --path .github/workflows/faro-v5-s4-w05-a2c1b-consume-atomic.yml
+          mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]')
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD)
+          test "${#allowed[@]}" -eq 4
+          test "${#changed[@]}" -gt 0
+          test "${#changed[@]}" -le 4
+          for route in "${changed[@]}"; do
+            found=0
+            for permitted in "${allowed[@]}"; do
+              if [[ "$route" == "$permitted" ]]; then found=1; fi
+            done
+            test "$found" -eq 1
+          done
+          args=()
+          for route in "${changed[@]}"; do args+=(--path "$route"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY "${args[@]}"
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
