@@ -69,6 +69,15 @@
   ],
   "observed_runs": 0,
   "observed_effective_seconds": null,
-  "certified_b7_units": 0,
-  "completion_criteria": "Count actual evidence only; unobserved metrics null"
+  "certified_b7_units": 1,
+  "completion_criteria": "Count actual evidence only; unobserved metrics null",
+  "last_verified_b7": {
+    "unit_id": "S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION",
+    "code_sha": "3885084a6447febde9586da2c5a02414e3c4aa40",
+    "ci_run": 45925067636,
+    "xml_pass": 8,
+    "xml_fail": 0,
+    "scoped": "DEV_REVIEW_ONLY"
+  },
+  "last_guard_success": 45926448108
 }

@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C1A_B7_DEV_PERMIT_CONSUMED_GUARD_REDFIX_WAIT_CI",
+  "phase": "S4_W05_A2C1B_PREAUDIT_B1_B5_PUBLISHED_WAIT_GUARD",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2148
+    "epoch": 2149
   },
   "automation": {
     "activation_authorized": false,
@@ -44,7 +44,7 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
+  "handoff": "docs/v5/FARO_S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY_B1_B5_20261126.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
   "next": "A2C1A B7 PASS scoped DEV 8/8 CI XML; A2C1B B1-B5, guardia y permiso READY independiente; no stock real, Apply, pagos ni V2 productiva",
@@ -7674,15 +7674,15 @@
     "next": "A2C0C1B_B1_B5"
   },
   "a2c1_noche_lite": {
-    "status": "A2C1A_B7_PASS_DEV_PERMIT_CONSUMED_GUARD_WAIT",
+    "status": "A2C1A_B7_CONFIRMED_A2C1B_PREAUDIT_WAIT_GUARD",
     "base_sha": "6cbee2adc887c62e931765eba5c4f5d31747e89b",
     "preaudit": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
     "runbook": "docs/v5/FARO_NOCHE_LITE_A2C1_RUNBOOK_V1_20261126.md",
     "roadmap": "docs/v5/FARO_NOCHE_LITE_A2C1_CHAIN_V1_20261126.json",
     "guard": "PENDING_CORRECTED_DOC_CHECKPOINT",
     "permit": "BLOCKED_CONSUMED_A2C1A",
-    "b6": "PASS_8_8_XML_VERIFIED_BY_CI",
-    "b7": "PASS_SCOPED_DEV",
+    "b6": "A2C1B_NOT_RUN",
+    "b7": "A2C1B_NOT_RUN",
     "downstream_units": "A2C1B_TO_F_UNAUTHORIZED_FOR_CODE",
     "automation_scope": "SCHEDULER_ONLY_FAIL_CLOSED",
     "pre_audit_sha": "b476e3c232ae90f92e2ff946ba1639836543c778",
@@ -7693,6 +7693,11 @@
     "b7_doc_blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
     "ci_run_id": 45925067636,
     "previous_guard_failure": 45925399508,
-    "next": "A2C1B_B1_B5_RECONCILE_AFTER_GUARD"
+    "next": "A2C1B_B1_B5_GUARD_THEN_SEPARATE_READY",
+    "a2c1a_guard": "45926448108_SUCCESS",
+    "a2c1a_permit": "CONSUMED_BLOCKED",
+    "a2c1b_preaudit": "docs/v5/FARO_S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY_B1_B5_20261126.md",
+    "a2c1b_guard": "PENDING",
+    "a2c1b_permit": "BLOCKED_NOT_ISSUED"
   }
 }
