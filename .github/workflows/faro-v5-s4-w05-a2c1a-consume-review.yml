@@ -1,0 +1,85 @@
+name: FARO V5 W05-A2C1A stock.consume Review DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionReview.kt
+      - v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmission.kt
+      - v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmissionTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2c1a-consume-review.yml
+
+permissions:
+  contents: read
+
+jobs:
+  stock-consumption-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact scope and READY parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t permitted < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#permitted[@]}" -eq 4
+          diff -u <(printf '%s\n' "${permitted[@]}") <(printf '%s\n' "${changed[@]}")
+          args=()
+          for route in "${permitted[@]}"; do
+            args+=(--path "$route")
+          done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Verify operation descriptor from tracked catalog
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          rows = [line.split('\t') for line in Path('v5/spec/generated/contract-baseline.tsv').read_text().splitlines()]
+          expected = ['operation', 'N-035', 'stock.consume', 'household', 'REALITY_MUTATION', 'BINDABLE']
+          assert sum(row[:6] == expected for row in rows) == 1, expected
+          PY
+      - name: Test stock consumption Review
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :owner:household:test --tests ar.com.faro.v5.owner.household.api.HouseholdStockConsumptionDevAdmissionTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          directory = Path('v5/owner/household/build/test-results/test')
+          report, = directory.glob('TEST-*HouseholdStockConsumptionDevAdmissionTest.xml')
+          suite = ElementTree.parse(report).getroot()
+          actual = tuple(int(suite.attrib[key]) for key in ('tests', 'failures', 'errors', 'skipped'))
+          assert actual == (8, 0, 0, 0), actual
+          assert len({case.attrib['name'] for case in suite.findall('testcase')}) == 8
+          PY
+      - name: Preserve original consumption Review XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: w05-a2c1a-consumption-review-xml
+          if-no-files-found: error
+          path: v5/owner/household/build/test-results/test/TEST-*HouseholdStockConsumptionDevAdmissionTest.xml
