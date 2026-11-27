@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C1A_B1_B5_GUARDED_READY_EXACT4_B6_PENDING",
+  "phase": "S4_W05_A2C1A_B7_PASS_SCOPED_DEV_A2C1B_B1_B5_NEXT",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2145
+    "epoch": 2147
   },
   "automation": {
     "activation_authorized": false,
@@ -44,15 +44,15 @@
     "watchdog_id": "6ae9b51b2ac88191833cb7db6f9f5ed0"
   },
   "protocol": "docs/v5/FARO_V2_PROTOCOL_RESTITUTION_AND_RETRO_AUDIT_20261104.md",
-  "handoff": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
+  "handoff": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
   "backlog": "docs/s3-night/S3_BACKLOG_20261102.md",
   "permissions": "MANUAL_V2_MINIMUM_ISOLATED_DEVELOPMENT_OBJECTIVE_APPROVED; S3_DEPENDENCIES_ALLOWED; S4_MINIMUM_ONLY_IF_VERIFIED_BLOCKING_NO_FORMAL_S4_OPEN; NO_V2_PRODUCTIVE_ACTIVATION; NO_MAIN_OR_V44_WRITES; S2_FROZEN; GUARDADOS_EIGHT_CONTRACTS_HUMAN_APPROVED_20261109_CATALOG180_EXACT8_B7_PASS_20261111; NO_PAID_APIS",
-  "next": "W05 A2C1 independent B1-B5 + guarded exact permit for stock.consume DEV host; A2C0C2 B7 PASS 35/35, C1B 44/44 certified; NO real stock/Apply or productive V2",
-  "checkpoint_status": "W05_A2B_CLOSED_9_9; A2C0A_B7_PASS_7_7; A2C0B1_B7_PASS_32_32; A2C0B2_B7_PASS_20_20; A2C0B3_B7_PASS_28_28; A2C0C0_B7_PASS_33_33; A2C0C1A_B7_PASS_35_35; A2C_OPEN; A2C0C1B_B6_COMMITTED_066EAEAD_EXACT5_CI_PENDING_B7_OPEN; A2C0C1B_B7_RED_FIX_CODE_066EAEAD_REALITY4FAIL; C1B_SECOND_B7_REDFIX_43_OF_44_1_TEST_FIXTURE_SIDECAR; A2C0C1B_B7_PASS_XML44_OF_44; A2C0C2_B1_B5_DOC_ONLY_NOT_READY; A2C0C2_B1_B5_GUARD_45908194804_SUCCESS_READY_EXACT3_PENDING_GUARD; A2C0C2_B7_PASS_JOURNALED_SQL15_DEV_XML35_ORIGINAL",
+  "next": "A2C1A B7 PASS scoped DEV 8/8 CI XML; A2C1B B1-B5, guardia y permiso READY independiente; no stock real, Apply, pagos ni V2 productiva",
+  "checkpoint_status": "W05_A2B_CLOSED_9_9; A2C0A_B7_PASS_7_7; A2C0B1_B7_PASS_32_32; A2C0B2_B7_PASS_20_20; A2C0B3_B7_PASS_28_28; A2C0C0_B7_PASS_33_33; A2C0C1A_B7_PASS_35_35; A2C_OPEN; A2C0C1B_B6_COMMITTED_066EAEAD_EXACT5_CI_PENDING_B7_OPEN; A2C0C1B_B7_RED_FIX_CODE_066EAEAD_REALITY4FAIL; C1B_SECOND_B7_REDFIX_43_OF_44_1_TEST_FIXTURE_SIDECAR; A2C0C1B_B7_PASS_XML44_OF_44; A2C0C2_B1_B5_DOC_ONLY_NOT_READY; A2C0C2_B1_B5_GUARD_45908194804_SUCCESS_READY_EXACT3_PENDING_GUARD; A2C0C2_B7_PASS_JOURNALED_SQL15_DEV_XML35_ORIGINAL; A2C1A_B7_PASS_DEV_XML8_OF_8_SHA_3885084a_GUARD_45925067509_CI_45925067636",
   "notes": "W00 architecture/feasibility design GO/NO-GO scoped, no real multi-owner permission or commit. S3 DEV closed 5/5 with H07 user exception not PASS; FARO only registers economic data; no money transfer, bank operation or external payment. | 2026-11-25: A1C2G0 separated write admission from N-016 G1; no functional code or new CI claimed. | 2026-11-25 A1C4 B1-B5 verified evidence c56495b753e86691c18435272b8f6521d37cc2f1 guard 45736406556 SUCCESS. READY exact3; no A1C4 B6/B7 yet. | 2026-11-25 A1C4 B7 global DEV PASS 2/2 original JUnit XML from artifact 15083246165, code 358895d33d716326bf3e3e8e3421294c3e6697ba, guard 45743934125 SUCCESS; G15 NOT_RUN, productive OFF. | W05-A2A B7 PASS scoped SQL13 DEV physical net, 5/5 original XML, NOT availability; W05-A2 OPEN, A2B next. | 2026-11-26 W05-A2B0A B1-B5 preaudit blob 84335097177287d5239af73e4b2a1b20b2567679 on 7b7d6ee01ccb49bac88c7d42f23feb0c7d8b888b, guard 45748787541 SUCCESS, READY exact4; B6/B7 NOT_RUN, SQL13 ACTIVE untouched. | 2026-11-26: A2B nine units preaudit B1-B5 published on 7ad7f22eba85, guard 45811688638 SUCCESS; first A2B0B1 permit READY exact4. No functional A2B B6/B7 yet. A2B0A 7/7 prior. | 2026-11-26: A2C0A SQL15 STAGED B1-B5 preaudit documentary only. Guard/READY/B6/B7 PENDING; no functional change. | 2026-11-26 A2C0A B1-B5 guard 45872148641 SUCCESS and separate READY exact4; B6/B7 NOT_RUN. A2B remains 9/9 closed. | 2026-11-26 A2C0A isolated SQL15 STAGED B7 PASS 7/7, original JUnit checked in CI 45872779600 SHA dbe04c32 and guard 45872779443 SUCCESS, permission consumed; A2C global OPEN, no stock.consume.",
-  "last_handoff": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
-  "last_code_sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
-  "last_ci_run_id": 45917344600,
+  "last_handoff": "docs/v5/FARO_S4_W05_A2C1A_B7_PASS_CONSUME_REVIEW_DEV_20261126.md",
+  "last_code_sha": "3885084a6447febde9586da2c5a02414e3c4aa40",
+  "last_ci_run_id": 45925067636,
   "night_v21_protocol": "docs/v5/FARO_NOCHE_PRODUCTIVITY_V21_20261102.md",
   "bounded_review": {
     "status": "EIGHT_OPERATIONS_APPROVED_TYPED_CONTRACTS_SCHEMA_AND_AUX_CAS_RECEIPTS_PASS_SCOPED_NOT_MOUNTED",
