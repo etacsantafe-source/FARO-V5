@@ -1,20 +1,21 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV",
-  "reviewed_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION",
+  "reviewed_head": "b476e3c232ae90f92e2ff946ba1639836543c778",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15Evidence2DevJournaledCutover.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15Evidence2DevJournaledCutoverTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2c0c2-sql15-journaled-cutover.yml"
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionReview.kt",
+    "v5/owner/household/src/main/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmission.kt",
+    "v5/owner/household/src/test/kotlin/ar/com/faro/v5/owner/household/api/HouseholdStockConsumptionDevAdmissionTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2c1a-consume-review.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
-          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
+          "path": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+          "blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
           "marker": "## B1"
         }
       ]
@@ -23,8 +24,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
-          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
+          "path": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+          "blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
           "marker": "## B2"
         }
       ]
@@ -33,8 +34,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
-          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
+          "path": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+          "blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
           "marker": "## B3"
         }
       ]
@@ -43,8 +44,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
-          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
+          "path": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+          "blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
           "marker": "## B4"
         }
       ]
@@ -53,35 +54,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md",
-          "blob_sha": "8fbbe3afaba91efe20a5673bf8a38247ce565726",
+          "path": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
+          "blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
           "marker": "## B5"
         }
       ]
     },
-    "B6": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
-          "blob_sha": "f086537588cd82c94c7a5de82a00800dc96cba43",
-          "marker": "## B7"
-        }
-      ]
-    },
-    "B7": {
-      "status": "VERIFIED",
-      "evidence": [
-        {
-          "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
-          "blob_sha": "f086537588cd82c94c7a5de82a00800dc96cba43",
-          "marker": "## B7"
-        }
-      ]
-    }
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45908194804,
-  "pre_audit_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
+  "pre_audit_guard_run_id": 45924008568,
+  "pre_audit_head": "b476e3c232ae90f92e2ff946ba1639836543c778",
   "last_code_review": {
     "sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
     "result": "PASS",
@@ -98,9 +81,9 @@
   "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "SQL15 isolated DEV journaled five-store C2 certified from original XML 35/35 after bounded RED_FIX; does not enable production Apply",
-  "next": "W05 A2C1 stock.consume / host admission independently B1-B5 and scoped READY; stock real and productive V2 OFF",
-  "last_guard_run_id": 45917344583,
+  "why": "A2C1A preaudit B1-B5 published and guard verified; only exact4 DEV paths authorized; no stock real, production or reserved consumption",
+  "next": "A2C1A B6 (verify exact route preflight and writer per mutation), CI original XML, B7; A2C1B-F not READY",
+  "last_guard_run_id": 45924008568,
   "current_code_sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
   "reason": "A2C0C2 B7 PASS, scoped DEV; independent exact3 permission consumed, next unit requires new authorization"
 }

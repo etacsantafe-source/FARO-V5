@@ -1,0 +1,74 @@
+{
+  "schema_version": "faro.noche.lite.metrics.v1",
+  "unit": "W05-A2C1",
+  "timezone": "America/Argentina/Cordoba",
+  "schedule_kind": "ChatGPT tasks hourly exact, not 15-minute guaranteed work",
+  "scheduled_slots": [
+    [
+      "T1",
+      "2026-11-26T22:45:00-03:00"
+    ],
+    [
+      "T2",
+      "2026-11-26T23:00:00-03:00"
+    ],
+    [
+      "T3",
+      "2026-11-26T23:15:00-03:00"
+    ],
+    [
+      "T1",
+      "2026-11-26T23:45:00-03:00"
+    ],
+    [
+      "T2",
+      "2026-11-27T00:00:00-03:00"
+    ],
+    [
+      "T3",
+      "2026-11-27T00:15:00-03:00"
+    ],
+    [
+      "T1",
+      "2026-11-27T00:45:00-03:00"
+    ],
+    [
+      "T2",
+      "2026-11-27T01:00:00-03:00"
+    ]
+  ],
+  "run_record_fields": [
+    "scheduled_start",
+    "actual_start",
+    "actual_end",
+    "effective_seconds_verified",
+    "head_start",
+    "head_end",
+    "unit_id",
+    "block_start",
+    "block_end",
+    "files_changed",
+    "docs_changed",
+    "ci_sha",
+    "ci_run",
+    "ci_status",
+    "xml_test_count",
+    "xml_pass",
+    "xml_fail",
+    "xml_error",
+    "xml_skipped",
+    "guard_sha",
+    "guard_run",
+    "guard_status",
+    "corrections",
+    "blocker_reason",
+    "blocker_seconds_verified",
+    "writer_epoch_acquired",
+    "writer_epoch_released",
+    "b7_certified_units"
+  ],
+  "observed_runs": 0,
+  "observed_effective_seconds": null,
+  "certified_b7_units": 0,
+  "completion_criteria": "Count actual evidence only; unobserved metrics null"
+}
