@@ -1,18 +1,18 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE",
-  "reviewed_head": "e37378e07e1a67a47b1d4ff7542f2465e97b4252",
+  "status": "READY",
+  "unit_id": "S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE",
+  "reviewed_head": "6fcc081d11a63001ce15e9a33687650e48431618",
   "paths": [
-    ".github/workflows/faro-v5-s4-w05-a2c1-global-dev-acceptance.yml"
+    ".github/workflows/faro-v5-s4-w05-a2c-global-dev-acceptance.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
+          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
           "marker": "## B1"
         }
       ]
@@ -21,8 +21,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
+          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
           "marker": "## B2"
         }
       ]
@@ -31,8 +31,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
+          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
           "marker": "## B3"
         }
       ]
@@ -41,8 +41,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
+          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
           "marker": "## B4"
         }
       ]
@@ -51,17 +51,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2C1_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
-          "blob_sha": "9fbec0b786276edb6a326a5d1a2f4a0829fef828",
+          "path": "docs/v5/FARO_S4_W05_A2C_GLOBAL_DEV_ACCEPTANCE_B1_B5_20261127.md",
+          "blob_sha": "352fc7d47ec13ab0d13e81f07c597a34701e894d",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_XML56_OF_56_APK"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 45982027334,
-  "pre_audit_head": "e37378e07e1a67a47b1d4ff7542f2465e97b4252",
+  "pre_audit_guard_run_id": 46044991837,
+  "pre_audit_head": "6fcc081d11a63001ce15e9a33687650e48431618",
   "last_code_review": {
     "sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
     "result": "PASS",
@@ -76,9 +76,9 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "All A-F plus legacy Undo regression re-run in same SHA, distinct N-035/N-016, seven original XML checked and APK isolated compiled.",
-  "next": "W05-A2C next independent unit B1–B5 only, e.g. A2C2 if scope confirmed; no further B6 before own exact permit/guard; A2C1 frozen.",
-  "reason": "W05-A2C1 GLOBAL DEV B7 PASS, 56/56 original JUnit XML plus isolated V2CoreDev APK; permit consumed. Productive and G15 not authorized.",
+  "why": "Independent same-SHA A2C0 journaling SQL15 35 + A2C1 consume/undo 56 original JUnit XML, 91 total and isolated DEV APK; no certified source changes.",
+  "next": "Only B6 new A2C global exact1 workflow after permit guard SUCCESS; CI 91 XML + APK, B7 scoped and permit BLOCKED; then A2D/A2E remain pending.",
+  "reason": "A2C0 and A2C1 separately B7 PASS; A2C global B1-B5 exact evidence guard 46044991837 SUCCESS; one workflow path only.",
   "current_code_sha": "340e08983f0b69a6a5d37fa7369074f4715bbe5e",
   "last_ci_run_id": 45982428740,
   "last_ci_conclusion": "success",
