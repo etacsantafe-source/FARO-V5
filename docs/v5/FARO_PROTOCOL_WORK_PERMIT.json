@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV",
   "reviewed_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
   "paths": [
@@ -59,30 +59,48 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
+          "blob_sha": "f086537588cd82c94c7a5de82a00800dc96cba43",
+          "marker": "## B7"
+        }
+      ]
+    },
+    "B7": {
+      "status": "VERIFIED",
+      "evidence": [
+        {
+          "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
+          "blob_sha": "f086537588cd82c94c7a5de82a00800dc96cba43",
+          "marker": "## B7"
+        }
+      ]
+    }
   },
   "pre_audit_guard_run_id": 45908194804,
   "pre_audit_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
   "last_code_review": {
-    "sha": "7658ea67ffb12f37e21389346ebf4d7270536edb",
-    "result": "RED_FIX",
+    "sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
+    "result": "PASS",
     "unit_id": "S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_RED_FIX_FBS1_MANIFEST_AND_PRIOR_JOURNAL_20261126.md",
-        "blob_sha": "5654a4ce7530b3e0f3b876e33bb401f33753f2a1",
+        "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_PASS_SQL15_JOURNALED_FIVESTORE_DEV_20261126.md",
+        "blob_sha": "f086537588cd82c94c7a5de82a00800dc96cba43",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45916528366,
-  "last_ci_conclusion": "failure",
+  "last_ci_run_id": 45917344600,
+  "last_ci_conclusion": "success",
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "SQL15 journaled five-store cutover DEV independent B1-B5, exact3 new paths, no real stock or production",
-  "next": "same-unit RED_FIX owner+test only, guarded CI 35 original XML, then B7 PASS or another RED_FIX",
-  "last_guard_run_id": 45916527932,
-  "current_code_sha": "7658ea67ffb12f37e21389346ebf4d7270536edb",
-  "reason": "A2C0C2 B7 RED_FIX: fixture invalid FBS1 manifest SHA authority + code-review C14 pending journal ancestry; exact3 subset owner/test correction"
+  "why": "SQL15 isolated DEV journaled five-store C2 certified from original XML 35/35 after bounded RED_FIX; does not enable production Apply",
+  "next": "W05 A2C1 stock.consume / host admission independently B1-B5 and scoped READY; stock real and productive V2 OFF",
+  "last_guard_run_id": 45917344583,
+  "current_code_sha": "7234e551146e89b658f3d56c3bf76e3fcee86fe1",
+  "reason": "A2C0C2 B7 PASS, scoped DEV; independent exact3 permission consumed, next unit requires new authorization"
 }

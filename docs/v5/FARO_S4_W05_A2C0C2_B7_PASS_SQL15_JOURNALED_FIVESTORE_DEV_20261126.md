@@ -1,0 +1,22 @@
+# FARO V5 — W05-A2C0C2 · B7 PASS — journaled SQL15 five-store DEV
+
+Date 2026-11-26 (Argentina). Repo `etacsantafe-source/FARO-V5`; branch `work/s3-night-20261102`.
+**Certified unit:** `S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV`.
+**Final code SHA:** `7234e551146e89b658f3d56c3bf76e3fcee86fe1`. Scoped isolated DEVELOPMENT ONLY. No Android or productive activation.
+
+## B7 — Final bounded acceptance from original JUnit XML
+
+- B1–B5 independent preaudit `docs/v5/FARO_S4_W05_A2C0C2_SQL15_JOURNALED_CUTOVER_B1_B5_20261126.md` blob `8fbbe3afaba91efe20a5673bf8a38247ce565726`, guard **45908194804 SUCCESS**; READY exact3 independent permission committed `fbbd6defa500269e5f79d7631426e2cde4d0fe71`, guard **45908311408 SUCCESS**. All prior A2B/C0 and C1B remain certified; no repeat or production fork.
+- Original B6 code `7658ea67ffb12f37e21389346ebf4d7270536edb`, mandatory guard **45916527932 SUCCESS**, directed CI **45916528366 FAILURE** (35 run, nine new fixture failures and 26 existing PASS). Fail-closed diagnostic recorded with original XML artifact `15163080620` in RED_FIX document `docs/v5/FARO_S4_W05_A2C0C2_B7_RED_FIX_FBS1_MANIFEST_AND_PRIOR_JOURNAL_20261126.md` blob `5654a4ce7530b3e0f3b876e33bb401f33753f2a1` and checkpoint `96dedf6fc5c4f569376d100f1e992a56423c7995`; its documentary guard **45917162765 SUCCESS**. No false PASS.
+- RED_FIX code `7234e551146e89b658f3d56c3bf76e3fcee86fe1` changes **exactly two already admitted C2 files** (new C2 journaled owner and its new C2 tests), leaving the third new CI workflow and all certified predecessor files untouched. Same `FARO-UNIT:S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV` marker; parent READY with prior RED_FIX. Fixture's FBS1 canonical manifest is rebuilt using the certified `SemanticBackupCaptureCoordinator`, not an unauthenticated copy of `sourceGenerationId`.
+- The new SQL15 owner retains a separate durable one-use ticket with full SQL14 origin pointer (ID+sequence), target ID, original encrypted FBS2v12 SHA-256, source and target SHA-256, plus original C14 completed-ticket digest and operation ID. It reattests the prior SQL14 completed journal/replay fence even when its own C2 journal is pending; does not weaken C14's global pending-journal check. Root lock, foreground confirmation, journaled CAS, crash recovery/idempotence, failed target rollback and full pointer ABA are tested in synthetic isolated roots.
+- Mandatory code guard https://github.com/etacsantafe-source/FARO-V5/actions/runs/45917344583 **COMPLETED SUCCESS**, exact SHA `7234e551146e89b658f3d56c3bf76e3fcee86fe1`, full seven-block chain and READY scoped RED_FIX preflight.
+- Directed CI https://github.com/etacsantafe-source/FARO-V5/actions/runs/45917344600 **COMPLETED SUCCESS**, exact SHA `7234e551146e89b658f3d56c3bf76e3fcee86fe1`. Kotlin/Gradle JVM test and original JUnit XML validation steps **SUCCESS**.
+- Original JUnit XML ZIP artifact **15163176927** name `w05-a2c0c2-sql15-journaled-cutover-xml`, digest `sha256:4e4f45944ebb9314b14b14d503fdc9495753d27afc01080f38af1c7e0ca542d4`. Downloaded and independently parsed: **35/35 PASS, 0 failures, 0 errors, 0 skipped, 35 unique test cases**:
+  * `FaroV5Household15Evidence2DevJournaledCutoverTest` — **9/9** (new C2 foreground, root lease, authentic SQL14 ticket, archive validation, journal PREPARED / post-publish recovery, rollback, ABA, DEV read host).
+  * `FaroV5Household14Evidence2DevJournaledCutoverTest` — **6/6** regression.
+  * `FaroV5Household15V12StagedReplayTest` — **15/15** regression.
+  * `FaroV5Household15ActiveDevReadTest` — **5/5** regression.
+- This certification is limited to the isolated DEV journaling and 35 JVM tests. It **does not** certify a productive system migration, a user-authorized stock.consume Apply, the real Moto G15, Android/UI, unattended operation, payment, or broader W05. The DEV-only C1B read-only view is not itself an Apply grant.
+- B7 disposition **PASS scoped DEV**. Exact3 permit must be **consumed BLOCKED** when this document is published; continuity pointer and writer must be verified afterwards. The documentary guard for this final checkpoint is required before the turn is declared closed. Next work needs an **independent** B1–B5/READY unit for W05-A2C1 and must not repeat already certified C2 or C1B.
+- Main/V4.4 unchanged. V2 productiva, stock real, pagos, Auto/Noche OFF. Moto G15 physical NOT_RUN. No paid APIs.
