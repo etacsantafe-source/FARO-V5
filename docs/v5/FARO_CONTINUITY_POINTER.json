@@ -6,7 +6,7 @@
   "updated_local_date": "2026-11-26",
   "repository": "etacsantafe-source/FARO-V5",
   "branch": "work/s3-night-20261102",
-  "phase": "S4_W05_A2C1B_PREAUDIT_B1_B5_PUBLISHED_WAIT_GUARD",
+  "phase": "S4_W05_A2C1B_B1_B5_GUARDED_READY_EXACT4_B6_PENDING",
   "d1b1c2d_adb_ci_scope": {
     "authorized": true,
     "date": "2026-11-18",
@@ -25,7 +25,7 @@
   "s4_open": true,
   "writer": {
     "status": "RELEASED",
-    "epoch": 2149
+    "epoch": 2150
   },
   "automation": {
     "activation_authorized": false,
@@ -7674,7 +7674,7 @@
     "next": "A2C0C1B_B1_B5"
   },
   "a2c1_noche_lite": {
-    "status": "A2C1A_B7_CONFIRMED_A2C1B_PREAUDIT_WAIT_GUARD",
+    "status": "A2C1B_READY_AFTER_B1_B5_GUARD",
     "base_sha": "6cbee2adc887c62e931765eba5c4f5d31747e89b",
     "preaudit": "docs/v5/FARO_S4_W05_A2C1A_CONSUME_REVIEW_ADMISSION_B1_B5_20261126.md",
     "runbook": "docs/v5/FARO_NOCHE_LITE_A2C1_RUNBOOK_V1_20261126.md",
@@ -7683,7 +7683,7 @@
     "permit": "BLOCKED_CONSUMED_A2C1A",
     "b6": "A2C1B_NOT_RUN",
     "b7": "A2C1B_NOT_RUN",
-    "downstream_units": "A2C1B_TO_F_UNAUTHORIZED_FOR_CODE",
+    "downstream_units": "C_TO_F_DEPENDENT_NOT_READY",
     "automation_scope": "SCHEDULER_ONLY_FAIL_CLOSED",
     "pre_audit_sha": "b476e3c232ae90f92e2ff946ba1639836543c778",
     "pre_audit_blob_sha": "5e28bc40b089036bac4235ebf12ac42782edfd12",
@@ -7693,11 +7693,14 @@
     "b7_doc_blob_sha": "2464bfc1bd8d711536cf4717f5da9225c4f76d71",
     "ci_run_id": 45925067636,
     "previous_guard_failure": 45925399508,
-    "next": "A2C1B_B1_B5_GUARD_THEN_SEPARATE_READY",
+    "next": "A2C1B_B6_WITH_PREFLIGHT_THEN_CI_B7",
     "a2c1a_guard": "45926448108_SUCCESS",
     "a2c1a_permit": "CONSUMED_BLOCKED",
     "a2c1b_preaudit": "docs/v5/FARO_S4_W05_A2C1B_CONSUME_ATOMIC_SQL15_APPLY_B1_B5_20261126.md",
-    "a2c1b_guard": "PENDING",
-    "a2c1b_permit": "BLOCKED_NOT_ISSUED"
+    "a2c1b_guard": "45926633918_SUCCESS",
+    "a2c1b_permit": "READY_EXACT4_B6_PENDING",
+    "a2c1b_preaudit_blob_sha": "87c96cdc3cef0c5eb15b428d60bbdc36b1ad36ac",
+    "a2c1b_b6": "NOT_RUN",
+    "a2c1b_b7": "NOT_RUN"
   }
 }

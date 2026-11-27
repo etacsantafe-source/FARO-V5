@@ -1,7 +1,7 @@
 # FARO V5 — W05-A2C1 · Noche Lite, runbook acotado
 
 **Objetivo exclusivo:** A2C1A → B → C → D → E → F en desarrollo aislado. Baseline `6cbee2adc887c62e931765eba5c4f5d31747e89b`.
-**Estado:** PILOTO PROGRAMADO (T1/T2/T3); A2C1A preauditoría 45924008568 SUCCESS; permiso individual READY pendiente de la guardia del commit de permiso. El scheduler no constituye permiso.
+**Estado:** A2C1A B7 PASS DEV (8/8) y guardia de permiso consumido 45926448108 SUCCESS; A2C1B B1–B5 guardia 45926633918 SUCCESS, permiso exact4 READY publicado, exigir guardia del commit de permiso antes de B6. Solo desarrollo aislado. El scheduler no constituye permiso.
 
 ## En cada ejecución
 1. Leer AGENTS.md, puntero, permiso y guardia; verificar rama y HEAD real.
@@ -14,4 +14,4 @@
 8. Liberar writer legítimamente con token propio, confirmar ref RELEASED, guardar checkpoint, sin tocar producción/stock real/pagos/FARO Auto histórico.
 
 ## Piloto
-Tres tareas, ocho ejecuciones: T1 22:45/23:45/00:45, T2 23:00/00:00/01:00, T3 23:15/00:15 (America/Argentina/Cordoba). No garantizan 15 min efectivos por disparo. Si A2C1 acaba, restantes solo verifican cierre. Comparar productividad por hora efectiva, porcentaje de turnos con B7 y bloqueos solo a partir de datos observados.
+Tres tareas, ocho ejecuciones: T1 22:45/23:45/00:45, T2 23:00/00:00/01:00, T3 (primera adelantada manualmente)/00:15 (America/Argentina/Cordoba). No garantizan 15 min efectivos por disparo. Si A2C1 acaba, restantes solo verifican cierre. Comparar productividad por hora efectiva, porcentaje de turnos con B7 y bloqueos solo a partir de datos observados.
