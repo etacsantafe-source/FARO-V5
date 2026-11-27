@@ -65,24 +65,24 @@
   "pre_audit_guard_run_id": 45908194804,
   "pre_audit_head": "f065eea37a0fccd2f0929263c5f7a7c07dfc80b5",
   "last_code_review": {
-    "sha": "534445246a1c4572961823e40ef72e7a7f5afa95",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2C0C1B_SQL15_ACTIVE_WAL_READONLY_DEV",
+    "sha": "7658ea67ffb12f37e21389346ebf4d7270536edb",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2C0C2_SQL15_JOURNALED_FIVESTORE_CUTOVER_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2C0C1B_B7_PASS_SQL15_ACTIVE_WAL_AWARE_DEV_20261126.md",
-        "blob_sha": "d92fc2cbbb198da09cd4e34906870beb1bbce736",
+        "path": "docs/v5/FARO_S4_W05_A2C0C2_B7_RED_FIX_FBS1_MANIFEST_AND_PRIOR_JOURNAL_20261126.md",
+        "blob_sha": "5654a4ce7530b3e0f3b876e33bb401f33753f2a1",
         "marker": "## B7"
       }
     ]
   },
-  "last_ci_run_id": 45907516099,
-  "last_ci_conclusion": "success",
+  "last_ci_run_id": 45916528366,
+  "last_ci_conclusion": "failure",
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "SQL15 journaled five-store cutover DEV independent B1-B5, exact3 new paths, no real stock or production",
-  "next": "C2 B6 implement journal/ticket/recovery rollback in exact3, directed CI real original XML, B7 or RED_FIX, no stock/Apply",
-  "last_guard_run_id": 45907516169,
-  "current_code_sha": "534445246a1c4572961823e40ef72e7a7f5afa95",
-  "reason": "C1B B7 PASS original XML 44/44; C2 B1-B5 preaudit guard 45908194804 success; READY exact3 new paths only"
+  "next": "same-unit RED_FIX owner+test only, guarded CI 35 original XML, then B7 PASS or another RED_FIX",
+  "last_guard_run_id": 45916527932,
+  "current_code_sha": "7658ea67ffb12f37e21389346ebf4d7270536edb",
+  "reason": "A2C0C2 B7 RED_FIX: fixture invalid FBS1 manifest SHA authority + code-review C14 pending journal ancestry; exact3 subset owner/test correction"
 }
