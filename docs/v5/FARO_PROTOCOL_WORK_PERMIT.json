@@ -70,13 +70,13 @@
   "pre_audit_guard_run_id": 46095754151,
   "pre_audit_head": "a02a1b31d04030ec72e3e74c448b3faf797ddafc",
   "last_code_review": {
-    "sha": "d47f3ce50453c828c90e5f34102ba8ebbce2b7d3",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_DEV",
+    "sha": "51d9c57aa6782eae5a662020c04c906197e785c6",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B7_PASS_20261127.md",
-        "blob_sha": "48ed1a00416d2ce077c32fb5336688af4b0a34b6",
+        "path": "docs/v5/FARO_S4_W05_A2D1B_ANDROID_BUILD_HEAP_B7_RED_FIX_20261127.md",
+        "blob_sha": "441ba553bbb87bbae05b96363600cdf6bc634a1b",
         "marker": "## B7"
       }
     ]
@@ -84,12 +84,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A2D1A B7 guard SUCCESS. A2D1B READY exact8 independently.",
-  "next": "Run exact preflight and A2D1B B6 after permit guard.",
+  "next": "RED_FIX only A2D1B workflow heap, then CI and B7.",
   "reason": "Reuse unchanged B1–B5 and pass predecessor B7.",
-  "current_code_sha": "d47f3ce50453c828c90e5f34102ba8ebbce2b7d3",
-  "last_ci_run_id": 46095352416,
-  "last_ci_conclusion": "success",
-  "last_guard_run_id": 46095352362,
+  "current_code_sha": "51d9c57aa6782eae5a662020c04c906197e785c6",
+  "last_ci_run_id": 46096130474,
+  "last_ci_conclusion": "failure",
+  "last_guard_run_id": 46096130613,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 46095754151,
