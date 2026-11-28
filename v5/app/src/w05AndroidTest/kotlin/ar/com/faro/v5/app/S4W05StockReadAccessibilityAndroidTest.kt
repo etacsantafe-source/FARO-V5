@@ -11,6 +11,7 @@ import android.widget.Button
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasScrollAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -60,10 +61,10 @@ class S4W05StockReadAccessibilityAndroidTest {
             compose.onNodeWithText("Stock", useUnmergedTree = true)
                 .assert(SemanticsMatcher.keyIsDefined(SemanticsProperties.Heading))
                 .assertIsDisplayed()
-            compose.onAllNodes(hasScrollAction())[0]
+            stockScroll()
                 .performScrollToNode(hasText("Disponible: 5 unidades"))
             compose.onNodeWithText("Disponible: 5 unidades", useUnmergedTree = true).assertIsDisplayed()
-            compose.onAllNodes(hasScrollAction())[0]
+            stockScroll()
                 .performScrollToNode(hasText("Recepción confirmada"))
             compose.onNodeWithText("Recepción confirmada", useUnmergedTree = true).assertIsDisplayed()
 
@@ -79,7 +80,7 @@ class S4W05StockReadAccessibilityAndroidTest {
             compose.onNodeWithText("Disponible: 5 unidades", useUnmergedTree = true).assertDoesNotExist()
             scenario.onActivity { clickStockEntry(it.window.decorView) }
             waitForStock("Yerba")
-            compose.onAllNodes(hasScrollAction())[0]
+            stockScroll()
                 .performScrollToNode(hasText("Disponible: 5 unidades"))
             compose.onNodeWithText("Disponible: 5 unidades", useUnmergedTree = true).assertIsDisplayed()
 
@@ -92,6 +93,10 @@ class S4W05StockReadAccessibilityAndroidTest {
             compose.onNodeWithText("Disponible: 5 unidades", useUnmergedTree = true).assertDoesNotExist()
         }
     }
+
+    private fun stockScroll() = compose.onNode(
+        hasScrollAction() and hasAnyDescendant(hasText("Stock") or hasText("Yerba") or hasText("Recepción confirmada")),
+    )
 
     private fun waitForStock(text: String) {
         compose.waitUntil(20_000) {
