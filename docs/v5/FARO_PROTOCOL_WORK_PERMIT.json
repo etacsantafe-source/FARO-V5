@@ -1,20 +1,20 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_DEV",
-  "reviewed_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
+  "status": "READY",
+  "unit_id": "S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_DEV",
+  "reviewed_head": "f489a3f7ce0743c61b739bb7dc08d2a7fa57e0c8",
   "paths": [
-    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15StockPositionProjection.kt",
-    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15StockPositionProjectionTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2d0a-stock-projection.yml"
+    "v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15DevStockReadHost.kt",
+    "v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15DevStockReadHostTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2d0b-stock-read-host.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
-          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
+          "path": "docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B1_B5_20261127.md",
+          "blob_sha": "581c78874da5e6c0c5833d7606a71fac650c82ef",
           "marker": "## B1"
         }
       ]
@@ -23,8 +23,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
-          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
+          "path": "docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B1_B5_20261127.md",
+          "blob_sha": "581c78874da5e6c0c5833d7606a71fac650c82ef",
           "marker": "## B2"
         }
       ]
@@ -33,8 +33,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
-          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
+          "path": "docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B1_B5_20261127.md",
+          "blob_sha": "581c78874da5e6c0c5833d7606a71fac650c82ef",
           "marker": "## B3"
         }
       ]
@@ -43,8 +43,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
-          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
+          "path": "docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B1_B5_20261127.md",
+          "blob_sha": "581c78874da5e6c0c5833d7606a71fac650c82ef",
           "marker": "## B4"
         }
       ]
@@ -53,14 +53,14 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D0A_SQL15_STOCK_POSITION_PROJECTION_B1_B5_20261127.md",
-          "blob_sha": "49016233aa159b81991f3745bc2333124083d5f3",
+          "path": "docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B1_B5_20261127.md",
+          "blob_sha": "581c78874da5e6c0c5833d7606a71fac650c82ef",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_XML7_OF_7"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
   "pre_audit_guard_run_id": 46050775042,
   "pre_audit_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
@@ -78,15 +78,15 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2D0A B7 PASS scoped DEV JVM. Permit consumed.",
-  "next": "Issue independent A2D0B READY after checkpoint guard.",
-  "reason": "Original JUnit XML 7/7 independently verified from artifact 15243285314.",
+  "why": "A2D0A B7 guard SUCCESS. A2D0B exact3 authorizes read-only SQL15 host, test and CI.",
+  "next": "Run exact3 preflight and A2D0B B6 under writer after permit guard.",
+  "reason": "Reuse unchanged A2D0B B1–B5, certified SQL15 inspector and real completed selection.",
   "current_code_sha": "b48243328c3224e0e99f17dffb408be7b03fe2c4",
   "last_ci_run_id": 46093923131,
   "last_ci_conclusion": "success",
   "last_guard_run_id": 46093922974,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
-  "b7_document_guard_run_id": 45954607567,
-  "b7_document_guard_conclusion": "failure_transitional_prepermit_consumption"
+  "b7_document_guard_run_id": 46094397505,
+  "b7_document_guard_conclusion": "success"
 }
