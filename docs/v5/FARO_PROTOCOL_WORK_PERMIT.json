@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV",
   "reviewed_head": "a02a1b31d04030ec72e3e74c448b3faf797ddafc",
   "paths": [
@@ -64,19 +64,19 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_XML4_OF_4"
   },
   "pre_audit_guard_run_id": 46095754151,
   "pre_audit_head": "a02a1b31d04030ec72e3e74c448b3faf797ddafc",
   "last_code_review": {
-    "sha": "f9cdb366a042014c8686688cb9ee2eed84528488",
-    "result": "RED_FIX",
+    "sha": "98ddb9ce3efe037b9959045afe44bc921d196705",
+    "result": "PASS",
     "unit_id": "S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2D1B_ANDROID_SCROLL_B7_RED_FIX_20261128.md",
-        "blob_sha": "709dc312846af4227b3708bdf4cc7dc46a81cfb5",
+        "path": "docs/v5/FARO_S4_W05_A2D1B_B7_PASS_20261128.md",
+        "blob_sha": "99dc2c23a108090d739b8e2e77dca95e35fa4cbd",
         "marker": "## B7"
       }
     ]
@@ -84,12 +84,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A2D1A B7 guard SUCCESS. A2D1B READY exact8 independently.",
-  "next": "A2D1B B6 fixture-only Compose scroll selector, actual API35 CI and B7.",
+  "next": "A2D2: issue independent exact2 READY after this checkpoint guard; validate global DEV.",
   "reason": "Reuse unchanged B1–B5 and pass predecessor B7.",
-  "current_code_sha": "f9cdb366a042014c8686688cb9ee2eed84528488",
-  "last_ci_run_id": 46116916162,
-  "last_ci_conclusion": "failure",
-  "last_guard_run_id": 46116916256,
+  "current_code_sha": "98ddb9ce3efe037b9959045afe44bc921d196705",
+  "last_ci_run_id": 46117621174,
+  "last_ci_conclusion": "success",
+  "last_guard_run_id": 46117621170,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 46095754151,
