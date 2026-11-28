@@ -63,7 +63,9 @@ jobs:
       - name: Run binding contract and build isolated APKs
         working-directory: v5
         run: |
-          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8" \
             -PfaroW05AndroidTest=true :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest \
             :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.S4W05StockReadDevBindingTest
       - name: Enable emulator KVM
@@ -82,7 +84,9 @@ jobs:
             adb shell settings put system font_scale 2.0;
             test "$(adb shell settings get system font_scale | tr -d "\r")" = 2.0;
             cd v5;
-            ./gradlew --offline --no-daemon --max-workers=2 --no-parallel --no-configuration-cache
+            ./gradlew --offline --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8"
             -PfaroW05AndroidTest=true
             -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W05StockReadAccessibilityAndroidTest
             :app:connectedV2CoreDevAndroidTest
