@@ -1,20 +1,25 @@
 {
   "schema": 1,
-  "status": "BLOCKED",
-  "unit_id": "S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_DEV",
-  "reviewed_head": "3b6c44a496e838f216a5ee9317a7e4563d40ef94",
+  "status": "READY",
+  "unit_id": "S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV",
+  "reviewed_head": "a02a1b31d04030ec72e3e74c448b3faf797ddafc",
   "paths": [
-    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5StockReadSurface.kt",
-    "v5/surface/src/test/kotlin/ar/com/faro/v5/surface/FaroV5StockReadSurfaceContractTest.kt",
-    ".github/workflows/faro-v5-s4-w05-a2d1a-stock-presentation.yml"
+    "v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBinding.kt",
+    "v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBindingTest.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt",
+    "v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt",
+    "v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt",
+    "v5/app/build.gradle.kts",
+    "v5/app/src/w05AndroidTest/kotlin/ar/com/faro/v5/app/S4W05StockReadAccessibilityAndroidTest.kt",
+    ".github/workflows/faro-v5-s4-w05-a2d1b-stock-android-dev.yml"
   ],
   "stages": {
     "B1": {
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B1_B5_20261127.md",
-          "blob_sha": "769da11f15ec508804f4dd89201b9c19932e3f50",
+          "path": "docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md",
+          "blob_sha": "e868d2047ced24ced7dd2054b2dae2169fafdf04",
           "marker": "## B1"
         }
       ]
@@ -23,8 +28,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B1_B5_20261127.md",
-          "blob_sha": "769da11f15ec508804f4dd89201b9c19932e3f50",
+          "path": "docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md",
+          "blob_sha": "e868d2047ced24ced7dd2054b2dae2169fafdf04",
           "marker": "## B2"
         }
       ]
@@ -33,8 +38,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B1_B5_20261127.md",
-          "blob_sha": "769da11f15ec508804f4dd89201b9c19932e3f50",
+          "path": "docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md",
+          "blob_sha": "e868d2047ced24ced7dd2054b2dae2169fafdf04",
           "marker": "## B3"
         }
       ]
@@ -43,8 +48,8 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B1_B5_20261127.md",
-          "blob_sha": "769da11f15ec508804f4dd89201b9c19932e3f50",
+          "path": "docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md",
+          "blob_sha": "e868d2047ced24ced7dd2054b2dae2169fafdf04",
           "marker": "## B4"
         }
       ]
@@ -53,17 +58,17 @@
       "status": "VERIFIED",
       "evidence": [
         {
-          "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B1_B5_20261127.md",
-          "blob_sha": "769da11f15ec508804f4dd89201b9c19932e3f50",
+          "path": "docs/v5/FARO_S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_B1_B5_20261127.md",
+          "blob_sha": "e868d2047ced24ced7dd2054b2dae2169fafdf04",
           "marker": "## B5"
         }
       ]
     },
-    "B6": "DONE_VERIFIED",
-    "B7": "PASS_SCOPED_DEV_XML5_OF_5"
+    "B6": "READY_TO_IMPLEMENT",
+    "B7": "PENDING_FINAL_AUDIT"
   },
-  "pre_audit_guard_run_id": 46050775042,
-  "pre_audit_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
+  "pre_audit_guard_run_id": 46095754151,
+  "pre_audit_head": "a02a1b31d04030ec72e3e74c448b3faf797ddafc",
   "last_code_review": {
     "sha": "d47f3ce50453c828c90e5f34102ba8ebbce2b7d3",
     "result": "PASS",
@@ -78,15 +83,15 @@
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2D1A B7 PASS isolated DEV. Permit consumed.",
-  "next": "A2D1B DEV launcher scope delta exact8; issue standalone READY after this checkpoint guard.",
-  "reason": "Original JUnit artifact XML verified.",
+  "why": "A2D1A B7 guard SUCCESS. A2D1B READY exact8 independently.",
+  "next": "Run exact preflight and A2D1B B6 after permit guard.",
+  "reason": "Reuse unchanged B1–B5 and pass predecessor B7.",
   "current_code_sha": "d47f3ce50453c828c90e5f34102ba8ebbce2b7d3",
   "last_ci_run_id": 46095352416,
   "last_ci_conclusion": "success",
   "last_guard_run_id": 46095352362,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
-  "b7_document_guard_run_id": 46095122047,
+  "b7_document_guard_run_id": 46095754151,
   "b7_document_guard_conclusion": "success"
 }
