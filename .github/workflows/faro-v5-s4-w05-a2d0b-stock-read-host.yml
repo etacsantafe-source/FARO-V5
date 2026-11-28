@@ -1,0 +1,78 @@
+name: FARO V5 W05-A2D0B SQL15 stock read host DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/store/generation/src/main/kotlin/ar/com/faro/v5/generation/FaroV5Household15DevStockReadHost.kt
+      - v5/store/generation/src/test/kotlin/ar/com/faro/v5/generation/FaroV5Household15DevStockReadHostTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2d0b-stock-read-host.yml
+
+permissions:
+  contents: read
+
+jobs:
+  sql15-stock-read-host:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact3 scope and parent protocol preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#allowed[@]}" -eq 3
+          # Original B6 exact3 remains preaudited; same-unit RED_FIX is a
+          # nonempty strict subset, never new paths or a fake three-file diff.
+          test "${#changed[@]}" -gt 0
+          test -z "$(comm -23 <(printf '%s\n' "${changed[@]}") <(printf '%s\n' "${allowed[@]}"))"
+          args=()
+          for path in "${changed[@]}"; do args+=(--path "$path"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Test isolated ACTIVE SQL15 stock read host
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household15DevStockReadHostTest
+      - name: Verify original JUnit XML
+        run: |
+          python3 - <<'PYTEST'
+          from pathlib import Path
+          from xml.etree import ElementTree
+          reports = list(Path('v5/store/generation/build/test-results/test').glob(
+              'TEST-*FaroV5Household15DevStockReadHostTest.xml'))
+          assert len(reports) == 1, reports
+          suite = ElementTree.parse(reports[0]).getroot()
+          assert tuple(int(suite.attrib[key]) for key in ('tests','failures','errors','skipped')) == (6,0,0,0)
+          assert len(suite.findall('testcase')) == 6
+          assert len({case.attrib['name'] for case in suite.findall('testcase')}) == 6
+          PYTEST
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w05-a2d0b-sql15-stock-read-host-xml
+          if-no-files-found: error
+          path: v5/store/generation/build/test-results/test/TEST-*FaroV5Household15DevStockReadHostTest.xml
