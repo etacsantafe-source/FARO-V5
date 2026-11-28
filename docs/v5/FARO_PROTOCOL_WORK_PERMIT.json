@@ -70,13 +70,13 @@
   "pre_audit_guard_run_id": 46095754151,
   "pre_audit_head": "a02a1b31d04030ec72e3e74c448b3faf797ddafc",
   "last_code_review": {
-    "sha": "292375db037b3d4f4268fccd924e20b6d4e9e34d",
+    "sha": "f9cdb366a042014c8686688cb9ee2eed84528488",
     "result": "RED_FIX",
     "unit_id": "S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2D1B_ANDROID_SQLITE_OPEN_B7_RED_FIX_20261128.md",
-        "blob_sha": "57efbf407111e456137bf64b5d6b0fa5bfedce58",
+        "path": "docs/v5/FARO_S4_W05_A2D1B_ANDROID_SCROLL_B7_RED_FIX_20261128.md",
+        "blob_sha": "709dc312846af4227b3708bdf4cc7dc46a81cfb5",
         "marker": "## B7"
       }
     ]
@@ -84,12 +84,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A2D1A B7 guard SUCCESS. A2D1B READY exact8 independently.",
-  "next": "A2D1B B6 test-only canonical private root, then CI API35 and B7.",
+  "next": "A2D1B B6 fixture-only Compose scroll selector, actual API35 CI and B7.",
   "reason": "Reuse unchanged B1–B5 and pass predecessor B7.",
-  "current_code_sha": "292375db037b3d4f4268fccd924e20b6d4e9e34d",
-  "last_ci_run_id": 46097302050,
+  "current_code_sha": "f9cdb366a042014c8686688cb9ee2eed84528488",
+  "last_ci_run_id": 46116916162,
   "last_ci_conclusion": "failure",
-  "last_guard_run_id": 46097302008,
+  "last_guard_run_id": 46116916256,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 46095754151,
