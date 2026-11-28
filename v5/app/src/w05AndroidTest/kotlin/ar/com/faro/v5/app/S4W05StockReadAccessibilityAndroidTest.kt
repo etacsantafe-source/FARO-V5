@@ -48,7 +48,7 @@ class S4W05StockReadAccessibilityAndroidTest {
         assertEquals(2f, context.resources.configuration.fontScale, 0.01f)
         assertFalse(context.packageManager.getPackageInfo(context.packageName, android.content.pm.PackageManager.GET_PERMISSIONS)
             .requestedPermissions.orEmpty().contains("android.permission.INTERNET"))
-        val root = context.noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root")
+        val root = context.noBackupFilesDir.toPath().toRealPath().resolve("faro-v2-core-dev-root")
         assertFalse("CI fixture requires a fresh isolated app", Files.exists(root))
         prepareSelectedLedger(context)
 
@@ -115,7 +115,7 @@ class S4W05StockReadAccessibilityAndroidTest {
 
     /** SQL15 fixture with the same package/UID principal and real completion reader format. */
     private fun prepareSelectedLedger(context: Context) {
-        val root = context.noBackupFilesDir.toPath().resolve("faro-v2-core-dev-root")
+        val root = context.noBackupFilesDir.toPath().toRealPath().resolve("faro-v2-core-dev-root")
         val pointer = FileActiveGenerationPointer(root)
         val gate = SingleProcessMaterialWriteGate()
         val original = checkNotNull(pointer.compareAndSet(null, StorageGenerationId("android-stock-origin")))
