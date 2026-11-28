@@ -56,3 +56,24 @@ Agregar prueba de que `FaroV5CompositionRoot` jamás entrega snapshot de V2CoreD
 Puertas globales obligatorias: `main`, V4.4, S2 y A2A/B/C certificados intactos; inventario productivo, pagos, V2 productiva, FARO Auto/Noche OFF; sin Internet ni APIs pagas; no importación de legacy. `stock.consume` y `undo.execute` son mutaciones con grants distintos y no las concede ningún botón de lectura; snapshot = Evidence de lectura de Reality **solo** con procedencia y pointer completo, nunca se convierte en Apply. Todo B6 exige writer CAS nuevo, permiso READY individual con rutas exactas, guardia documental y de permiso SUCCESS y preflight local sobre el parent. Los tests/CI/XML deben verificarse por SHA, cada B7 debe consumir permiso y writer RELEASED antes de pasar a la siguiente unidad.
 
 **Gate de salida del pretrabajo:** B1–B5 guardia documental SUCCESS, fuente HEAD revisada y preflight/READY propios; B6 y B7 reservados a Work. El PASS de B1–B5 no es el PASS de producto.
+
+## Delta B1–B5 · Entrada Android realmente aislada
+
+**B1. Evidencia.** El manifest `v5/app/src/v2CoreDev/AndroidManifest.xml` (blob `97a23a12983f1a6e9ac973a4b4948142d477c439`) elimina `FaroV5BootstrapActivity` y selecciona `FaroV5V2CoreDevActivity` con `FaroV5V2CoreDevApplication`. Ambas clases están en `v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt` (blob `72dd5a4ac99c26298386a4646d9ad083ba64c182`). La Activity real define el root privado `faro-v2-core-dev-root`, sesiones/pausa y el montaje de Compose. El `FaroV5CompositionRoot.java` de la segunda pasada sigue siendo el dueño de la app habitual y no se instancia en este APK.
+
+**B2. Reutilización.** Usar `FaroV5W05StockPanelPolicy` (blob `ff86816f2b01992e0697dda778cbbba22b1e69ea`) para los dos package IDs DEV exactos, el UID y el principal estable que ya utiliza la recepción W05. Conservar el root, los controles y el entrypoint habitual. Reusar A2D0B con el ticket auténtico y A2D1A con sus estados tipados.
+
+**B3. Alternativas.** Se aplica la investigación Android lifecycle/Compose ya documentada. El binding desde BootstrapActivity o CompositionRoot no ejecutaría en el APK DEV. El cambio de manifest para reintroducirlos amplía indebidamente el alcance. La entrada directa de la Activity DEV ya existente conserva el aislamiento y permite medir el flujo real en emulador.
+
+**B4. Scope vigente exact8.** Se añade la Activity DEV a las diez candidatas anteriores y se dejan fuera del permiso las tres clases Java de la app habitual. Solo se autorizan estas ocho rutas:
+
+1. `v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBinding.kt`
+2. `v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBindingTest.kt`
+3. `v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt`
+4. `v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt`
+5. `v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt`
+6. `v5/app/build.gradle.kts`
+7. `v5/app/src/w05AndroidTest/kotlin/ar/com/faro/v5/app/S4W05StockReadAccessibilityAndroidTest.kt`
+8. `.github/workflows/faro-v5-s4-w05-a2d1b-stock-android-dev.yml`
+
+**B5. Auditoría antes de código.** La entrada explícita en foreground se monta en el destino SmartCompra del shell DEV existente, con grant local de stock, principal del UID real y selección SQL15 completa. Mantener lectura asíncrona, revocar y limpiar en pausa/cambio de pointer (full sequence, incluido ABA), sin cantidades guardadas en bundle. El estado sin ticket/owner válido debe ser legible y redactado. Confirmar la ruta del APK v2CoreDev, XML original, fuente 200%, scroll, semántica y rotación en API35. G15 físico y TalkBack físico siguen NOT_RUN.

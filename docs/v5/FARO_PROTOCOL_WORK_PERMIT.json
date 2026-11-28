@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "status": "READY",
+  "status": "BLOCKED",
   "unit_id": "S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_DEV",
   "reviewed_head": "3b6c44a496e838f216a5ee9317a7e4563d40ef94",
   "paths": [
@@ -59,32 +59,32 @@
         }
       ]
     },
-    "B6": "READY_TO_IMPLEMENT",
-    "B7": "PENDING_FINAL_AUDIT"
+    "B6": "DONE_VERIFIED",
+    "B7": "PASS_SCOPED_DEV_XML5_OF_5"
   },
   "pre_audit_guard_run_id": 46050775042,
   "pre_audit_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
   "last_code_review": {
-    "sha": "05d20d79fad0ed9ccd95206c6d08526d9f99de07",
+    "sha": "d47f3ce50453c828c90e5f34102ba8ebbce2b7d3",
     "result": "PASS",
-    "unit_id": "S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_DEV",
+    "unit_id": "S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2D0B_SQL15_ACTIVE_STOCK_READ_HOST_B7_PASS_20261127.md",
-        "blob_sha": "e6805ce43fe2308f1e05e54fa693e43d40323eb5",
+        "path": "docs/v5/FARO_S4_W05_A2D1A_STOCK_ACCESSIBLE_PRESENTATION_B7_PASS_20261127.md",
+        "blob_sha": "48ed1a00416d2ce077c32fb5336688af4b0a34b6",
         "marker": "## B7"
       }
     ]
   },
   "productive_v2_enabled": false,
   "no_auto_night": true,
-  "why": "A2D0B B7 guard SUCCESS. A2D1A READY exact3 independently.",
-  "next": "Run exact preflight and A2D1A B6 after permit guard.",
-  "reason": "Reuse unchanged B1–B5 and pass predecessor B7.",
-  "current_code_sha": "05d20d79fad0ed9ccd95206c6d08526d9f99de07",
-  "last_ci_run_id": 46094672844,
+  "why": "A2D1A B7 PASS isolated DEV. Permit consumed.",
+  "next": "A2D1B DEV launcher scope delta exact8; issue standalone READY after this checkpoint guard.",
+  "reason": "Original JUnit artifact XML verified.",
+  "current_code_sha": "d47f3ce50453c828c90e5f34102ba8ebbce2b7d3",
+  "last_ci_run_id": 46095352416,
   "last_ci_conclusion": "success",
-  "last_guard_run_id": 46094672665,
+  "last_guard_run_id": 46095352362,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 46095122047,
