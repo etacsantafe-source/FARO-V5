@@ -33,9 +33,6 @@ class S4W05StockReadGlobalDevAcceptanceTest {
 
     private data class Frame(
         val id: String,
-        val receipts: Household11ReceiptBackupSection,
-        val reservations: List<Household14ReservationBackupRow>,
-        val consumptions: List<Household15ConsumptionBackupRow>,
         val position: FaroV5StockUiPosition,
         val history: List<FaroV5StockUiMovement>,
     )
@@ -46,11 +43,43 @@ class S4W05StockReadGlobalDevAcceptanceTest {
         val passphrase = "a2d2-isolated-fixture".toCharArray()
         val frames = frames()
         val staged = try {
-            val base = captureBase(origin, passphrase)
+            val archivedBase = captureBase(origin, passphrase)
+            val openedBase = crypto.openWithHouseholdEvidence2(archivedBase, passphrase)
+            val base = when (val result = openedBase) {
+                is FiveStoreAuthenticatedPayload.Opened -> result.payload
+                is FiveStoreAuthenticatedPayload.Rejected -> error(result.reason)
+            }
+            val noReceipt = Household11ReceiptBackupSection(0, emptyList())
+            val receipt = Household11ReceiptBackupSection(1, listOf(
+                Household11ReceiptBackupRow("receipt", "i-receipt", "purchase", item, 7_000, "UNIT", 0, 20, 1),
+            ))
+            val reserve = Household14ReservationBackupRow(
+                "reserve", "i-reserve", Household14ReservationEventType.RESERVE,
+                "reserve", item, "UNIT", 2_000, grant.principal, 21, 2,
+            )
+            val consume = Household15ConsumptionBackupRow(
+                "consume", "i-consume", Household15ConsumptionEventType.CONSUME, "consume",
+                item, "UNIT", 1_000, grant.principal, "manual-use", null, 30, 31, 3,
+            )
+            val undo = consume.copy(eventId = "undo", intentKey = "i-undo",
+                type = Household15ConsumptionEventType.CONSUME_UNDO, occurredAtMs = 40, recordedAtMs = 41, revision = 4)
+            val release = reserve.copy(eventId = "release", intentKey = "i-release",
+                type = Household14ReservationEventType.RELEASE, recordedAtMs = 51, revision = 5)
             val replay = FaroV5Household15V12StagedReplay(root, quiescence, {})
             frames.map { frame ->
+                val receiptSection = if (frame.id == "purchase-only") noReceipt else receipt
+                val reservations = when (frame.id) {
+                    "purchase-only" -> emptyList()
+                    "released" -> listOf(reserve, release)
+                    else -> listOf(reserve)
+                }
+                val consumptions = when (frame.id) {
+                    "consumed" -> listOf(consume)
+                    "undone", "released" -> listOf(consume, undo)
+                    else -> emptyList()
+                }
                 val history = FaroV5Household13Fbs2Snapshot(
-                    FaroV5Household11Fbs2Snapshot(base, frame.receipts),
+                    FaroV5Household11Fbs2Snapshot(base, receiptSection),
                     listOf(Household12PurchaseBackupRow(
                         "purchase", item, 10_000, "UNIT", grant.principal, 1, "MANUAL_EXPLICIT", 1,
                     )),
@@ -58,7 +87,7 @@ class S4W05StockReadGlobalDevAcceptanceTest {
                 )
                 val archive = crypto.sealWithHouseholdConsumption15(
                     FaroV5Household15Fbs2Snapshot(
-                        FaroV5Household14Fbs2Snapshot(history, frame.reservations), frame.consumptions,
+                        FaroV5Household14Fbs2Snapshot(history, reservations), consumptions,
                     ),
                     passphrase,
                 )
@@ -103,33 +132,17 @@ class S4W05StockReadGlobalDevAcceptanceTest {
     }
 
     private fun frames(): List<Frame> {
-        val noReceipt = Household11ReceiptBackupSection(0, emptyList())
-        val receipt = Household11ReceiptBackupSection(1, listOf(
-            Household11ReceiptBackupRow("receipt", "i-receipt", "purchase", item, 7_000, "UNIT", 0, 20, 1),
-        ))
-        val reserve = Household14ReservationBackupRow(
-            "reserve", "i-reserve", Household14ReservationEventType.RESERVE,
-            "reserve", item, "UNIT", 2_000, grant.principal, 21, 2,
-        )
-        val consume = Household15ConsumptionBackupRow(
-            "consume", "i-consume", Household15ConsumptionEventType.CONSUME, "consume",
-            item, "UNIT", 1_000, grant.principal, "manual-use", null, 30, 31, 3,
-        )
-        val undo = consume.copy(eventId = "undo", intentKey = "i-undo",
-            type = Household15ConsumptionEventType.CONSUME_UNDO, occurredAtMs = 40, recordedAtMs = 41, revision = 4)
-        val release = reserve.copy(eventId = "release", intentKey = "i-release",
-            type = Household14ReservationEventType.RELEASE, recordedAtMs = 51, revision = 5)
         fun position(physical: Long, reserved: Long, consumed: Long, pending: Long = 3_000) =
             FaroV5StockUiPosition(item, FaroV5StockUiUnit.UNIT, physical, reserved, consumed, pending)
         val reserved = listOf(FaroV5StockUiMovement.RESERVE, FaroV5StockUiMovement.RECEIPT)
         val consumed = listOf(FaroV5StockUiMovement.CONSUME) + reserved
         val undone = listOf(FaroV5StockUiMovement.CONSUME_UNDO) + consumed
         return listOf(
-            Frame("purchase-only", noReceipt, emptyList(), emptyList(), position(0, 0, 0, 10_000), emptyList()),
-            Frame("reserved", receipt, listOf(reserve), emptyList(), position(7_000, 2_000, 0), reserved),
-            Frame("consumed", receipt, listOf(reserve), listOf(consume), position(6_000, 2_000, 1_000), consumed),
-            Frame("undone", receipt, listOf(reserve), listOf(consume, undo), position(7_000, 2_000, 0), undone),
-            Frame("released", receipt, listOf(reserve, release), listOf(consume, undo), position(7_000, 0, 0),
+            Frame("purchase-only", position(0, 0, 0, 10_000), emptyList()),
+            Frame("reserved", position(7_000, 2_000, 0), reserved),
+            Frame("consumed", position(6_000, 2_000, 1_000), consumed),
+            Frame("undone", position(7_000, 2_000, 0), undone),
+            Frame("released", position(7_000, 0, 0),
                 listOf(FaroV5StockUiMovement.RELEASE) + undone),
         )
     }
@@ -149,19 +162,15 @@ class S4W05StockReadGlobalDevAcceptanceTest {
         return stage
     }
 
-    private fun captureBase(origin: ActiveGenerationPointer, passphrase: CharArray): FaroV5Household10Fbs2Snapshot {
+    private fun captureBase(origin: ActiveGenerationPointer, passphrase: CharArray): ByteArray {
         val source = stage("archive-source", origin)
         RealityHousehold10StagedFilePort.migrateTrustedStagedNine(
             source.directory.resolve(GenerationStoreFiles.REALITY),
         )
-        val archive = FaroV5Household10ArchiveCoordinator(root, quiescence, {}).captureAuthenticatedEvidence2(
+        return FaroV5Household10ArchiveCoordinator(root, quiescence, {}).captureAuthenticatedEvidence2(
             MaintenanceOperationId("d2-capture"), BackupSetId("d2-stock-history"), source, origin,
             "5.0-dev", 3_000, passphrase,
         )
-        return when (val result = crypto.openWithHouseholdEvidence2(archive, passphrase)) {
-            is FiveStoreAuthenticatedPayload.Opened -> result.payload
-            is FiveStoreAuthenticatedPayload.Rejected -> error(result.reason)
-        }
     }
 
     // Replay creates the verified staged database. These records model completed selection for
