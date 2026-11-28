@@ -64,13 +64,13 @@
   "pre_audit_guard_run_id": 46050775042,
   "pre_audit_head": "5b3059f3b06062b8313ea132cf55c877c2d8cd48",
   "last_code_review": {
-    "sha": "98ddb9ce3efe037b9959045afe44bc921d196705",
-    "result": "PASS",
-    "unit_id": "S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV",
+    "sha": "5a873bcea56f920b59e88909100cecbe1db3e4a7",
+    "result": "RED_FIX",
+    "unit_id": "S4_W05_A2D2_GLOBAL_STOCK_READ_ACCEPTANCE_DEV",
     "evidence": [
       {
-        "path": "docs/v5/FARO_S4_W05_A2D1B_B7_PASS_20261128.md",
-        "blob_sha": "99dc2c23a108090d739b8e2e77dca95e35fa4cbd",
+        "path": "docs/v5/FARO_S4_W05_A2D2_B7_REDFIX_FIXTURE_TYPES_20261128.md",
+        "blob_sha": "877ee24891a5a9cf7533864dd63da3308de679bd",
         "marker": "## B7"
       }
     ]
@@ -78,12 +78,12 @@
   "productive_v2_enabled": false,
   "no_auto_night": true,
   "why": "A2D1B B7 PASS; A2D2 scope exact2 preaudited.",
-  "next": "Execute A2D2 B6 on exact two routes after permit guard, independently verify same-SHA XML/APK.",
+  "next": "A2D2 B6 RED_FIX test-only internal snapshot signatures, exact CI and B7.",
   "reason": "Reuse existing A2D2 B1–B5 after verified predecessor B7.",
-  "current_code_sha": "98ddb9ce3efe037b9959045afe44bc921d196705",
-  "last_ci_run_id": 46117621174,
-  "last_ci_conclusion": "success",
-  "last_guard_run_id": 46117621170,
+  "current_code_sha": "5a873bcea56f920b59e88909100cecbe1db3e4a7",
+  "last_ci_run_id": 46118498085,
+  "last_ci_conclusion": "failure",
+  "last_guard_run_id": 46118498033,
   "last_guard_conclusion": "success",
   "last_guard_diagnosis": "A2C1 global single workflow B6 340e0898 guard 45982428504 SUCCESS, CI 45982428740 SUCCESS, original XML56, isolated V2CoreDev APK, ZIP artifact 15190402388.",
   "b7_document_guard_run_id": 46118226021,
