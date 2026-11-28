@@ -1,0 +1,154 @@
+name: FARO V5 W05-A2D2 global stock read acceptance DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReadGlobalDevAcceptanceTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2d2-global-read-acceptance.yml
+
+permissions:
+  contents: read
+
+jobs:
+  global-stock-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact2 scope and parent protocol preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2D2_GLOBAL_STOCK_READ_ACCEPTANCE_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#allowed[@]}" -eq 2
+          test "${#changed[@]}" -gt 0
+          test -z "$(comm -23 <(printf '%s\n' "${changed[@]}") <(printf '%s\n' "${allowed[@]}"))"
+          args=()
+          for path in "${changed[@]}"; do args+=(--path "$path"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+          cache-dependency-path: |
+            v5/gradle/wrapper/gradle-wrapper.properties
+            v5/gradle/libs.versions.toml
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run same-SHA stock, restore, Apply and presentation suites and build APKs
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache \
+            -Pkotlin.compiler.execution.strategy=in-process \
+            "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8" \
+            -PfaroW05AndroidTest=true \
+            :store:generation:test \
+            --tests ar.com.faro.v5.generation.FaroV5Household15StockPositionProjectionTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household15DevStockReadHostTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household15Evidence2DevJournaledCutoverTest \
+            --tests ar.com.faro.v5.generation.FaroV5Household15V12StagedReplayTest \
+            :surface:testDebugUnitTest \
+            --tests ar.com.faro.v5.surface.FaroV5StockReadSurfaceContractTest \
+            :app:testV2CoreDevUnitTest \
+            --tests ar.com.faro.v5.app.S4W05StockReadDevBindingTest \
+            --tests ar.com.faro.v5.app.S4W05StockConsumptionDevApplyHostTest \
+            --tests ar.com.faro.v5.app.S4W05StockConsumptionUndoDevApplyHostTest \
+            --tests ar.com.faro.v5.app.S4W05StockReservationGlobalDevAcceptanceTest \
+            --tests ar.com.faro.v5.app.S4W05StockReadGlobalDevAcceptanceTest \
+            :app:assembleV2CoreDev \
+            :app:assembleV2CoreDevAndroidTest
+      - name: Enable emulator KVM
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Run isolated SmartCompra on API35 with font scale 200 percent
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            adb shell settings put system font_scale 2.0;
+            test "$(adb shell settings get system font_scale | tr -d "\r")" = 2.0;
+            cd v5;
+            ./gradlew --no-daemon --max-workers=1 --no-parallel --no-configuration-cache
+            -Pkotlin.compiler.execution.strategy=in-process
+            "-Dorg.gradle.jvmargs=-Xmx4096m -XX:MaxMetaspaceSize=1024m -Dfile.encoding=UTF-8"
+            -PfaroW05AndroidTest=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W05StockReadAccessibilityAndroidTest
+            :app:connectedV2CoreDevAndroidTest
+            '
+      - name: Verify original JUnit XML and isolated APK
+        run: |
+          set -euo pipefail
+          python3 - <<'PYTEST'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          roots = [
+              Path('v5/store/generation/build/test-results/test'),
+              Path('v5/surface/build/test-results/testDebugUnitTest'),
+              Path('v5/app/build/test-results/testV2CoreDevUnitTest'),
+              Path('v5/app/build/outputs/androidTest-results'),
+          ]
+          expected = {'FaroV5Household15StockPositionProjectionTest': 7, 'FaroV5Household15DevStockReadHostTest': 6, 'FaroV5Household15Evidence2DevJournaledCutoverTest': 9, 'FaroV5Household15V12StagedReplayTest': 15, 'FaroV5StockReadSurfaceContractTest': 5, 'S4W05StockReadDevBindingTest': 3, 'S4W05StockConsumptionDevApplyHostTest': 5, 'S4W05StockConsumptionUndoDevApplyHostTest': 8, 'S4W05StockReservationGlobalDevAcceptanceTest': 2, 'S4W05StockReadGlobalDevAcceptanceTest': 1, 'S4W05StockReadAccessibilityAndroidTest': 1}
+          cases = set()
+          totals = {}
+          for path in (file for root in roots for file in root.rglob('TEST-*.xml')):
+              report = ET.parse(path).getroot()
+              for suite in report.iter('testsuite'):
+                  assert all(int(suite.get(k, '0')) == 0 for k in ('failures', 'errors', 'skipped')), path
+              for entry in report.iter('testcase'):
+                  cls = entry.attrib['classname']
+                  name = cls.rsplit('.', 1)[-1]
+                  key = (cls, entry.attrib['name'])
+                  assert key not in cases and name in expected, key
+                  assert all(entry.find(k) is None for k in ('failure', 'error', 'skipped')), key
+                  cases.add(key)
+                  totals[name] = totals.get(name, 0) + 1
+          assert totals == expected, totals
+          print(f'FARO_W05_A2D2_XML_PASS: {len(cases)} unique cases')
+          PYTEST
+          apk="$(find v5/app/build/outputs/apk/v2CoreDev -maxdepth 1 -name '*.apk' -type f -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" > /tmp/faro-stock-apk-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path("/tmp/faro-stock-apk-badging.txt").read_text()
+          assert "package: name='ar.com.faro.alpha.v2coredev'" in text
+          assert text.count("launchable-activity:") == 1
+          assert "launchable-activity: name='ar.com.faro.v5.app.FaroV5V2CoreDevActivity'" in text
+          for name in ("INTERNET", "ACCESS_NETWORK_STATE", "POST_NOTIFICATIONS", "SCHEDULE_EXACT_ALARM",
+                       "RECEIVE_BOOT_COMPLETED", "WAKE_LOCK"):
+              assert "android.permission." + name not in text, name
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w05-a2d2-global-stock-read-xml-apk
+          if-no-files-found: error
+          path: |
+            v5/store/generation/build/test-results/test/TEST-*.xml
+            v5/surface/build/test-results/testDebugUnitTest/TEST-*.xml
+            v5/app/build/test-results/testV2CoreDevUnitTest/TEST-*.xml
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/v2CoreDev/*.apk
