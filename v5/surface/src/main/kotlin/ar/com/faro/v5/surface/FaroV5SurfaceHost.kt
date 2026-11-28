@@ -4,6 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import kotlinx.coroutines.flow.StateFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import android.view.View
@@ -42,11 +44,14 @@ object FaroV5SurfaceHost {
         reviewDisclosureMode: FaroV5ReviewDisclosureMode = FaroV5ReviewDisclosureMode.LEGACY_EXPANDED,
         objectivesViewFactory: ((openChat: () -> Unit) -> View)? = null,
         mattersViewFactory: ((openChat: () -> Unit) -> View)? = null,
+        stockReadState: StateFlow<FaroV5StockUiState>? = null,
     ) {
         activity.setContent {
             androidx.compose.runtime.CompositionLocalProvider(LocalFaroV5BookmarkChatActions provides bookmarkChatActions) {
             FaroV5Theme {
-                val backStack = rememberFaroV5ShellBackStack()
+                val backStack = rememberFaroV5ShellBackStack(
+                    if (stockReadState == null) FaroV5ShellDestination.CHAT else FaroV5ShellDestination.SMART_COMPRA,
+                )
                 val objectivesReviewRefresh = remember { mutableIntStateOf(0) }
                 val currentReviewPort = remember(reviewPort, objectivesReviewRefresh.intValue) {
                     if (objectivesReviewRefresh.intValue == 0) reviewPort
@@ -55,7 +60,9 @@ object FaroV5SurfaceHost {
                 FaroV5AdaptiveShell(
                     backStack = backStack,
                     destinationContent = { destination ->
-                        if (destination == FaroV5ShellDestination.OBJETIVOS && objectivesViewFactory != null) {
+                        if (destination == FaroV5ShellDestination.SMART_COMPRA && stockReadState != null) {
+                            FaroV5StockReadSurface(stockReadState.collectAsState().value)
+                        } else if (destination == FaroV5ShellDestination.OBJETIVOS && objectivesViewFactory != null) {
                             AndroidView(
                                 factory = {
                                     objectivesViewFactory {

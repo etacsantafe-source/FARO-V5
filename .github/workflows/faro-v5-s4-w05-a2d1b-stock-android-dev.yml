@@ -1,0 +1,130 @@
+name: FARO V5 W05-A2D1B isolated Android stock binding DEV
+
+on:
+  push:
+    branches: [work/s3-night-20261102]
+    paths:
+      - v5/app/src/main/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBinding.kt
+      - v5/app/src/test/kotlin/ar/com/faro/v5/app/S4W05StockReadDevBindingTest.kt
+      - v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5SurfaceHost.kt
+      - v5/surface/src/main/kotlin/ar/com/faro/v5/surface/FaroV5ShellNavigation.kt
+      - v5/app/src/v2CoreDev/kotlin/ar/com/faro/v5/app/FaroV5V2CoreDevActivity.kt
+      - v5/app/build.gradle.kts
+      - v5/app/src/w05AndroidTest/kotlin/ar/com/faro/v5/app/S4W05StockReadAccessibilityAndroidTest.kt
+      - .github/workflows/faro-v5-s4-w05-a2d1b-stock-android-dev.yml
+
+permissions:
+  contents: read
+
+jobs:
+  stock-android-binding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify exact8 scope and parent protocol preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          unit=S4_W05_A2D1B_SMARTCOMPRA_ANDROID_READ_BINDING_DEV
+          permit=docs/v5/FARO_PROTOCOL_WORK_PERMIT.json
+          mapfile -t allowed < <(git show "HEAD^:$permit" | jq -r '.paths[]' | sort)
+          mapfile -t changed < <(git diff --name-only --no-renames HEAD^ HEAD | sort)
+          test "${#allowed[@]}" -eq 8
+          # Original B6 exact8 remains preaudited; same-unit RED_FIX is a
+          # nonempty strict subset, never new paths or a fake eight-file diff.
+          test "${#changed[@]}" -gt 0
+          test -z "$(comm -23 <(printf '%s\n' "${changed[@]}") <(printf '%s\n' "${allowed[@]}"))"
+          args=()
+          for path in "${changed[@]}"; do args+=(--path "$path"); done
+          python3 scripts/quality/faro-protocol-gate.py --mode preflight --head HEAD^ --unit "$unit" "${args[@]}"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+          cache-dependency-path: |
+            v5/gradle/wrapper/gradle-wrapper.properties
+            v5/gradle/libs.versions.toml
+      - name: Install Android SDK for Gradle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -type f -name sdkmanager -print -quit)"
+          test -x "$sdkmanager"
+          "$sdkmanager" --sdk_root="$ANDROID_HOME" --install "platforms;android-37.0" "build-tools;36.0.0"
+          test -f "$ANDROID_HOME/platforms/android-37.0/android.jar"
+          if [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
+      - name: Run binding contract and build isolated APKs
+        working-directory: v5
+        run: |
+          ./gradlew --no-daemon --max-workers=2 --no-parallel --no-configuration-cache \
+            -PfaroW05AndroidTest=true :app:assembleV2CoreDev :app:assembleV2CoreDevAndroidTest \
+            :app:testV2CoreDevUnitTest --tests ar.com.faro.v5.app.S4W05StockReadDevBindingTest
+      - name: Enable emulator KVM
+        run: if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+      - name: Run isolated SmartCompra on API35 with font scale 200 percent
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_5
+          disable-animations: true
+          emulator-boot-timeout: 600
+          script: >-
+            bash -euo pipefail -c '
+            adb shell settings put system font_scale 2.0;
+            test "$(adb shell settings get system font_scale | tr -d "\r")" = 2.0;
+            cd v5;
+            ./gradlew --offline --no-daemon --max-workers=2 --no-parallel --no-configuration-cache
+            -PfaroW05AndroidTest=true
+            -Pandroid.testInstrumentationRunnerArguments.class=ar.com.faro.v5.app.S4W05StockReadAccessibilityAndroidTest
+            :app:connectedV2CoreDevAndroidTest
+            '
+      - name: Verify original JUnit XML and isolated APK
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from xml.etree import ElementTree as ET
+          root = Path("v5/app/build")
+          jvm = list((root / "test-results").rglob("TEST-*S4W05StockReadDevBindingTest.xml"))
+          android = list((root / "outputs/androidTest-results").rglob("TEST-*.xml"))
+          assert len(jvm) == len(android) == 1, (jvm, android)
+          pairs = [(jvm[0], "S4W05StockReadDevBindingTest", 3),
+                   (android[0], "S4W05StockReadAccessibilityAndroidTest", 1)]
+          for path, expected, count in pairs:
+              cases = list(ET.parse(path).getroot().iter("testcase"))
+              assert len(cases) == len({c.attrib["name"] for c in cases}) == count
+              assert all(c.attrib["classname"] == "ar.com.faro.v5.app." + expected for c in cases)
+              assert all(c.find(k) is None for c in cases for k in ("failure", "error", "skipped"))
+          PY
+          apk="$(find v5/app/build/outputs/apk/v2CoreDev -maxdepth 1 -name '*.apk' -type f -print -quit)"
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$apk" > /tmp/faro-stock-apk-badging.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path("/tmp/faro-stock-apk-badging.txt").read_text()
+          assert "package: name='ar.com.faro.alpha.v2coredev'" in text
+          assert text.count("launchable-activity:") == 1
+          assert "launchable-activity: name='ar.com.faro.v5.app.FaroV5V2CoreDevActivity'" in text
+          for name in ("INTERNET", "ACCESS_NETWORK_STATE", "POST_NOTIFICATIONS", "SCHEDULE_EXACT_ALARM",
+                       "RECEIVE_BOOT_COMPLETED", "WAKE_LOCK"):
+              assert "android.permission." + name not in text, name
+          PY
+          sha256sum "$apk"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: w05-a2d1b-android35-stock-binding-xml-apk
+          if-no-files-found: error
+          path: |
+            v5/app/build/test-results/**/TEST-*S4W05StockReadDevBindingTest.xml
+            v5/app/build/outputs/androidTest-results/**/TEST-*.xml
+            v5/app/build/outputs/apk/v2CoreDev/*.apk

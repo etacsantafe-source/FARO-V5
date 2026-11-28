@@ -9,6 +9,9 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import ar.com.faro.v5.generation.FaroV5StockReadGrant
+import ar.com.faro.v5.kernel.contracts.SingleProcessMaterialWriteGate
 import androidx.lifecycle.Lifecycle
 import ar.com.faro.v5.kernel.contracts.ConversationId
 import ar.com.faro.v5.kernel.contracts.ConversationSelectionResult
@@ -66,6 +69,9 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     private val pendingBookmarkReadRequest = AtomicBoolean(false)
     private var session: FaroV5V2CoreDevAuthority.Session? = null
     private var stockPanel: FaroV5W05StockReceiveDevPanel? = null
+    private var stockOverview: S4W05StockReadDevBinding? = null
+    private val stockReadGate = SingleProcessMaterialWriteGate()
+    private var stockReadEpoch = 0L
     private var sql11Probe: FaroV5W05Household11DevStartup? = null
     private lateinit var status: TextView
     private lateinit var openButton: Button
@@ -91,6 +97,24 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
             "V2 core development must not bypass the production V2 gate"
         }
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val overview = stockOverview
+                if (overview == null) {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                    isEnabled = true
+                } else {
+                    overview.close()
+                    stockOverview = null
+                    showLauncher()
+                }
+            }
+        })
+        showLauncher()
+    }
+
+    private fun showLauncher() {
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             val p = (20 * resources.displayMetrics.density).toInt()
@@ -172,6 +196,10 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 text = "Abrir recepción de stock (DEV)"
                 setOnClickListener { openStockPanel() }
             })
+            column.addView(Button(this).apply {
+                text = "Leer stock en SmartCompra (DEV)"
+                setOnClickListener { openStockOverview() }
+            })
         }
         setContentView(ScrollView(this).apply {
             FaroV5NativeScreenInsets.protect(this)
@@ -180,6 +208,33 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
             ))
         })
+    }
+
+    private fun openStockOverview() {
+        val uid = applicationInfo.uid
+        val foreground = {
+            !disposed.get() && !isFinishing && !isDestroyed &&
+                lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)
+        }
+        if (!foreground() || opening.get() || uid != android.os.Process.myUid() ||
+            application !is FaroV5V2CoreDevApplication ||
+            !FaroV5W05StockPanelPolicy.permits(
+                packageName, (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0,
+                FaroV5HostCertification.V2_ACTIVE_ENABLED,
+            )
+        ) return
+        session?.close()
+        session = null
+        sql11Probe?.close()
+        sql11Probe = null
+        stockOverview?.close()
+        stockReadEpoch = Math.addExact(stockReadEpoch, 1)
+        val grant = FaroV5StockReadGrant(FaroV5W05StockPanelPolicy.principal(packageName, uid), stockReadEpoch)
+        val overview = S4W05StockReadDevBinding.afterForegroundClick(
+            rootPath(), grant, stockReadGate, executor, foreground,
+        )
+        stockOverview = overview
+        FaroV5SurfaceHost.install(activity = this, stockReadState = overview.state)
     }
 
     private fun openStockPanel() {
@@ -624,6 +679,7 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onPause() {
+        stockOverview?.close()
         stockPanel?.close()
         sql11Probe?.close()
         sql11Probe = null
@@ -649,6 +705,8 @@ open class FaroV5V2CoreDevActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
+        stockOverview?.close()
+        stockOverview = null
         stockPanel?.close()
         sql11Probe?.close()
         sql11Probe = null

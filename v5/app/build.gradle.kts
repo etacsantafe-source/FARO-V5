@@ -88,6 +88,17 @@ android {
         sourceSets.getByName("androidTest").setRoot("src/w03AndroidTest")
     }
 
+    if (providers.gradleProperty("faroW05AndroidTest").orNull == "true") {
+        val otherTests = listOf("faroG5AndroidTestV2CoreDev", "faroX03AndroidTest",
+            "faroS3IntegratedAndroidTest", "faroW01AndroidTest", "faroW02AndroidTest",
+            "faroW03AndroidTest", "faroW04AndroidTest")
+        check(otherTests.none { providers.gradleProperty(it).orNull == "true" })
+        check(listOfNotNull(p5PhysicalApplicationId, p6PhysicalApplicationId, s0PhysicalApplicationId,
+            s1A5PhysicalApplicationId, s1A6PhysicalApplicationId).isEmpty())
+        testBuildType = "v2CoreDev"
+        sourceSets.getByName("androidTest").setRoot("src/w05AndroidTest")
+    }
+
     // W04-E native review renderer only; never changes existing Android test source sets.
     if (providers.gradleProperty("faroW04AndroidTest").orNull == "true") {
         val otherTests = listOf("faroG5AndroidTestV2CoreDev", "faroX03AndroidTest",

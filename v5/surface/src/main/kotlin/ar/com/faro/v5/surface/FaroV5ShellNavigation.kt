@@ -187,9 +187,11 @@ private val FaroV5ShellBackStackSaver =
     )
 
 @Composable
-fun rememberFaroV5ShellBackStack(): SnapshotStateList<FaroV5ShellDestination> =
-    rememberSaveable(saver = FaroV5ShellBackStackSaver) {
-        mutableStateListOf(FaroV5ShellDestination.CHAT)
+fun rememberFaroV5ShellBackStack(
+    initial: FaroV5ShellDestination = FaroV5ShellDestination.CHAT,
+): SnapshotStateList<FaroV5ShellDestination> =
+    rememberSaveable(initial, saver = FaroV5ShellBackStackSaver) {
+        mutableStateListOf(initial)
     }
 
 @OptIn(ExperimentalMaterial3Api::class)
